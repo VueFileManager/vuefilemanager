@@ -1,0 +1,18 @@
+// Colors
+$text: #35495d;
+$text-muted: lighten($text, 25%);
+
+$border: #F8F8FC;
+$theme: #00BC7E;
+$danger: #d22323;
+$light_text: #A4ADB6;
+$light_background: #f6f6f6;
+$dark_background: #EBEBEB;
+$shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
+
+// Dark Mode
+$dark_mode_vignette: rgba(0, 0, 0, 0.3);
+$dark_mode_background: #1a1f25;
+$dark_mode_foreground: #202733;
+$dark_mode_text_primary: #B8C4D0;
+$dark_mode_text_secondary: #6A8BAD;

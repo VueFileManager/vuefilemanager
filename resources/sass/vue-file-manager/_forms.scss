@@ -1,0 +1,172 @@
+.form {
+
+  &.inline-form {
+    display: flex;
+    position: relative;
+    justify-content: center;
+
+    .input-wrapper {
+      position: relative;
+
+      .error-message {
+        position: absolute;
+        left: 0;
+        bottom: -25px;
+      }
+    }
+  }
+
+  &.block-form {
+
+    &.create-new-password {
+      .block-wrapper label {
+        width: 280px;
+      }
+    }
+
+    .block-wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      justify-content: center;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      label {
+        white-space: nowrap;
+        @include font-size(18);
+        font-weight: 700;
+        padding-right: 20px;
+        width: 200px;
+        text-align: right;
+      }
+    }
+
+    .button {
+      margin-top: 50px;
+    }
+  }
+}
+
+.input-wrapper {
+
+  .error-message {
+    @include font-size(14);
+    color: $danger;
+    padding-top: 5px;
+    display: block;
+    text-align: left;
+  }
+}
+
+input[type="password"],
+input[type="text"],
+input[type="email"] {
+  background: $light_background;
+  border: 1px solid transparent;
+  transition: 0.15s all ease;
+  @include font-size(16);
+  border-radius: 8px;
+  padding: 13px 20px;
+  appearance: none;
+  font-weight: 700;
+  outline: 0;
+  min-width: 310px;
+
+  &.is-error {
+    border-color: $danger;
+    box-shadow: 0 0 7px rgba($danger, 0.3);
+  }
+
+  &::placeholder {
+    color: $light_text;
+    @include font-size(16);
+  }
+
+  &:focus {
+    border-color: $theme;
+    box-shadow: 0 0 7px rgba($theme, 0.3);
+  }
+
+  &[disabled] {
+    color: $light_text;
+    cursor: not-allowed;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .form {
+
+    .button {
+      margin-top: 20px;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    input {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    &.block-form {
+
+      .block-wrapper {
+        display: block;
+
+        label {
+          width: 100%;
+          padding-right: 0;
+          display: block;
+          margin-bottom: 7px;
+          text-align: left;
+          @include font-size(14);
+        }
+      }
+
+      .button {
+        margin-top: 25px;
+      }
+    }
+
+    &.inline-form {
+      display: block;
+
+      .input-wrapper .error-message {
+        position: relative;
+        bottom: 0;
+      }
+    }
+
+    .button {
+      padding: 14px 32px;
+    }
+  }
+
+
+  input[type="password"],
+  input[type="text"],
+  input[type="email"] {
+    padding: 14px 20px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+
+  input[type="password"],
+  input[type="text"],
+  input[type="email"] {
+    background: $dark_mode_foreground;
+
+
+    &::placeholder {
+      color: $dark_mode_text_secondary;
+    }
+
+    &[disabled] {
+      color: rgba($dark_mode_text_secondary, 15%);
+    }
+  }
+}

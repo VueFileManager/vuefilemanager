@@ -1,0 +1,25 @@
+@mixin text($font: "Open Sans", $font-size: 16, $color: $text-primary) {
+  font-family: $font, sans-serif;
+  font-size:($font-size/16) + 0em;
+  color: $color;
+}
+
+@mixin font-size($size) {
+  font-size:($size/16) + 0em;
+}
+
+@mixin transition($time: 0.3s) {
+  transition: $time all ease;
+}
+
+@mixin transform($effect) {
+  -webkit-transform: $effect;
+  -moz-transform: $effect;
+  transform: $effect;
+}
+
+@mixin no-yellow {
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+  }
+}
