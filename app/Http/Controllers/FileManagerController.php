@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\FileManagerFolder;
 use App\FileManagerFile;
 use Response;
+
 
 class FileManagerController extends Controller
 {
@@ -21,14 +25,27 @@ class FileManagerController extends Controller
      * @param Request $request
      * @return FileManagerFile[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Query\Builder[]|\Illuminate\Support\Collection
      */
-    public function trash() {
+    public function trash()
+    {
+        // Get user id
+        $user_id = Auth::id();
 
         // Get folders and files
-        $folders_trashed = FileManagerFolder::onlyTrashed()->with(['trashed_folders'])->get(['parent_id', 'unique_id', 'name']);
-        $folders = FileManagerFolder::onlyTrashed()->whereIn('unique_id', filter_folders_ids($folders_trashed))->get();
+        $folders_trashed = FileManagerFolder::onlyTrashed()
+            ->with(['trashed_folders'])
+            ->where('user_id', $user_id)
+            ->get(['parent_id', 'unique_id', 'name']);
+
+        $folders = FileManagerFolder::onlyTrashed()
+            ->where('user_id', $user_id)
+            ->whereIn('unique_id', filter_folders_ids($folders_trashed))
+            ->get();
 
         // Get files trashed
-        $files_trashed = FileManagerFile::onlyTrashed()->whereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'unique_id'))))->get();
+        $files_trashed = FileManagerFile::onlyTrashed()
+            ->where('user_id', $user_id)
+            ->whereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'unique_id'))))
+            ->get();
 
         // Collect folders and files to single array
         return collect([$folders, $files_trashed])->collapse();
@@ -41,20 +58,39 @@ class FileManagerController extends Controller
      */
     public function folder(Request $request, $unique_id)
     {
+        // Get user
+        $user_id = Auth::id();
+
         // Get folder trash items
-        if ( $request->query('trash') ) {
+        if ($request->query('trash')) {
 
             // Get folders and files
-            $folders = FileManagerFolder::onlyTrashed()->with('parent')->where('parent_id', $unique_id)->get();
-            $files = FileManagerFile::onlyTrashed()->with('parent')->where('folder_id', $unique_id)->get();
+            $folders = FileManagerFolder::onlyTrashed()
+                ->where('user_id', $user_id)
+                ->with('parent')
+                ->where('parent_id', $unique_id)
+                ->get();
+
+            $files = FileManagerFile::onlyTrashed()
+                ->where('user_id', $user_id)
+                ->with('parent')
+                ->where('folder_id', $unique_id)
+                ->get();
 
             // Collect folders and files to single array
             return collect([$folders, $files])->collapse();
         }
 
         // Get folders and files
-        $folders = FileManagerFolder::with('parent')->where('parent_id', $unique_id)->get();
-        $files = FileManagerFile::with('parent')->where('folder_id', $unique_id)->get();
+        $folders = FileManagerFolder::with('parent')
+            ->where('user_id', $user_id)
+            ->where('parent_id', $unique_id)
+            ->get();
+
+        $files = FileManagerFile::with('parent')
+            ->where('user_id', $user_id)
+            ->where('folder_id', $unique_id)
+            ->get();
 
         // Collect folders and files to single array
         return collect([$folders, $files])->collapse();
@@ -76,9 +112,12 @@ class FileManagerController extends Controller
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
+        // Get user
+        $user_id = Auth::id();
+
         // Search files id db
-        $searched_files = FileManagerFile::search($request->input('query'))->get();
-        $searched_folders = FileManagerFolder::search($request->input('query'))->get();
+        $searched_files = FileManagerFile::search($request->input('query'))->where('user_id', $user_id)->get();
+        $searched_folders = FileManagerFolder::search($request->input('query'))->where('user_id', $user_id)->get();
 
         // Collect folders and files to single array
         return collect([$searched_folders, $searched_files])->collapse();
@@ -106,6 +145,7 @@ class FileManagerController extends Controller
 
         // Create folder
         $folder = FileManagerFolder::create([
+            'user_id'   => Auth::id(),
             'parent_id' => $parent_id,
             'name'      => $request->has('name') ? $request->input('name') : 'New Folder',
             'type'      => 'folder',
@@ -134,17 +174,24 @@ class FileManagerController extends Controller
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
+        // Get user id
+        $user_id = Auth::id();
+
         // Update folder name
         if ($request->type === 'folder') {
 
-            $item = FileManagerFolder::where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFolder::where('unique_id', $request->unique_id)
+                ->where('user_id', $user_id)
+                ->firstOrFail();
 
             $item->name = $request->name;
             $item->save();
 
         } else {
 
-            $item = FileManagerFile::where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFile::where('unique_id', $request->unique_id)
+                ->where('user_id', $user_id)
+                ->firstOrFail();
 
             $item->name = $request->name;
             $item->save();
@@ -162,7 +209,6 @@ class FileManagerController extends Controller
      */
     public function delete_item(Request $request)
     {
-
         // Validate request
         $validator = Validator::make($request->all(), [
             'unique_id'    => 'required|integer',
@@ -173,10 +219,20 @@ class FileManagerController extends Controller
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
+        // Get user id
+        $user = Auth::user();
+
         // Delete folder
         if ($request->type === 'folder') {
 
-            $item = FileManagerFolder::withTrashed()->with('folders')->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFolder::withTrashed()
+                ->with('folders')
+                ->where('user_id', $user->id)
+                ->where('unique_id', $request->unique_id)
+                ->first();
+
+            // Remove folder from user favourites
+            $user->favourites()->detach($request->unique_id);
 
             foreach ($item->files as $file) {
 
@@ -209,7 +265,10 @@ class FileManagerController extends Controller
 
         if ($request->type === 'file' || $request->type === 'image') {
 
-            $item = FileManagerFile::withTrashed()->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFile::withTrashed()
+                ->where('user_id', $user->id)
+                ->where('unique_id', $request->unique_id)
+                ->first();
 
             if ($request->force_delete) {
 
@@ -234,15 +293,20 @@ class FileManagerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function empty_trash() {
-        // TODO: validacia
+    public function empty_trash()
+    {
+        // Get user id
+        $user_id = Auth::id();
 
-        $folders = FileManagerFolder::onlyTrashed()->get();
-        $files = FileManagerFile::onlyTrashed()->get();
+        // Get files and folders
+        $folders = FileManagerFolder::onlyTrashed()->where('user_id', $user_id)->get();
+        $files = FileManagerFile::onlyTrashed()->where('user_id', $user_id)->get();
 
+        // Force delete every item
         $folders->each->forceDelete();
         $files->each->forceDelete();
 
+        // Return response
         return response('Done!', 200);
     }
 
@@ -251,29 +315,39 @@ class FileManagerController extends Controller
      *
      * @param Request $request
      */
-    public function restore_item(Request $request) {
-
+    public function restore_item(Request $request)
+    {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'unique_id'    => 'required|integer',
-            'type'         => 'required|string',
+            'unique_id' => 'required|integer',
+            'type'      => 'required|string',
+            'to_home'   => 'boolean',
         ]);
 
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
+        // Get user id
+        $user_id = Auth::id();
+
         // Get folder
         if ($request->type === 'folder') {
 
             // Get folder
-            $item = FileManagerFolder::withTrashed()->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFolder::withTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
         }
 
         // Get file
         if ($request->type === 'file' || $request->type === 'image') {
 
             // Get item
-            $item = FileManagerFile::withTrashed()->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFile::withTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
+
+            // Restore item to home directory
+            if ($request->has('to_home') && $request->to_home) {
+                $item->folder_id = 0;
+                $item->save();
+            }
         }
 
         // Restore Item
@@ -327,6 +401,10 @@ class FileManagerController extends Controller
      */
     public function upload_item(Request $request)
     {
+        // Check if user can upload
+        if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100)
+            abort(423, 'You exceed your storage limit!');
+
         // Validate request
         $validator = Validator::make($request->all(), [
             'parent_id' => 'required|integer',
@@ -374,6 +452,7 @@ class FileManagerController extends Controller
 
         // Store file
         $new_file = FileManagerFile::create([
+            'user_id'   => Auth::id(),
             'name'      => pathinfo($file->getClientOriginalName())['filename'],
             'basename'  => $filename,
             'folder_id' => $folder_id,
@@ -404,16 +483,25 @@ class FileManagerController extends Controller
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
+        // Get user id
+        $user_id = Auth::id();
+
         if ($request->from_type === 'folder') {
 
             // Move folder
-            $item = FileManagerFolder::where('unique_id', $request->from_unique_id)->first();
+            $item = FileManagerFolder::where('user_id', $user_id)
+                ->where('unique_id', $request->from_unique_id)
+                ->firstOrFail();
+
             $item->parent_id = $request->to_unique_id;
 
         } else {
 
             // Move file under new folder
-            $item = FileManagerFile::where('unique_id', $request->from_unique_id)->first();
+            $item = FileManagerFile::where('user_id', $user_id)
+                ->where('unique_id', $request->from_unique_id)
+                ->firstOrFail();
+
             $item->folder_id = $request->to_unique_id;
         }
 
@@ -428,7 +516,10 @@ class FileManagerController extends Controller
      */
     public function get_file_detail($unique_id)
     {
-        return FileManagerFile::where('unique_id', $unique_id)->first();
+        // Get user id
+        $user_id = Auth::id();
+
+        return FileManagerFile::where('user_id', $user_id)->where('unique_id', $unique_id)->firstOrFail();
     }
 
     /**
@@ -439,8 +530,17 @@ class FileManagerController extends Controller
      */
     public function get_file($filename)
     {
+        // Get user id
+        $user_id = Auth::id();
+
+        // Get file record
+        $file = FileManagerFile::withTrashed()->where('user_id', $user_id)
+            ->where('basename', $filename)
+            ->orWhere('thumbnail', $filename)
+            ->firstOrFail();
+
         // Get file path
-        $path = storage_path() . '/app/file-manager/' . $filename;
+        $path = storage_path() . '/app/file-manager/' . $file->basename;
 
         // Check if file exist
         if (!File::exists($path)) abort(404);
@@ -454,30 +554,6 @@ class FileManagerController extends Controller
         $response->header("Content-Type", $type);
         $response->header("Content-Disposition", 'attachment; filename=' . $filename);
         $response->header("Content-Length", $size);
-
-        return $response;
-    }
-
-    /**
-     * Get file
-     *
-     * @param $filename
-     * @return mixed
-     */
-    public function get_avatar($basename)
-    {
-        // Get file path
-        $path = storage_path() . '/app/avatars/' . $basename;
-
-        // Check if file exist
-        if (!File::exists($path)) abort(404);
-
-        $file = File::get($path);
-        $type = File::mimeType($path);
-
-        // Create response
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
 
         return $response;
     }

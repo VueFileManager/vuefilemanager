@@ -4,7 +4,7 @@
             <span class="title">Storage</span>
             <span class="size">{{ app.storage.used }} of {{ app.storage.capacity }} Used</span>
         </div>
-        <ProgressBar :progress="app.storage.percentage"/>
+        <ProgressBar :progress="app.storage.percentage" :class="{'is-exceeded': app.storage.percentage > 100}"/>
     </div>
 </template>
 
@@ -54,6 +54,13 @@
                 text-align: right;
                 color: $text-muted;
             }
+        }
+    }
+
+    .progress-bar {
+
+        &.is-exceeded /deep/ span {
+            background: $danger;
         }
     }
 

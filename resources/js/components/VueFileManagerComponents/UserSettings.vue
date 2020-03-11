@@ -100,6 +100,8 @@
         },
         watch: {
             name: debounce(function (val) {
+                if (val === '') return
+
                 this.$store.commit('UPDATE_NAME', val)
             }, 300),
         },
@@ -119,19 +121,11 @@
 
                 if (!isValid) return;
 
-                // Start loading
-                //this.isLoading = true
-
                 // Send request to get user reset link
                 axios
                     .post(this.$store.getters.api + '/user/password', {
                             password: this.newPassword,
                             password_confirmation: this.newPasswordConfirmation,
-                        },
-                        {
-                            headers: {
-                                'Authorization': 'Bearer ' + this.$store.getters.token
-                            }
                         })
                     .then(() => {
 
@@ -147,9 +141,6 @@
                             title: 'Your password was changed!',
                             message: 'So now, you have awesome new password.',
                         })
-
-                        // End loading
-                        //this.isLoading = false
                     })
                     .catch(error => {
 
@@ -162,9 +153,6 @@
                                 });
                             }
                         }
-
-                        // End loading
-                        //this.isLoading = false
                     })
             }
         },
@@ -177,7 +165,6 @@
 
 <style lang="scss">
     @import "@assets/app.scss";
-
 
     .avatar-upload {
         display: flex;

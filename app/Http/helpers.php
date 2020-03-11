@@ -73,7 +73,6 @@ function make_single_input($request)
  */
 function format_gigabytes($megabytes)
 {
-
     return Metric::megabytes($megabytes)->format();
 }
 
@@ -86,7 +85,6 @@ function format_gigabytes($megabytes)
  */
 function get_storage_fill_percentage($used, $capacity)
 {
-
     // Format gigabytes to bytes
     $total = intval(Metric::megabytes($capacity)->numberOfBytes());
 
@@ -95,6 +93,18 @@ function get_storage_fill_percentage($used, $capacity)
 
     // Return in 2 decimal
     return number_format((float)$progress, 2, '.', '');
+}
+
+/**
+ * Get user capacity fill percentage
+ *
+ * @return string
+ */
+function user_storage_percentage() {
+
+    $user = \Illuminate\Support\Facades\Auth::user();
+
+    return get_storage_fill_percentage($user->used_capacity, config('vuefilemanager.user_storage_capacity'));
 }
 
 /**

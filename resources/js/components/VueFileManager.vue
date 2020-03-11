@@ -5,6 +5,7 @@
         <Auth v-if="isGuest" />
 
         <div v-if="isLogged" id="auth">
+
             <!--System alerts-->
             <Alert />
 
@@ -31,11 +32,9 @@
     import Auth from '@/components/VueFileManagerComponents/Auth'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
 
     export default {
         name: 'VueFileManager',
-        props: ['config'],
         components: {
             UserSettings,
             FilesView,

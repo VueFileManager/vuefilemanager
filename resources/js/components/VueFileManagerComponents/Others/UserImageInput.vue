@@ -11,7 +11,7 @@
                 ref="image"
                 :src="imagePreview"
                 class="image-preview"
-                v-if="data || imagePreview"
+                v-if="imagePreview"
         />
     </div>
 </template>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PrivateCLoud;
+namespace App\Http\Controllers\Auth;
 
 use App\ClientProfile;
 use App\Models\User\UserAttribute;
@@ -10,6 +10,7 @@ use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
@@ -54,9 +55,15 @@ class AuthController extends Controller
     {
         $response = Route::dispatch(self::make_request($request));
 
-        $data = json_decode($response->content(), true);
+        if ($response->isSuccessful()) {
 
-        return response('Login Successfull!', 200)->cookie('token', $data['access_token'], 43200);
+            $data = json_decode($response->content(), true);
+
+            return response('Login Successfull!', 200)->cookie('token', $data['access_token'], 43200);
+        } else {
+
+            return $response;
+        }
     }
 
     /**
@@ -67,6 +74,9 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        // Check if account registration is enabled
+        if (! config('vuefilemanager.registration') ) abort(401);
+
         // Validate request
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -81,9 +91,17 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = Route::dispatch(self::make_request($request));
+        $response = Route::dispatch(self::make_request($request));
 
-        return $token;
+        if ($response->isSuccessful()) {
+
+            $data = json_decode($response->content(), true);
+
+            return response('Register Successfull!', 200)->cookie('token', $data['access_token'], 43200);
+        } else {
+
+            return $response;
+        }
     }
 
     /**

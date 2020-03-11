@@ -14,16 +14,15 @@ const Helpers = {
 
 		Vue.prototype.$updateText = debounce(function (route, name, value) {
 
-			axios.put(this.$store.getters.api + route, {name, value}, {
-				headers: {
-					'Authorization': 'Bearer ' + this.$store.getters.token
-				}
-			})
-				.then(response => {
-					console.log('done!');
-				})
+			if (value === '') return
+
+			axios.put(this.$store.getters.api + route, {name, value})
 				.catch(error => {
-					console.log('shit!');
+					events.$emit('alert:open', {
+						title: 'Whooops, something went wrong :(',
+						message:
+							"Something went wrong and we can't continue. Please contact us."
+					})
 				})
 		}, 300)
 
@@ -39,14 +38,14 @@ const Helpers = {
 			axios.post(this.$store.getters.api + route, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
-					'Authorization': 'Bearer ' + this.$store.getters.token,
 				}
 			})
-				.then(response => {
-					console.log('done!');
-				})
 				.catch(error => {
-					console.log('shit!');
+					events.$emit('alert:open', {
+						title: 'Whooops, something went wrong :(',
+						message:
+							"Something went wrong and we can't continue. Please contact us."
+					})
 				})
 		}
 
@@ -63,6 +62,16 @@ const Helpers = {
 		Vue.prototype.$uploadFiles = async function(files) {
 			// Prevent submit empty files
 			if (files && files.length == 0) return
+
+			if (this.$store.getters.app.storage.percentage >= 100) {
+				events.$emit('alert:open', {
+					title: 'Whooops, you exceed your storage limit :(',
+					message:
+						"Please contact your administrator to change your limit."
+				})
+
+				return
+			}
 
 			let fileCount = files.length
 			let fileCountSucceed = 1

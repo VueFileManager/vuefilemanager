@@ -175,18 +175,21 @@ const actions = {
                 })
             })
     },
-    removeItem: (context, data) => {
+    removeItem: ({commit, state, getters}, data) => {
 
         // Remove file
-        context.commit('REMOVE_ITEM', data.unique_id)
-        if (data.type === 'file') context.commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
-        if (data.type === 'folder') context.commit('REMOVE_ITEM_FROM_FAVOURITES', data.unique_id)
+        commit('REMOVE_ITEM', data.unique_id)
+
+        if (data.type === 'file' || data.type === 'image')
+            commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
+        if (data.type === 'folder')
+            commit('REMOVE_ITEM_FROM_FAVOURITES', data.unique_id)
 
         // Remove file preview
-        context.commit('CLEAR_FILEINFO_DETAIL')
+        commit('CLEAR_FILEINFO_DETAIL')
 
         axios
-            .post(context.getters.api + '/remove-item', {
+            .post(getters.api + '/remove-item', {
                 type: data.type,
                 unique_id: data.unique_id,
                 force_delete: data.deleted_at ? true : false
@@ -201,6 +204,12 @@ const actions = {
             })
     },
     restoreItem: (context, item) => {
+
+        let restoreToHome = false
+
+        // Check if file can be restored to home directory
+        if (context.state.currentFolder.location === 'trash' && item.type !== 'folder') restoreToHome = true
+
         // Remove file
         context.commit('REMOVE_ITEM', item.unique_id)
 
@@ -211,6 +220,7 @@ const actions = {
             .post(context.getters.api + '/restore-item', {
                 type: item.type,
                 unique_id: item.unique_id,
+                to_home: restoreToHome,
             })
             .catch(() => {
                 // Show error message
@@ -243,6 +253,10 @@ const actions = {
                 .then(response => {
                     context.commit('ADD_NEW_ITEMS', response.data)
                     context.commit('UPDATE_RECENT_UPLOAD', response.data)
+                    context.commit(
+                        'UPLOADING_FILE_PROGRESS',
+                        0
+                    )
                     resolve(response)
                 })
                 .catch(error => {

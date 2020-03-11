@@ -11,9 +11,8 @@
 |
 */
 
-// Get File
-Route::get('/avatars/{avatar}', 'FileManagerController@get_avatar')->name('avatar');
+// Get user avatar
+Route::get('/avatars/{avatar}', 'AppFunctionsController@get_avatar')->name('avatar');
 
-
-// Landing Page
-Route::get('/', 'PrivateCloud\FileManagerController@index');
+// Index Page
+Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

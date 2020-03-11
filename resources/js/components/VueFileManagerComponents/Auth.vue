@@ -19,7 +19,7 @@
                 <AuthButton icon="chevron-right" text="Next Step" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span class="additional-link">Don’t have an account? <b
+            <span v-if="config.userRegistration" class="additional-link">Don’t have an account? <b
                     @click="goToAuthPage('sign-up')">Register account.</b></span>
         </AuthContent>
 
@@ -98,10 +98,10 @@
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Confirm your new password:</label>
+                    <label>Confirm new password:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="recoverPassword.newPasswordConfirm" placeholder="Confirm your new password"
+                        <input v-model="recoverPassword.newPasswordConfirm" placeholder="Confirm new password"
                                type="password" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -198,7 +198,7 @@
     import AuthContent from '@/components/VueFileManagerComponents/Auth/AuthContent'
     import AuthButton from '@/components/VueFileManagerComponents/Auth/AuthButton'
     import {required} from 'vee-validate/dist/rules'
-    import {events} from '@/bus'
+    import {mapGetters} from 'vuex'
     import axios from 'axios'
 
     export default {
@@ -211,24 +211,32 @@
             AuthButton,
             required,
         },
+        computed: {
+            ...mapGetters(['config']),
+        },
+        watch: {
+            loginEmail(val) {
+                this.recoverEmail = val
+            }
+        },
         data() {
             return {
                 isLoading: false,
                 checkedAccount: undefined,
-                loginPassword: 'vuefilemanager',
-                loginEmail: 'peterpapp@makingcg.com',
-                recoverEmail: 'peterpapp@makingcg.com',
+                loginPassword: '',
+                loginEmail: '',
+                recoverEmail: '',
                 recoverPassword: {
                     token: undefined,
-                    email: 'peterpapp@makingcg.com',
-                    newPassword: 'vuefilemanager',
-                    newPasswordConfirm: 'vuefilemanager',
+                    email: '',
+                    newPassword: '',
+                    newPasswordConfirm: '',
                 },
                 register: {
-                    name: 'Hi5Ve Digital',
-                    email: 'peterpapp@makingcg.com',
-                    password: 'vuefilemanager',
-                    password_confirmation: 'vuefilemanager',
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
                 },
             }
         },
@@ -299,7 +307,7 @@
                         email: this.loginEmail,
                         password: this.loginPassword,
                     })
-                    .then(response => {
+                    .then(() => {
 
                         // End loading
                         this.isLoading = false
@@ -335,7 +343,7 @@
                     .post(this.$store.getters.api + '/password/email', {
                         email: this.recoverEmail
                     })
-                    .then(response => {
+                    .then(() => {
 
                         // End loading
                         this.isLoading = false
@@ -371,7 +379,7 @@
                         password: this.recoverPassword.newPassword,
                         password_confirmation: this.recoverPassword.newPasswordConfirm,
                     })
-                    .then(response => {
+                    .then(() => {
 
                         // End loading
                         this.isLoading = false
@@ -414,16 +422,13 @@
                 // Send request to get user token
                 axios
                     .post(this.$store.getters.api + '/user/register', this.register)
-                    .then(response => {
+                    .then(() => {
 
                         // End loading
                         this.isLoading = false
 
-                        // Store token to localstorage
-                        localStorage.setItem('access_token', response.data.access_token)
-
-                        // Store token to vuex
-                        this.$store.commit('RETRIEVE_TOKEN', response.data.access_token)
+                        // Set login state
+                        this.$store.commit('SET_AUTHORIZED', true)
                     })
                     .catch(error => {
 
@@ -467,7 +472,6 @@
 
 <style scoped lang="scss">
     @import "@assets/app.scss";
-    //@import "@/assets/scss/_forms.scss";
 
     .auth-form {
         text-align: center;
@@ -506,6 +510,10 @@
         .block-form {
             margin-left: auto;
             margin-right: auto;
+
+            .block-wrapper label {
+                text-align: right;
+            }
         }
 
         .additional-link {
@@ -535,7 +543,6 @@
     @media only screen and (max-width: 690px) {
 
         .auth-form {
-            //font-size: 90%;
             width: 100%;
 
             h1 {

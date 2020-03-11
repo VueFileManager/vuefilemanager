@@ -55,13 +55,13 @@
                     <TextLabel>Last Uploads</TextLabel>
 
                     <p class="empty-list" v-if="app.latest_uploads.length == 0">You don't have any latest uploads.</p>
-                    <FileListItemThumbnail @dblclick.native="downloadFile(item)" @click.native="showFileDetail(item)"
-                                           :file="item" v-for="item in app.latest_uploads" :key="item.unique_id"/>
+
+                    <FileListItemThumbnail @dblclick.native="downloadFile(item)" @click.native="showFileDetail(item)" :file="item" v-for="item in app.latest_uploads" :key="item.unique_id"/>
                 </div>
             </div>
 
             <!--Storage Size Info-->
-            <StorageSize/>
+            <StorageSize v-if="config.storageLimit"/>
 
             <div v-if="isSmallAppSize" class="log-out-button">
                 <ButtonBase @click.native="$store.dispatch('logOut')" button-style="danger">Log Out</ButtonBase>
@@ -89,7 +89,7 @@
             TextLabel,
         },
         computed: {
-            ...mapGetters(['homeDirectory', 'app', 'appSize']),
+            ...mapGetters(['homeDirectory', 'app', 'appSize', 'config']),
             isSmallAppSize() {
                 return this.appSize === 'small'
             }
@@ -174,7 +174,6 @@
 <style scoped lang="scss">
     @import "@assets/app.scss";
 
-
     #sidebar {
         position: relative;
         flex: 0 0 295px;
@@ -201,39 +200,11 @@
     .menu-list-wrapper {
         margin-bottom: 25px;
 
-        &.favourites {
-
-            &.is-dragenter {
-
-                .menu-list {
-                    border: 2px dashed $theme;
-                    border-radius: 8px;
-                }
-            }
-
-            .menu-list {
-                border: 2px dashed transparent;
-
-                .menu-list-item {
-                    padding: 10px 13px;
-
-                    .icon {
-                        @include font-size(20);
-                        width: 20px;
-
-                        path {
-                            fill: $theme;
-                        }
-                    }
-                }
-            }
-        }
-
         .menu-list {
 
             .menu-list-item {
                 display: block;
-                padding: 10px 13px;
+                padding: 10px 15px;
                 @include transition(150ms);
                 cursor: pointer;
                 position: relative;
@@ -261,7 +232,7 @@
                 .icon {
                     @include font-size(13);
                     width: 15px;
-                    margin-right: 15px;
+                    margin-right: 9px;
                     vertical-align: middle;
 
                     path {
@@ -291,6 +262,34 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: inline-block;
+                }
+            }
+        }
+
+        &.favourites {
+
+            &.is-dragenter {
+
+                .menu-list {
+                    border: 2px dashed $theme;
+                    border-radius: 8px;
+                }
+            }
+
+            .menu-list {
+                border: 2px dashed transparent;
+
+                .menu-list-item {
+                    padding: 10px 13px;
+
+                    .icon {
+                        @include font-size(20);
+                        width: 20px;
+
+                        path {
+                            fill: $theme;
+                        }
+                    }
                 }
             }
         }

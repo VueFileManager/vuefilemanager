@@ -21,13 +21,14 @@ const actions = {
             }
         )
     },
-    logOut: (context) => {
+    logOut: ({getters, commit}) => {
         axios
-            .get(context.getters.api + '/logout')
+            .get(getters.api + '/logout')
             .then(() => {
 
                 // Commit Remove Access Token from vuex storage
-                context.commit('DESTROY_DATA')
+                commit('DESTROY_DATA')
+                commit('SET_CURRENT_VIEW', 'files')
             })
     },
     addToFavourites: (context, folder_unique_id) => {

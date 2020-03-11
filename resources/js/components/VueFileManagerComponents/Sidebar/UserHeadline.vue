@@ -103,7 +103,7 @@
 
         .email {
             @include font-size(13);
-            color: $light_text;
+            color: $theme;
             display: block;
             margin-top: 2px;
         }
