@@ -165,6 +165,7 @@
 
 <style lang="scss">
     @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_forms';
 
     .avatar-upload {
         display: flex;
@@ -177,6 +178,7 @@
             .description {
                 @include font-size(18);
                 font-weight: 700;
+                color: $text;
             }
 
             .supported {
@@ -255,6 +257,10 @@
     @media (prefers-color-scheme: dark) {
 
         .avatar-upload .info {
+
+            .description {
+                color: $dark_mode_text_primary;
+            }
 
             .supported {
                 color: $dark_mode_text_secondary;

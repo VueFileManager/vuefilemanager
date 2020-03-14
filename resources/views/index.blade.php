@@ -23,6 +23,10 @@
         }
     </script>
 
-    <script src="{{ mix('js/main.js') }}"></script>
+    @if(env('APP_ENV') !== 'local')
+        <script src="{{ asset('js/main.js') }}"></script>
+    @else
+        <script src="{{ mix('js/main.js') }}"></script>
+    @endif
 </body>
 </html>

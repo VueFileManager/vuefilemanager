@@ -2,39 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ba7f65e-b845-4413-bbbb-cad4b4fb5f38" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/AppFunctionsController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/vuefilemanager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vue-filemanager-laravel.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vue-filemanager-laravel.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/ConfirmPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ConfirmPasswordController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/FileManagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/ForgotPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ForgotPasswordController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/ResetPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/UserAccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserAccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PublicCloud/FileManagerController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/helpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/FileManagerFile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/FileManagerFile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/FileManagerFolder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/FileManagerFolder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/vuefilemanager.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/vuefilemanager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManager.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/Alert.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/Alert.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/UserImageInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/UserImageInput.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ContextMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ContextMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/DesktopToolbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/DesktopToolbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileInfoPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileInfoPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileItemList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileItemList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FilesContainer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FilesContainer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileActionButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileActionButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileActionButtonUpload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileActionButtonUpload.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileOptionList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileOptionList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileToolbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/MobileToolbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ToolbarButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ToolbarButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ToolbarButtonUpload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ToolbarButtonUpload.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/PageHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/PageHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/TextLabel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/TextLabel.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/StorageSize.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/StorageSize.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/UserHeadline.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/UserHeadline.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/UserSettings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/UserSettings.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/router.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/helpers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/filesView.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/filesView.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/userAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/userAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/vue-file-manager/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/vue-file-manager/_forms.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,19 +56,30 @@
       <executable />
     </execution>
   </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="516" column="13" selection-start-line="516" selection-start-column="13" selection-end-line="516" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/sass/vue-file-manager/_forms.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="28" column="26" lean-forward="true" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>VerifyCsrfToken</find>
-      <find>CreateFreshApiToken</find>
-      <find>j. M. Y, H:i</find>
-      <find>PersonalAccessTokens</find>
-      <find>cookieAu</find>
-      <find>CookieAuth</find>
-      <find>XSRF-TOKEN</find>
-      <find>@/assets/img/hero.svg</find>
-      <find>&lt;style lang=&quot;scss&quot;&gt;</find>
-      <find>&lt;style lang=&quot;scss&quot; scoped&gt;</find>
-      <find>$middlewareGroups</find>
       <find>SET_AUTHORIZED</find>
       <find>error.data</find>
       <find>SET_START_DIREC</find>
@@ -80,20 +99,21 @@
       <find>'bo</find>
       <find>SET_CURRENT</find>
       <find>logOut</find>
+      <find>255</find>
+      <find>_forms</find>
+      <find>limit</find>
+      <find>max_file_uploads</find>
+      <find>post_max_size</find>
+      <find>uploadFiles</find>
+      <find>whereIn</find>
+      <find>trash</find>
+      <find>you exceed your storage</find>
+      <find>deleted_files</find>
+      <find>trashed_files</find>
     </findStrings>
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="php artisan serve --host=192.168.1.131" />
-      <command text="php artisan serve" />
-      <command text="php artisan serve --host=172.20.10.5" />
-      <command text="php artisan cache:clear" />
-      <command text="php artisan config:clear" />
-      <command text="npm install" />
-      <command text="npm update" />
-      <command text="php artisan serve" />
-      <command text="npm run hot" />
-      <command text="npm run prod" />
       <command text="npm update" />
       <command text="npm run prod" />
       <command text="npm update" />
@@ -109,6 +129,16 @@
       <command text="php artisan dump-autoload" />
       <command text="composer dump-autoload" />
       <command text="php artisan serve" />
+      <command text="composer update" />
+      <command text="npm run prod" />
+      <command text="npm run hot" />
+      <command text="php artisan serve" />
+      <command text="npm run hot" />
+      <command text="php artisan serve" />
+      <command text="npm run hot" />
+      <command text="npm run prod" />
+      <command text="npm run hot" />
+      <command text="npm run prod" />
     </commandsHistory>
   </component>
   <component name="Git.Settings">
@@ -120,22 +150,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/DesktopToolbar.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileInfoPanel.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileItemList.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/FileListItemThumbnail.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth/AuthButton.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileItemGrid.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth/AuthContentWrapper.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/EmptyMessage.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ButtonUpload.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ProgressBar.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ContextMenu.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/ThemeLabel.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/PageHeader.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/TextLabel.vue" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/webpack.mix.js" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" />
         <option value="$PROJECT_DIR$/resources/js/bootstrap.js" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/CookieAuth.php" />
@@ -143,7 +158,6 @@
         <option value="$PROJECT_DIR$/app/Http/Middleware/EncryptCookies.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/AuthController.php" />
         <option value="$PROJECT_DIR$/resources/js/main.js" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView.vue" />
         <option value="$PROJECT_DIR$/resources/js/store/modules/app.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud/FileManagerController.php" />
@@ -154,23 +168,39 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
         <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/StorageSize.vue" />
         <option value="$PROJECT_DIR$/app/Http/helpers.php" />
-        <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
-        <option value="$PROJECT_DIR$/config/vuefilemanager.php" />
         <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/UserHeadline.vue" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UserAccountController.php" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/Alert.vue" />
-        <option value="$PROJECT_DIR$/resources/js/helpers.js" />
-        <option value="$PROJECT_DIR$/resources/js/store/modules/filesView.js" />
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/js/store/modules/userAuth.js" />
         <option value="$PROJECT_DIR$/resources/js/App.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/VueFileManager.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar.vue" />
-        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/UserSettings.vue" />
-        <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$USER_HOME$/Desktop/vue-file-manager-file-manager-127.0.0.111-03-2020" />
+        <option value="&lt;d768a9d2-ae0a-4b11-a436-c632a530c3ce&gt;/var/www/devvuefilemanagerlaravel.hi5ve.digital/.env" />
+        <option value="&lt;d768a9d2-ae0a-4b11-a436-c632a530c3ce&gt;/etc/apache2/sites-available/devvuefilemanager.hi5ve.digital.conf" />
+        <option value="&lt;d768a9d2-ae0a-4b11-a436-c632a530c3ce&gt;/var/www/devvuefilemanager.hi5ve.digital/.env" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/UserSettings.vue" />
+        <option value="$PROJECT_DIR$/app/FileManagerFile.php" />
+        <option value="$PROJECT_DIR$/routes/api.php" />
+        <option value="&lt;d768a9d2-ae0a-4b11-a436-c632a530c3ce&gt;/var/www/devvuefilemanager.hi5ve.digital/config/vuefilemanager.php" />
+        <option value="&lt;d768a9d2-ae0a-4b11-a436-c632a530c3ce&gt;/var/www/devvuefilemanager.hi5ve.digital/public/info.php" />
+        <option value="&lt;d768a9d2-ae0a-4b11-a436-c632a530c3ce&gt;/etc/php/7.3/apache2/php.ini" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar.vue" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/Alert.vue" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileItemList.vue" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ToolbarButtonUpload.vue" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/TextLabel.vue" />
+        <option value="$PROJECT_DIR$/resources/js/helpers.js" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView.vue" />
+        <option value="$PROJECT_DIR$/webpack.mix.js" />
+        <option value="$PROJECT_DIR$/public/mix-manifest.json" />
+        <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
+        <option value="$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue" />
+        <option value="$PROJECT_DIR$/resources/js/store/modules/filesView.js" />
+        <option value="$PROJECT_DIR$/app/FileManagerFolder.php" />
+        <option value="$PROJECT_DIR$/config/vuefilemanager.php" />
+        <option value="$PROJECT_DIR$/resources/sass/vue-file-manager/_forms.scss" />
       </list>
     </option>
   </component>
@@ -289,6 +319,8 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/vendor/facade/ignition-contracts" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/vendor/php-http/message-factory" />
+      <path value="$PROJECT_DIR$/vendor/nyholm/psr7" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
@@ -303,30 +335,45 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="vue-filemanager-laravel-v1.1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vue-filemanager-laravel-v1.1" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/resources/sass" />
-      <recent name="$PROJECT_DIR$/public/assets/images" />
-      <recent name="$PROJECT_DIR$/resources/js" />
-      <recent name="$PROJECT_DIR$/app/Http/Controllers/PublicCloud" />
-      <recent name="$PROJECT_DIR$/app" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers" />
       <recent name="$PROJECT_DIR$/resources/sass/vue-file-manager" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/PrivateCLoud" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/sass" />
+      <recent name="$PROJECT_DIR$/resources/js" />
+      <recent name="$PROJECT_DIR$/public/assets/images" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers/PublicCloud" />
+      <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -359,17 +406,20 @@
       <updated>1582538406416</updated>
       <workItem from="1582538408226" duration="28590000" />
       <workItem from="1583169038847" duration="49277000" />
-      <workItem from="1583771973016" duration="35891000" />
+      <workItem from="1583771973016" duration="47540000" />
+      <workItem from="1584014365621" duration="499000" />
+      <workItem from="1584201902438" duration="1297000" />
+      <workItem from="1584205890781" duration="1931000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113758000" />
+    <option name="totallyTimeSpent" value="129134000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18154761" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15654762" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -386,271 +436,104 @@
       <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="10" visible="true" weight="0.36761904" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.3295238" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.3295238" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="Remote Host" order="4" weight="0.23869048" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/passport/src/Http/Middleware/CheckClientCredentialsForAnyScope.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-326">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-RlTVKdTenHVQeDuC-8f8b71f93d874c58899eae34ff855b91.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/passport/src/Http/Middleware/CheckClientCredentials.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-qu7zENEPpyXacK9u-8acb7489e4354e9fa12b786f4f1014b3.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/Authenticate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-PwOYrH3X4Q5MFNnJ-b828ce5c1d014deab79c6b1ac8dd5500.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/bootstrap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="10" column="76" selection-start-line="10" selection-start-column="76" selection-end-line="10" selection-end-column="76" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-PeK8nBe7vKFR2DXN-8480033d08b555735bcc1df441eeec0f.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Http/Concerns/InteractsWithInput.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="323" column="26" selection-start-line="323" selection-start-column="20" selection-end-line="323" selection-end-column="26" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-Ogjq9EIILgeojKDb-nf88xyvvCWOJHY93-kitchen-island.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Http/Request.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1822">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-NfLjyaaboBPCGi3X-7bec4e11b047456780d83011701a662c.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/Cookie.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-158">
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-md1FYpic11mXzsMH-59352395_2290695347810363_751927439731487941_n.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/EncryptCookies.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-lnh7N5vgH74DhOOh-57bad2c20c758f20b83b2344212a2a93.jpg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-ddGQjKsXe6smj3Jx-7bec4e11b047456780d83011701a662c.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-eIXPHBrXEjqxydte-d5410c8079e3a3970303779305d11048.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-Fg3cXWFgEn6Cmt5M-6f5362be8aca06dc4ea234865ac49736.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-fNx1iGh1lpGyS66P-af0c68fb4d3b82da011ca4b0c18c8a65.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-Gv6TX9lZl8TZ5kCK-8f8b71f93d874c58899eae34ff855b91.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-HlK34TY0sfw4lDk3-nf88xyvvCWOJHY93-kitchen-island.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-i2BdCpXqXyMcS5oB-ea7afab3993a45c3a88ee7eb9ce42a8e.jpg.1280x0_q85.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-IseiNdZqCg7dQRD0-ItWorksOnMyMachine.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-Jaupegd57IHxsSGE-57bad2c20c758f20b83b2344212a2a93.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/app/file-manager/thumbnail-JVdvcCD7WcFNG6MF-ViewOfElephantinWater.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="32" column="39" lean-forward="true" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+        <state relative-caret-position="363">
+          <caret line="194" column="9" selection-start-line="194" selection-start-column="9" selection-end-line="194" selection-end-column="9" />
           <folding>
-            <element signature="e#28#63#0#PHP" expanded="true" />
+            <element signature="n#div#0;n#div#0;n#transition#0;n#template#0;n#!!top" />
+            <element signature="e#3246#3349#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/CookieAuth.php">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/Alert.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="66" column="15" lean-forward="true" selection-start-line="66" selection-start-column="15" selection-end-line="66" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/FileManagerFile.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-          <folding>
-            <element signature="e#23#44#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="10" column="6" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/ForgotPasswordController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/ConfirmPasswordController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Http/Response.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-59">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/UserImageInput.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-263">
-          <caret selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/auth.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="99" column="37" selection-start-line="99" selection-start-column="37" selection-end-line="99" selection-end-column="37" />
-          <folding>
-            <element signature="e#45#67#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/StorageSize.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="61" column="29" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
-          <folding>
-            <element signature="e#893#1351#0" />
-          </folding>
+        <state relative-caret-position="713">
+          <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/helpers.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="106" selection-start-line="106" selection-end-line="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="58" column="40" selection-start-line="58" selection-start-column="40" selection-end-line="58" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar/UserHeadline.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="659">
-          <caret line="105" column="25" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/vuefilemanager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AppFunctionsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-186">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        <state relative-caret-position="330">
+          <caret line="116" column="22" selection-start-line="116" selection-start-column="9" selection-end-line="116" selection-end-column="22" />
           <folding>
-            <element signature="e#40#68#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/store/modules/filesView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="257" column="25" selection-start-line="257" selection-start-column="25" selection-end-line="257" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#594#2318#0" />
-            <element signature="e#2361#3587#0" />
-            <element signature="e#3618#4576#0" />
-            <element signature="e#4621#5347#0" />
-            <element signature="e#5393#5967#0" />
-            <element signature="e#6004#6916#0" />
-            <element signature="e#9122#9730#0" />
-            <element signature="e#9773#10524#0" />
-            <element signature="e#10580#11078#0" />
-            <element signature="e#11137#11461#0" />
-            <element signature="e#11509#12045#0" />
-            <element signature="e#12090#12150#0" />
-            <element signature="e#12201#12944#0" />
+            <element signature="n#store_avatar#0;n#!!top" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="98" column="41" selection-start-line="98" selection-start-column="41" selection-end-line="98" selection-end-column="41" />
+        <state relative-caret-position="320">
+          <caret line="148" column="38" selection-start-line="148" selection-start-column="22" selection-end-line="148" selection-end-column="38" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
             <element signature="e#201#287#0" />
@@ -659,146 +542,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UserAccountController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
-          <folding>
-            <element signature="e#40#53#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="349" column="13" selection-start-line="349" selection-start-column="13" selection-end-line="349" selection-end-column="13" />
-          <folding>
-            <element signature="e#40#67#0#PHP" expanded="true" />
-            <element signature="e#4913#5953#0#PHP" />
-            <element signature="e#6058#8399#0#PHP" />
-            <element signature="e#8539#9019#0#PHP" />
-            <element signature="e#10117#11122#0#PHP" />
-            <element signature="e#11223#13508#0#PHP" />
-            <element signature="e#13585#14637#0#PHP" />
-            <element signature="e#14735#14952#0#PHP" />
-            <element signature="e#15042#15927#0#PHP" />
-            <element signature="e#15996#16531#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-443">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ContextMenu.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="9" column="72" selection-start-line="9" selection-start-column="61" selection-end-line="9" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/store/modules/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/store/modules/userAuth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#195#532#0" />
-            <element signature="e#837#1390#0" />
-            <element signature="e#1449#2007#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/Auth.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10248">
-          <caret line="540" selection-start-line="540" selection-end-line="540" />
-          <folding>
-            <element signature="n#AuthContent#0;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-            <element signature="n#AuthContent#1;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-            <element signature="n#AuthContent#2;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-            <element signature="n#AuthContent#3;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-            <element signature="n#AuthContent#4;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-            <element signature="n#AuthContent#5;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-            <element signature="n#AuthContent#6;n#AuthContentWrapper#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="21" column="91" selection-start-line="21" selection-start-column="91" selection-end-line="21" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/Alert.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
-          <folding>
-            <element signature="n#script#0;n#!!top" />
-            <element signature="e#1099#1182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Sidebar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="73" column="11" lean-forward="true" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
-          <folding>
-            <element signature="n#div#0;n#div#0;n#transition#0;n#template#0;n#!!top" />
-            <element signature="e#3246#3349#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/UserSettings.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1017">
-          <caret line="167" selection-start-line="167" selection-end-line="167" />
-          <folding>
-            <element signature="e#3504#3594#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView.vue">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ToolbarButtonUpload.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
-          <caret line="10" column="11" lean-forward="true" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-          <folding>
-            <element signature="e#314#409#0" expanded="true" />
-          </folding>
+          <caret line="10" column="60" selection-start-line="10" selection-start-column="60" selection-end-line="10" selection-end-column="60" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/FileItemList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="47" column="77" selection-start-line="47" selection-start-column="59" selection-end-line="47" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Others/TextLabel.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="24" selection-start-line="21" selection-start-column="27" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.editorconfig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManager.vue">
       <provider selected="true" editor-type-id="text-editor">
@@ -810,6 +579,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="57" column="40" selection-start-line="57" selection-start-column="40" selection-end-line="57" selection-end-column="40" />
+          <folding>
+            <element signature="e#314#409#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/mix-manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="2" column="35" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/DemoPageComponents/MobileMenu.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/main.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/App.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
@@ -820,17 +612,126 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api.php">
+    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-267">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="476">
+          <caret line="17" column="14" lean-forward="true" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
+    <entry file="file://$PROJECT_DIR$/.styleci.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/auth.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/store/modules/filesView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="30" column="24" lean-forward="true" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+        <state relative-caret-position="594">
+          <caret line="185" column="48" selection-start-line="185" selection-start-column="12" selection-end-line="185" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/store/modules/userAuth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2734">
+          <caret line="101" column="4" selection-start-line="101" selection-start-column="4" selection-end-line="101" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/FilesView/ContextMenu.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="50" column="51" selection-start-line="50" selection-start-column="51" selection-end-line="50" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AppFunctionsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-186">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/FileManagerFolder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3342">
+          <caret line="120" column="5" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
+          <folding>
+            <element signature="e#23#41#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/FileManagerFile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1682">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+          <folding>
+            <element signature="e#23#44#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2678">
+          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UserAccountController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3070">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FileManagerController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11946">
+          <caret line="164" column="49" lean-forward="true" selection-start-line="164" selection-start-column="49" selection-end-line="164" selection-end-column="49" />
+          <folding>
+            <element signature="e#40#67#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/vuefilemanager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-40">
+          <caret line="45" column="37" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/VueFileManagerComponents/Auth.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="516" column="13" selection-start-line="516" selection-start-column="13" selection-end-line="516" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/sass/vue-file-manager/_forms.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="28" column="26" lean-forward="true" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
         </state>
       </provider>
     </entry>

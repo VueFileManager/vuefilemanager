@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use RecursiveArrayIterator;
@@ -120,7 +121,7 @@ class FileManagerFolder extends Model
     }
 
     /**
-     * Get all files
+     * Get all trashed files
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -140,9 +141,14 @@ class FileManagerFolder extends Model
         return $this->children()->with('folders');
     }
 
+    /**
+     * Get all trashed folders
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function trashed_folders()
     {
-        return $this->children()->with('folders')->withTrashed()->select(['parent_id', 'unique_id']);
+        return $this->children()->with('trashed_folders')->withTrashed()->select(['parent_id', 'unique_id', 'name']);
     }
 
     /**
@@ -153,6 +159,16 @@ class FileManagerFolder extends Model
     public function children()
     {
         return $this->hasMany('App\FileManagerFolder', 'parent_id', 'unique_id');
+    }
+
+    /**
+     * Get trashed childrens
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function trashed_children()
+    {
+        return $this->hasMany('App\FileManagerFolder', 'parent_id', 'unique_id')->withTrashed();
     }
 
     // Delete all folder childrens
@@ -169,8 +185,14 @@ class FileManagerFolder extends Model
 
         static::restoring(function ($item) {
 
-            $item->children()->each(function($folder) {
+            // Restore children folders
+            $item->trashed_children()->each(function($folder) {
                 $folder->restore();
+            });
+
+            // Restore children files
+            $item->trashed_files()->each(function($files) {
+                $files->restore();
             });
         });
     }

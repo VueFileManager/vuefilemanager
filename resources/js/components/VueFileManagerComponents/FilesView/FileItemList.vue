@@ -45,7 +45,7 @@
                 <span
                         ref="name"
                         @input="changeItemName"
-                        :contenteditable="!$isMobile()"
+                        :contenteditable="!$isMobile() && !$isTrashLocation()"
                         class="name"
                 >{{ item.name }}</span
                 >

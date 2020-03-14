@@ -14,7 +14,7 @@
     @import "@assets/app.scss";
 
     .text-label {
-        @include font-size(11);
+        @include font-size(10);
         color: $light_text;
         text-transform: uppercase;
         font-weight: 900;

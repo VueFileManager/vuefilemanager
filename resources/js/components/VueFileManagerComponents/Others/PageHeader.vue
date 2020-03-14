@@ -47,6 +47,7 @@
         .title {
             @include font-size(22);
             font-weight: 700;
+            color: $text;
         }
 
         .icon {
@@ -71,6 +72,10 @@
 
         .page-header {
             background: $dark_mode_background;
+
+            .title {
+                color: $dark_mode_text_primary;
+            }
 
             .icon path {
                 fill: $theme;

@@ -8,6 +8,7 @@
                 type="file"
                 name="files[]"
                 multiple
+                :disabled="$isTrashLocation() ? true : false"
         />
     </label>
 </template>
@@ -61,8 +62,8 @@
             background: $dark_mode_foreground;
         }
 
-        .icon svg path {
-            fill: $dark_mode_text_secondary;
+        .icon path {
+            fill: $dark_mode_text_primary;
         }
     }
 </style>

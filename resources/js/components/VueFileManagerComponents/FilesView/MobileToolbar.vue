@@ -15,7 +15,9 @@
 
         <!--More Actions-->
         <div class="more-actions-button" @click="showSidebarMenu">
-            <FontAwesomeIcon icon="bars" v-if="isSmallAppSize"></FontAwesomeIcon>
+            <div class="tap-area">
+                <FontAwesomeIcon icon="bars" v-if="isSmallAppSize"></FontAwesomeIcon>
+            </div>
         </div>
     </div>
 </template>
@@ -140,6 +142,15 @@
         .more-actions-button {
             flex: 1;
             text-align: right;
+            position: relative;
+
+            .tap-area {
+                display: inline-block;
+                padding: 10px;
+                position: absolute;
+                right: -10px;
+                top: -20px;
+            }
         }
     }
 
@@ -150,6 +161,10 @@
 
             .directory-name {
                 color: $dark_mode_text_primary;
+            }
+
+            .more-actions-button svg path {
+                fill: $dark_mode_text_primary;
             }
         }
     }

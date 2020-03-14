@@ -9,7 +9,7 @@
             <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && item.type === 'folder'">{{ isInFavourites ? 'Remove Favourite' : 'Add To Favourites' }}</li>
             <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item && $isTrashLocation()">Restore</li>
             <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">Create Folder</li>
-            <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation()">Delete</li>
+            <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation() && item">Delete</li>
             <li class="menu-option" @click="$store.dispatch('emptyTrash')" v-if="$isTrashLocation()">Empty Trash</li>
             <li class="menu-option" @click="ItemDetail" v-if="item">Detail</li>
             <li class="menu-option" @click="downloadItem" v-if="isFile || isImage">Download</li>
@@ -46,9 +46,9 @@
         methods: {
             addToFavourites() {
                 if (this.app.favourites && ! this.app.favourites.find(el => el.unique_id == this.item.unique_id)) {
-                    this.$store.dispatch('addToFavourites', this.item.unique_id)
+                    this.$store.dispatch('addToFavourites', this.item)
                 } else {
-                    this.$store.dispatch('removeFromFavourites', this.item.unique_id)
+                    this.$store.dispatch('removeFromFavourites', this.item)
                 }
             },
             downloadItem() {
@@ -82,12 +82,14 @@
             },
             showContextMenu(event, item) {
                 let VerticalOffsetArea = item ? this.$refs.list.children.length * 50 : 50
-                let HorizontalOffsetArea = 150
+                let HorizontalOffsetArea = 190
 
                 let container = document.getElementById('files-view')
 
-                let x = event.pageX - container.getBoundingClientRect().x
-                let y = event.pageY - container.getBoundingClientRect().y
+                var offset = container.getClientRects()[0];
+
+                let x = event.clientX - offset.left
+                let y = event.clientY - offset.top
 
                 // Set position Y
                 if ((container.offsetHeight - y) < VerticalOffsetArea) {
@@ -127,6 +129,7 @@
 
     .contextmenu {
         max-width: 190px;
+        width: 190px;
         position: absolute;
         z-index: 99;
         box-shadow: $shadow;
@@ -150,6 +153,7 @@
                 padding: 15px 30px;
                 cursor: pointer;
                 width: 100%;
+                color: $text;
 
                 &:hover {
                     background: $light_background;
@@ -165,6 +169,8 @@
             background: $dark_mode_foreground;
 
             .menu-options .menu-option {
+                color: $dark_mode_text_primary;
+
                 &:hover {
                     background: $dark_mode_background;
                 }

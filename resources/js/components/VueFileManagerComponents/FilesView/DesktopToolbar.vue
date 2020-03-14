@@ -170,6 +170,7 @@
             text-overflow: ellipsis;
             display: inline-block;
             vertical-align: middle;
+            color: $text;
         }
     }
 
@@ -207,6 +208,13 @@
     @media (prefers-color-scheme: dark) {
         .toolbar .directory-name {
             color: $dark_mode_text_primary;
+        }
+
+        .toolbar-go-back {
+
+            .back-directory-title {
+                color: $dark_mode_text_primary;
+            }
         }
     }
 </style>

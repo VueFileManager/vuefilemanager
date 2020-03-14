@@ -143,13 +143,13 @@
                 if (this.app.favourites.find(folder => folder.unique_id == this.draggedItem.unique_id)) return
 
                 // Store favourites folder
-                this.$store.dispatch('addToFavourites', this.draggedItem.unique_id)
+                this.$store.dispatch('addToFavourites', this.draggedItem)
 
             },
             removeFavourite(folder) {
 
                 // Remove favourites folder
-                this.$store.dispatch('removeFromFavourites', folder.unique_id)
+                this.$store.dispatch('removeFromFavourites', folder)
             }
         },
         mounted() {
@@ -204,7 +204,7 @@
 
             .menu-list-item {
                 display: block;
-                padding: 10px 15px;
+                padding: 10px 15px 10px 25px;
                 @include transition(150ms);
                 cursor: pointer;
                 position: relative;
@@ -236,7 +236,7 @@
                     vertical-align: middle;
 
                     path {
-                        fill: $theme;
+                        fill: $text;
                     }
                 }
 
@@ -280,7 +280,7 @@
                 border: 2px dashed transparent;
 
                 .menu-list-item {
-                    padding: 10px 13px;
+                    padding: 10px 13px 10 23px;
 
                     .icon {
                         @include font-size(20);
@@ -332,7 +332,7 @@
         }
 
         #sidebar {
-            position: fixed;
+            position: absolute;
             overflow-y: auto;
             top: 0;
             left: 0;
@@ -374,9 +374,18 @@
 
         .menu-list-wrapper {
 
-            .menu-list .menu-list-item:hover {
-                background: rgba($theme, .1);
+            .menu-list .menu-list-item {
+
+                .label {
+                    color: $dark_mode_text_primary;
+                }
+
+                &:hover {
+                    background: rgba($theme, .1);
+                }
             }
+
+
         }
     }
 

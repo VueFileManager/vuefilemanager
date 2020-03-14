@@ -334,14 +334,20 @@ class FileManagerController extends Controller
         if ($request->type === 'folder') {
 
             // Get folder
-            $item = FileManagerFolder::withTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFolder::onlyTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
+
+            // Restore item to home directory
+            if ($request->has('to_home') && $request->to_home) {
+                $item->parent_id = 0;
+                $item->save();
+            }
         }
 
         // Get file
         if ($request->type === 'file' || $request->type === 'image') {
 
             // Get item
-            $item = FileManagerFile::withTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFile::onlyTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
 
             // Restore item to home directory
             if ($request->has('to_home') && $request->to_home) {
@@ -534,9 +540,9 @@ class FileManagerController extends Controller
         $user_id = Auth::id();
 
         // Get file record
-        $file = FileManagerFile::withTrashed()->where('user_id', $user_id)
+        $file = FileManagerFile::withTrashed()
+            ->where('user_id', $user_id)
             ->where('basename', $filename)
-            ->orWhere('thumbnail', $filename)
             ->firstOrFail();
 
         // Get file path
@@ -554,6 +560,39 @@ class FileManagerController extends Controller
         $response->header("Content-Type", $type);
         $response->header("Content-Disposition", 'attachment; filename=' . $filename);
         $response->header("Content-Length", $size);
+
+        return $response;
+    }
+
+    /**
+     * Get image thumbnail
+     *
+     * @param $filename
+     * @return mixed
+     */
+    public function get_thumbnail($filename)
+    {
+        // Get user id
+        $user_id = Auth::id();
+
+        // Get file record
+        $file = FileManagerFile::withTrashed()
+            ->where('user_id', $user_id)
+            ->where('thumbnail', $filename)
+            ->firstOrFail();
+
+        // Get file path
+        $path = storage_path() . '/app/file-manager/' . $file->getOriginal('thumbnail');
+
+        // Check if file exist
+        if (!File::exists($path)) abort(404);
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        // Create response
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
 
         return $response;
     }

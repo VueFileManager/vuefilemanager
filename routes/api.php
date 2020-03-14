@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie']], function () {
 
     // File route
     Route::get('/file/{name}', 'FileManagerController@get_file')->name('file');
+    Route::get('/thumbnail/{name}', 'FileManagerController@get_thumbnail')->name('thumbnail');
 
     // User account routes
     Route::post('/user/password', 'UserAccountController@change_password');

@@ -31,12 +31,13 @@ const actions = {
                 commit('SET_CURRENT_VIEW', 'files')
             })
     },
-    addToFavourites: (context, folder_unique_id) => {
+    addToFavourites: (context, folder) => {
+
+        // Add to storage
+        context.commit('ADD_TO_FAVOURITES', folder)
+
         axios
-            .post(context.getters.api + '/add-to-favourites', {unique_id: folder_unique_id})
-            .then(response => {
-                context.commit('UPDATE_FAVOURITES', response.data)
-            })
+            .post(context.getters.api + '/add-to-favourites', {unique_id: folder.unique_id})
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
@@ -46,12 +47,13 @@ const actions = {
                 })
             })
     },
-    removeFromFavourites: (context, folder_unique_id) => {
+    removeFromFavourites: (context, folder) => {
+
+        // Remove from storage
+        context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
+
         axios
-            .post(context.getters.api + '/remove-from-favourites', {unique_id: folder_unique_id})
-            .then(response => {
-                context.commit('UPDATE_FAVOURITES', response.data)
-            })
+            .post(context.getters.api + '/remove-from-favourites', {unique_id: folder.unique_id})
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
@@ -73,8 +75,12 @@ const mutations = {
         state.authorized = false
         state.app = undefined
     },
-    UPDATE_FAVOURITES(state, favourites) {
-        state.app.favourites = favourites
+    ADD_TO_FAVOURITES(state, folder) {
+        state.app.favourites.push({
+            unique_id: folder.unique_id,
+            name: folder.name,
+            type: folder.type,
+        })
     },
     UPDATE_NAME(state, name) {
         state.app.user.name = name
@@ -93,8 +99,8 @@ const mutations = {
     REMOVE_ITEM_FROM_RECENT_UPLOAD(state, unique_id) {
         state.app.latest_uploads = state.app.latest_uploads.filter(file => file.unique_id !== unique_id)
     },
-    REMOVE_ITEM_FROM_FAVOURITES(state, unique_id) {
-        state.app.favourites = state.app.favourites.filter(folder => folder.unique_id !== unique_id)
+    REMOVE_ITEM_FROM_FAVOURITES(state, item) {
+        state.app.favourites = state.app.favourites.filter(folder => folder.unique_id !== item.unique_id)
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
         state.app.favourites.find(folder => {

@@ -65,6 +65,7 @@ const Helpers = {
 
 			if (this.$store.getters.app.storage.percentage >= 100) {
 				events.$emit('alert:open', {
+					emoji: '😬😬😬',
 					title: 'Whooops, you exceed your storage limit :(',
 					message:
 						"Please contact your administrator to change your limit."
@@ -109,6 +110,26 @@ const Helpers = {
 					} else {
 						// Add uploaded file
 						fileCountSucceed++
+					}
+				}).catch(error => {
+
+					if (error.response.status == 423) {
+
+						events.$emit('alert:open', {
+							emoji: '😬😬😬',
+							title: 'Whooops, you exceed your storage limit :(',
+							message:
+								"Please contact your administrator to change your limit."
+						})
+
+					} else {
+
+						// Show error message
+						events.$emit('alert:open', {
+							title: 'Whooops, something went wrong :(',
+							message:
+								"Something went wrong and we can't continue. Please contact us."
+						})
 					}
 				})
 			}

@@ -77,10 +77,6 @@
         cursor: pointer;
         @include transition(150ms);
 
-        &:hover {
-            //background: rgba($theme, .1);
-        }
-
         &:active {
             transform: scale(0.95);
         }
@@ -99,6 +95,7 @@
             display: block;
             @include font-size(17);
             line-height: 1;
+            color: $text;
         }
 
         .email {
@@ -145,6 +142,7 @@
             padding: 15px 30px;
             cursor: pointer;
             width: 100%;
+            color: $text;
 
             &:hover {
                 background: $light_background;
@@ -177,8 +175,8 @@
 
         .user-name {
 
-            .email {
-                color: $dark_mode_text_secondary;
+            .name {
+                color: $dark_mode_text_primary;
             }
         }
 
@@ -186,6 +184,8 @@
             background: $dark_mode_background;
 
             .menu-option {
+                color: $dark_mode_text_primary;
+
                 &:hover {
                     background: $dark_mode_foreground;
                 }

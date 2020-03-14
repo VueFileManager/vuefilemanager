@@ -2,8 +2,8 @@ import axios from 'axios'
 import {events} from '@/bus'
 
 const defaultState = {
-    fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
-    preview_type: localStorage.getItem('preview_type') || 'grid',
+    fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'false' || false,
+    preview_type: localStorage.getItem('preview_type') || 'list',
     uploadingFilesCount: undefined,
     fileInfoDetail: undefined,
     currentFolder: undefined,
@@ -183,7 +183,7 @@ const actions = {
         if (data.type === 'file' || data.type === 'image')
             commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
         if (data.type === 'folder')
-            commit('REMOVE_ITEM_FROM_FAVOURITES', data.unique_id)
+            commit('REMOVE_ITEM_FROM_FAVOURITES', data)
 
         // Remove file preview
         commit('CLEAR_FILEINFO_DETAIL')
@@ -208,7 +208,7 @@ const actions = {
         let restoreToHome = false
 
         // Check if file can be restored to home directory
-        if (context.state.currentFolder.location === 'trash' && item.type !== 'folder') restoreToHome = true
+        if (context.state.currentFolder.location === 'trash') restoreToHome = true
 
         // Remove file
         context.commit('REMOVE_ITEM', item.unique_id)
@@ -251,7 +251,11 @@ const actions = {
                     }
                 })
                 .then(response => {
-                    context.commit('ADD_NEW_ITEMS', response.data)
+
+                    // Check if user is in uploading folder, if yes, than show new file
+                    if (response.data.folder_id == context.state.currentFolder.unique_id)
+                        context.commit('ADD_NEW_ITEMS', response.data)
+
                     context.commit('UPDATE_RECENT_UPLOAD', response.data)
                     context.commit(
                         'UPLOADING_FILE_PROGRESS',
@@ -261,13 +265,6 @@ const actions = {
                 })
                 .catch(error => {
                     reject(error)
-
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: 'Whooops, something went wrong :(',
-                        message:
-                            "Something went wrong and we can't continue. Please contact us."
-                    })
 
                     context.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
                 })
@@ -314,7 +311,7 @@ const actions = {
     },
     changePreviewType: ({commit, dispatch, state}) => {
         // Get preview type
-        let previewType = localStorage.getItem('preview_type') == 'list' ? 'grid' : 'list'
+        let previewType = localStorage.getItem('preview_type') == 'grid' ? 'list' : 'grid'
 
         // Store preview type to localStorage
         localStorage.setItem('preview_type', previewType)

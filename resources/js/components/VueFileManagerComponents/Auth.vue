@@ -472,6 +472,7 @@
 
 <style scoped lang="scss">
     @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_forms';
 
     .auth-form {
         text-align: center;
@@ -499,12 +500,14 @@
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 2px;
+            color: $text;
         }
 
         h2 {
             @include font-size(23);
             font-weight: 500;
             margin-bottom: 50px;
+            color: $text;
         }
 
         .block-form {
@@ -513,21 +516,6 @@
 
             .block-wrapper label {
                 text-align: right;
-            }
-        }
-
-        .additional-link {
-            @include font-size(16);
-            margin-top: 50px;
-            display: block;
-
-            b {
-                color: $theme;
-                cursor: pointer;
-
-                &:hover {
-                    text-decoration: underline;
-                }
             }
         }
     }
@@ -551,6 +539,15 @@
 
             h2 {
                 @include font-size(21);
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .auth-form {
+
+            h1, h2, .additional-link {
+                color: $dark_mode_text_primary;
             }
         }
     }

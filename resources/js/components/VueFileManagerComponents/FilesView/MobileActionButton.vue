@@ -34,6 +34,7 @@
         .label {
             @include font-size(14);
             font-weight: 700;
+            color: $text;
         }
     }
 
@@ -42,7 +43,11 @@
             background: $dark_mode_foreground;
 
             .icon path {
-                color: $theme;
+                fill: $theme;
+            }
+
+            .label {
+                color: $dark_mode_text_primary;
             }
         }
     }

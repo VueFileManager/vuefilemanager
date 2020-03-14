@@ -89,33 +89,20 @@
         -moz-osx-font-smoothing: grayscale;
         box-sizing: border-box;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        color: $text;
         font-size: 16px;
-    }
-
-    body, html {
-        overflow: hidden;
     }
 
     // Dark mode support
     @media (prefers-color-scheme: dark) {
 
-        * {
-            color: $dark_mode_text_primary;
-        }
-
-        img {
-            opacity: .8;
-        }
-
-        body, html {
-            background: darken($dark_mode_background, 10%);
-        }
-
         #vue-file-manager {
             background: $dark_mode_background;
-        }
+            color: $dark_mode_text_primary;
 
+            img {
+                opacity: .8;
+            }
+        }
     }
 
     #auth {

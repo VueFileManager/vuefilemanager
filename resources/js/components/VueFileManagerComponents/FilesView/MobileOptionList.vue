@@ -92,9 +92,9 @@
         methods: {
             addToFavourites() {
                 if (this.app.favourites && ! this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {
-                    this.$store.dispatch('addToFavourites', this.fileInfoDetail.unique_id)
+                    this.$store.dispatch('addToFavourites', this.fileInfoDetail)
                 } else {
-                    this.$store.dispatch('removeFromFavourites', this.fileInfoDetail.unique_id)
+                    this.$store.dispatch('removeFromFavourites', this.fileInfoDetail)
                 }
             },
             downloadItem() {
@@ -214,6 +214,7 @@
 
                 .menu-option {
                     border-color: rgba($dark_mode_background, .5);
+                    color: $dark_mode_text_primary;
                 }
             }
         }

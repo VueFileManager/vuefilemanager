@@ -67,6 +67,10 @@
                 this.button = 'That’s horrible!'
                 this.emoji = '😢😢😢'
                 this.buttonStyle = 'danger'
+
+                if (args.emoji) {
+                    this.emoji = args.emoji
+                }
             })
 
             // Show alert
@@ -80,6 +84,10 @@
                 this.button = 'Awesome!'
                 this.emoji = '🥳🥳🥳'
                 this.buttonStyle = 'theme'
+
+                if (args.emoji) {
+                    this.emoji = args.emoji
+                }
             })
 
             // Close popup

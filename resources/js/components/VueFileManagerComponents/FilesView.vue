@@ -141,11 +141,12 @@
             .files-container {
                 padding-left: 15px;
                 padding-right: 15px;
-                position: fixed;
                 top: 0;
                 left: 0;
                 right: 0;
                 bottom: 0;
+                position: absolute;
+                overflow-y: auto;
 
                 .file-list {
                     //height: 100%;
@@ -243,7 +244,7 @@
             }
 
             .toolbar-go-back span {
-                max-width: 140px;
+                max-width: 120px;
             }
 
             .grid .file-wrapper {
@@ -270,18 +271,6 @@
                     margin-top: 50px;
                 }
             }
-        }
-    }
-
-    @media only screen and (max-width: 960px) {
-        #files-view .files-container {
-            left: 265px !important;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        #files-view .files-container {
-            left: 0 !important;
         }
     }
 

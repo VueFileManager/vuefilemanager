@@ -174,6 +174,7 @@
             .name {
                 @include font-size(16);
                 font-weight: 600;
+                color: $text;
             }
 
             .mimetype {
@@ -206,6 +207,7 @@
                 display: block;
                 @include font-size(16);
                 font-weight: bold;
+                color: $text;
             }
         }
     }
@@ -217,6 +219,23 @@
 
             .icon-preview {
                 background: $dark_mode_background;
+            }
+
+            .file-info {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
+            }
+        }
+
+        .list-info {
+
+            .list-info-item {
+
+                span {
+                    color: $dark_mode_text_primary
+                }
             }
         }
     }

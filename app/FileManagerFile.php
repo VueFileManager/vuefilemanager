@@ -65,7 +65,7 @@ class FileManagerFile extends Model
      */
     public function getThumbnailAttribute()
     {
-        return $this->attributes['thumbnail'] ? route('file', ['name' => $this->attributes['thumbnail']]) : null;
+        return $this->attributes['thumbnail'] ? route('thumbnail', ['name' => $this->attributes['thumbnail']]) : null;
     }
 
     /**

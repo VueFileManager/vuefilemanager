@@ -47,6 +47,7 @@
             .title {
                 @include font-size(14);
                 font-weight: 700;
+                color: $text;
             }
 
             .size {
@@ -72,6 +73,10 @@
 
             .size {
                 @include font-size(10);
+            }
+
+            .title {
+                color: $dark_mode_text_primary;
             }
         }
     }

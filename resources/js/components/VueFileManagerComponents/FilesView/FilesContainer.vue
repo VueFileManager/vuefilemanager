@@ -226,7 +226,6 @@
     }
 
     .file-content {
-        position: relative;
         display: flex;
         flex-wrap: nowrap;
     }
