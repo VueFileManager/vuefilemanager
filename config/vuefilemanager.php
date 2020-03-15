@@ -2,6 +2,12 @@
 
 return [
 
+    // Your app name
+    'app_name' => 'VueFileManager',
+
+    // Your app logo
+    'app_logo' => '/assets/images/hero.svg',
+
     // Enable or disable user account registration
     'registration' => true,
 

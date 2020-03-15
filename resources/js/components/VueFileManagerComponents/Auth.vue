@@ -3,7 +3,7 @@
 
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="false">
-            <img class="logo" src="/assets/images/hero.svg" alt="Vue File Manager logo">
+            <img class="logo" :src="config.app_logo" :alt="config.app_name">
             <h1>Welcome Back!</h1>
             <h2>Please type your email to log in:</h2>
 
@@ -49,7 +49,7 @@
 
         <!--Forgotten your password?-->
         <AuthContent name="forgotten-password" :visible="false">
-            <img class="logo" src="/assets/images/hero.svg" alt="Vue File Manager logo">
+            <img class="logo" :src="config.app_logo" :alt="config.app_name">
             <h1>Forgotten Password?</h1>
             <h2>Get reset link with your email:</h2>
 
@@ -70,7 +70,7 @@
 
         <!--Create new password-->
         <AuthContent name="create-new-password" :visible="false">
-            <img class="logo" src="/assets/images/hero.svg" alt="Vue File Manager logo">
+            <img class="logo" :src="config.app_logo" :alt="config.app_name">
             <h1>Only One Step to Log In</h1>
             <h2>Create your new password here:</h2>
 
@@ -117,7 +117,7 @@
 
         <!--Registration-->
         <AuthContent name="sign-up" :visible="false">
-            <img class="logo" src="/assets/images/hero.svg" alt="Vue File Manager logo">
+            <img class="logo" :src="config.app_logo" :alt="config.app_name">
             <h1>Create New Account</h1>
             <h2>Please fill registration to create account:</h2>
 
@@ -174,7 +174,7 @@
 
         <!--Password reset link sended-->
         <AuthContent name="password-reset-link-sended" :visible="false">
-            <img class="logo" src="/assets/images/hero.svg" alt="Vue File Manager logo">
+            <img class="logo" :src="config.app_logo" :alt="config.app_name">
             <h1>Thank you!</h1>
             <h2>We have e-mailed your password reset link!</h2>
 
@@ -183,7 +183,7 @@
 
         <!--Password reset successfully-->
         <AuthContent name="password-reset-successfully" :visible="false">
-            <img class="logo" src="/assets/images/hero.svg" alt="Vue File Manager logo">
+            <img class="logo" :src="config.app_logo" :alt="config.app_name">
             <h1>Awesome!</h1>
             <h2>Your password was reset successfully.</h2>
 

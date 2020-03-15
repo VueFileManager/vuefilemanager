@@ -43,7 +43,7 @@ class ResetPassword extends Notification
         $reset_url = url('/create-new-password?token=' . $this->token);
 
         return (new MailMessage)
-            ->subject('Reset password for your account on ' . env('APP_NAME'))
+            ->subject('Reset password for your account on ' . config('vuefilemanager.app_name'))
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset Password', $reset_url)
             ->line('If you did not request a password reset, no further action is required.');

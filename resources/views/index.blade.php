@@ -16,6 +16,8 @@
 
     <script>
         let config = {
+            app_name: '{{ config('vuefilemanager.app_name') }}',
+            app_logo: '{{ asset(config('vuefilemanager.app_logo')) }}',
             api: '{{ url('/api') }}',
             hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
             userRegistration: {{ config('vuefilemanager.registration') ? 1 : 0 }},
