@@ -6,7 +6,7 @@
     <meta name="description"
           content="Manage your folders and files with Vue File Manager client powered by Laravel API endpoint.">
 
-    <title>VueFileManager | Manage your folders and files with Vue File Manager client powered by Laravel API endpoint.</title>
+    <title>VueFileManager | Make your own Private Cloud with VueFileManager client powered by Laravel and Vue</title>
 
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
