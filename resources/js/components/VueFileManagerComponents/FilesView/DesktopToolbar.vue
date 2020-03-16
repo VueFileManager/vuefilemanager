@@ -86,6 +86,9 @@
             },
             preview() {
                 return this.preview_type === 'list' ? 'th' : 'th-list'
+            },
+            isTrash() {
+                return this.currentFolder.location === 'trash' || this.currentFolder.location === 'trash-root'
             }
         },
         data() {
@@ -112,7 +115,7 @@
                 events.$emit('items:delete')
             },
             createFolder() {
-                this.$createFolder()
+                if (! this.isTrash) this.$createFolder()
             }
         },
         created() {

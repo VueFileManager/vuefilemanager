@@ -15,7 +15,6 @@ mix.js('resources/js/main.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css', {
         implementation: require('node-sass')
     })
-    .version()
     .webpackConfig({
         resolve: {
             alias: {
@@ -23,4 +22,5 @@ mix.js('resources/js/main.js', 'public/js')
                 "@": path.resolve(__dirname, "resources/js"),
             }
         },
-    }).disableNotifications();
+    })
+    .disableNotifications();

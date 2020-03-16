@@ -28,7 +28,6 @@
                     <FileItemList
                             @dragstart="dragStart(item)"
                             @drop="dragFinish(item)"
-                            @click.native="clickedFileItem(item.unique_id)"
                             @contextmenu.native.prevent="contextMenu($event, item)"
                             :data="item"
                             v-for="item in data"
@@ -49,7 +48,6 @@
                     <FileItemGrid
                             @dragstart="dragStart(item)"
                             @drop="dragFinish(item)"
-                            @click.native="clickedFileItem(item.unique_id)"
                             @contextmenu.native.prevent="contextMenu($event, item)"
                             :data="item"
                             v-for="item in data"
@@ -156,16 +154,15 @@
             moveTo(from_item, to_item) {
                 this.$store.dispatch('moveItem', [from_item, to_item])
             },
-            clickedFileItem(unique_id) {
-                events.$emit('fileItem:clicked', unique_id)
-            },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
             },
-            filesContainerClick(e) {
-                if (e.target.className === 'file-list grid') {
-                    events.$emit('fileItem:deselect')
-                }
+            filesContainerClick() {
+
+                // Deselect clicked item
+                events.$emit('fileItem:deselect')
+
+                // Hide context menu if is opened
                 events.$emit('contextMenu:hide')
             }
         },

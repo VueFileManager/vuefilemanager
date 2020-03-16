@@ -47,8 +47,7 @@
                         @input="changeItemName"
                         :contenteditable="!$isMobile() && !$isTrashLocation()"
                         class="name"
-                >{{ item.name }}</span
-                >
+                >{{ itemName }}</span>
 
                 <!--Other attributes-->
                 <span v-if="isFile || isImage" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
@@ -115,7 +114,7 @@
             return {
                 isClicked: false,
                 area: false,
-                item: undefined,
+                itemName: undefined,
             }
         },
         methods: {
@@ -137,6 +136,10 @@
             },
             clickedItem(e) {
                 events.$emit('contextMenu:hide')
+                events.$emit('fileItem:deselect')
+
+                // Set clicked item
+                this.isClicked = true
 
                 // Open in mobile version on first click
                 if (this.$isMobile() && this.isFolder) {
@@ -176,6 +179,7 @@
                 }
             },
             changeItemName: debounce(function (e) {
+
                 // Prevent submit empty string
                 if (e.target.innerText === '') return
 
@@ -187,19 +191,16 @@
             }, 300)
         },
         created() {
-            this.item = this.data
-
-            events.$on('fileItem:clicked', unique_id => {
-                if (this.data.unique_id == unique_id) {
-                    this.isClicked = true
-                } else {
-                    this.isClicked = false
-                }
-            })
+            this.itemName = this.data.name
 
             events.$on('fileItem:deselect', () => {
                 // Deselect file
                 this.isClicked = false
+            })
+
+            // Change item name
+            events.$on('change:name', (item) => {
+                if (this.data.unique_id == item.unique_id) this.itemName = item.name
             })
         },
     }

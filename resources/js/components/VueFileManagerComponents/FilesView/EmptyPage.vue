@@ -40,7 +40,7 @@
                 return this.data.length == 0
             },
             isTrash() {
-                return typeof this.currentFolder.unique_id === 'undefined'
+                return this.currentFolder.location === 'trash' || this.currentFolder.location === 'trash-root'
             }
         },
         data() {

@@ -115,11 +115,19 @@
                 )
 
                 if (itemName && itemName !== '') {
-                    this.$store.dispatch('changeItemName', {
+
+                    let item = {
                         unique_id: this.fileInfoDetail.unique_id,
                         type: this.fileInfoDetail.type,
                         name: itemName
-                    })
+                    }
+
+                    this.$store.dispatch('changeItemName', item)
+
+                    // Change item name if is mobile device or prompted
+                    if ( this.$isMobile() ) {
+                        events.$emit('change:name', item)
+                    }
                 }
             },
             closeAndResetContextMenu() {

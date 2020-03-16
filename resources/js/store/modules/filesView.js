@@ -395,25 +395,16 @@ const mutations = {
         state.browseHistory.pop()
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
+
         // Rename filename in file info detail
-        if (
-            state.fileInfoDetail &&
-            state.fileInfoDetail.unique_id == updatedFile.unique_id
-        ) {
+        if (state.fileInfoDetail && state.fileInfoDetail.unique_id == updatedFile.unique_id) {
             state.fileInfoDetail = updatedFile
         }
 
-        // Get file
-        const file = state.data.find(
-            el => el.unique_id == updatedFile.unique_id
-        )
-
-        file.file_url = updatedFile.file_url
-        file.thumbnail = updatedFile.thumbnail
-
-        if (this._vm.$isMobile()) {
-            file.name = updatedFile.name
-        }
+        // Rename item name in data view
+        state.data.find(item => {
+            if (item.unique_id == updatedFile.unique_id) item.name = updatedFile.name
+        })
     },
     CLEAR_FILEINFO_DETAIL(state) {
         state.fileInfoDetail = undefined
