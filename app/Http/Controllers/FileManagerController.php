@@ -446,11 +446,11 @@ class FileManagerController extends Controller
             $thumbnail = 'thumbnail-' . $filename;
 
             // Create intervention image
-            $image = Image::make($file->getRealPath());
+            $image = Image::make($file->getRealPath())->orientate();
 
             $image->resize(256, null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save(null, 90);
+            })->stream();
 
             // Store thumbnail to s3
             Storage::disk('local')->put($directory . '/' . $thumbnail, $image);

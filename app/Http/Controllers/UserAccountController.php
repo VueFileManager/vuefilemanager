@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FileManagerFolder;
 use App\User;
 use ByteUnits\Metric;
 use Illuminate\Http\Request;
@@ -24,18 +25,42 @@ class UserAccountController extends Controller
         $user_id = Auth::id();
 
         // Get User
-        $user = User::with(['favourites', 'latest_uploads'])->where('id', $user_id)->first();
+        $user = User::with(['favourites', 'latest_uploads'])
+            ->where('id', $user_id)
+            ->first();
 
         return [
             'user'           => $user->only(['name', 'email', 'avatar']),
             'favourites'     => $user->favourites->makeHidden(['pivot']),
             'latest_uploads' => $user->latest_uploads->makeHidden(['user_id', 'basename']),
 
-            'storage'        => [
+            'storage' => [
                 'used'       => Metric::bytes($user->used_capacity)->format(),
                 'capacity'   => format_gigabytes(config('vuefilemanager.user_storage_capacity')),
                 'percentage' => get_storage_fill_percentage($user->used_capacity, config('vuefilemanager.user_storage_capacity')),
             ],
+        ];
+    }
+
+    /**
+     * Get user folder tree
+     *
+     * @return array
+     */
+    public function folder_tree() {
+
+        $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+            ->where('parent_id', 0)
+            ->where('user_id', Auth::id())
+            ->get(['id', 'parent_id', 'unique_id', 'name']);
+
+        return [
+            [
+                'unique_id' => 0,
+                'name'      => 'Home',
+                'location'  => 'base',
+                'folders'  => $folders,
+            ]
         ];
     }
 

@@ -31,6 +31,13 @@
                         </li>
                         <li
                                 class="menu-option"
+                                @click="moveItem"
+                                v-if="fileInfoDetail"
+                        >
+                            Move
+                        </li>
+                        <li
+                                class="menu-option"
                                 @click="downloadItem"
                                 v-if="isFile || isImage"
                         >
@@ -90,6 +97,10 @@
             }
         },
         methods: {
+            moveItem() {
+                // Move item fire popup
+                events.$emit('popup:move-item', this.fileInfoDetail);
+            },
             addToFavourites() {
                 if (this.app.favourites && ! this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {
                     this.$store.dispatch('addToFavourites', this.fileInfoDetail)

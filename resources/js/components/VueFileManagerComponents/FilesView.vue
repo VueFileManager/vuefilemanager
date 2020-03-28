@@ -1,14 +1,12 @@
 <template>
     <div @click="fileViewClick" @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view" :class="filesViewWidth">
         <ContextMenu/>
-        <MobileOptionList/>
         <DesktopToolbar  v-if="! $isMinimalScale()"/>
         <FilesContainer/>
     </div>
 </template>
 
 <script>
-    import MobileOptionList from '@/components/VueFileManagerComponents/FilesView/MobileOptionList'
     import UploadProgress from '@/components/VueFileManagerComponents/FilesView/UploadProgress'
     import FilesContainer from '@/components/VueFileManagerComponents/FilesView/FilesContainer'
     import DesktopToolbar from '@/components/VueFileManagerComponents/FilesView/DesktopToolbar'
@@ -20,7 +18,6 @@
     export default {
         name: 'FilesView',
         components: {
-            MobileOptionList,
             UploadProgress,
             FilesContainer,
             DesktopToolbar,

@@ -9,6 +9,12 @@
             <!--System alerts-->
             <Alert />
 
+            <!--Popup-->
+            <PopupMoveItem />
+
+            <!--Mobile Menu-->
+            <MobileOptionList/>
+
             <div id="application-wrapper">
 
                 <!--Navigation Sidebar-->
@@ -25,6 +31,8 @@
 </template>
 
 <script>
+    import MobileOptionList from '@/components/VueFileManagerComponents/FilesView/MobileOptionList'
+    import PopupMoveItem from '@/components/VueFileManagerComponents/Others/PopupMoveItem'
     import UserSettings from '@/components/VueFileManagerComponents/UserSettings'
     import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
     import FilesView from '@/components/VueFileManagerComponents/FilesView'
@@ -36,6 +44,8 @@
     export default {
         name: 'VueFileManager',
         components: {
+            MobileOptionList,
+            PopupMoveItem,
             UserSettings,
             FilesView,
             Sidebar,
@@ -73,6 +83,8 @@
             // Handle VueFileManager width
             var VueFileManager = document.getElementById('vue-file-manager');
             new ResizeSensor(VueFileManager, this.handleAppResize);
+
+            //events.$emit('popup:move-item')
         }
     }
 </script>
@@ -95,7 +107,7 @@
     // Dark mode support
     @media (prefers-color-scheme: dark) {
 
-        #vue-file-manager {
+        body, html {
             background: $dark_mode_background;
             color: $dark_mode_text_primary;
 

@@ -2,7 +2,7 @@ import axios from 'axios'
 import {events} from '@/bus'
 
 const defaultState = {
-    fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'false' || false,
+    fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
     preview_type: localStorage.getItem('preview_type') || 'list',
     uploadingFilesCount: undefined,
     fileInfoDetail: undefined,

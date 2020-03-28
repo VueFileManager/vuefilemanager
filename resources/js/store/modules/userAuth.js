@@ -63,10 +63,36 @@ const actions = {
                 })
             })
     },
+    getFolderTree: (context) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(context.getters.api + '/folder-tree')
+                .then(response => {
+                    resolve(response)
+
+                    context.commit('UPDATE_FOLDER_TREE', response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+
+                    // Show error message
+                    events.$emit('alert:open', {
+                        title: 'Whooops, something went wrong :(',
+                        message:
+                            "Something went wrong and we can't continue. Please contact us."
+                    })
+                })
+        })
+
+
+    },
 }
 const mutations = {
     RETRIEVE_APP_DATA(state, app) {
         state.app = app
+    },
+    UPDATE_FOLDER_TREE(state, tree) {
+        state.app.folders = tree
     },
     SET_AUTHORIZED(state, data) {
         state.authorized = data

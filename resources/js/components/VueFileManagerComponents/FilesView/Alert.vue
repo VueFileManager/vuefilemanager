@@ -117,7 +117,7 @@
             right: 0;
             left: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(17, 20, 29, 0.5);
         }
     }
 

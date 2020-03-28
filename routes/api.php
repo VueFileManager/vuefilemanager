@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie']], function () {
     Route::post('/rename-item', 'FileManagerController@rename_item');
     Route::post('/remove-item', 'FileManagerController@delete_item');
     Route::post('/upload-file', 'FileManagerController@upload_item');
+    Route::get('/folder-tree', 'UserAccountController@folder_tree');
     Route::post('/move-item', 'FileManagerController@move_item');
     Route::get('/search', 'FileManagerController@search');
     Route::get('/trash', 'FileManagerController@trash');

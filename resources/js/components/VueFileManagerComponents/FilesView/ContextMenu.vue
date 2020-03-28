@@ -6,11 +6,20 @@
             v-show="isVisible"
     >
         <ul class="menu-options" id="menu-options-list" ref="list" @click="closeAndResetContextMenu">
+
+            <!--View-->
             <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && item.type === 'folder'">{{ isInFavourites ? 'Remove Favourite' : 'Add To Favourites' }}</li>
-            <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item && $isTrashLocation()">Restore</li>
             <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">Create Folder</li>
+
+            <!--Edits-->
             <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation() && item">Delete</li>
+            <li class="menu-option" @click="moveItem" v-if="! $isTrashLocation() && item">Move</li>
+
+            <!--Trash-->
+            <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item && $isTrashLocation()">Restore</li>
             <li class="menu-option" @click="$store.dispatch('emptyTrash')" v-if="$isTrashLocation()">Empty Trash</li>
+
+            <!--Others-->
             <li class="menu-option" @click="ItemDetail" v-if="item">Detail</li>
             <li class="menu-option" @click="downloadItem" v-if="isFile || isImage">Download</li>
         </ul>
@@ -44,6 +53,10 @@
             }
         },
         methods: {
+            moveItem() {
+                // Move item fire popup
+                events.$emit('popup:move-item', this.item);
+            },
             addToFavourites() {
                 if (this.app.favourites && ! this.app.favourites.find(el => el.unique_id == this.item.unique_id)) {
                     this.$store.dispatch('addToFavourites', this.item)
