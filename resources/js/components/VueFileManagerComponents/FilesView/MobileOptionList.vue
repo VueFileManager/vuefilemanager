@@ -1,67 +1,58 @@
 <template>
-    <div class="options-wrapper">
-        <transition name="context-menu">
-            <div
-                    v-show="isVisible"
-                    ref="contextmenu"
-                    class="options"
-                    @click="closeAndResetContextMenu"
-            >
-                <div class="menu-wrapper">
-                    <ul class="menu-options">
-                        <li class="menu-option"
-                            @click="addToFavourites"
-                            v-if="! $isTrashLocation() && fileInfoDetail && fileInfoDetail.type === 'folder'"
-                        >
-                            {{ isInFavourites ? 'Remove Favourite' : 'Add To Favourites' }}
-                        </li>
+    <transition name="context-menu">
+        <div
+                v-show="isVisible"
+                ref="contextmenu"
+                class="options"
+                @click="closeAndResetContextMenu"
+        >
+            <div class="menu-wrapper">
+                <ul class="menu-options">
+                    <li class="menu-option"
+                        @click="addToFavourites"
+                        v-if="! $isTrashLocation() && fileInfoDetail && fileInfoDetail.type === 'folder'"
+                    >
+                        {{ isInFavourites ? 'Remove Favourite' : 'Add To Favourites' }}
+                    </li>
 
-                        <li class="menu-option"
-                            @click="$store.dispatch('restoreItem', fileInfoDetail)"
-                            v-if="fileInfoDetail && $isTrashLocation()"
-                        >
-                            Restore
-                        </li>
-                        <li
-                                class="menu-option"
-                                @click="renameItem"
-                                v-if="fileInfoDetail"
-                        >
-                            Rename
-                        </li>
-                        <li
-                                class="menu-option"
-                                @click="moveItem"
-                                v-if="fileInfoDetail"
-                        >
-                            Move
-                        </li>
-                        <li
-                                class="menu-option"
-                                @click="downloadItem"
-                                v-if="isFile || isImage"
-                        >
-                            Download
-                        </li>
-                        <li
-                                class="menu-option delete"
-                                @click="removeItem"
-                                v-if="fileInfoDetail"
-                        >
-                            Delete
-                        </li>
-                    </ul>
-                </div>
+                    <li class="menu-option"
+                        @click="$store.dispatch('restoreItem', fileInfoDetail)"
+                        v-if="fileInfoDetail && $isTrashLocation()"
+                    >
+                        Restore
+                    </li>
+                    <li
+                            class="menu-option"
+                            @click="renameItem"
+                            v-if="fileInfoDetail"
+                    >
+                        Rename
+                    </li>
+                    <li
+                            class="menu-option"
+                            @click="moveItem"
+                            v-if="fileInfoDetail"
+                    >
+                        Move
+                    </li>
+                    <li
+                            class="menu-option"
+                            @click="downloadItem"
+                            v-if="isFile || isImage"
+                    >
+                        Download
+                    </li>
+                    <li
+                            class="menu-option delete"
+                            @click="removeItem"
+                            v-if="fileInfoDetail"
+                    >
+                        Delete
+                    </li>
+                </ul>
             </div>
-        </transition>
-        <transition name="fade">
-            <div
-                    v-show="isVisible"
-                    class="vignette"
-                    @click="closeAndResetContextMenu"
-            ></div>
-        </transition>
-    </div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -149,15 +140,13 @@
             }
         },
         created() {
+
+            // Show context menu
             events.$on('mobileMenu:show', () => {
-                // Show context menu
                 this.isVisible = !this.isVisible
             })
 
-            events.$on('mobileMenu:hide', () => {
-                this.isVisible = false
-            })
-
+            // Hide mobile menu
             events.$on('mobileMenu:hide', () => {
                 this.isVisible = false
             })
@@ -169,7 +158,7 @@
     @import "@assets/app.scss";
 
     .vignette {
-        background: rgba(0, 0, 0, 0.25);
+        background: rgba(17, 20, 29, 0.5);
         position: absolute;
         top: 0;
         right: 0;
@@ -240,28 +229,17 @@
     }
 
     // Transition
-    .context-menu-enter-active,
-    .fade-enter-active {
-        transition: all 300ms ease;
+    .context-menu-enter-active {
+        transition: all 350ms ease;
     }
 
-    .context-menu-leave-active,
-    .fade-leave-active {
-        transition: all 300ms;
-    }
-
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
+    .context-menu-leave-active {
+        transition: all 150ms ease;
     }
 
     .context-menu-enter,
     .context-menu-leave-to {
         opacity: 0;
         transform: translateY(100%);
-    }
-
-    .context-menu-leave-active {
-        position: absolute;
     }
 </style>

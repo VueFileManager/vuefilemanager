@@ -1,26 +1,23 @@
 <template>
-    <transition name="vignette">
-        <div class="popup" v-show="isVisibleWrapper">
-            <transition name="popup">
-                <div v-show="isVisiblePopup" class="popup-wrapper">
-                    <div class="popup-image">
-                        <span class="emoji">{{ emoji }}</span>
-                    </div>
-                    <div class="popup-content">
-                        <h1 v-if="title" class="title">{{ title }}</h1>
-                        <p v-if="message" class="message">{{ message }}</p>
-                    </div>
-                    <div class="popup-actions">
-                        <ButtonBase
-                                @click.native="closePopup"
-                                :button-style="buttonStyle"
-                                class="action-confirm"
-                        >{{ button }}
-                        </ButtonBase>
-                    </div>
+    <transition name="popup">
+        <div @click.self="closePopup" class="popup" v-if="isVisibleWrapper">
+            <div class="popup-wrapper">
+                <div class="popup-image">
+                    <span class="emoji">{{ emoji }}</span>
                 </div>
-            </transition>
-            <div class="popup-vignette" @click="closePopup"></div>
+                <div class="popup-content">
+                    <h1 v-if="title" class="title">{{ title }}</h1>
+                    <p v-if="message" class="message">{{ message }}</p>
+                </div>
+                <div class="popup-actions">
+                    <ButtonBase
+                            @click.native="closePopup"
+                            :button-style="buttonStyle"
+                            class="action-confirm"
+                    >{{ button }}
+                    </ButtonBase>
+                </div>
+            </div>
         </div>
     </transition>
 </template>
@@ -38,7 +35,6 @@
             return {
                 isVisibleWrapper: false,
                 buttonStyle: undefined,
-                isVisiblePopup: false,
                 message: undefined,
                 title: undefined,
                 button: undefined,
@@ -47,19 +43,13 @@
         },
         methods: {
             closePopup() {
-                // Emit event
-                events.$emit('alert:close')
-
-                // Hide popup wrapper
-                this.isVisibleWrapper = false
-                this.isVisiblePopup = false
+                events.$emit('popup:close')
             }
         },
         mounted() {
             // Show alert
             events.$on('alert:open', args => {
                 this.isVisibleWrapper = true
-                this.isVisiblePopup = true
 
                 this.title = args.title
                 this.message = args.message
@@ -76,7 +66,6 @@
             // Show alert
             events.$on('success:open', args => {
                 this.isVisibleWrapper = true
-                this.isVisiblePopup = true
 
                 this.title = args.title
                 this.message = args.message
@@ -92,7 +81,6 @@
 
             // Close popup
             events.$on('popup:close', () => {
-                this.isVisiblePopup = false
                 this.isVisibleWrapper = false
             })
         }
@@ -110,15 +98,6 @@
         bottom: 0;
         z-index: 20;
         overflow: auto;
-
-        .popup-vignette {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            background: rgba(17, 20, 29, 0.5);
-        }
     }
 
     .popup-wrapper {
@@ -180,10 +159,6 @@
 
     @media (prefers-color-scheme: dark) {
 
-        .popup .popup-vignette {
-            background: $dark_mode_vignette;
-        }
-
         .popup-wrapper {
             background: $dark_mode_foreground;
         }
@@ -211,28 +186,11 @@
     @keyframes popup-in {
         0% {
             opacity: 0;
-            transform: translateY(-50%) scale(0.7);
+            transform: scale(0.7);
         }
         100% {
             opacity: 1;
-            transform: translateY(-50%) scale(1);
-        }
-    }
-
-    .vignette-enter-active {
-        animation: vignette-in 0.15s ease;
-    }
-
-    .vignette-leave-active {
-        animation: vignette-in 0.15s 0.15s ease reverse;
-    }
-
-    @keyframes vignette-in {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
+            transform: scale(1);
         }
     }
 </style>

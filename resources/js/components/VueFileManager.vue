@@ -6,14 +6,20 @@
 
         <div v-if="isLogged" id="auth">
 
-            <!--System alerts-->
-            <Alert />
+            <div id="popups">
 
-            <!--Popup-->
-            <PopupMoveItem />
+                <!--System alerts-->
+                <Alert />
 
-            <!--Mobile Menu-->
-            <MobileOptionList/>
+                <!--Popup-->
+                <PopupMoveItem />
+
+                <!--Mobile Menu-->
+                <MobileOptionList />
+
+                <!--Background vignette-->
+                <Vignette />
+            </div>
 
             <div id="application-wrapper">
 
@@ -34,12 +40,14 @@
     import MobileOptionList from '@/components/VueFileManagerComponents/FilesView/MobileOptionList'
     import PopupMoveItem from '@/components/VueFileManagerComponents/Others/PopupMoveItem'
     import UserSettings from '@/components/VueFileManagerComponents/UserSettings'
+    import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
     import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
     import FilesView from '@/components/VueFileManagerComponents/FilesView'
     import Sidebar from '@/components/VueFileManagerComponents/Sidebar'
     import Auth from '@/components/VueFileManagerComponents/Auth'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
+    import {events} from "../bus";
 
     export default {
         name: 'VueFileManager',
@@ -48,6 +56,7 @@
             PopupMoveItem,
             UserSettings,
             FilesView,
+            Vignette,
             Sidebar,
             Alert,
             Auth,
@@ -83,8 +92,6 @@
             // Handle VueFileManager width
             var VueFileManager = document.getElementById('vue-file-manager');
             new ResizeSensor(VueFileManager, this.handleAppResize);
-
-            //events.$emit('popup:move-item')
         }
     }
 </script>

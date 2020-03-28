@@ -1,42 +1,39 @@
 <template>
-    <transition name="vignette">
-        <div class="popup" v-if="isVisibleWrapper">
-            <transition name="popup">
-                <div v-if="isVisiblePopup" class="popup-wrapper">
+    <transition name="popup">
+        <div class="popup" @click.self="closePopup" v-if="isVisibleWrapper">
+            <div class="popup-wrapper">
 
-                    <!--Title-->
-                    <div class="popup-header">
-                        <h1 class="title">Move Item</h1>
-                        <!--<p v-if="message" class="message">{{ message }}</p>-->
-                    </div>
+                <!--Title-->
+                <div class="popup-header">
+                    <h1 class="title">Move Item</h1>
+                    <!--<p v-if="message" class="message">{{ message }}</p>-->
+                </div>
 
-                    <!--Content-->
-                    <div class="popup-content" v-if="app && pickedItem">
-                        <Spinner v-if="isLoadingTree" />
-                        <div v-if="! isLoadingTree">
-                            <ThumbnailItem class="item-thumbnail" :file="pickedItem" />
-                            <TreeMenu :depth="1" :nodes="items" v-for="items in app.folders" :key="items.unique_id" />
-                        </div>
-                    </div>
-
-                    <!--Actions-->
-                    <div class="actions">
-                        <ButtonBase
-                                class="popup-button"
-                                @click.native="closePopup"
-                                button-style="secondary"
-                        >Cancel
-                        </ButtonBase>
-                        <ButtonBase
-                                class="popup-button"
-                                @click.native="moveItem"
-                                :button-style="selectedFolder ? 'theme' : 'secondary'"
-                        >Move
-                        </ButtonBase>
+                <!--Content-->
+                <div class="popup-content" v-if="app && pickedItem">
+                    <Spinner v-if="isLoadingTree"/>
+                    <div v-if="! isLoadingTree">
+                        <ThumbnailItem class="item-thumbnail" :file="pickedItem"/>
+                        <TreeMenu :depth="1" :nodes="items" v-for="items in app.folders" :key="items.unique_id"/>
                     </div>
                 </div>
-            </transition>
-            <div class="popup-vignette" @click="closePopup"></div>
+
+                <!--Actions-->
+                <div class="actions">
+                    <ButtonBase
+                            class="popup-button"
+                            @click.native="closePopup"
+                            button-style="secondary"
+                    >Cancel
+                    </ButtonBase>
+                    <ButtonBase
+                            class="popup-button"
+                            @click.native="moveItem"
+                            :button-style="selectedFolder ? 'theme' : 'secondary'"
+                    >Move
+                    </ButtonBase>
+                </div>
+            </div>
         </div>
     </transition>
 </template>
@@ -63,7 +60,6 @@
         data() {
             return {
                 isVisibleWrapper: false,
-                isVisiblePopup: false,
                 selectedFolder: undefined,
                 pickedItem: undefined,
                 isLoadingTree: true,
@@ -72,36 +68,38 @@
         methods: {
             moveItem() {
 
+                // Prevent empty submit
                 if (! this.selectedFolder) return
 
                 // Move item
                 this.$store.dispatch('moveItem', [this.pickedItem, this.selectedFolder])
 
                 // Close popup
-                this.closePopup()
+                events.$emit('popup:close')
             },
             closePopup() {
-
-                // Hide popup wrapper
-                this.isVisibleWrapper = false
-                this.isVisiblePopup = false
-
-                // Clear selected folder
-                this.selectedFolder = undefined
+                events.$emit('popup:close')
             }
         },
         mounted() {
 
-            events.$on('pick-folder', unique_id => {
-                this.selectedFolder = unique_id
+            // Select folder in tree
+            events.$on('pick-folder', folder => {
+
+                if (folder.unique_id == this.pickedItem.unique_id) {
+                    this.selectedFolder = undefined
+                } else {
+                    this.selectedFolder = folder
+                }
             })
 
             // Show popup
             events.$on('popup:move-item', item => {
 
+                // Show tree spinner
                 this.isLoadingTree = true
 
-                // Get folder tree
+                // Get folder tree and hide spinner
                 this.$store.dispatch('getFolderTree').then(() => {
                     this.isLoadingTree = false
                 }).catch(() => {
@@ -110,14 +108,20 @@
 
                 // Make popup visible
                 this.isVisibleWrapper = true
-                this.isVisiblePopup = true
 
                 // Store picked item
                 this.pickedItem = item
             })
 
             // Close popup
-            events.$on('popup:close', () => this.closePopup())
+            events.$on('popup:close', () => {
+
+                // Hide popup wrapper
+                this.isVisibleWrapper = false
+
+                // Clear selected folder
+                this.selectedFolder = undefined
+            })
         }
     }
 </script>
@@ -126,24 +130,15 @@
     @import "@assets/app.scss";
 
     .popup {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 999;
-        overflow: auto;
+        z-index: 20;
+        overflow-y: auto;
         display: grid;
         padding: 40px;
-
-        .popup-vignette {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            background: rgba(17, 20, 29, 0.5);
-        }
     }
 
     .popup-wrapper {
@@ -207,8 +202,12 @@
     // Mobile styles
     .small {
 
+        .popup {
+            overflow: hidden;
+        }
+
         .popup-wrapper {
-            position: fixed;
+            position: absolute;
             top: 0;
             bottom: 0;
             right: 0;
@@ -276,10 +275,6 @@
     // Dark mode
     @media (prefers-color-scheme: dark) {
 
-        .popup .popup-vignette {
-            background: $dark_mode_vignette;
-        }
-
         .popup-wrapper {
             background: $dark_mode_foreground;
         }
@@ -292,23 +287,6 @@
             .message {
                 color: $dark_mode_text_secondary;
             }
-        }
-    }
-
-    .vignette-enter-active {
-        animation: vignette-in 0.15s ease;
-    }
-
-    .vignette-leave-active {
-        animation: vignette-in 0.15s 0.15s ease reverse;
-    }
-
-    @keyframes vignette-in {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
         }
     }
 </style>
