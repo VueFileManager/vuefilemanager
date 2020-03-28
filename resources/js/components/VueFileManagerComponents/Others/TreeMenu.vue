@@ -114,6 +114,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
+            color: $text;
         }
 
         &:hover {
@@ -139,6 +140,10 @@
     @media (prefers-color-scheme: dark) {
 
         .folder-item {
+
+            .label {
+                color: $dark_mode_text_primary;
+            }
 
             &:hover {
                 background: $dark_mode_background;
