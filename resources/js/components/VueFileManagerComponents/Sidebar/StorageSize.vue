@@ -74,8 +74,13 @@
             .size {
                 @include font-size(10);
             }
+        }
+    }
 
-            .title {
+    @media (prefers-color-scheme: dark) {
+        .storage-size {
+
+            .storage-info .title {
                 color: $dark_mode_text_primary;
             }
         }

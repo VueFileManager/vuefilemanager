@@ -22,14 +22,13 @@
         },
         created() {
 
+            // Hide vignette
+            events.$on('popup:close', () => this.isVisibleVignette = false)
+
             // Show vignette
             events.$on('popup:move-item', () => this.isVisibleVignette = true)
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
-            events.$on('mobileMenu:show', () => this.isVisibleVignette = true)
-
-            // Hide vignette
-            events.$on('popup:close', () => this.isVisibleVignette = false)
         }
     }
 </script>
@@ -44,7 +43,7 @@
         left: 0;
         bottom: 0;
         z-index: 19;
-        background: rgba(17, 20, 29, 0.5);
+        background: $light_mode_vignette;
     }
 
     // Dark mode

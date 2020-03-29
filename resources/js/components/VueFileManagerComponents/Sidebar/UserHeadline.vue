@@ -103,6 +103,7 @@
             color: $theme;
             display: block;
             margin-top: 2px;
+            font-weight: 600;
         }
     }
 

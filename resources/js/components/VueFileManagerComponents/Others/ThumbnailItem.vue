@@ -73,7 +73,7 @@
 
             .subtitle {
                 @include font-size(11);
-                font-weight: 100;
+                font-weight: 400;
                 color: $text-muted;
                 display: block;
             }

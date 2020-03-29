@@ -229,7 +229,7 @@
             .item-size,
             .item-length {
                 @include font-size(12);
-                font-weight: 100;
+                font-weight: 400;
                 color: $text-muted;
                 display: block;
             }
@@ -244,7 +244,7 @@
 
             .name {
                 color: $text;
-                @include font-size(15);
+                @include font-size(14);
                 font-weight: 700;
                 max-height: 40px;
                 overflow: hidden;

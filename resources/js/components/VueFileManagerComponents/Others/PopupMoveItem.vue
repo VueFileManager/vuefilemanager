@@ -142,7 +142,7 @@
     }
 
     .popup-wrapper {
-        box-shadow: 0 7px 250px rgba(25, 54, 60, 0.2);
+        box-shadow: $light_mode_popup_shadow;
         border-radius: 8px;
         background: white;
         margin: auto;
@@ -154,8 +154,8 @@
         padding: 20px;
 
         .title {
-            @include font-size(20);
-            font-weight: 900;
+            @include font-size(18);
+            font-weight: 700;
             color: $text;
         }
 
@@ -276,7 +276,8 @@
     @media (prefers-color-scheme: dark) {
 
         .popup-wrapper {
-            background: $dark_mode_foreground;
+            background: $dark_mode_background;
+            box-shadow: $dark_mode_popup_shadow;
         }
 
         .popup-header {
@@ -287,6 +288,12 @@
             .message {
                 color: $dark_mode_text_secondary;
             }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) and (max-width: 690px) {
+        .popup-wrapper {
+            background: $dark_mode_background;
         }
     }
 </style>

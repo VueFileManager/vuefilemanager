@@ -161,7 +161,7 @@
             padding: 0;
 
             .menu-option {
-                font-weight: 600;
+                font-weight: 700;
                 @include font-size(15);
                 padding: 15px 30px;
                 cursor: pointer;

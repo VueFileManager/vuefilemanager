@@ -130,9 +130,9 @@
             text-align: center;
             width: 100%;
             vertical-align: middle;
-            @include font-size(17);
+            @include font-size(16);
             color: $text;
-            font-weight: 600;
+            font-weight: 700;
             max-width: 220px;
             overflow: hidden;
             text-overflow: ellipsis;

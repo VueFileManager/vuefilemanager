@@ -40,7 +40,7 @@ export default {
 	@media only screen and (min-width: 680px) and (prefers-color-scheme: dark) {
 
 		.progress-bar {
-			background: $dark_mode_background;
+			background: $dark_mode_foreground;
 		}
 	}
 </style>

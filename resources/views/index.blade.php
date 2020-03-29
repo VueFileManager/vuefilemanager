@@ -10,6 +10,13 @@
 
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="apple-mobile-web-app-title" content="{{ config('vuefilemanager.app_name') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('assets/images/app-icon.png') }}">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
 </head>
 <body>
 <div id="app"></div>

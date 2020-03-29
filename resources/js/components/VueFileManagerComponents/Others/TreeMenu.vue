@@ -70,11 +70,12 @@
 
     .folder-item {
         display: block;
-        padding: 10px 20px;
+        padding: 15px 20px;
         @include transition(150ms);
         cursor: pointer;
         position: relative;
         white-space: nowrap;
+        border-bottom: 1px solid $light_mode_border;
 
         .icon {
             @include font-size(18);
@@ -140,13 +141,25 @@
     @media (prefers-color-scheme: dark) {
 
         .folder-item {
+            border-bottom: 1px solid $dark_mode_border_color;
 
             .label {
                 color: $dark_mode_text_primary;
             }
 
             &:hover {
-                background: $dark_mode_background;
+                background: $dark_mode_foreground;
+            }
+
+            &.is-selected {
+                background: rgba($theme, .1);
+            }
+
+            .icon {
+
+                path {
+                    fill: lighten($dark_mode_foreground, 10%);
+                }
             }
 
             .icon-chevron {
@@ -159,6 +172,16 @@
 
         &.is-selected {
             background: rgba($theme, .1);
+        }
+    }
+
+    @media (prefers-color-scheme: dark) and (max-width: 690px) {
+        .folder-item {
+
+            &:hover,
+            &.is-selected {
+                background: rgba($theme, .1);
+            }
         }
     }
 

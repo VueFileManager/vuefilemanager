@@ -21,4 +21,10 @@
         display: block;
         margin-bottom: 5px;
     }
+
+    @media (prefers-color-scheme: dark) {
+        .text-label {
+            color: rgba($dark_mode_text_secondary, .4);
+        }
+    }
 </style>

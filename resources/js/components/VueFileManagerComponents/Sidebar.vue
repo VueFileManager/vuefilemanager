@@ -177,7 +177,7 @@
     #sidebar {
         position: relative;
         flex: 0 0 295px;
-        border-right: 1px solid $light_background;
+        border-right: 1px solid $light_mode_border;
     }
 
     .content-scroller {
@@ -198,36 +198,17 @@
     }
 
     .menu-list-wrapper {
-        margin-bottom: 25px;
+        margin-bottom: 20px;
 
         .menu-list {
 
             .menu-list-item {
                 display: block;
-                padding: 10px 15px 10px 25px;
+                padding: 8px 15px 8px 25px;
                 @include transition(150ms);
                 cursor: pointer;
                 position: relative;
                 white-space: nowrap;
-
-                &:hover {
-                    background: rgba($theme, .1);
-                    //background: $light_background;
-
-                    .icon {
-                        path {
-                            fill: $theme;
-                        }
-                    }
-
-                    .label {
-                        color: $theme;
-                    }
-
-                    .delete-icon {
-                        display: block;
-                    }
-                }
 
                 .icon {
                     @include font-size(13);
@@ -254,7 +235,7 @@
                 }
 
                 .label {
-                    @include font-size(15);
+                    @include font-size(14);
                     font-weight: 700;
                     vertical-align: middle;
                     white-space: nowrap;
@@ -262,6 +243,24 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: inline-block;
+                }
+
+                &:hover {
+                    background: rgba($theme, .1);
+
+                    .icon {
+                        path {
+                            fill: $theme;
+                        }
+                    }
+
+                    .label {
+                        color: $theme;
+                    }
+
+                    .delete-icon {
+                        display: block;
+                    }
                 }
             }
         }
@@ -280,14 +279,25 @@
                 border: 2px dashed transparent;
 
                 .menu-list-item {
-                    padding: 10px 13px 10 23px;
+                    padding: 8px 23px;
 
                     .icon {
-                        @include font-size(20);
+                        margin-right: 5px;
+                        @include font-size(14);
                         width: 20px;
 
                         path {
-                            fill: $theme;
+                            fill: $text;
+                        }
+                    }
+
+                    &:hover {
+                        background: rgba($theme, .1);
+
+                        .icon {
+                            path {
+                                fill: $theme;
+                            }
                         }
                     }
                 }
@@ -356,7 +366,7 @@
                 padding: 10px 26px;
 
                 .label {
-                    @include font-size(16);
+                    @include font-size(14);
                 }
             }
         }
@@ -368,8 +378,7 @@
 
     @media (prefers-color-scheme: dark) {
         #sidebar {
-            border-color: $dark_mode_foreground;
-            background: $dark_mode_foreground;
+            border-color: $dark_mode_border_color;
         }
 
         .menu-list-wrapper {
@@ -380,8 +389,27 @@
                     color: $dark_mode_text_primary;
                 }
 
+                .icon {
+
+                    path {
+                        fill: lighten($dark_mode_foreground, 10%);
+                    }
+                }
+
                 &:hover {
                     background: rgba($theme, .1);
+                }
+            }
+
+            &.favourites {
+                .menu-list .menu-list-item {
+
+                    .icon {
+
+                        path {
+                            fill: lighten($dark_mode_foreground, 10%);
+                        }
+                    }
                 }
             }
 
@@ -389,7 +417,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) and (max-width: 690px){
+    @media (prefers-color-scheme: dark) and (max-width: 690px) {
         #sidebar {
             border-color: $dark_mode_background;
             background: $dark_mode_background;

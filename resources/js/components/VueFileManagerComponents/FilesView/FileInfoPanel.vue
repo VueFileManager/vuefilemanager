@@ -172,8 +172,8 @@
             word-break: break-all;
 
             .name {
-                @include font-size(16);
-                font-weight: 600;
+                @include font-size(14);
+                font-weight: 700;
                 color: $text;
             }
 
@@ -205,7 +205,7 @@
 
             span {
                 display: block;
-                @include font-size(16);
+                @include font-size(14);
                 font-weight: bold;
                 color: $text;
             }

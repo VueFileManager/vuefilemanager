@@ -58,11 +58,10 @@ export default {
 <style scoped lang="scss">
     @import "@assets/app.scss";
 
-
     .file-item {
         display: flex;
         align-items: center;
-        padding: 8px 15px;
+        padding: 10px 15px;
         @include transition(150ms);
         cursor: pointer;
 
@@ -85,7 +84,7 @@ export default {
             .item-size,
             .item-length {
                 @include font-size(11);
-                font-weight: 100;
+                font-weight: 400;
                 color: $text-muted;
                 display: block;
             }

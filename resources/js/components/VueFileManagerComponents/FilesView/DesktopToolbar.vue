@@ -150,7 +150,7 @@
         vertical-align: middle;
         @include font-size(17);
         color: $text;
-        font-weight: 600;
+        font-weight: 700;
         max-width: 220px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -168,7 +168,7 @@
 
         .back-directory-title {
             line-height: 1;
-            font-weight: 600;
+            font-weight: 700;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;

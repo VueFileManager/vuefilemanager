@@ -110,7 +110,7 @@
         transform: translateY(-50%) scale(1);
         margin: 0 auto;
         padding: 40px;
-        box-shadow: 0 7px 250px rgba(25, 54, 60, 0.2);
+        box-shadow: $light_mode_popup_shadow;
         border-radius: 8px;
         text-align: center;
         background: white;
@@ -160,7 +160,7 @@
     @media (prefers-color-scheme: dark) {
 
         .popup-wrapper {
-            background: $dark_mode_foreground;
+            background: $dark_mode_background;
         }
 
         .popup-content {

@@ -88,6 +88,7 @@
             &::placeholder {
                 color: $text;
                 @include font-size(14);
+                font-weight: 400;
             }
 
             &:focus {
