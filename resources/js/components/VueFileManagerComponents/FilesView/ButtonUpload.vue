@@ -35,7 +35,7 @@
 
     .button-base {
         @include font-size(16);
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
         transition: 0.15s all ease;
         border-radius: 8px;

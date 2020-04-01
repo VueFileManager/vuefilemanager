@@ -1,6 +1,3 @@
-import axios from 'axios'
-import { events } from '@/bus'
-
 const defaultState = {
 	currentView: 'files',
 	appSize: undefined,

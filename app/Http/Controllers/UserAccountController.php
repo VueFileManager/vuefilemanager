@@ -33,7 +33,6 @@ class UserAccountController extends Controller
             'user'           => $user->only(['name', 'email', 'avatar']),
             'favourites'     => $user->favourites->makeHidden(['pivot']),
             'latest_uploads' => $user->latest_uploads->makeHidden(['user_id', 'basename']),
-
             'storage' => [
                 'used'       => Metric::bytes($user->used_capacity)->format(),
                 'capacity'   => format_gigabytes(config('vuefilemanager.user_storage_capacity')),
@@ -57,7 +56,7 @@ class UserAccountController extends Controller
         return [
             [
                 'unique_id' => 0,
-                'name'      => 'Home',
+                'name'      => __('vuefilemanager.home'),
                 'location'  => 'base',
                 'folders'  => $folders,
             ]

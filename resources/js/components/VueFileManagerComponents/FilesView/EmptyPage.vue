@@ -2,16 +2,16 @@
     <div class="empty-page" v-if="isLoading || isEmpty">
         <div class="empty-state">
             <div class="text-content" v-if="isEmpty && !isLoading">
-                <h1 class="title">There is Nothing</h1>
+                <h1 class="title">{{ $t('empty_page.title') }}</h1>
                 <p v-if="! isTrash" class="description">
-                    Upload some files here easily via upload button
+                    {{ $t('empty_page.description') }}
                 </p>
                 <ButtonUpload
                         v-if="! isTrash"
                         @input.native="$uploadFiles(files)"
                         v-model="files"
                         button-style="theme"
-                >Upload File
+                >{{ $t('empty_page.call_to_action') }}
                 </ButtonUpload
                 >
             </div>
@@ -78,7 +78,7 @@
         .title {
             @include font-size(24);
             color: $text;
-            font-weight: 600;
+            font-weight: 700;
             margin: 0;
         }
 

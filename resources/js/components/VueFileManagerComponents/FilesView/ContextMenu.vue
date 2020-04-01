@@ -8,20 +8,20 @@
         <ul class="menu-options" id="menu-options-list" ref="list" @click="closeAndResetContextMenu">
 
             <!--View-->
-            <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && item.type === 'folder'">{{ isInFavourites ? 'Remove Favourite' : 'Add To Favourites' }}</li>
-            <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">Create Folder</li>
+            <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && item.type === 'folder'">{{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}</li>
+            <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">{{ $t('context_menu.create_folder') }}</li>
 
             <!--Edits-->
-            <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation() && item">Delete</li>
-            <li class="menu-option" @click="moveItem" v-if="! $isTrashLocation() && item">Move</li>
+            <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation() && item">{{ $t('context_menu.delete') }}</li>
+            <li class="menu-option" @click="moveItem" v-if="! $isTrashLocation() && item">{{ $t('context_menu.move') }}</li>
 
             <!--Trash-->
-            <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item && $isTrashLocation()">Restore</li>
-            <li class="menu-option" @click="$store.dispatch('emptyTrash')" v-if="$isTrashLocation()">Empty Trash</li>
+            <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item && $isTrashLocation()">{{ $t('context_menu.restore') }}</li>
+            <li class="menu-option" @click="$store.dispatch('emptyTrash')" v-if="$isTrashLocation()">{{ $t('context_menu.empty_trash') }}</li>
 
             <!--Others-->
-            <li class="menu-option" @click="ItemDetail" v-if="item">Detail</li>
-            <li class="menu-option" @click="downloadItem" v-if="isFile || isImage">Download</li>
+            <li class="menu-option" @click="ItemDetail" v-if="item">{{ $t('context_menu.detail') }}</li>
+            <li class="menu-option" @click="downloadItem" v-if="isFile || isImage">{{ $t('context_menu.download') }}</li>
         </ul>
     </div>
 </template>
@@ -84,7 +84,7 @@
             },
             createFolder() {
                 // Create folder
-                this.$createFolder('New Folder')
+                this.$createFolder(this.$t('popup_create_folder.folder_default_name'))
             },
             closeAndResetContextMenu() {
                 // Close context menu
@@ -141,8 +141,7 @@
     @import "@assets/app.scss";
 
     .contextmenu {
-        max-width: 190px;
-        width: 190px;
+        min-width: 190px;
         position: absolute;
         z-index: 99;
         box-shadow: $shadow;
@@ -161,6 +160,7 @@
             padding: 0;
 
             .menu-option {
+                white-space: nowrap;
                 font-weight: 700;
                 @include font-size(15);
                 padding: 15px 30px;

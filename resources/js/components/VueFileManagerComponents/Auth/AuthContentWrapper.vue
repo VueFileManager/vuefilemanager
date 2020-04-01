@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
     export default {
         name: 'AuthContentWrapper',
     }
@@ -18,8 +17,5 @@
         height: 100%;
         width: 100%;
         display: table;
-        //display: flex;
-        //align-items: center;
-        //justify-content: center;
     }
 </style>

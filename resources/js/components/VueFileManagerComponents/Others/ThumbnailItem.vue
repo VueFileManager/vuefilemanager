@@ -24,7 +24,7 @@
             <span class="name">{{ file.name }}</span>
 
             <!--Other attributes-->
-            <span class="subtitle">Original Location: {{ currentFolder.name }}</span>
+            <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ currentFolder.name }}</span>
         </div>
     </div>
 </template>
@@ -45,11 +45,6 @@
             },
             isImage() {
                 return this.file.type === 'image'
-            }
-        },
-        filters: {
-            pluralize(word, amount) {
-                return amount > 1 ? word + 's' : word
             }
         },
     }

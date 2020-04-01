@@ -41,9 +41,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -57,9 +56,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -77,9 +75,8 @@ const actions = {
 
                     // Show error message
                     events.$emit('alert:open', {
-                        title: 'Whooops, something went wrong :(',
-                        message:
-                            "Something went wrong and we can't continue. Please contact us."
+                        title: this.$t('popup_error.title'),
+                        message: this.$t('popup_error.message'),
                     })
                 })
         })

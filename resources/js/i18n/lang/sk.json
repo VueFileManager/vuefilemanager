@@ -1,0 +1,165 @@
+{
+    "routes": {
+        "create_new_password": "vytvorit-nove-heslo"
+    },
+    "profile": {
+        "page_title": "Uživateľský profil",
+        "store_pass": "Uložiť nové heslo",
+        "change_pass": "Zmeniť heslo",
+        "profile_info": "Profil",
+        "photo_description": "Zmeň svoj avatar",
+        "photo_supported": "Podporované formáty sú .png, .jpg, .jpeg."
+    },
+    "page_registration": {
+        "title": "Vytvorenie nového účtu",
+        "subtitle": "Prosím, vyplňte formulár pre vytvorenie nového účtu:",
+        "label_email": "Email:",
+        "placeholder_email": "Napíš svoj E-mail",
+        "label_name": "Celé meno:",
+        "placeholder_name": "Napíš svoje celé meno",
+        "label_pass": "Vytvorte heslo:",
+        "placeholder_pass": "Vaše nové heslo",
+        "label_confirm_pass": "Potvrďte heslo:",
+        "placeholder_confirm_pass": "Potvrďte nové heslo",
+        "button_create_account": "Vytvoriť účet",
+        "have_an_account": "Máš už účet?"
+    },
+    "page_create_password": {
+        "title": "Iba jeden krok pre prihlásenie",
+        "subtitle": "Vytvorte si nové heslo tu:",
+        "button_update": "Aktualizovať heslo",
+        "label_email": "Email:",
+        "label_new_pass": "Vaše nové heslo",
+        "label_confirm_pass": "Potvrďte nové heslo"
+    },
+    "page_forgotten_password": {
+        "title": "Zabudnuté heslo?",
+        "subtitle": "Získajte resetovací link pre Váš účet:",
+        "button_get_link": "Získať link",
+        "password_remember_text": "Pamätáte si heslo?",
+        "password_remember_button": "Prihlásiť sa.",
+        "pass_sennded_title": "Ďakujeme!",
+        "pass_sennded_subtitle": "Práve sme Vám odoslali link na Váš email!",
+        "pass_reseted_title": "Skvelé!",
+        "pass_reseted_subtitle": "Tvoje heslo bolo obnovené úspešne.",
+        "pass_reseted_signin": "Prihlásiť sa"
+    },
+    "page_sign_in": {
+        "title": "Voláte sa {name}?",
+        "subtitle": "Potvrďte zadaním hesla:",
+        "placeholder_password": "Napíšte svoje heslo",
+        "button_log_in": "Prihlásiť sa",
+        "password_reset_text": "Zabudli ste heslo?",
+        "password_reset_button": "Resetovať heslo."
+    },
+    "page_login": {
+        "title": "Vitaj späť!",
+        "subtitle": "Prosím, vložte svoj email pre prihlásenie:",
+        "placeholder_email": "Napíšte svoj E-mail",
+        "button_next": "Ďalší krok",
+        "registration_text": "Ešte nemáte účet?",
+        "registration_button": "Vytvoriť účet."
+    },
+    "uploading": {
+        "progress": "Nahrávam súbory {current}/{total}"
+    },
+    "inputs": {
+        "placeholder_search_files": "Hľadajte súbory…"
+    },
+    "messages": {
+        "nothing_to_preview": "Tu nie je nič pre zobrazenie.",
+        "nothing_was_found": "Nič sa nenašlo"
+    },
+    "locations": {
+        "home": "Domov",
+        "trash": "Kôš"
+    },
+    "file_detail": {
+        "created_at": "Vytvorené",
+        "where": "Umiestnenie",
+        "size": "Veľkosť"
+    },
+    "empty_page": {
+        "description": "Nahrajte súbory jednoducho cez tlačidlo nahrať",
+        "call_to_action": "Nahrať súbory",
+        "title": "Tu nie je nič"
+    },
+    "alerts": {
+        "error_confirm": "To je hrozné!",
+        "success_confirm": "Skvelé!"
+    },
+    "validation_errors": {
+        "wrong_image": "Zrejme ste vložili zlý obrázok, skúste to znova!",
+        "incorrect_password": "Prepáč, vložili ste nesprávne heslo :("
+    },
+    "pronouns": {
+        "of": "z"
+    },
+    "storage": {
+        "used": "{used} z {capacity} Použité",
+        "title": "Úložisko"
+    },
+    "folder": {
+        "item_counts": "{count} Položka | {count} Položky",
+        "empty": "Prázdne"
+    },
+    "item_thumbnail": {
+        "original_location": "Pôvodné umiestnenie",
+        "deleted_at": "Vymazané {time}"
+    },
+    "preview_type": {
+        "list": "List",
+        "grid": "Mriežka"
+    },
+    "context_menu": {
+        "remove_from_favourites": "Vymazať obľúbené",
+        "add_to_favourites": "Pridať do obľúbených",
+        "profile_settings": "Nastavenia profilu",
+        "create_folder": "Vytvoriť priečinok",
+        "empty_trash": "Vyprázdniť kôš",
+        "add_folder": "Nový priečinok",
+        "download": "Stiahnúť",
+        "log_out": "Odhlásiť sa",
+        "restore": "Obnoviť",
+        "upload": "Nahrať",
+        "detail": "Detail",
+        "rename": "Premenovať",
+        "delete": "Vymazať",
+        "move": "Presunúť"
+    },
+    "sidebar": {
+        "locations": "Umiestnenie",
+        "favourites": "Obľúbené",
+        "favourites_empty": "Presuňte sem svoj obľúbený priečinok.",
+        "latest": "Posledne nahrané",
+        "latest_empty": "Nemáte žiadne nahrané súbory"
+    },
+    "popup_rename": {
+        "title": "Zmeňte názov položky"
+    },
+    "popup_create_folder": {
+        "title": "Prosím, vložte názov nového priečinka",
+        "folder_default_name": "Nový priečinok"
+    },
+    "popup_move_item": {
+        "submit": "Presunúť položku",
+        "title": "Presuňte položku",
+        "cancel": "Zrušiť"
+    },
+    "popup_pass_changed": {
+        "title": "Tvoje heslo bolo zmenené!",
+        "message": "Od teraz máte nové heslo."
+    },
+    "popup_trashed": {
+        "title": "Váš kôš bol vymazaný!",
+        "message": "Od teraz máte prázdny a čistý kôš"
+    },
+    "popup_error": {
+        "title": "Ups, niekde nastala chyba!",
+        "message": "Niečo sa stalo a nemôžme pokračovať. Prosím kontaktuj nás."
+    },
+    "popup_exceed_limit": {
+        "title": "Ups, presiahli ste limit úložiska",
+        "message": "Prosím, kontaktujte administrátora pre navyšenie limitu."
+    }
+}

@@ -5,7 +5,7 @@
                 class="query"
                 type="text"
                 name="query"
-                placeholder="Search files…"
+                :placeholder="$t('inputs.placeholder_search_files')"
         />
         <div class="icon" v-if="!isQuery">
             <FontAwesomeIcon icon="search"></FontAwesomeIcon>

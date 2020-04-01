@@ -1,10 +1,10 @@
 <template>
     <div id="mobile-actions-wrapper">
         <div class="mobile-actions">
-            <MobileActionButton v-if="! $isTrashLocation()" @click.native="createFolder" icon="folder-plus" text="Add Folder"></MobileActionButton>
-            <MobileActionButtonUpload v-if="! $isTrashLocation()" @input.native="$uploadFiles" icon="upload" text="Upload"></MobileActionButtonUpload>
+            <MobileActionButton v-if="! $isTrashLocation()" @click.native="createFolder" icon="folder-plus" :text="$t('context_menu.add_folder')"></MobileActionButton>
+            <MobileActionButtonUpload v-if="! $isTrashLocation()" @input.native="$uploadFiles" icon="upload" :text="$t('context_menu.upload')"></MobileActionButtonUpload>
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon" :text="previewText"></MobileActionButton>
-            <MobileActionButton  v-if="$isTrashLocation()" @click.native="$store.dispatch('emptyTrash')" icon="trash-alt" text="Empty Trash"></MobileActionButton>
+            <MobileActionButton  v-if="$isTrashLocation()" @click.native="$store.dispatch('emptyTrash')" icon="trash-alt" :text="$t('context_menu.empty_trash')"></MobileActionButton>
         </div>
         <UploadProgress />
     </div>
@@ -31,7 +31,7 @@
                 return this.preview_type === 'list' ? 'th' : 'th-list'
             },
             previewText() {
-                return this.preview_type === 'list' ? 'Grid' : 'List'
+                return this.preview_type === 'list' ? this.$t('preview_type.grid') : this.$t('preview_type.list')
             }
         },
         methods: {
@@ -40,13 +40,14 @@
             },
             createFolder() {
                 if (this.$isMobile()) {
-                    let folderName = prompt('Please enter your new folder name')
+                    // Get folder name
+                    let folderName = prompt(this.$t('popup_create_folder.title'))
 
                     // Create folder
                     if (folderName) this.$createFolder(folderName)
                 } else {
                     // Create folder
-                    this.$createFolder('New Folder')
+                    this.$createFolder(this.$t('popup_create_folder.folder_default_name'))
                 }
             },
         }

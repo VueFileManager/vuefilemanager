@@ -9,11 +9,11 @@
 
                 <!--Locations-->
                 <div class="menu-list-wrapper">
-                    <TextLabel>Locations</TextLabel>
+                    <TextLabel>{{ $t('sidebar.locations') }}</TextLabel>
                     <ul class="menu-list">
                         <li class="menu-list-item" @click="goHome">
                             <FontAwesomeIcon class="icon" icon="hdd"/>
-                            <span class="label">Home</span>
+                            <span class="label">{{ $t('locations.home') }}</span>
                         </li>
                         <!--<li class="menu-list-item">
                             <FontAwesomeIcon class="icon" icon="share"/>
@@ -21,7 +21,7 @@
                         </li>-->
                         <li class="menu-list-item" @click="getTrash">
                             <FontAwesomeIcon class="icon" icon="trash-alt"/>
-                            <span class="label">Trash</span>
+                            <span class="label">{{ $t('locations.trash') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -33,10 +33,10 @@
                      @drop="dragFinish($event)"
                      :class="{ 'is-dragenter': area }"
                 >
-                    <TextLabel>Favourites</TextLabel>
+                    <TextLabel>{{ $t('sidebar.favourites') }}</TextLabel>
                     <transition-group tag="ul" class="menu-list" name="folder-item">
-                        <li class="empty-list" v-if="app.favourites.length == 0" :key="0">Drag here your favourite
-                            folder.
+                        <li class="empty-list" v-if="app.favourites.length == 0" :key="0">
+                            {{ $t('sidebar.favourites_empty') }}
                         </li>
 
                         <li @click.stop="openFolder(folder)" class="menu-list-item" v-for="folder in app.favourites"
@@ -52,9 +52,9 @@
 
                 <!--Last Uploads-->
                 <div class="menu-list-wrapper">
-                    <TextLabel>Last Uploads</TextLabel>
+                    <TextLabel>{{ $t('sidebar.latest') }}</TextLabel>
 
-                    <p class="empty-list" v-if="app.latest_uploads.length == 0">You don't have any latest uploads.</p>
+                    <p class="empty-list" v-if="app.latest_uploads.length == 0">{{ $t('sidebar.latest_empty') }}</p>
 
                     <FileListItemThumbnail @dblclick.native="downloadFile(item)" @click.native="showFileDetail(item)" :file="item" v-for="item in app.latest_uploads" :key="item.unique_id"/>
                 </div>
@@ -64,7 +64,7 @@
             <StorageSize v-if="config.storageLimit"/>
 
             <div v-if="isSmallAppSize" class="log-out-button">
-                <ButtonBase @click.native="$store.dispatch('logOut')" button-style="danger">Log Out</ButtonBase>
+                <ButtonBase @click.native="$store.dispatch('logOut')" button-style="danger">{{ $t('context_menu.log_out') }}</ButtonBase>
             </div>
         </div>
     </transition>
@@ -176,8 +176,8 @@
 
     #sidebar {
         position: relative;
-        flex: 0 0 295px;
-        border-right: 1px solid $light_mode_border;
+        flex: 0 0 265px;
+        background: $light_background;
     }
 
     .content-scroller {
@@ -287,7 +287,7 @@
                         width: 20px;
 
                         path {
-                            fill: $text;
+                            fill: $theme;
                         }
                     }
 
@@ -377,8 +377,9 @@
     }
 
     @media (prefers-color-scheme: dark) {
+
         #sidebar {
-            border-color: $dark_mode_border_color;
+            background: $dark_mode_foreground;
         }
 
         .menu-list-wrapper {
@@ -400,26 +401,11 @@
                     background: rgba($theme, .1);
                 }
             }
-
-            &.favourites {
-                .menu-list .menu-list-item {
-
-                    .icon {
-
-                        path {
-                            fill: lighten($dark_mode_foreground, 10%);
-                        }
-                    }
-                }
-            }
-
-
         }
     }
 
     @media (prefers-color-scheme: dark) and (max-width: 690px) {
         #sidebar {
-            border-color: $dark_mode_background;
             background: $dark_mode_background;
         }
     }

@@ -5,7 +5,7 @@
 
                 <!--Title-->
                 <div class="popup-header">
-                    <h1 class="title">Move Item</h1>
+                    <h1 class="title">{{ $t('popup_move_item.title') }}</h1>
                     <!--<p v-if="message" class="message">{{ message }}</p>-->
                 </div>
 
@@ -24,13 +24,13 @@
                             class="popup-button"
                             @click.native="closePopup"
                             button-style="secondary"
-                    >Cancel
+                    >{{ $t('popup_move_item.cancel') }}
                     </ButtonBase>
                     <ButtonBase
                             class="popup-button"
                             @click.native="moveItem"
                             :button-style="selectedFolder ? 'theme' : 'secondary'"
-                    >Move
+                    >{{ $t('popup_move_item.submit') }}
                     </ButtonBase>
                 </div>
             </div>

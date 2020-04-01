@@ -48,7 +48,7 @@
                     // Update user avatar
                     this.$updateImage('/user/profile', 'avatar', event.target.files[0])
                 } else {
-                    alert('You may have uploaded the wrong file, try again!')
+                    alert( this.$t('validation_errors.wrong_image') )
                 }
             }
         },

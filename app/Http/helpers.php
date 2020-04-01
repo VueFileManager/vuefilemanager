@@ -1,6 +1,7 @@
 <?php
 
 use ByteUnits\Metric;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -54,7 +55,6 @@ function check_directory($directory)
  */
 function make_single_input($request)
 {
-
     // Create container
     $data = [];
 
@@ -157,4 +157,18 @@ function filter_folders_ids($folders)
     $folder_unique_ids = recursiveFind($folders->toArray(), 'unique_id');
 
     return appeared_once($folder_unique_ids);
+}
+
+/**
+ * Format localized date
+ *
+ * @param $date
+ * @param string $format
+ * @return string
+ */
+function format_date($date, $format = '%d. %B. %Y, %H:%M')
+{
+    $start = Carbon::parse($date);
+
+    return $start->formatLocalized($format);
 }

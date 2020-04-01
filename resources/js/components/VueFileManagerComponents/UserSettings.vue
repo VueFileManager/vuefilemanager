@@ -1,7 +1,7 @@
 <template>
     <div id="user-settings">
 
-        <PageHeader title="User Profile" />
+        <PageHeader :title="$t('profile.page_title')" />
 
         <div class="content-page">
             <div class="avatar-upload">
@@ -10,27 +10,27 @@
                         :avatar="app.user.avatar"
                 />
                 <div class="info">
-                    <span class="description">Change Your Profile Picture</span>
-                    <span class="supported">Supported formats are .png, .jpg, .jpeg.</span>
+                    <span class="description">{{ $t('profile.photo_description') }}</span>
+                    <span class="supported">{{ $t('profile.photo_supported') }}</span>
                 </div>
             </div>
 
             <ValidationObserver ref="account" v-slot="{ invalid }" tag="form" class="form block-form">
 
-                <ThemeLabel>Profile Information</ThemeLabel>
+                <ThemeLabel>{{ $t('profile.profile_info') }}</ThemeLabel>
                 <div class="block-wrapper">
-                    <label>Email:</label>
+                    <label>{{ $t('page_registration.label_email') }}</label>
                     <div class="input-wrapper">
-                        <input :value="app.user.email" placeholder="Type your E-mail" type="email" disabled/>
+                        <input :value="app.user.email" :placeholder="$t('page_registration.placeholder_email')" type="email" disabled/>
                     </div>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Full Name:</label>
+                    <label>{{ $t('page_registration.label_name') }}</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
                                         v-slot="{ errors }">
                         <input @keyup="$updateText('/user/profile', 'name', name)" v-model="name"
-                               placeholder="Type your full name" type="text"
+                               :placeholder="$t('page_registration.placeholder_name')" type="text"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -40,23 +40,23 @@
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
 
-                <ThemeLabel>Change Password</ThemeLabel>
+                <ThemeLabel>{{ $t('profile.change_pass') }}</ThemeLabel>
 
                 <div class="block-wrapper">
-                    <label>Your Password:</label>
+                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="newPassword" placeholder="New Password" type="password"
+                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')" type="password"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Repeat Your Password:</label>
+                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="newPasswordConfirmation" placeholder="Confirm your new password" type="password"
+                        <input v-model="newPasswordConfirmation" :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -64,7 +64,7 @@
 
                 <div class="block-wrapper">
                     <ButtonBase type="submit" button-style="theme" class="confirm-form">
-                        Store New Password
+                        {{ $t('profile.store_pass') }}
                     </ButtonBase>
                 </div>
             </ValidationObserver>
@@ -138,8 +138,8 @@
 
                         // Show error message
                         events.$emit('success:open', {
-                            title: 'Your password was changed!',
-                            message: 'So now, you have awesome new password.',
+                            title: this.$t('popup_pass_changed.title'),
+                            message: this.$t('popup_pass_changed.message'),
                         })
                     })
                     .catch(error => {

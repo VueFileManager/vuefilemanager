@@ -4,23 +4,23 @@
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="false">
             <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Welcome Back!</h1>
-            <h2>Please type your email to log in:</h2>
+            <h1>{{ $t('page_login.title') }}</h1>
+            <h2>{{ $t('page_login.subtitle') }}</h2>
 
             <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
-                    <input v-model="loginEmail" placeholder="Type your E-mail" type="email"
+                    <input v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
                            :class="{'is-error': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton icon="chevron-right" text="Next Step" :loading="isLoading" :disabled="isLoading"/>
+                <AuthButton icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span v-if="config.userRegistration" class="additional-link">Don’t have an account? <b
-                    @click="goToAuthPage('sign-up')">Register account.</b></span>
+            <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }} <b
+                    @click="goToAuthPage('sign-up')">{{ $t('page_login.registration_button') }}</b></span>
         </AuthContent>
 
         <!--Log in By Password-->
@@ -28,166 +28,166 @@
 
             <div class="user" v-if="checkedAccount">
                 <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
-                <h1>Are You {{ checkedAccount.name }}?</h1>
-                <h2>Confirm you by your password:</h2>
+                <h1>{{ $t('page_sign_in.title', {name: checkedAccount.name}) }}</h1>
+                <h2>{{ $t('page_sign_in.subtitle') }}</h2>
             </div>
 
             <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="User Password" rules="required"
                                     v-slot="{ errors }">
-                    <input v-model="loginPassword" placeholder="Type your password" type="password"
+                    <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')" type="password"
                            :class="{'is-error': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton icon="chevron-right" text="Log In" :loading="isLoading" :disabled="isLoading"/>
+                <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span class="additional-link">Forgotten your password? <b @click="goToAuthPage('forgotten-password')">Reset Password.</b></span>
+            <span class="additional-link">{{ $t('page_sign_in.password_reset_text') }} <b @click="goToAuthPage('forgotten-password')">{{ $t('page_sign_in.password_reset_button') }}</b></span>
         </AuthContent>
 
         <!--Forgotten your password?-->
         <AuthContent name="forgotten-password" :visible="false">
             <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Forgotten Password?</h1>
-            <h2>Get reset link with your email:</h2>
+            <h1>{{ $t('page_forgotten_password.title') }}</h1>
+            <h2>{{ $t('page_forgotten_password.subtitle') }}</h2>
 
             <ValidationObserver @submit.prevent="forgottenPassword" ref="forgotten_password" v-slot="{ invalid }"
                                 tag="form" class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
-                    <input v-model="recoverEmail" placeholder="Type your E-mail" type="email"
+                    <input v-model="recoverEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
                            :class="{'is-error': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton icon="chevron-right" text="Get Link" :loading="isLoading" :disabled="isLoading"/>
+                <AuthButton icon="chevron-right" :text="$t('page_forgotten_password.button_get_link')" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span class="additional-link">Remember your password? <b @click="goToAuthPage('log-in')">Log In.</b></span>
+            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
         </AuthContent>
 
         <!--Create new password-->
         <AuthContent name="create-new-password" :visible="false">
             <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Only One Step to Log In</h1>
-            <h2>Create your new password here:</h2>
+            <h1>{{ $t('page_create_password.title') }}</h1>
+            <h2>{{ $t('page_create_password.subtitle') }}</h2>
 
             <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }"
                                 tag="form" class="form block-form create-new-password">
 
                 <div class="block-wrapper">
-                    <label>Email:</label>
+                    <label>{{ $t('page_create_password.label_email') }}</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
-                        <input v-model="recoverPassword.email" placeholder="Type your E-mail" type="email"
+                        <input v-model="recoverPassword.email" :placeholder="$t('page_login.placeholder_email')" type="email"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Your new password:</label>
+                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="recoverPassword.newPassword" placeholder="Your new password" type="password"
+                        <input v-model="recoverPassword.newPassword" :placeholder="$t('page_create_password.label_new_pass')" type="password"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Confirm new password:</label>
+                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="recoverPassword.newPasswordConfirm" placeholder="Confirm new password"
+                        <input v-model="recoverPassword.newPasswordConfirm" :placeholder="$t('page_create_password.label_confirm_pass')"
                                type="password" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div>
-                    <AuthButton icon="chevron-right" text="Update Password" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton icon="chevron-right" :text="$t('page_create_password.button_update')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
 
-            <span class="additional-link">Remember your password? <b @click="goToAuthPage('log-in')">Log In.</b></span>
+            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
         </AuthContent>
 
         <!--Registration-->
         <AuthContent name="sign-up" :visible="false">
             <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Create New Account</h1>
-            <h2>Please fill registration to create account:</h2>
+            <h1>{{ $t('page_registration.title') }}</h1>
+            <h2>{{ $t('page_registration.subtitle') }}</h2>
 
             <ValidationObserver @submit.prevent="signUp" ref="sign_up" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
 
                 <div class="block-wrapper">
-                    <label>Email:</label>
+                    <label>{{ $t('page_registration.label_email') }}</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
-                        <input v-model="register.email" placeholder="Type your E-mail" type="email"
+                        <input v-model="register.email" :placeholder="$t('page_registration.placeholder_email')" type="email"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Full Name:</label>
+                    <label>{{ $t('page_registration.label_name') }}</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
                                         v-slot="{ errors }">
-                        <input v-model="register.name" placeholder="Type your full name" type="text"
+                        <input v-model="register.name" :placeholder="$t('page_registration.placeholder_name')" type="text"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Create password:</label>
+                    <label>{{ $t('page_registration.label_pass') }}</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Your New Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="register.password" placeholder="Your new password" type="password"
+                        <input v-model="register.password" :placeholder="$t('page_registration.placeholder_pass')" type="password"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Confirm password:</label>
+                    <label>{{ $t('page_registration.label_confirm_pass') }}</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="register.password_confirmation" placeholder="Confirm your new password"
+                        <input v-model="register.password_confirmation" :placeholder="$t('page_registration.placeholder_confirm_pass')"
                                type="password" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div>
-                    <AuthButton icon="chevron-right" text="Create Account" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
 
-            <span class="additional-link">Do you have an account? <b @click="goToAuthPage('log-in')">Log In.</b></span>
+            <span class="additional-link">{{ $t('page_registration.have_an_account') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
         </AuthContent>
 
         <!--Password reset link sended-->
         <AuthContent name="password-reset-link-sended" :visible="false">
             <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Thank you!</h1>
-            <h2>We have e-mailed your password reset link!</h2>
+            <h1>{{ $t('page_forgotten_password.pass_sennded_title') }}</h1>
+            <h2>{{ $t('page_forgotten_password.pass_sennded_subtitle') }}</h2>
 
-            <span class="additional-link">Remember your password? <b @click="goToAuthPage('log-in')">Log In.</b></span>
+            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
         </AuthContent>
 
         <!--Password reset successfully-->
         <AuthContent name="password-reset-successfully" :visible="false">
             <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Awesome!</h1>
-            <h2>Your password was reset successfully.</h2>
+            <h1>{{ $t('page_forgotten_password.pass_reseted_title') }}</h1>
+            <h2>{{ $t('page_forgotten_password.pass_reseted_subtitle') }}</h2>
 
-            <AuthButton icon="chevron-right" @click.native="goToAuthPage('log-in')" text="Sign In"/>
+            <AuthButton icon="chevron-right" @click.native="goToAuthPage('log-in')" :text="$t('page_forgotten_password.pass_reseted_signin')"/>
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -320,7 +320,7 @@
                         if (error.response.status == 400) {
 
                             this.$refs.sign_in.setErrors({
-                                'User Password': ['Sorry, you passed incorrect password :(']
+                                'User Password': [this.$t('validation_errors.incorrect_password')]
                             });
                         }
 
@@ -460,7 +460,7 @@
             let pathname = location.pathname.split('/')[1]
             let token = location.search.split('token=')[1]
 
-            if (pathname === 'create-new-password') {
+            if (pathname === this.$t('routes.create_new_password')) {
                 this.recoverPassword.token = token
                 this.goToAuthPage('create-new-password')
             } else {

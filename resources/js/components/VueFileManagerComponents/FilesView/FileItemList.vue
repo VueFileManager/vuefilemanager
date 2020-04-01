@@ -6,7 +6,7 @@
     >
         <!--List preview-->
         <div
-                draggable="true"
+                :draggable="! isDeleted"
                 @dragstart="$emit('dragstart')"
                 @drop="
 				$emit('drop')
@@ -53,7 +53,7 @@
                 <span v-if="isFile || isImage" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
 
                 <span v-if="isFolder" class="item-length">
-					{{ folderItems == 0 ? 'Empty' : (folderItems + ' Item') | pluralize(folderItems) }}, {{ timeStamp }}
+					{{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
 				</span>
             </div>
 
@@ -87,7 +87,7 @@
                 return this.data.type === 'image'
             },
             timeStamp() {
-                return this.data.deleted_at ? 'Deleted ' + this.data.deleted_at : this.data.created_at
+                return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.data.deleted_at}) : this.data.created_at
             },
             folderItems() {
                 return this.data.deleted_at ? this.data.trashed_items : this.data.items
@@ -97,9 +97,6 @@
             }
         },
         filters: {
-            pluralize(word, amount) {
-                return amount > 1 ? word + 's' : word
-            },
             limitCharacters(str) {
 
                 if (str.length > 3) {

@@ -408,8 +408,10 @@ class FileManagerController extends Controller
     public function upload_item(Request $request)
     {
         // Check if user can upload
-        if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100)
+        if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100) {
+
             abort(423, 'You exceed your storage limit!');
+        }
 
         // Validate request
         $validator = Validator::make($request->all(), [

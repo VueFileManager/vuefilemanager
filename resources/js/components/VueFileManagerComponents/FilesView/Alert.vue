@@ -54,7 +54,7 @@
                 this.title = args.title
                 this.message = args.message
 
-                this.button = 'That’s horrible!'
+                this.button = this.$t('alerts.error_confirm')
                 this.emoji = '😢😢😢'
                 this.buttonStyle = 'danger'
 
@@ -70,7 +70,7 @@
                 this.title = args.title
                 this.message = args.message
 
-                this.button = 'Awesome!'
+                this.button = this.$t('alerts.success_confirm')
                 this.emoji = '🥳🥳🥳'
                 this.buttonStyle = 'theme'
 

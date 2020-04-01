@@ -79,7 +79,7 @@ class FileManagerFolder extends Model
      */
     public function getCreatedAtAttribute()
     {
-        return Carbon::create($this->attributes['created_at'])->format('j M Y \a\t H:i');
+        return format_date($this->attributes['created_at'], __('vuefilemanager.time'));
     }
 
     /**
@@ -91,7 +91,7 @@ class FileManagerFolder extends Model
     {
         if (! $this->attributes['deleted_at']) return null;
 
-        return Carbon::create($this->attributes['deleted_at'])->format('j M Y \a\t H:i');
+        return format_date($this->attributes['deleted_at'], __('vuefilemanager.time'));
     }
 
     /**

@@ -41,22 +41,23 @@
         <ul class="list-info">
             <!--Filesize-->
             <li v-if="fileInfoDetail.filesize" class="list-info-item">
-                <b>Size</b>
+                <b>{{ $t('file_detail.size') }}</b>
                 <span>{{ fileInfoDetail.filesize }}</span>
             </li>
 
             <!--Latest change-->
             <li v-if="fileInfoDetail.created_at" class="list-info-item">
-                <b>Created at</b>
+                <b>{{ $t('file_detail.created_at') }}</b>
                 <span>{{ fileInfoDetail.created_at }}</span>
             </li>
 
             <!--Parent-->
             <li class="list-info-item">
-                <b>Where</b>
-                <span>{{
-					fileInfoDetail.parent ? fileInfoDetail.parent.name : 'Home'
-				}}</span>
+                <b>{{ $t('file_detail.where') }}</b>
+                <div class="action-button" @click="moveItem">
+                    <FontAwesomeIcon class="icon" icon="pencil-alt" />
+                    <span>{{ fileInfoDetail.parent ? fileInfoDetail.parent.name : $t('locations.home') }}</span>
+                </div>
             </li>
         </ul>
     </div>
@@ -65,6 +66,7 @@
 <script>
     import {mapGetters} from 'vuex'
     import {debounce} from 'lodash'
+    import {events} from "@/bus"
 
     export default {
         name: 'FilesInfoPanel',
@@ -72,6 +74,10 @@
             ...mapGetters(['fileInfoDetail'])
         },
         methods: {
+            moveItem() {
+                // Move item fire popup
+                events.$emit('popup:move-item', this.fileInfoDetail);
+            },
             getItemAction() {
                 // Open image on new tab
                 if (this.fileInfoDetail.type == 'image') {
@@ -91,7 +97,6 @@
                 // Open folder
                 if (this.fileInfoDetail.type == 'folder') {
                     // Todo: open folder
-                    console.log('Open folder')
                 }
             },
             changeItemName: debounce(function (e) {
@@ -197,6 +202,16 @@
                 padding-top: 0;
             }
 
+            .action-button {
+                cursor: pointer;
+
+                .icon {
+                    @include font-size(11);
+                    display: inline-block;
+                    margin-right: 2px;
+                }
+            }
+
             b {
                 display: block;
                 @include font-size(13);
@@ -204,7 +219,7 @@
             }
 
             span {
-                display: block;
+                display: inline-block;
                 @include font-size(14);
                 font-weight: bold;
                 color: $text;

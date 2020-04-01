@@ -15,7 +15,7 @@
 
     .text-label {
         @include font-size(10);
-        color: $light_text;
+        color: $theme;
         text-transform: uppercase;
         font-weight: 900;
         display: block;

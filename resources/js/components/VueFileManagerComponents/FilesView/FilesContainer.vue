@@ -63,7 +63,7 @@
             <!--Show empty page if no search results-->
             <EmptyMessage
                     v-if="isSearching && isEmpty"
-                    message="Nothing was found."
+                    :message="$t('messages.nothing_was_found')"
                     icon="eye-slash"
             />
         </div>
@@ -79,7 +79,7 @@
             <!--If file info panel empty show message-->
             <EmptyMessage
                     v-if="!fileInfoDetail"
-                    message="There is nothing to preview."
+                    :message="$t('messages.nothing_to_preview')"
                     icon="eye-slash"
             />
         </div>

@@ -23,6 +23,7 @@
 
     <script>
         let config = {
+            locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
             app_name: '{{ config('vuefilemanager.app_name') }}',
             app_logo: '{{ asset(config('vuefilemanager.app_logo')) }}',
             api: '{{ url('/api') }}',

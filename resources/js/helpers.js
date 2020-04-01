@@ -19,9 +19,8 @@ const Helpers = {
 			axios.put(this.$store.getters.api + route, {name, value})
 				.catch(error => {
 					events.$emit('alert:open', {
-						title: 'Whooops, something went wrong :(',
-						message:
-							"Something went wrong and we can't continue. Please contact us."
+						title: this.$t('popup_error.title'),
+						message: this.$t('popup_error.message'),
 					})
 				})
 		}, 300)
@@ -42,9 +41,8 @@ const Helpers = {
 			})
 				.catch(error => {
 					events.$emit('alert:open', {
-						title: 'Whooops, something went wrong :(',
-						message:
-							"Something went wrong and we can't continue. Please contact us."
+						title: this.$t('popup_error.title'),
+						message: this.$t('popup_error.message'),
 					})
 				})
 		}
@@ -66,9 +64,8 @@ const Helpers = {
 			if (this.$store.getters.app.storage.percentage >= 100) {
 				events.$emit('alert:open', {
 					emoji: '😬😬😬',
-					title: 'Whooops, you exceed your storage limit :(',
-					message:
-						"Please contact your administrator to change your limit."
+					title: this.$t('popup_exceed_limit.title'),
+					message: this.$t('popup_exceed_limit.message')
 				})
 
 				return
@@ -117,18 +114,16 @@ const Helpers = {
 
 						events.$emit('alert:open', {
 							emoji: '😬😬😬',
-							title: 'Whooops, you exceed your storage limit :(',
-							message:
-								"Please contact your administrator to change your limit."
+							title: this.$t('popup_exceed_limit.title'),
+							message: this.$t('popup_exceed_limit.message')
 						})
 
 					} else {
 
 						// Show error message
 						events.$emit('alert:open', {
-							title: 'Whooops, something went wrong :(',
-							message:
-								"Something went wrong and we can't continue. Please contact us."
+							title: this.$t('popup_error.title'),
+							message: this.$t('popup_error.message'),
 						})
 					}
 				})
@@ -189,9 +184,8 @@ const Helpers = {
 		Vue.prototype.$isSomethingWrong = function() {
 
 			events.$emit('alert:open', {
-				title: 'Whooops, something went wrong :(',
-				message:
-					"Something went wrong and we can't continue. Please contact us."
+				title: this.$t('popup_error.title'),
+				message: this.$t('popup_error.message'),
 			})
 		}
 	}

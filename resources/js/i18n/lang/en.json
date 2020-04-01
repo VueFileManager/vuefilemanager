@@ -1,0 +1,165 @@
+{
+    "routes": {
+        "create_new_password": "create-new-password"
+    },
+    "profile": {
+        "page_title": "User Profile",
+        "store_pass": "Store New Password",
+        "change_pass": "Change Password",
+        "profile_info": "Profile Information",
+        "photo_description": "Change Your Profile Picture",
+        "photo_supported": "Supported formats are .png, .jpg, .jpeg."
+    },
+    "page_registration": {
+        "title": "Create New Account",
+        "subtitle": "Please fill registration to create account:",
+        "label_email": "Email:",
+        "placeholder_email": "Type your E-mail",
+        "label_name": "Full Name:",
+        "placeholder_name": "Type your full name",
+        "label_pass": "Create password:",
+        "placeholder_pass": "Your new password",
+        "label_confirm_pass": "Confirm password:",
+        "placeholder_confirm_pass": "Confirm your new password",
+        "button_create_account": "Create Account",
+        "have_an_account": "Do you have an account?"
+    },
+    "page_create_password": {
+        "title": "Only One Step to Log In",
+        "subtitle": "Create your new password here:",
+        "button_update": "Update Password",
+        "label_email": "Email:",
+        "label_new_pass": "Your new password",
+        "label_confirm_pass": "Confirm new password"
+    },
+    "page_forgotten_password": {
+        "title": "Forgotten Password?",
+        "subtitle": "Get reset link with your email:",
+        "button_get_link": "Get Link",
+        "password_remember_text": "Remember your password?",
+        "password_remember_button": "Log In.",
+        "pass_sennded_title": "Thank you!",
+        "pass_sennded_subtitle": "We have e-mailed your password reset link!",
+        "pass_reseted_title": "Awesome!",
+        "pass_reseted_subtitle": "Your password was reset successfully.",
+        "pass_reseted_signin": "Sign In"
+    },
+    "page_sign_in": {
+        "title": "Are You {name}?",
+        "subtitle": "Confirm you by your password:",
+        "placeholder_password": "Type your password",
+        "button_log_in": "Log In",
+        "password_reset_text": "Forgotten your password?",
+        "password_reset_button": "Reset Password."
+    },
+    "page_login": {
+        "title": "Welcome Back!",
+        "subtitle": "Please type your email to log in:",
+        "placeholder_email": "Type your E-mail",
+        "button_next": "Next Step",
+        "registration_text": "Don’t have an account?",
+        "registration_button": "Register account."
+    },
+    "uploading": {
+        "progress": "Uploading files {current}/{total}"
+    },
+    "inputs": {
+        "placeholder_search_files": "Search files…"
+    },
+    "messages": {
+        "nothing_to_preview": "There is nothing to preview.",
+        "nothing_was_found": "Nothing was found"
+    },
+    "locations": {
+        "home": "Home",
+        "trash": "Trash"
+    },
+    "file_detail": {
+        "created_at": "Created at",
+        "where": "Where",
+        "size": "Size"
+    },
+    "empty_page": {
+        "description": "Upload some files here easily via upload button",
+        "call_to_action": "Upload File",
+        "title": "There is Nothing"
+    },
+    "alerts": {
+        "error_confirm": "That’s horrible!",
+        "success_confirm": "Awesome!"
+    },
+    "validation_errors": {
+        "wrong_image": "You may have uploaded the wrong file, try again!",
+        "incorrect_password": "Sorry, you passed incorrect password :("
+    },
+    "pronouns": {
+        "of": "of"
+    },
+    "storage": {
+        "used": "{used} of {capacity} Used",
+        "title": "Storage"
+    },
+    "folder": {
+        "item_counts": "{count} Item | {count} Items",
+        "empty": "Empty"
+    },
+    "item_thumbnail": {
+        "original_location": "Original Location",
+        "deleted_at": "Deleted {time}"
+    },
+    "preview_type": {
+        "list": "List",
+        "grid": "Grid"
+    },
+    "context_menu": {
+        "remove_from_favourites": "Remove Favourite",
+        "add_to_favourites": "Add to Favourites",
+        "profile_settings": "Profile Settings",
+        "create_folder": "Create Folder",
+        "empty_trash": "Empty Trash",
+        "add_folder": "Add Folder",
+        "download": "Download",
+        "log_out": "Log Out",
+        "restore": "Restore",
+        "upload": "Upload",
+        "detail": "Detail",
+        "rename": "Rename",
+        "delete": "Delete",
+        "move": "Move"
+    },
+    "sidebar": {
+        "locations": "Locations",
+        "favourites": "Favourites",
+        "favourites_empty": "Drag here your favourite folder.",
+        "latest": "Last Uploads",
+        "latest_empty": "You don't have any latest uploads."
+    },
+    "popup_rename": {
+        "title": "Change your item name"
+    },
+    "popup_create_folder": {
+        "title": "Please enter your new folder name",
+        "folder_default_name": "New Folder"
+    },
+    "popup_move_item": {
+        "submit": "Move Item",
+        "title": "Move Item",
+        "cancel": "Cancel"
+    },
+    "popup_pass_changed": {
+        "title": "Your password was changed!",
+        "message": "So now, you have awesome new password."
+    },
+    "popup_trashed": {
+        "title": "Your trash was erased!",
+        "message": "So now, you have clear and empty trash."
+    },
+    "popup_error": {
+        "title": "Whooops, something went wrong!",
+        "message": "Something went wrong and we can't continue. Please contact us."
+    },
+    "popup_exceed_limit": {
+        "title": "Whooops, you exceed your storage limit :(",
+        "message": "Please contact your administrator to change your limit."
+    }
+}

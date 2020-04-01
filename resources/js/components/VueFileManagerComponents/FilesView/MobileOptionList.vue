@@ -13,42 +13,42 @@
                             @click="addToFavourites"
                             v-if="! $isTrashLocation() && fileInfoDetail && fileInfoDetail.type === 'folder'"
                         >
-                            {{ isInFavourites ? 'Remove Favourite' : 'Add To Favourites' }}
+                            {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
                         </li>
 
                         <li class="menu-option"
                             @click="$store.dispatch('restoreItem', fileInfoDetail)"
                             v-if="fileInfoDetail && $isTrashLocation()"
                         >
-                            Restore
+                            {{ $t('context_menu.restore') }}
                         </li>
                         <li
                                 class="menu-option"
                                 @click="renameItem"
                                 v-if="fileInfoDetail"
                         >
-                            Rename
+                            {{ $t('context_menu.rename') }}
                         </li>
                         <li
                                 class="menu-option"
                                 @click="moveItem"
                                 v-if="fileInfoDetail"
                         >
-                            Move
+                            {{ $t('context_menu.move') }}
                         </li>
                         <li
                                 class="menu-option"
                                 @click="downloadItem"
                                 v-if="isFile || isImage"
                         >
-                            Download
+                            {{ $t('context_menu.download') }}
                         </li>
                         <li
                                 class="menu-option delete"
                                 @click="removeItem"
                                 v-if="fileInfoDetail"
                         >
-                            Delete
+                            {{ $t('context_menu.delete') }}
                         </li>
                     </ul>
                 </div>
@@ -121,7 +121,7 @@
             },
             renameItem() {
                 let itemName = prompt(
-                    'Change your item name',
+                    this.$t('popup_rename.title'),
                     this.fileInfoDetail.name
                 )
 

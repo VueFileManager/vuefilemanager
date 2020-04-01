@@ -2,11 +2,7 @@
     <transition name="info-panel">
         <div v-if="uploadingFilesCount" class="upload-progress">
             <div class="progress-title">
-				<span
-                >Uploading files {{ uploadingFilesCount.current }}/{{
-						uploadingFilesCount.total
-					}}</span
-                >
+				<span>{{ $t('uploading.progress', {current:uploadingFilesCount.current, total: uploadingFilesCount.total}) }}</span>
             </div>
             <ProgressBar :progress="uploadingFileProgress"/>
         </div>

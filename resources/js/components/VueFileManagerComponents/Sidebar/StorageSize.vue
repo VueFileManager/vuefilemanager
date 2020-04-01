@@ -1,8 +1,8 @@
 <template>
     <div class="storage-size" v-if="app">
         <div class="storage-info">
-            <span class="title">Storage</span>
-            <span class="size">{{ app.storage.used }} of {{ app.storage.capacity }} Used</span>
+            <span class="title">{{ $t('storage.title') }}</span>
+            <span class="size">{{ $t('storage.used', {used: app.storage.used, capacity: app.storage.capacity}) }}</span>
         </div>
         <ProgressBar :progress="app.storage.percentage" :class="{'is-exceeded': app.storage.percentage > 100}"/>
     </div>

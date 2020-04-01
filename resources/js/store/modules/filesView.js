@@ -62,9 +62,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -100,9 +99,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -112,7 +110,7 @@ const actions = {
 
         axios
             .delete(context.getters.api + '/empty-trash')
-            .then(response => {
+            .then(() => {
                 context.commit('LOADING_STATE', false)
                 events.$emit('scrollTop')
 
@@ -121,16 +119,15 @@ const actions = {
 
                 // Show error message
                 events.$emit('success:open', {
-                    title: 'Your trash was erased!',
-                    message: 'So now, you have clear and empty trash.',
+                    title: this.$t('popup_trashed.title'),
+                    message: this.$t('popup_trashed.message'),
                 })
             })
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -150,9 +147,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -169,9 +165,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -197,9 +192,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -225,9 +219,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -281,9 +274,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -303,9 +295,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -346,9 +337,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     },
@@ -370,9 +360,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: 'Whooops, something went wrong :(',
-                    message:
-                        "Something went wrong and we can't continue. Please contact us."
+                    title: this.$t('popup_error.title'),
+                    message: this.$t('popup_error.message'),
                 })
             })
     }

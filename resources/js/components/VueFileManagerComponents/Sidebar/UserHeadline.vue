@@ -12,8 +12,8 @@
         <transition name="user-menu">
             <div class="user-menu" v-if="isOpenedMenu">
                 <ul class="menu-options" id="menu-options-list" @click="closeMenu">
-                    <li class="menu-option" @click="$goToView('user-settings')">Profile Settings</li>
-                    <li class="menu-option" @click="$store.dispatch('logOut')">Log Out</li>
+                    <li class="menu-option" @click="$goToView('user-settings')">{{ $t('context_menu.profile_settings') }}</li>
+                    <li class="menu-option" @click="$store.dispatch('logOut')">{{ $t('context_menu.log_out') }}</li>
                 </ul>
             </div>
         </transition>
@@ -70,12 +70,14 @@
         left: 0;
         right: 0;
         margin: 15px;
+        padding: 5px;
         user-select: none;
         border-radius: 8px;
         display: flex;
         align-items: center;
         cursor: pointer;
         @include transition(150ms);
+        background: darken($light_background, 3%);
 
         &:active {
             transform: scale(0.95);
@@ -138,7 +140,7 @@
         border-radius: 8px;
 
         .menu-option {
-            font-weight: 600;
+            font-weight: 700;
             @include font-size(15);
             padding: 15px 30px;
             cursor: pointer;
@@ -157,17 +159,15 @@
         .user-headline {
             position: relative;
             margin-bottom: 40px;
+            background: transparent;
+            padding: 0;
         }
     }
 
     @media (prefers-color-scheme: dark) {
 
-        #sidebar {
-            background: $dark_mode_background;
-        }
-
         .user-headline {
-            background: transparent;
+            background: $dark_mode_background;
 
             &:hover {
                 background: transparent;
