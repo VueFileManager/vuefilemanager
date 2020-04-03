@@ -428,7 +428,7 @@ class FileManagerController extends Controller
 
         // File
         $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());
-        $filetype = 'file';
+        $filetype = get_file_type($file);
         $thumbnail = null;
         $filesize = $file->getSize();
         $directory = 'file-manager';
@@ -442,9 +442,8 @@ class FileManagerController extends Controller
         Storage::disk('local')->putFileAs($directory, $file, $filename, 'public');
 
         // Create image thumbnail
-        if (substr($file->getMimeType(), 0, 5) == 'image') {
+        if ( $filetype == 'image' ) {
 
-            $filetype = 'image';
             $thumbnail = 'thumbnail-' . $filename;
 
             // Create intervention image
@@ -562,6 +561,8 @@ class FileManagerController extends Controller
         $response->header("Content-Type", $type);
         $response->header("Content-Disposition", 'attachment; filename=' . $filename);
         $response->header("Content-Length", $size);
+        $response->header("Accept-Ranges", "bytes");
+        $response->header("Content-Range", "bytes 0-" . $size . "/" . $size);
 
         return $response;
     }

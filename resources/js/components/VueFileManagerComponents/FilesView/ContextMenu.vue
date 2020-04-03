@@ -8,7 +8,7 @@
         <ul class="menu-options" id="menu-options-list" ref="list" @click="closeAndResetContextMenu">
 
             <!--View-->
-            <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && item.type === 'folder'">{{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}</li>
+            <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && isFolder">{{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}</li>
             <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">{{ $t('context_menu.create_folder') }}</li>
 
             <!--Edits-->
@@ -21,7 +21,7 @@
 
             <!--Others-->
             <li class="menu-option" @click="ItemDetail" v-if="item">{{ $t('context_menu.detail') }}</li>
-            <li class="menu-option" @click="downloadItem" v-if="isFile || isImage">{{ $t('context_menu.download') }}</li>
+            <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">{{ $t('context_menu.download') }}</li>
         </ul>
     </div>
 </template>
@@ -34,11 +34,14 @@
         name: 'ContextMenu',
         computed: {
             ...mapGetters(['app']),
+            isFolder() {
+                return this.item && this.item.type === 'folder'
+            },
             isFile() {
-                return this.item && this.item.type === 'file' ? true : false
+                return (this.item && this.item.type !== 'folder') && (this.item && this.item.type !== 'image')
             },
             isImage() {
-                return this.item && this.item.type === 'image' ? true : false
+                return this.item && this.item.type === 'image'
             },
             isInFavourites() {
                 return this.app.favourites.find(el => el.unique_id == this.item.unique_id)

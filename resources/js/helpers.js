@@ -130,6 +130,79 @@ const Helpers = {
 			}
 		}
 
+		Vue.prototype.$uploadExternalFiles = async function(event, parent_id) {
+
+			// Prevent submit empty files
+			if (event.dataTransfer.items.length == 0) return
+
+			// Get files
+			const files = [...event.dataTransfer.items].map(item => item.getAsFile());
+
+			if (this.$store.getters.app.storage.percentage >= 100) {
+				events.$emit('alert:open', {
+					emoji: '😬😬😬',
+					title: this.$t('popup_exceed_limit.title'),
+					message: this.$t('popup_exceed_limit.message')
+				})
+
+				return
+			}
+			let fileCountSucceed = 1
+
+			store.commit('UPDATE_FILE_COUNT_PROGRESS', {
+				current: fileCountSucceed,
+				total: files.length
+			})
+
+			for (var i = files.length - 1; i >= 0; i--) {
+
+				let formData = new FormData()
+
+				// Append data
+				formData.append('file', files[i])
+
+				// Append form data
+				formData.append('parent_id', parent_id)
+
+				// Upload data
+				await store.dispatch('uploadFiles', formData).then(() => {
+					// Progress file log
+					store.commit('UPDATE_FILE_COUNT_PROGRESS', {
+						current: fileCountSucceed,
+						total: files.length
+					})
+					// Progress file log
+					store.commit('INCREASE_FOLDER_ITEM', parent_id)
+
+					// Uploading finished
+					if (files.length === fileCountSucceed) {
+						store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+					} else {
+						// Add uploaded file
+						fileCountSucceed++
+					}
+				}).catch(error => {
+
+					if (error.response.status == 423) {
+
+						events.$emit('alert:open', {
+							emoji: '😬😬😬',
+							title: this.$t('popup_exceed_limit.title'),
+							message: this.$t('popup_exceed_limit.message')
+						})
+
+					} else {
+
+						// Show error message
+						events.$emit('alert:open', {
+							title: this.$t('popup_error.title'),
+							message: this.$t('popup_error.message'),
+						})
+					}
+				})
+			}
+		}
+
 		Vue.prototype.$downloadFile = function(url, filename) {
 			var anchor = document.createElement('a')
 

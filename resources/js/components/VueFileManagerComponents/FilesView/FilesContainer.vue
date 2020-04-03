@@ -1,5 +1,10 @@
 <template>
-    <div class="file-content" :class="{ 'is-offset': uploadingFilesCount }">
+    <div class="file-content" :class="{ 'is-offset': uploadingFilesCount, 'is-dragging': isDragging }"
+         @dragover.prevent
+         @drop.stop.prevent="dropUpload($event)"
+         @dragover="dragEnter"
+         @dragleave="dragLeave"
+    >
         <div
                 class="files-container"
                 ref="fileContainer"
@@ -18,7 +23,10 @@
             <MobileActions v-if="$isMinimalScale()" />
 
             <!--Item previews list-->
-            <div v-if="isList" class="file-list-wrapper">
+            <div
+                    v-if="isList"
+                    class="file-list-wrapper"
+            >
                 <transition-group
                         name="file"
                         tag="section"
@@ -27,7 +35,7 @@
                 >
                     <FileItemList
                             @dragstart="dragStart(item)"
-                            @drop="dragFinish(item)"
+                            @drop.stop.native.prevent="dragFinish(item, $event)"
                             @contextmenu.native.prevent="contextMenu($event, item)"
                             :data="item"
                             v-for="item in data"
@@ -47,7 +55,7 @@
                 >
                     <FileItemGrid
                             @dragstart="dragStart(item)"
-                            @drop="dragFinish(item)"
+                            @drop.native.prevent="dragFinish(item, $event)"
                             @contextmenu.native.prevent="contextMenu($event, item)"
                             :data="item"
                             v-for="item in data"
@@ -133,10 +141,23 @@
         },
         data() {
             return {
-                draggingId: undefined
+                draggingId: undefined,
+                isDragging: false,
             }
         },
         methods: {
+            dropUpload(event) {
+                // Upload external file
+                this.$uploadExternalFiles(event, this.currentFolder.unique_id)
+
+                this.isDragging = false
+            },
+            dragEnter() {
+                this.isDragging = true
+            },
+            dragLeave() {
+                this.isDragging = false
+            },
             dragStart(data) {
 
                 events.$emit('dragstart', data)
@@ -144,15 +165,26 @@
                 // Store dragged folder
                 this.draggingId = data
             },
-            dragFinish(data) {
-                // Prevent to drop on file or image
-                if (data.type !== 'folder' || this.draggingId === data) return
+            dragFinish(data, event) {
 
-                // Move folder to new parent
-                this.moveTo(this.draggingId, data)
-            },
-            moveTo(from_item, to_item) {
-                this.$store.dispatch('moveItem', [from_item, to_item])
+                if (event.dataTransfer.items.length == 0) {
+
+                    // Prevent to drop on file or image
+                    if (data.type !== 'folder' || this.draggingId === data) return
+
+                    // Move folder to new parent
+                    this.$store.dispatch('moveItem', [this.draggingId, data])
+
+                } else {
+
+                    // Get unique_id of current folder
+                    const unique_id = data.type !== 'folder' ? this.currentFolder.unique_id : data.unique_id
+
+                    // Upload external file
+                    this.$uploadExternalFiles(event, unique_id)
+                }
+
+                this.isDragging = false
             },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
@@ -225,6 +257,10 @@
     .file-content {
         display: flex;
         flex-wrap: nowrap;
+
+        &.is-dragging {
+            @include transform(scale(0.99));
+        }
     }
 
     .files-container {

@@ -11,7 +11,7 @@
                     <ul class="menu-options">
                         <li class="menu-option"
                             @click="addToFavourites"
-                            v-if="! $isTrashLocation() && fileInfoDetail && fileInfoDetail.type === 'folder'"
+                            v-if="! $isTrashLocation() && fileInfoDetail && isFolder"
                         >
                             {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
                         </li>
@@ -39,7 +39,7 @@
                         <li
                                 class="menu-option"
                                 @click="downloadItem"
-                                v-if="isFile || isImage"
+                                v-if="! isFolder"
                         >
                             {{ $t('context_menu.download') }}
                         </li>
@@ -76,19 +76,13 @@
                 return this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)
             },
             isFile() {
-                return this.fileInfoDetail && this.fileInfoDetail.type === 'file'
-                    ? true
-                    : false
+                return (this.fileInfoDetail && this.fileInfoDetail.type !== 'folder') && (this.fileInfoDetail && this.fileInfoDetail.type !== 'image')
             },
             isImage() {
                 return this.fileInfoDetail && this.fileInfoDetail.type === 'image'
-                    ? true
-                    : false
             },
             isFolder() {
                 return this.fileInfoDetail && this.fileInfoDetail.type === 'folder'
-                    ? true
-                    : false
             }
         },
         data() {

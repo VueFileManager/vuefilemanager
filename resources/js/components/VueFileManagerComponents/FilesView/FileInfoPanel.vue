@@ -1,31 +1,18 @@
 <template>
     <div v-if="fileInfoDetail">
         <div class="file-headline" spellcheck="false">
-            <!--Image thumbnail-->
-            <div v-if="fileInfoDetail.type == 'image'" class="image-preview">
-                <img
-                        @dblclick="$openImageOnNewTab(fileInfoDetail.file_url)"
-                        :src="fileInfoDetail.thumbnail"
-                        :alt="fileInfoDetail.name"
-                />
-            </div>
+
+            <FilePreview />
 
             <!--File info-->
             <div class="flex">
                 <div class="icon">
                     <div class="icon-preview" @dblclick="getItemAction">
-                        <FontAwesomeIcon
-                                v-if="fileInfoDetail.type == 'folder'"
-                                icon="folder"
-                        ></FontAwesomeIcon>
-                        <FontAwesomeIcon
-                                v-if="fileInfoDetail.type == 'file'"
-                                icon="file"
-                        ></FontAwesomeIcon>
-                        <FontAwesomeIcon
-                                v-if="fileInfoDetail.type == 'image'"
-                                icon="file-image"
-                        ></FontAwesomeIcon>
+                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'folder'" icon="folder"></FontAwesomeIcon>
+                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'file'" icon="file"></FontAwesomeIcon>
+                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'image'" icon="file-image"></FontAwesomeIcon>
+                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'video'" icon="file-video"></FontAwesomeIcon>
+                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'audio'" icon="file-audio"></FontAwesomeIcon>
                     </div>
                 </div>
                 <div class="file-info">
@@ -64,12 +51,16 @@
 </template>
 
 <script>
+    import FilePreview from '@/components/VueFileManagerComponents/FilesView/FilePreview'
     import {mapGetters} from 'vuex'
     import {debounce} from 'lodash'
     import {events} from "@/bus"
 
     export default {
-        name: 'FilesInfoPanel',
+        name: 'FileInfoPanel',
+        components: {
+            FilePreview
+        },
         computed: {
             ...mapGetters(['fileInfoDetail'])
         },
@@ -121,20 +112,6 @@
         padding: 12px;
         margin-bottom: 20px;
         border-radius: 8px;
-
-        .image-preview {
-            width: 100%;
-            display: block;
-            margin-bottom: 7px;
-
-            img {
-                border-radius: 4px;
-                overflow: hidden;
-                width: 100%;
-                object-fit: cover;
-                cursor: pointer;
-            }
-        }
 
         .flex {
             display: flex;
@@ -250,6 +227,13 @@
 
                 span {
                     color: $dark_mode_text_primary
+                }
+
+                .action-button {
+
+                    .icon {
+                        color: $dark_mode_text_primary;
+                    }
                 }
             }
         }

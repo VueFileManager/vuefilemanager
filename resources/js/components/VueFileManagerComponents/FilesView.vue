@@ -88,7 +88,6 @@
 <style lang="scss">
     @import "@assets/app.scss";
 
-
     #files-view {
         font-family: 'Nunito', sans-serif;
         font-size: 16px;
@@ -161,27 +160,21 @@
                                 margin-bottom: 10px;
                                 height: 90px;
 
-                                &.file {
-                                    .file-icon {
-                                        @include font-size(75);
-                                    }
-
-                                    .file-icon-text {
-                                        @include font-size(12);
-                                    }
+                                .file-icon {
+                                    @include font-size(75);
                                 }
 
-                                &.folder {
-                                    @include font-size(14);
-
-
-                                    .folder-icon {
-                                        margin-top: 0;
-                                        margin-bottom: 0;
-                                    }
+                                .file-icon-text {
+                                    @include font-size(12);
                                 }
 
-                                &.image img {
+                                .folder-icon {
+                                    @include font-size(75);
+                                    margin-top: 0;
+                                    margin-bottom: 0;
+                                }
+
+                                .image {
                                     width: 90px;
                                     height: 90px;
                                 }

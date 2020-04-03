@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "askedio/laravel-soft-cascade": "^6.0",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^1.0",
         "gabrielelana/byte-units": "^0.5.0",

@@ -5,6 +5,13 @@
 
     RewriteEngine On
 
+    AddType video/ogg .ogv
+    AddType video/mp4 .mp4
+    AddType video/webm .webm
+    <ifModule mod_headers.c>
+        Header set Connection keep-alive
+    </ifModule>
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

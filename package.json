@@ -12,14 +12,14 @@
     "devDependencies": {
         "axios": "^0.19",
         "cross-env": "^5.1",
-        "laravel-mix": "^5.0.1",
+        "laravel-mix": "^5.0.4",
         "resolve-url-loader": "^2.3.1",
         "sass-loader": "^8.0.2",
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.26",
-        "@fortawesome/free-solid-svg-icons": "^5.12.0",
+        "@fortawesome/fontawesome-svg-core": "^1.2.28",
+        "@fortawesome/free-solid-svg-icons": "^5.13.0",
         "@fortawesome/vue-fontawesome": "^0.1.9",
         "css-element-queries": "^1.2.3",
         "lodash": "^4.17.15",

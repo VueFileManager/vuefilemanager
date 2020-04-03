@@ -100,7 +100,8 @@ function get_storage_fill_percentage($used, $capacity)
  *
  * @return string
  */
-function user_storage_percentage() {
+function user_storage_percentage()
+{
 
     $user = \Illuminate\Support\Facades\Auth::user();
 
@@ -171,4 +172,30 @@ function format_date($date, $format = '%d. %B. %Y, %H:%M')
     $start = Carbon::parse($date);
 
     return $start->formatLocalized($format);
+}
+
+/**
+ * Get file type from mimetype
+ *
+ * @param $file
+ * @return string
+ */
+function get_file_type($file)
+{
+    // Get mimetype from file
+    $mimetype = explode('/', $file->getMimeType());
+
+    switch ($mimetype[0]) {
+        case 'image':
+            return 'image';
+            break;
+        case 'video':
+            return 'video';
+            break;
+        case 'audio':
+            return 'audio';
+            break;
+        default:
+            return 'file';
+    }
 }

@@ -18,7 +18,7 @@
                 :class="{ 'is-clicked': isClicked, 'is-dragenter': area }"
         >
             <!--Thumbnail for item-->
-            <div class="icon-item" :class="data.type">
+            <div class="icon-item">
                 <!--If is file or image, then link item-->
                 <span v-if="isFile" class="file-icon-text">{{
 					data.mimetype | limitCharacters
@@ -28,15 +28,10 @@
                 <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
 
                 <!--Image thumbnail-->
-                <img v-if="isImage" :src="data.thumbnail" :alt="data.name"/>
+                <img v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name"/>
 
                 <!--Else show only folder icon-->
-                <FontAwesomeIcon
-                        v-if="isFolder"
-                        :class="{'is-deleted': isDeleted}"
-                        class="folder-icon"
-                        icon="folder"
-                />
+                <FontAwesomeIcon v-if="isFolder" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
             </div>
 
             <!--Name-->
@@ -50,7 +45,7 @@
                 >{{ itemName }}</span>
 
                 <!--Other attributes-->
-                <span v-if="isFile || isImage" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
+                <span v-if="! isFolder" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
 
                 <span v-if="isFolder" class="item-length">
 					{{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
@@ -81,7 +76,7 @@
                 return this.data.type === 'folder'
             },
             isFile() {
-                return this.data.type === 'file'
+                return this.data.type !== 'folder' && this.data.type !== 'image'
             },
             isImage() {
                 return this.data.type === 'image'
@@ -248,7 +243,11 @@
 
             .name {
                 white-space: nowrap;
-                //display: inline-block;
+
+                &[contenteditable] {
+                    -webkit-user-select: text;
+                    user-select: text;
+                }
 
                 &[contenteditable='true']:hover {
                     text-decoration: underline;
@@ -276,6 +275,7 @@
         }
 
         .icon-item {
+            text-align: center;
             position: relative;
             flex: 0 0 50px;
             line-height: 0;
@@ -305,38 +305,32 @@
                 }
             }
 
-            &.file {
+            .file-icon-text {
+                line-height: 1;
+                top: 40%;
+                @include font-size(11);
+                margin: 0 auto;
+                position: absolute;
                 text-align: center;
-
-                .file-icon-text {
-                    line-height: 1;
-                    top: 40%;
-                    @include font-size(11);
-                    margin: 0 auto;
-                    position: absolute;
-                    text-align: center;
-                    left: 0;
-                    right: 0;
-                    color: $theme;
-                    font-weight: 600;
-                    user-select: none;
-                    max-width: 50px;
-                    max-height: 20px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
+                left: 0;
+                right: 0;
+                color: $theme;
+                font-weight: 600;
+                user-select: none;
+                max-width: 50px;
+                max-height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
-            &.image {
-                img {
-                    object-fit: cover;
-                    user-select: none;
-                    max-width: 100%;
-                    border-radius: 5px;
-                    width: 50px;
-                    height: 50px;
-                }
+            .image {
+                object-fit: cover;
+                user-select: none;
+                max-width: 100%;
+                border-radius: 5px;
+                width: 50px;
+                height: 50px;
             }
         }
 

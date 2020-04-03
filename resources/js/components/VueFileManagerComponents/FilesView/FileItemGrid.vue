@@ -19,7 +19,7 @@
                 :class="{ 'is-clicked': isClicked, 'is-dragenter': area }"
         >
             <!--Thumbnail for item-->
-            <div class="icon-item" :class="data.type">
+            <div class="icon-item">
                 <!--If is file or image, then link item-->
                 <span v-if="isFile" class="file-icon-text">{{
 					data.mimetype
@@ -29,15 +29,10 @@
                 <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
 
                 <!--Image thumbnail-->
-                <img v-if="isImage" :src="data.thumbnail" :alt="data.name"/>
+                <img v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name"/>
 
                 <!--Else show only folder icon-->
-                <FontAwesomeIcon
-                        v-if="isFolder"
-                        :class="{'is-deleted': isDeleted}"
-                        class="folder-icon"
-                        icon="folder"
-                />
+                <FontAwesomeIcon v-if="isFolder" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
             </div>
 
             <!--Name-->
@@ -52,7 +47,7 @@
                 >
 
                 <!--Other attributes-->
-                <span v-if="isFile || isImage" class="item-size">{{
+                <span v-if="! isFolder" class="item-size">{{
 					data.filesize
 				}}</span>
 
@@ -82,7 +77,7 @@
                 return this.data.type === 'folder'
             },
             isFile() {
-                return this.data.type === 'file'
+                return this.data.type !== 'folder' && this.data.type !== 'image'
             },
             isImage() {
                 return this.data.type === 'image'
@@ -207,7 +202,6 @@
         }
     }
 
-
     .file-wrapper {
         position: relative;
         text-align: center;
@@ -231,6 +225,11 @@
 
             .name {
                 display: block;
+
+                &[contenteditable] {
+                    -webkit-user-select: text;
+                    user-select: text;
+                }
 
                 &[contenteditable='true']:hover {
                     text-decoration: underline;
@@ -282,6 +281,7 @@
         }
 
         .icon-item {
+            text-align: center;
             position: relative;
             height: 110px;
             margin-bottom: 20px;
@@ -303,41 +303,33 @@
                 }
             }
 
-            &.file {
-
-                .file-icon-text {
-                    margin: 5px auto 0;
-                    position: absolute;
-                    text-align: center;
-                    left: 0;
-                    right: 0;
-                    color: $theme;
-                    font-weight: 600;
-                    user-select: none;
-                    max-width: 65px;
-                    max-height: 20px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
+            .file-icon-text {
+                margin: 5px auto 0;
+                position: absolute;
+                text-align: center;
+                left: 0;
+                right: 0;
+                color: $theme;
+                font-weight: 600;
+                user-select: none;
+                max-width: 65px;
+                max-height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
-            &.image {
-                img {
-                    max-width: 95%;
-                    object-fit: cover;
-                    user-select: none;
-                    height: 110px;
-                    border-radius: 5px;
-                    margin: 0 auto;
-                }
-            }
-
-            &.folder {
-                align-items: flex-end;
+            .image {
+                max-width: 95%;
+                object-fit: cover;
+                user-select: none;
+                height: 110px;
+                border-radius: 5px;
+                margin: 0 auto;
             }
 
             .folder-icon {
+                align-items: flex-end;
                 @include font-size(80);
                 margin: 0 auto;
 
