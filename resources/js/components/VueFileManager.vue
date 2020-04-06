@@ -1,38 +1,39 @@
 <template>
     <div id="vue-file-manager" :class="appSize">
 
+        <router-view />
         <!--Authentication pages-->
-        <Auth v-if="isGuest" />
+        <!--<Auth v-if="isGuest" />-->
 
-        <div v-if="isLogged" id="auth">
+        <!--<div v-if="isLogged" id="auth">
 
             <div id="popups">
 
-                <!--System alerts-->
+                &lt;!&ndash;System alerts&ndash;&gt;
                 <Alert />
 
-                <!--Popup-->
+                &lt;!&ndash;Popup&ndash;&gt;
                 <PopupMoveItem />
 
-                <!--Mobile Menu-->
+                &lt;!&ndash;Mobile Menu&ndash;&gt;
                 <MobileOptionList />
 
-                <!--Background vignette-->
+                &lt;!&ndash;Background vignette&ndash;&gt;
                 <Vignette />
             </div>
 
             <div id="application-wrapper">
 
-                <!--Navigation Sidebar-->
+                &lt;!&ndash;Navigation Sidebar&ndash;&gt;
                 <Sidebar />
 
-                <!--User settings Page-->
+                &lt;!&ndash;User settings Page&ndash;&gt;
                 <UserSettings v-if="isCurrentView('user-settings')"/>
 
-                <!--File page-->
+                &lt;!&ndash;File page&ndash;&gt;
                 <FilesView v-if="isCurrentView('files')"/>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 
