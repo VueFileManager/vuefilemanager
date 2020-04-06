@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {events} from '@/bus'
+import i18n from '@/i18n/index.js'
 
 const defaultState = {
     fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
@@ -62,8 +63,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -99,8 +100,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -119,15 +120,15 @@ const actions = {
 
                 // Show error message
                 events.$emit('success:open', {
-                    title: this.$t('popup_trashed.title'),
-                    message: this.$t('popup_trashed.message'),
+                    title: i18n.t('popup_trashed.title'),
+                    message: i18n.t('popup_trashed.message'),
                 })
             })
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -147,8 +148,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -165,8 +166,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -192,8 +193,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -219,8 +220,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -264,6 +265,8 @@ const actions = {
         })
     },
     changeItemName: (context, data) => {
+
+
         if (data.type === 'folder') context.commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         axios
@@ -274,8 +277,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -295,8 +298,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -337,8 +340,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -360,8 +363,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     }

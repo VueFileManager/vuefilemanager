@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {events} from '@/bus'
+import i18n from '@/i18n/index.js'
 
 const defaultState = {
     authorized: undefined,
@@ -41,8 +42,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -56,8 +57,8 @@ const actions = {
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
-                    title: this.$t('popup_error.title'),
-                    message: this.$t('popup_error.message'),
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
@@ -75,8 +76,8 @@ const actions = {
 
                     // Show error message
                     events.$emit('alert:open', {
-                        title: this.$t('popup_error.title'),
-                        message: this.$t('popup_error.message'),
+                        title: i18n.t('popup_error.title'),
+                        message: i18n.t('popup_error.message'),
                     })
                 })
         })
