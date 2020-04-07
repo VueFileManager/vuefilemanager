@@ -12,7 +12,11 @@
         <transition name="user-menu">
             <div class="user-menu" v-if="isOpenedMenu">
                 <ul class="menu-options" id="menu-options-list" @click="closeMenu">
-                    <li class="menu-option" @click="$goToView('user-settings')">{{ $t('context_menu.profile_settings') }}</li>
+                    <li class="menu-option">
+                        <router-link :to="{name: 'Profile'}">
+                            {{ $t('context_menu.profile_settings') }}
+                        </router-link>
+                    </li>
                     <li class="menu-option" @click="$store.dispatch('logOut')">{{ $t('context_menu.log_out') }}</li>
                 </ul>
             </div>
@@ -43,7 +47,7 @@
                 // If is mobile, then go to user settings page, else, open menu
                 if ( this.isSmallAppSize ) {
 
-                    this.$goToView('user-settings')
+                    this.$router.push({name: 'Profile'})
                 } else {
 
                     this.isOpenedMenu = !this.isOpenedMenu
@@ -146,6 +150,11 @@
             cursor: pointer;
             width: 100%;
             color: $text;
+
+            a {
+                text-decoration: none;
+                color: $text;
+            }
 
             &:hover {
                 background: $light_background;

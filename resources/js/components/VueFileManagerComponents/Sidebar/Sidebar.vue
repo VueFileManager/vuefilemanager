@@ -1,11 +1,12 @@
 <template>
     <transition name="sidebar">
-        <div id="sidebar" v-if="isVisibleSidebar || ! isSmallAppSize">
+        <div id="sidebar" v-if="app && (isVisibleSidebar || ! isSmallAppSize)">
 
             <!--User Headline-->
             <UserHeadline/>
 
-            <div v-if="app" class="content-scroller">
+            <!--Content-->
+            <div class="content-scroller">
 
                 <!--Locations-->
                 <div class="menu-list-wrapper">
@@ -63,6 +64,7 @@
             <!--Storage Size Info-->
             <StorageSize v-if="config.storageLimit"/>
 
+            <!--Mobile logout button-->
             <div v-if="isSmallAppSize" class="log-out-button">
                 <ButtonBase @click.native="$store.dispatch('logOut')" button-style="danger">{{ $t('context_menu.log_out') }}</ButtonBase>
             </div>

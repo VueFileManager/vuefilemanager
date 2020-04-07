@@ -19,7 +19,11 @@
                 <AuthButton icon="chevron-right" :text="$t('page_forgotten_password.button_get_link')" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
+            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
+                <router-link :to="{name: 'SignIn'}">
+                    {{ $t('page_forgotten_password.password_remember_button') }}
+                </router-link>
+            </span>
         </AuthContent>
 
         <!--Password reset link sended-->
@@ -28,7 +32,11 @@
             <h1>{{ $t('page_forgotten_password.pass_sennded_title') }}</h1>
             <h2>{{ $t('page_forgotten_password.pass_sennded_subtitle') }}</h2>
 
-            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
+            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
+                <router-link :to="{name: 'SignIn'}">
+                    {{ $t('page_forgotten_password.password_remember_button') }}
+                </router-link>
+            </span>
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -43,7 +51,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'Auth',
+        name: 'ForgottenPassword',
         components: {
             AuthContentWrapper,
             ValidationProvider,
@@ -88,7 +96,7 @@
 
                 // Send request to get user reset link
                 axios
-                    .post(this.$store.getters.api + '/password/email', {
+                    .post('/api/password/email', {
                         email: this.recoverEmail
                     })
                     .then(() => {
@@ -116,83 +124,5 @@
 <style scoped lang="scss">
     @import "@assets/app.scss";
     @import '@assets/vue-file-manager/_forms';
-
-    .auth-form {
-        text-align: center;
-        max-width: 600px;
-        padding: 25px 20px;
-        display: table-cell;
-        vertical-align: middle;
-
-        .user-avatar {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);
-        }
-
-        .logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            @include font-size(34);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 2px;
-            color: $text;
-        }
-
-        h2 {
-            @include font-size(23);
-            font-weight: 500;
-            margin-bottom: 50px;
-            color: $text;
-        }
-
-        .block-form {
-            margin-left: auto;
-            margin-right: auto;
-
-            .block-wrapper label {
-                text-align: right;
-            }
-        }
-    }
-
-    @media only screen and (min-width: 690px) and (max-width: 960px) {
-
-        .auth-form {
-            padding-left: 20%;
-            padding-right: 20%;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-        .auth-form {
-            width: 100%;
-
-            h1 {
-                @include font-size(30);
-            }
-
-            h2 {
-                @include font-size(21);
-            }
-        }
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .auth-form {
-
-            h1, h2, .additional-link {
-                color: $dark_mode_text_primary;
-            }
-        }
-    }
-
+    @import '@assets/vue-file-manager/_auth';
 </style>

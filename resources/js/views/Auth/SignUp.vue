@@ -55,7 +55,11 @@
                 </div>
             </ValidationObserver>
 
-            <span class="additional-link">{{ $t('page_registration.have_an_account') }} <b @click="goToAuthPage('log-in')">{{ $t('page_forgotten_password.password_remember_button') }}</b></span>
+            <span class="additional-link">{{ $t('page_registration.have_an_account') }}
+                <router-link :to="{name: 'SignIn'}">
+                    {{ $t('page_forgotten_password.password_remember_button') }}
+                </router-link>
+            </span>
         </AuthContent>
 
     </AuthContentWrapper>
@@ -71,7 +75,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'Auth',
+        name: 'SignUp',
         components: {
             AuthContentWrapper,
             ValidationProvider,
@@ -107,7 +111,7 @@
 
                 // Send request to get user token
                 axios
-                    .post(this.$store.getters.api + '/user/register', this.register)
+                    .post('/api/user/register', this.register)
                     .then(() => {
 
                         // End loading
@@ -115,6 +119,9 @@
 
                         // Set login state
                         this.$store.commit('SET_AUTHORIZED', true)
+
+                        // Go to files page
+                        this.$router.push({name: 'Files'})
                     })
                     .catch(error => {
 
@@ -146,83 +153,5 @@
 <style scoped lang="scss">
     @import "@assets/app.scss";
     @import '@assets/vue-file-manager/_forms';
-
-    .auth-form {
-        text-align: center;
-        max-width: 600px;
-        padding: 25px 20px;
-        display: table-cell;
-        vertical-align: middle;
-
-        .user-avatar {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);
-        }
-
-        .logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            @include font-size(34);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 2px;
-            color: $text;
-        }
-
-        h2 {
-            @include font-size(23);
-            font-weight: 500;
-            margin-bottom: 50px;
-            color: $text;
-        }
-
-        .block-form {
-            margin-left: auto;
-            margin-right: auto;
-
-            .block-wrapper label {
-                text-align: right;
-            }
-        }
-    }
-
-    @media only screen and (min-width: 690px) and (max-width: 960px) {
-
-        .auth-form {
-            padding-left: 20%;
-            padding-right: 20%;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-        .auth-form {
-            width: 100%;
-
-            h1 {
-                @include font-size(30);
-            }
-
-            h2 {
-                @include font-size(21);
-            }
-        }
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .auth-form {
-
-            h1, h2, .additional-link {
-                color: $dark_mode_text_primary;
-            }
-        }
-    }
-
+    @import '@assets/vue-file-manager/_auth';
 </style>

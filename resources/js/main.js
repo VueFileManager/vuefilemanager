@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import router from './router'
 import i18n from './i18n/index.js'
 import App from './App.vue'
-import store from './store/index'
+import store from './store'
 import Helpers from './helpers'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -72,8 +72,8 @@ Vue.config.productionTip = false
 
 var vueFileManager = new Vue({
 	i18n,
-	router,
 	store,
+	router,
 	data: {
 		config,
 	},

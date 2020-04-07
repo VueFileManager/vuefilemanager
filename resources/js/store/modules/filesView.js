@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {events} from '@/bus'
 import i18n from '@/i18n/index.js'
+import router from '@/router'
 
 const defaultState = {
     fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
@@ -22,8 +23,8 @@ const actions = {
         events.$emit('show:content')
 
         // Go to files view
-        if (context.getters.currentView !== 'files') {
-            context.commit('SET_CURRENT_VIEW', 'files')
+        if (router.currentRoute.name !== 'Files') {
+            router.push({name: 'Files'})
         }
 
         context.commit('LOADING_STATE', true)
@@ -72,8 +73,8 @@ const actions = {
         events.$emit('show:content')
 
         // Go to files view
-        if (context.getters.currentView !== 'files') {
-            context.commit('SET_CURRENT_VIEW', 'files')
+        if (router.currentRoute.name !== 'Files') {
+            router.push({name: 'Files'})
         }
 
         if (! back) context.commit('FLUSH_BROWSER_HISTORY')

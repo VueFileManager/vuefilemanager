@@ -5,3 +5,13 @@
 @import 'vue-file-manager/_variables';
 @import 'vue-file-manager/_mixins';
 //@import 'vue-file-manager/_forms';
+
+#application-wrapper {
+  display: flex;
+  height: 100%;
+
+  #content {
+    position: relative;
+    width: 100%;
+  }
+}

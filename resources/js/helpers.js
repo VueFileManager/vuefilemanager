@@ -6,12 +6,6 @@ import axios from 'axios'
 const Helpers = {
 	install(Vue) {
 
-		Vue.prototype.$goToView = function(view) {
-			events.$emit('show:content')
-
-			this.$store.commit('SET_CURRENT_VIEW', view)
-		}
-
 		Vue.prototype.$updateText = debounce(function (route, name, value) {
 
 			if (value === '') return

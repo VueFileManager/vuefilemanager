@@ -1,11 +1,13 @@
 import axios from 'axios'
 import {events} from '@/bus'
 import i18n from '@/i18n/index.js'
+import router from '@/router'
 
 const defaultState = {
     authorized: undefined,
     app: undefined,
 }
+
 const actions = {
     getAppData: ({commit, dispatch, getters}) => {
 
@@ -29,7 +31,8 @@ const actions = {
 
                 // Commit Remove Access Token from vuex storage
                 commit('DESTROY_DATA')
-                commit('SET_CURRENT_VIEW', 'files')
+
+                router.push({name: 'SignIn'})
             })
     },
     addToFavourites: (context, folder) => {
@@ -85,6 +88,7 @@ const actions = {
 
     },
 }
+
 const mutations = {
     RETRIEVE_APP_DATA(state, app) {
         state.app = app
@@ -132,6 +136,7 @@ const mutations = {
         })
     }
 }
+
 const getters = {
     isLogged: state => state.authorized,
     isGuest: state => ! state.authorized,

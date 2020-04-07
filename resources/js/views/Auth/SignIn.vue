@@ -16,11 +16,15 @@
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading" :disabled="isLoading"/>
+                <AuthButton icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading"
+                            :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }} <b
-                    @click="goToAuthPage('sign-up')">{{ $t('page_login.registration_button') }}</b></span>
+            <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }}
+                <router-link :to="{name: 'SignUp'}">
+                    {{ $t('page_login.registration_button') }}
+                </router-link>
+            </span>
         </AuthContent>
 
         <!--Log in By Password-->
@@ -36,15 +40,21 @@
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="User Password" rules="required"
                                     v-slot="{ errors }">
-                    <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')" type="password"
+                    <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')"
+                           type="password"
                            :class="{'is-error': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading" :disabled="isLoading"/>
+                <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading"
+                            :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span class="additional-link">{{ $t('page_sign_in.password_reset_text') }} <b @click="goToAuthPage('forgotten-password')">{{ $t('page_sign_in.password_reset_button') }}</b></span>
+            <span class="additional-link">{{ $t('page_sign_in.password_reset_text') }}
+                <router-link :to="{name: 'ForgottenPassword'}">
+                    {{ $t('page_sign_in.password_reset_button') }}
+                </router-link>
+            </span>
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -59,7 +69,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'Auth',
+        name: 'SignIn',
         components: {
             AuthContentWrapper,
             ValidationProvider,
@@ -75,8 +85,8 @@
             return {
                 isLoading: false,
                 checkedAccount: undefined,
-                loginPassword: '',
-                loginEmail: '',
+                loginPassword: 'vuefilemanager',
+                loginEmail: 'howdy@hi5ve.digital',
             }
         },
         methods: {
@@ -106,7 +116,7 @@
 
                 // Send request to get verify account
                 axios
-                    .post(this.$store.getters.api + '/user/check', {
+                    .post('/api/user/check', {
                         email: this.loginEmail,
                     })
                     .then(response => {
@@ -115,6 +125,8 @@
                         this.isLoading = false
 
                         this.checkedAccount = response.data
+
+                        // Show sign in password page
                         this.goToAuthPage('sign-in')
                     })
                     .catch(error => {
@@ -142,7 +154,7 @@
 
                 // Send request to get user token
                 axios
-                    .post(this.$store.getters.api + '/user/login', {
+                    .post('/api/user/login', {
                         email: this.loginEmail,
                         password: this.loginPassword,
                     })
@@ -153,6 +165,9 @@
 
                         // Set login state
                         this.$store.commit('SET_AUTHORIZED', true)
+
+                        // Go to files page
+                        this.$router.push({name: 'Files'})
                     })
                     .catch(error => {
 
@@ -167,90 +182,12 @@
                         this.isLoading = false
                     })
             },
-        }
+        },
     }
 </script>
 
 <style scoped lang="scss">
     @import "@assets/app.scss";
     @import '@assets/vue-file-manager/_forms';
-
-    .auth-form {
-        text-align: center;
-        max-width: 600px;
-        padding: 25px 20px;
-        display: table-cell;
-        vertical-align: middle;
-
-        .user-avatar {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);
-        }
-
-        .logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            @include font-size(34);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 2px;
-            color: $text;
-        }
-
-        h2 {
-            @include font-size(23);
-            font-weight: 500;
-            margin-bottom: 50px;
-            color: $text;
-        }
-
-        .block-form {
-            margin-left: auto;
-            margin-right: auto;
-
-            .block-wrapper label {
-                text-align: right;
-            }
-        }
-    }
-
-    @media only screen and (min-width: 690px) and (max-width: 960px) {
-
-        .auth-form {
-            padding-left: 20%;
-            padding-right: 20%;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-        .auth-form {
-            width: 100%;
-
-            h1 {
-                @include font-size(30);
-            }
-
-            h2 {
-                @include font-size(21);
-            }
-        }
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .auth-form {
-
-            h1, h2, .additional-link {
-                color: $dark_mode_text_primary;
-            }
-        }
-    }
-
+    @import '@assets/vue-file-manager/_auth';
 </style>

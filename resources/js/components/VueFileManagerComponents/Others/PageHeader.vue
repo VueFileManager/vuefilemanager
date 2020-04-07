@@ -26,7 +26,10 @@
         },
         methods: {
             goHome() {
-                if (this.isSmallAppSize) events.$emit('show:sidebar')
+                if (this.isSmallAppSize) {
+                    events.$emit('show:sidebar')
+                    this.$router.push({name: 'Files'})
+                }
             }
         }
     }
