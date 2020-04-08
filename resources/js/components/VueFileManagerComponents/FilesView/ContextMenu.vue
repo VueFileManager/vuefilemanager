@@ -12,7 +12,7 @@
             <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">{{ $t('context_menu.create_folder') }}</li>
 
             <!--Edits-->
-            <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation() && item">{{ $t('context_menu.delete') }}</li>
+            <li class="menu-option" @click="removeItem" v-if="item">{{ $t('context_menu.delete') }}</li>
             <li class="menu-option" @click="moveItem" v-if="! $isTrashLocation() && item">{{ $t('context_menu.move') }}</li>
 
             <!--Trash-->

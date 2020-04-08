@@ -116,8 +116,12 @@ class FileManagerController extends Controller
         $user_id = Auth::id();
 
         // Search files id db
-        $searched_files = FileManagerFile::search($request->input('query'))->where('user_id', $user_id)->get();
-        $searched_folders = FileManagerFolder::search($request->input('query'))->where('user_id', $user_id)->get();
+        $searched_files = FileManagerFile::search($request->input('query'))
+            ->where('user_id', $user_id)
+            ->get();
+        $searched_folders = FileManagerFolder::search($request->input('query'))
+            ->where('user_id', $user_id)
+            ->get();
 
         // Collect folders and files to single array
         return collect([$searched_folders, $searched_files])->collapse();
@@ -225,18 +229,27 @@ class FileManagerController extends Controller
         // Delete folder
         if ($request->type === 'folder') {
 
-            $item = FileManagerFolder::withTrashed()
-                ->with('folders')
+            // Get folder
+            $folder = FileManagerFolder::withTrashed()
+                ->with(['folders'])
                 ->where('user_id', $user->id)
                 ->where('unique_id', $request->unique_id)
                 ->first();
 
-            // Remove folder from user favourites
-            $user->favourites()->detach($request->unique_id);
+            // Force delete children files
+            if ($request->force_delete) {
 
-            foreach ($item->files as $file) {
+                // Get children folder ids
+                $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
 
-                if ($request->force_delete) {
+                // Get children files
+                $files = FileManagerFile::onlyTrashed()
+                    ->where('user_id', $user->id)
+                    ->whereIn('folder_id', Arr::flatten([$request->unique_id, $child_folders]))
+                    ->get();
+
+                // Remove all children files
+                foreach ($files as $file) {
 
                     // Delete file
                     Storage::disk('local')->delete('/file-manager/' . $file->basename);
@@ -246,26 +259,22 @@ class FileManagerController extends Controller
 
                     // Delete file permanently
                     $file->forceDelete();
-                } else {
-
-                    // Delete file from visibility
-                    $file->delete();
                 }
-            }
 
-            // Delete record
-            if ($request->force_delete) {
+                // Delete folder record
+                $folder->forceDelete();
 
-                $item->forceDelete();
             } else {
 
-                $item->delete();
+                // Remove folder from user favourites
+                $user->favourites()->detach($request->unique_id);
+
+                // Soft delete folder record
+                $folder->delete();
             }
-        }
+        } else {
 
-        if ($request->type === 'file' || $request->type === 'image') {
-
-            $item = FileManagerFile::withTrashed()
+            $file = FileManagerFile::withTrashed()
                 ->where('user_id', $user->id)
                 ->where('unique_id', $request->unique_id)
                 ->first();
@@ -273,17 +282,17 @@ class FileManagerController extends Controller
             if ($request->force_delete) {
 
                 // Delete file
-                Storage::disk('local')->delete('/file-manager/' . $item->basename);
+                Storage::disk('local')->delete('/file-manager/' . $file->basename);
 
                 // Delete thumbnail if exist
-                if (!is_null($item->thumbnail)) Storage::disk('local')->delete('/file-manager/' . $item->thumbnail);
+                if ($file->thumbnail) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
 
                 // Delete file permanently
-                $item->forceDelete();
+                $file->forceDelete();
             } else {
 
-                // Delete file from visibility
-                $item->delete();
+                // Soft delete file
+                $file->delete();
             }
         }
     }
@@ -302,9 +311,21 @@ class FileManagerController extends Controller
         $folders = FileManagerFolder::onlyTrashed()->where('user_id', $user_id)->get();
         $files = FileManagerFile::onlyTrashed()->where('user_id', $user_id)->get();
 
-        // Force delete every item
+        // Force delete folder
         $folders->each->forceDelete();
-        $files->each->forceDelete();
+
+        // Force delete files
+        foreach ($files as $file) {
+
+            // Delete file
+            Storage::disk('local')->delete('/file-manager/' . $file->basename);
+
+            // Delete thumbnail if exist
+            if ($file->thumbnail) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
+
+            // Delete file permanently
+            $file->forceDelete();
+        }
 
         // Return response
         return response('Done!', 200);
@@ -341,10 +362,7 @@ class FileManagerController extends Controller
                 $item->parent_id = 0;
                 $item->save();
             }
-        }
-
-        // Get file
-        if ($request->type === 'file' || $request->type === 'image') {
+        } else {
 
             // Get item
             $item = FileManagerFile::onlyTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
@@ -358,45 +376,6 @@ class FileManagerController extends Controller
 
         // Restore Item
         $item->restore();
-    }
-
-    /**
-     * Delete Item
-     *
-     * @param Request $request
-     */
-    public function delete_items(Request $request)
-    {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'items' => 'required|json',
-        ]);
-
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
-
-        foreach ($request->input('items') as $file) {
-
-            if ($file['type'] === 'file' || $file['type'] === 'image') {
-
-                $item = FileManagerFile::where('unique_id', $file['unique_id'])->first();
-
-            } else {
-
-                $item = FileManagerFolder::where('unique_id', $file['unique_id'])->first();
-            }
-
-            // Delete file
-            Storage::disk('local')->delete('/file-manager/' . $item->basename);
-
-            // Delete thumbnail if exist
-            if (!is_null($item->thumbnail)) {
-                Storage::disk('local')->delete('/file-manager/' . $item->thumbnail);
-            }
-
-            // Permanently delete file
-            $item->forceDelete();
-        }
     }
 
     /**
@@ -442,7 +421,7 @@ class FileManagerController extends Controller
         Storage::disk('local')->putFileAs($directory, $file, $filename, 'public');
 
         // Create image thumbnail
-        if ( $filetype == 'image' ) {
+        if ($filetype == 'image') {
 
             $thumbnail = 'thumbnail-' . $filename;
 
