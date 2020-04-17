@@ -4,6 +4,8 @@ import store from '@/store'
 
 import Index from './views/Auth/SignIn'
 import SignUp from './views/Auth/SignUp'
+import SharedContent from './views/Shared/SharedContent'
+import VerifyByPassword from './views/Shared/VerifyByPassword'
 import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 
@@ -48,6 +50,22 @@ const router = new Router({
             },
         },
         {
+            name: 'SharedContent',
+            path: '/shared',
+            component: SharedContent,
+            meta: {
+                requiresAuth: false
+            },
+        },
+        {
+            name: 'VerifyByPassword',
+            path: '/protected',
+            component: VerifyByPassword,
+            meta: {
+                requiresAuth: false
+            },
+        },
+        {
             name: 'Files',
             path: '/files',
             component: Files,
@@ -80,7 +98,8 @@ router.beforeEach((to, from, next) => {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
 
-        if ( ! store.getters.isLogged || ! config.hasAuthCookie) {
+        //if ( ! store.getters.isLogged) {
+        if ( false ) {
             next({
                 name: 'SignIn',
                 query: { redirect: to.fullPath }

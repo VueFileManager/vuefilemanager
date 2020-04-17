@@ -1,5 +1,5 @@
 <template>
-    <div v-if="fileInfoDetail">
+    <div class="file-info-content" v-if="fileInfoDetail">
         <div class="file-headline" spellcheck="false">
 
             <FilePreview />
@@ -7,25 +7,20 @@
             <!--File info-->
             <div class="flex">
                 <div class="icon">
-                    <div class="icon-preview" @dblclick="getItemAction">
-                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'folder'" icon="folder"></FontAwesomeIcon>
-                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'file'" icon="file"></FontAwesomeIcon>
-                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'image'" icon="file-image"></FontAwesomeIcon>
-                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'video'" icon="file-video"></FontAwesomeIcon>
-                        <FontAwesomeIcon v-if="fileInfoDetail.type == 'audio'" icon="file-audio"></FontAwesomeIcon>
+                    <div class="icon-preview">
+                        <FontAwesomeIcon :icon="filePreviewIcon"></FontAwesomeIcon>
                     </div>
                 </div>
                 <div class="file-info">
-					<span ref="name" contenteditable="false" class="name">{{
-						fileInfoDetail.name
-					}}</span>
-                    <span class="mimetype">{{ fileInfoDetail.mimetype }}</span>
+					<span ref="name" class="name">{{ fileInfoDetail.name }}</span>
+                    <span class="mimetype" v-if="fileInfoDetail.mimetype">{{ fileInfoDetail.mimetype }}</span>
                 </div>
             </div>
         </div>
 
         <!--Info list-->
         <ul class="list-info">
+
             <!--Filesize-->
             <li v-if="fileInfoDetail.filesize" class="list-info-item">
                 <b>{{ $t('file_detail.size') }}</b>
@@ -33,7 +28,7 @@
             </li>
 
             <!--Latest change-->
-            <li v-if="fileInfoDetail.created_at" class="list-info-item">
+            <li class="list-info-item">
                 <b>{{ $t('file_detail.created_at') }}</b>
                 <span>{{ fileInfoDetail.created_at }}</span>
             </li>
@@ -46,66 +41,79 @@
                     <span>{{ fileInfoDetail.parent ? fileInfoDetail.parent.name : $t('locations.home') }}</span>
                 </div>
             </li>
+
+            <!--Parent-->
+            <li v-if="true" class="list-info-item">
+                <b>Shared</b>
+                <div class="action-button" @click="shareItemOptions">
+                    <FontAwesomeIcon class="icon" icon="user-edit" />
+                    <span>Can edit and upload files</span>
+                </div>
+                <CopyInput class="copy-sharelink" size="small" :value="shareLink" />
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
     import FilePreview from '@/components/VueFileManagerComponents/FilesView/FilePreview'
+    import CopyInput from '@/components/VueFileManagerComponents/Others/Forms/CopyInput'
     import {mapGetters} from 'vuex'
-    import {debounce} from 'lodash'
     import {events} from "@/bus"
 
     export default {
         name: 'FileInfoPanel',
         components: {
-            FilePreview
+            FilePreview,
+            CopyInput,
         },
         computed: {
-            ...mapGetters(['fileInfoDetail'])
+            ...mapGetters(['fileInfoDetail']),
+            filePreviewIcon() {
+                switch (this.fileInfoDetail.type) {
+                    case 'folder':
+                        return 'folder'
+                    break;
+                    case 'file':
+                        return 'file'
+                    break;
+                    case 'image':
+                        return 'file-image'
+                    break;
+                    case 'video':
+                        return 'file-video'
+                    break;
+                    case 'file':
+                        return 'file-audio'
+                    break;
+                }
+            }
+        },
+        data() {
+            return {
+                shareLink: 'http://192.168.1.131:8000/shared?token=3ZlQLIoCR8izoc0PemekHNq3UIMj6OrC0aQ2zowclfjFYa8P6go8fMKPnXTJomvz'
+            }
         },
         methods: {
+            shareItemOptions() {
+                // Open share item popup
+                events.$emit('popup:open', {name: 'share-edit', item: this.fileInfoDetail})
+            },
             moveItem() {
                 // Move item fire popup
-                events.$emit('popup:move-item', this.fileInfoDetail);
-            },
-            getItemAction() {
-                // Open image on new tab
-                if (this.fileInfoDetail.type == 'image') {
-                    this.$openImageOnNewTab(this.fileInfoDetail.file_url)
-                }
+                events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail})
 
-                // Download file
-                if (this.fileInfoDetail.type == 'file') {
-                    this.$downloadFile(
-                        this.fileInfoDetail.file_url,
-                        this.fileInfoDetail.name +
-                        '.' +
-                        this.fileInfoDetail.mimetype
-                    )
-                }
-
-                // Open folder
-                if (this.fileInfoDetail.type == 'folder') {
-                    // Todo: open folder
-                }
-            },
-            changeItemName: debounce(function (e) {
-                // Prevent submit empty string
-                if (e.target.innerText === '') return
-
-                this.$store.dispatch('changeItemName', {
-                    unique_id: this.fileInfoDetail.unique_id,
-                    type: this.fileInfoDetail.type,
-                    name: e.target.innerText
-                })
-            }, 300)
+            }
         }
     }
 </script>
 
 <style scoped lang="scss">
     @import "@assets/app.scss";
+
+    .file-info-content {
+        padding-bottom: 20px;
+    }
 
     .file-headline {
         background: $light_background;
@@ -156,6 +164,8 @@
             .name {
                 @include font-size(14);
                 font-weight: 700;
+                line-height: 1.4;
+                display: block;
                 color: $text;
             }
 
@@ -173,7 +183,7 @@
 
         .list-info-item {
             display: block;
-            padding-top: 20px;
+            padding-top: 15px;
 
             &:first-child {
                 padding-top: 0;
@@ -183,9 +193,13 @@
                 cursor: pointer;
 
                 .icon {
-                    @include font-size(11);
+                    @include font-size(10);
                     display: inline-block;
                     margin-right: 2px;
+
+                    path {
+                        fill: $theme_light;
+                    }
                 }
             }
 
@@ -193,6 +207,7 @@
                 display: block;
                 @include font-size(13);
                 color: $theme;
+                margin-bottom: 2px;
             }
 
             span {
@@ -202,6 +217,10 @@
                 color: $text;
             }
         }
+    }
+
+    .copy-sharelink {
+        margin-top: 10px;
     }
 
     @media (prefers-color-scheme: dark) {

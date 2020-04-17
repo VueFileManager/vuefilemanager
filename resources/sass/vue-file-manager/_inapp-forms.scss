@@ -1,0 +1,57 @@
+// Forms
+.form-wrapper {
+  padding: 0 20px;
+}
+
+.input-wrapper {
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  input {
+    width: 100%;
+    color: $text;
+
+    &.is-error {
+      border-color: $danger;
+      box-shadow: 0 0 7px rgba($danger, 0.3);
+    }
+  }
+}
+
+.inline-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.icon-append {
+
+    .input-text {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .icon {
+      background: $theme_light;
+      padding: 14px 18px;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      @include font-size(16);
+      text-align: center;
+
+      svg path {
+        fill: white;
+      }
+    }
+  }
+}
+
+.input-label {
+  @include font-size(15);
+  color: $text;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+}

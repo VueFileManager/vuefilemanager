@@ -1,47 +1,55 @@
 <template>
     <div id="vue-file-manager" :class="appSize">
-        <div id="popups">
+
+        <div id="application-wrapper" v-if="layout === 'authorized'">
+
+            <!--Share Item setup-->
+            <ShareCreate />
+            <ShareEdit />
+
+            <!--Move item setup-->
+            <MoveItem />
 
             <!--System alerts-->
             <Alert />
 
-            <!--Popup-->
-            <PopupMoveItem />
-
             <!--Mobile Menu-->
-            <MobileOptionList />
+            <MobileMenu />
 
             <!--Background vignette-->
             <Vignette />
-        </div>
-
-        <div id="application-wrapper" v-if="isLogged">
 
             <!--Navigation Sidebar-->
-            <Sidebar />
+            <Sidebar/>
 
             <!--File page-->
-            <router-view />
+            <router-view/>
         </div>
 
-        <router-view v-if="! isLogged" />
+        <router-view v-if="layout === 'unauthorized'"/>
     </div>
 </template>
 
 <script>
-    import MobileOptionList from '@/components/VueFileManagerComponents/FilesView/MobileOptionList'
-    import PopupMoveItem from '@/components/VueFileManagerComponents/Others/PopupMoveItem'
+    import MobileMenu from '@/components/VueFileManagerComponents/FilesView/MobileMenu'
+    import ShareCreate from '@/components/VueFileManagerComponents/Others/ShareCreate'
+    import ShareEdit from '@/components/VueFileManagerComponents/Others/ShareEdit'
+    import MoveItem from '@/components/VueFileManagerComponents/Others/MoveItem'
     import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
-    import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
     import Sidebar from '@/components/VueFileManagerComponents/Sidebar/Sidebar'
+    import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
     import {ResizeSensor} from 'css-element-queries'
+    import { includes } from 'lodash'
     import {mapGetters} from 'vuex'
+    import {events} from "./bus"
 
     export default {
         name: 'app',
         components: {
-            MobileOptionList,
-            PopupMoveItem,
+            ShareCreate,
+            MobileMenu,
+            ShareEdit,
+            MoveItem,
             Vignette,
             Sidebar,
             Alert,
@@ -50,6 +58,13 @@
             ...mapGetters([
                 'appSize', 'isLogged', 'isGuest'
             ]),
+            layout() {
+                if (includes(['VerifyByPassword', 'SharedContent', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
+                    return 'unauthorized'
+                }
+
+                return 'authorized'
+            }
         },
         methods: {
             handleAppResize() {
@@ -70,6 +85,8 @@
             this.$store.commit('SET_CONFIG', this.$root.$data.config)
         },
         mounted() {
+
+            //events.$emit('share-item')
 
             // Handle VueFileManager width
             var VueFileManager = document.getElementById('vue-file-manager');

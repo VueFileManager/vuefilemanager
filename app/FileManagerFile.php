@@ -9,11 +9,10 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
-use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class FileManagerFile extends Model
 {
-    use Searchable, SoftDeletes, SoftCascadeTrait;
+    use Searchable, SoftDeletes;
 
 
     protected $guarded = [

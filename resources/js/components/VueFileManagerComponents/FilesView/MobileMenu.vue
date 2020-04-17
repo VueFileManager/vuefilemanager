@@ -8,46 +8,38 @@
                     @click="closeAndResetContextMenu"
             >
                 <div class="menu-wrapper">
-                    <ul class="menu-options">
-                        <li class="menu-option"
-                            @click="addToFavourites"
-                            v-if="! $isTrashLocation() && fileInfoDetail && isFolder"
-                        >
-                            {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
-                        </li>
 
-                        <li class="menu-option"
-                            @click="$store.dispatch('restoreItem', fileInfoDetail)"
-                            v-if="fileInfoDetail && $isTrashLocation()"
-                        >
+                    <!--Mobile for trash location-->
+                    <ul v-if="$isTrashLocation()" class="menu-options">
+                        <li class="menu-option" @click="$store.dispatch('restoreItem', fileInfoDetail)" v-if="fileInfoDetail">
                             {{ $t('context_menu.restore') }}
                         </li>
-                        <li
-                                class="menu-option"
-                                @click="renameItem"
-                                v-if="fileInfoDetail"
-                        >
-                            {{ $t('context_menu.rename') }}
-                        </li>
-                        <li
-                                class="menu-option"
-                                @click="moveItem"
-                                v-if="fileInfoDetail"
-                        >
-                            {{ $t('context_menu.move') }}
-                        </li>
-                        <li
-                                class="menu-option"
-                                @click="downloadItem"
-                                v-if="! isFolder"
-                        >
+                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
                         </li>
-                        <li
-                                class="menu-option delete"
-                                @click="removeItem"
-                                v-if="fileInfoDetail"
-                        >
+                        <li class="menu-option delete" @click="removeItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.delete') }}
+                        </li>
+                    </ul>
+
+                    <!--Mobile for Base location-->
+                    <ul v-if="$isBaseLocation()" class="menu-options">
+                        <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
+                            {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
+                        </li>
+                        <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.rename') }}
+                        </li>
+                        <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.move') }}
+                        </li>
+                        <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.share') }}
+                        </li>
+                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                            {{ $t('context_menu.download') }}
+                        </li>
+                        <li class="menu-option delete" @click="removeItem" v-if="fileInfoDetail">
                             {{ $t('context_menu.delete') }}
                         </li>
                     </ul>
@@ -92,11 +84,16 @@
         },
         methods: {
             moveItem() {
-                // Move item fire popup
-                events.$emit('popup:move-item', this.fileInfoDetail);
+                // Open move item popup
+                events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail})
+            },
+            shareItem() {
+                // Open share item popup
+                events.$emit('popup:open', {name: 'share-create', item: this.fileInfoDetail})
+
             },
             addToFavourites() {
-                if (this.app.favourites && ! this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {
+                if (this.app.favourites && !this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {
                     this.$store.dispatch('addToFavourites', this.fileInfoDetail)
                 } else {
                     this.$store.dispatch('removeFromFavourites', this.fileInfoDetail)
@@ -130,7 +127,7 @@
                     this.$store.dispatch('changeItemName', item)
 
                     // Change item name if is mobile device or prompted
-                    if ( this.$isMobile() ) {
+                    if (this.$isMobile()) {
                         events.$emit('change:name', item)
                     }
                 }

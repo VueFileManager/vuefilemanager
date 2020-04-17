@@ -49,38 +49,20 @@
         },
         mounted() {
 
-            // Set default directory
-            if (this.config.directory) {
-                // Set start directory
-                this.$store.commit('SET_START_DIRECTORY', this.config.directory)
-
-                // Load folder
-                this.$store.dispatch('goToFolder', [
-                    {
-                        unique_id: this.config.directory.unique_id,
-                        name: this.config.directory.name,
-                        location: 'base',
-                    },
-                    false,
-                    true
-                ])
-            } else {
-
-                let homeDirectory = {
-                    unique_id: 0,
-                    name: 'Home',
-                    location: 'base',
-                }
-
-                // Set start directory
-                this.$store.commit('SET_START_DIRECTORY', homeDirectory)
-
-                // Load folder
-                this.$store.dispatch('goToFolder', [homeDirectory, false, true])
-            }
-
             var filesView = document.getElementById('files-view');
             new ResizeSensor(filesView, this.handleContentResize);
+
+            let homeDirectory = {
+                unique_id: 0,
+                name: 'Home',
+                location: 'base',
+            }
+
+            // Set start directory
+            this.$store.commit('SET_START_DIRECTORY', homeDirectory)
+
+            // Load folder
+            this.$store.dispatch('goToFolder', [homeDirectory, false, true])
         }
     }
 </script>

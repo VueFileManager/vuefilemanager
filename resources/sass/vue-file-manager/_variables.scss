@@ -2,15 +2,17 @@
 $text: #1b2539;
 $text-muted: #667b90;
 
-$light_mode_border: rgba(0, 0, 0, 0.02);
 $theme: #00BC7E;
-$danger: #d22323;
+$theme_light: #4ECDA5;
+
+$light_mode_border: rgba(0, 0, 0, 0.02);
+$danger: #fd397a;
 $light_text: #A4ADB6;
 $light_background: #f6f6f6;
 $dark_background: #EBEBEB;
 $shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
-$light_mode_popup_shadow: 0 10px 50px rgba(0, 0, 0, .10);
-$light_mode_vignette: rgba(255, 255, 255, 0.80);
+$light_mode_popup_shadow: 0 15px 50px 10px rgba(26,38,74,0.12);
+$light_mode_vignette: rgba(9, 8, 12, 0.15);
 
 // Dark Mode
 $dark_mode_vignette: rgba(0, 0, 0, 0.3);

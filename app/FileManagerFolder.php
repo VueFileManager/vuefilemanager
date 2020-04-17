@@ -11,18 +11,13 @@ use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
-use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class FileManagerFolder extends Model
 {
-    use Searchable, SoftDeletes, SoftCascadeTrait;
+    use Searchable, SoftDeletes;
 
     protected $guarded = [
         'id'
-    ];
-
-    protected $softCascade = [
-        'children', 'files'
     ];
 
     protected $appends = [
@@ -116,7 +111,6 @@ class FileManagerFolder extends Model
      */
     public function files()
     {
-
         return $this->hasMany('App\FileManagerFile', 'folder_id', 'unique_id');
     }
 
@@ -178,9 +172,22 @@ class FileManagerFolder extends Model
 
         static::deleting(function ($item) {
 
-            $item->children()->each(function($folder) {
-                $folder->delete();
-            });
+            if ( $item->isForceDeleting() ) {
+
+                $item->trashed_children()->each(function($folder) {
+                    $folder->forceDelete();
+                });
+
+            } else {
+
+                $item->children()->each(function($folder) {
+                    $folder->delete();
+                });
+
+                $item->files()->each(function($file) {
+                    $file->delete();
+                });
+            }
         });
 
         static::restoring(function ($item) {

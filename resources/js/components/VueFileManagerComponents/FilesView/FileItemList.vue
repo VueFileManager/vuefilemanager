@@ -20,9 +20,9 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
                 <!--If is file or image, then link item-->
-                <span v-if="isFile" class="file-icon-text">{{
-					data.mimetype | limitCharacters
-				}}</span>
+                <span v-if="isFile" class="file-icon-text">
+                    {{ data.mimetype | limitCharacters }}
+                </span>
 
                 <!--Folder thumbnail-->
                 <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
@@ -37,19 +37,31 @@
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <span
+                <b
                         ref="name"
                         @input="changeItemName"
                         :contenteditable="!$isMobile() && !$isTrashLocation()"
                         class="name"
-                >{{ itemName }}</span>
+                >
+                    {{ itemName }}
+                </b>
 
-                <!--Other attributes-->
-                <span v-if="! isFolder" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
+                <div class="item-info">
 
-                <span v-if="isFolder" class="item-length">
-					{{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
-				</span>
+                    <!--Shared Icon-->
+                    <div class="item-shared" v-if="true">
+                        <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
+                        <span class="label">Shared,</span>
+                    </div>
+
+                    <!--Filesize and timestamp-->
+                    <span v-if="! isFolder" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
+
+                    <!--Folder item counts-->
+                    <span v-if="isFolder" class="item-length">
+                        {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
+                    </span>
+                </div>
             </div>
 
             <!--Go Next icon-->
@@ -233,12 +245,34 @@
             text-overflow: ellipsis;
             white-space: nowrap;
 
+            .item-info {
+                display: block;
+                line-height: 1;
+            }
+
+            .item-shared {
+                display: inline-block;
+
+                .label {
+                    @include font-size(12);
+                    font-weight: 400;
+                    color: $theme;
+                }
+
+                .shared-icon {
+                    @include font-size(10);
+
+                    path {
+                        fill: $theme;
+                    }
+                }
+            }
+
             .item-size,
             .item-length {
                 @include font-size(12);
                 font-weight: 400;
                 color: $text-muted;
-                display: block;
             }
 
             .name {

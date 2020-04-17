@@ -1,17 +1,17 @@
 <template>
-    <div class="file-item">
+    <div class="file-item" v-if="item">
 
         <!--Thumbnail for item-->
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile" class="file-icon-text">{{ file.mimetype }}</span>
+            <span v-if="isFile" class="file-icon-text">{{ item.mimetype }}</span>
 
             <!--Folder thumbnail-->
             <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
 
             <!--Image thumbnail-->
-            <img v-if="isImage" class="image" :src="file.thumbnail" :alt="file.name"/>
+            <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!--Else show only folder icon-->
             <FontAwesomeIcon v-if="isFolder" class="folder-icon" icon="folder"/>
@@ -21,10 +21,20 @@
         <div class="item-name">
 
             <!--Name-->
-            <span class="name">{{ file.name }}</span>
+            <span class="name">{{ item.name }}</span>
 
-            <!--Other attributes-->
-            <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ currentFolder.name }}</span>
+            <div v-if="info === 'location'">
+                <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ currentFolder.name }}</span>
+            </div>
+
+            <div v-if="info === 'metadata'">
+                <span v-if="! isFolder" class="item-size">{{ item.filesize }}, {{ item.created_at }}</span>
+
+                <span v-if="isFolder" class="item-length">
+                    {{ item.items == 0 ? $t('folder.empty') : $tc('folder.item_counts', item.items) }}, {{ item.created_at }}
+                </span>
+            </div>
+
         </div>
     </div>
 </template>
@@ -34,18 +44,18 @@
 
     export default {
         name: 'ThumbnailItem',
-        props: ['file'],
+        props: ['item', 'info'],
         computed: {
             ...mapGetters(['currentFolder']),
             isFolder() {
-                return this.file.type === 'folder'
+                return this.item.type === 'folder'
             },
             isFile() {
-                return this.file.type !== 'folder' && this.file.type !== 'image'
+                return this.item.type !== 'folder' && this.item.type !== 'image'
             },
             isImage() {
-                return this.file.type === 'image'
-            }
+                return this.item.type === 'image'
+            },
         },
     }
 </script>
@@ -65,6 +75,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+
+            .item-size,
+            .item-length {
+                @include font-size(12);
+                font-weight: 400;
+                color: $text-muted;
+                display: block;
+            }
 
             .subtitle {
                 @include font-size(11);
@@ -141,7 +159,7 @@
     .small {
         .file-item {
             padding: 0 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
     }
 

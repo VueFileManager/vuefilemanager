@@ -125,6 +125,7 @@
         "detail": "Detail",
         "rename": "Rename",
         "delete": "Delete",
+        "share": "Share",
         "move": "Move"
     },
     "sidebar": {

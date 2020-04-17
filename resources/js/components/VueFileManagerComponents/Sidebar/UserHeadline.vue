@@ -11,7 +11,7 @@
         </div>
         <transition name="user-menu">
             <div class="user-menu" v-if="isOpenedMenu">
-                <ul class="menu-options" id="menu-options-list" @click="closeMenu">
+                <ul class="menu-options" @click="closeMenu">
                     <li class="menu-option">
                         <router-link :to="{name: 'Profile'}">
                             {{ $t('context_menu.profile_settings') }}
@@ -176,7 +176,8 @@
     @media (prefers-color-scheme: dark) {
 
         .user-headline {
-            background: $dark_mode_background;
+            background: $dark_mode_foreground;
+            padding: 0;
 
             &:hover {
                 background: transparent;

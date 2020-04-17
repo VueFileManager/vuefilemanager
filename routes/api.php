@@ -60,4 +60,8 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie']], function () {
     Route::post('/move-item', 'FileManagerController@move_item');
     Route::get('/search', 'FileManagerController@search');
     Route::get('/trash', 'FileManagerController@trash');
+
+    // Sharing routes
+    Route::post('/share/generate', 'FileSharingController@generate_link');
+    Route::post('/share/check', 'FileSharingController@check_password');
 });

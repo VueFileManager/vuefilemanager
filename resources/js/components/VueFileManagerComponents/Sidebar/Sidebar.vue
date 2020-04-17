@@ -16,10 +16,10 @@
                             <FontAwesomeIcon class="icon" icon="hdd"/>
                             <span class="label">{{ $t('locations.home') }}</span>
                         </li>
-                        <!--<li class="menu-list-item">
+                        <li class="menu-list-item">
                             <FontAwesomeIcon class="icon" icon="share"/>
                             <span class="label">Shared</span>
-                        </li>-->
+                        </li>
                         <li class="menu-list-item" @click="getTrash">
                             <FontAwesomeIcon class="icon" icon="trash-alt"/>
                             <span class="label">{{ $t('locations.trash') }}</span>

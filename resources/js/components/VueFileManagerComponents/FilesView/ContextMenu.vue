@@ -1,34 +1,60 @@
 <template>
     <div
-            ref="contextmenu"
-            class="contextmenu"
             :style="{ top: positionY + 'px', left: positionX + 'px' }"
+            @click="closeAndResetContextMenu"
+            class="contextmenu"
             v-show="isVisible"
+            ref="contextmenu"
     >
-        <ul class="menu-options" id="menu-options-list" ref="list" @click="closeAndResetContextMenu">
+        <!--ContextMenu for trash location-->
+        <ul v-if="$isTrashLocation()" class="menu-options" ref="list">
+            <li class="menu-option" @click="removeItem" v-if="item">
+                {{ $t('context_menu.delete') }}
+            </li>
+            <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item">
+                {{ $t('context_menu.restore') }}
+            </li>
+            <li class="menu-option" @click="$store.dispatch('emptyTrash')">
+                {{ $t('context_menu.empty_trash') }}
+            </li>
+            <li class="menu-option" @click="ItemDetail" v-if="item">
+                {{ $t('context_menu.detail') }}
+            </li>
+            <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                {{ $t('context_menu.download') }}
+            </li>
+        </ul>
 
-            <!--View-->
-            <li class="menu-option" @click="addToFavourites" v-if="! $isTrashLocation() && item && isFolder">{{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}</li>
-            <li class="menu-option" @click="createFolder" v-if="! $isTrashLocation()">{{ $t('context_menu.create_folder') }}</li>
-
-            <!--Edits-->
-            <li class="menu-option" @click="removeItem" v-if="! $isTrashLocation() && item">{{ $t('context_menu.delete') }}</li>
-            <li class="menu-option" @click="moveItem" v-if="! $isTrashLocation() && item">{{ $t('context_menu.move') }}</li>
-
-            <!--Trash-->
-            <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item && $isTrashLocation()">{{ $t('context_menu.restore') }}</li>
-            <li class="menu-option" @click="$store.dispatch('emptyTrash')" v-if="$isTrashLocation()">{{ $t('context_menu.empty_trash') }}</li>
-
-            <!--Others-->
-            <li class="menu-option" @click="ItemDetail" v-if="item">{{ $t('context_menu.detail') }}</li>
-            <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">{{ $t('context_menu.download') }}</li>
+        <!--ContextMenu for Base location-->
+        <ul v-if="$isBaseLocation()" class="menu-options" ref="list">
+            <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
+                {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
+            </li>
+            <li class="menu-option" @click="createFolder">
+                {{ $t('context_menu.create_folder') }}
+            </li>
+            <li class="menu-option" @click="removeItem" v-if="item">
+                {{ $t('context_menu.delete') }}
+            </li>
+            <li class="menu-option" @click="moveItem" v-if="item">
+                {{ $t('context_menu.move') }}
+            </li>
+            <li class="menu-option" @click="shareItem" v-if="item">
+                {{ $t('context_menu.share') }}
+            </li>
+            <li class="menu-option" @click="ItemDetail" v-if="item">
+                {{ $t('context_menu.detail') }}
+            </li>
+            <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                {{ $t('context_menu.download') }}
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
-    import {events} from '@/bus'
     import {mapGetters} from 'vuex'
+    import {events} from '@/bus'
 
     export default {
         name: 'ContextMenu',
@@ -57,10 +83,15 @@
         },
         methods: {
             moveItem() {
-                // Move item fire popup
-                events.$emit('popup:move-item', this.item);
+                // Open move item popup
+                events.$emit('popup:open', {name: 'move', item: this.item})
+            },
+            shareItem() {
+                // Open share item popup
+                events.$emit('popup:open', {name: 'share-create', item: this.item})
             },
             addToFavourites() {
+                // Check if folder is in favourites and then add/remove from favourites
                 if (this.app.favourites && ! this.app.favourites.find(el => el.unique_id == this.item.unique_id)) {
                     this.$store.dispatch('addToFavourites', this.item)
                 } else {

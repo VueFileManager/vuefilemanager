@@ -1,7 +1,8 @@
 import axios from 'axios'
 import {events} from '@/bus'
-import i18n from '@/i18n/index.js'
 import router from '@/router'
+import { includes } from 'lodash'
+import i18n from '@/i18n/index.js'
 
 const defaultState = {
     fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
@@ -23,7 +24,7 @@ const actions = {
         events.$emit('show:content')
 
         // Go to files view
-        if (router.currentRoute.name !== 'Files') {
+        if ( ! includes(['Files', 'SharedContent'], router.currentRoute.name) ) {
             router.push({name: 'Files'})
         }
 

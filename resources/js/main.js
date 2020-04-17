@@ -9,6 +9,11 @@ import Helpers from './helpers'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
+	faUserFriends,
+	faCheck,
+	faLink,
+	faUserEdit,
+	faUser,
 	faFileAudio,
 	faFileVideo,
 	faSyncAlt,
@@ -20,6 +25,7 @@ import {
 	faEllipsisV,
 	faChevronLeft,
 	faChevronRight,
+	faChevronDown,
 	faUpload,
 	faFolderPlus,
 	faTh,
@@ -37,6 +43,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
+	faUserFriends,
+	faCheck,
+	faLink,
+	faUserEdit,
+	faUser,
 	faFileAudio,
 	faFileVideo,
 	faHdd,
@@ -49,6 +60,7 @@ library.add(
 	faEllipsisV,
 	faChevronLeft,
 	faChevronRight,
+	faChevronDown,
 	faUpload,
 	faTrashAlt,
 	faFolderPlus,

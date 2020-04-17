@@ -20,10 +20,11 @@
         >
             <!--Thumbnail for item-->
             <div class="icon-item">
+
                 <!--If is file or image, then link item-->
-                <span v-if="isFile" class="file-icon-text">{{
-					data.mimetype
-				}}</span>
+                <span v-if="isFile" class="file-icon-text">
+                    {{ data.mimetype }}
+                </span>
 
                 <!--Folder thumbnail-->
                 <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
@@ -38,22 +39,30 @@
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <span
+                <b
                         ref="name"
                         @input="changeItemName"
                         :contenteditable="!$isMobile()"
                         class="name"
-                >{{ itemName }}</span
                 >
+                    {{ itemName }}
+                </b>
 
-                <!--Other attributes-->
-                <span v-if="! isFolder" class="item-size">{{
-					data.filesize
-				}}</span>
+                <div class="item-info">
+                    <!--Shared Icon-->
+                    <div class="item-shared" v-if="true">
+                        <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
+                        <span class="label">Shared, </span>
+                    </div>
 
-                <span v-if="isFolder" class="item-length">
-					{{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}
-				</span>
+                    <!--Filesize-->
+                    <span v-if="! isFolder" class="item-size">{{ data.filesize }}</span>
+
+                    <!--Folder item counts-->
+                    <span v-if="isFolder" class="item-length">
+                        {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}
+				    </span>
+                </div>
             </div>
 
             <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile()">
@@ -220,19 +229,29 @@
                 @include font-size(12);
                 font-weight: 400;
                 color: $text-muted;
-                display: block;
+                display: inline-block;
             }
 
-            .name {
+            .item-info {
                 display: block;
+                line-height: 1;
+            }
 
-                &[contenteditable] {
-                    -webkit-user-select: text;
-                    user-select: text;
+            .item-shared {
+                display: inline-block;
+
+                .label {
+                    @include font-size(12);
+                    font-weight: 400;
+                    color: $theme;
                 }
 
-                &[contenteditable='true']:hover {
-                    text-decoration: underline;
+                .shared-icon {
+                    @include font-size(10);
+
+                    path {
+                        fill: $theme;
+                    }
                 }
             }
 
@@ -243,6 +262,15 @@
                 max-height: 40px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+
+                &[contenteditable] {
+                    -webkit-user-select: text;
+                    user-select: text;
+                }
+
+                &[contenteditable='true']:hover {
+                    text-decoration: underline;
+                }
 
                 &.actived {
                     max-height: initial;
@@ -377,4 +405,6 @@
             }
         }
     }
+
+
 </style>

@@ -24,7 +24,7 @@
 
     @media (prefers-color-scheme: dark) {
         .text-label {
-            color: rgba($dark_mode_text_secondary, .4);
+            color: $theme;
         }
     }
 </style>

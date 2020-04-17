@@ -1,6 +1,7 @@
 <template>
     <div id="desktop-toolbar">
         <div class="toolbar-wrapper">
+
             <!-- Go back-->
             <div class="toolbar-go-back" v-if="homeDirectory">
                 <div @click="goBack" class="go-back-button">
@@ -20,6 +21,7 @@
                 <div class="toolbar-button-wrapper">
                     <SearchBar/>
                 </div>
+
                 <div class="toolbar-button-wrapper">
                     <ToolbarButtonUpload source="upload" action="Upload file"/>
                     <ToolbarButton
@@ -33,6 +35,7 @@
                             action="Create folder"
                     />
                 </div>
+
                 <div class="toolbar-button-wrapper">
                     <ToolbarButton
                             :source="preview"

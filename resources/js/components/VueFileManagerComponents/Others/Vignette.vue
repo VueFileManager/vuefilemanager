@@ -26,7 +26,7 @@
             events.$on('popup:close', () => this.isVisibleVignette = false)
 
             // Show vignette
-            events.$on('popup:move-item', () => this.isVisibleVignette = true)
+            events.$on('popup:open', () => this.isVisibleVignette = true)
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
         }

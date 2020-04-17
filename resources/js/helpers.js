@@ -209,9 +209,16 @@ const Helpers = {
 			anchor.click()
 		}
 
-		Vue.prototype.$isTrashLocation = function() {
+		Vue.prototype.$closePopup = function() {
+			events.$emit('popup:close')
+		}
 
+		Vue.prototype.$isTrashLocation = function() {
 			return store.getters.currentFolder && store.getters.currentFolder.location === 'trash' || store.getters.currentFolder && store.getters.currentFolder.location === 'trash-root' ? true : false
+		}
+
+		Vue.prototype.$isBaseLocation = function() {
+			return store.getters.currentFolder && store.getters.currentFolder.location === 'base' ? true : false
 		}
 
 		Vue.prototype.$isMobile = function() {

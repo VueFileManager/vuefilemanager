@@ -1,13 +1,16 @@
 <template>
     <button class="button-base" :class="buttonStyle" type="button">
-        <slot></slot>
+        <span v-if="loading" class="icon">
+			<FontAwesomeIcon icon="sync-alt" class="sync-alt"/>
+		</span>
+        <slot v-if="! loading"></slot>
     </button>
 </template>
 
 <script>
     export default {
         name: 'ButtonBase',
-        props: ['buttonStyle']
+        props: ['buttonStyle', 'loading']
     }
 </script>
 
@@ -38,9 +41,27 @@
             background: rgba($danger, .1);
         }
 
+        &.danger-solid {
+            color: white;
+            background: $danger;
+        }
+
         &.secondary {
             color: $text;
             background: $light_background;
+        }
+    }
+
+    .sync-alt {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 
