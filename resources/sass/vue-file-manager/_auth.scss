@@ -5,6 +5,10 @@
   display: table-cell;
   vertical-align: middle;
 
+  input {
+    min-width: 310px;
+  }
+
   .additional-link {
 
     a {

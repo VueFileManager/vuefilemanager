@@ -64,4 +64,5 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie']], function () {
     // Sharing routes
     Route::post('/share/generate', 'FileSharingController@generate_link');
     Route::post('/share/check', 'FileSharingController@check_password');
+    Route::get('/shared', 'FileSharingController@get_shared');
 });

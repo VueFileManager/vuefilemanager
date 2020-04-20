@@ -8,25 +8,20 @@
         <div
                 class="files-container"
                 ref="fileContainer"
-                :class="{
-				'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale()
-			}"
+                :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() }"
                 @click.self="filesContainerClick"
         >
             <!--MobileToolbar-->
-            <MobileToolbar v-if="$isMinimalScale()"/>
+            <MobileToolbar />
 
             <!--Searchbar-->
             <SearchBar v-if="$isMinimalScale()" class="mobile-search"/>
 
             <!--Mobile Actions-->
-            <MobileActions v-if="$isMinimalScale()" />
+            <MobileActions />
 
             <!--Item previews list-->
-            <div
-                    v-if="isList"
-                    class="file-list-wrapper"
-            >
+            <div v-if="isList" class="file-list-wrapper">
                 <transition-group
                         name="file"
                         tag="section"
@@ -76,20 +71,13 @@
             />
         </div>
 
-        <div
-                v-if="!$isMinimalScale()"
-                class="file-info-container"
-                :class="{ 'is-fileinfo-visible': fileInfoVisible }"
-        >
+        <!--File Info Panel-->
+        <div v-if="! $isMinimalScale()" class="file-info-container" :class="{ 'is-fileinfo-visible': fileInfoVisible }">
             <!--File info panel-->
             <FileInfoPanel v-if="fileInfoDetail"/>
 
             <!--If file info panel empty show message-->
-            <EmptyMessage
-                    v-if="!fileInfoDetail"
-                    :message="$t('messages.nothing_to_preview')"
-                    icon="eye-slash"
-            />
+            <EmptyMessage v-if="!fileInfoDetail" :message="$t('messages.nothing_to_preview')" icon="eye-slash"/>
         </div>
     </div>
 </template>

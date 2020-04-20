@@ -1,5 +1,5 @@
 import store from './store/index'
-import {debounce} from "lodash";
+import {debounce, includes} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
 
@@ -219,6 +219,19 @@ const Helpers = {
 
 		Vue.prototype.$isBaseLocation = function() {
 			return store.getters.currentFolder && store.getters.currentFolder.location === 'base' ? true : false
+		}
+
+		Vue.prototype.$checkPermission = function(type) {
+			
+			let currentPermission = store.getters.permission
+
+			// Check if type is object
+			if (typeof type === 'Object' || type instanceof Object) {
+				return includes(type, currentPermission)
+
+			} else {
+				return currentPermission === type
+			}
 		}
 
 		Vue.prototype.$isMobile = function() {

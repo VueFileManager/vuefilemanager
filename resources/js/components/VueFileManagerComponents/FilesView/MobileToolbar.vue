@@ -1,5 +1,5 @@
 <template>
-    <div class="mobile-toolbar">
+    <div class="mobile-toolbar" v-if="$isMinimalScale()">
 
         <!-- Go back-->
         <div @click="goBack" class="go-back-button">

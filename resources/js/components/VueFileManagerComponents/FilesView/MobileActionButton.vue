@@ -1,7 +1,9 @@
 <template>
     <button class="mobile-action-button">
         <FontAwesomeIcon class="icon" :icon="icon"></FontAwesomeIcon>
-        <span class="label">{{ text }}</span>
+        <span class="label">
+            <slot></slot>
+        </span>
     </button>
 </template>
 
@@ -9,7 +11,7 @@
     export default {
         name: 'MobileActionButton',
         props: [
-            'icon', 'text'
+            'icon'
         ],
     }
 </script>

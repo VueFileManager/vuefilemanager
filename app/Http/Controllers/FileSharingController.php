@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\FileManagerFile;
+use App\FileManagerFolder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class FileSharingController extends Controller
@@ -26,5 +29,26 @@ class FileSharingController extends Controller
     public function check_password(Request $request) {
 
         return $request->all();
+    }
+
+
+    public function get_shared(Request $request) {
+
+        // Get user
+        $user_id = Auth::id();
+
+        // Get folders and files
+        $folders = FileManagerFolder::with('parent')
+            ->where('user_id', $user_id)
+            ->where('parent_id', 0)
+            ->get();
+
+        $files = FileManagerFile::with('parent')
+            ->where('user_id', $user_id)
+            ->where('folder_id', 0)
+            ->get();
+
+        // Collect folders and files to single array
+        return collect([$folders, $files])->collapse();
     }
 }

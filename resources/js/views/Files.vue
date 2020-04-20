@@ -1,15 +1,14 @@
 <template>
     <div @click="fileViewClick" @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view" :class="filesViewWidth">
         <ContextMenu />
-        <DesktopToolbar  v-if="! $isMinimalScale()"/>
-        <FilesContainer/>
+        <DesktopToolbar />
+        <FileBrowser />
     </div>
 </template>
 
 <script>
-    import UploadProgress from '@/components/VueFileManagerComponents/FilesView/UploadProgress'
-    import FilesContainer from '@/components/VueFileManagerComponents/FilesView/FilesContainer'
     import DesktopToolbar from '@/components/VueFileManagerComponents/FilesView/DesktopToolbar'
+    import FileBrowser from '@/components/VueFileManagerComponents/FilesView/FileBrowser'
     import ContextMenu from '@/components/VueFileManagerComponents/FilesView/ContextMenu'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
@@ -18,9 +17,8 @@
     export default {
         name: 'FilesView',
         components: {
-            UploadProgress,
-            FilesContainer,
             DesktopToolbar,
+            FileBrowser,
             ContextMenu,
         },
         computed: {

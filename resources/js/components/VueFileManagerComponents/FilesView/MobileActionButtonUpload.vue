@@ -2,7 +2,7 @@
     <button class="mobile-action-button">
         <FontAwesomeIcon class="icon" :icon="icon"></FontAwesomeIcon>
         <label label="file" class="label button file-input button-base">
-            {{ text }}
+            <slot></slot>
             <input
                     accept="*"
                     v-show="false"
@@ -20,7 +20,7 @@
     export default {
         name: 'MobileActionButtonUpload',
         props: [
-            'icon', 'text'
+            'icon'
         ],
         data() {
             return {

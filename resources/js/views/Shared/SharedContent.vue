@@ -1,32 +1,99 @@
 <template>
-    <div @click="fileViewClick" @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view" :class="filesViewWidth">
-        <ContextMenu />
-        <DesktopToolbar  v-if="! $isMinimalScale()"/>
-        <FilesContainer/>
+    <div id="shared-content">
+        <div id="single-file">
+            <div v-if="false" class="single-file-wrapper">
+                <FileItemGrid :data="item"/>
+
+                <ButtonBase @click.native="download" class="download-button" button-style="theme">
+                    Download File
+                </ButtonBase>
+            </div>
+        </div>
+        <div
+                @contextmenu.prevent.capture="contextMenu($event, undefined)"
+                :class="filesViewWidth"
+                @click="fileViewClick"
+                id="files-view"
+                v-if="true"
+        >
+            <!--Move item window-->
+            <MoveItem/>
+
+            <!--Mobile Menu-->
+            <MobileMenu/>
+
+            <!--Background vignette-->
+            <Vignette/>
+
+            <!--Context menu-->
+            <ContextMenu/>
+
+            <!--Desktop Toolbar-->
+            <DesktopToolbar/>
+
+            <!--File browser-->
+            <FileBrowser/>
+        </div>
     </div>
 </template>
 
 <script>
-    import UploadProgress from '@/components/VueFileManagerComponents/FilesView/UploadProgress'
-    import FilesContainer from '@/components/VueFileManagerComponents/FilesView/FilesContainer'
     import DesktopToolbar from '@/components/VueFileManagerComponents/FilesView/DesktopToolbar'
+    import FileItemGrid from '@/components/VueFileManagerComponents/FilesView/FileItemGrid'
+    import FileBrowser from '@/components/VueFileManagerComponents/FilesView/FileBrowser'
     import ContextMenu from '@/components/VueFileManagerComponents/FilesView/ContextMenu'
+    import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
+    import MobileMenu from '@/components/VueFileManagerComponents/FilesView/MobileMenu'
+    import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
+    import MoveItem from '@/components/VueFileManagerComponents/Others/MoveItem'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 
     export default {
-        name: 'FilesView',
+        name: 'SharedContent',
         components: {
-            UploadProgress,
-            FilesContainer,
             DesktopToolbar,
+            FileItemGrid,
+            FileBrowser,
             ContextMenu,
+            MobileMenu,
+            ButtonBase,
+            Vignette,
+            MoveItem,
         },
         computed: {
             ...mapGetters(['config', 'filesViewWidth']),
         },
+        data() {
+            return {
+                item: {
+                    "id": 339,
+                    "user_id": 3,
+                    "unique_id": 421,
+                    "folder_id": 0,
+                    "thumbnail": null,
+                    "name": "VueFileManager-0.0.1-mac",
+                    "basename": "gF5GiO16GNgmkr7K-VueFileManager-0.0.1-mac.zip",
+                    "mimetype": "zip",
+                    "filesize": "95.78MB",
+                    "type": "file",
+                    "deleted_at": null,
+                    "created_at": "11. April. 2020 at 17:11",
+                    "updated_at": "2020-04-11 17:11:49",
+                    "file_url": "https://vuefilemanager.hi5ve.digital/api/file/gF5GiO16GNgmkr7K-VueFileManager-0.0.1-mac.zip",
+                    "parent": null
+                }
+            }
+        },
         methods: {
+            download() {
+                console.log('penis');
+                this.$downloadFile(
+                    this.item.file_url,
+                    this.item.name + '.' + this.item.mimetype
+                )
+            },
             fileViewClick() {
                 events.$emit('contextMenu:hide')
             },
@@ -34,8 +101,7 @@
                 events.$emit('contextMenu:show', event, item)
             },
             handleContentResize() {
-                let filesView = document.getElementById('files-view')
-                    .clientWidth
+                let filesView = document.getElementById('files-view').clientWidth
 
                 if (filesView >= 0 && filesView <= 690)
                     this.$store.commit('SET_FILES_VIEW_SIZE', 'minimal-scale')
@@ -69,6 +135,44 @@
 
 <style lang="scss">
     @import "@assets/app.scss";
+
+    #shared-content {
+        width: 100%;
+        height: 100%;
+    }
+
+    #single-file {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: 0;
+        display: grid;
+
+        .single-file-wrapper {
+            margin: auto;
+            text-align: center;
+
+            .download-button {
+                margin-top: 15px;
+            }
+        }
+
+        /deep/ .file-wrapper {
+
+            .file-item {
+                width: 290px;
+
+                &:hover, &.is-clicked {
+                    background: transparent;
+                }
+
+                .item-shared {
+                    display: none;
+                }
+            }
+        }
+    }
 
     #files-view {
         font-family: 'Nunito', sans-serif;

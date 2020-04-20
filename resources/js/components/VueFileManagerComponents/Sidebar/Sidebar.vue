@@ -12,15 +12,15 @@
                 <div class="menu-list-wrapper">
                     <TextLabel>{{ $t('sidebar.locations') }}</TextLabel>
                     <ul class="menu-list">
-                        <li class="menu-list-item" @click="goHome">
+                        <li class="menu-list-item" :class="{'is-active': isBaseLocation}" @click="goHome">
                             <FontAwesomeIcon class="icon" icon="hdd"/>
                             <span class="label">{{ $t('locations.home') }}</span>
                         </li>
-                        <li class="menu-list-item">
+                        <li class="menu-list-item" :class="{'is-active': isSharedLocation}" @click="getShared">
                             <FontAwesomeIcon class="icon" icon="share"/>
                             <span class="label">Shared</span>
                         </li>
-                        <li class="menu-list-item" @click="getTrash">
+                        <li class="menu-list-item" :class="{'is-active': isTrashLocation}" @click="getTrash">
                             <FontAwesomeIcon class="icon" icon="trash-alt"/>
                             <span class="label">{{ $t('locations.trash') }}</span>
                         </li>
@@ -91,7 +91,16 @@
             TextLabel,
         },
         computed: {
-            ...mapGetters(['homeDirectory', 'app', 'appSize', 'config']),
+            ...mapGetters(['homeDirectory', 'app', 'appSize', 'config', 'currentFolder']),
+            isTrashLocation() {
+                return this.currentFolder && this.currentFolder.location === 'trash-root' || this.currentFolder && this.currentFolder.location === 'trash'
+            },
+            isBaseLocation() {
+                return this.currentFolder && this.currentFolder.location === 'base'
+            },
+            isSharedLocation() {
+                return this.currentFolder && this.currentFolder.location === 'shared'
+            },
             isSmallAppSize() {
                 return this.appSize === 'small'
             }
@@ -104,6 +113,9 @@
             }
         },
         methods: {
+            getShared() {
+                this.$store.dispatch('getShared')
+            },
             getTrash() {
                 this.$store.dispatch('getTrash')
             },
@@ -247,7 +259,8 @@
                     display: inline-block;
                 }
 
-                &:hover {
+                &:hover,
+                &.is-active {
                     background: rgba($theme, .1);
 
                     .icon {

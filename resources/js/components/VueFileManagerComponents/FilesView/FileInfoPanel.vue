@@ -34,7 +34,7 @@
             </li>
 
             <!--Parent-->
-            <li class="list-info-item">
+            <li v-if="$checkPermission(['master', 'editor'])" class="list-info-item">
                 <b>{{ $t('file_detail.where') }}</b>
                 <div class="action-button" @click="moveItem">
                     <FontAwesomeIcon class="icon" icon="pencil-alt" />
@@ -43,7 +43,7 @@
             </li>
 
             <!--Parent-->
-            <li v-if="true" class="list-info-item">
+            <li v-if="$checkPermission('master')" class="list-info-item">
                 <b>Shared</b>
                 <div class="action-button" @click="shareItemOptions">
                     <FontAwesomeIcon class="icon" icon="user-edit" />

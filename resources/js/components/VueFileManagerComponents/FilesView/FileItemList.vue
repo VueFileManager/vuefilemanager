@@ -40,7 +40,7 @@
                 <b
                         ref="name"
                         @input="changeItemName"
-                        :contenteditable="!$isMobile() && !$isTrashLocation()"
+                        :contenteditable="canEditName"
                         class="name"
                 >
                     {{ itemName }}
@@ -49,9 +49,8 @@
                 <div class="item-info">
 
                     <!--Shared Icon-->
-                    <div class="item-shared" v-if="true">
+                    <div v-if="$checkPermission('master')" class="item-shared">
                         <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
-                        <span class="label">Shared,</span>
                     </div>
 
                     <!--Filesize and timestamp-->
@@ -92,6 +91,9 @@
             },
             isImage() {
                 return this.data.type === 'image'
+            },
+            canEditName() {
+                return ! this.$isMobile() && ! this.$isTrashLocation() && ! this.$checkPermission('visitor')
             },
             timeStamp() {
                 return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.data.deleted_at}) : this.data.created_at
@@ -260,7 +262,7 @@
                 }
 
                 .shared-icon {
-                    @include font-size(10);
+                    @include font-size(9);
 
                     path {
                         fill: $theme;

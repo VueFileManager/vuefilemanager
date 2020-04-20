@@ -5,6 +5,7 @@ import router from '@/router'
 
 const defaultState = {
     authorized: undefined,
+    permission: 'master', // master | editor | visitor,
     app: undefined,
 }
 
@@ -138,8 +139,9 @@ const mutations = {
 }
 
 const getters = {
-    isLogged: state => state.authorized,
+    permission: state => state.permission,
     isGuest: state => ! state.authorized,
+    isLogged: state => state.authorized,
     app: state => state.app,
 }
 

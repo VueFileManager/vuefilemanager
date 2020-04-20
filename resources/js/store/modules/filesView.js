@@ -70,6 +70,43 @@ const actions = {
                 })
             })
     },
+    getShared: (context, back = false) => {
+        events.$emit('show:content')
+
+        // Go to files view
+        if (router.currentRoute.name !== 'Files') {
+            router.push({name: 'Files'})
+        }
+
+        if (! back) context.commit('FLUSH_BROWSER_HISTORY')
+        context.commit('FLUSH_DATA')
+        context.commit('LOADING_STATE', true)
+
+        // Create shared object for history
+        let trash = {
+            name: 'Shared',
+            unique_id: undefined,
+            location: 'shared',
+        }
+
+        axios
+            .get(context.getters.api + '/shared')
+            .then(response => {
+                context.commit('GET_DATA', response.data)
+                context.commit('LOADING_STATE', false)
+                context.commit('STORE_CURRENT_FOLDER', trash)
+                context.commit('ADD_BROWSER_HISTORY', trash)
+
+                events.$emit('scrollTop')
+            })
+            .catch(() => {
+                // Show error message
+                events.$emit('alert:open', {
+                    title: i18n.t('popup_error.title'),
+                    message: i18n.t('popup_error.message'),
+                })
+            })
+    },
     getTrash: (context, back = false) => {
         events.$emit('show:content')
 

@@ -1,11 +1,37 @@
 <template>
-    <div id="mobile-actions-wrapper">
-        <div class="mobile-actions">
-            <MobileActionButton v-if="! $isTrashLocation()" @click.native="createFolder" icon="folder-plus" :text="$t('context_menu.add_folder')"></MobileActionButton>
-            <MobileActionButtonUpload v-if="! $isTrashLocation()" @input.native="$uploadFiles" icon="upload" :text="$t('context_menu.upload')"></MobileActionButtonUpload>
-            <MobileActionButton @click.native="switchPreview" :icon="previewIcon" :text="previewText"></MobileActionButton>
-            <MobileActionButton  v-if="$isTrashLocation()" @click.native="$store.dispatch('emptyTrash')" icon="trash-alt" :text="$t('context_menu.empty_trash')"></MobileActionButton>
+    <div id="mobile-actions-wrapper" v-if="$isMinimalScale()">
+
+        <!--Actions for trash location with MASTER permission--->
+        <div v-if="$isTrashLocation() && $checkPermission('master')" class="mobile-actions">
+            <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
+                {{ previewText }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash-alt">
+                {{ $t('context_menu.empty_trash') }}
+            </MobileActionButton>
         </div>
+
+        <!--ContextMenu for Base location with MASTER permission-->
+        <div v-if="$isBaseLocation() && $checkPermission(['master', 'editor'])" class="mobile-actions">
+            <MobileActionButton @click.native="createFolder" icon="folder-plus">
+                {{ $t('context_menu.add_folder') }}
+            </MobileActionButton>
+            <MobileActionButtonUpload @input.native="$uploadFiles" icon="upload">
+                {{ $t('context_menu.upload') }}
+            </MobileActionButtonUpload>
+            <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
+                {{ previewText }}
+            </MobileActionButton>
+        </div>
+
+        <!--ContextMenu for Base location with VISITOR permission-->
+        <div v-if="$isBaseLocation() && $checkPermission('visitor')" class="mobile-actions">
+            <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
+                {{ previewText }}
+            </MobileActionButton>
+        </div>
+
+        <!--Upload Progressbar-->
         <UploadProgress />
     </div>
 </template>

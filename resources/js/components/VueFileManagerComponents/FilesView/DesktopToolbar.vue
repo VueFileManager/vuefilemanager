@@ -1,5 +1,5 @@
 <template>
-    <div id="desktop-toolbar">
+    <div id="desktop-toolbar" v-if="! $isMinimalScale()">
         <div class="toolbar-wrapper">
 
             <!-- Go back-->
@@ -10,20 +10,26 @@
                             class="icon-back"
                             icon="chevron-left"
                     ></FontAwesomeIcon>
-                    <span class="back-directory-title">{{
-                            directoryName
-                        }}</span>
+                    <span class="back-directory-title">
+                        {{ directoryName }}
+                    </span>
                 </div>
             </div>
 
             <!-- Tools-->
             <div class="toolbar-tools">
+
+                <!--Search bar-->
                 <div class="toolbar-button-wrapper">
                     <SearchBar/>
                 </div>
 
-                <div class="toolbar-button-wrapper">
-                    <ToolbarButtonUpload source="upload" action="Upload file"/>
+                <!--Files controlls-->
+                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
+                    <ToolbarButtonUpload
+                            source="upload"
+                            action="Upload file"
+                    />
                     <ToolbarButton
                             source="trash-alt"
                             action="Delete"
@@ -36,6 +42,7 @@
                     />
                 </div>
 
+                <!--View options-->
                 <div class="toolbar-button-wrapper">
                     <ToolbarButton
                             :source="preview"

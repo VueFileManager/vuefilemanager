@@ -10,7 +10,7 @@
                 <div class="menu-wrapper">
 
                     <!--Mobile for trash location-->
-                    <ul v-if="$isTrashLocation()" class="menu-options">
+                    <ul v-if="$isTrashLocation() && $checkPermission('master')" class="menu-options">
                         <li class="menu-option" @click="$store.dispatch('restoreItem', fileInfoDetail)" v-if="fileInfoDetail">
                             {{ $t('context_menu.restore') }}
                         </li>
@@ -23,7 +23,7 @@
                     </ul>
 
                     <!--Mobile for Base location-->
-                    <ul v-if="$isBaseLocation()" class="menu-options">
+                    <ul v-if="$isBaseLocation() && $checkPermission('master')" class="menu-options">
                         <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
                             {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
                         </li>
@@ -43,15 +43,31 @@
                             {{ $t('context_menu.delete') }}
                         </li>
                     </ul>
+
+                    <!--Mobile for Base location with EDITOR permission-->
+                    <ul v-if="$isBaseLocation() && $checkPermission('editor')" class="menu-options">
+                        <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.rename') }}
+                        </li>
+                        <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.move') }}
+                        </li>
+                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                            {{ $t('context_menu.download') }}
+                        </li>
+                    </ul>
+
+                    <!--Mobile for Base location with VISITOR permission-->
+                    <ul v-if="$isBaseLocation() && $checkPermission('visitor')" class="menu-options">
+                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                            {{ $t('context_menu.download') }}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </transition>
         <transition name="fade">
-            <div
-                    v-show="isVisible"
-                    class="vignette"
-                    @click="closeAndResetContextMenu"
-            ></div>
+            <div v-show="isVisible" class="vignette" @click="closeAndResetContextMenu"></div>
         </transition>
     </div>
 </template>
@@ -61,7 +77,7 @@
     import {mapGetters} from 'vuex'
 
     export default {
-        name: 'MobileOptionList',
+        name: 'MobileMenu',
         computed: {
             ...mapGetters(['fileInfoDetail', 'app']),
             isInFavourites() {
