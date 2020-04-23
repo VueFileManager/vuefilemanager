@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-          content="Manage your folders and files with Vue File Manager client powered by Laravel API endpoint.">
+    <meta name="description" content="Manage your folders and files with Vue File Manager client powered by Laravel API endpoint.">
 
     <title>VueFileManager | Make your own Private Cloud with VueFileManager client powered by Laravel and Vue</title>
 
@@ -19,6 +18,7 @@
     <meta name="format-detection" content="address=no">
 </head>
 <body>
+
 <div id="app"></div>
 
     <script>

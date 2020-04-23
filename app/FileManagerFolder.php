@@ -165,6 +165,16 @@ class FileManagerFolder extends Model
         return $this->hasMany('App\FileManagerFolder', 'parent_id', 'unique_id')->withTrashed();
     }
 
+    /**
+     * Get sharing attributes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function shared()
+    {
+        return $this->hasOne('App\Share', 'item_id', 'unique_id');
+    }
+
     // Delete all folder childrens
     public static function boot()
     {

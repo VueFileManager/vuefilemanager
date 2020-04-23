@@ -51,16 +51,8 @@ const router = new Router({
         },
         {
             name: 'SharedContent',
-            path: '/shared',
+            path: '/shared/:token',
             component: SharedContent,
-            meta: {
-                requiresAuth: false
-            },
-        },
-        {
-            name: 'VerifyByPassword',
-            path: '/protected',
-            component: VerifyByPassword,
             meta: {
                 requiresAuth: false
             },

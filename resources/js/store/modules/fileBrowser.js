@@ -2,7 +2,7 @@ import axios from 'axios'
 import {events} from '@/bus'
 import router from '@/router'
 import { includes } from 'lodash'
-import i18n from '@/i18n/index.js'
+import i18n from '@/i18n/index'
 
 const defaultState = {
     fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
@@ -90,7 +90,7 @@ const actions = {
         }
 
         axios
-            .get(context.getters.api + '/shared')
+            .get(context.getters.api + '/shared-all')
             .then(response => {
                 context.commit('GET_DATA', response.data)
                 context.commit('LOADING_STATE', false)
@@ -215,10 +215,10 @@ const actions = {
         // Remove file
         commit('REMOVE_ITEM', data.unique_id)
 
-        if (data.type === 'file' || data.type === 'image')
-            commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
         if (data.type === 'folder')
             commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+        else
+            commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
 
         // Remove file preview
         commit('CLEAR_FILEINFO_DETAIL')
@@ -356,7 +356,12 @@ const actions = {
             dispatch('getTrash')
 
         } else {
-            dispatch('goToFolder', [state.currentFolder, false, true])
+
+            if ( this.$isThisLocation('public') ) {
+                dispatch('browseShared', [this.currentFolder(), false, true])
+            } else {
+                dispatch('goToFolder', [state.currentFolder, false, true])
+            }
         }
     },
     fileInfoToggle: (context, visibility = undefined) => {
@@ -419,6 +424,11 @@ const mutations = {
     FLUSH_BROWSER_HISTORY(state) {
         state.browseHistory = []
     },
+    FLUSH_SHARED(state, unique_id) {
+        state.data.find(item => {
+            if (item.unique_id == unique_id) item.shared = undefined
+        })
+    },
     ADD_BROWSER_HISTORY(state, folder) {
         state.browseHistory.push(folder)
     },
@@ -465,6 +475,11 @@ const mutations = {
     UPDATE_FILE_COUNT_PROGRESS(state, data) {
         state.uploadingFilesCount = data
     },
+    UPDATE_SHARED_ITEM(state, data) {
+        state.data.find(item => {
+            if (item.unique_id == data.item_id) item.shared = data
+        })
+    },
     FLUSH_DATA(state) {
         state.data = []
     },
@@ -476,11 +491,6 @@ const mutations = {
     },
     ADD_NEW_ITEMS(state, items) {
         state.data = state.data.concat(items)
-    },
-    REMOVE_ITEMS(state, ids) {
-        state.data = state.data.filter(
-            el => -1 == ids.indexOf(el.unique_id)
-        )
     },
     REMOVE_ITEM(state, unique_id) {
         state.data = state.data.filter(el => el.unique_id !== unique_id)

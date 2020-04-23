@@ -1,14 +1,15 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
-import filesView from './modules/filesView'
+import fileBrowser from './modules/fileBrowser'
 import userAuth from './modules/userAuth'
+import sharing from './modules/sharing'
 import app from './modules/app'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-        filesView, userAuth, app,
+        fileBrowser, userAuth, app, sharing,
     }
 })

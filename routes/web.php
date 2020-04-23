@@ -12,7 +12,7 @@
 */
 
 // Get user avatar
-Route::get('/avatars/{avatar}', 'AppFunctionsController@get_avatar')->name('avatar');
+Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
 
 // Index Page
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

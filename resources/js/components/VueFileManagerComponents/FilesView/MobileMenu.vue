@@ -10,7 +10,7 @@
                 <div class="menu-wrapper">
 
                     <!--Mobile for trash location-->
-                    <ul v-if="$isTrashLocation() && $checkPermission('master')" class="menu-options">
+                    <ul v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="menu-options">
                         <li class="menu-option" @click="$store.dispatch('restoreItem', fileInfoDetail)" v-if="fileInfoDetail">
                             {{ $t('context_menu.restore') }}
                         </li>
@@ -23,7 +23,26 @@
                     </ul>
 
                     <!--Mobile for Base location-->
-                    <ul v-if="$isBaseLocation() && $checkPermission('master')" class="menu-options">
+                    <ul v-if="$isThisLocation(['shared']) && $checkPermission('master')" class="menu-options">
+                        <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
+                            {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
+                        </li>
+                        <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.rename') }}
+                        </li>
+                        <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+                            {{ fileInfoDetail.shared ? 'Edit Sharing' : $t('context_menu.share') }}
+                        </li>
+                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                            {{ $t('context_menu.download') }}
+                        </li>
+                        <li class="menu-option delete" @click="removeItem" v-if="fileInfoDetail">
+                            {{ $t('context_menu.delete') }}
+                        </li>
+                    </ul>
+
+                    <!--Mobile for Base location-->
+                    <ul v-if="$isThisLocation(['base']) && $checkPermission('master')" class="menu-options">
                         <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
                             {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
                         </li>
@@ -34,7 +53,7 @@
                             {{ $t('context_menu.move') }}
                         </li>
                         <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.share') }}
+                            {{ fileInfoDetail.shared ? 'Edit Sharing' : $t('context_menu.share') }}
                         </li>
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
@@ -45,7 +64,7 @@
                     </ul>
 
                     <!--Mobile for Base location with EDITOR permission-->
-                    <ul v-if="$isBaseLocation() && $checkPermission('editor')" class="menu-options">
+                    <ul v-if="$isThisLocation(['base']) && $checkPermission('editor')" class="menu-options">
                         <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
                             {{ $t('context_menu.rename') }}
                         </li>
@@ -58,7 +77,7 @@
                     </ul>
 
                     <!--Mobile for Base location with VISITOR permission-->
-                    <ul v-if="$isBaseLocation() && $checkPermission('visitor')" class="menu-options">
+                    <ul v-if="$isThisLocation(['base']) && $checkPermission('visitor')" class="menu-options">
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
                         </li>
@@ -104,9 +123,13 @@
                 events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail})
             },
             shareItem() {
-                // Open share item popup
-                events.$emit('popup:open', {name: 'share-create', item: this.fileInfoDetail})
-
+                if (this.fileInfoDetail.shared) {
+                    // Open share item popup
+                    events.$emit('popup:open', {name: 'share-edit', item: this.fileInfoDetail})
+                } else {
+                    // Open share item popup
+                    events.$emit('popup:open', {name: 'share-create', item: this.fileInfoDetail})
+                }
             },
             addToFavourites() {
                 if (this.app.favourites && !this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {

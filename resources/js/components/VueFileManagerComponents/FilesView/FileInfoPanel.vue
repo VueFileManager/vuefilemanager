@@ -43,13 +43,13 @@
             </li>
 
             <!--Parent-->
-            <li v-if="$checkPermission('master')" class="list-info-item">
+            <li v-if="$checkPermission('master') && fileInfoDetail.shared" class="list-info-item">
                 <b>Shared</b>
                 <div class="action-button" @click="shareItemOptions">
-                    <FontAwesomeIcon class="icon" icon="user-edit" />
-                    <span>Can edit and upload files</span>
+                    <FontAwesomeIcon class="icon" :icon="sharedIcon" />
+                    <span>{{ sharedInfo }}</span>
                 </div>
-                <CopyInput class="copy-sharelink" size="small" :value="shareLink" />
+                <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail.shared.link" />
             </li>
         </ul>
     </div>
@@ -87,12 +87,31 @@
                         return 'file-audio'
                     break;
                 }
-            }
-        },
-        data() {
-            return {
-                shareLink: 'http://192.168.1.131:8000/shared?token=3ZlQLIoCR8izoc0PemekHNq3UIMj6OrC0aQ2zowclfjFYa8P6go8fMKPnXTJomvz'
-            }
+            },
+            sharedInfo() {
+                switch (this.fileInfoDetail.shared.permission) {
+                    case 'editor':
+                        return 'Can edit and upload files'
+                    break
+                    case 'visitor':
+                        return 'Can only view and download'
+                    break
+                    default:
+                        return 'Can download file'
+                }
+            },
+            sharedIcon() {
+                switch (this.fileInfoDetail.shared.permission) {
+                    case 'editor':
+                        return 'user-edit'
+                    break
+                    case 'visitor':
+                        return 'user'
+                    break
+                    default:
+                        return 'download'
+                }
+            },
         },
         methods: {
             shareItemOptions() {

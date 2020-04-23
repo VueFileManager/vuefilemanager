@@ -7,7 +7,7 @@
             ref="contextmenu"
     >
         <!--ContextMenu for trash location-->
-        <ul v-if="$isTrashLocation() && $checkPermission('master')" class="menu-options" ref="list">
+        <ul v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="menu-options" ref="list">
             <li class="menu-option" @click="removeItem" v-if="item">
                 {{ $t('context_menu.delete') }}
             </li>
@@ -26,7 +26,26 @@
         </ul>
 
         <!--ContextMenu for Base location with MASTER permission-->
-        <ul v-if="$isBaseLocation() && $checkPermission('master')" class="menu-options" ref="list">
+        <ul v-if="$isThisLocation(['shared']) && $checkPermission('master')" class="menu-options" ref="list">
+            <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
+                {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
+            </li>
+            <li class="menu-option" @click="removeItem" v-if="item">
+                {{ $t('context_menu.delete') }}
+            </li>
+            <li class="menu-option" @click="shareItem" v-if="item">
+                {{ item.shared ? 'Edit Sharing' : $t('context_menu.share') }}
+            </li>
+            <li class="menu-option" @click="ItemDetail" v-if="item">
+                {{ $t('context_menu.detail') }}
+            </li>
+            <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                {{ $t('context_menu.download') }}
+            </li>
+        </ul>
+
+        <!--ContextMenu for Base location with MASTER permission-->
+        <ul v-if="$isThisLocation(['base']) && $checkPermission('master')" class="menu-options" ref="list">
             <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
                 {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
             </li>
@@ -40,7 +59,7 @@
                 {{ $t('context_menu.move') }}
             </li>
             <li class="menu-option" @click="shareItem" v-if="item">
-                {{ $t('context_menu.share') }}
+                {{ item.shared ? 'Edit Sharing' : $t('context_menu.share') }}
             </li>
             <li class="menu-option" @click="ItemDetail" v-if="item">
                 {{ $t('context_menu.detail') }}
@@ -51,7 +70,7 @@
         </ul>
 
         <!--ContextMenu for Base location with EDITOR permission-->
-        <ul v-if="$isBaseLocation() && $checkPermission('editor')" class="menu-options" ref="list">
+        <ul v-if="$isThisLocation(['base']) && $checkPermission('editor')" class="menu-options" ref="list">
             <li class="menu-option" @click="createFolder">
                 {{ $t('context_menu.create_folder') }}
             </li>
@@ -70,7 +89,7 @@
         </ul>
 
         <!--ContextMenu for Base location with VISITOR permission-->
-        <ul v-if="$isBaseLocation() && $checkPermission('visitor')" class="menu-options" ref="list">
+        <ul v-if="$isThisLocation(['base']) && $checkPermission('visitor')" class="menu-options" ref="list">
             <li class="menu-option" @click="ItemDetail" v-if="item">
                 {{ $t('context_menu.detail') }}
             </li>
@@ -116,8 +135,13 @@
                 events.$emit('popup:open', {name: 'move', item: this.item})
             },
             shareItem() {
-                // Open share item popup
-                events.$emit('popup:open', {name: 'share-create', item: this.item})
+                if (this.item.shared) {
+                    // Open share item popup
+                    events.$emit('popup:open', {name: 'share-edit', item: this.item})
+                } else {
+                    // Open share item popup
+                    events.$emit('popup:open', {name: 'share-create', item: this.item})
+                }
             },
             addToFavourites() {
                 // Check if folder is in favourites and then add/remove from favourites

@@ -49,11 +49,13 @@
                     this.$store.dispatch('getSearchResult', value)
                 } else if (typeof value !== 'undefined') {
                     if (this.currentFolder) {
+
                         // Get back after delete query to previosly folder
-                        this.$store.dispatch('goToFolder', [
-                            this.currentFolder,
-                            true
-                        ])
+                        if ( this.$isThisLocation('public') ) {
+                            this.$store.dispatch('browseShared', [this.currentFolder, true])
+                        } else {
+                            this.$store.dispatch('goToFolder', [this.currentFolder, true])
+                        }
                     }
 
                     this.$store.commit('CHANGE_SEARCHING_STATE', false)

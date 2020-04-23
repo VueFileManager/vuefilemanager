@@ -61,7 +61,7 @@
             </div>
 
             <!--Show empty page if folder is empty-->
-            <EmptyPage v-if="!isSearching"/>
+            <EmptyPage v-if="! isSearching"/>
 
             <!--Show empty page if no search results-->
             <EmptyMessage

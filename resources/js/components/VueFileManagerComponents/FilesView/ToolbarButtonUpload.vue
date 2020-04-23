@@ -8,7 +8,7 @@
                 type="file"
                 name="files[]"
                 multiple
-                :disabled="$isTrashLocation() ? true : false"
+                :disabled="$isThisLocation(['trash', 'trash-root'])"
         />
     </label>
 </template>

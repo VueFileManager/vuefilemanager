@@ -114,4 +114,14 @@ class FileManagerFile extends Model
     {
         return $this->hasOne('App\FileManagerFolder', 'unique_id', 'folder_id');
     }
+
+    /**
+     * Get sharing attributes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function shared()
+    {
+        return $this->hasOne('App\Share', 'item_id', 'unique_id');
+    }
 }

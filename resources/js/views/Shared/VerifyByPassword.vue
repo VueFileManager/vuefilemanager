@@ -3,19 +3,7 @@
 
         <!--Verify share link by password-->
         <AuthContent name="password" :visible="true">
-            <img class="logo" :src="config.app_logo" :alt="config.app_name">
-            <h1>Your Share Link is Protected</h1>
-            <h2>Please type the password to get shared content:</h2>
 
-            <ValidationObserver @submit.prevent="sharedProtected" ref="sharedProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
-
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required" v-slot="{ errors }">
-                    <input v-model="password" placeholder="Type password" type="password" :class="{'is-error': errors[0]}"/>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
-
-                <AuthButton icon="chevron-right" text="Submit" :loading="isLoading" :disabled="isLoading" />
-            </ValidationObserver>
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -45,8 +33,8 @@
         data() {
             return {
                 checkedAccount: undefined,
+                password: 'tvojpenis',
                 isLoading: false,
-                password: '',
             }
         },
         methods: {
@@ -62,20 +50,28 @@
 
                 // Send request to get verify account
                 axios
-                    .post('/api/share/check', {
-                        password: this.password,
-                        token: this.$route.query.token
+                    .post('/api/shared/authenticate/' + this.$route.params.token, {
+                        password: this.password
                     })
                     .then(response => {
 
                         // End loading
                         this.isLoading = false
 
-                        console.log(response.data);
+                        // Commit shared item options
+                        this.$store.commit('SET_PERMISSION', response.data.permission)
+
+                        // Redirect to file browser page
+                        this.$router.push({name: 'SharedContent', params: {token: this.$route.params.token}})
                     })
                     .catch(error => {
 
-                        // todo: catch error
+                        if (error.response.status == 401) {
+
+                            this.$refs.sharedProtected.setErrors({
+                                'Password': [error.response.data.message]
+                            });
+                        }
 
                         // End loading
                         this.isLoading = false

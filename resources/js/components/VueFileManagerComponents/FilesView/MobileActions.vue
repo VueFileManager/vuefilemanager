@@ -2,7 +2,7 @@
     <div id="mobile-actions-wrapper" v-if="$isMinimalScale()">
 
         <!--Actions for trash location with MASTER permission--->
-        <div v-if="$isTrashLocation() && $checkPermission('master')" class="mobile-actions">
+        <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="mobile-actions">
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
@@ -12,7 +12,7 @@
         </div>
 
         <!--ContextMenu for Base location with MASTER permission-->
-        <div v-if="$isBaseLocation() && $checkPermission(['master', 'editor'])" class="mobile-actions">
+        <div v-if="$isThisLocation(['base', 'shared']) && $checkPermission(['master', 'editor'])" class="mobile-actions">
             <MobileActionButton @click.native="createFolder" icon="folder-plus">
                 {{ $t('context_menu.add_folder') }}
             </MobileActionButton>
@@ -25,7 +25,7 @@
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
-        <div v-if="$isBaseLocation() && $checkPermission('visitor')" class="mobile-actions">
+        <div v-if="$isThisLocation(['base', 'shared']) && $checkPermission('visitor')" class="mobile-actions">
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>

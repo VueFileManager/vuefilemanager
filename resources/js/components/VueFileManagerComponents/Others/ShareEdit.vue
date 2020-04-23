@@ -4,7 +4,7 @@
         <PopupHeader title="Update sharing options" />
 
         <!--Content-->
-        <PopupContent>
+        <PopupContent v-if="pickedItem && pickedItem.shared">
 
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
@@ -15,13 +15,13 @@
                 <!--Share link-->
                 <div class="input-wrapper">
                     <label class="input-label">Share url:</label>
-                    <CopyInput size="small" :value="shareLink" />
+                    <CopyInput size="small" :value="pickedItem.shared.link" />
                 </div>
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">Permission:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" default="visitor" :isError="errors[0]"/>
+                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :default="shareOptions.permission" :isError="errors[0]"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -29,13 +29,13 @@
                 <div class="input-wrapper">
                     <div class="inline-wrapper">
                         <label class="input-label">Password Protected:</label>
-                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0"/>
+                        <SwitchInput v-model="shareOptions.isProtected" :state="shareOptions.isProtected" class="switch"/>
                     </div>
-                    <ActionButton @click.native="changePassword" v-if="isPasswordChangeButton" icon="pencil-alt">Change Password</ActionButton>
+                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" icon="pencil-alt">Change Password</ActionButton>
                 </div>
 
                 <!--Set password-->
-                <ValidationProvider v-if="isPasswordInput || shareOptions.isPassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
+                <ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
                     <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" placeholder="Type your password">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -50,15 +50,17 @@
                     class="popup-button"
                     @click.native="destroySharing"
                     :button-style="destroyButtonStyle"
+                    :loading="isDeleting"
+                    :disabled="isDeleting"
             >{{ destroyButtonText }}
             </ButtonBase>
             <ButtonBase
                     class="popup-button"
-                    @click.native="submitShareOptions"
+                    @click.native="updateShareOptions"
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
-            >Save Changes
+            >Ok
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -99,7 +101,7 @@
             required,
         },
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['app', 'permissionOptions', 'currentFolder']),
             isFolder() {
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },
@@ -108,58 +110,72 @@
             },
             destroyButtonStyle() {
                 return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
-            }
+            },
+            isSharedLocation() {
+                return this.currentFolder && this.currentFolder.location === 'shared'
+            },
         },
         data() {
             return {
-                shareOptions: {
-                    isPassword: false,
-                    password: undefined,
-                    permission: undefined,
-                },
-                permissionOptions: [
-                    {
-                        label: 'Can edit and upload files',
-                        value: 'editor',
-                        icon: 'user-edit',
-                    },
-                    {
-                        label: 'Can only view and download',
-                        value: 'visitor',
-                        icon: 'user',
-                    },
-                ],
+                shareOptions: undefined,
                 pickedItem: undefined,
                 isLoading: false,
-                isPasswordInput: false,
-                isPasswordChangeButton: true,
+                isDeleting: false,
+                canChangePassword: false,
                 isConfirmedDestroy: false,
-                shareLink: 'http://192.168.1.131:8000/shared?token=3ZlQLIoCR8izoc0PemekHNq3UIMj6OrC0aQ2zowclfjFYa8P6go8fMKPnXTJomvz'
             }
         },
         methods: {
             changePassword() {
-                this.isPasswordInput = true
-                this.isPasswordChangeButton = false
+                this.canChangePassword = false
             },
             destroySharing() {
 
+                // Set confirm button
                 if (! this.isConfirmedDestroy) {
-                    this.isConfirmedDestroy = true
 
-                    return
+                    this.isConfirmedDestroy = true
                 } else {
 
-                    this.$closePopup()
+                    // Start deleting spinner button
+                    this.isDeleting = true
+
+                    // Send delete request
+                    axios
+                        .delete('/api/share/remove', {
+                            params: {
+                                token: this.pickedItem.shared.token
+                            }
+                        })
+                        .then(() => {
+
+                            // Remove item from file browser
+                            if ( this.isSharedLocation ) {
+                                this.$store.commit('REMOVE_ITEM', this.pickedItem.unique_id)
+                            }
+
+                            // Flush shared data
+                            this.$store.commit('FLUSH_SHARED', this.pickedItem.unique_id)
+
+                            // End deleting spinner button
+                            this.isDeleting = false
+
+                            this.$closePopup()
+                        })
+                        .catch(() => {
+
+                            // End deleting spinner button
+                            this.isDeleting = false
+                        })
                 }
             },
-            async submitShareOptions() {
+            async updateShareOptions() {
 
                 // If shared was generated, then close popup
                 if (this.isGeneratedShared) {
-                    events.$emit('popup:close')
 
-                    return;
+                    events.$emit('popup:close')
+                    return
                 }
 
                 // Validate fields
@@ -171,14 +187,16 @@
 
                 // Send request to get share link
                 axios
-                    .post('/api/share/generate', this.shareOptions)
+                    .post('/api/share/update', this.shareOptions)
                     .then(response => {
 
                         // End loading
                         this.isLoading = false
 
-                        this.shareLink = response.data
-                        this.isGeneratedShared = true
+                        // Update shared data
+                        this.$store.commit('UPDATE_SHARED_ITEM', response.data)
+
+                        events.$emit('popup:close')
                     })
                     .catch(error => {
 
@@ -198,6 +216,16 @@
 
                 // Store picked item
                 this.pickedItem = args.item
+
+                // Store shared options
+                this.shareOptions = {
+                    token: args.item.shared.token,
+                    isProtected: args.item.shared.protected,
+                    permission: args.item.shared.permission,
+                    password: undefined,
+                }
+
+                this.canChangePassword = args.item.shared.protected
             })
 
             // Close popup
@@ -206,14 +234,9 @@
                 // Restore data
                 setTimeout(() => {
                     this.isConfirmedDestroy = false
-                    this.isPasswordInput = false
-                    this.isPasswordChangeButton = true
-                    //this.shareLink = undefined
-                    this.shareOptions = {
-                        permission: undefined,
-                        password: undefined,
-                        isPassword: false,
-                    }
+                    this.canChangePassword = false
+                    this.pickedItem = undefined
+                    this.shareOptions = undefined
                 }, 150)
             })
         }

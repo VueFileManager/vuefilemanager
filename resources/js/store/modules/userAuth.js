@@ -97,6 +97,9 @@ const mutations = {
     UPDATE_FOLDER_TREE(state, tree) {
         state.app.folders = tree
     },
+    SET_PERMISSION(state, role) {
+        state.permission = role
+    },
     SET_AUTHORIZED(state, data) {
         state.authorized = data
     },

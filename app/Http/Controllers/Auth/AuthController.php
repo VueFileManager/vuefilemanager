@@ -136,7 +136,7 @@ class AuthController extends Controller
             'client_secret' => config('services.passport.client_secret'),
             'username'      => $request->email,
             'password'      => $request->password,
-            'scope'         => '',
+            'scope'         => 'master',
         ]);
 
         return Request::create(url('/oauth/token'), 'POST', $request->all());

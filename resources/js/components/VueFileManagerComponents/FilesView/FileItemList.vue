@@ -49,7 +49,7 @@
                 <div class="item-info">
 
                     <!--Shared Icon-->
-                    <div v-if="$checkPermission('master')" class="item-shared">
+                    <div v-if="$checkPermission('master') && data.shared" class="item-shared">
                         <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
                     </div>
 
@@ -93,7 +93,7 @@
                 return this.data.type === 'image'
             },
             canEditName() {
-                return ! this.$isMobile() && ! this.$isTrashLocation() && ! this.$checkPermission('visitor')
+                return ! this.$isMobile() && ! this.$isThisLocation(['trash', 'trash-root']) && ! this.$checkPermission('visitor')
             },
             timeStamp() {
                 return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.data.deleted_at}) : this.data.created_at
@@ -151,7 +151,11 @@
                 if (this.$isMobile() && this.isFolder) {
 
                     // Go to folder
-                    this.$store.dispatch('goToFolder', [this.data, false])
+                    if ( this.$isThisLocation('public') ) {
+                        this.$store.dispatch('browseShared', [this.data, false])
+                    } else {
+                        this.$store.dispatch('goToFolder', [this.data, false])
+                    }
                 }
 
                 // Load file info detail
@@ -180,8 +184,12 @@
                 }
 
                 if (this.isFolder) {
-                    // Go to folder
-                    this.$store.dispatch('goToFolder', [this.data, false])
+
+                    if ( this.$isThisLocation('public') ) {
+                        this.$store.dispatch('browseShared', [this.data, false])
+                    } else {
+                        this.$store.dispatch('goToFolder', [this.data, false])
+                    }
                 }
             },
             changeItemName: debounce(function (e) {

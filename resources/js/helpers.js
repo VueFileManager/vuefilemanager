@@ -213,12 +213,18 @@ const Helpers = {
 			events.$emit('popup:close')
 		}
 
-		Vue.prototype.$isTrashLocation = function() {
-			return store.getters.currentFolder && store.getters.currentFolder.location === 'trash' || store.getters.currentFolder && store.getters.currentFolder.location === 'trash-root' ? true : false
-		}
+		Vue.prototype.$isThisLocation = function(location) {
 
-		Vue.prototype.$isBaseLocation = function() {
-			return store.getters.currentFolder && store.getters.currentFolder.location === 'base' ? true : false
+			// Get current location
+			let currentLocation = store.getters.currentFolder && store.getters.currentFolder.location ? store.getters.currentFolder.location : undefined
+
+			// Check if type is object
+			if (typeof location === 'Object' || location instanceof Object) {
+				return includes(location, currentLocation)
+
+			} else {
+				return currentLocation === location
+			}
 		}
 
 		Vue.prototype.$checkPermission = function(type) {

@@ -1,94 +1,155 @@
 <template>
-    <div id="shared-content">
-        <div id="single-file">
-            <div v-if="false" class="single-file-wrapper">
-                <FileItemGrid :data="item"/>
+    <div id="shared">
 
-                <ButtonBase @click.native="download" class="download-button" button-style="theme">
-                    Download File
-                </ButtonBase>
-            </div>
+        <!--Loading Spinenr-->
+        <Spinner v-if="isPageLoading"/>
+
+        <!--Password verification-->
+        <div v-if="currentPage === 'page-password'" id="password-view">
+
+            <!--Verify share link by password-->
+            <AuthContent class="center" name="password" :visible="true">
+                <img class="logo" :src="config.app_logo" :alt="config.app_name">
+                <h1>Your Share Link is Protected</h1>
+                <h2>Please type the password to get shared content:</h2>
+
+                <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
+
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required" v-slot="{ errors }">
+                        <input v-model="password" placeholder="Type password" type="password" :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+
+                    <AuthButton icon="chevron-right" text="Submit" :loading="isLoading" :disabled="isLoading" />
+                </ValidationObserver>
+            </AuthContent>
         </div>
-        <div
-                @contextmenu.prevent.capture="contextMenu($event, undefined)"
-                :class="filesViewWidth"
-                @click="fileViewClick"
-                id="files-view"
-                v-if="true"
-        >
-            <!--Move item window-->
-            <MoveItem/>
 
-            <!--Mobile Menu-->
-            <MobileMenu/>
+        <!--File browser-->
+        <div v-if="currentPage === 'page-files'" id="files-view" :class="filesViewWidth">
+            <div id="single-file" v-if="sharedDetail.type === 'file'">
+                <div class="single-file-wrapper">
+                    <FileItemGrid v-if="sharedFile" :data="sharedFile"/>
 
-            <!--Background vignette-->
-            <Vignette/>
+                    <ButtonBase @click.native="download" class="download-button" button-style="theme">
+                        Download File
+                    </ButtonBase>
+                </div>
+            </div>
+            <div v-if="sharedDetail.type === 'folder'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
+                <!--Move item window-->
+                <MoveItem/>
 
-            <!--Context menu-->
-            <ContextMenu/>
+                <!--Mobile Menu-->
+                <MobileMenu/>
 
-            <!--Desktop Toolbar-->
-            <DesktopToolbar/>
+                <!--Background vignette-->
+                <Vignette/>
 
-            <!--File browser-->
-            <FileBrowser/>
+                <!--Context menu-->
+                <ContextMenu/>
+
+                <!--Desktop Toolbar-->
+                <DesktopToolbar/>
+
+                <!--File browser-->
+                <FileBrowser/>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import DesktopToolbar from '@/components/VueFileManagerComponents/FilesView/DesktopToolbar'
+    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import FileItemGrid from '@/components/VueFileManagerComponents/FilesView/FileItemGrid'
     import FileBrowser from '@/components/VueFileManagerComponents/FilesView/FileBrowser'
     import ContextMenu from '@/components/VueFileManagerComponents/FilesView/ContextMenu'
     import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
     import MobileMenu from '@/components/VueFileManagerComponents/FilesView/MobileMenu'
+    import AuthContent from '@/components/VueFileManagerComponents/Auth/AuthContent'
+    import AuthButton from '@/components/VueFileManagerComponents/Auth/AuthButton'
+    import Spinner from '@/components/VueFileManagerComponents/FilesView/Spinner'
     import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
     import MoveItem from '@/components/VueFileManagerComponents/Others/MoveItem'
+    import {required} from 'vee-validate/dist/rules'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
+    import axios from 'axios'
 
     export default {
         name: 'SharedContent',
         components: {
+            ValidationProvider,
+            ValidationObserver,
             DesktopToolbar,
             FileItemGrid,
+            AuthContent,
             FileBrowser,
             ContextMenu,
+            AuthButton,
             MobileMenu,
             ButtonBase,
+            required,
             Vignette,
             MoveItem,
+            Spinner,
         },
         computed: {
-            ...mapGetters(['config', 'filesViewWidth']),
+            ...mapGetters(['config', 'filesViewWidth', 'sharedDetail', 'sharedFile']),
         },
         data() {
             return {
-                item: {
-                    "id": 339,
-                    "user_id": 3,
-                    "unique_id": 421,
-                    "folder_id": 0,
-                    "thumbnail": null,
-                    "name": "VueFileManager-0.0.1-mac",
-                    "basename": "gF5GiO16GNgmkr7K-VueFileManager-0.0.1-mac.zip",
-                    "mimetype": "zip",
-                    "filesize": "95.78MB",
-                    "type": "file",
-                    "deleted_at": null,
-                    "created_at": "11. April. 2020 at 17:11",
-                    "updated_at": "2020-04-11 17:11:49",
-                    "file_url": "https://vuefilemanager.hi5ve.digital/api/file/gF5GiO16GNgmkr7K-VueFileManager-0.0.1-mac.zip",
-                    "parent": null
-                }
+                checkedAccount: undefined,
+                password: 'tvojpenis',
+                isLoading: false,
+                isPageLoading: true,
+                currentPage: undefined
             }
         },
         methods: {
+            async authenticateProtected() {
+
+                // Validate fields
+                const isValid = await this.$refs.authenticateProtected.validate();
+
+                if (!isValid) return;
+
+                // Start loading
+                this.isLoading = true
+
+                // Send request to get verify account
+                axios
+                    .post('/api/shared/authenticate/' + this.$route.params.token, {
+                        password: this.password
+                    }).then(response => {
+
+                        // End loading
+                        this.isLoading = false
+
+                        // Redirect to file browser page
+                        this.currentPage = 'page-files'
+
+                        // Get protected files
+                        this.getFiles();
+
+                    })
+
+                    /*.catch((error) => {
+
+                        /!*if (error.response.status == 401) {
+
+                            this.$refs.authenticateProtected.setErrors({
+                                'Password': [error.response.data.message]
+                            });
+                        }*!/
+
+                        // End loading
+                        this.isLoading = false
+                    })*/
+            },
             download() {
-                console.log('penis');
                 this.$downloadFile(
                     this.item.file_url,
                     this.item.name + '.' + this.item.mimetype
@@ -112,33 +173,75 @@
                 else if (filesView >= 960)
                     this.$store.commit('SET_FILES_VIEW_SIZE', 'full-scale')
             },
-        },
-        mounted() {
+            getFiles() {
 
-            var filesView = document.getElementById('files-view');
-            new ResizeSensor(filesView, this.handleContentResize);
+                // Show folder
+                if (this.sharedDetail.type === 'folder') {
 
-            let homeDirectory = {
-                unique_id: 0,
-                name: 'Home',
-                location: 'base',
+                    let homeDirectory = {
+                        unique_id: this.sharedDetail.item_id,
+                        name: 'Home',
+                    }
+
+                    // Set start directory
+                    this.$store.commit('SET_START_DIRECTORY', homeDirectory)
+
+                    // Load folder
+                    this.$store.dispatch('browseShared', [homeDirectory, false, true])
+                        .then(() => {
+
+                            var filesView = document.getElementById('files-view')
+                            new ResizeSensor(filesView, this.handleContentResize)
+                        })
+                }
+
+                // Get file
+                if (this.sharedDetail.type === 'file') {
+                    this.$store.dispatch('getSingleFile')
+                }
             }
+        },
+        created() {
 
-            // Set start directory
-            this.$store.commit('SET_START_DIRECTORY', homeDirectory)
+            axios
+                .get('/api/shared/' + this.$route.params.token, )
+                .then(response => {
 
-            // Load folder
-            this.$store.dispatch('goToFolder', [homeDirectory, false, true])
+                    // Commit shared item options
+                    this.$store.commit('SET_SHARED_DETAIL', response.data)
+                    this.$store.commit('SET_PERMISSION', response.data.permission)
+
+                    // Hide page spinner
+                    this.isPageLoading = false
+
+                    // Show password page
+                    if (response.data.protected) {
+                        this.currentPage = 'page-password'
+                    } else {
+                        this.currentPage = 'page-files'
+                        this.getFiles()
+                    }
+                })
         }
     }
 </script>
 
 <style lang="scss">
     @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vue-file-manager/_auth';
 
-    #shared-content {
-        width: 100%;
+    #shared {
         height: 100%;
+    }
+
+    #password-view {
+        display: grid;
+        height: inherit;
+
+        .center {
+            margin: auto;
+        }
     }
 
     #single-file {

@@ -118,7 +118,12 @@
                     this.$store.commit('FLUSH_BROWSER_HISTORY')
 
                 } else {
-                    this.$store.dispatch('goToFolder', [this.previousFolder, true])
+
+                    if ( this.$isThisLocation('public') ) {
+                        this.$store.dispatch('browseShared', [this.previousFolder, true])
+                    } else {
+                        this.$store.dispatch('goToFolder', [this.previousFolder, true])
+                    }
                 }
             },
             deleteItems() {
@@ -149,7 +154,6 @@
         z-index: 2;
 
         > div {
-            width: 100%;
             flex-grow: 1;
             align-self: center;
             white-space: nowrap;

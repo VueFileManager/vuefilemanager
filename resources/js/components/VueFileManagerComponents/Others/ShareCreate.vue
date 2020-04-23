@@ -97,7 +97,7 @@
             required,
         },
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['app', 'permissionOptions']),
             itemTypeTitle() {
                 return this.pickedItem && this.pickedItem.type === 'folder' ? 'Folder' : 'File'
             },
@@ -114,19 +114,9 @@
                     isPassword: false,
                     password: undefined,
                     permission: undefined,
+                    type: undefined,
+                    unique_id: undefined,
                 },
-                permissionOptions: [
-                    {
-                        label: 'Can edit and upload files',
-                        value: 'editor',
-                        icon: 'user-edit',
-                    },
-                    {
-                        label: 'Can only view and download',
-                        value: 'visitor',
-                        icon: 'user',
-                    },
-                ],
                 pickedItem: undefined,
                 shareLink: undefined,
                 isGeneratedShared: false,
@@ -158,8 +148,10 @@
                         // End loading
                         this.isLoading = false
 
-                        this.shareLink = response.data
+                        this.shareLink = response.data.link
                         this.isGeneratedShared = true
+
+                        this.$store.commit('UPDATE_SHARED_ITEM', response.data)
                     })
                     .catch(error => {
 
@@ -179,6 +171,9 @@
 
                 // Store picked item
                 this.pickedItem = args.item
+
+                this.shareOptions.type = args.item.type
+                this.shareOptions.unique_id = args.item.unique_id
             })
 
             // Close popup
@@ -192,6 +187,8 @@
                         permission: undefined,
                         password: undefined,
                         isPassword: false,
+                        type: undefined,
+                        unique_id: undefined,
                     }
                 }, 150)
             })

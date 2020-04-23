@@ -1,20 +1,32 @@
 <template>
     <div class="empty-page" v-if="isLoading || isEmpty">
         <div class="empty-state">
-            <div class="text-content" v-if="isEmpty && !isLoading">
+
+            <!--Shared empty message-->
+            <div class="text-content" v-if="$isThisLocation(['shared']) && ! isLoading">
+                <h1 class="title">You Haven't Shared Anything Yet</h1>
+            </div>
+
+            <!--Trash empty message-->
+            <div class="text-content" v-if="$isThisLocation(['trash', 'trash-root']) && ! isLoading">
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
-                <p v-if="! isTrash" class="description">
-                    {{ $t('empty_page.description') }}
-                </p>
+            </div>
+
+            <!--Base file browser empty message-->
+            <div class="text-content" v-if="$isThisLocation(['base', 'public']) && !isLoading">
+                <h1 class="title">{{ $t('empty_page.title') }}</h1>
+                <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
                 <ButtonUpload
-                        v-if="! isTrash"
+                        v-if="$checkPermission(['master', 'editor'])"
                         @input.native="$uploadFiles(files)"
                         v-model="files"
                         button-style="theme"
-                >{{ $t('empty_page.call_to_action') }}
-                </ButtonUpload
                 >
+                    {{ $t('empty_page.call_to_action') }}
+                </ButtonUpload>
             </div>
+
+            <!--Spinner-->
             <div class="text-content" v-if="isLoading">
                 <Spinner/>
             </div>
@@ -38,9 +50,6 @@
             ...mapGetters(['data', 'isLoading', 'currentFolder']),
             isEmpty() {
                 return this.data.length == 0
-            },
-            isTrash() {
-                return this.currentFolder.location === 'trash' || this.currentFolder.location === 'trash-root'
             }
         },
         data() {
