@@ -26,7 +26,7 @@
                         name="file"
                         tag="section"
                         class="file-list"
-                        :class="preview_type"
+                        :class="FilePreviewType"
                 >
                     <FileItemList
                             @dragstart="dragStart(item)"
@@ -46,7 +46,7 @@
                         name="file"
                         tag="section"
                         class="file-list"
-                        :class="preview_type"
+                        :class="FilePreviewType"
                 >
                     <FileItemGrid
                             @dragstart="dragStart(item)"
@@ -112,16 +112,16 @@
                 'fileInfoVisible',
                 'fileInfoDetail',
                 'currentFolder',
-                'preview_type',
+                'FilePreviewType',
                 'isSearching',
                 'isLoading',
                 'data'
             ]),
             isGrid() {
-                return this.preview_type === 'grid'
+                return this.FilePreviewType === 'grid'
             },
             isList() {
-                return this.preview_type === 'list'
+                return this.FilePreviewType === 'list'
             },
             isEmpty() {
                 return this.data.length == 0

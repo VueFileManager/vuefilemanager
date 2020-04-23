@@ -53,7 +53,7 @@
                 this.$store.commit('SET_START_DIRECTORY', this.config.directory)
 
                 // Load folder
-                this.$store.dispatch('goToFolder', [
+                this.$store.dispatch('getFolder', [
                     {
                         unique_id: this.config.directory.unique_id,
                         name: this.config.directory.name,
@@ -74,7 +74,7 @@
                 this.$store.commit('SET_START_DIRECTORY', homeDirectory)
 
                 // Load folder
-                this.$store.dispatch('goToFolder', [homeDirectory, false, true])
+                this.$store.dispatch('getFolder', [homeDirectory, false, true])
             }
 
             var filesView = document.getElementById('files-view');

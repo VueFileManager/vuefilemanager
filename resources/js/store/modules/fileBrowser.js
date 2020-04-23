@@ -5,8 +5,6 @@ import { includes } from 'lodash'
 import i18n from '@/i18n/index'
 
 const defaultState = {
-    fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
-    preview_type: localStorage.getItem('preview_type') || 'list',
     uploadingFilesCount: undefined,
     fileInfoDetail: undefined,
     currentFolder: undefined,
@@ -20,7 +18,7 @@ const defaultState = {
 }
 
 const actions = {
-    goToFolder: (context, [folder, back = false, init = false]) => {
+    getFolder: (context, [folder, back = false, init = false]) => {
         events.$emit('show:content')
 
         // Go to files view
@@ -144,183 +142,6 @@ const actions = {
                 })
             })
     },
-    emptyTrash: (context) => {
-        context.commit('FLUSH_DATA')
-        context.commit('LOADING_STATE', true)
-
-        axios
-            .delete(context.getters.api + '/empty-trash')
-            .then(() => {
-                context.commit('LOADING_STATE', false)
-                events.$emit('scrollTop')
-
-                // Remove file preview
-                context.commit('CLEAR_FILEINFO_DETAIL')
-
-                // Show error message
-                events.$emit('success:open', {
-                    title: i18n.t('popup_trashed.title'),
-                    message: i18n.t('popup_trashed.message'),
-                })
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    },
-    createFolder: (context, folderName) => {
-        const parent_id = context.state.currentFolder
-            ? context.state.currentFolder.unique_id
-            : 0
-
-        axios
-            .post(context.getters.api + '/create-folder', {
-                parent_id: parent_id,
-                name: folderName
-            })
-            .then(response => {
-                context.commit('ADD_NEW_FOLDER', response.data)
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    },
-    removeItems: (context, [ids, items]) => {
-        context.commit('REMOVE_ITEMS', ids)
-
-        // Remove file preview
-        context.commit('CLEAR_FILEINFO_DETAIL')
-
-        axios
-            .post(context.getters.api + '/remove-items', {
-                items: items
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    },
-    removeItem: ({commit, state, getters}, data) => {
-
-        // Remove file
-        commit('REMOVE_ITEM', data.unique_id)
-
-        if (data.type === 'folder')
-            commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-        else
-            commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
-
-        // Remove file preview
-        commit('CLEAR_FILEINFO_DETAIL')
-
-        axios
-            .post(getters.api + '/remove-item', {
-                type: data.type,
-                unique_id: data.unique_id,
-                force_delete: data.deleted_at ? true : false
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    },
-    restoreItem: (context, item) => {
-
-        let restoreToHome = false
-
-        // Check if file can be restored to home directory
-        if (context.state.currentFolder.location === 'trash') restoreToHome = true
-
-        // Remove file
-        context.commit('REMOVE_ITEM', item.unique_id)
-
-        // Remove file preview
-        context.commit('CLEAR_FILEINFO_DETAIL')
-
-        axios
-            .post(context.getters.api + '/restore-item', {
-                type: item.type,
-                unique_id: item.unique_id,
-                to_home: restoreToHome,
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    },
-    uploadFiles: (context, files) => {
-        return new Promise((resolve, reject) => {
-            axios
-                .post(context.getters.api + '/upload-file', files, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress: progressEvent => {
-                        var percentCompleted = Math.round(
-                            (progressEvent.loaded * 100) /
-                            progressEvent.total
-                        )
-
-                        context.commit(
-                            'UPLOADING_FILE_PROGRESS',
-                            percentCompleted
-                        )
-                    }
-                })
-                .then(response => {
-
-                    // Check if user is in uploading folder, if yes, than show new file
-                    if (response.data.folder_id == context.state.currentFolder.unique_id)
-                        context.commit('ADD_NEW_ITEMS', response.data)
-
-                    context.commit('UPDATE_RECENT_UPLOAD', response.data)
-                    context.commit(
-                        'UPLOADING_FILE_PROGRESS',
-                        0
-                    )
-                    resolve(response)
-                })
-                .catch(error => {
-                    reject(error)
-
-                    context.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-                })
-        })
-    },
-    changeItemName: (context, data) => {
-
-
-        if (data.type === 'folder') context.commit('UPDATE_NAME_IN_FAVOURITES', data)
-
-        axios
-            .post(context.getters.api + '/rename-item', data)
-            .then(response => {
-                context.commit('CHANGE_ITEM_NAME', response.data)
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    },
     getSearchResult: (context, query) => {
         context.commit('FLUSH_DATA')
         context.commit('LOADING_STATE', true)
@@ -342,40 +163,7 @@ const actions = {
                 })
             })
     },
-    changePreviewType: ({commit, dispatch, state}) => {
-        // Get preview type
-        let previewType = localStorage.getItem('preview_type') == 'grid' ? 'list' : 'grid'
-
-        // Store preview type to localStorage
-        localStorage.setItem('preview_type', previewType)
-
-        // Change preview
-        commit('CHANGE_PREVIEW', previewType)
-
-        if (state.currentFolder.location === 'trash-root') {
-            dispatch('getTrash')
-
-        } else {
-
-            if ( this.$isThisLocation('public') ) {
-                dispatch('browseShared', [this.currentFolder(), false, true])
-            } else {
-                dispatch('goToFolder', [state.currentFolder, false, true])
-            }
-        }
-    },
-    fileInfoToggle: (context, visibility = undefined) => {
-        if (!visibility) {
-            if (context.state.fileInfoPanelVisible) {
-                context.commit('FILE_INFO_TOGGLE', false)
-            } else {
-                context.commit('FILE_INFO_TOGGLE', true)
-            }
-        } else {
-            context.commit('FILE_INFO_TOGGLE', visibility)
-        }
-    },
-    getLatestUploadDetail: (context, file) => {
+    getFileDetail: (context, file) => {
         axios
             .get(context.getters.api + '/file-detail/' + file.unique_id)
             .then(response => {
@@ -389,29 +177,6 @@ const actions = {
                 })
             })
     },
-    loadFileInfoDetail: (context, file) => {
-
-        context.commit('GET_FILEINFO_DETAIL', file)
-    },
-    moveItem: (context, [item_from, to_item]) => {
-        axios
-            .post(context.getters.api + '/move-item', {
-                from_unique_id: item_from.unique_id,
-                from_type: item_from.type,
-                to_unique_id: to_item.unique_id
-            })
-            .then(() => {
-                context.commit('REMOVE_ITEM', item_from.unique_id)
-                context.commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
-            })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
-    }
 }
 
 const mutations = {
@@ -458,14 +223,6 @@ const mutations = {
             el => el.unique_id == item.unique_id
         )
     },
-    FILE_INFO_TOGGLE(state, isVisible) {
-        state.fileInfoPanelVisible = isVisible
-
-        localStorage.setItem('file_info_visibility', isVisible)
-    },
-    CHANGE_PREVIEW(state, type) {
-        state.preview_type = type
-    },
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState
     },
@@ -511,13 +268,11 @@ const mutations = {
 const getters = {
     uploadingFileProgress: state => state.uploadingFileProgress,
     uploadingFilesCount: state => state.uploadingFilesCount,
-    fileInfoVisible: state => state.fileInfoPanelVisible,
     fileInfoDetail: state => state.fileInfoDetail,
     filesViewWidth: state => state.filesViewWidth,
     homeDirectory: state => state.homeDirectory,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
-    preview_type: state => state.preview_type,
     isSearching: state => state.isSearching,
     isLoading: state => state.isLoading,
     data: state => state.data,

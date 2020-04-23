@@ -84,7 +84,7 @@
                 'currentFolder',
                 'browseHistory',
                 'homeDirectory',
-                'preview_type',
+                'FilePreviewType',
             ]),
             directoryName() {
                 return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name
@@ -95,7 +95,7 @@
                 return this.browseHistory[length] ? this.browseHistory[length] : this.homeDirectory
             },
             preview() {
-                return this.preview_type === 'list' ? 'th' : 'th-list'
+                return this.FilePreviewType === 'list' ? 'th' : 'th-list'
             },
             isTrash() {
                 return this.currentFolder.location === 'trash' || this.currentFolder.location === 'trash-root'
@@ -122,7 +122,7 @@
                     if ( this.$isThisLocation('public') ) {
                         this.$store.dispatch('browseShared', [this.previousFolder, true])
                     } else {
-                        this.$store.dispatch('goToFolder', [this.previousFolder, true])
+                        this.$store.dispatch('getFolder', [this.previousFolder, true])
                     }
                 }
             },

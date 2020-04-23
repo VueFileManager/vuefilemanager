@@ -82,7 +82,7 @@
         name: 'FileItem',
         props: ['data'],
         computed: {
-            ...mapGetters(['preview_type']),
+            ...mapGetters(['FilePreviewType']),
             isFolder() {
                 return this.data.type === 'folder'
             },
@@ -126,7 +126,7 @@
         methods: {
             showItemActions() {
                 // Load file info detail
-                this.$store.dispatch('loadFileInfoDetail', this.data)
+                this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 
                 //this.isClicked = true
 
@@ -154,12 +154,12 @@
                     if ( this.$isThisLocation('public') ) {
                         this.$store.dispatch('browseShared', [this.data, false])
                     } else {
-                        this.$store.dispatch('goToFolder', [this.data, false])
+                        this.$store.dispatch('getFolder', [this.data, false])
                     }
                 }
 
                 // Load file info detail
-                this.$store.dispatch('loadFileInfoDetail', this.data)
+                this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 
                 // Get target classname
                 let itemClass = e.target.className
@@ -188,7 +188,7 @@
                     if ( this.$isThisLocation('public') ) {
                         this.$store.dispatch('browseShared', [this.data, false])
                     } else {
-                        this.$store.dispatch('goToFolder', [this.data, false])
+                        this.$store.dispatch('getFolder', [this.data, false])
                     }
                 }
             },

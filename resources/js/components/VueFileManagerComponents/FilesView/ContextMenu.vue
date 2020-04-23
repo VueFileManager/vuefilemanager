@@ -160,7 +160,7 @@
             },
             ItemDetail() {
                 // Dispatch load file info detail
-                this.$store.dispatch('loadFileInfoDetail', this.item)
+                this.$store.commit('GET_FILEINFO_DETAIL', this.item)
 
                 // Show panel if is not open
                 this.$store.dispatch('fileInfoToggle', true)

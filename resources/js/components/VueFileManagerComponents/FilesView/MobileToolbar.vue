@@ -39,11 +39,11 @@
         computed: {
             ...mapGetters([
                 'fileInfoVisible',
+                'FilePreviewType',
                 'fileInfoDetail',
                 'currentFolder',
                 'browseHistory',
                 'homeDirectory',
-                'preview_type',
                 'appSize',
             ]),
             directoryName() {
@@ -78,7 +78,7 @@
                     if ( this.$isThisLocation('public') ) {
                         this.$store.dispatch('browseShared', [this.previousFolder, false])
                     } else {
-                        this.$store.dispatch('goToFolder', [this.previousFolder, false])
+                        this.$store.dispatch('getFolder', [this.previousFolder, false])
                     }
                 }
             },

@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
+import fileFunctions from './modules/fileFunctions'
 import fileBrowser from './modules/fileBrowser'
 import userAuth from './modules/userAuth'
 import sharing from './modules/sharing'
@@ -10,6 +11,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-        fileBrowser, userAuth, app, sharing,
+        fileFunctions,
+        fileBrowser,
+        userAuth,
+        sharing,
+        app,
     }
 })

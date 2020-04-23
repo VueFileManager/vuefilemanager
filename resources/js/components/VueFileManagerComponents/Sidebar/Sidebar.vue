@@ -121,12 +121,12 @@
             },
             goHome() {
                 this.$store.commit('FLUSH_BROWSER_HISTORY')
-                this.$store.dispatch('goToFolder', [this.homeDirectory, true])
+                this.$store.dispatch('getFolder', [this.homeDirectory, true])
             },
             openFolder(folder) {
 
                 // Go to folder
-                this.$store.dispatch('goToFolder', [folder, false])
+                this.$store.dispatch('getFolder', [folder, false])
             },
             downloadFile(file) {
 
@@ -134,7 +134,7 @@
             },
             showFileDetail(file) {
                 // Dispatch load file info detail
-                this.$store.dispatch('getLatestUploadDetail', file)
+                this.$store.dispatch('getFileDetail', file)
 
                 // Show panel if is not open
                 this.$store.dispatch('fileInfoToggle', true)

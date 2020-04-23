@@ -52,12 +52,12 @@
             UploadProgress,
         },
         computed: {
-            ...mapGetters(['preview_type']),
+            ...mapGetters(['FilePreviewType']),
             previewIcon() {
-                return this.preview_type === 'list' ? 'th' : 'th-list'
+                return this.FilePreviewType === 'list' ? 'th' : 'th-list'
             },
             previewText() {
-                return this.preview_type === 'list' ? this.$t('preview_type.grid') : this.$t('preview_type.list')
+                return this.FilePreviewType === 'list' ? this.$t('preview_type.grid') : this.$t('preview_type.list')
             }
         },
         methods: {

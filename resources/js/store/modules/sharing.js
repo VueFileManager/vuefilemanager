@@ -37,7 +37,7 @@ const actions = {
             location: 'public'
         }
 
-        let route = state.sharedDetail.protected ? '/api/browse-private/' : '/api/browse-public/'
+        let route = getters.sharedDetail.protected ? '/api/browse-private/' : '/api/browse-public/'
 
         return new Promise((resolve, reject) => {
             axios

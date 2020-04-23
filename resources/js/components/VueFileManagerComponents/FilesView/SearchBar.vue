@@ -54,7 +54,7 @@
                         if ( this.$isThisLocation('public') ) {
                             this.$store.dispatch('browseShared', [this.currentFolder, true])
                         } else {
-                            this.$store.dispatch('goToFolder', [this.currentFolder, true])
+                            this.$store.dispatch('getFolder', [this.currentFolder, true])
                         }
                     }
 
