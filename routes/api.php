@@ -30,25 +30,13 @@ Route::group(['middleware' => ['api']], function () {
 
     // Sharing
     Route::post('/shared/authenticate/{token}', 'Sharing\FileSharingController@authenticate');
-    Route::get('/browse-public/{unique_id}', 'Sharing\FileSharingController@browse_public');
+    Route::get('/browse-public/{token}/{unique_id}', 'Sharing\FileSharingController@browse_public');
     Route::get('/file-public/{token}', 'Sharing\FileSharingController@file_public');
-    Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
-});
-
-// Protected sharing routes
-Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor']], function () {
-
-    // Browse folders & files
-    Route::get('/browse-private/{unique_id}', 'Sharing\FileSharingController@browse_private');
-    Route::get('/file-private/{token}', 'Sharing\FileSharingController@file_private');
+    Route::get('/shared/{token}', 'Sharing\FileSharingController@show');
 });
 
 // User master Routes
 Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], function () {
-
-    // File route
-    Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
-    Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
 
     // User
     Route::post('/user/password', 'User\AccountController@change_password');
@@ -63,11 +51,7 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], func
     Route::get('/search', 'FileBrowser\BrowseController@search');
     Route::get('/trash', 'FileBrowser\BrowseController@trash');
 
-    // Edit items
-    Route::post('/create-folder', 'FileFunctions\EditController@create_folder');
-    Route::post('/rename-item', 'FileFunctions\EditController@rename_item');
-    Route::post('/remove-item', 'FileFunctions\EditController@delete_item');
-    Route::post('/upload-file', 'FileFunctions\EditController@upload_item');
+    // Edit functions
     Route::post('/move-item', 'FileFunctions\EditController@move_item');
 
     // Trash
@@ -85,4 +69,30 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], func
 
     // Auth
     Route::get('/logout', 'Auth\AuthController@logout');
+});
+
+// Protected sharing routes for public user
+Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor']], function () {
+
+    // Browse folders & files
+    Route::get('/browse-private/{unique_id}', 'Sharing\FileSharingController@browse_private');
+    Route::get('/file-private', 'Sharing\FileSharingController@file_private');
+});
+
+// User master,editor routes
+Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master,editor,visitor']], function () {
+
+    // File routes
+    Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
+    Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
+});
+
+// User master,editor routes
+Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master,editor']], function () {
+
+    // Edit items
+    Route::post('/create-folder', 'FileFunctions\EditController@create_folder');
+    Route::post('/rename-item', 'FileFunctions\EditController@rename_item');
+    Route::post('/remove-item', 'FileFunctions\EditController@delete_item');
+    Route::post('/upload-file', 'FileFunctions\EditController@upload_item');
 });

@@ -163,7 +163,7 @@
                         name: itemName
                     }
 
-                    this.$store.dispatch('changeItemName', item)
+                    this.$store.dispatch('renameItem', item)
 
                     // Change item name if is mobile device or prompted
                     if (this.$isMobile()) {

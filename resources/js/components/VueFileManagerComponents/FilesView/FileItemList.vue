@@ -39,7 +39,7 @@
                 <!--Name-->
                 <b
                         ref="name"
-                        @input="changeItemName"
+                        @input="renameItem"
                         :contenteditable="canEditName"
                         class="name"
                 >
@@ -51,6 +51,11 @@
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && data.shared" class="item-shared">
                         <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
+                    </div>
+
+                    <!--Participant owner Icon-->
+                    <div v-if="$checkPermission('master') && data.user_scope !== 'master'" class="item-shared">
+                        <FontAwesomeIcon class="shared-icon" icon="user-edit"/>
                     </div>
 
                     <!--Filesize and timestamp-->
@@ -192,12 +197,12 @@
                     }
                 }
             },
-            changeItemName: debounce(function (e) {
+            renameItem: debounce(function (e) {
 
                 // Prevent submit empty string
                 if (e.target.innerText === '') return
 
-                this.$store.dispatch('changeItemName', {
+                this.$store.dispatch('renameItem', {
                     unique_id: this.data.unique_id,
                     type: this.data.type,
                     name: e.target.innerText

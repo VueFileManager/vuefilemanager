@@ -17,11 +17,11 @@ class CookieAuth
     public function handle($request, Closure $next)
     {
         if (!$request->bearerToken()) {
-            if ($request->hasCookie('token')) {
+            if ($request->hasCookie('access_token')) {
 
-                $token = $request->cookie('token');
+                $access_token = $request->cookie('access_token');
 
-                $request->headers->add(['Authorization' => 'Bearer ' . $token]);
+                $request->headers->add(['Authorization' => 'Bearer ' . $access_token]);
 
             } else {
                 abort(401);

@@ -55,7 +55,7 @@ const Helpers = {
 			// Prevent submit empty files
 			if (files && files.length == 0) return
 
-			if (this.$store.getters.app.storage.percentage >= 100) {
+			if (! this.$isThisLocation(['public']) && this.$store.getters.app.storage.percentage >= 100) {
 				events.$emit('alert:open', {
 					emoji: '😬😬😬',
 					title: this.$t('popup_exceed_limit.title'),
@@ -104,7 +104,7 @@ const Helpers = {
 					}
 				}).catch(error => {
 
-					if (error.response.status == 423) {
+					/*if (error.response.status === 423) {
 
 						events.$emit('alert:open', {
 							emoji: '😬😬😬',
@@ -119,7 +119,7 @@ const Helpers = {
 							title: this.$t('popup_error.title'),
 							message: this.$t('popup_error.message'),
 						})
-					}
+					}*/
 				})
 			}
 		}

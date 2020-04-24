@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FileFunctions;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -28,7 +29,7 @@ class ShareController extends Controller
             // Generate unique token
             $token = Str::random(16);
 
-        } while (Share::where('token', $token)->exists());
+        } while (Share::where(DB::raw('BINARY `token`'), $token)->exists());
 
         // Create shared options
         $options = [

@@ -41,7 +41,7 @@
                 <!--Name-->
                 <b
                         ref="name"
-                        @input="changeItemName"
+                        @input="renameItem"
                         :contenteditable="canEditName"
                         class="name"
                 >
@@ -177,12 +177,12 @@
                     }
                 }
             },
-            changeItemName: debounce(function (e) {
+            renameItem: debounce(function (e) {
 
                 // Prevent submit empty string
                 if (e.target.innerText === '') return
 
-                this.$store.dispatch('changeItemName', {
+                this.$store.dispatch('renameItem', {
                     unique_id: this.data.unique_id,
                     type: this.data.type,
                     name: e.target.innerText

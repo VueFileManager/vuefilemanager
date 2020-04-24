@@ -14,5 +14,8 @@
 // Get user avatar
 Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
 
+// Get shared page
+Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
+
 // Index Page
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

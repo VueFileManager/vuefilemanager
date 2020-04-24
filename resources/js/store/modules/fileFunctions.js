@@ -29,10 +29,10 @@ const actions = {
             })
             .catch(() => isSomethingWrong())
     },
-    changeItemName: ({commit, getters}, data) => {
+    renameItem: ({commit, getters}, data) => {
 
         // Updated name in favourites panel
-        if (data.type === 'folder')
+        if (getters.permission === 'master' && data.type === 'folder')
             commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         axios
@@ -69,7 +69,8 @@ const actions = {
                 .catch(error => {
                     reject(error)
 
-                    context.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+                    // Reset uploader
+                    commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
                 })
         })
     },
@@ -100,10 +101,14 @@ const actions = {
         // Remove file
         commit('REMOVE_ITEM', data.unique_id)
 
-        if (data.type === 'folder')
-            commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-        else
-            commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
+        // Remove item from sidebar
+        if (getters.permission === 'master') {
+
+            if (data.type === 'folder')
+                commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+            else
+                commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
+        }
 
         // Remove file preview
         commit('CLEAR_FILEINFO_DETAIL')

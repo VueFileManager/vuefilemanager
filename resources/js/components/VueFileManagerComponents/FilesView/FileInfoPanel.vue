@@ -28,13 +28,19 @@
             </li>
 
             <!--Latest change-->
+            <li v-if="$checkPermission(['master']) && fileInfoDetail.user_scope !== 'master'" class="list-info-item">
+                <b>Author</b>
+                <span>Public Participant</span>
+            </li>
+
+            <!--Latest change-->
             <li class="list-info-item">
                 <b>{{ $t('file_detail.created_at') }}</b>
                 <span>{{ fileInfoDetail.created_at }}</span>
             </li>
 
             <!--Parent-->
-            <li v-if="$checkPermission(['master', 'editor'])" class="list-info-item">
+            <li v-if="$checkPermission(['master'])" class="list-info-item">
                 <b>{{ $t('file_detail.where') }}</b>
                 <div class="action-button" @click="moveItem">
                     <FontAwesomeIcon class="icon" icon="pencil-alt" />
@@ -49,7 +55,10 @@
                     <FontAwesomeIcon class="icon" :icon="sharedIcon" />
                     <span>{{ sharedInfo }}</span>
                 </div>
-                <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail.shared.link" />
+                <div class="sharelink">
+                    <FontAwesomeIcon class="lock-icon" :icon="lockIcon" @click="shareItemOptions" />
+                    <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail.shared.link" />
+                </div>
             </li>
         </ul>
     </div>
@@ -112,6 +121,9 @@
                         return 'download'
                 }
             },
+            lockIcon() {
+                return this.fileInfoDetail.shared.protected ? 'lock' : 'lock-open'
+            }
         },
         methods: {
             shareItemOptions() {
@@ -142,7 +154,7 @@
 
         .flex {
             display: flex;
-            align-items: top;
+            align-items: flex-start;
         }
 
         .icon-preview {
@@ -238,8 +250,34 @@
         }
     }
 
-    .copy-sharelink {
+    .sharelink {
+        display: flex;
+        width: 100%;
+        align-items: center;
         margin-top: 10px;
+
+        .lock-icon {
+            @include font-size(10);
+            display: inline-block;
+            width: 10px;
+            margin-right: 9px;
+            cursor: pointer;
+
+            path {
+                fill: $text;
+            }
+
+            &:hover {
+
+                path {
+                    fill: $theme;
+                }
+            }
+        }
+
+        .copy-sharelink {
+            width: 100%;
+        }
     }
 
     @media (prefers-color-scheme: dark) {

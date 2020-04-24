@@ -70,7 +70,7 @@
         </ul>
 
         <!--ContextMenu for Base location with EDITOR permission-->
-        <ul v-if="$isThisLocation(['base']) && $checkPermission('editor')" class="menu-options" ref="list">
+        <ul v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor')" class="menu-options" ref="list">
             <li class="menu-option" @click="createFolder">
                 {{ $t('context_menu.create_folder') }}
             </li>
@@ -89,7 +89,7 @@
         </ul>
 
         <!--ContextMenu for Base location with VISITOR permission-->
-        <ul v-if="$isThisLocation(['base']) && $checkPermission('visitor')" class="menu-options" ref="list">
+        <ul v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')" class="menu-options" ref="list">
             <li class="menu-option" @click="ItemDetail" v-if="item">
                 {{ $t('context_menu.detail') }}
             </li>

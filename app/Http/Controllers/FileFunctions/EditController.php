@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FileFunctions;
 use App\Share;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,11 @@ class EditController extends Controller
      */
     public function create_folder(Request $request)
     {
+        // Check permission to create folder for authenticated public editor
+        if ( ! $request->user()->tokenCan('master') ) {
+            $this->check_access($request, $request->parent_id);
+        }
+
         // Validate request
         $validator = Validator::make($request->all(), [
             'parent_id' => 'required|integer',
@@ -45,6 +51,7 @@ class EditController extends Controller
             'name'      => $request->has('name') ? $request->input('name') : 'New Folder',
             'type'      => 'folder',
             'unique_id' => $this->get_unique_id(),
+            'user_scope' => $request->user()->token()->scopes[0],
         ]);
 
         // Return new folder
@@ -79,6 +86,11 @@ class EditController extends Controller
                 ->where('user_id', $user_id)
                 ->firstOrFail();
 
+            // Check permission to rename for authenticated public editor
+            if ( ! $request->user()->tokenCan('master') ) {
+                $this->check_access($request, $item->unique_id);
+            }
+
             $item->name = $request->name;
             $item->save();
 
@@ -87,6 +99,11 @@ class EditController extends Controller
             $item = FileManagerFile::where('unique_id', $request->unique_id)
                 ->where('user_id', $user_id)
                 ->firstOrFail();
+
+            // Check permission to rename for authenticated public editor
+            if ( ! $request->user()->tokenCan('master') ) {
+                $this->check_access($request, $item->folder_id);
+            }
 
             $item->name = $request->name;
             $item->save();
@@ -126,6 +143,11 @@ class EditController extends Controller
                 ->where('user_id', $user->id)
                 ->where('unique_id', $request->unique_id)
                 ->first();
+
+            // Check permission to delete for authenticated public editor
+            if ( ! $request->user()->tokenCan('master') ) {
+                $this->check_access($request, $folder->unique_id);
+            }
 
             // Force delete children files
             if ($request->force_delete) {
@@ -170,6 +192,11 @@ class EditController extends Controller
                 ->where('unique_id', $request->unique_id)
                 ->first();
 
+            // Check permission to delete for authenticated public editor
+            if ( ! $request->user()->tokenCan('master') ) {
+                $this->check_access($request, $file->folder_id);
+            }
+
             if ($request->force_delete) {
 
                 // Delete file
@@ -196,9 +223,13 @@ class EditController extends Controller
      */
     public function upload_item(Request $request)
     {
+        // Check permission to upload for authenticated public editor
+        if ( ! $request->user()->tokenCan('master') ) {
+            $this->check_access($request, $request->parent_id);
+        }
+
         // Check if user can upload
         if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100) {
-
             abort(423, 'You exceed your storage limit!');
         }
 
@@ -248,15 +279,16 @@ class EditController extends Controller
 
         // Store file
         $new_file = FileManagerFile::create([
-            'user_id'   => Auth::id(),
-            'name'      => pathinfo($file->getClientOriginalName())['filename'],
-            'basename'  => $filename,
-            'folder_id' => $folder_id,
-            'mimetype'  => $file->getClientOriginalExtension(),
-            'filesize'  => $filesize,
-            'type'      => $filetype,
-            'thumbnail' => $thumbnail,
-            'unique_id' => $this->get_unique_id(),
+            'user_id'    => Auth::id(),
+            'name'       => pathinfo($file->getClientOriginalName())['filename'],
+            'basename'   => $filename,
+            'folder_id'  => $folder_id,
+            'mimetype'   => $file->getClientOriginalExtension(),
+            'filesize'   => $filesize,
+            'type'       => $filetype,
+            'thumbnail'  => $thumbnail,
+            'unique_id'  => $this->get_unique_id(),
+            'user_scope' => $request->user()->token()->scopes[0],
         ]);
 
         return $new_file;
@@ -326,5 +358,32 @@ class EditController extends Controller
         $unique_id = $folders_unique > $files_unique ? $folders_unique + 1 : $files_unique + 1;
 
         return $unique_id;
+    }
+
+    /**
+     * Check if user has access to requested folder
+     *
+     * @param $request
+     */
+    protected function check_access($request, $parent_id): void
+    {
+        // check if shared_token cookie exist
+        if (! $request->hasCookie('shared_token')) abort('401');
+
+        // Get shared token
+        $shared = Share::where(DB::raw('BINARY `token`'), $request->cookie('shared_token'))
+            ->firstOrFail();
+
+        // Get all children folders
+        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+            ->where('user_id', $shared->user_id)
+            ->where('parent_id', $shared->item_id)
+            ->get();
+
+        // Get all authorized parent folders by shared folder as root of tree
+        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+
+        // Check user access
+        if (!in_array($parent_id, $accessible_folder_ids)) abort(403);
     }
 }

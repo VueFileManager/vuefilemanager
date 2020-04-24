@@ -4,6 +4,12 @@
         <!--Loading Spinenr-->
         <Spinner v-if="isPageLoading"/>
 
+        <!--System alerts-->
+        <Alert />
+
+        <!--Background vignette-->
+        <Vignette/>
+
         <!--Password verification-->
         <div v-if="currentPage === 'page-password'" id="password-view">
 
@@ -37,14 +43,9 @@
                 </div>
             </div>
             <div v-if="sharedDetail.type === 'folder'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
-                <!--Move item window-->
-                <MoveItem/>
 
                 <!--Mobile Menu-->
                 <MobileMenu/>
-
-                <!--Background vignette-->
-                <Vignette/>
 
                 <!--Context menu-->
                 <ContextMenu/>
@@ -71,7 +72,7 @@
     import AuthButton from '@/components/VueFileManagerComponents/Auth/AuthButton'
     import Spinner from '@/components/VueFileManagerComponents/FilesView/Spinner'
     import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
-    import MoveItem from '@/components/VueFileManagerComponents/Others/MoveItem'
+    import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
     import {required} from 'vee-validate/dist/rules'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
@@ -93,8 +94,8 @@
             ButtonBase,
             required,
             Vignette,
-            MoveItem,
             Spinner,
+            Alert,
         },
         computed: {
             ...mapGetters(['config', 'filesViewWidth', 'sharedDetail', 'sharedFile']),
@@ -150,10 +151,7 @@
                     })*/
             },
             download() {
-                this.$downloadFile(
-                    this.item.file_url,
-                    this.item.name + '.' + this.item.mimetype
-                )
+                this.$downloadFile(this.sharedFile.file_url, this.sharedFile.name + '.' + this.sharedFile.mimetype)
             },
             fileViewClick() {
                 events.$emit('contextMenu:hide')

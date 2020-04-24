@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Sharing;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -14,16 +17,42 @@ use App\Share;
 
 class FileSharingController extends Controller
 {
+
+    /**
+     * Show page index and delete access_token & shared_token cookie
+     *
+     * @return Factory|\Illuminate\View\View
+     */
+    public function index($token)
+    {
+        // Get shared token
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)
+            ->firstOrFail(['token', 'item_id', 'type', 'permission', 'protected']);
+
+        // Delete old access_token if exist
+        Cookie::queue('access_token', '', -1);
+
+        // Set cookies
+        if ($shared->protected) {
+
+            // Set shared token
+            Cookie::queue('shared_token', $token, 43200);
+        }
+
+        // Return page index
+        return view("index");
+    }
+
     /**
      * Get shared record
      *
      * @param Request $request
      * @return mixed
      */
-    public function index($token)
+    public function show($token)
     {
         // Get sharing record
-        return Share::where('token', $token)
+        return Share::where(DB::raw('BINARY `token`'), $token)
             ->firstOrFail(['token', 'item_id', 'type', 'permission', 'protected']);
     }
 
@@ -39,7 +68,7 @@ class FileSharingController extends Controller
         // TODO: validacia
 
         // Get sharing record
-        $shared = Share::where('token', $token)->firstOrFail();
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
 
         // Check password
         if (!Hash::check($request->password, $shared->password)) {
@@ -54,12 +83,12 @@ class FileSharingController extends Controller
         $scope = !is_null($shared->permission) ? $shared->permission : 'visitor';
 
         // Generate token for visitor/editor
-        $token = $user->createToken('token', [$scope])->accessToken;
+        $token = $user->createToken('access_token', [$scope])->accessToken;
 
         // Return authorize token with shared options
         return response(Arr::except($shared, ['password', 'user_id', 'updated_at', 'created_at']), 200)
             ->cookie('shared_token', $shared->token, 43200)
-            ->cookie('token', $token, 43200);
+            ->cookie('access_token', $token, 43200);
     }
 
     /**
@@ -72,14 +101,11 @@ class FileSharingController extends Controller
     public function browse_private(Request $request, $unique_id)
     {
         // Check if token exist
-        if (!$request->has('token'))
+        if (! $request->hasCookie('shared_token') )
             abort(404, "Sorry, you don't request any content");
 
         // Get sharing record
-        $shared = Share::where('token', $request->token)->firstOrFail();
-
-        // Check directory authentication
-        $this->check_authenticated_access($request);
+        $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
         // Check if user can get directory
         $this->check_folder_access($unique_id, $shared);
@@ -104,15 +130,10 @@ class FileSharingController extends Controller
      * @param $unique_id
      * @return Collection
      */
-    public function browse_public(Request $request, $unique_id)
+    public function browse_public($token, $unique_id)
     {
-
-        // Check if token exist
-        if (!$request->has('token'))
-            abort(404, "Sorry, you don't request any content");
-
         // Get sharing record
-        $shared = Share::where('token', $request->token)->firstOrFail();
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
 
         // Abort if folder is protected
         if ($shared->protected) {
@@ -154,7 +175,7 @@ class FileSharingController extends Controller
     public function file_public($token)
     {
         // Get sharing record
-        $shared = Share::where('token', $token)->firstOrFail();
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
 
         // Abort if file is protected
         if ($shared->protected) {
@@ -173,13 +194,10 @@ class FileSharingController extends Controller
      * @param $token
      * @return mixed
      */
-    public function file_private(Request $request, $token)
+    public function file_private(Request $request)
     {
         // Get sharing record
-        $shared = Share::where('token', $token)->firstOrFail();
-
-        // Check file authentication
-        $this->check_authenticated_access($request);
+        $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
         // Return record
         return FileManagerFile::where('user_id', $shared->user_id)
@@ -202,10 +220,10 @@ class FileSharingController extends Controller
             ->get();
 
         // Get all authorized parent folders by shared folder as root of tree
-        $authorized_parent_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Check user access
-        if (!in_array($unique_id, $authorized_parent_folder_ids)) abort(401);
+        if (!in_array($unique_id, $accessible_folder_ids)) abort(401);
     }
 
     /**

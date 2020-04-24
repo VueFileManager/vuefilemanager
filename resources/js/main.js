@@ -9,6 +9,8 @@ import Helpers from './helpers'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
+	faLock,
+	faLockOpen,
 	faDownload,
 	faUserFriends,
 	faCheck,
@@ -44,6 +46,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
+	faLock,
+	faLockOpen,
 	faDownload,
 	faUserFriends,
 	faCheck,

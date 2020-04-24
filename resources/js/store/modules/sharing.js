@@ -37,15 +37,11 @@ const actions = {
             location: 'public'
         }
 
-        let route = getters.sharedDetail.protected ? '/api/browse-private/' : '/api/browse-public/'
+        let route = getters.sharedDetail.protected ? '/api/browse-private/' : '/api/browse-public/' + router.currentRoute.params.token +'/'
 
         return new Promise((resolve, reject) => {
             axios
-                .get(route + currentFolder.unique_id, {
-                    params: {
-                        token: router.currentRoute.params.token
-                    }
-                })
+                .get(route + currentFolder.unique_id)
                 .then(response => {
 
                     commit('LOADING_STATE', false)
@@ -76,9 +72,9 @@ const actions = {
     },
     getSingleFile: ({commit, state}) => {
 
-        let route = state.sharedDetail.protected ? '/api/file-private/' : '/api/file-public/'
+        let route = state.sharedDetail.protected ? '/api/file-private/' : '/api/file-public/' + router.currentRoute.params.token
 
-        axios.get(route + router.currentRoute.params.token)
+        axios.get(route)
             .then(response => {
                 commit('STORE_SHARED_FILE', response.data)
             })

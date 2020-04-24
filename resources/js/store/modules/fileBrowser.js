@@ -77,8 +77,8 @@ const actions = {
         }
 
         if (! back) context.commit('FLUSH_BROWSER_HISTORY')
-        context.commit('FLUSH_DATA')
-        context.commit('LOADING_STATE', true)
+            context.commit('FLUSH_DATA')
+            context.commit('LOADING_STATE', true)
 
         // Create shared object for history
         let trash = {
@@ -114,8 +114,8 @@ const actions = {
         }
 
         if (! back) context.commit('FLUSH_BROWSER_HISTORY')
-        context.commit('FLUSH_DATA')
-        context.commit('LOADING_STATE', true)
+            context.commit('FLUSH_DATA')
+            context.commit('LOADING_STATE', true)
 
         // Create trash object for history
         let trash = {
