@@ -8,7 +8,7 @@
     >
         <!--ContextMenu for trash location-->
         <ul v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="menu-options" ref="list">
-            <li class="menu-option" @click="removeItem" v-if="item">
+            <li class="menu-option" @click="deleteItem" v-if="item">
                 {{ $t('context_menu.delete') }}
             </li>
             <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item">
@@ -30,7 +30,7 @@
             <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
                 {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
             </li>
-            <li class="menu-option" @click="removeItem" v-if="item">
+            <li class="menu-option" @click="deleteItem" v-if="item">
                 {{ $t('context_menu.delete') }}
             </li>
             <li class="menu-option" @click="shareItem" v-if="item">
@@ -52,7 +52,7 @@
             <li class="menu-option" @click="createFolder">
                 {{ $t('context_menu.create_folder') }}
             </li>
-            <li class="menu-option" @click="removeItem" v-if="item">
+            <li class="menu-option" @click="deleteItem" v-if="item">
                 {{ $t('context_menu.delete') }}
             </li>
             <li class="menu-option" @click="moveItem" v-if="item">
@@ -74,7 +74,7 @@
             <li class="menu-option" @click="createFolder">
                 {{ $t('context_menu.create_folder') }}
             </li>
-            <li class="menu-option" @click="removeItem" v-if="item">
+            <li class="menu-option" @click="deleteItem" v-if="item">
                 {{ $t('context_menu.delete') }}
             </li>
             <li class="menu-option" @click="moveItem" v-if="item">
@@ -165,9 +165,9 @@
                 // Show panel if is not open
                 this.$store.dispatch('fileInfoToggle', true)
             },
-            removeItem() {
+            deleteItem() {
                 // Dispatch remove item
-                this.$store.dispatch('removeItem', this.item)
+                this.$store.dispatch('deleteItem', this.item)
             },
             createFolder() {
                 // Create folder

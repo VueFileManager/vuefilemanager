@@ -206,14 +206,14 @@
                 .then(response => {
 
                     // Commit shared item options
-                    this.$store.commit('SET_SHARED_DETAIL', response.data)
-                    this.$store.commit('SET_PERMISSION', response.data.permission)
+                    this.$store.commit('SET_SHARED_DETAIL', response.data.data.attributes)
+                    this.$store.commit('SET_PERMISSION', response.data.data.attributes.permission)
 
                     // Hide page spinner
                     this.isPageLoading = false
 
                     // Show password page
-                    if (response.data.protected) {
+                    if (response.data.data.attributes.protected) {
                         this.currentPage = 'page-password'
                     } else {
                         this.currentPage = 'page-files'

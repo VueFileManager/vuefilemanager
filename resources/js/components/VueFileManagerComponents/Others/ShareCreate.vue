@@ -142,16 +142,16 @@
 
                 // Send request to get share link
                 axios
-                    .post('/api/share/generate', this.shareOptions)
+                    .post('/api/share', this.shareOptions)
                     .then(response => {
 
                         // End loading
                         this.isLoading = false
 
-                        this.shareLink = response.data.link
+                        this.shareLink = response.data.data.attributes.link
                         this.isGeneratedShared = true
 
-                        this.$store.commit('UPDATE_SHARED_ITEM', response.data)
+                        this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)
                     })
                     .catch(error => {
 

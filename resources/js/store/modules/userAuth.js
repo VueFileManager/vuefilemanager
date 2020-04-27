@@ -42,7 +42,9 @@ const actions = {
         context.commit('ADD_TO_FAVOURITES', folder)
 
         axios
-            .post(context.getters.api + '/add-to-favourites', {unique_id: folder.unique_id})
+            .post(context.getters.api + '/folders/favourites', {
+                unique_id: folder.unique_id
+            })
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
@@ -57,7 +59,7 @@ const actions = {
         context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(context.getters.api + '/remove-from-favourites', {unique_id: folder.unique_id})
+            .delete(context.getters.api + '/folders/favourites/' + folder.unique_id)
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {

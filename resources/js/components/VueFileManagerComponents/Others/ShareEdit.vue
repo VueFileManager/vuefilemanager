@@ -142,11 +142,7 @@
 
                     // Send delete request
                     axios
-                        .delete('/api/share/remove', {
-                            params: {
-                                token: this.pickedItem.shared.token
-                            }
-                        })
+                        .delete('/api/share/' + this.pickedItem.shared.token)
                         .then(() => {
 
                             // Remove item from file browser
@@ -187,14 +183,18 @@
 
                 // Send request to get share link
                 axios
-                    .post('/api/share/update', this.shareOptions)
+                    .patch('/api/share/' + this.shareOptions.token, {
+                        permission: this.shareOptions.permission,
+                        protected: this.shareOptions.isProtected,
+                        password: this.shareOptions.password ? this.shareOptions.password : undefined,
+                    })
                     .then(response => {
 
                         // End loading
                         this.isLoading = false
 
                         // Update shared data
-                        this.$store.commit('UPDATE_SHARED_ITEM', response.data)
+                        this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)
 
                         events.$emit('popup:close')
                     })

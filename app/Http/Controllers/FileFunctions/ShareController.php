@@ -2,29 +2,42 @@
 
 namespace App\Http\Controllers\FileFunctions;
 
+use App\Http\Requests\Share\CreateShareRequest;
+use App\Http\Requests\Share\UpdateShareRequest;
+use App\Http\Resources\ShareResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Share;
 
 class ShareController extends Controller
 {
+    /**
+     * Get shared record
+     *
+     * @return ShareResource
+     */
+    public function show($token)
+    {
+        // Get record
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)
+            ->firstOrFail();
+
+        return new ShareResource($shared);
+    }
 
     /**
      * Generate file share link
      *
-     * @param Request $request
-     * @return array
+     * @param CreateShareRequest $request
+     * @return ShareResource
      */
-    public function store(Request $request)
+    public function store(CreateShareRequest $request)
     {
-        // TODO: validation
-
         do {
             // Generate unique token
             $token = Str::random(16);
@@ -33,61 +46,61 @@ class ShareController extends Controller
 
         // Create shared options
         $options = [
-            'token'      => $token,
-            'user_id'    => Auth::id(),
-            'item_id'    => $request->unique_id,
-            'permission' => $request->permission,
-            'protected'  => $request->isPassword,
-            'type'       => $request->type === 'folder' ? 'folder' : 'file',
             'password'   => $request->has('password') ? Hash::make($request->password) : null,
+            'type'       => $request->type === 'folder' ? 'folder' : 'file',
+            'protected'  => $request->isPassword,
+            'permission' => $request->permission,
+            'item_id'    => $request->unique_id,
+            'user_id'    => Auth::id(),
+            'token'      => $token,
         ];
 
-        // Store shared item
-        $shared = Share::create($options);
-
-        // Return shared record
-        return Arr::except($shared, ['password', 'user_id', 'updated_at', 'created_at']);
+        // Return created shared record
+        return new ShareResource(Share::create($options));
     }
 
     /**
      * Update sharing
      *
-     * @param Request $request
-     * @return mixed
+     * @param UpdateShareRequest $request
+     * @param $token
+     * @return ShareResource
      */
-    public function update(Request $request)
+    public function update(UpdateShareRequest $request, $token)
     {
-        // TODO: validacia
-
         // Get sharing record
-        $shared = Share::where('token', $request->get('token'))->firstOrFail();
+        $shared = Share::where('token', $token)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
         // Update sharing record
         $shared->update([
             'permission' => $request->permission,
-            'protected'  => $request->isProtected,
-            'password'   => $request->has('password') ? Hash::make($request->password) : $shared->password,
+            'protected'  => $request->protected,
+            'password'   => $request->password ? Hash::make($request->password) : $shared->password,
         ]);
 
         // Return shared record
-        return Arr::except($shared, ['password', 'user_id', 'updated_at', 'created_at']);
+        return new ShareResource($shared);
     }
 
     /**
      * Delete sharing item
      *
-     * @param Request $request
+     * @param $token
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function delete(Request $request)
+    public function destroy($token)
     {
         // Get sharing record
-        $shared = Share::where('token', $request->get('token'))->firstOrFail();
+        $shared = Share::where('token', $token)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
         // Delete shared record
         $shared->delete();
 
         // Done
-        return response('Done!', 202);
+        return response('Done!', 204);
     }
 }

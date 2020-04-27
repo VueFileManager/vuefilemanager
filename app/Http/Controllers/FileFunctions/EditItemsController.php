@@ -17,7 +17,7 @@ use App\FileManagerFile;
 use Response;
 
 
-class EditController extends Controller
+class EditItemsController extends Controller
 {
     /**
      * Create new folder
@@ -64,11 +64,10 @@ class EditController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function rename_item(Request $request)
+    public function rename_item(Request $request, $unique_id)
     {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'unique_id' => 'required|integer',
             'name'      => 'required|string',
             'type'      => 'required|string',
         ]);
@@ -82,7 +81,7 @@ class EditController extends Controller
         // Update folder name
         if ($request->type === 'folder') {
 
-            $item = FileManagerFolder::where('unique_id', $request->unique_id)
+            $item = FileManagerFolder::where('unique_id', $unique_id)
                 ->where('user_id', $user_id)
                 ->firstOrFail();
 
@@ -96,7 +95,7 @@ class EditController extends Controller
 
         } else {
 
-            $item = FileManagerFile::where('unique_id', $request->unique_id)
+            $item = FileManagerFile::where('unique_id', $unique_id)
                 ->where('user_id', $user_id)
                 ->firstOrFail();
 
@@ -117,13 +116,13 @@ class EditController extends Controller
      * Delete item
      *
      * @param Request $request
+     * @param $unique_id
      * @throws \Exception
      */
-    public function delete_item(Request $request)
+    public function delete_item(Request $request, $unique_id)
     {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'unique_id'    => 'required|integer',
             'type'         => 'required|string',
             'force_delete' => 'required|boolean',
         ]);
@@ -141,7 +140,7 @@ class EditController extends Controller
             $folder = FileManagerFolder::withTrashed()
                 ->with(['folders'])
                 ->where('user_id', $user->id)
-                ->where('unique_id', $request->unique_id)
+                ->where('unique_id', $unique_id)
                 ->first();
 
             // Check permission to delete for authenticated public editor
@@ -158,7 +157,7 @@ class EditController extends Controller
                 // Get children files
                 $files = FileManagerFile::onlyTrashed()
                     ->where('user_id', $user->id)
-                    ->whereIn('folder_id', Arr::flatten([$request->unique_id, $child_folders]))
+                    ->whereIn('folder_id', Arr::flatten([$unique_id, $child_folders]))
                     ->get();
 
                 // Remove all children files
@@ -180,7 +179,7 @@ class EditController extends Controller
             } else {
 
                 // Remove folder from user favourites
-                $user->favourites()->detach($request->unique_id);
+                $user->favourites()->detach($unique_id);
 
                 // Soft delete folder record
                 $folder->delete();
@@ -189,7 +188,7 @@ class EditController extends Controller
 
             $file = FileManagerFile::withTrashed()
                 ->where('user_id', $user->id)
-                ->where('unique_id', $request->unique_id)
+                ->where('unique_id', $unique_id)
                 ->first();
 
             // Check permission to delete for authenticated public editor
@@ -298,13 +297,13 @@ class EditController extends Controller
      * Move item
      *
      * @param Request $request
+     * @param $unique_id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function move_item(Request $request)
+    public function move_item(Request $request, $unique_id)
     {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'from_unique_id' => 'required|integer',
             'to_unique_id'   => 'required|integer',
             'from_type'      => 'required|string',
         ]);
@@ -319,7 +318,7 @@ class EditController extends Controller
 
             // Move folder
             $item = FileManagerFolder::where('user_id', $user_id)
-                ->where('unique_id', $request->from_unique_id)
+                ->where('unique_id', $unique_id)
                 ->firstOrFail();
 
             $item->parent_id = $request->to_unique_id;
@@ -328,7 +327,7 @@ class EditController extends Controller
 
             // Move file under new folder
             $item = FileManagerFile::where('user_id', $user_id)
-                ->where('unique_id', $request->from_unique_id)
+                ->where('unique_id', $unique_id)
                 ->firstOrFail();
 
             $item->folder_id = $request->to_unique_id;

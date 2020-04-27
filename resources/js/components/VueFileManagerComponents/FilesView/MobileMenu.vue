@@ -17,7 +17,7 @@
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
                         </li>
-                        <li class="menu-option delete" @click="removeItem" v-if="fileInfoDetail">
+                        <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
                             {{ $t('context_menu.delete') }}
                         </li>
                     </ul>
@@ -36,7 +36,7 @@
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
                         </li>
-                        <li class="menu-option delete" @click="removeItem" v-if="fileInfoDetail">
+                        <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
                             {{ $t('context_menu.delete') }}
                         </li>
                     </ul>
@@ -58,7 +58,7 @@
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
                         </li>
-                        <li class="menu-option delete" @click="removeItem" v-if="fileInfoDetail">
+                        <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
                             {{ $t('context_menu.delete') }}
                         </li>
                     </ul>
@@ -145,9 +145,9 @@
                     this.fileInfoDetail.name + '.' + this.fileInfoDetail.mimetype
                 )
             },
-            removeItem() {
+            deleteItem() {
                 // Dispatch remove item
-                this.$store.dispatch('removeItem', this.fileInfoDetail)
+                this.$store.dispatch('deleteItem', this.fileInfoDetail)
             },
             renameItem() {
                 let itemName = prompt(

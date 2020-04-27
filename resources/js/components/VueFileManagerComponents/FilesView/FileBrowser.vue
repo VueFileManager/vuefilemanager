@@ -202,7 +202,7 @@
 
             // On items delete
             events.$on('items:delete', () => {
-                this.$store.dispatch('removeItem', this.fileInfoDetail)
+                this.$store.dispatch('deleteItem', this.fileInfoDetail)
 
                 //let ids = []
                 //let items = []

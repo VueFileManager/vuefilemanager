@@ -42,7 +42,7 @@ const actions = {
             location: folder.deleted_at || folder.location === 'trash' ? 'trash' : 'base'
         }
 
-        let url = currentFolder.location === 'trash' ?'/folder/' + currentFolder.unique_id + '?trash=true' : '/folder/' + currentFolder.unique_id
+        let url = currentFolder.location === 'trash' ?'/folders/' + currentFolder.unique_id + '?trash=true' : '/folders/' + currentFolder.unique_id
 
         axios
             .get(context.getters.api + url)

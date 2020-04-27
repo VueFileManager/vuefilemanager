@@ -5,8 +5,7 @@ import i18n from '@/i18n/index'
 const actions = {
     moveItem: ({commit, getters}, [item_from, to_item]) => {
         axios
-            .post(getters.api + '/move-item', {
-                from_unique_id: item_from.unique_id,
+            .patch(getters.api + '/move-item/' + item_from.unique_id, {
                 from_type: item_from.type,
                 to_unique_id: to_item.unique_id
             })
@@ -36,7 +35,10 @@ const actions = {
             commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         axios
-            .post(getters.api + '/rename-item', data)
+            .patch(getters.api + '/rename-item/' + data.unique_id, {
+                name: data.name,
+                type: data.type,
+            })
             .then(response => {
                 commit('CHANGE_ITEM_NAME', response.data)
             })
@@ -89,14 +91,13 @@ const actions = {
         commit('CLEAR_FILEINFO_DETAIL')
 
         axios
-            .post(getters.api + '/restore-item', {
+            .patch(getters.api + '/restore-item/' + item.unique_id, {
                 type: item.type,
-                unique_id: item.unique_id,
                 to_home: restoreToHome,
             })
             .catch(() => isSomethingWrong())
     },
-    removeItem: ({commit, getters}, data) => {
+    deleteItem: ({commit, getters}, data) => {
 
         // Remove file
         commit('REMOVE_ITEM', data.unique_id)
@@ -114,10 +115,11 @@ const actions = {
         commit('CLEAR_FILEINFO_DETAIL')
 
         axios
-            .post(getters.api + '/remove-item', {
-                type: data.type,
-                unique_id: data.unique_id,
-                force_delete: data.deleted_at ? true : false
+            .delete(getters.api + '/remove-item/' + data.unique_id, {
+                data: {
+                    type: data.type,
+                    force_delete: data.deleted_at ? true : false
+                }
             })
             .catch(() => isSomethingWrong())
     },

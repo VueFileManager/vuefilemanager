@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FileFunctions;
 
+use App\FileManagerFolder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class FavouriteController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function add_to_favourites(Request $request)
+    public function store(Request $request)
     {
         // Validate request
         $validator = Validator::make($request->all(), [
@@ -25,8 +26,12 @@ class FavouriteController extends Controller
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
-        // Get user
+        // Get user & folder
         $user = Auth::user();
+        $folder = FileManagerFolder::where('unique_id', $request->unique_id)->first();
+
+        // Check ownership
+        if ($folder->user_id !== $user->id) abort(403);
 
         // Add folder to user favourites
         $user->favourites()->attach($request->unique_id);
@@ -38,24 +43,16 @@ class FavouriteController extends Controller
     /**
      * Remove folder from user favourites
      *
-     * @param Request $request
+     * @param $unique_id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function remove_from_favourites(Request $request)
+    public function destroy($unique_id)
     {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'unique_id' => 'required|integer',
-        ]);
-
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
-
         // Get user
         $user = Auth::user();
 
         // Remove folder from user favourites
-        $user->favourites()->detach($request->unique_id);
+        $user->favourites()->detach($unique_id);
 
         // Return updated favourites
         return $user->favourites->makeHidden(['pivot']);

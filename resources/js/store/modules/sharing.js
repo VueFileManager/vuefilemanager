@@ -37,11 +37,13 @@ const actions = {
             location: 'public'
         }
 
-        let route = getters.sharedDetail.protected ? '/api/browse-private/' : '/api/browse-public/' + router.currentRoute.params.token +'/'
+        let route = getters.sharedDetail.protected
+            ? '/api/folders/' + currentFolder.unique_id + '/private'
+            : '/api/folders/' + currentFolder.unique_id + '/public/' + router.currentRoute.params.token +'/'
 
         return new Promise((resolve, reject) => {
             axios
-                .get(route + currentFolder.unique_id)
+                .get(route)
                 .then(response => {
 
                     commit('LOADING_STATE', false)

@@ -51,13 +51,13 @@ class TrashController extends Controller
      * Restore item from trash
      *
      * @param Request $request
+     * @param $unique_id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function restore(Request $request)
+    public function restore(Request $request, $unique_id)
     {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'unique_id' => 'required|integer',
             'type'      => 'required|string',
             'to_home'   => 'boolean',
         ]);
@@ -72,7 +72,10 @@ class TrashController extends Controller
         if ($request->type === 'folder') {
 
             // Get folder
-            $item = FileManagerFolder::onlyTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFolder::onlyTrashed()
+                ->where('user_id', $user_id)
+                ->where('unique_id', $unique_id)
+                ->first();
 
             // Restore item to home directory
             if ($request->has('to_home') && $request->to_home) {
@@ -82,7 +85,10 @@ class TrashController extends Controller
         } else {
 
             // Get item
-            $item = FileManagerFile::onlyTrashed()->where('user_id', $user_id)->where('unique_id', $request->unique_id)->first();
+            $item = FileManagerFile::onlyTrashed()
+                ->where('user_id', $user_id)
+                ->where('unique_id', $unique_id)
+                ->first();
 
             // Restore item to home directory
             if ($request->has('to_home') && $request->to_home) {

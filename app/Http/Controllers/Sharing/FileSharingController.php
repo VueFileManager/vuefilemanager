@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Sharing;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Share\AuthenticateShareRequest;
+use App\Http\Resources\ShareResource;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +29,7 @@ class FileSharingController extends Controller
     {
         // Get shared token
         $shared = Share::where(DB::raw('BINARY `token`'), $token)
-            ->firstOrFail(['token', 'item_id', 'type', 'permission', 'protected']);
+            ->firstOrFail();
 
         // Delete old access_token if exist
         Cookie::queue('access_token', '', -1);
@@ -44,29 +46,14 @@ class FileSharingController extends Controller
     }
 
     /**
-     * Get shared record
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function show($token)
-    {
-        // Get sharing record
-        return Share::where(DB::raw('BINARY `token`'), $token)
-            ->firstOrFail(['token', 'item_id', 'type', 'permission', 'protected']);
-    }
-
-    /**
      * Check Password for protected item
      *
-     * @param Request $request
+     * @param AuthenticateShareRequest $request
      * @param $token
      * @return array
      */
-    public function authenticate(Request $request, $token)
+    public function authenticate(AuthenticateShareRequest $request, $token)
     {
-        // TODO: validacia
-
         // Get sharing record
         $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
 
@@ -86,7 +73,7 @@ class FileSharingController extends Controller
         $token = $user->createToken('access_token', [$scope])->accessToken;
 
         // Return authorize token with shared options
-        return response(Arr::except($shared, ['password', 'user_id', 'updated_at', 'created_at']), 200)
+        return response(new ShareResource($shared), 200)
             ->cookie('shared_token', $shared->token, 43200)
             ->cookie('access_token', $token, 43200);
     }
@@ -98,7 +85,7 @@ class FileSharingController extends Controller
      * @param $unique_id
      * @return Collection
      */
-    public function browse_private(Request $request, $unique_id)
+    public function get_private_folders(Request $request, $unique_id)
     {
         // Check if token exist
         if (! $request->hasCookie('shared_token') )
@@ -110,14 +97,8 @@ class FileSharingController extends Controller
         // Check if user can get directory
         $this->check_folder_access($unique_id, $shared);
 
-        // Get folders and files
-        $folders = FileManagerFolder::where('user_id', $shared->user_id)
-            ->where('parent_id', $unique_id)
-            ->get();
-
-        $files = FileManagerFile::where('user_id', $shared->user_id)
-            ->where('folder_id', $unique_id)
-            ->get();
+        // Get files and folders
+        list($folders, $files) = $this->get_items($unique_id, $shared);
 
         // Collect folders and files to single array
         return collect([$folders, $files])->collapse();
@@ -126,11 +107,10 @@ class FileSharingController extends Controller
     /**
      * Browse public folders
      *
-     * @param Request $request
      * @param $unique_id
      * @return Collection
      */
-    public function browse_public($token, $unique_id)
+    public function get_public_folders($unique_id, $token)
     {
         // Get sharing record
         $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
@@ -143,24 +123,8 @@ class FileSharingController extends Controller
         // Check if user can get directory
         $this->check_folder_access($unique_id, $shared);
 
-        // Get folders and files
-        $folders = FileManagerFolder::where('user_id', $shared->user_id)
-            ->where('parent_id', $unique_id)
-            ->get();
-
-        $files = FileManagerFile::where('user_id', $shared->user_id)
-            ->where('folder_id', $unique_id)
-            ->get();
-
-        // Add shared token to file
-        /*if ($shared->protected) {
-
-            $files->map(function ($file) use ($shared) {
-                //$file->thumbnail = $file->getOriginal('thumbnail') . '?token=' . $shared->token;
-
-                $file->thumbnail = route('thumbnail-public', ['name' => $file->getOriginal('thumbnail')]);
-            });
-        }*/
+        // Get files and folders
+        list($folders, $files) = $this->get_items($unique_id, $shared);
 
         // Collect folders and files to single array
         return collect([$folders, $files])->collapse();
@@ -234,5 +198,25 @@ class FileSharingController extends Controller
         // Check directory permission
         if ($request->cookie('shared_token') !== $request->token)
             abort(401, "Sorry, you don't have permission");
+    }
+
+    /**
+     * Get folders and files
+     *
+     * @param $unique_id
+     * @param $shared
+     * @return array
+     */
+    private function get_items($unique_id, $shared): array
+    {
+        $folders = FileManagerFolder::where('user_id', $shared->user_id)
+            ->where('parent_id', $unique_id)
+            ->get();
+
+        $files = FileManagerFile::where('user_id', $shared->user_id)
+            ->where('folder_id', $unique_id)
+            ->get();
+
+        return [$folders, $files];
     }
 }
