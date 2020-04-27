@@ -23,11 +23,11 @@
         "@fortawesome/vue-fontawesome": "^0.1.9",
         "css-element-queries": "^1.2.3",
         "lodash": "^4.17.15",
-        "node-sass": "^4.13.1",
-        "vee-validate": "^3.2.5",
+        "node-sass": "^4.14.0",
+        "vee-validate": "^3.3.0",
         "vue": "^2.6.10",
-        "vue-i18n": "^8.16.0",
+        "vue-i18n": "^8.17.4",
         "vue-router": "^3.1.6",
-        "vuex": "^3.0.1"
+        "vuex": "^3.3.0"
     }
 }

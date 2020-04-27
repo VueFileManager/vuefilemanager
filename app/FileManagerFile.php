@@ -3,17 +3,61 @@
 namespace App;
 
 use ByteUnits\Metric;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\FileManagerFile
+ *
+ * @property int $id
+ * @property int|null $user_id
+ * @property int $unique_id
+ * @property int $folder_id
+ * @property string $thumbnail
+ * @property string|null $name
+ * @property string|null $basename
+ * @property string|null $mimetype
+ * @property string $filesize
+ * @property string|null $type
+ * @property string $user_scope
+ * @property string $deleted_at
+ * @property string $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\FileManagerFolder|null $folder
+ * @property-read string $file_url
+ * @property-read \App\FileManagerFolder $parent
+ * @property-read \App\Share|null $shared
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereBasename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereFilesize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereFolderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereMimetype($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereThumbnail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUniqueId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUserScope($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withoutTrashed()
+ * @mixin \Eloquent
+ */
+
 class FileManagerFile extends Model
 {
     use Searchable, SoftDeletes;
 
+    public $public_access = null;
 
     protected $guarded = [
         'id'
@@ -22,6 +66,15 @@ class FileManagerFile extends Model
     protected $appends = [
         'file_url'
     ];
+
+    /**
+     * Set routes with public access
+     *
+     * @param $token
+     */
+    public function setPublicUrl($token) {
+        $this->public_access = $token;
+    }
 
     /**
      * Format created at date
@@ -46,9 +99,8 @@ class FileManagerFile extends Model
     }
 
     /**
-     * Format filesize
+     * Format fileSize
      *
-     * @param $value
      * @return string
      */
     public function getFilesizeAttribute()
@@ -59,23 +111,39 @@ class FileManagerFile extends Model
     /**
      * Format thumbnail url
      *
-     * @param $value
      * @return string
      */
     public function getThumbnailAttribute()
     {
-        return $this->attributes['thumbnail'] ? route('thumbnail', ['name' => $this->attributes['thumbnail']]) : null;
+        if ($this->attributes['thumbnail']) {
+
+            // Thumbnail route
+            $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
+
+            if ($this->public_access) {
+                return $route . '/public/' . $this->public_access;
+            }
+
+            return $route;
+        }
+
+        return null;
     }
 
     /**
      * Format file url
      *
-     * @param $value
      * @return string
      */
     public function getFileUrlAttribute()
     {
-        return route('file', ['name' => $this->attributes['basename']]);
+        $route = route('file', ['name' => $this->attributes['basename']]);
+
+        if ($this->public_access) {
+            return $route . '/public/' . $this->public_access;
+        }
+
+        return $route;
     }
 
     /**

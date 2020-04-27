@@ -74,7 +74,7 @@ const actions = {
     },
     getSingleFile: ({commit, state}) => {
 
-        let route = state.sharedDetail.protected ? '/api/file-private/' : '/api/file-public/' + router.currentRoute.params.token
+        let route = state.sharedDetail.protected ? '/api/files/private' : '/api/files/' + router.currentRoute.params.token + '/public'
 
         axios.get(route)
             .then(response => {

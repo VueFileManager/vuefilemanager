@@ -31,7 +31,7 @@ Route::group(['middleware' => ['api']], function () {
     // Sharing
     Route::get('/folders/{unique_id}/public/{token}', 'Sharing\FileSharingController@get_public_folders');
     Route::post('/shared/authenticate/{token}', 'Sharing\FileSharingController@authenticate');
-    Route::get('/file-public/{token}', 'Sharing\FileSharingController@file_public');
+    Route::get('/files/{token}/public', 'Sharing\FileSharingController@file_public');
     Route::get('/shared/{token}', 'FileFunctions\ShareController@show');
 });
 
@@ -71,20 +71,12 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], func
     Route::get('/logout', 'Auth\AuthController@logout');
 });
 
-// Protected sharing routes for public user
+// Protected sharing routes for authenticated user
 Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor']], function () {
 
     // Browse folders & files
     Route::get('/folders/{unique_id}/private', 'Sharing\FileSharingController@get_private_folders');
-    Route::get('/file-private', 'Sharing\FileSharingController@file_private');
-});
-
-// User master,editor routes
-Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master,editor,visitor']], function () {
-
-    // File routes
-    Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
-    Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
+    Route::get('/files/private', 'Sharing\FileSharingController@file_private');
 });
 
 // User master,editor routes

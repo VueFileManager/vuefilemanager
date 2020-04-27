@@ -70,12 +70,12 @@ class FileSharingController extends Controller
         $scope = !is_null($shared->permission) ? $shared->permission : 'visitor';
 
         // Generate token for visitor/editor
-        $token = $user->createToken('access_token', [$scope])->accessToken;
+        $access_token = $user->createToken('access_token', [$scope])->accessToken;
 
         // Return authorize token with shared options
         return response(new ShareResource($shared), 200)
             ->cookie('shared_token', $shared->token, 43200)
-            ->cookie('access_token', $token, 43200);
+            ->cookie('access_token', $access_token, 43200);
     }
 
     /**
@@ -87,10 +87,6 @@ class FileSharingController extends Controller
      */
     public function get_private_folders(Request $request, $unique_id)
     {
-        // Check if token exist
-        if (! $request->hasCookie('shared_token') )
-            abort(404, "Sorry, you don't request any content");
-
         // Get sharing record
         $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
@@ -126,6 +122,11 @@ class FileSharingController extends Controller
         // Get files and folders
         list($folders, $files) = $this->get_items($unique_id, $shared);
 
+        // Set thumbnail links for public files
+        $files->map(function ($item) use ($token) {
+            $item->setPublicUrl($token);
+        });
+
         // Collect folders and files to single array
         return collect([$folders, $files])->collapse();
     }
@@ -146,10 +147,16 @@ class FileSharingController extends Controller
             abort(403, "Sorry, you don't have permission");
         }
 
-        // Return record
-        return FileManagerFile::where('user_id', $shared->user_id)
+        // Get file
+        $file = FileManagerFile::where('user_id', $shared->user_id)
             ->where('unique_id', $shared->item_id)
             ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
+
+        // Set urls
+        $file->setPublicUrl($token);
+
+        // Return record
+        return $file;
     }
 
     /**
@@ -188,16 +195,6 @@ class FileSharingController extends Controller
 
         // Check user access
         if (!in_array($unique_id, $accessible_folder_ids)) abort(401);
-    }
-
-    /**
-     * @param Request $request
-     */
-    protected function check_authenticated_access(Request $request): void
-    {
-        // Check directory permission
-        if ($request->cookie('shared_token') !== $request->token)
-            abort(401, "Sorry, you don't have permission");
     }
 
     /**

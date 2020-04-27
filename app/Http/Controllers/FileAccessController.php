@@ -20,6 +20,7 @@ class FileAccessController extends Controller
      *
      * @param $basename
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get_avatar($basename)
     {
@@ -45,6 +46,7 @@ class FileAccessController extends Controller
      * @param Request $request
      * @param $filename
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get_file(Request $request, $filename)
     {
@@ -59,9 +61,139 @@ class FileAccessController extends Controller
 
         // Check user permission
         if ( ! $request->user()->tokenCan('master') ) {
-            $this->check_access($request, $file);
+
+            // Get shared token
+            $shared = Share::where(DB::raw('BINARY `token`'), $request->cookie('shared_token'))
+                ->firstOrFail();
+
+            // Check access to file
+            $this->check_file_access($shared, $file);
         }
 
+        return $this->download_file($file);
+    }
+
+    /**
+     * Get file public
+     *
+     * @param $filename
+     * @param $token
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_file_public($filename, $token)
+    {
+        // Get sharing record
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
+
+        // Abort if shared is protected
+        if ($shared->protected) {
+            abort(403, "Sorry, you don't have permission");
+        }
+
+        // Get file record
+        $file = FileManagerFile::where('user_id', $shared->user_id)
+            ->where('basename', $filename)
+            ->firstOrFail();
+
+        // Check file access
+        $this->check_file_access($shared, $file);
+
+        return $this->download_file($file);
+    }
+
+    /**
+     * Get image thumbnail
+     *
+     * @param Request $request
+     * @param $filename
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_thumbnail(Request $request, $filename)
+    {
+        // Get file record
+        $file = FileManagerFile::withTrashed()
+            ->where('user_id', $request->user()->id)
+            ->where('thumbnail', $filename)
+            ->firstOrFail();
+
+        // Check user permission
+        if ( ! $request->user()->tokenCan('master') ) {
+            $this->check_file_access($request, $file);
+        }
+
+        return $this->thumbnail_file($file);
+    }
+
+    /**
+     * Get public image thumbnail
+     *
+     * @param $filename
+     * @param $token
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_thumbnail_public($filename, $token)
+    {
+        // Get sharing record
+        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
+
+        // Abort if thumbnail is protected
+        if ($shared->protected) {
+            abort(403, "Sorry, you don't have permission");
+        }
+
+        // Get file record
+        $file = FileManagerFile::where('user_id', $shared->user_id)
+            ->where('thumbnail', $filename)
+            ->firstOrFail();
+
+        // Check file access
+        $this->check_file_access($shared, $file);
+
+        return $this->thumbnail_file($file);
+    }
+
+    /**
+     * Check user file access
+     *
+     * @param $shared
+     * @param $file
+     */
+    protected function check_file_access($shared, $file): void
+    {
+        // Check by parent folder permission
+        if ($shared->type === 'folder') {
+
+            // Get all children folders
+            $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+                ->where('user_id', $shared->user_id)
+                ->where('parent_id', $shared->item_id)
+                ->get();
+
+            // Get all authorized parent folders by shared folder as root of tree
+            $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+
+            // Check user access
+            if (!in_array($file->folder_id, $accessible_folder_ids)) abort(403);
+        }
+
+        // Check by single file permission
+        if ($shared->type === 'file') {
+            if ($shared->item_id !== $file->unique_id) abort(403);
+        }
+    }
+
+    /**
+     * Call and download file
+     *
+     * @param $file
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private function download_file($file)
+    {
         // Format pretty filename
         $file_pretty_name = $file->name . '.' . $file->mimetype;
 
@@ -87,25 +219,12 @@ class FileAccessController extends Controller
     }
 
     /**
-     * Get image thumbnail
-     *
-     * @param Request $request
-     * @param $filename
+     * @param $file
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function get_thumbnail(Request $request, $filename)
+    private function thumbnail_file($file)
     {
-        // Get file record
-        $file = FileManagerFile::withTrashed()
-            ->where('user_id', $request->user()->id)
-            ->where('thumbnail', $filename)
-            ->firstOrFail();
-
-        // Check user permission
-        if ( ! $request->user()->tokenCan('master') ) {
-            $this->check_access($request, $file);
-        }
-
         // Get file path
         $path = storage_path() . '/app/file-manager/' . $file->getOriginal('thumbnail');
 
@@ -120,41 +239,5 @@ class FileAccessController extends Controller
         $response->header("Content-Type", $type);
 
         return $response;
-    }
-
-    /**
-     * Check user file access
-     *
-     * @param $request
-     */
-    protected function check_access($request, $file): void
-    {
-        // check if shared_token cookie exist
-        if (! $request->hasCookie('shared_token')) abort('401');
-
-        // Get shared token
-        $shared = Share::where(DB::raw('BINARY `token`'), $request->cookie('shared_token'))
-            ->first();
-
-        // Check by parent folder permission
-        if ($shared->type === 'folder') {
-
-            // Get all children folders
-            $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
-                ->where('user_id', $shared->user_id)
-                ->where('parent_id', $shared->item_id)
-                ->get();
-
-            // Get all authorized parent folders by shared folder as root of tree
-            $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
-
-            // Check user access
-            if (!in_array($file->folder_id, $accessible_folder_ids)) abort(403);
-        }
-
-        // Check by single file permission
-        if ($shared->type === 'file') {
-            if ($shared->item_id !== $file->unique_id) abort(403);
-        }
     }
 }
