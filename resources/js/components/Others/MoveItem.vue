@@ -4,15 +4,15 @@
         <PopupHeader :title="$t('popup_move_item.title')" />
 
         <!--Content-->
-        <PopupContent type="height-limited" v-if="app && pickedItem">
+        <PopupContent type="height-limited" v-if="pickedItem">
 
             <!--Show Spinner when loading folders-->
             <Spinner v-if="isLoadingTree"/>
 
             <!--Folder tree-->
-            <div v-if="! isLoadingTree">
+            <div v-if="! isLoadingTree && navigation">
                 <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="location"/>
-                <TreeMenu :depth="1" :nodes="items" v-for="items in app.folders" :key="items.unique_id"/>
+                <TreeMenu :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
         </PopupContent>
 
@@ -35,14 +35,14 @@
 </template>
 
 <script>
-    import PopupWrapper from '@/components/VueFileManagerComponents/Others/Popup/PopupWrapper'
-    import PopupActions from '@/components/VueFileManagerComponents/Others/Popup/PopupActions'
-    import PopupContent from '@/components/VueFileManagerComponents/Others/Popup/PopupContent'
-    import PopupHeader from '@/components/VueFileManagerComponents/Others/Popup/PopupHeader'
-    import ThumbnailItem from '@/components/VueFileManagerComponents/Others/ThumbnailItem'
-    import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
-    import Spinner from '@/components/VueFileManagerComponents/FilesView/Spinner'
-    import TreeMenu from '@/components/VueFileManagerComponents/Others/TreeMenu'
+    import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
+    import PopupActions from '@/components/Others/Popup/PopupActions'
+    import PopupContent from '@/components/Others/Popup/PopupContent'
+    import PopupHeader from '@/components/Others/Popup/PopupHeader'
+    import ThumbnailItem from '@/components/Others/ThumbnailItem'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
+    import Spinner from '@/components/FilesView/Spinner'
+    import TreeMenu from '@/components/Others/TreeMenu'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 
@@ -59,7 +59,7 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['navigation']),
         },
         data() {
             return {

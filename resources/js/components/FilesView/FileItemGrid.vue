@@ -1,12 +1,13 @@
 <template>
     <div
-            @click.stop="clickedItem" @dblclick="goToItem"
             class="file-wrapper"
+            @click.stop="clickedItem"
+            @dblclick="goToItem"
             spellcheck="false"
     >
-        <!--List preview-->
+        <!--Grid preview-->
         <div
-                :draggable="! isDeleted"
+                :draggable="canDrag"
                 @dragstart="$emit('dragstart')"
                 @drop="
 				$emit('drop')
@@ -19,9 +20,10 @@
         >
             <!--Thumbnail for item-->
             <div class="icon-item">
+
                 <!--If is file or image, then link item-->
                 <span v-if="isFile" class="file-icon-text">
-                    {{ data.mimetype | limitCharacters }}
+                    {{ data.mimetype }}
                 </span>
 
                 <!--Folder thumbnail-->
@@ -58,22 +60,19 @@
                         <FontAwesomeIcon class="shared-icon" icon="user-edit"/>
                     </div>
 
-                    <!--Filesize and timestamp-->
-                    <span v-if="! isFolder" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
+                    <!--Filesize-->
+                    <span v-if="! isFolder" class="item-size">{{ data.filesize }}</span>
 
                     <!--Folder item counts-->
                     <span v-if="isFolder" class="item-length">
-                        {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
-                    </span>
+                        {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}
+				    </span>
                 </div>
             </div>
 
-            <!--Go Next icon-->
-            <div class="actions" v-if="$isMobile()">
-				<span @click.stop="showItemActions" class="show-actions">
-					<FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
-				</span>
-            </div>
+            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile()">
+                <FontAwesomeIcon icon="ellipsis-h" class="icon-action"></FontAwesomeIcon>
+            </span>
         </div>
     </div>
 </template>
@@ -84,7 +83,7 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'FileItem',
+        name: 'FileItemGrid',
         props: ['data'],
         computed: {
             ...mapGetters(['FilePreviewType']),
@@ -98,10 +97,13 @@
                 return this.data.type === 'image'
             },
             canEditName() {
-                return ! this.$isMobile() && ! this.$isThisLocation(['trash', 'trash-root']) && ! this.$checkPermission('visitor')
+                return !this.$isMobile() && !this.$isThisLocation(['trash', 'trash-root']) && !this.$checkPermission('visitor')
+            },
+            canDrag() {
+                return !this.isDeleted && this.$checkPermission(['master', 'editor'])
             },
             timeStamp() {
-                return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.data.deleted_at}) : this.data.created_at
+                return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', this.data.deleted_at) : this.data.created_at
             },
             folderItems() {
                 return this.data.deleted_at ? this.data.trashed_items : this.data.items
@@ -110,30 +112,17 @@
                 return this.data.deleted_at ? true : false
             }
         },
-        filters: {
-            limitCharacters(str) {
-
-                if (str.length > 3) {
-                    return str.substring(0, 3) + '...';
-                } else {
-                    return str.substring(0, 3);
-                }
-
-            }
-        },
         data() {
             return {
                 isClicked: false,
                 area: false,
-                itemName: undefined,
+                itemName: undefined
             }
         },
         methods: {
             showItemActions() {
                 // Load file info detail
                 this.$store.commit('GET_FILEINFO_DETAIL', this.data)
-
-                //this.isClicked = true
 
                 events.$emit('mobileMenu:show')
             },
@@ -156,7 +145,7 @@
                 if (this.$isMobile() && this.isFolder) {
 
                     // Go to folder
-                    if ( this.$isThisLocation('public') ) {
+                    if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [this.data, false])
                     } else {
                         this.$store.dispatch('getFolder', [this.data, false])
@@ -189,8 +178,8 @@
                 }
 
                 if (this.isFolder) {
-
-                    if ( this.$isThisLocation('public') ) {
+                    // Go to folder
+                    if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [this.data, false])
                     } else {
                         this.$store.dispatch('getFolder', [this.data, false])
@@ -221,44 +210,46 @@
             events.$on('change:name', (item) => {
                 if (this.data.unique_id == item.unique_id) this.itemName = item.name
             })
-        },
+        }
     }
 </script>
 
 <style scoped lang="scss">
     @import "@assets/app.scss";
 
+    .show-actions {
+        cursor: pointer;
+        padding: 4px 26px;
+
+        .icon-action {
+            @include font-size(12);
+        }
+
+        path {
+            fill: $theme;
+        }
+    }
+
     .file-wrapper {
         position: relative;
-
-        &:hover {
-            border-color: transparent;
-        }
-
-        .actions {
-            text-align: right;
-            width: 50px;
-
-            .show-actions {
-                cursor: pointer;
-                padding: 12px 6px 12px;
-
-                .icon-action {
-                    @include font-size(14);
-
-                    path {
-                        fill: $theme;
-                    }
-                }
-            }
-        }
+        text-align: center;
+        display: inline-block;
+        vertical-align: text-top;
+        width: 100%;
 
         .item-name {
             display: block;
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            padding-left: 10px;
+            padding-right: 10px;
+            line-height: 20px;
+
+            .item-size,
+            .item-length {
+                @include font-size(12);
+                font-weight: 400;
+                color: $text-muted;
+                display: inline-block;
+            }
 
             .item-info {
                 display: block;
@@ -283,15 +274,13 @@
                 }
             }
 
-            .item-size,
-            .item-length {
-                @include font-size(12);
-                font-weight: 400;
-                color: $text-muted;
-            }
-
             .name {
-                white-space: nowrap;
+                color: $text;
+                @include font-size(14);
+                font-weight: 700;
+                max-height: 40px;
+                overflow: hidden;
+                text-overflow: ellipsis;
 
                 &[contenteditable] {
                     -webkit-user-select: text;
@@ -301,15 +290,6 @@
                 &[contenteditable='true']:hover {
                     text-decoration: underline;
                 }
-            }
-
-            .name {
-                color: $text;
-                @include font-size(14);
-                font-weight: 700;
-                max-height: 40px;
-                overflow: hidden;
-                text-overflow: ellipsis;
 
                 &.actived {
                     max-height: initial;
@@ -323,72 +303,13 @@
             }
         }
 
-        .icon-item {
-            text-align: center;
-            position: relative;
-            flex: 0 0 50px;
-            line-height: 0;
-            margin-right: 20px;
-
-            .folder-icon {
-                @include font-size(52);
-
-                path {
-                    fill: $theme;
-                }
-
-                &.is-deleted {
-                    path {
-                        fill: $dark_background;
-                    }
-                }
-            }
-
-            .file-icon {
-                @include font-size(45);
-
-                path {
-                    fill: #fafafc;
-                    stroke: #dfe0e8;
-                    stroke-width: 1;
-                }
-            }
-
-            .file-icon-text {
-                line-height: 1;
-                top: 40%;
-                @include font-size(11);
-                margin: 0 auto;
-                position: absolute;
-                text-align: center;
-                left: 0;
-                right: 0;
-                color: $theme;
-                font-weight: 600;
-                user-select: none;
-                max-width: 50px;
-                max-height: 20px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .image {
-                object-fit: cover;
-                user-select: none;
-                max-width: 100%;
-                border-radius: 5px;
-                width: 50px;
-                height: 50px;
-            }
-        }
-
         .file-item {
             border: 2px dashed transparent;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding: 7px;
+            width: 165px;
+            margin: 0 auto;
+            cursor: pointer;
+            position: relative;
+            padding: 15px 0;
 
             &.is-dragenter {
                 border: 2px dashed $theme;
@@ -402,6 +323,72 @@
 
                 .item-name .name {
                     color: $theme;
+                }
+            }
+        }
+
+        .icon-item {
+            text-align: center;
+            position: relative;
+            height: 110px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+
+            .file-link {
+                display: block;
+            }
+
+            .file-icon {
+                @include font-size(100);
+                margin: 0 auto;
+
+                path {
+                    fill: #fafafc;
+                    stroke: #dfe0e8;
+                    stroke-width: 1;
+                }
+            }
+
+            .file-icon-text {
+                margin: 5px auto 0;
+                position: absolute;
+                text-align: center;
+                left: 0;
+                right: 0;
+                color: $theme;
+                font-weight: 600;
+                user-select: none;
+                max-width: 65px;
+                max-height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .image {
+                max-width: 95%;
+                object-fit: cover;
+                user-select: none;
+                height: 110px;
+                border-radius: 5px;
+                margin: 0 auto;
+                pointer-events: none;
+            }
+
+            .folder-icon {
+                align-items: flex-end;
+                @include font-size(80);
+                margin: 0 auto;
+
+                path {
+                    fill: $theme;
+                }
+
+                &.is-deleted {
+                    path {
+                        fill: $dark_background;
+                    }
                 }
             }
         }
@@ -438,4 +425,6 @@
             }
         }
     }
+
+
 </style>

@@ -1,6 +1,6 @@
 const defaultState = {
 	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
-	FilePreviewType: localStorage.getItem('FilePreviewType') || 'list',
+	FilePreviewType: localStorage.getItem('preview_type') || 'list',
 	appSize: undefined,
 	config: undefined,
 }
@@ -20,8 +20,8 @@ const actions = {
 
 		} else {
 
-			if ( this.$isThisLocation('public') ) {
-				dispatch('browseShared', [this.currentFolder(), false, true])
+			if ( getters.currentFolder.location === 'public' ) {
+				dispatch('browseShared', [getters.currentFolder, false, true])
 			} else {
 				dispatch('getFolder', [getters.currentFolder, false, true])
 			}

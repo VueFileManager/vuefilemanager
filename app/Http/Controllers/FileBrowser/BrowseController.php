@@ -131,7 +131,7 @@ class BrowseController extends Controller
      *
      * @return array
      */
-    public function folder_tree() {
+    public function navigation_tree() {
 
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', 0)

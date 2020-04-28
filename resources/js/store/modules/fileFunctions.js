@@ -1,11 +1,19 @@
-import axios from 'axios'
-import {events} from '@/bus'
 import i18n from '@/i18n/index'
+import router from '@/router'
+import {events} from '@/bus'
+import axios from 'axios'
+
 
 const actions = {
     moveItem: ({commit, getters}, [item_from, to_item]) => {
+
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/move/' + item_from.unique_id + '/public/' + router.currentRoute.params.token
+            : '/api/move/' + item_from.unique_id
+
         axios
-            .patch(getters.api + '/move-item/' + item_from.unique_id, {
+            .patch(route, {
                 from_type: item_from.type,
                 to_unique_id: to_item.unique_id
             })
@@ -16,11 +24,15 @@ const actions = {
             .catch(() => isSomethingWrong())
     },
     createFolder: ({commit, getters}, folderName) => {
-        const parent_id = getters.currentFolder ? getters.currentFolder.unique_id : 0
+
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/create-folder/public/' + router.currentRoute.params.token
+            : '/api/create-folder'
 
         axios
-            .post(getters.api + '/create-folder', {
-                parent_id: parent_id,
+            .post(route, {
+                parent_id: getters.currentFolder.unique_id,
                 name: folderName
             })
             .then(response => {
@@ -34,8 +46,13 @@ const actions = {
         if (getters.permission === 'master' && data.type === 'folder')
             commit('UPDATE_NAME_IN_FAVOURITES', data)
 
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/rename-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
+            : '/api/rename-item/' + data.unique_id
+
         axios
-            .patch(getters.api + '/rename-item/' + data.unique_id, {
+            .patch(route, {
                 name: data.name,
                 type: data.type,
             })
@@ -46,8 +63,14 @@ const actions = {
     },
     uploadFiles: ({commit, getters}, files) => {
         return new Promise((resolve, reject) => {
+
+            // Get route
+            let route = getters.sharedDetail && ! getters.sharedDetail.protected
+                ? '/api/upload/public/' + router.currentRoute.params.token
+                : '/api/upload'
+
             axios
-                .post(getters.api + '/upload-file', files, {
+                .post(route, files, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     },
@@ -114,8 +137,13 @@ const actions = {
         // Remove file preview
         commit('CLEAR_FILEINFO_DETAIL')
 
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/remove-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
+            : '/api/remove-item/' + data.unique_id
+
         axios
-            .delete(getters.api + '/remove-item/' + data.unique_id, {
+            .delete(route, {
                 data: {
                     type: data.type,
                     force_delete: data.deleted_at ? true : false

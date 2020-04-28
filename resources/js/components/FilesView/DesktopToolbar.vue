@@ -46,7 +46,7 @@
                 <div class="toolbar-button-wrapper">
                     <ToolbarButton
                             :source="preview"
-                            action=""
+                            action="Change Preview"
                             @click.native="$store.dispatch('changePreviewType')"
                     />
                     <ToolbarButton
@@ -62,10 +62,10 @@
 </template>
 
 <script>
-    import ToolbarButtonUpload from '@/components/VueFileManagerComponents/FilesView/ToolbarButtonUpload'
-    import UploadProgress from '@/components/VueFileManagerComponents/FilesView/UploadProgress'
-    import ToolbarButton from '@/components/VueFileManagerComponents/FilesView/ToolbarButton'
-    import SearchBar from '@/components/VueFileManagerComponents/FilesView/SearchBar'
+    import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
+    import UploadProgress from '@/components/FilesView/UploadProgress'
+    import ToolbarButton from '@/components/FilesView/ToolbarButton'
+    import SearchBar from '@/components/FilesView/SearchBar'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 
@@ -97,9 +97,6 @@
             preview() {
                 return this.FilePreviewType === 'list' ? 'th' : 'th-list'
             },
-            isTrash() {
-                return this.currentFolder.location === 'trash' || this.currentFolder.location === 'trash-root'
-            }
         },
         data() {
             return {
@@ -130,7 +127,8 @@
                 events.$emit('items:delete')
             },
             createFolder() {
-                if (! this.isTrash) this.$createFolder()
+                if (! this.$isThisLocation(['trash', 'trash-root']))
+                    this.$createFolder()
             }
         },
         created() {

@@ -73,11 +73,11 @@
 </template>
 
 <script>
-    import FileListItemThumbnail from '@/components/VueFileManagerComponents/Sidebar/FileListItemThumbnail'
-    import UserHeadline from '@/components/VueFileManagerComponents/Sidebar/UserHeadline'
-    import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
-    import StorageSize from '@/components/VueFileManagerComponents/Sidebar/StorageSize'
-    import TextLabel from '@/components/VueFileManagerComponents/Others/TextLabel'
+    import FileListItemThumbnail from '@/components/Sidebar/FileListItemThumbnail'
+    import UserHeadline from '@/components/Sidebar/UserHeadline'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
+    import StorageSize from '@/components/Sidebar/StorageSize'
+    import TextLabel from '@/components/Others/TextLabel'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 

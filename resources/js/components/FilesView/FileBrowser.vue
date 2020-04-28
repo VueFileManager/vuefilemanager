@@ -83,14 +83,14 @@
 </template>
 
 <script>
-    import MobileToolbar from '@/components/VueFileManagerComponents/FilesView/MobileToolbar'
-    import MobileActions from '@/components/VueFileManagerComponents/FilesView/MobileActions'
-    import FileInfoPanel from '@/components/VueFileManagerComponents/FilesView/FileInfoPanel'
-    import FileItemList from '@/components/VueFileManagerComponents/FilesView/FileItemList'
-    import FileItemGrid from '@/components/VueFileManagerComponents/FilesView/FileItemGrid'
-    import EmptyMessage from '@/components/VueFileManagerComponents/FilesView/EmptyMessage'
-    import EmptyPage from '@/components/VueFileManagerComponents/FilesView/EmptyPage'
-    import SearchBar from '@/components/VueFileManagerComponents/FilesView/SearchBar'
+    import MobileToolbar from '@/components/FilesView/MobileToolbar'
+    import MobileActions from '@/components/FilesView/MobileActions'
+    import FileInfoPanel from '@/components/FilesView/FileInfoPanel'
+    import FileItemList from '@/components/FilesView/FileItemList'
+    import FileItemGrid from '@/components/FilesView/FileItemGrid'
+    import EmptyMessage from '@/components/FilesView/EmptyMessage'
+    import EmptyPage from '@/components/FilesView/EmptyPage'
+    import SearchBar from '@/components/FilesView/SearchBar'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 

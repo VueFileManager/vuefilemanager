@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import TreeMenu from '@/components/VueFileManagerComponents/Others/TreeMenu'
+    import TreeMenu from '@/components/Others/TreeMenu'
     import {events} from "@/bus"
 
     export default {

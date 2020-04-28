@@ -2,387 +2,327 @@
 
 namespace App\Http\Controllers\FileFunctions;
 
-use App\Share;
-use Illuminate\Support\Arr;
+use App\Http\Requests\FileFunctions\CreateFolderRequest;
+use App\Http\Requests\FileFunctions\DeleteItemRequest;
+use App\Http\Requests\FileFunctions\RenameItemRequest;
+use App\Http\Requests\FileFunctions\MoveItemRequest;
+use App\Http\Requests\FileFunctions\UploadRequest;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Http\Tools\Guardian;
+use App\Http\Tools\Editor;
 use App\FileManagerFolder;
 use App\FileManagerFile;
-use Response;
+use Exception;
 
 
 class EditItemsController extends Controller
 {
     /**
-     * Create new folder
+     * Create new folder for authenticated master|editor user
      *
-     * @param Request $request
-     * @return array
+     * @param CreateFolderRequest $request
+     * @return FileManagerFolder|Model
      */
-    public function create_folder(Request $request)
+    public function user_create_folder(CreateFolderRequest $request)
     {
-        // Check permission to create folder for authenticated public editor
-        if ( ! $request->user()->tokenCan('master') ) {
-            $this->check_access($request, $request->parent_id);
+        // Check permission to create folder for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
+
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
+
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
+
+            // Check access to requested directory
+            Guardian::check_item_access($request->parent_id, $shared);
         }
 
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'parent_id' => 'required|integer',
-            'name'      => 'string',
-        ]);
+        // Create new folder
+        return Editor::create_folder($request);
+    }
 
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+    /**
+     * Create new folder for guest user with edit permission
+     *
+     * @param CreateFolderRequest $request
+     * @param $token
+     * @return FileManagerFolder|Model
+     */
+    public function guest_create_folder(CreateFolderRequest $request, $token)
+    {
+        // Get shared record
+        $shared = get_shared($token);
 
-        // Get parent_id from request
-        $parent_id = $request->parent_id === 0 ? 0 : $request->parent_id;
+        // Check shared permission
+        if (!is_editor($shared)) abort(403);
+
+        // Check access to requested directory
+        Guardian::check_item_access($request->parent_id, $shared);
 
         // Create folder
-        $folder = FileManagerFolder::create([
-            'user_id'   => Auth::id(),
-            'parent_id' => $parent_id,
-            'name'      => $request->has('name') ? $request->input('name') : 'New Folder',
-            'type'      => 'folder',
-            'unique_id' => $this->get_unique_id(),
-            'user_scope' => $request->user()->token()->scopes[0],
-        ]);
-
-        // Return new folder
-        return $folder;
+        return Editor::create_folder($request, $shared);
     }
 
     /**
-     * Rename item name
+     * Rename item for authenticated master|editor user
      *
-     * @param Request $request
+     * @param RenameItemRequest $request
+     * @param $unique_id
      * @return mixed
      */
-    public function rename_item(Request $request, $unique_id)
+    public function user_rename_item(RenameItemRequest $request, $unique_id)
     {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'name'      => 'required|string',
-            'type'      => 'required|string',
-        ]);
+        // Check permission to rename item for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
 
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
 
-        // Get user id
-        $user_id = Auth::id();
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
 
-        // Update folder name
-        if ($request->type === 'folder') {
+            // Get file|folder item
+            $item = get_item($request->type, $unique_id, Auth::id());
 
-            $item = FileManagerFolder::where('unique_id', $unique_id)
-                ->where('user_id', $user_id)
-                ->firstOrFail();
-
-            // Check permission to rename for authenticated public editor
-            if ( ! $request->user()->tokenCan('master') ) {
-                $this->check_access($request, $item->unique_id);
+            // Check access to requested directory
+            if ($request->type === 'folder') {
+                Guardian::check_item_access($item->unique_id, $shared);
+            } else {
+                Guardian::check_item_access($item->folder_id, $shared);
             }
-
-            $item->name = $request->name;
-            $item->save();
-
-        } else {
-
-            $item = FileManagerFile::where('unique_id', $unique_id)
-                ->where('user_id', $user_id)
-                ->firstOrFail();
-
-            // Check permission to rename for authenticated public editor
-            if ( ! $request->user()->tokenCan('master') ) {
-                $this->check_access($request, $item->folder_id);
-            }
-
-            $item->name = $request->name;
-            $item->save();
         }
 
-        // Return updated item
-        return $item;
+        // Rename Item
+        return Editor::rename_item($request, $unique_id);
     }
 
     /**
-     * Delete item
+     * Rename item for guest user with edit permission
      *
-     * @param Request $request
+     * @param RenameItemRequest $request
      * @param $unique_id
-     * @throws \Exception
+     * @param $token
+     * @return mixed
      */
-    public function delete_item(Request $request, $unique_id)
+    public function guest_rename_item(RenameItemRequest $request, $unique_id, $token)
     {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'type'         => 'required|string',
-            'force_delete' => 'required|boolean',
-        ]);
+        // Get shared record
+        $shared = get_shared($token);
 
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        // Check shared permission
+        if (!is_editor($shared)) abort(403);
 
-        // Get user id
-        $user = Auth::user();
+        // Get file|folder item
+        $item = get_item($request->type, $unique_id, $shared->user_id);
 
-        // Delete folder
+        // Check access to requested item
         if ($request->type === 'folder') {
-
-            // Get folder
-            $folder = FileManagerFolder::withTrashed()
-                ->with(['folders'])
-                ->where('user_id', $user->id)
-                ->where('unique_id', $unique_id)
-                ->first();
-
-            // Check permission to delete for authenticated public editor
-            if ( ! $request->user()->tokenCan('master') ) {
-                $this->check_access($request, $folder->unique_id);
-            }
-
-            // Force delete children files
-            if ($request->force_delete) {
-
-                // Get children folder ids
-                $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
-
-                // Get children files
-                $files = FileManagerFile::onlyTrashed()
-                    ->where('user_id', $user->id)
-                    ->whereIn('folder_id', Arr::flatten([$unique_id, $child_folders]))
-                    ->get();
-
-                // Remove all children files
-                foreach ($files as $file) {
-
-                    // Delete file
-                    Storage::disk('local')->delete('/file-manager/' . $file->basename);
-
-                    // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
-
-                    // Delete file permanently
-                    $file->forceDelete();
-                }
-
-                // Delete folder record
-                $folder->forceDelete();
-
-            } else {
-
-                // Remove folder from user favourites
-                $user->favourites()->detach($unique_id);
-
-                // Soft delete folder record
-                $folder->delete();
-            }
+            Guardian::check_item_access($item->unique_id, $shared);
         } else {
-
-            $file = FileManagerFile::withTrashed()
-                ->where('user_id', $user->id)
-                ->where('unique_id', $unique_id)
-                ->first();
-
-            // Check permission to delete for authenticated public editor
-            if ( ! $request->user()->tokenCan('master') ) {
-                $this->check_access($request, $file->folder_id);
-            }
-
-            if ($request->force_delete) {
-
-                // Delete file
-                Storage::disk('local')->delete('/file-manager/' . $file->basename);
-
-                // Delete thumbnail if exist
-                if ($file->thumbnail) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
-
-                // Delete file permanently
-                $file->forceDelete();
-            } else {
-
-                // Soft delete file
-                $file->delete();
-            }
+            Guardian::check_item_access($item->folder_id, $shared);
         }
+
+        // Rename item
+        return Editor::rename_item($request, $unique_id, $shared);
     }
 
     /**
-     * Upload items
+     * Delete item for authenticated master|editor user
      *
-     * @param Request $request
-     * @return array
+     * @param DeleteItemRequest $request
+     * @param $unique_id
+     * @return ResponseFactory|\Illuminate\Http\Response
+     * @throws Exception
      */
-    public function upload_item(Request $request)
+    public function user_delete_item(DeleteItemRequest $request, $unique_id)
     {
-        // Check permission to upload for authenticated public editor
-        if ( ! $request->user()->tokenCan('master') ) {
-            $this->check_access($request, $request->parent_id);
+        // Check permission to delete item for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
+
+            // Prevent force delete for non-master users
+            if ($request->force_delete) abort('401');
+
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
+
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
+
+            // Get file|folder item
+            $item = get_item($request->type, $unique_id, Auth::id());
+
+            // Check access to requested directory
+            if ($request->type === 'folder') {
+                Guardian::check_item_access($item->unique_id, $shared);
+            } else {
+                Guardian::check_item_access($item->folder_id, $shared);
+            }
         }
 
+        // Delete item
+        Editor::delete_item($request, $unique_id);
+
+        // Return response
+        return response(null, 204);
+    }
+
+    /**
+     * Delete item for guest user with edit permission
+     *
+     * @param DeleteItemRequest $request
+     * @param $unique_id
+     * @param $token
+     * @return ResponseFactory|\Illuminate\Http\Response
+     * @throws Exception
+     */
+    public function guest_delete_item(DeleteItemRequest $request, $unique_id, $token)
+    {
+        // Get shared record
+        $shared = get_shared($token);
+
+        // Check shared permission
+        if (!is_editor($shared)) abort(403);
+
+        // Get file|folder item
+        $item = get_item($request->type, $unique_id, $shared->user_id);
+
+        // Check access to requested item
+        if ($request->type === 'folder') {
+            Guardian::check_item_access($item->unique_id, $shared);
+        } else {
+            Guardian::check_item_access($item->folder_id, $shared);
+        }
+
+        // Delete item
+        Editor::delete_item($request, $unique_id, $shared);
+
+        // Return response
+        return response(null, 204);
+    }
+
+    /**
+     * Delete file for authenticated master|editor user
+     *
+     * @param UploadRequest $request
+     * @return FileManagerFile|Model
+     */
+    public function user_upload(UploadRequest $request)
+    {
         // Check if user can upload
         if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100) {
             abort(423, 'You exceed your storage limit!');
         }
 
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'parent_id' => 'required|integer',
-            'file'      => 'required|file',
-        ]);
+        // Check permission to upload for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
 
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
 
-        // Get parent_id from request
-        $folder_id = $request->parent_id === 0 ? 0 : $request->parent_id;
-        $file = $request->file('file');
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
 
-        // File
-        $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());
-        $filetype = get_file_type($file);
-        $thumbnail = null;
-        $filesize = $file->getSize();
-        $directory = 'file-manager';
-
-        // create directory if not exist
-        if (!Storage::disk('local')->exists($directory)) {
-            Storage::disk('local')->makeDirectory($directory);
+            // Check access to requested directory
+            Guardian::check_item_access($request->parent_id, $shared);
         }
 
-        // Store to disk
-        Storage::disk('local')->putFileAs($directory, $file, $filename, 'public');
+        // Return new uploaded file
+        return Editor::upload($request);
+    }
 
-        // Create image thumbnail
-        if ($filetype == 'image') {
+    /**
+     * Delete file for guest user with edit permission
+     *
+     * @param UploadRequest $request
+     * @param $token
+     * @return FileManagerFile|Model
+     */
+    public function guest_upload(UploadRequest $request, $token)
+    {
+        // Get shared record
+        $shared = get_shared($token);
 
-            $thumbnail = 'thumbnail-' . $filename;
+        // Check shared permission
+        if (!is_editor($shared)) abort(403);
 
-            // Create intervention image
-            $image = Image::make($file->getRealPath())->orientate();
+        // Check access to requested directory
+        Guardian::check_item_access($request->parent_id, $shared);
 
-            $image->resize(256, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->stream();
+        // Return new uploaded file
+        $new_file = Editor::upload($request, $shared);
 
-            // Store thumbnail to s3
-            Storage::disk('local')->put($directory . '/' . $thumbnail, $image);
-        }
-
-        // Store file
-        $new_file = FileManagerFile::create([
-            'user_id'    => Auth::id(),
-            'name'       => pathinfo($file->getClientOriginalName())['filename'],
-            'basename'   => $filename,
-            'folder_id'  => $folder_id,
-            'mimetype'   => $file->getClientOriginalExtension(),
-            'filesize'   => $filesize,
-            'type'       => $filetype,
-            'thumbnail'  => $thumbnail,
-            'unique_id'  => $this->get_unique_id(),
-            'user_scope' => $request->user()->token()->scopes[0],
-        ]);
+        // Set public access url
+        $new_file->setPublicUrl($token);
 
         return $new_file;
     }
 
     /**
-     * Move item
+     * Move item for authenticated master|editor user
      *
-     * @param Request $request
+     * @param MoveItemRequest $request
      * @param $unique_id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function move_item(Request $request, $unique_id)
+    public function user_move(MoveItemRequest $request, $unique_id)
     {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'to_unique_id'   => 'required|integer',
-            'from_type'      => 'required|string',
-        ]);
+        // Check permission to upload for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
 
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
 
-        // Get user id
-        $user_id = Auth::id();
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
 
-        if ($request->from_type === 'folder') {
-
-            // Move folder
-            $item = FileManagerFolder::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
-
-            $item->parent_id = $request->to_unique_id;
-
-        } else {
-
-            // Move file under new folder
-            $item = FileManagerFile::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
-
-            $item->folder_id = $request->to_unique_id;
+            // Check access to requested directory
+            Guardian::check_item_access($request->to_unique_id, $shared);
         }
 
-        $item->update();
+        // Move item
+        Editor::move($request, $unique_id);
 
         return response('Done!', 204);
     }
 
     /**
-     * Get unique id
+     * Move item for guest user with edit permission
      *
-     * @return int
+     * @param MoveItemRequest $request
+     * @param $unique_id
+     * @param $token
+     * @return ResponseFactory|\Illuminate\Http\Response
      */
-    private function get_unique_id(): int
+    public function guest_move(MoveItemRequest $request, $unique_id, $token)
     {
-        // Get files and folders
-        $folders = FileManagerFolder::withTrashed()->get();
-        $files = FileManagerFile::withTrashed()->get();
+        // Get shared record
+        $shared = get_shared($token);
 
-        // Get last ids
-        $folders_unique = $folders->isEmpty() ? 0 : $folders->last()->unique_id;
-        $files_unique = $files->isEmpty() ? 0 : $files->last()->unique_id;
+        // Check shared permission
+        if (!is_editor($shared)) abort(403);
 
-        // Count new unique id
-        $unique_id = $folders_unique > $files_unique ? $folders_unique + 1 : $files_unique + 1;
+        $moving_unique_id = $unique_id;
 
-        return $unique_id;
-    }
+        if ($request->from_type !== 'folder') {
+            $file = FileManagerFile::where('unique_id', $unique_id)
+                ->where('user_id', $shared->user_id)
+                ->firstOrFail();
 
-    /**
-     * Check if user has access to requested folder
-     *
-     * @param $request
-     */
-    protected function check_access($request, $parent_id): void
-    {
-        // check if shared_token cookie exist
-        if (! $request->hasCookie('shared_token')) abort('401');
+            $moving_unique_id = $file->folder_id;
+        }
 
-        // Get shared token
-        $shared = Share::where(DB::raw('BINARY `token`'), $request->cookie('shared_token'))
-            ->firstOrFail();
+        // Check access to requested item
+        Guardian::check_item_access([
+            $request->to_unique_id, $moving_unique_id
+        ], $shared);
 
-        // Get all children folders
-        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
-            ->where('user_id', $shared->user_id)
-            ->where('parent_id', $shared->item_id)
-            ->get();
+        // Move item
+        Editor::move($request, $unique_id, $shared);
 
-        // Get all authorized parent folders by shared folder as root of tree
-        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
-
-        // Check user access
-        if (!in_array($parent_id, $accessible_folder_ids)) abort(403);
+        return response('Done!', 204);
     }
 }

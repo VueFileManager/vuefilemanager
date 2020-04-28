@@ -74,10 +74,10 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import UserImageInput from '@/components/VueFileManagerComponents/Others/UserImageInput'
-    import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
-    import PageHeader from '@/components/VueFileManagerComponents/Others/PageHeader'
-    import ThemeLabel from '@/components/VueFileManagerComponents/Others/ThemeLabel'
+    import UserImageInput from '@/components/Others/UserImageInput'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
+    import PageHeader from '@/components/Others/PageHeader'
+    import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import {debounce} from 'lodash'

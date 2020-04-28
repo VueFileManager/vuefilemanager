@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import ProgressBar from '@/components/VueFileManagerComponents/FilesView/ProgressBar'
+    import ProgressBar from '@/components/FilesView/ProgressBar'
     import {mapGetters} from 'vuex'
 
     export default {

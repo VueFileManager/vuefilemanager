@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {events} from '@/bus'
 import router from '@/router'
-import { includes } from 'lodash'
+import {includes} from 'lodash'
 import i18n from '@/i18n/index'
 
 const defaultState = {
@@ -11,6 +11,7 @@ const defaultState = {
     homeDirectory: undefined,
     uploadingFileProgress: 0,
     filesViewWidth: undefined,
+    navigation: undefined,
     isSearching: false,
     browseHistory: [],
     isLoading: true,
@@ -22,7 +23,7 @@ const actions = {
         events.$emit('show:content')
 
         // Go to files view
-        if ( ! includes(['Files', 'SharedContent'], router.currentRoute.name) ) {
+        if (!includes(['Files', 'SharedContent'], router.currentRoute.name)) {
             router.push({name: 'Files'})
         }
 
@@ -42,7 +43,7 @@ const actions = {
             location: folder.deleted_at || folder.location === 'trash' ? 'trash' : 'base'
         }
 
-        let url = currentFolder.location === 'trash' ?'/folders/' + currentFolder.unique_id + '?trash=true' : '/folders/' + currentFolder.unique_id
+        let url = currentFolder.location === 'trash' ? '/folders/' + currentFolder.unique_id + '?trash=true' : '/folders/' + currentFolder.unique_id
 
         axios
             .get(context.getters.api + url)
@@ -76,9 +77,9 @@ const actions = {
             router.push({name: 'Files'})
         }
 
-        if (! back) context.commit('FLUSH_BROWSER_HISTORY')
-            context.commit('FLUSH_DATA')
-            context.commit('LOADING_STATE', true)
+        if (!back) context.commit('FLUSH_BROWSER_HISTORY')
+        context.commit('FLUSH_DATA')
+        context.commit('LOADING_STATE', true)
 
         // Create shared object for history
         let trash = {
@@ -113,9 +114,9 @@ const actions = {
             router.push({name: 'Files'})
         }
 
-        if (! back) context.commit('FLUSH_BROWSER_HISTORY')
-            context.commit('FLUSH_DATA')
-            context.commit('LOADING_STATE', true)
+        if (!back) context.commit('FLUSH_BROWSER_HISTORY')
+        context.commit('FLUSH_DATA')
+        context.commit('LOADING_STATE', true)
 
         // Create trash object for history
         let trash = {
@@ -177,9 +178,46 @@ const actions = {
                 })
             })
     },
+    getFolderTree: ({commit, getters}) => {
+
+        return new Promise((resolve, reject) => {
+
+            // Get route
+            let route = undefined
+
+            if (getters.sharedDetail && getters.sharedDetail.protected)
+                route = '/api/navigation/private'
+            else if (getters.sharedDetail && ! getters.sharedDetail.protected)
+                route = '/api/navigation/public/' + router.currentRoute.params.token
+            else
+                route = '/api/navigation'
+
+            axios
+                .get(route)
+                .then(response => {
+                    resolve(response)
+
+                    commit('UPDATE_FOLDER_TREE', response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+
+                    // Show error message
+                    events.$emit('alert:open', {
+                        title: i18n.t('popup_error.title'),
+                        message: i18n.t('popup_error.message'),
+                    })
+                })
+        })
+
+
+    },
 }
 
 const mutations = {
+    UPDATE_FOLDER_TREE(state, tree) {
+        state.navigation = tree
+    },
     LOADING_STATE(state, val) {
         state.isLoading = val
     },
@@ -274,6 +312,7 @@ const getters = {
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
     isSearching: state => state.isSearching,
+    navigation: state => state.navigation,
     isLoading: state => state.isLoading,
     data: state => state.data,
 }

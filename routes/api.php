@@ -19,6 +19,20 @@
 // Public routes
 Route::group(['middleware' => ['api']], function () {
 
+    // Edit Functions
+    Route::delete('/remove-item/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_delete_item');
+    Route::patch('/rename-item/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_rename_item');
+    Route::post('/create-folder/public/{token}', 'FileFunctions\EditItemsController@guest_create_folder');
+    Route::patch('/move/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_move');
+    Route::post('/upload/public/{token}', 'FileFunctions\EditItemsController@guest_upload');
+
+    // Sharing page browsing
+    Route::get('/folders/{unique_id}/public/{token}', 'Sharing\FileSharingController@get_public_folders');
+    Route::get('/navigation/public/{token}', 'Sharing\FileSharingController@get_public_navigation_tree');
+    Route::post('/shared/authenticate/{token}', 'Sharing\FileSharingController@authenticate');
+    Route::get('/files/{token}/public', 'Sharing\FileSharingController@file_public');
+    Route::get('/shared/{token}', 'FileFunctions\ShareController@show');
+
     // User reset password
     Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
@@ -27,12 +41,6 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/user/check', 'Auth\AuthController@check_account');
     Route::post('/user/register', 'Auth\AuthController@register');
     Route::post('/user/login', 'Auth\AuthController@login');
-
-    // Sharing
-    Route::get('/folders/{unique_id}/public/{token}', 'Sharing\FileSharingController@get_public_folders');
-    Route::post('/shared/authenticate/{token}', 'Sharing\FileSharingController@authenticate');
-    Route::get('/files/{token}/public', 'Sharing\FileSharingController@file_public');
-    Route::get('/shared/{token}', 'FileFunctions\ShareController@show');
 });
 
 // User master Routes
@@ -45,14 +53,11 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], func
 
     // Browse
     Route::get('/file-detail/{unique_id}', 'FileBrowser\BrowseController@file_detail');
+    Route::get('/navigation', 'FileBrowser\BrowseController@navigation_tree');
     Route::get('/folders/{unique_id}', 'FileBrowser\BrowseController@folder');
-    Route::get('/folder-tree', 'FileBrowser\BrowseController@folder_tree');
     Route::get('/shared-all', 'FileBrowser\BrowseController@shared');
     Route::get('/search', 'FileBrowser\BrowseController@search');
     Route::get('/trash', 'FileBrowser\BrowseController@trash');
-
-    // Edit functions
-    Route::patch('/move-item/{unique_id}', 'FileFunctions\EditItemsController@move_item');
 
     // Trash
     Route::patch('/restore-item/{unique_id}', 'FileFunctions\TrashController@restore');
@@ -76,6 +81,7 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor'
 
     // Browse folders & files
     Route::get('/folders/{unique_id}/private', 'Sharing\FileSharingController@get_private_folders');
+    Route::get('/navigation/private', 'Sharing\FileSharingController@get_private_navigation_tree');
     Route::get('/files/private', 'Sharing\FileSharingController@file_private');
 });
 
@@ -83,8 +89,9 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor'
 Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master,editor']], function () {
 
     // Edit items
-    Route::delete('/remove-item/{unique_id}', 'FileFunctions\EditItemsController@delete_item');
-    Route::patch('/rename-item/{unique_id}', 'FileFunctions\EditItemsController@rename_item');
-    Route::post('/create-folder', 'FileFunctions\EditItemsController@create_folder');
-    Route::post('/upload-file', 'FileFunctions\EditItemsController@upload_item');
+    Route::delete('/remove-item/{unique_id}', 'FileFunctions\EditItemsController@user_delete_item');
+    Route::patch('/rename-item/{unique_id}', 'FileFunctions\EditItemsController@user_rename_item');
+    Route::post('/create-folder', 'FileFunctions\EditItemsController@user_create_folder');
+    Route::patch('/move/{unique_id}', 'FileFunctions\EditItemsController@user_move');
+    Route::post('/upload', 'FileFunctions\EditItemsController@user_upload');
 });

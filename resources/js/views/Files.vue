@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import DesktopToolbar from '@/components/VueFileManagerComponents/FilesView/DesktopToolbar'
-    import FileBrowser from '@/components/VueFileManagerComponents/FilesView/FileBrowser'
-    import ContextMenu from '@/components/VueFileManagerComponents/FilesView/ContextMenu'
+    import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
+    import FileBrowser from '@/components/FilesView/FileBrowser'
+    import ContextMenu from '@/components/FilesView/ContextMenu'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'

@@ -35,8 +35,8 @@
 </template>
 
 <script>
-    import ButtonUpload from '@/components/VueFileManagerComponents/FilesView/ButtonUpload'
-    import Spinner from '@/components/VueFileManagerComponents/FilesView/Spinner'
+    import ButtonUpload from '@/components/FilesView/ButtonUpload'
+    import Spinner from '@/components/FilesView/Spinner'
     import {mapGetters} from 'vuex'
 
     export default {

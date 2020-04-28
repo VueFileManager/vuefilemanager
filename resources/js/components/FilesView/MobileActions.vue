@@ -12,7 +12,7 @@
         </div>
 
         <!--ContextMenu for Base location with MASTER permission-->
-        <div v-if="$isThisLocation(['base', 'shared']) && $checkPermission(['master', 'editor'])" class="mobile-actions">
+        <div v-if="$isThisLocation(['base', 'shared', 'public']) && $checkPermission(['master', 'editor'])" class="mobile-actions">
             <MobileActionButton @click.native="createFolder" icon="folder-plus">
                 {{ $t('context_menu.add_folder') }}
             </MobileActionButton>
@@ -25,7 +25,7 @@
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
-        <div v-if="$isThisLocation(['base', 'shared']) && $checkPermission('visitor')" class="mobile-actions">
+        <div v-if="$isThisLocation(['base', 'shared', 'public']) && $checkPermission('visitor')" class="mobile-actions">
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
@@ -37,9 +37,9 @@
 </template>
 
 <script>
-    import MobileActionButtonUpload from '@/components/VueFileManagerComponents/FilesView/MobileActionButtonUpload'
-    import MobileActionButton from '@/components/VueFileManagerComponents/FilesView/MobileActionButton'
-    import UploadProgress from '@/components/VueFileManagerComponents/FilesView/UploadProgress'
+    import MobileActionButtonUpload from '@/components/FilesView/MobileActionButtonUpload'
+    import MobileActionButton from '@/components/FilesView/MobileActionButton'
+    import UploadProgress from '@/components/FilesView/UploadProgress'
     import {mapGetters} from 'vuex'
     import {debounce} from 'lodash'
     import {events} from '@/bus'

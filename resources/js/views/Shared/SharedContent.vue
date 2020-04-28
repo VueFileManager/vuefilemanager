@@ -44,6 +44,9 @@
             </div>
             <div v-if="sharedDetail.type === 'folder'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
 
+                <!--Move item setup-->
+                <MoveItem />
+
                 <!--Mobile Menu-->
                 <MobileMenu/>
 
@@ -61,18 +64,19 @@
 </template>
 
 <script>
-    import DesktopToolbar from '@/components/VueFileManagerComponents/FilesView/DesktopToolbar'
+    import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import FileItemGrid from '@/components/VueFileManagerComponents/FilesView/FileItemGrid'
-    import FileBrowser from '@/components/VueFileManagerComponents/FilesView/FileBrowser'
-    import ContextMenu from '@/components/VueFileManagerComponents/FilesView/ContextMenu'
-    import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
-    import MobileMenu from '@/components/VueFileManagerComponents/FilesView/MobileMenu'
-    import AuthContent from '@/components/VueFileManagerComponents/Auth/AuthContent'
-    import AuthButton from '@/components/VueFileManagerComponents/Auth/AuthButton'
-    import Spinner from '@/components/VueFileManagerComponents/FilesView/Spinner'
-    import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
-    import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
+    import FileItemGrid from '@/components/FilesView/FileItemGrid'
+    import FileBrowser from '@/components/FilesView/FileBrowser'
+    import ContextMenu from '@/components/FilesView/ContextMenu'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
+    import MobileMenu from '@/components/FilesView/MobileMenu'
+    import AuthContent from '@/components/Auth/AuthContent'
+    import AuthButton from '@/components/Auth/AuthButton'
+    import Spinner from '@/components/FilesView/Spinner'
+    import MoveItem from '@/components/Others/MoveItem'
+    import Vignette from '@/components/Others/Vignette'
+    import Alert from '@/components/FilesView/Alert'
     import {required} from 'vee-validate/dist/rules'
     import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
@@ -92,6 +96,7 @@
             AuthButton,
             MobileMenu,
             ButtonBase,
+            MoveItem,
             required,
             Vignette,
             Spinner,

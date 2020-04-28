@@ -31,13 +31,13 @@
 </template>
 
 <script>
-    import MobileMenu from '@/components/VueFileManagerComponents/FilesView/MobileMenu'
-    import ShareCreate from '@/components/VueFileManagerComponents/Others/ShareCreate'
-    import ShareEdit from '@/components/VueFileManagerComponents/Others/ShareEdit'
-    import MoveItem from '@/components/VueFileManagerComponents/Others/MoveItem'
-    import Vignette from '@/components/VueFileManagerComponents/Others/Vignette'
-    import Sidebar from '@/components/VueFileManagerComponents/Sidebar/Sidebar'
-    import Alert from '@/components/VueFileManagerComponents/FilesView/Alert'
+    import MobileMenu from '@/components/FilesView/MobileMenu'
+    import ShareCreate from '@/components/Others/ShareCreate'
+    import ShareEdit from '@/components/Others/ShareEdit'
+    import MoveItem from '@/components/Others/MoveItem'
+    import Vignette from '@/components/Others/Vignette'
+    import Sidebar from '@/components/Sidebar/Sidebar'
+    import Alert from '@/components/FilesView/Alert'
     import {ResizeSensor} from 'css-element-queries'
     import { includes } from 'lodash'
     import {mapGetters} from 'vuex'

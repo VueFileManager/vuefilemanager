@@ -5,7 +5,6 @@ import store from '@/store'
 import Index from './views/Auth/SignIn'
 import SignUp from './views/Auth/SignUp'
 import SharedContent from './views/Shared/SharedContent'
-import VerifyByPassword from './views/Shared/VerifyByPassword'
 import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 

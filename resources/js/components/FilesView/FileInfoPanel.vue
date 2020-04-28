@@ -65,8 +65,8 @@
 </template>
 
 <script>
-    import FilePreview from '@/components/VueFileManagerComponents/FilesView/FilePreview'
-    import CopyInput from '@/components/VueFileManagerComponents/Others/Forms/CopyInput'
+    import FilePreview from '@/components/FilesView/FilePreview'
+    import CopyInput from '@/components/Others/Forms/CopyInput'
     import {mapGetters} from 'vuex'
     import {events} from "@/bus"
 

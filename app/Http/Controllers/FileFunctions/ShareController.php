@@ -89,6 +89,7 @@ class ShareController extends Controller
      *
      * @param $token
      * @return ResponseFactory|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($token)
     {

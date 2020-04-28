@@ -64,7 +64,7 @@
                     </ul>
 
                     <!--Mobile for Base location with EDITOR permission-->
-                    <ul v-if="$isThisLocation(['base']) && $checkPermission('editor')" class="menu-options">
+                    <ul v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor')" class="menu-options">
                         <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
                             {{ $t('context_menu.rename') }}
                         </li>
@@ -77,7 +77,7 @@
                     </ul>
 
                     <!--Mobile for Base location with VISITOR permission-->
-                    <ul v-if="$isThisLocation(['base']) && $checkPermission('visitor')" class="menu-options">
+                    <ul v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')" class="menu-options">
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
                         </li>

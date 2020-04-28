@@ -68,36 +68,11 @@ const actions = {
                 })
             })
     },
-    getFolderTree: (context) => {
-        return new Promise((resolve, reject) => {
-            axios
-                .get(context.getters.api + '/folder-tree')
-                .then(response => {
-                    resolve(response)
-
-                    context.commit('UPDATE_FOLDER_TREE', response.data)
-                })
-                .catch((error) => {
-                    reject(error)
-
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
-                    })
-                })
-        })
-
-
-    },
 }
 
 const mutations = {
     RETRIEVE_APP_DATA(state, app) {
         state.app = app
-    },
-    UPDATE_FOLDER_TREE(state, tree) {
-        state.app.folders = tree
     },
     SET_PERMISSION(state, role) {
         state.permission = role

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sharing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
+use App\Http\Tools\Guardian;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -91,7 +92,7 @@ class FileSharingController extends Controller
         $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
         // Check if user can get directory
-        $this->check_folder_access($unique_id, $shared);
+        Guardian::check_item_access($unique_id, $shared);
 
         // Get files and folders
         list($folders, $files) = $this->get_items($unique_id, $shared);
@@ -117,7 +118,7 @@ class FileSharingController extends Controller
         }
 
         // Check if user can get directory
-        $this->check_folder_access($unique_id, $shared);
+        Guardian::check_item_access($unique_id, $shared);
 
         // Get files and folders
         list($folders, $files) = $this->get_items($unique_id, $shared);
@@ -177,24 +178,64 @@ class FileSharingController extends Controller
     }
 
     /**
-     * Check if user has access to requested folder
+     * Get navigation tree
      *
-     * @param $folder_unique_id
-     * @param $shared
+     * @param Request $request
+     * @return array
      */
-    protected function check_folder_access($unique_id, $shared): void
+    public function get_private_navigation_tree(Request $request)
     {
-        // Get all children folders
-        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
-            ->where('user_id', $shared->user_id)
+        // Get sharing record
+        $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
+
+        // Check if user can get directory
+        Guardian::check_item_access($shared->item_id, $shared);
+
+        // Get folders
+        $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
-            ->get();
+            ->where('user_id', $shared->user_id)
+            ->get(['id', 'parent_id', 'unique_id', 'name']);
 
-        // Get all authorized parent folders by shared folder as root of tree
-        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+        // Return folder tree
+        return [
+            [
+                'unique_id' => $shared->item_id,
+                'name'      => __('vuefilemanager.home'),
+                'location'  => 'public',
+                'folders'  => $folders,
+            ]
+        ];
+    }
 
-        // Check user access
-        if (!in_array($unique_id, $accessible_folder_ids)) abort(401);
+    /**
+     * Get navigation tree
+     *
+     * @return array
+     */
+    public function get_public_navigation_tree($token)
+    {
+        // Get sharing record
+        $shared = Share::where('token', $token)->firstOrFail();
+
+        // Check if user can get directory
+        Guardian::check_item_access($shared->item_id, $shared);
+
+        // Get folders
+        $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+            ->where('parent_id', $shared->item_id)
+            ->where('user_id', $shared->user_id)
+            ->get(['id', 'parent_id', 'unique_id', 'name']);
+
+        // Return folder tree
+        return [
+            [
+                'unique_id' => $shared->item_id,
+                'name'      => __('vuefilemanager.home'),
+                'location'  => 'public',
+                'folders'  => $folders,
+            ]
+        ];
     }
 
     /**

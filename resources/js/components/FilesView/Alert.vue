@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import ButtonBase from '@/components/VueFileManagerComponents/FilesView/ButtonBase'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
     import {events} from '@/bus'
 
     export default {

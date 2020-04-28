@@ -14,8 +14,8 @@
         <div class="directory-name">{{ directoryName }}</div>
 
         <!--More Actions-->
-        <div class="more-actions-button" @click="showSidebarMenu">
-            <div class="tap-area">
+        <div class="more-actions-button">
+            <div class="tap-area" @click="showSidebarMenu" v-if="$checkPermission('master')">
                 <FontAwesomeIcon icon="bars" v-if="isSmallAppSize"></FontAwesomeIcon>
             </div>
         </div>
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-    import ToolbarButtonUpload from '@/components/VueFileManagerComponents/FilesView/ToolbarButtonUpload'
-    import ToolbarButton from '@/components/VueFileManagerComponents/FilesView/ToolbarButton'
-    import SearchBar from '@/components/VueFileManagerComponents/FilesView/SearchBar'
+    import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
+    import ToolbarButton from '@/components/FilesView/ToolbarButton'
+    import SearchBar from '@/components/FilesView/SearchBar'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 
