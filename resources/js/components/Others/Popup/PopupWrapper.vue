@@ -58,6 +58,7 @@
         overflow-y: auto;
         display: grid;
         padding: 40px;
+        height: 100%;
     }
 
     .popup-wrapper {

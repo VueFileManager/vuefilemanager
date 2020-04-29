@@ -97,7 +97,7 @@ class AuthController extends Controller
 
             $data = json_decode($response->content(), true);
 
-            return response('Register Successfull!', 200)->cookie('token', $data['access_token'], 43200);
+            return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
         } else {
 
             return $response;

@@ -115,7 +115,6 @@
                     this.$store.commit('FLUSH_BROWSER_HISTORY')
 
                 } else {
-
                     if ( this.$isThisLocation('public') ) {
                         this.$store.dispatch('browseShared', [this.previousFolder, true])
                     } else {

@@ -1,8 +1,14 @@
 <template>
-    <div id="shared">
+    <div id="shared" :class="appSize">
 
         <!--Loading Spinenr-->
         <Spinner v-if="isPageLoading"/>
+
+        <!--Move item setup-->
+        <MoveItem />
+
+        <!--Mobile Menu-->
+        <MobileMenu/>
 
         <!--System alerts-->
         <Alert />
@@ -43,12 +49,6 @@
                 </div>
             </div>
             <div v-if="sharedDetail.type === 'folder'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
-
-                <!--Move item setup-->
-                <MoveItem />
-
-                <!--Mobile Menu-->
-                <MobileMenu/>
 
                 <!--Context menu-->
                 <ContextMenu/>
@@ -103,12 +103,12 @@
             Alert,
         },
         computed: {
-            ...mapGetters(['config', 'filesViewWidth', 'sharedDetail', 'sharedFile']),
+            ...mapGetters(['config', 'filesViewWidth', 'sharedDetail', 'sharedFile', 'appSize']),
         },
         data() {
             return {
                 checkedAccount: undefined,
-                password: 'tvojpenis',
+                password: '',
                 isLoading: false,
                 isPageLoading: true,
                 currentPage: undefined
@@ -274,188 +274,6 @@
 
                 .item-shared {
                     display: none;
-                }
-            }
-        }
-    }
-
-    #files-view {
-        font-family: 'Nunito', sans-serif;
-        font-size: 16px;
-        //overflow: hidden;
-        width: 100%;
-        height: 100%;
-        position: relative;
-        min-width: 320px;
-        overflow-x: hidden;
-
-        &.minimal-scale {
-            padding: 0;
-
-            .mobile-toolbar {
-                padding: 10px 0 5px;
-            }
-
-            .popup-wrapper {
-                left: 15px;
-                right: 15px;
-                padding: 25px 15px;
-            }
-
-            .toolbar {
-                display: block;
-                position: sticky;
-                top: 0;
-            }
-
-            .toolbar-go-back {
-                padding-top: 15px;
-            }
-
-            .toolbar-tools {
-                text-align: left;
-                display: flex;
-
-                .toolbar-button-wrapper {
-                    width: 100%;
-
-                    &:last-child {
-                        text-align: right;
-                    }
-                }
-            }
-
-            .files-container {
-                padding-left: 15px;
-                padding-right: 15px;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                position: absolute;
-                overflow-y: auto;
-
-                .file-list {
-                    //height: 100%;
-
-                    &.grid {
-                        grid-template-columns: repeat(auto-fill, 120px);
-
-                        .file-wrapper {
-
-                            .file-item {
-                                width: 120px;
-                            }
-
-                            .icon-item {
-                                margin-bottom: 10px;
-                                height: 90px;
-
-                                .file-icon {
-                                    @include font-size(75);
-                                }
-
-                                .file-icon-text {
-                                    @include font-size(12);
-                                }
-
-                                .folder-icon {
-                                    @include font-size(75);
-                                    margin-top: 0;
-                                    margin-bottom: 0;
-                                }
-
-                                .image {
-                                    width: 90px;
-                                    height: 90px;
-                                }
-                            }
-
-                            .item-name .name {
-                                @include font-size(13);
-                                line-height: 1.2;
-                                max-height: 30px;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .file-wrapper {
-                .item-name .name {
-                    max-width: 220px;
-                }
-            }
-
-            .search-bar {
-
-                input {
-                    min-width: initial;
-                    width: 100%;
-                }
-            }
-
-            .item-shared {
-                .label {
-                    display: none;
-                }
-            }
-        }
-
-        &.compact-scale {
-            padding-left: 15px;
-            padding-right: 15px;
-
-            .file-content {
-                position: absolute;
-                top: 72px;
-                left: 15px;
-                right: 15px;
-                bottom: 0;
-                @include transition;
-
-                &.is-offset {
-                    margin-top: 50px;
-                }
-            }
-
-            .toolbar-tools {
-
-                .toolbar-button-wrapper {
-                    margin-left: 35px;
-                }
-            }
-
-            .search-bar input {
-                min-width: 190px;
-            }
-
-            .toolbar-go-back span {
-                max-width: 120px;
-            }
-
-            .grid .file-wrapper {
-
-                .icon-item {
-                    margin-bottom: 15px;
-                }
-            }
-        }
-
-        &.full-scale {
-            padding-left: 15px;
-            padding-right: 15px;
-
-            .file-content {
-                position: absolute;
-                top: 72px;
-                left: 15px;
-                right: 15px;
-                bottom: 0;
-                @include transition;
-
-                &.is-offset {
-                    margin-top: 50px;
                 }
             }
         }

@@ -26,7 +26,7 @@ const Helpers = {
 
 			// Add image to form
 			formData.append(name, image)
-			formData.append('_method', 'PUT')
+			formData.append('_method', 'PATCH')
 
 			axios.post(this.$store.getters.api + route, formData, {
 				headers: {

@@ -98,6 +98,7 @@
         bottom: 0;
         z-index: 20;
         overflow: auto;
+        height: 100%;
     }
 
     .popup-wrapper {

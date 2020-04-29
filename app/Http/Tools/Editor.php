@@ -7,6 +7,7 @@ use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

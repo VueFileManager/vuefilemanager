@@ -48,7 +48,6 @@ class AccountController extends Controller
         // Validate request
         $validator = Validator::make($request->all(), [
             'avatar'  => 'file',
-            '_method' => 'string',
             'name'    => 'string',
             'value'   => 'string',
         ]);

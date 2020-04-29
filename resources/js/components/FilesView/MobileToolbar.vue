@@ -76,9 +76,9 @@
 
                 } else {
                     if ( this.$isThisLocation('public') ) {
-                        this.$store.dispatch('browseShared', [this.previousFolder, false])
+                        this.$store.dispatch('browseShared', [this.previousFolder, true])
                     } else {
-                        this.$store.dispatch('getFolder', [this.previousFolder, false])
+                        this.$store.dispatch('getFolder', [this.previousFolder, true])
                     }
                 }
             },

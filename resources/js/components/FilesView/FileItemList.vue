@@ -70,7 +70,7 @@
             </div>
 
             <!--Go Next icon-->
-            <div class="actions" v-if="$isMobile()">
+            <div class="actions" v-if="$isMobile() && ! ( $checkPermission('visitor') && isFolder )">
 				<span @click.stop="showItemActions" class="show-actions">
 					<FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
 				</span>
@@ -200,7 +200,7 @@
             renameItem: debounce(function (e) {
 
                 // Prevent submit empty string
-                if (e.target.innerText === '') return
+                if (e.target.innerText.trim() === '') return
 
                 this.$store.dispatch('renameItem', {
                     unique_id: this.data.unique_id,
