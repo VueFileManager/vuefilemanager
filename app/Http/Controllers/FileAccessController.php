@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\FileManagerFolder;
+use App\Http\Tools\Guardian;
 use App\Share;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -63,8 +64,7 @@ class FileAccessController extends Controller
         if ( ! $request->user()->tokenCan('master') ) {
 
             // Get shared token
-            $shared = Share::where(DB::raw('BINARY `token`'), $request->cookie('shared_token'))
-                ->firstOrFail();
+            $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to file
             $this->check_file_access($shared, $file);
@@ -84,7 +84,7 @@ class FileAccessController extends Controller
     public function get_file_public($filename, $token)
     {
         // Get sharing record
-        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
+        $shared = get_shared($token);
 
         // Abort if shared is protected
         if ($shared->protected) {
@@ -137,7 +137,7 @@ class FileAccessController extends Controller
     public function get_thumbnail_public($filename, $token)
     {
         // Get sharing record
-        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
+        $shared = get_shared($token);
 
         // Abort if thumbnail is protected
         if ($shared->protected) {
@@ -165,18 +165,7 @@ class FileAccessController extends Controller
     {
         // Check by parent folder permission
         if ($shared->type === 'folder') {
-
-            // Get all children folders
-            $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
-                ->where('user_id', $shared->user_id)
-                ->where('parent_id', $shared->item_id)
-                ->get();
-
-            // Get all authorized parent folders by shared folder as root of tree
-            $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
-
-            // Check user access
-            if (!in_array($file->folder_id, $accessible_folder_ids)) abort(403);
+            Guardian::check_item_access($file->folder_id, $shared);
         }
 
         // Check by single file permission

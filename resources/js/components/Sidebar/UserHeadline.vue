@@ -176,7 +176,7 @@
     @media (prefers-color-scheme: dark) {
 
         .user-headline {
-            background: $dark_mode_foreground;
+            background: $dark_mode_background;
             padding: 0;
 
             &:hover {
@@ -196,6 +196,10 @@
 
             .menu-option {
                 color: $dark_mode_text_primary;
+
+                a {
+                    color: $dark_mode_text_primary;
+                }
 
                 &:hover {
                     background: $dark_mode_foreground;

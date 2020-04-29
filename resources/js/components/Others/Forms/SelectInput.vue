@@ -14,7 +14,7 @@
 
             <!--If is empty-->
             <div class="not-selected" v-if="! selected">
-                <span class="option-value placehoder">Selected your permision</span>
+                <span class="option-value placehoder">{{ placeholder }}</span>
             </div>
 
             <FontAwesomeIcon icon="chevron-down" class="chevron"/>
@@ -37,7 +37,7 @@
 <script>
     export default {
         name:'SelectInput',
-        props: ['options', 'isError', 'default'],
+        props: ['options', 'isError', 'default', 'placeholder'],
         data() {
             return {
                 selected: undefined,

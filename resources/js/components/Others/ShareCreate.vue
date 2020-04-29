@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="share-create">
         <!--Title-->
-        <PopupHeader :title="'Share Your ' + itemTypeTitle" />
+        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" />
 
         <!--Content-->
         <PopupContent>
@@ -14,22 +14,22 @@
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
-                    <label class="input-label">Permission:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :isError="errors[0]"/>
+                    <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
+                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <!--Password Switch-->
                 <div class="input-wrapper">
                     <div class="inline-wrapper">
-                        <label class="input-label">Password Protected:</label>
+                        <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
                         <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0"/>
                     </div>
                 </div>
 
                 <!--Set password-->
                 <ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" placeholder="Type your password">
+                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
@@ -37,7 +37,7 @@
             <!--Copy generated link-->
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
-                    <label class="input-label">Share url:</label>
+                    <label class="input-label">{{ $t('shared_form.label_shared_url') }}:</label>
                     <CopyInput size="small" :value="shareLink" />
                 </div>
             </div>
@@ -65,10 +65,10 @@
 </template>
 
 <script>
+    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
@@ -99,13 +99,13 @@
         computed: {
             ...mapGetters(['app', 'permissionOptions']),
             itemTypeTitle() {
-                return this.pickedItem && this.pickedItem.type === 'folder' ? 'Folder' : 'File'
+                return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
             },
             isFolder() {
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },
             submitButtonText() {
-                return this.isGeneratedShared ? 'Awesome, I’m done!' : 'Generate Link'
+                return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
             }
         },
         data() {

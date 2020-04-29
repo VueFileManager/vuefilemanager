@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class CookieAuth
+class SharedAuth
 {
     /**
      * Handle an incoming request.
@@ -17,11 +16,11 @@ class CookieAuth
     public function handle($request, Closure $next)
     {
         if (!$request->bearerToken()) {
-            if ($request->hasCookie('access_token')) {
+            if ($request->hasCookie('shared_access_token')) {
 
-                $access_token = $request->cookie('access_token');
+                $shared_access_token = $request->cookie('shared_access_token');
 
-                $request->headers->add(['Authorization' => 'Bearer ' . $access_token]);
+                $request->headers->add(['Authorization' => 'Bearer ' . $shared_access_token]);
 
             }
         }

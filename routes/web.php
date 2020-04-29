@@ -17,7 +17,7 @@ Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar
 Route::get('/file/{name}/public/{token}', 'FileAccessController@get_file_public');
 
 // User master,editor,visitor access to image thumbnails and file downloads
-Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master,editor,visitor']], function () {
+Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor,visitor']], function () {
     Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
 });

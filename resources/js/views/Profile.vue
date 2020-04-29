@@ -85,7 +85,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'UserSettings',
+        name: 'Profile',
         components: {
             ValidationProvider,
             ValidationObserver,

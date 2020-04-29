@@ -159,7 +159,7 @@
     .small {
         .file-item {
             padding: 0 15px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
     }
 

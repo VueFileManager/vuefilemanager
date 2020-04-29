@@ -24,7 +24,7 @@
             <span class="name" >{{ file.name }}</span>
 
             <!--Other attributes-->
-            <span v-if="! isFolder" class="item-size">{{ file.filesize }}, {{ file.created_at }}</span>
+            <span v-if="! isFolder" class="item-size">{{ file.filesize }}</span>
 
             <span v-if="isFolder" class="item-length">{{ file.items == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ file.created_at }}</span>
         </div>

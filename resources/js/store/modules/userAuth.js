@@ -5,12 +5,12 @@ import router from '@/router'
 
 const defaultState = {
     authorized: undefined,
-    permission: 'master', // master | editor | visitor,
+    permission: 'master', // master | editor | visitor
     app: undefined,
 }
 
 const actions = {
-    getAppData: ({commit, dispatch, getters}) => {
+    getAppData: ({commit, getters}) => {
 
         axios
             .get(getters.api + '/user')
@@ -19,8 +19,11 @@ const actions = {
 
             }).catch((error) => {
 
-                if (error.response.status == 401) {
+                // Redirect if unauthenticated
+                if ([401, 403].includes(error.response.status)) {
+
                     commit('SET_AUTHORIZED', false)
+                    router.push({name: 'SignIn'})
                 }
             }
         )

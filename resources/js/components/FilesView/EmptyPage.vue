@@ -4,7 +4,7 @@
 
             <!--Shared empty message-->
             <div class="text-content" v-if="$isThisLocation(['shared']) && ! isLoading">
-                <h1 class="title">You Haven't Shared Anything Yet</h1>
+                <h1 class="title">{{ $t('shared.empty_shared') }}</h1>
             </div>
 
             <!--Trash empty message-->

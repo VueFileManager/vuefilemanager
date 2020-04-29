@@ -127,7 +127,14 @@ class EditItemsController extends Controller
         }
 
         // Rename item
-        return Editor::rename_item($request, $unique_id, $shared);
+        $item = Editor::rename_item($request, $unique_id, $shared);
+
+        // Set public url
+        if ($item->type !== 'folder') {
+            $item->setPublicUrl($token);
+        }
+
+        return $item;
     }
 
     /**

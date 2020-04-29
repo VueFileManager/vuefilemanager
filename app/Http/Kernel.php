@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CookieAuth;
 use App\Http\Middleware\LastCheck;
+use App\Http\Middleware\SharedAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -55,7 +56,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth.cookie'      => CookieAuth::class,
+        'auth.master'      => CookieAuth::class,
+        'auth.shared'      => SharedAuth::class,
         'auth'             => \App\Http\Middleware\Authenticate::class,
         'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings'         => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -81,6 +83,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         CookieAuth::class,
+        SharedAuth::class,
         \App\Http\Middleware\Authenticate::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,

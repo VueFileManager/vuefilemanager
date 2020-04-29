@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store'
 
 import Index from './views/Auth/SignIn'
 import SignUp from './views/Auth/SignUp'

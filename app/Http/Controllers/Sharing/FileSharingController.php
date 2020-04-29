@@ -33,7 +33,7 @@ class FileSharingController extends Controller
             ->firstOrFail();
 
         // Delete old access_token if exist
-        Cookie::queue('access_token', '', -1);
+        Cookie::queue('shared_access_token', '', -1);
 
         // Set cookies
         if ($shared->protected) {
@@ -61,7 +61,7 @@ class FileSharingController extends Controller
         // Check password
         if (!Hash::check($request->password, $shared->password)) {
 
-            abort(401, 'Sorry, your password is incorrect.');
+            abort(401, __('vuefilemanager.incorrect_password'));
         }
 
         // Get owner of shared content
@@ -71,12 +71,12 @@ class FileSharingController extends Controller
         $scope = !is_null($shared->permission) ? $shared->permission : 'visitor';
 
         // Generate token for visitor/editor
-        $access_token = $user->createToken('access_token', [$scope])->accessToken;
+        $access_token = $user->createToken('shared_access_token', [$scope])->accessToken;
 
         // Return authorize token with shared options
         return response(new ShareResource($shared), 200)
             ->cookie('shared_token', $shared->token, 43200)
-            ->cookie('access_token', $access_token, 43200);
+            ->cookie('shared_access_token', $access_token, 43200);
     }
 
     /**

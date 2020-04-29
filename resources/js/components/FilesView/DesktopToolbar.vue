@@ -28,17 +28,17 @@
                 <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButtonUpload
                             source="upload"
-                            action="Upload file"
+                            :action="$t('actions.upload')"
                     />
                     <ToolbarButton
                             source="trash-alt"
-                            action="Delete"
+                            :action="$t('actions.delete')"
                             @click.native="deleteItems"
                     />
                     <ToolbarButton
                             @click.native="createFolder"
                             source="folder-plus"
-                            action="Create folder"
+                            :action="$t('actions.create_folder')"
                     />
                 </div>
 
@@ -46,7 +46,7 @@
                 <div class="toolbar-button-wrapper">
                     <ToolbarButton
                             :source="preview"
-                            action="Change Preview"
+                            :action="$t('actions.preview')"
                             @click.native="$store.dispatch('changePreviewType')"
                     />
                     <ToolbarButton

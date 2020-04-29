@@ -34,7 +34,7 @@
                 {{ $t('context_menu.delete') }}
             </li>
             <li class="menu-option" @click="shareItem" v-if="item">
-                {{ item.shared ? 'Edit Sharing' : $t('context_menu.share') }}
+                {{ item.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
             </li>
             <li class="menu-option" @click="ItemDetail" v-if="item">
                 {{ $t('context_menu.detail') }}
@@ -59,7 +59,7 @@
                 {{ $t('context_menu.move') }}
             </li>
             <li class="menu-option" @click="shareItem" v-if="item">
-                {{ item.shared ? 'Edit Sharing' : $t('context_menu.share') }}
+                {{ item.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
             </li>
             <li class="menu-option" @click="ItemDetail" v-if="item">
                 {{ $t('context_menu.detail') }}

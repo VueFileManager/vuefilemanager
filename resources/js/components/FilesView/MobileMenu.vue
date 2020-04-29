@@ -31,7 +31,7 @@
                             {{ $t('context_menu.rename') }}
                         </li>
                         <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
-                            {{ fileInfoDetail.shared ? 'Edit Sharing' : $t('context_menu.share') }}
+                            {{ fileInfoDetail.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
                         </li>
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}
@@ -53,7 +53,7 @@
                             {{ $t('context_menu.move') }}
                         </li>
                         <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
-                            {{ fileInfoDetail.shared ? 'Edit Sharing' : $t('context_menu.share') }}
+                            {{ fileInfoDetail.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
                         </li>
                         <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                             {{ $t('context_menu.download') }}

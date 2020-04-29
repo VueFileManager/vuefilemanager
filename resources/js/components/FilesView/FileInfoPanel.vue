@@ -1,7 +1,6 @@
 <template>
     <div class="file-info-content" v-if="fileInfoDetail">
         <div class="file-headline" spellcheck="false">
-
             <FilePreview />
 
             <!--File info-->
@@ -29,8 +28,8 @@
 
             <!--Latest change-->
             <li v-if="$checkPermission(['master']) && fileInfoDetail.user_scope !== 'master'" class="list-info-item">
-                <b>Author</b>
-                <span>Public Participant</span>
+                <b>{{ $t('file_detail.author') }}</b>
+                <span>{{ $t('file_detail.author_participant') }}</span>
             </li>
 
             <!--Latest change-->
@@ -50,7 +49,7 @@
 
             <!--Parent-->
             <li v-if="$checkPermission('master') && fileInfoDetail.shared" class="list-info-item">
-                <b>Shared</b>
+                <b>{{ $t('file_detail.shared') }}</b>
                 <div class="action-button" @click="shareItemOptions">
                     <FontAwesomeIcon class="icon" :icon="sharedIcon" />
                     <span>{{ sharedInfo }}</span>
@@ -77,7 +76,7 @@
             CopyInput,
         },
         computed: {
-            ...mapGetters(['fileInfoDetail']),
+            ...mapGetters(['fileInfoDetail', 'permissionOptions']),
             filePreviewIcon() {
                 switch (this.fileInfoDetail.type) {
                     case 'folder':
@@ -98,16 +97,13 @@
                 }
             },
             sharedInfo() {
-                switch (this.fileInfoDetail.shared.permission) {
-                    case 'editor':
-                        return 'Can edit and upload files'
-                    break
-                    case 'visitor':
-                        return 'Can only view and download'
-                    break
-                    default:
-                        return 'Can download file'
-                }
+
+                // Get permission title
+                let title = this.permissionOptions.find(option => {
+                    return option.value === this.fileInfoDetail.shared.permission
+                })
+
+                return title ? title.label : this.$t('shared.can_download')
             },
             sharedIcon() {
                 switch (this.fileInfoDetail.shared.permission) {
@@ -133,7 +129,6 @@
             moveItem() {
                 // Move item fire popup
                 events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail})
-
             }
         }
     }
@@ -229,7 +224,7 @@
                     margin-right: 2px;
 
                     path {
-                        fill: $theme_light;
+                        fill: $theme;
                     }
                 }
             }
@@ -309,6 +304,23 @@
 
                     .icon {
                         color: $dark_mode_text_primary;
+                    }
+                }
+            }
+        }
+
+        .sharelink {
+
+            .lock-icon {
+
+                path {
+                    fill: $dark_mode_text_primary;
+                }
+
+                &:hover {
+
+                    path {
+                        fill: $theme;
                     }
                 }
             }

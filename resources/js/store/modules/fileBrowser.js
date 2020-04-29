@@ -43,7 +43,9 @@ const actions = {
             location: folder.deleted_at || folder.location === 'trash' ? 'trash' : 'base'
         }
 
-        let url = currentFolder.location === 'trash' ? '/folders/' + currentFolder.unique_id + '?trash=true' : '/folders/' + currentFolder.unique_id
+        let url = currentFolder.location === 'trash'
+            ? '/folders/' + currentFolder.unique_id + '?trash=true'
+            : '/folders/' + currentFolder.unique_id
 
         axios
             .get(context.getters.api + url)
@@ -61,12 +63,22 @@ const actions = {
                     if (!init) context.commit('ADD_BROWSER_HISTORY', currentFolder)
                 }
             })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
+            .catch(error => {
+
+                // Redirect if unauthenticated
+                if ([401, 403].includes(error.response.status)) {
+
+                    context.commit('SET_AUTHORIZED', false)
+                    router.push({name: 'SignIn'})
+
+                } else {
+
+                    // Show error message
+                    events.$emit('alert:open', {
+                        title: i18n.t('popup_error.title'),
+                        message: i18n.t('popup_error.message'),
+                    })
+                }
             })
     },
     getShared: (context, back = false) => {
@@ -187,7 +199,7 @@ const actions = {
 
             if (getters.sharedDetail && getters.sharedDetail.protected)
                 route = '/api/navigation/private'
-            else if (getters.sharedDetail && ! getters.sharedDetail.protected)
+            else if (getters.sharedDetail && !getters.sharedDetail.protected)
                 route = '/api/navigation/public/' + router.currentRoute.params.token
             else
                 route = '/api/navigation'
@@ -209,8 +221,6 @@ const actions = {
                     })
                 })
         })
-
-
     },
 }
 

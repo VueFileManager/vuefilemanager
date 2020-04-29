@@ -24,6 +24,13 @@
         "button_create_account": "Create Account",
         "have_an_account": "Do you have an account?"
     },
+    "page_shared": {
+        "subtitle": "Please type the password to get shared content:",
+        "title": "Your Share Link is Protected",
+        "placeholder_pass": "Type password",
+        "download_file": "Download File",
+        "submit": "Submit"
+    },
     "page_create_password": {
         "title": "Only One Step to Log In",
         "subtitle": "Create your new password here:",
@@ -71,11 +78,15 @@
         "nothing_was_found": "Nothing was found"
     },
     "locations": {
-        "home": "Home",
-        "trash": "Trash"
+        "shared": "Shared",
+        "trash": "Trash",
+        "home": "Home"
     },
     "file_detail": {
+        "author_participant": "Public Participant",
         "created_at": "Created at",
+        "shared": "Shared",
+        "author": "Author",
         "where": "Where",
         "size": "Size"
     },
@@ -117,6 +128,7 @@
         "profile_settings": "Profile Settings",
         "create_folder": "Create Folder",
         "empty_trash": "Empty Trash",
+        "share_edit": "Edit Sharing",
         "add_folder": "Add Folder",
         "download": "Download",
         "log_out": "Log Out",
@@ -129,6 +141,7 @@
         "move": "Move"
     },
     "sidebar": {
+        "shared": "Shared",
         "locations": "Locations",
         "favourites": "Favourites",
         "favourites_empty": "Drag here your favourite folder.",
@@ -162,5 +175,39 @@
     "popup_exceed_limit": {
         "title": "Whooops, you exceed your storage limit :(",
         "message": "Please contact your administrator to change your limit."
+    },
+    "popup_share_create": {
+        "title": "Share Your {item}"
+    },
+    "popup_share_edit": {
+        "title": "Update sharing options",
+        "change_pass": "Change Password",
+        "save": "Save Changes",
+        "stop": "Stop Sharing",
+        "confirm": "Confirm"
+    },
+    "shared": {
+        "empty_shared": "You Haven't Shared Anything Yet",
+        "editor": "Can edit and upload files",
+        "visitor": "Can only view and download",
+        "can_download": "Can download file"
+    },
+    "shared_form": {
+        "placeholder_permission": "Select your permission",
+        "label_password_protection": "Password Protected",
+        "button_done": "Awesome, I’m done!",
+        "button_generate": "Generate Link",
+        "label_permission": "Permission",
+        "label_shared_url": "Share url"
+    },
+    "actions": {
+        "create_folder": "Create folder",
+        "preview": "Change preview",
+        "upload": "Upload file",
+        "delete": "Delete item"
+    },
+    "types": {
+        "folder": "Folder",
+        "file": "File"
     }
 }

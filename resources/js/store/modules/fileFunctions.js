@@ -3,7 +3,6 @@ import router from '@/router'
 import {events} from '@/bus'
 import axios from 'axios'
 
-
 const actions = {
     moveItem: ({commit, getters}, [item_from, to_item]) => {
 
@@ -86,8 +85,10 @@ const actions = {
                     if (response.data.folder_id == getters.currentFolder.unique_id)
                         commit('ADD_NEW_ITEMS', response.data)
 
-                    commit('UPDATE_RECENT_UPLOAD', response.data)
                     commit('UPLOADING_FILE_PROGRESS', 0)
+
+                    if (getters.permission === 'master')
+                        commit('UPDATE_RECENT_UPLOAD', response.data)
 
                     resolve(response)
                 })

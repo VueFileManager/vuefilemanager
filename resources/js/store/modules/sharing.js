@@ -6,12 +6,12 @@ import axios from 'axios'
 const defaultState = {
     permissionOptions: [
         {
-            label: 'Can edit and upload files',
+            label: i18n.t('shared.editor'),
             value: 'editor',
             icon: 'user-edit',
         },
         {
-            label: 'Can only view and download',
+            label: i18n.t('shared.visitor'),
             value: 'visitor',
             icon: 'user',
         },
@@ -74,7 +74,9 @@ const actions = {
     },
     getSingleFile: ({commit, state}) => {
 
-        let route = state.sharedDetail.protected ? '/api/files/private' : '/api/files/' + router.currentRoute.params.token + '/public'
+        let route = state.sharedDetail.protected
+            ? '/api/files/private'
+            : '/api/files/' + router.currentRoute.params.token + '/public'
 
         axios.get(route)
             .then(response => {

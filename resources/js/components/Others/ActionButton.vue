@@ -22,7 +22,7 @@
 
         .label {
             @include font-size(12);
-            color: $theme_light;
+            color: $theme;
             font-weight: 600;
             text-decoration: underline;
         }
@@ -33,7 +33,7 @@
             margin-right: 2px;
 
             path {
-                fill: $theme_light;
+                fill: $theme;
             }
         }
     }

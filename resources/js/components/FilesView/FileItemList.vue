@@ -51,7 +51,7 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && data.shared" class="item-shared">
-                        <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
+                        <FontAwesomeIcon class="shared-icon" icon="share"/>
                     </div>
 
                     <!--Participant owner Icon-->

@@ -203,26 +203,6 @@
             // On items delete
             events.$on('items:delete', () => {
                 this.$store.dispatch('deleteItem', this.fileInfoDetail)
-
-                //let ids = []
-                //let items = []
-
-                // Get ids
-                /*this.$children[0].$children.filter(item => {
-
-                            if (item.isClicked) {
-
-                                ids.push(item.data.unique_id)
-
-                                items.push({
-                                    unique_id: item.data.unique_id,
-                                    type: item.data.type,
-                                })
-                            }
-                        })*/
-
-                // Dispatch action
-                /*this.$store.dispatch('removeItems', [ids, items])*/
             })
         }
     }
@@ -298,5 +278,11 @@
 
     .file-leave-active {
         position: absolute;
+    }
+
+    @media only screen and (max-width: 660px) {
+        .file-info-container {
+            display: none;
+        }
     }
 </style>

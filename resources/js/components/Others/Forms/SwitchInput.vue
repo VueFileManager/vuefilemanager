@@ -28,7 +28,6 @@
         },
         methods: {
             changeState() {
-
                 this.isSwitched = ! this.isSwitched
                 this.$emit('input', this.isSwitched)
             }
@@ -88,6 +87,12 @@
             .switch-button {
                 left: 25px;
             }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .switch {
+            background: $dark_mode_foreground;
         }
     }
 </style>

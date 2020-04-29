@@ -85,9 +85,6 @@
             this.$store.commit('SET_CONFIG', this.$root.$data.config)
         },
         mounted() {
-
-            //events.$emit('share-item')
-
             // Handle VueFileManager width
             var VueFileManager = document.getElementById('vue-file-manager');
             new ResizeSensor(VueFileManager, this.handleAppResize);

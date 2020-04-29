@@ -56,7 +56,7 @@
 
                 this.button = this.$t('alerts.error_confirm')
                 this.emoji = '😢😢😢'
-                this.buttonStyle = 'danger'
+                this.buttonStyle = 'danger-solid'
 
                 if (args.emoji) {
                     this.emoji = args.emoji
@@ -109,7 +109,7 @@
         top: 50%;
         transform: translateY(-50%) scale(1);
         margin: 0 auto;
-        padding: 40px;
+        padding: 20px;
         box-shadow: $light_mode_popup_shadow;
         border-radius: 8px;
         text-align: center;

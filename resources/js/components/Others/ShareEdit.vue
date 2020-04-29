@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="share-edit">
         <!--Title-->
-        <PopupHeader title="Update sharing options" />
+        <PopupHeader :title="$t('popup_share_edit.title')" />
 
         <!--Content-->
         <PopupContent v-if="pickedItem && pickedItem.shared">
@@ -14,29 +14,29 @@
 
                 <!--Share link-->
                 <div class="input-wrapper">
-                    <label class="input-label">Share url:</label>
+                    <label class="input-label">{{ $t('shared_form.label_shared_url') }}:</label>
                     <CopyInput size="small" :value="pickedItem.shared.link" />
                 </div>
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
-                    <label class="input-label">Permission:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :default="shareOptions.permission" :isError="errors[0]"/>
+                    <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
+                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :default="shareOptions.permission" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <!--Password Switch-->
                 <div class="input-wrapper">
                     <div class="inline-wrapper">
-                        <label class="input-label">Password Protected:</label>
+                        <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
                         <SwitchInput v-model="shareOptions.isProtected" :state="shareOptions.isProtected" class="switch"/>
                     </div>
-                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" icon="pencil-alt">Change Password</ActionButton>
+                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" icon="pencil-alt">{{ $t('popup_share_edit.change_pass') }}</ActionButton>
                 </div>
 
                 <!--Set password-->
                 <ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" placeholder="Type your password">
+                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -60,17 +60,17 @@
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
-            >Ok
+            >{{ $t('popup_share_edit.save') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>
 
 <script>
+    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
@@ -106,7 +106,7 @@
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },
             destroyButtonText() {
-                return this.isConfirmedDestroy ? 'Confirm' : 'Stop Sharing'
+                return this.isConfirmedDestroy ? this.$t('popup_share_edit.confirm') : this.$t('popup_share_edit.stop')
             },
             destroyButtonStyle() {
                 return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
@@ -144,7 +144,6 @@
                     axios
                         .delete('/api/share/' + this.pickedItem.shared.token)
                         .then(() => {
-
                             // Remove item from file browser
                             if ( this.isSharedLocation ) {
                                 this.$store.commit('REMOVE_ITEM', this.pickedItem.unique_id)
@@ -154,7 +153,7 @@
                             this.$store.commit('FLUSH_SHARED', this.pickedItem.unique_id)
 
                             // End deleting spinner button
-                            this.isDeleting = false
+                            setTimeout(() => this.isDeleting = false, 150)
 
                             this.$closePopup()
                         })

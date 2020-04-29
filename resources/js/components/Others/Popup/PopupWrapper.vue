@@ -31,7 +31,8 @@
             // Open called popup
             events.$on('popup:open', ({name}) => {
 
-                if (this.name === name) this.isVisibleWrapper = true
+                if (this.name === name)
+                    this.isVisibleWrapper = true
             })
 
             // Close popup

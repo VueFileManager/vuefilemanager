@@ -52,7 +52,7 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && data.shared" class="item-shared">
-                        <FontAwesomeIcon class="shared-icon" icon="user-friends"/>
+                        <FontAwesomeIcon class="shared-icon" icon="share"/>
                     </div>
 
                     <!--Participant owner Icon-->
@@ -86,7 +86,9 @@
         name: 'FileItemGrid',
         props: ['data'],
         computed: {
-            ...mapGetters(['FilePreviewType']),
+            ...mapGetters([
+                'FilePreviewType', 'sharedDetail'
+            ]),
             isFolder() {
                 return this.data.type === 'folder'
             },
@@ -97,7 +99,10 @@
                 return this.data.type === 'image'
             },
             canEditName() {
-                return !this.$isMobile() && !this.$isThisLocation(['trash', 'trash-root']) && !this.$checkPermission('visitor')
+                return !this.$isMobile()
+                    && !this.$isThisLocation(['trash', 'trash-root'])
+                    && !this.$checkPermission('visitor')
+                    && (this.sharedDetail && this.sharedDetail.type !== 'file')
             },
             canDrag() {
                 return !this.isDeleted && this.$checkPermission(['master', 'editor'])

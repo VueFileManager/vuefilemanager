@@ -75,4 +75,16 @@
             }
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+
+        .copy-input {
+            input {
+                color: $dark_mode_text_primary;
+
+                &:disabled {
+                }
+            }
+        }
+    }
 </style>

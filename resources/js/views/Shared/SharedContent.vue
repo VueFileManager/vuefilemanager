@@ -16,17 +16,17 @@
             <!--Verify share link by password-->
             <AuthContent class="center" name="password" :visible="true">
                 <img class="logo" :src="config.app_logo" :alt="config.app_name">
-                <h1>Your Share Link is Protected</h1>
-                <h2>Please type the password to get shared content:</h2>
+                <h1>{{ $t('page_shared.title') }}</h1>
+                <h2>{{ $t('page_shared.subtitle') }}</h2>
 
                 <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
 
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required" v-slot="{ errors }">
-                        <input v-model="password" placeholder="Type password" type="password" :class="{'is-error': errors[0]}"/>
+                        <input v-model="password" :placeholder="$t('page_shared.placeholder_pass')" type="password" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
 
-                    <AuthButton icon="chevron-right" text="Submit" :loading="isLoading" :disabled="isLoading" />
+                    <AuthButton icon="chevron-right" :text="$t('page_shared.submit')" :loading="isLoading" :disabled="isLoading" />
                 </ValidationObserver>
             </AuthContent>
         </div>
@@ -38,7 +38,7 @@
                     <FileItemGrid v-if="sharedFile" :data="sharedFile"/>
 
                     <ButtonBase @click.native="download" class="download-button" button-style="theme">
-                        Download File
+                        {{ $t('page_shared.download_file') }}
                     </ButtonBase>
                 </div>
             </div>
@@ -64,8 +64,8 @@
 </template>
 
 <script>
-    import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
@@ -129,7 +129,7 @@
                 axios
                     .post('/api/shared/authenticate/' + this.$route.params.token, {
                         password: this.password
-                    }).then(response => {
+                    }).then(() => {
 
                         // End loading
                         this.isLoading = false
@@ -140,20 +140,46 @@
                         // Get protected files
                         this.getFiles();
 
-                    })
+                    }).catch(error => {
 
-                    /*.catch((error) => {
-
-                        /!*if (error.response.status == 401) {
+                        if (error.response.status == 401) {
 
                             this.$refs.authenticateProtected.setErrors({
                                 'Password': [error.response.data.message]
                             });
-                        }*!/
+                        }
 
                         // End loading
                         this.isLoading = false
-                    })*/
+                    })
+            },
+            getFiles() {
+
+                // Show folder
+                if (this.sharedDetail.type === 'folder') {
+
+                    let homeDirectory = {
+                        unique_id: this.sharedDetail.item_id,
+                        name: this.$t('locations.home'),
+                        location: 'public',
+                    }
+
+                    // Set start directory
+                    this.$store.commit('SET_START_DIRECTORY', homeDirectory)
+
+                    // Load folder
+                    this.$store.dispatch('browseShared', [homeDirectory, false, true])
+                        .then(() => {
+
+                            var filesView = document.getElementById('files-view')
+                            new ResizeSensor(filesView, this.handleContentResize)
+                        })
+                }
+
+                // Get file
+                if (this.sharedDetail.type === 'file') {
+                    this.$store.dispatch('getSingleFile')
+                }
             },
             download() {
                 this.$downloadFile(this.sharedFile.file_url, this.sharedFile.name + '.' + this.sharedFile.mimetype)
@@ -176,33 +202,6 @@
                 else if (filesView >= 960)
                     this.$store.commit('SET_FILES_VIEW_SIZE', 'full-scale')
             },
-            getFiles() {
-
-                // Show folder
-                if (this.sharedDetail.type === 'folder') {
-
-                    let homeDirectory = {
-                        unique_id: this.sharedDetail.item_id,
-                        name: 'Home',
-                    }
-
-                    // Set start directory
-                    this.$store.commit('SET_START_DIRECTORY', homeDirectory)
-
-                    // Load folder
-                    this.$store.dispatch('browseShared', [homeDirectory, false, true])
-                        .then(() => {
-
-                            var filesView = document.getElementById('files-view')
-                            new ResizeSensor(filesView, this.handleContentResize)
-                        })
-                }
-
-                // Get file
-                if (this.sharedDetail.type === 'file') {
-                    this.$store.dispatch('getSingleFile')
-                }
-            }
         },
         created() {
 

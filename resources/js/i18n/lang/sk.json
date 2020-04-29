@@ -24,6 +24,13 @@
         "button_create_account": "Vytvoriť účet",
         "have_an_account": "Máš už účet?"
     },
+    "page_shared": {
+        "subtitle": "Prosím vložte heslo pre získanie prístupu k obsahu:",
+        "title": "Zdieľaný odkaz je chránený",
+        "placeholder_pass": "Vložte heslo",
+        "download_file": "Stiahnúť súbor",
+        "submit": "Potvrdiť"
+    },
     "page_create_password": {
         "title": "Iba jeden krok pre prihlásenie",
         "subtitle": "Vytvorte si nové heslo tu:",
@@ -71,12 +78,16 @@
         "nothing_was_found": "Nič sa nenašlo"
     },
     "locations": {
+        "shared": "Zdieľané",
         "home": "Domov",
         "trash": "Kôš"
     },
     "file_detail": {
+        "author_participant": "Verejný účastník",
         "created_at": "Vytvorené",
         "where": "Umiestnenie",
+        "shared": "Zdieľané",
+        "author": "Autor",
         "size": "Veľkosť"
     },
     "empty_page": {
@@ -116,19 +127,21 @@
         "add_to_favourites": "Pridať do obľúbených",
         "profile_settings": "Nastavenia profilu",
         "create_folder": "Vytvoriť priečinok",
+        "share_edit": "Upraviť zdieľanie",
         "empty_trash": "Vyprázdniť kôš",
         "add_folder": "Nový priečinok",
-        "download": "Stiahnúť",
         "log_out": "Odhlásiť sa",
+        "download": "Stiahnúť",
+        "rename": "Premenovať",
         "restore": "Obnoviť",
         "upload": "Nahrať",
         "detail": "Detail",
-        "rename": "Premenovať",
         "delete": "Vymazať",
         "share": "Zdieľať",
         "move": "Presunúť"
     },
     "sidebar": {
+        "shared": "Zdieľané",
         "locations": "Umiestnenie",
         "favourites": "Obľúbené",
         "favourites_empty": "Presuňte sem svoj obľúbený priečinok.",
@@ -162,5 +175,39 @@
     "popup_exceed_limit": {
         "title": "Ups, presiahli ste limit úložiska",
         "message": "Prosím, kontaktujte administrátora pre navyšenie limitu."
+    },
+    "popup_share_create": {
+        "title": "Zdieľaj {item}"
+    },
+    "popup_share_edit": {
+        "title": "Upraviť nastavenia zdieľania",
+        "change_pass": "Zmeniť heslo",
+        "save": "Uložiť zmeny",
+        "stop": "Zastaviť zdieľanie",
+        "confirm": "Potvrdiť"
+    },
+    "shared": {
+        "empty_shared": "Zatiaľ ste nič nezdieľali",
+        "editor": "Môže upravovať a nahrávať súbory",
+        "visitor": "Môže len vidieť a sťahovať súbory",
+        "can_download": "Môže stiahnúť súbor"
+    },
+    "shared_form": {
+        "placeholder_permission": "Zvoľte oprávnenia",
+        "label_password_protection": "Chrániť heslom",
+        "button_done": "Super, som hotový!",
+        "button_generate": "Vygenerovať link",
+        "label_permission": "Oprávnenie",
+        "label_shared_url": "Zdieľací odkaz"
+    },
+    "actions": {
+        "create_folder": "Vytvoriť priečinok",
+        "preview": "Zmeniť náhľad",
+        "upload": "Nahrať súbory",
+        "delete": "Vymazať položku"
+    },
+    "types": {
+        "folder": "Priečinok",
+        "file": "Súbor"
     }
 }

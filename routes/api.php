@@ -44,7 +44,7 @@ Route::group(['middleware' => ['api']], function () {
 });
 
 // User master Routes
-Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], function () {
+Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
 
     // User
     Route::post('/user/password', 'User\AccountController@change_password');
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master']], func
 });
 
 // Protected sharing routes for authenticated user
-Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor']], function () {
+Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {
 
     // Browse folders & files
     Route::get('/folders/{unique_id}/private', 'Sharing\FileSharingController@get_private_folders');
@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:visitor,editor'
 });
 
 // User master,editor routes
-Route::group(['middleware' => ['auth:api', 'auth.cookie', 'scope:master,editor']], function () {
+Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor']], function () {
 
     // Edit items
     Route::delete('/remove-item/{unique_id}', 'FileFunctions\EditItemsController@user_delete_item');

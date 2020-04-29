@@ -18,7 +18,7 @@
                         </li>
                         <li class="menu-list-item" :class="{'is-active': isSharedLocation}" @click="getShared">
                             <FontAwesomeIcon class="icon" icon="share"/>
-                            <span class="label">Shared</span>
+                            <span class="label">{{ $t('locations.shared') }}</span>
                         </li>
                         <li class="menu-list-item" :class="{'is-active': isTrashLocation}" @click="getTrash">
                             <FontAwesomeIcon class="icon" icon="trash-alt"/>
@@ -394,7 +394,7 @@
     @media (prefers-color-scheme: dark) {
 
         #sidebar {
-            background: $dark_mode_foreground;
+            background: $dark_mode_background;
         }
 
         .menu-list-wrapper {

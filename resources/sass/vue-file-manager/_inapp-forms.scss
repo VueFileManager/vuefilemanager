@@ -34,7 +34,7 @@
     }
 
     .icon {
-      background: $theme_light;
+      background: $theme;
       padding: 14px 18px;
       border-top-right-radius: 8px;
       border-bottom-right-radius: 8px;
@@ -54,4 +54,10 @@
   font-weight: 700;
   margin-bottom: 5px;
   display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  .input-label {
+    color: $dark_mode_text_primary;
+  }
 }
