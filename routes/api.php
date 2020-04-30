@@ -30,8 +30,10 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('/folders/{unique_id}/public/{token}', 'Sharing\FileSharingController@get_public_folders');
     Route::get('/navigation/public/{token}', 'Sharing\FileSharingController@get_public_navigation_tree');
     Route::post('/shared/authenticate/{token}', 'Sharing\FileSharingController@authenticate');
+    Route::get('/search/public/{token}', 'Sharing\FileSharingController@search_public');
     Route::get('/files/{token}/public', 'Sharing\FileSharingController@file_public');
     Route::get('/shared/{token}', 'FileFunctions\ShareController@show');
+
 
     // User reset password
     Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
@@ -82,6 +84,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
     // Browse folders & files
     Route::get('/folders/{unique_id}/private', 'Sharing\FileSharingController@get_private_folders');
     Route::get('/navigation/private', 'Sharing\FileSharingController@get_private_navigation_tree');
+    Route::get('/search/private', 'Sharing\FileSharingController@search_private');
     Route::get('/files/private', 'Sharing\FileSharingController@file_private');
 });
 

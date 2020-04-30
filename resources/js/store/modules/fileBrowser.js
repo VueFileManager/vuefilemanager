@@ -23,7 +23,7 @@ const actions = {
         events.$emit('show:content')
 
         // Go to files view
-        if (!includes(['Files', 'SharedContent'], router.currentRoute.name)) {
+        if (!includes(['Files', 'SharedPage'], router.currentRoute.name)) {
             router.push({name: 'Files'})
         }
 
@@ -155,18 +155,28 @@ const actions = {
                 })
             })
     },
-    getSearchResult: (context, query) => {
-        context.commit('FLUSH_DATA')
-        context.commit('LOADING_STATE', true)
-        context.commit('CHANGE_SEARCHING_STATE', true)
+    getSearchResult: ({commit, getters}, query) => {
+        commit('FLUSH_DATA')
+        commit('LOADING_STATE', true)
+        commit('CHANGE_SEARCHING_STATE', true)
+
+        // Get route
+        let route = undefined
+
+        if (getters.sharedDetail && getters.sharedDetail.protected)
+            route = '/api/search/private'
+        else if (getters.sharedDetail && !getters.sharedDetail.protected)
+            route = '/api/search/public/' + router.currentRoute.params.token
+        else
+            route = '/api/search'
 
         axios
-            .get(context.getters.api + '/search', {
+            .get(route, {
                 params: {query: query}
             })
             .then(response => {
-                context.commit('LOADING_STATE', false)
-                context.commit('GET_DATA', response.data)
+                commit('LOADING_STATE', false)
+                commit('GET_DATA', response.data)
             })
             .catch(() => {
                 // Show error message

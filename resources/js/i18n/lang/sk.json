@@ -31,6 +31,10 @@
         "download_file": "Stiahnúť súbor",
         "submit": "Potvrdiť"
     },
+    "page_shared_404": {
+        "subtitle": "Obsah ktorý hľadáš bol pravdepodobne vymazaný.",
+        "title": "Obsah sa nenašiel :("
+    },
     "page_create_password": {
         "title": "Iba jeden krok pre prihlásenie",
         "subtitle": "Vytvorte si nové heslo tu:",

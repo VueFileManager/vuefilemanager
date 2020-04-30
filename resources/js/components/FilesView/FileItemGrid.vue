@@ -70,7 +70,8 @@
                 </div>
             </div>
 
-            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! ( $checkPermission('visitor') && isFolder )">
+            <span @click.stop="showItemActions" class="show-actions"
+                  v-if="$isMobile() && ! ( $checkPermission('visitor') && isFolder ) && canShowMobileOptions">
                 <FontAwesomeIcon icon="ellipsis-h" class="icon-action"></FontAwesomeIcon>
             </span>
         </div>
@@ -87,7 +88,7 @@
         props: ['data'],
         computed: {
             ...mapGetters([
-                'FilePreviewType', 'sharedDetail'
+                'FilePreviewType', 'sharedDetail', 'contextMenu'
             ]),
             isFolder() {
                 return this.data.type === 'folder'
@@ -102,7 +103,10 @@
                 return !this.$isMobile()
                     && !this.$isThisLocation(['trash', 'trash-root'])
                     && !this.$checkPermission('visitor')
-                    && (this.sharedDetail && this.sharedDetail.type !== 'file')
+                    && !(this.sharedDetail && this.sharedDetail.type === 'file')
+            },
+            canShowMobileOptions() {
+                return ! (this.sharedDetail && this.sharedDetail.type === 'file')
             },
             canDrag() {
                 return !this.isDeleted && this.$checkPermission(['master', 'editor'])
@@ -194,7 +198,7 @@
             renameItem: debounce(function (e) {
 
                 // Prevent submit empty string
-                if (e.target.innerText === '') return
+                if (e.target.innerText.trim() === '') return
 
                 this.$store.dispatch('renameItem', {
                     unique_id: this.data.unique_id,
@@ -286,6 +290,7 @@
                 max-height: 40px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                word-break: break-all;
 
                 &[contenteditable] {
                     -webkit-user-select: text;

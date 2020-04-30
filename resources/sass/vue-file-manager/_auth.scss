@@ -79,6 +79,27 @@
   }
 }
 
+@media only screen and (max-width: 490px) {
+
+  .auth-form {
+    h1 {
+      @include font-size(22);
+    }
+
+    h2 {
+      @include font-size(18);
+    }
+
+    input {
+      min-width: initial;
+    }
+
+    .additional-link {
+      @include font-size(15);
+    }
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .auth-form {
 

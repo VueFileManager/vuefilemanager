@@ -3,6 +3,7 @@
 namespace App\Http\Tools;
 
 use App;
+use App\Share;
 use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
@@ -91,7 +92,16 @@ class Editor
                 ->where('unique_id', $unique_id)
                 ->first();
 
-            // TODO: delete folder shared record
+            // Get folder shared record
+            $shared = Share::where('user_id', $user->id)
+                ->where('type', '=', 'folder')
+                ->where('item_id', $unique_id)
+                ->first();
+
+            // Delete folder shared record
+            if ($shared) {
+                $shared->delete();
+            }
 
             // Force delete children files
             if ($request->force_delete) {
@@ -142,7 +152,16 @@ class Editor
                 ->where('unique_id', $unique_id)
                 ->first();
 
-            // TODO: delete file shared record
+            // Get folder shared record
+            $shared = Share::where('user_id', $user->id)
+                ->where('type', '=', 'file')
+                ->where('item_id', $unique_id)
+                ->first();
+
+            // Delete file shared record
+            if ($shared) {
+                $shared->delete();
+            }
 
             // Force delete file
             if ($request->force_delete) {

@@ -29,8 +29,12 @@ class FileSharingController extends Controller
     public function index($token)
     {
         // Get shared token
-        $shared = Share::where(DB::raw('BINARY `token`'), $token)
-            ->firstOrFail();
+        $shared = Share::where(\DB::raw('BINARY `token`'), $token)
+            ->first();
+
+        if (!$shared) {
+            return view("index");
+        }
 
         // Delete old access_token if exist
         Cookie::queue('shared_access_token', '', -1);
@@ -186,7 +190,7 @@ class FileSharingController extends Controller
     public function get_private_navigation_tree(Request $request)
     {
         // Get sharing record
-        $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
+        $shared = get_shared($request->cookie('shared_token'));
 
         // Check if user can get directory
         Guardian::check_item_access($shared->item_id, $shared);
@@ -203,7 +207,7 @@ class FileSharingController extends Controller
                 'unique_id' => $shared->item_id,
                 'name'      => __('vuefilemanager.home'),
                 'location'  => 'public',
-                'folders'  => $folders,
+                'folders'   => $folders,
             ]
         ];
     }
@@ -233,9 +237,107 @@ class FileSharingController extends Controller
                 'unique_id' => $shared->item_id,
                 'name'      => __('vuefilemanager.home'),
                 'location'  => 'public',
-                'folders'  => $folders,
+                'folders'   => $folders,
             ]
         ];
+    }
+
+    /**
+     * Search private files
+     *
+     * @param Request $request
+     * @param $token
+     * @return Collection
+     */
+    public function search_private(Request $request)
+    {
+        // Get shared
+        $shared = get_shared($request->cookie('shared_token'));
+
+        // Search files id db
+        $searched_files = FileManagerFile::search($request->input('query'))
+            ->where('user_id', $shared->user_id)
+            ->get();
+        $searched_folders = FileManagerFolder::search($request->input('query'))
+            ->where('user_id', $shared->user_id)
+            ->get();
+
+        // Get all children content
+        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+            ->where('user_id', $shared->user_id)
+            ->where('parent_id', $shared->item_id)
+            ->get();
+
+        // Get accessible folders
+        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+
+        // Filter files to only accessible files
+        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids) {
+            return in_array($file->folder_id, $accessible_folder_ids);
+        });
+
+        // Filter folders to only accessible folders
+        $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
+            return in_array($folder->unique_id, $accessible_folder_ids);
+        });
+
+        // Collect folders and files to single array
+        return collect([$folders, $files])->collapse();
+    }
+
+    /**
+     * Search public files
+     *
+     * @param Request $request
+     * @param $token
+     * @return Collection
+     */
+    public function search_public(Request $request, $token)
+    {
+        // Get shared
+        $shared = get_shared($token);
+
+        // Abort if folder is protected
+        if ($shared->protected) {
+            abort(403, "Sorry, you don't have permission");
+        }
+
+        // Search files id db
+        $searched_files = FileManagerFile::search($request->input('query'))
+            ->where('user_id', $shared->user_id)
+            ->get();
+        $searched_folders = FileManagerFolder::search($request->input('query'))
+            ->where('user_id', $shared->user_id)
+            ->get();
+
+        // Get all children content
+        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+            ->where('user_id', $shared->user_id)
+            ->where('parent_id', $shared->item_id)
+            ->get();
+
+        // Get accessible folders
+        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+
+        // Filter files
+        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids, $token) {
+
+            // Set public urls
+            $file->setPublicUrl($token);
+
+            // check if item is in accessible folders
+            return in_array($file->folder_id, $accessible_folder_ids);
+        });
+
+        // Filter folders
+        $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
+
+            // check if item is in accessible folders
+            return in_array($folder->unique_id, $accessible_folder_ids);
+        });
+
+        // Collect folders and files to single array
+        return collect([$folders, $files])->collapse();
     }
 
     /**

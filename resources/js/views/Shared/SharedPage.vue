@@ -41,7 +41,7 @@
         <div v-if="currentPage === 'page-files'" id="files-view" :class="filesViewWidth">
             <div id="single-file" v-if="sharedDetail.type === 'file'">
                 <div class="single-file-wrapper">
-                    <FileItemGrid v-if="sharedFile" :data="sharedFile"/>
+                    <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
 
                     <ButtonBase @click.native="download" class="download-button" button-style="theme">
                         {{ $t('page_shared.download_file') }}
@@ -84,7 +84,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'SharedContent',
+        name: 'SharedPage',
         components: {
             ValidationProvider,
             ValidationObserver,
@@ -224,6 +224,15 @@
                         this.getFiles()
                     }
                 })
+                .catch(error => {
+
+                    console.log('error not found');
+
+                    if (error.response.status == 404) {
+
+                        this.$router.push({name: 'NotFoundShared'})
+                    }
+                })
         }
     }
 </script>
@@ -253,6 +262,7 @@
         left: 0;
         top: 0;
         display: grid;
+        height: 100%;
 
         .single-file-wrapper {
             margin: auto;

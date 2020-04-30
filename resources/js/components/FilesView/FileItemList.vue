@@ -99,10 +99,13 @@
                 return this.data.type === 'image'
             },
             canEditName() {
-                return ! this.$isMobile() && ! this.$isThisLocation(['trash', 'trash-root']) && ! this.$checkPermission('visitor')
+                return !this.$isMobile()
+                    && !this.$isThisLocation(['trash', 'trash-root'])
+                    && !this.$checkPermission('visitor')
+                    && !(this.sharedDetail && this.sharedDetail.type === 'file')
             },
             canDrag() {
-                return ! this.isDeleted && this.$checkPermission(['master', 'editor'])
+                return !this.isDeleted && this.$checkPermission(['master', 'editor'])
             },
             timeStamp() {
                 return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.data.deleted_at}) : this.data.created_at
@@ -160,7 +163,7 @@
                 if (this.$isMobile() && this.isFolder) {
 
                     // Go to folder
-                    if ( this.$isThisLocation('public') ) {
+                    if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [this.data, false])
                     } else {
                         this.$store.dispatch('getFolder', [this.data, false])
@@ -190,7 +193,7 @@
 
                 if (this.isFolder) {
 
-                    if ( this.$isThisLocation('public') ) {
+                    if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [this.data, false])
                     } else {
                         this.$store.dispatch('getFolder', [this.data, false])

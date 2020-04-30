@@ -31,6 +31,10 @@
         "download_file": "Download File",
         "submit": "Submit"
     },
+    "page_shared_404": {
+        "subtitle": "The content you are finding was probably deleted.",
+        "title": "Not Found :("
+    },
     "page_create_password": {
         "title": "Only One Step to Log In",
         "subtitle": "Create your new password here:",

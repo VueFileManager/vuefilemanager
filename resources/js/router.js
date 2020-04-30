@@ -3,7 +3,8 @@ import Router from 'vue-router'
 
 import Index from './views/Auth/SignIn'
 import SignUp from './views/Auth/SignUp'
-import SharedContent from './views/Shared/SharedContent'
+import SharedPage from './views/Shared/SharedPage'
+import NotFoundShared from './views/Shared/NotFoundShared'
 import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 
@@ -48,9 +49,17 @@ const router = new Router({
             },
         },
         {
-            name: 'SharedContent',
+            name: 'SharedPage',
             path: '/shared/:token',
-            component: SharedContent,
+            component: SharedPage,
+            meta: {
+                requiresAuth: false
+            },
+        },
+        {
+            name: 'NotFoundShared',
+            path: '/shared-not-found',
+            component: NotFoundShared,
             meta: {
                 requiresAuth: false
             },

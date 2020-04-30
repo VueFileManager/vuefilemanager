@@ -59,7 +59,7 @@
                 'appSize', 'isLogged', 'isGuest'
             ]),
             layout() {
-                if (includes(['VerifyByPassword', 'SharedContent', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
+                if (includes(['VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
                     return 'unauthorized'
                 }
 

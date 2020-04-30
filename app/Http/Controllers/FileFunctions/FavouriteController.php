@@ -34,7 +34,7 @@ class FavouriteController extends Controller
         if ($folder->user_id !== $user->id) abort(403);
 
         // Add folder to user favourites
-        $user->favourites()->attach($request->unique_id);
+        $user->favourites()->syncWithoutDetaching($request->unique_id);
 
         // Return updated favourites
         return $user->favourites->makeHidden(['pivot']);
