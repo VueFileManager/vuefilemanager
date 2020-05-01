@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -58,6 +59,10 @@ class AccountController extends Controller
         // Get user
         $user = Auth::user();
 
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
+
         if ($request->hasFile('avatar')) {
 
             // Update avatar
@@ -90,6 +95,10 @@ class AccountController extends Controller
 
         // Get user
         $user = Auth::user();
+
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
 
         // Change and store new password
         $user->password = Hash::make($request->input('password'));

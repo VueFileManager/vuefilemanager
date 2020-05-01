@@ -50,7 +50,9 @@ class Editor
      *
      * @param RenameItemRequest $request
      * @param $unique_id
-     * @return mixed
+     * @param null $shared
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @throws \Exception
      */
     public static function rename_item($request, $unique_id, $shared = null)
     {
@@ -189,9 +191,9 @@ class Editor
      * Upload file
      *
      * @param $request
-     * @param $unique_id
      * @param null $shared
      * @return FileManagerFile|\Illuminate\Database\Eloquent\Model
+     * @throws \Exception
      */
     public static function upload($request, $shared = null)
     {

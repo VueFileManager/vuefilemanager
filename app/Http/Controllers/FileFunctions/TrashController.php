@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FileFunctions;
 
+use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +23,10 @@ class TrashController extends Controller
     {
         // Get user id
         $user_id = Auth::id();
+
+        if (is_demo($user_id)) {
+            return Demo::response_204();
+        }
 
         // Get files and folders
         $folders = FileManagerFolder::onlyTrashed()->where('user_id', $user_id)->get();
@@ -67,6 +72,10 @@ class TrashController extends Controller
 
         // Get user id
         $user_id = Auth::id();
+
+        if (is_demo($user_id)) {
+            return Demo::response_204();
+        }
 
         // Get folder
         if ($request->type === 'folder') {

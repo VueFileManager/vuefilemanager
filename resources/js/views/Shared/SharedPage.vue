@@ -226,8 +226,6 @@
                 })
                 .catch(error => {
 
-                    console.log('error not found');
-
                     if (error.response.status == 404) {
 
                         this.$router.push({name: 'NotFoundShared'})

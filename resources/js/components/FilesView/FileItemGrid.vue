@@ -88,7 +88,7 @@
         props: ['data'],
         computed: {
             ...mapGetters([
-                'FilePreviewType', 'sharedDetail', 'contextMenu'
+                'FilePreviewType', 'sharedDetail'
             ]),
             isFolder() {
                 return this.data.type === 'folder'

@@ -1,50 +1,45 @@
-## VueFileManager - Make your own Private Cloud with VueFileManager client powered by Laravel and Vue
-For installation, please read [Online Documentation](https://vuefilemanager.hi5ve.digital/docs/).
-![VueFileManager](https://vuefilemanager.hi5ve.digital/assets/images/vue-file-manager-in-devices-dark.png)
+### Installation setup
 
-**Features:**
+Run these commands to install vendors:
+```
+composer install
+```
+```
+npm install
+```
 
-### Drag & Drop
-Reorder your files easily, just drag your folder or file and drop to another folder.
+Setup your database in .env and run this command:
+```
+php artisan setup:prod
+```
 
-### List & Grid Preview
-You can change from two types of file and folder previews. Show your items in list or grid preview.
+It automatically:
+* Migrate database
+* Generate Application key
+* Create Passport Encryption keys
+* Create Password grant client
+* Create Personal access client
 
-### Background Uploading
-Your files is uploaded in the background, so nothing will stop you from working with the files.
+Then, copy generated password grant client `Client ID`, `Client secret` and paste it to .env files here:
+```
+PASSPORT_CLIENT_ID=<your_passport_client_id>
+PASSPORT_CLIENT_SECRET=<your_passport_client_secret>
+```
+For sending forgoten password request via email, fill your mail driver in .env
 
-### File & Folder searching
-Search your items quickly, from anywhere in the app you are.
+### Run Application
+To start server on your localhost, run this command
+```
+php artisan serve
+```
 
-### Custom Context Menu
-Quick actions next to your file on your right click.
+To compiles and hot-reloads for development, run this command
+```
+npm run hot
+```
 
-### File Details
-Get preview of your files quickli in right panel next to your files.
-
-### Improved Mobile User Experience
-Need to quickly upload or get your files on your smartphone? It’s not problem.
-
-### Laravel PHP Framework
-You don't have to create your own API for VueFileManager. You can use our pre-build backend in Laravel PHP Framework.
-
-### Vue.js
-Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web. We ❤️ Vue.
-
-### Online Documentation
-Don’t worry, we will explain all things you should know to successfully start your VueFileManager instance.
-
-### Night Mode
-We add native support for dark mode. Now, it’s easy for your eyes to work with your files at night.
-
-### User Login & Registration
-Let user create their own account with own storage. All these accounts is protected by user login.
-
-### Integrated Trash
-Did you delete something by accident or do you want your deleted files back? Restore your files from trash.
-
-### Navigation Sidebar
-Navigate through your files easily. Add you favourites folder or look on your latest uploads. 
-
-### Storage Limits
-Set storage limits to your user account to sure, you never exceed your storage limits.
+To compiles for production, run this command
+```
+npm run prod
+```
+That's all, happy coding! :tada: :tada: :tada:

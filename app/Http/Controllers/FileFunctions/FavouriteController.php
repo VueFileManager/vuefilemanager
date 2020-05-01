@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\FileFunctions;
 
 use App\FileManagerFolder;
+use App\Http\Tools\Demo;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,10 @@ class FavouriteController extends Controller
         $user = Auth::user();
         $folder = FileManagerFolder::where('unique_id', $request->unique_id)->first();
 
+        if (is_demo($user->id)) {
+            return Demo::favourites($user);
+        }
+
         // Check ownership
         if ($folder->user_id !== $user->id) abort(403);
 
@@ -50,6 +55,10 @@ class FavouriteController extends Controller
     {
         // Get user
         $user = Auth::user();
+
+        if (is_demo($user->id)) {
+            return Demo::favourites($user);
+        }
 
         // Remove folder from user favourites
         $user->favourites()->detach($unique_id);

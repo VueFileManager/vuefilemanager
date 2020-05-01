@@ -12,6 +12,16 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
+ * Check if is demo
+ *
+ * @return mixed
+ */
+function is_demo($user_id) {
+
+    return env('APP_DEMO', false) && $user_id === 1;
+}
+
+/**
  * Get folder or file item
  *
  * @param $type

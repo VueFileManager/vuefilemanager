@@ -7,13 +7,13 @@ use App\Http\Requests\FileFunctions\DeleteItemRequest;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Http\Requests\FileFunctions\MoveItemRequest;
 use App\Http\Requests\FileFunctions\UploadRequest;
+use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Tools\Guardian;
 use App\Http\Tools\Editor;
-use App\FileManagerFolder;
 use App\FileManagerFile;
 use Exception;
 
@@ -24,10 +24,16 @@ class EditItemsController extends Controller
      * Create new folder for authenticated master|editor user
      *
      * @param CreateFolderRequest $request
-     * @return FileManagerFolder|Model
+     * @return array
+     * @throws Exception
      */
     public function user_create_folder(CreateFolderRequest $request)
     {
+        // Demo preview
+        if (is_demo(Auth::id())) {
+            return Demo::create_folder($request);
+        }
+
         // Check permission to create folder for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 
@@ -50,12 +56,17 @@ class EditItemsController extends Controller
      *
      * @param CreateFolderRequest $request
      * @param $token
-     * @return FileManagerFolder|Model
+     * @return array
+     * @throws Exception
      */
     public function guest_create_folder(CreateFolderRequest $request, $token)
     {
         // Get shared record
         $shared = get_shared($token);
+
+        if (is_demo($shared->user_id)) {
+            return Demo::create_folder($request);
+        }
 
         // Check shared permission
         if (!is_editor($shared)) abort(403);
@@ -73,9 +84,15 @@ class EditItemsController extends Controller
      * @param RenameItemRequest $request
      * @param $unique_id
      * @return mixed
+     * @throws Exception
      */
     public function user_rename_item(RenameItemRequest $request, $unique_id)
     {
+        // Demo preview
+        if (is_demo(Auth::id())) {
+            return Demo::rename_item($request, $unique_id);
+        }
+
         // Check permission to rename item for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 
@@ -107,11 +124,17 @@ class EditItemsController extends Controller
      * @param $unique_id
      * @param $token
      * @return mixed
+     * @throws Exception
      */
     public function guest_rename_item(RenameItemRequest $request, $unique_id, $token)
     {
         // Get shared record
         $shared = get_shared($token);
+
+        // Demo preview
+        if (is_demo($shared->user_id)) {
+            return Demo::rename_item($request, $unique_id);
+        }
 
         // Check shared permission
         if (!is_editor($shared)) abort(403);
@@ -147,6 +170,11 @@ class EditItemsController extends Controller
      */
     public function user_delete_item(DeleteItemRequest $request, $unique_id)
     {
+        // Demo preview
+        if (is_demo(Auth::id())) {
+            return Demo::response_204();
+        }
+
         // Check permission to delete item for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 
@@ -191,6 +219,11 @@ class EditItemsController extends Controller
         // Get shared record
         $shared = get_shared($token);
 
+        // Demo preview
+        if (is_demo($shared->user_id)) {
+            return Demo::response_204();
+        }
+
         // Check shared permission
         if (!is_editor($shared)) abort(403);
 
@@ -216,9 +249,15 @@ class EditItemsController extends Controller
      *
      * @param UploadRequest $request
      * @return FileManagerFile|Model
+     * @throws Exception
      */
     public function user_upload(UploadRequest $request)
     {
+        // Demo preview
+        if (is_demo(Auth::id())) {
+            return Demo::upload($request);
+        }
+
         // Check if user can upload
         if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100) {
             abort(423, 'You exceed your storage limit!');
@@ -247,11 +286,17 @@ class EditItemsController extends Controller
      * @param UploadRequest $request
      * @param $token
      * @return FileManagerFile|Model
+     * @throws Exception
      */
     public function guest_upload(UploadRequest $request, $token)
     {
         // Get shared record
         $shared = get_shared($token);
+
+        // Demo preview
+        if (is_demo($shared->user_id)) {
+            return Demo::upload($request);
+        }
 
         // Check shared permission
         if (!is_editor($shared)) abort(403);
@@ -277,6 +322,11 @@ class EditItemsController extends Controller
      */
     public function user_move(MoveItemRequest $request, $unique_id)
     {
+        // Demo preview
+        if (is_demo(Auth::id())) {
+            return Demo::response_204();
+        }
+
         // Check permission to upload for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 
@@ -308,6 +358,11 @@ class EditItemsController extends Controller
     {
         // Get shared record
         $shared = get_shared($token);
+
+        // Demo preview
+        if (is_demo(Auth::id())) {
+            return Demo::response_204();
+        }
 
         // Check shared permission
         if (!is_editor($shared)) abort(403);
