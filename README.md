@@ -1,3 +1,6 @@
+### Documentation
+[Read online documentation](https://vuefilemanager.com/docs/)
+
 ### Installation setup
 
 Run these commands to install vendors:
