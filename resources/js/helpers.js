@@ -1,22 +1,16 @@
 import store from './store/index'
-import {debounce} from "lodash";
+import {debounce, includes} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
 
 const Helpers = {
 	install(Vue) {
 
-		Vue.prototype.$goToView = function(view) {
-			events.$emit('show:content')
-
-			this.$store.commit('SET_CURRENT_VIEW', view)
-		}
-
 		Vue.prototype.$updateText = debounce(function (route, name, value) {
 
 			if (value === '') return
 
-			axios.put(this.$store.getters.api + route, {name, value})
+			axios.patch(this.$store.getters.api + route, {name, value})
 				.catch(error => {
 					events.$emit('alert:open', {
 						title: this.$t('popup_error.title'),
@@ -32,7 +26,7 @@ const Helpers = {
 
 			// Add image to form
 			formData.append(name, image)
-			formData.append('_method', 'PUT')
+			formData.append('_method', 'PATCH')
 
 			axios.post(this.$store.getters.api + route, formData, {
 				headers: {
@@ -61,7 +55,8 @@ const Helpers = {
 			// Prevent submit empty files
 			if (files && files.length == 0) return
 
-			if (this.$store.getters.app.storage.percentage >= 100) {
+			// Check storage size
+			if (! this.$isThisLocation(['public']) && this.$store.getters.app.storage.percentage >= 100) {
 				events.$emit('alert:open', {
 					emoji: '😬😬😬',
 					title: this.$t('popup_exceed_limit.title'),
@@ -94,7 +89,8 @@ const Helpers = {
 				formData.append('parent_id', rootFolder)
 
 				// Upload data
-				await store.dispatch('uploadFiles', formData).then(() => {
+				await store.dispatch('uploadFiles', formData)
+					.then(() => {
 					// Progress file log
 					store.commit('UPDATE_FILE_COUNT_PROGRESS', {
 						current: fileCountSucceed,
@@ -110,7 +106,7 @@ const Helpers = {
 					}
 				}).catch(error => {
 
-					if (error.response.status == 423) {
+					if (error.response.status === 423) {
 
 						events.$emit('alert:open', {
 							emoji: '😬😬😬',
@@ -138,7 +134,8 @@ const Helpers = {
 			// Get files
 			const files = [...event.dataTransfer.items].map(item => item.getAsFile());
 
-			if (this.$store.getters.app.storage.percentage >= 100) {
+			// Check storage size
+			if (! this.$isThisLocation(['public']) && this.$store.getters.app.storage.percentage >= 100) {
 				events.$emit('alert:open', {
 					emoji: '😬😬😬',
 					title: this.$t('popup_exceed_limit.title'),
@@ -147,6 +144,7 @@ const Helpers = {
 
 				return
 			}
+
 			let fileCountSucceed = 1
 
 			store.commit('UPDATE_FILE_COUNT_PROGRESS', {
@@ -215,9 +213,35 @@ const Helpers = {
 			anchor.click()
 		}
 
-		Vue.prototype.$isTrashLocation = function() {
+		Vue.prototype.$closePopup = function() {
+			events.$emit('popup:close')
+		}
 
-			return store.getters.currentFolder && store.getters.currentFolder.location === 'trash' || store.getters.currentFolder && store.getters.currentFolder.location === 'trash-root' ? true : false
+		Vue.prototype.$isThisLocation = function(location) {
+
+			// Get current location
+			let currentLocation = store.getters.currentFolder && store.getters.currentFolder.location ? store.getters.currentFolder.location : undefined
+
+			// Check if type is object
+			if (typeof location === 'Object' || location instanceof Object) {
+				return includes(location, currentLocation)
+
+			} else {
+				return currentLocation === location
+			}
+		}
+
+		Vue.prototype.$checkPermission = function(type) {
+			
+			let currentPermission = store.getters.permission
+
+			// Check if type is object
+			if (typeof type === 'Object' || type instanceof Object) {
+				return includes(type, currentPermission)
+
+			} else {
+				return currentPermission === type
+			}
 		}
 
 		Vue.prototype.$isMobile = function() {

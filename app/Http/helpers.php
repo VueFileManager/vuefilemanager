@@ -1,11 +1,93 @@
 <?php
 
+use App\FileManagerFile;
+use App\FileManagerFolder;
+use App\Share;
 use ByteUnits\Metric;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
+/**
+ * Check if is demo
+ *
+ * @return mixed
+ */
+function is_demo($user_id) {
+
+    return env('APP_DEMO', false) && $user_id === 1;
+}
+
+/**
+ * Get folder or file item
+ *
+ * @param $type
+ * @param $unique_id
+ * @param $user_id
+ * @return \Illuminate\Database\Eloquent\Builder|Model
+ */
+function get_item($type, $unique_id, $user_id) {
+
+    if ($type === 'folder') {
+
+        // Return folder item
+        return FileManagerFolder::where('unique_id', $unique_id)
+            ->where('user_id', $user_id)
+            ->firstOrFail();
+    }
+
+    // Return file item
+    return FileManagerFile::where('unique_id', $unique_id)
+        ->where('user_id', $user_id)
+        ->firstOrFail();
+}
+
+/**
+ * Get shared token
+ *
+ * @param $token
+ * @return \Illuminate\Database\Eloquent\Builder|Model
+ */
+function get_shared($token) {
+
+    return Share::where(DB::raw('BINARY `token`'), $token)
+        ->firstOrFail();
+}
+
+/**
+ * Check if shared permission is editor
+ *
+ * @param $shared
+ * @return bool
+ */
+function is_editor($shared) {
+
+    return $shared->permission === 'editor';
+}
+
+/**
+ * Get unique id
+ *
+ * @return int
+ */
+function get_unique_id(): int
+{
+    // Get files and folders
+    $folders = FileManagerFolder::withTrashed()->get();
+    $files = FileManagerFile::withTrashed()->get();
+
+    // Get last ids
+    $folders_unique = $folders->isEmpty() ? 0 : $folders->last()->unique_id;
+    $files_unique = $files->isEmpty() ? 0 : $files->last()->unique_id;
+
+    // Count new unique id
+    $unique_id = $folders_unique > $files_unique ? $folders_unique + 1 : $files_unique + 1;
+
+    return $unique_id;
+}
 
 /**
  * Store user avatar to storage
@@ -102,8 +184,7 @@ function get_storage_fill_percentage($used, $capacity)
  */
 function user_storage_percentage()
 {
-
-    $user = \Illuminate\Support\Facades\Auth::user();
+    $user = Auth::user();
 
     return get_storage_fill_percentage($user->used_capacity, config('vuefilemanager.user_storage_capacity'));
 }

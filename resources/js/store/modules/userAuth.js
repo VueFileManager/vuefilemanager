@@ -1,13 +1,16 @@
 import axios from 'axios'
 import {events} from '@/bus'
 import i18n from '@/i18n/index.js'
+import router from '@/router'
 
 const defaultState = {
     authorized: undefined,
+    permission: 'master', // master | editor | visitor
     app: undefined,
 }
+
 const actions = {
-    getAppData: ({commit, dispatch, getters}) => {
+    getAppData: ({commit, getters}) => {
 
         axios
             .get(getters.api + '/user')
@@ -16,8 +19,11 @@ const actions = {
 
             }).catch((error) => {
 
-                if (error.response.status == 401) {
+                // Redirect if unauthenticated
+                if ([401, 403].includes(error.response.status)) {
+
                     commit('SET_AUTHORIZED', false)
+                    router.push({name: 'SignIn'})
                 }
             }
         )
@@ -29,7 +35,8 @@ const actions = {
 
                 // Commit Remove Access Token from vuex storage
                 commit('DESTROY_DATA')
-                commit('SET_CURRENT_VIEW', 'files')
+
+                router.push({name: 'SignIn'})
             })
     },
     addToFavourites: (context, folder) => {
@@ -38,7 +45,9 @@ const actions = {
         context.commit('ADD_TO_FAVOURITES', folder)
 
         axios
-            .post(context.getters.api + '/add-to-favourites', {unique_id: folder.unique_id})
+            .post(context.getters.api + '/folders/favourites', {
+                unique_id: folder.unique_id
+            })
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
@@ -53,7 +62,7 @@ const actions = {
         context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(context.getters.api + '/remove-from-favourites', {unique_id: folder.unique_id})
+            .delete(context.getters.api + '/folders/favourites/' + folder.unique_id)
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
@@ -62,35 +71,14 @@ const actions = {
                 })
             })
     },
-    getFolderTree: (context) => {
-        return new Promise((resolve, reject) => {
-            axios
-                .get(context.getters.api + '/folder-tree')
-                .then(response => {
-                    resolve(response)
-
-                    context.commit('UPDATE_FOLDER_TREE', response.data)
-                })
-                .catch((error) => {
-                    reject(error)
-
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
-                    })
-                })
-        })
-
-
-    },
 }
+
 const mutations = {
     RETRIEVE_APP_DATA(state, app) {
         state.app = app
     },
-    UPDATE_FOLDER_TREE(state, tree) {
-        state.app.folders = tree
+    SET_PERMISSION(state, role) {
+        state.permission = role
     },
     SET_AUTHORIZED(state, data) {
         state.authorized = data
@@ -132,9 +120,11 @@ const mutations = {
         })
     }
 }
+
 const getters = {
-    isLogged: state => state.authorized,
+    permission: state => state.permission,
     isGuest: state => ! state.authorized,
+    isLogged: state => state.authorized,
     app: state => state.app,
 }
 

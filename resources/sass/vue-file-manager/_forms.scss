@@ -79,7 +79,7 @@ input[type="email"] {
   appearance: none;
   font-weight: 700;
   outline: 0;
-  min-width: 310px;
+  width: 100%;
 
   &.is-error {
     border-color: $danger;

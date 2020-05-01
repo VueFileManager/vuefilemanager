@@ -12,6 +12,53 @@ use RecursiveIteratorIterator;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\FileManagerFolder
+ *
+ * @property int $id
+ * @property int|null $user_id
+ * @property int $unique_id
+ * @property int $parent_id
+ * @property string|null $name
+ * @property string|null $type
+ * @property string $user_scope
+ * @property string $deleted_at
+ * @property string $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $children
+ * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $files
+ * @property-read int|null $files_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $folders
+ * @property-read int|null $folders_count
+ * @property-read int $items
+ * @property-read int $trashed_items
+ * @property-read \App\FileManagerFolder $parent
+ * @property-read \App\Share|null $shared
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $trashed_children
+ * @property-read int|null $trashed_children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $trashed_files
+ * @property-read int|null $trashed_files_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $trashed_folders
+ * @property-read int|null $trashed_folders_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUniqueId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUserScope($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withoutTrashed()
+ * @mixin \Eloquent
+ */
 class FileManagerFolder extends Model
 {
     use Searchable, SoftDeletes;
@@ -163,6 +210,16 @@ class FileManagerFolder extends Model
     public function trashed_children()
     {
         return $this->hasMany('App\FileManagerFolder', 'parent_id', 'unique_id')->withTrashed();
+    }
+
+    /**
+     * Get sharing attributes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function shared()
+    {
+        return $this->hasOne('App\Share', 'item_id', 'unique_id');
     }
 
     // Delete all folder childrens

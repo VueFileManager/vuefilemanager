@@ -1,12 +1,22 @@
 require('./bootstrap');
 import Vue from 'vue'
+import VueRouter from 'vue-router'
+import router from './router'
 import i18n from './i18n/index.js'
 import App from './App.vue'
-import store from './store/index'
+import store from './store'
 import Helpers from './helpers'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
+	faLock,
+	faLockOpen,
+	faDownload,
+	faUserFriends,
+	faCheck,
+	faLink,
+	faUserEdit,
+	faUser,
 	faFileAudio,
 	faFileVideo,
 	faSyncAlt,
@@ -18,6 +28,7 @@ import {
 	faEllipsisV,
 	faChevronLeft,
 	faChevronRight,
+	faChevronDown,
 	faUpload,
 	faFolderPlus,
 	faTh,
@@ -35,6 +46,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
+	faLock,
+	faLockOpen,
+	faDownload,
+	faUserFriends,
+	faCheck,
+	faLink,
+	faUserEdit,
+	faUser,
 	faFileAudio,
 	faFileVideo,
 	faHdd,
@@ -47,6 +66,7 @@ library.add(
 	faEllipsisV,
 	faChevronLeft,
 	faChevronRight,
+	faChevronDown,
 	faUpload,
 	faTrashAlt,
 	faFolderPlus,
@@ -63,6 +83,7 @@ library.add(
 )
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 
+Vue.use(VueRouter)
 Vue.use(Helpers)
 
 Vue.config.productionTip = false
@@ -70,6 +91,7 @@ Vue.config.productionTip = false
 var vueFileManager = new Vue({
 	i18n,
 	store,
+	router,
 	data: {
 		config,
 	},
