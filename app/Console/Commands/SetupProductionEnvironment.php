@@ -84,6 +84,8 @@ class SetupProductionEnvironment extends Command
             '--password' => true,
             '--name'     => 'vuefilemanager',
         ]);
+
+        $this->alert('Please copy these first password grant Client ID & Client secret above to your /.env file.');
     }
 
     /**

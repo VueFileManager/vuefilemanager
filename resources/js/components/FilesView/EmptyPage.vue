@@ -18,8 +18,7 @@
                 <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
                 <ButtonUpload
                         v-if="$checkPermission(['master', 'editor'])"
-                        @input.native="$uploadFiles(files)"
-                        v-model="files"
+                        @input.native="$uploadFiles"
                         button-style="theme"
                 >
                     {{ $t('empty_page.call_to_action') }}
@@ -49,12 +48,7 @@
         computed: {
             ...mapGetters(['data', 'isLoading', 'currentFolder']),
             isEmpty() {
-                return this.data.length == 0
-            }
-        },
-        data() {
-            return {
-                files: undefined
+                return this.data && this.data.length == 0
             }
         }
     }

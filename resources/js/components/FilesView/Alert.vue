@@ -136,7 +136,7 @@
 
         .message {
             @include font-size(16);
-            color: #8b8f9a;
+            color: #333;
             margin-top: 5px;
         }
     }

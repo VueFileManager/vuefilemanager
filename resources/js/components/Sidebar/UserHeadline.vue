@@ -47,7 +47,9 @@
                 // If is mobile, then go to user settings page, else, open menu
                 if ( this.isSmallAppSize ) {
 
+                    events.$emit('show:sidebar')
                     this.$router.push({name: 'Profile'})
+
                 } else {
 
                     this.isOpenedMenu = !this.isOpenedMenu

@@ -64,7 +64,7 @@
         "password_reset_button": "Resetovať heslo."
     },
     "page_login": {
-        "title": "Vitaj späť!",
+        "title": "Vitajte späť!",
         "subtitle": "Prosím, vložte svoj email pre prihlásenie:",
         "placeholder_email": "Napíšte svoj E-mail",
         "button_next": "Ďalší krok",
@@ -213,5 +213,13 @@
     "types": {
         "folder": "Priečinok",
         "file": "Súbor"
+    },
+    "popup_passport_error": {
+        "title": "Nesprávny Passport Grand Client",
+        "message": "Pravdebodobne ste nespravne vygenerovali Passport Grant client alebo ste nenastavili udaje správne. Prosím následujte inštalačné inštrukcie."
+    },
+    "popup_signup_error": {
+        "title": "Chyba serveru",
+        "message": "Prosím skontrolujte databázove spojenie, či všetko funguje správne."
     }
 }

@@ -181,7 +181,7 @@
                 this.item = undefined
             },
             showContextMenu(event, item) {
-                let VerticalOffsetArea = item ? this.$refs.list.children.length * 50 : 50
+                let VerticalOffsetArea = item && this.$refs.list.children ? this.$refs.list.children.length * 50 : 50
                 let HorizontalOffsetArea = 190
 
                 let container = document.getElementById('files-view')

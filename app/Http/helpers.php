@@ -12,6 +12,15 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
+ * Get app version from config
+ *
+ * @return \Illuminate\Config\Repository|mixed
+ */
+function get_version() {
+    return config('vuefilemanager.version');
+}
+
+/**
  * Check if is demo
  *
  * @return mixed
