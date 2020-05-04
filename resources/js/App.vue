@@ -1,6 +1,9 @@
 <template>
     <div id="vue-file-manager" :class="appSize">
 
+        <!--System alerts-->
+        <Alert />
+
         <div id="application-wrapper" v-if="layout === 'authorized'">
 
             <!--Share Item setup-->
@@ -10,14 +13,8 @@
             <!--Move item setup-->
             <MoveItem />
 
-            <!--System alerts-->
-            <Alert />
-
             <!--Mobile Menu-->
             <MobileMenu />
-
-            <!--Background vignette-->
-            <Vignette />
 
             <!--Navigation Sidebar-->
             <Sidebar/>
@@ -27,6 +24,9 @@
         </div>
 
         <router-view v-if="layout === 'unauthorized'"/>
+
+        <!--Background vignette-->
+        <Vignette />
     </div>
 </template>
 

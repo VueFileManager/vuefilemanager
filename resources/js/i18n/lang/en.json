@@ -213,5 +213,13 @@
     "types": {
         "folder": "Folder",
         "file": "File"
+    },
+    "popup_passport_error": {
+        "title": "Invalid Passport Grand Client",
+        "message": "Probably you didn't generated Passport Grant client or you didn't set up passport credentials in your .env file. Please follow install instructions."
+    },
+    "popup_signup_error": {
+        "title": "Server Error",
+        "message": "Please check your database connection if everything works correctly."
     }
 }

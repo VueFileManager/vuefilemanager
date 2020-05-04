@@ -66,7 +66,7 @@ const Helpers = {
 				return
 			}
 
-			let fileCount = files.length
+			let fileCount = files ? files.length : 0
 			let fileCountSucceed = 1
 
 			store.commit('UPDATE_FILE_COUNT_PROGRESS', {

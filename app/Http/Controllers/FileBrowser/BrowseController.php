@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FileBrowser;
 
+use App\Http\Requests\FileBrowser\SearchRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -154,16 +155,8 @@ class BrowseController extends Controller
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'query' => 'required|string',
-        ]);
-
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
-
         // Get user
         $user_id = Auth::id();
 

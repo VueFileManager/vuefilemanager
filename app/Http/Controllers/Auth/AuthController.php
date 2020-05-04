@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\ClientProfile;
-use App\Models\User\UserAttribute;
-use App\Models\User\UserNotificationSetting;
-use App\ProviderProfile;
+use App\Http\Requests\Auth\CheckAccountRequest;
 use App\User;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -26,12 +19,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function check_account(Request $request) {
-
-        // Validate request
-        $request->validate([
-            'email'    => ['required', 'string', 'email'],
-        ]);
+    public function check_account(CheckAccountRequest $request) {
 
         // Get User
         $user = User::where('email', $request->input('email'))->select(['name', 'avatar'])->first();
@@ -111,6 +99,12 @@ class AuthController extends Controller
      */
     public function logout()
     {
+        // Demo preview
+        if (is_demo( Auth::id())) {
+            return response('Logout successfull', 204)
+                ->cookie('access_token', '', -1);
+        }
+
         // Get user tokens and remove it
         auth()->user()->tokens()->each(function ($token) {
 
@@ -118,7 +112,8 @@ class AuthController extends Controller
             $token->delete();
         });
 
-        return response('Logout successfull', 200)->cookie('access_token', '', -1);
+        return response('Logout successfull', 204)
+            ->cookie('access_token', '', -1);
     }
 
     /**
@@ -128,7 +123,7 @@ class AuthController extends Controller
      * @param string $provider
      * @return Request
      */
-    private static function make_request(Request $request)
+    private static function make_request($request)
     {
         $request->request->add([
             'grant_type'    => 'password',

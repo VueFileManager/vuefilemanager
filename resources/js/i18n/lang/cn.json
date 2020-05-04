@@ -1,0 +1,225 @@
+{
+    "routes": {
+        "create_new_password": "创建新密码"
+    },
+    "profile": {
+        "page_title": "用户信息",
+        "store_pass": "保存您的密码",
+        "change_pass": "修改您的密码",
+        "profile_info": "用户信息",
+        "photo_description": "修改您的头像",
+        "photo_supported": "支持的格式 .png, .jpg, .jpeg."
+    },
+    "page_registration": {
+        "title": "创建一个新用户",
+        "subtitle": "填写所有内容进行创建",
+        "label_email": "邮箱：",
+        "placeholder_email": "键入您的邮箱地址",
+        "label_name": "全名：",
+        "placeholder_name": "键入您的全名",
+        "label_pass": "创建密码：",
+        "placeholder_pass": "键入新密码",
+        "label_confirm_pass": "确认密码：",
+        "placeholder_confirm_pass": "请重复输入一遍密码",
+        "button_create_account": "创建账户",
+        "have_an_account": "您之前有过账户了么？"
+    },
+    "page_shared": {
+        "subtitle": "请输入密码后得到分享链接",
+        "title": "您的分享链接已被保护",
+        "placeholder_pass": "输入密码",
+        "download_file": "下载文件",
+        "submit": "提交"
+    },
+    "page_shared_404": {
+        "subtitle": "您要找的内容可能已经被删除了。",
+        "title": "没有找到文件"
+    },
+    "page_create_password": {
+        "title": "只需一步进行登录",
+        "subtitle": "在此创建您的新密码",
+        "button_update": "更新密码",
+        "label_email": "邮箱：",
+        "label_new_pass": "键入新密码",
+        "label_confirm_pass": "确认密码"
+    },
+    "page_forgotten_password": {
+        "title": "忘记密码？",
+        "subtitle": "通过邮箱获得重置链接：",
+        "button_get_link": "获得链接",
+        "password_remember_text": "还记得住您的密码么？",
+        "password_remember_button": "登录。",
+        "pass_sennded_title": "感谢！",
+        "pass_sennded_subtitle": "我们为您发送了一封确认邮件！",
+        "pass_reseted_title": "太棒了！",
+        "pass_reseted_subtitle": "您的密码被成功重置。",
+        "pass_reseted_signin": "登录"
+    },
+    "page_sign_in": {
+        "title": "您是 {name}?",
+        "subtitle": "请用您的密码登录",
+        "placeholder_password": "键入密码",
+        "button_log_in": "登录",
+        "password_reset_text": "忘记密码？",
+        "password_reset_button": "重置密码。"
+    },
+    "page_login": {
+        "title": "欢迎回来！",
+        "subtitle": "请输入您的邮箱来登录。",
+        "placeholder_email": "键入您的邮箱",
+        "button_next": "下一步",
+        "registration_text": "没有帐号？",
+        "registration_button": "注册帐号"
+    },
+    "uploading": {
+        "progress": "上传文件 {current}/{total}"
+    },
+    "inputs": {
+        "placeholder_search_files": "搜索文件"
+    },
+    "messages": {
+        "nothing_to_preview": "没有任何信息可以预览。",
+        "nothing_was_found": "没找到任何信息"
+    },
+    "locations": {
+        "shared": "已分享",
+        "trash": "垃圾箱",
+        "home": "首页"
+    },
+    "file_detail": {
+        "author_participant": "公共参与者",
+        "created_at": "创建于",
+        "shared": "分享",
+        "author": "作者",
+        "where": "地址",
+        "size": "大小"
+    },
+    "empty_page": {
+        "description": "拖动文件至此处，或使用上传按钮",
+        "call_to_action": "文件上传",
+        "title": "这里什么都还没有"
+    },
+    "alerts": {
+        "error_confirm": "哦，出了个问题！",
+        "success_confirm": "太棒了！"
+    },
+    "validation_errors": {
+        "wrong_image": "您可能上传了一个错误的文件！",
+        "incorrect_password": "不好意思，您输入的密码可能有误！"
+    },
+    "pronouns": {
+        "of": "of"
+    },
+    "storage": {
+        "used": "{used} 在 {capacity} 已使用",
+        "title": "存储空间"
+    },
+    "folder": {
+        "item_counts": "{count} 个文件 | {count} 个文件",
+        "empty": "空的"
+    },
+    "item_thumbnail": {
+        "original_location": "原始位置",
+        "deleted_at": "删除时间： {time}"
+    },
+    "preview_type": {
+        "list": "列表",
+        "grid": "方块"
+    },
+    "context_menu": {
+        "remove_from_favourites": "移出收藏",
+        "add_to_favourites": "添加进收藏",
+        "profile_settings": "个人信息编辑",
+        "create_folder": "创建文件夹",
+        "empty_trash": "清空垃圾箱",
+        "share_edit": "编辑分享设定",
+        "add_folder": "添加文件夹",
+        "download": "下载",
+        "log_out": "注销",
+        "restore": "恢复文件",
+        "upload": "上传",
+        "detail": "详情",
+        "rename": "重命名",
+        "delete": "删除",
+        "share": "分享",
+        "move": "移动"
+    },
+    "sidebar": {
+        "shared": "已分享",
+        "locations": "位置",
+        "favourites": "收藏",
+        "favourites_empty": "将您想要收藏的文件夹拖动至此",
+        "latest": "最新上传",
+        "latest_empty": "您并没有最新上传的记录"
+    },
+    "popup_rename": {
+        "title": "修改文件/夹名称"
+    },
+    "popup_create_folder": {
+        "title": "请填入新文件夹名称",
+        "folder_default_name": "新文件夹"
+    },
+    "popup_move_item": {
+        "submit": "移动文件/夹",
+        "title": "移动文件/夹",
+        "cancel": "取消"
+    },
+    "popup_pass_changed": {
+        "title": "您的密码已经改变！",
+        "message": "现在，您拥有一个新的密码。"
+    },
+    "popup_trashed": {
+        "title": "您的垃圾箱已清空！",
+        "message": "现在，您的垃圾箱已经被完全清空。"
+    },
+    "popup_error": {
+        "title": "wow，好像有什么东西坏掉了！",
+        "message": "有什么东西坏掉了，请联系我们，引导我们修复。"
+    },
+    "popup_exceed_limit": {
+        "title": "wow，您已经超过了存储上线。",
+        "message": "请联系我们来增加您的存储空间。"
+    },
+    "popup_share_create": {
+        "title": "分享您的 {item}"
+    },
+    "popup_share_edit": {
+        "title": "更新分享设定",
+        "change_pass": "更改密码",
+        "save": "保存更改",
+        "stop": "停止风险",
+        "confirm": "确认"
+    },
+    "shared": {
+        "empty_shared": "您还没有分享任何内容",
+        "editor": "可以编辑和上传文件",
+        "visitor": "仅可以查看或下载文件",
+        "can_download": "仅可以下载"
+    },
+    "shared_form": {
+        "placeholder_permission": "请设置权限",
+        "label_password_protection": "密码保护",
+        "button_done": "太好了！",
+        "button_generate": "生成分享链接",
+        "label_permission": "权限",
+        "label_shared_url": "分享链接"
+    },
+    "actions": {
+        "create_folder": "穿件文件夹",
+        "preview": "更改预览",
+        "upload": "上传文件",
+        "delete": "删除内容"
+    },
+    "types": {
+        "folder": "文件夹",
+        "file": "文件"
+    },
+    "popup_passport_error": {
+        "title": "Invalid Passport Grand Client",
+        "message": "Probably you didn't generated Passport Grant client or you didn't set up passport credentials in your .env file. Please follow install instructions."
+    },
+    "popup_signup_error": {
+        "title": "Server Error",
+        "message": "Please check your database connection if everything works correctly."
+    }
+}
