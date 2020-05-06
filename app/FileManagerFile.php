@@ -4,6 +4,7 @@ namespace App;
 
 use ByteUnits\Metric;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
@@ -52,7 +53,6 @@ use \Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withoutTrashed()
  * @mixin \Eloquent
  */
-
 class FileManagerFile extends Model
 {
     use Searchable, SoftDeletes;
@@ -72,7 +72,8 @@ class FileManagerFile extends Model
      *
      * @param $token
      */
-    public function setPublicUrl($token) {
+    public function setPublicUrl($token)
+    {
         $this->public_access = $token;
     }
 
@@ -93,7 +94,7 @@ class FileManagerFile extends Model
      */
     public function getDeletedAtAttribute()
     {
-        if (! $this->attributes['deleted_at']) return null;
+        if (!$this->attributes['deleted_at']) return null;
 
         return format_date($this->attributes['deleted_at'], __('vuefilemanager.time'));
     }
@@ -115,7 +116,14 @@ class FileManagerFile extends Model
      */
     public function getThumbnailAttribute()
     {
-        if ($this->attributes['thumbnail']) {
+        // Get thumbnail from s3
+        if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces'])) {
+
+            return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addDay());
+        }
+
+        // Get thumbnail from local storage
+        if ($this->attributes['thumbnail'] && is_storage_driver('local')) {
 
             // Thumbnail route
             $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
@@ -137,13 +145,31 @@ class FileManagerFile extends Model
      */
     public function getFileUrlAttribute()
     {
-        $route = route('file', ['name' => $this->attributes['basename']]);
+        // Get file from s3
+        if (is_storage_driver(['s3', 'spaces'])) {
 
-        if ($this->public_access) {
-            return $route . '/public/' . $this->public_access;
+            $header = [
+                "ResponseAcceptRanges"       => "bytes",
+                "ResponseContentType"        => $this->attributes['mimetype'],
+                "ResponseContentLength"      => $this->attributes['filesize'],
+                "ResponseContentRange"       => "bytes 0-600/" . $this->attributes['filesize'],
+                'ResponseContentDisposition' => 'attachment; filename=' . $this->attributes['name'] . '.' . $this->attributes['mimetype'],
+            ];
+
+            return Storage::temporaryUrl('file-manager/' . $this->attributes['basename'], now()->addDay(), $header);
         }
 
-        return $route;
+        // Get thumbnail from local storage
+        if (is_storage_driver('local')) {
+
+            $route = route('file', ['name' => $this->attributes['basename']]);
+
+            if ($this->public_access) {
+                return $route . '/public/' . $this->public_access;
+            }
+
+            return $route;
+        }
     }
 
     /**

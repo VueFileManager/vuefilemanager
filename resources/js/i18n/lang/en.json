@@ -221,5 +221,9 @@
     "popup_signup_error": {
         "title": "Server Error",
         "message": "Please check your database connection if everything works correctly."
+    },
+    "popup_paylod_error": {
+        "title": "File is too large",
+        "message": "Sorry, your file is too large and can't be uploaded"
     }
 }

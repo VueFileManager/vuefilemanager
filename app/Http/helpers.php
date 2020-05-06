@@ -16,6 +16,29 @@ use Intervention\Image\ImageManagerStatic as Image;
  *
  * @return \Illuminate\Config\Repository|mixed
  */
+function get_storage() {
+    return env('FILESYSTEM_DRIVER');
+}
+
+/**
+ * Check if is running AWS s3 as storage
+ *
+ * @return bool
+ */
+function is_storage_driver($driver) {
+
+    if (is_array($driver)) {
+        return in_array(env('FILESYSTEM_DRIVER'), $driver);
+    }
+
+    return env('FILESYSTEM_DRIVER') === $driver;
+}
+
+/**
+ * Get app version from config
+ *
+ * @return \Illuminate\Config\Repository|mixed
+ */
 function get_version() {
     return config('vuefilemanager.version');
 }
@@ -111,16 +134,19 @@ function store_avatar($image, $path)
     $path = check_directory($path);
 
     // Store avatar
-    $image_path = $path . '/' . Str::random(8) . '-' . $image->getClientOriginalName();
+    $image_path = Str::random(8) . '-' . $image->getClientOriginalName();
 
     // Create intervention image
     $img = Image::make($image->getRealPath());
 
     // Generate thumbnail
-    $img->fit('150', '150')->save(storage_path() . "/app/" . $image_path, 90);
+    $img->fit('150', '150')->stream();
+
+    // Store thumbnail to disk
+    Storage::put($path . '/' . $image_path, $img);
 
     // Return path to image
-    return $image_path;
+    return $path . '/' . $image_path;
 }
 
 /**

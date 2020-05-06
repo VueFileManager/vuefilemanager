@@ -114,6 +114,14 @@ const Helpers = {
 							message: this.$t('popup_exceed_limit.message')
 						})
 
+					} else if (error.response.status === 413) {
+
+						events.$emit('alert:open', {
+							emoji: '😟',
+							title: this.$t('popup_paylod_error.title'),
+							message: this.$t('popup_paylod_error.message')
+						})
+
 					} else {
 
 						// Show error message
@@ -187,6 +195,14 @@ const Helpers = {
 							emoji: '😬😬😬',
 							title: this.$t('popup_exceed_limit.title'),
 							message: this.$t('popup_exceed_limit.message')
+						})
+
+					} else if (error.response.status === 413) {
+
+						events.$emit('alert:open', {
+							emoji: '😟',
+							title: this.$t('popup_paylod_error.title'),
+							message: this.$t('popup_paylod_error.message')
 						})
 
 					} else {
