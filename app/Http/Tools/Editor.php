@@ -121,10 +121,10 @@ class Editor
                 foreach ($files as $file) {
 
                     // Delete file
-                    Storage::disk('local')->delete('/file-manager/' . $file->basename);
+                    Storage::delete('/file-manager/' . $file->basename);
 
                     // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
 
                     // Delete file permanently
                     $file->forceDelete();
@@ -169,10 +169,10 @@ class Editor
             if ($request->force_delete) {
 
                 // Delete file
-                Storage::disk('local')->delete('/file-manager/' . $file->basename);
+                Storage::delete('/file-manager/' . $file->basename);
 
                 // Delete thumbnail if exist
-                if ($file->thumbnail) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
 
                 // Delete file permanently
                 $file->forceDelete();
@@ -213,12 +213,12 @@ class Editor
         $thumbnail = null;
 
         // create directory if not exist
-        if (!Storage::disk('local')->exists($directory)) {
-            Storage::disk('local')->makeDirectory($directory);
+        if (!Storage::exists($directory)) {
+            Storage::makeDirectory($directory);
         }
 
         // Store to disk
-        Storage::disk('local')->putFileAs($directory, $file, $filename, 'public');
+        Storage::putFileAs($directory, $file, $filename, 'private');
 
         // Create image thumbnail
         if ($filetype == 'image') {
@@ -235,7 +235,7 @@ class Editor
             })->stream();
 
             // Store thumbnail to disk
-            Storage::disk('local')->put($directory . '/' . $thumbnail, $image);
+            Storage::put($directory . '/' . $thumbnail, $image);
         }
 
         // Store file

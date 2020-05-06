@@ -221,5 +221,9 @@
     "popup_signup_error": {
         "title": "Chyba serveru",
         "message": "Prosím skontrolujte databázove spojenie, či všetko funguje správne."
+    },
+    "popup_paylod_error": {
+        "title": "Súbor je príliš veľký",
+        "message": "Prepáčte, súbor je príliš veľký a nemôže byť nahraný."
     }
 }

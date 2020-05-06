@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\FileManagerFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Response;
 
@@ -26,19 +27,13 @@ class FileAccessController extends Controller
     public function get_avatar($basename)
     {
         // Get file path
-        $path = storage_path() . '/app/avatars/' . $basename;
+        $path = '/avatars/' . $basename;
 
         // Check if file exist
-        if (!File::exists($path)) abort(404);
+        if (!Storage::exists($path)) abort(404);
 
-        $file = File::get($path);
-        $type = File::mimeType($path);
-
-        // Create response
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-
-        return $response;
+        // Return avatar
+        return Storage::download($path, $basename);
     }
 
     /**
@@ -61,7 +56,7 @@ class FileAccessController extends Controller
             ->firstOrFail();
 
         // Check user permission
-        if ( ! $request->user()->tokenCan('master') ) {
+        if (!$request->user()->tokenCan('master')) {
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -119,7 +114,7 @@ class FileAccessController extends Controller
             ->firstOrFail();
 
         // Check user permission
-        if ( ! $request->user()->tokenCan('master') ) {
+        if (!$request->user()->tokenCan('master')) {
             $this->check_file_access($request, $file);
         }
 
@@ -187,24 +182,20 @@ class FileAccessController extends Controller
         $file_pretty_name = $file->name . '.' . $file->mimetype;
 
         // Get file path
-        $path = storage_path() . '/app/file-manager/' . $file->basename;
+        $path = '/file-manager/' . $file->basename;
 
         // Check if file exist
-        if (!File::exists($path)) abort(404);
+        if (!Storage::exists($path)) abort(404);
 
-        $file = File::get($path);
-        $type = File::mimeType($path);
-        $size = File::size($path);
+        $header = [
+            "Content-Type"   => Storage::mimeType($path),
+            "Content-Length" => Storage::size($path),
+            "Accept-Ranges"  => "bytes",
+            "Content-Range"  => "bytes 0-600/" . Storage::size($path),
+        ];
 
-        // Create response
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        $response->header("Content-Disposition", 'attachment; filename=' . $file_pretty_name);
-        $response->header("Content-Length", $size);
-        $response->header("Accept-Ranges", "bytes");
-        $response->header("Content-Range", "bytes 0-" . $size . "/" . $size);
-
-        return $response;
+        // Get file
+        return Storage::download($path, $file_pretty_name, $header);
     }
 
     /**
@@ -215,18 +206,12 @@ class FileAccessController extends Controller
     private function thumbnail_file($file)
     {
         // Get file path
-        $path = storage_path() . '/app/file-manager/' . $file->getOriginal('thumbnail');
+        $path = '/file-manager/' . $file->getOriginal('thumbnail');
 
         // Check if file exist
-        if (!File::exists($path)) abort(404);
+        if (!Storage::exists($path)) abort(404);
 
-        $file = File::get($path);
-        $type = File::mimeType($path);
-
-        // Create response
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-
-        return $response;
+        // Return image thumbnail
+        return Storage::download($path, $file->getOriginal('thumbnail'));
     }
 }

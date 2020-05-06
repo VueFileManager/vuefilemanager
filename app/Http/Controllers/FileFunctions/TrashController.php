@@ -39,10 +39,10 @@ class TrashController extends Controller
         foreach ($files as $file) {
 
             // Delete file
-            Storage::disk('local')->delete('/file-manager/' . $file->basename);
+            Storage::delete('/file-manager/' . $file->basename);
 
             // Delete thumbnail if exist
-            if ($file->thumbnail) Storage::disk('local')->delete('/file-manager/' . $file->getOriginal('thumbnail'));
+            if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
 
             // Delete file permanently
             $file->forceDelete();
