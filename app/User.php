@@ -145,7 +145,7 @@ class User extends Authenticatable
      */
     public function latest_uploads() {
 
-        return $this->hasMany(FileManagerFile::class)->orderBy('created_at', 'DESC')->take(7);
+        return $this->hasMany(FileManagerFile::class)->orderBy('created_at', 'DESC')->take(40);
     }
 
     /**

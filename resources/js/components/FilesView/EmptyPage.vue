@@ -18,7 +18,6 @@
                 <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
                 <ButtonUpload
                         v-if="$checkPermission(['master', 'editor'])"
-                        @input.native="$uploadFiles"
                         button-style="theme"
                 >
                     {{ $t('empty_page.call_to_action') }}
@@ -55,7 +54,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .empty-page {
         position: absolute;

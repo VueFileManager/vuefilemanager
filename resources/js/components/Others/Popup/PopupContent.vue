@@ -14,7 +14,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .popup-content {
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\FileManagerFolder;
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
@@ -26,11 +27,17 @@ class AccountController extends Controller
             ->where('id', Auth::id())
             ->first();
 
+        // Get folder tree
+        $tree = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+            ->where('parent_id', 0)
+            ->where('user_id', $user->id)
+            ->get(['id', 'parent_id', 'unique_id', 'name']);
+
         return [
             'user'           => $user->only(['name', 'email', 'avatar']),
             'favourites'     => $user->favourites->makeHidden(['pivot']),
-            'latest_uploads' => $user->latest_uploads->makeHidden(['user_id', 'basename']),
-            'storage' => [
+            'tree'           => $tree,
+            'storage'        => [
                 'used'       => Metric::bytes($user->used_capacity)->format(),
                 'capacity'   => format_gigabytes(config('vuefilemanager.user_storage_capacity')),
                 'percentage' => get_storage_fill_percentage($user->used_capacity, config('vuefilemanager.user_storage_capacity')),
@@ -48,9 +55,9 @@ class AccountController extends Controller
     {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'avatar'  => 'file',
-            'name'    => 'string',
-            'value'   => 'string',
+            'avatar' => 'file',
+            'name'   => 'string',
+            'value'  => 'string',
         ]);
 
         // Return error

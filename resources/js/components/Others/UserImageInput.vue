@@ -60,7 +60,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .dropzone {
         position: relative;
@@ -79,12 +80,10 @@
         }
 
         .image-preview {
-            width: 75px;
-            height: 75px;
+            width: 56px;
+            height: 56px;
             object-fit: cover;
             border-radius: 8px;
-            border: 1px dashed $theme;
-            padding: 2px;
         }
     }
 </style>

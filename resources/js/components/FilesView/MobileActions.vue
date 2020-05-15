@@ -1,22 +1,22 @@
 <template>
-    <div id="mobile-actions-wrapper" v-if="$isMinimalScale()">
+    <div id="mobile-actions-wrapper">
 
         <!--Actions for trash location with MASTER permission--->
         <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="mobile-actions">
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash-alt">
+            <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
             </MobileActionButton>
         </div>
 
         <!--ContextMenu for Base location with MASTER permission-->
-        <div v-if="$isThisLocation(['base', 'shared', 'public']) && $checkPermission(['master', 'editor'])" class="mobile-actions">
+        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission(['master', 'editor'])" class="mobile-actions">
             <MobileActionButton @click.native="createFolder" icon="folder-plus">
                 {{ $t('context_menu.add_folder') }}
             </MobileActionButton>
-            <MobileActionButtonUpload @input.native="$uploadFiles" icon="upload">
+            <MobileActionButtonUpload>
                 {{ $t('context_menu.upload') }}
             </MobileActionButtonUpload>
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
@@ -25,7 +25,7 @@
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
-        <div v-if="$isThisLocation(['base', 'shared', 'public']) && $checkPermission('visitor')" class="mobile-actions">
+        <div v-if="($isThisLocation(['base', 'shared', 'public']) && $checkPermission('visitor')) || ($isThisLocation(['latest', 'shared']) && $checkPermission('master'))" class="mobile-actions">
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
@@ -81,10 +81,11 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
-
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     #mobile-actions-wrapper {
+        display: none;
         background: white;
         position: sticky;
         top: 35px;
@@ -96,6 +97,13 @@
         padding-bottom: 10px;
         white-space: nowrap;
         overflow-x: auto;
+    }
+
+    @media only screen and (max-width: 960px) {
+
+        #mobile-actions-wrapper {
+            display: block;
+        }
     }
 
     @media (prefers-color-scheme: dark) {

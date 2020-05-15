@@ -61,7 +61,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .file-item {
         display: flex;
@@ -104,7 +105,7 @@
 
         .icon-item {
             position: relative;
-            min-width: 40px;
+            min-width: 52px;
             text-align: center;
             line-height: 0;
 
@@ -150,8 +151,8 @@
                 user-select: none;
                 max-width: 100%;
                 border-radius: 5px;
-                width: 36px;
-                height: 36px;
+                width: 52px;
+                height: 52px;
             }
         }
     }
@@ -159,7 +160,7 @@
     .small {
         .file-item {
             padding: 0 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
     }
 

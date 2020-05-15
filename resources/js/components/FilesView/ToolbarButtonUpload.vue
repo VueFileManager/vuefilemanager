@@ -1,6 +1,6 @@
 <template>
     <label label="file" class="button file-input">
-        <FontAwesomeIcon class="icon" :icon="source"></FontAwesomeIcon>
+        <upload-cloud-icon size="17"></upload-cloud-icon>
         <input
                 @change="emmitFiles"
                 v-show="false"
@@ -8,15 +8,19 @@
                 type="file"
                 name="files[]"
                 multiple
-                :disabled="$isThisLocation(['trash', 'trash-root'])"
         />
     </label>
 </template>
 
 <script>
+    import { UploadCloudIcon } from 'vue-feather-icons'
+
     export default {
         name: 'ToolbarButtonUpload',
-        props: ['source', 'action'],
+        props: ['action'],
+        components: {
+            UploadCloudIcon,
+        },
         methods: {
             emmitFiles(e) {
                 this.$uploadFiles(e.target.files)
@@ -26,7 +30,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .button {
         height: 42px;
@@ -36,7 +41,6 @@
         align-items: center;
         justify-content: center;
         padding: 0;
-        background: $light_background;
         text-align: center;
         cursor: pointer;
         white-space: nowrap;
@@ -44,26 +48,27 @@
         border: none;
 
         &:hover {
-            background: rgba($theme, .1);
+            background: $light_background;
 
-            /deep/ svg path {
-                @include transition;
-                fill: $theme;
+            path, line, polyline, rect, circle {
+                @include transition(150ms);
+                stroke: $theme;
             }
-        }
-
-        .icon {
-            @include font-size(16);
         }
     }
 
     @media (prefers-color-scheme: dark) {
-        .button {
-            background: $dark_mode_foreground;
-        }
 
-        .icon path {
-            fill: $dark_mode_text_primary;
+        .button {
+            background: transparent;
+
+            &:hover {
+                background: $dark_mode_foreground;
+            }
+
+            path, line, polyline, rect, circle {
+                stroke: $dark_mode_text_primary;
+            }
         }
     }
 </style>

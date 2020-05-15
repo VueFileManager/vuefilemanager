@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="share-create">
         <!--Title-->
-        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" />
+        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" icon="share" />
 
         <!--Content-->
         <PopupContent>
@@ -181,8 +181,6 @@
 
                 // Restore data
                 setTimeout(() => {
-                    this.isGeneratedShared = false
-                    this.shareLink = undefined
                     this.shareOptions = {
                         permission: undefined,
                         password: undefined,
@@ -190,6 +188,8 @@
                         type: undefined,
                         unique_id: undefined,
                     }
+                    this.isGeneratedShared = false
+                    this.shareLink = undefined
                 }, 150)
             })
         }
@@ -197,8 +197,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
     @import "@assets/vue-file-manager/_inapp-forms.scss";
+    @import '@assets/vue-file-manager/_forms';
 
     .input-wrapper {
 

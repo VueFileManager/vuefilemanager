@@ -1,6 +1,6 @@
 <template>
     <transition name="popup">
-        <div class="popup" @click.self="closePopup" v-show="isVisibleWrapper">
+        <div class="popup" @click.self="closePopup" v-if="isVisibleWrapper">
             <div class="popup-wrapper">
                 <slot></slot>
             </div>
@@ -46,7 +46,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .popup {
         position: absolute;
@@ -126,6 +127,15 @@
         }
         100% {
             transform: translateY(0);
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+
+        .popup-wrapper {
+            left: 15px;
+            right: 15px;
+            padding: 25px 15px;
         }
     }
 

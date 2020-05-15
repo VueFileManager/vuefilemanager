@@ -8,8 +8,14 @@ import NotFoundShared from './views/Shared/NotFoundShared'
 import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 
-import Files from './views/Files'
-import Profile from './views/Profile'
+import Settings from './views/Settings'
+import Profile from './views/User/Profile'
+import Trash from './views/FilePages/Trash'
+import Files from './views/FilePages/Files'
+import Password from './views/User/Password'
+import SharedFiles from './views/FilePages/SharedFiles'
+
+import MobileSettings from './views/Mobile/MobileSettings'
 
 Vue.use(Router)
 
@@ -73,13 +79,58 @@ const router = new Router({
             },
         },
         {
-            name: 'Profile',
-            path: '/profile',
-            component: Profile,
+            name: 'SharedFiles',
+            path: '/shared-files',
+            component: SharedFiles,
             meta: {
                 requiresAuth: true
             },
         },
+        {
+            name: 'Trash',
+            path: '/trash',
+            component: Trash,
+            meta: {
+                requiresAuth: true
+            },
+        },
+        {
+            name: 'Settings',
+            path: '/settings',
+            component: Settings,
+            meta: {
+                requiresAuth: true
+            },
+            children: [
+                {
+                    name: 'Profile',
+                    path: 'profile',
+                    component: Profile,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'User Profile'
+                    },
+                },
+                {
+                    name: 'Password',
+                    path: '/settings/password',
+                    component: Password,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Change Password'
+                    },
+                },
+            ]
+        },
+        {
+            name: 'MobileSettings',
+            path: '/settings-mobile',
+            component: MobileSettings,
+            meta: {
+                requiresAuth: true,
+                title: 'Settings'
+            },
+        }
     ],
     scrollBehavior(to, from, savedPosition) {
 

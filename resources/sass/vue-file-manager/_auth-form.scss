@@ -1,0 +1,213 @@
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
+
+.form {
+
+  &.inline-form {
+    display: flex;
+    position: relative;
+    justify-content: center;
+
+    .input-wrapper {
+      position: relative;
+
+      .error-message {
+        position: absolute;
+        left: 0;
+        bottom: -25px;
+      }
+    }
+  }
+
+  &.block-form {
+
+    &.create-new-password {
+      .block-wrapper label {
+        width: 280px;
+      }
+    }
+
+    .block-wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      justify-content: center;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      label {
+        white-space: nowrap;
+        @include font-size(18);
+        font-weight: 700;
+        padding-right: 20px;
+        width: 200px;
+        text-align: right !important;
+        color: $text;
+      }
+    }
+
+    .button {
+      margin-top: 50px;
+    }
+  }
+}
+
+.input-wrapper {
+
+  .error-message {
+    @include font-size(14);
+    color: $danger;
+    padding-top: 5px;
+    display: block;
+    text-align: left;
+  }
+}
+
+textarea {
+  width: 100%;
+}
+
+textarea,
+input[type="password"],
+input[type="text"],
+input[type="email"] {
+  background: $light_background;
+  border: 1px solid transparent;
+  transition: 0.15s all ease;
+  @include font-size(16);
+  border-radius: 8px;
+  padding: 13px 20px;
+  appearance: none;
+  font-weight: 700;
+  outline: 0;
+  width: 100%;
+
+  &.is-error {
+    border-color: $danger;
+    box-shadow: 0 0 7px rgba($danger, 0.3);
+  }
+
+  &::placeholder {
+    color: $light_text;
+    @include font-size(16);
+  }
+
+  &:focus {
+    border-color: $theme;
+    box-shadow: 0 0 7px rgba($theme, 0.3);
+  }
+
+  &[disabled] {
+    color: $light_text;
+    cursor: not-allowed;
+  }
+}
+
+.additional-link {
+  @include font-size(16);
+  margin-top: 50px;
+  display: block;
+  color: $text;
+
+  b, a {
+    color: $theme;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .form {
+
+    .button {
+      margin-top: 20px;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    input, textarea {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    &.block-form {
+
+      .block-wrapper {
+        display: block;
+
+        label {
+          width: 100%;
+          padding-right: 0;
+          display: block;
+          margin-bottom: 7px;
+          text-align: left !important;
+          @include font-size(14);
+          padding-top: 0;
+        }
+      }
+
+      .button {
+        margin-top: 25px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+
+    &.inline-form {
+      display: block;
+
+      .input-wrapper .error-message {
+        position: relative;
+        bottom: 0;
+      }
+    }
+
+    .button {
+      padding: 14px 32px;
+    }
+  }
+
+
+  textarea,
+  input[type="password"],
+  input[type="text"],
+  input[type="email"] {
+    padding: 14px 20px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .form {
+
+    &.block-form {
+
+      .block-wrapper label {
+        color: $dark_mode_text_primary;
+      }
+    }
+  }
+
+  textarea,
+  input[type="password"],
+  input[type="text"],
+  input[type="email"] {
+    background: $dark_mode_foreground;
+    color: $dark_mode_text_primary;
+
+
+    &::placeholder {
+      color: $dark_mode_text_secondary;
+    }
+
+    &[disabled] {
+      color: rgba($dark_mode_text_secondary, 15%);
+    }
+  }
+}

@@ -2,6 +2,7 @@ import store from './store/index'
 import {debounce, includes} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
+import router from '@/router'
 
 const Helpers = {
 	install(Vue) {
@@ -87,6 +88,10 @@ const Helpers = {
 
 				// Append form data
 				formData.append('parent_id', rootFolder)
+
+				console.log(i);
+				console.log(files[i]);
+				console.log(formData);
 
 				// Upload data
 				await store.dispatch('uploadFiles', formData)
@@ -231,6 +236,11 @@ const Helpers = {
 
 		Vue.prototype.$closePopup = function() {
 			events.$emit('popup:close')
+		}
+
+		Vue.prototype.$isThisRoute = function(route, locations) {
+
+			return includes(locations, route.name)
 		}
 
 		Vue.prototype.$isThisLocation = function(location) {

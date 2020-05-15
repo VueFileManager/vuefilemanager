@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
 use App\Http\Tools\Guardian;
+use http\Env\Response;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class FileSharingController extends Controller
         $shared = Share::where(\DB::raw('BINARY `token`'), $token)
             ->first();
 
-        if (!$shared) {
+        if (! $shared) {
             return view("index");
         }
 

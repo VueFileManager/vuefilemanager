@@ -1,10 +1,13 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;900&display=swap');
 
-// Variables
-@import 'vue-file-manager/_variables';
-@import 'vue-file-manager/_mixins';
-//@import 'vue-file-manager/_forms';
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
+
+#viewport {
+  display: flex;
+  width: 100%;
+  @include transition(200ms);
+}
 
 #application-wrapper {
   display: flex;
@@ -13,5 +16,197 @@
   #content {
     position: relative;
     width: 100%;
+  }
+}
+
+.menu-list-wrapper {
+  margin-bottom: 20px;
+
+  .menu-list-item {
+    display: block;
+    padding: 12px 15px 12px 25px;
+    text-decoration: none;
+    @include transition(150ms);
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+
+    &.link {
+      display: flex;
+      align-items: center;
+
+      &.is-active,
+      &.router-link-exact-active,
+      &:hover {
+
+        svg {
+          path, line, polyline, rect, circle {
+            stroke: $theme;
+          }
+        }
+
+        .label {
+          color: $theme;
+        }
+      }
+
+      .icon {
+        margin-right: 12px;
+        line-height: 0;
+
+        path, line, polyline, rect, circle {
+          stroke: $text;
+        }
+      }
+
+      .text-label {
+        @include font-size(16);
+      }
+    }
+
+    &:hover,
+    &.is-active {
+
+      .delete-icon {
+        display: block;
+      }
+    }
+
+    .folder-icon {
+      line-height: 0;
+      width: 15px;
+      margin-right: 9px;
+      vertical-align: middle;
+      margin-top: -1px;
+    }
+
+    .delete-icon {
+      display: none;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      @include transform(translateY(-50%));
+    }
+
+    .label {
+      @include font-size(13);
+      font-weight: 700;
+      vertical-align: middle;
+      white-space: nowrap;
+      max-width: 210px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      color: $text;
+    }
+  }
+
+  &.favourites {
+
+    &.is-dragenter .menu-list {
+      border: 2px dashed $theme;
+      border-radius: 8px;
+    }
+
+    .menu-list {
+      border: 2px dashed transparent;
+
+      .menu-list-item {
+        padding: 8px 23px;
+
+        .icon {
+          margin-right: 5px;
+          width: 20px;
+
+          path, line, polyline, rect, circle {
+            @include transition(150ms);
+          }
+        }
+
+        &:hover,
+        &.is-selected,
+        &.is-current {
+
+          .folder-icon {
+            path, line, polyline, rect, circle {
+              stroke: $theme;
+            }
+          }
+
+          .label {
+            color: $theme;
+          }
+        }
+      }
+    }
+  }
+
+  .empty-list {
+    @include font-size(12);
+    color: $text-muted;
+    display: block;
+    padding: 15px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+
+  .menu-list-wrapper {
+
+    .menu-list-item {
+      padding: 12px 15px 12px 20px;
+    }
+
+    &.favourites {
+
+      .menu-list .menu-list-item {
+        padding: 8px 18px;
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .menu-list-wrapper {
+
+    .menu-list-item {
+
+      &.link {
+
+        .icon {
+
+          path, line, polyline, rect, circle {
+            stroke: $dark_mode_text_primary;
+          }
+        }
+      }
+
+      .label {
+        color: $dark_mode_text_primary;
+      }
+
+      .icon {
+
+        path, line, polyline, rect, circle {
+          stroke: $dark_mode_text_primary;
+        }
+      }
+
+      &:hover {
+        background: rgba($theme, .1);
+
+        .label {
+          color: $theme;
+        }
+
+        .icon {
+
+          path, line, polyline, rect, circle {
+            stroke: $theme;
+          }
+        }
+      }
+    }
   }
 }

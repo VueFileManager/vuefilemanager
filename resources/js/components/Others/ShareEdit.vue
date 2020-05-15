@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="share-edit">
         <!--Title-->
-        <PopupHeader :title="$t('popup_share_edit.title')" />
+        <PopupHeader :title="$t('popup_share_edit.title')" icon="share" />
 
         <!--Content-->
         <PopupContent v-if="pickedItem && pickedItem.shared">
@@ -243,8 +243,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
     @import "@assets/vue-file-manager/_inapp-forms.scss";
+    @import '@assets/vue-file-manager/_forms';
 
     .input-wrapper {
 

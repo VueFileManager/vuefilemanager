@@ -34,7 +34,6 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('/files/{token}/public', 'Sharing\FileSharingController@file_public');
     Route::get('/shared/{token}', 'FileFunctions\ShareController@show');
 
-
     // User reset password
     Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
@@ -54,10 +53,12 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user', 'User\AccountController@user');
 
     // Browse
+    Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
     Route::get('/file-detail/{unique_id}', 'FileBrowser\BrowseController@file_detail');
     Route::get('/navigation', 'FileBrowser\BrowseController@navigation_tree');
     Route::get('/folders/{unique_id}', 'FileBrowser\BrowseController@folder');
     Route::get('/shared-all', 'FileBrowser\BrowseController@shared');
+    Route::get('/latest', 'FileBrowser\BrowseController@latest');
     Route::get('/search', 'FileBrowser\BrowseController@search');
     Route::get('/trash', 'FileBrowser\BrowseController@trash');
 

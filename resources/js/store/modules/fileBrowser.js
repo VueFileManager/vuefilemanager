@@ -1,16 +1,13 @@
 import axios from 'axios'
 import {events} from '@/bus'
 import router from '@/router'
-import {includes} from 'lodash'
 import i18n from '@/i18n/index'
 
 const defaultState = {
     uploadingFilesCount: undefined,
     fileInfoDetail: undefined,
     currentFolder: undefined,
-    homeDirectory: undefined,
     uploadingFileProgress: 0,
-    filesViewWidth: undefined,
     navigation: undefined,
     isSearching: false,
     browseHistory: [],
@@ -19,56 +16,45 @@ const defaultState = {
 }
 
 const actions = {
-    getFolder: (context, [folder, back = false, init = false]) => {
-        events.$emit('show:content')
+    getFolder: ({commit, getters}, [payload]) => {
+        commit('LOADING_STATE', {loading: true, data: []})
 
-        // Go to files view
-        if (!includes(['Files', 'SharedPage'], router.currentRoute.name)) {
-            router.push({name: 'Files'})
-        }
-
-        context.commit('LOADING_STATE', true)
-        context.commit('FLUSH_DATA')
+        if (payload.init)
+            commit('FLUSH_FOLDER_HISTORY')
 
         // Clear search
-        if (context.state.isSearching) {
-            context.commit('CHANGE_SEARCHING_STATE', false)
+        if (getters.isSearching) {
+            commit('CHANGE_SEARCHING_STATE', false)
             events.$emit('clear-query')
         }
 
-        // Create current folder for history
-        let currentFolder = {
-            name: folder.name,
-            unique_id: folder.unique_id,
-            location: folder.deleted_at || folder.location === 'trash' ? 'trash' : 'base'
-        }
+        // Set folder location
+        payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
 
-        let url = currentFolder.location === 'trash'
-            ? '/folders/' + currentFolder.unique_id + '?trash=true'
-            : '/folders/' + currentFolder.unique_id
+        if (! payload.back)
+            commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
+
+        let url = payload.folder.location === 'trash'
+            ? '/folders/' + payload.folder.unique_id + '?trash=true'
+            : '/folders/' + payload.folder.unique_id
 
         axios
-            .get(context.getters.api + url)
+            .get(getters.api + url)
             .then(response => {
-                context.commit('LOADING_STATE', false)
-                context.commit('GET_DATA', response.data)
-                context.commit('STORE_CURRENT_FOLDER', currentFolder)
+                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('STORE_CURRENT_FOLDER', payload.folder)
+
+                if (payload.back)
+                    commit('REMOVE_BROWSER_HISTORY')
 
                 events.$emit('scrollTop')
-
-                if (back) {
-                    context.commit('REMOVE_BROWSER_HISTORY')
-
-                } else {
-                    if (!init) context.commit('ADD_BROWSER_HISTORY', currentFolder)
-                }
             })
             .catch(error => {
 
                 // Redirect if unauthenticated
                 if ([401, 403].includes(error.response.status)) {
 
-                    context.commit('SET_AUTHORIZED', false)
+                    commit('SET_AUTHORIZED', false)
                     router.push({name: 'SignIn'})
 
                 } else {
@@ -81,83 +67,89 @@ const actions = {
                 }
             })
     },
-    getShared: (context, back = false) => {
-        events.$emit('show:content')
+    getLatest: ({commit, getters}) => {
+        commit('LOADING_STATE', {loading: true, data: []})
 
-        // Go to files view
-        if (router.currentRoute.name !== 'Files') {
-            router.push({name: 'Files'})
-        }
-
-        if (!back) context.commit('FLUSH_BROWSER_HISTORY')
-        context.commit('FLUSH_DATA')
-        context.commit('LOADING_STATE', true)
-
-        // Create shared object for history
-        let trash = {
-            name: 'Shared',
+        commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
+        commit('STORE_CURRENT_FOLDER', {
+            name: 'Latest',
             unique_id: undefined,
-            location: 'shared',
-        }
+            location: 'latest',
+        })
 
         axios
-            .get(context.getters.api + '/shared-all')
+            .get(getters.api + '/latest')
             .then(response => {
-                context.commit('GET_DATA', response.data)
-                context.commit('LOADING_STATE', false)
-                context.commit('STORE_CURRENT_FOLDER', trash)
-                context.commit('ADD_BROWSER_HISTORY', trash)
+                commit('LOADING_STATE', {loading: false, data: response.data})
+                events.$emit('scrollTop')
+            })
+            .catch(() => isSomethingWrong())
+    },
+    getShared: ({commit, getters}) => {
+        commit('LOADING_STATE', {loading: true, data: []})
+        commit('FLUSH_FOLDER_HISTORY')
+
+        let currentFolder = {
+            name: 'Shared',
+            location: 'shared',
+            unique_id: undefined,
+        }
+
+        commit('STORE_CURRENT_FOLDER', currentFolder)
+
+        axios
+            .get(getters.api + '/shared-all')
+            .then(response => {
+                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('STORE_PREVIOUS_FOLDER', currentFolder)
 
                 events.$emit('scrollTop')
             })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
+            .catch(() => isSomethingWrong())
     },
-    getTrash: (context, back = false) => {
-        events.$emit('show:content')
+    getParticipantUploads: ({commit, getters}) => {
+        commit('LOADING_STATE', {loading: true, data: []})
 
-        // Go to files view
-        if (router.currentRoute.name !== 'Files') {
-            router.push({name: 'Files'})
-        }
+        commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
+        commit('STORE_CURRENT_FOLDER', {
+            name: 'Participant Uploads',
+            unique_id: undefined,
+            location: 'participant_uploads',
+        })
 
-        if (!back) context.commit('FLUSH_BROWSER_HISTORY')
-        context.commit('FLUSH_DATA')
-        context.commit('LOADING_STATE', true)
+        axios
+            .get(getters.api + '/participant-uploads')
+            .then(response => {
+                commit('LOADING_STATE', {loading: false, data: response.data})
 
-        // Create trash object for history
+                events.$emit('scrollTop')
+            })
+            .catch(() => isSomethingWrong())
+    },
+    getTrash: ({commit, getters}) => {
+        commit('LOADING_STATE', {loading: true, data: []})
+        commit('FLUSH_FOLDER_HISTORY')
+
         let trash = {
             name: 'Trash',
             unique_id: undefined,
             location: 'trash-root',
         }
 
+        commit('STORE_CURRENT_FOLDER', trash)
+
         axios
-            .get(context.getters.api + '/trash')
+            .get(getters.api + '/trash')
             .then(response => {
-                context.commit('GET_DATA', response.data)
-                context.commit('LOADING_STATE', false)
-                context.commit('STORE_CURRENT_FOLDER', trash)
-                context.commit('ADD_BROWSER_HISTORY', trash)
+                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('STORE_PREVIOUS_FOLDER', trash)
 
                 events.$emit('scrollTop')
             })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
+            .catch(() => isSomethingWrong())
     },
     getSearchResult: ({commit, getters}, query) => {
-        commit('FLUSH_DATA')
-        commit('LOADING_STATE', true)
+        commit('LOADING_STATE', {loading: true, data: []})
         commit('CHANGE_SEARCHING_STATE', true)
 
         // Get route
@@ -175,30 +167,17 @@ const actions = {
                 params: {query: query}
             })
             .then(response => {
-                commit('LOADING_STATE', false)
-                commit('GET_DATA', response.data)
+                commit('LOADING_STATE', {loading: false, data: response.data})
             })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
+            .catch(() => isSomethingWrong())
     },
-    getFileDetail: (context, file) => {
+    getFileDetail: ({commit, getters}, file) => {
         axios
-            .get(context.getters.api + '/file-detail/' + file.unique_id)
+            .get(getters.api + '/file-detail/' + file.unique_id)
             .then(response => {
-                context.commit('LOAD_FILEINFO_DETAIL', response.data)
+                commit('LOAD_FILEINFO_DETAIL', response.data)
             })
-            .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
-            })
+            .catch(() => isSomethingWrong())
     },
     getFolderTree: ({commit, getters}) => {
 
@@ -224,11 +203,7 @@ const actions = {
                 .catch((error) => {
                     reject(error)
 
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
-                    })
+                    isSomethingWrong()
                 })
         })
     },
@@ -238,13 +213,11 @@ const mutations = {
     UPDATE_FOLDER_TREE(state, tree) {
         state.navigation = tree
     },
-    LOADING_STATE(state, val) {
-        state.isLoading = val
+    LOADING_STATE(state, payload) {
+        state.data = payload.data
+        state.isLoading = payload.loading
     },
-    SET_START_DIRECTORY(state, directory) {
-        state.homeDirectory = directory
-    },
-    FLUSH_BROWSER_HISTORY(state) {
+    FLUSH_FOLDER_HISTORY(state) {
         state.browseHistory = []
     },
     FLUSH_SHARED(state, unique_id) {
@@ -252,7 +225,7 @@ const mutations = {
             if (item.unique_id == unique_id) item.shared = undefined
         })
     },
-    ADD_BROWSER_HISTORY(state, folder) {
+    STORE_PREVIOUS_FOLDER(state, folder) {
         state.browseHistory.push(folder)
     },
     REMOVE_BROWSER_HISTORY(state) {
@@ -295,12 +268,6 @@ const mutations = {
             if (item.unique_id == data.item_id) item.shared = data
         })
     },
-    FLUSH_DATA(state) {
-        state.data = []
-    },
-    GET_DATA(state, loaded_data) {
-        state.data = loaded_data
-    },
     ADD_NEW_FOLDER(state, folder) {
         state.data.unshift(folder)
     },
@@ -318,23 +285,26 @@ const mutations = {
     STORE_CURRENT_FOLDER(state, folder) {
         state.currentFolder = folder
     },
-    SET_FILES_VIEW_SIZE(state, type) {
-        state.filesViewWidth = type
-    },
 }
 
 const getters = {
     uploadingFileProgress: state => state.uploadingFileProgress,
     uploadingFilesCount: state => state.uploadingFilesCount,
     fileInfoDetail: state => state.fileInfoDetail,
-    filesViewWidth: state => state.filesViewWidth,
-    homeDirectory: state => state.homeDirectory,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
     isSearching: state => state.isSearching,
     navigation: state => state.navigation,
     isLoading: state => state.isLoading,
     data: state => state.data,
+}
+
+// Show error message
+function isSomethingWrong() {
+    events.$emit('alert:open', {
+        title: i18n.t('popup_error.title'),
+        message: i18n.t('popup_error.message'),
+    })
 }
 
 export default {

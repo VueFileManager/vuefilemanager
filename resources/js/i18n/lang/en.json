@@ -7,7 +7,7 @@
         "store_pass": "Store New Password",
         "change_pass": "Change Password",
         "profile_info": "Profile Information",
-        "photo_description": "Change Your Profile Picture",
+        "photo_description": "Change your avatar",
         "photo_supported": "Supported formats are .png, .jpg, .jpeg."
     },
     "page_registration": {
@@ -18,7 +18,7 @@
         "label_name": "Full Name:",
         "placeholder_name": "Type your full name",
         "label_pass": "Create password:",
-        "placeholder_pass": "Your new password",
+        "placeholder_pass": "New password",
         "label_confirm_pass": "Confirm password:",
         "placeholder_confirm_pass": "Confirm your new password",
         "button_create_account": "Create Account",
@@ -40,8 +40,8 @@
         "subtitle": "Create your new password here:",
         "button_update": "Update Password",
         "label_email": "Email:",
-        "label_new_pass": "Your new password",
-        "label_confirm_pass": "Confirm new password"
+        "label_new_pass": "New password",
+        "label_confirm_pass": "Confirm password"
     },
     "page_forgotten_password": {
         "title": "Forgotten Password?",
@@ -75,7 +75,7 @@
         "progress": "Uploading files {current}/{total}"
     },
     "inputs": {
-        "placeholder_search_files": "Search files…"
+        "placeholder_search_files": "Search files or folders..."
     },
     "messages": {
         "nothing_to_preview": "There is nothing to preview.",

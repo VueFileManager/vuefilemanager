@@ -38,7 +38,7 @@
         </div>
 
         <!--File browser-->
-        <div v-if="currentPage === 'page-files'" id="files-view" :class="filesViewWidth">
+        <div v-if="currentPage === 'page-files'" id="files-view">
             <div id="single-file" v-if="sharedDetail.type === 'file'">
                 <div class="single-file-wrapper">
                     <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
@@ -103,7 +103,7 @@
             Alert,
         },
         computed: {
-            ...mapGetters(['config', 'filesViewWidth', 'sharedDetail', 'sharedFile', 'appSize']),
+            ...mapGetters(['config', 'sharedDetail', 'sharedFile', 'appSize']),
         },
         data() {
             return {
@@ -164,16 +164,8 @@
                         location: 'public',
                     }
 
-                    // Set start directory
-                    this.$store.commit('SET_START_DIRECTORY', homeDirectory)
-
                     // Load folder
-                    this.$store.dispatch('browseShared', [homeDirectory, false, true])
-                        .then(() => {
-
-                            var filesView = document.getElementById('files-view')
-                            new ResizeSensor(filesView, this.handleContentResize)
-                        })
+                    this.$store.dispatch('browseShared', [{folder: homeDirectory, back: false, init: true}])
                 }
 
                 // Get file
@@ -189,18 +181,6 @@
             },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
-            },
-            handleContentResize() {
-                let filesView = document.getElementById('files-view').clientWidth
-
-                if (filesView >= 0 && filesView <= 690)
-                    this.$store.commit('SET_FILES_VIEW_SIZE', 'minimal-scale')
-
-                else if (filesView >= 690 && filesView <= 960)
-                    this.$store.commit('SET_FILES_VIEW_SIZE', 'compact-scale')
-
-                else if (filesView >= 960)
-                    this.$store.commit('SET_FILES_VIEW_SIZE', 'full-scale')
             },
         },
         created() {
@@ -235,9 +215,10 @@
     }
 </script>
 
-<style lang="scss">
-    @import "@assets/app.scss";
-    @import '@assets/vue-file-manager/_forms';
+<style lang="scss" scoped>
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vue-file-manager/_auth-form';
     @import '@assets/vue-file-manager/_auth';
 
     #shared {

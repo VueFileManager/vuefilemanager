@@ -1,31 +1,29 @@
 <template>
     <button class="mobile-action-button">
-        <FontAwesomeIcon class="icon" :icon="icon"></FontAwesomeIcon>
-        <label label="file" class="label button file-input button-base">
-            <slot></slot>
-            <input
-                    accept="*"
-                    v-show="false"
-                    @change="emmitFiles"
-                    id="file"
-                    type="file"
-                    name="files[]"
-                    multiple
-            />
-        </label>
+        <div class="flex">
+            <upload-cloud-icon class="icon" size="15"></upload-cloud-icon>
+            <label label="file" class="label button file-input button-base">
+                <slot></slot>
+                <input
+                        @change="emmitFiles"
+                        v-show="false"
+                        id="file"
+                        type="file"
+                        name="files[]"
+                        multiple
+                />
+            </label>
+        </div>
     </button>
 </template>
 
 <script>
+    import { UploadCloudIcon } from 'vue-feather-icons'
+
     export default {
         name: 'MobileActionButtonUpload',
-        props: [
-            'icon'
-        ],
-        data() {
-            return {
-                files: undefined
-            }
+        components: {
+            UploadCloudIcon,
         },
         methods: {
             emmitFiles(e) {
@@ -36,8 +34,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
-
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .mobile-action-button {
         background: $light_background;
@@ -47,12 +45,19 @@
         cursor: pointer;
         border: none;
 
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
         .icon {
-            margin-right: 8px;
+            vertical-align: middle;
+            margin-right: 10px;
             @include font-size(14);
         }
 
         .label {
+            vertical-align: middle;
             @include font-size(14);
             font-weight: 700;
             color: $text;
@@ -63,8 +68,8 @@
         .mobile-action-button {
             background: $dark_mode_foreground;
 
-            .icon path {
-                fill: $theme;
+            path, line, polyline, rect, circle {
+                stroke: $theme;
             }
 
             .label {

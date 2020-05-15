@@ -86,8 +86,8 @@
             return {
                 isLoading: false,
                 checkedAccount: undefined,
-                loginPassword: '',
-                loginEmail: '',
+                loginPassword: 'secret',
+                loginEmail: 'howdy@hi5ve.digital',
             }
         },
         methods: {
@@ -208,7 +208,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vue-file-manager/_auth-form';
     @import '@assets/vue-file-manager/_auth';
 </style>

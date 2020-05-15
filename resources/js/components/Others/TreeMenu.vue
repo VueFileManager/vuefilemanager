@@ -2,9 +2,10 @@
     <!--Folder Icon-->
     <div class="folder-item-wrapper">
 
-        <div class="folder-item" :class="{'is-selected': isSelected}" @click="showTree" :style="indent">
-            <FontAwesomeIcon class="icon-chevron" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}" icon="chevron-right"/>
-            <FontAwesomeIcon class="icon" :icon="directoryIcon"/>
+        <div class="folder-item" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
+            <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
+            <hard-drive-icon v-if="nodes.location === 'base'" size="17" class="icon"></hard-drive-icon>
+            <folder-icon v-if="nodes.location !== 'base'" size="17" class="icon"></folder-icon>
             <span class="label">{{ nodes.name }}</span>
         </div>
 
@@ -14,6 +15,7 @@
 
 <script>
     import TreeMenu from '@/components/Others/TreeMenu'
+    import {FolderIcon, ChevronRightIcon, HardDriveIcon} from 'vue-feather-icons'
     import {events} from "@/bus"
 
     export default {
@@ -22,20 +24,15 @@
             'nodes', 'depth'
         ],
         components: {
+            ChevronRightIcon,
+            HardDriveIcon,
+            FolderIcon,
             TreeMenu,
         },
         computed: {
             indent() {
-                return { paddingLeft: this.depth * 25 + 'px' }
+                return { paddingLeft: this.depth * 20 + 'px' }
             },
-            directoryIcon() {
-                
-                if (this.nodes.location === 'base') {
-                    return 'hdd'
-                } else {
-                    return 'folder'
-                }
-            }
         },
         data() {
             return {
@@ -44,10 +41,12 @@
             }
         },
         methods: {
+            getFolder() {
+                events.$emit('show-folder-item', this.nodes)
+                events.$emit('pick-folder', this.nodes)
+            },
             showTree() {
                 this.isVisible = ! this.isVisible
-
-                events.$emit('pick-folder', this.nodes)
             }
         },
         created() {
@@ -61,36 +60,46 @@
 
                 if (this.nodes.unique_id == node.unique_id) this.isSelected = true
             })
+
+            // Select clicked folder
+            events.$on('show-folder-item', node => {
+                this.isSelected = false
+
+                if (this.nodes.unique_id == node.unique_id)
+                    this.isSelected = true
+            })
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .folder-item {
+        user-select: none;
         display: block;
-        padding: 15px 20px;
+        padding: 8px 23px;
         @include transition(150ms);
         cursor: pointer;
         position: relative;
         white-space: nowrap;
-        border-bottom: 1px solid $light_mode_border;
 
         .icon {
-            @include font-size(18);
+            line-height: 0;
+            width: 15px;
             margin-right: 9px;
             vertical-align: middle;
+            margin-top: -1px;
 
-            path {
-                fill: $text;
+            path, line, polyline, rect, circle {
+                @include transition(150ms);
             }
         }
 
-        .icon-chevron {
+        .icon-arrow {
             @include transition(300ms);
-            @include font-size(13);
-            margin-right: 9px;
+            margin-right: 4px;
             vertical-align: middle;
             opacity: 0;
 
@@ -101,14 +110,11 @@
             &.is-opened {
                 @include transform(rotate(90deg));
             }
-
-            path {
-                fill: rgba($text, 0.25);
-            }
         }
 
         .label {
-            @include font-size(15);
+            @include transition(150ms);
+            @include font-size(13);
             font-weight: 700;
             vertical-align: middle;
             white-space: nowrap;
@@ -118,16 +124,12 @@
             color: $text;
         }
 
-        &:hover {
-            background: $light_background;
-        }
-
+        &:hover,
         &.is-selected {
-            background: rgba($theme, .1);
 
             .icon {
-                path {
-                    fill: $theme;
+                path, line, polyline, rect, circle {
+                    stroke: $theme;
                 }
             }
 
@@ -141,32 +143,17 @@
     @media (prefers-color-scheme: dark) {
 
         .folder-item {
-            border-bottom: 1px solid $dark_mode_border_color;
 
             .label {
                 color: $dark_mode_text_primary;
             }
 
             &:hover {
-                background: $dark_mode_foreground;
+                background: rgba($theme, .1);
             }
 
             &.is-selected {
                 background: rgba($theme, .1);
-            }
-
-            .icon {
-
-                path {
-                    fill: lighten($dark_mode_foreground, 10%);
-                }
-            }
-
-            .icon-chevron {
-
-                path {
-                    fill: $theme;
-                }
             }
         }
 

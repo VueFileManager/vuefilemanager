@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\FileBrowser;
 
 use App\Http\Requests\FileBrowser\SearchRequest;
+use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -78,6 +79,35 @@ class BrowseController extends Controller
 
         // Collect folders and files to single array
         return collect([$folders, $files])->collapse();
+    }
+
+    /**
+     * Get latest user uploads
+     *
+     * @return mixed
+     */
+    public function latest() {
+
+        // Get User
+        $user = User::with(['latest_uploads'])
+            ->where('id', Auth::id())
+            ->first();
+
+        return $user->latest_uploads->makeHidden(['user_id', 'basename']);
+    }
+
+    /**
+     * Get participant uploads
+     *
+     * @return mixed
+     */
+    public function participant_uploads() {
+
+        // Get User
+        $uploads = FileManagerFile::where('user_id', Auth::id())
+            ->whereUserScope('editor')->get();
+
+        return $uploads;
     }
 
     /**

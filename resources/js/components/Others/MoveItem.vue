@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="move">
         <!--Title-->
-        <PopupHeader :title="$t('popup_move_item.title')" />
+        <PopupHeader :title="$t('popup_move_item.title')" icon="move" />
 
         <!--Content-->
         <PopupContent type="height-limited" v-if="pickedItem">
@@ -123,7 +123,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
 
     .item-thumbnail {
         margin-bottom: 20px;
