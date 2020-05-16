@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class Deploy extends Command
 {
@@ -49,6 +50,8 @@ class Deploy extends Command
         // Stop deployment
         $this->call('up');
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
+
+        Log::info('Application was updated!');
     }
 
     /**
