@@ -43,7 +43,7 @@ class Deploy extends Command
 
         // Exec commands
         exec('git pull origin dev');
-        exec('composer install --no-interaction --no-dev --prefer-dist');
+        exec('composer update --no-interaction --prefer-dist');
         $this->migrateDatabase();
 
         // Stop deployment
