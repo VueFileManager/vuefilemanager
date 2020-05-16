@@ -463,11 +463,23 @@
     @media (prefers-color-scheme: dark) {
         .file-wrapper {
 
-            .icon-item .file-icon {
+            .icon-item {
 
-                path {
-                    fill: $dark_mode_foreground;
-                    stroke: #2F3C54;
+                .file-icon {
+
+                    path {
+                        fill: $dark_mode_foreground;
+                        stroke: #2F3C54;
+                    }
+                }
+
+                .folder-icon {
+
+                    &.is-deleted {
+                        path {
+                            fill: lighten($dark_mode_foreground, 5%);
+                        }
+                    }
                 }
             }
 
@@ -486,9 +498,18 @@
                 }
             }
 
-            .item-name .name {
-                color: $dark_mode_text_primary;
+            .item-name {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
+
+                .item-size,
+                .item-length {
+                    color: $dark_mode_text_secondary;
+                }
             }
+
         }
     }
 

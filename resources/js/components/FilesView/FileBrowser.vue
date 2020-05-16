@@ -225,6 +225,7 @@
     }
 
     .file-content {
+        height: 100%;
         display: flex;
         flex-wrap: nowrap;
 
@@ -307,13 +308,6 @@
 
     @media only screen and (max-width: 690px) {
 
-        .file-list {
-
-            &.grid {
-                grid-template-columns: repeat(auto-fill, 120px);
-            }
-        }
-
         .files-container {
             padding-left: 15px;
             padding-right: 15px;
@@ -323,6 +317,13 @@
             bottom: 0;
             position: absolute;
             overflow-y: auto;
+
+            .file-list {
+
+                &.grid {
+                    grid-template-columns: repeat(auto-fill, 120px);
+                }
+            }
         }
 
         .file-content {

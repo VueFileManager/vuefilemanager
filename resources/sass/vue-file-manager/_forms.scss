@@ -194,6 +194,7 @@ input[type="email"] {
     }
 
     &[disabled] {
+      background: $dark_mode_foreground;
       color: rgba($dark_mode_text_secondary, 15%);
     }
   }

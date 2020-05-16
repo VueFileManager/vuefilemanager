@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Deploy;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProductionEnvironment;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         SetupProductionEnvironment::class,
         SetupDevEnvironment::class,
+        Deploy::class,
     ];
 
     /**

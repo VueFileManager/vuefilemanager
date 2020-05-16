@@ -422,13 +422,25 @@
 
         .file-wrapper {
 
-            .icon-item .file-icon {
+            .icon-item {
+                .file-icon {
 
-                path {
-                    fill: $dark_mode_foreground;
-                    stroke: #2F3C54;
+                    path {
+                        fill: $dark_mode_foreground;
+                        stroke: #2F3C54;
+                    }
+                }
+
+                .folder-icon {
+
+                    &.is-deleted {
+                        path {
+                            fill: lighten($dark_mode_foreground, 5%);
+                        }
+                    }
                 }
             }
+
 
             .file-item {
 

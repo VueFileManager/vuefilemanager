@@ -140,13 +140,12 @@
       }
     }
   }
+}
 
-  .empty-list {
-    @include font-size(12);
-    color: $text-muted;
-    display: block;
-    padding: 15px;
-  }
+.empty-note {
+  @include font-size(12);
+  color: $text-muted;
+  display: block;
 }
 
 @media only screen and (max-width: 1024px) {

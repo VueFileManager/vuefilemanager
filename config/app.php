@@ -233,6 +233,8 @@ return [
 
     ],
 
+    'deploy_secret' => env('APP_DEPLOY_SECRET'),
+
     'debug_blacklist' => [
         '_ENV' => [
             'APP_KEY',

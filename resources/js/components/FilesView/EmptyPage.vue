@@ -12,8 +12,13 @@
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
             </div>
 
+            <!--Trash empty message-->
+            <div class="text-content" v-if="$isThisLocation(['participant_uploads']) && ! isLoading">
+                <h1 class="title">You don't have any uploads from other users.</h1>
+            </div>
+
             <!--Base file browser empty message-->
-            <div class="text-content" v-if="$isThisLocation(['base', 'public']) && !isLoading">
+            <div class="text-content" v-if="$isThisLocation(['base', 'public', 'latest']) && !isLoading">
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
                 <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
                 <ButtonUpload
@@ -79,14 +84,14 @@
         margin: 30px 0;
 
         .title {
-            @include font-size(24);
+            @include font-size(20);
             color: $text;
             font-weight: 700;
             margin: 0;
         }
 
         .description {
-            @include font-size(15);
+            @include font-size(13);
             color: $text-muted;
             margin-bottom: 20px;
             display: block;

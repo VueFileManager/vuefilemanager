@@ -25,12 +25,21 @@
                 </div>
 
                 <!--Files controlls-->
-                <div class="toolbar-button-wrapper"
-                     v-if="$checkPermission(['master', 'editor'])">
+                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButtonUpload
                             :class="{'is-inactive': canUploadInView}"
                             :action="$t('actions.upload')"
                     />
+                    <ToolbarButton
+                            :class="{'is-inactive': canCreateFolderInView}"
+                            @click.native="createFolder"
+                            source="folder-plus"
+                            :action="$t('actions.create_folder')"
+                    />
+                </div>
+                
+                <div class="toolbar-button-wrapper"
+                     v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButton
                             source="move"
                             :class="{'is-inactive': canMoveInView}"
@@ -49,12 +58,6 @@
                             :class="{'is-inactive': canDeleteInView}"
                             :action="$t('actions.delete')"
                             @click.native="deleteItem"
-                    />
-                    <ToolbarButton
-                            :class="{'is-inactive': canCreateFolderInView}"
-                            @click.native="createFolder"
-                            source="folder-plus"
-                            :action="$t('actions.create_folder')"
                     />
                 </div>
 

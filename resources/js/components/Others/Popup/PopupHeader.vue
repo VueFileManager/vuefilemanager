@@ -97,6 +97,17 @@
 
     @media (prefers-color-scheme: dark) {
         .popup-header {
+
+            .label {
+                .close-icon {
+
+                    &:hover {
+                        background: $dark_mode_foreground;
+                    }
+                    cursor: pointer;
+                }
+            }
+
             .title {
                 color: $dark_mode_text_primary;
             }

@@ -135,7 +135,7 @@
         .popup-wrapper {
             left: 15px;
             right: 15px;
-            padding: 25px 15px;
+            padding: 0;
         }
     }
 

@@ -28,6 +28,9 @@
 
             <!--Navigator-->
             <ContentGroup title="Navigator" class="navigator">
+                <span class="empty-note navigator" v-if="app.tree.length == 0">
+                    Create some new folder.
+                </span>
                 <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in app.tree"
                                    :key="items.unique_id"/>
             </ContentGroup>
@@ -42,9 +45,9 @@
                      @drop="dragFinish($event)"
                 >
                     <transition-group tag="div" class="menu-list" name="folder-item">
-                        <a class="empty-list" v-if="app.favourites.length == 0" :key="0">
+                        <span class="empty-note favourites" v-if="app.favourites.length == 0" :key="0">
                             {{ $t('sidebar.favourites_empty') }}
-                        </a>
+                        </span>
 
                         <a @click.stop="openFolder(folder)"
                            class="menu-list-item"
@@ -146,6 +149,17 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .empty-note {
+
+        &.navigator {
+            padding: 5px 25px 10px;
+        }
+
+        &.favourites {
+            padding: 5px 23px 10px;
+        }
+    }
 
     .navigator {
         width: 100%;
