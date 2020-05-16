@@ -16,7 +16,7 @@ class DeployController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function deploy(Request $request)   {
+    public function github(Request $request)   {
 
         if (($signature = $request->headers->get('X-Hub-Signature')) == null) {
             throw new BadRequestHttpException('Header not set');
