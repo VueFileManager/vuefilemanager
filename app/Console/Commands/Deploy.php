@@ -42,7 +42,7 @@ class Deploy extends Command
         $this->call('down');
 
         // Exec commands
-        exec('git pull origin dev');
+        exec('git pull origin ' . config('app.deploy_branch'));
         exec('composer update --no-interaction --prefer-dist');
         $this->migrateDatabase();
 
