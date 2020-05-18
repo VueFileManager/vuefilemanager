@@ -8,6 +8,8 @@
                 <power-icon v-if="link.icon === 'power'" size="17"></power-icon>
                 <settings-icon v-if="link.icon === 'settings'" size="17"></settings-icon>
                 <upload-cloud-icon v-if="link.icon === 'latest'" size="17"></upload-cloud-icon>
+                <user-icon v-if="link.icon === 'user'" size="17"></user-icon>
+                <lock-icon v-if="link.icon === 'lock'" size="17"></lock-icon>
             </div>
             <b class="menu-link">
                 <span>{{ link.title }}</span>
@@ -26,6 +28,8 @@
         Trash2Icon,
         PowerIcon,
         ShareIcon,
+        UserIcon,
+        LockIcon,
     } from 'vue-feather-icons'
 
     export default {
@@ -38,6 +42,8 @@
             Trash2Icon,
             PowerIcon,
             ShareIcon,
+            LockIcon,
+            UserIcon,
         },
         props: [
             'navigation'

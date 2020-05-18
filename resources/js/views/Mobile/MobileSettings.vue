@@ -25,14 +25,19 @@
             return {
                 navigation: [
                     {
-                        icon: 'hard-drive',
+                        icon: 'user',
                         title: 'Profile Settings',
                         routeName: 'Profile',
                     },
                     {
-                        icon: 'latest',
+                        icon: 'lock',
                         title: 'Password',
                         routeName: 'Password',
+                    },
+                    {
+                        icon: 'hard-drive',
+                        title: 'Storage',
+                        routeName: 'Storage',
                     },
                 ]
             }

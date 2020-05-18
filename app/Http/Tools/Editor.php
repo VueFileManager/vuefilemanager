@@ -230,7 +230,7 @@ class Editor
             $image = Image::make($file->getRealPath())->orientate();
 
             // Resize image
-            $image->resize(256, null, function ($constraint) {
+            $image->resize(564, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->stream();
 

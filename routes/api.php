@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     // User
     Route::post('/user/password', 'User\AccountController@change_password');
     Route::patch('/user/profile', 'User\AccountController@update_profile');
+    Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
 
     // Browse

@@ -25,14 +25,14 @@
                             Password
                         </div>
                     </router-link>
-                    <!--<router-link :to="{name: 'Profile'}" class="menu-list-item link">
+                    <router-link :to="{name: 'Storage'}" class="menu-list-item link">
                         <div class="icon">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
                         <div class="label">
                             Storage
                         </div>
-                    </router-link>-->
+                    </router-link>
                 </div>
             </ContentGroup>
         </ContentSidebar>
@@ -46,6 +46,7 @@
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import UserHeadline from '@/components/Sidebar/UserHeadline'
     import {
+        HardDriveIcon,
         UserIcon,
         LockIcon,
     } from 'vue-feather-icons'
@@ -54,6 +55,7 @@
         name: 'Settings',
         components: {
             ContentSidebar,
+            HardDriveIcon,
             UserHeadline,
             ContentGroup,
             UserIcon,

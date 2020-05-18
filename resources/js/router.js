@@ -10,6 +10,7 @@ import CreateNewPassword from './views/Auth/CreateNewPassword'
 
 import Settings from './views/Settings'
 import Profile from './views/User/Profile'
+import Storage from './views/User/Storage'
 import Trash from './views/FilePages/Trash'
 import Files from './views/FilePages/Files'
 import Password from './views/User/Password'
@@ -118,6 +119,15 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                         title: 'Change Password'
+                    },
+                },
+                {
+                    name: 'Storage',
+                    path: '/settings/storage',
+                    component: Storage,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Storage'
                     },
                 },
             ]

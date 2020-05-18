@@ -26,7 +26,7 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': $isThisRoute($route, ['Password'])}" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': $isThisRoute($route, ['Password', 'Profile', 'Storage'])}" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <settings-icon size="19"></settings-icon>
                 </div>

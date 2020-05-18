@@ -164,7 +164,7 @@
             color: $dark_mode_text_primary;
 
             img {
-                opacity: .8;
+                opacity: .95;
             }
         }
     }
