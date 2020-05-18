@@ -160,14 +160,19 @@ const actions = {
             .then(() => {
 
                 // If is folder, update app data
-                if (data.type === 'folder' && data.unique_id === getters.currentFolder.unique_id) {
+                if (data.type === 'folder') {
 
-                    if ( getters.currentFolder.location === 'public' ) {
-                        dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
-                    } else {
-                        dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
-                        dispatch('getAppData')
+                    if (data.unique_id === getters.currentFolder.unique_id) {
+
+                        if ( getters.currentFolder.location === 'public' ) {
+                            dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
+                        } else {
+                            dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
+                        }
                     }
+
+                    if ( getters.currentFolder.location !== 'public' )
+                        dispatch('getAppData')
                 }
             })
             .catch(() => isSomethingWrong())

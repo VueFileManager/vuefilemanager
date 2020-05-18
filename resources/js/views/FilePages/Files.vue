@@ -166,6 +166,20 @@
         overflow-x: auto;
     }
 
+    @media only screen and (max-width: 1024px) {
+
+        .empty-note {
+
+            &.navigator {
+                padding: 5px 20px 10px;
+            }
+
+            &.favourites {
+                padding: 5px 18px 10px;
+            }
+        }
+    }
+
     // Transition
     .folder-item-move {
         transition: transform 300s ease;

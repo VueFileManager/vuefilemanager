@@ -191,7 +191,7 @@
         "confirm": "Confirm"
     },
     "shared": {
-        "empty_shared": "You Haven't Shared Anything Yet",
+        "empty_shared": "You haven't shared anything yet.",
         "editor": "Can edit and upload files",
         "visitor": "Can only view and download",
         "can_download": "Can download file"

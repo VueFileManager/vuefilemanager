@@ -35,7 +35,7 @@
             p {
                 margin-top: 10px;
                 max-width: 130px;
-                @include font-size(14);
+                @include font-size(13);
                 font-weight: 500;
                 color: $text-muted;
             }

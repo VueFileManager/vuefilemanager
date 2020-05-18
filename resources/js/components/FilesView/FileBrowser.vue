@@ -225,7 +225,6 @@
     }
 
     .file-content {
-        height: 100%;
         display: flex;
         flex-wrap: nowrap;
 

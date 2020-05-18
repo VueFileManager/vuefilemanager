@@ -18,6 +18,7 @@ use App\FileManagerFolder;
 use App\FileManagerFile;
 use App\User;
 use App\Share;
+use Illuminate\Support\Facades\Storage;
 
 class FileSharingController extends Controller
 {
@@ -47,8 +48,49 @@ class FileSharingController extends Controller
             Cookie::queue('shared_token', $token, 43200);
         }
 
+        // Check if shared is image file and then show it
+        if ($shared->type === 'file' && ! $shared->protected) {
+
+            $image = FileManagerFile::where('user_id', $shared->user_id)
+                ->where('type', 'image')
+                ->where('unique_id', $shared->item_id)
+                ->first();
+
+            if ($image) {
+                return $this->show_image($image);
+            }
+        }
+
         // Return page index
         return view("index");
+    }
+
+    /**
+     * Get image from storage and show it
+     *
+     * @param $file
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    private function show_image($file)
+    {
+        // Format pretty filename
+        $file_pretty_name = $file->name . '.' . $file->mimetype;
+
+        // Get file path
+        $path = '/file-manager/' . $file->basename;
+
+        // Check if file exist
+        if (!Storage::exists($path)) abort(404);
+
+        $header = [
+            "Content-Type"   => Storage::mimeType($path),
+            "Content-Length" => Storage::size($path),
+            "Accept-Ranges"  => "bytes",
+            "Content-Range"  => "bytes 0-600/" . Storage::size($path),
+        ];
+
+        // Get file
+        return Storage::response($path, $file_pretty_name, $header);
     }
 
     /**

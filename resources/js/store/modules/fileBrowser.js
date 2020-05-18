@@ -250,9 +250,9 @@ const mutations = {
         state.fileInfoDetail = item
     },
     GET_FILEINFO_DETAIL(state, item) {
-        state.fileInfoDetail = state.data.find(
-            el => el.unique_id == item.unique_id
-        )
+        let checkData = state.data.find(el => el.unique_id == item.unique_id)
+
+        state.fileInfoDetail = checkData ? checkData : state.currentFolder
     },
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState

@@ -37,7 +37,7 @@
                             :action="$t('actions.create_folder')"
                     />
                 </div>
-                
+
                 <div class="toolbar-button-wrapper"
                      v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButton
@@ -285,6 +285,14 @@
 
         .button {
             margin-left: 5px;
+
+            &.active {
+                /deep/ svg {
+                    line, circle {
+                        stroke: $theme;
+                    }
+                }
+            }
 
             &.is-inactive {
                 opacity: 0.25;

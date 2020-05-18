@@ -28,10 +28,10 @@ class AccountController extends Controller
             ->first();
 
         // Get folder tree
-        $tree = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $tree = FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
             ->where('parent_id', 0)
             ->where('user_id', $user->id)
-            ->get(['id', 'parent_id', 'unique_id', 'name']);
+            ->get();
 
         return [
             'user'           => $user->only(['name', 'email', 'avatar']),
