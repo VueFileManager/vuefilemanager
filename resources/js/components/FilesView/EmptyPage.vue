@@ -14,7 +14,7 @@
 
             <!--Trash empty message-->
             <div class="text-content" v-if="$isThisLocation(['participant_uploads']) && ! isLoading">
-                <h1 class="title">You don't have any uploads from other users.</h1>
+                <h1 class="title">{{ $t('messages.nothing_from_participants') }}</h1>
             </div>
 
             <!--Base file browser empty message-->

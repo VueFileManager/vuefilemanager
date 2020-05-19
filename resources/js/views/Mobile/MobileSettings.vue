@@ -26,17 +26,17 @@
                 navigation: [
                     {
                         icon: 'user',
-                        title: 'Profile Settings',
+                        title: this.$t('menu.profile'),
                         routeName: 'Profile',
                     },
                     {
                         icon: 'lock',
-                        title: 'Password',
+                        title: this.$t('menu.password'),
                         routeName: 'Password',
                     },
                     {
                         icon: 'hard-drive',
-                        title: 'Storage',
+                        title: this.$t('menu.storage'),
                         routeName: 'Storage',
                     },
                 ]

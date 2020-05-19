@@ -42,32 +42,32 @@
                 navigation: [
                     {
                         icon: 'hard-drive',
-                        title: 'Files',
+                        title: this.$t('menu.files'),
                         routeName: 'Files',
                     },
                     {
                         icon: 'latest',
-                        title: 'Recent Uploads',
+                        title: this.$t('menu.latest'),
                         routeName: 'Files',
                     },
                     {
                         icon: 'share',
-                        title: 'Shared Files',
+                        title: this.$t('menu.shared'),
                         routeName: 'SharedFiles',
                     },
                     {
                         icon: 'trash',
-                        title: 'Trash',
+                        title: this.$t('menu.trash'),
                         routeName: 'Trash',
                     },
                     {
                         icon: 'settings',
-                        title: 'Settings',
+                        title: this.$t('menu.settings'),
                         routeName: 'MobileSettings',
                     },
                     {
                         icon: 'power',
-                        title: 'Log Out',
+                        title: this.$t('menu.logout'),
                         routeName: 'LogOut',
                     },
                 ]

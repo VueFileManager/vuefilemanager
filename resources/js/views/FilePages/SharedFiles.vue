@@ -4,14 +4,14 @@
         <ContentSidebar>
 
             <!--Navigator-->
-            <ContentGroup title="Base">
+            <ContentGroup :title="$t('sidebar.locations_title')">
                 <div class="menu-list-wrapper">
                     <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared()">
                         <div class="icon">
                             <link-icon size="17"></link-icon>
                         </div>
                         <div class="label">
-                            My Shared Items
+                            {{ $t('sidebar.my_shared') }}
                         </div>
                     </li>
                     <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['participant_uploads'])}" @click="getParticipantUploads()">
@@ -19,7 +19,7 @@
                             <users-icon size="17"></users-icon>
                         </div>
                         <div class="label">
-                            Participant Uploads
+                            {{ $t('sidebar.participant_uploads') }}
                         </div>
                     </li>
                 </div>

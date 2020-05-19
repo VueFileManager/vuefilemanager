@@ -2,7 +2,7 @@
     <div id="user-settings" v-if="app">
 
         <MobileHeader />
-        <PageHeader :title="$t('profile.page_title')" />
+        <PageHeader :title="$router.currentRoute.meta.title" />
 
         <div class="content-page">
             <div class="avatar-upload">

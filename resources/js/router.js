@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import i18n from '@/i18n/index'
 
 import Index from './views/Auth/SignIn'
 import SignUp from './views/Auth/SignUp'
@@ -109,7 +110,7 @@ const router = new Router({
                     component: Profile,
                     meta: {
                         requiresAuth: true,
-                        title: 'User Profile'
+                        title: i18n.t('routes_title.profile')
                     },
                 },
                 {
@@ -118,7 +119,7 @@ const router = new Router({
                     component: Password,
                     meta: {
                         requiresAuth: true,
-                        title: 'Change Password'
+                        title: i18n.t('routes_title.settings_password')
                     },
                 },
                 {
@@ -127,7 +128,7 @@ const router = new Router({
                     component: Storage,
                     meta: {
                         requiresAuth: true,
-                        title: 'Storage'
+                        title: i18n.t('routes_title.settings_storage')
                     },
                 },
             ]
@@ -138,7 +139,7 @@ const router = new Router({
             component: MobileSettings,
             meta: {
                 requiresAuth: true,
-                title: 'Settings'
+                title: i18n.t('routes_title.settings_mobile')
             },
         }
     ],

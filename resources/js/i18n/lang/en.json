@@ -2,8 +2,13 @@
     "routes": {
         "create_new_password": "create-new-password"
     },
+    "routes_title": {
+        "profile": "User Profile",
+        "settings_password": "Change Password",
+        "settings_storage": "Storage",
+        "settings_mobile": "Settings"
+    },
     "profile": {
-        "page_title": "User Profile",
         "store_pass": "Store New Password",
         "change_pass": "Change Password",
         "profile_info": "Profile Information",
@@ -78,8 +83,9 @@
         "placeholder_search_files": "Search files or folders..."
     },
     "messages": {
+        "nothing_from_participants": "You don't have any uploads from other users.",
         "nothing_to_preview": "There is nothing to preview.",
-        "nothing_was_found": "Nothing was found"
+        "nothing_was_found": "Nothing was found."
     },
     "locations": {
         "shared": "Shared",
@@ -111,8 +117,15 @@
         "of": "of"
     },
     "storage": {
-        "used": "{used} of {capacity} Used",
-        "title": "Storage"
+        "sec_capacity": "Storage Capacity",
+        "sec_details": "Capacity Used Details",
+        "total_used": "Total used {used}",
+        "total_capacity": "Your storage capacity {capacity}",
+        "images": "Images",
+        "videos": "Videos",
+        "audios": "Audios",
+        "documents": "Documents",
+        "others": "Others"
     },
     "folder": {
         "item_counts": "{count} Item | {count} Items",
@@ -144,13 +157,28 @@
         "share": "Share",
         "move": "Move"
     },
+    "menu": {
+        "files": "Files",
+        "latest": "Recent Uploads",
+        "shared": "Shared Files",
+        "trash": "Trash",
+        "settings": "Settings",
+        "logout": "Log Out",
+        "profile": "Profile Settings",
+        "password": "Password",
+        "storage": "Storage"
+    },
     "sidebar": {
-        "shared": "Shared",
-        "locations": "Locations",
         "favourites": "Favourites",
         "favourites_empty": "Drag here your favourite folder.",
-        "latest": "Last Uploads",
-        "latest_empty": "You don't have any latest uploads."
+        "folders_empty": "Create some new folder.",
+        "latest": "Recent Uploads",
+        "home": "Home",
+        "tools_title": "Tools",
+        "locations_title": "Base",
+        "navigator_title": "Navigator",
+        "my_shared": "My Shared Items",
+        "participant_uploads": "Participant Uploads"
     },
     "popup_rename": {
         "title": "Change your item name"
@@ -208,7 +236,9 @@
         "create_folder": "Create folder",
         "preview": "Change preview",
         "upload": "Upload file",
-        "delete": "Delete item"
+        "delete": "Delete item",
+        "move": "Move item",
+        "share": "Share item"
     },
     "types": {
         "folder": "Folder",

@@ -4,6 +4,7 @@
             <div class="icon">
                 <image-icon v-if="type == 'images'" size="23"></image-icon>
                 <video-icon v-if="type == 'videos'" size="23"></video-icon>
+                <music-icon v-if="type == 'audios'" size="23"></music-icon>
                 <file-text-icon v-if="type == 'documents'" size="23"></file-text-icon>
                 <file-icon v-if="type == 'others'" size="23"></file-icon>
                 <hard-drive-icon v-if="type == 'disk'" size="23"></hard-drive-icon>
@@ -19,7 +20,7 @@
 
 <script>
     import ProgressBar from '@/components/FilesView/ProgressBar'
-    import { ImageIcon, VideoIcon, FileTextIcon, FileIcon, HardDriveIcon } from 'vue-feather-icons'
+    import { ImageIcon, VideoIcon, FileTextIcon, FileIcon, HardDriveIcon, MusicIcon } from 'vue-feather-icons'
 
     export default {
         name: 'StorageItemDetail',
@@ -28,6 +29,7 @@
             HardDriveIcon,
             FileTextIcon,
             ProgressBar,
+            MusicIcon,
             VideoIcon,
             ImageIcon,
             FileIcon,
@@ -89,6 +91,23 @@
 
                 /deep/ span {
                     background: $yellow;
+                }
+            }
+        }
+
+        &.audios {
+
+            .icon {
+
+                path, line, polyline, rect, circle, polygon {
+                    stroke: $pink;
+                }
+            }
+
+            .storage-progress {
+
+                /deep/ span {
+                    background: $pink;
                 }
             }
         }

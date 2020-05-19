@@ -14,7 +14,7 @@
                             <user-icon size="17"></user-icon>
                         </div>
                         <div class="label">
-                            Profile Settings
+                            {{ $t('menu.profile') }}
                         </div>
                     </router-link>
                     <router-link :to="{name: 'Password'}" class="menu-list-item link">
@@ -22,7 +22,7 @@
                             <lock-icon size="17"></lock-icon>
                         </div>
                         <div class="label">
-                            Password
+                            {{ $t('menu.password') }}
                         </div>
                     </router-link>
                     <router-link :to="{name: 'Storage'}" class="menu-list-item link">
@@ -30,7 +30,7 @@
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
                         <div class="label">
-                            Storage
+                            {{ $t('menu.storage') }}
                         </div>
                     </router-link>
                 </div>

@@ -2,8 +2,13 @@
     "routes": {
         "create_new_password": "vytvorit-nove-heslo"
     },
+    "routes_title": {
+        "profile": "Uživateľský profil",
+        "settings_password": "Zmeniť heslo",
+        "settings_storage": "Úložisko",
+        "settings_mobile": "Nastavenia"
+    },
     "profile": {
-        "page_title": "Uživateľský profil",
         "store_pass": "Uložiť nové heslo",
         "change_pass": "Zmeniť heslo",
         "profile_info": "Profil",
@@ -78,8 +83,9 @@
         "placeholder_search_files": "Hľadajte súbory…"
     },
     "messages": {
+        "nothing_from_participants": "Zatiaľ nemáš žiadné súbory od ostatných uživateľov",
         "nothing_to_preview": "Tu nie je nič pre zobrazenie.",
-        "nothing_was_found": "Nič sa nenašlo"
+        "nothing_was_found": "Nič sa nenašlo."
     },
     "locations": {
         "shared": "Zdieľané",
@@ -111,8 +117,15 @@
         "of": "z"
     },
     "storage": {
-        "used": "{used} z {capacity} Použité",
-        "title": "Úložisko"
+        "sec_capacity": "Kapacita úložiska",
+        "sec_details": "Detail využitej kapacity",
+        "total_used": "Používané {used}",
+        "total_capacity": "Tvoja kapacita disku {capacity}",
+        "images": "Obrázky",
+        "videos": "Videá",
+        "audios": "Audio",
+        "documents": "Dokumenty",
+        "others": "Ostatné"
     },
     "folder": {
         "item_counts": "{count} Položka | {count} Položky",
@@ -144,13 +157,28 @@
         "share": "Zdieľať",
         "move": "Presunúť"
     },
-    "sidebar": {
-        "shared": "Zdieľané",
-        "locations": "Umiestnenie",
-        "favourites": "Obľúbené",
-        "favourites_empty": "Presuňte sem svoj obľúbený priečinok.",
+    "menu": {
+        "files": "Súbory",
         "latest": "Posledne nahrané",
-        "latest_empty": "Nemáte žiadne nahrané súbory"
+        "shared": "Zdieľané súbory",
+        "trash": "Kôš",
+        "settings": "Nastavenia",
+        "logout": "Odhlásiť sa",
+        "profile": "Nastavenia profilu",
+        "password": "Heslo",
+        "storage": "Úložisko"
+    },
+    "sidebar": {
+        "favourites": "Obľúbené",
+        "favourites_empty": "Presuňte sem obľúbený priečinok",
+        "folders_empty": "Vytvorte svoj prvý priečinok",
+        "latest": "Posledne nahraté",
+        "home": "Domov",
+        "tools_title": "Nástroje",
+        "locations_title": "Menu",
+        "navigator_title": "Navigátor",
+        "my_shared": "Moje zdieľané položky",
+        "participant_uploads": "Nahrávania účastníkov"
     },
     "popup_rename": {
         "title": "Zmeňte názov položky"
@@ -208,7 +236,9 @@
         "create_folder": "Vytvoriť priečinok",
         "preview": "Zmeniť náhľad",
         "upload": "Nahrať súbory",
-        "delete": "Vymazať položku"
+        "delete": "Vymazať položku",
+        "move": "Presunúť položku",
+        "share": "Zdieľať položku"
     },
     "types": {
         "folder": "Priečinok",

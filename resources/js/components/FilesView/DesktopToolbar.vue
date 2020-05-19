@@ -43,14 +43,14 @@
                     <ToolbarButton
                             source="move"
                             :class="{'is-inactive': canMoveInView}"
-                            action="Move"
+                            :action="$t('actions.move')"
                             @click.native="moveItem"
                     />
                     <ToolbarButton
                             v-if="! $isThisLocation(['public'])"
                             source="share"
                             :class="{'is-inactive': canShareInView}"
-                            action="Share"
+                            :action="$t('actions.share')"
                             @click.native="shareItem"
                     />
                     <ToolbarButton

@@ -72,7 +72,7 @@ const actions = {
 
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
-            name: 'Latest',
+            name: i18n.t('sidebar.latest'),
             unique_id: undefined,
             location: 'latest',
         })
@@ -90,7 +90,7 @@ const actions = {
         commit('FLUSH_FOLDER_HISTORY')
 
         let currentFolder = {
-            name: 'Shared',
+            name: i18n.t('sidebar.my_shared'),
             location: 'shared',
             unique_id: undefined,
         }
@@ -112,7 +112,7 @@ const actions = {
 
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
-            name: 'Participant Uploads',
+            name: i18n.t('sidebar.participant_uploads'),
             unique_id: undefined,
             location: 'participant_uploads',
         })
@@ -131,7 +131,7 @@ const actions = {
         commit('FLUSH_FOLDER_HISTORY')
 
         let trash = {
-            name: 'Trash',
+            name: i18n.t('locations.trash'),
             unique_id: undefined,
             location: 'trash-root',
         }

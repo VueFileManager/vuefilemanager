@@ -3,14 +3,14 @@
         <ContentSidebar>
 
             <!--Tools-->
-            <ContentGroup title="Tools" class="navigator">
+            <ContentGroup :title="$t('sidebar.tools_title')" class="navigator">
                 <div class="menu-list-wrapper">
                     <div class="menu-list-item link" @click="emptyTrash()">
                         <div class="icon">
                             <trash-icon size="17"></trash-icon>
                         </div>
                         <div class="label">
-                            Empty Trash
+                            {{ $t('context_menu.empty_trash') }}
                         </div>
                     </div>
                 </div>

@@ -2,8 +2,13 @@
     "routes": {
         "create_new_password": "创建新密码"
     },
+    "routes_title": {
+        "profile": "User Profile",
+        "settings_password": "Change Password",
+        "settings_storage": "Storage",
+        "settings_mobile": "Settings"
+    },
     "profile": {
-        "page_title": "用户信息",
         "store_pass": "保存您的密码",
         "change_pass": "修改您的密码",
         "profile_info": "用户信息",
@@ -78,8 +83,9 @@
         "placeholder_search_files": "搜索文件"
     },
     "messages": {
+        "nothing_from_participants": "You don't have any uploads from other users.",
         "nothing_to_preview": "没有任何信息可以预览。",
-        "nothing_was_found": "没找到任何信息"
+        "nothing_was_found": "没找到任何信息。"
     },
     "locations": {
         "shared": "已分享",
@@ -111,8 +117,15 @@
         "of": "of"
     },
     "storage": {
-        "used": "{used} 在 {capacity} 已使用",
-        "title": "存储空间"
+        "sec_capacity": "Storage Capacity",
+        "sec_details": "Capacity Used Details",
+        "total_used": "Total used {used}",
+        "total_capacity": "Your storage capacity {capacity}",
+        "images": "Images",
+        "videos": "Videos",
+        "audios": "Audios",
+        "documents": "Documents",
+        "others": "Others"
     },
     "folder": {
         "item_counts": "{count} 个文件 | {count} 个文件",
@@ -144,13 +157,28 @@
         "share": "分享",
         "move": "移动"
     },
+    "menu": {
+        "files": "Files",
+        "latest": "Recent Uploads",
+        "shared": "Shared Files",
+        "trash": "Trash",
+        "settings": "Settings",
+        "logout": "Log Out",
+        "profile": "Profile Settings",
+        "password": "Password",
+        "storage": "Storage"
+    },
     "sidebar": {
-        "shared": "已分享",
-        "locations": "位置",
         "favourites": "收藏",
         "favourites_empty": "将您想要收藏的文件夹拖动至此",
-        "latest": "最新上传",
-        "latest_empty": "您并没有最新上传的记录"
+        "folders_empty": "Create some new folder.",
+        "latest": "Recent Uploads",
+        "home": "Home",
+        "tools_title": "Tools",
+        "locations_title": "Base",
+        "navigator_title": "Navigator",
+        "my_shared": "My Shared Items",
+        "participant_uploads": "Participant Uploads"
     },
     "popup_rename": {
         "title": "修改文件/夹名称"
@@ -208,7 +236,9 @@
         "create_folder": "穿件文件夹",
         "preview": "更改预览",
         "upload": "上传文件",
-        "delete": "删除内容"
+        "delete": "删除内容",
+        "move": "Move item",
+        "share": "Share item"
     },
     "types": {
         "folder": "文件夹",

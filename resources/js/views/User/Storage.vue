@@ -1,18 +1,19 @@
 <template>
-    <div id="user-settings" v-if="app">
+    <div id="user-settings" v-if="storageDetails && storage">
 
         <MobileHeader/>
         <PageHeader :title="$router.currentRoute.meta.title"/>
 
         <div class="content-page">
-            <SectionTitle>Storage Capacity</SectionTitle>
-            <StorageItemDetail type="disk" :title="'Total used ' + storage.used" :percentage="storage.percentage" :used="storage.capacity"/>
+            <SectionTitle>{{ $t('storage.sec_capacity') }}</SectionTitle>
+            <StorageItemDetail type="disk" :title="$t('storage.total_used', {used: storage.used})" :percentage="storage.percentage" :used="$t('storage.total_capacity', {capacity: storage.capacity})"/>
 
-            <SectionTitle>Capacity Used Details</SectionTitle>
-            <StorageItemDetail type="images" title="Images" :percentage="storageDetails.images.percentage" :used="storageDetails.images.used" />
-            <StorageItemDetail type="videos" title="Videos" :percentage="storageDetails.videos.percentage" :used="storageDetails.videos.used" />
-            <StorageItemDetail type="documents" title="Documents" :percentage="storageDetails.documents.percentage" :used="storageDetails.documents.used" />
-            <StorageItemDetail type="others" title="Others" :percentage="storageDetails.others.percentage" :used="storageDetails.others.used" />
+            <SectionTitle>{{ $t('storage.sec_details') }}</SectionTitle>
+            <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storageDetails.images.percentage" :used="storageDetails.images.used" />
+            <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storageDetails.videos.percentage" :used="storageDetails.videos.used" />
+            <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storageDetails.audios.percentage" :used="storageDetails.audios.used" />
+            <StorageItemDetail type="documents" :title="$t('storage.documents')" :percentage="storageDetails.documents.percentage" :used="storageDetails.documents.used" />
+            <StorageItemDetail type="others" :title="$t('storage.others')" :percentage="storageDetails.others.percentage" :used="storageDetails.others.used" />
         </div>
     </div>
 </template>
@@ -32,9 +33,6 @@
             SectionTitle,
             MobileHeader,
             PageHeader,
-        },
-        computed: {
-            ...mapGetters(['app']),
         },
         data() {
             return {

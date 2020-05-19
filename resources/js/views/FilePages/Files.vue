@@ -4,14 +4,14 @@
         <ContentSidebar>
 
             <!--Locations-->
-            <ContentGroup title="Base">
+            <ContentGroup :title="$t('sidebar.locations_title')">
                 <div class="menu-list-wrapper">
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['base'])}" @click="goHome">
                         <div class="icon">
                             <home-icon size="17"></home-icon>
                         </div>
                         <div class="label">
-                            Home
+                            {{ $t('sidebar.home') }}
                         </div>
                     </a>
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['latest'])}"
@@ -20,16 +20,16 @@
                             <upload-cloud-icon size="17"></upload-cloud-icon>
                         </div>
                         <div class="label">
-                            Recent Uploads
+                            {{ $t('sidebar.latest') }}
                         </div>
                     </a>
                 </div>
             </ContentGroup>
 
             <!--Navigator-->
-            <ContentGroup title="Navigator" class="navigator">
+            <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
                 <span class="empty-note navigator" v-if="app.tree.length == 0">
-                    Create some new folder.
+                    {{ $t('sidebar.folders_empty') }}
                 </span>
                 <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in app.tree"
                                    :key="items.unique_id"/>

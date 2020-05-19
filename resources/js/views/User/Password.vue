@@ -2,7 +2,7 @@
     <div id="user-settings">
 
         <MobileHeader />
-        <PageHeader title="Password Settings"/>
+        <PageHeader :title="$router.currentRoute.meta.title"/>
 
         <div class="content-page">
 
