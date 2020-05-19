@@ -3,6 +3,8 @@ const defaultState = {
 	FilePreviewType: localStorage.getItem('preview_type') || 'list',
 	appSize: undefined,
 	config: undefined,
+	authorized: undefined,
+	homeDirectory: undefined,
 }
 const actions = {
 	changePreviewType: ({commit, dispatch, state, getters}) => {
@@ -14,18 +16,6 @@ const actions = {
 
 		// Change preview
 		commit('CHANGE_PREVIEW', previewType)
-
-		if (getters.currentFolder.location === 'trash-root') {
-			dispatch('getTrash')
-
-		} else {
-
-			if ( getters.currentFolder.location === 'public' ) {
-				dispatch('browseShared', [getters.currentFolder, false, true])
-			} else {
-				dispatch('getFolder', [getters.currentFolder, false, true])
-			}
-		}
 	},
 	fileInfoToggle: (context, visibility = undefined) => {
 		if (!visibility) {
@@ -40,6 +30,11 @@ const actions = {
 	},
 }
 const mutations = {
+	INIT(state, data) {
+		state.config = data.config
+		state.authorized = data.authCookie
+		state.homeDirectory = data.rootDirectory
+	},
 	FILE_INFO_TOGGLE(state, isVisible) {
 		state.fileInfoPanelVisible = isVisible
 
@@ -48,13 +43,12 @@ const mutations = {
 	SET_APP_WIDTH(state, scale) {
 		state.appSize = scale
 	},
+	SET_AUTHORIZED(state, data) {
+		state.authorized = data
+	},
 	CHANGE_PREVIEW(state, type) {
 		state.FilePreviewType = type
 	},
-	SET_CONFIG(state, config) {
-		state.config = config
-	},
-
 }
 const getters = {
 	fileInfoVisible: state => state.fileInfoPanelVisible,
@@ -62,6 +56,7 @@ const getters = {
 	appSize: state => state.appSize,
 	api: state => state.config.api,
 	config: state => state.config,
+	homeDirectory: state => state.homeDirectory,
 }
 
 export default {

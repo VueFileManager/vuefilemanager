@@ -1,52 +1,20 @@
 <template>
     <div id="user-settings">
 
-        <PageHeader :title="$t('profile.page_title')" />
+        <MobileHeader />
+        <PageHeader :title="$router.currentRoute.meta.title"/>
 
         <div class="content-page">
-            <div class="avatar-upload">
-                <UserImageInput
-                        v-model="avatar"
-                        :avatar="app.user.avatar"
-                />
-                <div class="info">
-                    <span class="description">{{ $t('profile.photo_description') }}</span>
-                    <span class="supported">{{ $t('profile.photo_supported') }}</span>
-                </div>
-            </div>
-
-            <ValidationObserver ref="account" v-slot="{ invalid }" tag="form" class="form block-form">
-
-                <ThemeLabel>{{ $t('profile.profile_info') }}</ThemeLabel>
-                <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
-                    <div class="input-wrapper">
-                        <input :value="app.user.email" :placeholder="$t('page_registration.placeholder_email')" type="email" disabled/>
-                    </div>
-                </div>
-
-                <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
-                                        v-slot="{ errors }">
-                        <input @keyup="$updateText('/user/profile', 'name', name)" v-model="name"
-                               :placeholder="$t('page_registration.placeholder_name')" type="text"
-                               :class="{'is-error': errors[0]}"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-            </ValidationObserver>
 
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
-
-                <ThemeLabel>{{ $t('profile.change_pass') }}</ThemeLabel>
 
                 <div class="block-wrapper">
                     <label>{{ $t('page_create_password.label_new_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')" type="password"
+                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
+                               type="password"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -56,7 +24,8 @@
                     <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="newPasswordConfirmation" :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+                        <input v-model="newPasswordConfirmation"
+                               :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -75,12 +44,12 @@
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import UserImageInput from '@/components/Others/UserImageInput'
+    import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
-    import {debounce} from 'lodash'
     import {events} from '@/bus'
     import axios from 'axios'
 
@@ -90,6 +59,7 @@
             ValidationProvider,
             ValidationObserver,
             UserImageInput,
+            MobileHeader,
             PageHeader,
             ButtonBase,
             ThemeLabel,
@@ -98,19 +68,10 @@
         computed: {
             ...mapGetters(['app']),
         },
-        watch: {
-            name: debounce(function (val) {
-                if (val === '') return
-
-                this.$store.commit('UPDATE_NAME', val)
-            }, 300),
-        },
         data() {
             return {
                 newPasswordConfirmation: '',
                 newPassword: '',
-                avatar: undefined,
-                name: '',
             }
         },
         methods: {
@@ -124,9 +85,9 @@
                 // Send request to get user reset link
                 axios
                     .post(this.$store.getters.api + '/user/password', {
-                            password: this.newPassword,
-                            password_confirmation: this.newPasswordConfirmation,
-                        })
+                        password: this.newPassword,
+                        password_confirmation: this.newPasswordConfirmation,
+                    })
                     .then(() => {
 
                         // Reset inputs
@@ -155,66 +116,14 @@
                         }
                     })
             }
-        },
-        created() {
-            this.name = this.app.user.name
-            this.avatar = this.app.user.avatar
         }
     }
 </script>
 
-<style lang="scss">
-    @import "@assets/app.scss";
+<style lang="scss" scoped>
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
-
-    .avatar-upload {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-
-        .info {
-            margin-left: 25px;
-
-            .description {
-                @include font-size(18);
-                font-weight: 700;
-                color: $text;
-            }
-
-            .supported {
-                display: block;
-                @include font-size(12);
-                font-weight: 500;
-                color: $light_text;
-            }
-        }
-    }
-
-    .form {
-
-        .confirm-form {
-            margin-top: 30px;
-            text-align: right;
-        }
-
-        &.block-form {
-            margin-top: 50px;
-            max-width: 700px;
-
-            .block-wrapper {
-                justify-content: flex-start;
-
-                label {
-                    text-align: left;
-                    flex: 0 0 220px;
-                }
-
-                .input-wrapper, input {
-                    width: 100%;
-                }
-            }
-        }
-    }
 
     #user-settings {
         overflow: hidden;
@@ -223,11 +132,12 @@
         position: relative;
 
         .content-page {
-            padding-left: 30px;
-            padding-right: 30px;
             overflow-y: auto;
             height: 100%;
             padding-bottom: 100px;
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
         }
     }
 
@@ -241,10 +151,6 @@
             }
         }
 
-        .avatar-upload {
-            margin-top: 30px;
-        }
-
         .form {
             .button-base {
                 width: 100%;
@@ -256,16 +162,6 @@
 
     @media (prefers-color-scheme: dark) {
 
-        .avatar-upload .info {
-
-            .description {
-                color: $dark_mode_text_primary;
-            }
-
-            .supported {
-                color: $dark_mode_text_secondary;
-            }
-        }
     }
 
 </style>

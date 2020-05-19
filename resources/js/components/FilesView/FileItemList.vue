@@ -51,12 +51,12 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && data.shared" class="item-shared">
-                        <FontAwesomeIcon class="shared-icon" icon="share"/>
+                        <link-icon size="12" class="shared-icon"></link-icon>
                     </div>
 
                     <!--Participant owner Icon-->
                     <div v-if="$checkPermission('master') && data.user_scope !== 'master'" class="item-shared">
-                        <FontAwesomeIcon class="shared-icon" icon="user-edit"/>
+                        <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
                     </div>
 
                     <!--Filesize and timestamp-->
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+    import { LinkIcon, UserPlusIcon } from 'vue-feather-icons'
     import {debounce} from 'lodash'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
@@ -87,6 +88,10 @@
     export default {
         name: 'FileItemList',
         props: ['data'],
+        components: {
+            UserPlusIcon,
+            LinkIcon,
+        },
         computed: {
             ...mapGetters(['FilePreviewType']),
             isFolder() {
@@ -164,9 +169,9 @@
 
                     // Go to folder
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [this.data, false])
+                        this.$store.dispatch('browseShared', [{folder: this.data, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [this.data, false])
+                        this.$store.dispatch('getFolder', [{folder: this.data, back: false, init: false}])
                     }
                 }
 
@@ -194,9 +199,9 @@
                 if (this.isFolder) {
 
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [this.data, false])
+                        this.$store.dispatch('browseShared', [{folder: this.data, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [this.data, false])
+                        this.$store.dispatch('getFolder', [{folder: this.data, back: false, init: false}])
                     }
                 }
             },
@@ -229,9 +234,11 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .file-wrapper {
+        user-select: none;
         position: relative;
 
         &:hover {
@@ -278,19 +285,19 @@
                 }
 
                 .shared-icon {
-                    @include font-size(9);
+                    vertical-align: middle;
 
-                    path {
-                        fill: $theme;
+                    path, circle, line {
+                        stroke: $theme;
                     }
                 }
             }
 
             .item-size,
             .item-length {
-                @include font-size(12);
+                @include font-size(11);
                 font-weight: 400;
-                color: $text-muted;
+                color: rgba($text, 0.7);
             }
 
             .name {
@@ -412,15 +419,28 @@
     }
 
     @media (prefers-color-scheme: dark) {
+
         .file-wrapper {
 
-            .icon-item .file-icon {
+            .icon-item {
+                .file-icon {
 
-                path {
-                    fill: $dark_mode_foreground;
-                    stroke: #2F3C54;
+                    path {
+                        fill: $dark_mode_foreground;
+                        stroke: #2F3C54;
+                    }
+                }
+
+                .folder-icon {
+
+                    &.is-deleted {
+                        path {
+                            fill: lighten($dark_mode_foreground, 5%);
+                        }
+                    }
                 }
             }
+
 
             .file-item {
 
@@ -437,8 +457,16 @@
                 }
             }
 
-            .item-name .name {
-                color: $dark_mode_text_primary;
+            .item-name {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
+
+                .item-size,
+                .item-length {
+                    color: $dark_mode_text_secondary;
+                }
             }
         }
     }

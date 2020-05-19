@@ -1,13 +1,9 @@
 <template>
-    <div class="mobile-toolbar" v-if="$isMinimalScale()">
+    <div class="mobile-toolbar">
 
         <!-- Go back-->
         <div @click="goBack" class="go-back-button">
-            <FontAwesomeIcon
-                    :class="{'is-visible': browseHistory.length > 0}"
-                    class="icon-back"
-                    icon="chevron-left"
-            ></FontAwesomeIcon>
+            <chevron-left-icon size="17" :class="{'is-visible': browseHistory.length > 1}" class="icon-back"></chevron-left-icon>
         </div>
 
         <!--Folder Title-->
@@ -15,8 +11,8 @@
 
         <!--More Actions-->
         <div class="more-actions-button">
-            <div class="tap-area" @click="showSidebarMenu" v-if="$checkPermission('master')">
-                <FontAwesomeIcon icon="bars" v-if="isSmallAppSize"></FontAwesomeIcon>
+            <div class="tap-area" @click="showMobileNavigation" v-if="$checkPermission('master')">
+                <menu-icon size="17"></menu-icon>
             </div>
         </div>
     </div>
@@ -26,15 +22,19 @@
     import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
     import ToolbarButton from '@/components/FilesView/ToolbarButton'
     import SearchBar from '@/components/FilesView/SearchBar'
+    import { MenuIcon, ChevronLeftIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
+    import {last} from 'lodash'
 
     export default {
         name: 'MobileToolBar',
         components: {
             ToolbarButtonUpload,
+            ChevronLeftIcon,
             ToolbarButton,
-            SearchBar
+            SearchBar,
+            MenuIcon,
         },
         computed: {
             ...mapGetters([
@@ -49,36 +49,30 @@
             directoryName() {
                 return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name
             },
-            previousFolder() {
-                const length = this.browseHistory.length - 2
-
-                return this.browseHistory[length] ? this.browseHistory[length] : this.homeDirectory
-            },
             isSmallAppSize() {
                 return this.appSize === 'small'
             }
         },
-        data() {
-            return {
-                isSidebarMenu: false,
-            }
-        },
         methods: {
-            showSidebarMenu() {
-                this.isSidebarMenu = ! this.isSidebarMenu
-                events.$emit('show:sidebar')
+            showMobileNavigation() {
+                events.$emit('show:mobile-navigation')
             },
             goBack() {
 
-                if (this.previousFolder.location === 'trash-root') {
+                let previousFolder = last(this.browseHistory)
+
+                if (previousFolder.location === 'trash-root') {
                     this.$store.dispatch('getTrash')
-                    this.$store.commit('FLUSH_BROWSER_HISTORY')
+
+                } else if (previousFolder.location === 'shared') {
+                    this.$store.dispatch('getShared')
 
                 } else {
+
                     if ( this.$isThisLocation('public') ) {
-                        this.$store.dispatch('browseShared', [this.previousFolder, true])
+                        this.$store.dispatch('browseShared', [{folder: previousFolder, back: true, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [this.previousFolder, true])
+                        this.$store.dispatch('getFolder', [{folder: previousFolder, back: true, init: false}])
                     }
                 }
             },
@@ -93,13 +87,13 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
-
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .mobile-toolbar {
         background: white;
         text-align: center;
-        display: flex;
+        display: none;
         padding: 10px 0;
         position: sticky;
         top: 0;
@@ -121,6 +115,7 @@
                 cursor: pointer;
                 opacity: 0;
                 visibility: hidden;
+                margin-top: -2px;
 
                 &.is-visible {
                     opacity: 1;
@@ -154,7 +149,18 @@
                 position: absolute;
                 right: -10px;
                 top: -20px;
+
+                path, line, polyline, rect, circle {
+                    stroke: $text;
+                }
             }
+        }
+    }
+
+    @media only screen and (max-width: 960px) {
+
+        .mobile-toolbar {
+            display: flex;
         }
     }
 
@@ -167,8 +173,11 @@
                 color: $dark_mode_text_primary;
             }
 
-            .more-actions-button svg path {
-                fill: $dark_mode_text_primary;
+            .more-actions-button .tap-area {
+
+                path, line, polyline, rect, circle {
+                    stroke: $dark_mode_text_primary;
+                }
             }
         }
     }

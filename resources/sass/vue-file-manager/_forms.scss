@@ -1,4 +1,8 @@
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
+
 .form {
+  max-width: 700px;
 
   &.inline-form {
     display: flex;
@@ -18,30 +22,15 @@
 
   &.block-form {
 
-    &.create-new-password {
-      .block-wrapper label {
-        width: 280px;
-      }
-    }
-
     .block-wrapper {
-      display: flex;
-      align-items: center;
-      margin-top: 25px;
-      justify-content: center;
-
-      &:first-child {
-        margin-top: 0;
-      }
+      margin-bottom: 20px;
 
       label {
-        white-space: nowrap;
-        @include font-size(18);
+        @include font-size(12);
+        color: #AFAFAF;
         font-weight: 700;
-        padding-right: 20px;
-        width: 200px;
-        text-align: right !important;
-        color: $text;
+        display: block;
+        margin-bottom: 5px;
       }
     }
 
@@ -70,16 +59,16 @@ textarea,
 input[type="password"],
 input[type="text"],
 input[type="email"] {
-  background: $light_background;
   border: 1px solid transparent;
-  transition: 0.15s all ease;
-  @include font-size(16);
+  @include transition(150ms);
+  @include font-size(15);
   border-radius: 8px;
   padding: 13px 20px;
   appearance: none;
   font-weight: 700;
   outline: 0;
   width: 100%;
+  background: $light_mode_input_background;
 
   &.is-error {
     border-color: $danger;
@@ -87,8 +76,9 @@ input[type="email"] {
   }
 
   &::placeholder {
-    color: $light_text;
-    @include font-size(16);
+    //color: $light_text;
+    color: rgba($text, 0.5);
+    @include font-size(15);
   }
 
   &:focus {
@@ -97,7 +87,7 @@ input[type="email"] {
   }
 
   &[disabled] {
-    color: $light_text;
+    background: hsl(0, 0%, 98%);
     cursor: not-allowed;
   }
 }
@@ -204,6 +194,7 @@ input[type="email"] {
     }
 
     &[disabled] {
+      background: $dark_mode_foreground;
       color: rgba($dark_mode_text_secondary, 15%);
     }
   }

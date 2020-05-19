@@ -9,79 +9,213 @@
             >
                 <div class="menu-wrapper">
 
+                    <!--Item Thumbnail-->
+                    <ThumbnailItem class="item-thumbnail" :item="fileInfoDetail" info="metadata"/>
+
                     <!--Mobile for trash location-->
-                    <ul v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="menu-options">
-                        <li class="menu-option" @click="$store.dispatch('restoreItem', fileInfoDetail)" v-if="fileInfoDetail">
-                            {{ $t('context_menu.restore') }}
-                        </li>
-                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
-                            {{ $t('context_menu.download') }}
-                        </li>
-                        <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.delete') }}
-                        </li>
-                    </ul>
+                    <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="menu-options">
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="$store.dispatch('restoreItem', fileInfoDetail)" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <life-buoy-icon size="17"></life-buoy-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.restore') }}
+                                </div>
+                            </li>
+                            <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <trash-2-icon size="17"></trash-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.delete') }}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="menu-option-group" v-if="! isFolder">
+                            <li class="menu-option" @click="downloadItem">
+                                <div class="icon">
+                                    <download-cloud-icon size="17"></download-cloud-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!--Mobile for Base location-->
-                    <ul v-if="$isThisLocation(['shared']) && $checkPermission('master')" class="menu-options">
-                        <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
-                            {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
-                        </li>
-                        <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.rename') }}
-                        </li>
-                        <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
-                            {{ fileInfoDetail.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
-                        </li>
-                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
-                            {{ $t('context_menu.download') }}
-                        </li>
-                        <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.delete') }}
-                        </li>
-                    </ul>
+                    <div v-if="$isThisLocation(['shared']) && $checkPermission('master')" class="menu-options">
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
+                                <div class="icon">
+                                    <star-icon size="17"></star-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ isInFavourites ? $t('context_menu.remove_from_favourites') :
+                                    $t('context_menu.add_to_favourites') }}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <edit-2-icon size="17"></edit-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.rename') }}
+                                </div>
+                            </li>
+                            <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <link-icon size="17"></link-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ fileInfoDetail.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
+                                </div>
+                            </li>
+                            <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <trash-2-icon size="17"></trash-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.delete') }}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                                <div class="icon">
+                                    <download-cloud-icon size="17"></download-cloud-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!--Mobile for Base location-->
-                    <ul v-if="$isThisLocation(['base']) && $checkPermission('master')" class="menu-options">
-                        <li class="menu-option" @click="addToFavourites" v-if="fileInfoDetail && isFolder">
-                            {{ isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites') }}
-                        </li>
-                        <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.rename') }}
-                        </li>
-                        <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.move') }}
-                        </li>
-                        <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
-                            {{ fileInfoDetail.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
-                        </li>
-                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
-                            {{ $t('context_menu.download') }}
-                        </li>
-                        <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.delete') }}
-                        </li>
-                    </ul>
+                    <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')" class="menu-options">
+                        <ul class="menu-option-group" v-if="fileInfoDetail && isFolder">
+                            <li class="menu-option" @click="addToFavourites">
+                                <div class="icon">
+                                    <star-icon size="17"></star-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ isInFavourites ? $t('context_menu.remove_from_favourites') :
+                                    $t('context_menu.add_to_favourites') }}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <edit-2-icon size="17"></edit-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.rename') }}
+                                </div>
+                            </li>
+                            <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <corner-down-right-icon size="17"></corner-down-right-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.move') }}
+                                </div>
+                            </li>
+                            <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <link-icon size="17"></link-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ fileInfoDetail.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
+                                </div>
+                            </li>
+                            <li class="menu-option delete" @click="deleteItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <trash-2-icon size="17"></trash-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.delete') }}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                                <div class="icon">
+                                    <download-cloud-icon size="17"></download-cloud-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!--Mobile for Base location with EDITOR permission-->
-                    <ul v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor')" class="menu-options">
-                        <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.rename') }}
-                        </li>
-                        <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
-                            {{ $t('context_menu.move') }}
-                        </li>
-                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
-                            {{ $t('context_menu.download') }}
-                        </li>
-                    </ul>
+                    <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor')" class="menu-options">
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <edit-2-icon size="17"></edit-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.rename') }}
+                                </div>
+                            </li>
+                            <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+                                <div class="icon">
+                                    <corner-down-right-icon size="17"></corner-down-right-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.move') }}
+                                </div>
+                            </li>
+                            <li class="menu-option" @click="deleteItem">
+                                <div class="icon">
+                                    <trash-2-icon size="17"></trash-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.delete') }}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                                <div class="icon">
+                                    <download-cloud-icon size="17"></download-cloud-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!--Mobile for Base location with VISITOR permission-->
-                    <ul v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')" class="menu-options">
-                        <li class="menu-option" @click="downloadItem" v-if="! isFolder">
-                            {{ $t('context_menu.download') }}
-                        </li>
-                    </ul>
+                    <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')" class="menu-options">
+                        <ul class="menu-option-group">
+                            <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                                <div class="icon">
+                                    <download-cloud-icon size="17"></download-cloud-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -92,11 +226,37 @@
 </template>
 
 <script>
+    import ThumbnailItem from '@/components/Others/ThumbnailItem'
+    import {
+        CornerDownRightIcon,
+        DownloadCloudIcon,
+        FolderPlusIcon,
+        LifeBuoyIcon,
+        Trash2Icon,
+        Edit2Icon,
+        TrashIcon,
+        StarIcon,
+        LinkIcon,
+        EyeIcon,
+    } from 'vue-feather-icons'
     import {events} from '@/bus'
     import {mapGetters} from 'vuex'
 
     export default {
         name: 'MobileMenu',
+        components: {
+            CornerDownRightIcon,
+            DownloadCloudIcon,
+            FolderPlusIcon,
+            ThumbnailItem,
+            LifeBuoyIcon,
+            Trash2Icon,
+            Edit2Icon,
+            TrashIcon,
+            LinkIcon,
+            StarIcon,
+            EyeIcon,
+        },
         computed: {
             ...mapGetters(['fileInfoDetail', 'app']),
             isInFavourites() {
@@ -139,14 +299,12 @@
                 }
             },
             downloadItem() {
-                // Download file
                 this.$downloadFile(
                     this.fileInfoDetail.file_url,
                     this.fileInfoDetail.name + '.' + this.fileInfoDetail.mimetype
                 )
             },
             deleteItem() {
-                // Dispatch remove item
                 this.$store.dispatch('deleteItem', this.fileInfoDetail)
             },
             renameItem() {
@@ -194,10 +352,25 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
+
+    .menu-option {
+        display: flex;
+        align-items: center;
+
+        .icon {
+            margin-right: 20px;
+            line-height: 0;
+        }
+
+        .text-label {
+            @include font-size(16);
+        }
+    }
 
     .vignette {
-        background: rgba(0, 0, 0, 0.15);
+        background: rgba(0, 0, 0, 0.35);
         position: absolute;
         top: 0;
         right: 0;
@@ -215,29 +388,46 @@
         right: 0;
         z-index: 99;
         overflow: hidden;
+        background: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
 
         &.showed {
             display: block;
         }
 
+        .item-thumbnail {
+            padding: 20px 20px 10px;
+            margin-bottom: 0px;
+        }
+
         .menu-options {
             margin-top: 10px;
-            box-shadow: $shadow;
-            background: white;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
             list-style: none;
             width: 100%;
+
+            .menu-option-group {
+                padding: 5px 0;
+                border-bottom: 1px solid $light_mode_border;
+
+                &:first-child {
+                    padding-top: 0;
+                }
+
+                &:last-child {
+                    padding-bottom: 0;
+                    border-bottom: none;
+                }
+            }
 
             .menu-option {
                 font-weight: 700;
                 letter-spacing: 0.15px;
-                @include font-size(15);
+                @include font-size(14);
                 cursor: pointer;
                 width: 100%;
-                padding: 20px 10px;
+                padding: 17px 20px;
                 text-align: center;
-                border-bottom: 1px solid $light_mode_border;
 
                 &:last-child {
                     border: none;
@@ -253,12 +443,16 @@
         }
 
         .options {
+            background: $dark_mode_background;
 
             .menu-options {
                 background: $dark_mode_background;
 
-                .menu-option {
+                .menu-option-group {
                     border-color: $dark_mode_border_color;
+                }
+
+                .menu-option {
                     color: $dark_mode_text_primary;
                 }
             }

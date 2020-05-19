@@ -11,15 +11,22 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .text-label {
-        @include font-size(10);
-        color: $theme;
-        text-transform: uppercase;
-        font-weight: 900;
+        padding-left: 25px;
+        @include font-size(12);
+        color: #AFAFAF;
+        font-weight: 700;
         display: block;
         margin-bottom: 5px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        .text-label {
+            padding-left: 20px;
+        }
     }
 
     @media (prefers-color-scheme: dark) {

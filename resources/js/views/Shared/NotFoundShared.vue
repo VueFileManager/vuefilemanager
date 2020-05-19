@@ -47,7 +47,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
-    @import '@assets/vue-file-manager/_forms';
     @import '@assets/vue-file-manager/_auth';
 </style>

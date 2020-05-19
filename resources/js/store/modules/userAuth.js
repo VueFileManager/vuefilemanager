@@ -80,9 +80,6 @@ const mutations = {
     SET_PERMISSION(state, role) {
         state.permission = role
     },
-    SET_AUTHORIZED(state, data) {
-        state.authorized = data
-    },
     DESTROY_DATA(state) {
         state.authorized = false
         state.app = undefined
@@ -101,15 +98,11 @@ const mutations = {
         state.app.user.avatar = avatar
     },
     UPDATE_RECENT_UPLOAD(state, file) {
-
         // Remove last file from altest uploads
         if (state.app.latest_uploads.length === 7) state.app.latest_uploads.pop()
 
         // Add new file to latest uploads
         state.app.latest_uploads.unshift(file)
-    },
-    REMOVE_ITEM_FROM_RECENT_UPLOAD(state, unique_id) {
-        state.app.latest_uploads = state.app.latest_uploads.filter(file => file.unique_id !== unique_id)
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
         state.app.favourites = state.app.favourites.filter(folder => folder.unique_id !== item.unique_id)

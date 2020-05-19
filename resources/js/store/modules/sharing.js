@@ -20,9 +20,11 @@ const defaultState = {
     sharedFile: undefined,
 }
 const actions = {
-    browseShared: ({commit, state, getters}, [folder, back = false, init = false]) => {
-        commit('LOADING_STATE', true)
-        commit('FLUSH_DATA')
+    browseShared: ({commit, getters}, [payload]) => {
+        commit('LOADING_STATE', {loading: true, data: []})
+
+        if (payload.init)
+            commit('FLUSH_FOLDER_HISTORY')
 
         // Clear search
         if (getters.isSearching) {
@@ -30,34 +32,25 @@ const actions = {
             events.$emit('clear-query')
         }
 
-        // Create current folder for history
-        let currentFolder = {
-            name: folder.name,
-            unique_id: folder.unique_id,
-            location: 'public'
-        }
+        if (! payload.back)
+            commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
+
+        payload.folder.location = 'public'
 
         let route = getters.sharedDetail.protected
-            ? '/api/folders/' + currentFolder.unique_id + '/private'
-            : '/api/folders/' + currentFolder.unique_id + '/public/' + router.currentRoute.params.token +'/'
+            ? '/api/folders/' + payload.folder.unique_id + '/private'
+            : '/api/folders/' + payload.folder.unique_id + '/public/' + router.currentRoute.params.token +'/'
 
         return new Promise((resolve, reject) => {
             axios
                 .get(route)
                 .then(response => {
-
-                    commit('LOADING_STATE', false)
-                    commit('GET_DATA', response.data)
-                    commit('STORE_CURRENT_FOLDER', currentFolder)
+                    commit('LOADING_STATE', {loading: false, data: response.data})
+                    commit('STORE_CURRENT_FOLDER', payload.folder)
                     events.$emit('scrollTop')
 
-                    if (back) {
+                    if (payload.back)
                         commit('REMOVE_BROWSER_HISTORY')
-
-                    } else {
-                        if (!init)
-                            commit('ADD_BROWSER_HISTORY', currentFolder)
-                    }
 
                     resolve(response)
                 })

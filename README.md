@@ -1,6 +1,10 @@
 ### Documentation
 [Read online documentation](https://vuefilemanager.com/docs/)
 
+### Demo & dev preview links
+* For visit demo version click here [demo.vuefilemanager.com](https://demo.vuefilemanager.com/) 
+* For visit dev version click here [dev.vuefilemanager.com](https://dev.vuefilemanager.com/) (It's auto deployed dev branch. Can be unstable and not ready for production)
+
 ### Installation setup
 
 Run these commands to install vendors:

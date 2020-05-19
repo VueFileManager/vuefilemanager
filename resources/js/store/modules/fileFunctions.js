@@ -1,10 +1,11 @@
 import i18n from '@/i18n/index'
 import router from '@/router'
 import {events} from '@/bus'
+import {last} from 'lodash'
 import axios from 'axios'
 
 const actions = {
-    moveItem: ({commit, getters}, [item_from, to_item]) => {
+    moveItem: ({commit, getters, dispatch}, [item_from, to_item]) => {
 
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
@@ -19,10 +20,14 @@ const actions = {
             .then(() => {
                 commit('REMOVE_ITEM', item_from.unique_id)
                 commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
+
+                if (item_from.type === 'folder' && getters.currentFolder.location !== 'public')
+                    dispatch('getAppData')
+
             })
             .catch(() => isSomethingWrong())
     },
-    createFolder: ({commit, getters}, folderName) => {
+    createFolder: ({commit, getters, dispatch}, folderName) => {
 
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
@@ -36,10 +41,14 @@ const actions = {
             })
             .then(response => {
                 commit('ADD_NEW_FOLDER', response.data)
+
+                if ( getters.currentFolder.location !== 'public' ) {
+                    dispatch('getAppData')
+                }
             })
             .catch(() => isSomethingWrong())
     },
-    renameItem: ({commit, getters}, data) => {
+    renameItem: ({commit, getters, dispatch}, data) => {
 
         // Updated name in favourites panel
         if (getters.permission === 'master' && data.type === 'folder')
@@ -57,6 +66,9 @@ const actions = {
             })
             .then(response => {
                 commit('CHANGE_ITEM_NAME', response.data)
+
+                if (data.type === 'folder' && getters.currentFolder.location !== 'public')
+                    dispatch('getAppData')
             })
             .catch(() => isSomethingWrong())
     },
@@ -86,9 +98,6 @@ const actions = {
                         commit('ADD_NEW_ITEMS', response.data)
 
                     commit('UPLOADING_FILE_PROGRESS', 0)
-
-                    if (getters.permission === 'master')
-                        commit('UPDATE_RECENT_UPLOAD', response.data)
 
                     resolve(response)
                 })
@@ -121,7 +130,7 @@ const actions = {
             })
             .catch(() => isSomethingWrong())
     },
-    deleteItem: ({commit, getters}, data) => {
+    deleteItem: ({commit, getters, dispatch}, data) => {
 
         // Remove file
         commit('REMOVE_ITEM', data.unique_id)
@@ -131,8 +140,6 @@ const actions = {
 
             if (data.type === 'folder')
                 commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-            else
-                commit('REMOVE_ITEM_FROM_RECENT_UPLOAD', data.unique_id)
         }
 
         // Remove file preview
@@ -150,18 +157,35 @@ const actions = {
                     force_delete: data.deleted_at ? true : false
                 }
             })
+            .then(() => {
+
+                // If is folder, update app data
+                if (data.type === 'folder') {
+
+                    if (data.unique_id === getters.currentFolder.unique_id) {
+
+                        if ( getters.currentFolder.location === 'public' ) {
+                            dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
+                        } else {
+                            dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
+                        }
+                    }
+
+                    if ( getters.currentFolder.location !== 'public' )
+                        dispatch('getAppData')
+                }
+            })
             .catch(() => isSomethingWrong())
     },
     emptyTrash: ({commit, getters}) => {
 
         // Clear file browser
-        commit('FLUSH_DATA')
-        commit('LOADING_STATE', true)
+        commit('LOADING_STATE', {loading: true, data: []})
 
         axios
             .delete(getters.api + '/empty-trash')
             .then(() => {
-                commit('LOADING_STATE', false)
+                commit('LOADING_STATE', {loading: false, data: []})
                 events.$emit('scrollTop')
 
                 // Remove file preview

@@ -2,15 +2,22 @@
     <div class="inline-wrapper icon-append copy-input" :class="size" @click="copyUrl">
         <input ref="sel" :value="value" id="link-input" type="text" class="input-text" readonly>
         <div class="icon">
-            <FontAwesomeIcon :icon="isCopiedLink ? 'check' : 'link'"/>
+            <link-icon v-if="! isCopiedLink" size="14"></link-icon>
+            <check-icon v-if="isCopiedLink" size="14"></check-icon>
         </div>
     </div>
 </template>
 
 <script>
+    import { LinkIcon, CheckIcon } from 'vue-feather-icons'
+
     export default {
         name: 'CopyInput',
         props: ['size', 'value'],
+        components: {
+            CheckIcon,
+            LinkIcon,
+        },
         data() {
             return {
                 isCopiedLink: false,
@@ -40,8 +47,10 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
     @import "@assets/vue-file-manager/_inapp-forms.scss";
+    @import "@assets/vue-file-manager/_forms.scss";
 
     // Single page
     .copy-input {
@@ -51,8 +60,7 @@
             &.icon-append {
 
                 .icon {
-                    padding: 8px 10px;
-                    @include font-size(11);
+                    padding: 10px;
                 }
             }
 
@@ -81,9 +89,6 @@
         .copy-input {
             input {
                 color: $dark_mode_text_primary;
-
-                &:disabled {
-                }
             }
         }
     }

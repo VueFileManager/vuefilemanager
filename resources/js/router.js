@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import i18n from '@/i18n/index'
 
 import Index from './views/Auth/SignIn'
 import SignUp from './views/Auth/SignUp'
@@ -8,8 +9,15 @@ import NotFoundShared from './views/Shared/NotFoundShared'
 import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 
-import Files from './views/Files'
-import Profile from './views/Profile'
+import Settings from './views/Settings'
+import Profile from './views/User/Profile'
+import Storage from './views/User/Storage'
+import Trash from './views/FilePages/Trash'
+import Files from './views/FilePages/Files'
+import Password from './views/User/Password'
+import SharedFiles from './views/FilePages/SharedFiles'
+
+import MobileSettings from './views/Mobile/MobileSettings'
 
 Vue.use(Router)
 
@@ -73,13 +81,67 @@ const router = new Router({
             },
         },
         {
-            name: 'Profile',
-            path: '/profile',
-            component: Profile,
+            name: 'SharedFiles',
+            path: '/shared-files',
+            component: SharedFiles,
             meta: {
                 requiresAuth: true
             },
         },
+        {
+            name: 'Trash',
+            path: '/trash',
+            component: Trash,
+            meta: {
+                requiresAuth: true
+            },
+        },
+        {
+            name: 'Settings',
+            path: '/settings',
+            component: Settings,
+            meta: {
+                requiresAuth: true
+            },
+            children: [
+                {
+                    name: 'Profile',
+                    path: 'profile',
+                    component: Profile,
+                    meta: {
+                        requiresAuth: true,
+                        title: i18n.t('routes_title.profile')
+                    },
+                },
+                {
+                    name: 'Password',
+                    path: '/settings/password',
+                    component: Password,
+                    meta: {
+                        requiresAuth: true,
+                        title: i18n.t('routes_title.settings_password')
+                    },
+                },
+                {
+                    name: 'Storage',
+                    path: '/settings/storage',
+                    component: Storage,
+                    meta: {
+                        requiresAuth: true,
+                        title: i18n.t('routes_title.settings_storage')
+                    },
+                },
+            ]
+        },
+        {
+            name: 'MobileSettings',
+            path: '/settings-mobile',
+            component: MobileSettings,
+            meta: {
+                requiresAuth: true,
+                title: i18n.t('routes_title.settings_mobile')
+            },
+        }
     ],
     scrollBehavior(to, from, savedPosition) {
 

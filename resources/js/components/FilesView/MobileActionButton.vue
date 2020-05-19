@@ -1,24 +1,37 @@
 <template>
     <button class="mobile-action-button">
-        <FontAwesomeIcon class="icon" :icon="icon"></FontAwesomeIcon>
-        <span class="label">
-            <slot></slot>
-        </span>
+        <div class="flex">
+            <folder-plus-icon v-if="icon === 'folder-plus'" size="15" class="icon"></folder-plus-icon>
+            <list-icon v-if="icon === 'th-list'" size="15" class="icon"></list-icon>
+            <trash-icon v-if="icon === 'trash'" size="15" class="icon"></trash-icon>
+            <grid-icon v-if="icon === 'th'" size="15" class="icon"></grid-icon>
+            <span class="label">
+                <slot></slot>
+            </span>
+        </div>
     </button>
 </template>
 
 <script>
+    import { FolderPlusIcon, ListIcon, GridIcon, TrashIcon } from 'vue-feather-icons'
+
     export default {
         name: 'MobileActionButton',
         props: [
             'icon'
         ],
+        components: {
+            FolderPlusIcon,
+            TrashIcon,
+            ListIcon,
+            GridIcon,
+        }
     }
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
-
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .mobile-action-button {
         background: $light_background;
@@ -27,6 +40,11 @@
         padding: 7px 10px;
         cursor: pointer;
         border: none;
+
+        .flex {
+            display: flex;
+            align-items: center;
+        }
 
         .icon {
             margin-right: 10px;
@@ -44,8 +62,8 @@
         .mobile-action-button {
             background: $dark_mode_foreground;
 
-            .icon path {
-                fill: $theme;
+            path, line, polyline, rect, circle {
+                stroke: $theme;
             }
 
             .label {

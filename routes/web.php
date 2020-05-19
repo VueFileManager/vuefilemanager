@@ -11,6 +11,9 @@
 |
 */
 
+// Deployment Webhook URL
+Route::post('/deploy/github', 'DeployController@github');
+
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/public/{token}', 'FileAccessController@get_thumbnail_public');
 Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');

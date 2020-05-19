@@ -24,7 +24,7 @@
             <span class="name">{{ item.name }}</span>
 
             <div v-if="info === 'location'">
-                <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ currentFolder.name }}</span>
+                <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ itemLocation }}</span>
             </div>
 
             <div v-if="info === 'metadata'">
@@ -56,12 +56,16 @@
             isImage() {
                 return this.item.type === 'image'
             },
+            itemLocation() {
+                return this.item.parent ? this.item.parent.name : this.$t('locations.home')
+            }
         },
     }
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .file-item {
         display: flex;
@@ -77,15 +81,9 @@
             white-space: nowrap;
 
             .item-size,
-            .item-length {
-                @include font-size(12);
-                font-weight: 400;
-                color: $text-muted;
-                display: block;
-            }
-
+            .item-length,
             .subtitle {
-                @include font-size(11);
+                @include font-size(12);
                 font-weight: 400;
                 color: $text-muted;
                 display: block;
@@ -104,7 +102,7 @@
 
         .icon-item {
             position: relative;
-            min-width: 40px;
+            min-width: 52px;
             text-align: center;
             line-height: 0;
 
@@ -129,7 +127,7 @@
             .file-icon-text {
                 line-height: 1;
                 top: 40%;
-                @include font-size(9);
+                @include font-size(8);
                 margin: 0 auto;
                 position: absolute;
                 text-align: center;
@@ -150,8 +148,8 @@
                 user-select: none;
                 max-width: 100%;
                 border-radius: 5px;
-                width: 36px;
-                height: 36px;
+                width: 52px;
+                height: 52px;
             }
         }
     }
@@ -159,7 +157,7 @@
     .small {
         .file-item {
             padding: 0 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
     }
 
@@ -170,13 +168,22 @@
             .icon-item .file-icon {
 
                 path {
-                    fill: $dark_mode_background;
+                    fill: $dark_mode_foreground;
                     stroke: #2F3C54;
                 }
             }
 
-            .item-name .name {
-                color: $dark_mode_text_primary;
+            .item-name {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
+
+                .item-size,
+                .item-length,
+                .subtitle {
+                    color: $dark_mode_text_secondary;
+                }
             }
         }
     }

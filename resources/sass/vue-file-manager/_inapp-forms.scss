@@ -1,3 +1,6 @@
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
+
 // Forms
 .form-wrapper {
   padding: 0 20px;
@@ -34,29 +37,44 @@
     }
 
     .icon {
-      background: $theme;
-      padding: 14px 18px;
+      background: black;
+      padding: 15px 18px;
       border-top-right-radius: 8px;
       border-bottom-right-radius: 8px;
-      @include font-size(16);
       text-align: center;
+      line-height: 0;
 
-      svg path {
-        fill: white;
+      path, polyline {
+        stroke: white;
       }
     }
   }
 }
 
 .input-label {
-  @include font-size(15);
+  @include font-size(12);
   color: $text;
   font-weight: 700;
-  margin-bottom: 5px;
   display: block;
+  margin-bottom: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
+
+  .inline-wrapper {
+
+    &.icon-append {
+
+      .icon {
+        background: rgba($theme, 0.1);
+
+        path, polyline {
+          stroke: $theme;
+        }
+      }
+    }
+  }
+
   .input-label {
     color: $dark_mode_text_primary;
   }

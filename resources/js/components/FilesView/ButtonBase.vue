@@ -15,10 +15,11 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .button-base {
-        @include font-size(16);
+        @include font-size(15);
         font-weight: 700;
         cursor: pointer;
         transition: 0.15s all ease;

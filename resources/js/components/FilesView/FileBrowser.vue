@@ -15,7 +15,7 @@
             <MobileToolbar />
 
             <!--Searchbar-->
-            <SearchBar v-if="$isMinimalScale()" class="mobile-search"/>
+            <SearchBar class="mobile-search" />
 
             <!--Mobile Actions-->
             <MobileActions />
@@ -77,7 +77,7 @@
             <FileInfoPanel v-if="fileInfoDetail"/>
 
             <!--If file info panel empty show message-->
-            <EmptyMessage v-if="!fileInfoDetail" :message="$t('messages.nothing_to_preview')" icon="eye-slash"/>
+            <EmptyMessage v-if="!fileInfoDetail" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
         </div>
     </div>
 </template>
@@ -209,7 +209,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .button-upload {
         display: block;
@@ -218,6 +219,7 @@
     }
 
     .mobile-search {
+        display: none;
         margin-bottom: 10px;
         margin-top: 10px;
     }
@@ -276,11 +278,70 @@
         transform: translateX(-20px);
     }
 
-    .file-leave-active {
-        position: absolute;
+    @media only screen and (min-width: 960px) {
+
+        .file-content {
+            position: absolute;
+            top: 72px;
+            left: 15px;
+            right: 15px;
+            bottom: 0;
+            @include transition;
+
+            &.is-offset {
+                margin-top: 50px;
+            }
+        }
     }
 
-    @media only screen and (max-width: 660px) {
+    @media only screen and (max-width: 960px) {
+
+        .file-info-container {
+            display: none;
+        }
+
+        .mobile-search {
+            display: block;
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+
+        .files-container {
+            padding-left: 15px;
+            padding-right: 15px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            position: fixed;
+            overflow-y: auto;
+
+            .file-list {
+
+                &.grid {
+                    grid-template-columns: repeat(auto-fill, 120px);
+                }
+            }
+        }
+
+        .file-content {
+            position: absolute;
+            top: 0;
+            left: 0px;
+            right: 0px;
+            bottom: 0;
+            @include transition;
+
+            &.is-offset {
+                margin-top: 50px;
+            }
+        }
+
+        .mobile-search {
+            margin-bottom: 0;
+        }
+        
         .file-info-container {
             display: none;
         }

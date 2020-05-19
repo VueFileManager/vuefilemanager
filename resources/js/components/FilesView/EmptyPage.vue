@@ -12,13 +12,17 @@
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
             </div>
 
+            <!--Trash empty message-->
+            <div class="text-content" v-if="$isThisLocation(['participant_uploads']) && ! isLoading">
+                <h1 class="title">{{ $t('messages.nothing_from_participants') }}</h1>
+            </div>
+
             <!--Base file browser empty message-->
-            <div class="text-content" v-if="$isThisLocation(['base', 'public']) && !isLoading">
+            <div class="text-content" v-if="$isThisLocation(['base', 'public', 'latest']) && !isLoading">
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
                 <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
                 <ButtonUpload
                         v-if="$checkPermission(['master', 'editor'])"
-                        @input.native="$uploadFiles"
                         button-style="theme"
                 >
                     {{ $t('empty_page.call_to_action') }}
@@ -55,7 +59,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .empty-page {
         position: absolute;
@@ -79,14 +84,14 @@
         margin: 30px 0;
 
         .title {
-            @include font-size(24);
+            @include font-size(20);
             color: $text;
             font-weight: 700;
             margin: 0;
         }
 
         .description {
-            @include font-size(15);
+            @include font-size(13);
             color: $text-muted;
             margin-bottom: 20px;
             display: block;

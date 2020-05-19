@@ -7,12 +7,15 @@
             <div class="flex">
                 <div class="icon">
                     <div class="icon-preview">
-                        <FontAwesomeIcon :icon="filePreviewIcon"></FontAwesomeIcon>
+                        <image-icon v-if="fileType === 'image'" size="21"></image-icon>
+                        <video-icon v-if="fileType === 'video'" size="21"></video-icon>
+                        <folder-icon v-if="fileType === 'folder'" size="21"></folder-icon>
+                        <file-icon v-if="fileType === 'file'" size="21"></file-icon>
                     </div>
                 </div>
                 <div class="file-info">
 					<span ref="name" class="name">{{ fileInfoDetail.name }}</span>
-                    <span class="mimetype" v-if="fileInfoDetail.mimetype">{{ fileInfoDetail.mimetype }}</span>
+                    <span class="mimetype" v-if="fileInfoDetail.mimetype">.{{ fileInfoDetail.mimetype }}</span>
                 </div>
             </div>
         </div>
@@ -42,8 +45,8 @@
             <li v-if="$checkPermission(['master'])" class="list-info-item">
                 <b>{{ $t('file_detail.where') }}</b>
                 <div class="action-button" @click="moveItem">
-                    <FontAwesomeIcon class="icon" icon="pencil-alt" />
                     <span>{{ fileInfoDetail.parent ? fileInfoDetail.parent.name : $t('locations.home') }}</span>
+                    <edit-2-icon size="10" class="edit-icon"></edit-2-icon>
                 </div>
             </li>
 
@@ -51,11 +54,13 @@
             <li v-if="$checkPermission('master') && fileInfoDetail.shared" class="list-info-item">
                 <b>{{ $t('file_detail.shared') }}</b>
                 <div class="action-button" @click="shareItemOptions">
-                    <FontAwesomeIcon class="icon" :icon="sharedIcon" />
                     <span>{{ sharedInfo }}</span>
+                    <edit-2-icon size="10" class="edit-icon"></edit-2-icon>
                 </div>
                 <div class="sharelink">
-                    <FontAwesomeIcon class="lock-icon" :icon="lockIcon" @click="shareItemOptions" />
+                    <lock-icon v-if="isLocked" @click="shareItemOptions" class="lock-icon" size="17"></lock-icon>
+                    <unlock-icon v-if="! isLocked" @click="shareItemOptions" class="lock-icon" size="17"></unlock-icon>
+
                     <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail.shared.link" />
                 </div>
             </li>
@@ -64,6 +69,7 @@
 </template>
 
 <script>
+    import { Edit2Icon, LockIcon, UnlockIcon, ImageIcon, VideoIcon, FolderIcon, FileIcon } from 'vue-feather-icons'
     import FilePreview from '@/components/FilesView/FilePreview'
     import CopyInput from '@/components/Others/Forms/CopyInput'
     import {mapGetters} from 'vuex'
@@ -73,12 +79,20 @@
         name: 'FileInfoPanel',
         components: {
             FilePreview,
+            FolderIcon,
+            UnlockIcon,
+            VideoIcon,
             CopyInput,
+            ImageIcon,
+            FileIcon,
+            Edit2Icon,
+            LockIcon,
         },
         computed: {
             ...mapGetters(['fileInfoDetail', 'permissionOptions']),
-            filePreviewIcon() {
-                switch (this.fileInfoDetail.type) {
+            fileType() {
+                return this.fileInfoDetail.type
+/*                switch () {
                     case 'folder':
                         return 'folder'
                     break;
@@ -94,7 +108,7 @@
                     case 'file':
                         return 'file-audio'
                     break;
-                }
+                }*/
             },
             sharedInfo() {
 
@@ -117,8 +131,8 @@
                         return 'download'
                 }
             },
-            lockIcon() {
-                return this.fileInfoDetail.shared.protected ? 'lock' : 'lock-open'
+            isLocked() {
+                return this.fileInfoDetail.shared.protected
             }
         },
         methods: {
@@ -135,15 +149,14 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .file-info-content {
         padding-bottom: 20px;
     }
 
     .file-headline {
-        background: $light_background;
-        padding: 12px;
         margin-bottom: 20px;
         border-radius: 8px;
 
@@ -153,37 +166,19 @@
         }
 
         .icon-preview {
-            height: 42px;
-            width: 42px;
-            border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0;
-            background: white;
             text-align: center;
             cursor: pointer;
             white-space: nowrap;
             outline: none;
             border: none;
-
-            /deep/ svg {
-                @include font-size(22);
-
-                path {
-                    fill: $theme;
-                }
-            }
-
-            &:hover {
-                .icon path {
-                    fill: $theme;
-                }
-            }
         }
 
         .file-info {
-            padding-left: 12px;
+            padding-left: 10px;
             width: 100%;
             word-break: break-all;
 
@@ -196,7 +191,7 @@
             }
 
             .mimetype {
-                @include font-size(14);
+                @include font-size(12);
                 font-weight: 600;
                 color: $theme;
                 display: block;
@@ -205,11 +200,10 @@
     }
 
     .list-info {
-        padding-left: 12px;
 
         .list-info-item {
             display: block;
-            padding-top: 15px;
+            padding-top: 20px;
 
             &:first-child {
                 padding-top: 0;
@@ -218,14 +212,9 @@
             .action-button {
                 cursor: pointer;
 
-                .icon {
-                    @include font-size(10);
+                .edit-icon {
                     display: inline-block;
-                    margin-right: 2px;
-
-                    path {
-                        fill: $theme;
-                    }
+                    margin-left: 3px;
                 }
             }
 
@@ -252,22 +241,10 @@
         margin-top: 10px;
 
         .lock-icon {
-            @include font-size(10);
             display: inline-block;
-            width: 10px;
+            width: 15px;
             margin-right: 9px;
             cursor: pointer;
-
-            path {
-                fill: $text;
-            }
-
-            &:hover {
-
-                path {
-                    fill: $theme;
-                }
-            }
         }
 
         .copy-sharelink {
@@ -278,11 +255,6 @@
     @media (prefers-color-scheme: dark) {
 
         .file-headline {
-            background: $dark_mode_foreground;
-
-            .icon-preview {
-                background: $dark_mode_background;
-            }
 
             .file-info {
 
@@ -313,14 +285,10 @@
 
             .lock-icon {
 
-                path {
-                    fill: $dark_mode_text_primary;
-                }
-
                 &:hover {
 
-                    path {
-                        fill: $theme;
+                    path, rect {
+                        stroke: $theme;
                     }
                 }
             }

@@ -1,21 +1,27 @@
 <template>
     <div class="empty-message">
         <div class="message">
-            <FontAwesomeIcon class="icon" :icon="icon"/>
+            <eye-off-icon v-if="icon === 'eye-off'" size="36" class="icon"></eye-off-icon>
             <p>{{ message }}</p>
         </div>
     </div>
 </template>
 
 <script>
+    import { EyeOffIcon } from 'vue-feather-icons'
+
     export default {
         name: 'EmptyMessage',
-        props: ['icon', 'message']
+        props: ['icon', 'message'],
+        components: {
+            EyeOffIcon
+        }
     }
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .empty-message {
         text-align: center;
@@ -29,17 +35,14 @@
             p {
                 margin-top: 10px;
                 max-width: 130px;
-                @include font-size(14);
+                @include font-size(13);
                 font-weight: 500;
                 color: $text-muted;
             }
 
             .icon {
-                @include font-size(36);
-                color: $text;
-
-                path {
-                    fill: $text;
+                path, line, polyline, rect, circle {
+                    stroke: $text;
                 }
             }
         }
@@ -47,8 +50,9 @@
 
     @media (prefers-color-scheme: dark) {
         .empty-message .message .icon {
-            path {
-                fill: $dark_mode_text_secondary;
+
+            path, line, polyline, rect, circle {
+                stroke: $dark_mode_text_secondary;
             }
         }
     }

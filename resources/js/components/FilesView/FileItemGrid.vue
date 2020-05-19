@@ -52,12 +52,12 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && data.shared" class="item-shared">
-                        <FontAwesomeIcon class="shared-icon" icon="share"/>
+                        <link-icon size="12" class="shared-icon"></link-icon>
                     </div>
 
                     <!--Participant owner Icon-->
                     <div v-if="$checkPermission('master') && data.user_scope !== 'master'" class="item-shared">
-                        <FontAwesomeIcon class="shared-icon" icon="user-edit"/>
+                        <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
                     </div>
 
                     <!--Filesize-->
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+    import { LinkIcon, UserPlusIcon } from 'vue-feather-icons'
     import {debounce} from 'lodash'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
@@ -86,6 +87,10 @@
     export default {
         name: 'FileItemGrid',
         props: ['data'],
+        components: {
+            UserPlusIcon,
+            LinkIcon,
+        },
         computed: {
             ...mapGetters([
                 'FilePreviewType', 'sharedDetail'
@@ -155,9 +160,9 @@
 
                     // Go to folder
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [this.data, false])
+                        this.$store.dispatch('browseShared', [{folder: this.data, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [this.data, false])
+                        this.$store.dispatch('getFolder', [{folder: this.data, back: false, init: false}])
                     }
                 }
 
@@ -187,11 +192,11 @@
                 }
 
                 if (this.isFolder) {
-                    // Go to folder
+
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [this.data, false])
+                        this.$store.dispatch('browseShared', [{folder: this.data, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [this.data, false])
+                        this.$store.dispatch('getFolder', [{folder: this.data, back: false, init: false}])
                     }
                 }
             },
@@ -224,7 +229,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .show-actions {
         cursor: pointer;
@@ -240,6 +246,7 @@
     }
 
     .file-wrapper {
+        user-select: none;
         position: relative;
         text-align: center;
         display: inline-block;
@@ -254,9 +261,9 @@
 
             .item-size,
             .item-length {
-                @include font-size(12);
+                @include font-size(11);
                 font-weight: 400;
-                color: $text-muted;
+                color: rgba($text, 0.7);
                 display: inline-block;
             }
 
@@ -275,10 +282,10 @@
                 }
 
                 .shared-icon {
-                    @include font-size(9);
+                    vertical-align: middle;
 
-                    path {
-                        fill: $theme;
+                    path, circle, line {
+                        stroke: $theme;
                     }
                 }
             }
@@ -367,6 +374,7 @@
                 left: 0;
                 right: 0;
                 color: $theme;
+                @include font-size(12);
                 font-weight: 600;
                 user-select: none;
                 max-width: 65px;
@@ -404,14 +412,75 @@
         }
     }
 
+    @media only screen and (max-width: 960px) {
+
+        .file-wrapper {
+
+            .icon-item {
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+        .file-wrapper {
+
+            .file-item {
+                width: 120px;
+            }
+
+            .icon-item {
+                margin-bottom: 10px;
+                height: 90px;
+
+                .file-icon {
+                    @include font-size(75);
+                }
+
+                .file-icon-text {
+                    @include font-size(12);
+                }
+
+                .folder-icon {
+                    @include font-size(75);
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+
+                .image {
+                    width: 90px;
+                    height: 90px;
+                }
+            }
+
+            .item-name .name {
+                @include font-size(13);
+                line-height: .9;
+                max-height: 30px;
+            }
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
         .file-wrapper {
 
-            .icon-item .file-icon {
+            .icon-item {
 
-                path {
-                    fill: $dark_mode_foreground;
-                    stroke: #2F3C54;
+                .file-icon {
+
+                    path {
+                        fill: $dark_mode_foreground;
+                        stroke: #2F3C54;
+                    }
+                }
+
+                .folder-icon {
+
+                    &.is-deleted {
+                        path {
+                            fill: lighten($dark_mode_foreground, 5%);
+                        }
+                    }
                 }
             }
 
@@ -430,9 +499,18 @@
                 }
             }
 
-            .item-name .name {
-                color: $dark_mode_text_primary;
+            .item-name {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
+
+                .item-size,
+                .item-length {
+                    color: $dark_mode_text_secondary;
+                }
             }
+
         }
     }
 

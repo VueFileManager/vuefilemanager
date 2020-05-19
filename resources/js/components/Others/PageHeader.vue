@@ -36,19 +36,20 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .page-header {
         display: flex;
         align-items: center;
-        padding: 20px 30px;
         background: white;
-        position: sticky;
-        top: 0;
         z-index: 9;
+        max-width: 700px;
+        width: 100%;
+        margin: 20px auto 30px;
 
         .title {
-            @include font-size(22);
+            @include font-size(18);
             font-weight: 700;
             color: $text;
         }
@@ -64,10 +65,17 @@
 
         .page-header {
             padding: 20px 15px;
+            margin: 0;
 
             .title {
                 @include font-size(18);
             }
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+        .page-header {
+            display: none;
         }
     }
 

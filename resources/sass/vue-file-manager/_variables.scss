@@ -1,24 +1,31 @@
 // Colors
-$text: #1b2539;
-$text-muted: #667b90;
+$text: #1c1d1f;
+$text-muted: rgba($text, 0.7);
 
 $theme: #00BC7E;
 
-$light_mode_border: rgba(0, 0, 0, 0.02);
+$yellow: #FFBD2D;
+$pink: #FE66A1;
+$red: #FE6057;
+$purple: #9D66FE;
+
+$light_mode_border: #F8F8F8;
 $danger: #fd397a;
 $light_text: #A4ADB6;
 $light_background: #f6f6f6;
 $dark_background: #EBEBEB;
 $shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
+
+$light_mode_input_background: hsl(0, 0%, 98%);
 $light_mode_popup_shadow: 0 15px 50px 10px rgba(26,38,74,0.12);
-$light_mode_vignette: rgba(9, 8, 12, 0.15);
+$light_mode_vignette: rgba(9, 8, 12, 0.35);
 
 // Dark Mode
 $dark_mode_vignette: rgba(0, 0, 0, 0.3);
-$dark_mode_background: #1a1f25;
-$dark_mode_foreground: #202733;
-$dark_mode_text_primary: #B8C4D0;
-$dark_mode_text_secondary: #667b90;
+$dark_mode_background: #111314;
+$dark_mode_foreground: #1e2024;
+$dark_mode_text_primary: #bec6cf;
+$dark_mode_text_secondary: #7d858c;
 $dark_mode_vignette: rgba(22, 23, 27, 0.70);
 $dark_mode_popup_shadow: 0 10px 30px rgba(0, 0, 0, .3);
 $dark_mode_border_color: rgba(255, 255, 255, 0.02);

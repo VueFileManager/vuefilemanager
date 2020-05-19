@@ -7,7 +7,8 @@
             <!--If is selected-->
             <div class="selected" v-if="selected">
                 <div class="option-icon" v-if="selected.icon">
-                    <FontAwesomeIcon :icon="selected.icon" />
+                    <user-icon v-if="selected.icon === 'user'" size="14"></user-icon>
+                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14"></edit2-icon>
                 </div>
                 <span class="option-value">{{ selected.label }}</span>
             </div>
@@ -17,7 +18,7 @@
                 <span class="option-value placehoder">{{ placeholder }}</span>
             </div>
 
-            <FontAwesomeIcon icon="chevron-down" class="chevron"/>
+            <chevron-down-icon size="19" class="chevron"></chevron-down-icon>
         </div>
 
         <!--Options-->
@@ -25,7 +26,8 @@
             <ul class="input-options" v-if="isOpen">
                 <li class="option-item" @click="selectOption(option)" v-for="(option, i) in options" :key="i">
                     <div class="option-icon" v-if="option.icon">
-                        <FontAwesomeIcon :icon="option.icon" />
+                        <user-icon v-if="option.icon === 'user'" size="14"></user-icon>
+                        <edit2-icon v-if="option.icon === 'user-edit'" size="14"></edit2-icon>
                     </div>
                     <span class="option-value">{{ option.label }}</span>
                 </li>
@@ -35,9 +37,16 @@
 </template>
 
 <script>
+    import { ChevronDownIcon, Edit2Icon, UserIcon } from 'vue-feather-icons'
+
     export default {
         name:'SelectInput',
         props: ['options', 'isError', 'default', 'placeholder'],
+        components: {
+            Edit2Icon,
+            UserIcon,
+            ChevronDownIcon
+        },
         data() {
             return {
                 selected: undefined,
@@ -69,7 +78,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "@assets/app.scss";
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
     .select {
         position: relative;
@@ -77,7 +87,7 @@
     }
 
     .input-options {
-        background: $light_background;
+        background: $light_mode_input_background;
         border-radius: 8px;
         position: absolute;
         overflow: hidden;
@@ -105,7 +115,7 @@
 
     .input-area {
         justify-content: space-between;
-        background: $light_background;
+        background: $light_mode_input_background;
         border: 1px solid transparent;
         @include transition(150ms);
         align-items: center;
@@ -138,16 +148,22 @@
     .option-icon {
         width: 20px;
         display: inline-block;
-        @include font-size(12);
+        @include font-size(10);
+
+        svg {
+            margin-top: -4px;
+            vertical-align: middle;
+        }
     }
 
     .option-value {
-        @include font-size(15);
+        @include font-size(14);
         font-weight: 700;
         width: 100%;
+        vertical-align: middle;
 
         &.placehoder {
-            color: $light_text;
+            color: rgba($text, 0.5);
         }
     }
 

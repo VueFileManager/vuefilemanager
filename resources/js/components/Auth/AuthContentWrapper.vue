@@ -11,7 +11,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/app.scss";
 
     #auth {
         height: 100%;
