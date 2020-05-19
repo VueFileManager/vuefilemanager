@@ -181,6 +181,14 @@
                                     {{ $t('context_menu.move') }}
                                 </div>
                             </li>
+                            <li class="menu-option" @click="deleteItem">
+                                <div class="icon">
+                                    <trash-2-icon size="17"></trash-2-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.delete') }}
+                                </div>
+                            </li>
                         </ul>
 
                         <ul class="menu-option-group">
@@ -291,14 +299,12 @@
                 }
             },
             downloadItem() {
-                // Download file
                 this.$downloadFile(
                     this.fileInfoDetail.file_url,
                     this.fileInfoDetail.name + '.' + this.fileInfoDetail.mimetype
                 )
             },
             deleteItem() {
-                // Dispatch remove item
                 this.$store.dispatch('deleteItem', this.fileInfoDetail)
             },
             renameItem() {

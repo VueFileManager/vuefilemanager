@@ -86,8 +86,8 @@
             return {
                 isLoading: false,
                 checkedAccount: undefined,
-                loginPassword: 'secret',
-                loginEmail: 'howdy@hi5ve.digital',
+                loginPassword: '',
+                loginEmail: '',
             }
         },
         methods: {

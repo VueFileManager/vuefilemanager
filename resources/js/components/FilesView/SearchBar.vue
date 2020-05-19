@@ -137,6 +137,7 @@
             input {
                 min-width: initial;
                 width: 100%;
+                max-width: initial;
                 padding: 9px 20px 9px 30px;
 
                 &:focus {

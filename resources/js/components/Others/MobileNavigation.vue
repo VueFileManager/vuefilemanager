@@ -44,31 +44,37 @@
                         icon: 'hard-drive',
                         title: this.$t('menu.files'),
                         routeName: 'Files',
+                        isVisible: true,
                     },
                     {
                         icon: 'latest',
                         title: this.$t('menu.latest'),
                         routeName: 'Files',
+                        isVisible: true,
                     },
                     {
                         icon: 'share',
                         title: this.$t('menu.shared'),
                         routeName: 'SharedFiles',
+                        isVisible: true,
                     },
                     {
                         icon: 'trash',
                         title: this.$t('menu.trash'),
                         routeName: 'Trash',
+                        isVisible: true,
                     },
                     {
                         icon: 'settings',
                         title: this.$t('menu.settings'),
                         routeName: 'MobileSettings',
+                        isVisible: true,
                     },
                     {
                         icon: 'power',
                         title: this.$t('menu.logout'),
                         routeName: 'LogOut',
+                        isVisible: true,
                     },
                 ]
             }

@@ -25,7 +25,7 @@
                             {{ $t('menu.password') }}
                         </div>
                     </router-link>
-                    <router-link :to="{name: 'Storage'}" class="menu-list-item link">
+                    <router-link v-if="config.storageLimit" :to="{name: 'Storage'}" class="menu-list-item link">
                         <div class="icon">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
@@ -45,6 +45,7 @@
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import UserHeadline from '@/components/Sidebar/UserHeadline'
+    import { mapGetters } from 'vuex'
     import {
         HardDriveIcon,
         UserIcon,
@@ -53,6 +54,9 @@
 
     export default {
         name: 'Settings',
+        computed: {
+            ...mapGetters(['config']),
+        },
         components: {
             ContentSidebar,
             HardDriveIcon,

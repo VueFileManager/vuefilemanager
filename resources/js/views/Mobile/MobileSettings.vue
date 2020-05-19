@@ -14,6 +14,7 @@
 <script>
     import MenuItemList from '@/components/Mobile/MenuItemList'
     import MobileHeader from '@/components/Mobile/MobileHeader'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'MobileSettings',
@@ -21,27 +22,37 @@
             MenuItemList,
             MobileHeader,
         },
+        computed: {
+            ...mapGetters(['config']),
+        },
         data() {
             return {
-                navigation: [
-                    {
-                        icon: 'user',
-                        title: this.$t('menu.profile'),
-                        routeName: 'Profile',
-                    },
-                    {
-                        icon: 'lock',
-                        title: this.$t('menu.password'),
-                        routeName: 'Password',
-                    },
-                    {
-                        icon: 'hard-drive',
-                        title: this.$t('menu.storage'),
-                        routeName: 'Storage',
-                    },
-                ]
+                navigation: undefined
             }
         },
+        created() {
+
+            this.navigation = [
+                {
+                    icon: 'user',
+                    title: this.$t('menu.profile'),
+                    routeName: 'Profile',
+                    isVisible: true,
+                },
+                {
+                    icon: 'lock',
+                    title: this.$t('menu.password'),
+                    routeName: 'Password',
+                    isVisible: true,
+                },
+                {
+                    icon: 'hard-drive',
+                    title: this.$t('menu.storage'),
+                    routeName: 'Storage',
+                    isVisible: this.config.storageLimit,
+                },
+            ]
+        }
     }
 </script>
 

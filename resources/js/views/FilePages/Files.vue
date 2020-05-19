@@ -51,7 +51,7 @@
 
                         <a @click.stop="openFolder(folder)"
                            class="menu-list-item"
-                           :class="{'is-current': folder && currentFolder.unique_id === folder.unique_id}"
+                           :class="{'is-current': (folder && currentFolder) && (currentFolder.unique_id === folder.unique_id)}"
                            v-for="folder in app.favourites"
                            :key="folder.unique_id">
                             <div>
