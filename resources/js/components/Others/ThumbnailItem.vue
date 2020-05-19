@@ -24,7 +24,7 @@
             <span class="name">{{ item.name }}</span>
 
             <div v-if="info === 'location'">
-                <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ currentFolder.name }}</span>
+                <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ itemLocation }}</span>
             </div>
 
             <div v-if="info === 'metadata'">
@@ -56,6 +56,9 @@
             isImage() {
                 return this.item.type === 'image'
             },
+            itemLocation() {
+                return this.item.parent ? this.item.parent.name : this.$t('locations.home')
+            }
         },
     }
 </script>
@@ -78,15 +81,9 @@
             white-space: nowrap;
 
             .item-size,
-            .item-length {
-                @include font-size(12);
-                font-weight: 400;
-                color: $text-muted;
-                display: block;
-            }
-
+            .item-length,
             .subtitle {
-                @include font-size(11);
+                @include font-size(12);
                 font-weight: 400;
                 color: $text-muted;
                 display: block;
@@ -130,7 +127,7 @@
             .file-icon-text {
                 line-height: 1;
                 top: 40%;
-                @include font-size(9);
+                @include font-size(8);
                 margin: 0 auto;
                 position: absolute;
                 text-align: center;
@@ -171,13 +168,22 @@
             .icon-item .file-icon {
 
                 path {
-                    fill: $dark_mode_background;
+                    fill: $dark_mode_foreground;
                     stroke: #2F3C54;
                 }
             }
 
-            .item-name .name {
-                color: $dark_mode_text_primary;
+            .item-name {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
+
+                .item-size,
+                .item-length,
+                .subtitle {
+                    color: $dark_mode_text_secondary;
+                }
             }
         }
     }

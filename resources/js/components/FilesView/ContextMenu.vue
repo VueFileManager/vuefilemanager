@@ -17,14 +17,6 @@
                         {{ $t('context_menu.restore') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="$store.dispatch('emptyTrash')">
-                    <div class="icon">
-                        <trash-icon size="17"></trash-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.empty_trash') }}
-                    </div>
-                </li>
                 <li class="menu-option" @click="deleteItem" v-if="item">
                     <div class="icon">
                         <trash-2-icon size="17"></trash-2-icon>
@@ -33,9 +25,17 @@
                         {{ $t('context_menu.delete') }}
                     </div>
                 </li>
+                <li class="menu-option" @click="$store.dispatch('emptyTrash')">
+                    <div class="icon">
+                        <trash-icon size="17"></trash-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.empty_trash') }}
+                    </div>
+                </li>
             </ul>
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="ItemDetail" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -43,7 +43,7 @@
                         {{ $t('context_menu.detail') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                     <div class="icon">
                         <download-cloud-icon size="17"></download-cloud-icon>
                     </div>
@@ -56,8 +56,8 @@
 
         <!--ContextMenu for Base location with MASTER permission-->
         <div v-if="$isThisLocation(['shared']) && $checkPermission('master')" id="menu-list" class="menu-options">
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
+            <ul class="menu-option-group" v-if="item && isFolder">
+                <li class="menu-option" @click="addToFavourites">
                     <div class="icon">
                         <star-icon size="17"></star-icon>
                     </div>
@@ -66,16 +66,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="deleteItem" v-if="item">
-                    <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.delete') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="shareItem" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="shareItem">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
@@ -83,8 +75,16 @@
                         {{ item.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
                     </div>
                 </li>
+                <li class="menu-option" @click="deleteItem">
+                    <div class="icon">
+                        <trash-2-icon size="17"></trash-2-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.delete') }}
+                    </div>
+                </li>
             </ul>
-            <ul class="menu-option-group">
+            <ul class="menu-option-group" v-if="item">
                 <li class="menu-option" @click="ItemDetail" v-if="item">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -93,7 +93,7 @@
                         {{ $t('context_menu.detail') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                     <div class="icon">
                         <download-cloud-icon size="17"></download-cloud-icon>
                     </div>
@@ -125,8 +125,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="moveItem" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="moveItem">
                     <div class="icon">
                         <corner-down-right-icon size="17"></corner-down-right-icon>
                     </div>
@@ -134,7 +134,7 @@
                         {{ $t('context_menu.move') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="shareItem" v-if="item">
+                <li class="menu-option" @click="shareItem">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
@@ -142,7 +142,7 @@
                         {{ item.shared ? $t('context_menu.share_edit') : $t('context_menu.share') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="deleteItem" v-if="item">
+                <li class="menu-option" @click="deleteItem">
                     <div class="icon">
                         <trash-2-icon size="17"></trash-2-icon>
                     </div>
@@ -151,8 +151,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="ItemDetail" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -160,7 +160,7 @@
                         {{ $t('context_menu.detail') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                     <div class="icon">
                         <download-cloud-icon size="17"></download-cloud-icon>
                     </div>
@@ -183,8 +183,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item && isFolder">
-                <li class="menu-option" @click="moveItem" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="moveItem">
                     <div class="icon">
                         <corner-down-right-icon size="17"></corner-down-right-icon>
                     </div>
@@ -192,7 +192,7 @@
                         {{ $t('context_menu.move') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="deleteItem" v-if="item">
+                <li class="menu-option" @click="deleteItem">
                     <div class="icon">
                         <trash-2-icon size="17"></trash-2-icon>
                     </div>
@@ -201,8 +201,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item && isFolder">
-                <li class="menu-option" @click="ItemDetail" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -210,7 +210,7 @@
                         {{ $t('context_menu.detail') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
+                <li class="menu-option" @click="downloadItem" v-if="! isFolder">
                     <div class="icon">
                         <download-cloud-icon size="17"></download-cloud-icon>
                     </div>
@@ -223,22 +223,24 @@
 
         <!--ContextMenu for Base location with VISITOR permission-->
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')" id="menu-list" class="menu-options">
-            <li class="menu-option" @click="ItemDetail" v-if="item">
-                <div class="icon">
-                    <eye-icon size="17"></eye-icon>
-                </div>
-                <div class="text-label">
-                    {{ $t('context_menu.detail') }}
-                </div>
-            </li>
-            <li class="menu-option" @click="downloadItem" v-if="! isFolder && item">
-                <div class="icon">
-                    <download-cloud-icon size="17"></download-cloud-icon>
-                </div>
-                <div class="text-label">
-                    {{ $t('context_menu.download') }}
-                </div>
-            </li>
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail">
+                    <div class="icon">
+                        <eye-icon size="17"></eye-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.detail') }}
+                    </div>
+                </li>
+                <li class="menu-option" @click="downloadItem" v-if="! isFolder">
+                    <div class="icon">
+                        <download-cloud-icon size="17"></download-cloud-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.download') }}
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </template>

@@ -374,6 +374,7 @@
                 left: 0;
                 right: 0;
                 color: $theme;
+                @include font-size(12);
                 font-weight: 600;
                 user-select: none;
                 max-width: 65px;

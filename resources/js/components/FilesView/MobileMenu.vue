@@ -101,7 +101,7 @@
                     </div>
 
                     <!--Mobile for Base location-->
-                    <div v-if="$isThisLocation(['base', 'latest']) && $checkPermission('master')" class="menu-options">
+                    <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')" class="menu-options">
                         <ul class="menu-option-group" v-if="fileInfoDetail && isFolder">
                             <li class="menu-option" @click="addToFavourites">
                                 <div class="icon">
