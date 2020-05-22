@@ -162,10 +162,10 @@
                     })
             },
         },
-        mounted() {
+        created() {
 
             // Get token
-            this.recoverPassword.token = this.$route.params.token
+            this.recoverPassword.token = this.$route.query.token
         }
     }
 </script>
