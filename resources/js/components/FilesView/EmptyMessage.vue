@@ -49,10 +49,18 @@
     }
 
     @media (prefers-color-scheme: dark) {
-        .empty-message .message .icon {
+        .empty-message {
 
-            path, line, polyline, rect, circle {
-                stroke: $dark_mode_text_secondary;
+            .message {
+                .icon {
+                    path, line, polyline, rect, circle {
+                        stroke: $dark_mode_text_secondary;
+                    }
+                }
+
+                p {
+                    color: $dark_mode_text_secondary;
+                }
             }
         }
     }

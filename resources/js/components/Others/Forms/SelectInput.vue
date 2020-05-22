@@ -205,6 +205,13 @@
                 }
             }
         }
+
+        .option-value {
+
+            &.placehoder {
+                color: $dark_mode_text_secondary;
+            }
+        }
     }
 
 </style>

@@ -90,6 +90,10 @@
                     this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
                 }
 
+                if (name === 'power') {
+                    this.$store.dispatch('logOut')
+                }
+
                 this.closeAndResetContextMenu()
             },
             closeAndResetContextMenu() {

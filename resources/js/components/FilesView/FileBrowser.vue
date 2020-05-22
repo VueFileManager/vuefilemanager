@@ -227,6 +227,7 @@
     .file-content {
         display: flex;
         flex-wrap: nowrap;
+        height: 100%;
 
         &.is-dragging {
             @include transform(scale(0.99));
@@ -234,6 +235,7 @@
     }
 
     .files-container {
+        overflow-x: hidden;
         overflow-y: auto;
         flex: 0 0 100%;
         @include transition(150ms);
