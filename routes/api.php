@@ -80,6 +80,21 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/logout', 'Auth\AuthController@logout');
 });
 
+// Admin
+Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
+
+    // Get users info
+    Route::get('/users/{id}/storage', 'Admin\UserController@storage');
+    Route::get('/users/{id}/detail', 'Admin\UserController@details');
+    Route::get('/users', 'Admin\UserController@users');
+
+    Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
+    Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
+    Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
+    Route::post('/users/{id}/send-password-email', 'Admin\UserController@send_password_reset_email');
+});
+
+
 // Protected sharing routes for authenticated user
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {
 

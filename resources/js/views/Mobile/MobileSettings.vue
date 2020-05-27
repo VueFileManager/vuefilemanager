@@ -1,13 +1,18 @@
 <template>
-    <div class="page">
+    <div id="single-page">
+        <div id="page-content" v-if="! isLoading">
+            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <div class="content-page">
+                <nav class="mobile-navigation">
 
-        <MobileHeader />
-
-        <nav class="mobile-navigation">
-
-            <!--Navigation-->
-            <MenuItemList :navigation="navigation" />
-        </nav>
+                    <!--Navigation-->
+                    <MenuItemList :navigation="navigation" />
+                </nav>
+            </div>
+        </div>
+        <div id="loader" v-if="isLoading">
+            <Spinner></Spinner>
+        </div>
     </div>
 </template>
 
@@ -60,12 +65,7 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 
-    .page {
-        width: 100%;
-    }
-
     .mobile-navigation {
-        padding: 0 20px;
         width: 100%;
         bottom: 0;
         left: 0;

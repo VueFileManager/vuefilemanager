@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\CheckAccountRequest;
 use App\User;
+use App\UserSettings;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -73,10 +74,15 @@ class AuthController extends Controller
         ]);
 
         // Create user
-        User::create([
+        $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        // Create settings
+        $settings = UserSettings::create([
+            'user_id' => $user->id
         ]);
 
         $response = Route::dispatch(self::make_request($request));

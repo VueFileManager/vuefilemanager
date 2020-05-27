@@ -109,9 +109,9 @@ class SetupDevEnvironment extends Command
         $user = User::create([
             'name'     => 'Jane Doe',
             'email'    => 'howdy@hi5ve.digital',
-            'password' => \Hash::make('secret'),
+            'password' => \Hash::make('vuefilemanager'),
         ]);
 
-        $this->info('Test user created. Email: ' . $user->email . ' Password: secret');
+        $this->info('Test user created. Email: ' . $user->email . ' Password: vuefilemanager');
     }
 }

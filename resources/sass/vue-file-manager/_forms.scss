@@ -22,6 +22,16 @@
 
   &.block-form {
 
+    .wrapper-inline {
+      display: flex;
+      margin: 0 -15px;
+
+      .block-wrapper {
+        width: 100%;
+        padding: 0 15px;
+      }
+    }
+
     .block-wrapper {
       margin-bottom: 20px;
 
@@ -32,6 +42,10 @@
         display: block;
         margin-bottom: 5px;
       }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     .button {
@@ -40,15 +54,12 @@
   }
 }
 
-.input-wrapper {
-
-  .error-message {
-    @include font-size(14);
-    color: $danger;
-    padding-top: 5px;
-    display: block;
-    text-align: left;
-  }
+.error-message {
+  @include font-size(14);
+  color: $danger;
+  padding-top: 5px;
+  display: block;
+  text-align: left;
 }
 
 textarea {
@@ -58,6 +69,7 @@ textarea {
 textarea,
 input[type="password"],
 input[type="text"],
+input[type="number"],
 input[type="email"] {
   border: 1px solid transparent;
   @include transition(150ms);
@@ -76,7 +88,6 @@ input[type="email"] {
   }
 
   &::placeholder {
-    //color: $light_text;
     color: rgba($text, 0.5);
     @include font-size(15);
   }
@@ -106,6 +117,13 @@ input[type="email"] {
       text-decoration: underline;
     }
   }
+}
+
+.form-group-label {
+  @include font-size(17);
+  font-weight: 500;
+  margin-bottom: 25px;
+  display: block;
 }
 
 @media only screen and (max-width: 960px) {
@@ -163,9 +181,17 @@ input[type="email"] {
 
   textarea,
   input[type="password"],
+  input[type="number"],
   input[type="text"],
   input[type="email"] {
     padding: 14px 20px;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+
+  .form.block-form .wrapper-inline {
+    display: block;
   }
 }
 
@@ -184,6 +210,7 @@ input[type="email"] {
   textarea,
   input[type="password"],
   input[type="text"],
+  input[type="number"],
   input[type="email"] {
     background: $dark_mode_foreground;
     color: $dark_mode_text_primary;

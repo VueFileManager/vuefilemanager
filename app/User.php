@@ -63,7 +63,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar',
+        'name', 'email', 'password', 'avatar', 'role',
     ];
 
     /**
@@ -86,8 +86,22 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'used_capacity'
+        'used_capacity', 'storage'
     ];
+
+    /**
+     * Get user used storage details
+     *
+     * @return mixed
+     */
+    public function getStorageAttribute() {
+
+        return [
+            'used' => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
+            'capacity' => $this->settings->storage_capacity,
+            'capacity_formatted' => Metric::gigabytes($this->settings->storage_capacity)->format(),
+        ];
+    }
 
     /**
      * Get user used storage capacity in bytes
@@ -166,5 +180,15 @@ class User extends Authenticatable
     public function files_with_trashed() {
 
         return $this->hasMany(FileManagerFile::class)->withTrashed();
+    }
+
+    /**
+     * Get user attributes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function settings() {
+
+        return $this->hasOne(UserSettings::class);
     }
 }

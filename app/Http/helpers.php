@@ -188,9 +188,9 @@ function make_single_input($request)
  * @param $gigabytes
  * @return string
  */
-function format_gigabytes($megabytes)
+function format_gigabytes($gigabytes)
 {
-    return Metric::megabytes($megabytes)->format();
+    return Metric::gigabytes($gigabytes)->format();
 }
 
 /**
@@ -203,7 +203,7 @@ function format_gigabytes($megabytes)
 function get_storage_fill_percentage($used, $capacity)
 {
     // Format gigabytes to bytes
-    $total = intval(Metric::megabytes($capacity)->numberOfBytes());
+    $total = intval(Metric::gigabytes($capacity)->numberOfBytes());
 
     // Count progress
     $progress = ($used * 100) / $total;

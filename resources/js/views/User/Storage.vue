@@ -1,19 +1,19 @@
 <template>
     <div id="single-page">
-        <div id="page-content" v-if="! isLoading">
-            <MobileHeader/>
+        <div id="page-content" class="full-width" v-if="! isLoading">
+            <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
                 <SectionTitle>{{ $t('storage.sec_capacity') }}</SectionTitle>
-                <StorageItemDetail type="disk" :title="$t('storage.total_used', {used: storage.used})" :percentage="storage.percentage" :used="$t('storage.total_capacity', {capacity: storage.capacity})"/>
+                <StorageItemDetail type="disk" :title="$t('storage.total_used', {used: storage.attributes.used})" :percentage="storage.attributes.percentage" :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"/>
 
                 <SectionTitle>{{ $t('storage.sec_details') }}</SectionTitle>
-                <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storageDetails.images.percentage" :used="storageDetails.images.used" />
-                <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storageDetails.videos.percentage" :used="storageDetails.videos.used" />
-                <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storageDetails.audios.percentage" :used="storageDetails.audios.used" />
-                <StorageItemDetail type="documents" :title="$t('storage.documents')" :percentage="storageDetails.documents.percentage" :used="storageDetails.documents.used" />
-                <StorageItemDetail type="others" :title="$t('storage.others')" :percentage="storageDetails.others.percentage" :used="storageDetails.others.used" />
+                <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storage.meta.images.percentage" :used="storage.meta.images.used" />
+                <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storage.meta.videos.percentage" :used="storage.meta.videos.used" />
+                <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storage.meta.audios.percentage" :used="storage.meta.audios.used" />
+                <StorageItemDetail type="documents" :title="$t('storage.documents')" :percentage="storage.meta.documents.percentage" :used="storage.meta.documents.used" />
+                <StorageItemDetail type="others" :title="$t('storage.others')" :percentage="storage.meta.others.percentage" :used="storage.meta.others.used" />
             </div>
         </div>
         <div id="loader" v-if="isLoading">
@@ -43,14 +43,12 @@
             return {
                 isLoading: true,
                 storage: undefined,
-                storageDetails: undefined
             }
         },
         created() {
             axios.get('/api/user/storage')
                 .then(response => {
-                    this.storage = response.data.data.attributes
-                    this.storageDetails = response.data.data.relationships
+                    this.storage = response.data.data
                     this.isLoading = false
                 })
         }

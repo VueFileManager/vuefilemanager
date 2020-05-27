@@ -19,6 +19,15 @@ import SharedFiles from './views/FilePages/SharedFiles'
 
 import MobileSettings from './views/Mobile/MobileSettings'
 
+import Admin from './views/Admin'
+import Users from './views/Admin/Users'
+
+import User from './views/Admin/Users/User'
+import UserDetail from './views/Admin/Users/UserTabs/UserDetail'
+import UserDelete from './views/Admin/Users/UserTabs/UserDelete'
+import UserStorage from './views/Admin/Users/UserTabs/UserStorage'
+import UserPassword from './views/Admin/Users/UserTabs/UserPassword'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -95,6 +104,73 @@ const router = new Router({
             meta: {
                 requiresAuth: true
             },
+        },
+        {
+            name: 'Admin',
+            path: '/admin',
+            component: Admin,
+            meta: {
+                requiresAuth: true,
+                title: 'Admin'
+            },
+            children: [
+                {
+                    name: 'Users',
+                    path: '/admin/users',
+                    component: Users,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Users'
+                    },
+                },
+                {
+                    name: 'User',
+                    path: '/admin/user/:id',
+                    component: User,
+                    meta: {
+                        requiresAuth: true,
+                        title: i18n.t('routes_title.users_user')
+                    },
+                    children: [
+                        {
+                            name: 'UserDetail',
+                            path: '/admin/user/:id/details',
+                            component: UserDetail,
+                            meta: {
+                                requiresAuth: true,
+                                title: i18n.t('routes_title.users_detail')
+                            },
+                        },
+                        {
+                            name: 'UserStorage',
+                            path: '/admin/user/:id/storage',
+                            component: UserStorage,
+                            meta: {
+                                requiresAuth: true,
+                                title: i18n.t('routes_title.users_storage_usage')
+                            },
+                        },
+                        {
+                            name: 'UserPassword',
+                            path: '/admin/user/:id/password',
+                            component: UserPassword,
+                            meta: {
+                                requiresAuth: true,
+                                title: i18n.t('routes_title.users_password')
+                            },
+                        },
+                        {
+                            name: 'UserDelete',
+                            path: '/admin/user/:id/delete',
+                            component: UserDelete,
+                            meta: {
+                                requiresAuth: true,
+                                title: i18n.t('routes_title.users_delete')
+                            },
+                        },
+                    ]
+                },
+            ]
         },
         {
             name: 'Settings',

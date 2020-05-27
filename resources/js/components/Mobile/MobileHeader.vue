@@ -7,7 +7,7 @@
         </div>
 
         <!--Folder Title-->
-        <div class="location-name">{{ $router.currentRoute.meta.title }}</div>
+        <div class="location-name">{{ title }}</div>
 
         <!--More Actions-->
         <div @click="showMobileNavigation" class="mobile-menu">
@@ -26,6 +26,9 @@
 
     export default {
         name: 'MenuBar',
+        props: [
+            'title'
+        ],
         components: {
             ChevronLeftIcon,
             MenuIcon,
@@ -46,7 +49,7 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .mobile-header {
-        padding: 10px 15px;
+        padding: 10px 0;
         text-align: center;
         background: white;
         position: sticky;

@@ -6,7 +6,12 @@
         "profile": "Uživateľský profil",
         "settings_password": "Zmeniť heslo",
         "settings_storage": "Úložisko",
-        "settings_mobile": "Nastavenia"
+        "settings_mobile": "Nastavenia",
+        "users_user": "Uživateľ",
+        "users_detail": "Detail",
+        "users_storage_usage": "Využitie úložiska",
+        "users_password": "Heslo",
+        "users_delete": "Vymazať uživateľa"
     },
     "profile": {
         "store_pass": "Uložiť nové heslo",
@@ -166,7 +171,8 @@
         "logout": "Odhlásiť sa",
         "profile": "Nastavenia profilu",
         "password": "Heslo",
-        "storage": "Úložisko"
+        "storage": "Úložisko",
+        "admin": "Administrácia"
     },
     "sidebar": {
         "favourites": "Obľúbené",
@@ -255,5 +261,65 @@
     "popup_paylod_error": {
         "title": "Súbor je príliš veľký",
         "message": "Prepáčte, súbor je príliš veľký a nemôže byť nahraný."
+    },
+    "popup_deleted_user": {
+        "title": "Uživateľ bol vymazaný",
+        "message": "Uživateľ bol vymazaný so všetkými uživateľskými dátami."
+    },
+    "user_box_storage": {
+        "title": "Zmeňiť kapacitu úložiska",
+        "description": "Zmeňiť kapacitu úložiska formulárom nižšie. Môžeš písať iba čiselné hodnoty, napríklad hodnota '5' znamená, že uživateľ bude mať 5GB kapacitz úložiska."
+    },
+    "user_box_password": {
+        "title": "Zmeňiť uživateľské heslo",
+        "description": "Môžete zmeniť uživateľské heslo zaslaním resetovacieho emailu uživateľovi. Uživateľ bude presmerovaný na stránku, kde si môže zmeniť heslo na nové."
+    },
+    "user_box_delete": {
+        "title": "Vymazať uživateľa",
+        "description": "Môžete vymazať svojho uživateľa, lenže, dávaj pozor! Táto událosť je nezvratná a všetke uživateľské dáta vrátane uživateľových súborov budú vymazané!"
+    },
+    "user_box_role": {
+        "title": "Zmeniť uživateľskú rolu",
+        "description": "Môžete zmeniť uživateľskú rolu pre aktuálneho uživateľa. Administrátorska rola môže editovať alebo vytvárať nových uživateľov, zmeniť kapacitu úložiska a mnoho dalších nastavení aplikácie."
+    },
+    "admin_menu": {
+        "admin_label": "Administrácia",
+        "users": "Uživatelia"
+    },
+    "admin_page_user": {
+        "select_role": "Vyberte uživateľskú rolu",
+        "save_role": "Uložiť Rolu",
+        "label_person_info": "Osobné informácie",
+        "label_delete_user": "Napíšte uživateľovo meno ‘{user}‘. Rozlišujte medzi malými a veľkými písmenami",
+        "label_change_capacity": "Vpíšte kapacitu úložiska v GB",
+        "placeholder_delete_user": "Píšte sem",
+        "delete_user": "Vymazať uživateľa",
+        "change_capacity": "Zmeniť kapacitu",
+        "send_password_link": "Odoslať email s resetom hesla",
+        "tabs": {
+            "detail": "Detail",
+            "storage": "Využitie úložiska",
+            "password": "Heslo",
+            "delete": "Vymazať uživateľa"
+        },
+        "table": {
+            "name": "Užívateľ",
+            "role": "Rola",
+            "storage_used": "Využitie úložiska",
+            "storage_capacity": "Kapacita úložiska",
+            "action": "Akcia"
+        }
+    },
+    "toaster": {
+        "changed_user": "Úspešne ste zmenili rolu užívateľa",
+        "sended_password": "Úspešne ste odoslali email uživateľovi pre reset hesla!",
+        "changed_capacity": "Úspešne ste zmenili kapacitu úložiska uživateľa!"
+    },
+    "roles": {
+        "admin": "Admin",
+        "user": "Užívateľ"
+    },
+    "datatable": {
+        "paginate_info": "Zobrazuje sa 1 - {visible} z {total} položiek"
     }
 }

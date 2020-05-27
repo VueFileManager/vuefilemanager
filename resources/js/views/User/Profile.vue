@@ -1,41 +1,45 @@
 <template>
-    <div id="user-settings" v-if="app">
+    <div id="single-page">
+        <div id="page-content" class="full-width" v-if="! isLoading">
+            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <PageHeader :title="$router.currentRoute.meta.title"/>
 
-        <MobileHeader />
-        <PageHeader :title="$router.currentRoute.meta.title" />
-
-        <div class="content-page">
-            <div class="avatar-upload">
-                <UserImageInput
-                        v-model="avatar"
-                        :avatar="app.user.avatar"
-                />
-                <div class="info">
-                    <span class="description">{{ $t('profile.photo_description') }}</span>
-                    <span class="supported">{{ $t('profile.photo_supported') }}</span>
-                </div>
-            </div>
-
-            <ValidationObserver ref="account" v-slot="{ invalid }" tag="form" class="form block-form">
-
-                <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
-                    <div class="input-wrapper">
-                        <input :value="app.user.email" :placeholder="$t('page_registration.placeholder_email')" type="email" disabled/>
+            <div class="content-page">
+                <div class="avatar-upload">
+                    <UserImageInput
+                            v-model="avatar"
+                            :avatar="app.user.avatar"
+                    />
+                    <div class="info">
+                        <span class="description">{{ $t('profile.photo_description') }}</span>
+                        <span class="supported">{{ $t('profile.photo_supported') }}</span>
                     </div>
                 </div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
-                                        v-slot="{ errors }">
-                        <input @keyup="$updateText('/user/profile', 'name', name)" v-model="name"
-                               :placeholder="$t('page_registration.placeholder_name')" type="text"
-                               :class="{'is-error': errors[0]}"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-            </ValidationObserver>
+                <ValidationObserver ref="account" v-slot="{ invalid }" tag="form" class="form block-form">
+
+                    <div class="block-wrapper">
+                        <label>{{ $t('page_registration.label_email') }}</label>
+                        <div class="input-wrapper">
+                            <input :value="app.user.email" :placeholder="$t('page_registration.placeholder_email')" type="email" disabled/>
+                        </div>
+                    </div>
+
+                    <div class="block-wrapper">
+                        <label>{{ $t('page_registration.label_name') }}</label>
+                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
+                                            v-slot="{ errors }">
+                            <input @keyup="$updateText('/user/profile', 'name', name)" v-model="name"
+                                   :placeholder="$t('page_registration.placeholder_name')" type="text"
+                                   :class="{'is-error': errors[0]}"/>
+                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
+                </ValidationObserver>
+            </div>
+        </div>
+        <div id="loader" v-if="isLoading">
+            <Spinner></Spinner>
         </div>
     </div>
 </template>
@@ -79,6 +83,7 @@
             return {
                 avatar: undefined,
                 name: '',
+                isLoading: false,
             }
         },
         created() {
@@ -118,31 +123,7 @@
         }
     }
 
-    #user-settings {
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        position: relative;
-
-        .content-page {
-            overflow-y: auto;
-            height: 100%;
-            padding-bottom: 100px;
-            max-width: 700px;
-            width: 100%;
-            margin: 0 auto;
-        }
-    }
-
     @media only screen and (max-width: 960px) {
-
-        #user-settings {
-
-            .content-page {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-        }
 
         .form {
             .button-base {

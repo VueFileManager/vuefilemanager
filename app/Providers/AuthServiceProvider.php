@@ -26,6 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Define admin settings gate
+        Gate::define('admin-settings', function ($user) {
+            return $user->role === 'admin';
+        });
+
         Passport::routes();
 
         Passport::tokensCan([

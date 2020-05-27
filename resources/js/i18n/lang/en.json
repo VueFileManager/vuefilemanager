@@ -6,7 +6,12 @@
         "profile": "User Profile",
         "settings_password": "Change Password",
         "settings_storage": "Storage",
-        "settings_mobile": "Settings"
+        "settings_mobile": "Settings",
+        "users_user": "User",
+        "users_detail": "Detail",
+        "users_storage_usage": "Storage Usage",
+        "users_password": "Password",
+        "users_delete": "Delete User"
     },
     "profile": {
         "store_pass": "Store New Password",
@@ -166,7 +171,8 @@
         "logout": "Log Out",
         "profile": "Profile Settings",
         "password": "Password",
-        "storage": "Storage"
+        "storage": "Storage",
+        "admin": "Admin"
     },
     "sidebar": {
         "favourites": "Favourites",
@@ -255,5 +261,65 @@
     "popup_paylod_error": {
         "title": "File is too large",
         "message": "Sorry, your file is too large and can't be uploaded"
+    },
+    "popup_deleted_user": {
+        "title": "User was deleted",
+        "message": "Your user was deleted with all user data content."
+    },
+    "user_box_storage": {
+        "title": "Change User Storage Capacity",
+        "description": "Change user storage capacity by input bellow. You have to type only number e.g. value '5' means, user will have 5GB of storage capacity."
+    },
+    "user_box_password": {
+        "title": "Change User Password",
+        "description": "You can send password reset email via button bellow. User will be redirected to page where he can update password for his account."
+    },
+    "user_box_delete": {
+        "title": "Delete User",
+        "description": "You can delete your user, but, pay attention! This event is irreversible and all user data include user files will be deleted."
+    },
+    "user_box_role": {
+        "title": "Change User Role",
+        "description": "You can change role for current user. Admin role can edit or create new users, change storage capacity and any other application settings."
+    },
+    "admin_menu": {
+        "admin_label": "Admin",
+        "users": "Users"
+    },
+    "admin_page_user": {
+        "select_role": "Select user role",
+        "save_role": "Save Role",
+        "label_person_info": "Personal Information",
+        "label_delete_user": "Type with Case Sensitive user name ‘{user}‘",
+        "label_change_capacity": "Type storage capacity in GB",
+        "placeholder_delete_user": "Type here",
+        "delete_user": "Delete User",
+        "change_capacity": "Change Capacity",
+        "send_password_link": "Send Password Reset Link",
+        "tabs": {
+            "detail": "Detail",
+            "storage": "Storage Usage",
+            "password": "Password",
+            "delete": "Delete User"
+        },
+        "table": {
+            "name": "User",
+            "role": "Role",
+            "storage_used": "Storage Used",
+            "storage_capacity": "Storage Capacity",
+            "action": "Action"
+        }
+    },
+    "toaster": {
+        "changed_user": "You successfully changed user's role!",
+        "sended_password": "You successfully send user email for reset password!",
+        "changed_capacity": "You successfully changed user's storage size!"
+    },
+    "roles": {
+        "admin": "Admin",
+        "user": "User"
+    },
+    "datatable": {
+        "paginate_info": "Showing 1 - {visible} from {total} records"
     }
 }

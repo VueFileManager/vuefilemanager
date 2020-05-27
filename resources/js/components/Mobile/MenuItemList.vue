@@ -9,6 +9,7 @@
                 <settings-icon v-if="link.icon === 'settings'" size="17"></settings-icon>
                 <upload-cloud-icon v-if="link.icon === 'latest'" size="17"></upload-cloud-icon>
                 <user-icon v-if="link.icon === 'user'" size="17"></user-icon>
+                <users-icon v-if="link.icon === 'users'" size="17"></users-icon>
                 <lock-icon v-if="link.icon === 'lock'" size="17"></lock-icon>
             </div>
             <b class="menu-link">
@@ -28,6 +29,7 @@
         Trash2Icon,
         PowerIcon,
         ShareIcon,
+        UsersIcon,
         UserIcon,
         LockIcon,
     } from 'vue-feather-icons'
@@ -41,6 +43,7 @@
             SettingsIcon,
             Trash2Icon,
             PowerIcon,
+            UsersIcon,
             ShareIcon,
             LockIcon,
             UserIcon,

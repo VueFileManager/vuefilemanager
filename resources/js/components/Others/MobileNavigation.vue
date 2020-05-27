@@ -1,16 +1,16 @@
 <template>
-    <div class="mobile-main-navigation">
+    <div class="mobile-main-navigation" v-if="app">
         <transition name="context-menu">
             <nav v-if="isVisible" class="mobile-navigation">
 
                 <!--User Info-->
                 <div class="user-info">
-                    <UserAvatar size="large" />
+                    <UserAvatar size="large"/>
                     <UserHeadline/>
                 </div>
 
                 <!--Navigation-->
-                <MenuItemList :navigation="navigation" @menu="action" />
+                <MenuItemList :navigation="navigation" @menu="action"/>
             </nav>
         </transition>
         <transition name="fade">
@@ -35,11 +35,8 @@
         },
         computed: {
             ...mapGetters(['app', 'homeDirectory']),
-        },
-        data() {
-            return {
-                isVisible: false,
-                navigation: [
+            navigation() {
+                return [
                     {
                         icon: 'hard-drive',
                         title: this.$t('menu.files'),
@@ -71,12 +68,23 @@
                         isVisible: true,
                     },
                     {
+                        icon: 'users',
+                        title: this.$t('menu.admin'),
+                        routeName: 'Users',
+                        isVisible: this.app.user.role === 'admin',
+                    },
+                    {
                         icon: 'power',
                         title: this.$t('menu.logout'),
                         routeName: 'LogOut',
                         isVisible: true,
                     },
                 ]
+            },
+        },
+        data() {
+            return {
+                isVisible: false,
             }
         },
         methods: {

@@ -16,7 +16,7 @@
     export default {
         name: 'PageHeader',
         props: [
-            'title', 'description'
+            'title'
         ],
         computed: {
             ...mapGetters(['appSize']),
@@ -44,9 +44,10 @@
         align-items: center;
         background: white;
         z-index: 9;
-        max-width: 700px;
         width: 100%;
-        margin: 20px auto 30px;
+        position: sticky;
+        top: 0;
+        padding: 20px 0;
 
         .title {
             @include font-size(18);
@@ -64,8 +65,6 @@
     @media only screen and (max-width: 960px) {
 
         .page-header {
-            padding: 20px 15px;
-            margin: 0;
 
             .title {
                 @include font-size(18);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Resources\StorageDetailResource;
+use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
@@ -36,7 +37,7 @@ class AccountController extends Controller
             ->get();
 
         return [
-            'user'       => $user->only(['name', 'email', 'avatar']),
+            'user'       => $user->only(['name', 'email', 'avatar', 'role']),
             'favourites' => $user->favourites->makeHidden(['pivot']),
             'tree'       => $tree,
             'storage'    => [
@@ -50,84 +51,11 @@ class AccountController extends Controller
     /**
      * Get storage details
      *
-     * @return array
+     * @return UserStorageResource
      */
     public function storage()
     {
-        $document_mimetypes = [
-            'pdf', 'numbers', 'xlsx', 'xls', 'txt', 'md', 'rtf', 'pptx', 'ppt', 'odt', 'ods', 'odp', 'epub', 'docx', 'doc', 'csv', 'pages'
-        ];
-
-        $user = Auth::user();
-        $storage_capacity = config('vuefilemanager.user_storage_capacity');
-
-        $images = FileManagerFile::where('user_id', $user->id)
-            ->where('type', 'image')->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
-            })->sum();
-
-        $audios = FileManagerFile::where('user_id', $user->id)
-            ->where('type', 'audio')->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
-            })->sum();
-
-        $videos = FileManagerFile::where('user_id', $user->id)
-            ->where('type', 'video')->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
-            })->sum();
-
-        $documents = FileManagerFile::where('user_id', $user->id)
-            ->whereIn('mimetype', $document_mimetypes)->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
-            })->sum();
-
-        $others = FileManagerFile::where('user_id', $user->id)
-            ->whereNotIn('mimetype', $document_mimetypes)
-            ->whereNotIn('type', ['audio', 'video', 'image'])
-            ->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
-            })->sum();
-
-        $usage = collect([
-            'images'    => [
-                'used'       => $images,
-                'percentage' => get_storage_fill_percentage($images, $storage_capacity),
-            ],
-            'audios'    => [
-                'used'       => $audios,
-                'percentage' => get_storage_fill_percentage($audios, $storage_capacity),
-            ],
-            'videos'    => [
-                'used'       => $videos,
-                'percentage' => get_storage_fill_percentage($videos, $storage_capacity),
-            ],
-            'documents' => [
-                'used'       => $documents,
-                'percentage' => get_storage_fill_percentage($documents, $storage_capacity),
-            ],
-            'others'    => [
-                'used'       => $others,
-                'percentage' => get_storage_fill_percentage($others, $storage_capacity),
-            ],
-        ]);
-
-        return [
-            'data' => [
-                'id'            => '1',
-                'type'          => 'disk',
-                'attributes'    => [
-                    'used'       => Metric::bytes($user->used_capacity)->format(),
-                    'capacity'   => format_gigabytes($storage_capacity),
-                    'percentage' => get_storage_fill_percentage($user->used_capacity, $storage_capacity),
-                ],
-                'relationships' => $usage->map(function ($item) {
-                    return [
-                        'used'       => Metric::bytes($item['used'])->format(),
-                        'percentage' => $item['percentage']
-                    ];
-                })
-            ]
-        ];
+        return new UserStorageResource(Auth::user());
     }
 
     /**
@@ -151,10 +79,15 @@ class AccountController extends Controller
         // Get user
         $user = Auth::user();
 
+        // Check if is demo
         if (is_demo($user->id)) {
             return Demo::response_204();
         }
 
+        // Check role
+        if ($request->has('role')) abort(403);
+
+        // Update data
         if ($request->hasFile('avatar')) {
 
             // Update avatar

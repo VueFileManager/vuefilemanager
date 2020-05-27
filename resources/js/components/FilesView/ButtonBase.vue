@@ -27,6 +27,7 @@
         border: 0;
         padding: 10px 28px;
         display: inline-block;
+        white-space: nowrap;
 
         &:active {
             transform: scale(0.95);

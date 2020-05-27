@@ -21,6 +21,9 @@
             <!--Navigation Sidebar-->
             <MenuBar/>
 
+            <!--Toastr-->
+            <ToastrWrapper/>
+
             <!--File page-->
             <router-view :class="{'is-scaled-down': isScaledDown}"/>
         </div>
@@ -33,6 +36,7 @@
 </template>
 
 <script>
+    import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
     import MobileNavigation from '@/components/Others/MobileNavigation'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
@@ -50,6 +54,7 @@
         name: 'app',
         components: {
             MobileNavigation,
+            ToastrWrapper,
             ShareCreate,
             MobileMenu,
             ShareEdit,

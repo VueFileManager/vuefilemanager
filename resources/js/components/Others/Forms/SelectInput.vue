@@ -84,6 +84,7 @@
     .select {
         position: relative;
         user-select: none;
+        width: 100%;
     }
 
     .input-options {

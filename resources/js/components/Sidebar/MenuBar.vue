@@ -31,6 +31,12 @@
                     <settings-icon size="19"></settings-icon>
                 </div>
             </router-link>
+
+            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, ['Users'])}" class="icon-navigation-item users">
+                <div class="button-icon">
+                    <users-icon size="19"></users-icon>
+                </div>
+            </router-link>
         </div>
 
         <!--User avatar & Logout-->
@@ -51,6 +57,7 @@
         HardDriveIcon,
         SettingsIcon,
         Trash2Icon,
+        UsersIcon,
         PowerIcon,
         ShareIcon,
     } from 'vue-feather-icons'
@@ -64,6 +71,7 @@
             Trash2Icon,
             PowerIcon,
             ShareIcon,
+            UsersIcon,
         },
         computed: {
             ...mapGetters(['app']),
@@ -164,6 +172,16 @@
 
                     path, line, polyline, rect, circle {
                         stroke: $purple;
+                    }
+                }
+            }
+
+            &.users {
+                .button-icon {
+                    background: rgba($pink, 0.1);
+
+                    path, line, polyline, rect, circle {
+                        stroke: $pink;
                     }
                 }
             }
