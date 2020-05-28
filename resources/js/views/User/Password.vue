@@ -1,46 +1,37 @@
 <template>
-    <div id="single-page">
-        <div id="page-content" class="full-width" v-if="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+    <div class="page-tab">
+        <div class="page-tab-group">
+            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
+                                class="form block-form">
 
-            <div class="content-page">
+                <div class="block-wrapper">
+                    <b class="form-group-label">{{ $t('page_create_password.label_new_pass') }}:</b>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
+                                        rules="required" v-slot="{ errors }">
+                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
+                               type="password"
+                               :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
 
-                <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
-                                    class="form block-form">
+                <div class="block-wrapper">
+                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
+                                        rules="required" v-slot="{ errors }">
+                        <input v-model="newPasswordConfirmation"
+                               :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+                               :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
 
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_create_password.label_new_pass') }}:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
-                                            rules="required" v-slot="{ errors }">
-                            <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
-                                   type="password"
-                                   :class="{'is-error': errors[0]}"/>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
-                                            rules="required" v-slot="{ errors }">
-                            <input v-model="newPasswordConfirmation"
-                                   :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
-                                   :class="{'is-error': errors[0]}"/>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-
-                    <div class="block-wrapper">
-                        <ButtonBase type="submit" button-style="theme" class="confirm-form">
-                            {{ $t('profile.store_pass') }}
-                        </ButtonBase>
-                    </div>
-                </ValidationObserver>
-            </div>
-        </div>
-        <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+                <div class="block-wrapper">
+                    <ButtonBase type="submit" button-style="theme" class="confirm-form">
+                        {{ $t('profile.store_pass') }}
+                    </ButtonBase>
+                </div>
+            </ValidationObserver>
         </div>
     </div>
 </template>

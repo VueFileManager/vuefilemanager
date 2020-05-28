@@ -57,6 +57,15 @@
                             message: this.$t('toaster.sended_password'),
                         })
                     })
+                    .catch(() => {
+
+                        this.isSendingRequest = false
+
+                        events.$emit('alert:open', {
+                            title: this.$t('popup_error.title'),
+                            message: this.$t('popup_error.message'),
+                        })
+                    })
             }
         }
     }

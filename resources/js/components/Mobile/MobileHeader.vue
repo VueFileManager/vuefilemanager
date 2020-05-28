@@ -94,7 +94,7 @@
     @media only screen and (max-width: 690px) {
         .mobile-header {
             display: flex;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
     }
 

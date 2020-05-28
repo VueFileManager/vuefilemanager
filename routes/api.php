@@ -88,6 +88,8 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/users/{id}/detail', 'Admin\UserController@details');
     Route::get('/users', 'Admin\UserController@users');
 
+    // Edit users
+    Route::post('/users/create', 'Admin\UserController@create_user');
     Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
     Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
     Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');

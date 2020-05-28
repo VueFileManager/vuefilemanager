@@ -5,7 +5,7 @@
 
             <!--Locations-->
             <ContentGroup :title="$t('sidebar.locations_title')">
-                <div class="menu-list-wrapper">
+                <div class="menu-list-wrapper vertical">
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['base'])}" @click="goHome">
                         <div class="icon">
                             <home-icon size="17"></home-icon>
@@ -38,7 +38,7 @@
             <!--Favourites-->
             <ContentGroup :title="$t('sidebar.favourites')">
 
-                <div class="menu-list-wrapper favourites"
+                <div class="menu-list-wrapper vertical favourites"
                      :class="{ 'is-dragenter': area }"
                      @dragover.prevent="dragEnter"
                      @dragleave="dragLeave"

@@ -16,7 +16,7 @@ class CreateUserSettingsTable extends Migration
         Schema::create('user_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->integer('storage_capacity')->default(2);
+            $table->integer('storage_capacity')->default(5);
         });
     }
 

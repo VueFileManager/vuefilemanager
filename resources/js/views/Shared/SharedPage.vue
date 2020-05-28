@@ -1,5 +1,5 @@
 <template>
-    <div id="shared" :class="appSize">
+    <div id="shared">
 
         <!--Loading Spinenr-->
         <Spinner v-if="isPageLoading"/>
@@ -78,7 +78,6 @@
     import Vignette from '@/components/Others/Vignette'
     import Alert from '@/components/FilesView/Alert'
     import {required} from 'vee-validate/dist/rules'
-    import {ResizeSensor} from 'css-element-queries'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
     import axios from 'axios'
@@ -103,7 +102,7 @@
             Alert,
         },
         computed: {
-            ...mapGetters(['config', 'sharedDetail', 'sharedFile', 'appSize']),
+            ...mapGetters(['config', 'sharedDetail', 'sharedFile']),
         },
         data() {
             return {

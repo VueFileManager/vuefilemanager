@@ -3,22 +3,22 @@
         "create_new_password": "创建新密码"
     },
     "routes_title": {
-        "profile": "User Profile",
+        "profile": "My Profile",
         "settings_password": "Change Password",
         "settings_storage": "Storage",
         "settings_mobile": "Settings",
+        "users_list": "User Management",
         "users_user": "User",
         "users_detail": "Detail",
         "users_storage_usage": "Storage Usage",
         "users_password": "Password",
-        "users_delete": "Delete User"
+        "users_delete": "Delete User",
+        "user_create": "Create User"
     },
     "profile": {
         "store_pass": "保存您的密码",
         "change_pass": "修改您的密码",
-        "profile_info": "用户信息",
-        "photo_description": "修改您的头像",
-        "photo_supported": "支持的格式 .png, .jpg, .jpeg."
+        "profile_info": "用户信息"
     },
     "page_registration": {
         "title": "创建一个新用户",
@@ -307,13 +307,23 @@
             "role": "Role",
             "storage_used": "Storage Used",
             "storage_capacity": "Storage Capacity",
+            "created_at": "Registered",
             "action": "Action"
+        },
+        "create_user": {
+            "group_details": "Account Details",
+            "group_settings": "Account Settings",
+            "submit": "Create User",
+            "label_email": "Type E-mail",
+            "label_name": "Type full name",
+            "label_conf_pass": "Confirm password"
         }
     },
     "toaster": {
         "changed_user": "You successfully changed user's role!",
         "sended_password": "You successfully send user email for reset password!",
-        "changed_capacity": "You successfully changed user's storage size!"
+        "changed_capacity": "You successfully changed user's storage size!",
+        "created_user": "User was created successfully!"
     },
     "roles": {
         "admin": "Admin",
@@ -321,5 +331,9 @@
     },
     "datatable": {
         "paginate_info": "Showing 1 - {visible} from {total} records"
+    },
+    "input_image": {
+        "title": "Upload Image",
+        "supported": "Supported formats are .png, .jpg, .jpeg."
     }
 }

@@ -26,16 +26,32 @@
   padding-left: 25px;
   padding-right: 25px;
 
-  .page-content {
-    height: 100%;
-    max-width: 1024px;
-    width: 100%;
+  #page-content {
     margin: 0 auto;
 
-    .full-width {
+    &.full-width {
       max-width: 100%;
     }
+
+    &.medium-width {
+      max-width: 1024px;
+    }
+
+    &.small-width {
+      max-width: 690px;
+    }
   }
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group-label {
+  @include font-size(17);
+  font-weight: 500;
+  margin-bottom: 25px;
+  display: block;
 }
 
 .menu-list-wrapper {
@@ -55,10 +71,15 @@
     margin-bottom: 30px;
     overflow-x: auto;
 
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     .menu-list-item {
       display: inline-block;
-      padding: 20px 10px;
-      margin: 0 10px;
+      padding: 15px 10px;
+      margin: 15px 10px 0;
+      border-bottom: 2px solid transparent;
 
       &:first-child {
         margin-left: 0;
@@ -195,6 +216,19 @@
 
 @media only screen and (max-width: 1024px) {
 
+  #single-page {
+
+    #page-content {
+
+      &.full-width,
+      &.medium-width,
+      &.small-width {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
+
   .menu-list-wrapper {
 
     .menu-list-item {
@@ -211,6 +245,14 @@
 }
 
 @media only screen and (max-width: 960px) {
+
+  #single-page {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media only screen and (max-width: 690px) {
 
   #single-page {
     padding-left: 15px;

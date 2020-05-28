@@ -2,7 +2,7 @@
 
 return [
 
-    'version' => '1.5.1',
+    'version' => '1.6',
 
     // Your app name
     'app_name' => 'VueFileManager',
@@ -15,7 +15,4 @@ return [
 
     // Limit your storage size for every user if this option is enabled
     'limit_storage_by_capacity' => true,
-
-    // Define user storage capacity in MB. E.g. value 2000 is 2.00GB
-    'user_storage_capacity' => 5000,
 ];

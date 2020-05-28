@@ -5,7 +5,7 @@
 
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.locations_title')">
-                <div class="menu-list-wrapper">
+                <div class="menu-list-wrapper vertical">
                     <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared()">
                         <div class="icon">
                             <link-icon size="17"></link-icon>

@@ -1,7 +1,7 @@
 <template>
-    <div class="page-header" @click="goHome">
-        <div class="icon" v-if="isSmallAppSize">
-            <FontAwesomeIcon icon="chevron-left" />
+    <div class="page-header">
+        <div class="go-back" v-if="canBack" @click="$router.back()">
+            <chevron-left-icon size="17"></chevron-left-icon>
         </div>
         <div class="content">
             <h1 class="title">{{ title }}</h1>
@@ -10,28 +10,16 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import { ChevronLeftIcon } from 'vue-feather-icons'
 
     export default {
         name: 'PageHeader',
         props: [
-            'title'
+            'title', 'canBack'
         ],
-        computed: {
-            ...mapGetters(['appSize']),
-            isSmallAppSize() {
-                return this.appSize === 'small'
-            }
+        components: {
+            ChevronLeftIcon
         },
-        methods: {
-            goHome() {
-                if (this.isSmallAppSize) {
-                    events.$emit('show:sidebar')
-                    this.$router.push({name: 'Files'})
-                }
-            }
-        }
     }
 </script>
 
@@ -55,10 +43,14 @@
             color: $text;
         }
 
-        .icon {
-            @include font-size(16);
-            margin-right: 15px;
+        .go-back {
+            margin-right: 10px;
             cursor: pointer;
+
+            svg {
+                vertical-align: middle;
+                margin-top: -4px;
+            }
         }
     }
 

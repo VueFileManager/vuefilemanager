@@ -173,6 +173,7 @@
     .table {
         width: 100%;
         border-collapse: collapse;
+        overflow-x: auto;
 
         tr {
             width: 100%;
@@ -194,13 +195,13 @@
 
             tr {
                 td {
-                    padding-top: 10px;
-                    padding-bottom: 10px;
+                    padding: 12px;
 
                     span {
                         color: #AFAFAF;
                         font-weight: 700;
                         @include font-size(12);
+                        white-space: nowrap;
                     }
 
                     &.sortable {
@@ -243,8 +244,7 @@
                 }
 
                 td {
-                    padding-top: 12px;
-                    padding-bottom: 12px;
+                    padding: 12px;
 
                     &:last-child {
                         button {
@@ -329,6 +329,18 @@
         img {
             width: 45px;
             margin-right: 22px;
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+        .paginator-wrapper {
+            display: block;
+            text-align: center;
+
+            .paginator-info {
+                margin-top: 10px;
+                display: block;
+            }
         }
     }
 

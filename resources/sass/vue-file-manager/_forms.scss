@@ -71,7 +71,7 @@ input[type="password"],
 input[type="text"],
 input[type="number"],
 input[type="email"] {
-  border: 1px solid transparent;
+  border: 1px solid #ebebeb;
   @include transition(150ms);
   @include font-size(15);
   border-radius: 8px;
@@ -119,11 +119,10 @@ input[type="email"] {
   }
 }
 
-.form-group-label {
-  @include font-size(17);
-  font-weight: 500;
-  margin-bottom: 25px;
-  display: block;
+@media only screen and (max-width: 1024px) {
+  .form {
+    max-width: 100%;
+  }
 }
 
 @media only screen and (max-width: 960px) {
@@ -212,6 +211,7 @@ input[type="email"] {
   input[type="text"],
   input[type="number"],
   input[type="email"] {
+    border-color: $dark_mode_foreground;
     background: $dark_mode_foreground;
     color: $dark_mode_text_primary;
 

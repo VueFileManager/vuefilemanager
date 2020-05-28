@@ -45,7 +45,7 @@
 
     .fade-enter-active,
     .fade-leave-active {
-        transition: 0.8s ease;
+        transition: 0.3s ease;
     }
 
     .fade-enter,
@@ -107,6 +107,7 @@
             justify-content: center;
             padding: 0;
             font-size: 20px;
+            margin-right: 10px;
         }
 
         &.success {
@@ -130,6 +131,30 @@
 
             .toastr-description {
                 color: $danger;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+
+        .toastr-item {
+            margin-bottom: 0;
+            margin-top: 20px;
+            max-width: 100%;
+        }
+
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0;
+            @include transform(translateY(100%));
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .toastr-item {
+
+            &.success, &.danger {
+                background: $dark_mode_foreground;
             }
         }
     }

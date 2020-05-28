@@ -44,13 +44,9 @@
                 'currentFolder',
                 'browseHistory',
                 'homeDirectory',
-                'appSize',
             ]),
             directoryName() {
                 return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name
-            },
-            isSmallAppSize() {
-                return this.appSize === 'small'
             }
         },
         methods: {

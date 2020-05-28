@@ -1,5 +1,5 @@
 <template>
-    <div id="vue-file-manager" :class="appSize" v-cloak>
+    <div id="vue-file-manager" v-cloak>
 
         <!--System alerts-->
         <Alert/>
@@ -25,7 +25,9 @@
             <ToastrWrapper/>
 
             <!--File page-->
-            <router-view :class="{'is-scaled-down': isScaledDown}"/>
+            <keep-alive :include="['Admin', 'Users']">
+                <router-view :class="{'is-scaled-down': isScaledDown}"/>
+            </keep-alive>
         </div>
 
         <router-view v-if="layout === 'unauthorized'"/>
@@ -45,7 +47,6 @@
     import Vignette from '@/components/Others/Vignette'
     import MenuBar from '@/components/Sidebar/MenuBar'
     import Alert from '@/components/FilesView/Alert'
-    import {ResizeSensor} from 'css-element-queries'
     import {includes} from 'lodash'
     import {mapGetters} from 'vuex'
     import {events} from "./bus"
@@ -65,7 +66,7 @@
         },
         computed: {
             ...mapGetters([
-                'appSize', 'isLogged', 'isGuest'
+                'isLogged', 'isGuest'
             ]),
             layout() {
                 if (includes(['VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
@@ -79,19 +80,6 @@
             return {
                 isScaledDown: false,
             }
-        },
-        methods: {
-            handleAppResize() {
-                let appView = document.getElementById('vue-file-manager')
-                    .offsetWidth
-
-                if (appView <= 690)
-                    this.$store.commit('SET_APP_WIDTH', 'small')
-                if (appView > 690 && appView < 960)
-                    this.$store.commit('SET_APP_WIDTH', 'medium')
-                if (appView > 960)
-                    this.$store.commit('SET_APP_WIDTH', 'large')
-            },
         },
         beforeMount() {
 
@@ -107,10 +95,6 @@
             })
         },
         mounted() {
-            // Handle VueFileManager width
-            var VueFileManager = document.getElementById('vue-file-manager');
-            new ResizeSensor(VueFileManager, this.handleAppResize);
-
             // Handle mobile navigation scale animation
             events.$on('show:mobile-navigation', () => this.isScaledDown = true)
             events.$on('hide:mobile-navigation', () => this.isScaledDown = false)

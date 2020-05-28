@@ -32,7 +32,7 @@
                 </div>
             </router-link>
 
-            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, ['Users'])}" class="icon-navigation-item users">
+            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, ['Users', 'User', 'UserDetail', 'UserStorage', 'UserPassword', 'UserDelete'])}" class="icon-navigation-item users">
                 <div class="button-icon">
                     <users-icon size="19"></users-icon>
                 </div>
@@ -190,6 +190,7 @@
 
     @media only screen and (max-width: 1024px) {
         .menu-bar {
+            min-width: 60px;
             width: 60px;
         }
 

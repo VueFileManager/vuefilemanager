@@ -25,7 +25,6 @@
             @include font-size(19);
             margin-bottom: 15px;
             display: block;
-            //color: $theme;
         }
 
         .description {
@@ -44,6 +43,19 @@
             .title {
                 color: $danger;
             }
+        }
+
+        /deep/ input {
+
+            &[type='text'],
+            &[type='number'],
+            .input-area {
+                background: white;
+            }
+        }
+
+        /deep/ .input-area {
+            background: white;
         }
 
         /deep/ .form {
@@ -83,6 +95,16 @@
     @media only screen and (max-width: 690px) {
 
         .setup-box {
+            padding: 15px;
+
+            .title {
+                @include font-size(17);
+                margin-bottom: 10px;
+            }
+
+            .description {
+                @include font-size(14);
+            }
 
             /deep/ .form.block-form {
 

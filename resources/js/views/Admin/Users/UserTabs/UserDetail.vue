@@ -64,6 +64,7 @@
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import SetupBox from '@/components/Others/Forms/SetupBox'
     import {required} from 'vee-validate/dist/rules'
+    import { mapGetters } from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -81,20 +82,13 @@
             SetupBox,
             required,
         },
+        computed: {
+            ...mapGetters(['roles']),
+        },
         data() {
             return {
                 isLoading: false,
                 isSendingRequest: false,
-                roles: [
-                    {
-                        label: this.$t('roles.admin'),
-                        value: 'admin',
-                    },
-                    {
-                        label: this.$t('roles.user'),
-                        value: 'user',
-                    },
-                ],
                 userRole: undefined,
             }
         },
@@ -129,8 +123,14 @@
                             message: this.$t('toaster.changed_user'),
                         })
                     })
-                    .catch(error => {
+                    .catch(() => {
+
                         this.isSendingRequest = false
+
+                        events.$emit('alert:open', {
+                            title: this.$t('popup_error.title'),
+                            message: this.$t('popup_error.message'),
+                        })
                     })
             }
         }

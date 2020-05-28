@@ -1,8 +1,8 @@
 <template>
     <div id="single-page" v-if="app">
-        <div id="page-content" v-if="! isLoading">
+        <div id="page-content" class="medium-width" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
 
@@ -168,7 +168,6 @@
                 }
             }
         }
-
     }
 
 </style>

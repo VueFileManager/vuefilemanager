@@ -80,8 +80,8 @@
         }
 
         .image-preview {
-            width: 56px;
-            height: 56px;
+            width: 62px;
+            height: 62px;
             object-fit: cover;
             border-radius: 8px;
         }

@@ -1,10 +1,21 @@
+import i18n from '@/i18n/index'
+
 const defaultState = {
 	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
 	FilePreviewType: localStorage.getItem('preview_type') || 'list',
-	appSize: undefined,
 	config: undefined,
 	authorized: undefined,
 	homeDirectory: undefined,
+	roles: [
+		{
+			label: i18n.t('roles.admin'),
+			value: 'admin',
+		},
+		{
+			label: i18n.t('roles.user'),
+			value: 'user',
+		},
+	],
 }
 const actions = {
 	changePreviewType: ({commit, dispatch, state, getters}) => {
@@ -40,9 +51,6 @@ const mutations = {
 
 		localStorage.setItem('file_info_visibility', isVisible)
 	},
-	SET_APP_WIDTH(state, scale) {
-		state.appSize = scale
-	},
 	SET_AUTHORIZED(state, data) {
 		state.authorized = data
 	},
@@ -53,7 +61,7 @@ const mutations = {
 const getters = {
 	fileInfoVisible: state => state.fileInfoPanelVisible,
 	FilePreviewType: state => state.FilePreviewType,
-	appSize: state => state.appSize,
+	roles: state => state.roles,
 	api: state => state.config.api,
 	config: state => state.config,
 	homeDirectory: state => state.homeDirectory,

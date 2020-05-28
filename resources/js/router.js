@@ -23,6 +23,7 @@ import Admin from './views/Admin'
 import Users from './views/Admin/Users'
 
 import User from './views/Admin/Users/User'
+import UserCreate from './views/Admin/Users/UserCreate'
 import UserDetail from './views/Admin/Users/UserTabs/UserDetail'
 import UserDelete from './views/Admin/Users/UserTabs/UserDelete'
 import UserStorage from './views/Admin/Users/UserTabs/UserStorage'
@@ -120,7 +121,16 @@ const router = new Router({
                     component: Users,
                     meta: {
                         requiresAuth: true,
-                        title: 'Users'
+                        title: i18n.t('routes_title.users_list')
+                    },
+                },
+                {
+                    name: 'UserCreate',
+                    path: '/admin/user/create',
+                    component: UserCreate,
+                    meta: {
+                        requiresAuth: true,
+                        title: i18n.t('routes_title.user_create')
                     },
                 },
                 {

@@ -1,15 +1,28 @@
 <template>
-    <section id="viewport">
+    <div id="single-page" v-if="app">
+        <div id="page-content" class="medium-width" v-if="! isLoading">
+            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <PageHeader :title="$router.currentRoute.meta.title"/>
 
-        <ContentSidebar>
+            <div class="content-page">
 
-            <!--User Headline-->
-            <UserHeadline class="user-headline"/>
+                <!--User thumbnail-->
+                <div class="user-thumbnail">
+                    <div class="avatar">
+                        <UserImageInput
+                                v-model="avatar"
+                                :avatar="app.user.avatar"
+                        />
+                    </div>
+                    <div class="info">
+                        <b class="name">{{ app.user.name }}</b>
+                        <span class="email">{{ app.user.email }}</span>
+                    </div>
+                </div>
 
-            <!--Locations-->
-            <ContentGroup title="Menu" class="navigator">
-                <div class="menu-list-wrapper">
-                    <router-link :to="{name: 'Profile'}" class="menu-list-item link">
+                <!--Page Tab links-->
+                <div class="menu-list-wrapper horizontal">
+                    <router-link replace :to="{name: 'Profile'}" class="menu-list-item link">
                         <div class="icon">
                             <user-icon size="17"></user-icon>
                         </div>
@@ -17,15 +30,8 @@
                             {{ $t('menu.profile') }}
                         </div>
                     </router-link>
-                    <router-link :to="{name: 'Password'}" class="menu-list-item link">
-                        <div class="icon">
-                            <lock-icon size="17"></lock-icon>
-                        </div>
-                        <div class="label">
-                            {{ $t('menu.password') }}
-                        </div>
-                    </router-link>
-                    <router-link v-if="config.storageLimit" :to="{name: 'Storage'}" class="menu-list-item link">
+
+                    <router-link replace :to="{name: 'Storage'}" class="menu-list-item link">
                         <div class="icon">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
@@ -33,18 +39,42 @@
                             {{ $t('menu.storage') }}
                         </div>
                     </router-link>
-                </div>
-            </ContentGroup>
-        </ContentSidebar>
 
-        <router-view/>
-    </section>
+                    <router-link replace :to="{name: 'Password'}" class="menu-list-item link">
+                        <div class="icon">
+                            <lock-icon size="17"></lock-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('menu.password') }}
+                        </div>
+                    </router-link>
+
+                    <!--<router-link replace :to="{name: 'UserDelete'}" v-if="user.attributes.name !== app.user.name" class="menu-list-item link">
+                        <div class="icon">
+                            <trash2-icon size="17"></trash2-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('admin_page_user.tabs.delete') }}
+                        </div>
+                    </router-link>-->
+                </div>
+
+                <!--Router Content-->
+                <router-view :user="app.user" />
+            </div>
+        </div>
+        <div id="loader" v-if="isLoading">
+            <Spinner></Spinner>
+        </div>
+    </div>
 </template>
 
 <script>
-    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-    import ContentGroup from '@/components/Sidebar/ContentGroup'
-    import UserHeadline from '@/components/Sidebar/UserHeadline'
+    import UserImageInput from '@/components/Others/UserImageInput'
+    import MobileHeader from '@/components/Mobile/MobileHeader'
+    import PageHeader from '@/components/Others/PageHeader'
+    import Spinner from '@/components/FilesView/Spinner'
+
     import { mapGetters } from 'vuex'
     import {
         HardDriveIcon,
@@ -54,23 +84,73 @@
 
     export default {
         name: 'Settings',
-        computed: {
-            ...mapGetters(['config']),
-        },
         components: {
-            ContentSidebar,
+            UserImageInput,
+            MobileHeader,
+            PageHeader,
+            Spinner,
             HardDriveIcon,
-            UserHeadline,
-            ContentGroup,
             UserIcon,
             LockIcon,
+        },
+        computed: {
+            ...mapGetters([
+                'config', 'app'
+            ]),
+        },
+        data() {
+            return {
+                avatar: undefined,
+                isLoading: false,
+            }
         },
     }
 </script>
 
 <style lang="scss" scoped>
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
 
-    .user-headline {
-        margin-bottom: 38px;
+    .user-thumbnail {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .avatar {
+            margin-right: 20px;
+
+            img {
+                line-height: 0;
+                width: 62px;
+                height: 62px;
+                border-radius: 12px;
+            }
+        }
+
+        .info {
+
+            .name {
+                display: block;
+                @include font-size(17);
+                line-height: 1;
+            }
+
+            .email {
+                color: $text-muted;
+                @include font-size(14);
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .user-thumbnail {
+
+            .info {
+
+                .email {
+                    color: $dark_mode_text_secondary;
+                }
+            }
+        }
     }
 </style>

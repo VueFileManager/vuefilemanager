@@ -42,8 +42,8 @@ class AccountController extends Controller
             'tree'       => $tree,
             'storage'    => [
                 'used'       => Metric::bytes($user->used_capacity)->format(),
-                'capacity'   => format_gigabytes(config('vuefilemanager.user_storage_capacity')),
-                'percentage' => get_storage_fill_percentage($user->used_capacity, config('vuefilemanager.user_storage_capacity')),
+                'capacity'   => format_gigabytes($user->settings->storage_capacity),
+                'percentage' => get_storage_fill_percentage($user->used_capacity, $user->settings->storage_capacity),
             ],
         ];
     }

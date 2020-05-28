@@ -22,6 +22,8 @@
                             <input v-model="capacity"
                                    :placeholder="$t('admin_page_user.label_change_capacity')"
                                    type="number"
+                                   min="1"
+                                   max="999999999"
                                    :class="{'is-error': errors[0]}"
                             />
                             <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
@@ -106,6 +108,23 @@
                     .catch(error => {
 
                         this.isSendingRequest = false
+
+                        if (error.response.status == 422) {
+
+                            // Password validation error
+                            if (error.response.data.errors['attributes.storage_capacity']) {
+
+                                this.$refs.changeStorageCapacity.setErrors({
+                                    'Capacity': 'The storage capacity must be lower than 10 digit number.'
+                                });
+                            }
+                        } else {
+
+                            events.$emit('alert:open', {
+                                title: this.$t('popup_error.title'),
+                                message: this.$t('popup_error.message'),
+                            })
+                        }
                     })
             },
             getStorageDetails() {

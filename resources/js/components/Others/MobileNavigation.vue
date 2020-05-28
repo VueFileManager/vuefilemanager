@@ -64,7 +64,7 @@
                     {
                         icon: 'settings',
                         title: this.$t('menu.settings'),
-                        routeName: 'MobileSettings',
+                        routeName: 'Profile',
                         isVisible: true,
                     },
                     {

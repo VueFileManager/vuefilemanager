@@ -40,12 +40,14 @@ class UpgradeApp extends Command
     public function handle()
     {
         $this->info('Upgrading your application to version ' . $this->argument('version'));
+        $this->call('down');
 
         // Version 1.6
         if ($this->argument('version') === 'v1.6') {
             $this->version_1_6();
         }
 
+        $this->call('up');
         $this->info('Your application was upgraded! 🥳🥳🥳');
     }
 

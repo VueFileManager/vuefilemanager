@@ -8,7 +8,7 @@
 
     <title>{{ config('vuefilemanager.app_name') }} | {{ __('vuefilemanager.app_description') }}</title>
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}?v={{ get_version() }}">
+    <link rel="icon" href="{{ asset('favicon.png') }}?v={{ get_version() }}">
     <link href="{{ asset('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">
 
     {{-- Apple Mobile Web App--}}

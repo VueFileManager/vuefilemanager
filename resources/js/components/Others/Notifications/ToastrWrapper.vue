@@ -48,4 +48,15 @@
         top: 30px;
         z-index: 10;
     }
+
+    @media only screen and (max-width: 690px) {
+
+        #toastr-wrapper {
+            top: initial;
+            right: 15px;
+            left: 15px;
+            bottom: 15px;
+        }
+    }
+
 </style>

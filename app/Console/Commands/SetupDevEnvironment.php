@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\User;
+use App\UserSettings;
 use Illuminate\Console\Command;
 
 class SetupDevEnvironment extends Command
@@ -109,7 +110,13 @@ class SetupDevEnvironment extends Command
         $user = User::create([
             'name'     => 'Jane Doe',
             'email'    => 'howdy@hi5ve.digital',
+            'role'     => 'admin',
             'password' => \Hash::make('vuefilemanager'),
+        ]);
+
+        // Create settings
+        $settings = UserSettings::create([
+            'user_id' => $user->id
         ]);
 
         $this->info('Test user created. Email: ' . $user->email . ' Password: vuefilemanager');

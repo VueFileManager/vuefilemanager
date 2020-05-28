@@ -3,22 +3,22 @@
         "create_new_password": "vytvorit-nove-heslo"
     },
     "routes_title": {
-        "profile": "Uživateľský profil",
+        "profile": "Môj profil",
         "settings_password": "Zmeniť heslo",
         "settings_storage": "Úložisko",
         "settings_mobile": "Nastavenia",
+        "users_list": "Správca uživateľov",
         "users_user": "Uživateľ",
         "users_detail": "Detail",
         "users_storage_usage": "Využitie úložiska",
         "users_password": "Heslo",
-        "users_delete": "Vymazať uživateľa"
+        "users_delete": "Vymazať uživateľa",
+        "user_create": "Vytvoriť uživateľa"
     },
     "profile": {
         "store_pass": "Uložiť nové heslo",
         "change_pass": "Zmeniť heslo",
-        "profile_info": "Profil",
-        "photo_description": "Zmeň svoj avatar",
-        "photo_supported": "Podporované formáty sú .png, .jpg, .jpeg."
+        "profile_info": "Profil"
     },
     "page_registration": {
         "title": "Vytvorenie nového účtu",
@@ -307,13 +307,23 @@
             "role": "Rola",
             "storage_used": "Využitie úložiska",
             "storage_capacity": "Kapacita úložiska",
+            "created_at": "Registrovaný",
             "action": "Akcia"
+        },
+        "create_user": {
+            "group_details": "Detail účtu",
+            "group_settings": "Nastavenia účtu",
+            "submit": "Vytvoriť uživateľa",
+            "label_email": "Napíšte E-mail",
+            "label_name": "Napíšte celé meno",
+            "label_conf_pass": "Potvrďte heslo"
         }
     },
     "toaster": {
         "changed_user": "Úspešne ste zmenili rolu užívateľa",
         "sended_password": "Úspešne ste odoslali email uživateľovi pre reset hesla!",
-        "changed_capacity": "Úspešne ste zmenili kapacitu úložiska uživateľa!"
+        "changed_capacity": "Úspešne ste zmenili kapacitu úložiska uživateľa!",
+        "created_user": "Úspešne ste vytvorili uživateľa1"
     },
     "roles": {
         "admin": "Admin",
@@ -321,5 +331,9 @@
     },
     "datatable": {
         "paginate_info": "Zobrazuje sa 1 - {visible} z {total} položiek"
+    },
+    "input_image": {
+        "title": "Vložte obrázok",
+        "supported": "Podporované formáty sú .png, .jpg, .jpeg."
     }
 }

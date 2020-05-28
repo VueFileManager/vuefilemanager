@@ -1,14 +1,26 @@
 <template>
     <div id="single-page">
-        <div id="page-content" class="full-width" v-if="! isLoading">
+        <div id="page-content" class="medium-width" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
+                <div class="table-tools">
+                    <div class="buttons">
+                        <router-link :to="{name: 'UserCreate'}">
+                            <MobileActionButton icon="user-plus">
+                                {{ $t('admin_page_user.create_user.submit') }}
+                            </MobileActionButton>
+                        </router-link>
+                    </div>
+                    <div class="searching">
+
+                    </div>
+                </div>
                 <DatatableWrapper :paginator="true" :columns="columns" :data="users" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td style="width: 320px">
+                            <td style="width: 300px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}" tag="div" class="user-thumbnail">
                                     <div class="avatar">
                                         <img :src="row.data.attributes.avatar" :alt="row.data.attributes.name">
@@ -35,6 +47,11 @@
                                 </span>
                             </td>
                             <td>
+                                <span class="cell-item">
+                                    {{ row.data.attributes.created_at_formatted }}
+                                </span>
+                            </td>
+                            <td>
                                 <div class="action-icons">
                                     <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                         <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
@@ -57,8 +74,10 @@
 
 <script>
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
+    import MobileActionButton from '@/components/FilesView/MobileActionButton'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
     import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
@@ -68,11 +87,13 @@
     export default {
         name: 'Profile',
         components: {
+            MobileActionButton,
             DatatableWrapper,
             SectionTitle,
             MobileHeader,
             Trash2Icon,
             PageHeader,
+            ButtonBase,
             ColorLabel,
             Edit2Icon,
             Spinner,
@@ -84,27 +105,32 @@
                 columns: [
                     {
                         label: this.$t('admin_page_user.table.name'),
-                        field: 'attributes.name',
+                        field: 'data.attributes.name',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.role'),
-                        field: 'attributes.role',
+                        field: 'data.attributes.role',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'attributes.storage.used',
+                        field: 'data.attributes.storage.used',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.storage_capacity'),
-                        field: 'attributes.storage.capacity',
+                        field: 'data.attributes.storage.capacity',
+                        sortable: true
+                    },
+                    {
+                        label: this.$t('admin_page_user.table.created_at'),
+                        field: 'data.attributes.created_at_formatted',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
-                        field: 'action',
+                        field: 'data.action',
                         sortable: false
                     },
                 ],
@@ -136,7 +162,18 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 
+    .table-tools {
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0 10px;
+        position: sticky;
+        top: 40px;
+        z-index: 9;
+    }
+
     .action-icons {
+        white-space: nowrap;
 
         a {
             display: inline-block;
@@ -166,6 +203,7 @@
 
         .cell-item {
             @include font-size(15);
+            white-space: nowrap;
         }
     }
 
@@ -188,8 +226,15 @@
 
         .info {
 
-            .name {
+            .name, .email {
+                max-width: 150px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 display: block;
+            }
+
+            .name {
                 @include font-size(15);
                 line-height: 1;
             }
@@ -201,7 +246,17 @@
         }
     }
 
+    @media only screen and (max-width: 690px) {
+        .table-tools {
+            padding: 0 0 5px;
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
+
+        .table-tools {
+            background: $dark_mode_background;
+        }
 
         .action-icons {
 

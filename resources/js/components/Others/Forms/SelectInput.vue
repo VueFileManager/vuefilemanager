@@ -115,9 +115,9 @@
     }
 
     .input-area {
+        border: 1px solid #ebebeb;
         justify-content: space-between;
         background: $light_mode_input_background;
-        border: 1px solid transparent;
         @include transition(150ms);
         align-items: center;
         border-radius: 8px;
@@ -182,6 +182,7 @@
 
         .input-area {
             background: $dark_mode_foreground;
+            border-color: $dark_mode_foreground;
 
             .option-icon {
                 path {

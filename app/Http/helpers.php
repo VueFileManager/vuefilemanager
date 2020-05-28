@@ -221,7 +221,7 @@ function user_storage_percentage()
 {
     $user = Auth::user();
 
-    return get_storage_fill_percentage($user->used_capacity, config('vuefilemanager.user_storage_capacity'));
+    return get_storage_fill_percentage($user->used_capacity, $user->settings->storage_capacity);
 }
 
 /**
