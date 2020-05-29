@@ -5,57 +5,36 @@
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
-                <div class="table-tools">
-                    <div class="buttons">
-                        <router-link :to="{name: 'UserCreate'}">
-                            <MobileActionButton icon="user-plus">
-                                {{ $t('admin_page_user.create_user.submit') }}
-                            </MobileActionButton>
-                        </router-link>
-                    </div>
-                    <div class="searching">
-
-                    </div>
-                </div>
-                <DatatableWrapper :paginator="true" :columns="columns" :data="users" class="table table-users">
+                <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td style="width: 300px">
-                                <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+                            <td>
+                                <router-link :to="{name: 'GatewaySettings', params: {name: row.attributes.type}}">
                                     <DatatableCellImage
-                                            :image="row.data.attributes.avatar"
-                                            :title="row.data.attributes.name"
-                                            :description="row.data.attributes.email"
+                                        :image="row.attributes.avatar"
+                                        :title="row.attributes.gateway"
                                     />
                                 </router-link>
                             </td>
                             <td>
-                                <ColorLabel :color="getRoleColor(row.data.attributes.role)">
-                                    {{ row.data.attributes.role }}
-                                </ColorLabel>
-                            </td>
-                            <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.storage.used }}%
+                                    <SwitchInput class="switch" :state="row.attributes.status"/>
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.storage.capacity_formatted }}
+                                    {{ row.attributes.payments_processed }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.created_at_formatted }}
+                                    {{ row.attributes.active_subscribers }}
                                 </span>
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+                                    <router-link :to="{name: 'GatewaySettings', params: {name: row.attributes.type}}">
                                         <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
-                                    </router-link>
-                                    <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
-                                        <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
                                     </router-link>
                                 </div>
                             </td>
@@ -74,6 +53,7 @@
     import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '@/components/FilesView/MobileActionButton'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -84,13 +64,14 @@
     import axios from 'axios'
 
     export default {
-        name: 'Profile',
+        name: 'Plans',
         components: {
             DatatableCellImage,
             MobileActionButton,
             DatatableWrapper,
             SectionTitle,
             MobileHeader,
+            SwitchInput,
             Trash2Icon,
             PageHeader,
             ButtonBase,
@@ -100,32 +81,52 @@
         },
         data() {
             return {
-                isLoading: true,
-                users: [],
+                isLoading: false,
+                plans: [
+                    {
+                        id: '2',
+                        type: 'payment_method',
+                        attributes: {
+                            type: 'paypal',
+                            gateway: 'PayPal',
+                            avatar: '/assets/images/paypal-logo-thumbnail.png',
+                            status: 0,
+                            payments_processed: 234,
+                            active_subscribers: 2920,
+                        }
+                    },
+                    {
+                        id: '1',
+                        type: 'payment_method',
+                        attributes: {
+                            type: 'stripe',
+                            gateway: 'Stripe',
+                            avatar: '/assets/images/stripe-logo-thumbnail.png',
+                            status: 1,
+                            payments_processed: 798,
+                            active_subscribers: 3587,
+                        }
+                    },
+                ],
                 columns: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
-                        field: 'data.attributes.name',
+                        label: 'Payment Gateway',
+                        field: 'attributes.gateway',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.role'),
-                        field: 'data.attributes.role',
+                        label: 'Status',
+                        field: 'attributes.status',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'data.attributes.storage.used',
+                        label: 'Payments Processed',
+                        field: 'attributes.payments_processed',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_capacity'),
-                        field: 'data.attributes.storage.capacity',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.created_at'),
-                        field: 'data.attributes.created_at_formatted',
+                        label: 'Active Subscribers',
+                        field: 'attributes.active_subscribers',
                         sortable: true
                     },
                     {
@@ -136,24 +137,12 @@
                 ],
             }
         },
-        methods: {
-            getRoleColor(role) {
-                switch(role) {
-                    case 'admin':
-                        return 'purple'
-                        break;
-                    case 'user':
-                        return 'yellow'
-                        break;
-                }
-            }
-        },
         created() {
-            axios.get('/api/users')
+            /*axios.get('/api/plans')
                 .then(response => {
-                    this.users = response.data.data
+                    this.plans = response.data.data
                     this.isLoading = false
-                })
+                })*/
         }
     }
 </script>
@@ -161,6 +150,40 @@
 <style lang="scss" scoped>
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .user-thumbnail {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .avatar {
+            margin-right: 20px;
+            line-height: 0;
+
+            img {
+                line-height: 0;
+                width: 48px;
+                height: 48px;
+                border-radius: 8px;
+            }
+        }
+
+        .info {
+
+            .name {
+                max-width: 150px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+            }
+
+            .name {
+                @include font-size(15);
+                line-height: 1;
+            }
+        }
+    }
 
     .table-tools {
         background: white;
@@ -177,6 +200,11 @@
         .cell-item {
             @include font-size(15);
             white-space: nowrap;
+        }
+
+        .name {
+            font-weight: 700;
+            cursor: pointer;
         }
     }
 
@@ -199,6 +227,16 @@
 
                 circle, path, line, polyline {
                     stroke: $dark_mode_text_primary;
+                }
+            }
+        }
+
+        .user-thumbnail {
+
+            .info {
+
+                .email {
+                    color: $dark_mode_text_secondary;
                 }
             }
         }

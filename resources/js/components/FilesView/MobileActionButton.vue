@@ -6,6 +6,7 @@
             <trash-icon v-if="icon === 'trash'" size="15" class="icon"></trash-icon>
             <grid-icon v-if="icon === 'th'" size="15" class="icon"></grid-icon>
             <user-plus-icon v-if="icon === 'user-plus'" size="15" class="icon"></user-plus-icon>
+            <plus-icon v-if="icon === 'plus'" size="15" class="icon"></plus-icon>
             <span class="label">
                 <slot></slot>
             </span>
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-    import { FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon } from 'vue-feather-icons'
+    import { FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon } from 'vue-feather-icons'
 
     export default {
         name: 'MobileActionButton',
@@ -25,6 +26,7 @@
             FolderPlusIcon,
             UserPlusIcon,
             TrashIcon,
+            PlusIcon,
             ListIcon,
             GridIcon,
         }

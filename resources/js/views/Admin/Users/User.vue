@@ -16,7 +16,8 @@
                             {{ user.attributes.name }}
                             <ColorLabel color="purple">
                                 {{ user.attributes.role }}
-                            </ColorLabel></b>
+                            </ColorLabel>
+                        </b>
                         <span class="email">{{ user.attributes.email }}</span>
                     </div>
                 </div>
@@ -41,6 +42,15 @@
                         </div>
                     </router-link>
 
+                    <router-link replace :to="{name: 'UserInvoices'}" class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Invoices
+                        </div>
+                    </router-link>
+
                     <router-link replace :to="{name: 'UserPassword'}" class="menu-list-item link">
                         <div class="icon">
                             <lock-icon size="17"></lock-icon>
@@ -50,7 +60,8 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.attributes.name !== app.user.name" class="menu-list-item link">
+                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.attributes.name !== app.user.name"
+                                 class="menu-list-item link">
                         <div class="icon">
                             <trash2-icon size="17"></trash2-icon>
                         </div>
@@ -61,7 +72,7 @@
                 </div>
 
                 <!--Router Content-->
-                <router-view :user="user" @reload-user="fetchUser" />
+                <router-view :user="user" @reload-user="fetchUser"/>
             </div>
         </div>
         <div id="loader" v-if="isLoading">
@@ -71,28 +82,29 @@
 </template>
 
 <script>
-    import { UserIcon, HardDriveIcon, LockIcon, Trash2Icon } from 'vue-feather-icons'
+    import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon} from 'vue-feather-icons'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     import axios from 'axios'
 
     export default {
         name: 'Profile',
         components: {
-            Trash2Icon,
-            LockIcon,
             HardDriveIcon,
             StorageItemDetail,
             SectionTitle,
+            FileTextIcon,
             MobileHeader,
             PageHeader,
             ColorLabel,
+            Trash2Icon,
             UserIcon,
+            LockIcon,
             Spinner,
         },
         computed: {

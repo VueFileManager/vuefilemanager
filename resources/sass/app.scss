@@ -106,7 +106,7 @@
       &:hover {
 
         svg {
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             stroke: $theme;
           }
         }
@@ -120,7 +120,7 @@
         margin-right: 12px;
         line-height: 0;
 
-        path, line, polyline, rect, circle {
+        path, line, polyline, rect, circle, ellipse {
           stroke: $text;
         }
       }
@@ -184,7 +184,7 @@
           margin-right: 5px;
           width: 20px;
 
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             @include transition(150ms);
           }
         }
@@ -194,7 +194,7 @@
         &.is-current {
 
           .folder-icon {
-            path, line, polyline, rect, circle {
+            path, line, polyline, rect, circle, ellipse {
               stroke: $theme;
             }
           }
@@ -212,6 +212,35 @@
   @include font-size(12);
   color: $text-muted;
   display: block;
+}
+
+.table {
+  .action-icons {
+    white-space: nowrap;
+
+    a {
+      display: inline-block;
+      margin-left: 10px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+
+    .icon {
+      cursor: pointer;
+
+      circle, path, line, polyline {
+        stroke: $text;
+      }
+
+      &.icon-trash {
+        circle, path, line, polyline {
+          stroke: $red;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -278,7 +307,7 @@
 
         .icon {
 
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             stroke: $dark_mode_text_primary;
           }
         }
@@ -290,7 +319,7 @@
 
       .icon {
 
-        path, line, polyline, rect, circle {
+        path, line, polyline, rect, circle, ellipse {
           stroke: $dark_mode_text_primary;
         }
       }
@@ -304,7 +333,7 @@
 
         .icon {
 
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             stroke: $theme;
           }
         }

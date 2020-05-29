@@ -8,8 +8,8 @@
                 <div class="table-tools">
                     <div class="buttons">
                         <router-link :to="{name: 'UserCreate'}">
-                            <MobileActionButton icon="user-plus">
-                                {{ $t('admin_page_user.create_user.submit') }}
+                            <MobileActionButton icon="plus">
+                                Create Plan
                             </MobileActionButton>
                         </router-link>
                     </div>
@@ -17,44 +17,40 @@
 
                     </div>
                 </div>
-                <DatatableWrapper :paginator="true" :columns="columns" :data="users" class="table table-users">
+                <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td style="width: 300px">
-                                <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                    <DatatableCellImage
-                                            :image="row.data.attributes.avatar"
-                                            :title="row.data.attributes.name"
-                                            :description="row.data.attributes.email"
-                                    />
+                            <td class="name">
+                                <router-link :to="{name: 'UserDetail', params: {id: row.id}}" class="cell-item" tag="div">
+                                    <span>{{ row.attributes.name }}</span>
                                 </router-link>
                             </td>
                             <td>
-                                <ColorLabel :color="getRoleColor(row.data.attributes.role)">
-                                    {{ row.data.attributes.role }}
-                                </ColorLabel>
-                            </td>
-                            <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.storage.used }}%
+                                    <SwitchInput class="switch" :state="row.attributes.status"/>
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.storage.capacity_formatted }}
+                                    ${{ row.attributes.price }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.created_at_formatted }}
+                                    {{ row.attributes.capacity }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="cell-item">
+                                    {{ row.attributes.subscribers }}
                                 </span>
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+                                    <router-link :to="{name: 'UserDetail', params: {id: row.id}}">
                                         <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
                                     </router-link>
-                                    <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
+                                    <router-link :to="{name: 'UserDelete', params: {id: row.id}}">
                                         <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
                                     </router-link>
                                 </div>
@@ -71,9 +67,9 @@
 </template>
 
 <script>
-    import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '@/components/FilesView/MobileActionButton'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -84,13 +80,13 @@
     import axios from 'axios'
 
     export default {
-        name: 'Profile',
+        name: 'Plans',
         components: {
-            DatatableCellImage,
             MobileActionButton,
             DatatableWrapper,
             SectionTitle,
             MobileHeader,
+            SwitchInput,
             Trash2Icon,
             PageHeader,
             ButtonBase,
@@ -100,32 +96,66 @@
         },
         data() {
             return {
-                isLoading: true,
-                users: [],
+                isLoading: false,
+                plans: [
+                    {
+                        id: '1',
+                        type: 'plans',
+                        attributes: {
+                            name: 'Starter Plan',
+                            status: 1,
+                            price: 9.99,
+                            capacity: '200GB',
+                            subscribers: 172,
+                        }
+                    },
+                    {
+                        id: '2',
+                        type: 'plans',
+                        attributes: {
+                            name: 'Professional Plan',
+                            status: 0,
+                            price: 19.99,
+                            capacity: '500GB',
+                            subscribers: 1929,
+                        }
+                    },
+                    {
+                        id: '3',
+                        type: 'plans',
+                        attributes: {
+                            name: 'Business Plan',
+                            status: 1,
+                            price: 44.99,
+                            capacity: '1TB',
+                            subscribers: 389,
+                        }
+                    },
+                ],
                 columns: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
-                        field: 'data.attributes.name',
+                        label: 'Plan',
+                        field: 'attributes.name',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.role'),
-                        field: 'data.attributes.role',
+                        label: 'Status',
+                        field: 'attributes.status',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'data.attributes.storage.used',
+                        label: 'Price',
+                        field: 'attributes.price',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_capacity'),
-                        field: 'data.attributes.storage.capacity',
+                        label: 'Storage Capacity',
+                        field: 'attributes.capacity',
                         sortable: true
                     },
                     {
-                        label: this.$t('admin_page_user.table.created_at'),
-                        field: 'data.attributes.created_at_formatted',
+                        label: 'Subscribers',
+                        field: 'attributes.subscribers',
                         sortable: true
                     },
                     {
@@ -136,24 +166,12 @@
                 ],
             }
         },
-        methods: {
-            getRoleColor(role) {
-                switch(role) {
-                    case 'admin':
-                        return 'purple'
-                        break;
-                    case 'user':
-                        return 'yellow'
-                        break;
-                }
-            }
-        },
         created() {
-            axios.get('/api/users')
+            /*axios.get('/api/plans')
                 .then(response => {
-                    this.users = response.data.data
+                    this.plans = response.data.data
                     this.isLoading = false
-                })
+                })*/
         }
     }
 </script>
@@ -178,6 +196,11 @@
             @include font-size(15);
             white-space: nowrap;
         }
+
+        .name {
+            font-weight: 700;
+            cursor: pointer;
+        }
     }
 
     @media only screen and (max-width: 690px) {
@@ -199,6 +222,16 @@
 
                 circle, path, line, polyline {
                     stroke: $dark_mode_text_primary;
+                }
+            }
+        }
+
+        .user-thumbnail {
+
+            .info {
+
+                .email {
+                    color: $dark_mode_text_secondary;
                 }
             }
         }

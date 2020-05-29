@@ -1,7 +1,7 @@
 <template>
     <section id="viewport">
 
-        <ContentSidebar v-if="false">
+        <ContentSidebar>
 
             <!--Locations-->
             <ContentGroup :title="$t('admin_menu.admin_label')" class="navigator">
@@ -14,11 +14,48 @@
                             {{ $t('admin_menu.users') }}
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'User'}" class="menu-list-item link">
+                        <div class="icon">
+                            <settings-icon size="17"></settings-icon>
+                        </div>
+                        <div class="label">
+                            Settings
+                        </div>
+                    </router-link>
+                </div>
+            </ContentGroup>
+
+            <ContentGroup title="SaaS" class="navigator">
+                <div class="menu-list-wrapper vertical">
+                    <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Invoices
+                        </div>
+                    </router-link>
+                    <router-link :to="{name: 'Plans'}" class="menu-list-item link">
+                        <div class="icon">
+                            <database-icon size="17"></database-icon>
+                        </div>
+                        <div class="label">
+                            Plans
+                        </div>
+                    </router-link>
+                    <router-link :to="{name: 'PaymentMethods'}" class="menu-list-item link">
+                        <div class="icon">
+                            <credit-card-icon size="17"></credit-card-icon>
+                        </div>
+                        <div class="label">
+                            Payment Methods
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
         </ContentSidebar>
 
-        <keep-alive :include="['Users']">
+        <keep-alive>
             <router-view/>
         </keep-alive>
     </section>
@@ -28,7 +65,7 @@
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import { mapGetters } from 'vuex'
-    import { UsersIcon } from 'vue-feather-icons'
+    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon } from 'vue-feather-icons'
 
     export default {
         name: 'Settings',
@@ -36,6 +73,10 @@
             ...mapGetters(['config']),
         },
         components: {
+            DatabaseIcon,
+            CreditCardIcon,
+            FileTextIcon,
+            SettingsIcon,
             ContentSidebar,
             ContentGroup,
             UsersIcon,

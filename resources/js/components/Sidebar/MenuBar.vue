@@ -28,13 +28,13 @@
 
             <router-link :to="{name: 'Profile'}" :class="{'is-active': $isThisRoute($route, ['Password', 'Profile', 'Storage'])}" class="icon-navigation-item settings">
                 <div class="button-icon">
-                    <settings-icon size="19"></settings-icon>
+                    <user-icon size="19"></user-icon>
                 </div>
             </router-link>
 
             <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, ['Users', 'User', 'UserDetail', 'UserStorage', 'UserPassword', 'UserDelete'])}" class="icon-navigation-item users">
                 <div class="button-icon">
-                    <users-icon size="19"></users-icon>
+                    <settings-icon size="19"></settings-icon>
                 </div>
             </router-link>
         </div>
@@ -57,7 +57,7 @@
         HardDriveIcon,
         SettingsIcon,
         Trash2Icon,
-        UsersIcon,
+        UserIcon,
         PowerIcon,
         ShareIcon,
     } from 'vue-feather-icons'
@@ -71,7 +71,7 @@
             Trash2Icon,
             PowerIcon,
             ShareIcon,
-            UsersIcon,
+            UserIcon,
         },
         computed: {
             ...mapGetters(['app']),

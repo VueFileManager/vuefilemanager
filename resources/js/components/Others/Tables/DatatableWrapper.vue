@@ -198,7 +198,7 @@
                     padding: 12px;
 
                     span {
-                        color: #AFAFAF;
+                        color: $theme;
                         font-weight: 700;
                         @include font-size(12);
                         white-space: nowrap;
@@ -238,6 +238,7 @@
         .table-body {
             tr {
                 border-radius: 8px;
+                border-bottom: 1px solid #f5f5f5;
 
                 &:hover {
                     background: $light_background;

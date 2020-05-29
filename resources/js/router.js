@@ -20,14 +20,24 @@ import SharedFiles from './views/FilePages/SharedFiles'
 import MobileSettings from './views/Mobile/MobileSettings'
 
 import Admin from './views/Admin'
-import Users from './views/Admin/Users'
+import Plans from './views/Admin/Plans'
+import Invoices from './views/Admin/Invoices'
 
+// Payment Methods
+import PaymentMethods from './views/Admin/PaymentMethods'
+import PaymentMethod from './views/Admin/PaymentMethods/PaymentMethod'
+import GatewaySettings from './views/Admin/PaymentMethods/PaymentMethodTabs/GatewaySettings'
+import GatewayTransactions from './views/Admin/PaymentMethods/PaymentMethodTabs/GatewayTransactions'
+
+// Users
+import Users from './views/Admin/Users'
 import User from './views/Admin/Users/User'
 import UserCreate from './views/Admin/Users/UserCreate'
 import UserDetail from './views/Admin/Users/UserTabs/UserDetail'
 import UserDelete from './views/Admin/Users/UserTabs/UserDelete'
 import UserStorage from './views/Admin/Users/UserTabs/UserStorage'
 import UserPassword from './views/Admin/Users/UserTabs/UserPassword'
+import UserInvoices from './views/Admin/Users/UserTabs/UserInvoices'
 
 Vue.use(Router)
 
@@ -115,6 +125,35 @@ const router = new Router({
                 title: 'Admin'
             },
             children: [
+
+                // List Pages
+                {
+                    name: 'PaymentMethods',
+                    path: '/admin/payment-methods',
+                    component: PaymentMethods,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Payment Methods'
+                    },
+                },
+                {
+                    name: 'Invoices',
+                    path: '/admin/invoices',
+                    component: Invoices,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Invoices'
+                    },
+                },
+                {
+                    name: 'Plans',
+                    path: '/admin/plans',
+                    component: Plans,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Pricing Plans'
+                    },
+                },
                 {
                     name: 'Users',
                     path: '/admin/users',
@@ -124,6 +163,8 @@ const router = new Router({
                         title: i18n.t('routes_title.users_list')
                     },
                 },
+
+                // Create Pages
                 {
                     name: 'UserCreate',
                     path: '/admin/user/create',
@@ -133,6 +174,8 @@ const router = new Router({
                         title: i18n.t('routes_title.user_create')
                     },
                 },
+
+                // Single pages
                 {
                     name: 'User',
                     path: '/admin/user/:id',
@@ -161,6 +204,15 @@ const router = new Router({
                             },
                         },
                         {
+                            name: 'UserInvoices',
+                            path: '/admin/user/:id/invoices',
+                            component: UserInvoices,
+                            meta: {
+                                requiresAuth: true,
+                                title: 'Invoices'
+                            },
+                        },
+                        {
                             name: 'UserPassword',
                             path: '/admin/user/:id/password',
                             component: UserPassword,
@@ -176,6 +228,35 @@ const router = new Router({
                             meta: {
                                 requiresAuth: true,
                                 title: i18n.t('routes_title.users_delete')
+                            },
+                        },
+                    ]
+                },
+                {
+                    name: 'PaymentMethod',
+                    path: '/admin/payment-method/:name',
+                    component: PaymentMethod,
+                    meta: {
+                        requiresAuth: true,
+                        title: 'Payment Method'
+                    },
+                    children: [
+                        {
+                            name: 'GatewaySettings',
+                            path: '/admin/payment-methods/:name/settings',
+                            component: GatewaySettings,
+                            meta: {
+                                requiresAuth: true,
+                                title: 'Settings'
+                            },
+                        },
+                        {
+                            name: 'GatewayTransactions',
+                            path: '/admin/payment-methods/:name/transactions',
+                            component: GatewayTransactions,
+                            meta: {
+                                requiresAuth: true,
+                                title: 'Transactions'
                             },
                         },
                     ]

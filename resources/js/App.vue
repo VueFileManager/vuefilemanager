@@ -124,6 +124,7 @@
         box-sizing: border-box;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         font-size: 16px;
+        text-decoration: none;
     }
 
     #auth {
