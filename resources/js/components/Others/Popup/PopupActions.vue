@@ -25,7 +25,7 @@
         }
     }
 
-    .small {
+    @media only screen and (max-width: 690px) {
         .actions {
             padding: 15px;
             position: absolute;
@@ -33,9 +33,5 @@
             left: 0;
             right: 0;
         }
-    }
-
-    @media (prefers-color-scheme: dark) {
-
     }
 </style>

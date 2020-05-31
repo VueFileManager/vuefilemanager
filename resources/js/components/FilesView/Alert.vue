@@ -150,8 +150,7 @@
         }
     }
 
-    // Small screen size
-    .small {
+    @media only screen and (max-width: 690px) {
         .popup-wrapper {
             padding: 40px 20px 20px;
             left: 15px;

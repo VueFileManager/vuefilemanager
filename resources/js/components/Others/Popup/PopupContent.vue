@@ -25,8 +25,7 @@
         }
     }
 
-    .small {
-
+    @media only screen and (max-width: 690px) {
         .popup-content {
             top: 57px;
             bottom: 72px;
@@ -35,10 +34,6 @@
             right: 0;
             height: initial;
         }
-    }
-
-    @media (prefers-color-scheme: dark) {
-
     }
 
     @keyframes popup-in {

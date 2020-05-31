@@ -85,14 +85,10 @@
         }
     }
 
-    .small {
+    @media only screen and (max-width: 690px) {
         .popup-header {
             padding: 15px;
         }
-    }
-
-    @media only screen and (max-width: 690px) {
-
     }
 
     @media (prefers-color-scheme: dark) {
