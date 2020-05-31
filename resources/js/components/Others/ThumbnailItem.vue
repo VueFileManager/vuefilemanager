@@ -154,7 +154,7 @@
         }
     }
 
-    .small {
+    @media only screen and (max-width: 690px) {
         .file-item {
             padding: 0 15px;
             margin-bottom: 20px;
@@ -162,11 +162,8 @@
     }
 
     @media (prefers-color-scheme: dark) {
-
         .file-item {
-
             .icon-item .file-icon {
-
                 path {
                     fill: $dark_mode_foreground;
                     stroke: #2F3C54;
@@ -174,7 +171,6 @@
             }
 
             .item-name {
-
                 .name {
                     color: $dark_mode_text_primary;
                 }
@@ -190,9 +186,7 @@
 
     @media (max-width: 690px) and (prefers-color-scheme: dark) {
         .file-item {
-
             .icon-item .file-icon {
-
                 path {
                     fill: $dark_mode_foreground;
                 }

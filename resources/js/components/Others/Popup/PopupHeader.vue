@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import { CornerDownRightIcon, LinkIcon, XIcon } from 'vue-feather-icons'
+    import {CornerDownRightIcon, LinkIcon, XIcon} from 'vue-feather-icons'
     import {events} from '@/bus'
 
     export default {
@@ -80,30 +80,26 @@
                         stroke: $theme;
                     }
                 }
+
                 cursor: pointer;
             }
         }
     }
 
-    .small {
+    @media only screen and (max-width: 690px) {
         .popup-header {
             padding: 15px;
         }
     }
 
-    @media only screen and (max-width: 690px) {
-
-    }
-
     @media (prefers-color-scheme: dark) {
         .popup-header {
-
             .label {
                 .close-icon {
-
                     &:hover {
                         background: $dark_mode_foreground;
                     }
+
                     cursor: pointer;
                 }
             }

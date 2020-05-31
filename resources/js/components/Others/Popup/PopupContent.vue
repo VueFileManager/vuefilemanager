@@ -18,15 +18,13 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .popup-content {
-
         &.height-limited {
             height: 400px;
             overflow-y: auto;
         }
     }
 
-    .small {
-
+    @media only screen and (max-width: 690px) {
         .popup-content {
             top: 57px;
             bottom: 72px;
@@ -35,10 +33,6 @@
             right: 0;
             height: initial;
         }
-    }
-
-    @media (prefers-color-scheme: dark) {
-
     }
 
     @keyframes popup-in {

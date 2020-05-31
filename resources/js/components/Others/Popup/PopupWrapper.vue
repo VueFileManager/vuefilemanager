@@ -73,7 +73,6 @@
 
     // Desktop, tablet
     .medium, .large {
-
         // Animations
         .popup-enter-active {
             animation: popup-in 0.35s 0.15s ease both;
@@ -81,33 +80,6 @@
 
         .popup-leave-active {
             animation: popup-in 0.15s ease reverse;
-        }
-    }
-
-    .small {
-        .popup {
-            overflow: hidden;
-        }
-
-        .popup-wrapper {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            transform: translateY(0) scale(1);
-            box-shadow: none;
-            width: 100%;
-            border-radius: 0px;
-        }
-
-        // Animations
-        .popup-enter-active {
-            animation: popup-slide-in 0.35s 0.15s ease both;
-        }
-
-        .popup-leave-active {
-            animation: popup-slide-in 0.15s ease reverse;
         }
     }
 
@@ -121,6 +93,7 @@
             transform: scale(1);
         }
     }
+
     @keyframes popup-slide-in {
         0% {
             transform: translateY(100%);
@@ -131,11 +104,26 @@
     }
 
     @media only screen and (max-width: 690px) {
-
+        .popup {
+            overflow: hidden;
+        }
         .popup-wrapper {
-            left: 15px;
-            right: 15px;
-            padding: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            transform: translateY(0) scale(1);
+            box-shadow: none;
+            width: 100%;
+            border-radius: 0px;
+        }
+        // Animations
+        .popup-enter-active {
+            animation: popup-slide-in 0.35s 0.15s ease both;
+        }
+        .popup-leave-active {
+            animation: popup-slide-in 0.15s ease reverse;
         }
     }
 
