@@ -62,15 +62,15 @@
                         isVisible: true,
                     },
                     {
-                        icon: 'settings',
+                        icon: 'user',
                         title: this.$t('menu.settings'),
                         routeName: 'Profile',
                         isVisible: true,
                     },
                     {
-                        icon: 'users',
+                        icon: 'settings',
                         title: this.$t('menu.admin'),
-                        routeName: 'Users',
+                        routeName: 'AdminMobileMenu',
                         isVisible: this.app.user.role === 'admin',
                     },
                     {

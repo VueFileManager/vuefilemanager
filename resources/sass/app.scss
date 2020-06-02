@@ -70,6 +70,11 @@
     border-bottom: 2px solid $light_mode_border;
     margin-bottom: 30px;
     overflow-x: auto;
+    z-index: 9;
+    
+    position: sticky;
+    top: 30px;
+    background: white;
 
     &::-webkit-scrollbar {
       display: none;
@@ -240,6 +245,10 @@
         }
       }
     }
+  }
+
+  .cell-item {
+    white-space: nowrap;
   }
 }
 

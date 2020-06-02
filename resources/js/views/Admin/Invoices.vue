@@ -99,7 +99,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/avatars/6osmoXJo-avatar-01.png',
+                                        avatar: '/avatars/6osmoXJo-avatar-01.png',
                                         name: 'Jane Doe',
                                         email: 'howdy@hi5ve.digital',
                                     }
@@ -123,7 +123,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/avatars/dSMRCbwF-69299654_2418248648259454_4545563304688353280_o.jpg',
+                                        avatar: '/avatars/dSMRCbwF-69299654_2418248648259454_4545563304688353280_o.jpg',
                                         name: 'Peter Papp',
                                         email: 'peterpapp@makingcg.com',
                                     }
@@ -147,7 +147,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/assets/images/default-avatar.png',
+                                        avatar: '/assets/images/default-avatar.png',
                                         name: 'Pavel Svintsitskiy',
                                         email: 'pashaUSA@gmail.com',
                                     }
@@ -171,7 +171,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/avatars/lTksMdJM-6D3529EF-5D8C-4959-BEC2-4BDE80A051C2.jpeg',
+                                        avatar: '/avatars/lTksMdJM-6D3529EF-5D8C-4959-BEC2-4BDE80A051C2.jpeg',
                                         name: 'Torsten',
                                         email: 'torsten.hoegel@go-on-net.de',
                                     }
@@ -195,7 +195,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/avatars/6osmoXJo-avatar-01.png',
+                                        avatar: '/avatars/6osmoXJo-avatar-01.png',
                                         name: 'Jane Doe',
                                         email: 'howdy@hi5ve.digital',
                                     }
@@ -219,7 +219,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/avatars/dSMRCbwF-69299654_2418248648259454_4545563304688353280_o.jpg',
+                                        avatar: '/avatars/dSMRCbwF-69299654_2418248648259454_4545563304688353280_o.jpg',
                                         name: 'Peter Papp',
                                         email: 'peterpapp@makingcg.com',
                                     }
@@ -243,7 +243,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/assets/images/default-avatar.png',
+                                        avatar: '/assets/images/default-avatar.png',
                                         name: 'Pavel Svintsitskiy',
                                         email: 'pashaUSA@gmail.com',
                                     }
@@ -267,7 +267,7 @@
                                     id: '1',
                                     type: 'users',
                                     attributes: {
-                                        avatar: 'http://localhost:8000/avatars/lTksMdJM-6D3529EF-5D8C-4959-BEC2-4BDE80A051C2.jpeg',
+                                        avatar: '/avatars/lTksMdJM-6D3529EF-5D8C-4959-BEC2-4BDE80A051C2.jpeg',
                                         name: 'Torsten',
                                         email: 'torsten.hoegel@go-on-net.de',
                                     }

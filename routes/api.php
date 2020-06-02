@@ -94,6 +94,13 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
     Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
     Route::post('/users/{id}/send-password-email', 'Admin\UserController@send_password_reset_email');
+
+    // Gateways
+    Route::patch('/gateways/{type}', 'Admin\GatewayController@update');
+
+    // Plans
+    Route::post('/plans/create', 'Admin\PlanController@create');
+    Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
 });
 
 

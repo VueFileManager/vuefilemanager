@@ -32,19 +32,19 @@
 </template>
 
 <script>
+    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import {DownloadCloudIcon} from "vue-feather-icons";
     import axios from 'axios'
 
     export default {
-        name: 'UserStorage',
+        name: 'GatewayTransactions',
         components: {
+            DownloadCloudIcon,
+            DatatableWrapper,
             PageTabGroup,
             PageTab,
-            DatatableWrapper,
-            DownloadCloudIcon,
         },
         data() {
             return {

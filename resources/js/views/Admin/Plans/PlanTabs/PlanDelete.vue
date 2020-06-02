@@ -3,23 +3,23 @@
         <PageTabGroup>
             <SetupBox
                     theme="danger"
-                    :title="$t('user_box_delete.title')"
-                    :description="$t('user_box_delete.description')"
+                    title="Delete Plan"
+                    description="You can delete plan, but, pay attention!"
             >
-                <ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form"
+                <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form"
                                     class="form block-form">
                     <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive"
-                                        name="User name" :rules="'required|is:' + user.attributes.name">
-                        <label>{{ $t('admin_page_user.label_delete_user', {user: user.attributes.name}) }}:</label>
+                                        name="Plan name" :rules="'required|is:' + plan.attributes.name">
+                        <label>{{ $t('admin_page_user.label_delete_user', {user: plan.attributes.name}) }}:</label>
                         <div class="single-line-form">
-                            <input v-model="userName"
-                                   :placeholder="$t('admin_page_user.placeholder_delete_user')"
+                            <input v-model="planName"
+                                   placeholder="Type plan name"
                                    type="text"
                                    :class="{'is-error': errors[0]}"
                             />
                             <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
                                         button-style="danger" class="submit-button">
-                                {{ $t('admin_page_user.delete_user') }}
+                                Delete Plan
                             </ButtonBase>
                         </div>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -41,9 +41,9 @@
     import axios from 'axios'
 
     export default {
-        name: 'UserDelete',
+        name: 'PlanDelete',
         props: [
-            'user'
+            'plan'
         ],
         components: {
             PageTabGroup,
@@ -58,24 +58,24 @@
             return {
                 isSendingRequest: false,
                 isLoading: false,
-                userName: '',
+                planName: '',
             }
         },
         methods: {
-            async deleteUser() {
+            async deletePlan() {
 
                 // Validate fields
-                const isValid = await this.$refs.deleteUser.validate();
+                const isValid = await this.$refs.deletePlan.validate();
 
                 if (!isValid) return;
 
                 this.isSendingRequest = true
 
                 axios
-                    .delete(this.$store.getters.api + '/users/' + this.$route.params.id + '/delete',
+                    .delete(this.$store.getters.api + '/plans/' + this.$route.params.id + '/delete',
                         {
                             data: {
-                                name: this.userName
+                                name: this.planName
                             }
                         }
                     )
@@ -89,7 +89,7 @@
                             message: this.$t('popup_deleted_user.message'),
                         })
 
-                        this.$router.push({name: 'Users'})
+                        this.$router.push({name: 'Plans'})
                     })
                     .catch(() => {
 

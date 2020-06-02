@@ -8,17 +8,21 @@
                 <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td>
+                            <td style="min-width: 200px;">
                                 <router-link :to="{name: 'GatewaySettings', params: {name: row.attributes.type}}">
                                     <DatatableCellImage
-                                        :image="row.attributes.avatar"
-                                        :title="row.attributes.gateway"
+                                            :image="row.attributes.avatar"
+                                            :title="row.attributes.gateway"
                                     />
                                 </router-link>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    <SwitchInput class="switch" :state="row.attributes.status"/>
+                                    <SwitchInput
+                                            @input="changeStatus($event, row.attributes.type)"
+                                            :state="row.attributes.status"
+                                            class="switch"
+                                    />
                                 </span>
                             </td>
                             <td>
@@ -135,6 +139,11 @@
                         sortable: false
                     },
                 ],
+            }
+        },
+        methods: {
+            changeStatus(val, type) {
+                this.$updateText('/gateways/' + type, 'active', val)
             }
         },
         created() {

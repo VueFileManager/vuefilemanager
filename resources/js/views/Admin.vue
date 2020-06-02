@@ -27,14 +27,6 @@
 
             <ContentGroup title="SaaS" class="navigator">
                 <div class="menu-list-wrapper vertical">
-                    <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
-                        <div class="icon">
-                            <file-text-icon size="17"></file-text-icon>
-                        </div>
-                        <div class="label">
-                            Invoices
-                        </div>
-                    </router-link>
                     <router-link :to="{name: 'Plans'}" class="menu-list-item link">
                         <div class="icon">
                             <database-icon size="17"></database-icon>
@@ -43,7 +35,7 @@
                             Plans
                         </div>
                     </router-link>
-                    <router-link :to="{name: 'PaymentMethods'}" class="menu-list-item link">
+                    <router-link :to="{name: 'Gateways'}" class="menu-list-item link">
                         <div class="icon">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
@@ -51,13 +43,19 @@
                             Payment Methods
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Invoices
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
         </ContentSidebar>
 
-        <keep-alive>
-            <router-view/>
-        </keep-alive>
+        <router-view/>
     </section>
 </template>
 

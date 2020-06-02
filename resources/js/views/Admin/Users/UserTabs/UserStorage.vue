@@ -1,8 +1,6 @@
 <template>
-    <div class="page-tab" v-if="storage">
-
-        <!--Change role-->
-        <div class="page-tab-group">
+    <PageTab v-if="storage">
+        <PageTabGroup>
             <StorageItemDetail
                     type="disk"
                     :title="$t('storage.total_used', {used: storage.attributes.used})"
@@ -34,20 +32,21 @@
                     </ValidationProvider>
                 </ValidationObserver>
             </SetupBox>
-        </div>
-
-        <div class="page-tab-group">
+        </PageTabGroup>
+        <PageTabGroup>
             <b class="form-group-label">{{ $t('storage.sec_details') }}</b>
             <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storage.meta.images.percentage" :used="storage.meta.images.used" />
             <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storage.meta.videos.percentage" :used="storage.meta.videos.used" />
             <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storage.meta.audios.percentage" :used="storage.meta.audios.used" />
             <StorageItemDetail type="documents" :title="$t('storage.documents')" :percentage="storage.meta.documents.percentage" :used="storage.meta.documents.used" />
             <StorageItemDetail type="others" :title="$t('storage.others')" :percentage="storage.meta.others.percentage" :used="storage.meta.others.used" />
-        </div>
-    </div>
+        </PageTabGroup>
+    </PageTab>
 </template>
 
 <script>
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -59,6 +58,8 @@
     export default {
         name: 'UserStorage',
         components: {
+            PageTabGroup,
+            PageTab,
             ValidationProvider,
             ValidationObserver,
             StorageItemDetail,
@@ -145,13 +146,6 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
-
-    .page-tab {
-
-        .page-tab-group {
-            margin-bottom: 45px;
-        }
-    }
 
     .block-form {
         max-width: 100%;

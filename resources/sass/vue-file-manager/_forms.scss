@@ -36,9 +36,9 @@
       margin-bottom: 20px;
 
       label {
-        @include font-size(12);
-        color: #AFAFAF;
-        font-weight: 700;
+        @include font-size(14);
+        color: $text-muted;
+        font-weight: 600;
         display: block;
         margin-bottom: 5px;
       }
@@ -51,6 +51,20 @@
     .button {
       margin-top: 50px;
     }
+  }
+
+  .inline-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .input-help {
+    @include font-size(12);
+    color: $text-muted;
+    line-height: 1.35;
+    padding-top: 10px;
+    display: block;
   }
 }
 
@@ -73,11 +87,11 @@ input[type="number"],
 input[type="email"] {
   border: 1px solid #ebebeb;
   @include transition(150ms);
-  @include font-size(15);
+  @include font-size(14);
   border-radius: 8px;
   padding: 13px 20px;
   appearance: none;
-  font-weight: 700;
+  font-weight: 600;
   outline: 0;
   width: 100%;
   background: $light_mode_input_background;

@@ -11,6 +11,9 @@
                 <user-icon v-if="link.icon === 'user'" size="17"></user-icon>
                 <users-icon v-if="link.icon === 'users'" size="17"></users-icon>
                 <lock-icon v-if="link.icon === 'lock'" size="17"></lock-icon>
+                <file-text-icon v-if="link.icon === 'file-text'" size="17"></file-text-icon>
+                <database-icon v-if="link.icon === 'database'" size="17"></database-icon>
+                <credit-card-icon v-if="link.icon === 'credit-card'" size="17"></credit-card-icon>
             </div>
             <b class="menu-link">
                 <span>{{ link.title }}</span>
@@ -24,8 +27,11 @@
     import {
         ChevronRightIcon,
         UploadCloudIcon,
+        CreditCardIcon,
         HardDriveIcon,
+        FileTextIcon,
         SettingsIcon,
+        DatabaseIcon,
         Trash2Icon,
         PowerIcon,
         ShareIcon,
@@ -37,6 +43,9 @@
     export default {
         name: 'MenuBar',
         components: {
+            CreditCardIcon,
+            DatabaseIcon,
+            FileTextIcon,
             ChevronRightIcon,
             UploadCloudIcon,
             HardDriveIcon,
@@ -68,7 +77,7 @@
 
             .menu-icon {
 
-                path, line, polyline, rect, circle {
+                path, line, polyline, rect, circle, ellipse {
                     stroke: $red;
                 }
             }
@@ -87,7 +96,7 @@
                 vertical-align: middle;
             }
 
-            path, line, polyline, rect, circle {
+            path, line, polyline, rect, circle, ellipse {
                 stroke: $text;
             }
         }
@@ -110,7 +119,7 @@
 
             .menu-icon {
 
-                path, line, polyline, rect, circle {
+                path, line, polyline, rect, circle, ellipse {
                     stroke: $dark_mode_text_primary;
                 }
             }

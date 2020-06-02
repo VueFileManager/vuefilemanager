@@ -7,7 +7,7 @@
             <div class="content-page">
                 <div class="table-tools">
                     <div class="buttons">
-                        <router-link :to="{name: 'UserCreate'}">
+                        <router-link :to="{name: 'PlanCreate'}">
                             <MobileActionButton icon="plus">
                                 Create Plan
                             </MobileActionButton>
@@ -20,14 +20,14 @@
                 <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td class="name">
-                                <router-link :to="{name: 'UserDetail', params: {id: row.id}}" class="cell-item" tag="div">
+                            <td class="name" style="min-width: 200px">
+                                <router-link :to="{name: 'PlanSettings', params: {id: row.id}}" class="cell-item" tag="div">
                                     <span>{{ row.attributes.name }}</span>
                                 </router-link>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    <SwitchInput class="switch" :state="row.attributes.status"/>
+                                    <SwitchInput @input="changeStatus($event, row.id)" class="switch" :state="row.attributes.status"/>
                                 </span>
                             </td>
                             <td>
@@ -47,10 +47,10 @@
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <router-link :to="{name: 'UserDetail', params: {id: row.id}}">
+                                    <router-link :to="{name: 'PlanSettings', params: {id: row.id}}">
                                         <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
                                     </router-link>
-                                    <router-link :to="{name: 'UserDelete', params: {id: row.id}}">
+                                    <router-link :to="{name: 'PlanDelete', params: {id: row.id}}">
                                         <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
                                     </router-link>
                                 </div>
@@ -164,6 +164,11 @@
                         sortable: false
                     },
                 ],
+            }
+        },
+        methods: {
+            changeStatus(val, id) {
+                this.$updateText('/plans/' + id + '/update', 'status', val)
             }
         },
         created() {

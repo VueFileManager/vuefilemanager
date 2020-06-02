@@ -1,8 +1,6 @@
 <template>
-    <div class="page-tab">
-
-        <!--Change role-->
-        <div class="page-tab-group">
+    <PageTab>
+        <PageTabGroup>
             <SetupBox
                     theme="base"
                     :title="$t('user_box_password.title')"
@@ -13,11 +11,13 @@
                     {{ $t('admin_page_user.send_password_link') }}
                 </ButtonBase>
             </SetupBox>
-        </div>
-    </div>
+        </PageTabGroup>
+    </PageTab>
 </template>
 
 <script>
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import SetupBox from '@/components/Others/Forms/SetupBox'
@@ -28,6 +28,8 @@
     export default {
         name: 'UserPassword',
         components: {
+            PageTabGroup,
+            PageTab,
             ValidationProvider,
             ValidationObserver,
             ButtonBase,
@@ -75,13 +77,6 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
-
-    .page-tab {
-
-        .page-tab-group {
-            margin-bottom: 45px;
-        }
-    }
 
     .block-form {
         max-width: 100%;

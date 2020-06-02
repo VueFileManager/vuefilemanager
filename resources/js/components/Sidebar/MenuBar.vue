@@ -32,7 +32,7 @@
                 </div>
             </router-link>
 
-            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, ['Users', 'User', 'UserDetail', 'UserStorage', 'UserPassword', 'UserDelete'])}" class="icon-navigation-item users">
+            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
                 <div class="button-icon">
                     <settings-icon size="19"></settings-icon>
                 </div>
@@ -75,6 +75,25 @@
         },
         computed: {
             ...mapGetters(['app']),
+        },
+        data() {
+            return {
+                adminRoutes: [
+                    'Users',
+                    'User',
+                    'UserDetail',
+                    'UserStorage',
+                    'UserPassword',
+                    'UserDelete',
+                    'Plans',
+                    'Invoices',
+                    'UserInvoices',
+                    'Gateway',
+                    'Gateways',
+                    'GatewaySettings',
+                    'GatewayTransactions',
+                ]
+            }
         },
         mounted() {
             this.$store.dispatch('getAppData')

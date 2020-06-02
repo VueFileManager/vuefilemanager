@@ -1,6 +1,6 @@
 <template>
-    <div class="page-tab">
-        <div class="page-tab-group">
+    <PageTab>
+        <PageTabGroup>
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
 
@@ -32,11 +32,13 @@
                     </ButtonBase>
                 </div>
             </ValidationObserver>
-        </div>
-    </div>
+        </PageTabGroup>
+    </PageTab>
 </template>
 
 <script>
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import UserImageInput from '@/components/Others/UserImageInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
@@ -51,6 +53,8 @@
     export default {
         name: 'Profile',
         components: {
+            PageTabGroup,
+            PageTab,
             ValidationProvider,
             ValidationObserver,
             UserImageInput,

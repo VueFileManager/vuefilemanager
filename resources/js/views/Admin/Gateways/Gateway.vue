@@ -28,7 +28,8 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'GatewayTransactions', params: {name: gateway.attributes.type}}" class="menu-list-item link">
+                    <router-link replace :to="{name: 'GatewayTransactions', params: {name: gateway.attributes.type}}"
+                                 class="menu-list-item link">
                         <div class="icon">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
@@ -58,7 +59,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'Profile',
+        name: 'Gateway',
         components: {
             SettingsIcon,
             CreditCardIcon,
@@ -70,7 +71,26 @@
         data() {
             return {
                 isLoading: false,
-                gateway: {
+                gateway: undefined,
+            }
+        },
+        created() {
+
+            if (this.$route.params.name === 'paypal') {
+                this.gateway = {
+                    id: '2',
+                    type: 'payment_method',
+                    attributes: {
+                        type: 'paypal',
+                        gateway: 'PayPal',
+                        avatar: '/assets/images/paypal-logo-thumbnail.png',
+                        status: 0,
+                        payments_processed: 234,
+                        active_subscribers: 2920,
+                    }
+                }
+            } else {
+                this.gateway = {
                     id: '1',
                     type: 'payment_method',
                     attributes: {
@@ -81,11 +101,10 @@
                         payments_processed: 798,
                         active_subscribers: 3587,
                     }
-                },
+                }
             }
-        },
-        created() {
-            /*axios.get('/api/users/' + this.$route.params.id + '/detail')
+
+            /*axios.get('/api/gateway/' + this.$route.params.name)
                 .then(response => {
                     this.user = response.data.data
                     this.isLoading = false

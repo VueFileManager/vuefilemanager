@@ -1,8 +1,8 @@
 <template>
-    <div class="page-tab">
+    <PageTab>
 
         <!--Change role-->
-        <div class="page-tab-group">
+        <PageTabGroup>
             <SetupBox
                     theme="base"
                     :title="$t('user_box_role.title')"
@@ -21,10 +21,10 @@
                     </ValidationProvider>
                 </ValidationObserver>
             </SetupBox>
-        </div>
+        </PageTabGroup>
 
         <!--Personal Information-->
-        <div class="page-tab-group">
+        <PageTabGroup>
             <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
 
                 <b class="form-group-label">{{ $t('admin_page_user.label_person_info') }}</b>
@@ -53,11 +53,13 @@
                     </div>
                 </div>
             </ValidationObserver>
-        </div>
-    </div>
+        </PageTabGroup>
+    </PageTab>
 </template>
 
 <script>
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
     import SelectInput from '@/components/Others/Forms/SelectInput'
@@ -74,6 +76,8 @@
             'user'
         ],
         components: {
+            PageTabGroup,
+            PageTab,
             ValidationProvider,
             ValidationObserver,
             StorageItemDetail,
@@ -141,13 +145,6 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
-
-    .page-tab {
-
-        .page-tab-group {
-            margin-bottom: 45px;
-        }
-    }
 
     .block-form {
         max-width: 100%;
