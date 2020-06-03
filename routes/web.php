@@ -25,6 +25,10 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
 });
 
+Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
+    Route::get('/invoice/{token}', 'Admin\InvoiceController@show');
+});
+
 // Pages
 Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

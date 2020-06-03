@@ -4,22 +4,22 @@
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
 
-            <div class="content-page">
+            <div class="content-page" v-if="gateway">
 
                 <!--User thumbnail-->
                 <div class="user-thumbnail">
                     <div class="avatar">
-                        <img :src="gateway.attributes.avatar" :alt="gateway.attributes.gateway">
+                        <img :src="gateway.attributes.logo" :alt="gateway.attributes.name">
                     </div>
                     <div class="info">
-                        <b class="name">{{ gateway.attributes.gateway }}</b>
+                        <b class="name">{{ gateway.attributes.name }}</b>
                         <span class="email">Payment Gateway</span>
                     </div>
                 </div>
 
                 <!--Page Tab links-->
                 <div class="menu-list-wrapper horizontal">
-                    <router-link replace :to="{name: 'GatewaySettings', params: {name: gateway.attributes.type}}" class="menu-list-item link">
+                    <router-link replace :to="{name: 'GatewaySettings', params: {name: gateway.attributes.slug}}" class="menu-list-item link">
                         <div class="icon">
                             <settings-icon size="17"></settings-icon>
                         </div>
@@ -28,7 +28,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'GatewayTransactions', params: {name: gateway.attributes.type}}"
+                    <router-link replace :to="{name: 'GatewayTransactions', params: {name: gateway.attributes.slug}}"
                                  class="menu-list-item link">
                         <div class="icon">
                             <credit-card-icon size="17"></credit-card-icon>
@@ -75,40 +75,11 @@
             }
         },
         created() {
-
-            if (this.$route.params.name === 'paypal') {
-                this.gateway = {
-                    id: '2',
-                    type: 'payment_method',
-                    attributes: {
-                        type: 'paypal',
-                        gateway: 'PayPal',
-                        avatar: '/assets/images/paypal-logo-thumbnail.png',
-                        status: 0,
-                        payments_processed: 234,
-                        active_subscribers: 2920,
-                    }
-                }
-            } else {
-                this.gateway = {
-                    id: '1',
-                    type: 'payment_method',
-                    attributes: {
-                        type: 'stripe',
-                        gateway: 'Stripe',
-                        avatar: '/assets/images/stripe-logo-thumbnail.png',
-                        status: 1,
-                        payments_processed: 798,
-                        active_subscribers: 3587,
-                    }
-                }
-            }
-
-            /*axios.get('/api/gateway/' + this.$route.params.name)
+            axios.get('/api/gateways/' + this.$route.params.slug)
                 .then(response => {
-                    this.user = response.data.data
+                    this.gateway = response.data.data
                     this.isLoading = false
-                })*/
+                })
         }
     }
 </script>

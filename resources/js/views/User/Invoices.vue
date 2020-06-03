@@ -87,7 +87,7 @@
             }
         },
         created() {
-            axios.get('/api/users/' + this.$route.params.id + '/invoices')
+            axios.get('/api/user/invoices')
                 .then(response => {
                     this.invoices = response.data.data
                     this.isLoading = false

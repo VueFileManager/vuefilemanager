@@ -91,7 +91,7 @@
         },
         methods: {
             changeStatus(val) {
-                this.$updateText('/plans/' + this.$route.params.id + '/update', 'state', val)
+                this.$updateText('/plans/' + this.$route.params.id + '/update', 'status', val)
             }
         }
     }

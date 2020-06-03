@@ -2,29 +2,7 @@
     <section id="viewport">
 
         <ContentSidebar>
-
-            <!--Locations-->
-            <ContentGroup :title="$t('admin_menu.admin_label')" class="navigator">
-                <div class="menu-list-wrapper vertical">
-                    <router-link :to="{name: 'Users'}" class="menu-list-item link">
-                        <div class="icon">
-                            <users-icon size="17"></users-icon>
-                        </div>
-                        <div class="label">
-                            {{ $t('admin_menu.users') }}
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'User'}" class="menu-list-item link">
-                        <div class="icon">
-                            <settings-icon size="17"></settings-icon>
-                        </div>
-                        <div class="label">
-                            Settings
-                        </div>
-                    </router-link>
-                </div>
-            </ContentGroup>
-
+            <!--SaaS-->
             <ContentGroup title="SaaS" class="navigator">
                 <div class="menu-list-wrapper vertical">
                     <router-link :to="{name: 'Plans'}" class="menu-list-item link">
@@ -49,6 +27,28 @@
                         </div>
                         <div class="label">
                             Invoices
+                        </div>
+                    </router-link>
+                </div>
+            </ContentGroup>
+
+            <!--Admin-->
+            <ContentGroup :title="$t('admin_menu.admin_label')" class="navigator">
+                <div class="menu-list-wrapper vertical">
+                    <router-link :to="{name: 'Users'}" class="menu-list-item link">
+                        <div class="icon">
+                            <users-icon size="17"></users-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('admin_menu.users') }}
+                        </div>
+                    </router-link>
+                    <router-link :to="{name: 'User'}" class="menu-list-item link">
+                        <div class="icon">
+                            <settings-icon size="17"></settings-icon>
+                        </div>
+                        <div class="label">
+                            Settings
                         </div>
                     </router-link>
                 </div>

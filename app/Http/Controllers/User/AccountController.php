@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\FileManagerFile;
 use App\FileManagerFolder;
+use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\StorageDetailResource;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -26,7 +28,7 @@ class AccountController extends Controller
     public function user()
     {
         // Get User
-        $user = User::with(['favourites', 'latest_uploads'])
+        $user = User::with(['favourites'])
             ->where('id', Auth::id())
             ->first();
 
@@ -49,13 +51,33 @@ class AccountController extends Controller
     }
 
     /**
+     * Get me
+     *
+     * @return UserResource
+     */
+    public function me()
+    {
+        return new UserResource(
+            Auth::user()
+        );
+    }
+
+    /**
      * Get storage details
      *
      * @return UserStorageResource
      */
     public function storage()
     {
-        return new UserStorageResource(Auth::user());
+        return new UserStorageResource(
+            Auth::user()
+        );
+    }
+
+    public function invoices() {
+        return new InvoiceCollection(
+            Auth::user()->invoices
+        );
     }
 
     /**
@@ -101,6 +123,29 @@ class AccountController extends Controller
             // Update text data
             $user->update(make_single_input($request));
         }
+
+        return response('Saved!', 204);
+    }
+
+    /**
+     * Update user settings relationship
+     *
+     * @param Request $request
+     * @return ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update_user_settings(Request $request)
+    {
+        // TODO: validation
+        // Get user
+        $user = Auth::user();
+
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
+
+        // Update text data
+        $user->settings->update(make_single_input($request));
 
         return response('Saved!', 204);
     }

@@ -55,7 +55,7 @@ class UserStorageResource extends JsonResource
         return [
             'data' => [
                 'id'            => (string)$this->id,
-                'type'          => 'user-storage',
+                'type'          => 'storage',
                 'attributes'    => [
                     'used'       => Metric::bytes($this->used_capacity)->format(),
                     'capacity'   => format_gigabytes($this->settings->storage_capacity),

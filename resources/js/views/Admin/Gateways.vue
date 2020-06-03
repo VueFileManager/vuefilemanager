@@ -5,39 +5,39 @@
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
-                <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
+                <DatatableWrapper :paginator="false" :columns="columns" :data="gateways" class="table table-users">
                     <template scope="{ row }">
                         <tr>
                             <td style="min-width: 200px;">
-                                <router-link :to="{name: 'GatewaySettings', params: {name: row.attributes.type}}">
+                                <router-link :to="{name: 'GatewaySettings', params: {slug: row.data.attributes.slug}}">
                                     <DatatableCellImage
-                                            :image="row.attributes.avatar"
-                                            :title="row.attributes.gateway"
+                                            :image="row.data.attributes.logo"
+                                            :title="row.data.attributes.name"
                                     />
                                 </router-link>
                             </td>
                             <td>
                                 <span class="cell-item">
                                     <SwitchInput
-                                            @input="changeStatus($event, row.attributes.type)"
-                                            :state="row.attributes.status"
+                                            @input="changeStatus($event, row.data.attributes.slug)"
+                                            :state="row.data.attributes.status"
                                             class="switch"
                                     />
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.attributes.payments_processed }}
+                                    {{ row.data.attributes.payments_processed }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.attributes.active_subscribers }}
+                                    {{ row.data.attributes.active_subscribers }}
                                 </span>
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <router-link :to="{name: 'GatewaySettings', params: {name: row.attributes.type}}">
+                                    <router-link :to="{name: 'GatewaySettings', params: {slug: row.data.attributes.slug}}">
                                         <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
                                     </router-link>
                                 </div>
@@ -85,52 +85,27 @@
         },
         data() {
             return {
-                isLoading: false,
-                plans: [
-                    {
-                        id: '2',
-                        type: 'payment_method',
-                        attributes: {
-                            type: 'paypal',
-                            gateway: 'PayPal',
-                            avatar: '/assets/images/paypal-logo-thumbnail.png',
-                            status: 0,
-                            payments_processed: 234,
-                            active_subscribers: 2920,
-                        }
-                    },
-                    {
-                        id: '1',
-                        type: 'payment_method',
-                        attributes: {
-                            type: 'stripe',
-                            gateway: 'Stripe',
-                            avatar: '/assets/images/stripe-logo-thumbnail.png',
-                            status: 1,
-                            payments_processed: 798,
-                            active_subscribers: 3587,
-                        }
-                    },
-                ],
+                isLoading: true,
+                gateways: undefined,
                 columns: [
                     {
                         label: 'Payment Gateway',
-                        field: 'attributes.gateway',
+                        field: 'data.attributes.gateway',
                         sortable: true
                     },
                     {
                         label: 'Status',
-                        field: 'attributes.status',
+                        field: 'data.attributes.status',
                         sortable: true
                     },
                     {
                         label: 'Payments Processed',
-                        field: 'attributes.payments_processed',
+                        field: 'data.attributes.payments_processed',
                         sortable: true
                     },
                     {
                         label: 'Active Subscribers',
-                        field: 'attributes.active_subscribers',
+                        field: 'data.attributes.active_subscribers',
                         sortable: true
                     },
                     {
@@ -143,15 +118,15 @@
         },
         methods: {
             changeStatus(val, type) {
-                this.$updateText('/gateways/' + type, 'active', val)
+                this.$updateText('/gateways/' + type, 'status', val)
             }
         },
         created() {
-            /*axios.get('/api/plans')
+            axios.get('/api/gateways')
                 .then(response => {
-                    this.plans = response.data.data
+                    this.gateways = response.data.data
                     this.isLoading = false
-                })*/
+                })
         }
     }
 </script>

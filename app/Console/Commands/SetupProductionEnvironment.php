@@ -63,6 +63,9 @@ class SetupProductionEnvironment extends Command
     public function migrateDatabase()
     {
         $this->call('migrate:fresh');
+        $this->call('db:seed', [
+            '--class' => 'PaymentGatewaysSeeder'
+        ]);
     }
 
     /**

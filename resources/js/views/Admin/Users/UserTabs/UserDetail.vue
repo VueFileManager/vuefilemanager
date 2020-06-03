@@ -8,12 +8,16 @@
                     :title="$t('user_box_role.title')"
                     :description="$t('user_box_role.description')"
             >
-                <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form" class="form block-form">
-                    <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role" rules="required">
+                <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form"
+                                    class="form block-form">
+                    <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role"
+                                        rules="required">
                         <label>{{ $t('admin_page_user.select_role') }}:</label>
                         <div class="single-line-form">
-                            <SelectInput v-model="userRole" :options="roles" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
-                            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+                            <SelectInput v-model="userRole" :options="roles"
+                                         :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
+                                        button-style="theme" class="submit-button">
                                 {{ $t('admin_page_user.save_role') }}
                             </ButtonBase>
                         </div>
@@ -25,8 +29,7 @@
 
         <!--Personal Information-->
         <PageTabGroup>
-            <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
-
+            <div class="form block-form">
                 <b class="form-group-label">{{ $t('admin_page_user.label_person_info') }}</b>
                 <div class="wrapper-inline">
 
@@ -34,25 +37,99 @@
                     <div class="block-wrapper">
                         <label>{{ $t('page_registration.label_email') }}</label>
                         <div class="input-wrapper">
-                            <input :value="user.attributes.email" :placeholder="$t('page_registration.placeholder_email')" type="email" disabled />
+                            <input :value="user.data.attributes.email"
+                                   :placeholder="$t('page_registration.placeholder_email')"
+                                   type="email"
+                                   disabled
+                            />
                         </div>
                     </div>
 
                     <!--Name-->
                     <div class="block-wrapper">
                         <label>{{ $t('page_registration.label_name') }}</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
-                                            v-slot="{ errors }">
-                            <input :value="user.attributes.name"
+                        <div class="input-wrapper">
+                            <input :value="user.data.attributes.name"
                                    :placeholder="$t('page_registration.placeholder_name')"
                                    type="text"
                                    disabled
                             />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
+                        </div>
                     </div>
                 </div>
-            </ValidationObserver>
+            </div>
+        </PageTabGroup>
+
+        <!--Billing Information-->
+        <PageTabGroup>
+            <div class="form block-form">
+                <b class="form-group-label">Billing Information</b>
+                <div class="block-wrapper">
+                    <label>Name:</label>
+                    <div class="input-wrapper">
+                        <input :value="user.relationships.settings.data.attributes.billing_name"
+                               type="text"
+                               disabled
+                        />
+                    </div>
+                </div>
+                <div class="block-wrapper">
+                    <label>Address:</label>
+                    <div class="input-wrapper">
+                        <input :value="user.relationships.settings.data.attributes.billing_address"
+                               type="text"
+                               disabled
+                        />
+                    </div>
+                </div>
+                <div class="wrapper-inline">
+                    <div class="block-wrapper">
+                        <label>State:</label>
+                        <div class="input-wrapper">
+                            <input :value="user.relationships.settings.data.attributes.billing_state"
+                                   type="text"
+                                   disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="block-wrapper">
+                        <label>City:</label>
+                        <div class="input-wrapper">
+                            <input :value="user.relationships.settings.data.attributes.billing_city"
+                                   type="text"
+                                   disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="block-wrapper">
+                        <label>Postal Code:</label>
+                        <div class="input-wrapper">
+                            <input :value="user.relationships.settings.data.attributes.billing_postal_code"
+                                   type="text"
+                                   disabled
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="block-wrapper">
+                    <label>Country:</label>
+                    <div class="input-wrapper">
+                        <input :value="user.relationships.settings.data.attributes.billing_country"
+                               type="text"
+                               disabled
+                        />
+                    </div>
+                </div>
+                <div class="block-wrapper">
+                    <label>Phone Number:</label>
+                    <div class="input-wrapper">
+                        <input :value="user.relationships.settings.data.attributes.billing_phone_number"
+                               type="text"
+                               disabled
+                        />
+                    </div>
+                </div>
+            </div>
         </PageTabGroup>
     </PageTab>
 </template>
@@ -66,7 +143,7 @@
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import SetupBox from '@/components/Others/Forms/SetupBox'
     import {required} from 'vee-validate/dist/rules'
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -149,7 +226,6 @@
     .block-form {
         max-width: 100%;
     }
-
 
     @media only screen and (max-width: 960px) {
 

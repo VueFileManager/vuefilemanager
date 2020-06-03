@@ -21,36 +21,36 @@
                     <template scope="{ row }">
                         <tr>
                             <td class="name" style="min-width: 200px">
-                                <router-link :to="{name: 'PlanSettings', params: {id: row.id}}" class="cell-item" tag="div">
-                                    <span>{{ row.attributes.name }}</span>
+                                <router-link :to="{name: 'PlanSettings', params: {id: row.data.id}}" class="cell-item" tag="div">
+                                    <span>{{ row.data.attributes.name }}</span>
                                 </router-link>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    <SwitchInput @input="changeStatus($event, row.id)" class="switch" :state="row.attributes.status"/>
+                                    <SwitchInput @input="changeStatus($event, row.data.id)" class="switch" :state="row.data.attributes.status"/>
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    ${{ row.attributes.price }}
+                                    ${{ row.data.attributes.price }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.attributes.capacity }}
+                                    {{ row.data.attributes.capacity_formatted }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.attributes.subscribers }}
+                                    {{ row.data.attributes.subscribers }}
                                 </span>
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <router-link :to="{name: 'PlanSettings', params: {id: row.id}}">
+                                    <router-link :to="{name: 'PlanSettings', params: {id: row.data.id}}">
                                         <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
                                     </router-link>
-                                    <router-link :to="{name: 'PlanDelete', params: {id: row.id}}">
+                                    <router-link :to="{name: 'PlanDelete', params: {id: row.data.id}}">
                                         <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
                                     </router-link>
                                 </div>
@@ -96,42 +96,8 @@
         },
         data() {
             return {
-                isLoading: false,
-                plans: [
-                    {
-                        id: '1',
-                        type: 'plans',
-                        attributes: {
-                            name: 'Starter Plan',
-                            status: 1,
-                            price: 9.99,
-                            capacity: '200GB',
-                            subscribers: 172,
-                        }
-                    },
-                    {
-                        id: '2',
-                        type: 'plans',
-                        attributes: {
-                            name: 'Professional Plan',
-                            status: 0,
-                            price: 19.99,
-                            capacity: '500GB',
-                            subscribers: 1929,
-                        }
-                    },
-                    {
-                        id: '3',
-                        type: 'plans',
-                        attributes: {
-                            name: 'Business Plan',
-                            status: 1,
-                            price: 44.99,
-                            capacity: '1TB',
-                            subscribers: 389,
-                        }
-                    },
-                ],
+                isLoading: true,
+                plans: undefined,
                 columns: [
                     {
                         label: 'Plan',
@@ -172,11 +138,11 @@
             }
         },
         created() {
-            /*axios.get('/api/plans')
+            axios.get('/api/plans')
                 .then(response => {
                     this.plans = response.data.data
                     this.isLoading = false
-                })*/
+                })
         }
     }
 </script>

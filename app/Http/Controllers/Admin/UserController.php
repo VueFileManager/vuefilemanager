@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\ChangeRoleRequest;
 use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
 use App\Http\Requests\Admin\CreateUserByAdmin;
 use App\Http\Requests\Admin\DeleteUserRequest;
+use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\UsersCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
@@ -35,7 +36,9 @@ class UserController extends Controller
      */
     public function details($id)
     {
-        return new UserResource(User::findOrFail($id));
+        return new UserResource(
+            User::findOrFail($id)
+        );
     }
 
     /**
@@ -46,7 +49,22 @@ class UserController extends Controller
      */
     public function storage($id)
     {
-        return new UserStorageResource(User::findOrFail($id));
+        return new UserStorageResource(
+            User::findOrFail($id)
+        );
+    }
+
+    /**
+     * Get user storage details
+     *
+     * @param $id
+     * @return InvoiceCollection
+     */
+    public function invoices($id)
+    {
+        return new InvoiceCollection(
+            User::findOrFail($id)->invoices
+        );
     }
 
     /**
@@ -56,7 +74,9 @@ class UserController extends Controller
      */
     public function users()
     {
-        return new UsersCollection(User::all());
+        return new UsersCollection(
+            User::all()
+        );
     }
 
     /**

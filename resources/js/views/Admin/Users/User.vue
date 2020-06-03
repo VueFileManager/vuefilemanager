@@ -9,16 +9,16 @@
                 <!--User thumbnail-->
                 <div class="user-thumbnail">
                     <div class="avatar">
-                        <img :src="user.attributes.avatar" :alt="user.attributes.name">
+                        <img :src="user.data.attributes.avatar" :alt="user.data.attributes.name">
                     </div>
                     <div class="info">
                         <b class="name">
-                            {{ user.attributes.name }}
+                            {{ user.data.attributes.name }}
                             <ColorLabel color="purple">
-                                {{ user.attributes.role }}
+                                {{ user.data.attributes.role }}
                             </ColorLabel>
                         </b>
-                        <span class="email">{{ user.attributes.email }}</span>
+                        <span class="email">{{ user.data.attributes.email }}</span>
                     </div>
                 </div>
 
@@ -60,7 +60,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.attributes.name !== app.user.name"
+                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.attributes.name !== app.user.name"
                                  class="menu-list-item link">
                         <div class="icon">
                             <trash2-icon size="17"></trash2-icon>
@@ -120,7 +120,7 @@
             fetchUser() {
                 axios.get('/api/users/' + this.$route.params.id + '/detail')
                     .then(response => {
-                        this.user = response.data.data
+                        this.user = response.data
                         this.isLoading = false
                     })
             }

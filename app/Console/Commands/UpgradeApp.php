@@ -42,6 +42,11 @@ class UpgradeApp extends Command
         $this->info('Upgrading your application to version ' . $this->argument('version'));
         $this->call('down');
 
+        // Version 1.7
+        if ($this->argument('version') === 'v1.7') {
+            $this->version_1_7();
+        }
+
         // Version 1.6
         if ($this->argument('version') === 'v1.6') {
             $this->version_1_6();
@@ -49,6 +54,19 @@ class UpgradeApp extends Command
 
         $this->call('up');
         $this->info('Your application was upgraded! 🥳🥳🥳');
+    }
+
+    /**
+     * Upgrade script to version 1.7
+     */
+    public function version_1_7() {
+
+        // Migrate new tables and changes
+        $this->call('migrate');
+
+        $this->call('db:seed', [
+            '--class' => 'PaymentGatewaysSeeder'
+        ]);
     }
 
     /**

@@ -9,13 +9,13 @@
             <div class="content-page">
                 <nav class="mobile-navigation">
 
-                    <!--Admin menu-->
-                    <b class="mobile-menu-label">Admin</b>
-                    <MenuItemList :navigation="AdminNavigation" />
-
                     <!--SaaS menu-->
                     <b class="mobile-menu-label">SaaS</b>
                     <MenuItemList :navigation="SassNavigation" />
+
+                    <!--Admin menu-->
+                    <b class="mobile-menu-label">Admin</b>
+                    <MenuItemList :navigation="AdminNavigation" />
                 </nav>
             </div>
         </div>

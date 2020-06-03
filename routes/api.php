@@ -48,10 +48,13 @@ Route::group(['middleware' => ['api']], function () {
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
 
     // User
+    Route::patch('/user/relationships/settings', 'User\AccountController@update_user_settings');
     Route::post('/user/password', 'User\AccountController@change_password');
     Route::patch('/user/profile', 'User\AccountController@update_profile');
+    Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
+    Route::get('/profile', 'User\AccountController@me');
 
     // Browse
     Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
@@ -90,17 +93,26 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
 
     // Edit users
     Route::post('/users/create', 'Admin\UserController@create_user');
+    Route::get('/users/{id}/invoices', 'Admin\UserController@invoices');
     Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
     Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
     Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
     Route::post('/users/{id}/send-password-email', 'Admin\UserController@send_password_reset_email');
 
     // Gateways
+    Route::get('/gateways', 'Admin\GatewayController@index');
+    Route::get('/gateways/{type}', 'Admin\GatewayController@show');
     Route::patch('/gateways/{type}', 'Admin\GatewayController@update');
 
     // Plans
-    Route::post('/plans/create', 'Admin\PlanController@create');
+    Route::get('/plans', 'Admin\PlanController@index');
+    Route::get('/plans/{id}', 'Admin\PlanController@show');
+    Route::post('/plans/store', 'Admin\PlanController@store');
     Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
+
+    // Invoices
+    Route::get('/invoices', 'Admin\InvoiceController@index');
+    Route::get('/invoices/{token}', 'Admin\InvoiceController@show');
 });
 
 

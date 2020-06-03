@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/main.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css', {
+    .sass('resources/sass/app.scss', 'public/css/app.css', {
         implementation: require('node-sass')
     })
     .webpackConfig({
@@ -23,10 +23,10 @@ mix.js('resources/js/main.js', 'public/js')
             }
         },
     })
-    .options({
+/*    .options({
         hmrOptions: {
             host: '172.20.10.5',
             port: '8080'
         },
-    })
+    })*/
     .disableNotifications();

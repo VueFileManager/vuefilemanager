@@ -191,4 +191,14 @@ class User extends Authenticatable
 
         return $this->hasOne(UserSettings::class);
     }
+
+    /**
+     * Get user invoices
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function invoices() {
+
+        return $this->hasMany(Invoice::class);
+    }
 }

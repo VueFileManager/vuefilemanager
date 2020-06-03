@@ -9,9 +9,10 @@ import NotFoundShared from './views/Shared/NotFoundShared'
 import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 
-import Settings from './views/Settings'
-import Profile from './views/User/Profile'
+import Settings from './views/Profile'
+import Profile from './views/User/Settings'
 import Storage from './views/User/Storage'
+import Invoice from './views/User/Invoices'
 import Trash from './views/FilePages/Trash'
 import Files from './views/FilePages/Files'
 import Password from './views/User/Password'
@@ -176,7 +177,7 @@ const routesAdmin = [
             },
             {
                 name: 'Gateway',
-                path: '/admin/payment-method/:name',
+                path: '/admin/payment-method/:slug',
                 component: Gateway,
                 meta: {
                     requiresAuth: true,
@@ -185,7 +186,7 @@ const routesAdmin = [
                 children: [
                     {
                         name: 'GatewayTransactions',
-                        path: '/admin/payment-methods/:name/transactions',
+                        path: '/admin/payment-methods/:slug/transactions',
                         component: GatewayTransactions,
                         meta: {
                             requiresAuth: true,
@@ -194,7 +195,7 @@ const routesAdmin = [
                     },
                     {
                         name: 'GatewaySettings',
-                        path: '/admin/payment-methods/:name/settings',
+                        path: '/admin/payment-methods/:slug/settings',
                         component: GatewaySettings,
                         meta: {
                             requiresAuth: true,
@@ -347,6 +348,15 @@ const routesUser = [
                 meta: {
                     requiresAuth: true,
                     title: i18n.t('routes_title.settings_storage')
+                },
+            },
+            {
+                name: 'Invoice',
+                path: '/settings/invoices',
+                component: Invoice,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Invoices'
                 },
             },
         ]

@@ -1,5 +1,5 @@
 <template>
-    <div id="single-page" v-if="app">
+    <div id="single-page">
         <div id="page-content" class="medium-width" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
@@ -11,12 +11,12 @@
                     <div class="avatar">
                         <UserImageInput
                                 v-model="avatar"
-                                :avatar="app.user.avatar"
+                                :avatar="profile.data.attributes.avatar"
                         />
                     </div>
                     <div class="info">
-                        <b class="name">{{ app.user.name }}</b>
-                        <span class="email">{{ app.user.email }}</span>
+                        <b class="name">{{ profile.data.attributes.name }}</b>
+                        <span class="email">{{ profile.data.attributes.email }}</span>
                     </div>
                 </div>
 
@@ -40,6 +40,15 @@
                         </div>
                     </router-link>
 
+                    <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Invoices
+                        </div>
+                    </router-link>
+
                     <router-link replace :to="{name: 'Password'}" class="menu-list-item link">
                         <div class="icon">
                             <lock-icon size="17"></lock-icon>
@@ -60,7 +69,7 @@
                 </div>
 
                 <!--Router Content-->
-                <router-view :user="app.user" />
+                <router-view :user="profile" />
             </div>
         </div>
         <div id="loader" v-if="isLoading">
@@ -74,10 +83,11 @@
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import PageHeader from '@/components/Others/PageHeader'
     import Spinner from '@/components/FilesView/Spinner'
+    import axios from 'axios'
 
-    import { mapGetters } from 'vuex'
     import {
         HardDriveIcon,
+        FileTextIcon,
         UserIcon,
         LockIcon,
     } from 'vue-feather-icons'
@@ -86,6 +96,7 @@
         name: 'Settings',
         components: {
             UserImageInput,
+            FileTextIcon,
             MobileHeader,
             PageHeader,
             Spinner,
@@ -93,17 +104,20 @@
             UserIcon,
             LockIcon,
         },
-        computed: {
-            ...mapGetters([
-                'config', 'app'
-            ]),
-        },
         data() {
             return {
                 avatar: undefined,
-                isLoading: false,
+                profile: undefined,
+                isLoading: true,
             }
         },
+        created() {
+            axios.get('/api/profile')
+                .then(response => {
+                    this.profile = response.data
+                    this.isLoading = false
+                })
+        }
     }
 </script>
 

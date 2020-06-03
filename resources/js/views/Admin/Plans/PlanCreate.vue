@@ -111,7 +111,9 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/plans/create', this.plan)
+                    .post('/api/plans/store', {
+                        attributes: this.plan
+                    })
                     .then(response => {
 
                         // End loading
@@ -124,7 +126,7 @@
                         })
 
                         // Go to User page
-                        this.$router.push({name: 'UserDetail', params: {id: response.data.data.id}})
+                        this.$router.push({name: 'PlanSettings', params: {id: response.data.data.id}})
                     })
                     .catch(error => {
 

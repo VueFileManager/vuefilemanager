@@ -36,12 +36,12 @@
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.storage.used }}%
+                                    {{ row.relationships.storage.data.attributes.used }}%
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.storage.capacity_formatted }}
+                                    {{ row.relationships.storage.data.attributes.capacity_formatted }}
                                 </span>
                             </td>
                             <td>

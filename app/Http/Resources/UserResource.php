@@ -19,7 +19,7 @@ class UserResource extends JsonResource
         $faker = Factory::create();
 
         return [
-            'data' => [
+            'data'          => [
                 'id'         => (string)$this->id,
                 'type'       => 'user',
                 'attributes' => [
@@ -27,11 +27,34 @@ class UserResource extends JsonResource
                     'email'                => env('APP_DEMO') ? $faker->email : $this->email,
                     'avatar'               => $this->avatar,
                     'role'                 => $this->role,
-                    'storage'              => $this->storage,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
                     'created_at'           => $this->created_at,
                     'updated_at'           => $this->updated_at,
                 ]
+            ],
+            'relationships' => [
+                'settings' => [
+                    'data' => [
+                        'id'         => (string)$this->settings->id,
+                        'type'       => 'settings',
+                        'attributes' => [
+                            'billing_name'         => $this->settings->billing_name,
+                            'billing_address'      => $this->settings->billing_address,
+                            'billing_state'        => $this->settings->billing_state,
+                            'billing_city'         => $this->settings->billing_city,
+                            'billing_postal_code'  => $this->settings->billing_postal_code,
+                            'billing_country'      => $this->settings->billing_country,
+                            'billing_phone_number' => $this->settings->billing_phone_number,
+                        ]
+                    ]
+                ],
+                'storage'  => [
+                    'data' => [
+                        'id'         => '1',
+                        'type'       => 'storage',
+                        'attributes' => $this->storage
+                    ]
+                ],
             ]
         ];
     }

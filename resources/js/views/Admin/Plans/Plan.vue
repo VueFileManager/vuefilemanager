@@ -71,30 +71,16 @@
         },
         data() {
             return {
-                isLoading: false,
+                isLoading: true,
                 plan: undefined,
             }
         },
         created() {
-
-            this.plan = {
-                id: '1',
-                type: 'plans',
-                attributes: {
-                    name: 'Starter Plan',
-                    description: 'This plan fits for every storage starter.',
-                    status: 1,
-                    price: 9.99,
-                    capacity: 200,
-                    subscribers: 172,
-                }
-            }
-
-            /*axios.get('/api/gateway/' + this.$route.params.name)
+            axios.get('/api/plans/' + this.$route.params.id)
                 .then(response => {
-                    this.user = response.data.data
+                    this.plan = response.data.data
                     this.isLoading = false
-                })*/
+                })
         }
     }
 </script>

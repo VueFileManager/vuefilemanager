@@ -9,18 +9,23 @@
                     <template scope="{ row }">
                         <tr>
                             <td>
+                                <a :href="'/invoice/' + row.data.attributes.token" target="_blank" class="cell-item">
+                                    {{ row.data.attributes.order }}
+                                </a>
+                            </td>
+                            <td>
                                 <span class="cell-item">
-                                    ${{ row.attributes.total }}
+                                    ${{ row.data.attributes.total }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.attributes.plan }}
+                                    {{ row.data.attributes.bag[0].description }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.attributes.created_at_formatted }}
+                                    {{ row.data.attributes.created_at_formatted }}
                                 </span>
                             </td>
                             <td>
@@ -34,9 +39,9 @@
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <router-link :to="{name: 'UserDelete', params: {id: row.relationships.user.data.id}}">
-                                        <download-cloud-icon size="15" class="icon"></download-cloud-icon>
-                                    </router-link>
+                                    <a :href="'/invoice/' + row.data.attributes.token" target="_blank">
+                                        <external-link-icon size="15" class="icon"></external-link-icon>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -58,16 +63,16 @@
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
-    import {DownloadCloudIcon} from "vue-feather-icons";
+    import {ExternalLinkIcon} from "vue-feather-icons";
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
     import axios from 'axios'
 
     export default {
-        name: 'Plans',
+        name: 'Invoices',
         components: {
-            DownloadCloudIcon,
+            ExternalLinkIcon,
             DatatableCellImage,
             MobileActionButton,
             DatatableWrapper,
@@ -81,202 +86,14 @@
         },
         data() {
             return {
-                isLoading: false,
-                invoices: [
-                    {
-                        id: '1',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/avatars/6osmoXJo-avatar-01.png',
-                                        name: 'Jane Doe',
-                                        email: 'howdy@hi5ve.digital',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '2',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/avatars/dSMRCbwF-69299654_2418248648259454_4545563304688353280_o.jpg',
-                                        name: 'Peter Papp',
-                                        email: 'peterpapp@makingcg.com',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '3',
-                        type: 'invoices',
-                        attributes: {
-                            total: 49.99,
-                            plan: 'Business Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/assets/images/default-avatar.png',
-                                        name: 'Pavel Svintsitskiy',
-                                        email: 'pashaUSA@gmail.com',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '4',
-                        type: 'invoices',
-                        attributes: {
-                            total: 29.99,
-                            plan: 'Professional Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/avatars/lTksMdJM-6D3529EF-5D8C-4959-BEC2-4BDE80A051C2.jpeg',
-                                        name: 'Torsten',
-                                        email: 'torsten.hoegel@go-on-net.de',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '5',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/avatars/6osmoXJo-avatar-01.png',
-                                        name: 'Jane Doe',
-                                        email: 'howdy@hi5ve.digital',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '6',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/avatars/dSMRCbwF-69299654_2418248648259454_4545563304688353280_o.jpg',
-                                        name: 'Peter Papp',
-                                        email: 'peterpapp@makingcg.com',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '7',
-                        type: 'invoices',
-                        attributes: {
-                            total: 49.99,
-                            plan: 'Business Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/assets/images/default-avatar.png',
-                                        name: 'Pavel Svintsitskiy',
-                                        email: 'pashaUSA@gmail.com',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: '8',
-                        type: 'invoices',
-                        attributes: {
-                            total: 29.99,
-                            plan: 'Professional Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    id: '1',
-                                    type: 'users',
-                                    attributes: {
-                                        avatar: '/avatars/lTksMdJM-6D3529EF-5D8C-4959-BEC2-4BDE80A051C2.jpeg',
-                                        name: 'Torsten',
-                                        email: 'torsten.hoegel@go-on-net.de',
-                                    }
-                                }
-                            }
-                        }
-                    },
-                ],
+                isLoading: true,
+                invoices: undefined,
                 columns: [
+                    {
+                        label: 'Invoice Number',
+                        field: 'attributes.total',
+                        sortable: true
+                    },
                     {
                         label: 'Total',
                         field: 'attributes.total',
@@ -306,11 +123,11 @@
             }
         },
         created() {
-            /*axios.get('/api/invoices')
+            axios.get('/api/invoices')
                 .then(response => {
                     this.invoices = response.data.data
                     this.isLoading = false
-                })*/
+                })
         }
     }
 </script>
