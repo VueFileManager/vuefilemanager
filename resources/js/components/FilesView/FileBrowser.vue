@@ -226,8 +226,6 @@
 
     .file-content {
         display: flex;
-        flex-wrap: nowrap;
-        height: 100%;
 
         &.is-dragging {
             @include transform(scale(0.99));
@@ -289,6 +287,7 @@
             right: 15px;
             bottom: 0;
             @include transition;
+            overflow-y: auto;
 
             &.is-offset {
                 margin-top: 50px;
