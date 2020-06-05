@@ -221,7 +221,7 @@ class Editor
         Storage::putFileAs($directory, $file, $filename, 'private');
 
         // Create image thumbnail
-        if ($filetype == 'image') {
+        if (in_array($file->getMimeType(), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
 
             // Get thumbnail name
             $thumbnail = 'thumbnail-' . $filename;
@@ -236,6 +236,10 @@ class Editor
 
             // Store thumbnail to disk
             Storage::put($directory . '/' . $thumbnail, $image);
+
+        } elseif ($file->getMimeType() == 'image/svg+xml') {
+
+            $thumbnail = $filename;
         }
 
         // Store file

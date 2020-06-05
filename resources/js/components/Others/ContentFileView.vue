@@ -50,6 +50,7 @@
         overflow-x: hidden;
         padding-left: 15px;
         padding-right: 15px;
+        overflow-y: hidden;
     }
 
     @media only screen and (max-width: 690px) {
