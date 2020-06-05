@@ -7,16 +7,30 @@
             <div class="content-page">
 
                 <!--User thumbnail-->
-                <div class="user-thumbnail">
-                    <div class="avatar">
-                        <UserImageInput
-                                v-model="avatar"
-                                :avatar="profile.data.attributes.avatar"
-                        />
+                <div class="page-detail-headline">
+                    <div class="user-thumbnail">
+                        <div class="avatar">
+                            <UserImageInput
+                                    v-model="avatar"
+                                    :avatar="profile.data.attributes.avatar"
+                            />
+                        </div>
+                        <div class="info">
+                            <b class="name">
+                                {{ profile.data.attributes.name }}
+                                <ColorLabel :color="subscriptionColor">
+                                    {{ subscriptionStatus }}
+                                </ColorLabel>
+                            </b>
+                            <span class="email">{{ profile.data.attributes.email }}</span>
+                        </div>
                     </div>
-                    <div class="info">
-                        <b class="name">{{ profile.data.attributes.name }}</b>
-                        <span class="email">{{ profile.data.attributes.email }}</span>
+                    <div class="headline-actions">
+                        <router-link :to="{name: 'UpgradePlan'}">
+                            <ButtonBase button-style="secondary" type="button">
+                                Upgrade Plan
+                            </ButtonBase>
+                        </router-link>
                     </div>
                 </div>
 
@@ -37,6 +51,15 @@
                         </div>
                         <div class="label">
                             {{ $t('menu.storage') }}
+                        </div>
+                    </router-link>
+
+                    <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
+                        <div class="icon">
+                            <credit-card-icon size="17"></credit-card-icon>
+                        </div>
+                        <div class="label">
+                            Subscription
                         </div>
                     </router-link>
 
@@ -81,11 +104,13 @@
 <script>
     import UserImageInput from '@/components/Others/UserImageInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageHeader from '@/components/Others/PageHeader'
+    import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
     import axios from 'axios'
-
     import {
+        CreditCardIcon,
         HardDriveIcon,
         FileTextIcon,
         UserIcon,
@@ -95,14 +120,25 @@
     export default {
         name: 'Settings',
         components: {
+            ButtonBase,
+            CreditCardIcon,
             UserImageInput,
             FileTextIcon,
             MobileHeader,
+            ColorLabel,
             PageHeader,
             Spinner,
             HardDriveIcon,
             UserIcon,
             LockIcon,
+        },
+        computed: {
+            subscriptionStatus() {
+                return this.profile.relationships.subscription ? 'Subscription' : 'Free'
+            },
+            subscriptionColor() {
+                return this.profile.relationships.subscription ? 'green' : 'purple'
+            },
         },
         data() {
             return {
@@ -124,6 +160,11 @@
 <style lang="scss" scoped>
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .page-detail-headline {
+        display: flex;
+        justify-content: space-between;
+    }
 
     .user-thumbnail {
         display: flex;

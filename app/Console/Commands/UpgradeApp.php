@@ -63,10 +63,11 @@ class UpgradeApp extends Command
 
         // Migrate new tables and changes
         $this->call('migrate');
+        $this->call('rinvex:migrate:subscriptions');
 
-        $this->call('db:seed', [
+        /*$this->call('db:seed', [
             '--class' => 'PaymentGatewaysSeeder'
-        ]);
+        ]);*/
     }
 
     /**

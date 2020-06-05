@@ -12,11 +12,70 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
+ * Get invoice number
+ *
+ * @return string
+ */
+function get_invoice_number()
+{
+    $invoices = \App\Invoice::all();
+
+    if ($invoices->isEmpty()) {
+        return Carbon::now()->year . '00001';
+    } else {
+        return (int)$invoices->last()->order + 1;
+    }
+}
+
+function get_invoice_data($user, $plan)
+{
+    $subscription = $user->subscription('main');
+    $order_number = get_invoice_number();
+    $token = \Illuminate\Support\Str::random(22);
+
+    return [
+        'token'    => $token,
+        'order'    => $order_number,
+        'user_id'  => $user->id,
+        'plan_id'  => $plan->id,
+        'total'    => $plan->price,
+        'currency' => 'USD',
+        'bag'      => [
+            [
+                'description' => 'Subscription - ' . $plan->name,
+                'date'        => format_date($subscription->starts_at, '%d. %B. %Y') . ' - ' . format_date($subscription->ends_at, '%d. %B. %Y'),
+                'amount'      => $plan->price,
+            ]
+        ],
+        'seller'   => [
+            'billing_name'         => 'VueFileManager',
+            'billing_address'      => 'Somewhere 32',
+            'billing_state'        => 'Washington',
+            'billing_city'         => 'Manchester',
+            'billing_postal_code'  => '04001',
+            'billing_country'      => 'The USA',
+            'billing_phone_number' => '490321-6354774',
+            'billing_vat_number'   => '7354724626246',
+        ],
+        'client'   => [
+            'billing_name'         => $user->settings->billing_name,
+            'billing_address'      => $user->settings->billing_address,
+            'billing_state'        => $user->settings->billing_state,
+            'billing_city'         => $user->settings->billing_city,
+            'billing_postal_code'  => $user->settings->billing_postal_code,
+            'billing_country'      => $user->settings->billing_country,
+            'billing_phone_number' => $user->settings->billing_phone_number,
+        ],
+    ];
+}
+
+/**
  * Get app version from config
  *
  * @return \Illuminate\Config\Repository|mixed
  */
-function get_storage() {
+function get_storage()
+{
     return env('FILESYSTEM_DRIVER');
 }
 
@@ -25,7 +84,8 @@ function get_storage() {
  *
  * @return bool
  */
-function is_storage_driver($driver) {
+function is_storage_driver($driver)
+{
 
     if (is_array($driver)) {
         return in_array(env('FILESYSTEM_DRIVER'), $driver);
@@ -39,7 +99,8 @@ function is_storage_driver($driver) {
  *
  * @return \Illuminate\Config\Repository|mixed
  */
-function get_version() {
+function get_version()
+{
     return config('vuefilemanager.version');
 }
 
@@ -48,7 +109,8 @@ function get_version() {
  *
  * @return mixed
  */
-function is_demo($user_id) {
+function is_demo($user_id)
+{
 
     return env('APP_DEMO', false) && $user_id === 1;
 }
@@ -61,7 +123,8 @@ function is_demo($user_id) {
  * @param $user_id
  * @return \Illuminate\Database\Eloquent\Builder|Model
  */
-function get_item($type, $unique_id, $user_id) {
+function get_item($type, $unique_id, $user_id)
+{
 
     if ($type === 'folder') {
 
@@ -83,7 +146,8 @@ function get_item($type, $unique_id, $user_id) {
  * @param $token
  * @return \Illuminate\Database\Eloquent\Builder|Model
  */
-function get_shared($token) {
+function get_shared($token)
+{
 
     return Share::where(DB::raw('BINARY `token`'), $token)
         ->firstOrFail();
@@ -95,7 +159,8 @@ function get_shared($token) {
  * @param $shared
  * @return bool
  */
-function is_editor($shared) {
+function is_editor($shared)
+{
 
     return $shared->permission === 'editor';
 }
@@ -190,7 +255,11 @@ function make_single_input($request)
  */
 function format_gigabytes($gigabytes)
 {
-    return Metric::gigabytes($gigabytes)->format();
+    if ($gigabytes >= 1000) {
+        return Metric::gigabytes($gigabytes)->format('Tb/');
+    } else {
+        return Metric::gigabytes($gigabytes)->format('GB/');
+    }
 }
 
 /**

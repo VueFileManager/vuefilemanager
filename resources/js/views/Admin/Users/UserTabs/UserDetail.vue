@@ -82,16 +82,16 @@
                         />
                     </div>
                 </div>
-                <div class="wrapper-inline">
-                    <div class="block-wrapper">
-                        <label>State:</label>
-                        <div class="input-wrapper">
-                            <input :value="user.relationships.settings.data.attributes.billing_state"
-                                   type="text"
-                                   disabled
-                            />
-                        </div>
+                <div class="block-wrapper">
+                    <label>State:</label>
+                    <div class="input-wrapper">
+                        <input :value="user.relationships.settings.data.attributes.billing_state"
+                               type="text"
+                               disabled
+                        />
                     </div>
+                </div>
+                <div class="wrapper-inline">
                     <div class="block-wrapper">
                         <label>City:</label>
                         <div class="input-wrapper">

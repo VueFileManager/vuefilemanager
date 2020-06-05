@@ -124,7 +124,7 @@ class Editor
                     Storage::delete('/file-manager/' . $file->basename);
 
                     // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
 
                     // Delete file permanently
                     $file->forceDelete();
@@ -138,7 +138,7 @@ class Editor
             if (!$request->force_delete) {
 
                 // Remove folder from user favourites
-                $user->favourites()->detach($unique_id);
+                $user->favourite_folders()->detach($unique_id);
 
                 // Soft delete folder record
                 $folder->delete();
@@ -172,7 +172,7 @@ class Editor
                 Storage::delete('/file-manager/' . $file->basename);
 
                 // Delete thumbnail if exist
-                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
 
                 // Delete file permanently
                 $file->forceDelete();

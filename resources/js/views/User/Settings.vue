@@ -2,7 +2,6 @@
     <PageTab>
         <PageTabGroup v-if="userInfo">
             <div class="form block-form">
-                <b class="form-group-label">{{ $t('admin_page_user.label_person_info') }}</b>
                 <div class="wrapper-inline">
                     <div class="block-wrapper">
                         <label>{{ $t('page_registration.label_email') }}</label>
@@ -50,17 +49,17 @@
                         />
                     </div>
                 </div>
-                <div class="wrapper-inline">
-                    <div class="block-wrapper">
-                        <label>State:</label>
-                        <div class="input-wrapper">
-                            <input @keyup="$updateText('/user/relationships/settings', 'billing_state', billingInfo.billing_state)"
-                                   v-model="billingInfo.billing_state"
-                                   placeholder="Type your billing state"
-                                   type="text"
-                            />
-                        </div>
+                <div class="block-wrapper">
+                    <label>State:</label>
+                    <div class="input-wrapper">
+                        <input @keyup="$updateText('/user/relationships/settings', 'billing_state', billingInfo.billing_state)"
+                               v-model="billingInfo.billing_state"
+                               placeholder="Type your billing state"
+                               type="text"
+                        />
                     </div>
+                </div>
+                <div class="wrapper-inline">
                     <div class="block-wrapper">
                         <label>City:</label>
                         <div class="input-wrapper">
@@ -135,13 +134,6 @@
             ThemeLabel,
             required,
         },
-        /*        watch: {
-                    'user.name': debounce(function (val) {
-                        if (val === '') return
-
-                        this.$store.commit('UPDATE_NAME', val)
-                    }, 300),
-                },*/
         data() {
             return {
                 userInfo: undefined,

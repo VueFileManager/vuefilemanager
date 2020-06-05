@@ -1,6 +1,6 @@
 <template>
     <div id="single-page">
-        <div id="page-content" class="medium-width" v-if="! isLoading">
+        <div id="page-content" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
 

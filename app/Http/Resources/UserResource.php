@@ -33,7 +33,7 @@ class UserResource extends JsonResource
                 ]
             ],
             'relationships' => [
-                'settings' => [
+                'settings'     => [
                     'data' => [
                         'id'         => (string)$this->settings->id,
                         'type'       => 'settings',
@@ -48,13 +48,14 @@ class UserResource extends JsonResource
                         ]
                     ]
                 ],
-                'storage'  => [
+                'storage'      => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'storage',
                         'attributes' => $this->storage
                     ]
                 ],
+                'subscription' => $this->activeSubscriptions()->count() !== 0 ? new UserSubscription($this->subscription('main')) : null,
             ]
         ];
     }

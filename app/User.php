@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\HasApiTokens;
+use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
  * App\User
@@ -55,7 +56,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasSubscriptions;
 
     /**
      * The attributes that are mass assignable.
@@ -111,7 +112,7 @@ class User extends Authenticatable
     public function getUsedCapacityAttribute() {
 
         $user_capacity = $this->files_with_trashed->map(function ($item) {
-            return $item->getOriginal();
+            return $item->getRawOriginal();
         })->sum('filesize');
 
         return $user_capacity;
@@ -147,7 +148,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function favourites()
+    public function favourite_folders()
     {
         return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected');
     }

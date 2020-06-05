@@ -5,7 +5,7 @@
                                 class="form block-form">
 
                 <div class="block-wrapper">
-                    <b class="form-group-label">{{ $t('page_create_password.label_new_pass') }}:</b>
+                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"

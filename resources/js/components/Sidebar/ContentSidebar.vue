@@ -15,7 +15,8 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .content-sidebar {
-        background: linear-gradient(0deg, rgba(246, 245, 241, 0.4) 0%, rgba(243, 244, 246, 0.4) 100%);
+        //background: linear-gradient(0deg, rgba(246, 245, 241, 0.4) 0%, rgba(243, 244, 246, 0.4) 100%);
+        background: rgba($light_background, 0.6);
         user-select: none;
         padding-top: 25px;
         overflow-y: auto;

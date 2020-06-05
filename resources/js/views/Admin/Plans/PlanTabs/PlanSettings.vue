@@ -7,10 +7,12 @@
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
-                            <label class="input-label">Status:</label>
+                            <div class="switch-label">
+                                <label class="input-label">Status:</label>
+                                <small class="input-help">Status of your payment gateway on website.</small>
+                            </div>
                             <SwitchInput @input="changeStatus" class="switch" :state="plan.attributes.status"/>
                         </div>
-                        <small class="input-help">Status of your payment gateway on website.</small>
                     </div>
                 </div>
 
@@ -91,7 +93,7 @@
         },
         methods: {
             changeStatus(val) {
-                this.$updateText('/plans/' + this.$route.params.id + '/update', 'status', val)
+                this.$updateText('/plans/' + this.$route.params.id + '/update', 'is_active', val)
             }
         }
     }

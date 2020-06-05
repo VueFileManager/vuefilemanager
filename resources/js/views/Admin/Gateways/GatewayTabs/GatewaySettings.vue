@@ -3,23 +3,26 @@
         <ValidationObserver v-if="gateway.attributes.slug === 'paypal'" ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
 
             <PageTabGroup>
-                <b class="form-group-label">Settings</b>
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
-                            <label class="input-label">Status:</label>
+                            <div class="switch-label">
+                                <label class="input-label">Status:</label>
+                                <small class="input-help">Status of your payment gateway on website.</small>
+                            </div>
                             <SwitchInput @input="$updateText('/gateways/paypal', 'status', paymentGateway.attributes.status)" v-model="paymentGateway.attributes.status" class="switch" :state="paymentGateway.attributes.status"/>
                         </div>
-                        <small class="input-help">Status of your payment gateway on website.</small>
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
-                            <label class="input-label">Sandbox Mode:</label>
+                            <div class="switch-label">
+                                <label class="input-label">Sandbox Mode:</label>
+                                <small class="input-help">With sandbox mode on, you can test your payment process on you website.</small>
+                            </div>
                             <SwitchInput @input="$updateText('/gateways/paypal', 'sandbox', paymentGateway.attributes.sandbox)" v-model="paymentGateway.attributes.sandbox" class="switch" :state="paymentGateway.attributes.sandbox"/>
                         </div>
-                        <small class="input-help">With sandbox mode on, you can test your payment process on you website.</small>
                     </div>
                 </div>
             </PageTabGroup>
@@ -60,23 +63,26 @@
 
         <ValidationObserver v-if="gateway.attributes.slug === 'stripe'" ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
             <PageTabGroup>
-                <b class="form-group-label">Settings</b>
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
-                            <label class="input-label">Status:</label>
+                            <div class="switch-label">
+                                <label class="input-label">Status:</label>
+                                <small class="input-help">Status of your payment gateway on website.</small>
+                            </div>
                             <SwitchInput @input="$updateText('/gateways/stripe', 'status', paymentGateway.attributes.status)" v-model="paymentGateway.attributes.status" class="switch" :state="paymentGateway.attributes.status"/>
                         </div>
-                        <small class="input-help">Status of your payment gateway on website.</small>
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
-                            <label class="input-label">Sandbox Mode:</label>
+                            <div class="switch-label">
+                                <label class="input-label">Sandbox Mode:</label>
+                                <small class="input-help">With sandbox mode on, you can test your payment process on you website.</small>
+                            </div>
                             <SwitchInput @input="$updateText('/gateways/stripe', 'sandbox', paymentGateway.attributes.sandbox)" v-model="paymentGateway.attributes.sandbox" class="switch" :state="paymentGateway.attributes.sandbox"/>
                         </div>
-                        <small class="input-help">With sandbox mode on, you can test your payment process on you website.</small>
                     </div>
                 </div>
             </PageTabGroup>

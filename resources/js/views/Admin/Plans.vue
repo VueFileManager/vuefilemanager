@@ -134,7 +134,7 @@
         },
         methods: {
             changeStatus(val, id) {
-                this.$updateText('/plans/' + id + '/update', 'status', val)
+                this.$updateText('/plans/' + id + '/update', 'is_active', val)
             }
         },
         created() {

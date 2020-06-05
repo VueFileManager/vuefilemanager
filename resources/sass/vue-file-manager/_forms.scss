@@ -33,14 +33,14 @@
     }
 
     .block-wrapper {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
 
       label {
         @include font-size(14);
-        color: $text-muted;
+        color: rgba($text, 0.7);
         font-weight: 600;
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
       }
 
       &:last-child {
@@ -57,6 +57,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .switch-label {
+      .input-help {
+        padding-top: 0;
+      }
+
+      .input-label {
+        font-weight: 700;
+        color: $text;
+        @include font-size(16);
+        margin-bottom: 5px;
+      }
+    }
   }
 
   .input-help {
@@ -85,16 +98,16 @@ input[type="password"],
 input[type="text"],
 input[type="number"],
 input[type="email"] {
-  border: 1px solid #ebebeb;
+  border: 1px solid transparent;
   @include transition(150ms);
-  @include font-size(14);
+  @include font-size(16);
   border-radius: 8px;
   padding: 13px 20px;
   appearance: none;
-  font-weight: 600;
+  font-weight: 700;
   outline: 0;
   width: 100%;
-  background: $light_mode_input_background;
+  background: hsla(210, 10%, 98%, 1);
 
   &.is-error {
     border-color: $danger;

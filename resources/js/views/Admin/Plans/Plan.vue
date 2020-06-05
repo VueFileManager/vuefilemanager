@@ -1,6 +1,6 @@
 <template>
     <div id="single-page">
-        <div id="page-content" class="medium-width" v-if="! isLoading">
+        <div id="page-content" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
 
@@ -18,13 +18,13 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'PlanTransactions', params: {id: plan.id}}"
+                    <router-link replace :to="{name: 'PlanSubscribers', params: {id: plan.id}}"
                                  class="menu-list-item link">
                         <div class="icon">
-                            <credit-card-icon size="17"></credit-card-icon>
+                            <users-icon size="17"></users-icon>
                         </div>
                         <div class="label">
-                            Transactions
+                            Subscribers
                         </div>
                     </router-link>
 
@@ -50,20 +50,19 @@
 </template>
 
 <script>
-    import {CreditCardIcon, SettingsIcon, Trash2Icon} from 'vue-feather-icons'
+    import {UsersIcon, SettingsIcon, Trash2Icon} from 'vue-feather-icons'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
     import Spinner from '@/components/FilesView/Spinner'
-    import {mapGetters} from 'vuex'
     import axios from 'axios'
 
     export default {
         name: 'Gateway',
         components: {
+            UsersIcon,
             Trash2Icon,
             SettingsIcon,
-            CreditCardIcon,
             SectionTitle,
             MobileHeader,
             PageHeader,

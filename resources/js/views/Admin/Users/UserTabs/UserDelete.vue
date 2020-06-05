@@ -9,8 +9,8 @@
                 <ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form"
                                     class="form block-form">
                     <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive"
-                                        name="User name" :rules="'required|is:' + user.attributes.name">
-                        <label>{{ $t('admin_page_user.label_delete_user', {user: user.attributes.name}) }}:</label>
+                                        name="User name" :rules="'required|is:' + user.data.attributes.name">
+                        <label>{{ $t('admin_page_user.label_delete_user', {user: user.data.attributes.name}) }}:</label>
                         <div class="single-line-form">
                             <input v-model="userName"
                                    :placeholder="$t('admin_page_user.placeholder_delete_user')"
@@ -101,7 +101,7 @@
                         })
                     })
             }
-        }
+        },
     }
 </script>
 

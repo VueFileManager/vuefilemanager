@@ -25,7 +25,6 @@ class CreateInvoicesTable extends Migration
             $table->longText('notes')->nullable();
             $table->text('total');
             $table->text('currency');
-            $table->text('path');
             $table->timestamps();
         });
     }

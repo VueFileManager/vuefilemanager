@@ -6,6 +6,7 @@ const defaultState = {
 	config: undefined,
 	authorized: undefined,
 	homeDirectory: undefined,
+	requestedPlan: undefined,
 	roles: [
 		{
 			label: i18n.t('roles.admin'),
@@ -57,14 +58,18 @@ const mutations = {
 	CHANGE_PREVIEW(state, type) {
 		state.FilePreviewType = type
 	},
+	STORE_REQUESTED_PLAN(state, plan) {
+		state.requestedPlan = plan
+	},
 }
 const getters = {
 	fileInfoVisible: state => state.fileInfoPanelVisible,
 	FilePreviewType: state => state.FilePreviewType,
-	roles: state => state.roles,
+	homeDirectory: state => state.homeDirectory,
+	requestedPlan: state => state.requestedPlan,
 	api: state => state.config.api,
 	config: state => state.config,
-	homeDirectory: state => state.homeDirectory,
+	roles: state => state.roles,
 }
 
 export default {

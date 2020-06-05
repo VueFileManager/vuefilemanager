@@ -10,13 +10,18 @@ import ForgottenPassword from './views/Auth/ForgottenPassword'
 import CreateNewPassword from './views/Auth/CreateNewPassword'
 
 import Settings from './views/Profile'
-import Profile from './views/User/Settings'
 import Storage from './views/User/Storage'
+import Profile from './views/User/Settings'
 import Invoice from './views/User/Invoices'
+import Password from './views/User/Password'
+import Subscription from './views/User/Subscription'
+
 import Trash from './views/FilePages/Trash'
 import Files from './views/FilePages/Files'
-import Password from './views/User/Password'
 import SharedFiles from './views/FilePages/SharedFiles'
+
+import UpgradePlan from './views/Upgrade/UpgradePlan'
+import UpgradeBilling from './views/Upgrade/UpgradeBilling'
 
 import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
 
@@ -35,7 +40,7 @@ import Plan from './views/Admin/Plans/Plan'
 import PlanCreate from './views/Admin/Plans/PlanCreate'
 import PlanDelete from './views/Admin/Plans/PlanTabs/PlanDelete'
 import PlanSettings from './views/Admin/Plans/PlanTabs/PlanSettings'
-import PlanTransactions from './views/Admin/Plans/PlanTabs/PlanTransactions'
+import PlanSubscribers from './views/Admin/Plans/PlanTabs/PlanSubscribers'
 
 // Users
 import Users from './views/Admin/Users'
@@ -214,12 +219,12 @@ const routesAdmin = [
                 },
                 children: [
                     {
-                        name: 'PlanTransactions',
-                        path: '/admin/plan/:id/transactions',
-                        component: PlanTransactions,
+                        name: 'PlanSubscribers',
+                        path: '/admin/plan/:id/subscribers',
+                        component: PlanSubscribers,
                         meta: {
                             requiresAuth: true,
-                            title: 'Plan Transactions'
+                            title: 'Plan Subscribers'
                         },
                     },
                     {
@@ -271,14 +276,6 @@ const routesShared = [
             requiresAuth: false
         },
     },
-    {
-        name: 'SharedFiles',
-        path: '/shared-files',
-        component: SharedFiles,
-        meta: {
-            requiresAuth: true
-        },
-    },
 ]
 const routesAuth = [
     {
@@ -315,6 +312,30 @@ const routesAuth = [
     },
 ]
 const routesUser = [
+    {
+        name: 'Files',
+        path: '/files',
+        component: Files,
+        meta: {
+            requiresAuth: true
+        },
+    },
+    {
+        name: 'SharedFiles',
+        path: '/shared-files',
+        component: SharedFiles,
+        meta: {
+            requiresAuth: true
+        },
+    },
+    {
+        name: 'Trash',
+        path: '/trash',
+        component: Trash,
+        meta: {
+            requiresAuth: true
+        },
+    },
     {
         name: 'Settings',
         path: '/settings',
@@ -359,22 +380,33 @@ const routesUser = [
                     title: 'Invoices'
                 },
             },
+            {
+                name: 'Subscription',
+                path: '/settings/subscription',
+                component: Subscription,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Subscription'
+                },
+            },
         ]
     },
     {
-        name: 'Files',
-        path: '/files',
-        component: Files,
+        name: 'UpgradePlan',
+        path: '/upgrade/plan',
+        component: UpgradePlan,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: 'Upgrade Plan'
         },
     },
     {
-        name: 'Trash',
-        path: '/trash',
-        component: Trash,
+        name: 'UpgradeBilling',
+        path: '/upgrade/billing',
+        component: UpgradeBilling,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: 'Upgrade Billing'
         },
     },
 ]

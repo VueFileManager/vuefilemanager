@@ -1,7 +1,6 @@
 <template>
     <PageTab v-if="storage">
         <PageTabGroup>
-            <b class="form-group-label">{{ $t('storage.sec_capacity') }}</b>
             <StorageItemDetail type="disk" :title="$t('storage.total_used', {used: storage.attributes.used})" :percentage="storage.attributes.percentage" :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"/>
         </PageTabGroup>
         <PageTabGroup>

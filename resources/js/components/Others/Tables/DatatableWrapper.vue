@@ -257,7 +257,7 @@
 
             span, a.page-link {
                 @include font-size(15);
-                font-weight: 600;
+                font-weight: 700;
                 padding: 10px 35px 10px 0;
                 display: block;
                 white-space: nowrap;

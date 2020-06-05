@@ -35,6 +35,14 @@
                                 </ColorLabel>
                             </td>
                             <td>
+                                <span class="cell-item" v-if="row.relationships.subscription">
+                                    {{ row.relationships.subscription.data.attributes.name }}
+                                </span>
+                                <span class="cell-item" v-else>
+                                    Free
+                                </span>
+                            </td>
+                            <td>
                                 <span class="cell-item">
                                     {{ row.relationships.storage.data.attributes.used }}%
                                 </span>
@@ -110,6 +118,11 @@
                     },
                     {
                         label: this.$t('admin_page_user.table.role'),
+                        field: 'data.attributes.role',
+                        sortable: true
+                    },
+                    {
+                        label: 'Subscription Plan',
                         field: 'data.attributes.role',
                         sortable: true
                     },

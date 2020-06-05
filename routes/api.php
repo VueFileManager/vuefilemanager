@@ -16,6 +16,11 @@
 |--------------------------------------------------------------------------
 */
 
+// Plans
+Route::group(['middleware' => ['api'], 'prefix' => 'public'], function () {
+    Route::get('/pricing', 'General\PricingController@index');
+});
+
 // Public routes
 Route::group(['middleware' => ['api']], function () {
 
@@ -55,6 +60,9 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
     Route::get('/profile', 'User\AccountController@me');
+
+    // Subscription
+    Route::post('/upgrade', 'User\SubscriptionController@upgrade');
 
     // Browse
     Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
@@ -109,12 +117,12 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/plans/{id}', 'Admin\PlanController@show');
     Route::post('/plans/store', 'Admin\PlanController@store');
     Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
+    Route::get('/plans/{id}/subscribers', 'Admin\PlanController@subscribers');
 
     // Invoices
     Route::get('/invoices', 'Admin\InvoiceController@index');
     Route::get('/invoices/{token}', 'Admin\InvoiceController@show');
 });
-
 
 // Protected sharing routes for authenticated user
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {

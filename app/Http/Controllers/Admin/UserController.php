@@ -214,7 +214,7 @@ class UserController extends Controller
 
             // Delete thumbnail if exist
             if (!is_null($file->thumbnail)) {
-                Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
             }
 
             // Delete file permanently
@@ -232,7 +232,7 @@ class UserController extends Controller
 
         // Remove favourites
         $user->settings->delete();
-        $user->favourites()->sync([]);
+        $user->favourite_folders()->sync([]);
 
         // Delete user
         $user->delete();

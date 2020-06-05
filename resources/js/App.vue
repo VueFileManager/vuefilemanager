@@ -125,6 +125,7 @@
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         font-size: 16px;
         text-decoration: none;
+        color: #1b2539;
     }
 
     #auth {

@@ -14,6 +14,7 @@
 
                         <!--Avatar-->
                         <div class="block-wrapper">
+                            <label>Avatar</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="avatar" v-slot="{ errors }">
                                 <ImageInput v-model="user.avatar" :error="errors[0]" />
                             </ValidationProvider>

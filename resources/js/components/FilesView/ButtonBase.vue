@@ -38,6 +38,15 @@
             background: rgba($theme, .1);
         }
 
+        &.theme-solid {
+            color: white;
+            background: $theme;
+
+            path {
+                fill: white;
+            }
+        }
+
         &.danger {
             color: $danger;
             background: rgba($danger, .1);

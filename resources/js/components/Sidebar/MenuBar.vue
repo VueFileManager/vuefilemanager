@@ -106,7 +106,8 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .menu-bar {
-        background: linear-gradient(180deg, rgba(246, 245, 241, 0.8) 0%, rgba(243, 244, 246, 0.8) 100%);
+        //background: linear-gradient(180deg, rgba(246, 245, 241, 0.8) 0%, rgba(243, 244, 246, 0.8) 100%);
+        background: $light_background;
         user-select: none;
         padding-top: 25px;
         display: grid;

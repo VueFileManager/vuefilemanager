@@ -206,12 +206,12 @@ class FileAccessController extends Controller
     private function thumbnail_file($file)
     {
         // Get file path
-        $path = '/file-manager/' . $file->getOriginal('thumbnail');
+        $path = '/file-manager/' . $file->getRawOriginal('thumbnail');
 
         // Check if file exist
         if (!Storage::exists($path)) abort(404);
 
         // Return image thumbnail
-        return Storage::download($path, $file->getOriginal('thumbnail'));
+        return Storage::download($path, $file->getRawOriginal('thumbnail'));
     }
 }

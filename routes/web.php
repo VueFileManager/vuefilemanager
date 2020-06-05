@@ -11,6 +11,66 @@
 |
 */
 
+use App\User;
+use Rinvex\Subscriptions\Models\PlanFeature;
+
+Route::get('/debug', function () {
+
+
+    /*
+     * 1. Create plan
+    */
+    /*    $plan = app('rinvex.subscriptions.plan')->create([
+            'name' => 'Starter Pack',
+            'description' => 'The best for start with',
+            'price' => 9.99,
+            'signup_fee' => 0,
+            'invoice_period' => 1,
+            'invoice_interval' => 'month',
+            'trial_period' => 7,
+            'trial_interval' => 'day',
+            'sort_order' => 1,
+            'currency' => 'USD',
+        ]);
+
+        // Create multiple plan features at once
+        $plan->features()->saveMany([
+            new PlanFeature(['name' => 'Storage capacity', 'value' => 200, 'sort_order' => 1]),
+        ]);
+
+        return $plan;
+    */
+
+    /*
+     * 2. Get plan
+    */
+
+/*    $plan = app('rinvex.subscriptions.plan')->find(6);
+
+    return $plan;
+    //return $plan->subscriptions;
+
+    $space = $plan->getFeatureBySlug('storage-capacity')->value;*/
+
+    //return $space;
+
+    /*
+     * 3. Create subscription
+    */
+
+    $user = Auth::user();
+    //$plan = app('rinvex.subscriptions.plan')->find(6);
+
+    //return $user->activeSubscriptions();
+
+    return $user->subscription('Starter Pack')->cancel();
+
+    //$user->newSubscription('Starter Pack', $plan);
+
+    //return $plan->subscriptions;
+    //return $user->subscribedTo(5);
+});
+
 // Deployment Webhook URL
 Route::post('/deploy/github', 'DeployController@github');
 

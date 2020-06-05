@@ -28,9 +28,7 @@ class AccountController extends Controller
     public function user()
     {
         // Get User
-        $user = User::with(['favourites'])
-            ->where('id', Auth::id())
-            ->first();
+        $user = Auth::user();
 
         // Get folder tree
         $tree = FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
@@ -40,7 +38,7 @@ class AccountController extends Controller
 
         return [
             'user'       => $user->only(['name', 'email', 'avatar', 'role']),
-            'favourites' => $user->favourites->makeHidden(['pivot']),
+            'favourites' => $user->favourite_folders->makeHidden(['pivot']),
             'tree'       => $tree,
             'storage'    => [
                 'used'       => Metric::bytes($user->used_capacity)->format(),

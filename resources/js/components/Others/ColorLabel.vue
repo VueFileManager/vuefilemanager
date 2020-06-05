@@ -32,6 +32,11 @@
             color: $yellow;
             background: rgba($yellow, 0.1);
         }
+
+        &.green {
+            color: $theme;
+            background: rgba($theme, 0.1);
+        }
     }
 
     @media only screen and (max-width: 1024px) {
