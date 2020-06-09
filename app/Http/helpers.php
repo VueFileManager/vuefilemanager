@@ -21,7 +21,7 @@ function get_invoice_number()
     $invoices = \App\Invoice::all();
 
     if ($invoices->isEmpty()) {
-        return Carbon::now()->year . '00001';
+        return Carbon::now()->year . '001';
     } else {
         return (int)$invoices->last()->order + 1;
     }

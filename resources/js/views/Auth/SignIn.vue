@@ -88,6 +88,8 @@
                 checkedAccount: undefined,
                 loginPassword: 'vuefilemanager',
                 loginEmail: 'howdy@hi5ve.digital',
+                //loginPassword: '',
+                //loginEmail: '',
             }
         },
         methods: {

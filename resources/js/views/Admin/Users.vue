@@ -34,7 +34,7 @@
                                     {{ row.data.attributes.role }}
                                 </ColorLabel>
                             </td>
-                            <td>
+                            <td v-if="config.isSaaS">
                                 <span class="cell-item" v-if="row.relationships.subscription">
                                     {{ row.relationships.subscription.data.attributes.name }}
                                 </span>
@@ -89,6 +89,7 @@
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
+    import {mapGetters} from "vuex"
     import axios from 'axios'
 
     export default {
@@ -105,6 +106,9 @@
             ColorLabel,
             Edit2Icon,
             Spinner,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {
@@ -124,7 +128,8 @@
                     {
                         label: 'Subscription Plan',
                         field: 'data.attributes.role',
-                        sortable: true
+                        sortable: true,
+                        hidden: true,
                     },
                     {
                         label: this.$t('admin_page_user.table.storage_used'),

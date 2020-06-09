@@ -115,7 +115,7 @@
     }
 
     .input-area {
-        border: 1px solid #ebebeb;
+        border: 1px solid transparent;
         justify-content: space-between;
         background: $light_mode_input_background;
         @include transition(150ms);

@@ -1,5 +1,5 @@
 <template>
-    <div class="mobile-main-navigation" v-if="app">
+    <div class="mobile-main-navigation" v-if="user">
         <transition name="context-menu">
             <nav v-if="isVisible" class="mobile-navigation">
 
@@ -34,7 +34,7 @@
             UserAvatar,
         },
         computed: {
-            ...mapGetters(['app', 'homeDirectory']),
+            ...mapGetters(['user', 'homeDirectory']),
             navigation() {
                 return [
                     {
@@ -71,7 +71,7 @@
                         icon: 'settings',
                         title: this.$t('menu.admin'),
                         routeName: 'AdminMobileMenu',
-                        isVisible: this.app.user.role === 'admin',
+                        isVisible: this.user.data.attributes.role === 'admin',
                     },
                     {
                         icon: 'power',

@@ -32,17 +32,17 @@
                             </td>
                             <td>
                                 <span class="cell-item">
+                                    {{ row.data.attributes.subscribers }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="cell-item">
                                     ${{ row.data.attributes.price }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
                                     {{ row.data.attributes.capacity_formatted }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.subscribers }}
                                 </span>
                             </td>
                             <td>
@@ -110,6 +110,11 @@
                         sortable: true
                     },
                     {
+                        label: 'Subscribers',
+                        field: 'attributes.subscribers',
+                        sortable: true
+                    },
+                    {
                         label: 'Price',
                         field: 'attributes.price',
                         sortable: true
@@ -117,11 +122,6 @@
                     {
                         label: 'Storage Capacity',
                         field: 'attributes.capacity',
-                        sortable: true
-                    },
-                    {
-                        label: 'Subscribers',
-                        field: 'attributes.subscribers',
                         sortable: true
                     },
                     {

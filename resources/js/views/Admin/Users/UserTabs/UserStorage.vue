@@ -1,13 +1,8 @@
 <template>
     <PageTab v-if="storage">
         <PageTabGroup>
-            <StorageItemDetail
-                    type="disk"
-                    :title="$t('storage.total_used', {used: storage.attributes.used})"
-                    :percentage="storage.attributes.percentage"
-                    :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"
-            />
             <SetupBox
+                    v-if="! config.isSaaS || ! user.relationships.subscription"
                     theme="base"
                     :title="$t('user_box_storage.title')"
                     :description="$t('user_box_storage.description')"
@@ -32,6 +27,12 @@
                     </ValidationProvider>
                 </ValidationObserver>
             </SetupBox>
+            <StorageItemDetail
+                    type="disk"
+                    :title="$t('storage.total_used', {used: storage.attributes.used})"
+                    :percentage="storage.attributes.percentage"
+                    :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"
+            />
         </PageTabGroup>
         <PageTabGroup>
             <b class="form-group-label">{{ $t('storage.sec_details') }}</b>
@@ -54,9 +55,11 @@
     import {required} from 'vee-validate/dist/rules'
     import {events} from "@/bus"
     import axios from 'axios'
+    import {mapGetters} from "vuex";
 
     export default {
         name: 'UserStorage',
+        props: ['user'],
         components: {
             PageTabGroup,
             PageTab,
@@ -66,6 +69,9 @@
             ButtonBase,
             SetupBox,
             required,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {

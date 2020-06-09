@@ -1,5 +1,5 @@
 <template>
-    <div id="single-page" v-if="app">
+    <div id="single-page">
         <div id="page-content" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
@@ -42,7 +42,16 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserInvoices'}" class="menu-list-item link">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserSubscription'}" class="menu-list-item link">
+                        <div class="icon">
+                            <credit-card-icon size="17"></credit-card-icon>
+                        </div>
+                        <div class="label">
+                            Subscription
+                        </div>
+                    </router-link>
+
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserInvoices'}" class="menu-list-item link">
                         <div class="icon">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
@@ -60,7 +69,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.attributes.name !== app.user.name"
+                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.attributes.name !== admin.name"
                                  class="menu-list-item link">
                         <div class="icon">
                             <trash2-icon size="17"></trash2-icon>
@@ -82,7 +91,7 @@
 </template>
 
 <script>
-    import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon} from 'vue-feather-icons'
+    import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon} from 'vue-feather-icons'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
@@ -95,6 +104,7 @@
     export default {
         name: 'Profile',
         components: {
+            CreditCardIcon,
             HardDriveIcon,
             StorageItemDetail,
             SectionTitle,
@@ -108,7 +118,10 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['app']),
+            admin() {
+                return this.$store.getters.user ? this.$store.getters.user.data.attributes : undefined
+            },
+            ...mapGetters(['config']),
         },
         data() {
             return {

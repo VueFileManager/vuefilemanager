@@ -23,37 +23,9 @@ class AccountController extends Controller
     /**
      * Get all user data to frontend
      *
-     * @return array
-     */
-    public function user()
-    {
-        // Get User
-        $user = Auth::user();
-
-        // Get folder tree
-        $tree = FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
-            ->where('parent_id', 0)
-            ->where('user_id', $user->id)
-            ->get();
-
-        return [
-            'user'       => $user->only(['name', 'email', 'avatar', 'role']),
-            'favourites' => $user->favourite_folders->makeHidden(['pivot']),
-            'tree'       => $tree,
-            'storage'    => [
-                'used'       => Metric::bytes($user->used_capacity)->format(),
-                'capacity'   => format_gigabytes($user->settings->storage_capacity),
-                'percentage' => get_storage_fill_percentage($user->used_capacity, $user->settings->storage_capacity),
-            ],
-        ];
-    }
-
-    /**
-     * Get me
-     *
      * @return UserResource
      */
-    public function me()
+    public function user()
     {
         return new UserResource(
             Auth::user()

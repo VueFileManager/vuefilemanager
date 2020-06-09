@@ -61,6 +61,14 @@
                 if (args.emoji) {
                     this.emoji = args.emoji
                 }
+
+                if (args.buttonStyle) {
+                    this.buttonStyle = args.buttonStyle
+                }
+
+                if (args.button) {
+                    this.button = args.button
+                }
             })
 
             // Show alert

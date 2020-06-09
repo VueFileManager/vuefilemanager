@@ -34,6 +34,7 @@
             hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
             userRegistration: {{ config('vuefilemanager.registration') ? 1 : 0 }},
             storageLimit: {{ config('vuefilemanager.limit_storage_by_capacity') ? 1 : 0 }},
+            isSaaS: 1,
         }
     </script>
 

@@ -49,9 +49,15 @@
             }
         },
         created() {
+
             axios.get('/api/public/pricing')
                 .then(response => {
-                    this.plans = response.data.data
+                    this.plans = response.data.data.filter(plan => {
+                        if (this.$store.getters.user.relationships.subscription)
+                            return plan.data.attributes.capacity > this.$store.getters.user.relationships.subscription.data.attributes.capacity
+
+                        return true
+                    })
                     this.$emit('load', false)
                 })
         }
@@ -133,6 +139,7 @@
         display: flex;
         flex-wrap: wrap;
         margin: 0 -25px;
+        justify-content: center;
     }
 
     @media only screen and (max-width: 1024px) {

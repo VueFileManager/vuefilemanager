@@ -27,7 +27,7 @@
                 <!--Files controlls-->
                 <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButtonUpload
-                            :class="{'is-inactive': canUploadInView}"
+                            :class="{'is-inactive': canUploadInView || ! hasCapacity}"
                             :action="$t('actions.upload')"
                     />
                     <ToolbarButton
@@ -109,6 +109,9 @@
                 'browseHistory',
                 'homeDirectory',
             ]),
+            hasCapacity() {
+                return this.$store.getters.user.relationships.storage.data.attributes.used <= 100
+            },
             directoryName() {
                 return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name
             },

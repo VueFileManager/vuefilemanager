@@ -1,7 +1,11 @@
 <template>
-    <section id="viewport" v-if="app">
+    <section id="viewport" v-if="user">
 
         <ContentSidebar>
+
+            <ContentGroup v-if="config.isSaaS && storage.used > 95">
+                <UpgradeSidebarBanner />
+            </ContentGroup>
 
             <!--Locations-->
             <ContentGroup :title="$t('sidebar.locations_title')">
@@ -28,10 +32,10 @@
 
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
-                <span class="empty-note navigator" v-if="app.tree.length == 0">
+                <span class="empty-note navigator" v-if="tree.length == 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
-                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in app.tree"
+                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in tree"
                                    :key="items.unique_id"/>
             </ContentGroup>
 
@@ -45,14 +49,14 @@
                      @drop="dragFinish($event)"
                 >
                     <transition-group tag="div" class="menu-list" name="folder-item">
-                        <span class="empty-note favourites" v-if="app.favourites.length == 0" :key="0">
+                        <span class="empty-note favourites" v-if="favourites.length == 0" :key="0">
                             {{ $t('sidebar.favourites_empty') }}
                         </span>
 
                         <a @click.stop="openFolder(folder)"
                            class="menu-list-item"
                            :class="{'is-current': (folder && currentFolder) && (currentFolder.unique_id === folder.unique_id)}"
-                           v-for="folder in app.favourites"
+                           v-for="folder in favourites"
                            :key="folder.unique_id">
                             <div>
                                 <folder-icon size="17" class="folder-icon"></folder-icon>
@@ -70,6 +74,7 @@
 </template>
 
 <script>
+    import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import ContentFileView from '@/components/Others/ContentFileView'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
@@ -86,6 +91,7 @@
     export default {
         name: 'FilesView',
         components: {
+            UpgradeSidebarBanner,
             TreeMenuNavigator,
             ContentFileView,
             ContentSidebar,
@@ -96,7 +102,16 @@
             XIcon,
         },
         computed: {
-            ...mapGetters(['app', 'homeDirectory', 'currentFolder']),
+            ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config']),
+            favourites() {
+                return this.user.relationships.favourites.data.attributes.folders
+            },
+            tree() {
+                return this.user.relationships.tree.data.attributes.folders
+            },
+            storage() {
+                return this.$store.getters.user.relationships.storage.data.attributes
+            }
         },
         data() {
             return {
@@ -129,7 +144,7 @@
                 if (this.draggedItem && this.draggedItem.type !== 'folder') return
 
                 // Check if folder exist in favourites
-                if (this.app.favourites.find(folder => folder.unique_id == this.draggedItem.unique_id)) return
+                if (this.favourites.find(folder => folder.unique_id == this.draggedItem.unique_id)) return
 
                 // Store favourites folder
                 this.$store.dispatch('addToFavourites', this.draggedItem)

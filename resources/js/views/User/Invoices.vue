@@ -1,6 +1,6 @@
 <template>
     <PageTab v-if="invoices">
-        <PageTabGroup>
+        <PageTabGroup v-if="invoices.length > 0">
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
                 <template scope="{ row }">
                     <tr>
@@ -34,6 +34,9 @@
                     </tr>
                 </template>
             </DatatableWrapper>
+        </PageTabGroup>
+        <PageTabGroup v-else>
+            You don't have any invoices yet.
         </PageTabGroup>
     </PageTab>
 </template>

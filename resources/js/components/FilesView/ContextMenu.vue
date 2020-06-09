@@ -274,7 +274,10 @@
             EyeIcon,
         },
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['user']),
+            favourites() {
+                return this.user.relationships.favourites.data.attributes.folders
+            },
             isFolder() {
                 return this.item && this.item.type === 'folder'
             },
@@ -285,7 +288,7 @@
                 return this.item && this.item.type === 'image'
             },
             isInFavourites() {
-                return this.app.favourites.find(el => el.unique_id == this.item.unique_id)
+                return this.favourites.find(el => el.unique_id == this.item.unique_id)
             },
         },
         data() {
@@ -312,7 +315,7 @@
             },
             addToFavourites() {
                 // Check if folder is in favourites and then add/remove from favourites
-                if (this.app.favourites && !this.app.favourites.find(el => el.unique_id == this.item.unique_id)) {
+                if (this.favourites && !this.favourites.find(el => el.unique_id == this.item.unique_id)) {
                     this.$store.dispatch('addToFavourites', this.item)
                 } else {
                     this.$store.dispatch('removeFromFavourites', this.item)

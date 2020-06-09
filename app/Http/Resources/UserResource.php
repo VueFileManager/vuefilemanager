@@ -33,6 +33,9 @@ class UserResource extends JsonResource
                 ]
             ],
             'relationships' => [
+                'subscription' => $this->activeSubscriptions()->count() !== 0
+                    ? new UserSubscription($this->subscription('main'))
+                    : null,
                 'settings'     => [
                     'data' => [
                         'id'         => (string)$this->settings->id,
@@ -55,7 +58,24 @@ class UserResource extends JsonResource
                         'attributes' => $this->storage
                     ]
                 ],
-                'subscription' => $this->activeSubscriptions()->count() !== 0 ? new UserSubscription($this->subscription('main')) : null,
+                'favourites'   => [
+                    'data' => [
+                        'id'         => '1',
+                        'type'       => 'folders_favourite',
+                        'attributes' => [
+                            'folders' => $this->favourite_folders->makeHidden(['pivot'])
+                        ],
+                    ],
+                ],
+                'tree'   => [
+                    'data' => [
+                        'id'         => '1',
+                        'type'       => 'folders_tree',
+                        'attributes' => [
+                            'folders' => $this->folder_tree
+                        ],
+                    ],
+                ],
             ]
         ];
     }

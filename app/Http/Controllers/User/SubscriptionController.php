@@ -26,10 +26,22 @@ class SubscriptionController extends Controller
         $plan = app('rinvex.subscriptions.plan')
             ->find($request->input('plan.data.id'));
 
-        // Create subscription
-        $user->newSubscription('main', $plan);
+        // Check if user have subscription
+        if ($user->activeSubscriptions()->count() !== 0) {
 
-        // Update user storage limig
+            // Get old subscription
+            $subscription = $user->subscription('main');
+
+            // Change subscription plan
+            $subscription->changePlan($plan);
+
+        } else {
+
+            // Create subscription
+            $user->newSubscription('main', $plan);
+        }
+
+        // Update user storage limit
         $user->settings()->update([
             'storage_capacity' => $plan->features->first()->value
         ]);
@@ -38,6 +50,22 @@ class SubscriptionController extends Controller
         Invoice::create(
             get_invoice_data($user, $plan)
         );
+
+        return response('Done!', 204);
+    }
+
+    /**
+     * Cancel Subscription
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function cancel() {
+
+        // Get user
+        $user = Auth::user();
+
+        // Cancel subscription
+        $user->subscription('main')->cancel();
 
         return response('Done!', 204);
     }

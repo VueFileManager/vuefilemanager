@@ -1,5 +1,5 @@
 <template>
-    <nav class="menu-bar" v-if="app">
+    <nav class="menu-bar" v-if="user">
 
         <!--Navigation Icons-->
         <div class="icon-navigation menu">
@@ -26,13 +26,13 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': $isThisRoute($route, ['Password', 'Profile', 'Storage'])}" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <user-icon size="19"></user-icon>
                 </div>
             </router-link>
 
-            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
+            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
                 <div class="button-icon">
                     <settings-icon size="19"></settings-icon>
                 </div>
@@ -74,24 +74,34 @@
             UserIcon,
         },
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['user']),
+            isUserProfileRoute() {
+                return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription'])
+            }
         },
         data() {
             return {
                 adminRoutes: [
+                    'PlanSubscribers',
+                    'PlanSettings',
+                    'PlanDelete',
+
+                    'GatewayTransactions',
+                    'GatewaySettings',
+                    'UserInvoices',
+                    'UserInvoices',
+                    'UserPassword',
+                    'UserStorage',
+                    'PlanCreate',
+                    'UserCreate',
+                    'UserDelete',
+                    'UserDetail',
+                    'Invoices',
+                    'Gateways',
+                    'Gateway',
+                    'Plans',
                     'Users',
                     'User',
-                    'UserDetail',
-                    'UserStorage',
-                    'UserPassword',
-                    'UserDelete',
-                    'Plans',
-                    'Invoices',
-                    'UserInvoices',
-                    'Gateway',
-                    'Gateways',
-                    'GatewaySettings',
-                    'GatewayTransactions',
                 ]
             }
         },

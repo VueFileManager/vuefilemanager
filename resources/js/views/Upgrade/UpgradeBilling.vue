@@ -206,11 +206,14 @@
 
                 // Send order request
                 axios
-                    .post('/api/upgrade', {
+                    .post('/api/subscription/upgrade', {
                         billing: this.billing,
                         plan: this.requestedPlan,
                     })
-                    .then(response => {
+                    .then(() => {
+
+                        // Update user data
+                        this.$store.dispatch('getAppData')
 
                         // End loading
                         this.isSubmitted = false
@@ -232,7 +235,7 @@
             }
         },
         created() {
-            axios.get('/api/profile')
+            axios.get('/api/user')
                 .then(response => {
 
                     if (! this.requestedPlan) {

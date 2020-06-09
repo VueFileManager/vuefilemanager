@@ -1,7 +1,7 @@
 <template>
     <div class="user-meta" v-if="app">
-        <b class="name">{{ app.user.name }}</b>
-        <span class="email">{{ app.user.email }}</span>
+        <b class="name">{{ user.data.attributes.name }}</b>
+        <span class="email">{{ user.data.attributes.email }}</span>
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     export default {
         name: 'UserHeadline',
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['user']),
         },
     }
 </script>

@@ -51,6 +51,7 @@ import UserDelete from './views/Admin/Users/UserTabs/UserDelete'
 import UserStorage from './views/Admin/Users/UserTabs/UserStorage'
 import UserPassword from './views/Admin/Users/UserTabs/UserPassword'
 import UserInvoices from './views/Admin/Users/UserTabs/UserInvoices'
+import UserSubscription from './views/Admin/Users/UserTabs/UserSubscription'
 
 Vue.use(Router)
 
@@ -149,6 +150,15 @@ const routesAdmin = [
                         meta: {
                             requiresAuth: true,
                             title: i18n.t('routes_title.users_storage_usage')
+                        },
+                    },
+                    {
+                        name: 'UserSubscription',
+                        path: '/admin/user/:id/subscription',
+                        component: UserSubscription,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Subscription'
                         },
                     },
                     {

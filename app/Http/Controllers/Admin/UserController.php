@@ -13,6 +13,7 @@ use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\UsersCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
+use App\Http\Resources\UserSubscription;
 use App\Http\Tools\Demo;
 use App\Share;
 use App\User;
@@ -64,6 +65,19 @@ class UserController extends Controller
     {
         return new InvoiceCollection(
             User::findOrFail($id)->invoices
+        );
+    }
+
+    /**
+     * Get user subscription details
+     *
+     * @param $id
+     * @return UserSubscription
+     */
+    public function subscription($id)
+    {
+        return new UserSubscription(
+            User::findOrFail($id)->subscription('main')
         );
     }
 

@@ -23,7 +23,8 @@ class PricingResource extends JsonResource
                     'description'          => $this->description,
                     'price'                => $this->price,
                     'capacity_formatted'   => format_gigabytes($this->features->first()->value),
-                    'capacity'             => $this->features->first()->value,
+                    'capacity'             => (int) $this->features->first()->value,
+                    'currency'             => 'USD',
                 ]
             ]
         ];

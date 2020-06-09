@@ -1,5 +1,5 @@
 <template>
-    <div id="single-page">
+    <div id="single-page" v-if="user">
         <div id="page-content" class="medium-width" v-if="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
@@ -12,20 +12,20 @@
                         <div class="avatar">
                             <UserImageInput
                                     v-model="avatar"
-                                    :avatar="profile.data.attributes.avatar"
+                                    :avatar="user.data.attributes.avatar"
                             />
                         </div>
                         <div class="info">
                             <b class="name">
-                                {{ profile.data.attributes.name }}
-                                <ColorLabel :color="subscriptionColor">
+                                {{ user.data.attributes.name }}
+                                <ColorLabel v-if="config.isSaaS" :color="subscriptionColor">
                                     {{ subscriptionStatus }}
                                 </ColorLabel>
                             </b>
-                            <span class="email">{{ profile.data.attributes.email }}</span>
+                            <span class="email">{{ user.data.attributes.email }}</span>
                         </div>
                     </div>
-                    <div class="headline-actions">
+                    <div v-if="config.isSaaS" class="headline-actions">
                         <router-link :to="{name: 'UpgradePlan'}">
                             <ButtonBase button-style="secondary" type="button">
                                 Upgrade Plan
@@ -54,7 +54,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'Subscription'}" class="menu-list-item link">
                         <div class="icon">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
@@ -63,7 +63,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'Invoice'}" class="menu-list-item link">
                         <div class="icon">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
@@ -80,19 +80,10 @@
                             {{ $t('menu.password') }}
                         </div>
                     </router-link>
-
-                    <!--<router-link replace :to="{name: 'UserDelete'}" v-if="user.attributes.name !== app.user.name" class="menu-list-item link">
-                        <div class="icon">
-                            <trash2-icon size="17"></trash2-icon>
-                        </div>
-                        <div class="label">
-                            {{ $t('admin_page_user.tabs.delete') }}
-                        </div>
-                    </router-link>-->
                 </div>
 
                 <!--Router Content-->
-                <router-view :user="profile" />
+                <router-view :user="user" />
             </div>
         </div>
         <div id="loader" v-if="isLoading">
@@ -108,6 +99,7 @@
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
+    import { mapGetters } from 'vuex'
     import axios from 'axios'
     import {
         CreditCardIcon,
@@ -133,26 +125,19 @@
             LockIcon,
         },
         computed: {
+            ...mapGetters(['user', 'config']),
             subscriptionStatus() {
-                return this.profile.relationships.subscription ? 'Subscription' : 'Free'
+                return this.user.relationships.subscription ? 'Premium' : 'Free'
             },
             subscriptionColor() {
-                return this.profile.relationships.subscription ? 'green' : 'purple'
+                return this.user.relationships.subscription ? 'green' : 'purple'
             },
         },
         data() {
             return {
                 avatar: undefined,
-                profile: undefined,
-                isLoading: true,
+                isLoading: false,
             }
-        },
-        created() {
-            axios.get('/api/profile')
-                .then(response => {
-                    this.profile = response.data
-                    this.isLoading = false
-                })
         }
     }
 </script>

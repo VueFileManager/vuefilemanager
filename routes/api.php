@@ -59,10 +59,10 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
-    Route::get('/profile', 'User\AccountController@me');
 
     // Subscription
-    Route::post('/upgrade', 'User\SubscriptionController@upgrade');
+    Route::post('/subscription/upgrade', 'User\SubscriptionController@upgrade');
+    Route::post('/subscription/cancel', 'User\SubscriptionController@cancel');
 
     // Browse
     Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
@@ -97,6 +97,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     // Get users info
     Route::get('/users/{id}/storage', 'Admin\UserController@storage');
     Route::get('/users/{id}/detail', 'Admin\UserController@details');
+    Route::get('/users/{id}/subscription', 'Admin\UserController@subscription');
     Route::get('/users', 'Admin\UserController@users');
 
     // Edit users

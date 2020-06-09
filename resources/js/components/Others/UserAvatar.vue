@@ -1,6 +1,6 @@
 <template>
     <div class="user-avatar" :class="size">
-        <img :src="app.user.avatar" :alt="app.user.name">
+        <img :src="user.data.attributes.avatar" :alt="user.data.attributes.name">
     </div>
 </template>
 
@@ -13,7 +13,7 @@
             'size'
         ],
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['user']),
         },
     }
 </script>

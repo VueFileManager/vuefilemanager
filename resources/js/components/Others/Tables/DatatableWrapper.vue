@@ -8,6 +8,7 @@
                         @click="sort(column.field, column.sortable, index)"
                         :key="index"
                         :class="{ sortable: column.sortable }"
+                        v-if="! column.hidden"
                 >
                     <span>{{ column.label }}</span>
 

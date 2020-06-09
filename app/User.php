@@ -100,7 +100,7 @@ class User extends Authenticatable
         return [
             'used' => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
             'capacity' => $this->settings->storage_capacity,
-            'capacity_formatted' => Metric::gigabytes($this->settings->storage_capacity)->format(),
+            'capacity_formatted' => format_gigabytes($this->settings->storage_capacity),
         ];
     }
 
@@ -116,6 +116,13 @@ class User extends Authenticatable
         })->sum('filesize');
 
         return $user_capacity;
+    }
+
+    public function getFolderTreeAttribute() {
+        return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
+            ->where('parent_id', 0)
+            ->where('user_id', $this->id)
+            ->get();
     }
 
     /**

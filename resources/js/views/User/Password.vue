@@ -3,27 +3,27 @@
         <PageTabGroup>
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
-
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
-                                        rules="required" v-slot="{ errors }">
-                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
-                               type="password"
-                               :class="{'is-error': errors[0]}"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
-                                        rules="required" v-slot="{ errors }">
-                        <input v-model="newPasswordConfirmation"
-                               :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
-                               :class="{'is-error': errors[0]}"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
+                <div class="wrapper-inline">
+                    <div class="block-wrapper">
+                        <label>{{ $t('page_create_password.label_new_pass') }}:</label>
+                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
+                                            rules="required" v-slot="{ errors }">
+                            <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
+                                   type="password"
+                                   :class="{'is-error': errors[0]}"/>
+                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
+                    <div class="block-wrapper">
+                        <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
+                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
+                                            rules="required" v-slot="{ errors }">
+                            <input v-model="newPasswordConfirmation"
+                                   :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+                                   :class="{'is-error': errors[0]}"/>
+                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
                 </div>
 
                 <div class="block-wrapper">
@@ -46,7 +46,6 @@
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
-    import {mapGetters} from 'vuex'
     import {events} from '@/bus'
     import axios from 'axios'
 
@@ -63,9 +62,6 @@
             ButtonBase,
             ThemeLabel,
             required,
-        },
-        computed: {
-            ...mapGetters(['app']),
         },
         data() {
             return {
@@ -124,6 +120,10 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
+
+    .block-form {
+        max-width: 100%;
+    }
 
     @media only screen and (max-width: 960px) {
 
