@@ -2,7 +2,7 @@
 
 return [
 
-    'version' => '1.6.3',
+    'version' => '1.6.4',
 
     // Your app name
     'app_name' => 'VueFileManager',

@@ -288,6 +288,7 @@
             bottom: 0;
             @include transition;
             overflow-y: auto;
+            overflow-x: hidden;
 
             &.is-offset {
                 margin-top: 50px;
