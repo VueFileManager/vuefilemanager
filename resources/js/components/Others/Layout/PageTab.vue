@@ -1,12 +1,21 @@
 <template>
     <div class="page-tab">
-        <slot></slot>
+        <div id="loader" v-if="isLoading">
+            <Spinner></Spinner>
+        </div>
+        <slot v-if="! isLoading"></slot>
     </div>
 </template>
 
 <script>
+    import Spinner from '@/components/FilesView/Spinner'
+
     export default {
         name: 'PageTab',
+        props: ['isLoading'],
+        components: {
+            Spinner,
+        },
     }
 </script>
 

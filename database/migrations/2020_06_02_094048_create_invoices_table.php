@@ -17,6 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->bigIncrements('id');
             $table->text('token');
             $table->text('order');
+            $table->text('provider');
             $table->text('user_id');
             $table->text('plan_id');
             $table->longText('seller');

@@ -35,6 +35,13 @@
                     this.isVisibleWrapper = true
             })
 
+            // Open called popup
+            events.$on('confirm:open', ({name}) => {
+
+                if (this.name === name)
+                    this.isVisibleWrapper = true
+            })
+
             // Close popup
             events.$on('popup:close', () => {
 

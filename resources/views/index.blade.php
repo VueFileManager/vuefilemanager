@@ -25,6 +25,7 @@
 
 <div id="app"></div>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         let config = {
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
@@ -35,6 +36,7 @@
             userRegistration: {{ config('vuefilemanager.registration') ? 1 : 0 }},
             storageLimit: {{ config('vuefilemanager.limit_storage_by_capacity') ? 1 : 0 }},
             isSaaS: 1,
+            isDemo: {{ env('APP_DEMO') ? 1 : 0 }},
         }
     </script>
 

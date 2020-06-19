@@ -197,13 +197,19 @@ class Editor
      */
     public static function upload($request, $shared = null)
     {
-        // Get user data
-        $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-
         // Get parent_id from request
         $folder_id = $request->parent_id === 0 ? 0 : $request->parent_id;
         $file = $request->file('file');
+
+        // Get user data
+        $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+        $user_storage_used = user_storage_percentage($user_id, $file->getSize());
+
+        // Check if user can upload
+        if (config('vuefilemanager.limit_storage_by_capacity') && $user_storage_used >= 100) {
+            abort(423, 'You exceed your storage limit!');
+        }
 
         // File
         $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());

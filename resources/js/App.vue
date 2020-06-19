@@ -8,6 +8,9 @@
 
             <MobileNavigation />
 
+            <!--Confirm Popup-->
+            <Confirm />
+
             <!--Share Item setup-->
             <ShareCreate/>
             <ShareEdit/>
@@ -42,6 +45,7 @@
     import MobileNavigation from '@/components/Others/MobileNavigation'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
+    import Confirm from '@/components/Others/Popup/Confirm'
     import ShareEdit from '@/components/Others/ShareEdit'
     import MoveItem from '@/components/Others/MoveItem'
     import Vignette from '@/components/Others/Vignette'
@@ -61,6 +65,7 @@
             ShareEdit,
             MoveItem,
             Vignette,
+            Confirm,
             MenuBar,
             Alert,
         },

@@ -23,6 +23,7 @@ class CreatePaymentGatewaysTable extends Migration
             $table->text('client_id')->nullable();
             $table->text('secret')->nullable();
             $table->text('webhook')->nullable();
+            $table->bigInteger('payment_processed')->default(0);
             $table->longText('optional')->nullable();
         });
     }

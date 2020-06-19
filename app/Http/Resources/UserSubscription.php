@@ -14,21 +14,33 @@ class UserSubscription extends JsonResource
      */
     public function toArray($request)
     {
+        $stripe = resolve('App\Services\StripeService');
+
+        $active_subscription = $this->subscription('main')->asStripeSubscription();
+
+        // Get subscription details
+        $subscription = $stripe->getPlan($this->subscription('main')->stripe_plan);
+
+        // Retrieve the timestamp from Stripe
+        $current_period_end = $active_subscription["current_period_end"];
+        $current_period_start = $active_subscription["current_period_start"];
+        $canceled_at = $active_subscription["canceled_at"];
+
         return [
             'data' => [
-                'id'         => $this->id,
+                'id'         => $subscription['plan']['id'],
                 'type'       => 'subscription',
                 'attributes' => [
-                    'active'             => $this->active(),
-                    'canceled'           => $this->canceled(),
-                    'name'               => $this->plan->name,
-                    'capacity'           => (int) $this->plan->features->first()->value,
-                    'capacity_formatted' => format_gigabytes($this->plan->features->first()->value),
-                    'slug'               => $this->slug,
-                    'canceled_at'        => format_date($this->created_at, '%d. %B. %Y'),
-                    'created_at'         => format_date($this->created_at, '%d. %B. %Y'),
-                    'starts_at'          => format_date($this->starts_at, '%d. %B. %Y'),
-                    'ends_at'            => format_date($this->ends_at, '%d. %B. %Y'),
+                    /*'is_highest'         => is_highest_plan($this->plan),*/
+                    'active'             => $subscription['plan']['active'],
+                    'canceled'           => $this->subscription('main')->cancelled(),
+                    'name'               => $subscription['product']['name'],
+                    'capacity'           => (int)$subscription['product']['metadata']['capacity'],
+                    'capacity_formatted' => format_gigabytes($subscription['product']['metadata']['capacity']),
+                    'slug'               => $subscription['plan']['id'],
+                    'canceled_at'        => format_date($canceled_at, '%d. %B. %Y'),
+                    'created_at'         => format_date($current_period_start, '%d. %B. %Y'),
+                    'ends_at'            => format_date($current_period_end, '%d. %B. %Y'),
                 ]
             ]
         ];

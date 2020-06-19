@@ -34,15 +34,6 @@
                     </ValidationProvider>
                 </div>
 
-                <!--Price-->
-                <div class="block-wrapper">
-                    <label>Price:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Plan price" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'price', plan.attributes.price)" v-model="plan.attributes.price" placeholder="Plan price" type="number" step="0.01" min="1" max="99999" :class="{'is-error': errors[0]}"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-
                 <!--Storage Capacity-->
                 <div class="block-wrapper">
                     <label>Storage Capacity:</label>

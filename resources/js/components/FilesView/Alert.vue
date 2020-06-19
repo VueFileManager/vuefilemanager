@@ -136,6 +136,7 @@
     }
 
     .popup-content {
+
         .title {
             @include font-size(22);
             text-transform: uppercase;

@@ -27,7 +27,14 @@ function get_invoice_number()
     }
 }
 
-function get_invoice_data($user, $plan)
+/**
+ * Get data to render in invoice tempalte
+ * @param $user
+ * @param $plan
+ * @param $provider
+ * @return array
+ */
+function get_invoice_data($user, $plan, $provider)
 {
     $subscription = $user->subscription('main');
     $order_number = get_invoice_number();
@@ -36,15 +43,17 @@ function get_invoice_data($user, $plan)
     return [
         'token'    => $token,
         'order'    => $order_number,
+        'provider' => $provider,
         'user_id'  => $user->id,
-        'plan_id'  => $plan->id,
-        'total'    => $plan->price,
+        'plan_id'  => $plan['plan']['id'],
+        'total'    => $plan['plan']['amount'],
         'currency' => 'USD',
         'bag'      => [
             [
-                'description' => 'Subscription - ' . $plan->name,
-                'date'        => format_date($subscription->starts_at, '%d. %B. %Y') . ' - ' . format_date($subscription->ends_at, '%d. %B. %Y'),
-                'amount'      => $plan->price,
+                'description' => 'Subscription - ' . $plan['product']['name'],
+                //'date'        => format_date($subscription->starts_at, '%d. %B. %Y') . ' - ' . format_date($subscription->ends_at, '%d. %B. %Y'),
+                'date'        => format_date(Carbon::now(),'%d. %B. %Y'),
+                'amount'      => $plan['plan']['amount'],
             ]
         ],
         'seller'   => [
@@ -282,15 +291,21 @@ function get_storage_fill_percentage($used, $capacity)
 }
 
 /**
- * Get user capacity fill percentage
+ * Get user capacity fill by percentage
  *
  * @return string
  */
-function user_storage_percentage()
+function user_storage_percentage($id, $additionals = null)
 {
-    $user = Auth::user();
+    $user = \App\User::findOrFail($id);
 
-    return get_storage_fill_percentage($user->used_capacity, $user->settings->storage_capacity);
+    $used = $user->used_capacity;
+
+    if ($additionals) {
+        $used = $user->used_capacity + $additionals;
+    }
+
+    return get_storage_fill_percentage($used, $user->settings->storage_capacity);
 }
 
 /**

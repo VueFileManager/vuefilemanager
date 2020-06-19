@@ -8,12 +8,21 @@ use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersCollection;
 use App\Plan;
+use App\Services\StripeService;
 use App\User;
 use Illuminate\Http\Request;
 use Rinvex\Subscriptions\Models\PlanFeature;
 
 class PlanController extends Controller
 {
+    /**
+     * PlanController constructor.
+     */
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
     /**
      * Get all plans
      *
@@ -22,7 +31,7 @@ class PlanController extends Controller
     public function index()
     {
         return new PlanCollection(
-            app('rinvex.subscriptions.plan')->all()
+            $this->stripe->getPlans()
         );
     }
 
@@ -35,7 +44,7 @@ class PlanController extends Controller
     public function show($id)
     {
         return new PlanResource(
-            app('rinvex.subscriptions.plan')->find($id)
+            $this->stripe->getPlan($id)
         );
     }
 
@@ -47,26 +56,9 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        $plan = app('rinvex.subscriptions.plan')->create([
-            'description'    => $request->input('attributes.description'),
-            'price'          => $request->input('attributes.price'),
-            'name'           => $request->input('attributes.name'),
-            'currency'       => 'USD',
-            'invoice_period' => 1,
-            'sort_order'     => 1,
-            'signup_fee'     => 0,
-        ]);
-
-        // Create multiple plan features at once
-        $plan->features()->saveMany([
-            new PlanFeature([
-                'name' => 'Storage capacity',
-                'value' => $request->input('attributes.capacity'),
-                'sort_order' => 1
-            ]),
-        ]);
-
-        return new PlanResource($plan);
+        return new PlanResource(
+            $this->stripe->createPlan($request)
+        );
     }
 
     /**
@@ -78,16 +70,22 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // TODO: validation request
-        $plan = app('rinvex.subscriptions.plan')->find($id);
-
-        if ($request->name === 'capacity') {
-            $plan->getFeatureBySlug('storage-capacity')->update(['value' => $request->value]);
-        } else {
-            $plan->update(make_single_input($request));
-        }
+        $this->stripe->updatePlan($request, $id);
 
         return response('Saved!', 204);
+    }
+
+    /**
+     * Delete plan
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $this->stripe->deletePlan($id);
+
+        return response('Done!', 204);
     }
 
     /**

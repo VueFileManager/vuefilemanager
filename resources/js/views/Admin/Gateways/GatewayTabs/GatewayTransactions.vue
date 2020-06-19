@@ -1,47 +1,68 @@
 <template>
     <PageTab>
-        <PageTabGroup>
-            <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
+        <PageTabGroup v-if="transactions.length > 0">
+            <DatatableWrapper :paginator="true" :columns="columns" :data="transactions" class="table">
                 <template scope="{ row }">
                     <tr>
                         <td>
-                            <span class="cell-item">
-                                ${{ row.attributes.total }}
-                            </span>
+                            <a :href="'/invoice/' + row.data.attributes.token" target="_blank" class="cell-item">
+                                {{ row.data.attributes.order }}
+                            </a>
                         </td>
                         <td>
-                            <span class="cell-item">
-                                {{ row.attributes.plan }}
-                            </span>
+                                <span class="cell-item">
+                                    ${{ row.data.attributes.total }}
+                                </span>
                         </td>
                         <td>
-                            <span class="cell-item">
-                                {{ row.attributes.created_at_formatted }}
-                            </span>
+                                <span class="cell-item">
+                                    {{ row.data.attributes.bag[0].description }}
+                                </span>
+                        </td>
+                        <td>
+                                <span class="cell-item">
+                                    {{ row.data.attributes.created_at_formatted }}
+                                </span>
+                        </td>
+                        <td>
+                            <router-link :to="{name: 'UserInvoices', params: {id: row.relationships.user.data.id}}">
+                                <DatatableCellImage
+                                        image-size="small"
+                                        :image="row.relationships.user.data.attributes.avatar"
+                                        :title="row.relationships.user.data.attributes.name"
+                                />
+                            </router-link>
                         </td>
                         <td>
                             <div class="action-icons">
-                                <download-cloud-icon size="15" class="icon"></download-cloud-icon>
+                                <a :href="'/invoice/' + row.data.attributes.token" target="_blank">
+                                    <external-link-icon size="15" class="icon"></external-link-icon>
+                                </a>
                             </div>
                         </td>
                     </tr>
                 </template>
             </DatatableWrapper>
         </PageTabGroup>
+        <PageTabGroup v-else>
+            You don't have any transactions yet.
+        </PageTabGroup>
     </PageTab>
 </template>
 
 <script>
+    import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
-    import {DownloadCloudIcon} from "vue-feather-icons";
+    import {ExternalLinkIcon} from "vue-feather-icons";
     import axios from 'axios'
 
     export default {
         name: 'GatewayTransactions',
         components: {
-            DownloadCloudIcon,
+            DatatableCellImage,
+            ExternalLinkIcon,
             DatatableWrapper,
             PageTabGroup,
             PageTab,
@@ -49,97 +70,13 @@
         data() {
             return {
                 isLoading: false,
-                invoices: [
-                    {
-                        id: '1',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '2',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '3',
-                        type: 'invoices',
-                        attributes: {
-                            total: 49.99,
-                            plan: 'Business Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '4',
-                        type: 'invoices',
-                        attributes: {
-                            total: 29.99,
-                            plan: 'Professional Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '5',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '6',
-                        type: 'invoices',
-                        attributes: {
-                            total: 9.99,
-                            plan: 'Starter Plan',
-                            created_at: '30. April. 2020',
-                            created_at_formatted: '30. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '7',
-                        type: 'invoices',
-                        attributes: {
-                            total: 49.99,
-                            plan: 'Business Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                    {
-                        id: '8',
-                        type: 'invoices',
-                        attributes: {
-                            total: 29.99,
-                            plan: 'Professional Plan',
-                            created_at: '31. April. 2020',
-                            created_at_formatted: '31. April. 2020',
-                            download: 'https://vuefilemanager.com/',
-                        },
-                    },
-                ],
+                transactions: [],
                 columns: [
+                    {
+                        label: 'Invoice Number',
+                        field: 'attributes.total',
+                        sortable: true
+                    },
                     {
                         label: 'Total',
                         field: 'attributes.total',
@@ -156,6 +93,11 @@
                         sortable: true
                     },
                     {
+                        label: 'User',
+                        field: 'relationships.user.data.id',
+                        sortable: true
+                    },
+                    {
                         label: this.$t('admin_page_user.table.action'),
                         field: 'data.action',
                         sortable: false
@@ -164,11 +106,11 @@
             }
         },
         created() {
-            /*axios.get('/api/users/' + this.$route.params.id + '/storage')
+            axios.get('/api/gateways/' + this.$route.params.slug + '/transactions')
                 .then(response => {
-                    this.storage = response.data.data
+                    this.transactions = response.data.data
                     this.isLoading = false
-                })*/
+                })
         }
     }
 </script>

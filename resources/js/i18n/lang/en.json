@@ -211,7 +211,7 @@
         "message": "Something went wrong and we can't continue. Please contact us."
     },
     "popup_exceed_limit": {
-        "title": "Whooops, you exceed your storage limit :(",
+        "title": "Whooops, you exceed storage limit :(",
         "message": "Please contact your administrator to change your limit."
     },
     "popup_share_create": {

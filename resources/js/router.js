@@ -15,6 +15,7 @@ import Profile from './views/User/Settings'
 import Invoice from './views/User/Invoices'
 import Password from './views/User/Password'
 import Subscription from './views/User/Subscription'
+import PaymentCards from './views/User/PaymentCards'
 
 import Trash from './views/FilePages/Trash'
 import Files from './views/FilePages/Files'
@@ -397,6 +398,15 @@ const routesUser = [
                 meta: {
                     requiresAuth: true,
                     title: 'Subscription'
+                },
+            },
+            {
+                name: 'PaymentCards',
+                path: '/settings/payment-cards',
+                component: PaymentCards,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Payment Cards'
                 },
             },
         ]

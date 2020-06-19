@@ -19,15 +19,16 @@ class GatewayResource extends JsonResource
                 'id'         => (string)$this->id,
                 'type'       => 'gateways',
                 'attributes' => [
-                    'status'    => $this->status,
-                    'sandbox'   => $this->sandbox,
-                    'name'      => $this->name,
-                    'slug'      => $this->slug,
-                    'logo'      => $this->logo,
-                    'client_id' => $this->client_id,
-                    'secret'    => $this->secret,
-                    'webhook'   => $this->webhook,
-                    'optional'  => $this->optional,
+                    'status'             => $this->status,
+                    'sandbox'            => $this->sandbox,
+                    'name'               => $this->name,
+                    'slug'               => $this->slug,
+                    'logo'               => $this->logo,
+                    'client_id'          => $this->client_id,
+                    'secret'             => $this->secret,
+                    'webhook'            => $this->webhook,
+                    'payment_processed' => $this->payment_processed,
+                    'optional'           => $this->optional,
                 ]
             ]
         ];

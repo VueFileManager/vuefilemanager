@@ -27,12 +27,7 @@
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.payments_processed }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.active_subscribers }}
+                                    {{ row.data.attributes.payment_processed }}
                                 </span>
                             </td>
                             <td>
@@ -100,12 +95,7 @@
                     },
                     {
                         label: 'Payments Processed',
-                        field: 'data.attributes.payments_processed',
-                        sortable: true
-                    },
-                    {
-                        label: 'Active Subscribers',
-                        field: 'data.attributes.active_subscribers',
+                        field: 'data.attributes.payment_processed',
                         sortable: true
                     },
                     {

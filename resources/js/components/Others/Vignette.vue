@@ -29,6 +29,7 @@
             events.$on('popup:open', () => this.isVisibleVignette = true)
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
+            events.$on('confirm:open', () => this.isVisibleVignette = true)
         }
     }
 </script>

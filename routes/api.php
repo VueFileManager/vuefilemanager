@@ -56,13 +56,21 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::patch('/user/relationships/settings', 'User\AccountController@update_user_settings');
     Route::post('/user/password', 'User\AccountController@change_password');
     Route::patch('/user/profile', 'User\AccountController@update_profile');
+    Route::get('/user/subscription', 'User\SubscriptionController@show');
     Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
 
+    // Payment cards
+    Route::delete('/user/payment-cards/{id}', 'User\PaymentCardsController@delete');
+    Route::patch('/user/payment-cards/{id}', 'User\PaymentCardsController@update');
+    Route::get('/user/payments', 'User\PaymentCardsController@payment_methods');
+
     // Subscription
+    Route::get('/stripe/setup-intent', 'User\SubscriptionController@stripe_setup_intent');
     Route::post('/subscription/upgrade', 'User\SubscriptionController@upgrade');
     Route::post('/subscription/cancel', 'User\SubscriptionController@cancel');
+    Route::post('/subscription/resume', 'User\SubscriptionController@resume');
 
     // Browse
     Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
@@ -112,6 +120,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/gateways', 'Admin\GatewayController@index');
     Route::get('/gateways/{type}', 'Admin\GatewayController@show');
     Route::patch('/gateways/{type}', 'Admin\GatewayController@update');
+    Route::get('/gateways/{type}/transactions', 'Admin\GatewayController@show_transactions');
 
     // Plans
     Route::get('/plans', 'Admin\PlanController@index');

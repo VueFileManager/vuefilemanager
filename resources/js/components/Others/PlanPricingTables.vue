@@ -15,7 +15,7 @@
                 </section>
                 <footer class="plan-footer">
                     <b class="price">
-                        {{ plan.data.attributes.price }} USD/Mo.
+                        {{ plan.data.attributes.price }}/Mo.
                     </b>
                     <ButtonBase @click.native="selectPlan(plan)" type="submit" button-style="secondary" class="sign-in-button">
                         Sign Up
@@ -52,12 +52,7 @@
 
             axios.get('/api/public/pricing')
                 .then(response => {
-                    this.plans = response.data.data.filter(plan => {
-                        if (this.$store.getters.user.relationships.subscription)
-                            return plan.data.attributes.capacity > this.$store.getters.user.relationships.subscription.data.attributes.capacity
-
-                        return true
-                    })
+                    this.plans = response.data
                     this.$emit('load', false)
                 })
         }
@@ -72,6 +67,7 @@
         text-align: center;
         flex: 0 0 33%;
         padding: 0 25px;
+        margin-bottom: 45px;
 
         .plan-wrapper {
             box-shadow: 0 7px 20px 5px hsla(220, 36%, 16%, 0.03);

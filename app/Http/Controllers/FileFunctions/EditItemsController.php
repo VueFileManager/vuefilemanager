@@ -258,11 +258,6 @@ class EditItemsController extends Controller
             return Demo::upload($request);
         }
 
-        // Check if user can upload
-        if (config('vuefilemanager.limit_storage_by_capacity') && user_storage_percentage() >= 100) {
-            abort(423, 'You exceed your storage limit!');
-        }
-
         // Check permission to upload for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 

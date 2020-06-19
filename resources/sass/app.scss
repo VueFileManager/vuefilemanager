@@ -50,7 +50,7 @@
     &.center-page {
       height: 100%;
       padding-top: 20px;
-      padding-bottom: 0;
+      margin-bottom: 50px;
       display: grid;
       width: 100%;
 
@@ -242,7 +242,7 @@
   .action-icons {
     white-space: nowrap;
 
-    a {
+    a, .icon {
       display: inline-block;
       margin-left: 10px;
 

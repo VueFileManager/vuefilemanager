@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Services\StripeService;
+use App\User;
+use Cartalyst\Stripe\Api\PaymentMethods;
 use Faker\Factory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,16 +30,14 @@ class UserResource extends JsonResource
                     'email'                => env('APP_DEMO') ? $faker->email : $this->email,
                     'avatar'               => $this->avatar,
                     'role'                 => $this->role,
+                    'subscription'         => $this->subscribed('main'),
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
                     'created_at'           => $this->created_at,
                     'updated_at'           => $this->updated_at,
                 ]
             ],
             'relationships' => [
-                'subscription' => $this->activeSubscriptions()->count() !== 0
-                    ? new UserSubscription($this->subscription('main'))
-                    : null,
-                'settings'     => [
+                'settings'        => [
                     'data' => [
                         'id'         => (string)$this->settings->id,
                         'type'       => 'settings',
@@ -51,14 +52,14 @@ class UserResource extends JsonResource
                         ]
                     ]
                 ],
-                'storage'      => [
+                'storage'         => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'storage',
                         'attributes' => $this->storage
                     ]
                 ],
-                'favourites'   => [
+                'favourites'      => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'folders_favourite',
@@ -67,7 +68,7 @@ class UserResource extends JsonResource
                         ],
                     ],
                 ],
-                'tree'   => [
+                'tree'            => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'folders_tree',
@@ -76,6 +77,7 @@ class UserResource extends JsonResource
                         ],
                     ],
                 ],
+                'payment_methods' => new PaymentCardCollection($this->payment_cards)
             ]
         ];
     }

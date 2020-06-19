@@ -1,34 +1,44 @@
 <template>
-    <PageTab>
+    <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="subscription">
 
             <!--Info about active subscription-->
-            <div v-if="! subscription.canceled" class="state active">
+            <div v-if="! subscription.data.attributes.canceled" class="state active">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" title="Plan" :content="subscription.name + ' - ' + subscription.capacity_formatted"/>
+                    <ListInfoItem class="list-item" title="Plan" :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
                     <ListInfoItem class="list-item" title="Billed" content="Monthly"/>
                     <ListInfoItem class="list-item" title="Status" :content="status"/>
-                    <ListInfoItem class="list-item" title="Created At" :content="subscription.created_at"/>
-                    <ListInfoItem class="list-item" title="Renews At" :content="subscription.ends_at"/>
+                    <ListInfoItem class="list-item" title="Created At" :content="subscription.data.attributes.created_at"/>
+                    <ListInfoItem class="list-item" title="Renews At" :content="subscription.data.attributes.ends_at"/>
                 </ListInfo>
-                <div class="cancel-plan">
+                <div class="plan-action">
                     <ButtonBase
+                            :disabled="isDeleting"
                             @click.native="cancelSubscription"
                             :button-style="cancelButtonStyle"
-                            class="cancel-button">
+                            class="confirm-button">
                         {{ cancelButtonText }}
                     </ButtonBase>
                 </div>
             </div>
 
             <!--Info about canceled subscription-->
-            <div v-if="subscription.canceled" class="state canceled">
+            <div v-if="subscription.data.attributes.canceled" class="state canceled">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" title="Plan" :content="subscription.name"/>
+                    <ListInfoItem class="list-item" title="Plan" :content="subscription.data.attributes.name"/>
                     <ListInfoItem class="list-item" title="Status" :content="status"/>
-                    <ListInfoItem class="list-item" title="Canceled At" :content="subscription.canceled_at"/>
-                    <ListInfoItem class="list-item" title="Ends At" :content="subscription.ends_at"/>
+                    <ListInfoItem class="list-item" title="Canceled At" :content="subscription.data.attributes.canceled_at"/>
+                    <ListInfoItem class="list-item" title="Ends At" :content="subscription.data.attributes.ends_at"/>
                 </ListInfo>
+                <div class="plan-action">
+                    <ButtonBase
+                            :disabled="isResuming"
+                            @click.native="resumeSubscription"
+                            :button-style="resumeButtonStyle"
+                            class="confirm-button">
+                        {{ resumeButtonText }}
+                    </ButtonBase>
+                </div>
             </div>
         </PageTabGroup>
         <PageTabGroup v-else>
@@ -65,26 +75,31 @@
                 return this.isConfirmedCancel ? this.$t('popup_share_edit.confirm') : 'Cancel Plan'
             },
             cancelButtonStyle() {
-                return this.isConfirmedCancel ? 'danger-solid' : 'danger'
+                return this.isConfirmedCancel ? 'danger-solid' : 'secondary'
             },
-            subscription() {
-                return this.$store.getters.user.relationships.subscription
-                    ? this.$store.getters.user.relationships.subscription.data.attributes
-                    : undefined
+            resumeButtonText() {
+                return this.isConfirmedResume ? this.$t('popup_share_edit.confirm') : 'Resume Plan'
+            },
+            resumeButtonStyle() {
+                return this.isConfirmedResume ? 'theme-solid' : 'secondary'
             },
             status() {
-                if (this.subscription.canceled) {
+                if (this.subscription.data.attributes.canceled) {
                     return 'Canceled'
                 }
-                if (this.subscription.active) {
+                if (this.subscription.data.attributes.active) {
                     return 'Active'
                 }
             }
         },
         data() {
             return {
+                subscription: undefined,
                 isConfirmedCancel: false,
+                isConfirmedResume: false,
                 isDeleting: false,
+                isResuming: false,
+                isLoading: true,
             }
         },
         methods: {
@@ -98,6 +113,7 @@
 
                     // Start deleting spinner button
                     this.isDeleting = true
+                    this.isLoading = true
 
                     // Send delete request
                     axios
@@ -105,7 +121,9 @@
                         .then(() => {
 
                             // Update user data
-                            this.$store.dispatch('getAppData')
+                            this.$store.dispatch('getAppData').then(() => {
+                                this.fetchSubscriptionDetail()
+                            })
 
                             // End deleting spinner button
                             this.isDeleting = false
@@ -122,9 +140,61 @@
 
                             // End deleting spinner button
                             this.isDeleting = false
+                            this.isLoading = false
                         })
                 }
+            },
+            resumeSubscription() {
+
+                // Set confirm button
+                if (! this.isConfirmedResume) {
+
+                    this.isConfirmedResume = true
+                } else {
+
+                    // Start deleting spinner button
+                    this.isResuming = true
+                    this.isLoading = true
+
+                    // Send delete request
+                    axios
+                        .post('/api/subscription/resume')
+                        .then(() => {
+
+                            // Update user data
+                            this.$store.dispatch('getAppData').then(() => {
+                                this.fetchSubscriptionDetail()
+                            })
+
+                            // End deleting spinner button
+                            this.isResuming = false
+
+                            events.$emit('alert:open', {
+                                emoji: '👍',
+                                title: 'Subscription Was Resumed',
+                                message: 'Your subscription was re-activated, and they will be billed on the original billing cycle.',
+                                buttonStyle: 'theme',
+                                button: 'That\'s awesome!'
+                            })
+                        })
+                        .catch(() => {
+
+                            // End deleting spinner button
+                            this.isResuming = false
+                            this.isLoading = false
+                        })
+                }
+            },
+            fetchSubscriptionDetail() {
+                axios.get('/api/user/subscription')
+                    .then(response => {
+                        this.subscription = response.data
+                        this.isLoading = false
+                    })
             }
+        },
+        created() {
+            this.fetchSubscriptionDetail()
         }
     }
 </script>
@@ -133,7 +203,7 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 
-    .cancel-plan {
+    .plan-action {
         margin-top: 10px;
     }
 

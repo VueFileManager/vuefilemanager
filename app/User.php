@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
@@ -53,10 +54,31 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $role
+ * @property string|null $stripe_id
+ * @property string|null $card_brand
+ * @property string|null $card_last_four
+ * @property string|null $trial_ends_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $favourite_folders
+ * @property-read int|null $favourite_folders_count
+ * @property-read mixed $folder_tree
+ * @property-read mixed $storage
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
+ * @property-read int|null $invoices_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\UserCard[] $payment_cards
+ * @property-read int|null $payment_cards_count
+ * @property-read \App\UserSettings|null $settings
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
+ * @property-read int|null $subscriptions_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCardBrand($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCardLastFour($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, HasSubscriptions;
+    use HasApiTokens, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -95,11 +117,11 @@ class User extends Authenticatable
      *
      * @return mixed
      */
-    public function getStorageAttribute() {
-
+    public function getStorageAttribute()
+    {
         return [
-            'used' => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
-            'capacity' => $this->settings->storage_capacity,
+            'used'               => (float)get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
+            'capacity'           => $this->settings->storage_capacity,
             'capacity_formatted' => format_gigabytes($this->settings->storage_capacity),
         ];
     }
@@ -109,8 +131,8 @@ class User extends Authenticatable
      *
      * @return mixed
      */
-    public function getUsedCapacityAttribute() {
-
+    public function getUsedCapacityAttribute()
+    {
         $user_capacity = $this->files_with_trashed->map(function ($item) {
             return $item->getRawOriginal();
         })->sum('filesize');
@@ -118,7 +140,8 @@ class User extends Authenticatable
         return $user_capacity;
     }
 
-    public function getFolderTreeAttribute() {
+    public function getFolderTreeAttribute()
+    {
         return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
@@ -137,6 +160,24 @@ class User extends Authenticatable
         }
 
         return url('/assets/images/' . 'default-avatar.png');
+    }
+
+    /**
+     * Set user billing info
+     *
+     * @param $billing
+     */
+    public function setBilling($billing)
+    {
+        $this->settings()->update([
+            'billing_address'      => $billing['billing_address'],
+            'billing_city'         => $billing['billing_city'],
+            'billing_country'      => $billing['billing_country'],
+            'billing_name'         => $billing['billing_name'],
+            'billing_phone_number' => $billing['billing_phone_number'],
+            'billing_postal_code'  => $billing['billing_postal_code'],
+            'billing_state'        => $billing['billing_state'],
+        ]);
     }
 
     /**
@@ -165,8 +206,8 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Query\Builder
      */
-    public function latest_uploads() {
-
+    public function latest_uploads()
+    {
         return $this->hasMany(FileManagerFile::class)->with(['parent'])->orderBy('created_at', 'DESC')->take(40);
     }
 
@@ -175,8 +216,8 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function files() {
-
+    public function files()
+    {
         return $this->hasMany(FileManagerFile::class);
     }
 
@@ -185,8 +226,8 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function files_with_trashed() {
-
+    public function files_with_trashed()
+    {
         return $this->hasMany(FileManagerFile::class)->withTrashed();
     }
 
@@ -195,8 +236,8 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function settings() {
-
+    public function settings()
+    {
         return $this->hasOne(UserSettings::class);
     }
 
@@ -205,8 +246,18 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function invoices() {
-
+    public function invoices()
+    {
         return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * Get user payment cards
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payment_cards()
+    {
+        return $this->hasMany(UserCard::class);
     }
 }

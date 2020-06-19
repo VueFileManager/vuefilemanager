@@ -11,22 +11,26 @@ const defaultState = {
 
 const actions = {
     getAppData: ({commit, getters}) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(getters.api + '/user')
+                .then((response) => {
+                    resolve(response)
 
-        axios
-            .get(getters.api + '/user')
-            .then((response) => {
-                commit('RETRIEVE_USER', response.data)
+                    commit('RETRIEVE_USER', response.data)
 
-            }).catch((error) => {
+                }).catch((error) => {
+                    reject(error)
 
-                // Redirect if unauthenticated
-                if ([401, 403].includes(error.response.status)) {
+                    // Redirect if unauthenticated
+                    if ([401, 403].includes(error.response.status)) {
 
-                    commit('SET_AUTHORIZED', false)
-                    router.push({name: 'SignIn'})
+                        commit('SET_AUTHORIZED', false)
+                        router.push({name: 'SignIn'})
+                    }
                 }
-            }
-        )
+            )
+        })
     },
     logOut: ({getters, commit}) => {
         axios

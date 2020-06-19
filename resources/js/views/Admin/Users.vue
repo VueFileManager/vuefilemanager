@@ -35,8 +35,8 @@
                                 </ColorLabel>
                             </td>
                             <td v-if="config.isSaaS">
-                                <span class="cell-item" v-if="row.relationships.subscription">
-                                    {{ row.relationships.subscription.data.attributes.name }}
+                                <span class="cell-item" v-if="row.data.attributes.subscription">
+                                    Premium
                                 </span>
                                 <span class="cell-item" v-else>
                                     Free
@@ -114,44 +114,7 @@
             return {
                 isLoading: true,
                 users: [],
-                columns: [
-                    {
-                        label: this.$t('admin_page_user.table.name'),
-                        field: 'data.attributes.name',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.role'),
-                        field: 'data.attributes.role',
-                        sortable: true
-                    },
-                    {
-                        label: 'Subscription Plan',
-                        field: 'data.attributes.role',
-                        sortable: true,
-                        hidden: true,
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'data.attributes.storage.used',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.storage_capacity'),
-                        field: 'data.attributes.storage.capacity',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.created_at'),
-                        field: 'data.attributes.created_at_formatted',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.action'),
-                        field: 'data.action',
-                        sortable: false
-                    },
-                ],
+                columns: undefined,
             }
         },
         methods: {
@@ -167,6 +130,45 @@
             }
         },
         created() {
+            this.columns = [
+                {
+                    label: this.$t('admin_page_user.table.name'),
+                    field: 'data.attributes.name',
+                    sortable: true
+                },
+                {
+                    label: this.$t('admin_page_user.table.role'),
+                    field: 'data.attributes.role',
+                    sortable: true
+                },
+                {
+                    label: 'Subscription Plan',
+                    field: 'data.attributes.role',
+                    sortable: true,
+                    hidden: ! this.config.isSaaS,
+                },
+                {
+                    label: this.$t('admin_page_user.table.storage_used'),
+                    field: 'data.attributes.storage.used',
+                    sortable: true
+                },
+                {
+                    label: this.$t('admin_page_user.table.storage_capacity'),
+                    field: 'data.attributes.storage.capacity',
+                    sortable: true
+                },
+                {
+                    label: this.$t('admin_page_user.table.created_at'),
+                    field: 'data.attributes.created_at_formatted',
+                    sortable: true
+                },
+                {
+                    label: this.$t('admin_page_user.table.action'),
+                    field: 'data.action',
+                    sortable: false
+                },
+            ]
+
             axios.get('/api/users')
                 .then(response => {
                     this.users = response.data.data

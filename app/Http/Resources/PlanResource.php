@@ -16,19 +16,18 @@ class PlanResource extends JsonResource
     {
         return [
             'data' => [
-                'id'         => (string)$this->id,
+                'id'         => $this['plan']['id'],
                 'type'       => 'plans',
                 'attributes' => [
-                    'subscribers'          => $this->subscriptions->count(),
-                    'status'               => $this->is_active,
-                    'name'                 => $this->name,
-                    'description'          => $this->description,
-                    'price'                => $this->price,
-                    'capacity_formatted'   => format_gigabytes($this->features->first()->value),
-                    'capacity'             => $this->features->first()->value,
-                    'created_at_formatted' => format_date($this->created_at),
-                    'created_at'           => $this->created_at,
-                    'updated_at'           => $this->updated_at,
+                    'subscribers'          => $this['plan']['aggregate_usage'],
+                    'status'               => $this['plan']['active'],
+                    'name'                 => $this['product']['name'],
+                    'description'          => $this['product']['description'],
+                    'price'                => $this['plan']['amount'],
+                    'capacity_formatted'   => format_gigabytes($this['product']['metadata']['capacity']),
+                    'capacity'             => $this['product']['metadata']['capacity'],
+                    'created_at_formatted' => format_date($this['plan']['created']),
+                    'created_at'           => $this['plan']['created'],
                 ]
             ]
         ];

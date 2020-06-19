@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div v-if="config.isSaaS" class="headline-actions">
-                        <router-link :to="{name: 'UpgradePlan'}">
+                        <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
                             <ButtonBase button-style="secondary" type="button">
                                 Upgrade Plan
                             </ButtonBase>
@@ -56,10 +56,19 @@
 
                     <router-link v-if="config.isSaaS" replace :to="{name: 'Subscription'}" class="menu-list-item link">
                         <div class="icon">
-                            <credit-card-icon size="17"></credit-card-icon>
+                            <cloud-icon size="17"></cloud-icon>
                         </div>
                         <div class="label">
                             Subscription
+                        </div>
+                    </router-link>
+
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'PaymentCards'}" class="menu-list-item link">
+                        <div class="icon">
+                            <credit-card-icon size="17"></credit-card-icon>
+                        </div>
+                        <div class="label">
+                            Payment Cards
                         </div>
                     </router-link>
 
@@ -105,6 +114,7 @@
         CreditCardIcon,
         HardDriveIcon,
         FileTextIcon,
+        CloudIcon,
         UserIcon,
         LockIcon,
     } from 'vue-feather-icons'
@@ -112,6 +122,7 @@
     export default {
         name: 'Settings',
         components: {
+            CloudIcon,
             ButtonBase,
             CreditCardIcon,
             UserImageInput,
@@ -127,10 +138,10 @@
         computed: {
             ...mapGetters(['user', 'config']),
             subscriptionStatus() {
-                return this.user.relationships.subscription ? 'Premium' : 'Free'
+                return this.user.data.attributes.subscription ? 'Premium' : 'Free'
             },
             subscriptionColor() {
-                return this.user.relationships.subscription ? 'green' : 'purple'
+                return this.user.data.attributes.subscription ? 'green' : 'purple'
             },
         },
         data() {

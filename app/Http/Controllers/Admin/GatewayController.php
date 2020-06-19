@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GatewayCollection;
 use App\Http\Resources\GatewayResource;
+use App\Http\Resources\InvoiceCollection;
+use App\Invoice;
 use App\PaymentGateway;
 use Illuminate\Http\Request;
 
@@ -31,6 +33,19 @@ class GatewayController extends Controller
         $gateway = PaymentGateway::where('slug', $slug)->firstOrFail();
 
         return new GatewayResource($gateway);
+    }
+
+    /**
+     * Get single payment gateway by slug
+     *
+     * @param $slug
+     * @return InvoiceCollection
+     */
+    public function show_transactions($slug)
+    {
+        return new InvoiceCollection(
+            Invoice::where('provider', $slug)->get()
+        );
     }
 
     /**

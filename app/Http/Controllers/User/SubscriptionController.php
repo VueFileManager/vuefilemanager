@@ -3,53 +3,82 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
+use App\Http\Resources\UserSubscription;
 use App\Invoice;
+use App\Services\PaymentService;
+use App\Services\StripeService;
 use Auth;
+use Cartalyst\Stripe\Exception\CardErrorException;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Laravel\Cashier\Exceptions\IncompletePayment;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SubscriptionController extends Controller
 {
+    private $stripe;
+
+    /**
+     * SubscriptionController constructor.
+     * @param $payment
+     */
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
+    /**
+     * Generate setup intent
+     *
+     * @return \Stripe\SetupIntent
+     */
+    public function stripe_setup_intent()
+    {
+        // Get user
+        $user = Auth::user();
+
+        // Create stripe customer if not exist
+        $user->createOrGetStripeCustomer();
+
+        // Return setup intent
+        return $user->createSetupIntent();
+    }
+
+    public function show()
+    {
+        return new UserSubscription(
+            Auth::user()
+        );
+    }
+
     /**
      * Upgrade account to subscription
      *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @param StoreUpgradeAccountRequest $request
+     * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function upgrade(Request $request)
+    public function upgrade(StoreUpgradeAccountRequest $request)
     {
-        // TODO: validation request
-
         // Get user
         $user = Auth::user();
 
         // Get requested plan
-        $plan = app('rinvex.subscriptions.plan')
-            ->find($request->input('plan.data.id'));
+        $plan = $this->stripe->getPlan($request->input('plan.data.id'));
 
-        // Check if user have subscription
-        if ($user->activeSubscriptions()->count() !== 0) {
+        // Set user billing
+        $user->setBilling($request->input('billing'));
 
-            // Get old subscription
-            $subscription = $user->subscription('main');
-
-            // Change subscription plan
-            $subscription->changePlan($plan);
-
-        } else {
-
-            // Create subscription
-            $user->newSubscription('main', $plan);
-        }
+        // Make subscription
+        $this->stripe->createOrReplaceSubscription($request, $user);
 
         // Update user storage limit
         $user->settings()->update([
-            'storage_capacity' => $plan->features->first()->value
+            'storage_capacity' => $plan['product']['metadata']['capacity']
         ]);
 
         // Store invoice
-        Invoice::create(
-            get_invoice_data($user, $plan)
-        );
+        Invoice::create(get_invoice_data($user, $plan, 'stripe'));
 
         return response('Done!', 204);
     }
@@ -57,15 +86,25 @@ class SubscriptionController extends Controller
     /**
      * Cancel Subscription
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function cancel() {
-
-        // Get user
-        $user = Auth::user();
-
+    public function cancel()
+    {
         // Cancel subscription
-        $user->subscription('main')->cancel();
+        Auth::user()->subscription('main')->cancel();
+
+        return response('Done!', 204);
+    }
+
+    /**
+     * Resume Subscription
+     *
+     * @return ResponseFactory|\Illuminate\Http\Response
+     */
+    public function resume()
+    {
+        // Resume subscription
+        Auth::user()->subscription('main')->resume();
 
         return response('Done!', 204);
     }
