@@ -14,13 +14,6 @@
 use App\User;
 use Rinvex\Subscriptions\Models\PlanFeature;
 
-Route::get('/debug', function () {
-
-    $user = User::find(1);
-
-    return $user->subscription('main')->asStripeSubscription();
-});
-
 // Deployment Webhook URL
 Route::post('/deploy/github', 'DeployController@github');
 
@@ -36,7 +29,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
 });
 
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
-    Route::get('/invoice/{token}', 'Admin\InvoiceController@show');
+    Route::get('/invoice/{customer}/{token}', 'Admin\InvoiceController@show');
 });
 
 // Pages

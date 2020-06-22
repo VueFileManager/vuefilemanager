@@ -1,5 +1,5 @@
 <template>
-    <div class="plans-wrapper">
+    <div class="plans-wrapper" v-if="plans">
         <article class="plan" v-for="(plan, i) in plans" :key="i">
             <div class="plan-wrapper">
                 <header class="plan-header">

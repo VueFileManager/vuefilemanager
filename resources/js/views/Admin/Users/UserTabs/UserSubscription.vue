@@ -1,5 +1,5 @@
 <template>
-    <PageTab>
+    <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="subscription">
 
             <!--Info about active subscription-->
@@ -65,6 +65,7 @@
         data() {
             return {
                 subscription: undefined,
+                isLoading: true,
             }
         },
         created() {

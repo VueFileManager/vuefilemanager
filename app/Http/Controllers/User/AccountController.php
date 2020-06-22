@@ -44,9 +44,14 @@ class AccountController extends Controller
         );
     }
 
+    /**
+     * Get user invoices
+     *
+     * @return InvoiceCollection
+     */
     public function invoices() {
         return new InvoiceCollection(
-            Auth::user()->invoices
+            Auth::user()->invoices()
         );
     }
 

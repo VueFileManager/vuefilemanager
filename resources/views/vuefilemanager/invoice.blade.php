@@ -34,7 +34,7 @@
         <ul class="list">
             <li class="list-item">
                 <b>Date:</b>
-                <span>{{ $invoice->created_at }}</span>
+                <span>{{ format_date($invoice->date()) }}</span>
             </li>
             <li class="list-item">
                 <b>Product:</b>
@@ -42,7 +42,7 @@
             </li>
             <li class="list-item">
                 <b>Invoice Number:</b>
-                <span>{{ $invoice->order }}</span>
+                <span>{{ $invoice->number }}</span>
             </li>
         </ul>
     </section>
@@ -113,53 +113,53 @@
             <h2 class="partner-title">Client:</h2>
             <ul class="list">
 
-                @isset($invoice->client['billing_name'])
+                @isset($invoice->customer_name)
                     <li class="list-item">
                         <b>Name:</b>
-                        <span>{{ $invoice->client['billing_name'] }}</span>
+                        <span>{{ $invoice->customer_name }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->client['billing_phone_number'])
+                @isset($invoice->customer_phone)
                     <li class="list-item">
                         <b>Phone:</b>
-                        <span>{{ $invoice->client['billing_phone_number'] }}</span>
+                        <span>{{ $invoice->customer_phone }}</span>
                     </li>
                 @endisset
             </ul>
             <ul class="list">
-                @isset($invoice->client['billing_address'])
+                @isset($invoice->customer_address['line1'])
                     <li class="list-item">
                         <b>Address:</b>
-                        <span>{{ $invoice->client['billing_address'] }}</span>
+                        <span>{{ $invoice->customer_address['line1'] }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->client['billing_city'])
+                @isset($invoice->customer_address['city'])
                     <li class="list-item">
                         <b>City:</b>
-                        <span>{{ $invoice->client['billing_city'] }}</span>
+                        <span>{{ $invoice->customer_address['city'] }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->client['billing_state'])
+                @isset($invoice->customer_address['state'])
                     <li class="list-item">
                         <b>State:</b>
-                        <span>{{ $invoice->client['billing_state'] }}</span>
+                        <span>{{ $invoice->customer_address['state'] }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->client['billing_postal_code'])
+                @isset($invoice->customer_address['postal_code'])
                     <li class="list-item">
                         <b>Postal code:</b>
-                        <span>{{ $invoice->client['billing_postal_code'] }}</span>
+                        <span>{{ $invoice->customer_address['postal_code'] }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->client['billing_country'])
+                @isset($invoice->customer_address['country'])
                     <li class="list-item">
                         <b>Country:</b>
-                        <span>{{ $invoice->client['billing_country'] }}</span>
+                        <span>{{ $invoice->customer_address['country'] }}</span>
                     </li>
                 @endisset
             </ul>
@@ -175,18 +175,16 @@
             </tr>
             </thead>
             <tbody class="table-body">
-            @foreach($invoice->bag as $item)
                 <tr>
-                    <td>{{ $item['description'] }} (1)</td>
-                    <td>{{ $item['date'] }}</td>
-                    <td>{{ $item['amount'] }} {{ $invoice->currency }}</td>
+                    <td>{{ $invoice->subscriptions()[0]->description }}</td>
+                    <td>{{ $invoice->subscriptions()[0]->type }}</td>
+                    <td>{{ \Laravel\Cashier\Cashier::formatAmount($invoice->subscriptions()[0]->amount) }}</td>
                 </tr>
-            @endforeach
             </tbody>
         </table>
     </div>
     <div class="invoice-summary">
-        <b>Total {{ $invoice->total }} {{ $invoice->currency }}</b>
+        <b>Total {{ $invoice->total() }}</b>
     </div>
 </div>
 </body>

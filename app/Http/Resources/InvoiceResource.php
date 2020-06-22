@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvoiceResource extends JsonResource
@@ -14,38 +15,49 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = User::where('stripe_id', $this->customer)->first();
+        $subscription = $this->subscriptions()[0];
+
         return [
-            'data'          => [
-                'id'         => (string)$this->id,
+            'data' => [
+                'id'         => $this->id,
                 'type'       => 'invoices',
                 'attributes' => [
-                    'token'                => $this->token,
-                    'order'                => $this->order,
-                    'user_id'              => $this->user_id,
-                    'plan_id'              => $this->plan_id,
-                    'notes'                => $this->notes,
-                    'total'                => $this->total,
+                    'customer'             => $this->customer,
+                    'total'                => $this->total(),
                     'currency'             => $this->currency,
-                    'seller'               => $this->seller,
-                    'client'               => $this->client,
-                    'bag'                  => $this->bag,
-                    'created_at_formatted' => format_date($this->created_at),
-                    'created_at'           => $this->created_at,
-                    'updated_at'           => $this->updated_at,
+                    'created_at_formatted' => format_date($this->date()),
+                    'created_at'           => $this->created,
+                    'order'                => $this->number,
+                    'user_id'              => $user ? $user->id : null,
+                    'client'               => [
+                        'billing_address'      => $this->customer_address,
+                        'billing_name'         => $this->customer_name,
+                        'billing_phone_number' => $this->customer_phone,
+                    ],
+                    'bag'                  => [
+                        'amount'      => $subscription->amount,
+                        'currency'    => $subscription->currency,
+                        'type'        => $subscription->type,
+                        'description' => $subscription->description,
+                    ],
+                    'seller'               => null,
                 ]
             ],
-            'relationships' => [
-                'user' => [
-                    'data' => [
-                        'id'         => (string)$this->user->id,
-                        'type'       => 'user',
-                        'attributes' => [
-                            'name'   => $this->user->name,
-                            'avatar' => $this->user->avatar,
+            $this->mergeWhen($user, [
+                'relationships' => [
+                    'user' => [
+                        'data' => [
+                            'id'         => (string)$user->id,
+                            'type'       => 'user',
+                            'attributes' => [
+                                'name'   => $user->name,
+                                'avatar' => $user->avatar,
+                            ]
                         ]
                     ]
                 ]
-            ]
+            ]),
         ];
     }
 }

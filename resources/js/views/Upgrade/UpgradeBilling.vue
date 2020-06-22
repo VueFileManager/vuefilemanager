@@ -383,8 +383,12 @@
             },
         },
         mounted: function () {
-            card = elements.create('card');
-            card.mount(this.$refs.stripeCard);
+            if (!this.requestedPlan) {
+                this.$router.push({name: 'UpgradePlan'})
+            } else {
+                card = elements.create('card');
+                card.mount(this.$refs.stripeCard);
+            }
         },
         created() {
 
@@ -394,10 +398,6 @@
 
             axios.get('/api/user/payments')
                 .then(response => {
-
-                    if (!this.requestedPlan) {
-                        this.$router.push({name: 'UpgradePlan'})
-                    }
 
                     this.defaultPaymentCard = response.data.default
                     this.paymentCards = response.data.others

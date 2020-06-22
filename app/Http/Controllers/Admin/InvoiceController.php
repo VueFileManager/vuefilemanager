@@ -3,33 +3,44 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\InvoiceCollection;
+use App\Http\Resources\InvoiceAdminCollection;
 use App\Http\Resources\InvoiceResource;
 use App\Invoice;
+use App\Services\StripeService;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
     /**
+     * PlanController constructor.
+     */
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
+    /**
      * Get all invoices
      *
-     * @return InvoiceCollection
+     * @return InvoiceAdminCollection
      */
     public function index()
     {
-        return new InvoiceCollection(
-            Invoice::all()
+        return new InvoiceAdminCollection(
+            $this->stripe->getInvoices()['data']
         );
     }
 
     /**
      * Get single invoice by $token
+     *
+     * @param $customer
      * @param $token
      * @return InvoiceResource
      */
-    public function show($token)
+    public function show($customer, $token)
     {
-        $invoice = Invoice::where('token', $token)->firstOrFail();
+        $invoice = $this->stripe->getUserInvoice($customer, $token);
 
         return view('vuefilemanager.invoice')
             ->with('invoice', $invoice);

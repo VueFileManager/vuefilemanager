@@ -27,55 +27,11 @@ function get_invoice_number()
     }
 }
 
-/**
- * Get data to render in invoice tempalte
- * @param $user
- * @param $plan
- * @param $provider
- * @return array
- */
-function get_invoice_data($user, $plan, $provider)
+function cache_forget_many($cache)
 {
-    $subscription = $user->subscription('main');
-    $order_number = get_invoice_number();
-    $token = \Illuminate\Support\Str::random(22);
-
-    return [
-        'token'    => $token,
-        'order'    => $order_number,
-        'provider' => $provider,
-        'user_id'  => $user->id,
-        'plan_id'  => $plan['plan']['id'],
-        'total'    => $plan['plan']['amount'],
-        'currency' => 'USD',
-        'bag'      => [
-            [
-                'description' => 'Subscription - ' . $plan['product']['name'],
-                //'date'        => format_date($subscription->starts_at, '%d. %B. %Y') . ' - ' . format_date($subscription->ends_at, '%d. %B. %Y'),
-                'date'        => format_date(Carbon::now(),'%d. %B. %Y'),
-                'amount'      => $plan['plan']['amount'],
-            ]
-        ],
-        'seller'   => [
-            'billing_name'         => 'VueFileManager',
-            'billing_address'      => 'Somewhere 32',
-            'billing_state'        => 'Washington',
-            'billing_city'         => 'Manchester',
-            'billing_postal_code'  => '04001',
-            'billing_country'      => 'The USA',
-            'billing_phone_number' => '490321-6354774',
-            'billing_vat_number'   => '7354724626246',
-        ],
-        'client'   => [
-            'billing_name'         => $user->settings->billing_name,
-            'billing_address'      => $user->settings->billing_address,
-            'billing_state'        => $user->settings->billing_state,
-            'billing_city'         => $user->settings->billing_city,
-            'billing_postal_code'  => $user->settings->billing_postal_code,
-            'billing_country'      => $user->settings->billing_country,
-            'billing_phone_number' => $user->settings->billing_phone_number,
-        ],
-    ];
+    foreach ($cache as $item) {
+        \Illuminate\Support\Facades\Cache::forget($item);
+    }
 }
 
 /**

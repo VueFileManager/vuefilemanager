@@ -72,7 +72,7 @@
                 this.isSendingRequest = true
 
                 axios
-                    .delete(this.$store.getters.api + '/plans/' + this.$route.params.id + '/delete',
+                    .delete(this.$store.getters.api + '/plans/' + this.$route.params.id,
                         {
                             data: {
                                 name: this.planName
@@ -82,11 +82,11 @@
                     .then(() => {
                         this.isSendingRequest = false
 
-                        // Show error message
+                        // Show message
                         events.$emit('success:open', {
                             emoji: '👍',
-                            title: this.$t('popup_deleted_user.title'),
-                            message: this.$t('popup_deleted_user.message'),
+                            title: 'Plan was deleted',
+                            message: 'Your plan was successfully deleted.',
                         })
 
                         this.$router.push({name: 'Plans'})

@@ -9,18 +9,18 @@
                     <template scope="{ row }">
                         <tr>
                             <td>
-                                <a :href="'/invoice/' + row.data.attributes.token" target="_blank" class="cell-item">
+                                <a :href="'/invoice/' + row.data.id" target="_blank" class="cell-item">
                                     {{ row.data.attributes.order }}
                                 </a>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    ${{ row.data.attributes.total }}
+                                    {{ row.data.attributes.total }}
                                 </span>
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.bag[0].description }}
+                                    {{ row.data.attributes.bag.description }}
                                 </span>
                             </td>
                             <td>
@@ -29,17 +29,20 @@
                                 </span>
                             </td>
                             <td>
-                                <router-link :to="{name: 'UserInvoices', params: {id: row.relationships.user.data.id}}">
+                                <router-link v-if="row.relationships" :to="{name: 'UserInvoices', params: {id: row.relationships.user.data.id}}">
                                     <DatatableCellImage
                                             image-size="small"
                                             :image="row.relationships.user.data.attributes.avatar"
                                             :title="row.relationships.user.data.attributes.name"
                                     />
                                 </router-link>
+                                <span v-else class="cell-item">
+                                    -
+                                </span>
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <a :href="'/invoice/' + row.data.attributes.token" target="_blank">
+                                    <a :href="'/invoice/' + row.data.id" target="_blank">
                                         <external-link-icon size="15" class="icon"></external-link-icon>
                                     </a>
                                 </div>

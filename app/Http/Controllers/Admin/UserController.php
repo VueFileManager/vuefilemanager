@@ -15,6 +15,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Resources\UserSubscription;
 use App\Http\Tools\Demo;
+use App\Services\StripeService;
 use App\Share;
 use App\User;
 use App\UserSettings;
@@ -29,6 +30,11 @@ use Storage;
 
 class UserController extends Controller
 {
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
     /**
      * Get user details
      *
@@ -58,13 +64,14 @@ class UserController extends Controller
     /**
      * Get user storage details
      *
-     * @param $id
      * @return InvoiceCollection
      */
-    public function invoices($id)
+    public function invoices()
     {
+        $user = \Auth::user();
+
         return new InvoiceCollection(
-            User::findOrFail($id)->invoices
+            $this->stripe->getUserInvoices($user)
         );
     }
 
@@ -77,7 +84,7 @@ class UserController extends Controller
     public function subscription($id)
     {
         return new UserSubscription(
-            User::findOrFail($id)->subscription('main')
+            User::find($id)
         );
     }
 

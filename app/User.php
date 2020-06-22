@@ -65,7 +65,6 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  * @property-read mixed $storage
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
  * @property-read int|null $invoices_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\UserCard[] $payment_cards
  * @property-read int|null $payment_cards_count
  * @property-read \App\UserSettings|null $settings
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
@@ -166,6 +165,7 @@ class User extends Authenticatable
      * Set user billing info
      *
      * @param $billing
+     * @return UserSettings
      */
     public function setBilling($billing)
     {
@@ -178,6 +178,8 @@ class User extends Authenticatable
             'billing_postal_code'  => $billing['billing_postal_code'],
             'billing_state'        => $billing['billing_state'],
         ]);
+
+        return $this->settings;
     }
 
     /**
@@ -239,25 +241,5 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->hasOne(UserSettings::class);
-    }
-
-    /**
-     * Get user invoices
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
-
-    /**
-     * Get user payment cards
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function payment_cards()
-    {
-        return $this->hasMany(UserCard::class);
     }
 }

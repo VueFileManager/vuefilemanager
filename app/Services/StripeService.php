@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\User;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Stripe;
@@ -19,6 +20,21 @@ class StripeService
     }
 
     /**
+     * Get setup intent
+     *
+     * @param $user
+     * @return mixed
+     */
+    public function getSetupIntent($user)
+    {
+        // Create stripe customer if not exist
+        $user->createOrGetStripeCustomer();
+
+        // Return setup intent
+        return $user->createSetupIntent();
+    }
+
+    /**
      * Get default payment option or set new default payment
      *
      * @param $request
@@ -28,17 +44,24 @@ class StripeService
     public function getOrSetDefaultPaymentMethod($request, $user)
     {
         // Check payment method
-        if (! $request->has('payment.meta.pm') && $user->hasDefaultPaymentMethod()) {
+        if (!$request->has('payment.meta.pm') && $user->hasDefaultPaymentMethod()) {
 
             // Get default payment
             return $user->defaultPaymentMethod()->paymentMethod;
+        }
 
-        } else if ( $request->has('payment.meta.pm') && $user->hasDefaultPaymentMethod() ) {
+        // Clear cached payment methods
+        cache_forget_many([
+            'payment-methods-user-' . $user->id,
+            'default-payment-methods-user-' . $user->id
+        ]);
+
+        if ($request->has('payment.meta.pm') && $user->hasDefaultPaymentMethod()) {
 
             // Set new payment
             return $user->addPaymentMethod($request->input('payment.meta.pm'))->paymentMethod;
 
-        }  else if ( $request->has('payment.meta.pm') && ! $user->hasDefaultPaymentMethod() ) {
+        } else if ($request->has('payment.meta.pm') && !$user->hasDefaultPaymentMethod()) {
 
             // Set new payment
             return $user->updateDefaultPaymentMethod($request->input('payment.meta.pm'))->paymentMethod;
@@ -82,80 +105,21 @@ class StripeService
     }
 
     /**
-     * Create plan
-     *
-     * @param $request
-     * @return mixed
+     * @param $user
      */
-    public function createPlan($request)
+    public function updateCustomerDetails($user)
     {
-        $product = $this->stripe->products()->create([
-            'name'                 => $request->input('attributes.name'),
-            'description'          => $request->input('attributes.description'),
-            'metadata'             => [
-                'capacity' => $request->input('attributes.capacity')
+        $user->updateStripeCustomer([
+            'name'    => $user->settings->billing_name,
+            'phone'   => $user->settings->billing_phone_number,
+            'address' => [
+                'line1'       => $user->settings->billing_address,
+                'city'        => $user->settings->billing_city,
+                'country'     => $user->settings->billing_country,
+                'postal_code' => $user->settings->billing_postal_code,
+                'state'       => $user->settings->billing_state,
             ]
         ]);
-
-        $plan = $this->stripe->plans()->create([
-            'id'       => Str::slug($request->input('attributes.name')),
-            'amount'   => $request->input('attributes.price'),
-            'currency' => 'USD',
-            'interval' => 'month',
-            'product'  => $product['id'],
-        ]);
-
-        return compact('plan', 'product');
-    }
-
-    /**
-     * Update plan
-     *
-     * @param $request
-     * @param $id
-     */
-    public function updatePlan($request, $id)
-    {
-        $plan_colls = ['is_active', 'price'];
-        $product_colls = ['name', 'description', 'capacity'];
-
-        $plan = $this->stripe->plans()->find($id);
-
-        // Update product
-        if (in_array($request->name, $product_colls)) {
-
-            if ($request->name === 'capacity') {
-                $this->stripe->products()->update($plan['product'], ['metadata' => ['capacity' => $request->value]]);
-            }
-            if ($request->name === 'name') {
-                $this->stripe->products()->update($plan['product'], ['name' => $request->value]);
-            }
-            if ($request->name === 'description') {
-                $this->stripe->products()->update($plan['product'], ['description' => $request->value]);
-            }
-        }
-
-        // Update plan
-        if (in_array($request->name, $plan_colls)) {
-
-            if ($request->name === 'is_active') {
-                $this->stripe->plans()->update($id, ['active' => $request->value]);
-            }
-        }
-    }
-
-    /**
-     * Get plan details
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function getPlan($id)
-    {
-        $plan = $this->stripe->plans()->find($id);
-        $product = $this->stripe->products()->find($plan['product']);
-
-        return compact('plan', 'product');
     }
 
     /**
@@ -218,6 +182,83 @@ class StripeService
     }
 
     /**
+     * Get plan details
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getPlan($id)
+    {
+        $plan = $this->stripe->plans()->find($id);
+        $product = $this->stripe->products()->find($plan['product']);
+
+        return compact('plan', 'product');
+    }
+
+    /**
+     * Create plan
+     *
+     * @param $request
+     * @return mixed
+     */
+    public function createPlan($request)
+    {
+        $product = $this->stripe->products()->create([
+            'name'        => $request->input('attributes.name'),
+            'description' => $request->input('attributes.description'),
+            'metadata'    => [
+                'capacity' => $request->input('attributes.capacity')
+            ]
+        ]);
+
+        $plan = $this->stripe->plans()->create([
+            'id'       => Str::slug($request->input('attributes.name')),
+            'amount'   => $request->input('attributes.price'),
+            'currency' => 'USD',
+            'interval' => 'month',
+            'product'  => $product['id'],
+        ]);
+
+        return compact('plan', 'product');
+    }
+
+    /**
+     * Update plan
+     *
+     * @param $request
+     * @param $id
+     */
+    public function updatePlan($request, $id)
+    {
+        $plan_colls = ['is_active', 'price'];
+        $product_colls = ['name', 'description', 'capacity'];
+
+        $plan = $this->stripe->plans()->find($id);
+
+        // Update product
+        if (in_array($request->name, $product_colls)) {
+
+            if ($request->name === 'capacity') {
+                $this->stripe->products()->update($plan['product'], ['metadata' => ['capacity' => $request->value]]);
+            }
+            if ($request->name === 'name') {
+                $this->stripe->products()->update($plan['product'], ['name' => $request->value]);
+            }
+            if ($request->name === 'description') {
+                $this->stripe->products()->update($plan['product'], ['description' => $request->value]);
+            }
+        }
+
+        // Update plan
+        if (in_array($request->name, $plan_colls)) {
+
+            if ($request->name === 'is_active') {
+                $this->stripe->plans()->update($id, ['active' => $request->value]);
+            }
+        }
+    }
+
+    /**
      * Delete plan
      *
      * @param $slug
@@ -225,5 +266,39 @@ class StripeService
     public function deletePlan($slug)
     {
         $this->stripe->plans()->delete($slug);
+    }
+
+    /**
+     * Get all user invoices
+     *
+     * @param $user
+     * @return mixed
+     */
+    public function getUserInvoices($user)
+    {
+        return $user->invoices();
+    }
+
+    /**
+     * Get user invoice by id
+     *
+     * @param $id
+     * @return \Laravel\Cashier\Invoice|null
+     */
+    public function getUserInvoice($customer, $id)
+    {
+        $user = User::where('stripe_id', $customer)->first();
+
+        return $user->findInvoice($id);
+    }
+
+    /**
+     * Get all invoices
+     *
+     * @return mixed
+     */
+    public function getInvoices()
+    {
+        return $this->stripe->invoices()->all();
     }
 }

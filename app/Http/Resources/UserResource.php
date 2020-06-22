@@ -26,18 +26,19 @@ class UserResource extends JsonResource
                 'id'         => (string)$this->id,
                 'type'       => 'user',
                 'attributes' => [
+                    'subscription'         => $this->subscribed('main'),
+                    'stripe_customer'      => is_null($this->stripe_id) ? false : true,
                     'name'                 => env('APP_DEMO') ? $faker->name : $this->name,
                     'email'                => env('APP_DEMO') ? $faker->email : $this->email,
                     'avatar'               => $this->avatar,
                     'role'                 => $this->role,
-                    'subscription'         => $this->subscribed('main'),
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
                     'created_at'           => $this->created_at,
                     'updated_at'           => $this->updated_at,
                 ]
             ],
             'relationships' => [
-                'settings'        => [
+                'settings'   => [
                     'data' => [
                         'id'         => (string)$this->settings->id,
                         'type'       => 'settings',
@@ -52,14 +53,14 @@ class UserResource extends JsonResource
                         ]
                     ]
                 ],
-                'storage'         => [
+                'storage'    => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'storage',
                         'attributes' => $this->storage
                     ]
                 ],
-                'favourites'      => [
+                'favourites' => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'folders_favourite',
@@ -68,7 +69,7 @@ class UserResource extends JsonResource
                         ],
                     ],
                 ],
-                'tree'            => [
+                'tree'       => [
                     'data' => [
                         'id'         => '1',
                         'type'       => 'folders_tree',
@@ -76,8 +77,7 @@ class UserResource extends JsonResource
                             'folders' => $this->folder_tree
                         ],
                     ],
-                ],
-                'payment_methods' => new PaymentCardCollection($this->payment_cards)
+                ]
             ]
         ];
     }

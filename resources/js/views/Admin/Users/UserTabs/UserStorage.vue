@@ -2,7 +2,7 @@
     <PageTab v-if="storage">
         <PageTabGroup>
             <SetupBox
-                    v-if="! config.isSaaS || ! user.relationships.subscription"
+                    v-if="! config.isSaaS || ! user.data.attributes.subscription"
                     theme="base"
                     :title="$t('user_box_storage.title')"
                     :description="$t('user_box_storage.description')"

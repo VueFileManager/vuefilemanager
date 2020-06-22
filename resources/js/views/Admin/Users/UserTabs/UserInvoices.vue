@@ -1,22 +1,22 @@
 <template>
-    <PageTab v-if="invoices">
-        <PageTabGroup v-if="invoices.length > 0">
+    <PageTab :is-loading="isLoading">
+        <PageTabGroup v-if="invoices && invoices.length > 0">
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
                 <template scope="{ row }">
                     <tr>
                         <td>
-                            <a :href="'/invoice/' + row.data.attributes.token" target="_blank" class="cell-item">
+                            <a :href="'/invoice/' + row.data.id" target="_blank" class="cell-item">
                                 {{ row.data.attributes.order }}
                             </a>
                         </td>
                         <td>
                             <span class="cell-item">
-                                ${{ row.data.attributes.total }}
+                                {{ row.data.attributes.total }}
                             </span>
                         </td>
                         <td>
                             <span class="cell-item">
-                                {{ row.data.attributes.bag[0].description }}
+                                {{ row.data.attributes.bag.description }}
                             </span>
                         </td>
                         <td>
@@ -26,7 +26,7 @@
                         </td>
                         <td>
                             <div class="action-icons">
-                                <a :href="'/invoice/' + row.data.attributes.token" target="_blank">
+                                <a :href="'/invoice/' + row.data.id" target="_blank">
                                     <external-link-icon size="15" class="icon"></external-link-icon>
                                 </a>
                             </div>

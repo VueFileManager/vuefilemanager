@@ -54,7 +54,7 @@
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'Subscription'}" class="menu-list-item link">
+                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'Subscription'}" class="menu-list-item link">
                         <div class="icon">
                             <cloud-icon size="17"></cloud-icon>
                         </div>
@@ -63,7 +63,7 @@
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'PaymentCards'}" class="menu-list-item link">
+                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'PaymentCards'}" class="menu-list-item link">
                         <div class="icon">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
@@ -72,7 +72,7 @@
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'Invoice'}" class="menu-list-item link">
+                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'Invoice'}" class="menu-list-item link">
                         <div class="icon">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
@@ -143,6 +143,9 @@
             subscriptionColor() {
                 return this.user.data.attributes.subscription ? 'green' : 'purple'
             },
+            canShowSubscriptionSettings() {
+                return this.config.isSaaS && this.user.data.attributes.stripe_customer
+            }
         },
         data() {
             return {

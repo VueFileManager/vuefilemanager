@@ -11,6 +11,7 @@ use App\Plan;
 use App\Services\StripeService;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Rinvex\Subscriptions\Models\PlanFeature;
 
 class PlanController extends Controller
@@ -30,9 +31,18 @@ class PlanController extends Controller
      */
     public function index()
     {
-        return new PlanCollection(
-            $this->stripe->getPlans()
-        );
+        // Store or Get plans to cache
+        if (Cache::has('plans')) {
+
+            $plans = Cache::get('plans');
+        } else {
+
+            $plans = Cache::rememberForever('plans', function () {
+                return $this->stripe->getPlans();
+            });
+        }
+
+        return new PlanCollection($plans);
     }
 
     /**
@@ -43,9 +53,18 @@ class PlanController extends Controller
      */
     public function show($id)
     {
-        return new PlanResource(
-            $this->stripe->getPlan($id)
-        );
+        // Store or Get plan to cache
+        if (Cache::has('plan-' . $id)) {
+
+            $plan = Cache::get('plan-' . $id);
+        } else {
+
+            $plan = Cache::rememberForever('plan-' . $id, function () use ($id) {
+                return $this->stripe->getPlan($id);
+            });
+        }
+
+        return new PlanResource($plan);
     }
 
     /**
@@ -56,9 +75,14 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        return new PlanResource(
+        $plan = new PlanResource(
             $this->stripe->createPlan($request)
         );
+
+        // Clear cached plans
+        cache_forget_many(['plans', 'pricing']);
+
+        return $plan;
     }
 
     /**
@@ -72,6 +96,9 @@ class PlanController extends Controller
     {
         $this->stripe->updatePlan($request, $id);
 
+        // Clear cached plans
+        cache_forget_many(['plans', 'pricing', 'plan-' . $id]);
+
         return response('Saved!', 204);
     }
 
@@ -84,6 +111,9 @@ class PlanController extends Controller
     public function delete($id)
     {
         $this->stripe->deletePlan($id);
+
+        // Clear cached plans
+        cache_forget_many(['plans', 'pricing']);
 
         return response('Done!', 204);
     }

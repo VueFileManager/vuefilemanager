@@ -62,9 +62,9 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user', 'User\AccountController@user');
 
     // Payment cards
-    Route::delete('/user/payment-cards/{id}', 'User\PaymentCardsController@delete');
-    Route::patch('/user/payment-cards/{id}', 'User\PaymentCardsController@update');
-    Route::get('/user/payments', 'User\PaymentCardsController@payment_methods');
+    Route::delete('/user/payment-cards/{id}', 'User\PaymentMethodsController@delete');
+    Route::patch('/user/payment-cards/{id}', 'User\PaymentMethodsController@update');
+    Route::get('/user/payments', 'User\PaymentMethodsController@index');
 
     // Subscription
     Route::get('/stripe/setup-intent', 'User\SubscriptionController@stripe_setup_intent');
@@ -103,35 +103,36 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
 
     // Get users info
+    Route::get('/users/{id}/subscription', 'Admin\UserController@subscription');
     Route::get('/users/{id}/storage', 'Admin\UserController@storage');
     Route::get('/users/{id}/detail', 'Admin\UserController@details');
-    Route::get('/users/{id}/subscription', 'Admin\UserController@subscription');
     Route::get('/users', 'Admin\UserController@users');
 
     // Edit users
-    Route::post('/users/create', 'Admin\UserController@create_user');
-    Route::get('/users/{id}/invoices', 'Admin\UserController@invoices');
-    Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
-    Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
-    Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
     Route::post('/users/{id}/send-password-email', 'Admin\UserController@send_password_reset_email');
+    Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
+    Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
+    Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
+    Route::get('/users/{id}/invoices', 'Admin\UserController@invoices');
+    Route::post('/users/create', 'Admin\UserController@create_user');
 
     // Gateways
-    Route::get('/gateways', 'Admin\GatewayController@index');
-    Route::get('/gateways/{type}', 'Admin\GatewayController@show');
-    Route::patch('/gateways/{type}', 'Admin\GatewayController@update');
     Route::get('/gateways/{type}/transactions', 'Admin\GatewayController@show_transactions');
+    Route::patch('/gateways/{type}', 'Admin\GatewayController@update');
+    Route::get('/gateways/{type}', 'Admin\GatewayController@show');
+    Route::get('/gateways', 'Admin\GatewayController@index');
 
     // Plans
-    Route::get('/plans', 'Admin\PlanController@index');
-    Route::get('/plans/{id}', 'Admin\PlanController@show');
-    Route::post('/plans/store', 'Admin\PlanController@store');
-    Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
     Route::get('/plans/{id}/subscribers', 'Admin\PlanController@subscribers');
+    Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
+    Route::delete('/plans/{id}', 'Admin\PlanController@delete');
+    Route::post('/plans/store', 'Admin\PlanController@store');
+    Route::get('/plans/{id}', 'Admin\PlanController@show');
+    Route::get('/plans', 'Admin\PlanController@index');
 
     // Invoices
-    Route::get('/invoices', 'Admin\InvoiceController@index');
     Route::get('/invoices/{token}', 'Admin\InvoiceController@show');
+    Route::get('/invoices', 'Admin\InvoiceController@index');
 });
 
 // Protected sharing routes for authenticated user
