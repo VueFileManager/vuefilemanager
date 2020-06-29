@@ -31,6 +31,7 @@
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
             app_name: '{{ config('vuefilemanager.app_name') }}',
             app_logo: '{{ asset(config('vuefilemanager.app_logo')) }}',
+            host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
             hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
             userRegistration: {{ config('vuefilemanager.registration') ? 1 : 0 }},

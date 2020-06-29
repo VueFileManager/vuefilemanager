@@ -188,8 +188,17 @@
             fetchSubscriptionDetail() {
                 axios.get('/api/user/subscription')
                     .then(response => {
-                        this.subscription = response.data
-                        this.isLoading = false
+
+                        if (response.status == 204) {
+                            this.subscription = undefined
+                            this.isLoading = false
+                        }
+
+                        if (response.status == 200) {
+                            this.subscription = response.data
+                            this.isLoading = false
+                        }
+
                     })
             }
         },

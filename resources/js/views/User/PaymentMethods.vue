@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup v-if="paymentCards && paymentCards.length > 0">
-            <DatatableWrapper :paginator="true" :columns="columns" :data="paymentCards" class="table">
+        <PageTabGroup v-if="PaymentMethods && PaymentMethods.length > 0">
+            <DatatableWrapper :paginator="true" :columns="columns" :data="PaymentMethods" class="table">
                 <template scope="{ row }">
                     <tr :class="{'is-deleting': row.data.attributes.card_id === deletingID}">
                         <td style="width: 300px">
@@ -52,7 +52,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'UserPaymentCards',
+        name: 'UserPaymentMethods',
         components: {
             DatatableWrapper,
             PageTabGroup,
@@ -64,7 +64,7 @@
         data() {
             return {
                 defaultPaymentCard: undefined,
-                paymentCards: undefined,
+                PaymentMethods: undefined,
                 deletingID: undefined,
                 columns: [
                     {
@@ -139,14 +139,21 @@
                     }
                 })
             },
-            fetchPaymentCards() {
+            fetchPaymentMethods() {
                 axios.get('/api/user/payments')
                     .then(response => {
 
-                        this.defaultPaymentCard = response.data.default
+                        if (response.status == 204) {
+                            this.PaymentMethods = []
+                        }
 
-                        this.paymentCards = response.data.others.data
-                        this.paymentCards.push(response.data.default)
+                        if (response.status == 200) {
+
+                            this.defaultPaymentCard = response.data.default
+
+                            this.PaymentMethods = response.data.others.data
+                            this.PaymentMethods.push(response.data.default)
+                        }
 
                         this.isLoading = false
                     })
@@ -155,7 +162,7 @@
         created() {
 
             // Get payments card
-            this.fetchPaymentCards()
+            this.fetchPaymentMethods()
 
             // Delete credit card
             events.$on('action:confirmed', data => {
@@ -168,7 +175,7 @@
                         .then(() => {
 
                             // Get payments card
-                            this.fetchPaymentCards()
+                            this.fetchPaymentMethods()
 
                             // Show toaster
                             events.$emit('toaster', {
@@ -189,7 +196,7 @@
                         .then(() => {
 
                             // Get payments card
-                            this.fetchPaymentCards()
+                            this.fetchPaymentMethods()
 
                             // Show toaster
                             events.$emit('toaster', {

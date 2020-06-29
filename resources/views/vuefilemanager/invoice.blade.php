@@ -50,61 +50,60 @@
         <div class="partner">
             <h2 class="partner-title">Seller:</h2>
             <ul class="list">
-                @isset($invoice->seller['billing_vat_number'])
+                @isset($settings->billing_vat_number)
                     <li class="list-item">
                         <b>VAT number:</b>
-                        <span>{{ $invoice->seller['billing_vat_number'] }}</span>
+                        <span>{{ $settings->billing_vat_number }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->seller['billing_name'])
+                @isset($settings->billing_name)
                     <li class="list-item">
                         <b>Name:</b>
-                        <span>{{ $invoice->seller['billing_name'] }}</span>
+                        <span>{{ $settings->billing_name }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->seller['billing_phone_number'])
+                @isset($settings->billing_phone_number)
                     <li class="list-item">
                         <b>Phone:</b>
-                        <span>{{ $invoice->seller['billing_phone_number'] }}</span>
+                        <span>{{ $settings->billing_phone_number }}</span>
                     </li>
                 @endisset
             </ul>
-
             <ul class="list">
-                @isset($invoice->seller['billing_address'])
+                @isset($settings->billing_address)
                     <li class="list-item">
                         <b>Address:</b>
-                        <span>{{ $invoice->seller['billing_address'] }}</span>
+                        <span>{{ $settings->billing_address }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->seller['billing_city'])
+                @isset($settings->billing_city)
                     <li class="list-item">
                         <b>City:</b>
-                        <span>{{ $invoice->seller['billing_city'] }}</span>
+                        <span>{{ $settings->billing_city }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->seller['billing_state'])
+                @isset($settings->billing_state)
                     <li class="list-item">
                         <b>State:</b>
-                        <span>{{ $invoice->seller['billing_state'] }}</span>
+                        <span>{{ $settings->billing_state }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->seller['billing_postal_code'])
+                @isset($settings->billing_postal_code)
                     <li class="list-item">
                         <b>Postal code:</b>
-                        <span>{{ $invoice->seller['billing_postal_code'] }}</span>
+                        <span>{{ $settings->billing_postal_code }}</span>
                     </li>
                 @endisset
 
-                @isset($invoice->seller['billing_country'])
+                @isset($settings->billing_country)
                     <li class="list-item">
                         <b>Country:</b>
-                        <span>{{ $invoice->seller['billing_country'] }}</span>
+                        <span>{{ $settings->billing_country }}</span>
                     </li>
                 @endisset
             </ul>

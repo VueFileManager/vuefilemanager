@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentGatewaysSeeder::class);
         $this->call(PlansSeeder::class);
         $this->call(InvoicesSeeder::class);
+        $this->call(SettingSeeder::class);
     }
 }

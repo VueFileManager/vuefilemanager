@@ -74,7 +74,7 @@
                 'isLogged', 'isGuest'
             ]),
             layout() {
-                if (includes(['VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
+                if (includes(['PurchaseCode', 'StripeCredentials', 'AppSetup', 'EnvironmentSetup', 'BillingsDetail', 'SubscriptionPlans', 'Database', 'VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
                     return 'unauthorized'
                 }
 

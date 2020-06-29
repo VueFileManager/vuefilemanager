@@ -66,9 +66,9 @@ class UserController extends Controller
      *
      * @return InvoiceCollection
      */
-    public function invoices()
+    public function invoices($id)
     {
-        $user = \Auth::user();
+        $user = User::find($id);
 
         return new InvoiceCollection(
             $this->stripe->getUserInvoices($user)

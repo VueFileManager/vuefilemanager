@@ -20,7 +20,7 @@
                             <b class="form-group-label">Payment Card:</b>
 
                             <!-- Pay by new credit card -->
-                            <div class="register-card" v-show="! defaultPaymentCard || payByNewCard">
+                            <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
                                 <p class="payment-demo-disclaimer">
                                     For test your payment please use <b>4242 4242 4242 4242</b> as a card number, <b>11/22</b>
                                     as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.
@@ -34,20 +34,20 @@
                             </div>
 
                             <!--User registered payment card-->
-                            <div class="registered-cards" v-if="defaultPaymentCard && ! payByNewCard">
+                            <div class="registered-cards" v-if="defaultPaymentMethod && ! payByNewCard">
 
                                 <div class="credit-card" :class="{'is-error': isError}">
                                     <div class="card-number">
                                         <img class="credit-card-icon"
-                                             :src="$getCreditCardBrand(defaultPaymentCard.data.attributes.brand)"
-                                             :alt="defaultPaymentCard.data.attributes.brand">
+                                             :src="$getCreditCardBrand(defaultPaymentMethod.data.attributes.brand)"
+                                             :alt="defaultPaymentMethod.data.attributes.brand">
                                         <div class="credit-card-numbers">
-                                            •••• {{ defaultPaymentCard.data.attributes.last4 }}
+                                            •••• {{ defaultPaymentMethod.data.attributes.last4 }}
                                         </div>
                                         <ColorLabel color="purple">Default</ColorLabel>
                                     </div>
                                     <div class="expiration-date">
-                                        <span>{{ defaultPaymentCard.data.attributes.exp_month }} / {{ defaultPaymentCard.data.attributes.exp_year }}</span>
+                                        <span>{{ defaultPaymentMethod.data.attributes.exp_month }} / {{ defaultPaymentMethod.data.attributes.exp_year }}</span>
                                     </div>
                                 </div>
 
@@ -55,10 +55,10 @@
                                 <div class="change-payment" v-if="! isError">
                                     <span>Also you can</span>
 
-                                    <router-link v-if="paymentCards.data.length > 0" :to="{name: 'PaymentCards'}">change your
+                                    <router-link v-if="PaymentMethods.data.length > 0" :to="{name: 'PaymentMethods'}">change your
                                         default payment method
                                     </router-link>
-                                    <span v-if="paymentCards.data.length > 0">or</span>
+                                    <span v-if="PaymentMethods.data.length > 0">or</span>
 
                                     <a @click="payByNewCardForm">pay by new credit card.</a>
                                 </div>
@@ -69,7 +69,7 @@
                                     <span @click="payByNewCardForm"
                                           class="link">Please pay by another payment card</span>
                                     <span> or </span>
-                                    <router-link :to="{name: 'PaymentCards'}" class="link">Change your default payment
+                                    <router-link :to="{name: 'PaymentMethods'}" class="link">Change your default payment
                                         method
                                     </router-link>
                                 </div>
@@ -269,8 +269,8 @@
                 },
                 isLoading: true,
                 isSubmitted: false,
-                paymentCards: undefined,
-                defaultPaymentCard: undefined,
+                PaymentMethods: undefined,
+                defaultPaymentMethod: undefined,
 
                 errorMessage: undefined,
                 isError: false,
@@ -287,7 +287,7 @@
             },
             successOrder() {
                 // Update user data
-                //this.$store.dispatch('getAppData')
+                this.$store.dispatch('getAppData')
 
                 // End loading
                 this.isSubmitted = false
@@ -299,7 +299,7 @@
                 })
 
                 // Go to User page
-                //this.$router.push({name: 'Subscription'})
+                this.$router.push({name: 'Subscription'})
             },
             errorOrder(error) {
 
@@ -325,7 +325,7 @@
                 this.isSubmitted = true
 
                 // If user don't have credit card, register new
-                if (!this.defaultPaymentCard || this.payByNewCard) {
+                if (!this.defaultPaymentMethod || this.payByNewCard) {
 
                     console.log('Payment by new card');
 
@@ -365,7 +365,7 @@
                 }
 
                 // if user has credit card
-                if (this.defaultPaymentCard && !this.payByNewCard) {
+                if (this.defaultPaymentMethod && !this.payByNewCard) {
 
                     console.log('Payment by default card');
 
@@ -399,8 +399,8 @@
             axios.get('/api/user/payments')
                 .then(response => {
 
-                    this.defaultPaymentCard = response.data.default
-                    this.paymentCards = response.data.others
+                    this.defaultPaymentMethod = response.data.default
+                    this.PaymentMethods = response.data.others
 
                     this.isLoading = false
                 })

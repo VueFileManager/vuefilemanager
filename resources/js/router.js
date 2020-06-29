@@ -15,7 +15,7 @@ import Profile from './views/User/Settings'
 import Invoice from './views/User/Invoices'
 import Password from './views/User/Password'
 import Subscription from './views/User/Subscription'
-import PaymentCards from './views/User/PaymentCards'
+import PaymentMethods from './views/User/PaymentMethods'
 
 import Trash from './views/FilePages/Trash'
 import Files from './views/FilePages/Files'
@@ -53,6 +53,16 @@ import UserStorage from './views/Admin/Users/UserTabs/UserStorage'
 import UserPassword from './views/Admin/Users/UserTabs/UserPassword'
 import UserInvoices from './views/Admin/Users/UserTabs/UserInvoices'
 import UserSubscription from './views/Admin/Users/UserTabs/UserSubscription'
+
+// Setup Wizard
+import SetupWizard from './views/SetupWizard'
+import Database from './views/SetupWizard/Database'
+import AppSetup from './views/SetupWizard/AppSetup'
+import PurchaseCode from './views/SetupWizard/PurchaseCode'
+import BillingsDetail from './views/SetupWizard/BillingsDetail'
+import EnvironmentSetup from './views/SetupWizard/EnvironmentSetup'
+import StripeCredentials from './views/SetupWizard/StripeCredentials'
+import SubscriptionPlans from './views/SetupWizard/SubscriptionPlans'
 
 Vue.use(Router)
 
@@ -401,9 +411,9 @@ const routesUser = [
                 },
             },
             {
-                name: 'PaymentCards',
+                name: 'PaymentMethods',
                 path: '/settings/payment-cards',
-                component: PaymentCards,
+                component: PaymentMethods,
                 meta: {
                     requiresAuth: true,
                     title: 'Payment Cards'
@@ -430,11 +440,83 @@ const routesUser = [
         },
     },
 ]
+const routesMaintenance = [
+    {
+        name: 'SetupWizard',
+        path: '/setup-wizard',
+        component: SetupWizard,
+        meta: {
+            requiresAuth: false
+        },
+        children: [
+            {
+                name: 'PurchaseCode',
+                path: '/setup-wizard/purchase-code',
+                component: PurchaseCode,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'Database',
+                path: '/setup-wizard/database',
+                component: Database,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'StripeCredentials',
+                path: '/setup-wizard/stripe-credentials',
+                component: StripeCredentials,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'BillingsDetail',
+                path: '/setup-wizard/billings',
+                component: BillingsDetail,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'SubscriptionPlans',
+                path: '/setup-wizard/subscription-plans',
+                component: SubscriptionPlans,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'EnvironmentSetup',
+                path: '/setup-wizard/environment-setup',
+                component: EnvironmentSetup,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'AppSetup',
+                path: '/setup-wizard/app-setup',
+                component: AppSetup,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+        ]
+    },
+]
 
 const router = new Router({
     mode: 'history',
     routes: [
-        ...routesAdmin, ...routesShared, ...routesAuth, ...routesUser
+        ...routesMaintenance,
+        ...routesShared,
+        ...routesAdmin,
+        ...routesAuth,
+        ...routesUser,
     ],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
@@ -452,10 +534,10 @@ router.beforeEach((to, from, next) => {
         // if not, redirect to login page.
 
         //if ( ! store.getters.isLogged) {
-        if ( false ) {
+        if (false) {
             next({
                 name: 'SignIn',
-                query: { redirect: to.fullPath }
+                query: {redirect: to.fullPath}
             })
         } else {
             next()

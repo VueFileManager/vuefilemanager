@@ -63,7 +63,7 @@
                         </div>
                     </router-link>
 
-                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'PaymentCards'}" class="menu-list-item link">
+                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'PaymentMethods'}" class="menu-list-item link">
                         <div class="icon">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
@@ -144,7 +144,7 @@
                 return this.user.data.attributes.subscription ? 'green' : 'purple'
             },
             canShowSubscriptionSettings() {
-                return this.config.isSaaS && this.user.data.attributes.stripe_customer
+                return this.config.isSaaS
             }
         },
         data() {

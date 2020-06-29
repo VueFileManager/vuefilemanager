@@ -18,9 +18,13 @@ class PaymentMethodsController extends Controller
      *
      * @return array
      */
-    public function payment_methods()
+    public function index()
     {
         $user = Auth::user();
+
+        if (! $user->hasPaymentMethod()) {
+            return abort(204, 'User don\'t have any payment methods');
+        }
 
         $slug_payment_methods = 'payment-methods-user-' . $user->id;
         $slug_default_payment_method = 'default-payment-methods-user-' . $user->id;

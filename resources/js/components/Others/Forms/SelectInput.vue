@@ -88,7 +88,8 @@
     }
 
     .input-options {
-        background: $light_mode_input_background;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        background: white;
         border-radius: 8px;
         position: absolute;
         overflow: hidden;
@@ -96,16 +97,18 @@
         left: 0;
         right: 0;
         z-index: 9;
+        max-height: 295px;
+        overflow-y: auto;
 
         .option-item {
             padding: 13px 20px;
             display: block;
-            border-bottom: 1px solid #EBEBEB;
+            //border-bottom: 1px solid #EBEBEB;
             cursor: pointer;
 
             &:hover {
                 color: $theme;
-                background: rgba($theme, .1);
+                background: $light_background;
             }
 
             &:last-child {
@@ -117,7 +120,8 @@
     .input-area {
         border: 1px solid transparent;
         justify-content: space-between;
-        background: $light_mode_input_background;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+        //background: $light_mode_input_background;
         @include transition(150ms);
         align-items: center;
         border-radius: 8px;

@@ -19,6 +19,13 @@ class StripeService
         $this->stripe = Stripe::make(env('STRIPE_SECRET'), '2020-03-02');
     }
 
+    public function getAccountDetails()
+    {
+        $account = $this->stripe->account()->details();
+
+        return $account;
+    }
+
     /**
      * Get setup intent
      *

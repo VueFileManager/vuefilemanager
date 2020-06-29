@@ -17,12 +17,5 @@ class PaymentGatewaysSeeder extends Seeder
             'name'   => 'Stripe',
             'slug'   => 'stripe',
         ]);
-
-        // Create PayPal default record
-        DB::table('payment_gateways')->insert([
-            'logo' => '/assets/images/paypal-logo-thumbnail.png',
-            'name'   => 'Paypal',
-            'slug'   => 'paypal',
-        ]);
     }
 }

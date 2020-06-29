@@ -8,6 +8,7 @@
     display: flex;
     position: relative;
     justify-content: center;
+    margin: 0 auto;
 
     .input-wrapper {
       position: relative;
@@ -33,14 +34,15 @@
     }
 
     .block-wrapper {
-      margin-bottom: 15px;
+      margin-bottom: 32px;
 
       label {
         @include font-size(14);
-        color: rgba($text, 0.7);
-        font-weight: 600;
+        color: rgba($text, 0.8);
+        font-weight: 700;
         display: block;
         margin-bottom: 7px;
+        text-align: left;
       }
 
       &:last-child {
@@ -107,11 +109,12 @@ input[type="email"] {
   font-weight: 700;
   outline: 0;
   width: 100%;
-  background: hsla(210, 10%, 98%, 1);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+  //background: hsla(210, 10%, 98%, 1);
 
   &.is-error {
     border-color: $danger;
-    box-shadow: 0 0 7px rgba($danger, 0.3);
+    box-shadow: 0 1px 5px rgba($danger, 0.3);
   }
 
   &::placeholder {
@@ -121,11 +124,12 @@ input[type="email"] {
 
   &:focus {
     border-color: $theme;
-    box-shadow: 0 0 7px rgba($theme, 0.3);
+    box-shadow: 0 1px 5px rgba($theme, 0.3);
   }
 
   &[disabled] {
-    background: hsl(0, 0%, 98%);
+    background: white;
+    color: rgba($text, 0.8);
     cursor: not-allowed;
   }
 }

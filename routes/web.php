@@ -11,10 +11,10 @@
 |
 */
 
-use App\User;
-use Rinvex\Subscriptions\Models\PlanFeature;
+// Stripe WebHook
+Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 
-// Deployment Webhook URL
+// Deployment WebHook URL
 Route::post('/deploy/github', 'DeployController@github');
 
 // Get public thumbnails and files

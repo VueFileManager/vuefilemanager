@@ -7,6 +7,7 @@ use App\Http\Resources\InvoiceAdminCollection;
 use App\Http\Resources\InvoiceResource;
 use App\Invoice;
 use App\Services\StripeService;
+use App\Setting;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -40,9 +41,11 @@ class InvoiceController extends Controller
      */
     public function show($customer, $token)
     {
+        $settings = json_decode(Setting::all()->pluck('value', 'name')->toJson());
         $invoice = $this->stripe->getUserInvoice($customer, $token);
 
         return view('vuefilemanager.invoice')
+            ->with('settings', $settings)
             ->with('invoice', $invoice);
     }
 }
