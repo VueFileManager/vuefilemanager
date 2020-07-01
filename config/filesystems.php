@@ -73,6 +73,24 @@ return [
             'bucket' => env('DO_SPACES_BUCKET'),
         ],
 
+        'wasabi' => [
+            'driver' => 's3',
+            'key' => env('WASABI_KEY'),
+            'secret' => env('WASABI_SECRET'),
+            'endpoint' => env('WASABI_ENDPOINT'),
+            'region' => env('WASABI_REGION'),
+            'bucket' => env('WASABI_BUCKET'),
+        ],
+
+        'backblaze' => [
+            'driver' => 's3',
+            'key' => env('BACKBLAZE_KEY'),
+            'secret' => env('BACKBLAZE_SECRET'),
+            'endpoint' => env('BACKBLAZE_ENDPOINT'),
+            'region' => env('BACKBLAZE_REGION'),
+            'bucket' => env('BACKBLAZE_BUCKET'),
+        ],
+
     ],
 
 ];

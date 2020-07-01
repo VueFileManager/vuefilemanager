@@ -6,7 +6,7 @@
             <div class="content-headline">
                 <settings-icon size="40" class="title-icon"></settings-icon>
                 <h1>Setup Wizard</h1>
-                <h2>Set up you billing information.</h2>
+                <h2>Set up your billing information.</h2>
             </div>
 
             <ValidationObserver @submit.prevent="billingInformationSubmit" ref="billingInformation" v-slot="{ invalid }"
@@ -18,7 +18,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Name"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="billingInformation.billing_name" placeholder="Type your company name"
-                               type="text"/>
+                               type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -28,7 +28,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Vat Number"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="billingInformation.billing_vat_number" placeholder="Type your VAT number"
-                               type="text"/>
+                               type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -48,8 +48,8 @@
                     <label>Billing Address:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Address"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_address" placeholder="Select your billing address"
-                               type="text"/>
+                        <input v-model="billingInformation.billing_address" placeholder="Type your billing address"
+                               type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -59,8 +59,8 @@
                         <label>Billing City:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing City"
                                             rules="required" v-slot="{ errors }">
-                            <input v-model="billingInformation.billing_city" placeholder="Select your billing city"
-                                   type="text"/>
+                            <input v-model="billingInformation.billing_city" placeholder="Type your billing city"
+                                   type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -69,7 +69,7 @@
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Postal Code"
                                             rules="required" v-slot="{ errors }">
                             <input v-model="billingInformation.billing_postal_code"
-                                   placeholder="Select your billing postal code" type="text"/>
+                                   placeholder="Type your billing postal code" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -79,8 +79,18 @@
                     <label>Billing State:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing State"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_state" placeholder="Select your billing state"
-                               type="text"/>
+                        <input v-model="billingInformation.billing_state" placeholder="Type your billing state"
+                               type="text" :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>Billing Phone Number (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Phone Number"
+                                        v-slot="{ errors }">
+                        <input v-model="billingInformation.billing_phone_number" placeholder="Type your billing phone number"
+                               type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -384,7 +394,31 @@
         },
         methods: {
             async billingInformationSubmit() {
-                this.$router.push({name: 'SubscriptionPlans'})
+
+                // Validate fields
+                const isValid = await this.$refs.billingInformation.validate();
+
+                if (!isValid) return;
+
+                // Start loading
+                this.isLoading = true
+
+                // Send request to get verify account
+                axios
+                    .post('/api/setup/stripe-billings', this.billingInformation)
+                    .then(response => {
+
+                        // End loading
+                        this.isLoading = false
+
+                        // Redirect to next step
+                        this.$router.push({name: 'SubscriptionPlans'})
+                    })
+                    .catch(error => {
+
+                        // End loading
+                        this.isLoading = false
+                    })
             },
         },
         created() {

@@ -4,6 +4,8 @@
 namespace App\Services;
 
 use App\User;
+use Artisan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Stripe;
@@ -16,9 +18,16 @@ class StripeService
      */
     public function __construct()
     {
+        dd(config('stripe.secret'));
+
         $this->stripe = Stripe::make(env('STRIPE_SECRET'), '2020-03-02');
     }
 
+    /**
+     * Get Stripe account details
+     *
+     * @return mixed
+     */
     public function getAccountDetails()
     {
         $account = $this->stripe->account()->details();
@@ -112,6 +121,8 @@ class StripeService
     }
 
     /**
+     * Update customer details
+     *
      * @param $user
      */
     public function updateCustomerDetails($user)
@@ -205,22 +216,38 @@ class StripeService
     /**
      * Create plan
      *
-     * @param $request
+     * @param $data
      * @return mixed
      */
-    public function createPlan($request)
+    public function createPlan($data)
     {
+        if ($data instanceof Request) {
+            $plan = [
+                'name'        => $data->input('attributes.name'),
+                'description' => $data->input('attributes.description'),
+                'price'       => $data->input('attributes.price'),
+                'capacity'    => $data->input('attributes.capacity'),
+            ];
+        } else {
+            $plan = [
+                'name'        => $data['attributes']['name'],
+                'description' => $data['attributes']['description'],
+                'price'       => $data['attributes']['price'],
+                'capacity'    => $data['attributes']['capacity'],
+            ];
+        }
+
         $product = $this->stripe->products()->create([
-            'name'        => $request->input('attributes.name'),
-            'description' => $request->input('attributes.description'),
+            'name'        => $plan['name'],
+            'description' => $plan['description'],
             'metadata'    => [
-                'capacity' => $request->input('attributes.capacity')
+                'capacity' => $plan['capacity']
             ]
         ]);
 
         $plan = $this->stripe->plans()->create([
-            'id'       => Str::slug($request->input('attributes.name')),
-            'amount'   => $request->input('attributes.price'),
+            'id'       => Str::slug($plan['name']),
+            'amount'   => $plan['price'],
             'currency' => 'USD',
             'interval' => 'month',
             'product'  => $product['id'],

@@ -59,10 +59,12 @@ import SetupWizard from './views/SetupWizard'
 import Database from './views/SetupWizard/Database'
 import AppSetup from './views/SetupWizard/AppSetup'
 import PurchaseCode from './views/SetupWizard/PurchaseCode'
+import AdminAccount from './views/SetupWizard/AdminAccount'
 import BillingsDetail from './views/SetupWizard/BillingsDetail'
 import EnvironmentSetup from './views/SetupWizard/EnvironmentSetup'
 import StripeCredentials from './views/SetupWizard/StripeCredentials'
 import SubscriptionPlans from './views/SetupWizard/SubscriptionPlans'
+import SubscriptionService from './views/SetupWizard/SubscriptionService'
 
 Vue.use(Router)
 
@@ -466,6 +468,14 @@ const routesMaintenance = [
                 },
             },
             {
+                name: 'SubscriptionService',
+                path: '/setup-wizard/subscription-service',
+                component: SubscriptionService,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
                 name: 'StripeCredentials',
                 path: '/setup-wizard/stripe-credentials',
                 component: StripeCredentials,
@@ -475,7 +485,7 @@ const routesMaintenance = [
             },
             {
                 name: 'BillingsDetail',
-                path: '/setup-wizard/billings',
+                path: '/setup-wizard/stripe-billings',
                 component: BillingsDetail,
                 meta: {
                     requiresAuth: false,
@@ -483,7 +493,7 @@ const routesMaintenance = [
             },
             {
                 name: 'SubscriptionPlans',
-                path: '/setup-wizard/subscription-plans',
+                path: '/setup-wizard/stripe-plans',
                 component: SubscriptionPlans,
                 meta: {
                     requiresAuth: false,
@@ -501,6 +511,14 @@ const routesMaintenance = [
                 name: 'AppSetup',
                 path: '/setup-wizard/app-setup',
                 component: AppSetup,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'AdminAccount',
+                path: '/setup-wizard/admin-setup',
+                component: AdminAccount,
                 meta: {
                     requiresAuth: false,
                 },

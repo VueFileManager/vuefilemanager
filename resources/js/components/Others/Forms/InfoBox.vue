@@ -1,5 +1,5 @@
 <template>
-    <div class="info-box">
+    <div class="info-box" :class="type">
         <slot></slot>
     </div>
 </template>
@@ -7,6 +7,7 @@
 <script>
     export default {
         name: 'InfoBox',
+        props: ['type']
     }
 </script>
 
@@ -21,9 +22,18 @@
         background: $light_background;
         text-align: left;
 
+        &.error {
+            background: rgba($danger, 0.1);
+
+            p, a {
+                color: $danger;
+            }
+        }
+
         p {
             @include font-size(15);
             line-height: 1.6;
+            word-break: break-all;
         }
 
         a {

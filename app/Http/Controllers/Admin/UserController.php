@@ -171,8 +171,6 @@ class UserController extends Controller
     {
         // Store avatar
         if ($request->hasFile('avatar')) {
-
-            // Update avatar
             $avatar = store_avatar($request->file('avatar'), 'avatars');
         }
 

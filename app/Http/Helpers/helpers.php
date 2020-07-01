@@ -180,6 +180,28 @@ function store_avatar($image, $path)
 }
 
 /**
+ * Store system image
+ *
+ * @param $image
+ * @param $path
+ * @return string
+ */
+function store_system_image($image, $path)
+{
+    // Get directory
+    $path = check_directory($path);
+
+    // Store avatar
+    $image_path = Str::random(8) . '-' . str_replace(' ', '', $image->getClientOriginalName());
+
+    // Store image to disk
+    Storage::putFileAs($path, $image, $image_path);
+
+    // Return path to image
+    return $path . '/' . $image_path;
+}
+
+/**
  * Check if directory exist, if no, then create it
  *
  * @param $directory

@@ -9,19 +9,96 @@
                 <h2>Set up your application appearance, analytics, etc.</h2>
             </div>
 
-            <ValidationObserver @submit.prevent="appSetupSubmit" ref="appSetup" v-slot="{ invalid }" tag="form" class="form block-form">
+            <ValidationObserver @submit.prevent="appSetupSubmit" ref="appSetup" v-slot="{ invalid }" tag="form"
+                                class="form block-form">
                 <FormLabel>General Settings</FormLabel>
 
                 <div class="block-wrapper">
-                    <label>Mail Driver:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" placeholder="Type your mail driver" type="text" />
+                    <label>App Title:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
+                        <input v-model="app.title" placeholder="Type your app title" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
+                <div class="block-wrapper">
+                    <label>App Description:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
+                        <input v-model="app.description" placeholder="Type your app description" type="text" :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>App Logo (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
+                        <ImageInput v-model="app.logo" :error="errors[0]"/>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>App Favicon (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput v-model="app.favicon" :error="errors[0]"/>
+                    </ValidationProvider>
+                </div>
 
                 <FormLabel class="mt-70">Others Information</FormLabel>
+
+                <div class="block-wrapper">
+                    <label>Contact Email:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email"
+                                        rules="required" v-slot="{ errors }">
+                        <input v-model="app.contactMail" placeholder="Type your contact email" type="email" :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>Google Analytics Code (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Google Analytics Code"
+                                        v-slot="{ errors }">
+                        <input v-model="app.googleAnalytics" placeholder="Paste your Google Analytics Code"
+                               type="text" :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <div class="input-wrapper">
+                        <div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">Storage Limitation:</label>
+                            </div>
+                            <SwitchInput v-model="app.storageLimitation" class="switch" :state="app.storageLimitation"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block-wrapper" v-if="app.storageLimitation">
+                    <label>Default Storage Space for Accounts:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Default Storage Space" rules="required" v-slot="{ errors }">
+                        <input v-model="app.defaultStorage"
+                               min="1"
+                               max="999999999"
+                               placeholder="Set default storage space in GB"
+                               type="number"
+                               :class="{'is-error': errors[0]}"
+                        />
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <div class="input-wrapper">
+                        <div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">Allow User Registration:</label>
+                            </div>
+                            <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration"/>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="submit-wrapper">
                     <AuthButton icon="chevron-right" text="Save and Create Admin" :loading="isLoading" :disabled="isLoading"/>
@@ -36,11 +113,13 @@
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
     import SelectInput from '@/components/Others/Forms/SelectInput'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
+    import ImageInput from '@/components/Others/Forms/ImageInput'
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import AuthContent from '@/components/Auth/AuthContent'
     import AuthButton from '@/components/Auth/AuthButton'
-    import { SettingsIcon } from 'vue-feather-icons'
+    import {SettingsIcon} from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
@@ -53,7 +132,9 @@
             ValidationObserver,
             SettingsIcon,
             SelectInput,
+            SwitchInput,
             AuthContent,
+            ImageInput,
             AuthButton,
             FormLabel,
             required,
@@ -62,51 +143,68 @@
         data() {
             return {
                 isLoading: false,
-                storageServiceList: [
-                    {
-                        label: 'Local Driver',
-                        value: 'local',
-                    },
-                    {
-                        label: 'Amazon Web Services S3',
-                        value: 's3',
-                    },
-                    {
-                        label: 'Digital Ocean Spaces',
-                        value: 'spaces',
-                    },
-                ],
-                encryptionList: [
-                    {
-                        label: 'TLS',
-                        value: 'tls',
-                    },
-                    {
-                        label: 'SSL',
-                        value: 'ssl',
-                    },
-                ],
-                storage: {
-                    driver: 'local',
-                    key: '',
-                    secret: '',
-                    endpoint: '',
-                    region: '',
-                    bucket: '',
+                app: {
+                    title: '',
+                    description: '',
+                    logo: undefined,
+                    favicon: undefined,
+                    contactMail: '',
+                    googleAnalytics: '',
+                    defaultStorage: '',
+                    userRegistration: 1,
+                    storageLimitation: 1,
                 },
-                mail: {
-                    driver: '',
-                    host: '',
-                    port: '',
-                    username: '',
-                    password: '',
-                    encryption: '',
-                }
             }
         },
         methods: {
             async appSetupSubmit() {
-                this.$router.push({name: 'AppSetup'})
+
+                // Validate fields
+                const isValid = await this.$refs.appSetup.validate();
+
+                if (!isValid) return;
+
+                // Start loading
+                this.isLoading = true
+
+                // Create form
+                let formData = new FormData()
+
+                // Add image to form
+                formData.append('title', this.app.title)
+                formData.append('description', this.app.description)
+                formData.append('contactMail', this.app.contactMail)
+                formData.append('googleAnalytics', this.app.googleAnalytics)
+                formData.append('defaultStorage', this.app.defaultStorage)
+                formData.append('userRegistration', this.app.userRegistration)
+                formData.append('storageLimitation', this.app.storageLimitation)
+
+                if (this.app.logo)
+                    formData.append('logo', this.app.logo)
+
+                if (this.app.favicon)
+                    formData.append('favicon', this.app.favicon)
+
+                // Send request to get verify account
+                axios
+                    .post('/api/setup/app-setup', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        }
+                    })
+                    .then(response => {
+
+                        // End loading
+                        this.isLoading = false
+
+                        // Redirect to next step
+                        this.$router.push({name: 'AdminAccount'})
+                    })
+                    .catch(error => {
+
+                        // End loading
+                        this.isLoading = false
+                    })
             },
         },
         created() {
@@ -117,7 +215,6 @@
 </script>
 
 <style scoped lang="scss">
-    //@import '@assets/vue-file-manager/_auth-form';
     @import '@assets/vue-file-manager/_forms';
     @import '@assets/vue-file-manager/_auth';
     @import '@assets/vue-file-manager/_setup_wizard';

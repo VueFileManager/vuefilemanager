@@ -327,8 +327,6 @@
                 // If user don't have credit card, register new
                 if (!this.defaultPaymentMethod || this.payByNewCard) {
 
-                    console.log('Payment by new card');
-
                     const {setupIntent, error} = await stripe.confirmCardSetup(this.clientSecret, {
                         payment_method: {
                             card: card,
@@ -366,8 +364,6 @@
 
                 // if user has credit card
                 if (this.defaultPaymentMethod && !this.payByNewCard) {
-
-                    console.log('Payment by default card');
 
                     axios
                         .post('/api/subscription/upgrade', {

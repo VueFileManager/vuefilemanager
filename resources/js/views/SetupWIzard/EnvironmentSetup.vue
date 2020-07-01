@@ -9,9 +9,9 @@
                 <h2>Set up your storage driver and email client.</h2>
             </div>
 
-            <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="form block-form">
+            <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="environmentSetup" v-slot="{ invalid }" tag="form" class="form block-form">
                 <InfoBox>
-                    <p>If you don’t know which storage set, select <b>'Local Driver'</b>. For more info, where
+                    <p>If you don’t know which storage driver set, keep selected <b>'Local Driver'</b>. For more info, where
                         you can host your files <a href="https://vuefilemanager.com/docs/guide/storage.html#introduction" target="_blank">visit our guide</a>.</p>
                 </InfoBox>
 
@@ -29,35 +29,35 @@
                     <div class="block-wrapper">
                         <label>Key:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Key" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.key" placeholder="Paste your key" type="text" />
+                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Secret:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" />
+                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
-                    <div class="block-wrapper">
+                    <div class="block-wrapper" v-if="storage.driver !== 's3'">
                         <label>Endpoint:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" />
+                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Region:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Region" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.region" placeholder="Type your region" type="text" />
+                            <input v-model="storage.region" placeholder="Type your region" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Bucket:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Bucket" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" />
+                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -72,7 +72,7 @@
                 <div class="block-wrapper">
                     <label>Mail Driver:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" placeholder="Type your mail driver" type="text" />
+                        <input v-model="mail.driver" placeholder="Type your mail driver" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="block-wrapper">
                     <label>Mail Host:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" placeholder="Type your mail host" type="text" />
+                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="block-wrapper">
                     <label>Mail Port:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" placeholder="Type your mail port" type="text" />
+                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -96,7 +96,7 @@
                 <div class="block-wrapper">
                     <label>Mail Username:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" placeholder="Type your mail username" type="text" />
+                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -104,7 +104,7 @@
                 <div class="block-wrapper">
                     <label>Mail Password:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" placeholder="Type your mail password" type="text" />
+                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -118,7 +118,7 @@
                 </div>
 
                 <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" text="Save and Set Billings" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading"/>
                 </div>
 
             </ValidationObserver>
@@ -169,6 +169,14 @@
                         label: 'Digital Ocean Spaces',
                         value: 'spaces',
                     },
+                    {
+                        label: 'Object Cloud Storage by Wasabi',
+                        value: 'wasabi',
+                    },
+                    {
+                        label: 'Backblaze B2 Cloud Storage',
+                        value: 'backblaze',
+                    },
                 ],
                 encryptionList: [
                     {
@@ -200,7 +208,34 @@
         },
         methods: {
             async EnvironmentSetupSubmit() {
-                this.$router.push({name: 'AppSetup'})
+
+                // Validate fields
+                const isValid = await this.$refs.environmentSetup.validate();
+
+                if (!isValid) return;
+
+                // Start loading
+                this.isLoading = true
+
+                // Send request to get verify account
+                axios
+                    .post('/api/setup/environment-setup', {
+                        storage: this.storage,
+                        mail: this.mail,
+                    })
+                    .then(response => {
+
+                        // End loading
+                        this.isLoading = false
+
+                        // Redirect to next step
+                        this.$router.push({name: 'AppSetup'})
+                    })
+                    .catch(error => {
+
+                        // End loading
+                        this.isLoading = false
+                    })
             },
         },
         created() {

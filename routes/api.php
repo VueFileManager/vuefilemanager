@@ -16,6 +16,20 @@
 |--------------------------------------------------------------------------
 */
 
+// Setup Wizard
+Route::group(['middleware' => ['api'], 'prefix' => 'setup'], function () {
+    Route::post('/purchase-code', 'General\SetupWizardController@verify_purchase_code');
+    Route::post('/database', 'General\SetupWizardController@setup_database');
+
+    Route::post('/stripe-credentials', 'General\SetupWizardController@store_stripe_credentials');
+    Route::post('/stripe-billings', 'General\SetupWizardController@store_stripe_billings');
+    Route::post('/stripe-plans', 'General\SetupWizardController@store_stripe_plans');
+
+    Route::post('/environment-setup', 'General\SetupWizardController@store_environment_setup');
+    Route::post('/app-setup', 'General\SetupWizardController@store_app_settings');
+    Route::post('/admin-setup', 'General\SetupWizardController@create_admin_account');
+});
+
 // Plans
 Route::group(['middleware' => ['api'], 'prefix' => 'public'], function () {
     Route::get('/pricing', 'General\PricingController@index');

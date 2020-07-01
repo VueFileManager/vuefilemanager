@@ -9,7 +9,8 @@
                 <h2>Set up plans for your customers.</h2>
             </div>
 
-            <ValidationObserver @submit.prevent="subscriptionPlansSubmit" ref="subscriptionPlans" v-slot="{ invalid }" tag="form" class="form block-form">
+            <ValidationObserver @submit.prevent="subscriptionPlansSubmit" ref="subscriptionPlans" v-slot="{ invalid }"
+                                tag="form" class="form block-form">
                 <FormLabel>Create your plans</FormLabel>
                 <InfoBox>
                     <p>Your plans will be <b>sorted automatically</b> in ascent order by plan price.</p>
@@ -23,8 +24,8 @@
                             <label>Name:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name"
                                                 rules="required" v-slot="{ errors }">
-                                <input v-model="plan.name" placeholder="Type your plan name"
-                                       type="text"/>
+                                <input v-model="plan.attributes.name" placeholder="Type your plan name"
+                                       type="text" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -32,8 +33,9 @@
                         <div class="block-wrapper">
                             <label>Description (optional):</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Description"
-                                                rules="required" v-slot="{ errors }">
-                                <textarea v-model="plan.description" placeholder="Type your plan description"></textarea>
+                                                v-slot="{ errors }">
+                                <textarea v-model="plan.attributes.description"
+                                          placeholder="Type your plan description" :class="{'is-error': errors[0]}"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -42,7 +44,9 @@
                             <label>Price:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Price"
                                                 rules="required" v-slot="{ errors }">
-                                <input v-model="plan.price" placeholder="Type your plan price" type="text"/>
+                                <input v-model="plan.attributes.price" placeholder="Type your plan price" type="number"
+                                       step="0.01" min="1" max="99999"
+                                       :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -51,7 +55,12 @@
                             <label>Storage Capacity:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage Capacity"
                                                 rules="required" v-slot="{ errors }">
-                                <input v-model="plan.storage_capacity" placeholder="Type your storage capacity" type="text"/>
+                                <input v-model="plan.attributes.capacity"
+                                       min="1"
+                                       max="999999999"
+                                       placeholder="Type storage capacity in GB"
+                                       type="number"
+                                       :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -61,11 +70,13 @@
                             @click.native="addRow"
                             class="duplicator-add-button"
                             button-style="theme-solid"
-                    >Add New Plan</ButtonBase>
+                    >Add New Plan
+                    </ButtonBase>
                 </div>
 
                 <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" text="Save and Go Next" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton icon="chevron-right" :text="submitButtonText" :loading="isLoading"
+                                :disabled="isLoading"/>
                 </div>
 
             </ValidationObserver>
@@ -84,7 +95,7 @@
     import AuthButton from '@/components/Auth/AuthButton'
     import {SettingsIcon} from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
-    import { XIcon } from 'vue-feather-icons'
+    import {XIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -104,31 +115,68 @@
             InfoBox,
             XIcon,
         },
+        computed: {
+            submitButtonText() {
+                return this.isLoading ? 'Creating Subscription Stripe Plans' : 'Save and Go Next'
+            }
+        },
         data() {
             return {
                 isLoading: false,
                 subscriptionPlans: [
                     {
                         id: 1,
-                        name: '',
-                        description: '',
-                        price: '',
-                        storage_capacity: '',
+                        type: 'plan',
+                        attributes: {
+                            name: '',
+                            description: '',
+                            price: '',
+                            capacity: '',
+                        }
                     }
                 ]
             }
         },
         methods: {
-            async  subscriptionPlansSubmit() {
-                this.$router.push({name: 'EnvironmentSetup'})
+            async subscriptionPlansSubmit() {
+
+                // Validate fields
+                const isValid = await this.$refs.subscriptionPlans.validate();
+
+                if (!isValid) return;
+
+                // Start loading
+                this.isLoading = true
+
+                // Send request to get verify account
+                axios
+                    .post('/api/setup/stripe-plans', {
+                        plans: this.subscriptionPlans
+                    })
+                    .then(response => {
+
+                        // End loading
+                        this.isLoading = false
+
+                        // Redirect to next step
+                        this.$router.push({name: 'EnvironmentSetup'})
+                    })
+                    .catch(error => {
+
+                        // End loading
+                        this.isLoading = false
+                    })
             },
             addRow() {
                 this.subscriptionPlans.push({
                     id: Math.floor(Math.random() * 10000000),
-                    name: '',
-                    description: '',
-                    price: '',
-                    storage_capacity: '',
+                    type: 'plans',
+                    attributes: {
+                        name: '',
+                        description: '',
+                        price: '',
+                        capacity: '',
+                    }
                 })
             },
             removeRow(plan) {
