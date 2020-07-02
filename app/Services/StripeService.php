@@ -18,9 +18,7 @@ class StripeService
      */
     public function __construct()
     {
-        dd(config('stripe.secret'));
-
-        $this->stripe = Stripe::make(env('STRIPE_SECRET'), '2020-03-02');
+        $this->stripe = Stripe::make(config('cashier.secret'), '2020-03-02');
     }
 
     /**

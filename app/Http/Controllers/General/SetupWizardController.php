@@ -43,17 +43,11 @@ class SetupWizardController extends Controller
      */
     public function verify_purchase_code(Request $request)
     {
-        // Author API token
-        $token = 'X3kPkRnIHqauwE7vle3Gvhx6PTY9bvLr';
-        // e3420e63-ce6f-4d04-9b3e-f7f5cc6af7c6
-
         // Verify purchase code
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token
-        ])->get('https://api.envato.com/v3/market/author/sale?code=' . $request->purchaseCode);
+        $response = Http::get('https://verify.vuefilemanager.com/api/verify-code/' . $request->purchaseCode);
 
         if ($response->successful()) {
-            return $response['license'];
+            return $response;
         }
 
         return response('Purchase code is invalid.', 400);
@@ -67,16 +61,16 @@ class SetupWizardController extends Controller
      */
     public function setup_database(StoreDatabaseCredentialsRequest $request)
     {
-        // Set temporary database connection
-        config(['database.connections.test.driver' => $request->connection]);
-        config(['database.connections.test.host' => $request->host]);
-        config(['database.connections.test.port' => $request->port]);
-        config(['database.connections.test.database' => $request->name]);
-        config(['database.connections.test.username' => $request->username]);
-        config(['database.connections.test.password' => $request->password]);
-
-        // Test database connection
         try {
+            // Set temporary database connection
+            config(['database.connections.test.driver' => $request->connection]);
+            config(['database.connections.test.host' => $request->host]);
+            config(['database.connections.test.port' => $request->port]);
+            config(['database.connections.test.database' => $request->name]);
+            config(['database.connections.test.username' => $request->username]);
+            config(['database.connections.test.password' => $request->password]);
+
+            // Test connection
             \DB::connection('test')->getPdo();
 
         } catch (PDOException $e) {
@@ -115,8 +109,22 @@ class SetupWizardController extends Controller
             $this->setEnvironmentValue($col['name'], $col['value']);
         });
 
+        // Set database connection
+        config(['database.connections.mysql.driver' => $request->connection]);
+        config(['database.connections.mysql.host' => $request->host]);
+        config(['database.connections.mysql.port' => $request->port]);
+        config(['database.connections.mysql.database' => $request->name]);
+        config(['database.connections.mysql.username' => $request->username]);
+        config(['database.connections.mysql.password' => $request->password]);
+
         // Set up application
         $this->set_up_application();
+
+        // Store setup wizard progress
+        Setting::create([
+            'name'  => 'setup_wizard_database',
+            'value' => 1,
+        ]);
 
         return response('Done', 200);
     }
@@ -126,10 +134,6 @@ class SetupWizardController extends Controller
      */
     private function set_up_application()
     {
-        // Clear Cache
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-
         // Generate app key
         Artisan::call('key:generate');
 
@@ -159,6 +163,10 @@ class SetupWizardController extends Controller
         // Set passport client to .env
         $this->setEnvironmentValue('PASSPORT_CLIENT_ID', $client->id);
         $this->setEnvironmentValue('PASSPORT_CLIENT_SECRET', $client->secret);
+
+        // Clear cache
+        Artisan::call('config:clear');
+        //Artisan::call('config:cache');
     }
 
     /**
@@ -209,6 +217,10 @@ class SetupWizardController extends Controller
         $settings->each(function ($col) {
             Setting::updateOrCreate(['name' => $col['name']], $col);
         });
+
+        // Clear cache
+        Artisan::call('config:clear');
+        //Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -261,6 +273,10 @@ class SetupWizardController extends Controller
         $settings->each(function ($col) {
             Setting::updateOrCreate(['name' => $col['name']], $col);
         });
+
+        // Clear cache
+        Artisan::call('config:clear');
+        //Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -447,6 +463,10 @@ class SetupWizardController extends Controller
             $this->setEnvironmentValue($col['name'], $col['value']);
         });
 
+        // Clear cache
+        Artisan::call('config:clear');
+        //Artisan::call('config:cache');
+
         return response('Done', 200);
     }
 
@@ -545,11 +565,19 @@ class SetupWizardController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Get default storage capacity
+        $storage_capacity = Setting::where('name', 'storage_default')->first();
+
         // Create settings
-        // TODO: set default storage capacity
         UserSettings::create([
             'user_id'          => $user->id,
-            'storage_capacity' => 1,
+            'storage_capacity' => $storage_capacity->value,
+        ]);
+
+        // Store setup wizard progress
+        Setting::create([
+            'name'  => 'setup_wizard_success',
+            'value' => 1,
         ]);
 
         // Retrieve access token

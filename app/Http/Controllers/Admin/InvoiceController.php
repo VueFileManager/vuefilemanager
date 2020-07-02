@@ -42,6 +42,7 @@ class InvoiceController extends Controller
     public function show($customer, $token)
     {
         $settings = json_decode(Setting::all()->pluck('value', 'name')->toJson());
+
         $invoice = $this->stripe->getUserInvoice($customer, $token);
 
         return view('vuefilemanager.invoice')

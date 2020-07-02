@@ -7,7 +7,7 @@
             <div class="content-headline">
                 <settings-icon size="40" class="title-icon"></settings-icon>
                 <h1>Setup Wizard</h1>
-                <h2>Please verify your purchase code before continue to set up your application.</h2>
+                <h2>Please set your purchase code before continue to set up your application.</h2>
             </div>
 
             <ValidationObserver @submit.prevent="verifyPurchaseCode" ref="verifyPurchaseCode" v-slot="{ invalid }" tag="form" class="form inline-form">
@@ -56,7 +56,7 @@
         data() {
             return {
                 isLoading: false,
-                purchaseCode: 'e3420e63-ce6f-4d04-9b3e-f7f5cc6af7c6'
+                purchaseCode: 'e3420e63-ce6f-4d04-9b3e-f7f5cc6af7c6',
             }
         },
         methods: {
@@ -79,6 +79,8 @@
 
                         // End loading
                         this.isLoading = false
+
+                        localStorage.setItem('purchase_code', this.purchaseCode)
 
                         // Redirect to next step
                         this.$router.push({name: 'Database'})

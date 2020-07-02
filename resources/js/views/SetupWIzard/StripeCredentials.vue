@@ -662,10 +662,10 @@
                     },
                 ],
                 stripeCredentials: {
-                    key: '',
-                    secret: '',
-                    webhookSecret: '',
-                    currency: '',
+                    key: 'pk_test_51GsACaCBETHMUxzVsYkeApHtqb85paMuye7G77PDDQ28kXqDJ5HTmqLi13aM6xee81OQK1fhkTZ7vmDiWLStU9160061Yb2MtL',
+                    secret: 'sk_test_51GsACaCBETHMUxzVviYCrv0CeZMyWAOfBPe4uH5rkKJcJxrXhIciWQTr7UB1sgw9geoJMkNDVSWBQW36tuAsVznd00zhNHXhok',
+                    webhookSecret: 'whsec_eKrDhqtpbMUXOKqrUHf78SrZxHHYOdrf',
+                    currency: 'USD',
                 }
             }
         },

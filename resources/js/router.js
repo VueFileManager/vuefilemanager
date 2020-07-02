@@ -65,6 +65,7 @@ import EnvironmentSetup from './views/SetupWizard/EnvironmentSetup'
 import StripeCredentials from './views/SetupWizard/StripeCredentials'
 import SubscriptionPlans from './views/SetupWizard/SubscriptionPlans'
 import SubscriptionService from './views/SetupWizard/SubscriptionService'
+import InstallationDisclaimer from './views/SetupWizard/InstallationDisclaimer'
 
 Vue.use(Router)
 
@@ -445,7 +446,7 @@ const routesUser = [
 const routesMaintenance = [
     {
         name: 'SetupWizard',
-        path: '/setup-wizard',
+        path: '/install',
         component: SetupWizard,
         meta: {
             requiresAuth: false
@@ -463,6 +464,14 @@ const routesMaintenance = [
                 name: 'Database',
                 path: '/setup-wizard/database',
                 component: Database,
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
+                name: 'InstallationDisclaimer',
+                path: '/setup-wizard/installation-disclaimer',
+                component: InstallationDisclaimer,
                 meta: {
                     requiresAuth: false,
                 },

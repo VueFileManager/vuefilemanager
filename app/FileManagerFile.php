@@ -119,7 +119,7 @@ class FileManagerFile extends Model
         // Get thumbnail from s3
         if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces'])) {
 
-            return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addDay());
+            return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addHour());
         }
 
         // Get thumbnail from local storage

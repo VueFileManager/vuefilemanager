@@ -74,7 +74,7 @@
                 'isLogged', 'isGuest'
             ]),
             layout() {
-                if (includes(['AdminAccount', 'PurchaseCode', 'SubscriptionService', 'StripeCredentials', 'AppSetup', 'EnvironmentSetup', 'BillingsDetail', 'SubscriptionPlans', 'Database', 'VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
+                if (includes(['InstallationDisclaimer', 'AdminAccount', 'PurchaseCode', 'SubscriptionService', 'StripeCredentials', 'AppSetup', 'EnvironmentSetup', 'BillingsDetail', 'SubscriptionPlans', 'Database', 'VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
                     return 'unauthorized'
                 }
 
@@ -98,6 +98,18 @@
                     unique_id: 0,
                 }
             })
+
+            // Get installation state
+            let installation = this.$root.$data.config.installation
+
+            // Redirect to database verify code
+            if ( installation === 'setup-database') {
+                this.$router.push({name: 'PurchaseCode'})
+
+            // Redirect to starting installation process
+            } else if ( installation === 'setup-disclaimer' ) {
+                this.$router.push({name: 'InstallationDisclaimer'})
+            }
         },
         mounted() {
             // Handle mobile navigation scale animation

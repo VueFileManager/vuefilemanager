@@ -113,7 +113,7 @@
         },
         computed: {
             submitButtonText() {
-                return this.isLoading ? 'Testing Database Connection' : 'Test your Connection and Continue'
+                return this.isLoading ? 'Testing and Installing Database' : 'Test Connection and Install Database'
             }
         },
         data() {
@@ -170,7 +170,7 @@
                         this.isLoading = false
 
                         // Redirect to next step
-                        this.$router.push({name: 'SubscriptionService'})
+                        this.$router.push({name: 'InstallationDisclaimer'})
                     })
                     .catch(error => {
 
