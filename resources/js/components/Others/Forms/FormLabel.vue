@@ -25,7 +25,7 @@
     .form-label {
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
 
         .icon {
             margin-right: 10px;

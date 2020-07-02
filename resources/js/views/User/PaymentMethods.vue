@@ -1,6 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="PaymentMethods && PaymentMethods.length > 0">
+            <FormLabel>Payment Methods</FormLabel>
             <DatatableWrapper :paginator="true" :columns="columns" :data="PaymentMethods" class="table">
                 <template scope="{ row }">
                     <tr :class="{'is-deleting': row.data.attributes.card_id === deletingID}">
@@ -45,9 +46,10 @@
 <script>
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import {CreditCardIcon, Trash2Icon} from "vue-feather-icons"
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import PageTab from '@/components/Others/Layout/PageTab'
     import ColorLabel from '@/components/Others/ColorLabel'
-    import {CreditCardIcon, Trash2Icon} from "vue-feather-icons"
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -55,10 +57,11 @@
         name: 'UserPaymentMethods',
         components: {
             DatatableWrapper,
+            CreditCardIcon,
             PageTabGroup,
             Trash2Icon,
             ColorLabel,
-            CreditCardIcon,
+            FormLabel,
             PageTab,
         },
         data() {

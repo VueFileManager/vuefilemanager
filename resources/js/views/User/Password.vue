@@ -1,31 +1,28 @@
 <template>
-    <PageTab>
+    <PageTab class="form-fixed-width">
         <PageTabGroup>
-            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
-                                class="form block-form">
-                <div class="wrapper-inline">
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_create_password.label_new_pass') }}:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
-                                            rules="required" v-slot="{ errors }">
-                            <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
-                                   type="password"
-                                   :class="{'is-error': errors[0]}"/>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
-                                            rules="required" v-slot="{ errors }">
-                            <input v-model="newPasswordConfirmation"
-                                   :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
-                                   :class="{'is-error': errors[0]}"/>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
+            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
+                <FormLabel>Change Your Password</FormLabel>
+                <div class="block-wrapper">
+                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
+                                        rules="required" v-slot="{ errors }">
+                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
+                               type="password"
+                               :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
-
+                <div class="block-wrapper">
+                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
+                                        rules="required" v-slot="{ errors }">
+                        <input v-model="newPasswordConfirmation"
+                               :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+                               :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                </div>
                 <div class="block-wrapper">
                     <ButtonBase type="submit" button-style="theme" class="confirm-form">
                         {{ $t('profile.store_pass') }}
@@ -37,12 +34,13 @@
 </template>
 
 <script>
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import UserImageInput from '@/components/Others/UserImageInput'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
@@ -53,6 +51,7 @@
         name: 'Profile',
         components: {
             PageTabGroup,
+            FormLabel,
             PageTab,
             ValidationProvider,
             ValidationObserver,

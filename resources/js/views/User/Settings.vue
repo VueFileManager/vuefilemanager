@@ -1,34 +1,33 @@
 <template>
-    <PageTab>
+    <PageTab class="form-fixed-width">
         <PageTabGroup v-if="userInfo">
             <div class="form block-form">
-                <div class="wrapper-inline">
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_registration.label_email') }}</label>
-                        <div class="input-wrapper">
-                            <input :value="userInfo.email"
-                                   :placeholder="$t('page_registration.placeholder_email')"
-                                   type="email"
-                                   disabled
-                            />
-                        </div>
+                <FormLabel>Account Information</FormLabel>
+                <div class="block-wrapper">
+                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <div class="input-wrapper">
+                        <input :value="userInfo.email"
+                               :placeholder="$t('page_registration.placeholder_email')"
+                               type="email"
+                               disabled
+                        />
                     </div>
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_registration.label_name') }}</label>
-                        <div class="input-wrapper">
-                            <input @keyup="changeUserName"
-                                   v-model="userInfo.name"
-                                   :placeholder="$t('page_registration.placeholder_name')"
-                                   type="text"
-                            />
-                        </div>
+                </div>
+                <div class="block-wrapper">
+                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <div class="input-wrapper">
+                        <input @keyup="changeUserName"
+                               v-model="userInfo.name"
+                               :placeholder="$t('page_registration.placeholder_name')"
+                               type="text"
+                        />
                     </div>
                 </div>
             </div>
         </PageTabGroup>
         <PageTabGroup v-if="billingInfo">
             <div class="form block-form">
-                <b class="form-group-label">Billing Information</b>
+                <FormLabel>Billing Information</FormLabel>
                 <div class="block-wrapper">
                     <label>Name:</label>
                     <div class="input-wrapper">
@@ -109,9 +108,10 @@
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import PageTab from '@/components/Others/Layout/PageTab'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
@@ -125,6 +125,7 @@
         ],
         components: {
             PageTabGroup,
+            FormLabel,
             PageTab,
             ValidationProvider,
             ValidationObserver,

@@ -1,6 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="invoices && invoices.length > 0">
+            <FormLabel>Invoices</FormLabel>
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
                 <template scope="{ row }">
                     <tr>
@@ -42,19 +43,21 @@
 </template>
 
 <script>
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import PageTab from '@/components/Others/Layout/PageTab'
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import {ExternalLinkIcon} from "vue-feather-icons";
     import axios from 'axios'
 
     export default {
         name: 'UserInvoices',
         components: {
-            PageTabGroup,
-            PageTab,
             DatatableWrapper,
             ExternalLinkIcon,
+            PageTabGroup,
+            FormLabel,
+            PageTab,
         },
         data() {
             return {

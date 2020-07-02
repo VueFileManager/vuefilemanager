@@ -8,9 +8,7 @@
                 <ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form" class="form block-form">
 
                     <div class="form-group">
-                        <b class="form-group-label">
-                            {{ $t('admin_page_user.create_user.group_details') }}
-                        </b>
+                        <FormLabel>{{ $t('admin_page_user.create_user.group_details') }}</FormLabel>
 
                         <!--Avatar-->
                         <div class="block-wrapper">
@@ -59,10 +57,7 @@
                     </div>
 
                     <div class="form-group">
-                        <b class="form-group-label">
-                            {{ $t('admin_page_user.create_user.group_settings') }}
-                        </b>
-
+                        <FormLabel>{{ $t('admin_page_user.create_user.group_settings') }}</FormLabel>
 
                         <!--User Role-->
                         <div class="block-wrapper">
@@ -98,6 +93,7 @@
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import SelectInput from '@/components/Others/Forms/SelectInput'
     import ImageInput from '@/components/Others/Forms/ImageInput'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -118,6 +114,7 @@
             ButtonBase,
             ImageInput,
             PageHeader,
+            FormLabel,
             required,
         },
         computed: {

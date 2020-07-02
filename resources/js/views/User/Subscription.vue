@@ -1,6 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="subscription">
+            <FormLabel>Subscription Plan</FormLabel>
 
             <!--Info about active subscription-->
             <div v-if="! subscription.data.attributes.canceled" class="state active">
@@ -51,6 +52,7 @@
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import ListInfoItem from '@/components/Others/ListInfoItem'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageTab from '@/components/Others/Layout/PageTab'
     import ListInfo from '@/components/Others/ListInfo'
@@ -67,6 +69,7 @@
             ListInfoItem,
             PageTabGroup,
             ButtonBase,
+            FormLabel,
             ListInfo,
             PageTab,
         },

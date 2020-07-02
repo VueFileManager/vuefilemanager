@@ -83,6 +83,14 @@
   }
 }
 
+.single-line-form {
+  display: flex;
+
+  .submit-button {
+    margin-left: 20px;
+  }
+}
+
 .error-message {
   @include font-size(14);
   color: $danger;

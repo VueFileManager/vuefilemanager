@@ -83,6 +83,12 @@ class UserController extends Controller
      */
     public function subscription($id)
     {
+        $user = User::find($id);
+
+        if (! $user->stripeId()) {
+            return response('User is not stripe customer', 404);
+        }
+
         return new UserSubscription(
             User::find($id)
         );

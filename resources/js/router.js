@@ -29,12 +29,6 @@ import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
 import Admin from './views/Admin'
 import Invoices from './views/Admin/Invoices'
 
-// Payment Methods
-import Gateways from './views/Admin/Gateways'
-import Gateway from './views/Admin/Gateways/Gateway'
-import GatewaySettings from './views/Admin/Gateways/GatewayTabs/GatewaySettings'
-import GatewayTransactions from './views/Admin/Gateways/GatewayTabs/GatewayTransactions'
-
 // Plans
 import Plans from './views/Admin/Plans'
 import Plan from './views/Admin/Plans/Plan'
@@ -79,17 +73,6 @@ const routesAdmin = [
             title: 'Admin'
         },
         children: [
-
-            // List Pages
-            {
-                name: 'Gateways',
-                path: '/admin/payment-methods',
-                component: Gateways,
-                meta: {
-                    requiresAuth: true,
-                    title: 'Payment Methods'
-                },
-            },
             {
                 name: 'Invoices',
                 path: '/admin/invoices',
@@ -200,35 +183,6 @@ const routesAdmin = [
                         meta: {
                             requiresAuth: true,
                             title: i18n.t('routes_title.users_delete')
-                        },
-                    },
-                ]
-            },
-            {
-                name: 'Gateway',
-                path: '/admin/payment-method/:slug',
-                component: Gateway,
-                meta: {
-                    requiresAuth: true,
-                    title: 'Payment Method'
-                },
-                children: [
-                    {
-                        name: 'GatewayTransactions',
-                        path: '/admin/payment-methods/:slug/transactions',
-                        component: GatewayTransactions,
-                        meta: {
-                            requiresAuth: true,
-                            title: 'Transactions'
-                        },
-                    },
-                    {
-                        name: 'GatewaySettings',
-                        path: '/admin/payment-methods/:slug/settings',
-                        component: GatewaySettings,
-                        meta: {
-                            requiresAuth: true,
-                            title: 'Settings',
                         },
                     },
                 ]

@@ -1,5 +1,5 @@
 <template>
-    <div class="user-meta" v-if="app">
+    <div class="user-meta" v-if="user">
         <b class="name">{{ user.data.attributes.name }}</b>
         <span class="email">{{ user.data.attributes.email }}</span>
     </div>

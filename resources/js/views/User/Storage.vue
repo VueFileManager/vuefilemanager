@@ -1,10 +1,11 @@
 <template>
-    <PageTab v-if="storage">
+    <PageTab class="form-fixed-width" v-if="storage">
         <PageTabGroup>
+            <FormLabel>Your disk Usage</FormLabel>
             <StorageItemDetail type="disk" :title="$t('storage.total_used', {used: storage.attributes.used})" :percentage="storage.attributes.percentage" :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"/>
         </PageTabGroup>
         <PageTabGroup>
-            <b class="form-group-label">{{ $t('storage.sec_details') }}</b>
+            <FormLabel>{{ $t('storage.sec_details') }}</FormLabel>
             <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storage.meta.images.percentage" :used="storage.meta.images.used" />
             <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storage.meta.videos.percentage" :used="storage.meta.videos.used" />
             <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storage.meta.audios.percentage" :used="storage.meta.audios.used" />
@@ -15,6 +16,7 @@
 </template>
 
 <script>
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
@@ -28,6 +30,7 @@
         name: 'Profile',
         components: {
             PageTabGroup,
+            FormLabel,
             PageTab,
             StorageItemDetail,
             SectionTitle,

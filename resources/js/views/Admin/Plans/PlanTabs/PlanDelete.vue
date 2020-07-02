@@ -1,36 +1,37 @@
 <template>
-    <PageTab>
+    <PageTab class="form-fixed-width">
         <PageTabGroup>
-            <SetupBox
-                    theme="danger"
-                    title="Delete Plan"
-                    description="You can delete plan, but, pay attention!"
-            >
-                <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form"
-                                    class="form block-form">
-                    <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive"
-                                        name="Plan name" :rules="'required|is:' + plan.attributes.name">
-                        <label>{{ $t('admin_page_user.label_delete_user', {user: plan.attributes.name}) }}:</label>
-                        <div class="single-line-form">
-                            <input v-model="planName"
-                                   placeholder="Type plan name"
-                                   type="text"
-                                   :class="{'is-error': errors[0]}"
-                            />
-                            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
-                                        button-style="danger" class="submit-button">
-                                Delete Plan
-                            </ButtonBase>
-                        </div>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </ValidationObserver>
-            </SetupBox>
+            <FormLabel>Delete Plan</FormLabel>
+            <InfoBox>
+                <p>You can delete plan, but, pay attention!</p>
+            </InfoBox>
+            <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form"
+                                class="form block-form">
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive"
+                                    name="Plan name" :rules="'required|is:' + plan.attributes.name">
+                    <label>{{ $t('admin_page_user.label_delete_user', {user: plan.attributes.name}) }}:</label>
+                    <div class="single-line-form">
+                        <input v-model="planName"
+                               placeholder="Type plan name"
+                               type="text"
+                               :class="{'is-error': errors[0]}"
+                        />
+                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
+                                    button-style="danger" class="submit-button">
+                            Delete Plan
+                        </ButtonBase>
+                    </div>
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+            </ValidationObserver>
         </PageTabGroup>
     </PageTab>
 </template>
 
 <script>
+    import FormLabel from '@/components/Others/Forms/FormLabel'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
+
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
@@ -46,6 +47,8 @@
             'plan'
         ],
         components: {
+            FormLabel,
+            InfoBox,
             PageTabGroup,
             PageTab,
             ValidationProvider,

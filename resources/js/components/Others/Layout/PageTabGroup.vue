@@ -15,6 +15,6 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .page-tab-group {
-        margin-bottom: 45px;
+        margin-bottom: 65px;
     }
 </style>

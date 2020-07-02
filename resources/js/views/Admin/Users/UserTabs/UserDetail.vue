@@ -1,36 +1,37 @@
 <template>
-    <PageTab>
+    <PageTab class="form-fixed-width">
 
         <!--Change role-->
         <PageTabGroup>
-            <SetupBox
-                    theme="base"
-                    :title="$t('user_box_role.title')"
-                    :description="$t('user_box_role.description')"
-            >
-                <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form"
-                                    class="form block-form">
-                    <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role"
-                                        rules="required">
-                        <label>{{ $t('admin_page_user.select_role') }}:</label>
-                        <div class="single-line-form">
-                            <SelectInput v-model="userRole" :options="roles"
-                                         :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
-                            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
-                                        button-style="theme" class="submit-button">
-                                {{ $t('admin_page_user.save_role') }}
-                            </ButtonBase>
-                        </div>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </ValidationObserver>
-            </SetupBox>
+            <FormLabel>{{ $t('user_box_role.title') }}</FormLabel>
+
+            <InfoBox>
+                <p>{{ $t('user_box_role.description') }}</p>
+            </InfoBox>
+
+            <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form"
+                                class="form block-form">
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role"
+                                    rules="required">
+                    <label>{{ $t('admin_page_user.select_role') }}:</label>
+                    <div class="single-line-form">
+                        <SelectInput v-model="userRole" :options="roles"
+                                     :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
+                                    button-style="theme" class="submit-button">
+                            {{ $t('admin_page_user.save_role') }}
+                        </ButtonBase>
+                    </div>
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+            </ValidationObserver>
         </PageTabGroup>
 
         <!--Personal Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <b class="form-group-label">{{ $t('admin_page_user.label_person_info') }}</b>
+                <FormLabel>{{ $t('admin_page_user.label_person_info') }}</FormLabel>
+
                 <div class="wrapper-inline">
 
                     <!--Email-->
@@ -63,7 +64,8 @@
         <!--Billing Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <b class="form-group-label">Billing Information</b>
+                <FormLabel>Billing Information</FormLabel>
+
                 <div class="block-wrapper">
                     <label>Name:</label>
                     <div class="input-wrapper">
@@ -135,11 +137,13 @@
 </template>
 
 <script>
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
     import SelectInput from '@/components/Others/Forms/SelectInput'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import SetupBox from '@/components/Others/Forms/SetupBox'
     import {required} from 'vee-validate/dist/rules'
@@ -155,6 +159,8 @@
         components: {
             PageTabGroup,
             PageTab,
+            InfoBox,
+            FormLabel,
             ValidationProvider,
             ValidationObserver,
             StorageItemDetail,

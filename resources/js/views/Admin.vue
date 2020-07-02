@@ -3,36 +3,6 @@
 
         <ContentSidebar>
 
-            <!--SaaS-->
-            <ContentGroup v-if="config.isSaaS" title="SaaS" class="navigator">
-                <div class="menu-list-wrapper vertical">
-                    <router-link :to="{name: 'Plans'}" class="menu-list-item link">
-                        <div class="icon">
-                            <database-icon size="17"></database-icon>
-                        </div>
-                        <div class="label">
-                            Plans
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'Gateways'}" class="menu-list-item link">
-                        <div class="icon">
-                            <credit-card-icon size="17"></credit-card-icon>
-                        </div>
-                        <div class="label">
-                            Payment Methods
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
-                        <div class="icon">
-                            <file-text-icon size="17"></file-text-icon>
-                        </div>
-                        <div class="label">
-                            Invoices
-                        </div>
-                    </router-link>
-                </div>
-            </ContentGroup>
-
             <!--Admin-->
             <ContentGroup :title="$t('admin_menu.admin_label')" class="navigator">
                 <div class="menu-list-wrapper vertical">
@@ -50,6 +20,28 @@
                         </div>
                         <div class="label">
                             Settings
+                        </div>
+                    </router-link>
+                </div>
+            </ContentGroup>
+
+            <!--SaaS-->
+            <ContentGroup v-if="config.isSaaS" title="SaaS" class="navigator">
+                <div class="menu-list-wrapper vertical">
+                    <router-link :to="{name: 'Plans'}" class="menu-list-item link">
+                        <div class="icon">
+                            <database-icon size="17"></database-icon>
+                        </div>
+                        <div class="label">
+                            Plans
+                        </div>
+                    </router-link>
+                    <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Invoices
                         </div>
                     </router-link>
                 </div>

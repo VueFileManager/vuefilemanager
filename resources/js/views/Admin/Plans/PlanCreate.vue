@@ -2,15 +2,13 @@
     <div id="single-page">
         <div id="page-content" class="small-width">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+            <!--<PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>-->
 
             <div class="content-page">
-                <ValidationObserver @submit.prevent="createPlan" ref="createPlan" v-slot="{ invalid }" tag="form" class="form block-form">
+                <ValidationObserver @submit.prevent="createPlan" ref="createPlan" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
 
                     <div class="form-group">
-                        <b class="form-group-label">
-                            Plan Details
-                        </b>
+                        <FormLabel>Plan Details</FormLabel>
 
                         <!--Name-->
                         <div class="block-wrapper">
@@ -29,6 +27,9 @@
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
+
+                        <FormLabel>Plan Pricing</FormLabel>
+
 
                         <!--Price-->
                         <div class="block-wrapper">
@@ -66,6 +67,7 @@
     import SelectInput from '@/components/Others/Forms/SelectInput'
     import ImageInput from '@/components/Others/Forms/ImageInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageHeader from '@/components/Others/PageHeader'
@@ -85,6 +87,7 @@
             ButtonBase,
             ImageInput,
             PageHeader,
+            FormLabel,
             required,
         },
         data() {

@@ -22,6 +22,4 @@
 <style lang="scss" scoped>
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
-
-
 </style>

@@ -1,41 +1,38 @@
 <template>
-    <PageTab v-if="storage">
-        <PageTabGroup>
-            <SetupBox
-                    v-if="! config.isSaaS || ! user.data.attributes.subscription"
-                    theme="base"
-                    :title="$t('user_box_storage.title')"
-                    :description="$t('user_box_storage.description')"
-            >
-                <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form" class="form block-form">
+    <PageTab class="form-fixed-width" v-if="storage">
+        <PageTabGroup v-if="! config.isSaaS || ! user.data.attributes.subscription">
+            <FormLabel>{{ $t('user_box_storage.title') }}</FormLabel>
+            <InfoBox>
+                <p>{{ $t('user_box_storage.description') }}</p>
+            </InfoBox>
+            <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form" class="form block-form">
 
-                    <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-                        <label>{{ $t('admin_page_user.label_change_capacity') }}:</label>
-                        <div class="single-line-form">
-                            <input v-model="capacity"
-                                   :placeholder="$t('admin_page_user.label_change_capacity')"
-                                   type="number"
-                                   min="1"
-                                   max="999999999"
-                                   :class="{'is-error': errors[0]}"
-                            />
-                            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
-                                {{ $t('admin_page_user.change_capacity') }}
-                            </ButtonBase>
-                        </div>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </ValidationObserver>
-            </SetupBox>
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
+                    <label>{{ $t('admin_page_user.label_change_capacity') }}:</label>
+                    <div class="single-line-form">
+                        <input v-model="capacity"
+                               :placeholder="$t('admin_page_user.label_change_capacity')"
+                               type="number"
+                               min="1"
+                               max="999999999"
+                               :class="{'is-error': errors[0]}"
+                        />
+                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+                            {{ $t('admin_page_user.change_capacity') }}
+                        </ButtonBase>
+                    </div>
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+            </ValidationObserver>
+        </PageTabGroup>
+        <PageTabGroup>
+            <FormLabel>{{ $t('storage.sec_details') }}</FormLabel>
             <StorageItemDetail
                     type="disk"
                     :title="$t('storage.total_used', {used: storage.attributes.used})"
                     :percentage="storage.attributes.percentage"
                     :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"
             />
-        </PageTabGroup>
-        <PageTabGroup>
-            <b class="form-group-label">{{ $t('storage.sec_details') }}</b>
             <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storage.meta.images.percentage" :used="storage.meta.images.used" />
             <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storage.meta.videos.percentage" :used="storage.meta.videos.used" />
             <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storage.meta.audios.percentage" :used="storage.meta.audios.used" />
@@ -46,6 +43,9 @@
 </template>
 
 <script>
+    import FormLabel from '@/components/Others/Forms/FormLabel'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
+
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
@@ -62,7 +62,9 @@
         props: ['user'],
         components: {
             PageTabGroup,
+            FormLabel,
             PageTab,
+            InfoBox,
             ValidationProvider,
             ValidationObserver,
             StorageItemDetail,

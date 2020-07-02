@@ -1,21 +1,21 @@
 <template>
-    <PageTab>
+    <PageTab class="form-fixed-width">
         <PageTabGroup>
-            <SetupBox
-                    theme="base"
-                    :title="$t('user_box_password.title')"
-                    :description="$t('user_box_password.description')"
-            >
-                <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest"
-                            :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
-                    {{ $t('admin_page_user.send_password_link') }}
-                </ButtonBase>
-            </SetupBox>
+            <FormLabel>{{ $t('user_box_password.title') }}</FormLabel>
+            <InfoBox>
+                <p>{{ $t('user_box_password.description') }}</p>
+            </InfoBox>
+            <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest"
+                        :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+                {{ $t('admin_page_user.send_password_link') }}
+            </ButtonBase>
         </PageTabGroup>
     </PageTab>
 </template>
 
 <script>
+    import FormLabel from '@/components/Others/Forms/FormLabel'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
@@ -28,6 +28,8 @@
     export default {
         name: 'UserPassword',
         components: {
+            FormLabel,
+            InfoBox,
             PageTabGroup,
             PageTab,
             ValidationProvider,

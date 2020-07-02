@@ -1,5 +1,5 @@
 <template>
-    <PageTab :is-loading="isLoading">
+    <PageTab class="form-fixed-width" :is-loading="isLoading">
         <PageTabGroup v-if="subscription">
 
             <!--Info about active subscription-->
@@ -23,7 +23,7 @@
                 </ListInfo>
             </div>
         </PageTabGroup>
-        <PageTabGroup v-else>
+        <PageTabGroup v-if="! subscription">
             User don't have any subscription yet.
         </PageTabGroup>
     </PageTab>
@@ -37,7 +37,7 @@
     import PageTab from '@/components/Others/Layout/PageTab'
     import ListInfo from '@/components/Others/ListInfo'
     import {ExternalLinkIcon} from "vue-feather-icons"
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -73,7 +73,12 @@
                 .then(response => {
                     this.subscription = response.data.data
                     this.isLoading = false
-                })
+                }).catch(error => {
+
+                    if (error.response.status == 404) {
+                        this.isLoading = false
+                }
+            })
         }
     }
 </script>

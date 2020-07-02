@@ -1,41 +1,11 @@
 <template>
-    <div id="single-page" v-if="user">
-        <div id="page-content" class="medium-width" v-if="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+    <section id="viewport">
 
-            <div class="content-page">
+        <ContentSidebar>
 
-                <!--User thumbnail-->
-                <div class="page-detail-headline">
-                    <div class="user-thumbnail">
-                        <div class="avatar">
-                            <UserImageInput
-                                    v-model="avatar"
-                                    :avatar="user.data.attributes.avatar"
-                            />
-                        </div>
-                        <div class="info">
-                            <b class="name">
-                                {{ user.data.attributes.name }}
-                                <ColorLabel v-if="config.isSaaS" :color="subscriptionColor">
-                                    {{ subscriptionStatus }}
-                                </ColorLabel>
-                            </b>
-                            <span class="email">{{ user.data.attributes.email }}</span>
-                        </div>
-                    </div>
-                    <div v-if="config.isSaaS" class="headline-actions">
-                        <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
-                            <ButtonBase button-style="secondary" type="button">
-                                Upgrade Plan
-                            </ButtonBase>
-                        </router-link>
-                    </div>
-                </div>
-
-                <!--Page Tab links-->
-                <div class="menu-list-wrapper horizontal">
+            <!--Settings-->
+            <ContentGroup title="Menu" class="navigator">
+                <div class="menu-list-wrapper vertical">
                     <router-link replace :to="{name: 'Profile'}" class="menu-list-item link">
                         <div class="icon">
                             <user-icon size="17"></user-icon>
@@ -54,33 +24,6 @@
                         </div>
                     </router-link>
 
-                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'Subscription'}" class="menu-list-item link">
-                        <div class="icon">
-                            <cloud-icon size="17"></cloud-icon>
-                        </div>
-                        <div class="label">
-                            Subscription
-                        </div>
-                    </router-link>
-
-                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'PaymentMethods'}" class="menu-list-item link">
-                        <div class="icon">
-                            <credit-card-icon size="17"></credit-card-icon>
-                        </div>
-                        <div class="label">
-                            Payment Cards
-                        </div>
-                    </router-link>
-
-                    <router-link v-if="canShowSubscriptionSettings" replace :to="{name: 'Invoice'}" class="menu-list-item link">
-                        <div class="icon">
-                            <file-text-icon size="17"></file-text-icon>
-                        </div>
-                        <div class="label">
-                            Invoices
-                        </div>
-                    </router-link>
-
                     <router-link replace :to="{name: 'Password'}" class="menu-list-item link">
                         <div class="icon">
                             <lock-icon size="17"></lock-icon>
@@ -90,18 +33,88 @@
                         </div>
                     </router-link>
                 </div>
+            </ContentGroup>
+            <ContentGroup title="Subscription" class="navigator" v-if="canShowSubscriptionSettings">
+                <div class="menu-list-wrapper vertical">
+                    <router-link replace :to="{name: 'Subscription'}" class="menu-list-item link">
+                        <div class="icon">
+                            <cloud-icon size="17"></cloud-icon>
+                        </div>
+                        <div class="label">
+                            Subscription
+                        </div>
+                    </router-link>
 
-                <!--Router Content-->
-                <router-view :user="user" />
+                    <router-link replace :to="{name: 'PaymentMethods'}" class="menu-list-item link">
+                        <div class="icon">
+                            <credit-card-icon size="17"></credit-card-icon>
+                        </div>
+                        <div class="label">
+                            Payment Cards
+                        </div>
+                    </router-link>
+
+                    <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Invoices
+                        </div>
+                    </router-link>
+                </div>
+            </ContentGroup>
+        </ContentSidebar>
+
+        <div id="single-page" v-if="user">
+            <div id="page-content" class="medium-width" v-if="! isLoading">
+                <MobileHeader :title="$router.currentRoute.meta.title"/>
+
+                <div class="content-page">
+
+                    <!--User thumbnail-->
+                    <div class="page-detail-headline">
+                        <div class="user-thumbnail">
+                            <div class="avatar">
+                                <UserImageInput
+                                        v-model="avatar"
+                                        :avatar="user.data.attributes.avatar"
+                                />
+                            </div>
+                            <div class="info">
+                                <b class="name">
+                                    {{ user.data.attributes.name }}
+                                    <ColorLabel v-if="config.isSaaS" :color="subscriptionColor">
+                                        {{ subscriptionStatus }}
+                                    </ColorLabel>
+                                </b>
+                                <span class="email">{{ user.data.attributes.email }}</span>
+                            </div>
+                        </div>
+                        <div v-if="config.isSaaS" class="headline-actions">
+                            <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
+                                <ButtonBase button-style="secondary" type="button">
+                                    Upgrade Plan
+                                </ButtonBase>
+                            </router-link>
+                        </div>
+                    </div>
+
+                    <!--Router Content-->
+                    <router-view :user="user" />
+                </div>
+            </div>
+            <div id="loader" v-if="isLoading">
+                <Spinner></Spinner>
             </div>
         </div>
-        <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
-        </div>
-    </div>
+    </section>
+
 </template>
 
 <script>
+    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
+    import ContentGroup from '@/components/Sidebar/ContentGroup'
     import UserImageInput from '@/components/Others/UserImageInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -122,6 +135,8 @@
     export default {
         name: 'Settings',
         components: {
+            ContentSidebar,
+            ContentGroup,
             CloudIcon,
             ButtonBase,
             CreditCardIcon,
@@ -163,6 +178,7 @@
     .page-detail-headline {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 50px;
     }
 
     .user-thumbnail {

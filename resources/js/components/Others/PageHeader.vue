@@ -35,7 +35,7 @@
         width: 100%;
         position: sticky;
         top: 0;
-        padding: 20px 0;
+        padding-bottom: 20px;
 
         .title {
             @include font-size(18);

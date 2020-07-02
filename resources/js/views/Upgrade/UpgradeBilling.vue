@@ -2,7 +2,6 @@
     <div id="single-page">
         <div id="page-content" class="large-width center-page" v-show="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
-
             <div class="content-page">
 
                 <div class="plan-title">
@@ -17,7 +16,7 @@
                     <div class="steps">
 
                         <div class="payment-card">
-                            <b class="form-group-label">Payment Card:</b>
+                            <FormLabel>Payment Card</FormLabel>
 
                             <!-- Pay by new credit card -->
                             <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
@@ -76,7 +75,8 @@
                             </div>
                         </div>
                         <div class="billing" v-if="billing">
-                            <b class="form-group-label">Billing Information:</b>
+                            <FormLabel>Billing Information</FormLabel>
+
                             <ValidationObserver ref="order" v-slot="{ invalid }" tag="form" class="form block-form">
                                 <div class="form block-form">
 
@@ -184,7 +184,7 @@
                         </div>
                     </div>
                     <div class="summary">
-                        <b class="form-group-label">Order Summary:</b>
+                        <FormLabel>Order Summary</FormLabel>
                         <div class="summary-list" :class="{'is-error': isError}" v-if="requestedPlan">
                             <div class="row">
                                 <div class="cell">
@@ -226,6 +226,7 @@
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PlanPricingTables from '@/components/Others/PlanPricingTables'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import ColorLabel from '@/components/Others/ColorLabel'
@@ -252,6 +253,7 @@
             ButtonBase,
             PageHeader,
             ColorLabel,
+            FormLabel,
             required,
             Spinner,
         },

@@ -1,7 +1,8 @@
 <template>
     <PageTab>
-        <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
+        <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
             <PageTabGroup>
+                <FormLabel>Plan details</FormLabel>
 
                 <!--Visible-->
                 <div class="block-wrapper">
@@ -49,6 +50,7 @@
 </template>
 
 <script>
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
@@ -65,6 +67,7 @@
             'plan'
         ],
         components: {
+            FormLabel,
             SwitchInput,
             PageTabGroup,
             PageTab,
