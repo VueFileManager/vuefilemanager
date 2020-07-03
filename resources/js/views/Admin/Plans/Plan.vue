@@ -58,7 +58,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'Gateway',
+        name: 'Plan',
         components: {
             UsersIcon,
             Trash2Icon,

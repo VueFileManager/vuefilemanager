@@ -27,7 +27,7 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'MenuBar',
+        name: 'UserMobileNavigation',
         components: {
             MenuItemList,
             UserHeadline,
@@ -64,7 +64,7 @@
                     {
                         icon: 'user',
                         title: this.$t('menu.settings'),
-                        routeName: 'Profile',
+                        routeName: 'UserProfileMobileMenu',
                         isVisible: true,
                     },
                     {

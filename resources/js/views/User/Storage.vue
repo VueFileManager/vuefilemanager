@@ -1,5 +1,5 @@
 <template>
-    <PageTab class="form-fixed-width" v-if="storage">
+    <PageTab v-if="storage">
         <PageTabGroup>
             <FormLabel>Your disk Usage</FormLabel>
             <StorageItemDetail type="disk" :title="$t('storage.total_used', {used: storage.attributes.used})" :percentage="storage.attributes.percentage" :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"/>

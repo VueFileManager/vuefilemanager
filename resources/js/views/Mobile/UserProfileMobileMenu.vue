@@ -10,12 +10,12 @@
                 <nav class="mobile-navigation">
 
                     <!--Admin menu-->
-                    <b class="mobile-menu-label">Admin</b>
-                    <MenuItemList :navigation="AdminNavigation" />
+                    <b class="mobile-menu-label">Menu</b>
+                    <MenuItemList :navigation="ProfileNavigation" />
 
                     <!--SaaS menu-->
-                    <b class="mobile-menu-label">SaaS</b>
-                    <MenuItemList :navigation="SassNavigation" />
+                    <b class="mobile-menu-label">Subscription</b>
+                    <MenuItemList :navigation="SubscriptionNavigation" />
                 </nav>
             </div>
         </div>
@@ -25,41 +25,52 @@
 <script>
     import MenuItemList from '@/components/Mobile/MenuItemList'
     import MobileHeader from '@/components/Mobile/MobileHeader'
-    import { mapGetters } from 'vuex'
 
     export default {
-        name: 'AdminMobileMenu',
+        name: 'UserProfileMobileMenu',
         components: {
             MenuItemList,
             MobileHeader,
         },
         data() {
             return {
-                AdminNavigation: [
+                ProfileNavigation: [
                     {
-                        icon: 'users',
-                        title: 'Users',
-                        routeName: 'Users',
+                        icon: 'user',
+                        title: 'Profile',
+                        routeName: 'Profile',
                         isVisible: true,
                     },
                     {
-                        icon: 'settings',
-                        title: 'Settings',
-                        routeName: 'User',
+                        icon: 'hard-drive',
+                        title: 'Storage',
+                        routeName: 'Storage',
+                        isVisible: true,
+                    },
+                    {
+                        icon: 'lock',
+                        title: 'Password',
+                        routeName: 'Password',
                         isVisible: true,
                     },
                 ],
-                SassNavigation: [
+                SubscriptionNavigation: [
                     {
-                        icon: 'database',
-                        title: 'Plans',
-                        routeName: 'Plans',
+                        icon: 'cloud',
+                        title: 'Subscription',
+                        routeName: 'Subscription',
+                        isVisible: true,
+                    },
+                    {
+                        icon: 'credit-card',
+                        title: 'Payment Cards',
+                        routeName: 'PaymentMethods',
                         isVisible: true,
                     },
                     {
                         icon: 'file-text',
                         title: 'Invoices',
-                        routeName: 'Invoices',
+                        routeName: 'Invoice',
                         isVisible: true,
                     },
                 ]

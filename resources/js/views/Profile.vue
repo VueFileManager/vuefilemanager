@@ -93,7 +93,7 @@
                         </div>
                         <div v-if="config.isSaaS" class="headline-actions">
                             <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
-                                <ButtonBase button-style="secondary" type="button">
+                                <ButtonBase class="upgrade-button" button-style="secondary" type="button">
                                     Upgrade Plan
                                 </ButtonBase>
                             </router-link>
@@ -219,6 +219,21 @@
 
                 .email {
                     color: $dark_mode_text_secondary;
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+
+        .page-detail-headline {
+            display: block;
+
+            .headline-actions {
+                margin-top: 20px;
+
+                .upgrade-button {
+                    width: 100%;
                 }
             }
         }

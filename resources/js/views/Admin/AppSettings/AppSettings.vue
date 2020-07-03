@@ -1,0 +1,97 @@
+<template>
+    <div id="single-page">
+        <div id="page-content">
+            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+
+            <div class="content-page">
+
+                <!--Page Tab links-->
+                <div class="menu-list-wrapper horizontal">
+                    <router-link replace :to="{name: 'AppAppearance'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <eye-icon size="17"></eye-icon>
+                        </div>
+                        <div class="label">
+                            Appearance
+                        </div>
+                    </router-link>
+
+                    <router-link replace :to="{name: 'AppBillings'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <file-text-icon size="17"></file-text-icon>
+                        </div>
+                        <div class="label">
+                            Billings
+                        </div>
+                    </router-link>
+
+                    <router-link replace :to="{name: 'AppEmail'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <mail-icon size="17"></mail-icon>
+                        </div>
+                        <div class="label">
+                            Email
+                        </div>
+                    </router-link>
+
+                    <router-link replace :to="{name: 'AppOthers'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <code-icon size="17"></code-icon>
+                        </div>
+                        <div class="label">
+                            Others
+                        </div>
+                    </router-link>
+                </div>
+
+                <!--Router Content-->
+                <router-view/>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon} from 'vue-feather-icons'
+    import MobileHeader from '@/components/Mobile/MobileHeader'
+    import SectionTitle from '@/components/Others/SectionTitle'
+    import PageHeader from '@/components/Others/PageHeader'
+    import Spinner from '@/components/FilesView/Spinner'
+    import axios from 'axios'
+
+    export default {
+        name: 'AppSettings',
+        components: {
+            CodeIcon,
+            MailIcon,
+            FileTextIcon,
+            EyeIcon,
+            UsersIcon,
+            Trash2Icon,
+            SettingsIcon,
+            SectionTitle,
+            MobileHeader,
+            PageHeader,
+            Spinner,
+        },
+    }
+</script>
+
+<style lang="scss" scoped>
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
+
+    @media only screen and (max-width: 960px) {
+
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+    }
+
+</style>

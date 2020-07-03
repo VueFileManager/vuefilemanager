@@ -14,6 +14,7 @@
                 <file-text-icon v-if="link.icon === 'file-text'" size="17"></file-text-icon>
                 <database-icon v-if="link.icon === 'database'" size="17"></database-icon>
                 <credit-card-icon v-if="link.icon === 'credit-card'" size="17"></credit-card-icon>
+                <cloud-icon v-if="link.icon === 'cloud'" size="17"></cloud-icon>
             </div>
             <b class="menu-link">
                 <span>{{ link.title }}</span>
@@ -33,6 +34,7 @@
         SettingsIcon,
         DatabaseIcon,
         Trash2Icon,
+        CloudIcon,
         PowerIcon,
         ShareIcon,
         UsersIcon,
@@ -43,14 +45,15 @@
     export default {
         name: 'MenuBar',
         components: {
-            CreditCardIcon,
-            DatabaseIcon,
-            FileTextIcon,
             ChevronRightIcon,
             UploadCloudIcon,
+            CreditCardIcon,
             HardDriveIcon,
+            DatabaseIcon,
+            FileTextIcon,
             SettingsIcon,
             Trash2Icon,
+            CloudIcon,
             PowerIcon,
             UsersIcon,
             ShareIcon,

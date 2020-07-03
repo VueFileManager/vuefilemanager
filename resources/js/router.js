@@ -25,9 +25,17 @@ import UpgradePlan from './views/Upgrade/UpgradePlan'
 import UpgradeBilling from './views/Upgrade/UpgradeBilling'
 
 import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
+import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
 
 import Admin from './views/Admin'
 import Invoices from './views/Admin/Invoices'
+import AppSettings from './views/Admin/AppSettings/AppSettings'
+
+// App Settings
+import AppAppearance from './views/Admin/AppSettings/AppSettingsTabs/Appearance'
+import AppBillings from './views/Admin/AppSettings/AppSettingsTabs/Billings'
+import AppEmail from './views/Admin/AppSettings/AppSettingsTabs/Email'
+import AppOthers from './views/Admin/AppSettings/AppSettingsTabs/Others'
 
 // Plans
 import Plans from './views/Admin/Plans'
@@ -225,6 +233,53 @@ const routesAdmin = [
                     },
                 ]
             },
+            {
+                name: 'AppSettings',
+                path: '/admin/settings',
+                component: AppSettings,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Settings'
+                },
+                children: [
+                    {
+                        name: 'AppAppearance',
+                        path: '/admin/settings/appearance',
+                        component: AppAppearance,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Appearance'
+                        },
+                    },
+                    {
+                        name: 'AppBillings',
+                        path: '/admin/settings/billings',
+                        component: AppBillings,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Billings'
+                        },
+                    },
+                    {
+                        name: 'AppEmail',
+                        path: '/admin/settings/email',
+                        component: AppEmail,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Email'
+                        },
+                    },
+                    {
+                        name: 'AppOthers',
+                        path: '/admin/settings/others',
+                        component: AppOthers,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Others'
+                        },
+                    },
+                ]
+            },
         ]
     },
     {
@@ -234,6 +289,15 @@ const routesAdmin = [
         meta: {
             requiresAuth: true,
             title: i18n.t('routes_title.settings_mobile')
+        },
+    },
+    {
+        name: 'UserProfileMobileMenu',
+        path: '/user-menu',
+        component: UserProfileMobileMenu,
+        meta: {
+            requiresAuth: true,
+            title: 'Profile Settings'
         },
     },
 ]

@@ -37,6 +37,25 @@ class FileAccessController extends Controller
     }
 
     /**
+     * Get system image
+     *
+     * @param $basename
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_system_image($basename)
+    {
+        // Get file path
+        $path = '/system/' . $basename;
+
+        // Check if file exist
+        if (!Storage::exists($path)) abort(404);
+
+        // Return avatar
+        return Storage::download($path, $basename);
+    }
+
+    /**
      * Get file
      *
      * @param Request $request

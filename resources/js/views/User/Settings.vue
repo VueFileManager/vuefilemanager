@@ -1,5 +1,5 @@
 <template>
-    <PageTab class="form-fixed-width">
+    <PageTab>
         <PageTabGroup v-if="userInfo">
             <div class="form block-form">
                 <FormLabel>Account Information</FormLabel>

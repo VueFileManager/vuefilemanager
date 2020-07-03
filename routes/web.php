@@ -17,9 +17,12 @@ Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 // Deployment WebHook URL
 Route::post('/deploy/github', 'DeployController@github');
 
+// App public files
+Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
+Route::get('/system/{image}', 'FileAccessController@get_system_image');
+
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/public/{token}', 'FileAccessController@get_thumbnail_public');
-Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
 Route::get('/file/{name}/public/{token}', 'FileAccessController@get_file_public');
 
 // User master,editor,visitor access to image thumbnails and file downloads

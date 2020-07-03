@@ -1,5 +1,5 @@
 <template>
-    <PageTab class="form-fixed-width">
+    <PageTab>
         <PageTabGroup>
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
                 <FormLabel>Change Your Password</FormLabel>
