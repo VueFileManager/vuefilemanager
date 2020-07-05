@@ -52,8 +52,8 @@ class InvoiceAdminResource extends JsonResource
                                 'id'         => (string)$user->id,
                                 'type'       => 'user',
                                 'attributes' => [
-                                    'name'   => $user->name,
-                                    'avatar' => $user->avatar,
+                                    'name'            => $user->name,
+                                    'avatar'          => $user->avatar,
                                 ]
                             ]
                         ]

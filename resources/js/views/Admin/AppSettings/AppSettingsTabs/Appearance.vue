@@ -1,5 +1,5 @@
 <template>
-    <PageTab class="form-fixed-width">
+    <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Personal Information-->
         <PageTabGroup>
@@ -9,7 +9,7 @@
                 <div class="block-wrapper">
                     <label>App Title:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                        <input v-model="app.title" placeholder="Type your app title" type="text" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/settings', 'app_title', app.title)" v-model="app.title" placeholder="Type your app title" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -17,22 +17,24 @@
                 <div class="block-wrapper">
                     <label>App Description:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                        <input v-model="app.description" placeholder="Type your app description" type="text" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/settings', 'app_description', app.description)" v-model="app.description" placeholder="Type your app description" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
+                <FormLabel class="mt-70">Appearance</FormLabel>
+
                 <div class="block-wrapper">
                     <label>App Logo (optional):</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
-                        <ImageInput v-model="app.logo" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/settings', 'app_logo', app.logo)" :image="'/' + app.logo" v-model="app.logo" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
                     <label>App Favicon (optional):</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-                        <ImageInput v-model="app.favicon" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/settings', 'app_favicon', app.favicon)" :image="'/' + app.favicon" v-model="app.favicon" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
             </div>
@@ -72,7 +74,7 @@
         },
         data() {
             return {
-                isLoading: false,
+                isLoading: true,
                 app: {
                     title: '',
                     description: '',
@@ -80,6 +82,21 @@
                     favicon: undefined,
                 },
             }
+        },
+        mounted() {
+            axios.get('/api/settings', {
+                params: {
+                    column: 'app_title|app_description|app_logo|app_favicon'
+                }
+            })
+                .then(response => {
+                    this.isLoading = false
+
+                    this.app.title = response.data.app_title
+                    this.app.description = response.data.app_description
+                    this.app.logo = response.data.app_logo
+                    this.app.favicon = response.data.app_favicon
+                })
         }
     }
 </script>

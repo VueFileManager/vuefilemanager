@@ -1,6 +1,6 @@
 <template>
-    <PageTab v-if="subscribers">
-        <PageTabGroup>
+    <PageTab :is-loading="isLoading">
+        <PageTabGroup v-if="subscribers && subscribers.length > 0">
             <DatatableWrapper :paginator="true" :columns="columns" :data="subscribers" class="table">
                 <template scope="{ row }">
                     <tr>
@@ -19,11 +19,6 @@
                             </span>
                         </td>
                         <td>
-                            <span class="cell-item">
-                                {{ row.relationships.subscription.data.attributes.ends_at }}
-                            </span>
-                        </td>
-                        <td>
                             <div class="action-icons">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
@@ -37,15 +32,19 @@
                 </template>
             </DatatableWrapper>
         </PageTabGroup>
+        <InfoBox v-else>
+            <p>There is no any subscriber yet.</p>
+        </InfoBox>
     </PageTab>
 </template>
 
 <script>
     import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
+    import {DownloadCloudIcon, Edit2Icon, Trash2Icon} from "vue-feather-icons"
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
-    import {DownloadCloudIcon, Edit2Icon, Trash2Icon} from "vue-feather-icons";
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import axios from 'axios'
 
     export default {
@@ -55,33 +54,28 @@
             DownloadCloudIcon,
             DatatableWrapper,
             PageTabGroup,
-            PageTab,
-            Edit2Icon,
             Trash2Icon,
+            Edit2Icon,
+            PageTab,
+            InfoBox,
         },
         data() {
             return {
-                isLoading: false,
                 subscribers: undefined,
+                isLoading: false,
                 columns: [
                     {
                         label: 'User',
-                        field: 'data.attributes.plan',
+                        field: 'data.attributes.name',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'data.storage.attributes.storage.used',
-                        sortable: true
-                    },
-                    {
-                        label: 'Expire At',
-                        field: 'data.subscription.data.attributes.ends_at',
+                        field: 'data.relationships.storage.data.attributes.used',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
-                        field: 'data.action',
                         sortable: false
                     },
                 ],

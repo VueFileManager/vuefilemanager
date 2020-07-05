@@ -6,10 +6,28 @@ use App\Share;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
+
+/**
+ * Set environment value
+ *
+ * @param $key
+ * @param $value
+ */
+function setEnvironmentValue($key, $value)
+{
+    $env_path = app()->environmentFilePath();
+
+    $escaped = preg_quote('=' . env($key), '/');
+
+    file_put_contents($env_path, preg_replace(
+        "/^{$key}{$escaped}/m",
+        $key . '=' . $value,
+        file_get_contents($env_path)
+    ));
+}
 
 /**
  * Get invoice number
@@ -27,6 +45,10 @@ function get_invoice_number()
     }
 }
 
+/**
+ * Forget many cache keys at once
+ * @param $cache
+ */
 function cache_forget_many($cache)
 {
     foreach ($cache as $item) {

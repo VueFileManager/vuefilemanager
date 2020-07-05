@@ -37,9 +37,9 @@
                 </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <PageTabGroup v-else>
-            You don't have any payment cards yet.
-        </PageTabGroup>
+        <InfoBox v-else>
+            <p>You don't have any payment cards yet.</p>
+        </InfoBox>
     </PageTab>
 </template>
 
@@ -50,6 +50,7 @@
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import PageTab from '@/components/Others/Layout/PageTab'
     import ColorLabel from '@/components/Others/ColorLabel'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -62,6 +63,7 @@
             Trash2Icon,
             ColorLabel,
             FormLabel,
+            InfoBox,
             PageTab,
         },
         data() {

@@ -116,6 +116,10 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 // Admin
 Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
 
+    // Admin
+    Route::get('/dashboard', 'Admin\DashboardController@index');
+    Route::get('/dashboard/new-users', 'Admin\DashboardController@new_registrations');
+
     // Get users info
     Route::get('/users/{id}/subscription', 'Admin\UserController@subscription');
     Route::get('/users/{id}/storage', 'Admin\UserController@storage');
@@ -130,12 +134,6 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/users/{id}/invoices', 'Admin\UserController@invoices');
     Route::post('/users/create', 'Admin\UserController@create_user');
 
-    // Gateways
-    Route::get('/gateways/{type}/transactions', 'Admin\GatewayController@show_transactions');
-    Route::patch('/gateways/{type}', 'Admin\GatewayController@update');
-    Route::get('/gateways/{type}', 'Admin\GatewayController@show');
-    Route::get('/gateways', 'Admin\GatewayController@index');
-
     // Plans
     Route::get('/plans/{id}/subscribers', 'Admin\PlanController@subscribers');
     Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
@@ -147,6 +145,11 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     // Invoices
     Route::get('/invoices/{token}', 'Admin\InvoiceController@show');
     Route::get('/invoices', 'Admin\InvoiceController@index');
+
+    // Settings
+    Route::put('/settings/email', 'SettingController@set_email');
+    Route::patch('/settings', 'SettingController@update');
+    Route::get('/settings', 'SettingController@show');
 });
 
 // Protected sharing routes for authenticated user

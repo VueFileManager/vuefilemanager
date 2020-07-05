@@ -12,6 +12,7 @@ use App\Services\StripeService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Cashier\Subscription;
 use Rinvex\Subscriptions\Models\PlanFeature;
 
 class PlanController extends Controller
@@ -126,10 +127,7 @@ class PlanController extends Controller
      */
     public function subscribers($id)
     {
-        $subscribers = app('rinvex.subscriptions.plan')
-            ->find($id)
-            ->subscriptions
-            ->pluck('user_id');
+        $subscribers = Subscription::where('stripe_plan', $id)->pluck('user_id');
 
         return new UsersCollection(
             User::findMany($subscribers)

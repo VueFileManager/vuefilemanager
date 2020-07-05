@@ -3,83 +3,105 @@
 namespace App\Http\Controllers;
 
 use App\Setting;
+use Artisan;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get table content
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return mixed
      */
-    public function index()
-    {
-        //
-    }
+    public function show(Request $request) {
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        $column = $request->get('column');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if (strpos($column, '|') !== false) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
+            $columns = explode('|', $column);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        //
+            return Setting::whereIn('name', $columns)->pluck('value', 'name');
+        }
+
+        return Setting::where('name', $column)->pluck('value', 'name');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Setting  $setting
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Setting $setting)
+    public function update(Request $request)
     {
-        //
+        // Store image if exist
+        if ($request->hasFile($request->name)) {
+
+            // Store image
+            $image_path = store_system_image($request->file($request->name), 'system');
+
+            // Find and update image path
+            Setting::updateOrCreate(['name' => $request->name], [
+                'value' => $image_path
+            ]);
+
+            return response('Done', 204);
+        }
+
+        // Find and update variable
+        Setting::updateOrCreate(['name' => $request->name], [
+            'value' => $request->value
+        ]);
+
+        return response('Done', 204);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Set new email credentials to .env file
      *
-     * @param  \App\Setting  $setting
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function destroy(Setting $setting)
-    {
-        //
+    public function set_email(Request $request) {
+
+        // Get options
+        $mail = collect([
+            [
+                'name'  => 'MAIL_DRIVER',
+                'value' => $request->input('driver'),
+            ],
+            [
+                'name'  => 'MAIL_HOST',
+                'value' => $request->input('host'),
+            ],
+            [
+                'name'  => 'MAIL_PORT',
+                'value' => $request->input('port'),
+            ],
+            [
+                'name'  => 'MAIL_USERNAME',
+                'value' => $request->input('username'),
+            ],
+            [
+                'name'  => 'MAIL_PASSWORD',
+                'value' => $request->input('password'),
+            ],
+            [
+                'name'  => 'MAIL_ENCRYPTION',
+                'value' => $request->input('encryption'),
+            ],
+        ]);
+
+        // Store mail options
+        $mail->each(function ($col) {
+            setEnvironmentValue($col['name'], $col['value']);
+        });
+
+        // Clear cache
+        Artisan::call('config:clear');
+
+        return response('Done', 204);
     }
 }

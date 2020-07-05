@@ -126,18 +126,6 @@
                         label: 'MySQL',
                         value: 'mysql',
                     },
-                    /*{
-                        label: 'SQLite',
-                        value: 'sqlite',
-                    },
-                    {
-                        label: 'PqSQL',
-                        value: 'pgsql',
-                    },
-                    {
-                        label: 'SQLSry',
-                        value: 'sqlsrv',
-                    },*/
                 ],
                 databaseCredentials: {
                     connection: 'mysql',

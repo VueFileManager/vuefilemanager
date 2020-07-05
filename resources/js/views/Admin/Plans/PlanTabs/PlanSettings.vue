@@ -10,7 +10,7 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Status:</label>
-                                <small class="input-help">Status of your payment gateway on website.</small>
+                                <small class="input-help">Status of your plan availability on website.</small>
                             </div>
                             <SwitchInput @input="changeStatus" class="switch" :state="plan.attributes.status"/>
                         </div>
@@ -37,28 +37,33 @@
 
                 <!--Storage Capacity-->
                 <div class="block-wrapper">
-                    <label>Storage Capacity:</label>
+                    <label>Storage Capacity in GB:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage capacity" rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/plans/' + $route.params.id + '/update', 'capacity', plan.attributes.capacity)" v-model="plan.attributes.capacity" placeholder="Storage capacity" type="number" min="1" max="999999999" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help">You have to type only number e.g. value '5' means, user will have 5GB of storage capacity.</small>
                 </div>
+
+                <InfoBox>
+                    <p>Price change for your plan is not available due to Stripe service design. If you wish change your price plan, please, create new plan.</p>
+                </InfoBox>
             </PageTabGroup>
         </ValidationObserver>
     </PageTab>
 </template>
 
 <script>
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import SwitchInput from '@/components/Others/Forms/SwitchInput'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import SetupBox from '@/components/Others/Forms/SetupBox'
+    import PageTab from '@/components/Others/Layout/PageTab'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
 
     export default {
@@ -67,17 +72,18 @@
             'plan'
         ],
         components: {
-            FormLabel,
-            SwitchInput,
-            PageTabGroup,
-            PageTab,
             ValidationProvider,
             ValidationObserver,
             StorageItemDetail,
+            PageTabGroup,
+            SwitchInput,
             SelectInput,
             ButtonBase,
+            FormLabel,
             SetupBox,
             required,
+            InfoBox,
+            PageTab,
         },
         data() {
             return {

@@ -106,7 +106,7 @@ class SetupWizardController extends Controller
 
         // Store database credentials
         $database_credentials->each(function ($col) {
-            $this->setEnvironmentValue($col['name'], $col['value']);
+            setEnvironmentValue($col['name'], $col['value']);
         });
 
         // Set database connection
@@ -161,8 +161,8 @@ class SetupWizardController extends Controller
         $client = \DB::table('oauth_clients')->where('name', '=', 'vuefilemanager')->first();
 
         // Set passport client to .env
-        $this->setEnvironmentValue('PASSPORT_CLIENT_ID', $client->id);
-        $this->setEnvironmentValue('PASSPORT_CLIENT_SECRET', $client->secret);
+        setEnvironmentValue('PASSPORT_CLIENT_ID', $client->id);
+        setEnvironmentValue('PASSPORT_CLIENT_SECRET', $client->secret);
 
         // Clear cache
         Artisan::call('config:clear');
@@ -208,19 +208,13 @@ class SetupWizardController extends Controller
         ]);
 
         // Set stripe credentials to .env
-        $this->setEnvironmentValue('CASHIER_CURRENCY', $request->currency);
-        $this->setEnvironmentValue('STRIPE_KEY', $request->key);
-        $this->setEnvironmentValue('STRIPE_SECRET', $request->secret);
-        $this->setEnvironmentValue('STRIPE_WEBHOOK_SECRET', $request->webhookSecret);
-
-        // Store options
-        $settings->each(function ($col) {
-            Setting::updateOrCreate(['name' => $col['name']], $col);
-        });
+        setEnvironmentValue('CASHIER_CURRENCY', $request->currency);
+        setEnvironmentValue('STRIPE_KEY', $request->key);
+        setEnvironmentValue('STRIPE_SECRET', $request->secret);
+        setEnvironmentValue('STRIPE_WEBHOOK_SECRET', $request->webhookSecret);
 
         // Clear cache
         Artisan::call('config:clear');
-        //Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -427,7 +421,7 @@ class SetupWizardController extends Controller
 
         // Store storage driver options
         $storage->each(function ($col) {
-            $this->setEnvironmentValue($col['name'], $col['value']);
+            setEnvironmentValue($col['name'], $col['value']);
         });
 
         // Get options
@@ -460,12 +454,11 @@ class SetupWizardController extends Controller
 
         // Store mail options
         $mail->each(function ($col) {
-            $this->setEnvironmentValue($col['name'], $col['value']);
+            setEnvironmentValue($col['name'], $col['value']);
         });
 
         // Clear cache
         Artisan::call('config:clear');
-        //Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -545,10 +538,12 @@ class SetupWizardController extends Controller
     {
         // Validate request
         $request->validate([
-            'email'    => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'name'     => 'required|string',
-            'avatar'   => 'sometimes|file',
+            'email'         => 'required|string|email|unique:users',
+            'password'      => 'required|string|min:6|confirmed',
+            'name'          => 'required|string',
+            'purchase_code' => 'required|string',
+            'license'       => 'required|string',
+            'avatar'        => 'sometimes|file',
         ]);
 
         // Store avatar
@@ -578,6 +573,18 @@ class SetupWizardController extends Controller
         Setting::create([
             'name'  => 'setup_wizard_success',
             'value' => 1,
+        ]);
+
+        // Store License
+        Setting::create([
+            'name'  => 'license',
+            'value' => $request->license,
+        ]);
+
+        // Store Purchase Code
+        Setting::create([
+            'name'  => 'license',
+            'value' => $request->purchase_code,
         ]);
 
         // Retrieve access token
@@ -612,24 +619,5 @@ class SetupWizardController extends Controller
         ]);
 
         return Request::create(url('/oauth/token'), 'POST', $request->all());
-    }
-
-    /**
-     * Set environment value
-     *
-     * @param $key
-     * @param $value
-     */
-    public function setEnvironmentValue($key, $value)
-    {
-        $env_path = app()->environmentFilePath();
-
-        $escaped = preg_quote('=' . env($key), '/');
-
-        file_put_contents($env_path, preg_replace(
-            "/^{$key}{$escaped}/m",
-            $key . '=' . $value,
-            file_get_contents($env_path)
-        ));
     }
 }

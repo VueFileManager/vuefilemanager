@@ -123,6 +123,9 @@
                 formData.append('password', this.admin.password)
                 formData.append('password_confirmation', this.admin.password_confirmation)
 
+                formData.append('license', localStorage.getItem('license'))
+                formData.append('purchase_code', localStorage.getItem('purchase_code'))
+
                 if (this.admin.avatar)
                     formData.append('avatar', this.admin.avatar)
 
@@ -141,7 +144,11 @@
                         this.$store.commit('SET_AUTHORIZED', true)
 
                         // Go to files page
-                        this.$router.push({name: 'Files'})
+                        this.$router.push({name: 'Dashboard'})
+
+                        // Remove license from localStorage
+                        localStorage.removeItem('purchase_code')
+                        localStorage.removeItem('license')
                     })
                     .catch(error => {
 

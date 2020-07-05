@@ -120,6 +120,7 @@
 
             .sign-in-button {
                 width: 100%;
+                text-align: center;
             }
 
             .price {

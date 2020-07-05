@@ -1,6 +1,6 @@
 <template>
     <div id="single-page">
-        <div id="page-content" v-if="! isLoading">
+        <div id="page-content" v-if="! isLoading && plans.length > 0">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
@@ -37,7 +37,7 @@
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    ${{ row.data.attributes.price }}
+                                    {{ row.data.attributes.price_formatted }}
                                 </span>
                             </td>
                             <td>
@@ -60,6 +60,18 @@
                 </DatatableWrapper>
             </div>
         </div>
+
+        <EmptyPageContent
+                v-if="! isLoading && plans.length === 0"
+                icon="file"
+                title="You don’t have any plan yet"
+                description="For create new plan, click on button below."
+        >
+            <router-link :to="{name: 'PlanCreate'}">
+                <ButtonBase button-style="theme">Create New Plan</ButtonBase>
+            </router-link>
+        </EmptyPageContent>
+
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>
@@ -69,6 +81,7 @@
 <script>
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '@/components/FilesView/MobileActionButton'
+    import EmptyPageContent from '@/components/Others/EmptyPageContent'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
@@ -83,6 +96,7 @@
         name: 'Plans',
         components: {
             MobileActionButton,
+            EmptyPageContent,
             DatatableWrapper,
             SectionTitle,
             MobileHeader,
@@ -101,32 +115,31 @@
                 columns: [
                     {
                         label: 'Plan',
-                        field: 'attributes.name',
+                        field: 'data.attributes.name',
                         sortable: true
                     },
                     {
                         label: 'Status',
-                        field: 'attributes.status',
+                        field: 'data.attributes.status',
                         sortable: true
                     },
                     {
                         label: 'Subscribers',
-                        field: 'attributes.subscribers',
+                        field: 'data.attributes.subscribers',
                         sortable: true
                     },
                     {
                         label: 'Price',
-                        field: 'attributes.price',
+                        field: 'data.attributes.price',
                         sortable: true
                     },
                     {
                         label: 'Storage Capacity',
-                        field: 'attributes.capacity',
+                        field: 'data.attributes.capacity',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
-                        field: 'data.action',
                         sortable: false
                     },
                 ],

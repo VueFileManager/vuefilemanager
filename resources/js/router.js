@@ -29,6 +29,7 @@ import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
 
 import Admin from './views/Admin'
 import Invoices from './views/Admin/Invoices'
+import Dashboard from './views/Admin/Dashboard'
 import AppSettings from './views/Admin/AppSettings/AppSettings'
 
 // App Settings
@@ -81,6 +82,15 @@ const routesAdmin = [
             title: 'Admin'
         },
         children: [
+            {
+                name: 'Dashboard',
+                path: '/admin/dashboard',
+                component: Dashboard,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Dashboard'
+                },
+            },
             {
                 name: 'Invoices',
                 path: '/admin/invoices',

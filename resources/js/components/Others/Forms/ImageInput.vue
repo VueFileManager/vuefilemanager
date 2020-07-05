@@ -120,7 +120,7 @@
             height: 100%;
             object-fit: contain;
             left: 0;
-            padding: 7px;
+            padding: 25px;
             display: block;
 
             &.fit-image {

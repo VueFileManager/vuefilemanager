@@ -26,7 +26,7 @@ class InvoiceResource extends JsonResource
                     'customer'             => $this->customer,
                     'total'                => $this->total(),
                     'currency'             => $this->currency,
-                    'created_at_formatted' => format_date($this->date()),
+                    'created_at_formatted' => format_date($this->date(), '%d. %B. %Y'),
                     'created_at'           => $this->created,
                     'order'                => $this->number,
                     'user_id'              => $user ? $user->id : null,

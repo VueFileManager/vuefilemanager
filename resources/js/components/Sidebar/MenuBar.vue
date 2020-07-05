@@ -32,7 +32,7 @@
                 </div>
             </router-link>
 
-            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
+            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
                 <div class="button-icon">
                     <settings-icon size="19"></settings-icon>
                 </div>
@@ -82,16 +82,21 @@
         data() {
             return {
                 adminRoutes: [
+                    'AppSettings',
+                    'AppAppearance',
+                    'AppBillings',
+                    'AppEmail',
+                    'AppOthers',
+                    'Dashboard',
                     'PlanSubscribers',
+                    'PlanCreate',
                     'PlanSettings',
                     'PlanDelete',
-
-                    'GatewayTransactions',
-                    'GatewaySettings',
-                    'UserInvoices',
+                    'UserSubscription',
                     'UserInvoices',
                     'UserPassword',
                     'UserStorage',
+                    'UserDelete',
                     'PlanCreate',
                     'UserCreate',
                     'UserDelete',

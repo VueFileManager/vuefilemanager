@@ -1,11 +1,11 @@
 <template>
-    <PageTab :is-loading="isLoading">
+    <PageTab :is-loading="isLoading" :class="{'form-fixed-width': ! isLoading && invoices.length === 0}">
         <PageTabGroup v-if="invoices && invoices.length > 0">
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
                 <template scope="{ row }">
                     <tr>
                         <td>
-                            <a :href="'/invoice/' + row.data.id" target="_blank" class="cell-item">
+                            <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">
                                 {{ row.data.attributes.order }}
                             </a>
                         </td>
@@ -26,7 +26,7 @@
                         </td>
                         <td>
                             <div class="action-icons">
-                                <a :href="'/invoice/' + row.data.id" target="_blank">
+                                <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank">
                                     <external-link-icon size="15" class="icon"></external-link-icon>
                                 </a>
                             </div>
@@ -35,26 +35,30 @@
                 </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <PageTabGroup v-else>
-            User don't have any invoices yet.
-        </PageTabGroup>
+        <InfoBox v-else>
+            <p>User don't have any invoices yet.</p>
+        </InfoBox>
     </PageTab>
 </template>
 
 <script>
+    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
+    import EmptyPageContent from '@/components/Others/EmptyPageContent'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {ExternalLinkIcon} from "vue-feather-icons";
     import axios from 'axios'
 
     export default {
         name: 'UserInvoices',
         components: {
-            PageTabGroup,
-            PageTab,
+            EmptyPageContent,
             DatatableWrapper,
             ExternalLinkIcon,
+            PageTabGroup,
+            InfoBox,
+            PageTab,
         },
         data() {
             return {
@@ -63,17 +67,17 @@
                 columns: [
                     {
                         label: 'Invoice Number',
-                        field: 'data.attributes.total',
+                        field: 'data.attributes.order',
                         sortable: true
                     },
                     {
                         label: 'Total',
-                        field: 'data.attributes.total',
+                        field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
                         label: 'Plan',
-                        field: 'data.attributes.plan',
+                        field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
@@ -83,7 +87,6 @@
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
-                        field: 'data.action',
                         sortable: false
                     },
                 ],

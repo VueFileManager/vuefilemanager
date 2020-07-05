@@ -1,5 +1,5 @@
 <template>
-    <PageTab class="form-fixed-width">
+    <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Personal Information-->
         <PageTabGroup>
@@ -10,7 +10,7 @@
                     <label>Company Name:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Name"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_name" placeholder="Type your company name"
+                        <input @input="$updateText('/settings', 'billing_name', billingInformation.billing_name)" v-model="billingInformation.billing_name" placeholder="Type your company name"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -20,7 +20,7 @@
                     <label>VAT Number:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Vat Number"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_vat_number" placeholder="Type your VAT number"
+                        <input @input="$updateText('/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" placeholder="Type your VAT number"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -32,7 +32,7 @@
                     <label>Billing Country:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Country"
                                         rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="billingInformation.billing_country" :options="countries" placeholder="Select your billing country" :isError="errors[0]"/>
+                        <SelectInput @input="$updateText('/settings', 'billing_country', billingInformation.billing_country)" v-model="billingInformation.billing_country" :default="billingInformation.billing_country" :options="countries" placeholder="Select your billing country" :isError="errors[0]"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -41,7 +41,7 @@
                     <label>Billing Address:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Address"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_address" placeholder="Type your billing address"
+                        <input @input="$updateText('/settings', 'billing_address', billingInformation.billing_address)" v-model="billingInformation.billing_address" placeholder="Type your billing address"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -52,7 +52,7 @@
                         <label>Billing City:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing City"
                                             rules="required" v-slot="{ errors }">
-                            <input v-model="billingInformation.billing_city" placeholder="Type your billing city"
+                            <input @input="$updateText('/settings', 'billing_city', billingInformation.billing_city)" v-model="billingInformation.billing_city" placeholder="Type your billing city"
                                    type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
@@ -61,7 +61,7 @@
                         <label>Billing Postal Code:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Postal Code"
                                             rules="required" v-slot="{ errors }">
-                            <input v-model="billingInformation.billing_postal_code"
+                            <input @input="$updateText('/settings', 'billing_postal_code', billingInformation.billing_postal_code)" v-model="billingInformation.billing_postal_code"
                                    placeholder="Type your billing postal code" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
@@ -72,7 +72,7 @@
                     <label>Billing State:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing State"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_state" placeholder="Type your billing state"
+                        <input @input="$updateText('/settings', 'billing_state', billingInformation.billing_state)" v-model="billingInformation.billing_state" placeholder="Type your billing state"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -82,7 +82,7 @@
                     <label>Billing Phone Number (optional):</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Phone Number"
                                         v-slot="{ errors }">
-                        <input v-model="billingInformation.billing_phone_number" placeholder="Type your billing phone number"
+                        <input @input="$updateText('/settings', 'billing_phone_number', billingInformation.billing_phone_number)" v-model="billingInformation.billing_phone_number" placeholder="Type your billing phone number"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -124,7 +124,7 @@
         },
         data() {
             return {
-                isLoading: false,
+                isLoading: true,
                 countries: [
                     {label: 'Afghanistan', value: 'AF'},
                     {label: 'Åland Islands', value: 'AX'},
@@ -381,6 +381,25 @@
                     billing_name: '',
                 }
             }
+        },
+        mounted() {
+            axios.get('/api/settings', {
+                params: {
+                    column: 'billing_phone_number|billing_postal_code|billing_vat_number|billing_address|billing_country|billing_state|billing_city|billing_name'
+                }
+            })
+                .then(response => {
+                    this.isLoading = false
+
+                    this.billingInformation.billing_phone_number = response.data.billing_phone_number
+                    this.billingInformation.billing_postal_code = response.data.billing_postal_code
+                    this.billingInformation.billing_vat_number = response.data.billing_vat_number
+                    this.billingInformation.billing_address = response.data.billing_address
+                    this.billingInformation.billing_country = response.data.billing_country
+                    this.billingInformation.billing_state = response.data.billing_state
+                    this.billingInformation.billing_city = response.data.billing_city
+                    this.billingInformation.billing_name = response.data.billing_name
+                })
         }
     }
 </script>

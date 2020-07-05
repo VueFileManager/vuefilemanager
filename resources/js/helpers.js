@@ -20,16 +20,13 @@ const Helpers = {
                 })
         }, 300)
 
-        Vue.prototype.$getCreditCardBrand = function (brand) {
-            return `/assets/icons/${brand}.svg`
-        }
-
         Vue.prototype.$updateImage = function (route, name, image) {
 
             // Create form
             let formData = new FormData()
 
             // Add image to form
+            formData.append('name', name)
             formData.append(name, image)
             formData.append('_method', 'PATCH')
 
@@ -44,6 +41,14 @@ const Helpers = {
                         message: this.$t('popup_error.message'),
                     })
                 })
+        }
+
+        Vue.prototype.$getCreditCardBrand = function (brand) {
+            return `/assets/icons/${brand}.svg`
+        }
+
+        Vue.prototype.$getInvoiceLink = function (customer, id) {
+            return '/invoice/' + customer + '/' + id
         }
 
         Vue.prototype.$openImageOnNewTab = function (source) {

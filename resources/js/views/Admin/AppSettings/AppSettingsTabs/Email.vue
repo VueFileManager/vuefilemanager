@@ -1,10 +1,14 @@
 <template>
-    <PageTab class="form-fixed-width">
+    <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Personal Information-->
         <PageTabGroup>
-            <div class="form block-form">
+            <ValidationObserver @submit.prevent="EmailSetupSubmit" ref="EmailSetup" v-slot="{ invalid }" tag="form" class="form block-form">
                 <FormLabel>Email Setup</FormLabel>
+
+                <InfoBox>
+                    <p>This form is not fully pre-filled for security reasons. Your email settings is available in your <b>.env</b> file. For apply new Email settings, please confirm your options by button at the end of formular.</p>
+                </InfoBox>
 
                 <div class="block-wrapper">
                     <label>Mail Driver:</label>
@@ -53,7 +57,12 @@
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
-            </div>
+
+                <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
+                            button-style="theme" class="submit-button">
+                    Save Email Settings
+                </ButtonBase>
+            </ValidationObserver>
         </PageTabGroup>
     </PageTab>
 </template>
@@ -70,6 +79,7 @@
     import PageTab from '@/components/Others/Layout/PageTab'
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
+    import {events} from "@/bus"
     import axios from 'axios'
 
     export default {
@@ -90,7 +100,8 @@
         },
         data() {
             return {
-                isLoading: false,
+                isLoading: true,
+                isSendingRequest: false,
                 encryptionList: [
                     {
                         label: 'TLS',
@@ -110,6 +121,49 @@
                     encryption: '',
                 }
             }
+        },
+        methods: {
+            async EmailSetupSubmit() {
+
+                // Validate fields
+                const isValid = await this.$refs.EmailSetup.validate();
+
+                if (!isValid) return;
+
+                // Start loading
+                this.isSendingRequest = true
+
+                // Send request to get verify account
+                axios
+                    .put('/api/settings/email', this.mail)
+                    .then(response => {
+
+                        // End loading
+                        this.isSendingRequest = false
+
+                        events.$emit('toaster', {
+                            type: 'success',
+                            message: 'Your email settings was updated successfully',
+                        })
+                    })
+                    .catch(error => {
+
+                        // End loading
+                        this.isSendingRequest = false
+                    })
+            },
+        },
+        mounted() {
+            axios.get('/api/settings', {
+                params: {
+                    column: 'app_title|app_description|app_logo|app_favicon'
+                }
+            })
+                .then(response => {
+                    this.isLoading = false
+
+                    this.app.title = response.data.app_title
+                })
         }
     }
 </script>

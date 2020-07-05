@@ -34,6 +34,12 @@
             @include font-size(15);
             line-height: 1.6;
             word-break: break-all;
+            font-weight: 600;
+        }
+
+        b {
+            font-weight: 700;
+            color: $theme;
         }
 
         a {

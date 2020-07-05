@@ -27,7 +27,7 @@
                         </td>
                         <td>
                             <div class="action-icons">
-                                <a :href="'/invoice/' + row.data.attributes.customer + '/' + row.data.id" target="_blank">
+                                <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank">
                                     <external-link-icon size="15" class="icon"></external-link-icon>
                                 </a>
                             </div>
@@ -36,9 +36,9 @@
                 </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <PageTabGroup v-else>
-            You don't have any invoices yet.
-        </PageTabGroup>
+        <InfoBox v-else>
+            <p>You don't have any invoices yet.</p>
+        </InfoBox>
     </PageTab>
 </template>
 
@@ -47,6 +47,7 @@
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import PageTab from '@/components/Others/Layout/PageTab'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {ExternalLinkIcon} from "vue-feather-icons";
     import axios from 'axios'
 
@@ -57,6 +58,7 @@
             ExternalLinkIcon,
             PageTabGroup,
             FormLabel,
+            InfoBox,
             PageTab,
         },
         data() {
@@ -66,17 +68,17 @@
                 columns: [
                     {
                         label: 'Invoice Number',
-                        field: 'data.attributes.total',
+                        field: 'data.attributes.order',
                         sortable: true
                     },
                     {
                         label: 'Total',
-                        field: 'data.attributes.total',
+                        field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
                         label: 'Plan',
-                        field: 'data.attributes.plan',
+                        field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
@@ -86,7 +88,6 @@
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
-                        field: 'data.action',
                         sortable: false
                     },
                 ],

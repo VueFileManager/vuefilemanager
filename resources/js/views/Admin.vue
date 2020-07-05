@@ -6,6 +6,14 @@
             <!--Admin-->
             <ContentGroup :title="$t('admin_menu.admin_label')" class="navigator">
                 <div class="menu-list-wrapper vertical">
+                    <router-link :to="{name: 'Dashboard'}" class="menu-list-item link">
+                        <div class="icon">
+                            <box-icon size="17"></box-icon>
+                        </div>
+                        <div class="label">
+                            Dashboard
+                        </div>
+                    </router-link>
                     <router-link :to="{name: 'Users'}" class="menu-list-item link">
                         <div class="icon">
                             <users-icon size="17"></users-icon>
@@ -53,10 +61,10 @@
 </template>
 
 <script>
+    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon } from 'vue-feather-icons'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import { mapGetters } from 'vuex'
-    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon } from 'vue-feather-icons'
 
     export default {
         name: 'Settings',
@@ -64,6 +72,7 @@
             ...mapGetters(['config']),
         },
         components: {
+            BoxIcon,
             DatabaseIcon,
             CreditCardIcon,
             FileTextIcon,

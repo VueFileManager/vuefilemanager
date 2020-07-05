@@ -1,6 +1,6 @@
 <template>
     <div id="single-page">
-        <div id="page-content" v-if="! isLoading">
+        <div id="page-content" v-if="! isLoading && invoices.length > 0">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
@@ -9,7 +9,7 @@
                     <template scope="{ row }">
                         <tr>
                             <td>
-                                <a :href="'/invoice/' + row.data.id" target="_blank" class="cell-item">
+                                <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">
                                     {{ row.data.attributes.order }}
                                 </a>
                             </td>
@@ -42,7 +42,7 @@
                             </td>
                             <td>
                                 <div class="action-icons">
-                                    <a :href="'/invoice/' + row.data.id" target="_blank">
+                                    <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank">
                                         <external-link-icon size="15" class="icon"></external-link-icon>
                                     </a>
                                 </div>
@@ -52,6 +52,13 @@
                 </DatatableWrapper>
             </div>
         </div>
+        <EmptyPageContent
+                v-if="! isLoading && invoices.length === 0"
+                icon="file-text"
+                title="You don’t have any invoices yet"
+                description="All customers invoices will be showed here."
+        >
+        </EmptyPageContent>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>
@@ -62,22 +69,24 @@
     import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '@/components/FilesView/MobileActionButton'
+    import EmptyPageContent from '@/components/Others/EmptyPageContent'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
-    import {ExternalLinkIcon} from "vue-feather-icons";
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
+    import {ExternalLinkIcon} from "vue-feather-icons";
     import axios from 'axios'
 
     export default {
         name: 'Invoices',
         components: {
-            ExternalLinkIcon,
             DatatableCellImage,
             MobileActionButton,
+            ExternalLinkIcon,
+            EmptyPageContent,
             DatatableWrapper,
             SectionTitle,
             MobileHeader,
@@ -94,32 +103,31 @@
                 columns: [
                     {
                         label: 'Invoice Number',
-                        field: 'attributes.total',
+                        field: 'data.attributes.order',
                         sortable: true
                     },
                     {
                         label: 'Total',
-                        field: 'attributes.total',
+                        field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
                         label: 'Plan',
-                        field: 'attributes.plan',
+                        field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
                         label: 'Payed',
-                        field: 'attributes.created_at',
+                        field: 'data.attributes.created_at',
                         sortable: true
                     },
                     {
                         label: 'User',
-                        field: 'relationships.user.data.id',
+                        field: 'relationships.user.data.attributes.name',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
-                        field: 'data.action',
                         sortable: false
                     },
                 ],

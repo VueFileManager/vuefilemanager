@@ -32,30 +32,27 @@
             <div class="form block-form">
                 <FormLabel>{{ $t('admin_page_user.label_person_info') }}</FormLabel>
 
-                <div class="wrapper-inline">
-
-                    <!--Email-->
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_registration.label_email') }}</label>
-                        <div class="input-wrapper">
-                            <input :value="user.data.attributes.email"
-                                   :placeholder="$t('page_registration.placeholder_email')"
-                                   type="email"
-                                   disabled
-                            />
-                        </div>
+                <!--Email-->
+                <div class="block-wrapper">
+                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <div class="input-wrapper">
+                        <input :value="user.data.attributes.email"
+                               :placeholder="$t('page_registration.placeholder_email')"
+                               type="email"
+                               disabled
+                        />
                     </div>
+                </div>
 
-                    <!--Name-->
-                    <div class="block-wrapper">
-                        <label>{{ $t('page_registration.label_name') }}</label>
-                        <div class="input-wrapper">
-                            <input :value="user.data.attributes.name"
-                                   :placeholder="$t('page_registration.placeholder_name')"
-                                   type="text"
-                                   disabled
-                            />
-                        </div>
+                <!--Name-->
+                <div class="block-wrapper">
+                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <div class="input-wrapper">
+                        <input :value="user.data.attributes.name"
+                               :placeholder="$t('page_registration.placeholder_name')"
+                               type="text"
+                               disabled
+                        />
                     </div>
                 </div>
             </div>

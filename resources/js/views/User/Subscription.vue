@@ -42,9 +42,9 @@
                 </div>
             </div>
         </PageTabGroup>
-        <PageTabGroup v-else>
-            You don't have any subscription yet.
-        </PageTabGroup>
+        <InfoBox v-else>
+            <p>You don't have any subscription yet.</p>
+        </InfoBox>
     </PageTab>
 </template>
 
@@ -55,6 +55,7 @@
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageTab from '@/components/Others/Layout/PageTab'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import ListInfo from '@/components/Others/ListInfo'
     import {ExternalLinkIcon} from "vue-feather-icons"
     import { mapGetters } from 'vuex'
@@ -71,6 +72,7 @@
             ButtonBase,
             FormLabel,
             ListInfo,
+            InfoBox,
             PageTab,
         },
         computed: {
