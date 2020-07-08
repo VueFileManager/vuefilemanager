@@ -34,6 +34,8 @@ class AppFunctionsController extends Controller
     }
 
     /**
+     * Check if setup wizard was passed
+     *
      * @return string
      */
     private function get_setup_status(): string

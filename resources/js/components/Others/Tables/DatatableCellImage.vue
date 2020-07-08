@@ -2,6 +2,7 @@
      <div class="cell-image-thumbnail">
          <div class="image" :class="imageSize" v-if="image">
              <img :src="image" :alt="title">
+             <img :src="image" :alt="title" class="blurred">
          </div>
          <div class="info">
              <b class="name" v-if="title">{{ title }}</b>
@@ -29,12 +30,19 @@
         .image {
             margin-right: 20px;
             line-height: 0;
+            position: relative;
 
             img {
                 line-height: 0;
                 width: 48px;
                 height: 48px;
                 border-radius: 8px;
+                z-index: 1;
+                position: relative;
+
+                &.blurred {
+                    @include blurred-image;
+                }
             }
 
             &.small {

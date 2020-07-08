@@ -143,7 +143,7 @@
                 },
                 {
                     label: 'Subscription Plan',
-                    field: 'data.attributes.role',
+                    field: 'data.attributes.subscription',
                     sortable: true,
                     hidden: ! this.config.isSaaS,
                 },
@@ -154,7 +154,7 @@
                 },
                 {
                     label: this.$t('admin_page_user.table.storage_capacity'),
-                    field: 'data.attributes.storage.capacity',
+                    field: 'relationships.storage.data.attributes.capacity',
                     sortable: true
                 },
                 {

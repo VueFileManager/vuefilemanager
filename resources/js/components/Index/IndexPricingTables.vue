@@ -1,0 +1,147 @@
+<template>
+    <div class="page-wrapper medium pricing">
+        <div id="pricing" class="page-title center">
+            <h1 class="title">
+                Pick the <span style="color: #41B883">Best Plan</span> For Your Needs
+            </h1>
+        </div>
+
+        <PricingTables class="pricing-tables"/>
+
+        <div class="page-title center">
+            <h2 class="description">
+                Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom.
+            </h2>
+            <router-link class="sign-up-button" :to="{name: 'SignUp'}">
+                <AuthButton class="button" icon="chevron-right" text="Sign Up Now" />
+            </router-link>
+        </div>
+
+        <cloud-icon size="800" class="cloud-bg"></cloud-icon>
+        <cloud-icon size="560" class="cloud-bg"></cloud-icon>
+    </div>
+</template>
+
+<script>
+    import PricingTables from '@/components/Index/Components/PricingTables'
+    import AuthButton from '@/components/Auth/AuthButton'
+    import { CloudIcon } from 'vue-feather-icons'
+
+    export default {
+        name: 'IndexPricingTables',
+        components: {
+            PricingTables,
+            AuthButton,
+            CloudIcon,
+        }
+    }
+</script>
+
+<style lang="scss" scoped>
+    @import '@assets/vue-file-manager/_landing-page';
+    @import '@assets/vue-file-manager/_variables';
+    @import '@assets/vue-file-manager/_mixins';
+
+    .pricing {
+        .cloud-bg {
+            z-index: 0;
+
+            path {
+                stroke: none;
+                fill: rgba($theme, 0.05);
+            }
+
+            &:first-of-type {
+                position: absolute;
+                top: 30px;
+                right: -130px;
+                transform: scale(-1, 1) rotate(-17deg);
+            }
+
+            &:last-of-type {
+                position: absolute;
+                bottom: 160px;
+                left: -230px;
+                transform: rotate(13deg);
+            }
+        }
+    }
+
+    .page-title {
+        position: relative;
+        z-index: 1;
+
+        &.center {
+            text-align: center;
+
+            .title {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .title {
+            max-width: 580px;
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 15px;
+
+            /deep/ span {
+                font-size: 48px;
+            }
+        }
+
+        .description {
+            max-width: 580px;
+            @include font-size(20);
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+    }
+
+    .pricing {
+        padding-top: 250px;
+        padding-bottom: 120px;
+    }
+
+    .pricing-tables {
+        margin-top: 50px;
+        margin-bottom: 60px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .sign-up-button {
+        padding-top: 10px;
+        display: block;
+    }
+
+    @media only screen and (max-width: 960px) {
+
+        .page-title {
+
+            .title {
+                font-size: 28px;
+                line-height: 1.25;
+                margin-bottom: 15px;
+
+                /deep/ span {
+                    font-size: 28px;
+                }
+            }
+
+            .description {
+                @include font-size(16);
+                line-height: 1.6;
+                margin-bottom: 30px;
+            }
+        }
+    }
+</style>

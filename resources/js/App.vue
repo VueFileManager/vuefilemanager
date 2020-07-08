@@ -74,7 +74,29 @@
                 'isLogged', 'isGuest'
             ]),
             layout() {
-                if (includes(['InstallationDisclaimer', 'AdminAccount', 'PurchaseCode', 'SubscriptionService', 'StripeCredentials', 'AppSetup', 'EnvironmentSetup', 'BillingsDetail', 'SubscriptionPlans', 'Database', 'VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
+                if (includes([
+                    'InstallationDisclaimer',
+                    'SubscriptionService',
+                    'StripeCredentials',
+                    'SubscriptionPlans',
+                    'ForgottenPassword',
+                    'CreateNewPassword',
+                    'EnvironmentSetup',
+                    'VerifyByPassword',
+                    'SaaSLandingPage',
+                    'BillingsDetail',
+                    'NotFoundShared',
+                    'AdminAccount',
+                    'PurchaseCode',
+                    'DynamicPage',
+                    'SharedPage',
+                    'ContactUs',
+                    'AppSetup',
+                    'Database',
+                    'SignIn',
+                    'SignUp',
+                    ], this.$route.name)
+                ) {
                     return 'unauthorized'
                 }
 

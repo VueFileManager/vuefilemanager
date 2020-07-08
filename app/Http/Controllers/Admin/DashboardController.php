@@ -6,6 +6,7 @@ use App\FileManagerFile;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsersCollection;
 use App\Services\StripeService;
+use App\Setting;
 use App\User;
 use ByteUnits\Metric;
 use Illuminate\Http\Request;
@@ -21,6 +22,11 @@ class DashboardController extends Controller
         $this->stripe = $stripe;
     }
 
+    /**
+     * Get data for dashboard
+     *
+     * @return array
+     */
     public function index()
     {
         // Get total users
@@ -34,7 +40,11 @@ class DashboardController extends Controller
         // Get total premium users
         $total_premium_users = Subscription::where('stripe_status', 'active')->get()->count();
 
+        // Get License
+        $license = Setting::where('name', 'license')->first();
+
         return [
+            'license'             => $license->value,
             'app_version'         => config('vuefilemanager.version'),
             'total_users'         => $total_users,
             'total_used_space'    => Metric::bytes($total_used_space)->format(),

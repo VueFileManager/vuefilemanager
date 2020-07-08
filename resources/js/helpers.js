@@ -43,6 +43,12 @@ const Helpers = {
                 })
         }
 
+        Vue.prototype.$scrollTop = function () {
+            var container = document.getElementById('vue-file-manager')
+
+            container.scrollTop = 0
+        }
+
         Vue.prototype.$getCreditCardBrand = function (brand) {
             return `/assets/icons/${brand}.svg`
         }

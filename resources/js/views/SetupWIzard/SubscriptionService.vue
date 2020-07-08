@@ -62,6 +62,9 @@
                 isLoading: false,
             }
         },
+        created() {
+            this.$scrollTop()
+        }
     }
 </script>
 

@@ -34,7 +34,7 @@
             </ContentGroup>
 
             <!--SaaS-->
-            <ContentGroup v-if="config.isSaaS" title="SaaS" class="navigator">
+            <ContentGroup v-if="config.isSaaS" title="Subscription" class="navigator">
                 <div class="menu-list-wrapper vertical">
                     <router-link :to="{name: 'Plans'}" class="menu-list-item link">
                         <div class="icon">

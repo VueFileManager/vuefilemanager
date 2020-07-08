@@ -18,7 +18,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'AppBillings'}"
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'AppBillings'}"
                                  class="menu-list-item link">
                         <div class="icon">
                             <file-text-icon size="17"></file-text-icon>
@@ -35,6 +35,16 @@
                         </div>
                         <div class="label">
                             Email
+                        </div>
+                    </router-link>
+
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'AppPayments'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <credit-card-icon size="17"></credit-card-icon>
+                        </div>
+                        <div class="label">
+                            Payments
                         </div>
                     </router-link>
 
@@ -57,16 +67,18 @@
 </template>
 
 <script>
-    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon} from 'vue-feather-icons'
+    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon} from 'vue-feather-icons'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
     import Spinner from '@/components/FilesView/Spinner'
+    import { mapGetters } from 'vuex'
     import axios from 'axios'
 
     export default {
         name: 'AppSettings',
         components: {
+            CreditCardIcon,
             CodeIcon,
             MailIcon,
             FileTextIcon,
@@ -78,6 +90,9 @@
             MobileHeader,
             PageHeader,
             Spinner,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
     }
 </script>

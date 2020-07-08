@@ -208,8 +208,7 @@
             },
         },
         created() {
-            var container = document.getElementById('vue-file-manager')
-            container.scrollTop = 0
+            this.$scrollTop()
         }
     }
 </script>

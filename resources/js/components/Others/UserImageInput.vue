@@ -13,6 +13,12 @@
                 class="image-preview"
                 v-if="imagePreview"
         />
+        <img
+                ref="image"
+                :src="imagePreview"
+                class="image-preview blurred"
+                v-if="imagePreview"
+        />
     </div>
 </template>
 
@@ -84,6 +90,12 @@
             height: 62px;
             object-fit: cover;
             border-radius: 8px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .blurred {
+            @include blurred-image;
         }
     }
 </style>

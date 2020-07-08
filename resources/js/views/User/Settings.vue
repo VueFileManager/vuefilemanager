@@ -25,7 +25,7 @@
                 </div>
             </div>
         </PageTabGroup>
-        <PageTabGroup v-if="billingInfo">
+        <PageTabGroup v-if="config.isSaaS && billingInfo">
             <div class="form block-form">
                 <FormLabel>Billing Information</FormLabel>
                 <div class="block-wrapper">
@@ -115,7 +115,7 @@
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
-    import {mapGetters} from 'vuex'
+    import { mapGetters } from 'vuex'
     import {debounce} from 'lodash'
 
     export default {
@@ -134,6 +134,9 @@
             ButtonBase,
             ThemeLabel,
             required,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {

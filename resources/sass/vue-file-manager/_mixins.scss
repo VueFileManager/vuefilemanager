@@ -30,3 +30,12 @@
   box-shadow: 0 3px 15px 2px hsla(220, 36%, 16%, 0.05);
   background: white;
 }
+
+@mixin blurred-image {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  z-index: 0;
+  filter: blur(8px);
+  opacity: 0.5;
+}

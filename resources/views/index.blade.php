@@ -31,17 +31,21 @@
     <script>
         let config = {
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
+
             app_name: '{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}',
             app_description: '{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : 'Your self-hosted storage cloud software powered by Laravel and Vue' }}',
             app_logo: '{{ isset($settings->app_logo) && $settings->app_logo ? $settings->app_logo : asset(config('vuefilemanager.app_logo')) }}',
 
+            app_payments_active: {{ isset($settings->payments_active) ? $settings->payments_active : 0 }},
+
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
+
             userRegistration: {{ isset($settings->registration) ? $settings->registration : 1 }},
             storageLimit: {{ isset($settings->storage_limitation) ? $settings->storage_limitation : 1 }},
 
             hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
-            isSaaS: 1,
+            isSaaS: {{ isset($settings->license) && $settings->license === 'Extended' ? 1 : 0 }},
             isDemo: {{ env('APP_DEMO') ? 1 : 0 }},
 
             installation: '{{ $installation }}',

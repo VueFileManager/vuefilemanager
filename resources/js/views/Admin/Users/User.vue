@@ -9,6 +9,7 @@
                 <div class="user-thumbnail">
                     <div class="avatar">
                         <img :src="user.data.attributes.avatar" :alt="user.data.attributes.name">
+                        <!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
                     </div>
                     <div class="info">
                         <b class="name">
@@ -151,15 +152,25 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+        padding-bottom: 10px;
+        padding-top: 15px;
 
         .avatar {
             margin-right: 20px;
+            position: relative;
 
             img {
                 line-height: 0;
                 width: 62px;
                 height: 62px;
                 border-radius: 12px;
+                z-index: 1;
+                position: relative;
+
+                &.blurred {
+                    @include blurred-image;
+                    top: 0;
+                }
             }
         }
 

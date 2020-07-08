@@ -34,9 +34,10 @@ import AppSettings from './views/Admin/AppSettings/AppSettings'
 
 // App Settings
 import AppAppearance from './views/Admin/AppSettings/AppSettingsTabs/Appearance'
+import AppPayments from './views/Admin/AppSettings/AppSettingsTabs/Payments'
 import AppBillings from './views/Admin/AppSettings/AppSettingsTabs/Billings'
-import AppEmail from './views/Admin/AppSettings/AppSettingsTabs/Email'
 import AppOthers from './views/Admin/AppSettings/AppSettingsTabs/Others'
+import AppEmail from './views/Admin/AppSettings/AppSettingsTabs/Email'
 
 // Plans
 import Plans from './views/Admin/Plans'
@@ -69,6 +70,11 @@ import StripeCredentials from './views/SetupWizard/StripeCredentials'
 import SubscriptionPlans from './views/SetupWizard/SubscriptionPlans'
 import SubscriptionService from './views/SetupWizard/SubscriptionService'
 import InstallationDisclaimer from './views/SetupWizard/InstallationDisclaimer'
+
+// Index pages
+import SaaSLandingPage from './views/index/SaaSLandingPage'
+import DynamicPage from './views/Index/DynamicPage'
+import ContactUs from './views/Index/ContactUs'
 
 Vue.use(Router)
 
@@ -280,6 +286,15 @@ const routesAdmin = [
                         },
                     },
                     {
+                        name: 'AppPayments',
+                        path: '/admin/settings/payments',
+                        component: AppPayments,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Payments'
+                        },
+                    },
+                    {
                         name: 'AppOthers',
                         path: '/admin/settings/others',
                         component: AppOthers,
@@ -332,7 +347,7 @@ const routesShared = [
 const routesAuth = [
     {
         name: 'SignIn',
-        path: '/',
+        path: '/sign-in',
         component: Index,
         meta: {
             requiresAuth: false
@@ -563,6 +578,32 @@ const routesMaintenance = [
         ]
     },
 ]
+const routesIndex = [
+    {
+        name: 'SaaSLandingPage',
+        path: '/',
+        component: SaaSLandingPage,
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
+        name: 'DynamicPage',
+        path: '/page/:slug',
+        component: DynamicPage,
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
+        name: 'ContactUs',
+        path: '/contact-us',
+        component: ContactUs,
+        meta: {
+            requiresAuth: false
+        },
+    },
+]
 
 const router = new Router({
     mode: 'history',
@@ -570,6 +611,7 @@ const router = new Router({
         ...routesMaintenance,
         ...routesShared,
         ...routesAdmin,
+        ...routesIndex,
         ...routesAuth,
         ...routesUser,
     ],

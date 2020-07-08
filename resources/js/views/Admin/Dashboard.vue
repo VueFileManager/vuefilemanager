@@ -48,6 +48,7 @@
                         link-name="Show All Users"
                 ></WidgetTotals>
                 <WidgetTotals
+                        v-if="config.isSaaS"
                         class="widget"
                         icon="star"
                         title="Total Premium Users"
@@ -84,6 +85,7 @@
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
     import {CreditCardIcon} from "vue-feather-icons"
+    import { mapGetters } from 'vuex'
     import axios from 'axios'
 
     export default {
@@ -102,6 +104,9 @@
             ButtonBase,
             ColorLabel,
             Spinner,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {

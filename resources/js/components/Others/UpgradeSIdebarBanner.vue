@@ -8,7 +8,7 @@
             <p v-if="storage.used > 95" class="reach-capacity">You reach your storage capacity. Please upgrade.</p>
             <p v-else class="reach-capacity">You nearly reach your storage capacity.</p>
         </div>
-        <div class="footer">
+        <div v-if="config.app_payments_active" class="footer">
             <router-link :to="{name: 'UpgradePlan'}" class="button">
                 Upgrade
             </router-link>
@@ -19,6 +19,7 @@
 <script>
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import { HardDriveIcon } from 'vue-feather-icons'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'UpgradeSidebarBanner',
@@ -27,6 +28,7 @@
             ButtonBase,
         },
         computed: {
+            ...mapGetters(['config']),
             storage() {
                 return this.$store.getters.user.relationships.storage.data.attributes
             }

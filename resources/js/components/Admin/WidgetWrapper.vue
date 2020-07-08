@@ -47,9 +47,5 @@
                 stroke: $theme;
             }
         }
-
-        .title {
-            color: $theme;
-        }
     }
 </style>
