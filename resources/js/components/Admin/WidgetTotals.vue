@@ -57,6 +57,18 @@
     }
 
     @media (prefers-color-scheme: dark) {
+        .widget-value {
 
+            span {
+                color: $dark_mode_text_primary;
+            }
+        }
+
+        .footer-link {
+
+            .content {
+                color: $dark_mode_text_primary;
+            }
+        }
     }
 </style>

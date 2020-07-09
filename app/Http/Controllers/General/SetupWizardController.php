@@ -194,16 +194,12 @@ class SetupWizardController extends Controller
                 'value' => $request->currency,
             ],
             [
-                'name'  => 'stripe_webhook_secret',
-                'value' => $request->webhookSecret,
+                'name'  => 'payments_configured',
+                'value' => 1,
             ],
             [
-                'name'  => 'stripe_secret_key',
-                'value' => $request->secret,
-            ],
-            [
-                'name'  => 'stripe_publishable_key',
-                'value' => $request->key,
+                'name'  => 'payments_active',
+                'value' => 1,
             ],
         ]);
 
@@ -475,6 +471,11 @@ class SetupWizardController extends Controller
             $logo = store_system_image($request->file('logo'), 'system');
         }
 
+        // Store Logo horizontal
+        if ($request->hasFile('logo_horizontal')) {
+            $logo_horizontal = store_system_image($request->file('logo_horizontal'), 'system');
+        }
+
         // Store favicon
         if ($request->hasFile('favicon')) {
             $favicon = store_system_image($request->file('favicon'), 'system');
@@ -493,6 +494,10 @@ class SetupWizardController extends Controller
             [
                 'name'  => 'app_logo',
                 'value' => $request->hasFile('logo') ? $logo : null,
+            ],
+            [
+                'name'  => 'app_logo_horizontal',
+                'value' => $request->hasFile('logo_horizontal') ? $logo_horizontal : null,
             ],
             [
                 'name'  => 'app_favicon',
@@ -586,6 +591,11 @@ class SetupWizardController extends Controller
             'name'  => 'license',
             'value' => $request->purchase_code,
         ]);
+
+        // Create legal pages
+        if ($request->license === 'Extended') {
+            Artisan::call('db:seed --class=PageSeeder');
+        }
 
         // Retrieve access token
         $response = Route::dispatch(self::make_login_request($request));

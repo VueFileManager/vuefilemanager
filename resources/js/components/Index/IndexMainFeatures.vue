@@ -2,7 +2,7 @@
     <section class="main-features page-wrapper medium">
         <PageTitle
                 type="center"
-                title="The Fastest Growing <span style='color: #41B883'>File Manager</span><br> on the CodeCanyon Market"
+                title="The Fastest Growing <span style='color: #41B883'>File Manager</span> on the CodeCanyon Market"
                 description="Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom."
         ></PageTitle>
         <div class="content">
@@ -147,4 +147,39 @@
             margin-top: 50px;
         }
     }
+
+    @media only screen and (max-width: 960px) {
+
+        .content {
+            margin-top: 40px;
+        }
+
+        .features {
+            .feature {
+                margin-bottom: 35px;
+
+                .title {
+                    @include font-size(22);
+                }
+
+                .description {
+                    @include font-size(16);
+                }
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        .features {
+
+            .feature {
+
+                .description {
+                    color: $dark_mode_text_secondary;
+                }
+            }
+        }
+    }
+
 </style>

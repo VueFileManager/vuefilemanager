@@ -27,14 +27,21 @@
                 <div class="block-wrapper">
                     <label>App Logo (optional):</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
-                        <ImageInput @input="$updateImage('/settings', 'app_logo', app.logo)" :image="'/' + app.logo" v-model="app.logo" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" :error="errors[0]"/>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>App Logo Horizontal (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo Horizontal" v-slot="{ errors }">
+                        <ImageInput @input="$updateImage('/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)" v-model="app.logo_horizontal" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
                     <label>App Favicon (optional):</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-                        <ImageInput @input="$updateImage('/settings', 'app_favicon', app.favicon)" :image="'/' + app.favicon" v-model="app.favicon" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
             </div>
@@ -79,6 +86,7 @@
                     title: '',
                     description: '',
                     logo: undefined,
+                    logo_horizontal: undefined,
                     favicon: undefined,
                 },
             }
@@ -86,7 +94,7 @@
         mounted() {
             axios.get('/api/settings', {
                 params: {
-                    column: 'app_title|app_description|app_logo|app_favicon'
+                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal'
                 }
             })
                 .then(response => {
@@ -95,6 +103,7 @@
                     this.app.title = response.data.app_title
                     this.app.description = response.data.app_description
                     this.app.logo = response.data.app_logo
+                    this.app.logo_horizontal = response.data.app_logo_horizontal
                     this.app.favicon = response.data.app_favicon
                 })
         }

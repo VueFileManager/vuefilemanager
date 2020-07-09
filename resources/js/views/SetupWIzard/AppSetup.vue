@@ -37,6 +37,13 @@
                 </div>
 
                 <div class="block-wrapper">
+                    <label>App Logo Horizontal (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
+                        <ImageInput v-model="app.logo_horizontal" :error="errors[0]"/>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
                     <label>App Favicon (optional):</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
                         <ImageInput v-model="app.favicon" :error="errors[0]"/>
@@ -71,6 +78,7 @@
                                 <label class="input-label">Storage Limitation:</label>
                             </div>
                             <SwitchInput v-model="app.storageLimitation" class="switch" :state="app.storageLimitation"/>
+                            <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.</small>
                         </div>
                     </div>
                 </div>
@@ -94,6 +102,7 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Allow User Registration:</label>
+                                <small class="input-help">You can disable public registration for new users. You will still able to <br/>create new users in administration panel.</small>
                             </div>
                             <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration"/>
                         </div>
@@ -147,6 +156,7 @@
                     title: '',
                     description: '',
                     logo: undefined,
+                    logo_horizontal: undefined,
                     favicon: undefined,
                     contactMail: '',
                     googleAnalytics: '',
@@ -181,6 +191,9 @@
 
                 if (this.app.logo)
                     formData.append('logo', this.app.logo)
+
+                if (this.app.logo_horizontal)
+                    formData.append('logo_horizontal', this.app.logo_horizontal)
 
                 if (this.app.favicon)
                     formData.append('favicon', this.app.favicon)

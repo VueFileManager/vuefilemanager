@@ -64,12 +64,12 @@
 
             .title {
                 max-width: 100%;
-                font-size: 28px;
+                font-size: 32px;
                 line-height: 1.25;
                 margin-bottom: 15px;
 
                 /deep/ span {
-                    font-size: 28px;
+                    font-size: 32px;
                 }
             }
 

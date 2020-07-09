@@ -206,8 +206,11 @@ class Editor
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
         $user_storage_used = user_storage_percentage($user_id, $file->getSize());
 
+        // Get storage limitation setup
+        $storage_limitation = get_setting('storage_limitation');
+
         // Check if user can upload
-        if (config('vuefilemanager.limit_storage_by_capacity') && $user_storage_used >= 100) {
+        if ($storage_limitation && $user_storage_used >= 100) {
             abort(423, 'You exceed your storage limit!');
         }
 

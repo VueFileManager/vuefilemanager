@@ -129,8 +129,15 @@
         .button-base {
 
             &.secondary {
-                color: $dark_mode_text_primary;
                 background: $dark_mode_foreground;
+
+                .content {
+                    color: $dark_mode_text_primary;
+                }
+
+                polyline, path {
+                    stroke: $theme;
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 <template>
     <div class="page-wrapper large hero-screenshot">
-        <img src="/assets/images/vuefilemanager-screenshot.png" alt="VueFileManager screenshot">
+        <img class="hero-light" src="/assets/images/vuefilemanager-screenshot-light.png" alt="VueFileManager application">
+        <img class="hero-dark" src="/assets/images/vuefilemanager-screenshot-dark.png" alt="VueFileManager application">
 
         <div class="icons">
             <link-icon size="20" class="icon"></link-icon>
@@ -59,6 +60,7 @@
     .icons {
 
         .icon {
+            z-index: 0;
             position: absolute;
 
             &:nth-child(1) {
@@ -168,30 +170,52 @@
     }
 
     .hero-screenshot {
+        position: relative;
+        z-index: 1;
         padding-top: 75px;
         padding-bottom: 130px;
 
         img {
             border-radius: 8px;
-            max-width: 1165px;
+            width: 80%;
             box-shadow: 0 7px 255px rgba(#19363C, 0.1);
-        }
-    }
 
-    @media only screen and (max-width: 1390px) and (min-width: 1190px) {
-        .hero-screenshot {
-
-            img {
-                width: 80%;
+            &.hero-dark {
+                display: none;
             }
         }
     }
 
-    @media only screen and (max-width: 1190px) {
+    @media only screen and (max-width: 890px) {
+
+        .icons {
+            display: none;
+        }
+
         .hero-screenshot {
+            padding-top: 40px;
+            padding-bottom: 90px;
 
             img {
                 width: 100%;
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        .hero-screenshot {
+
+            img {
+
+                &.hero-light {
+                    display: none;
+                }
+
+                &.hero-dark {
+                    display: block;
+                    box-shadow: 0 7px 185px rgba(0, 0, 0, 0.8);
+                }
             }
         }
     }

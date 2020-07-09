@@ -1,8 +1,9 @@
 <template>
     <footer class="page-wrapper medium">
-        <div class="logo">
-            <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager">
-        </div>
+        <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
+            <img v-if="config.app_logo_horizontal" :src="config.app_logo_horizontal" :alt="config.app_name">
+            <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
+        </router-link>
         <ul class="navigation-links">
             <li>
                 <a href="/#pricing">
@@ -14,31 +15,38 @@
                     Contact Us
                 </router-link>
             </li>
+        </ul>
+        <ul class="navigation-links">
             <li>
-                <router-link :to="{name: 'DynamicPage', params: {slug: 'terms'}}">
-                    Terms
+                <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}">
+                    Terms of Service
                 </router-link>
             </li>
             <li>
-                <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy'}}">
-                    Privacy
+                <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}">
+                    Privacy Policy
                 </router-link>
             </li>
             <li>
-                <router-link :to="{name: 'DynamicPage', params: {slug: 'cookies'}}">
-                    Cookies
+                <router-link :to="{name: 'DynamicPage', params: {slug: 'cookie-policy'}}">
+                    Cookie Policy
                 </router-link>
             </li>
         </ul>
         <p class="copyright">
-            © 2020 VueFileManager. All rights reserved.
+            © 2020 {{ config.app_name }}. All rights reserved.
         </p>
     </footer>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
         name: 'IndexPageFooter',
+        computed: {
+            ...mapGetters(['config']),
+        },
     }
 </script>
 
@@ -49,14 +57,21 @@
 
     footer {
         text-align: center;
+        padding-top: 80px;
     }
 
     .logo {
         margin-bottom: 15px;
+        cursor: pointer;
 
         img {
             height: 38px;
             width: auto;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            @include font-size(25);
         }
     }
 
@@ -67,6 +82,7 @@
             display: inline-block;
 
             a {
+                display: block;
                 padding: 19px;
                 font-weight: 700;
                 @include font-size(17);
@@ -86,7 +102,24 @@
         padding-bottom: 20px;
     }
 
-    @media only screen and (max-width: 690px) {
+    @media only screen and (max-width: 960px) {
+        .navigation-links {
+            display: block;
+            
+            li {
+                display: block;
 
+                a {
+                    padding: 10px 0;
+                }
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        .copyright {
+            color: $dark_mode_text_secondary;
+        }
     }
 </style>

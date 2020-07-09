@@ -41,7 +41,7 @@
             axios.get('/api/public/pricing')
                 .then(response => {
                     this.plans = response.data
-                    this.$emit('load', false)
+                    this.$emit('load', response.data)
                 })
         }
     }
@@ -135,6 +135,54 @@
             .plan {
                 padding: 30px 25px;
                 border-bottom: 1px solid #F7F7F7;
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        .plans-wrapper {
+            background: $dark_mode_foreground;
+        }
+
+        .plan {
+            border-color: $dark_mode_border_color;
+
+            .plan-wrapper {
+                background: $dark_mode_foreground;
+            }
+
+            .plan-header {
+
+                .title {
+                    color: $dark_mode_text_primary;
+                }
+
+                .description {
+                    color: $dark_mode_text_secondary;
+                }
+            }
+
+            .plan-features {
+
+                .storage-size {
+                    color: $dark_mode_text_primary;
+                }
+
+                .storage-description {
+                    color: $dark_mode_text_primary;
+                }
+            }
+
+            .plan-footer {
+
+                .sign-in-button {
+                    background: rgba($theme, 0.1);
+
+                    /deep/ .content {
+                        color: $theme;
+                    }
+                }
             }
         }
     }

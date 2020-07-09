@@ -239,7 +239,7 @@
         .table-body {
             tr {
                 border-radius: 8px;
-                border-bottom: 1px solid #f5f5f5;
+                //border-bottom: 1px solid #f5f5f5;
 
                 &:hover {
                     background: $light_background;

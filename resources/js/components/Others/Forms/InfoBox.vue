@@ -33,7 +33,7 @@
         p {
             @include font-size(15);
             line-height: 1.6;
-            word-break: break-all;
+            word-break: break-word;
             font-weight: 600;
         }
 
@@ -72,14 +72,24 @@
         .info-box {
             padding: 15px;
         }
-
     }
 
 
     @media (prefers-color-scheme: dark) {
 
         .info-box {
-            background: $dark_mode_foreground;
+            background: rgba($yellow, 0.1);
+
+            p {
+                color: $yellow;
+            }
+
+            ul {
+
+                li {
+                    color: $yellow;
+                }
+            }
         }
     }
 </style>

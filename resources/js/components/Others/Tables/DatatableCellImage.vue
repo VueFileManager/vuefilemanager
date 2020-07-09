@@ -80,7 +80,21 @@
 
         .cell-image-thumbnail {
 
+            .image {
+
+                img {
+
+                    &.blurred {
+                        display: none;
+                    }
+                }
+            }
+
             .info {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
 
                 .description {
                     color: $dark_mode_text_secondary;

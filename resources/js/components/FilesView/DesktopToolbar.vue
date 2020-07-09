@@ -110,8 +110,12 @@
                 'homeDirectory',
             ]),
             hasCapacity() {
-                //return this.$store.getters.user.relationships.storage.data.attributes.used <= 100
-                return true
+
+                if (! this.$store.getters.config.storageLimit) {
+                    return true
+                }
+
+                return this.$store.getters.user.relationships.storage.data.attributes.used <= 100
             },
             directoryName() {
                 return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name

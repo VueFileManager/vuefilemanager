@@ -3,7 +3,7 @@
 
         <ContentSidebar>
 
-            <ContentGroup v-if="config.isSaaS && storage.used > 95">
+            <ContentGroup v-if="config.storageLimit && storage.used > 95">
                 <UpgradeSidebarBanner />
             </ContentGroup>
 

@@ -46,7 +46,13 @@ const Helpers = {
         Vue.prototype.$scrollTop = function () {
             var container = document.getElementById('vue-file-manager')
 
-            container.scrollTop = 0
+            if (container) {
+                container.scrollTop = 0
+            }
+        }
+
+        Vue.prototype.$getImage = function (source) {
+            return source ? '/' + source : ''
         }
 
         Vue.prototype.$getCreditCardBrand = function (brand) {

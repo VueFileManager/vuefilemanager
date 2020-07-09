@@ -44,10 +44,10 @@
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.relationships.storage.data.attributes.used }}%
+                                    {{ row.relationships.storage.data.attributes.used_formatted }}
                                 </span>
                             </td>
-                            <td>
+                            <td v-if="config.storageLimit">
                                 <span class="cell-item">
                                     {{ row.relationships.storage.data.attributes.capacity_formatted }}
                                 </span>
@@ -155,7 +155,8 @@
                 {
                     label: this.$t('admin_page_user.table.storage_capacity'),
                     field: 'relationships.storage.data.attributes.capacity',
-                    sortable: true
+                    sortable: true,
+                    hidden: ! this.config.storageLimit,
                 },
                 {
                     label: this.$t('admin_page_user.table.created_at'),
@@ -210,17 +211,6 @@
 
         .table-tools {
             background: $dark_mode_background;
-        }
-
-        .action-icons {
-
-            .icon {
-                cursor: pointer;
-
-                circle, path, line, polyline {
-                    stroke: $dark_mode_text_primary;
-                }
-            }
         }
     }
 

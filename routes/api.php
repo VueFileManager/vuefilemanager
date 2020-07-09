@@ -61,6 +61,10 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/user/check', 'Auth\AuthController@check_account');
     Route::post('/user/register', 'Auth\AuthController@register');
     Route::post('/user/login', 'Auth\AuthController@login');
+
+    // Pages
+    Route::post('/contact', 'AppFunctionsController@contact_form');
+    Route::get('/page/{slug}', 'AppFunctionsController@get_page');
 });
 
 // User master Routes
@@ -141,6 +145,11 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::post('/plans/store', 'Admin\PlanController@store');
     Route::get('/plans/{id}', 'Admin\PlanController@show');
     Route::get('/plans', 'Admin\PlanController@index');
+
+    // Pages
+    Route::get('/pages', 'Admin\PagesController@index');
+    Route::get('/pages/{slug}', 'Admin\PagesController@show');
+    Route::patch('/pages/{slug}', 'Admin\PagesController@update');
 
     // Invoices
     Route::get('/invoices/{token}', 'Admin\InvoiceController@show');

@@ -642,6 +642,64 @@
 
     @media (prefers-color-scheme: dark) {
 
+        .plan-title {
+
+            h1 {
+                color: $dark_mode_text_primary;
+            }
+
+            h2 {
+                color: $dark_mode_text_secondary;
+            }
+        }
+
+        .credit-card {
+            background: $dark_mode_foreground;
+
+            span, .credit-card-numbers {
+                color: $dark_mode_text_primary;
+            }
+        }
+
+        .change-payment {
+
+            span {
+                color: $dark_mode_text_secondary;
+            }
+
+            a {
+                color: $theme;
+            }
+        }
+
+        .summary-list {
+            background: $dark_mode_foreground;
+
+            .disclaimer {
+                color: $dark_mode_text_secondary;
+            }
+
+            .row {
+
+                &:last-of-type {
+                    border-top: 1px solid $dark_mode_border_color;
+
+                    b {
+                        color: $dark_mode_text_primary;
+                    }
+                }
+            }
+
+            .cell {
+                b {
+                    color: $dark_mode_text_primary;
+                }
+
+                small {
+                    color: $dark_mode_text_secondary;
+                }
+            }
+        }
     }
 
 </style>

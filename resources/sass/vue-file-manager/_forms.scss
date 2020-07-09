@@ -237,10 +237,24 @@ input[type="email"] {
 
   .form {
 
+    .input-help {
+      color: $dark_mode_text_secondary;
+    }
+
     &.block-form {
 
       .block-wrapper label {
         color: $dark_mode_text_primary;
+      }
+    }
+
+    .inline-wrapper {
+
+      .switch-label {
+
+        .input-label {
+          color: $dark_mode_text_primary;
+        }
       }
     }
   }

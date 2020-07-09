@@ -91,7 +91,7 @@
                                 <span class="email">{{ user.data.attributes.email }}</span>
                             </div>
                         </div>
-                        <div v-if="config.isSaaS && config.app_payments_active" class="headline-actions">
+                        <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active" class="headline-actions">
                             <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
                                     Upgrade Plan
@@ -218,6 +218,10 @@
         .user-thumbnail {
 
             .info {
+
+                .name {
+                    color: $dark_mode_text_primary;
+                }
 
                 .email {
                     color: $dark_mode_text_secondary;

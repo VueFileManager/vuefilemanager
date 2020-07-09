@@ -274,7 +274,7 @@
 
   .cell-item {
     white-space: nowrap;
-    color: $text;
+    //color: $text;
     font-weight: 700;
   }
 }
@@ -350,6 +350,7 @@
 
     &.horizontal {
       border-bottom: 2px solid $dark_mode_border_color;
+      background: $dark_mode_background;
     }
 
     .menu-list-item {
@@ -391,4 +392,18 @@
       }
     }
   }
+
+  .table {
+
+    .action-icons {
+
+      .icon {
+
+        circle, path, line, polyline {
+          stroke: $dark_mode_text_primary;
+        }
+      }
+    }
+  }
+
 }

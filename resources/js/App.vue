@@ -164,7 +164,7 @@
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         font-size: 16px;
         text-decoration: none;
-        color: #1b2539;
+        color: $text;
     }
 
     #auth {
@@ -177,6 +177,7 @@
         width: 100%;
         height: 100%;
         overflow-y: auto;
+        scroll-behavior:smooth;
     }
 
     @media only screen and (max-width: 690px) {
@@ -188,6 +189,10 @@
 
     // Dark mode support
     @media (prefers-color-scheme: dark) {
+
+        * {
+            color: $dark_mode_text_primary;
+        }
 
         body, html {
             background: $dark_mode_background;

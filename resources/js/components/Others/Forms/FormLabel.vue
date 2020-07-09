@@ -41,4 +41,13 @@
         }
     }
 
+    @media (prefers-color-scheme: dark) {
+        .form-label {
+
+            .label {
+                color: $dark_mode_text_primary;
+            }
+        }
+    }
+
 </style>

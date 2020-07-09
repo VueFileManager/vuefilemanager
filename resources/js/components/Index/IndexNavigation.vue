@@ -1,7 +1,8 @@
 <template>
     <nav class="main-navigation">
         <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
-            <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager">
+            <img v-if="config.app_logo_horizontal" :src="config.app_logo_horizontal" :alt="config.app_name">
+            <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
         <div class="navigation">
             <ul class="navigation-links">
@@ -36,8 +37,13 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
         name: 'IndexNavigation',
+        computed: {
+            ...mapGetters(['config']),
+        },
     }
 </script>
 
@@ -55,11 +61,17 @@
     }
 
     .logo {
+        cursor: pointer;
 
         img {
             cursor: pointer;
             height: 38px;
             width: auto;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            @include font-size(25);
         }
     }
 

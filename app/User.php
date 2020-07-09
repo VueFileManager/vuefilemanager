@@ -118,8 +118,20 @@ class User extends Authenticatable
      */
     public function getStorageAttribute()
     {
+        // Get storage limitation setup
+        $storage_limitation = get_setting('storage_limitation');
+
+        // Get user storage usage
+        if (!$storage_limitation) {
+            return [
+                'used' => $this->used_capacity,
+                'used_formatted' => Metric::bytes($this->used_capacity)->format(),
+            ];
+        }
+
         return [
             'used'               => (float)get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
+            'used_formatted'     => get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity) . '%',
             'capacity'           => $this->settings->storage_capacity,
             'capacity_formatted' => format_gigabytes($this->settings->storage_capacity),
         ];

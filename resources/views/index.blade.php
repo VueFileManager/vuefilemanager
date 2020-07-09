@@ -34,7 +34,8 @@
 
             app_name: '{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}',
             app_description: '{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : 'Your self-hosted storage cloud software powered by Laravel and Vue' }}',
-            app_logo: '{{ isset($settings->app_logo) && $settings->app_logo ? $settings->app_logo : asset(config('vuefilemanager.app_logo')) }}',
+            app_logo: '{{ isset($settings->app_logo) && $settings->app_logo ? $settings->app_logo : null }}',
+            app_logo_horizontal: '{{ isset($settings->app_logo_horizontal) && $settings->app_logo_horizontal ? $settings->app_logo_horizontal : null }}',
 
             app_payments_active: {{ isset($settings->payments_active) ? $settings->payments_active : 0 }},
 

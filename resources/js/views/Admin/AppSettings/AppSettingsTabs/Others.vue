@@ -10,13 +10,14 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Storage Limitation:</label>
+                                <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.</small>
                             </div>
                             <SwitchInput @input="$updateText('/settings', 'storage_limitation', app.storageLimitation)" v-model="app.storageLimitation" class="switch" :state="app.storageLimitation"/>
                         </div>
                     </div>
                 </div>
                 <div class="block-wrapper" v-if="app.storageLimitation">
-                    <label>Default Storage Space for Accounts:</label>
+                    <label>Default Storage Space for User Accounts:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Default Storage Space" rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/settings', 'storage_default', app.defaultStorage)"
                                v-model="app.defaultStorage"
@@ -34,6 +35,7 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Allow User Registration:</label>
+                                <small class="input-help">You can disable public registration for new users. You will still able to <br/>create new users in administration panel.</small>
                             </div>
                             <SwitchInput @input="$updateText('/settings', 'registration', app.userRegistration)" v-model="app.userRegistration" class="switch" :state="app.userRegistration"/>
                         </div>

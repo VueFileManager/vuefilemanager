@@ -144,6 +144,44 @@
     }
 
     @media (prefers-color-scheme: dark) {
+        .plan {
 
+            .plan-wrapper {
+                background: $dark_mode_foreground;
+            }
+
+            .plan-header {
+
+                .title {
+                    color: $dark_mode_text_primary;
+                }
+
+                .description {
+                    color: $dark_mode_text_secondary;
+                }
+            }
+
+            .plan-features {
+
+                .storage-size {
+                    color: $dark_mode_text_primary;
+                }
+
+                .storage-description {
+                    color: $dark_mode_text_primary;
+                }
+            }
+
+            .plan-footer {
+
+                .sign-in-button {
+                    background: rgba($theme, 0.1);
+
+                    /deep/ .content {
+                        color: $theme;
+                    }
+                }
+            }
+        }
     }
 </style>

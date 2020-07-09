@@ -182,7 +182,7 @@
 
         .detail-storage-item {
 
-            &.others {
+            &.others, &.disk {
 
                 .icon {
 

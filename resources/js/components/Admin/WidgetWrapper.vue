@@ -48,4 +48,16 @@
             }
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+        .widget-content {
+            background: $dark_mode_foreground;
+        }
+
+        .headline {
+            .title {
+                color: $dark_mode_text_primary;
+            }
+        }
+    }
 </style>

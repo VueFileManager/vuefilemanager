@@ -47,12 +47,19 @@
         },
         computed: {
             ...mapGetters(['config']),
-
         },
         data() {
             return {
                 isLoading: false,
             }
+        },
+        beforeMount() {
+            if (! this.config.isSaaS) {
+                this.$router.push({name: 'SignIn'})
+            }
+        },
+        created() {
+            this.$scrollTop()
         }
     }
 </script>
@@ -61,12 +68,4 @@
     @import '@assets/vue-file-manager/_landing-page';
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
-    @media only screen and (max-width: 690px) {
-
-    }
 </style>

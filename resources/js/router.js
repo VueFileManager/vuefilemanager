@@ -32,6 +32,10 @@ import Invoices from './views/Admin/Invoices'
 import Dashboard from './views/Admin/Dashboard'
 import AppSettings from './views/Admin/AppSettings/AppSettings'
 
+// Pages
+import Pages from './views/Admin/Pages'
+import PageEdit from './views/Admin/Pages/PageEdit'
+
 // App Settings
 import AppAppearance from './views/Admin/AppSettings/AppSettingsTabs/Appearance'
 import AppPayments from './views/Admin/AppSettings/AppSettingsTabs/Payments'
@@ -104,6 +108,24 @@ const routesAdmin = [
                 meta: {
                     requiresAuth: true,
                     title: 'Invoices'
+                },
+            },
+            {
+                name: 'Pages',
+                path: '/admin/pages',
+                component: Pages,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Pages'
+                },
+            },
+            {
+                name: 'PageEdit',
+                path: '/admin/pages/:slug',
+                component: PageEdit,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Edit Page'
                 },
             },
             {

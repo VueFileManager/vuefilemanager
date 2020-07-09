@@ -1,12 +1,12 @@
 <template>
-    <div class="page-wrapper medium pricing">
+    <div class="page-wrapper medium pricing" v-if="! isEmpty">
         <div id="pricing" class="page-title center">
             <h1 class="title">
                 Pick the <span style="color: #41B883">Best Plan</span> For Your Needs
             </h1>
         </div>
 
-        <PricingTables class="pricing-tables"/>
+        <PricingTables class="pricing-tables" @load="pricingLoaded"/>
 
         <div class="page-title center">
             <h2 class="description">
@@ -33,6 +33,18 @@
             PricingTables,
             AuthButton,
             CloudIcon,
+        },
+        data() {
+            return {
+                isEmpty: false,
+            }
+        },
+        methods: {
+            pricingLoaded(pricing) {
+
+                if (pricing.length === 0)
+                    this.isEmpty = true
+            }
         }
     }
 </script>
@@ -125,6 +137,10 @@
 
     @media only screen and (max-width: 960px) {
 
+        .cloud-bg {
+            display: none;
+        }
+
         .page-title {
 
             .title {
@@ -142,6 +158,11 @@
                 line-height: 1.6;
                 margin-bottom: 30px;
             }
+        }
+
+        .pricing {
+            padding-top: 50px;
+            padding-bottom: 120px;
         }
     }
 </style>

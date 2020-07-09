@@ -94,6 +94,11 @@
     }
 
     @media only screen and (max-width: 690px) {
+
+        .main-header {
+            padding-top: 50px;
+        }
+
         .features {
             display: block;
 
@@ -105,6 +110,10 @@
                     margin-bottom: 0;
                 }
             }
+        }
+
+        .sign-up-button {
+            margin-top: 30px;
         }
     }
 </style>

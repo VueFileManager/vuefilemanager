@@ -4,7 +4,8 @@
             <div class="dashboard-headline">
                 <div class="logo">
                     <a href="https://vuefilemanager.com" target="_blank">
-                        <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager">
+                        <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager" class="light-mode">
+                        <img src="/assets/images/vuefilemanager-horizontal-logo-dark.svg" alt="VueFileManager" class="dark-mode">
                     </a>
                 </div>
                 <div class="metadata">
@@ -192,12 +193,34 @@
         }
     }
 
+    .logo {
+        .dark-mode {
+            display: none;
+        }
+    }
+
     @media only screen and (max-width: 690px) {
 
     }
 
     @media (prefers-color-scheme: dark) {
 
+        .logo {
+            .dark-mode {
+                display: block;
+            }
+
+            .light-mode {
+                display: none;
+            }
+        }
+
+        .metadata {
+
+            .meta-title {
+                color: $dark_mode_text_primary;
+            }
+        }
     }
 
 </style>

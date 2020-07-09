@@ -120,4 +120,13 @@
     .auth-form input {
         min-width: 380px;
     }
+
+    @media (prefers-color-scheme: dark) {
+        .additional-link {
+
+            .black-link {
+                color: $dark_mode_text_primary;
+            }
+        }
+    }
 </style>

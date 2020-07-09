@@ -11,9 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(PaymentGatewaysSeeder::class);
-        $this->call(PlansSeeder::class);
-        $this->call(InvoicesSeeder::class);
+        $this->call(PageSeeder::class);
         $this->call(SettingSeeder::class);
     }
 }

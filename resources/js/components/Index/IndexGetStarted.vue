@@ -316,7 +316,18 @@
         }
     }
 
-    @media only screen and (max-width: 690px) {
+    @media only screen and (max-width: 960px) {
+        .page-title {
+            padding-top: 20px;
+        }
 
+        .get-started-button {
+            margin-bottom: 30px;
+        }
+
+        .cloud-bg,
+        .icons {
+            display: none;
+        }
     }
 </style>

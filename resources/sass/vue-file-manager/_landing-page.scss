@@ -4,10 +4,6 @@
   padding-left: 25px;
   padding-right: 25px;
 
-  .page-content {
-    margin-bottom: 80px;
-  }
-
   &.large {
     width: 1490px;
   }
@@ -45,8 +41,8 @@
 
 @media only screen and (max-width: 960px) {
   .page-wrapper {
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 35px;
+    padding-right: 35px;
 
     &.small {
       width: 100%;

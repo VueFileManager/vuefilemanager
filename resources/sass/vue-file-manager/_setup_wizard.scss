@@ -85,3 +85,17 @@
     transform: rotate(360deg);
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .duplicator {
+
+    .duplicator-item {
+      background: $dark_mode_foreground;
+
+      input,
+      textarea {
+        background: $dark_mode_background;
+      }
+    }
+  }
+}

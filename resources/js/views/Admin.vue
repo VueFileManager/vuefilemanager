@@ -52,6 +52,14 @@
                             Invoices
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Pages'}" class="menu-list-item link">
+                        <div class="icon">
+                            <monitor-icon size="17"></monitor-icon>
+                        </div>
+                        <div class="label">
+                            Pages
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
         </ContentSidebar>
@@ -61,7 +69,7 @@
 </template>
 
 <script>
-    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon } from 'vue-feather-icons'
+    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon } from 'vue-feather-icons'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import { mapGetters } from 'vuex'
@@ -72,6 +80,7 @@
             ...mapGetters(['config']),
         },
         components: {
+            MonitorIcon,
             BoxIcon,
             DatabaseIcon,
             CreditCardIcon,

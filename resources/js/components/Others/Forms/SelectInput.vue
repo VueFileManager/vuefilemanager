@@ -103,7 +103,6 @@
         .option-item {
             padding: 13px 20px;
             display: block;
-            //border-bottom: 1px solid #EBEBEB;
             cursor: pointer;
 
             &:hover {
@@ -202,8 +201,18 @@
                 border-bottom: none;
 
                 &:hover {
-                    color: $theme;
                     background: rgba($theme, .1);
+
+                    .option-value {
+                        color: $theme;
+                    }
+
+                    .option-icon {
+
+                        path, circle {
+                            stroke: $theme;
+                        }
+                    }
                 }
 
                 &:last-child {

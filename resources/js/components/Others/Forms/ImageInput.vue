@@ -53,7 +53,7 @@
                         .substring(imgPath.lastIndexOf('.') + 1)
                         .toLowerCase()
 
-                if (['png', 'jpg', 'jpeg'].includes(extn)) {
+                if (['png', 'jpg', 'jpeg', 'svg'].includes(extn)) {
                     const file = event.target.files[0],
                         reader = new FileReader()
 
@@ -156,6 +156,7 @@
 
     @media (prefers-color-scheme: dark) {
         .dropzone {
+            border-color: rgba(white, 0.2);
 
             .dropzone-message {
 

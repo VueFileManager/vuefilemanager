@@ -19,7 +19,7 @@
                     </td>
                     <td>
                         <span class="cell-item">
-                            {{ row.relationships.storage.data.attributes.used }}%
+                            {{ row.relationships.storage.data.attributes.used_formatted }}
                         </span>
                     </td>
                     <td>

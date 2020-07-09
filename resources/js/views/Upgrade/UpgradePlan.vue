@@ -89,7 +89,16 @@
     }
 
     @media (prefers-color-scheme: dark) {
+        .plan-title {
 
+            h1 {
+                color: $dark_mode_text_primary;
+            }
+
+            h2 {
+                color: $dark_mode_text_secondary;
+            }
+        }
     }
 
 </style>

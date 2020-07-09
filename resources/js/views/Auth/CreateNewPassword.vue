@@ -3,7 +3,9 @@
 
         <!--Create new password-->
         <AuthContent name="create-new-password" :visible="true">
-            <img class="logo" :src="config.app_logo" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo" :src="config.app_logo" :alt="config.app_name">
+            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+
             <h1>{{ $t('page_create_password.title') }}</h1>
             <h2>{{ $t('page_create_password.subtitle') }}</h2>
 
