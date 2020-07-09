@@ -20,16 +20,17 @@
                 <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td class="name" style="min-width: 200px">
-                                <router-link :to="{name: 'PlanSettings', params: {id: row.data.id}}" class="cell-item" tag="div">
-                                    <span>{{ row.data.attributes.name }}</span>
-                                </router-link>
-                            </td>
-                            <td>
+                            <td style="max-width: 80px">
                                 <span class="cell-item">
                                     <SwitchInput @input="changeStatus($event, row.data.id)" class="switch" :state="row.data.attributes.status"/>
                                 </span>
                             </td>
+                            <td class="name" style="min-width: 120px">
+                                <router-link :to="{name: 'PlanSettings', params: {id: row.data.id}}" class="cell-item" tag="div">
+                                    <span>{{ row.data.attributes.name }}</span>
+                                </router-link>
+                            </td>
+
                             <td>
                                 <span class="cell-item">
                                     {{ row.data.attributes.subscribers }}
@@ -114,13 +115,13 @@
                 plans: undefined,
                 columns: [
                     {
-                        label: 'Plan',
-                        field: 'data.attributes.name',
+                        label: 'Status',
+                        field: 'data.attributes.status',
                         sortable: true
                     },
                     {
-                        label: 'Status',
-                        field: 'data.attributes.status',
+                        label: 'Plan Name',
+                        field: 'data.attributes.name',
                         sortable: true
                     },
                     {

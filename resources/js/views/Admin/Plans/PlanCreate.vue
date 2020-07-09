@@ -2,7 +2,7 @@
     <div id="single-page">
         <div id="page-content" class="small-width">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <!--<PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>-->
+            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
                 <ValidationObserver @submit.prevent="createPlan" ref="createPlan" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">

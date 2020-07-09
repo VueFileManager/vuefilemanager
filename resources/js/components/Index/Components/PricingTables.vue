@@ -70,6 +70,7 @@
         .plan-header {
 
             .icon {
+
                 path, line, polyline, rect, circle {
                     color: $theme;
                 }
@@ -122,7 +123,6 @@
     .plans-wrapper {
         display: flex;
         flex-wrap: wrap;
-        margin: 0 -25px;
         justify-content: center;
     }
 

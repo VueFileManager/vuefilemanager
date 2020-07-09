@@ -517,7 +517,7 @@ class SetupWizardController extends Controller
             ],
             [
                 'name'  => 'storage_limitation',
-                'value' => $request->storageLimitation,
+                'value' => $request->storageLimitation ? $request->storageLimitation : 5,
             ],
             [
                 'name'  => 'storage_default',

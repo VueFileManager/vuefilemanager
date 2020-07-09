@@ -179,6 +179,7 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 50px;
+        margin-top: 30px;
     }
 
     .user-thumbnail {

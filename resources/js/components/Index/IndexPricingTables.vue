@@ -135,11 +135,19 @@
         display: block;
     }
 
-    @media only screen and (max-width: 960px) {
+    @media only screen and (max-width: 1190px) {
 
         .cloud-bg {
             display: none;
         }
+
+        .pricing {
+            padding-top: 150px;
+            padding-bottom: 60px;
+        }
+    }
+
+    @media only screen and (max-width: 960px) {
 
         .page-title {
 

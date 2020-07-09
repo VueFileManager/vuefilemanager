@@ -132,29 +132,30 @@
 
     @media only screen and (max-width: 1190px) {
 
-        .content {
-            display: block;
-        }
-
         .hero {
+            flex: 0 0 60%;
+
             img {
                 width: 100%;
             }
         }
 
         .features {
-            padding-left: 0;
-            margin-top: 50px;
+            padding-left: 25px;
+            margin-top: 0px;
         }
     }
 
     @media only screen and (max-width: 960px) {
 
         .content {
+            display: block;
             margin-top: 40px;
         }
 
         .features {
+            margin-top: 50px;
+
             .feature {
                 margin-bottom: 35px;
 

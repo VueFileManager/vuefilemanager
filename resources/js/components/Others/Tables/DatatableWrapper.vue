@@ -174,7 +174,7 @@
     .table {
         width: 100%;
         border-collapse: collapse;
-        overflow-x: auto;
+        table-layout: fixed;
 
         tr {
             width: 100%;

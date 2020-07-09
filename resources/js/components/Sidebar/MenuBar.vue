@@ -126,7 +126,7 @@
         user-select: none;
         padding-top: 25px;
         display: grid;
-        width: 72px;
+        flex: 0 0 72px;
     }
 
     .icon-navigation {
@@ -225,8 +225,7 @@
 
     @media only screen and (max-width: 1024px) {
         .menu-bar {
-            min-width: 60px;
-            width: 60px;
+            flex: 0 0 60px;
         }
 
         .icon-navigation {

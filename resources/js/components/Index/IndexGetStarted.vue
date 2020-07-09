@@ -316,6 +316,12 @@
         }
     }
 
+    @media only screen and (max-width: 1190px) {
+        .get-started-button {
+            margin-bottom: 280px;
+        }
+    }
+
     @media only screen and (max-width: 960px) {
         .page-title {
             padding-top: 20px;

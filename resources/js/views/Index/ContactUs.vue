@@ -31,7 +31,7 @@
                     <label>Message:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Message" rules="required"
                                         v-slot="{ errors }">
-                        <textarea v-model="contact.message" placeholder="Type your message here..." rows="4" :class="{'is-error': errors[0]}"></textarea>
+                        <textarea v-model="contact.message" placeholder="Type your message here..." rows="6" :class="{'is-error': errors[0]}"></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

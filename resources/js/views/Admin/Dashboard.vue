@@ -148,6 +148,7 @@
     .dashboard-headline {
         display: flex;
         justify-content: space-between;
+        margin-top: 20px;
         margin-bottom: 20px;
     }
 
@@ -199,8 +200,25 @@
         }
     }
 
-    @media only screen and (max-width: 690px) {
+    @media only screen and (max-width: 1190px) {
+        .widgets-total {
+            margin: 0 -10px 10px;
 
+            .widget {
+                padding: 10px;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 960px) {
+
+        .widgets-total {
+            display: block;
+        }
+
+        .became-backer {
+            display: none;
+        }
     }
 
     @media (prefers-color-scheme: dark) {

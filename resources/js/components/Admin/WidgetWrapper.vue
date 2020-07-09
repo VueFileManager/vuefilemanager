@@ -49,6 +49,15 @@
         }
     }
 
+    @media only screen and (max-width: 1190px) {
+        .headline {
+
+            .title {
+                @include font-size(14);
+            }
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
         .widget-content {
             background: $dark_mode_foreground;

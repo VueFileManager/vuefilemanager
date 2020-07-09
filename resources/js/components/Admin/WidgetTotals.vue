@@ -56,6 +56,15 @@
         }
     }
 
+    @media only screen and (max-width: 1190px) {
+        .widget-value {
+
+            span {
+                @include font-size(30);
+            }
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
         .widget-value {
 

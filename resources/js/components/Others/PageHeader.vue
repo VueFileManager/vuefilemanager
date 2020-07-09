@@ -35,6 +35,7 @@
         width: 100%;
         position: sticky;
         top: 0;
+        padding-top: 20px;
         padding-bottom: 20px;
 
         .title {
