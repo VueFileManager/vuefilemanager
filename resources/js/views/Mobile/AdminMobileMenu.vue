@@ -10,11 +10,11 @@
                 <nav class="mobile-navigation">
 
                     <!--Admin menu-->
-                    <b class="mobile-menu-label">Admin</b>
+                    <b class="mobile-menu-label">{{ $t('global.admin') }}</b>
                     <MenuItemList :navigation="AdminNavigation" />
 
                     <!--SaaS menu-->
-                    <b class="mobile-menu-label">SaaS</b>
+                    <b class="mobile-menu-label">{{ $t('global.saas') }}</b>
                     <MenuItemList :navigation="SassNavigation" />
                 </nav>
             </div>
@@ -37,14 +37,20 @@
             return {
                 AdminNavigation: [
                     {
+                        icon: 'box',
+                        title: this.$t('admin_menu.dashboard'),
+                        routeName: 'Dashboard',
+                        isVisible: true,
+                    },
+                    {
                         icon: 'users',
-                        title: 'Users',
+                        title: this.$t('admin_menu.users'),
                         routeName: 'Users',
                         isVisible: true,
                     },
                     {
                         icon: 'settings',
-                        title: 'Settings',
+                        title: this.$t('admin_menu.settings'),
                         routeName: 'User',
                         isVisible: true,
                     },
@@ -52,14 +58,20 @@
                 SassNavigation: [
                     {
                         icon: 'database',
-                        title: 'Plans',
+                        title: this.$t('admin_menu.plans'),
                         routeName: 'Plans',
                         isVisible: true,
                     },
                     {
                         icon: 'file-text',
-                        title: 'Invoices',
+                        title: this.$t('admin_menu.invoices'),
                         routeName: 'Invoices',
+                        isVisible: true,
+                    },
+                    {
+                        icon: 'monitor-icon',
+                        title: this.$t('admin_menu.pages'),
+                        routeName: 'Pages',
                         isVisible: true,
                     },
                 ]

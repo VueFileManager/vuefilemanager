@@ -116,8 +116,8 @@ class FileManagerFile extends Model
      */
     public function getThumbnailAttribute()
     {
-        // Get thumbnail from s3
-        if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces'])) {
+        // Get thumbnail from external storage
+        if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
 
             return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addHour());
         }
@@ -146,7 +146,7 @@ class FileManagerFile extends Model
     public function getFileUrlAttribute()
     {
         // Get file from s3
-        if (is_storage_driver(['s3', 'spaces'])) {
+        if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
 
             $header = [
                 "ResponseAcceptRanges"       => "bytes",

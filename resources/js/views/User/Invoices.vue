@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="invoices && invoices.length > 0">
-            <FormLabel>Invoices</FormLabel>
+            <FormLabel>{{ $t('user_invoices.title') }}</FormLabel>
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
                 <template scope="{ row }">
                     <tr>
@@ -37,7 +37,7 @@
             </DatatableWrapper>
         </PageTabGroup>
         <InfoBox v-else>
-            <p>You don't have any invoices yet.</p>
+            <p>{{ $t('user_invoices.empty') }}</p>
         </InfoBox>
     </PageTab>
 </template>
@@ -48,7 +48,7 @@
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import PageTab from '@/components/Others/Layout/PageTab'
     import InfoBox from '@/components/Others/Forms/InfoBox'
-    import {ExternalLinkIcon} from "vue-feather-icons";
+    import {ExternalLinkIcon} from "vue-feather-icons"
     import axios from 'axios'
 
     export default {
@@ -67,22 +67,22 @@
                 invoices: undefined,
                 columns: [
                     {
-                        label: 'Invoice Number',
+                        label: this.$t('rows.invoice.number'),
                         field: 'data.attributes.order',
                         sortable: true
                     },
                     {
-                        label: 'Total',
+                        label: this.$t('rows.invoice.total'),
                         field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
-                        label: 'Plan',
+                        label: this.$t('rows.invoice.plan'),
                         field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
-                        label: 'Payed',
+                        label: this.$t('rows.invoice.payed'),
                         field: 'data.attributes.created_at',
                         sortable: true
                     },
@@ -110,15 +110,6 @@
 
     .block-form {
         max-width: 100%;
-    }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
     }
 
 </style>

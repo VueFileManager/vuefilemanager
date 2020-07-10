@@ -15,6 +15,8 @@
                 <database-icon v-if="link.icon === 'database'" size="17"></database-icon>
                 <credit-card-icon v-if="link.icon === 'credit-card'" size="17"></credit-card-icon>
                 <cloud-icon v-if="link.icon === 'cloud'" size="17"></cloud-icon>
+                <monitor-icon v-if="link.icon === 'monitor'" size="17"></monitor-icon>
+                <box-icon v-if="link.icon === 'box'" size="17"></box-icon>
             </div>
             <b class="menu-link">
                 <span>{{ link.title }}</span>
@@ -33,6 +35,7 @@
         FileTextIcon,
         SettingsIcon,
         DatabaseIcon,
+        MonitorIcon,
         Trash2Icon,
         CloudIcon,
         PowerIcon,
@@ -40,11 +43,14 @@
         UsersIcon,
         UserIcon,
         LockIcon,
+        BoxIcon,
     } from 'vue-feather-icons'
 
     export default {
         name: 'MenuBar',
         components: {
+            BoxIcon,
+            MonitorIcon,
             ChevronRightIcon,
             UploadCloudIcon,
             CreditCardIcon,

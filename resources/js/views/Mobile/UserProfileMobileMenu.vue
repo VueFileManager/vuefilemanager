@@ -10,11 +10,11 @@
                 <nav class="mobile-navigation">
 
                     <!--Admin menu-->
-                    <b class="mobile-menu-label">Menu</b>
+                    <b class="mobile-menu-label">{{ $t('global.menu') }}</b>
                     <MenuItemList :navigation="ProfileNavigation" />
 
                     <!--SaaS menu-->
-                    <b class="mobile-menu-label">Subscription</b>
+                    <b class="mobile-menu-label">{{ $t('global.subscription') }}</b>
                     <MenuItemList :navigation="SubscriptionNavigation" />
                 </nav>
             </div>
@@ -37,19 +37,19 @@
                 ProfileNavigation: [
                     {
                         icon: 'user',
-                        title: 'Profile',
+                        title: this.$t('menu.profile'),
                         routeName: 'Profile',
                         isVisible: true,
                     },
                     {
                         icon: 'hard-drive',
-                        title: 'Storage',
+                        title: this.$t('menu.storage'),
                         routeName: 'Storage',
                         isVisible: true,
                     },
                     {
                         icon: 'lock',
-                        title: 'Password',
+                        title: this.$t('menu.password'),
                         routeName: 'Password',
                         isVisible: true,
                     },
@@ -57,19 +57,19 @@
                 SubscriptionNavigation: [
                     {
                         icon: 'cloud',
-                        title: 'Subscription',
+                        title: this.$t('menu.subscription'),
                         routeName: 'Subscription',
                         isVisible: true,
                     },
                     {
                         icon: 'credit-card',
-                        title: 'Payment Cards',
+                        title: this.$t('menu.payment_cards'),
                         routeName: 'PaymentMethods',
                         isVisible: true,
                     },
                     {
                         icon: 'file-text',
-                        title: 'Invoices',
+                        title: this.$t('menu.invoices'),
                         routeName: 'Invoice',
                         isVisible: true,
                     },

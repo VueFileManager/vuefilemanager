@@ -4,14 +4,14 @@
         <ContentSidebar>
 
             <!--Admin-->
-            <ContentGroup :title="$t('admin_menu.admin_label')" class="navigator">
+            <ContentGroup :title="$t('global.admin')" class="navigator">
                 <div class="menu-list-wrapper vertical">
                     <router-link :to="{name: 'Dashboard'}" class="menu-list-item link">
                         <div class="icon">
                             <box-icon size="17"></box-icon>
                         </div>
                         <div class="label">
-                            Dashboard
+                            {{ $t('admin_menu.dashboard') }}
                         </div>
                     </router-link>
                     <router-link :to="{name: 'Users'}" class="menu-list-item link">
@@ -27,7 +27,7 @@
                             <settings-icon size="17"></settings-icon>
                         </div>
                         <div class="label">
-                            Settings
+                            {{ $t('admin_menu.settings') }}
                         </div>
                     </router-link>
                 </div>
@@ -41,7 +41,7 @@
                             <database-icon size="17"></database-icon>
                         </div>
                         <div class="label">
-                            Plans
+                            {{ $t('admin_menu.plans') }}
                         </div>
                     </router-link>
                     <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
@@ -49,7 +49,7 @@
                             <file-text-icon size="17"></file-text-icon>
                         </div>
                         <div class="label">
-                            Invoices
+                            {{ $t('admin_menu.invoices') }}
                         </div>
                     </router-link>
                     <router-link :to="{name: 'Pages'}" class="menu-list-item link">
@@ -57,7 +57,7 @@
                             <monitor-icon size="17"></monitor-icon>
                         </div>
                         <div class="label">
-                            Pages
+                            {{ $t('admin_menu.pages') }}
                         </div>
                     </router-link>
                 </div>

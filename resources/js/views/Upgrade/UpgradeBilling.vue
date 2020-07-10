@@ -6,9 +6,8 @@
 
                 <div class="plan-title">
                     <credit-card-icon size="42" class="title-icon"></credit-card-icon>
-                    <h1>Choose Payment Method</h1>
-                    <h2>Choose plan witch perfect fit your needs. All plans is billed monthly automatically via your
-                        credit card.</h2>
+                    <h1>{{ $t('page_upgrade_account.title') }}</h1>
+                    <h2>{{ $t('page_upgrade_account.desription') }}</h2>
                 </div>
 
                 <div class="order">
@@ -16,7 +15,7 @@
                     <div class="steps">
 
                         <div class="payment-card">
-                            <FormLabel>Payment Card</FormLabel>
+                            <FormLabel>{{ $t('page_upgrade_account.section_card') }}</FormLabel>
 
                             <!-- Pay by new credit card -->
                             <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
@@ -43,7 +42,7 @@
                                         <div class="credit-card-numbers">
                                             •••• {{ defaultPaymentMethod.data.attributes.last4 }}
                                         </div>
-                                        <ColorLabel color="purple">Default</ColorLabel>
+                                        <ColorLabel color="purple">{{ $t('global.default') }}</ColorLabel>
                                     </div>
                                     <div class="expiration-date">
                                         <span>{{ defaultPaymentMethod.data.attributes.exp_month }} / {{ defaultPaymentMethod.data.attributes.exp_year }}</span>
@@ -52,41 +51,51 @@
 
                                 <!--Change payment-->
                                 <div class="change-payment" v-if="! isError">
-                                    <span>Also you can</span>
+                                    <span>
+                                        {{ $t('page_upgrade_account.change_payment.you_can') }}
+                                    </span>
 
-                                    <router-link v-if="PaymentMethods.data.length > 0" :to="{name: 'PaymentMethods'}">change your
-                                        default payment method
+                                    <router-link v-if="PaymentMethods.data.length > 0" :to="{name: 'PaymentMethods'}">
+                                        {{ $t('page_upgrade_account.change_payment.change_payment') }}
                                     </router-link>
-                                    <span v-if="PaymentMethods.data.length > 0">or</span>
 
-                                    <a @click="payByNewCardForm">pay by new credit card.</a>
+                                    <span v-if="PaymentMethods.data.length > 0">
+                                        {{ $t('global.or') }}
+                                    </span>
+
+                                    <a @click="payByNewCardForm">
+                                        {{ $t('page_upgrade_account.change_payment.pay_by_new_card') }}
+                                    </a>
                                 </div>
 
                                 <!--Card error-->
                                 <div class="card-error-message" v-if="isError">
                                     <span>{{ errorMessage }}</span>
-                                    <span @click="payByNewCardForm"
-                                          class="link">Please pay by another payment card</span>
-                                    <span> or </span>
-                                    <router-link :to="{name: 'PaymentMethods'}" class="link">Change your default payment
-                                        method
+                                    <span @click="payByNewCardForm" class="link">
+                                        {{ $t('page_upgrade_account.errors.pay_by_another_card') }}
+                                    </span>
+                                    <span>
+                                        {{ $t('global.or') }}
+                                    </span>
+                                    <router-link :to="{name: 'PaymentMethods'}" class="link">
+                                        {{ $t('page_upgrade_account.change_payment.change_payment') }}
                                     </router-link>
                                 </div>
                             </div>
                         </div>
                         <div class="billing" v-if="billing">
-                            <FormLabel>Billing Information</FormLabel>
+                            <FormLabel>{{ $t('page_upgrade_account.section_billing') }}</FormLabel>
 
                             <ValidationObserver ref="order" v-slot="{ invalid }" tag="form" class="form block-form">
                                 <div class="form block-form">
 
                                     <div class="block-wrapper">
-                                        <label>Name:</label>
+                                        <label>{{ $t('user_settings.name') }}:</label>
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_name" v-slot="{ errors }">
                                             <input v-model="billing.billing_name"
-                                                   placeholder="Type your billing name"
+                                                   :placeholder="$t('user_settings.name_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
                                             />
@@ -95,12 +104,12 @@
                                     </div>
 
                                     <div class="block-wrapper">
-                                        <label>Address:</label>
+                                        <label>{{ $t('user_settings.address') }}:</label>
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_address" v-slot="{ errors }">
                                             <input v-model="billing.billing_address"
-                                                   placeholder="Type your billing address"
+                                                   :placeholder="$t('user_settings.address_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
                                             />
@@ -109,12 +118,12 @@
                                     </div>
 
                                     <div class="block-wrapper">
-                                        <label>State:</label>
+                                        <label>{{ $t('user_settings.state') }}:</label>
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_state" v-slot="{ errors }">
                                             <input v-model="billing.billing_state"
-                                                   placeholder="Type your billing state"
+                                                   :placeholder="$t('user_settings.state_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
                                             />
@@ -124,12 +133,12 @@
 
                                     <div class="wrapper-inline">
                                         <div class="block-wrapper">
-                                            <label>City:</label>
+                                            <label>{{ $t('user_settings.city') }}:</label>
                                             <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                                 rules="required" name="billing_city"
                                                                 v-slot="{ errors }">
                                                 <input v-model="billing.billing_city"
-                                                       placeholder="Type your billing city"
+                                                       :placeholder="$t('user_settings.city_plac')"
                                                        type="text"
                                                        :class="{'is-error': errors[0]}"
                                                 />
@@ -138,12 +147,12 @@
                                         </div>
 
                                         <div class="block-wrapper">
-                                            <label>Postal Code:</label>
+                                            <label>{{ $t('user_settings.postal_code') }}:</label>
                                             <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                                 rules="required" name="billing_postal_code"
                                                                 v-slot="{ errors }">
                                                 <input v-model="billing.billing_postal_code"
-                                                       placeholder="Type your billing postal code"
+                                                       :placeholder="$t('user_settings.postal_code_plac')"
                                                        type="text"
                                                        :class="{'is-error': errors[0]}"
                                                 />
@@ -153,12 +162,12 @@
                                     </div>
 
                                     <div class="block-wrapper">
-                                        <label>Country:</label>
+                                        <label>{{ $t('user_settings.country') }}:</label>
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_country" v-slot="{ errors }">
                                             <input v-model="billing.billing_country"
-                                                   placeholder="Type your billing country"
+                                                   :placeholder="$t('user_settings.country_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
                                             />
@@ -167,12 +176,12 @@
                                     </div>
 
                                     <div class="block-wrapper">
-                                        <label>Phone Number:</label>
+                                        <label>{{ $t('user_settings.phone_number') }}:</label>
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_phone_number" v-slot="{ errors }">
                                             <input v-model="billing.billing_phone_number"
-                                                   placeholder="Type your billing phone number"
+                                                   :placeholder="$t('user_settings.phone_number_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
                                             />
@@ -184,12 +193,12 @@
                         </div>
                     </div>
                     <div class="summary">
-                        <FormLabel>Order Summary</FormLabel>
+                        <FormLabel>{{ $t('page_upgrade_account.section_summary') }}</FormLabel>
                         <div class="summary-list" :class="{'is-error': isError}" v-if="requestedPlan">
                             <div class="row">
                                 <div class="cell">
                                     <b>{{ requestedPlan.data.attributes.name }}</b>
-                                    <small>Billed monthly</small>
+                                    <small>{{ $t('page_upgrade_account.summary.period') }}</small>
                                 </div>
                                 <div class="cell">
                                     <b>{{ requestedPlan.data.attributes.price }}</b>
@@ -197,7 +206,7 @@
                             </div>
                             <div class="row">
                                 <div class="cell">
-                                    <b>Total</b>
+                                    <b>{{ $t('global.total') }}</b>
                                 </div>
                                 <div class="cell">
                                     <b>{{ requestedPlan.data.attributes.price }}</b>
@@ -205,12 +214,11 @@
                             </div>
                             <ButtonBase :disabled="isSubmitted" :loading="isSubmitted" @click.native="submitOrder"
                                         type="submit" button-style="theme-solid" class="next-submit">
-                                Pay with credit card
+                                {{ $t('page_upgrade_account.summary.submit_button') }}
                             </ButtonBase>
                             <p class="error-message" v-if="isError">{{ errorMessage }}</p>
                             <small class="disclaimer">
-                                By submit form, you agree to save the payment method and billing information in your
-                                VueFileManager account.
+                                {{ $t('page_upgrade_account.summary.submit_disclaimer') }}
                             </small>
                         </div>
                     </div>
@@ -297,7 +305,7 @@
                 // Show toaster
                 events.$emit('toaster', {
                     type: 'success',
-                    message: 'Your account was successfully upgraded.',
+                    message: this.$t('toaster.account_upgraded'),
                 })
 
                 // Go to User page

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
@@ -151,6 +152,11 @@ class User extends Authenticatable
         return $user_capacity;
     }
 
+    /**
+     * Get user full folder tree
+     *
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function getFolderTreeAttribute()
     {
         return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
@@ -166,6 +172,13 @@ class User extends Authenticatable
      */
     public function getAvatarAttribute()
     {
+        // Get avatar from external storage
+        if ($this->attributes['avatar'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
+
+            return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
+        }
+
+        // Get avatar from local storage
         if ($this->attributes['avatar']) {
             return url('/' . $this->attributes['avatar']);
         }

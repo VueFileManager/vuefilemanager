@@ -55,8 +55,8 @@
         <EmptyPageContent
                 v-if="! isLoading && invoices.length === 0"
                 icon="file-text"
-                title="You don’t have any invoices yet"
-                description="All customers invoices will be showed here."
+                :title="$t('admin_page_invoices.empty.title')"
+                :description="$t('admin_page_invoices.empty.description')"
         >
         </EmptyPageContent>
         <div id="loader" v-if="isLoading">
@@ -102,27 +102,27 @@
                 invoices: undefined,
                 columns: [
                     {
-                        label: 'Invoice Number',
+                        label: this.$t('admin_page_invoices.table.number'),
                         field: 'data.attributes.order',
                         sortable: true
                     },
                     {
-                        label: 'Total',
+                        label: this.$t('admin_page_invoices.table.total'),
                         field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
-                        label: 'Plan',
+                        label: this.$t('admin_page_invoices.table.plan'),
                         field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
-                        label: 'Payed',
+                        label: this.$t('admin_page_invoices.table.payed'),
                         field: 'data.attributes.created_at',
                         sortable: true
                     },
                     {
-                        label: 'User',
+                        label: this.$t('admin_page_invoices.table.user'),
                         field: 'relationships.user.data.attributes.name',
                         sortable: true
                     },

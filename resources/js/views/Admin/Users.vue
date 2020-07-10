@@ -20,7 +20,7 @@
                 <DatatableWrapper :paginator="true" :columns="columns" :data="users" class="table table-users">
                     <template scope="{ row }">
                         <tr>
-                            <td style="width: 300px">
+                            <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <DatatableCellImage
                                             :image="row.data.attributes.avatar"
@@ -36,10 +36,10 @@
                             </td>
                             <td v-if="config.isSaaS">
                                 <span class="cell-item" v-if="row.data.attributes.subscription">
-                                    Premium
+                                    {{ $t('global.premium') }}
                                 </span>
                                 <span class="cell-item" v-else>
-                                    Free
+                                    {{ $t('global.free') }}
                                 </span>
                             </td>
                             <td>
@@ -142,7 +142,7 @@
                     sortable: true
                 },
                 {
-                    label: 'Subscription Plan',
+                    label: this.$t('admin_page_user.table.plan'),
                     field: 'data.attributes.subscription',
                     sortable: true,
                     hidden: ! this.config.isSaaS,

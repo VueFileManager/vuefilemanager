@@ -1,16 +1,18 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="subscription">
-            <FormLabel>Subscription Plan</FormLabel>
+            <FormLabel>
+                {{ $t('user_subscription.title') }}
+            </FormLabel>
 
             <!--Info about active subscription-->
             <div v-if="! subscription.data.attributes.canceled" class="state active">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" title="Plan" :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" title="Billed" content="Monthly"/>
-                    <ListInfoItem class="list-item" title="Status" :content="status"/>
-                    <ListInfoItem class="list-item" title="Created At" :content="subscription.data.attributes.created_at"/>
-                    <ListInfoItem class="list-item" title="Renews At" :content="subscription.data.attributes.ends_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" content="Monthly"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.created_at')" :content="subscription.data.attributes.created_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.renews_at')" :content="subscription.data.attributes.ends_at"/>
                 </ListInfo>
                 <div class="plan-action">
                     <ButtonBase
@@ -26,10 +28,10 @@
             <!--Info about canceled subscription-->
             <div v-if="subscription.data.attributes.canceled" class="state canceled">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" title="Plan" :content="subscription.data.attributes.name"/>
-                    <ListInfoItem class="list-item" title="Status" :content="status"/>
-                    <ListInfoItem class="list-item" title="Canceled At" :content="subscription.data.attributes.canceled_at"/>
-                    <ListInfoItem class="list-item" title="Ends At" :content="subscription.data.attributes.ends_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.canceled_at')" :content="subscription.data.attributes.canceled_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.ends_at')" :content="subscription.data.attributes.ends_at"/>
                 </ListInfo>
                 <div class="plan-action">
                     <ButtonBase
@@ -43,7 +45,7 @@
             </div>
         </PageTabGroup>
         <InfoBox v-else>
-            <p>You don't have any subscription yet.</p>
+            <p>{{ $t('user_subscription.empty') }}</p>
         </InfoBox>
     </PageTab>
 </template>
@@ -77,23 +79,23 @@
         },
         computed: {
             cancelButtonText() {
-                return this.isConfirmedCancel ? this.$t('popup_share_edit.confirm') : 'Cancel Plan'
+                return this.isConfirmedCancel ? this.$t('popup_share_edit.confirm') : this.$t('user_subscription.cancel_plan')
             },
             cancelButtonStyle() {
                 return this.isConfirmedCancel ? 'danger-solid' : 'secondary'
             },
             resumeButtonText() {
-                return this.isConfirmedResume ? this.$t('popup_share_edit.confirm') : 'Resume Plan'
+                return this.isConfirmedResume ? this.$t('popup_share_edit.confirm') : this.$t('user_subscription.resume_plan')
             },
             resumeButtonStyle() {
                 return this.isConfirmedResume ? 'theme-solid' : 'secondary'
             },
             status() {
                 if (this.subscription.data.attributes.canceled) {
-                    return 'Canceled'
+                    return this.$t('global.canceled')
                 }
                 if (this.subscription.data.attributes.active) {
-                    return 'Active'
+                    return this.$t('global.active')
                 }
             }
         },
@@ -135,10 +137,10 @@
 
                             events.$emit('alert:open', {
                                 emoji: '👍',
-                                title: 'Subscription Was Canceled',
-                                message: 'You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.',
+                                title: this.$t('popup_subscription_cancel.title'),
+                                message: this.$t('popup_subscription_cancel.message'),
                                 buttonStyle: 'theme',
-                                button: 'I\'m done'
+                                button: this.$t('popup_subscription_cancel.button')
                             })
                         })
                         .catch(() => {
@@ -176,10 +178,10 @@
 
                             events.$emit('alert:open', {
                                 emoji: '👍',
-                                title: 'Subscription Was Resumed',
-                                message: 'Your subscription was re-activated, and they will be billed on the original billing cycle.',
+                                title: this.$t('popup_subscription_cancel.title'),
+                                message: this.$t('popup_subscription_cancel.message'),
                                 buttonStyle: 'theme',
-                                button: 'That\'s awesome!'
+                                button: this.$t('popup_subscription_cancel.button')
                             })
                         })
                         .catch(() => {

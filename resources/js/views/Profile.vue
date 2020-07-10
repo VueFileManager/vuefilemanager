@@ -41,7 +41,7 @@
                             <cloud-icon size="17"></cloud-icon>
                         </div>
                         <div class="label">
-                            Subscription
+                            {{ $t('menu.subscription') }}
                         </div>
                     </router-link>
 
@@ -50,7 +50,7 @@
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
                         <div class="label">
-                            Payment Cards
+                            {{ $t('menu.payment_cards') }}
                         </div>
                     </router-link>
 
@@ -59,7 +59,7 @@
                             <file-text-icon size="17"></file-text-icon>
                         </div>
                         <div class="label">
-                            Invoices
+                            {{ $t('menu.invoices') }}
                         </div>
                     </router-link>
                 </div>
@@ -94,7 +94,7 @@
                         <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active" class="headline-actions">
                             <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
-                                    Upgrade Plan
+                                    {{ $t('upgrade.upgrade_plan') }}
                                 </ButtonBase>
                             </router-link>
                         </div>
@@ -153,7 +153,7 @@
         computed: {
             ...mapGetters(['user', 'config']),
             subscriptionStatus() {
-                return this.user.data.attributes.subscription ? 'Premium' : 'Free'
+                return this.user.data.attributes.subscription ? this.$t('global.premium') : this.$t('global.free')
             },
             subscriptionColor() {
                 return this.user.data.attributes.subscription ? 'green' : 'purple'

@@ -1,32 +1,34 @@
 <template>
     <PageTab :is-loading="isLoading" class="form-fixed-width">
         <PageTabGroup v-if="subscription">
-            <FormLabel>Subscription Plan</FormLabel>
+            <FormLabel>
+                {{ $t('user_subscription.title') }}
+            </FormLabel>
 
             <!--Info about active subscription-->
             <div v-if="! subscription.canceled" class="state active">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" title="Plan" :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" title="Billed" content="Monthly"/>
-                    <ListInfoItem class="list-item" title="Status" :content="status"/>
-                    <ListInfoItem class="list-item" title="Created At" :content="subscription.attributes.created_at"/>
-                    <ListInfoItem class="list-item" title="Renews At" :content="subscription.attributes.ends_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" content="Monthly"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.created_at')" :content="subscription.attributes.created_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.renews_at')" :content="subscription.attributes.ends_at"/>
                 </ListInfo>
             </div>
 
             <!--Info about canceled subscription-->
             <div v-if="subscription.attributes.canceled" class="state canceled">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" title="Plan" :content="subscription.attributes.name"/>
-                    <ListInfoItem class="list-item" title="Status" :content="status"/>
-                    <ListInfoItem class="list-item" title="Canceled At" :content="subscription.attributes.canceled_at"/>
-                    <ListInfoItem class="list-item" title="Ends At" :content="subscription.attributes.ends_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.canceled_at')" :content="subscription.attributes.canceled_at"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.ends_at')" :content="subscription.attributes.ends_at"/>
                 </ListInfo>
             </div>
         </PageTabGroup>
         <PageTabGroup v-if="! subscription">
             <InfoBox>
-                <p>User don't have any subscription yet.</p>
+                <p>{{ $t('admin_page_user.subscription.empty') }}</p>
             </InfoBox>
         </PageTabGroup>
     </PageTab>
@@ -62,10 +64,10 @@
         computed: {
             status() {
                 if (this.subscription.attributes.canceled) {
-                    return 'Canceled'
+                    return this.$t('global.canceled')
                 }
                 if (this.subscription.attributes.active) {
-                    return 'Active'
+                    return this.$t('global.active')
                 }
             }
         },
@@ -106,13 +108,4 @@
             flex: 0 0 50%;
         }
     }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

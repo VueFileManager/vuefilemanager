@@ -1,7 +1,9 @@
 <template>
     <PageTab :is-loading="isLoading" class="form-fixed-width" v-if="storage">
         <PageTabGroup v-if="config.storageLimit || ! user.data.attributes.subscription">
-            <FormLabel>{{ $t('user_box_storage.title') }}</FormLabel>
+            <FormLabel>
+                {{ $t('user_box_storage.title') }}
+            </FormLabel>
             <InfoBox>
                 <p>{{ $t('user_box_storage.description') }}</p>
             </InfoBox>
@@ -124,7 +126,7 @@
                             if (error.response.data.errors['attributes.storage_capacity']) {
 
                                 this.$refs.changeStorageCapacity.setErrors({
-                                    'Capacity': 'The storage capacity must be lower than 10 digit number.'
+                                    'Capacity': this.$t('errors.capacity_digit')
                                 });
                             }
                         } else {
@@ -158,14 +160,4 @@
     .block-form {
         max-width: 100%;
     }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

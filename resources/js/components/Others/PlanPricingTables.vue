@@ -15,10 +15,10 @@
                 </section>
                 <footer class="plan-footer">
                     <b class="price">
-                        {{ plan.data.attributes.price }}/Mo.
+                        {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}.
                     </b>
                     <ButtonBase @click.native="selectPlan(plan)" type="submit" button-style="secondary" class="sign-in-button">
-                        Sign Up
+                        {{ $t('global.get_it') }}
                     </ButtonBase>
                 </footer>
             </div>
@@ -49,7 +49,6 @@
             }
         },
         created() {
-
             axios.get('/api/public/pricing')
                 .then(response => {
                     this.plans = response.data

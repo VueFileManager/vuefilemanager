@@ -78,17 +78,17 @@
                 pages: undefined,
                 columns: [
                     {
-                        label: 'Page',
+                        label: this.$t('admin_pages.table.page'),
                         field: 'data.attributes.title',
                         sortable: true
                     },
                     {
-                        label: 'Slug',
+                        label: this.$t('admin_pages.table.slug'),
                         field: 'data.attributes.slug',
                         sortable: true
                     },
                     {
-                        label: 'Status',
+                        label: this.$t('admin_pages.table.status'),
                         field: 'data.attributes.visibility',
                         sortable: true
                     },

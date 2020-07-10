@@ -1,4 +1,80 @@
 {
+    "global": {
+        "premium": "Premium",
+        "free": "Free",
+        "default": "Default",
+        "canceled": "Canceled",
+        "active": "Active",
+        "or": "or",
+        "total": "Total",
+        "monthly_ac": "Mo.",
+        "get_it": "Mo.",
+        "admin": "Admin",
+        "menu": "Menu",
+        "subscription": "Subscription",
+        "upgrade_plan": "Upgrade Plan",
+        "saas": "Services"
+    },
+    "errors": {
+        "capacity_digit": "The storage capacity must be lower than 10 digit number."
+    },
+    "user_invoices": {
+        "title": "Invoices",
+        "empty": "You don't have any invoices yet."
+    },
+    "user_password": {
+        "title": "Change Your Password"
+    },
+    "user_payments": {
+        "title": "Payment Methods",
+        "set_as_default": "Set as default card",
+        "delete_card": "Delete card",
+        "empty": "You don't have any payment cards yet."
+    },
+    "user_subscription": {
+        "title": "Subscription Plan",
+        "plan": "Plan",
+        "billed": "Billed",
+        "status": "Status",
+        "created_at": "Created At",
+        "renews_at": "Renews At",
+        "canceled_at": "Canceled At",
+        "ends_at": "Ends At",
+        "empty": "You don't have any subscription yet.",
+        "cancel_plan": "Cancel Plan",
+        "resume_plan": "Resume Plan"
+    },
+    "user_settings": {
+        "title_account": "Account Information",
+        "title_billing": "Billing Information",
+        "name": "Name",
+        "name_plac": "Type your billing name",
+        "address": "Address",
+        "address_plac": "Type your billing address",
+        "state": "State",
+        "state_plac": "Type your billing state",
+        "city": "City",
+        "city_plac": "Type your billing city",
+        "postal_code": "Postal Code",
+        "postal_code_plac": "Type your billing postal code",
+        "country": "Country",
+        "country_plac": "Type your billing country",
+        "phone_number": "Phone Number",
+        "phone_number_plac": "Type your billing phone number"
+    },
+    "rows": {
+        "invoice": {
+            "number": "Invoice Number",
+            "total": "Total",
+            "plan": "Plan",
+            "payed": "Payed"
+        },
+        "card": {
+            "number": "Card Number",
+            "status": "Status",
+            "expiration": "Expiration Date"
+        }
+    },
     "routes": {
         "create_new_password": "create-new-password"
     },
@@ -81,6 +157,30 @@
         "registration_text": "Don’t have an account?",
         "registration_button": "Register account."
     },
+    "page_pricing_tables": {
+        "title": "Choose Your Plan",
+        "description": "Choose plan witch perfect fit your needs. All plans is billed monthly automatically via your credit card."
+    },
+    "page_upgrade_account": {
+        "title": "Choose Payment Method",
+        "desription": "Choose plan witch perfect fit your needs. All plans is billed monthly automatically via your credit card.",
+        "section_card": "Payment Card",
+        "section_billing": "Billing Information",
+        "section_summary": "Order Summary",
+        "change_payment": {
+            "you_can": "Also you can",
+            "change_payment": "change your default payment method",
+            "pay_by_new_card": "pay by new credit card"
+        },
+        "errors": {
+            "pay_by_another_card": "Please pay by another payment card"
+        },
+        "summary": {
+            "period": "Billed monthly",
+            "submit_button": "Pay with credit card",
+            "submit_disclaimer": "By submit form, you agree to save the payment method and billing information in your VueFileManager account."
+        }
+    },
     "uploading": {
         "progress": "Uploading files {current}/{total}"
     },
@@ -122,7 +222,7 @@
         "of": "of"
     },
     "storage": {
-        "sec_capacity": "Storage Capacity",
+        "sec_capacity": "Your disk Usage",
         "sec_details": "Capacity Usage Details",
         "total_used": "Total used {used}",
         "total_capacity": "Your storage capacity {capacity}",
@@ -163,6 +263,9 @@
         "move": "Move"
     },
     "menu": {
+        "payment_cards": "Payment Cards",
+        "invoices": "Invoices",
+        "subscription": "Subscription",
         "files": "Files",
         "latest": "Recent Uploads",
         "shared": "Shared Files",
@@ -266,6 +369,24 @@
         "title": "User was deleted",
         "message": "Your user was deleted with all user data content."
     },
+    "popup_set_card": {
+        "title": "Set as default card?",
+        "message": "Your card will be set as default and will be always charged for the next billings."
+    },
+    "popup_delete_card": {
+        "title": "Are you sure?",
+        "message": "This event is irreversible and your payment card will be delete forever"
+    },
+    "popup_subscription_cancel": {
+        "title": "Subscription Was Resumed",
+        "message": "You'll continue to have access to the features you've paid for until the end of your billing cycle.",
+        "button": "I'm done"
+    },
+    "popup_subscription_resumed": {
+        "title": "Subscription Was Canceled",
+        "message": "Your subscription was re-activated, and they will be billed on the original billing cycle.",
+        "button": "That's awesome!"
+    },
     "user_box_storage": {
         "title": "Change User Storage Capacity",
         "description": "Change user storage capacity by input bellow. You have to type only number e.g. value '5' means, user will have 5GB of storage capacity."
@@ -283,8 +404,67 @@
         "description": "You can change role for current user. Admin role can edit or create new users, change storage capacity and any other application settings."
     },
     "admin_menu": {
-        "admin_label": "Admin",
-        "users": "Users"
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "settings": "Settings",
+        "plans": "Plans",
+        "invoices": "Invoices",
+        "pages": "Pages"
+    },
+    "admin_pages": {
+        "table": {
+            "page": "Page",
+            "slug": "Slug",
+            "status": "Status"
+        }
+    },
+    "admin_page_dashboard": {
+        "version": "Version",
+        "license": "License",
+        "backer_button": "Become a Backer",
+        "w_total_users": {
+            "title": "Total Users",
+            "link": "Show All Users"
+        },
+        "w_total_space": {
+            "title": "Total Space Used",
+            "link": "Show All Users"
+        },
+        "w_total_premium": {
+            "title": "Total Premium Users",
+            "link": "Show All Plans"
+        },
+        "w_latest_users": {
+            "title": "Latest Registrations"
+        }
+    },
+    "admin_page_invoices": {
+        "empty": {
+            "title": "You don’t have any invoices yet",
+            "description": "All customers invoices will be showed here."
+        },
+        "table": {
+            "number": "Invoice Number",
+            "total": "Total",
+            "plan": "Plan",
+            "payed": "Payed",
+            "user": "User"
+        }
+    },
+    "admin_page_plans": {
+        "create_plan_button": "Create Plan",
+        "empty": {
+            "title": "You don’t have any plan yet",
+            "description": "For create new plan, click on button below.",
+            "button": "Create New Plan"
+        },
+        "table": {
+            "status": "Status",
+            "name": "Plan Name",
+            "subscribers": "Subscribers",
+            "price": "Price",
+            "storage_capacity": "Storage Capacity"
+        }
     },
     "admin_page_user": {
         "select_role": "Select user role",
@@ -297,13 +477,16 @@
         "change_capacity": "Change Capacity",
         "send_password_link": "Send Password Reset Link",
         "tabs": {
-            "detail": "Detail",
+            "subscription": "Subscription",
             "storage": "Storage Usage",
+            "invoices": "Invoices",
             "password": "Password",
-            "delete": "Delete User"
+            "delete": "Delete User",
+            "detail": "Detail"
         },
         "table": {
             "name": "User",
+            "plan": "Sunscription Plan",
             "role": "Role",
             "storage_used": "Storage Used",
             "storage_capacity": "Storage Capacity",
@@ -317,13 +500,22 @@
             "label_email": "Type E-mail",
             "label_name": "Type full name",
             "label_conf_pass": "Confirm password"
+        },
+        "invoices": {
+            "empty": "User don't have any invoices yet."
+        },
+        "subscription": {
+            "empty": "User don't have any subscription yet."
         }
     },
     "toaster": {
         "changed_user": "You successfully changed user's role!",
         "sended_password": "You successfully send user email for reset password!",
         "changed_capacity": "You successfully changed user's storage size!",
-        "created_user": "User was created successfully!"
+        "created_user": "User was created successfully!",
+        "card_deleted": "Your card was successfully deleted.",
+        "card_set": "Your card was successfully set as default.",
+        "account_upgraded": "Your account was successfully upgraded."
     },
     "roles": {
         "admin": "Admin",

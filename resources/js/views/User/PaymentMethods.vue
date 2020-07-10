@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="PaymentMethods && PaymentMethods.length > 0">
-            <FormLabel>Payment Methods</FormLabel>
+            <FormLabel>{{ $t('user_payments.title') }}</FormLabel>
             <DatatableWrapper :paginator="true" :columns="columns" :data="PaymentMethods" class="table">
                 <template scope="{ row }">
                     <tr :class="{'is-deleting': row.data.attributes.card_id === deletingID}">
@@ -13,15 +13,15 @@
                                     <div class="credit-card-numbers">
                                         •••• {{ row.data.attributes.last4 }}
                                     </div>
-                                    <ColorLabel v-if="row.data.id === defaultPaymentCard.data.id" color="purple">Default</ColorLabel>
+                                    <ColorLabel v-if="row.data.id === defaultPaymentCard.data.id" color="purple">{{ $t('global.default') }}</ColorLabel>
                                 </div>
                             </span>
                         </td>
-                        <td>
+                        <!--<td>
                             <span class="cell-item">
                                 <ColorLabel :color="getCardStatusColor(row.data.attributes.status)">{{ getCardStatus(row.data.attributes.status) }}</ColorLabel>
                             </span>
-                        </td>
+                        </td>-->
                         <td>
                             <span class="cell-item">
                                 {{ row.data.attributes.exp_month }} / {{ row.data.attributes.exp_year }}
@@ -29,8 +29,8 @@
                         </td>
                         <td>
                             <div class="action-icons">
-                                <credit-card-icon size="15" class="icon icon-card" title="Set as default card" @click="setDefaultCard(row.data.attributes)"  v-if="row.data.id !== defaultPaymentCard.data.id"></credit-card-icon>
-                                <trash2-icon size="15" class="icon icon-trash" title="Delete card" @click="deleteCard(row.data.attributes)"></trash2-icon>
+                                <credit-card-icon size="15" class="icon icon-card" :title="$t('user_payments.set_as_default')" @click="setDefaultCard(row.data.attributes)"  v-if="row.data.id !== defaultPaymentCard.data.id"></credit-card-icon>
+                                <trash2-icon size="15" class="icon icon-trash" :title="$t('user_payments.delete_card')" @click="deleteCard(row.data.attributes)"></trash2-icon>
                             </div>
                         </td>
                     </tr>
@@ -38,7 +38,7 @@
             </DatatableWrapper>
         </PageTabGroup>
         <InfoBox v-else>
-            <p>You don't have any payment cards yet.</p>
+            <p>{{ $t('user_payments.empty') }}</p>
         </InfoBox>
     </PageTab>
 </template>
@@ -73,17 +73,17 @@
                 deletingID: undefined,
                 columns: [
                     {
-                        label: 'Card Number',
+                        label: this.$t('rows.card.number'),
                         field: 'data.attributes.total',
                         sortable: true
                     },
-                    {
-                        label: 'Status',
+                    /*{
+                        label: this.$t('rows.card.status'),
                         field: 'data.attributes.status',
                         sortable: true
-                    },
+                    },*/
                     {
-                        label: 'Expiration Date',
+                        label: this.$t('rows.card.expiration'),
                         field: 'data.attributes.total',
                         sortable: true
                     },
@@ -125,8 +125,8 @@
             },
             setDefaultCard(card) {
                 events.$emit('confirm:open', {
-                    title: 'Set as default card?',
-                    message: 'Your card will be set as default and will be always charged for the next billings.',
+                    title: this.$t('popup_set_card.title'),
+                    message: this.$t('popup_set_card.message'),
                     buttonColor: 'theme-solid',
                     action: {
                         id: card.card_id,
@@ -136,8 +136,8 @@
             },
             deleteCard(card) {
                 events.$emit('confirm:open', {
-                    title: 'Are you sure?',
-                    message: 'This event is irreversible and your payment card will be delete forever',
+                    title: this.$t('popup_set_card.'),
+                    message: this.$t('popup_set_card.'),
                     action: {
                         id: card.card_id,
                         operation: 'delete-credit-card'
@@ -185,7 +185,7 @@
                             // Show toaster
                             events.$emit('toaster', {
                                 type: 'success',
-                                message: 'Your card was successfully deleted.',
+                                message: this.$t('toaster.card_deleted'),
                             })
                         })
                         .catch(error => {
@@ -206,7 +206,7 @@
                             // Show toaster
                             events.$emit('toaster', {
                                 type: 'success',
-                                message: 'Your card was successfully set as default.',
+                                message: this.$t('toaster.card_set'),
                             })
                         })
                         .catch(error => {

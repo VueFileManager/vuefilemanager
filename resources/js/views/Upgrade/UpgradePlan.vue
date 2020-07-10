@@ -6,8 +6,8 @@
             <div class="content-page">
                 <div class="plan-title">
                     <cloud-icon size="42" class="title-icon"></cloud-icon>
-                    <h1>Choose Your Plan</h1>
-                    <h2>Choose plan witch perfect fit your needs. All plans is billed monthly automatically via your credit card.</h2>
+                    <h1>{{ $t('page_pricing_tables.title') }}</h1>
+                    <h2>{{ $t('page_pricing_tables.description') }}</h2>
                 </div>
 
                 <PlanPricingTables @load="onLoadPricingTables" @selected-plan="onSelectTable"/>

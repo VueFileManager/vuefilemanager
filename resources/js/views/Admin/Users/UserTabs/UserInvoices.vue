@@ -36,7 +36,7 @@
             </DatatableWrapper>
         </PageTabGroup>
         <InfoBox v-else>
-            <p>User don't have any invoices yet.</p>
+            <p>{{ $t('admin_page_user.invoices.empty') }}</p>
         </InfoBox>
     </PageTab>
 </template>
@@ -66,22 +66,22 @@
                 invoices: undefined,
                 columns: [
                     {
-                        label: 'Invoice Number',
+                        label: this.$t('admin_page_invoices.table.number'),
                         field: 'data.attributes.order',
                         sortable: true
                     },
                     {
-                        label: 'Total',
+                        label: this.$t('admin_page_invoices.table.total'),
                         field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
-                        label: 'Plan',
+                        label: this.$t('admin_page_invoices.table.plan'),
                         field: 'data.attributes.bag.amount',
                         sortable: true
                     },
                     {
-                        label: 'Payed',
+                        label: this.$t('admin_page_invoices.table.payed'),
                         field: 'data.attributes.created_at',
                         sortable: true
                     },
@@ -110,14 +110,4 @@
     .block-form {
         max-width: 100%;
     }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

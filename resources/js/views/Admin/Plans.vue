@@ -9,7 +9,7 @@
                     <div class="buttons">
                         <router-link :to="{name: 'PlanCreate'}">
                             <MobileActionButton icon="plus">
-                                Create Plan
+                                {{ $t('admin_page_plans.create_plan_button') }}
                             </MobileActionButton>
                         </router-link>
                     </div>
@@ -65,11 +65,11 @@
         <EmptyPageContent
                 v-if="! isLoading && plans.length === 0"
                 icon="file"
-                title="You don’t have any plan yet"
-                description="For create new plan, click on button below."
+                :title="$t('admin_page_plans.empty.title')"
+                :description="$t('admin_page_plans.empty.description')"
         >
             <router-link :to="{name: 'PlanCreate'}">
-                <ButtonBase button-style="theme">Create New Plan</ButtonBase>
+                <ButtonBase button-style="theme">{{ $t('admin_page_plans.empty.button') }}</ButtonBase>
             </router-link>
         </EmptyPageContent>
 
@@ -115,27 +115,27 @@
                 plans: undefined,
                 columns: [
                     {
-                        label: 'Status',
+                        label: this.$t('admin_page_plans.table.status'),
                         field: 'data.attributes.status',
                         sortable: true
                     },
                     {
-                        label: 'Plan Name',
+                        label: this.$t('admin_page_plans.table.name'),
                         field: 'data.attributes.name',
                         sortable: true
                     },
                     {
-                        label: 'Subscribers',
+                        label: this.$t('admin_page_plans.table.subscribers'),
                         field: 'data.attributes.subscribers',
                         sortable: true
                     },
                     {
-                        label: 'Price',
+                        label: this.$t('admin_page_plans.table.price'),
                         field: 'data.attributes.price',
                         sortable: true
                     },
                     {
-                        label: 'Storage Capacity',
+                        label: this.$t('admin_page_plans.table.storage_capacity'),
                         field: 'data.attributes.capacity',
                         sortable: true
                     },

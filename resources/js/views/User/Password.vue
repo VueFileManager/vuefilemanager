@@ -2,7 +2,7 @@
     <PageTab>
         <PageTabGroup>
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
-                <FormLabel>Change Your Password</FormLabel>
+                <FormLabel>{{ $t('user_password.title') }}</FormLabel>
                 <div class="block-wrapper">
                     <label>{{ $t('page_create_password.label_new_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"

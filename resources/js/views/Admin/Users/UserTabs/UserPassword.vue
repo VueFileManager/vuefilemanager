@@ -1,7 +1,9 @@
 <template>
     <PageTab class="form-fixed-width">
         <PageTabGroup>
-            <FormLabel>{{ $t('user_box_password.title') }}</FormLabel>
+            <FormLabel>
+                {{ $t('user_box_password.title') }}
+            </FormLabel>
             <InfoBox>
                 <p>{{ $t('user_box_password.description') }}</p>
             </InfoBox>
@@ -83,14 +85,4 @@
     .block-form {
         max-width: 100%;
     }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

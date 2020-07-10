@@ -47,7 +47,7 @@
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
                         <div class="label">
-                            Subscription
+                            {{ $t('admin_page_user.tabs.subscription') }}
                         </div>
                     </router-link>
 
@@ -56,7 +56,7 @@
                             <file-text-icon size="17"></file-text-icon>
                         </div>
                         <div class="label">
-                            Invoices
+                            {{ $t('admin_page_user.tabs.invoices') }}
                         </div>
                     </router-link>
 

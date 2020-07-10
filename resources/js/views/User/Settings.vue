@@ -2,7 +2,7 @@
     <PageTab>
         <PageTabGroup v-if="userInfo">
             <div class="form block-form">
-                <FormLabel>Account Information</FormLabel>
+                <FormLabel>{{ $t('user_settings.title_account') }}</FormLabel>
                 <div class="block-wrapper">
                     <label>{{ $t('page_registration.label_email') }}</label>
                     <div class="input-wrapper">
@@ -27,75 +27,75 @@
         </PageTabGroup>
         <PageTabGroup v-if="config.isSaaS && billingInfo">
             <div class="form block-form">
-                <FormLabel>Billing Information</FormLabel>
+                <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
                 <div class="block-wrapper">
-                    <label>Name:</label>
+                    <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="$updateText('/user/relationships/settings', 'billing_name', billingInfo.billing_name)"
                                v-model="billingInfo.billing_name"
-                               placeholder="Type your billing name"
+                               :placeholder="$t('user_settings.name_plac')"
                                type="text"
                         />
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Address:</label>
+                    <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="$updateText('/user/relationships/settings', 'billing_address', billingInfo.billing_address)"
                                v-model="billingInfo.billing_address"
-                               placeholder="Type your billing address"
+                               :placeholder="$t('user_settings.address_plac')"
                                type="text"
                         />
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>State:</label>
+                    <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="$updateText('/user/relationships/settings', 'billing_state', billingInfo.billing_state)"
                                v-model="billingInfo.billing_state"
-                               placeholder="Type your billing state"
+                               :placeholder="$t('user_settings.state_plac')"
                                type="text"
                         />
                     </div>
                 </div>
                 <div class="wrapper-inline">
                     <div class="block-wrapper">
-                        <label>City:</label>
+                        <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
                             <input @keyup="$updateText('/user/relationships/settings', 'billing_city', billingInfo.billing_city)"
                                    v-model="billingInfo.billing_city"
-                                   placeholder="Type your billing city"
+                                   :placeholder="$t('user_settings.city_plac')"
                                    type="text"
                             />
                         </div>
                     </div>
                     <div class="block-wrapper">
-                        <label>Postal Code:</label>
+                        <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
                             <input @keyup="$updateText('/user/relationships/settings', 'billing_postal_code', billingInfo.billing_postal_code)"
                                    v-model="billingInfo.billing_postal_code"
-                                   placeholder="Type your billing postal code"
+                                   :placeholder="$t('user_settings.postal_code_plac')"
                                    type="text"
                             />
                         </div>
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Country:</label>
+                    <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="$updateText('/user/relationships/settings', 'billing_country', billingInfo.billing_country)"
                                v-model="billingInfo.billing_country"
-                               placeholder="Type your billing country"
+                               :placeholder="$t('user_settings.country_plac')"
                                type="text"
                         />
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Phone Number:</label>
+                    <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="$updateText('/user/relationships/settings', 'billing_phone_number', billingInfo.billing_phone_number)"
                                v-model="billingInfo.billing_phone_number"
-                               placeholder="Type your billing phone number"
+                               :placeholder="$t('user_settings.phone_number_plac')"
                                type="text"
                         />
                     </div>
@@ -178,14 +178,6 @@
 
     .block-form {
         max-width: 100%;
-    }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
     }
 
 </style>

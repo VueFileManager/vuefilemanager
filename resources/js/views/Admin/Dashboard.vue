@@ -10,15 +10,15 @@
                 </div>
                 <div class="metadata">
                     <a href="https://vuefilemanager.com/changelog" target="_blank" class="meta">
-                        <span class="meta-title">Version:</span>
+                        <span class="meta-title">{{ $t('admin_page_dashboard.version') }}:</span>
                         <ColorLabel color="purple">
                             {{ data.app_version }}
                         </ColorLabel>
                     </a>
                     <a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank" class="meta">
-                        <span class="meta-title">License:</span>
+                        <span class="meta-title">{{ $t('admin_page_dashboard.license') }}:</span>
                         <ColorLabel color="purple">
-                            Extended
+                            {{ data.license }}
                         </ColorLabel>
                     </a>
                     <a href="https://vuefilemanager.com" target="_blank" class="became-backer">
@@ -26,7 +26,7 @@
                             <credit-card-icon size="15"></credit-card-icon>
                         </div>
                         <span class="content">
-                            Become a Backer
+                            {{ $t('admin_page_dashboard.backer_button') }}
                         </span>
                     </a>
                 </div>
@@ -35,34 +35,34 @@
                 <WidgetTotals
                         class="widget"
                         icon="users"
-                        title="Total Users"
+                        :title="$t('admin_page_dashboard.w_total_users.title')"
                         :value="data.total_users"
                         link-route="Users"
-                        link-name="Show All Users"
+                        :link-name="$t('admin_page_dashboard.w_total_users.link')"
                 ></WidgetTotals>
                 <WidgetTotals
                         class="widget"
                         icon="hard-drive"
-                        title="Total Space Used"
+                        :title="$t('admin_page_dashboard.w_total_space.title')"
                         :value="data.total_used_space"
                         link-route="Users"
-                        link-name="Show All Users"
+                        :link-name="$t('admin_page_dashboard.w_total_space.link')"
                 ></WidgetTotals>
                 <WidgetTotals
                         v-if="config.isSaaS"
                         class="widget"
                         icon="star"
-                        title="Total Premium Users"
+                        :title="$t('admin_page_dashboard.w_total_premium.title')"
                         :value="data.total_premium_users"
                         link-route="Plans"
-                        link-name="Show All Plans"
+                        :link-name="$t('admin_page_dashboard.w_total_premium.link')"
                 ></WidgetTotals>
             </div>
             <div class="widget-users">
                 <WidgetLatestRegistrations
                         class="widget"
                         icon="users"
-                        title="Latest Registrations"
+                        :title="$t('admin_page_dashboard.w_latest_users.title')"
                 />
             </div>
         </div>

@@ -3,16 +3,16 @@
 
         <!--Change role-->
         <PageTabGroup>
-            <FormLabel>{{ $t('user_box_role.title') }}</FormLabel>
+            <FormLabel>
+                {{ $t('user_box_role.title') }}
+            </FormLabel>
 
             <InfoBox>
                 <p>{{ $t('user_box_role.description') }}</p>
             </InfoBox>
 
-            <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form"
-                                class="form block-form">
-                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role"
-                                    rules="required">
+            <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form" class="form block-form">
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role" rules="required">
                     <label>{{ $t('admin_page_user.select_role') }}:</label>
                     <div class="single-line-form">
                         <SelectInput v-model="userRole" :options="roles"
@@ -61,10 +61,10 @@
         <!--Billing Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <FormLabel>Billing Information</FormLabel>
+                <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
 
                 <div class="block-wrapper">
-                    <label>Name:</label>
+                    <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.relationships.settings.data.attributes.billing_name"
                                type="text"
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Address:</label>
+                    <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.relationships.settings.data.attributes.billing_address"
                                type="text"
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>State:</label>
+                    <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.relationships.settings.data.attributes.billing_state"
                                type="text"
@@ -92,7 +92,7 @@
                 </div>
                 <div class="wrapper-inline">
                     <div class="block-wrapper">
-                        <label>City:</label>
+                        <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
                             <input :value="user.relationships.settings.data.attributes.billing_city"
                                    type="text"
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="block-wrapper">
-                        <label>Postal Code:</label>
+                        <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
                             <input :value="user.relationships.settings.data.attributes.billing_postal_code"
                                    type="text"
@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Country:</label>
+                    <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.relationships.settings.data.attributes.billing_country"
                                type="text"
@@ -120,7 +120,7 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Phone Number:</label>
+                    <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.relationships.settings.data.attributes.billing_phone_number"
                                type="text"
