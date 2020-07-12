@@ -8,11 +8,12 @@
             <!--Info about active subscription-->
             <div v-if="! subscription.canceled" class="state active">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" content="Monthly"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')"
+                                  :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" :content="$t('admin_page_user.subscription.interval_mo')"/>
                     <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.created_at')" :content="subscription.attributes.created_at"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.renews_at')" :content="subscription.attributes.ends_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.created_at')" :content="subscription.attributes.created_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.renews_at')" :content="subscription.attributes.ends_at"/>
                 </ListInfo>
             </div>
 
@@ -21,8 +22,8 @@
                 <ListInfo class="list-info">
                     <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name"/>
                     <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.canceled_at')" :content="subscription.attributes.canceled_at"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.ends_at')" :content="subscription.attributes.ends_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.canceled_at')" :content="subscription.attributes.canceled_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.ends_at')" :content="subscription.attributes.ends_at"/>
                 </ListInfo>
             </div>
         </PageTabGroup>
@@ -83,10 +84,9 @@
                     this.subscription = response.data.data
                     this.isLoading = false
                 }).catch(error => {
-
                     if (error.response.status == 404) {
                         this.isLoading = false
-                }
+                    }
             })
         }
     }

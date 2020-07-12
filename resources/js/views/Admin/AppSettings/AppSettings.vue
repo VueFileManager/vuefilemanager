@@ -14,7 +14,7 @@
                             <eye-icon size="17"></eye-icon>
                         </div>
                         <div class="label">
-                            Appearance
+                            {{ $t('admin_settings.tabs.appearance') }}
                         </div>
                     </router-link>
 
@@ -24,7 +24,7 @@
                             <file-text-icon size="17"></file-text-icon>
                         </div>
                         <div class="label">
-                            Billings
+                            {{ $t('admin_settings.tabs.billings') }}
                         </div>
                     </router-link>
 
@@ -34,7 +34,7 @@
                             <mail-icon size="17"></mail-icon>
                         </div>
                         <div class="label">
-                            Email
+                            {{ $t('admin_settings.tabs.email') }}
                         </div>
                     </router-link>
 
@@ -44,7 +44,7 @@
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
                         <div class="label">
-                            Payments
+                            {{ $t('admin_settings.tabs.payments') }}
                         </div>
                     </router-link>
 
@@ -54,7 +54,7 @@
                             <code-icon size="17"></code-icon>
                         </div>
                         <div class="label">
-                            Others
+                            {{ $t('admin_settings.tabs.others') }}
                         </div>
                     </router-link>
                 </div>
@@ -71,9 +71,7 @@
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
-    import Spinner from '@/components/FilesView/Spinner'
     import { mapGetters } from 'vuex'
-    import axios from 'axios'
 
     export default {
         name: 'AppSettings',
@@ -89,7 +87,6 @@
             SectionTitle,
             MobileHeader,
             PageHeader,
-            Spinner,
         },
         computed: {
             ...mapGetters(['config']),
@@ -100,13 +97,4 @@
 <style lang="scss" scoped>
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

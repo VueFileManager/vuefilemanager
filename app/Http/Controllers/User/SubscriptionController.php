@@ -77,6 +77,9 @@ class SubscriptionController extends Controller
         // Get user
         $user = Auth::user();
 
+        // Forget user subscription
+        Cache::forget('subscription-user-' . $user->id);
+
         // Get requested plan
         $plan = $this->stripe->getPlan($request->input('plan.data.id'));
 
@@ -104,8 +107,13 @@ class SubscriptionController extends Controller
      */
     public function cancel()
     {
+        $user = Auth::user();
+
         // Cancel subscription
-        Auth::user()->subscription('main')->cancel();
+        $user->subscription('main')->cancel();
+
+        // Forget user subscription
+        Cache::forget('subscription-user-' . $user->id);
 
         return response('Done!', 204);
     }
@@ -117,8 +125,13 @@ class SubscriptionController extends Controller
      */
     public function resume()
     {
+        $user = Auth::user();
+
         // Resume subscription
-        Auth::user()->subscription('main')->resume();
+        $user->subscription('main')->resume();
+
+        // Forget user subscription
+        Cache::forget('subscription-user-' . $user->id);
 
         return response('Done!', 204);
     }

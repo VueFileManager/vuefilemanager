@@ -14,7 +14,7 @@
                             <settings-icon size="17"></settings-icon>
                         </div>
                         <div class="label">
-                            Settings
+                            {{ $t('admin_page_plans.tabs.settings') }}
                         </div>
                     </router-link>
 
@@ -24,7 +24,7 @@
                             <users-icon size="17"></users-icon>
                         </div>
                         <div class="label">
-                            Subscribers
+                            {{ $t('admin_page_plans.tabs.subscribers') }}
                         </div>
                     </router-link>
 
@@ -34,7 +34,7 @@
                             <trash2-icon size="17"></trash2-icon>
                         </div>
                         <div class="label">
-                            Delete Plan
+                            {{ $t('admin_page_plans.tabs.delete') }}
                         </div>
                     </router-link>
                 </div>

@@ -18,7 +18,7 @@
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
             <rect x="6" y="14" width="12" height="8"></rect>
         </svg>
-        <span class="label">Print Document</span>
+        <span class="label">@lang('vuefilemanager.print_button')</span>
     </button>
 </div>
 <div id="invoice-wrapper">
@@ -27,46 +27,46 @@
             <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager">
         </div>
         <div class="title">
-            <h1>Invoice</h1>
+            <h1>@lang('vuefilemanager.invoice_title')</h1>
         </div>
     </header>
     <section class="invoice-subject">
         <ul class="list">
             <li class="list-item">
-                <b>Date:</b>
+                <b>@lang('vuefilemanager.date'):</b>
                 <span>{{ format_date($invoice->date()) }}</span>
             </li>
             <li class="list-item">
-                <b>Product:</b>
-                <span>Subscription</span>
+                <b>@lang('vuefilemanager.product'):</b>
+                <span>@lang('vuefilemanager.subscription')</span>
             </li>
             <li class="list-item">
-                <b>Invoice Number:</b>
+                <b>@lang('vuefilemanager.invoice_number'):</b>
                 <span>{{ $invoice->number }}</span>
             </li>
         </ul>
     </section>
     <div class="invoice-partners">
         <div class="partner">
-            <h2 class="partner-title">Seller:</h2>
+            <h2 class="partner-title">@lang('vuefilemanager.seller'):</h2>
             <ul class="list">
                 @isset($settings->billing_vat_number)
                     <li class="list-item">
-                        <b>VAT number:</b>
+                        <b>@lang('vuefilemanager.seller_vat'):</b>
                         <span>{{ $settings->billing_vat_number }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_name)
                     <li class="list-item">
-                        <b>Name:</b>
+                        <b>@lang('vuefilemanager.seller_name'):</b>
                         <span>{{ $settings->billing_name }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_phone_number)
                     <li class="list-item">
-                        <b>Phone:</b>
+                        <b>@lang('vuefilemanager.seller_phone'):</b>
                         <span>{{ $settings->billing_phone_number }}</span>
                     </li>
                 @endisset
@@ -74,54 +74,54 @@
             <ul class="list">
                 @isset($settings->billing_address)
                     <li class="list-item">
-                        <b>Address:</b>
+                        <b>@lang('vuefilemanager.address'):</b>
                         <span>{{ $settings->billing_address }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_city)
                     <li class="list-item">
-                        <b>City:</b>
+                        <b>@lang('vuefilemanager.city'):</b>
                         <span>{{ $settings->billing_city }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_state)
                     <li class="list-item">
-                        <b>State:</b>
+                        <b>@lang('vuefilemanager.state'):</b>
                         <span>{{ $settings->billing_state }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_postal_code)
                     <li class="list-item">
-                        <b>Postal code:</b>
+                        <b>@lang('vuefilemanager.postal_code'):</b>
                         <span>{{ $settings->billing_postal_code }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_country)
                     <li class="list-item">
-                        <b>Country:</b>
+                        <b>@lang('vuefilemanager.country'):</b>
                         <span>{{ $settings->billing_country }}</span>
                     </li>
                 @endisset
             </ul>
         </div>
         <div class="partner">
-            <h2 class="partner-title">Client:</h2>
+            <h2 class="partner-title">@lang('vuefilemanager.client'):</h2>
             <ul class="list">
 
                 @isset($invoice->customer_name)
                     <li class="list-item">
-                        <b>Name:</b>
+                        <b>@lang('vuefilemanager.name'):</b>
                         <span>{{ $invoice->customer_name }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_phone)
                     <li class="list-item">
-                        <b>Phone:</b>
+                        <b>@lang('vuefilemanager.phone'):</b>
                         <span>{{ $invoice->customer_phone }}</span>
                     </li>
                 @endisset
@@ -129,35 +129,35 @@
             <ul class="list">
                 @isset($invoice->customer_address['line1'])
                     <li class="list-item">
-                        <b>Address:</b>
+                        <b>@lang('vuefilemanager.address'):</b>
                         <span>{{ $invoice->customer_address['line1'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['city'])
                     <li class="list-item">
-                        <b>City:</b>
+                        <b>@lang('vuefilemanager.city'):</b>
                         <span>{{ $invoice->customer_address['city'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['state'])
                     <li class="list-item">
-                        <b>State:</b>
+                        <b>@lang('vuefilemanager.state'):</b>
                         <span>{{ $invoice->customer_address['state'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['postal_code'])
                     <li class="list-item">
-                        <b>Postal code:</b>
+                        <b>@lang('vuefilemanager.postal_code'):</b>
                         <span>{{ $invoice->customer_address['postal_code'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['country'])
                     <li class="list-item">
-                        <b>Country:</b>
+                        <b>@lang('vuefilemanager.country'):</b>
                         <span>{{ $invoice->customer_address['country'] }}</span>
                     </li>
                 @endisset
@@ -168,9 +168,9 @@
         <table class="table">
             <thead class="table-header">
             <tr>
-                <td>Description</td>
-                <td>Date</td>
-                <td>Amount</td>
+                <td>@lang('vuefilemanager.col_description')</td>
+                <td>@lang('vuefilemanager.col_date')</td>
+                <td>@lang('vuefilemanager.col_amount')</td>
             </tr>
             </thead>
             <tbody class="table-body">
@@ -183,7 +183,7 @@
         </table>
     </div>
     <div class="invoice-summary">
-        <b>Total {{ $invoice->total() }}</b>
+        <b>@lang('vuefilemanager.total') {{ $invoice->total() }}</b>
     </div>
 </div>
 </body>

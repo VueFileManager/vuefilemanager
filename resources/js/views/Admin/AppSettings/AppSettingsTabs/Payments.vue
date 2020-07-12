@@ -4,22 +4,22 @@
         <!--Personal Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <FormLabel>Stripe Payments</FormLabel>
+                <FormLabel>{{ $t('admin_settings.payments.section_payments') }}</FormLabel>
                 <InfoBox>
-                    <p>Your Stripe credentials is not showed because these values are secret and must not be revealed by stranger. You can change your Stripe credentials in your <b>.env</b> file.</p>
+                    <p v-html="$t('admin_settings.payments.credentials_disclaimer')"></p>
                 </InfoBox>
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">Allow Subscription Payments:</label>
+                                <label class="input-label">{{ $t('admin_settings.payments.allow_payments') }}:</label>
                             </div>
                             <SwitchInput @input="$updateText('/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
                         </div>
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>Stripe webhook URL:</label>
+                    <label>{{ $t('admin_settings.payments.webhook_url') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook URL" rules="required" v-slot="{ errors }">
                         <input :value="stripeWebhookEndpoint" type="text" disabled/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -102,13 +102,4 @@
     .block-form {
         max-width: 100%;
     }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

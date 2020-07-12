@@ -4,44 +4,44 @@
         <!--Personal Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <FormLabel>Company Information</FormLabel>
+                <FormLabel>{{ $t('admin_settings.billings.section_company') }}</FormLabel>
 
                 <div class="block-wrapper">
-                    <label>Company Name:</label>
+                    <label>{{ $t('admin_settings.billings.company_name') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Name"
                                         rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'billing_name', billingInformation.billing_name)" v-model="billingInformation.billing_name" placeholder="Type your company name"
+                        <input @input="$updateText('/settings', 'billing_name', billingInformation.billing_name)" v-model="billingInformation.billing_name" :placeholder="$t('admin_settings.billings.company_name_plac')"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>VAT Number:</label>
+                    <label>{{ $t('admin_settings.billings.vat') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Vat Number"
                                         rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" placeholder="Type your VAT number"
+                        <input @input="$updateText('/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" :placeholder="$t('admin_settings.billings.vat_plac')"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
-                <FormLabel class="mt-70">Billing Information</FormLabel>
+                <FormLabel class="mt-70">{{ $t('admin_settings.billings.section_billing') }}</FormLabel>
 
                 <div class="block-wrapper">
-                    <label>Billing Country:</label>
+                    <label>{{ $t('admin_settings.billings.country') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Country"
                                         rules="required" v-slot="{ errors }">
-                        <SelectInput @input="$updateText('/settings', 'billing_country', billingInformation.billing_country)" v-model="billingInformation.billing_country" :default="billingInformation.billing_country" :options="countries" placeholder="Select your billing country" :isError="errors[0]"/>
+                        <SelectInput @input="$updateText('/settings', 'billing_country', billingInformation.billing_country)" v-model="billingInformation.billing_country" :default="billingInformation.billing_country" :options="countries" :placeholder="$t('admin_settings.billings.country_plac')" :isError="errors[0]"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Billing Address:</label>
+                    <label>{{ $t('admin_settings.billings.address') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Address"
                                         rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'billing_address', billingInformation.billing_address)" v-model="billingInformation.billing_address" placeholder="Type your billing address"
+                        <input @input="$updateText('/settings', 'billing_address', billingInformation.billing_address)" v-model="billingInformation.billing_address" :placeholder="$t('admin_settings.billings.address_plac')"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -49,40 +49,40 @@
 
                 <div class="wrapper-inline">
                     <div class="block-wrapper">
-                        <label>Billing City:</label>
+                        <label>{{ $t('admin_settings.billings.city') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing City"
                                             rules="required" v-slot="{ errors }">
-                            <input @input="$updateText('/settings', 'billing_city', billingInformation.billing_city)" v-model="billingInformation.billing_city" placeholder="Type your billing city"
+                            <input @input="$updateText('/settings', 'billing_city', billingInformation.billing_city)" v-model="billingInformation.billing_city" :placeholder="$t('admin_settings.billings.city_plac')"
                                    type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
-                        <label>Billing Postal Code:</label>
+                        <label>{{ $t('admin_settings.billings.postal_code') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Postal Code"
                                             rules="required" v-slot="{ errors }">
                             <input @input="$updateText('/settings', 'billing_postal_code', billingInformation.billing_postal_code)" v-model="billingInformation.billing_postal_code"
-                                   placeholder="Type your billing postal code" type="text" :class="{'is-error': errors[0]}"/>
+                                   :placeholder="$t('admin_settings.billings.postal_code_plac')" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Billing State:</label>
+                    <label>{{ $t('admin_settings.billings.state') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing State"
                                         rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'billing_state', billingInformation.billing_state)" v-model="billingInformation.billing_state" placeholder="Type your billing state"
+                        <input @input="$updateText('/settings', 'billing_state', billingInformation.billing_state)" v-model="billingInformation.billing_state" :placeholder="$t('admin_settings.billings.state_plac')"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Billing Phone Number (optional):</label>
+                    <label>{{ $t('admin_settings.billings.phone_number') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Phone Number"
                                         v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'billing_phone_number', billingInformation.billing_phone_number)" v-model="billingInformation.billing_phone_number" placeholder="Type your billing phone number"
+                        <input @input="$updateText('/settings', 'billing_phone_number', billingInformation.billing_phone_number)" v-model="billingInformation.billing_phone_number" :placeholder="$t('admin_settings.billings.phone_number_plac')"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>

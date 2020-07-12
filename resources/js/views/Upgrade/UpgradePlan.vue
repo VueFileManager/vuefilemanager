@@ -49,12 +49,12 @@
                 this.$store.commit('STORE_REQUESTED_PLAN', plan)
             }
         },
-        /*beforeMount() {
+        beforeMount() {
             let StripeElementsScript = document.createElement('script')
 
             StripeElementsScript.setAttribute('src', 'https://js.stripe.com/v3/')
             document.head.appendChild(StripeElementsScript)
-        },*/
+        },
     }
 </script>
 

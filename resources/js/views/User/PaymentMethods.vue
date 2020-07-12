@@ -136,8 +136,8 @@
             },
             deleteCard(card) {
                 events.$emit('confirm:open', {
-                    title: this.$t('popup_set_card.'),
-                    message: this.$t('popup_set_card.'),
+                    title: this.$t('popup_set_card.title'),
+                    message: this.$t('popup_set_card.message'),
                     action: {
                         id: card.card_id,
                         operation: 'delete-credit-card'

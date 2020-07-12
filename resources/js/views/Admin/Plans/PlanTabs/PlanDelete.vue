@@ -1,24 +1,19 @@
 <template>
     <PageTab class="form-fixed-width">
         <PageTabGroup>
-            <FormLabel>Delete Plan</FormLabel>
+            <FormLabel>
+                {{ $t('admin_page_plans.form.title_delete') }}
+            </FormLabel>
             <InfoBox>
-                <p>You can delete plan, but, pay attention!</p>
+                <p>{{ $t('admin_page_plans.disclaimer_delete_plan') }}</p>
             </InfoBox>
-            <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form"
-                                class="form block-form">
-                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive"
-                                    name="Plan name" :rules="'required|is:' + plan.attributes.name">
+            <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form" class="form block-form">
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Plan name" :rules="'required|is:' + plan.attributes.name">
                     <label>{{ $t('admin_page_user.label_delete_user', {user: plan.attributes.name}) }}:</label>
                     <div class="single-line-form">
-                        <input v-model="planName"
-                               placeholder="Type plan name"
-                               type="text"
-                               :class="{'is-error': errors[0]}"
-                        />
-                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
-                                    button-style="danger" class="submit-button">
-                            Delete Plan
+                        <input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
+                            {{ $t('admin_page_plans.delete_plan_button') }}
                         </ButtonBase>
                     </div>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -47,15 +42,15 @@
             'plan'
         ],
         components: {
-            FormLabel,
-            InfoBox,
-            PageTabGroup,
-            PageTab,
             ValidationProvider,
             ValidationObserver,
+            PageTabGroup,
             ButtonBase,
+            FormLabel,
             SetupBox,
             required,
+            InfoBox,
+            PageTab,
         },
         data() {
             return {
@@ -88,8 +83,8 @@
                         // Show message
                         events.$emit('success:open', {
                             emoji: '👍',
-                            title: 'Plan was deleted',
-                            message: 'Your plan was successfully deleted.',
+                            title: this.$t('popup_deleted_plan.title'),
+                            message: this.$t('popup_deleted_plan.message'),
                         })
 
                         this.$router.push({name: 'Plans'})
@@ -116,14 +111,4 @@
     .block-form {
         max-width: 100%;
     }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

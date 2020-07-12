@@ -8,11 +8,12 @@
             <!--Info about active subscription-->
             <div v-if="! subscription.data.attributes.canceled" class="state active">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" content="Monthly"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')"
+                                  :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" :content="$t('admin_page_user.subscription.interval_mo')"/>
                     <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.created_at')" :content="subscription.data.attributes.created_at"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.renews_at')" :content="subscription.data.attributes.ends_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.created_at')" :content="subscription.data.attributes.created_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.renews_at')" :content="subscription.data.attributes.ends_at"/>
                 </ListInfo>
                 <div class="plan-action">
                     <ButtonBase
@@ -30,8 +31,8 @@
                 <ListInfo class="list-info">
                     <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name"/>
                     <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.canceled_at')" :content="subscription.data.attributes.canceled_at"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.ends_at')" :content="subscription.data.attributes.ends_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.canceled_at')" :content="subscription.data.attributes.canceled_at"/>
+                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.ends_at')" :content="subscription.data.attributes.ends_at"/>
                 </ListInfo>
                 <div class="plan-action">
                     <ButtonBase
@@ -60,7 +61,7 @@
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import ListInfo from '@/components/Others/ListInfo'
     import {ExternalLinkIcon} from "vue-feather-icons"
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -113,7 +114,7 @@
             cancelSubscription() {
 
                 // Set confirm button
-                if (! this.isConfirmedCancel) {
+                if (!this.isConfirmedCancel) {
 
                     this.isConfirmedCancel = true
                 } else {
@@ -132,9 +133,6 @@
                                 this.fetchSubscriptionDetail()
                             })
 
-                            // End deleting spinner button
-                            this.isDeleting = false
-
                             events.$emit('alert:open', {
                                 emoji: '👍',
                                 title: this.$t('popup_subscription_cancel.title'),
@@ -143,7 +141,7 @@
                                 button: this.$t('popup_subscription_cancel.button')
                             })
                         })
-                        .catch(() => {
+                        .finally(() => {
 
                             // End deleting spinner button
                             this.isDeleting = false
@@ -154,7 +152,7 @@
             resumeSubscription() {
 
                 // Set confirm button
-                if (! this.isConfirmedResume) {
+                if (!this.isConfirmedResume) {
 
                     this.isConfirmedResume = true
                 } else {
@@ -178,10 +176,10 @@
 
                             events.$emit('alert:open', {
                                 emoji: '👍',
-                                title: this.$t('popup_subscription_cancel.title'),
-                                message: this.$t('popup_subscription_cancel.message'),
+                                title: this.$t('popup_subscription_resumed.title'),
+                                message: this.$t('popup_subscription_resumed.message'),
                                 buttonStyle: 'theme',
-                                button: this.$t('popup_subscription_cancel.button')
+                                button: this.$t('popup_subscription_resumed.button')
                             })
                         })
                         .catch(() => {
@@ -198,15 +196,15 @@
 
                         if (response.status == 204) {
                             this.subscription = undefined
-                            this.isLoading = false
                         }
 
                         if (response.status == 200) {
                             this.subscription = response.data
-                            this.isLoading = false
                         }
 
-                    })
+                    }).finally(() => {
+                        this.isLoading = false
+                })
             }
         },
         created() {

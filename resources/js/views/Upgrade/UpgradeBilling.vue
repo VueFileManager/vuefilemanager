@@ -218,7 +218,7 @@
                             </ButtonBase>
                             <p class="error-message" v-if="isError">{{ errorMessage }}</p>
                             <small class="disclaimer">
-                                {{ $t('page_upgrade_account.summary.submit_disclaimer') }}
+                                {{ $t('page_upgrade_account.summary.submit_disclaimer', {app: config.app_name}) }}
                             </small>
                         </div>
                     </div>
@@ -246,9 +246,7 @@
     import {events} from "@/bus"
     import axios from 'axios'
 
-    let stripe = Stripe(`pk_test_51GsACaCBETHMUxzVsYkeApHtqb85paMuye7G77PDDQ28kXqDJ5HTmqLi13aM6xee81OQK1fhkTZ7vmDiWLStU9160061Yb2MtL`),
-        elements = stripe.elements(),
-        card = undefined;
+    let [stripe, card] = [undefined, undefined];
 
     export default {
         name: 'UpgradePlan',
@@ -266,7 +264,7 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['requestedPlan']),
+            ...mapGetters(['requestedPlan', 'config']),
             billing() {
                 return this.$store.getters.user.relationships.settings.data.attributes
             }
@@ -291,6 +289,15 @@
             }
         },
         methods: {
+            initStripe() {
+                stripe = Stripe(this.config.stripe_public_key)
+
+                let elements = stripe.elements();
+
+                card = elements.create('card');
+
+                card.mount(this.$refs.stripeCard);
+            },
             payByNewCardForm() {
                 this.payByNewCard = true
                 this.isError = false
@@ -392,8 +399,7 @@
             if (!this.requestedPlan) {
                 this.$router.push({name: 'UpgradePlan'})
             } else {
-                card = elements.create('card');
-                card.mount(this.$refs.stripeCard);
+                this.initStripe()
             }
         },
         created() {

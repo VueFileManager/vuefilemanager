@@ -4,63 +4,63 @@
         <!--Personal Information-->
         <PageTabGroup>
             <ValidationObserver @submit.prevent="EmailSetupSubmit" ref="EmailSetup" v-slot="{ invalid }" tag="form" class="form block-form">
-                <FormLabel>Email Setup</FormLabel>
+                <FormLabel>{{ $t('admin_settings.email.section_email') }}</FormLabel>
 
                 <InfoBox>
-                    <p>This form is not fully pre-filled for security reasons. Your email settings is available in your <b>.env</b> file. For apply new Email settings, please confirm your options by button at the end of formular.</p>
+                    <p v-html="$t('admin_settings.email.email_disclaimer')"></p>
                 </InfoBox>
 
                 <div class="block-wrapper">
-                    <label>Mail Driver:</label>
+                    <label>{{ $t('admin_settings.email.driver') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" placeholder="Type your mail driver" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Mail Host:</label>
+                    <label>{{ $t('admin_settings.email.host') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Mail Port:</label>
+                    <label>{{ $t('admin_settings.email.port') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Mail Username:</label>
+                    <label>{{ $t('admin_settings.email.username') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Mail Password:</label>
+                    <label>{{ $t('admin_settings.email.password') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Mail Encryption:</label>
+                    <label>{{ $t('admin_settings.email.encryption') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Encryption" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="mail.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]"/>
+                        <SelectInput v-model="mail.encryption" :options="encryptionList" :placeholder="$t('admin_settings.email.encryption_plac')" :isError="errors[0]"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
                             button-style="theme" class="submit-button">
-                    Save Email Settings
+                    {{ $t('admin_settings.email.save_button') }}
                 </ButtonBase>
             </ValidationObserver>
         </PageTabGroup>
@@ -100,7 +100,7 @@
         },
         data() {
             return {
-                isLoading: true,
+                isLoading: false,
                 isSendingRequest: false,
                 encryptionList: [
                     {
@@ -136,34 +136,19 @@
                 // Send request to get verify account
                 axios
                     .put('/api/settings/email', this.mail)
-                    .then(response => {
-
-                        // End loading
-                        this.isSendingRequest = false
+                    .then(() => {
 
                         events.$emit('toaster', {
                             type: 'success',
-                            message: 'Your email settings was updated successfully',
+                            message: this.$t('toaster.email_set'),
                         })
                     })
-                    .catch(error => {
+                    .finally(() => {
 
                         // End loading
                         this.isSendingRequest = false
                     })
             },
-        },
-        mounted() {
-            axios.get('/api/settings', {
-                params: {
-                    column: 'app_title|app_description|app_logo|app_favicon'
-                }
-            })
-                .then(response => {
-                    this.isLoading = false
-
-                    this.app.title = response.data.app_title
-                })
         }
     }
 </script>

@@ -33,7 +33,7 @@
             </DatatableWrapper>
         </PageTabGroup>
         <InfoBox v-else>
-            <p>There is no any subscriber yet.</p>
+            <p>{{ $t('admin_page_plans.subscribers.empty') }}</p>
         </InfoBox>
     </PageTab>
 </template>
@@ -65,7 +65,7 @@
                 isLoading: false,
                 columns: [
                     {
-                        label: 'User',
+                        label: this.$t('admin_page_user.table.name'),
                         field: 'data.attributes.name',
                         sortable: true
                     },
@@ -99,14 +99,4 @@
     .block-form {
         max-width: 100%;
     }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

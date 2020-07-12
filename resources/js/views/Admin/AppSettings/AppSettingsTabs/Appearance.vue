@@ -4,42 +4,45 @@
         <!--Personal Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <FormLabel>General Settings</FormLabel>
+                <FormLabel>{{ $t('admin_settings.appearance.section_general') }}</FormLabel>
 
                 <div class="block-wrapper">
-                    <label>App Title:</label>
+                    <label>{{ $t('admin_settings.appearance.title') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'app_title', app.title)" v-model="app.title" placeholder="Type your app title" type="text" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text"
+                               :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>App Description:</label>
+                    <label>{{ $t('admin_settings.appearance.description') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'app_description', app.description)" v-model="app.description" placeholder="Type your app description" type="text" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/settings', 'app_description', app.description)" v-model="app.description"
+                               :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
-                <FormLabel class="mt-70">Appearance</FormLabel>
+                <FormLabel class="mt-70">{{ $t('admin_settings.appearance.section_appearance') }}</FormLabel>
 
                 <div class="block-wrapper">
-                    <label>App Logo (optional):</label>
+                    <label>{{ $t('admin_settings.appearance.logo') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
                         <ImageInput @input="$updateImage('/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>App Logo Horizontal (optional):</label>
+                    <label>{{ $t('admin_settings.appearance.logo_horizontal') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo Horizontal" v-slot="{ errors }">
-                        <ImageInput @input="$updateImage('/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)" v-model="app.logo_horizontal" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)"
+                                    v-model="app.logo_horizontal" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>App Favicon (optional):</label>
+                    <label>{{ $t('admin_settings.appearance.favicon') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
                         <ImageInput @input="$updateImage('/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
                     </ValidationProvider>
@@ -83,11 +86,11 @@
             return {
                 isLoading: true,
                 app: {
-                    title: '',
-                    description: '',
-                    logo: undefined,
                     logo_horizontal: undefined,
                     favicon: undefined,
+                    logo: undefined,
+                    description: '',
+                    title: '',
                 },
             }
         },
@@ -98,13 +101,14 @@
                 }
             })
                 .then(response => {
-                    this.isLoading = false
-
-                    this.app.title = response.data.app_title
-                    this.app.description = response.data.app_description
-                    this.app.logo = response.data.app_logo
                     this.app.logo_horizontal = response.data.app_logo_horizontal
+                    this.app.description = response.data.app_description
                     this.app.favicon = response.data.app_favicon
+                    this.app.title = response.data.app_title
+                    this.app.logo = response.data.app_logo
+                })
+                .finally(() => {
+                    this.isLoading = false
                 })
         }
     }

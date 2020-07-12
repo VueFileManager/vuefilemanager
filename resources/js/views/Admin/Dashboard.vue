@@ -1,6 +1,6 @@
 <template>
     <div id="single-page">
-        <div id="page-content" v-if="! isLoading">
+        <div id="page-content" v-if="! isLoading && data">
             <div class="dashboard-headline">
                 <div class="logo">
                     <a href="https://vuefilemanager.com" target="_blank">
@@ -21,7 +21,7 @@
                             {{ data.license }}
                         </ColorLabel>
                     </a>
-                    <a href="https://vuefilemanager.com" target="_blank" class="became-backer">
+                    <a v-if="! config.isDemo" href="https://vuefilemanager.com" target="_blank" class="became-backer">
                         <div class="icon">
                             <credit-card-icon size="15"></credit-card-icon>
                         </div>
@@ -124,6 +124,8 @@
             axios.get('/api/dashboard')
                 .then(response => {
                     this.data = response.data
+                })
+                .finally(() => {
                     this.isLoading = false
                 })
         }

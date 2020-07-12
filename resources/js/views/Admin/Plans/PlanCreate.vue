@@ -8,52 +8,60 @@
                 <ValidationObserver @submit.prevent="createPlan" ref="createPlan" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
 
                     <div class="form-group">
-                        <FormLabel>Plan Details</FormLabel>
+                        <FormLabel>
+                            {{ $t('admin_page_plans.form.title_details') }}
+                        </FormLabel>
 
                         <!--Name-->
                         <div class="block-wrapper">
-                            <label>Name:</label>
+                            <label>{{ $t('admin_page_plans.form.name') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                                <input v-model="plan.name" placeholder="Plan name" type="text" :class="{'is-error': errors[0]}"/>
+                                <input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
                         <!--Description-->
                         <div class="block-wrapper">
-                            <label>Description (optional):</label>
+                            <label>{{ $t('admin_page_plans.form.description') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Description" v-slot="{ errors }">
-                                <textarea v-model="plan.description" placeholder="Plan description" :class="{'is-error': errors[0]}"/>
+                                <textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'is-error': errors[0]}"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
-                        <FormLabel>Plan Pricing</FormLabel>
+                        <FormLabel>
+                            {{ $t('admin_page_plans.form.title_pricing') }}
+                        </FormLabel>
 
 
                         <!--Price-->
                         <div class="block-wrapper">
-                            <label>Price:</label>
+                            <label>{{ $t('admin_page_plans.form.price') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Plan price" rules="required" v-slot="{ errors }">
-                                <input v-model="plan.price" placeholder="Plan price" type="number" step="0.01" min="1" max="99999" :class="{'is-error': errors[0]}"/>
+                                <input v-model="plan.price" :placeholder="$t('admin_page_plans.form.price_plac')" type="number" step="0.01" min="1" max="99999"
+                                       :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
                         <!--Storage Capacity-->
                         <div class="block-wrapper">
-                            <label>Storage Capacity:</label>
+                            <label>{{ $t('admin_page_plans.form.storage') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage capacity" rules="required" v-slot="{ errors }">
-                                <input v-model="plan.capacity" placeholder="Storage capacity" type="number" min="1" max="999999999" :class="{'is-error': errors[0]}"/>
+                                <input v-model="plan.capacity" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999"
+                                       :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
-                            <small class="input-help">You have to type only number e.g. value '5' means, user will have 5GB of storage capacity.</small>
+                            <small class="input-help">
+                                {{ $t('admin_page_plans.form.storage_helper') }}
+                            </small>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
-                            Create Plan
+                            {{ $t('admin_page_plans.create_plan_button') }}
                         </ButtonBase>
                     </div>
                 </ValidationObserver>
@@ -72,7 +80,7 @@
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageHeader from '@/components/Others/PageHeader'
     import {required} from 'vee-validate/dist/rules'
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
 
@@ -119,13 +127,10 @@
                     })
                     .then(response => {
 
-                        // End loading
-                        this.isLoading = false
-
                         // Show toaster
                         events.$emit('toaster', {
                             type: 'success',
-                            message: 'Your plan was successfully created!',
+                            message: this.$t('toaster.plan_created'),
                         })
 
                         // Go to User page
@@ -136,29 +141,14 @@
                         // Validation errors
                         if (error.response.status == 422) {
 
-                            // Email validation error
-                            if (error.response.data.errors['email']) {
-
-                                this.$refs.createPlan.setErrors({
-                                    'email': error.response.data.errors['email']
-                                });
-                            }
-
-                            // Password validation error
-                            if (error.response.data.errors['password']) {
-
-                                this.$refs.createPlan.setErrors({
-                                    'password': error.response.data.errors['password']
-                                });
-                            }
-
                             // Password validation error
                             if (error.response.data.errors['storage_capacity']) {
 
                                 this.$refs.createPlan.setErrors({
-                                    'storage capacity': 'The storage capacity must be lower than 10 digit number.'
+                                    'storage capacity': this.$t('errors.capacity_digit')
                                 });
                             }
+
                         } else {
 
                             events.$emit('alert:open', {
@@ -167,9 +157,11 @@
                             })
                         }
 
+                    }).finally(() => {
+
                         // End loading
                         this.isLoading = false
-                    })
+                })
             }
         },
     }

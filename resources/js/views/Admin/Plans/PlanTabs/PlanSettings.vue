@@ -2,15 +2,17 @@
     <PageTab>
         <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
             <PageTabGroup>
-                <FormLabel>Plan details</FormLabel>
+                <FormLabel>
+                    {{ $t('admin_page_plans.form.title_details') }}
+                </FormLabel>
 
                 <!--Visible-->
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">Status:</label>
-                                <small class="input-help">Status of your plan availability on website.</small>
+                                <label class="input-label">{{ $t('admin_page_plans.form.status') }}:</label>
+                                <small class="input-help">{{ $t('admin_page_plans.form.status_help') }}</small>
                             </div>
                             <SwitchInput @input="changeStatus" class="switch" :state="plan.attributes.status"/>
                         </div>
@@ -19,34 +21,36 @@
 
                 <!--Name-->
                 <div class="block-wrapper">
-                    <label>Name:</label>
+                    <label>{{ $t('admin_page_plans.form.name') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'name', plan.attributes.name)" v-model="plan.attributes.name" placeholder="Plan name" type="text" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <!--Description-->
                 <div class="block-wrapper">
-                    <label>Description (optional):</label>
+                    <label>{{ $t('admin_page_plans.form.description') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Description" v-slot="{ errors }">
-                        <textarea @input="$updateText('/plans/' + $route.params.id + '/update', 'description', plan.attributes.description)" v-model="plan.attributes.description" placeholder="Plan description" :class="{'is-error': errors[0]}"/>
+                        <textarea @input="$updateText('/plans/' + $route.params.id + '/update', 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'is-error': errors[0]}"></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <!--Storage Capacity-->
                 <div class="block-wrapper">
-                    <label>Storage Capacity in GB:</label>
+                    <label>{{ $t('admin_page_plans.form.storage') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage capacity" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'capacity', plan.attributes.capacity)" v-model="plan.attributes.capacity" placeholder="Storage capacity" type="number" min="1" max="999999999" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'capacity', plan.attributes.capacity)" v-model="plan.attributes.capacity" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
-                    <small class="input-help">You have to type only number e.g. value '5' means, user will have 5GB of storage capacity.</small>
+                    <small class="input-help">
+                        {{ $t('admin_page_plans.form.storage_helper') }}
+                    </small>
                 </div>
 
                 <InfoBox>
-                    <p>Price change for your plan is not available due to Stripe service design. If you wish change your price plan, please, create new plan.</p>
+                    <p>{{ $t('admin_page_plans.disclaimer_edit_price') }}</p>
                 </InfoBox>
             </PageTabGroup>
         </ValidationObserver>
@@ -107,13 +111,4 @@
     .block-form {
         max-width: 100%;
     }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

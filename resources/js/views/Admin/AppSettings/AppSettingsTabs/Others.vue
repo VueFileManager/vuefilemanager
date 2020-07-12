@@ -4,26 +4,35 @@
         <!--Personal Information-->
         <PageTabGroup>
             <div class="form block-form">
-                <FormLabel>Users and Storage</FormLabel>
+                <FormLabel>
+                    {{ $t('admin_settings.others.section_user') }}
+                </FormLabel>
                 <div class="block-wrapper">
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">Storage Limitation:</label>
-                                <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.</small>
+                                <label class="input-label">
+                                    {{ $t('admin_settings.others.storage_limit') }}:
+                                </label>
+                                <small class="input-help" v-html="$t('admin_settings.others.storage_limit_help')"></small>
                             </div>
-                            <SwitchInput @input="$updateText('/settings', 'storage_limitation', app.storageLimitation)" v-model="app.storageLimitation" class="switch" :state="app.storageLimitation"/>
+                            <SwitchInput
+                                    @input="$updateText('/settings', 'storage_limitation', app.storageLimitation)"
+                                    v-model="app.storageLimitation"
+                                    class="switch"
+                                    :state="app.storageLimitation"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="block-wrapper" v-if="app.storageLimitation">
-                    <label>Default Storage Space for User Accounts:</label>
+                    <label>{{ $t('admin_settings.others.default_storage') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Default Storage Space" rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/settings', 'storage_default', app.defaultStorage)"
                                v-model="app.defaultStorage"
                                min="1"
                                max="999999999"
-                               placeholder="Set default storage space in GB"
+                               :placeholder="$t('admin_settings.others.default_storage_plac')"
                                type="number"
                                :class="{'is-error': errors[0]}"
                         />
@@ -34,30 +43,36 @@
                     <div class="input-wrapper">
                         <div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">Allow User Registration:</label>
-                                <small class="input-help">You can disable public registration for new users. You will still able to <br/>create new users in administration panel.</small>
+                                <label class="input-label">
+                                    {{ $t('admin_settings.others.allow_registration') }}:
+                                </label>
+                                <small class="input-help" v-html="$t('admin_settings.others.allow_registration_help')"></small>
                             </div>
-                            <SwitchInput @input="$updateText('/settings', 'registration', app.userRegistration)" v-model="app.userRegistration" class="switch" :state="app.userRegistration"/>
+                            <SwitchInput @input="$updateText('/settings', 'registration', app.userRegistration)"
+                                         v-model="app.userRegistration"
+                                         class="switch"
+                                         :state="app.userRegistration"
+                            />
                         </div>
                     </div>
                 </div>
 
-                <FormLabel class="mt-70">Others Settings</FormLabel>
+                <FormLabel class="mt-70">{{ $t('admin_settings.others.section_others') }}</FormLabel>
                 <div class="block-wrapper">
-                    <label>Contact Email:</label>
+                    <label>{{ $t('admin_settings.others.contact_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email"
                                         rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/settings', 'contact_email', app.contactMail)" v-model="app.contactMail"
-                               placeholder="Type your contact email" type="email" :class="{'is-error': errors[0]}"/>
+                               :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
                 <div class="block-wrapper">
-                    <label>Google Analytics Code (optional):</label>
+                    <label>{{ $t('admin_settings.others.google_analytics') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Google Analytics Code"
                                         v-slot="{ errors }">
                         <input @input="$updateText('/settings', 'google_analytics', app.googleAnalytics)" v-model="app.googleAnalytics"
-                               placeholder="Paste your Google Analytics Code"
+                               :placeholder="$t('admin_settings.others.google_analytics_plac')"
                                type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -138,13 +153,4 @@
     .block-form {
         max-width: 100%;
     }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

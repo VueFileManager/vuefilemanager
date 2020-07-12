@@ -94,7 +94,7 @@
                         <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active" class="headline-actions">
                             <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
-                                    {{ $t('upgrade.upgrade_plan') }}
+                                    {{ $t('global.upgrade_plan') }}
                                 </ButtonBase>
                             </router-link>
                         </div>

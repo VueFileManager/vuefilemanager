@@ -76,7 +76,7 @@
         computed: {
             ...mapGetters(['user']),
             isUserProfileRoute() {
-                return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription'])
+                return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription', 'PaymentMethods'])
             }
         },
         data() {
@@ -99,6 +99,9 @@
                     'UserDelete',
                     'PlanCreate',
                     'UserCreate',
+                    'AppPayments',
+                    'PageEdit',
+                    'Pages',
                     'UserDelete',
                     'UserDetail',
                     'Invoices',

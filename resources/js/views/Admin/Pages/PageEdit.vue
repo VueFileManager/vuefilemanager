@@ -6,15 +6,17 @@
 
             <div class="content-page">
                 <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
-                    <FormLabel>{{ page.data.attributes.title }}</FormLabel>
+                    <FormLabel>
+                        {{ page.data.attributes.title }}
+                    </FormLabel>
 
                     <!--Visible-->
                     <div class="block-wrapper">
                         <div class="input-wrapper">
                             <div class="inline-wrapper">
                                 <div class="switch-label">
-                                    <label class="input-label">Visibility:</label>
-                                    <small class="input-help">Status of your page visibility on website.</small>
+                                    <label class="input-label">{{ $t('admin_pages.form.visibility') }}:</label>
+                                    <small class="input-help">{{ $t('admin_pages.form.visibility_help') }}</small>
                                 </div>
                                 <SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility"/>
                             </div>
@@ -22,28 +24,28 @@
                     </div>
 
                     <div class="block-wrapper">
-                        <label>Title:</label>
+                        <label>{{ $t('admin_pages.form.title') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
                             <input @input="$updateText('/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
-                                   placeholder="Title name" type="text" :class="{'is-error': errors[0]}"/>
+                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
 
                     <div class="block-wrapper">
-                        <label>Slug:</label>
+                        <label>{{ $t('admin_pages.form.slug') }}:</label>
                         <div class="input-wrapper">
                             <input v-model="page.data.attributes.slug" type="text" disabled/>
                         </div>
                     </div>
 
                     <div class="block-wrapper">
-                        <label>Title:</label>
+                        <label>{{ $t('admin_pages.form.content') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
                             <textarea
                                     @input="$updateText('/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
                                     v-model="page.data.attributes.content"
-                                    placeholder="Type your content here..."
+                                    :placeholder="$t('admin_pages.form.content_plac')"
                                     :class="{'is-error': errors[0]}"
                                     rows="18"
                             ></textarea>

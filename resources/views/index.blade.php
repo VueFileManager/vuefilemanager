@@ -27,7 +27,6 @@
 <body>
 <div id="app"></div>
 
-    <script src="https://js.stripe.com/v3/"></script>
     <script>
         let config = {
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
@@ -41,6 +40,8 @@
 
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
+
+            stripe_public_key: '{{ config('cashier.key') ? config('cashier.key') : null }}',
 
             userRegistration: {{ isset($settings->registration) ? $settings->registration : 1 }},
             storageLimit: {{ isset($settings->storage_limitation) ? $settings->storage_limitation : 1 }},

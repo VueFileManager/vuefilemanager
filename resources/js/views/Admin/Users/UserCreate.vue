@@ -12,7 +12,7 @@
 
                         <!--Avatar-->
                         <div class="block-wrapper">
-                            <label>Avatar</label>
+                            <label>{{ $t('admin_page_user.create_user.avatar') }}</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="avatar" v-slot="{ errors }">
                                 <ImageInput v-model="user.avatar" :error="errors[0]" />
                             </ValidationProvider>
@@ -206,7 +206,7 @@
                             if (error.response.data.errors['storage_capacity']) {
 
                                 this.$refs.createUser.setErrors({
-                                    'storage capacity': 'The storage capacity must be lower than 10 digit number.'
+                                    'storage capacity': this.$t('errors.capacity_digit')
                                 });
                             }
                         } else {

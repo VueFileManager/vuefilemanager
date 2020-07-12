@@ -37,11 +37,11 @@ import Pages from './views/Admin/Pages'
 import PageEdit from './views/Admin/Pages/PageEdit'
 
 // App Settings
-import AppAppearance from './views/Admin/AppSettings/AppSettingsTabs/Appearance'
-import AppPayments from './views/Admin/AppSettings/AppSettingsTabs/Payments'
-import AppBillings from './views/Admin/AppSettings/AppSettingsTabs/Billings'
-import AppOthers from './views/Admin/AppSettings/AppSettingsTabs/Others'
 import AppEmail from './views/Admin/AppSettings/AppSettingsTabs/Email'
+import AppOthers from './views/Admin/AppSettings/AppSettingsTabs/Others'
+import AppBillings from './views/Admin/AppSettings/AppSettingsTabs/Billings'
+import AppPayments from './views/Admin/AppSettings/AppSettingsTabs/Payments'
+import AppAppearance from './views/Admin/AppSettings/AppSettingsTabs/Appearance'
 
 // Plans
 import Plans from './views/Admin/Plans'
@@ -76,9 +76,9 @@ import SubscriptionService from './views/SetupWizard/SubscriptionService'
 import InstallationDisclaimer from './views/SetupWizard/InstallationDisclaimer'
 
 // Index pages
-import SaaSLandingPage from './views/index/SaaSLandingPage'
-import DynamicPage from './views/Index/DynamicPage'
 import ContactUs from './views/Index/ContactUs'
+import DynamicPage from './views/Index/DynamicPage'
+import SaaSLandingPage from './views/index/SaaSLandingPage'
 
 Vue.use(Router)
 
@@ -98,7 +98,7 @@ const routesAdmin = [
                 component: Dashboard,
                 meta: {
                     requiresAuth: true,
-                    title: 'Dashboard'
+                    title: i18n.t('routes_title.dashboard')
                 },
             },
             {
@@ -107,7 +107,7 @@ const routesAdmin = [
                 component: Invoices,
                 meta: {
                     requiresAuth: true,
-                    title: 'Invoices'
+                    title: i18n.t('routes_title.invoices')
                 },
             },
             {
@@ -116,7 +116,7 @@ const routesAdmin = [
                 component: Pages,
                 meta: {
                     requiresAuth: true,
-                    title: 'Pages'
+                    title: i18n.t('routes_title.pages')
                 },
             },
             {
@@ -125,7 +125,7 @@ const routesAdmin = [
                 component: PageEdit,
                 meta: {
                     requiresAuth: true,
-                    title: 'Edit Page'
+                    title: i18n.t('routes_title.page_edit')
                 },
             },
             {
@@ -134,7 +134,7 @@ const routesAdmin = [
                 component: Plans,
                 meta: {
                     requiresAuth: true,
-                    title: 'Pricing Plans'
+                    title: i18n.t('routes_title.pricing_plans')
                 },
             },
             {
@@ -163,7 +163,7 @@ const routesAdmin = [
                 component: PlanCreate,
                 meta: {
                     requiresAuth: true,
-                    title: 'Create Plan'
+                    title: i18n.t('routes_title.plan_create')
                 },
             },
 
@@ -201,7 +201,7 @@ const routesAdmin = [
                         component: UserSubscription,
                         meta: {
                             requiresAuth: true,
-                            title: 'Subscription'
+                            title: i18n.t('routes_title.subscription')
                         },
                     },
                     {
@@ -210,7 +210,7 @@ const routesAdmin = [
                         component: UserInvoices,
                         meta: {
                             requiresAuth: true,
-                            title: 'Invoices'
+                            title: i18n.t('routes_title.invoices')
                         },
                     },
                     {
@@ -239,7 +239,7 @@ const routesAdmin = [
                 component: Plan,
                 meta: {
                     requiresAuth: true,
-                    title: 'Plan'
+                    title: i18n.t('routes_title.plan')
                 },
                 children: [
                     {
@@ -248,7 +248,7 @@ const routesAdmin = [
                         component: PlanSubscribers,
                         meta: {
                             requiresAuth: true,
-                            title: 'Plan Subscribers'
+                            title: i18n.t('routes_title.subscribers')
                         },
                     },
                     {
@@ -257,7 +257,7 @@ const routesAdmin = [
                         component: PlanSettings,
                         meta: {
                             requiresAuth: true,
-                            title: 'Plan Settings',
+                            title: i18n.t('routes_title.plan_settings'),
                         },
                     },
                     {
@@ -266,7 +266,7 @@ const routesAdmin = [
                         component: PlanDelete,
                         meta: {
                             requiresAuth: true,
-                            title: 'Plan Delete',
+                            title: i18n.t('routes_title.plan_delete'),
                         },
                     },
                 ]
@@ -277,7 +277,7 @@ const routesAdmin = [
                 component: AppSettings,
                 meta: {
                     requiresAuth: true,
-                    title: 'Settings'
+                    title: i18n.t('routes_title.settings')
                 },
                 children: [
                     {
@@ -286,7 +286,7 @@ const routesAdmin = [
                         component: AppAppearance,
                         meta: {
                             requiresAuth: true,
-                            title: 'Appearance'
+                            title: i18n.t('routes_title.appearance')
                         },
                     },
                     {
@@ -295,7 +295,7 @@ const routesAdmin = [
                         component: AppBillings,
                         meta: {
                             requiresAuth: true,
-                            title: 'Billings'
+                            title: i18n.t('routes_title.billings')
                         },
                     },
                     {
@@ -304,7 +304,7 @@ const routesAdmin = [
                         component: AppEmail,
                         meta: {
                             requiresAuth: true,
-                            title: 'Email'
+                            title: i18n.t('routes_title.email')
                         },
                     },
                     {
@@ -313,7 +313,7 @@ const routesAdmin = [
                         component: AppPayments,
                         meta: {
                             requiresAuth: true,
-                            title: 'Payments'
+                            title: i18n.t('routes_title.payments')
                         },
                     },
                     {
@@ -322,7 +322,7 @@ const routesAdmin = [
                         component: AppOthers,
                         meta: {
                             requiresAuth: true,
-                            title: 'Others'
+                            title: i18n.t('routes_title.others')
                         },
                     },
                 ]
@@ -344,7 +344,7 @@ const routesAdmin = [
         component: UserProfileMobileMenu,
         meta: {
             requiresAuth: true,
-            title: 'Profile Settings'
+            title: i18n.t('routes_title.profile_settings')
         },
     },
 ]
@@ -466,7 +466,7 @@ const routesUser = [
                 component: Invoice,
                 meta: {
                     requiresAuth: true,
-                    title: 'Invoices'
+                    title: i18n.t('routes_title.invoices')
                 },
             },
             {
@@ -475,16 +475,16 @@ const routesUser = [
                 component: Subscription,
                 meta: {
                     requiresAuth: true,
-                    title: 'Subscription'
+                    title: i18n.t('routes_title.subscription')
                 },
             },
             {
                 name: 'PaymentMethods',
-                path: '/settings/payment-cards',
+                path: '/settings/payment-methods',
                 component: PaymentMethods,
                 meta: {
                     requiresAuth: true,
-                    title: 'Payment Cards'
+                    title: i18n.t('routes_title.payment_methods')
                 },
             },
         ]
@@ -495,7 +495,7 @@ const routesUser = [
         component: UpgradePlan,
         meta: {
             requiresAuth: true,
-            title: 'Upgrade Plan'
+            title: i18n.t('routes_title.upgrade_plan')
         },
     },
     {
@@ -504,7 +504,7 @@ const routesUser = [
         component: UpgradeBilling,
         meta: {
             requiresAuth: true,
-            title: 'Upgrade Billing'
+            title: i18n.t('routes_title.upgrade_billing')
         },
     },
 ]
