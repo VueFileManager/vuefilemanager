@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Setting;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -12,15 +13,19 @@ class WebhookController extends CashierController
     /**
      * Handle a cancelled customer from a Stripe subscription.
      *
-     * @param  array  $payload
+     * @param array $payload
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handleCustomerSubscriptionDeleted($payload) {
-
+    public function handleCustomerSubscriptionDeleted($payload)
+    {
+        // Get user
         $user = User::where('stripe_id', $payload['data']['object']['customer'])->firstOrFail();
 
-        // TODO: set default capacity
-        $user->settings->update(['storage_capacity' => 1]);
+        // Get default storage capacity
+        $default_storage = Setting::where('name', 'storage_default')->first();
+
+        // Update storage capacity
+        $user->settings()->update(['storage_capacity' => $default_storage->value]);
 
         return $this->successMethod();
     }

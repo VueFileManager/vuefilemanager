@@ -26,6 +26,7 @@ class UserResource extends JsonResource
                 'id'         => (string)$this->id,
                 'type'       => 'user',
                 'attributes' => [
+                    'storage_capacity'     => $this->settings->storage_capacity,
                     'subscription'         => $this->subscribed('main'),
                     'stripe_customer'      => is_null($this->stripe_id) ? false : true,
                     'name'                 => env('APP_DEMO') ? $faker->name : $this->name,

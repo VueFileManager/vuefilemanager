@@ -81,9 +81,6 @@ class AccountController extends Controller
             return Demo::response_204();
         }
 
-        // Check role
-        if ($request->has('role')) abort(403);
-
         // Update data
         if ($request->hasFile('avatar')) {
 

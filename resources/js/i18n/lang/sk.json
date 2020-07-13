@@ -347,6 +347,18 @@
 		"subtitle": "Získajte resetovací link pre Váš účet:",
 		"title": "Zabudnuté heslo?"
 	},
+	"page_index": {
+		"get_started_button": "Zaregistrovať sa teraz",
+		"menu": {
+			"contact_us": "Kontaktuj nás",
+			"log_in": "Prihlásiť sa",
+			"pricing": "Plány",
+			"sign_in": "Zaregistrovať sa"
+		},
+		"sign_feature_1": "Nevyžaduje sa žiadna kreditná karta",
+		"sign_feature_2": "{defaultSpace} Kapacita úložiska zadarmo",
+		"sign_up_button": "Zaregistrovať sa teraz"
+	},
 	"page_login": {
 		"button_next": "Ďalší krok",
 		"placeholder_email": "Napíšte svoj E-mail",
@@ -361,6 +373,7 @@
 		"title": "Vyberte si svoj plán"
 	},
 	"page_registration": {
+		"agreement": "Kliknutím na tlačidlo Vytvoriť účet súhlasím s {0} a {1}.",
 		"button_create_account": "Vytvoriť účet",
 		"have_an_account": "Máš už účet?",
 		"label_confirm_pass": "Potvrďte heslo:",
@@ -408,7 +421,7 @@
 		"section_summary": "Zhrnutie objednávky",
 		"summary": {
 			"period": "Účtované mesačne",
-			"submit_button": "Plaťte kreditnou kartou",
+			"submit_button": "Zaplatiť kreditnou kartou",
 			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
 		},
 		"title": "Vyberte si metódu platby"

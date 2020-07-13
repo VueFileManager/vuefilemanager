@@ -1,6 +1,6 @@
 <template>
     <PageTab :is-loading="isLoading" class="form-fixed-width" v-if="storage">
-        <PageTabGroup v-if="config.storageLimit || ! user.data.attributes.subscription">
+        <PageTabGroup v-if="config.storageLimit && ! user.data.attributes.subscription">
             <FormLabel>
                 {{ $t('user_box_storage.title') }}
             </FormLabel>

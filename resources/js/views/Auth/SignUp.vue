@@ -53,12 +53,10 @@
                 </div>
 
                 <div>
-                    <p class="legal-agreement">
-                        By clicking on 'Create Account' button I agree to the
+                    <i18n path="page_registration.agreement" tag="p" class="legal-agreement">
                         <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">Terms of Service</router-link>
-                        and
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">Privacy Policy</router-link>.
-                    </p>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">Privacy Policy</router-link>
+                    </i18n>
                     <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>

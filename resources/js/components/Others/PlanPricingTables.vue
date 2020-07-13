@@ -29,6 +29,7 @@
 <script>
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import {HardDriveIcon} from "vue-feather-icons"
+    import { mapGetters } from 'vuex'
     import axios from 'axios'
 
     export default {
@@ -42,6 +43,9 @@
                 plans: undefined,
             }
         },
+        computed: {
+            ...mapGetters(['user']),
+        },
         methods: {
             selectPlan(plan) {
                 this.$emit('selected-plan', plan)
@@ -51,7 +55,9 @@
         created() {
             axios.get('/api/public/pricing')
                 .then(response => {
-                    this.plans = response.data
+                    this.plans = response.data.filter(plan => {
+                        return plan.data.attributes.capacity > this.user.data.attributes.storage_capacity
+                    })
                     this.$emit('load', false)
                 })
         }

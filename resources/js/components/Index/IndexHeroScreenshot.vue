@@ -1,7 +1,7 @@
 <template>
     <div class="page-wrapper large hero-screenshot">
-        <img class="hero-light" src="/assets/images/vuefilemanager-screenshot-light.png" alt="VueFileManager application">
-        <img class="hero-dark" src="/assets/images/vuefilemanager-screenshot-dark.png" alt="VueFileManager application">
+        <img class="hero-light" src="/assets/images/vuefilemanager-screenshot-light.png" :alt="config.app_name">
+        <img class="hero-dark" src="/assets/images/vuefilemanager-screenshot-dark.png" :alt="config.app_name">
 
         <div class="icons">
             <link-icon size="20" class="icon"></link-icon>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import {
         FolderPlusIcon,
         HardDriveIcon,
@@ -36,7 +37,7 @@
     } from 'vue-feather-icons'
 
     export default {
-        name: 'IndexNavigation',
+        name: 'IndexHeroScreenshot',
         components: {
             FolderPlusIcon,
             HardDriveIcon,
@@ -48,7 +49,10 @@
             LinkIcon,
             StarIcon,
             EyeIcon,
-        }
+        },
+        computed: {
+            ...mapGetters(['config']),
+        },
     }
 </script>
 

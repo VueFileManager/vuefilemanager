@@ -60,7 +60,7 @@ class DashboardController extends Controller
     public function new_registrations()
     {
         return new UsersCollection(
-            User::take(5)->orderByDesc('created_at')->get()
+            User::take(7)->orderByDesc('created_at')->get()
         );
     }
 }

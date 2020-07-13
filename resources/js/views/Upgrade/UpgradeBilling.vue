@@ -20,7 +20,7 @@
                             <!-- Pay by new credit card -->
                             <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
                                 <p class="payment-demo-disclaimer">
-                                    For test your payment please use <b>4242 4242 4242 4242</b> as a card number, <b>11/22</b>
+                                    For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555555555554444</b> as a card number, <b>11/22</b>
                                     as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.
                                 </p>
 

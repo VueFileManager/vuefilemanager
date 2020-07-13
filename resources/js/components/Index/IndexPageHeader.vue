@@ -1,22 +1,22 @@
 <template>
     <header class="main-header page-wrapper medium">
         <PageTitle
-            title="Simple <span style='color: #41B883'>&</span> Powerfull Personal Cloud Storage"
-            description="Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom."
+            :title="index.header_title"
+            :description="index.header_description"
         ></PageTitle>
 
         <router-link class="sign-up-button" :to="{name: 'SignUp'}">
-            <AuthButton class="button" icon="chevron-right" text="Sign Up Now" />
+            <AuthButton class="button" icon="chevron-right" :text="$t('page_index.sign_up_button')" />
         </router-link>
 
         <div class="features">
             <div class="feature">
                 <credit-card-icon size="19" class="feature-icon"></credit-card-icon>
-                <b class="feature-title">No credit card required</b>
+                <b class="feature-title">{{ $t('page_index.sign_feature_1') }}</b>
             </div>
             <div class="feature">
                 <hard-drive-icon size="19" class="feature-icon"></hard-drive-icon>
-                <b class="feature-title">5GB Free storage space</b>
+                <b class="feature-title">{{ $t('page_index.sign_feature_2', {defaultSpace: config.storageDefaultSpace}) }}</b>
             </div>
         </div>
     </header>
@@ -27,6 +27,7 @@
     import PageTitle from '@/components/Index/Components/PageTitle'
     import AuthButton from '@/components/Auth/AuthButton'
     import { CreditCardIcon } from 'vue-feather-icons'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'IndexPageHeader',
@@ -35,7 +36,10 @@
             CreditCardIcon,
             HardDriveIcon,
             AuthButton,
-        }
+        },
+        computed: {
+            ...mapGetters(['index', 'config']),
+        },
     }
 </script>
 

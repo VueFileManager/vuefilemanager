@@ -347,6 +347,18 @@
 		"subtitle": "通过邮箱获得重置链接：",
 		"title": "忘记密码？"
 	},
+	"page_index": {
+		"get_started_button": "立即注册",
+		"menu": {
+			"contact_us": "联系我们",
+			"log_in": "登录",
+			"pricing": "价钱",
+			"sign_in": "注册"
+		},
+		"sign_feature_1": "无需信用卡",
+		"sign_feature_2": "{defaultSpace} 可用存储空间",
+		"sign_up_button": "立即注册"
+	},
 	"page_login": {
 		"button_next": "下一步",
 		"placeholder_email": "键入您的邮箱",
@@ -361,6 +373,7 @@
 		"title": "选择您的计划"
 	},
 	"page_registration": {
+		"agreement": "通过单击“创建帐户”按钮，我同意 {0} 和 {1}。",
 		"button_create_account": "创建账户",
 		"have_an_account": "您之前有过账户了么？",
 		"label_confirm_pass": "确认密码：",

@@ -1,41 +1,29 @@
 <template>
     <footer class="page-wrapper medium">
         <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
-            <img v-if="config.app_logo_horizontal" :src="config.app_logo_horizontal" :alt="config.app_name">
+            <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name">
             <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
         <ul class="navigation-links">
             <li>
                 <a href="/#pricing">
-                    Pricing
+                    {{ $t('page_index.menu.pricing') }}
                 </a>
             </li>
             <li>
                 <router-link :to="{name: 'ContactUs'}">
-                    Contact Us
+                    {{ $t('page_index.menu.contact_us') }}
                 </router-link>
             </li>
         </ul>
         <ul class="navigation-links">
-            <li>
-                <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}">
-                    Terms of Service
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}">
-                    Privacy Policy
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{name: 'DynamicPage', params: {slug: 'cookie-policy'}}">
-                    Cookie Policy
+            <li v-if="legal.visibility" v-for="(legal, index) in config.legal" :key="index">
+                <router-link :to="{name: 'DynamicPage', params: {slug: legal.slug }}">
+                    {{ legal.title }}
                 </router-link>
             </li>
         </ul>
-        <p class="copyright">
-            © 2020 {{ config.app_name }}. All rights reserved.
-        </p>
+        <p class="copyright" v-html="config.app_footer"></p>
     </footer>
 </template>
 
@@ -100,6 +88,11 @@
         color: $text-muted;
         padding-top: 50px;
         padding-bottom: 20px;
+
+        /deep/ a {
+            color: $theme;
+            font-weight: 700;
+        }
     }
 
     @media only screen and (max-width: 960px) {

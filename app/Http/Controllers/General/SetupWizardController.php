@@ -569,7 +569,7 @@ class SetupWizardController extends Controller
         $storage_capacity = Setting::where('name', 'storage_default')->first();
 
         // Create settings
-        UserSettings::create([
+        UserSettings::forceCreate([
             'user_id'          => $user->id,
             'storage_capacity' => $storage_capacity->value,
         ]);
@@ -592,9 +592,10 @@ class SetupWizardController extends Controller
             'value' => $request->purchase_code,
         ]);
 
-        // Create legal pages
+        // Create legal pages and index content
         if ($request->license === 'Extended') {
             Artisan::call('db:seed --class=PageSeeder');
+            Artisan::call('db:seed --class=ContentSeeder');
         }
 
         // Retrieve access token

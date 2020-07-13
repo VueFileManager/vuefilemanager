@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\CheckAccountRequest;
+use App\Setting;
 use App\User;
 use App\UserSettings;
 use Illuminate\Http\Request;
@@ -64,8 +65,10 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $settings = Setting::whereIn('name', ['storage_default', 'registration'])->pluck('value', 'name');
+
         // Check if account registration is enabled
-        if (!config('vuefilemanager.registration')) abort(401);
+        if (! intval($settings['registration'])) abort(401);
 
         // Validate request
         $request->validate([
@@ -81,11 +84,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $default_storage = Setting::where('name', 'storage_default')->first();
+
         // Create settings
-        // TODO: set default storage capacity
         $settings = UserSettings::create([
             'user_id'          => $user->id,
-            'storage_capacity' => 5,
+            'storage_capacity' => $settings['storage_default'],
         ]);
 
         $response = Route::dispatch(self::make_login_request($request));

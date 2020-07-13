@@ -11,11 +11,11 @@
                 </header>
                 <section class="plan-features">
                     <b class="storage-size">{{ plan.data.attributes.capacity_formatted }}</b>
-                    <span class="storage-description">Of Storage Capacity</span>
+                    <span class="storage-description">{{ $t('page_pricing_tables.storage_capacity') }}</span>
                 </section>
                 <footer class="plan-footer">
                     <b class="price">
-                        {{ plan.data.attributes.price }}/Mo.
+                        {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
                     </b>
                 </footer>
             </div>

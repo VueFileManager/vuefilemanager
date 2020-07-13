@@ -1,19 +1,17 @@
 <template>
-    <div class="page-wrapper medium pricing" v-if="! isEmpty">
+    <div class="page-wrapper medium pricing" v-if="! isEmpty && index.section_pricing_content === '1'">
         <div id="pricing" class="page-title center">
-            <h1 class="title">
-                Pick the <span style="color: #41B883">Best Plan</span> For Your Needs
-            </h1>
+            <h1 class="title" v-html="index.pricing_title"></h1>
         </div>
 
         <PricingTables class="pricing-tables" @load="pricingLoaded"/>
 
         <div class="page-title center">
             <h2 class="description">
-                Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom.
+                {{ index.pricing_description }}
             </h2>
             <router-link class="sign-up-button" :to="{name: 'SignUp'}">
-                <AuthButton class="button" icon="chevron-right" text="Sign Up Now" />
+                <AuthButton class="button" icon="chevron-right" :text="$t('page_index.sign_up_button')" />
             </router-link>
         </div>
 
@@ -26,6 +24,7 @@
     import PricingTables from '@/components/Index/Components/PricingTables'
     import AuthButton from '@/components/Auth/AuthButton'
     import { CloudIcon } from 'vue-feather-icons'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'IndexPricingTables',
@@ -34,6 +33,9 @@
             AuthButton,
             CloudIcon,
         },
+        computed: {
+            ...mapGetters(['index']),
+        },
         data() {
             return {
                 isEmpty: false,
@@ -41,7 +43,6 @@
         },
         methods: {
             pricingLoaded(pricing) {
-
                 if (pricing.length === 0)
                     this.isEmpty = true
             }

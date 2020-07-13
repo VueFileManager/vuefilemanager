@@ -4,6 +4,7 @@ const defaultState = {
 	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
 	FilePreviewType: localStorage.getItem('preview_type') || 'list',
 	config: undefined,
+	index: undefined,
 	authorized: undefined,
 	homeDirectory: undefined,
 	requestedPlan: undefined,
@@ -55,6 +56,9 @@ const mutations = {
 	SET_AUTHORIZED(state, data) {
 		state.authorized = data
 	},
+	SET_INDEX_CONTENT(state, data) {
+		state.index = data
+	},
 	CHANGE_PREVIEW(state, type) {
 		state.FilePreviewType = type
 	},
@@ -69,6 +73,7 @@ const getters = {
 	requestedPlan: state => state.requestedPlan,
 	api: state => state.config.api,
 	config: state => state.config,
+	index: state => state.index,
 	roles: state => state.roles,
 }
 

@@ -1,11 +1,12 @@
 <template>
     <section class="main-features page-wrapper medium">
         <PageTitle
+                v-if="index.section_features === '1'"
                 type="center"
-                title="The Fastest Growing <span style='color: #41B883'>File Manager</span> on the CodeCanyon Market"
-                description="Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom."
+                :title="index.features_title"
+                :description="index.features_description"
         ></PageTitle>
-        <div class="content">
+        <div v-if="index.section_feature_boxes === '1'" class="content">
             <div class="hero">
                 <img src="/assets/images/hero-Illustration.svg" alt="Hero">
             </div>
@@ -15,10 +16,10 @@
                         <cloud-icon size="24"></cloud-icon>
                     </div>
                     <h3 class="title">
-                        Truly Freedom
+                        {{ index.feature_title_1 }}
                     </h3>
                     <p class="description">
-                        You have full control over VueFileManager, no third authorities will control your service or usage, only you.
+                        {{ index.feature_description_1 }}
                     </p>
                 </div>
                 <div class="feature">
@@ -26,10 +27,10 @@
                         <user-icon size="24"></user-icon>
                     </div>
                     <h3 class="title">
-                        The Sky is the Limit
+                        {{ index.feature_title_2 }}
                     </h3>
                     <p class="description">
-                        VueFileManager is cloud storage software. You have to install and running application on your own server hosting.
+                        {{ index.feature_description_2 }}
                     </p>
                 </div>
                 <div class="feature">
@@ -37,10 +38,10 @@
                         <hard-drive-icon size="24"></hard-drive-icon>
                     </div>
                     <h3 class="title">
-                        No Monthly Fees
+                        {{ index.feature_title_3 }}
                     </h3>
                     <p class="description">
-                        When you running VueFileManager on your own server hosting, anybody can't control your content or resell your user data. Your data is safe.
+                        {{ index.feature_description_3 }}
                     </p>
                 </div>
             </div>
@@ -49,8 +50,9 @@
 </template>
 
 <script>
-    import PageTitle from '@/components/Index/Components/PageTitle'
     import { UserIcon, CloudIcon, HardDriveIcon } from 'vue-feather-icons'
+    import PageTitle from '@/components/Index/Components/PageTitle'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'IndexMainFeatures',
@@ -59,7 +61,10 @@
             HardDriveIcon,
             CloudIcon,
             UserIcon,
-        }
+        },
+        computed: {
+            ...mapGetters(['index']),
+        },
     }
 </script>
 

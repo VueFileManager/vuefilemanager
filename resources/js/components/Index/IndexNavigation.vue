@@ -1,37 +1,37 @@
 <template>
     <nav class="main-navigation">
         <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
-            <img v-if="config.app_logo_horizontal" :src="config.app_logo_horizontal" :alt="config.app_name">
+            <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name">
             <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
         <div class="navigation">
             <ul class="navigation-links">
                 <li>
                     <a href="/#pricing">
-                        Pricing
+                        {{ $t('page_index.menu.pricing') }}
                     </a>
                 </li>
                 <li>
                     <router-link :to="{name: 'ContactUs'}">
-                        Contact Us
+                        {{ $t('page_index.menu.contact_us') }}
                     </router-link>
                 </li>
             </ul>
             <ul class="navigation-links">
                 <li>
                     <router-link :to="{name: 'SignIn'}">
-                        Log In
+                        {{ $t('page_index.menu.log_in') }}
                     </router-link>
                 </li>
                 <li>
                     <router-link class="cta-button" :to="{name: 'SignUp'}">
-                        Sign Up
+                        {{ $t('page_index.menu.sign_in') }}
                     </router-link>
                 </li>
             </ul>
         </div>
         <router-link class="cta-button log-in" :to="{name: 'SignIn'}">
-            Log In
+            {{ $t('page_index.menu.log_in') }}
         </router-link>
     </nav>
 </template>

@@ -1,15 +1,15 @@
 <template>
-    <div class="page-wrapper large get-started">
+    <div class="page-wrapper large get-started" v-if="index.section_get_started === '1'">
 
         <PageTitle
                 class="page-title"
                 type="center"
-                title="Ready to Get <span style='color: #41B883'>Started</span><br> With Us?"
-                description="Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom."
+                :title="index.get_started_title"
+                :description="index.get_started_description"
         ></PageTitle>
 
         <router-link tag="button" class="get-started-button" :to="{name: 'SignUp'}">
-            <span class="content">Get Started</span>
+            <span class="content">{{ $t('page_index.get_started_button') }}</span>
             <chevron-right-icon size="22"></chevron-right-icon>
         </router-link>
 
@@ -44,21 +44,22 @@
     import PageTitle from '@/components/Index/Components/PageTitle'
     import {
         ChevronRightIcon,
+        UploadCloudIcon,
         FolderPlusIcon,
         HardDriveIcon,
         SettingsIcon,
         Trash2Icon,
         SearchIcon,
+        ShareIcon,
         CloudIcon,
         ImageIcon,
+        InfoIcon,
         GridIcon,
         LinkIcon,
         StarIcon,
         EyeIcon,
     } from 'vue-feather-icons'
-    import ShareIcon from "vue-feather-icons/icons/ShareIcon";
-    import UploadCloudIcon from "vue-feather-icons/icons/UploadCloudIcon";
-    import InfoIcon from "vue-feather-icons/icons/InfoIcon";
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'IndexGetStarted',
@@ -79,7 +80,10 @@
             LinkIcon,
             StarIcon,
             EyeIcon,
-        }
+        },
+        computed: {
+            ...mapGetters(['index']),
+        },
     }
 </script>
 

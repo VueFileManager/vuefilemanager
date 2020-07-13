@@ -38,6 +38,7 @@ import PageEdit from './views/Admin/Pages/PageEdit'
 
 // App Settings
 import AppEmail from './views/Admin/AppSettings/AppSettingsTabs/Email'
+import AppIndex from './views/Admin/AppSettings/AppSettingsTabs/Index'
 import AppOthers from './views/Admin/AppSettings/AppSettingsTabs/Others'
 import AppBillings from './views/Admin/AppSettings/AppSettingsTabs/Billings'
 import AppPayments from './views/Admin/AppSettings/AppSettingsTabs/Payments'
@@ -146,8 +147,6 @@ const routesAdmin = [
                     title: i18n.t('routes_title.users_list')
                 },
             },
-
-            // Create Pages
             {
                 name: 'UserCreate',
                 path: '/admin/user/create',
@@ -166,8 +165,6 @@ const routesAdmin = [
                     title: i18n.t('routes_title.plan_create')
                 },
             },
-
-            // Single pages
             {
                 name: 'User',
                 path: '/admin/user/:id',
@@ -287,6 +284,15 @@ const routesAdmin = [
                         meta: {
                             requiresAuth: true,
                             title: i18n.t('routes_title.appearance')
+                        },
+                    },
+                    {
+                        name: 'AppIndex',
+                        path: '/admin/settings/index',
+                        component: AppIndex,
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Index'
                         },
                     },
                     {

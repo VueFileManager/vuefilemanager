@@ -99,7 +99,7 @@ class SettingController extends Controller
             setEnvironmentValue($col['name'], $col['value']);
         });
 
-        // Clear cache
+        // Clear config cache
         Artisan::call('config:clear');
 
         return response('Done', 204);

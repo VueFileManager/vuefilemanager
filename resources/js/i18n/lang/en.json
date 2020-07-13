@@ -51,7 +51,7 @@
 	"admin_page_plans": {
 		"create_plan_button": "Create Plan",
 		"delete_plan_button": "Delete Plan",
-		"disclaimer_delete_plan": "You can delete plan, but, pay attention!",
+		"disclaimer_delete_plan": "You can delete this plan, but, pay attention! Your plan will be deleted, but users who are subscribed with this plan, will be still charged unless they cancel subscription.",
 		"disclaimer_edit_price": "Price change for your plan is not available due to Stripe service design. If you wish change your price plan, please, create new plan.",
 		"empty": {
 			"button": "Create New Plan",
@@ -347,6 +347,18 @@
 		"subtitle": "Get reset link with your email:",
 		"title": "Forgotten Password?"
 	},
+	"page_index": {
+		"get_started_button": "Sign Up Now",
+		"menu": {
+			"contact_us": "Contact Us",
+			"log_in": "Log In",
+			"pricing": "Pricing",
+			"sign_in": "Sign Up"
+		},
+		"sign_feature_1": "No credit card required",
+		"sign_feature_2": "{defaultSpace} Free storage space",
+		"sign_up_button": "Sign Up Now"
+	},
 	"page_login": {
 		"button_next": "Next Step",
 		"placeholder_email": "Type your E-mail",
@@ -361,6 +373,7 @@
 		"title": "Choose Your Plan"
 	},
 	"page_registration": {
+		"agreement": "By clicking on 'Create Account' button I agree to the {0} and {1}.",
 		"button_create_account": "Create Account",
 		"have_an_account": "Do you have an account?",
 		"label_confirm_pass": "Confirm password:",

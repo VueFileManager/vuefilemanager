@@ -18,6 +18,15 @@
                         </div>
                     </router-link>
 
+                    <router-link replace :to="{name: 'AppIndex'}" class="menu-list-item link">
+                        <div class="icon">
+                            <book-icon size="17"></book-icon>
+                        </div>
+                        <div class="label">
+                            Index
+                        </div>
+                    </router-link>
+
                     <router-link v-if="config.isSaaS" replace :to="{name: 'AppBillings'}"
                                  class="menu-list-item link">
                         <div class="icon">
@@ -67,15 +76,16 @@
 </template>
 
 <script>
-    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon} from 'vue-feather-icons'
+    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, BookIcon} from 'vue-feather-icons'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'AppSettings',
         components: {
+            BookIcon,
             CreditCardIcon,
             CodeIcon,
             MailIcon,

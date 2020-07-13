@@ -122,7 +122,9 @@ class UserController extends Controller
             return new UserResource($user);
         }
 
-        $user->update($request->input('attributes'));
+        // Update user role
+        $user->role = $request->input('attributes.role');
+        $user->save();
 
         return new UserResource($user);
     }
@@ -181,7 +183,7 @@ class UserController extends Controller
         }
 
         // Create user
-        $user = User::create([
+        $user = User::forceCreate([
             'avatar'   => $request->hasFile('avatar') ? $avatar : null,
             'name'     => $request->name,
             'role'     => $request->role,
@@ -190,7 +192,7 @@ class UserController extends Controller
         ]);
 
         // Create settings
-        $settings = UserSettings::create([
+        $settings = UserSettings::forceCreate([
             'user_id'          => $user->id,
             'storage_capacity' => $request->storage_capacity,
         ]);

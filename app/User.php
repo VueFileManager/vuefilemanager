@@ -80,13 +80,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, Billable;
 
+    protected $guarded = ['id', 'role'];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar', 'role',
+        'name', 'email', 'password', 'avatar',
     ];
 
     /**

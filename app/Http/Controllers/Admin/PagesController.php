@@ -45,9 +45,7 @@ class PagesController extends Controller
     public function update(Request $request, $slug) {
         $page = Page::where('slug', $slug)->first();
 
-        $page->update([
-            $request->name => $request->value
-        ]);
+        $page->update(make_single_input($request));
 
         return response('Done', 204);
     }
