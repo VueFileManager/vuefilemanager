@@ -48,6 +48,12 @@ const mutations = {
 		state.authorized = data.authCookie
 		state.homeDirectory = data.rootDirectory
 	},
+	SET_SAAS(state, data) {
+		state.config.isSaaS = data
+	},
+	SET_STRIPE_PUBLIC_KEY(state, data) {
+		state.config.stripe_public_key = data
+	},
 	FILE_INFO_TOGGLE(state, isVisible) {
 		state.fileInfoPanelVisible = isVisible
 

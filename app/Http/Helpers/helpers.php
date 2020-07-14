@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
-function get_setting($setting) {
+function get_setting($setting)
+{
     return Setting::where('name', $setting)->first()->value;
 }
 
@@ -123,12 +124,11 @@ function get_storage()
  */
 function is_storage_driver($driver)
 {
-
     if (is_array($driver)) {
-        return in_array(env('FILESYSTEM_DRIVER'), $driver);
+        return in_array(config('filesystem.default'), $driver);
     }
 
-    return env('FILESYSTEM_DRIVER') === $driver;
+    return config('filesystem.default') === $driver;
 }
 
 /**

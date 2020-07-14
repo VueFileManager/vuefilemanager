@@ -47,7 +47,6 @@
 <script>
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import InfoBox from '@/components/Others/Forms/InfoBox'
-
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'

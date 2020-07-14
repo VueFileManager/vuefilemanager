@@ -10,42 +10,42 @@
             <!--Headline-->
             <PageTitle
                     class="headline"
-                    title="Contact Us"
-                    description="Do you have any questions? Get in touch with us."
+                    :title="$t('page_contact_us.title')"
+                    :description="$t('page_contact_us.description')"
             ></PageTitle>
 
             <ValidationObserver v-if="! isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_contact_us.form.email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
-                        <input v-model="contact.email" :placeholder="$t('page_registration.placeholder_email')" type="email"
+                        <input v-model="contact.email" :placeholder="$t('page_contact_us.form.email_plac')" type="email"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>Message:</label>
+                    <label>{{ $t('page_contact_us.form.message') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Message" rules="required"
                                         v-slot="{ errors }">
-                        <textarea v-model="contact.message" placeholder="Type your message here..." rows="6" :class="{'is-error': errors[0]}"></textarea>
+                        <textarea v-model="contact.message" :placeholder="$t('page_contact_us.form.message_plac')" rows="6" :class="{'is-error': errors[0]}"></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <InfoBox v-if="isError">
-                    <p>Something went wrong, please try it again.</p>
+                    <p>{{ $t('page_contact_us.error_message') }}</p>
                 </InfoBox>
 
                 <div>
-                    <AuthButton class="submit-button" icon="chevron-right" text="Send Message" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton class="submit-button" icon="chevron-right" :text="$t('page_contact_us.form.submit_button')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
             <InfoBox v-if="isSuccess">
-                <p>Your message was send successfully.</p>
+                <p>{{ $t('page_contact_us.success_message') }}</p>
             </InfoBox>
         </div>
 
@@ -106,18 +106,14 @@
                 axios
                     .post('/api/contact', this.contact)
                     .then(() => {
-
-                        // End loading
-                        this.isLoading = false
-
                         this.isSuccess = true
                     })
-                    .catch(error => {
-
+                    .catch(() => {
+                        this.isError = true
+                    })
+                    .finally(() => {
                         // End loading
                         this.isLoading = false
-
-                        this.isError = true
                     })
             }
         },

@@ -157,10 +157,12 @@ class StripeService
             $product = $this->stripe->products()->find($plan['product']);
 
             // Push data to $plan container
-            array_push($plans, [
-                'plan'    => $plan,
-                'product' => $product,
-            ]);
+            if ($product['active']) {
+                array_push($plans, [
+                    'plan'    => $plan,
+                    'product' => $product,
+                ]);
+            }
         }
 
         return $plans;
@@ -187,10 +189,12 @@ class StripeService
                 $product = $this->stripe->products()->find($plan['product']);
 
                 // Push data to $plan container
-                array_push($plans, [
-                    'plan'    => $plan,
-                    'product' => $product,
-                ]);
+                if ($product['active']) {
+                    array_push($plans, [
+                        'plan'    => $plan,
+                        'product' => $product,
+                    ]);
+                }
             }
         }
 
@@ -246,7 +250,7 @@ class StripeService
         $plan = $this->stripe->plans()->create([
             'id'       => Str::slug($plan['name']),
             'amount'   => $plan['price'],
-            'currency' => 'USD',
+            'currency' => config('cashier.currency'),
             'interval' => 'month',
             'product'  => $product['id'],
         ]);

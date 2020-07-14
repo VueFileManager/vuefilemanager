@@ -54,8 +54,8 @@
 
                 <div>
                     <i18n path="page_registration.agreement" tag="p" class="legal-agreement">
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">Terms of Service</router-link>
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">Privacy Policy</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">{{ termsOfService.title }}</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">{{ privacyPolicy.title }}</router-link>
                     </i18n>
                     <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
@@ -93,6 +93,16 @@
         },
         computed: {
             ...mapGetters(['config']),
+            privacyPolicy() {
+                return this.config.legal.find(legal => {
+                    return legal.slug === 'privacy-policy'
+                })
+            },
+            termsOfService() {
+                return this.config.legal.find(legal => {
+                    return legal.slug === 'terms-of-service'
+                })
+            },
         },
         data() {
             return {

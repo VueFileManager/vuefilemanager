@@ -34,7 +34,7 @@ class PageSeeder extends Seeder
         ]);
 
         $columns->each(function ($page) {
-            Page::create($page);
+            Page::updateOrCreate($page);
         });
     }
 }

@@ -11,7 +11,7 @@
 
             <ValidationObserver @submit.prevent="stripeCredentialsSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="form block-form">
                 <InfoBox>
-                    <p>If you don’t have stripe account, please <a href="#" target="_blank">register here</a> and get your Publishable Key, Secret Key and create your webhook.</p>
+                    <p>If you don’t have stripe account, please <a href="https://dashboard.stripe.com/register" target="_blank">register here</a> and get your Publishable Key, Secret Key and create your webhook.</p>
                 </InfoBox>
 
                 <FormLabel>Stripe Setup</FormLabel>
@@ -19,7 +19,7 @@
                 <div class="block-wrapper">
                     <label>Stripe Currency:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Currency" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="stripeCredentials.currency" :options="currencyList" default="mysql" placeholder="Select your Stripe currency" :isError="errors[0]"/>
+                        <SelectInput v-model="stripeCredentials.currency" :options="currencyList" placeholder="Select your Stripe currency" :isError="errors[0]"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -687,6 +687,9 @@
 
                         // End loading
                         this.isLoading = false
+
+                        // Store Stripe Public
+                        this.$store.commit('SET_STRIPE_PUBLIC_KEY', this.stripeCredentials.key)
 
                         // Redirect to next step
                         this.$router.push({name: 'BillingsDetail'})

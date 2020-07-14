@@ -31,7 +31,15 @@
                     </a>
                 </div>
             </div>
-            <div class="widgets-total">
+
+            <!--Stripe notice-->
+            <InfoBox v-if="! config.stripe_public_key" class="dashboard-notice">
+                <i18n path="notice.stripe_activation">
+                    <router-link :to="{name: 'AppPayments'}">{{ $t('notice.stripe_activation_button') }}</router-link>
+                </i18n>
+            </InfoBox>
+
+            <div class="widgets-total" :class="{'widgets-coll-3': config.isSaaS, 'widgets-coll-2': ! config.isSaaS}">
                 <WidgetTotals
                         class="widget"
                         icon="users"
@@ -82,6 +90,7 @@
     import SectionTitle from '@/components/Others/SectionTitle'
     import WidgetTotals from '@/components/Admin/WidgetTotals'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
@@ -104,6 +113,7 @@
             PageHeader,
             ButtonBase,
             ColorLabel,
+            InfoBox,
             Spinner,
         },
         computed: {
@@ -136,10 +146,21 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 
+    .dashboard-notice {
+        margin-bottom: 20px;
+    }
+
     .widgets-total {
-        display: flex;
-        flex: 0 0 33%;
+        display: grid;
         margin: 0 -20px 20px;
+
+        &.widgets-coll-2 {
+            grid-template-columns: repeat(auto-fill, 50%);
+        }
+
+        &.widgets-coll-3 {
+            grid-template-columns: repeat(auto-fill, 33%);
+        }
 
         .widget {
             width: 100%;
@@ -212,10 +233,22 @@
         }
     }
 
+    @media only screen and (max-width: 1024px) {
+        .widgets-total {
+
+            &.widgets-coll-2, &.widgets-coll-3 {
+                grid-template-columns: repeat(auto-fill, 50%);
+            }
+        }
+    }
+
     @media only screen and (max-width: 960px) {
 
         .widgets-total {
-            display: block;
+
+            &.widgets-coll-2, &.widgets-coll-3 {
+                grid-template-columns: repeat(auto-fill, 100%);
+            }
         }
 
         .became-backer {

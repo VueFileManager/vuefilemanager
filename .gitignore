@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /storage/*.index
+/storage/framework/cache
 /vendor
 .idea
 .env

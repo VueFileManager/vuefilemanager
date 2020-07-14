@@ -76,9 +76,9 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Storage Limitation:</label>
+                                <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.</small>
                             </div>
                             <SwitchInput v-model="app.storageLimitation" class="switch" :state="app.storageLimitation"/>
-                            <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.</small>
                         </div>
                     </div>
                 </div>
@@ -153,14 +153,14 @@
             return {
                 isLoading: false,
                 app: {
-                    title: '',
-                    description: '',
+                    title: 'VueFileManager',
+                    description: 'The best app',
                     logo: undefined,
                     logo_horizontal: undefined,
                     favicon: undefined,
-                    contactMail: '',
+                    contactMail: 'howdy@hi5ve.digital',
                     googleAnalytics: '',
-                    defaultStorage: '',
+                    defaultStorage: '5',
                     userRegistration: 1,
                     storageLimitation: 1,
                 },
@@ -184,10 +184,14 @@
                 formData.append('title', this.app.title)
                 formData.append('description', this.app.description)
                 formData.append('contactMail', this.app.contactMail)
-                formData.append('googleAnalytics', this.app.googleAnalytics)
-                formData.append('defaultStorage', this.app.defaultStorage)
-                formData.append('userRegistration', this.app.userRegistration)
-                formData.append('storageLimitation', this.app.storageLimitation)
+                formData.append('userRegistration', Boolean(this.app.userRegistration) ? 1 : 0)
+                formData.append('storageLimitation', Boolean(this.app.storageLimitation) ? 1 : 0)
+
+                if (this.app.googleAnalytics)
+                    formData.append('googleAnalytics', this.app.googleAnalytics)
+
+                if (this.app.defaultStorage)
+                    formData.append('defaultStorage', this.app.defaultStorage)
 
                 if (this.app.logo)
                     formData.append('logo', this.app.logo)

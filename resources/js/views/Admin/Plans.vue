@@ -1,5 +1,7 @@
 <template>
     <div id="single-page">
+
+        <!--Page Content-->
         <div id="page-content" v-if="! isLoading && plans.length > 0">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
@@ -62,17 +64,30 @@
             </div>
         </div>
 
+        <!--Empty plans-->
         <EmptyPageContent
-                v-if="! isLoading && plans.length === 0"
+                v-if="! isLoading && plans.length === 0 && config.stripe_public_key"
                 icon="file"
                 :title="$t('admin_page_plans.empty.title')"
                 :description="$t('admin_page_plans.empty.description')"
         >
-            <router-link :to="{name: 'PlanCreate'}">
+            <router-link :to="{name: 'PlanCreate'}" tag="p">
                 <ButtonBase button-style="theme">{{ $t('admin_page_plans.empty.button') }}</ButtonBase>
             </router-link>
         </EmptyPageContent>
 
+        <!--Stripe Not Configured-->
+        <EmptyPageContent
+                v-if="! config.stripe_public_key"
+                icon="settings"
+                :title="$t('activation.stripe.title')"
+        >
+            <router-link :to="{name: 'AppPayments'}">
+                <ButtonBase button-style="theme">{{ $t('activation.stripe.button') }}</ButtonBase>
+            </router-link>
+        </EmptyPageContent>
+
+        <!--Spinner-->
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>
@@ -91,6 +106,7 @@
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
+    import { mapGetters } from 'vuex'
     import axios from 'axios'
 
     export default {
@@ -112,7 +128,7 @@
         data() {
             return {
                 isLoading: true,
-                plans: undefined,
+                plans: [],
                 columns: [
                     {
                         label: this.$t('admin_page_plans.table.status'),
@@ -146,17 +162,24 @@
                 ],
             }
         },
+        computed: {
+            ...mapGetters(['config']),
+        },
         methods: {
             changeStatus(val, id) {
                 this.$updateText('/plans/' + id + '/update', 'is_active', val)
             }
         },
         created() {
-            axios.get('/api/plans')
-                .then(response => {
-                    this.plans = response.data.data
-                    this.isLoading = false
-                })
+            if (this.config.stripe_public_key) {
+                axios.get('/api/plans')
+                    .then(response => {
+                        this.plans = response.data.data
+                        this.isLoading = false
+                    })
+            } else {
+                this.isLoading = false
+            }
         }
     }
 </script>

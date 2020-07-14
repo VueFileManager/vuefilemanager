@@ -126,47 +126,11 @@ class SetupWizardController extends Controller
             'value' => 1,
         ]);
 
-        return response('Done', 200);
-    }
-
-    /**
-     * Migrate database and generate necessary things
-     */
-    private function set_up_application()
-    {
-        // Generate app key
-        Artisan::call('key:generate');
-
-        // Migrate database
-        Artisan::call('migrate:fresh');
-
-        // Create Passport Keys
-        Artisan::call('passport:keys', [
-            '--force' => true
-        ]);
-
-        // Create Password grant client
-        Artisan::call('passport:client', [
-            '--password' => true,
-            '--name'     => 'vuefilemanager',
-        ]);
-
-        // Create Personal access client
-        Artisan::call('passport:client', [
-            '--personal' => true,
-            '--name'     => 'shared',
-        ]);
-
-        // Get generated client
-        $client = \DB::table('oauth_clients')->where('name', '=', 'vuefilemanager')->first();
-
-        // Set passport client to .env
-        setEnvironmentValue('PASSPORT_CLIENT_ID', $client->id);
-        setEnvironmentValue('PASSPORT_CLIENT_SECRET', $client->secret);
-
         // Clear cache
-        Artisan::call('config:clear');
-        //Artisan::call('config:cache');
+        //Artisan::call('config:clear');
+        Artisan::call('config:cache');
+
+        return response('Done', 200);
     }
 
     /**
@@ -203,6 +167,11 @@ class SetupWizardController extends Controller
             ],
         ]);
 
+        // Store options
+        $settings->each(function ($col) {
+            Setting::updateOrCreate(['name' => $col['name']], $col);
+        });
+
         // Set stripe credentials to .env
         setEnvironmentValue('CASHIER_CURRENCY', $request->currency);
         setEnvironmentValue('STRIPE_KEY', $request->key);
@@ -210,7 +179,7 @@ class SetupWizardController extends Controller
         setEnvironmentValue('STRIPE_WEBHOOK_SECRET', $request->webhookSecret);
 
         // Clear cache
-        Artisan::call('config:clear');
+        Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -265,8 +234,8 @@ class SetupWizardController extends Controller
         });
 
         // Clear cache
-        Artisan::call('config:clear');
-        //Artisan::call('config:cache');
+        //Artisan::call('config:clear');
+        Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -302,7 +271,9 @@ class SetupWizardController extends Controller
                 ],
             ]);
 
-        } else if ($storage_driver === 's3') {
+        }
+
+        if ($storage_driver === 's3') {
 
             $storage = collect([
                 [
@@ -327,7 +298,9 @@ class SetupWizardController extends Controller
                 ],
             ]);
 
-        } else if ($storage_driver === 'spaces') {
+        }
+
+        if ($storage_driver === 'spaces') {
 
             $storage = collect([
                 [
@@ -356,7 +329,9 @@ class SetupWizardController extends Controller
                 ],
             ]);
 
-        } else if ($storage_driver === 'wasabi') {
+        }
+
+        if ($storage_driver === 'wasabi') {
 
             $storage = collect([
                 [
@@ -385,7 +360,9 @@ class SetupWizardController extends Controller
                 ],
             ]);
 
-        } else if ($storage_driver === 'backblaze') {
+        }
+
+        if ($storage_driver === 'backblaze') {
 
             $storage = collect([
                 [
@@ -415,7 +392,7 @@ class SetupWizardController extends Controller
             ]);
         }
 
-        // Store storage driver options
+        // Store storage options
         $storage->each(function ($col) {
             setEnvironmentValue($col['name'], $col['value']);
         });
@@ -454,7 +431,7 @@ class SetupWizardController extends Controller
         });
 
         // Clear cache
-        Artisan::call('config:clear');
+        Artisan::call('config:cache');
 
         return response('Done', 200);
     }
@@ -517,11 +494,11 @@ class SetupWizardController extends Controller
             ],
             [
                 'name'  => 'storage_limitation',
-                'value' => $request->storageLimitation ? $request->storageLimitation : 5,
+                'value' => $request->storageLimitation,
             ],
             [
                 'name'  => 'storage_default',
-                'value' => $request->defaultStorage,
+                'value' => $request->defaultStorage ? $request->defaultStorage : 5,
             ],
         ]);
 
@@ -557,7 +534,7 @@ class SetupWizardController extends Controller
         }
 
         // Create user
-        $user = User::create([
+        $user = User::forceCreate([
             'avatar'   => $request->hasFile('avatar') ? $avatar : null,
             'name'     => $request->name,
             'role'     => 'admin',
@@ -575,20 +552,20 @@ class SetupWizardController extends Controller
         ]);
 
         // Store setup wizard progress
-        Setting::create([
+        Setting::updateOrCreate([
             'name'  => 'setup_wizard_success',
             'value' => 1,
         ]);
 
         // Store License
-        Setting::create([
+        Setting::updateOrCreate([
             'name'  => 'license',
             'value' => $request->license,
         ]);
 
         // Store Purchase Code
-        Setting::create([
-            'name'  => 'license',
+        Setting::updateOrCreate([
+            'name'  => 'purchase_code',
             'value' => $request->purchase_code,
         ]);
 
@@ -610,6 +587,42 @@ class SetupWizardController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Migrate database and generate necessary things
+     */
+    private function set_up_application()
+    {
+        // Generate app key
+        Artisan::call('key:generate');
+
+        // Migrate database
+        Artisan::call('migrate:fresh');
+
+        // Create Passport Keys
+        Artisan::call('passport:keys', [
+            '--force' => true
+        ]);
+
+        // Create Password grant client
+        Artisan::call('passport:client', [
+            '--password' => true,
+            '--name'     => 'vuefilemanager',
+        ]);
+
+        // Create Personal access client
+        Artisan::call('passport:client', [
+            '--personal' => true,
+            '--name'     => 'shared',
+        ]);
+
+        // Get generated client
+        $client = \DB::table('oauth_clients')->where('name', '=', 'vuefilemanager')->first();
+
+        // Set passport client to .env
+        setEnvironmentValue('PASSPORT_CLIENT_ID', $client->id);
+        setEnvironmentValue('PASSPORT_CLIENT_SECRET', $client->secret);
     }
 
     /**

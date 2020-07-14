@@ -1,5 +1,7 @@
 <template>
     <div id="single-page">
+
+        <!--Page Content-->
         <div id="page-content" v-if="! isLoading && invoices.length > 0">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
@@ -52,13 +54,28 @@
                 </DatatableWrapper>
             </div>
         </div>
+
+        <!--Empty invoices-->
         <EmptyPageContent
-                v-if="! isLoading && invoices.length === 0"
+                v-if="! isLoading && invoices.length === 0 && config.stripe_public_key"
                 icon="file-text"
                 :title="$t('admin_page_invoices.empty.title')"
                 :description="$t('admin_page_invoices.empty.description')"
         >
         </EmptyPageContent>
+
+        <!--Stripe Not Configured-->
+        <EmptyPageContent
+                v-if="! config.stripe_public_key"
+                icon="settings"
+                :title="$t('activation.stripe.title')"
+        >
+            <router-link :to="{name: 'AppPayments'}">
+                <ButtonBase button-style="theme">{{ $t('activation.stripe.button') }}</ButtonBase>
+            </router-link>
+        </EmptyPageContent>
+
+        <!--Spinner-->
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>
@@ -78,6 +95,7 @@
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
     import {ExternalLinkIcon} from "vue-feather-icons";
+    import { mapGetters } from 'vuex'
     import axios from 'axios'
 
     export default {
@@ -96,10 +114,13 @@
             ColorLabel,
             Spinner,
         },
+        computed: {
+            ...mapGetters(['config']),
+        },
         data() {
             return {
                 isLoading: true,
-                invoices: undefined,
+                invoices: [],
                 columns: [
                     {
                         label: this.$t('admin_page_invoices.table.number'),
@@ -134,11 +155,15 @@
             }
         },
         created() {
-            axios.get('/api/invoices')
-                .then(response => {
-                    this.invoices = response.data.data
-                    this.isLoading = false
-                })
+            if (this.config.stripe_public_key) {
+                axios.get('/api/invoices')
+                    .then(response => {
+                        this.invoices = response.data.data
+                        this.isLoading = false
+                    })
+            } else {
+                this.isLoading = false
+            }
         }
     }
 </script>

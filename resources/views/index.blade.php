@@ -53,7 +53,7 @@
             isSaaS: {{ isset($settings->license) && $settings->license === 'Extended' ? 1 : 0 }},
             isDemo: {{ env('APP_DEMO') ? 1 : 0 }},
 
-            legal: {!! $legal !!},
+            legal: {!! isset($legal) ? $legal : 'undefined' !!},
 
             installation: '{{ $installation }}',
         }

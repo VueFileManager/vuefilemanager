@@ -123,7 +123,7 @@ class FileManagerFile extends Model
         }
 
         // Get thumbnail from local storage
-        if ($this->attributes['thumbnail'] && is_storage_driver('local')) {
+        if ($this->attributes['thumbnail']) {
 
             // Thumbnail route
             $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
@@ -160,16 +160,13 @@ class FileManagerFile extends Model
         }
 
         // Get thumbnail from local storage
-        if (is_storage_driver('local')) {
+        $route = route('file', ['name' => $this->attributes['basename']]);
 
-            $route = route('file', ['name' => $this->attributes['basename']]);
-
-            if ($this->public_access) {
-                return $route . '/public/' . $this->public_access;
-            }
-
-            return $route;
+        if ($this->public_access) {
+            return $route . '/public/' . $this->public_access;
         }
+
+        return $route;
     }
 
     /**

@@ -4,6 +4,7 @@
             <div class="icon">
                 <file-icon v-if="icon === 'file'" size="38"></file-icon>
                 <file-text-icon v-if="icon === 'file-text'" size="38"></file-text-icon>
+                <settings-icon v-if="icon === 'settings'" size="38"></settings-icon>
             </div>
             <div class="header">
                 <h1 class="title">{{ title }}</h1>
@@ -15,12 +16,13 @@
 </template>
 
 <script>
-    import { FileIcon, FileTextIcon } from 'vue-feather-icons'
+    import { FileIcon, FileTextIcon, SettingsIcon } from 'vue-feather-icons'
 
     export default {
         name: 'EmptyPageContent',
         props: ['icon','title','description'],
         components: {
+            SettingsIcon,
             FileTextIcon,
             FileIcon,
         }
@@ -41,10 +43,14 @@
         .content {
             margin: 0 auto;
             max-width: 360px;
+
+            /deep/ .button-base {
+                margin: 0 auto;
+            }
         }
 
         .icon {
-            path, polyline, line {
+            path, polyline, line, circle {
                 stroke: $theme;
             }
         }

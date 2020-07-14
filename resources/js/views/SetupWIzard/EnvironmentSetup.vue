@@ -197,12 +197,12 @@
                     bucket: '',
                 },
                 mail: {
-                    driver: '',
-                    host: '',
-                    port: '',
-                    username: '',
-                    password: '',
-                    encryption: '',
+                    driver: 'smtp',
+                    host: 'smtp.websupport.sk',
+                    port: '25',
+                    username: 'vuefilemanager@hi5ve.digital',
+                    password: 'Yl2d]kET>)',
+                    encryption: 'tls',
                 }
             }
         },

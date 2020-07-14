@@ -7,6 +7,12 @@
 		"share": "Zdieľať položku",
 		"upload": "Nahrať súbory"
 	},
+	"activation": {
+		"stripe": {
+			"button": "Nastaviť účet Stripe",
+			"title": "Váš účet Stripe nie je nastavený"
+		}
+	},
 	"admin_menu": {
 		"dashboard": "Prehľad",
 		"invoices": "Faktúry",
@@ -216,9 +222,21 @@
 		},
 		"payments": {
 			"allow_payments": "Povoliť platby za plány",
+			"button_submit": "Otestovať a uložiť Stripe",
+			"button_testing": "Testovanie Stripe pripojenia",
 			"credentials_disclaimer": "Vaše poverenia v službe Stripe sa nezobrazujú, pretože tieto hodnoty sú tajné a nesmie ich odhaliť cudzinec. Svoje poverenia v službe Stripe môžete zmeniť v súbore <b>.env</b> aplikácie.",
 			"section_payments": "Stripe platby",
-			"webhook_url": "Stripe webhook URL"
+			"stripe_create_acc": "Ak nemáte účet Stripe, <a href=\"https://dashboard.stripe.com/register\" target=\"_blank\">zaregistrujte sa tu</a> a získajte svoj publikovateľný kľúč, tajný kľúč a vytvorte Stripe webhook.",
+			"stripe_create_webhook": "",
+			"stripe_currency": "Stripe Mena",
+			"stripe_currency_plac": "Vyberte Stripe menu",
+			"stripe_pub_key": "Verejný kľúč",
+			"stripe_pub_key_plac": "Vložte Váš verejný kľúč",
+			"stripe_sec_key": "Tajný kľúč",
+			"stripe_sec_key_plac": "Vložte Váš tajný kľúč",
+			"stripe_setup": "Stripe nastavenia",
+			"stripe_webhook_key_plac": "Vložte Váš Stripe webhook tajný kľúč",
+			"webhook_url": "Stripe webhook URL adresa"
 		},
 		"tabs": {
 			"appearance": "Vzhľad",
@@ -326,6 +344,23 @@
 		"nothing_from_participants": "Zatiaľ nemáš žiadné súbory od ostatných uživateľov",
 		"nothing_to_preview": "Tu nie je nič pre zobrazenie.",
 		"nothing_was_found": "Nič sa nenašlo."
+	},
+	"notice": {
+		"stripe_activation": "Váš účet Stripe nie je nastavený. Pre spoplatňovanie používateľov prosím {0}.",
+		"stripe_activation_button": "nastavte účet Stripe"
+	},
+	"page_contact_us": {
+		"description": "Máte nejaké otázky? Spojte sa s nami.",
+		"error_message": "Niečo sa pokazilo, skúste to znova.",
+		"form": {
+			"email": "E-mail",
+			"email_plac": "Zadajte svoj e-mail",
+			"message": "Správa",
+			"message_plac": "Sem napíšte správu...",
+			"submit_button": "Odoslať správu"
+		},
+		"success_message": "Vaša správa bola úspešne odoslaná.",
+		"title": "Kontaktujte nás"
 	},
 	"page_create_password": {
 		"button_update": "Aktualizovať heslo",
@@ -614,7 +649,8 @@
 		"created_user": "Úspešne ste vytvorili uživateľa!",
 		"email_set": "Vaše nastavenia e-mailu boli úspešne aktualizované",
 		"plan_created": "Váš plán bol úspešne vytvorený!",
-		"sended_password": "Úspešne ste odoslali email uživateľovi pre reset hesla!"
+		"sended_password": "Úspešne ste odoslali email uživateľovi pre reset hesla!",
+		"stripe_set": "Váš účet Stripe bol úspešne nastavený!"
 	},
 	"types": {
 		"file": "Súbor",

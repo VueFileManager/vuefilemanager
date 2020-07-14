@@ -18,7 +18,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'AppIndex'}" class="menu-list-item link">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'AppIndex'}" class="menu-list-item link">
                         <div class="icon">
                             <book-icon size="17"></book-icon>
                         </div>

@@ -59,7 +59,7 @@
         </PageTabGroup>
 
         <!--Billing Information-->
-        <PageTabGroup>
+        <PageTabGroup v-if="config.isSaaS">
             <div class="form block-form">
                 <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
 
@@ -167,7 +167,7 @@
             required,
         },
         computed: {
-            ...mapGetters(['roles']),
+            ...mapGetters(['roles', 'config']),
         },
         data() {
             return {

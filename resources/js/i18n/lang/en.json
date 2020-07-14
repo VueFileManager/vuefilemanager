@@ -7,6 +7,12 @@
 		"share": "Share item",
 		"upload": "Upload file"
 	},
+	"activation": {
+		"stripe": {
+			"button": "Set up your Stripe account",
+			"title": "Your Stripe account is not set"
+		}
+	},
 	"admin_menu": {
 		"dashboard": "Dashboard",
 		"invoices": "Invoices",
@@ -216,8 +222,20 @@
 		},
 		"payments": {
 			"allow_payments": "Allow Subscription Payments",
+			"button_submit": "Test and Save Stripe",
+			"button_testing": "Testing Stripe Connection",
 			"credentials_disclaimer": "Your Stripe credentials is not showed because these values are secret and must not be revealed by stranger. You can change your Stripe credentials in your <b>.env</b> file.",
 			"section_payments": "Stripe Payments",
+			"stripe_create_acc": "If you don’t have stripe account, please <a href=\"https://dashboard.stripe.com/register\" target=\"_blank\">register here</a> and get your Publishable Key, Secret Key and create your webhook.",
+			"stripe_create_webhook": "You have to create webhook endpoint in your Stripe Dashboard. You can find it in <b>Dashboard -> Developers -> Webhooks -> Add Endpoint</b>. In Endpoint URL please copy and paste url bellow. Make sure, this url is your public domain, not localhost. In events section, please click on <b>receive all events</b>. That's all.",
+			"stripe_currency": "Stripe Currency",
+			"stripe_currency_plac": "Select your Stripe currency",
+			"stripe_pub_key": "Publishable Key",
+			"stripe_pub_key_plac": "Paste your publishable key",
+			"stripe_sec_key": "Secret Key",
+			"stripe_sec_key_plac": "Paste your secret key",
+			"stripe_setup": "Stripe Setup",
+			"stripe_webhook_key_plac": "Paste your stripe webhook secret",
 			"webhook_url": "Stripe webhook URL"
 		},
 		"tabs": {
@@ -326,6 +344,23 @@
 		"nothing_from_participants": "You don't have any uploads from other users.",
 		"nothing_to_preview": "There is nothing to preview.",
 		"nothing_was_found": "Nothing was found."
+	},
+	"notice": {
+		"stripe_activation": "Your Stripe account is not set. To charging your users please {0}.",
+		"stripe_activation_button": "set up your Stripe account"
+	},
+	"page_contact_us": {
+		"description": "Do you have any questions? Get in touch with us.",
+		"error_message": "Something went wrong, please try it again.",
+		"form": {
+			"email": "Email",
+			"email_plac": "Type your email",
+			"message": "Message",
+			"message_plac": "Type your message here...",
+			"submit_button": "Send Message"
+		},
+		"success_message": "Your message was send successfully.",
+		"title": "Contact Us"
 	},
 	"page_create_password": {
 		"button_update": "Update Password",
@@ -614,7 +649,8 @@
 		"created_user": "User was created successfully!",
 		"email_set": "Your email settings was updated successfully",
 		"plan_created": "Your plan was successfully created!",
-		"sended_password": "You successfully send user email for reset password!"
+		"sended_password": "You successfully send user email for reset password!",
+		"stripe_set": "Your Stripe account was successfully set!"
 	},
 	"types": {
 		"file": "File",

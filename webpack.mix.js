@@ -23,10 +23,4 @@ mix.js('resources/js/main.js', 'public/js')
             }
         },
     })
-/*    .options({
-        hmrOptions: {
-            host: '172.20.10.5',
-            port: '8080'
-        },
-    })*/
     .disableNotifications();

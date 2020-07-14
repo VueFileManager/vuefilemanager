@@ -92,7 +92,7 @@ class ContentSeeder extends Seeder
         ]);
 
         $columns->each(function ($content) {
-            Setting::create($content);
+            Setting::updateOrCreate($content);
         });
     }
 }

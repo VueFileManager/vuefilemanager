@@ -35,6 +35,10 @@
             line-height: 1.6;
             word-break: break-word;
             font-weight: 600;
+
+            /deep/ a {
+                color: $theme;
+            }
         }
 
         b {

@@ -95,11 +95,11 @@
             return {
                 isLoading: false,
                 admin: {
-                    name: '',
-                    email: '',
+                    name: 'Jane Doe',
+                    email: 'howdy@hi5ve.digital',
                     avatar: undefined,
-                    password: '',
-                    password_confirmation: '',
+                    password: 'vuefilemanager',
+                    password_confirmation: 'vuefilemanager',
                 },
             }
         },
@@ -142,6 +142,10 @@
 
                         // Set login state
                         this.$store.commit('SET_AUTHORIZED', true)
+
+                        if (localStorage.getItem('license') === 'Extended') {
+                            this.$store.commit('SET_SAAS', true)
+                        }
 
                         // Go to files page
                         this.$router.push({name: 'Dashboard'})

@@ -126,11 +126,11 @@
 
             // Redirect to database verify code
             if ( installation === 'setup-database') {
-                //this.$router.push({name: 'PurchaseCode'})
+                this.$router.push({name: 'PurchaseCode'})
 
             // Redirect to starting installation process
             } else if ( installation === 'setup-disclaimer' ) {
-                //this.$router.push({name: 'InstallationDisclaimer'})
+                this.$router.push({name: 'InstallationDisclaimer'})
             }
         },
         mounted() {

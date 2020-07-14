@@ -1,6 +1,6 @@
 <template>
     <!--Folder Icon-->
-    <div class="folder-item-wrapper">
+    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById === nodes.unique_id}">
 
         <div class="folder-item" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
             <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
@@ -9,7 +9,7 @@
             <span class="label">{{ nodes.name }}</span>
         </div>
 
-        <TreeMenu :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.unique_id" />
+        <TreeMenu :disabled-by-id="disabledById" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.unique_id" />
     </div>
 </template>
 
@@ -21,7 +21,7 @@
     export default {
         name: 'TreeMenu',
         props: [
-            'nodes', 'depth'
+            'nodes', 'depth', 'disabledById'
         ],
         components: {
             ChevronRightIcon,
@@ -38,6 +38,7 @@
             return {
                 isVisible: false,
                 isSelected: false,
+                isInactive: false
             }
         },
         methods: {
@@ -49,16 +50,18 @@
                 this.isVisible = ! this.isVisible
             }
         },
-        created() {
+        mounted() {
 
             // Show first location
-            if (this.depth == 1) this.isVisible = true
+            if (this.depth == 1)
+                this.isVisible = true
 
             // Select clicked folder
             events.$on('pick-folder', node => {
                 this.isSelected = false
 
-                if (this.nodes.unique_id == node.unique_id) this.isSelected = true
+                if (this.nodes.unique_id == node.unique_id)
+                    this.isSelected = true
             })
 
             // Select clicked folder
@@ -75,6 +78,11 @@
 <style lang="scss" scoped>
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .is-inactive {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 
     .folder-item {
         user-select: none;

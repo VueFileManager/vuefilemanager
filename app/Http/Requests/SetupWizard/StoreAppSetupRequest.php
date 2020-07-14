@@ -29,8 +29,8 @@ class StoreAppSetupRequest extends FormRequest
             'logo'              => 'sometimes|file',
             'favicon'           => 'sometimes|file',
             'contactMail'       => 'required|email',
-            'googleAnalytics'   => 'required|string',
-            'defaultStorage'    => 'required|digits_between:1,9',
+            'googleAnalytics'   => 'sometimes|string',
+            'defaultStorage'    => 'sometimes|digits_between:1,9',
             'userRegistration'  => 'required|boolean',
             'storageLimitation' => 'required|boolean',
         ];

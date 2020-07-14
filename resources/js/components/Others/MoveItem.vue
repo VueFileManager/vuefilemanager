@@ -12,7 +12,7 @@
             <!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
                 <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="location"/>
-                <TreeMenu :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
+                <TreeMenu :disabled-by-id="pickedItem.unique_id" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
         </PopupContent>
 
@@ -127,5 +127,4 @@
     .item-thumbnail {
         margin-bottom: 20px;
     }
-
 </style>

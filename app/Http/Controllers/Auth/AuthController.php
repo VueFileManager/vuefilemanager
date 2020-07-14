@@ -23,7 +23,6 @@ class AuthController extends Controller
      */
     public function check_account(CheckAccountRequest $request)
     {
-
         // Get User
         $user = User::where('email', $request->input('email'))->select(['name', 'avatar'])->first();
 
@@ -84,10 +83,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $default_storage = Setting::where('name', 'storage_default')->first();
-
         // Create settings
-        $settings = UserSettings::create([
+        UserSettings::forceCreate([
             'user_id'          => $user->id,
             'storage_capacity' => $settings['storage_default'],
         ]);

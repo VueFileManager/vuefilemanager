@@ -67,7 +67,7 @@ class AppFunctionsController extends Controller
 
         return view("index")
             ->with('settings', $settings)
-            ->with('legal', $legal)
+            ->with('legal', isset($legal) ? $legal : null)
             ->with('installation', $connection);
     }
 

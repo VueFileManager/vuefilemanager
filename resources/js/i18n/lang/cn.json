@@ -7,6 +7,12 @@
 		"share": "Share item",
 		"upload": "上传文件"
 	},
+	"activation": {
+		"stripe": {
+			"button": "设置您的Stripe帐户",
+			"title": "您的Stripe帐户尚未设置"
+		}
+	},
 	"admin_menu": {
 		"dashboard": "仪表板",
 		"invoices": "发票",
@@ -216,8 +222,20 @@
 		},
 		"payments": {
 			"allow_payments": "允许订阅付款",
+			"button_submit": "测试并保存条带",
+			"button_testing": "测试条连接",
 			"credentials_disclaimer": "不显示您的Stripe凭据，因为这些值是秘密的，陌生人不得透露。您可以在 <b>.env</b> 文件中更改Stripe凭据。",
 			"section_payments": "条纹付款",
+			"stripe_create_acc": "如果您没有带区帐户，请 <a href=\"https://dashboard.stripe.com/register\" target=\"_blank\">在</a> 这里注册并获取您的可发布密钥，秘密密钥并创建您的网络挂钩。",
+			"stripe_create_webhook": "",
+			"stripe_currency": "Stripe Currency",
+			"stripe_currency_plac": "Select your Stripe currency",
+			"stripe_pub_key": "Publishable Key",
+			"stripe_pub_key_plac": "Paste your publishable key",
+			"stripe_sec_key": "Secret Key",
+			"stripe_sec_key_plac": "Paste your secret key",
+			"stripe_setup": "Stripe Setup",
+			"stripe_webhook_key_plac": "Paste your stripe webhook secret",
 			"webhook_url": "Stripe webhook URL"
 		},
 		"tabs": {
@@ -326,6 +344,23 @@
 		"nothing_from_participants": "You don't have any uploads from other users.",
 		"nothing_to_preview": "没有任何信息可以预览。",
 		"nothing_was_found": "没找到任何信息。"
+	},
+	"notice": {
+		"stripe_activation": "您的Stripe帐户尚未设置。要向您的用户收费，请 {0}。",
+		"stripe_activation_button": "设置您的Stripe帐户"
+	},
+	"page_contact_us": {
+		"description": "你有任何问题吗？请与我们联系。",
+		"error_message": "出问题了，请重试。",
+		"form": {
+			"email": "电子邮件",
+			"email_plac": "输入您的电子邮件",
+			"message": "信息",
+			"message_plac": "在这里输入你的消息...",
+			"submit_button": "发信息"
+		},
+		"success_message": "您的消息已成功发送。",
+		"title": "联系我们"
 	},
 	"page_create_password": {
 		"button_update": "更新密码",
@@ -614,7 +649,8 @@
 		"created_user": "User was created successfully!",
 		"email_set": "您的电子邮件设置已成功更新",
 		"plan_created": "您的计划已成功创建！",
-		"sended_password": "You successfully send user email for reset password!"
+		"sended_password": "You successfully send user email for reset password!",
+		"stripe_set": "您的Stripe帐户已成功设置！"
 	},
 	"types": {
 		"file": "文件",
