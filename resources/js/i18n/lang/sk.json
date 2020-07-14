@@ -10,6 +10,7 @@
 	"activation": {
 		"stripe": {
 			"button": "Nastaviť účet Stripe",
+			"description": "Pre spoplatňovanie Vaších uživateľov, prosím nastavte poverenia služby Stripe",
 			"title": "Váš účet Stripe nie je nastavený"
 		}
 	},
@@ -242,7 +243,7 @@
 			"appearance": "Vzhľad",
 			"billings": "Fakturácia",
 			"email": "E-mail",
-			"others": "Ostatné",
+			"others": "Aplikácia",
 			"payments": "Platby"
 		}
 	},

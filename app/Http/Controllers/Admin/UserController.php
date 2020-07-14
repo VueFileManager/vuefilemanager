@@ -192,7 +192,7 @@ class UserController extends Controller
         ]);
 
         // Create settings
-        $settings = UserSettings::forceCreate([
+        UserSettings::forceCreate([
             'user_id'          => $user->id,
             'storage_capacity' => $request->storage_capacity,
         ]);

@@ -69,6 +69,7 @@
                 v-if="! config.stripe_public_key"
                 icon="settings"
                 :title="$t('activation.stripe.title')"
+                :description="$t('activation.stripe.description')"
         >
             <router-link :to="{name: 'AppPayments'}">
                 <ButtonBase button-style="theme">{{ $t('activation.stripe.button') }}</ButtonBase>

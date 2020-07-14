@@ -10,6 +10,7 @@
 	"activation": {
 		"stripe": {
 			"button": "设置您的Stripe帐户",
+			"description": "To charge your users, please set up your Stripe account credentials.",
 			"title": "您的Stripe帐户尚未设置"
 		}
 	},

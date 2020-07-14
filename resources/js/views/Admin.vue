@@ -22,7 +22,7 @@
                             {{ $t('admin_menu.users') }}
                         </div>
                     </router-link>
-                    <router-link :to="{name: 'AppAppearance'}" class="menu-list-item link">
+                    <router-link :to="{name: 'AppOthers'}" class="menu-list-item link">
                         <div class="icon">
                             <settings-icon size="17"></settings-icon>
                         </div>

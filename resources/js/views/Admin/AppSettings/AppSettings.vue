@@ -8,6 +8,16 @@
 
                 <!--Page Tab links-->
                 <div class="menu-list-wrapper horizontal">
+                    <router-link replace :to="{name: 'AppOthers'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <settings-icon size="17"></settings-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('admin_settings.tabs.others') }}
+                        </div>
+                    </router-link>
+
                     <router-link replace :to="{name: 'AppAppearance'}"
                                  class="menu-list-item link">
                         <div class="icon">
@@ -15,15 +25,6 @@
                         </div>
                         <div class="label">
                             {{ $t('admin_settings.tabs.appearance') }}
-                        </div>
-                    </router-link>
-
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'AppIndex'}" class="menu-list-item link">
-                        <div class="icon">
-                            <book-icon size="17"></book-icon>
-                        </div>
-                        <div class="label">
-                            Index
                         </div>
                     </router-link>
 
@@ -37,16 +38,6 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'AppEmail'}"
-                                 class="menu-list-item link">
-                        <div class="icon">
-                            <mail-icon size="17"></mail-icon>
-                        </div>
-                        <div class="label">
-                            {{ $t('admin_settings.tabs.email') }}
-                        </div>
-                    </router-link>
-
                     <router-link v-if="config.isSaaS" replace :to="{name: 'AppPayments'}"
                                  class="menu-list-item link">
                         <div class="icon">
@@ -57,13 +48,22 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'AppOthers'}"
-                                 class="menu-list-item link">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'AppIndex'}" class="menu-list-item link">
                         <div class="icon">
-                            <code-icon size="17"></code-icon>
+                            <home-icon size="17"></home-icon>
                         </div>
                         <div class="label">
-                            {{ $t('admin_settings.tabs.others') }}
+                            Homepage
+                        </div>
+                    </router-link>
+
+                    <router-link replace :to="{name: 'AppEmail'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <mail-icon size="17"></mail-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('admin_settings.tabs.email') }}
                         </div>
                     </router-link>
                 </div>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, BookIcon} from 'vue-feather-icons'
+    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, HomeIcon} from 'vue-feather-icons'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
@@ -85,7 +85,7 @@
     export default {
         name: 'AppSettings',
         components: {
-            BookIcon,
+            HomeIcon,
             CreditCardIcon,
             CodeIcon,
             MailIcon,

@@ -6,11 +6,11 @@
         </router-link>
         <div class="navigation">
             <ul class="navigation-links">
-                <li>
+                <!--<li v-if="config.stripe_public_key">
                     <a href="/#pricing">
                         {{ $t('page_index.menu.pricing') }}
                     </a>
-                </li>
+                </li>-->
                 <li>
                     <router-link :to="{name: 'ContactUs'}">
                         {{ $t('page_index.menu.contact_us') }}
@@ -42,7 +42,7 @@
     export default {
         name: 'IndexNavigation',
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters(['config', 'index']),
         },
     }
 </script>

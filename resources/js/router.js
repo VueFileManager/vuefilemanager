@@ -63,6 +63,9 @@ import UserPassword from './views/Admin/Users/UserTabs/UserPassword'
 import UserInvoices from './views/Admin/Users/UserTabs/UserInvoices'
 import UserSubscription from './views/Admin/Users/UserTabs/UserSubscription'
 
+// Upgrade
+import Upgrade from './views/Upgrade'
+
 // Setup Wizard
 import SetupWizard from './views/SetupWizard'
 import Database from './views/SetupWizard/Database'
@@ -515,6 +518,14 @@ const routesUser = [
     },
 ]
 const routesMaintenance = [
+    {
+        name: 'Upgrade',
+        path: '/upgrade',
+        component: Upgrade,
+        meta: {
+            requiresAuth: false
+        },
+    },
     {
         name: 'SetupWizard',
         path: '/install',

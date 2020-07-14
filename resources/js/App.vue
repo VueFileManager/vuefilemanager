@@ -93,6 +93,7 @@
                     'ContactUs',
                     'AppSetup',
                     'Database',
+                    'Upgrade',
                     'SignIn',
                     'SignUp',
                     ], this.$route.name)
@@ -127,9 +128,10 @@
             // Redirect to database verify code
             if ( installation === 'setup-database') {
                 this.$router.push({name: 'PurchaseCode'})
+            }
 
             // Redirect to starting installation process
-            } else if ( installation === 'setup-disclaimer' ) {
+            if ( installation === 'setup-disclaimer' ) {
                 this.$router.push({name: 'InstallationDisclaimer'})
             }
         },

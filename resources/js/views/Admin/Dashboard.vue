@@ -15,7 +15,7 @@
                             {{ data.app_version }}
                         </ColorLabel>
                     </a>
-                    <a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank" class="meta">
+                    <a v-if="data.license" href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank" class="meta">
                         <span class="meta-title">{{ $t('admin_page_dashboard.license') }}:</span>
                         <ColorLabel color="purple">
                             {{ data.license }}
@@ -33,7 +33,7 @@
             </div>
 
             <!--Stripe notice-->
-            <InfoBox v-if="! config.stripe_public_key" class="dashboard-notice">
+            <InfoBox v-if="config.isSaaS && ! config.stripe_public_key" class="dashboard-notice">
                 <i18n path="notice.stripe_activation">
                     <router-link :to="{name: 'AppPayments'}">{{ $t('notice.stripe_activation_button') }}</router-link>
                 </i18n>

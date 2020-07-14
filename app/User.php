@@ -123,9 +123,11 @@ class User extends Authenticatable
     {
         // Get storage limitation setup
         $storage_limitation = get_setting('storage_limitation');
+        $is_storage_limit = $storage_limitation ? $storage_limitation : 1;
 
         // Get user storage usage
-        if (!$storage_limitation) {
+        if (! $is_storage_limit) {
+
             return [
                 'used' => $this->used_capacity,
                 'used_formatted' => Metric::bytes($this->used_capacity)->format(),

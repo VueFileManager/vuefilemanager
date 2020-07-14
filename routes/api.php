@@ -30,6 +30,11 @@ Route::group(['middleware' => ['api'], 'prefix' => 'setup'], function () {
     Route::post('/admin-setup', 'General\SetupWizardController@create_admin_account');
 });
 
+// Upgrade App
+Route::group(['middleware' => ['api'], 'prefix' => 'upgrade'], function () {
+    Route::post('/app', 'General\UpgradeAppController@upgrade');
+});
+
 // Plans
 Route::group(['middleware' => ['api'], 'prefix' => 'public'], function () {
     Route::get('/pricing', 'General\PricingController@index');

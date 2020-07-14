@@ -11,9 +11,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
+/**
+ * Get single value from settings table
+ *
+ * @param $setting
+ * @return |null
+ */
 function get_setting($setting)
 {
-    return Setting::where('name', $setting)->first()->value;
+    $row = Setting::where('name', $setting)->first();
+
+    return $row ? $row->value : null;
 }
 
 /**

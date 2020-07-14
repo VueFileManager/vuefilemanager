@@ -44,7 +44,7 @@ class DashboardController extends Controller
         $license = Setting::where('name', 'license')->first();
 
         return [
-            'license'             => $license->value,
+            'license'             => $license ? $license->value : null,
             'app_version'         => config('vuefilemanager.version'),
             'total_users'         => $total_users,
             'total_used_space'    => Metric::bytes($total_used_space)->format(),

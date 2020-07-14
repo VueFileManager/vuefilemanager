@@ -396,6 +396,6 @@
         margin: 0 auto;
         display: block;
         border-radius: 8px;
-        box-shadow: 0 7px 25px rgba(25, 54, 60, 0.1);
+        border: 1px solid #ececec;
     }
 </style>

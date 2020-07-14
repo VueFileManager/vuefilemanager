@@ -8,13 +8,11 @@ use App\Http\Resources\PageResource;
 use App\Mail\SendSupportForm;
 use App\Page;
 use App\Setting;
+use Artisan;
 use Doctrine\DBAL\Driver\PDOException;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Schema;
 
 class AppFunctionsController extends Controller
 {
@@ -56,9 +54,30 @@ class AppFunctionsController extends Controller
             // Try to connect to database
             \DB::getPdo();
 
-            $connection = $this->get_setup_status();
-            $settings = json_decode(Setting::all()->pluck('value', 'name')->toJson());
-            $legal = Page::whereIn('slug', ['terms-of-service', 'privacy-policy', 'cookie-policy'])->get(['visibility', 'title', 'slug']);
+            // Check settings table
+            $settings_table = Schema::hasTable('settings');
+
+            // If settings table don't exist, then run migrations
+            if (! $settings_table) {
+                Artisan::call('migrate');
+            }
+
+            // Get settings
+            $setup_wizard_success = Setting::where('name', 'setup_wizard_success')->first();
+
+            // Get connection string
+            if (! $setup_wizard_success) {
+                $connection = 'quiet-update';
+            } else {
+                $connection = $this->get_setup_status();
+            }
+
+            // Get all settings
+            $settings = Setting::all();
+
+            // Get legal pages
+            $legal = Page::whereIn('slug', ['terms-of-service', 'privacy-policy', 'cookie-policy'])
+                ->get(['visibility', 'title', 'slug']);
 
         } catch (PDOException $e) {
             $connection = 'setup-database';
@@ -66,9 +85,23 @@ class AppFunctionsController extends Controller
         }
 
         return view("index")
-            ->with('settings', $settings)
+            ->with('settings', $settings ? json_decode($settings->pluck('value', 'name')->toJson()) : null)
             ->with('legal', isset($legal) ? $legal : null)
             ->with('installation', $connection);
+    }
+
+    /**
+     * Check if setup wizard was passed
+     *
+     * @return string
+     */
+    private function get_setup_status(): string
+    {
+        $setup_success = get_setting('setup_wizard_success');
+
+        $connection = boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
+
+        return $connection;
     }
 
     /**
@@ -116,28 +149,14 @@ class AppFunctionsController extends Controller
             $columns = collect(explode('|', $column));
 
             $columns->each(function ($column) {
-                if (! in_array($column, $this->whitelist)) abort(401);
+                if (!in_array($column, $this->whitelist)) abort(401);
             });
 
             return Setting::whereIn('name', $columns)->pluck('value', 'name');
         }
 
-        if (! in_array($column, $this->whitelist)) abort(401);
+        if (!in_array($column, $this->whitelist)) abort(401);
 
         return Setting::where('name', $column)->pluck('value', 'name');
-    }
-
-    /**
-     * Check if setup wizard was passed
-     *
-     * @return string
-     */
-    private function get_setup_status(): string
-    {
-        $setup_success = Setting::where('name', 'setup_wizard_success')->first();
-
-        $connection = $setup_success ? 'setup-done' : 'setup-disclaimer';
-
-        return $connection;
     }
 }
