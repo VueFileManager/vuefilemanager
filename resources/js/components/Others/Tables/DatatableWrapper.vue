@@ -3,7 +3,7 @@
         <table v-if="hasData" class="table">
             <thead class="table-header">
             <tr>
-                <td
+                <th
                         v-for="(column, index) in columns"
                         @click="sort(column.field, column.sortable, index)"
                         :key="index"
@@ -13,7 +13,7 @@
                     <span>{{ column.label }}</span>
 
                     <chevron-up-icon v-if="false" :class="{ 'arrow-down': filter.sort === 'ASC' }" size="14" class="filter-arrow"></chevron-up-icon>
-                </td>
+                </th>
             </tr>
             </thead>
 
@@ -174,12 +174,12 @@
     .table {
         width: 100%;
         border-collapse: collapse;
-        table-layout: fixed;
+        overflow-x: auto;
 
         tr {
             width: 100%;
 
-            td {
+            td, th {
                 &:first-child {
                     padding-left: 15px;
                 }
@@ -195,8 +195,9 @@
             margin-bottom: 10px;
 
             tr {
-                td {
+                td, th {
                     padding: 12px;
+                    text-align: left;
 
                     span {
                         color: $theme;
@@ -245,7 +246,7 @@
                     background: $light_background;
                 }
 
-                td {
+                td, th {
                     padding: 12px;
 
                     &:last-child {
@@ -354,7 +355,7 @@
             .table-header {
 
                 tr {
-                    td {
+                    td, th {
 
                         span {
                             color: $theme;
@@ -364,7 +365,7 @@
             }
 
             .table-body {
-                tr {
+                tr, th {
                     &:hover {
                         background: $dark_mode_foreground;
                     }

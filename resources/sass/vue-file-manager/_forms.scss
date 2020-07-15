@@ -216,6 +216,15 @@ input[type="email"] {
     }
   }
 
+  .single-line-form {
+    display: block;
+
+    .submit-button {
+      margin-left: 0;
+      margin-top: 20px;
+      width: 100%;
+    }
+  }
 
   textarea,
   input[type="password"],

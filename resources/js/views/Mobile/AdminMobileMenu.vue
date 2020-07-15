@@ -51,7 +51,7 @@
                     {
                         icon: 'settings',
                         title: this.$t('admin_menu.settings'),
-                        routeName: 'User',
+                        routeName: 'AppOthers',
                         isVisible: true,
                     },
                 ],
@@ -69,7 +69,7 @@
                         isVisible: true,
                     },
                     {
-                        icon: 'monitor-icon',
+                        icon: 'monitor',
                         title: this.$t('admin_menu.pages'),
                         routeName: 'Pages',
                         isVisible: true,

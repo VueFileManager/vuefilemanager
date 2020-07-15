@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PaymentCardCollection;
 use App\Http\Resources\PaymentCardResource;
 use App\Http\Resources\PaymentDefaultCardResource;
+use App\Http\Tools\Demo;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -85,6 +86,11 @@ class PaymentMethodsController extends Controller
     {
         $user = Auth::user();
 
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
+
         // Update DefaultPayment Method
         $user->updateDefaultPaymentMethod($id);
 
@@ -96,6 +102,8 @@ class PaymentMethodsController extends Controller
             'payment-methods-user-' . $user->id,
             'default-payment-methods-user-' . $user->id
         ]);
+
+        return response('Done', 204);
     }
 
     /**
@@ -105,6 +113,11 @@ class PaymentMethodsController extends Controller
     public function delete($id)
     {
         $user = Auth::user();
+
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
 
         // Get payment method
         $paymentMethod = $user->findPaymentMethod($id);

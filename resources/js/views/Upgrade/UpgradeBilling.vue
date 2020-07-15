@@ -3,15 +3,12 @@
         <div id="page-content" class="large-width center-page" v-show="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <div class="content-page">
-
                 <div class="plan-title">
                     <credit-card-icon size="42" class="title-icon"></credit-card-icon>
                     <h1>{{ $t('page_upgrade_account.title') }}</h1>
                     <h2>{{ $t('page_upgrade_account.desription') }}</h2>
                 </div>
-
                 <div class="order">
-
                     <div class="steps">
 
                         <div class="payment-card">
@@ -19,10 +16,10 @@
 
                             <!-- Pay by new credit card -->
                             <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
-                                <p class="payment-demo-disclaimer">
-                                    For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555555555554444</b> as a card number, <b>11/22</b>
-                                    as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.
-                                </p>
+                                <InfoBox>
+                                    <p>For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555 5555 5555 4444</b> as a card number, <b>11/22</b>
+                                        as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
+                                </InfoBox>
 
                                 <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }"></div>
 
@@ -237,6 +234,7 @@
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import ColorLabel from '@/components/Others/ColorLabel'
     import PageHeader from '@/components/Others/PageHeader'
     import Spinner from '@/components/FilesView/Spinner'
@@ -262,6 +260,7 @@
             FormLabel,
             required,
             Spinner,
+            InfoBox,
         },
         computed: {
             ...mapGetters(['requestedPlan', 'config']),
@@ -509,18 +508,6 @@
         }
     }
 
-    .payment-demo-disclaimer {
-        padding: 15px;
-        background: $light_background;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        line-height: 1.6;
-
-        b {
-            color: $danger;
-        }
-    }
-
     .stripe-card {
         box-sizing: border-box;
         padding: 13px 20px;
@@ -549,6 +536,10 @@
 
         &.StripeElement--webkit-autofill {
             background-color: #fefde5 !important;
+        }
+
+        iframe .InputContainer .InputElement {
+            color: white;
         }
     }
 
@@ -614,6 +605,7 @@
 
     .order {
         display: flex;
+        margin-bottom: 30px;
 
         .steps {
             flex: 0 0 65%;
@@ -648,10 +640,6 @@
             @include font-size(20);
             font-weight: 500;
         }
-    }
-
-    @media only screen and (max-width: 960px) {
-
     }
 
     @media (prefers-color-scheme: dark) {
@@ -712,6 +700,32 @@
                 small {
                     color: $dark_mode_text_secondary;
                 }
+            }
+        }
+
+        .stripe-card {
+            border: 1px solid transparent;
+            //background-color: $dark_mode_foreground;
+            box-shadow: none;
+
+            &.StripeElement--webkit-autofill {
+                background-color: $dark_mode_foreground !important;
+            }
+
+            &.StripeElement--focus {
+                box-shadow: none;
+                border-color: $theme;
+                box-shadow: 0 1px 5px rgba($theme, 0.3);
+            }
+        }
+    }
+
+    @media only screen and (max-width: 960px) {
+        .order {
+            display: block;
+
+            .steps {
+                margin-bottom: 70px;
             }
         }
     }

@@ -5,6 +5,7 @@
 #viewport {
   display: flex;
   height: 100%;
+  width: 100%;
   @include transition(200ms);
   flex: 1;
 }
@@ -325,6 +326,10 @@
 
     #page-content {
       padding-top: 0;
+
+      &.center-page {
+        padding-top: 0;
+      }
     }
   }
 
@@ -332,6 +337,10 @@
     &.horizontal {
       top: 30px;
     }
+  }
+
+  .form-fixed-width {
+    width: 100%;
   }
 }
 

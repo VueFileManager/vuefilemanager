@@ -143,6 +143,12 @@
                             message: this.$t('toaster.email_set'),
                         })
                     })
+                    .catch(() => {
+                        events.$emit('alert:open', {
+                            title: this.$t('popup_error.title'),
+                            message: this.$t('popup_error.message'),
+                        })
+                    })
                     .finally(() => {
 
                         // End loading

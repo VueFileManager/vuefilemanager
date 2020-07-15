@@ -7,6 +7,7 @@ use App\Http\Resources\PlanCollection;
 use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersCollection;
+use App\Http\Tools\Demo;
 use App\Plan;
 use App\Services\StripeService;
 use App\User;
@@ -34,10 +35,8 @@ class PlanController extends Controller
     {
         // Store or Get plans to cache
         if (Cache::has('plans')) {
-
             $plans = Cache::get('plans');
         } else {
-
             $plans = Cache::rememberForever('plans', function () {
                 return $this->stripe->getPlans();
             });
@@ -56,10 +55,8 @@ class PlanController extends Controller
     {
         // Store or Get plan to cache
         if (Cache::has('plan-' . $id)) {
-
             $plan = Cache::get('plan-' . $id);
         } else {
-
             $plan = Cache::rememberForever('plan-' . $id, function () use ($id) {
                 return $this->stripe->getPlan($id);
             });
@@ -76,6 +73,20 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+
+            if (Cache::has('plan-starter-pack')) {
+                $plan = Cache::get('plan-starter-pack');
+            } else {
+                $plan = Cache::rememberForever('plan-starter-pack', function () {
+                    return $this->stripe->getPlan('starter-pack');
+                });
+            }
+
+            return new PlanResource($plan);
+        }
+
         $plan = new PlanResource(
             $this->stripe->createPlan($request)
         );
@@ -95,6 +106,12 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+
+        // Update plan
         $this->stripe->updatePlan($request, $id);
 
         // Clear cached plans
@@ -111,6 +128,12 @@ class PlanController extends Controller
      */
     public function delete($id)
     {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+
+        // Delete plan
         $this->stripe->deletePlan($id);
 
         // Clear cached plans

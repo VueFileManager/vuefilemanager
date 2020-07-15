@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
 use App\Http\Resources\UserSubscription;
+use App\Http\Tools\Demo;
 use App\Invoice;
 use App\Services\StripeService;
 use Auth;
@@ -77,6 +78,11 @@ class SubscriptionController extends Controller
         // Get user
         $user = Auth::user();
 
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
+
         // Forget user subscription
         Cache::forget('subscription-user-' . $user->id);
 
@@ -109,6 +115,11 @@ class SubscriptionController extends Controller
     {
         $user = Auth::user();
 
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
+
         // Cancel subscription
         $user->subscription('main')->cancel();
 
@@ -126,6 +137,11 @@ class SubscriptionController extends Controller
     public function resume()
     {
         $user = Auth::user();
+
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
 
         // Resume subscription
         $user->subscription('main')->resume();

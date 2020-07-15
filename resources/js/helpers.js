@@ -9,7 +9,7 @@ const Helpers = {
 
         Vue.prototype.$updateText = debounce(function (route, name, value) {
 
-            if (value === '') return
+            if (! value || value === '') return
 
             axios.patch(this.$store.getters.api + route, {name, value})
                 .catch(error => {
@@ -18,7 +18,7 @@ const Helpers = {
                         message: this.$t('popup_error.message'),
                     })
                 })
-        }, 300)
+        }, 150)
 
         Vue.prototype.$updateImage = function (route, name, image) {
 

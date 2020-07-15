@@ -82,16 +82,16 @@
     @media (prefers-color-scheme: dark) {
 
         .info-box {
-            background: rgba($yellow, 0.1);
+            background: $dark_mode_foreground;
 
             p {
-                color: $yellow;
+                color: $dark_mode_text_primary;
             }
 
             ul {
 
                 li {
-                    color: $yellow;
+                    color: $dark_mode_text_primary;
                 }
             }
         }

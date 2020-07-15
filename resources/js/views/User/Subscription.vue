@@ -29,7 +29,7 @@
             <!--Info about canceled subscription-->
             <div v-if="subscription.data.attributes.canceled" class="state canceled">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
                     <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
                     <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.canceled_at')" :content="subscription.data.attributes.canceled_at"/>
                     <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.ends_at')" :content="subscription.data.attributes.ends_at"/>
@@ -115,80 +115,89 @@
 
                 // Set confirm button
                 if (!this.isConfirmedCancel) {
-
                     this.isConfirmedCancel = true
-                } else {
-
-                    // Start deleting spinner button
-                    this.isDeleting = true
-                    this.isLoading = true
-
-                    // Send delete request
-                    axios
-                        .post('/api/subscription/cancel')
-                        .then(() => {
-
-                            // Update user data
-                            this.$store.dispatch('getAppData').then(() => {
-                                this.fetchSubscriptionDetail()
-                            })
-
-                            events.$emit('alert:open', {
-                                emoji: '👍',
-                                title: this.$t('popup_subscription_cancel.title'),
-                                message: this.$t('popup_subscription_cancel.message'),
-                                buttonStyle: 'theme',
-                                button: this.$t('popup_subscription_cancel.button')
-                            })
-                        })
-                        .finally(() => {
-
-                            // End deleting spinner button
-                            this.isDeleting = false
-                            this.isLoading = false
-                        })
+                    return
                 }
+
+                // Start deleting spinner button
+                this.isDeleting = true
+                this.isLoading = true
+
+                // Send delete request
+                axios
+                    .post('/api/subscription/cancel')
+                    .then(() => {
+
+                        // Update user data
+                        this.$store.dispatch('getAppData').then(() => {
+                            this.fetchSubscriptionDetail()
+                        })
+
+                        events.$emit('alert:open', {
+                            emoji: '👍',
+                            title: this.$t('popup_subscription_cancel.title'),
+                            message: this.$t('popup_subscription_cancel.message'),
+                            buttonStyle: 'theme',
+                            button: this.$t('popup_subscription_cancel.button')
+                        })
+                    })
+                    .catch(() => {
+                        events.$emit('alert:open', {
+                            title: this.$t('popup_error.title'),
+                            message: this.$t('popup_error.message'),
+                        })
+                    })
+                    .finally(() => {
+
+                        // End deleting spinner button
+                        this.isDeleting = false
+                        this.isLoading = false
+                        this.isConfirmedCancel = false
+                    })
             },
             resumeSubscription() {
 
                 // Set confirm button
-                if (!this.isConfirmedResume) {
-
+                if (! this.isConfirmedResume) {
                     this.isConfirmedResume = true
-                } else {
-
-                    // Start deleting spinner button
-                    this.isResuming = true
-                    this.isLoading = true
-
-                    // Send delete request
-                    axios
-                        .post('/api/subscription/resume')
-                        .then(() => {
-
-                            // Update user data
-                            this.$store.dispatch('getAppData').then(() => {
-                                this.fetchSubscriptionDetail()
-                            })
-
-                            // End deleting spinner button
-                            this.isResuming = false
-
-                            events.$emit('alert:open', {
-                                emoji: '👍',
-                                title: this.$t('popup_subscription_resumed.title'),
-                                message: this.$t('popup_subscription_resumed.message'),
-                                buttonStyle: 'theme',
-                                button: this.$t('popup_subscription_resumed.button')
-                            })
-                        })
-                        .catch(() => {
-
-                            // End deleting spinner button
-                            this.isResuming = false
-                            this.isLoading = false
-                        })
+                    return
                 }
+
+                // Start deleting spinner button
+                this.isResuming = true
+                this.isLoading = true
+
+                // Send delete request
+                axios
+                    .post('/api/subscription/resume')
+                    .then(() => {
+
+                        // Update user data
+                        this.$store.dispatch('getAppData').then(() => {
+                            this.fetchSubscriptionDetail()
+                        })
+
+                        events.$emit('alert:open', {
+                            emoji: '👍',
+                            title: this.$t('popup_subscription_resumed.title'),
+                            message: this.$t('popup_subscription_resumed.message'),
+                            buttonStyle: 'theme',
+                            button: this.$t('popup_subscription_resumed.button')
+                        })
+                    })
+                    .catch(() => {
+                        events.$emit('alert:open', {
+                            title: this.$t('popup_error.title'),
+                            message: this.$t('popup_error.message'),
+                        })
+                    })
+                    .finally(() => {
+
+                        // End deleting spinner button
+                        this.isResuming = false
+                        this.isLoading = false
+                        this.isConfirmedResume = false
+                    })
             },
             fetchSubscriptionDetail() {
                 axios.get('/api/user/subscription')
@@ -229,13 +238,4 @@
             flex: 0 0 50%;
         }
     }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

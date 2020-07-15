@@ -144,8 +144,12 @@
         justify-content: center;
     }
 
-    @media only screen and (max-width: 1024px) {
+    @media only screen and (max-width: 960px) {
 
+        .plans-wrapper {
+            display: block;
+            margin: 0;
+        }
     }
 
     @media (prefers-color-scheme: dark) {

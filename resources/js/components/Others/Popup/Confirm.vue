@@ -118,6 +118,12 @@
         }
     }
 
+    @media only screen and (max-width: 690px){
+        .content {
+            top: 110px;
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
 
         .content {

@@ -16,7 +16,7 @@
             </div>
             <div class="feature">
                 <hard-drive-icon size="19" class="feature-icon"></hard-drive-icon>
-                <b class="feature-title">{{ $t('page_index.sign_feature_2', {defaultSpace: config.storageDefaultSpace}) }}</b>
+                <b class="feature-title">{{ $t('page_index.sign_feature_2', {defaultSpace: config.storageDefaultSpaceFormatted}) }}</b>
             </div>
         </div>
     </header>

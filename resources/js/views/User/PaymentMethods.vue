@@ -136,8 +136,8 @@
             },
             deleteCard(card) {
                 events.$emit('confirm:open', {
-                    title: this.$t('popup_set_card.title'),
-                    message: this.$t('popup_set_card.message'),
+                    title: this.$t('popup_delete_card.title'),
+                    message: this.$t('popup_delete_card.message'),
                     action: {
                         id: card.card_id,
                         operation: 'delete-credit-card'
@@ -188,8 +188,11 @@
                                 message: this.$t('toaster.card_deleted'),
                             })
                         })
-                        .catch(error => {
-                            console.error(error);
+                        .catch(() => {
+                            events.$emit('alert:open', {
+                                title: this.$t('popup_error.title'),
+                                message: this.$t('popup_error.message'),
+                            })
                         })
                 }
 
@@ -209,8 +212,11 @@
                                 message: this.$t('toaster.card_set'),
                             })
                         })
-                        .catch(error => {
-                            console.error(error);
+                        .catch(() => {
+                            events.$emit('alert:open', {
+                                title: this.$t('popup_error.title'),
+                                message: this.$t('popup_error.message'),
+                            })
                         })
                 }
             })

@@ -18,9 +18,6 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        // Faker only for demo purpose
-        $faker = Factory::create();
-
         return [
             'data'          => [
                 'id'         => (string)$this->id,
@@ -29,8 +26,8 @@ class UserResource extends JsonResource
                     'storage_capacity'     => $this->settings->storage_capacity,
                     'subscription'         => $this->subscribed('main'),
                     'stripe_customer'      => is_null($this->stripe_id) ? false : true,
-                    'name'                 => env('APP_DEMO') ? $faker->name : $this->name,
-                    'email'                => env('APP_DEMO') ? $faker->email : $this->email,
+                    'name'                 => $this->name,
+                    'email'                => env('APP_DEMO') ? obfuscate_email($this->email) : $this->email,
                     'avatar'               => $this->avatar,
                     'role'                 => $this->role,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Tools\Demo;
 use App\Setting;
 use Artisan;
 use Illuminate\Http\Request;
@@ -14,8 +15,8 @@ class SettingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function show(Request $request) {
-
+    public function show(Request $request)
+    {
         $column = $request->get('column');
 
         if (strpos($column, '|') !== false) {
@@ -36,6 +37,11 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+
         // Store image if exist
         if ($request->hasFile($request->name)) {
 
@@ -64,7 +70,12 @@ class SettingController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function set_email(Request $request) {
+    public function set_email(Request $request)
+    {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
 
         // Get options
         $mail = collect([

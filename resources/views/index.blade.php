@@ -48,6 +48,7 @@
             userRegistration: {{ isset($settings->registration) ? $settings->registration : 1 }},
             storageLimit: {{ isset($settings->storage_limitation) ? $settings->storage_limitation : 1 }},
             storageDefaultSpace: {{ isset($settings->storage_default) ? $settings->storage_default : 5 }},
+            storageDefaultSpaceFormatted: '{{ isset($settings->storage_default) ? format_gigabytes($settings->storage_default) : format_gigabytes(5) }}',
 
             hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
             isSaaS: {{ isset($settings->license) && $settings->license === 'Extended' ? 1 : 0 }},

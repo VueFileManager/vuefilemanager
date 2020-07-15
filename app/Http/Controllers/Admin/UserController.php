@@ -226,6 +226,7 @@ class UserController extends Controller
         if ($user->name !== $request->name) abort(403);
 
         $shares = Share::where('user_id', $user->id)->get();
+
         $files = FileManagerFile::withTrashed()
             ->where('user_id', $user->id)
             ->get();

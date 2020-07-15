@@ -6,7 +6,7 @@
             </FormLabel>
 
             <!--Info about active subscription-->
-            <div v-if="! subscription.canceled" class="state active">
+            <div v-if="! subscription.attributes.canceled" class="state active">
                 <ListInfo class="list-info">
                     <ListInfoItem class="list-item" :title="$t('user_subscription.plan')"
                                   :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
@@ -20,7 +20,7 @@
             <!--Info about canceled subscription-->
             <div v-if="subscription.attributes.canceled" class="state canceled">
                 <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name"/>
+                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
                     <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
                     <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.canceled_at')" :content="subscription.attributes.canceled_at"/>
                     <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.ends_at')" :content="subscription.attributes.ends_at"/>
