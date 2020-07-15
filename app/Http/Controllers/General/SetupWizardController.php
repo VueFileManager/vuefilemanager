@@ -109,13 +109,9 @@ class SetupWizardController extends Controller
             setEnvironmentValue($col['name'], $col['value']);
         });
 
-        // Set database connection
-        config(['database.connections.mysql.driver' => $request->connection]);
-        config(['database.connections.mysql.host' => $request->host]);
-        config(['database.connections.mysql.port' => $request->port]);
-        config(['database.connections.mysql.database' => $request->name]);
-        config(['database.connections.mysql.username' => $request->username]);
-        config(['database.connections.mysql.password' => $request->password]);
+        // Clear cache
+        //Artisan::call('config:clear');
+        Artisan::call('config:cache');
 
         // Set up application
         $this->set_up_application();
@@ -125,10 +121,6 @@ class SetupWizardController extends Controller
             'name'  => 'setup_wizard_database',
             'value' => 1,
         ]);
-
-        // Clear cache
-        //Artisan::call('config:clear');
-        Artisan::call('config:cache');
 
         return response('Done', 200);
     }

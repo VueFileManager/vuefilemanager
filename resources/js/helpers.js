@@ -9,7 +9,7 @@ const Helpers = {
 
         Vue.prototype.$updateText = debounce(function (route, name, value) {
 
-            if (! value || value === '') return
+            if (value === '') return
 
             axios.patch(this.$store.getters.api + route, {name, value})
                 .catch(error => {

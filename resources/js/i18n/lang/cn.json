@@ -478,6 +478,10 @@
 		"message": "Your user was deleted with all user data content.",
 		"title": "User was deleted"
 	},
+	"popup_deleted_user_aborted": {
+		"message": "You can't delete this account while user have active subscription.",
+		"title": "User wasn't deleted"
+	},
 	"popup_error": {
 		"message": "有什么东西坏掉了，请联系我们，引导我们修复。",
 		"title": "wow，好像有什么东西坏掉了！"

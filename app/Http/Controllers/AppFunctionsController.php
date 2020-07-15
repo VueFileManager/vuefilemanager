@@ -56,9 +56,10 @@ class AppFunctionsController extends Controller
 
             // Check settings table
             $settings_table = Schema::hasTable('settings');
+            $users_table = Schema::hasTable('users');
 
             // If settings table don't exist, then run migrations
-            if (! $settings_table) {
+            if ($users_table && ! $settings_table) {
                 Artisan::call('migrate');
             }
 

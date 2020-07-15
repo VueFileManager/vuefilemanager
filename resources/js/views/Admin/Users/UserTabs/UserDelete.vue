@@ -80,26 +80,35 @@
                             }
                         }
                     )
-                    .then(() => {
-                        this.isSendingRequest = false
+                    .then((response) => {
 
-                        // Show error message
-                        events.$emit('success:open', {
-                            emoji: '👍',
-                            title: this.$t('popup_deleted_user.title'),
-                            message: this.$t('popup_deleted_user.message'),
-                        })
+                        if (response.status === 202) {
+                            events.$emit('alert:open', {
+                                emoji: '☹️',
+                                title: this.$t('popup_deleted_user_aborted.title'),
+                                message: this.$t('popup_deleted_user_aborted.message'),
+                            })
+                        }
 
-                        this.$router.push({name: 'Users'})
+                        if (response.status === 200) {
+                            events.$emit('success:open', {
+                                emoji: '👍',
+                                title: this.$t('popup_deleted_user.title'),
+                                message: this.$t('popup_deleted_user.message'),
+                            })
+
+                            this.$router.push({name: 'Users'})
+                        }
                     })
                     .catch(() => {
-
-                        this.isSendingRequest = false
 
                         events.$emit('alert:open', {
                             title: this.$t('popup_error.title'),
                             message: this.$t('popup_error.message'),
                         })
+                    })
+                    .finally(() => {
+                        this.isSendingRequest = false
                     })
             }
         },

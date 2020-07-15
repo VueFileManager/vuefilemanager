@@ -478,6 +478,10 @@
 		"message": "Your user was deleted with all user data content.",
 		"title": "User was deleted"
 	},
+	"popup_deleted_user_aborted": {
+		"message": "You can't delete this account while user have active subscription.",
+		"title": "User wasn't deleted"
+	},
 	"popup_error": {
 		"message": "Something went wrong and we can't continue. Please contact us.",
 		"title": "Whooops, something went wrong!"

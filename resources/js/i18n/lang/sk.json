@@ -478,6 +478,10 @@
 		"message": "Uživateľ bol vymazaný so všetkými uživateľskými dátami.",
 		"title": "Uživateľ bol vymazaný"
 	},
+	"popup_deleted_user_aborted": {
+		"message": "Nemôžte vymazať účet kým uživateľ má aktívne predplatné.",
+		"title": "Uživateľ nebol vymazaný"
+	},
 	"popup_error": {
 		"message": "Niečo sa stalo a nemôžme pokračovať. Prosím kontaktuj nás.",
 		"title": "Ups, niekde nastala chyba!"

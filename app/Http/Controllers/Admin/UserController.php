@@ -212,6 +212,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        if ($user->subscribed('main')) {
+            abort(202, 'You can\'t delete this account while user have active subscription.');
+        }
+
         // Demo preview
         if (env('APP_DEMO')) {
             return response('Done!', 204);
