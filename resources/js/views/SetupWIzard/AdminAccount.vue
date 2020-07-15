@@ -95,11 +95,11 @@
             return {
                 isLoading: false,
                 admin: {
-                    name: 'Jane Doe',
-                    email: 'howdy@hi5ve.digital',
+                    name: '',
+                    email: '',
                     avatar: undefined,
-                    password: 'vuefilemanager',
-                    password_confirmation: 'vuefilemanager',
+                    password: '',
+                    password_confirmation: '',
                 },
             }
         },

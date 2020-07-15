@@ -153,12 +153,12 @@
             return {
                 isLoading: false,
                 app: {
-                    title: 'VueFileManager',
-                    description: 'The best app',
+                    title: '',
+                    description: '',
                     logo: undefined,
                     logo_horizontal: undefined,
                     favicon: undefined,
-                    contactMail: 'howdy@hi5ve.digital',
+                    contactMail: '',
                     googleAnalytics: '',
                     defaultStorage: '5',
                     userRegistration: 1,

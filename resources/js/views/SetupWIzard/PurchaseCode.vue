@@ -56,7 +56,7 @@
         data() {
             return {
                 isLoading: false,
-                purchaseCode: '8654194a-3156-4cd0-944e-3440fcecdabb',
+                purchaseCode: '',
             }
         },
         methods: {
