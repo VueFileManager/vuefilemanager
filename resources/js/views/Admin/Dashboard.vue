@@ -256,6 +256,22 @@
         .became-backer {
             display: none;
         }
+
+        .dashboard-headline {
+            display: block;
+            text-align: left;
+
+            .metadata {
+
+                .meta:first-child {
+                    margin-left: 0;
+                }
+            }
+
+            .logo {
+                margin-bottom: 10px;
+            }
+        }
     }
 
     @media (prefers-color-scheme: dark) {

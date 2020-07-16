@@ -3,12 +3,15 @@
 /public/storage
 /storage/*.key
 /storage/*.index
-/storage/framework/cache
+/storage/framework/cache/*
 /vendor
+/resources/babel.babel
 .idea
 .env
 .env.backup
 .phpunit.result.cache
+.phpstorm.meta.php
+_ide_helper.php
 Homestead.json
 Homestead.yaml
 npm-debug.log

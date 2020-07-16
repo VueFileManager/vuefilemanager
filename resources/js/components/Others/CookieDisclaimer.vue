@@ -1,5 +1,5 @@
 <template>
-    <div class="cookie-wrapper" v-if="isVisibleDisclaimer">
+    <div class="cookie-wrapper" v-if="isVisibleDisclaimer && config.isSaaS">
         <span class="close-icon">
             <x-icon @click="closeDisclaimer" size="12"></x-icon>
         </span>
@@ -11,11 +11,15 @@
 
 <script>
     import {XIcon} from 'vue-feather-icons'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'CookieDisclaimer',
         components: {
             XIcon
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {

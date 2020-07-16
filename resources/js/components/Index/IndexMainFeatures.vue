@@ -160,6 +160,7 @@
 
         .features {
             margin-top: 50px;
+            padding-left: 0;
 
             .feature {
                 margin-bottom: 35px;
