@@ -92,13 +92,17 @@
                             </div>
                         </div>
                         <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active" class="headline-actions">
-                            <router-link :to="{name: 'UpgradePlan'}" v-if="! user.relationships.subscription || (user.relationships.subscription && ! user.relationships.subscription.data.attributes.is_highest)">
+                            <router-link :to="{name: 'UpgradePlan'}" v-if="canShowUpgradeButton">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
                                     {{ $t('global.upgrade_plan') }}
                                 </ButtonBase>
                             </router-link>
                         </div>
                     </div>
+
+                    <InfoBox v-if="canShowUpgradeWarning" type="error" class="upgrade-box">
+                        <p>{{ $t('upgrade_banner.title') }}</p>
+                    </InfoBox>
 
                     <!--Router Content-->
                     <router-view :user="user" />
@@ -118,11 +122,11 @@
     import UserImageInput from '@/components/Others/UserImageInput'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import PageHeader from '@/components/Others/PageHeader'
     import ColorLabel from '@/components/Others/ColorLabel'
     import Spinner from '@/components/FilesView/Spinner'
     import { mapGetters } from 'vuex'
-    import axios from 'axios'
     import {
         CreditCardIcon,
         HardDriveIcon,
@@ -136,19 +140,20 @@
         name: 'Settings',
         components: {
             ContentSidebar,
-            ContentGroup,
-            CloudIcon,
-            ButtonBase,
             CreditCardIcon,
             UserImageInput,
+            HardDriveIcon,
             FileTextIcon,
             MobileHeader,
+            ContentGroup,
+            ButtonBase,
             ColorLabel,
             PageHeader,
-            Spinner,
-            HardDriveIcon,
+            CloudIcon,
             UserIcon,
             LockIcon,
+            Spinner,
+            InfoBox,
         },
         computed: {
             ...mapGetters(['user', 'config']),
@@ -160,6 +165,12 @@
             },
             canShowSubscriptionSettings() {
                 return this.config.isSaaS
+            },
+            canShowUpgradeButton() {
+                return this.config.storageDefaultSpace === this.user.relationships.storage.data.attributes.capacity || this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
+            },
+            canShowUpgradeWarning() {
+                return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
             }
         },
         data() {
@@ -215,6 +226,10 @@
         }
     }
 
+    .upgrade-box {
+        margin-top: -30px;
+    }
+
     @media (prefers-color-scheme: dark) {
         .user-thumbnail {
 
@@ -235,6 +250,8 @@
 
         .page-detail-headline {
             display: block;
+            margin-bottom: 30px;
+            margin-top: 10px;
 
             .headline-actions {
                 margin-top: 20px;

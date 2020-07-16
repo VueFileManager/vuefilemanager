@@ -13,7 +13,7 @@
                                 tag="form" class="form block-form">
                 <FormLabel>Create your plans</FormLabel>
                 <InfoBox>
-                    <p>Your plans will be <b>sorted automatically</b> in ascent order by plan price.</p>
+                    <p>Your plans will be <b>sorted automatically</b> in ascent order by plan price. All plans is automatically created as monthly plans.</p>
                 </InfoBox>
 
                 <div class="duplicator">

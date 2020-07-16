@@ -4354,6 +4354,53 @@
                 </children>
             </folder_node>
             <folder_node>
+                <name>cookie_disclaimer</name>
+                <children>
+                    <concept_node>
+                        <name>button</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                    <concept_node>
+                        <name>description</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                </children>
+            </folder_node>
+            <folder_node>
                 <name>datatable</name>
                 <children>
                     <concept_node>
@@ -10038,6 +10085,27 @@
                         </translations>
                     </concept_node>
                     <concept_node>
+                        <name>card_new_add</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                    <concept_node>
                         <name>card_set</name>
                         <definition_loaded>false</definition_loaded>
                         <description></description>
@@ -10255,10 +10323,125 @@
                 </children>
             </folder_node>
             <folder_node>
+                <name>upgrade_banner</name>
+                <children>
+                    <concept_node>
+                        <name>button</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                    <concept_node>
+                        <name>description</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                    <concept_node>
+                        <name>title</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                </children>
+            </folder_node>
+            <folder_node>
                 <name>uploading</name>
                 <children>
                     <concept_node>
                         <name>progress</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                </children>
+            </folder_node>
+            <folder_node>
+                <name>user_add_card</name>
+                <children>
+                    <concept_node>
+                        <name>default_description</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                    <concept_node>
+                        <name>default_title</name>
                         <definition_loaded>false</definition_loaded>
                         <description></description>
                         <comment></comment>
@@ -10544,6 +10727,27 @@
             <folder_node>
                 <name>user_payments</name>
                 <children>
+                    <concept_node>
+                        <name>add_card</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>sk-SK</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>zh-CHS</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
                     <concept_node>
                         <name>delete_card</name>
                         <definition_loaded>false</definition_loaded>

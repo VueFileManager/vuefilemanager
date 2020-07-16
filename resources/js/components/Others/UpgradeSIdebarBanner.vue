@@ -5,12 +5,12 @@
             <span class="title">{{ storage.used }}% From {{ storage.capacity_formatted }}</span>
         </div>
         <div class="content">
-            <p v-if="storage.used > 95" class="reach-capacity">You reach your storage capacity. Please upgrade.</p>
-            <p v-else class="reach-capacity">You nearly reach your storage capacity.</p>
+            <p v-if="storage.used > 95" class="reach-capacity">{{ $t('upgrade_banner.title') }}</p>
+            <p v-else class="reach-capacity">{{ $t('upgrade_banner.description') }}</p>
         </div>
         <div v-if="config.app_payments_active" class="footer">
             <router-link :to="{name: 'UpgradePlan'}" class="button">
-                Upgrade
+                {{ $t('upgrade_banner.button') }}
             </router-link>
         </div>
     </div>

@@ -269,6 +269,10 @@
 		"share_edit": "Upraviť zdieľanie",
 		"upload": "Nahrať"
 	},
+	"cookie_disclaimer": {
+		"button": "politikou cookies",
+		"description": "Prehliadaním tejto stránky súhlasim s našou"
+	},
 	"datatable": {
 		"paginate_info": "Zobrazuje sa 1 - {visible} z {total} položiek"
 	},
@@ -641,13 +645,14 @@
 		"others": "Ostatné",
 		"sec_capacity": "Kapacita úložiska",
 		"sec_details": "Detail využitej kapacity",
-		"total_capacity": "Tvoja kapacita disku {capacity}",
+		"total_capacity": "Vaša kapacita disku je {capacity}",
 		"total_used": "Používané {used}",
 		"videos": "Videá"
 	},
 	"toaster": {
 		"account_upgraded": "Váš účet bol úspešne inovovaný.",
 		"card_deleted": "Vaša karta bola úspešne odstránená.",
+		"card_new_add": "Vaša karta bola úspešne pridaná",
 		"card_set": "Vaša karta bola úspešne nastavená ako predvolená.",
 		"changed_capacity": "Úspešne ste zmenili kapacitu úložiska uživateľa!",
 		"changed_user": "Úspešne ste zmenili rolu užívateľa",
@@ -661,8 +666,17 @@
 		"file": "Súbor",
 		"folder": "Priečinok"
 	},
+	"upgrade_banner": {
+		"button": "Inovovať",
+		"description": "Takmer ste dosiahli kapacitu úložiska",
+		"title": "Dosiahli ste kapacitu úložiska. Prosím inovujte úložisko."
+	},
 	"uploading": {
 		"progress": "Nahrávam súbory {current}/{total}"
+	},
+	"user_add_card": {
+		"default_description": "Vaša karta bude uložená a použitá pre platbu ako prvá.",
+		"default_title": "Nastaviť ako predvolenú platobnú kartu"
 	},
 	"user_box_delete": {
 		"description": "Môžete vymazať svojho uživateľa, avšak, dávajte pozor! Táto událosť je nezvratná a všetke uživateľské dáta vrátane uživateľových súborov budú vymazané!",
@@ -688,6 +702,7 @@
 		"title": "Zmeňte si heslo"
 	},
 	"user_payments": {
+		"add_card": "Pridať Platobnú Kartu",
 		"delete_card": "Odstrániť kartu",
 		"empty": "Zatiaľ nemáte žiadne platobné karty.",
 		"set_as_default": "Nastaviť ako predvolenú kartu",

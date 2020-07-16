@@ -102,4 +102,13 @@
             }
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+        .mobile-navigation {
+
+            .mobile-menu-label {
+                color: $dark_mode_text_secondary;
+            }
+        }
+    }
 </style>

@@ -6,6 +6,7 @@
 
         <div id="application-wrapper" v-if="layout === 'authorized'">
 
+            <!--Mobile Navigation-->
             <MobileNavigation />
 
             <!--Confirm Popup-->
@@ -35,6 +36,8 @@
 
         <router-view v-if="layout === 'unauthorized'"/>
 
+        <CookieDisclaimer />
+
         <!--Background vignette-->
         <Vignette/>
     </div>
@@ -43,6 +46,7 @@
 <script>
     import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
     import MobileNavigation from '@/components/Others/MobileNavigation'
+    import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
     import Confirm from '@/components/Others/Popup/Confirm'
@@ -59,6 +63,7 @@
         name: 'app',
         components: {
             MobileNavigation,
+            CookieDisclaimer,
             ToastrWrapper,
             ShareCreate,
             MobileMenu,
@@ -71,7 +76,7 @@
         },
         computed: {
             ...mapGetters([
-                'isLogged', 'isGuest'
+                'isLogged', 'isGuest', 'config'
             ]),
             layout() {
                 if (includes([

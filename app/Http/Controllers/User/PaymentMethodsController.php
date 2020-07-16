@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Payments\RegisterNewPaymentMethodRequest;
 use App\Http\Resources\PaymentCardCollection;
 use App\Http\Resources\PaymentCardResource;
 use App\Http\Resources\PaymentDefaultCardResource;
 use App\Http\Tools\Demo;
+use App\Services\StripeService;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -14,6 +16,14 @@ use Laravel\Cashier\PaymentMethod;
 
 class PaymentMethodsController extends Controller
 {
+    /**
+     * PaymentMethodsController constructor.
+     */
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
     /**
      * Get user payment methods grouped by default and others
      *
@@ -23,7 +33,7 @@ class PaymentMethodsController extends Controller
     {
         $user = Auth::user();
 
-        if (! $user->hasPaymentMethod()) {
+        if (!$user->hasPaymentMethod()) {
             return abort(204, 'User don\'t have any payment methods');
         }
 
@@ -61,7 +71,7 @@ class PaymentMethodsController extends Controller
             });
         }
 
-        if (! $user->card_brand || ! $user->stripe_id || is_null($paymentMethodsMapped) && is_null($paymentMethodsMapped)) {
+        if (!$user->card_brand || !$user->stripe_id || is_null($paymentMethodsMapped) && is_null($paymentMethodsMapped)) {
             return [
                 'default' => null,
                 'others'  => [],
@@ -81,8 +91,9 @@ class PaymentMethodsController extends Controller
      *
      * @param Request $request
      * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         $user = Auth::user();
 
@@ -104,6 +115,23 @@ class PaymentMethodsController extends Controller
         ]);
 
         return response('Done', 204);
+    }
+
+    /**
+     * Register new payment method for user
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function store(RegisterNewPaymentMethodRequest $request)
+    {
+        // Get user
+        $user = Auth::user();
+
+        // Register new payment method
+        $this->stripe->registerNewPaymentMethod($request, $user);
+
+        return response('Done', 201);
     }
 
     /**

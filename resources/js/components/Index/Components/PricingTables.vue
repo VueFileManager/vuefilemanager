@@ -61,7 +61,7 @@
         text-align: center;
         flex: 0 0 33%;
         padding: 55px 25px 75px;
-        border-right: 1px solid #F7F7F7;
+        //border-right: 1px solid #F7F7F7;
 
         &:last-child {
             border-right: none;
@@ -123,7 +123,7 @@
     .plans-wrapper {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-around;
     }
 
     @media only screen and (max-width: 960px) {
@@ -135,6 +135,7 @@
             .plan {
                 padding: 30px 25px;
                 border-bottom: 1px solid #F7F7F7;
+                border-right: none;
             }
         }
     }
@@ -146,7 +147,7 @@
         }
 
         .plan {
-            border-color: $dark_mode_border_color;
+            border-color: $dark_mode_border_color !important;
 
             .plan-wrapper {
                 background: $dark_mode_foreground;

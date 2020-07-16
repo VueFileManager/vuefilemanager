@@ -16,6 +16,7 @@ import Invoice from './views/User/Invoices'
 import Password from './views/User/Password'
 import Subscription from './views/User/Subscription'
 import PaymentMethods from './views/User/PaymentMethods'
+import CreatePaymentMethod from './views/User/CreatePaymentMethod'
 
 import Trash from './views/FilePages/Trash'
 import Files from './views/FilePages/Files'
@@ -494,6 +495,15 @@ const routesUser = [
                 meta: {
                     requiresAuth: true,
                     title: i18n.t('routes_title.payment_methods')
+                },
+            },
+            {
+                name: 'CreatePaymentMethod',
+                path: '/settings/create-payment-method',
+                component: CreatePaymentMethod,
+                meta: {
+                    requiresAuth: true,
+                    title: 'Create Payment Method'
                 },
             },
         ]

@@ -2,7 +2,14 @@
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="PaymentMethods && PaymentMethods.length > 0">
             <FormLabel>{{ $t('user_payments.title') }}</FormLabel>
-            <DatatableWrapper :paginator="true" :columns="columns" :data="PaymentMethods" class="table">
+            <div class="page-actions">
+                <router-link :to="{name: 'CreatePaymentMethod'}">
+                    <MobileActionButton icon="credit-card">
+                        {{ $t('user_payments.add_card') }}
+                    </MobileActionButton>
+                </router-link>
+            </div>
+            <DatatableWrapper :paginator="false" :columns="columns" :data="PaymentMethods" class="table">
                 <template scope="{ row }">
                     <tr :class="{'is-deleting': row.data.attributes.card_id === deletingID}">
                         <td style="width: 300px">
@@ -29,8 +36,12 @@
                         </td>
                         <td>
                             <div class="action-icons">
-                                <credit-card-icon size="15" class="icon icon-card" :title="$t('user_payments.set_as_default')" @click="setDefaultCard(row.data.attributes)"  v-if="row.data.id !== defaultPaymentCard.data.id"></credit-card-icon>
-                                <trash2-icon size="15" class="icon icon-trash" :title="$t('user_payments.delete_card')" @click="deleteCard(row.data.attributes)"></trash2-icon>
+                                <label class="icon-wrapper" :title="$t('user_payments.set_as_default')">
+                                    <credit-card-icon size="15" class="icon icon-card" @click="setDefaultCard(row.data.attributes)"  v-if="row.data.id !== defaultPaymentCard.data.id"></credit-card-icon>
+                                </label>
+                                <label class="icon-wrapper" :title="$t('user_payments.delete_card')">
+                                    <trash2-icon size="15" class="icon icon-trash" @click="deleteCard(row.data.attributes)"></trash2-icon>
+                                </label>
                             </div>
                         </td>
                     </tr>
@@ -38,12 +49,13 @@
             </DatatableWrapper>
         </PageTabGroup>
         <InfoBox v-else>
-            <p>{{ $t('user_payments.empty') }}</p>
+            <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}">Add new payment method.</router-link> </p>
         </InfoBox>
     </PageTab>
 </template>
 
 <script>
+    import MobileActionButton from '@/components/FilesView/MobileActionButton'
     import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import {CreditCardIcon, Trash2Icon} from "vue-feather-icons"
@@ -51,12 +63,14 @@
     import PageTab from '@/components/Others/Layout/PageTab'
     import ColorLabel from '@/components/Others/ColorLabel'
     import InfoBox from '@/components/Others/Forms/InfoBox'
+    import { mapGetters } from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
 
     export default {
         name: 'UserPaymentMethods',
         components: {
+            MobileActionButton,
             DatatableWrapper,
             CreditCardIcon,
             PageTabGroup,
@@ -65,6 +79,9 @@
             FormLabel,
             InfoBox,
             PageTab,
+        },
+        computed: {
+            ...mapGetters(['user']),
         },
         data() {
             return {
@@ -248,6 +265,11 @@
             max-height: 20px;
             margin-right: 8px;
         }
+    }
+
+    .page-actions {
+        margin-top: 45px;
+        margin-bottom: 10px;
     }
 
 

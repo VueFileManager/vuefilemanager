@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     // Payment cards
     Route::delete('/user/payment-cards/{id}', 'User\PaymentMethodsController@delete');
     Route::patch('/user/payment-cards/{id}', 'User\PaymentMethodsController@update');
+    Route::post('/user/payment-cards', 'User\PaymentMethodsController@store');
     Route::get('/user/payments', 'User\PaymentMethodsController@index');
 
     // Subscription

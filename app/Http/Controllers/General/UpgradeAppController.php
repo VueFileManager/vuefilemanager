@@ -23,8 +23,14 @@ class UpgradeAppController extends Controller
 
         // Create legal pages and index content
         if ($request->license === 'Extended') {
-            Artisan::call('db:seed --class=PageSeeder');
-            Artisan::call('db:seed --class=ContentSeeder');
+
+            Artisan::call('db:seed --class=PageSeeder', [
+                '--force' => true
+            ]);
+
+            Artisan::call('db:seed --class=ContentSeeder', [
+                '--force' => true
+            ]);
         }
 
         // Store Logo

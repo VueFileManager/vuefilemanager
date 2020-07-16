@@ -87,6 +87,30 @@ class StripeService
     }
 
     /**
+     * Register new payment method
+     *
+     * @param $request
+     * @param $user
+     * @return mixed
+     */
+    public function registerNewPaymentMethod($request, $user)
+    {
+        // Clear cached payment methods
+        cache_forget_many([
+            'payment-methods-user-' . $user->id,
+            'default-payment-methods-user-' . $user->id
+        ]);
+
+        // Set new payment method
+        $user->addPaymentMethod($request->token)->paymentMethod;
+
+        // Set new default payment
+        if ($request->default) {
+            $user->updateDefaultPaymentMethod($request->token)->paymentMethod;
+        }
+    }
+
+    /**
      * Create new subscription or replace by new subscription
      *
      * @param $request

@@ -269,6 +269,10 @@
 		"share_edit": "Edit Sharing",
 		"upload": "Upload"
 	},
+	"cookie_disclaimer": {
+		"button": "cookies policy",
+		"description": "By browsing this website you are agreeing to our {0}."
+	},
 	"datatable": {
 		"paginate_info": "Showing 1 - {visible} from {total} records"
 	},
@@ -641,13 +645,14 @@
 		"others": "Others",
 		"sec_capacity": "Your disk Usage",
 		"sec_details": "Capacity Usage Details",
-		"total_capacity": "Your storage capacity {capacity}",
+		"total_capacity": "Your storage capacity is {capacity}",
 		"total_used": "Total used {used}",
 		"videos": "Videos"
 	},
 	"toaster": {
 		"account_upgraded": "Your account was successfully upgraded.",
 		"card_deleted": "Your card was successfully deleted.",
+		"card_new_add": "Your card was successfully added",
 		"card_set": "Your card was successfully set as default.",
 		"changed_capacity": "You successfully changed user's storage size!",
 		"changed_user": "You successfully changed user's role!",
@@ -661,8 +666,17 @@
 		"file": "File",
 		"folder": "Folder"
 	},
+	"upgrade_banner": {
+		"button": "Upgrade",
+		"description": "You nearly reach your storage capacity.",
+		"title": "You reach your storage capacity. Please upgrade."
+	},
 	"uploading": {
 		"progress": "Uploading files {current}/{total}"
+	},
+	"user_add_card": {
+		"default_description": "Your card will be charged for billing plans as first.",
+		"default_title": "Set as Default Payment Method"
 	},
 	"user_box_delete": {
 		"description": "You can delete your user, but, pay attention! This event is irreversible and all user data include user files will be deleted.",
@@ -688,6 +702,7 @@
 		"title": "Change Your Password"
 	},
 	"user_payments": {
+		"add_card": "Add Payment Card",
 		"delete_card": "Delete card",
 		"empty": "You don't have any payment cards yet.",
 		"set_as_default": "Set as default card",

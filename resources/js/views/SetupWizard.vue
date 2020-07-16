@@ -3,10 +3,16 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
         name: 'SetupWizard',
+        computed: {
+            ...mapGetters(['config']),
+        },
         mounted() {
-            //this.$router.push({name: 'PurchaseCode'})
+            if (this.config.installation === 'setup-done' || this.config.installation === 'quiet-update')
+                this.$router.push({name: 'SignIn'})
         }
     }
 </script>

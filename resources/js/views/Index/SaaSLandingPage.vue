@@ -66,6 +66,8 @@
             }
         },
         mounted() {
+            if (! this.config.isSaaS) return
+
             // Get page content
             axios.get('/api/content', {
                 params: {
