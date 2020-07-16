@@ -156,7 +156,6 @@
                     })
                     .catch(error => {
 
-
                         if (error.response.status == 401) {
 
                             if (error.response.data.error === 'invalid_client') {

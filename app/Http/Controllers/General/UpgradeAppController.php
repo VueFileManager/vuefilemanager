@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
+use App\Page;
 use App\Setting;
 use Artisan;
 use Illuminate\Http\Request;
@@ -24,13 +25,16 @@ class UpgradeAppController extends Controller
         // Create legal pages and index content
         if ($request->license === 'Extended') {
 
-            Artisan::call('db:seed --class=PageSeeder', [
-                '--force' => true
-            ]);
+            $pages = collect(config('vuefilemanager.pages'));
+            $content = collect(config('vuefilemanager.content'));
 
-            Artisan::call('db:seed --class=ContentSeeder', [
-                '--force' => true
-            ]);
+            $content->each(function ($content) {
+                Setting::updateOrCreate($content);
+            });
+
+            $pages->each(function ($page) {
+                Page::updateOrCreate($page);
+            });
         }
 
         // Store Logo

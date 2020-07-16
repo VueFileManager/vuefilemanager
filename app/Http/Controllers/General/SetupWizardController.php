@@ -10,6 +10,7 @@ use App\Http\Requests\SetupWizard\StoreEnvironmentSetupRequest;
 use App\Http\Requests\SetupWizard\StoreStripeBillingRequest;
 use App\Http\Requests\SetupWizard\StoreStripeCredentialsRequest;
 use App\Http\Requests\SetupWizard\StoreStripePlansRequest;
+use App\Page;
 use App\Services\StripeService;
 use App\Setting;
 use App\User;
@@ -19,9 +20,11 @@ use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Schema;
 use Stripe;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -33,7 +36,6 @@ class SetupWizardController extends Controller
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
-        $this->setup_done = Setting::where('name', 'setup_wizard_success')->first();
     }
 
     /**
@@ -45,7 +47,7 @@ class SetupWizardController extends Controller
     public function verify_purchase_code(Request $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         // Verify purchase code
         $response = Http::get('https://verify.vuefilemanager.com/api/verify-code/' . $request->purchaseCode);
@@ -66,7 +68,7 @@ class SetupWizardController extends Controller
     public function setup_database(StoreDatabaseCredentialsRequest $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         try {
             // Set temporary database connection
@@ -117,7 +119,6 @@ class SetupWizardController extends Controller
         });
 
         // Clear cache
-        //Artisan::call('config:clear');
         Artisan::call('config:cache');
 
         // Set up application
@@ -141,7 +142,7 @@ class SetupWizardController extends Controller
     public function store_stripe_credentials(StoreStripeCredentialsRequest $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         // Create stripe instance
         $stripe = Stripe::make($request->secret, '2020-03-02');
@@ -195,7 +196,7 @@ class SetupWizardController extends Controller
     public function store_stripe_billings(StoreStripeBillingRequest $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         // Get options
         $settings = collect([
@@ -239,7 +240,6 @@ class SetupWizardController extends Controller
         });
 
         // Clear cache
-        //Artisan::call('config:clear');
         Artisan::call('config:cache');
 
         return response('Done', 200);
@@ -253,7 +253,7 @@ class SetupWizardController extends Controller
     public function store_stripe_plans(StoreStripePlansRequest $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         foreach ($request->input('plans') as $plan) {
             $this->stripe->createPlan($plan);
@@ -269,7 +269,7 @@ class SetupWizardController extends Controller
     public function store_environment_setup(StoreEnvironmentSetupRequest $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         $storage_driver = $request->input('storage.driver');
 
@@ -455,7 +455,7 @@ class SetupWizardController extends Controller
     public function store_app_settings(StoreAppSetupRequest $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         // Store Logo
         if ($request->hasFile('logo')) {
@@ -533,7 +533,7 @@ class SetupWizardController extends Controller
     public function create_admin_account(Request $request)
     {
         // Check setup status
-        if ($this->setup_done) abort(410, 'Gone');
+        if ($this->get_setup_status()) abort(410, 'Gone');
 
         // Validate request
         $request->validate([
@@ -589,13 +589,16 @@ class SetupWizardController extends Controller
         // Create legal pages and index content
         if ($request->license === 'Extended') {
 
-            Artisan::call('db:seed --class=PageSeeder', [
-                '--force' => true
-            ]);
+            $pages = collect(config('vuefilemanager.pages'));
+            $content = collect(config('vuefilemanager.content'));
 
-            Artisan::call('db:seed --class=ContentSeeder', [
-                '--force' => true
-            ]);
+            $content->each(function ($content) {
+                Setting::updateOrCreate($content);
+            });
+
+            $pages->each(function ($page) {
+                Page::updateOrCreate($page);
+            });
         }
 
         // Retrieve access token
@@ -618,7 +621,9 @@ class SetupWizardController extends Controller
     private function set_up_application()
     {
         // Generate app key
-        Artisan::call('key:generate');
+        Artisan::call('key:generate', [
+            '--force' => true
+        ]);
 
         // Migrate database
         Artisan::call('migrate:fresh', [
@@ -668,5 +673,25 @@ class SetupWizardController extends Controller
         ]);
 
         return Request::create(url('/oauth/token'), 'POST', $request->all());
+    }
+
+    /**
+     * Get setup wizard status
+     *
+     * @return |null
+     */
+    private function get_setup_status()
+    {
+        try {
+            // Check database connections
+            DB::getPdo();
+
+            // Get setup_wizard status
+            return Schema::hasTable('settings') ? Setting::where('name', 'setup_wizard_success')->first() : false;
+
+        } catch (PDOException $e) {
+
+            return false;
+        }
     }
 }

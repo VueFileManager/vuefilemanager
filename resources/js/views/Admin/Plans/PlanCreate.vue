@@ -59,6 +59,12 @@
                         </div>
                     </div>
 
+                    <div class="form-group" v-if="isError">
+                        <InfoBox type="error" style="margin-top: 40px">
+                            <p>{{ errorMessage }}</p>
+                        </InfoBox>
+                    </div>
+
                     <div class="form-group">
                         <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
                             {{ $t('admin_page_plans.create_plan_button') }}
@@ -79,6 +85,7 @@
     import SectionTitle from '@/components/Others/SectionTitle'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import PageHeader from '@/components/Others/PageHeader'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import {events} from "@/bus"
@@ -97,10 +104,13 @@
             PageHeader,
             FormLabel,
             required,
+            InfoBox,
         },
         data() {
             return {
                 isLoading: false,
+                errorMessage: '',
+                isError: false,
                 plan: {
                     name: '',
                     price: '',
@@ -141,20 +151,16 @@
                         // Validation errors
                         if (error.response.status == 422) {
 
-                            // Password validation error
                             if (error.response.data.errors['storage_capacity']) {
-
                                 this.$refs.createPlan.setErrors({
                                     'storage capacity': this.$t('errors.capacity_digit')
                                 });
                             }
+                        }
 
-                        } else {
-
-                            events.$emit('alert:open', {
-                                title: this.$t('popup_error.title'),
-                                message: this.$t('popup_error.message'),
-                            })
+                        if (error.response.status == 500) {
+                            this.isError = true
+                            this.errorMessage = error.response.data.message
                         }
 
                     }).finally(() => {

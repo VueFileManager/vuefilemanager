@@ -74,11 +74,14 @@
                     </ButtonBase>
                 </div>
 
+                <InfoBox v-if="isError" type="error" style="margin-top: 40px">
+                    <p>{{ errorMessage }}</p>
+                </InfoBox>
+
                 <div class="submit-wrapper">
                     <AuthButton icon="chevron-right" :text="submitButtonText" :loading="isLoading"
                                 :disabled="isLoading"/>
                 </div>
-
             </ValidationObserver>
         </AuthContent>
     </AuthContentWrapper>
@@ -123,6 +126,8 @@
         data() {
             return {
                 isLoading: false,
+                isError: false,
+                errorMessage: '',
                 subscriptionPlans: [
                     {
                         id: 1,
@@ -147,23 +152,27 @@
 
                 // Start loading
                 this.isLoading = true
+                this.isError = false
 
                 // Send request to get verify account
                 axios
                     .post('/api/setup/stripe-plans', {
                         plans: this.subscriptionPlans
                     })
-                    .then(response => {
-
-                        // End loading
-                        this.isLoading = false
+                    .then(() => {
 
                         // Redirect to next step
                         this.$router.push({name: 'EnvironmentSetup'})
                     })
                     .catch(error => {
 
-                        // End loading
+                        if (error.response.status = 500) {
+                            this.isError = true
+                            this.errorMessage = error.response.data.message
+                        }
+
+                    })
+                    .finally(() => {
                         this.isLoading = false
                     })
             },

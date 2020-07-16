@@ -64,10 +64,10 @@ class AppFunctionsController extends Controller
             }
 
             // Get settings
-            $setup_wizard_success = Setting::where('name', 'setup_wizard_success')->first();
+            $upgraded = Setting::where('name', 'latest_upgrade')->first();
 
             // Get connection string
-            if (! $setup_wizard_success) {
+            if ($upgraded && $upgraded->value !== '1.7') {
                 $connection = 'quiet-update';
             } else {
                 $connection = $this->get_setup_status();
