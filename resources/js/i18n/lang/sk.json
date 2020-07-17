@@ -703,9 +703,12 @@
 	},
 	"user_payments": {
 		"add_card": "Pridať Platobnú Kartu",
+		"card_field_title": "Kreditná Karta",
 		"delete_card": "Odstrániť kartu",
 		"empty": "Zatiaľ nemáte žiadne platobné karty.",
+		"field_loading": "Načitávam kartové pole...",
 		"set_as_default": "Nastaviť ako predvolenú kartu",
+		"store_card": "Uložiť platobnú kartu",
 		"title": "Spôsob platby"
 	},
 	"user_settings": {

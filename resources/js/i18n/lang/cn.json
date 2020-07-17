@@ -703,9 +703,12 @@
 	},
 	"user_payments": {
 		"add_card": "Add Payment Card",
+		"card_field_title": "Credit Card",
 		"delete_card": "删除卡",
 		"empty": "您还没有任何付款卡。",
+		"field_loading": "Loading card field...",
 		"set_as_default": "设为默认卡",
+		"store_card": "Store Payment Card",
 		"title": "支付方式"
 	},
 	"user_settings": {

@@ -703,12 +703,12 @@
 	},
 	"user_payments": {
 		"add_card": "Add Payment Card",
-		"store_card": "Store Payment Card",
+		"card_field_title": "Credit Card",
 		"delete_card": "Delete card",
 		"empty": "You don't have any payment cards yet.",
-		"set_as_default": "Set as default card",
-		"card_field_title": "Credit Card",
 		"field_loading": "Loading card field...",
+		"set_as_default": "Set as default card",
+		"store_card": "Store Payment Card",
 		"title": "Payment Methods"
 	},
 	"user_settings": {
