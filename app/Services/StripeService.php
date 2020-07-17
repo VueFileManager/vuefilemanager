@@ -347,7 +347,7 @@ class StripeService
      */
     public function getUserInvoice($customer, $id)
     {
-        $user = User::where('stripe_id', $customer)->first();
+        $user = User::where('stripe_id', $customer)->firstOrFail();
 
         return $user->findInvoice($id);
     }

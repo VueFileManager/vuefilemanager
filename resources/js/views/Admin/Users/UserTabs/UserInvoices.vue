@@ -15,8 +15,8 @@
                             </span>
                         </td>
                         <td>
-                            <span class="cell-item">
-                                {{ row.data.attributes.bag.description }}
+                            <span class="cell-item" v-if="row.data.attributes.invoice_subscriptions[0].description">
+                                {{ row.data.attributes.invoice_subscriptions[0].description }}
                             </span>
                         </td>
                         <td>

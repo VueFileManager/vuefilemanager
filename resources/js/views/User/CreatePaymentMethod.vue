@@ -11,10 +11,16 @@
                             as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
                     </InfoBox>
 
-                    <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }"></div>
-
-                    <div class="card-error-message" v-if="isError">
-                        <span>{{ errorMessage }}</span>
+                    <div class="block-wrapper">
+                        <label>{{ $t('user_payments.card_field_title') }}:</label>
+                        <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }">
+                            <span class="loading">
+                                {{ $t('user_payments.field_loading') }}
+                            </span>
+                        </div>
+                        <div class="card-error-message" v-if="isError">
+                            <span>{{ errorMessage }}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -30,8 +36,8 @@
                     </div>
                 </div>
 
-                <ButtonBase @click.native="registerCard" :disabled="isSubmitted" :loading="isSubmitted" button-style="theme" type="submit">
-                    {{ $t('user_payments.add_card') }}
+                <ButtonBase @click.native="registerCard" :loading="isSubmitted" :button-style="isDisabledSubmit ? 'secondary' : 'theme'" type="submit">
+                    {{ $t('user_payments.store_card') }}
                 </ButtonBase>
             </div>
         </PageTabGroup>
@@ -74,12 +80,17 @@
                 },
 
                 isSubmitted: false,
+                isDisabledSubmit: true,
+
                 defaultPaymentMethod: true,
-                clientSecret: undefined
+                clientSecret: undefined,
             }
         },
         methods: {
             async registerCard() {
+
+                // Prevent empty submit
+                if (! stripe && !card && ! this.$refs.stripeCard.classList.contains('StripeElement')) return
 
                 // Start loading
                 this.isSubmitted = true
@@ -91,6 +102,7 @@
                 })
 
                 if (setupIntent) {
+
                     axios
                         .post('/api/user/payment-cards', {
                             token: setupIntent.payment_method,
@@ -128,7 +140,6 @@
 
                     // Show error message
                     this.errorMessage = error.message
-
                 }
             },
             initStripe() {
@@ -139,6 +150,8 @@
                 card = elements.create('card');
 
                 card.mount(this.$refs.stripeCard);
+
+                this.isDisabledSubmit = false
             },
         },
         mounted() {
@@ -178,6 +191,17 @@
         box-shadow: 0 1px 3px 0 #e6ebf1;
         -webkit-transition: box-shadow 150ms ease;
         transition: box-shadow 150ms ease;
+
+
+        &:not(.StripeElement) {
+            background: $light_background;
+            padding: 14px 20px;
+
+            .loading {
+                @include font-size(14);
+                font-weight: 700;
+            }
+        }
 
         &.is-error {
             box-shadow: 0 0 7px rgba($danger, 0.3);

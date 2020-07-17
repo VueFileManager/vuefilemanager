@@ -2,11 +2,21 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <title>{{ config('vuefilemanager.app_name') }}</title>
+    <title>@lang('vuefilemanager.invoice_title')</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet">
-    <link href="{{ env('APP_ENV') !== 'local' ? asset('css/invoice.css') : mix('css/invoice.css') }}?v={{ get_version() }}" rel="stylesheet">
+    <link href="{{ env('APP_ENV') !== 'local' ? asset('css/invoice.css') : mix('css/invoice.css') }}?v={{ get_version() }}"
+          rel="stylesheet">
+
+    <style>
+        .table td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+        }
+    </style>
 </head>
 <body>
 <div id="toolbar-wrapper">
@@ -165,7 +175,7 @@
         </div>
     </div>
     <div class="invoice-order">
-        <table class="table">
+        <table class="table" width="100%" class="table" border="0">
             <thead class="table-header">
             <tr>
                 <td>@lang('vuefilemanager.col_description')</td>
@@ -174,11 +184,21 @@
             </tr>
             </thead>
             <tbody class="table-body">
-                <tr>
-                    <td>{{ $invoice->subscriptions()[0]->description }}</td>
-                    <td>{{ $invoice->subscriptions()[0]->type }}</td>
-                    <td>{{ \Laravel\Cashier\Cashier::formatAmount($invoice->subscriptions()[0]->amount) }}</td>
-                </tr>
+                @foreach($invoice->invoiceItems() as $item)
+                    <tr>
+                        <td colspan="2">{{ $item->description }}</td>
+                        <td>{{ $item->total() }}</td>
+                    </tr>
+                @endforeach
+
+                @foreach($invoice->subscriptions() as $subscription)
+                    <tr>
+                        <td>@lang('vuefilemanager.subscription') ({{ $subscription->quantity }})</td>
+                        <td>{{ $subscription->startDateAsCarbon()->formatLocalized('%d. %B. %Y') }} -
+                            {{ $subscription->endDateAsCarbon()->formatLocalized('%d. %B. %Y') }}</td>
+                        <td>{{ $subscription->total() }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
