@@ -90,7 +90,7 @@
                             })
                         }
 
-                        if (response.status === 200) {
+                        if (response.status === 204) {
                             events.$emit('success:open', {
                                 emoji: '👍',
                                 title: this.$t('popup_deleted_user.title'),

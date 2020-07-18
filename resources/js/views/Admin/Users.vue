@@ -149,7 +149,7 @@
                 },
                 {
                     label: this.$t('admin_page_user.table.storage_used'),
-                    field: 'data.attributes.storage.used',
+                    field: 'relationships.storage.data.attributes.used',
                     sortable: true
                 },
                 {

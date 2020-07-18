@@ -60,7 +60,9 @@ class AppFunctionsController extends Controller
 
             // If settings table don't exist, then run migrations
             if ($users_table && ! $settings_table) {
-                Artisan::call('migrate');
+                Artisan::call('migrate', [
+                    '--force' => true
+                ]);
             }
 
             // Get settings
@@ -68,6 +70,8 @@ class AppFunctionsController extends Controller
 
             // Get connection string
             if ($upgraded && $upgraded->value !== '1.7') {
+                $connection = 'quiet-update';
+            } else if (! $upgraded) {
                 $connection = 'quiet-update';
             } else {
                 $connection = $this->get_setup_status();
