@@ -38,8 +38,7 @@
                     />
                 </div>
 
-                <div class="toolbar-button-wrapper"
-                     v-if="$checkPermission(['master', 'editor'])">
+                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButton
                             source="move"
                             :class="{'is-inactive': canMoveInView}"
@@ -111,10 +110,15 @@
             ]),
             hasCapacity() {
 
-                if (! this.$store.getters.config.storageLimit) {
+                // Check if set storage limitation
+                if (! this.$store.getters.config.storageLimit)
                     return true
-                }
 
+                // Check if is loaded user
+                if (! this.$store.getters.user )
+                    return true
+
+                // Check if user has storage
                 return this.$store.getters.user.relationships.storage.data.attributes.used <= 100
             },
             directoryName() {

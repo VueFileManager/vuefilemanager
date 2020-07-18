@@ -56,7 +56,7 @@
 
             legal: {!! isset($legal) ? $legal : 'undefined' !!},
 
-            installation: '{{ $installation }}',
+            installation: '{{ $installation ?? '' }}',
             latest_upgrade: '{{ isset($settings->latest_upgrade) && $settings->latest_upgrade ? $settings->latest_upgrade : null }}',
         }
     </script>

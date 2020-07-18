@@ -21,10 +21,6 @@
         display: block;
         padding-bottom: 20px;
 
-        &:first-child {
-            padding-bottom: 0;
-        }
-
         .action-button {
             cursor: pointer;
 

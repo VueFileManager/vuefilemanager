@@ -17,7 +17,7 @@ class PlanResource extends JsonResource
     public function toArray($request)
     {
         // Get subscribers
-        $subscriber_count = Subscription::where('stripe_plan', $this['plan']['id'])->get();
+        $subscriber_count = Subscription::where('stripe_plan', $this['plan']['id'])->where('stripe_status', 'active')->get();
 
         return [
             'data' => [

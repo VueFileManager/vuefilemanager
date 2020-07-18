@@ -5,11 +5,11 @@
             <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
         <ul class="navigation-links">
-            <li>
+<!--            <li>
                 <a href="/#pricing">
                     {{ $t('page_index.menu.pricing') }}
                 </a>
-            </li>
+            </li>-->
             <li>
                 <router-link :to="{name: 'ContactUs'}">
                     {{ $t('page_index.menu.contact_us') }}

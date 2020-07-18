@@ -47,7 +47,7 @@
         @include widget-card;
         position: fixed;
         bottom: 0;
-        left: 35px;
+        left: 115px;
         max-width: 225px;
         z-index: 3;
         border-bottom-left-radius: 0;
