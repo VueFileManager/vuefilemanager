@@ -31,8 +31,8 @@ class UserSubscription extends JsonResource
                 'id'         => $subscription['plan']['id'],
                 'type'       => 'subscription',
                 'attributes' => [
-                    /*'is_highest'         => is_highest_plan($this->plan),*/
-                    'active'             => $subscription['plan']['active'],
+                    'incomplete'         => $this->subscription('main')->incomplete(),
+                    'active'             => $this->subscription('main')->active(),
                     'canceled'           => $this->subscription('main')->cancelled(),
                     'name'               => $subscription['product']['name'],
                     'capacity'           => (int)$subscription['product']['metadata']['capacity'],

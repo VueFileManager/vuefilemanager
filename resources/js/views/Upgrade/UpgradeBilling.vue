@@ -305,9 +305,6 @@
                 // Update user data
                 this.$store.dispatch('getAppData')
 
-                // End loading
-                this.isSubmitted = false
-
                 // Show toaster
                 events.$emit('toaster', {
                     type: 'success',
@@ -319,13 +316,16 @@
             },
             errorOrder(error) {
 
-                if (error.response.status = 402) {
+                // Redirect user to confirmation payment page
+                if (error.response.status === 402) {
+                    window.location.href = error.response.data.message;
+                }
+
+                // Show user error message
+                if (error.response.status === 400) {
                     this.isError = true
                     this.errorMessage = error.response.data.message
                 }
-
-                // End loading
-                this.isSubmitted = false
             },
             async submitOrder() {
 
@@ -375,6 +375,9 @@
                             })
                             .then(() => this.successOrder())
                             .catch((error) => this.errorOrder(error))
+                            .finally(() => {
+                                this.isSubmitted = false
+                            })
                     }
                 }
 
@@ -391,6 +394,9 @@
                         })
                         .then(() => this.successOrder())
                         .catch((error) => this.errorOrder(error))
+                        .finally(() => {
+                            this.isSubmitted = false
+                        })
                 }
             },
         },

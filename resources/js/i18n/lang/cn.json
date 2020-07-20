@@ -297,6 +297,7 @@
 		"item_counts": "{count} 个文件 | {count} 个文件"
 	},
 	"global": {
+		"incomplete": "Incomplete",
 		"active": "活性",
 		"admin": "管理员",
 		"cancel": "取消",
@@ -670,6 +671,10 @@
 		"button": "Upgrade",
 		"description": "You nearly reach your storage capacity.",
 		"title": "You reach your storage capacity. Please upgrade."
+	},
+	"incomplete_payment": {
+		"description": "Your latest payment is incomplete. {0}",
+		"href": "Please confirm your payment."
 	},
 	"uploading": {
 		"progress": "上传文件 {current}/{total}"

@@ -297,6 +297,7 @@
 		"item_counts": "{count} Item | {count} Items"
 	},
 	"global": {
+		"incomplete": "Incomplete",
 		"active": "Active",
 		"admin": "Admin",
 		"cancel": "Cancel",
@@ -670,6 +671,10 @@
 		"button": "Upgrade",
 		"description": "You nearly reach your storage capacity.",
 		"title": "You reach your storage capacity. Please upgrade."
+	},
+	"incomplete_payment": {
+		"description": "Your latest payment is incomplete. {0}",
+		"href": "Please confirm your payment."
 	},
 	"uploading": {
 		"progress": "Uploading files {current}/{total}"

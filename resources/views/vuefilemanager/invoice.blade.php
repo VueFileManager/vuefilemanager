@@ -34,7 +34,11 @@
 <div id="invoice-wrapper">
     <header class="invoice-header">
         <div class="logo">
-            <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager">
+            @if(isset($settings->app_logo_horizontal))
+                <img src="{{ url($settings->app_logo_horizontal) }}" alt="{{ $settings->app_title ?? 'VueFileManager' }}">
+            @else
+                <h1>{{ $settings->app_title ?? 'VueFileManager' }}</h1>
+            @endif
         </div>
         <div class="title">
             <h1>@lang('vuefilemanager.invoice_title')</h1>

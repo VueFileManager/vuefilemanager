@@ -2,14 +2,16 @@
     <div id="single-page">
         <div id="page-content" class="large-width center-page" v-show="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
-
             <div class="content-page">
+
+                <!--Page Title-->
                 <div class="plan-title">
                     <cloud-icon size="42" class="title-icon"></cloud-icon>
                     <h1>{{ $t('page_pricing_tables.title') }}</h1>
                     <h2>{{ $t('page_pricing_tables.description') }}</h2>
                 </div>
 
+                <!--Pricing Tables-->
                 <PlanPricingTables @load="onLoadPricingTables" @selected-plan="onSelectTable"/>
             </div>
         </div>
@@ -55,6 +57,10 @@
             StripeElementsScript.setAttribute('src', 'https://js.stripe.com/v3/')
             document.head.appendChild(StripeElementsScript)
         },
+        mounted() {
+            // Reload user data
+            this.$store.dispatch('getAppData')
+        }
     }
 </script>
 

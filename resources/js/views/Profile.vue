@@ -91,7 +91,7 @@
                                 <span class="email">{{ user.data.attributes.email }}</span>
                             </div>
                         </div>
-                        <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active" class="headline-actions">
+                        <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active && !canShowIncompletePayment" class="headline-actions">
                             <router-link :to="{name: 'UpgradePlan'}" v-if="canShowUpgradeButton">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
                                     {{ $t('global.upgrade_plan') }}
@@ -100,7 +100,15 @@
                         </div>
                     </div>
 
-                    <InfoBox v-if="canShowUpgradeWarning" type="error" class="upgrade-box">
+                    <!--Incomplete Payment Warning-->
+                    <InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
+                        <i18n path="incomplete_payment.description" tag="p">
+                            <a :href="user.data.attributes.incomplete_payment">{{ $t('incomplete_payment.href') }}</a>
+                        </i18n>
+                    </InfoBox>
+
+                    <!--Upgrade Storage Plan Warning-->
+                    <InfoBox v-if="canShowUpgradeWarning && !canShowIncompletePayment" type="error" class="message-box">
                         <p>{{ $t('upgrade_banner.title') }}</p>
                     </InfoBox>
 
@@ -171,6 +179,9 @@
             },
             canShowUpgradeWarning() {
                 return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
+            },
+            canShowIncompletePayment() {
+                return this.user.data.attributes.incomplete_payment
             }
         },
         data() {
@@ -226,8 +237,8 @@
         }
     }
 
-    .upgrade-box {
-        margin-top: -30px;
+    .message-box {
+        margin-top: -15px;
     }
 
     @media (prefers-color-scheme: dark) {

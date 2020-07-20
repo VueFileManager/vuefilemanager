@@ -23,7 +23,7 @@
                         {{ $t('page_index.menu.log_in') }}
                     </router-link>
                 </li>
-                <li>
+                <li v-if="config.userRegistration">
                     <router-link class="cta-button" :to="{name: 'SignUp'}">
                         {{ $t('page_index.menu.sign_in') }}
                     </router-link>

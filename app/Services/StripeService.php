@@ -8,6 +8,7 @@ use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Exceptions\IncompletePayment;
+use Laravel\Cashier\Exceptions\PaymentActionRequired;
 use Stripe;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -116,6 +117,7 @@ class StripeService
      * @param $request
      * @param $user
      * @param $paymentMethod
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function createOrReplaceSubscription($request, $user)
     {
@@ -138,7 +140,15 @@ class StripeService
 
         } catch (IncompletePayment $exception) {
 
-            throw new HttpException(400, 'We can\'t charge your card');
+            if ($exception instanceof PaymentActionRequired) {
+
+                $cashier_route = route('cashier.payment', [$exception->payment->id, 'redirect' => url('/settings/subscription')]);
+
+                throw new HttpException(402, $cashier_route);
+            } else {
+                throw new HttpException(400, $exception->getMessage());
+            }
+
         }
     }
 

@@ -28,6 +28,10 @@
             p, a {
                 color: $danger;
             }
+
+            a {
+                text-decoration: underline;
+            }
         }
 
         p {

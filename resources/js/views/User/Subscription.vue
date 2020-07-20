@@ -92,6 +92,9 @@
                 return this.isConfirmedResume ? 'theme-solid' : 'secondary'
             },
             status() {
+                if (this.subscription.data.attributes.incomplete) {
+                    return this.$t('global.incomplete')
+                }
                 if (this.subscription.data.attributes.canceled) {
                     return this.$t('global.canceled')
                 }

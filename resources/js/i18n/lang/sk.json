@@ -297,6 +297,7 @@
 		"item_counts": "{count} Položka | {count} Položky"
 	},
 	"global": {
+		"incomplete": "Incomplete",
 		"active": "Aktívny",
 		"admin": "Admin",
 		"cancel": "Zrušiť",
@@ -670,6 +671,10 @@
 		"button": "Inovovať",
 		"description": "Takmer ste dosiahli kapacitu úložiska",
 		"title": "Dosiahli ste kapacitu úložiska. Prosím inovujte úložisko."
+	},
+	"incomplete_payment": {
+		"description": "Vaša posledná platba nie je dokončená. {0}",
+		"href": "Prosím potvrďte Vašu platbu."
 	},
 	"uploading": {
 		"progress": "Nahrávam súbory {current}/{total}"
