@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\StripeService;
 use App\Setting;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,11 @@ use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
 class WebhookController extends CashierController
 {
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
     /**
      * Handle a cancelled customer from a Stripe subscription.
      *

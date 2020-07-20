@@ -16,6 +16,7 @@
                 <footer class="plan-footer">
                     <b class="price">
                         {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
+                        <small v-if="plan.data.attributes.tax_rates.length > 0" class="vat-disclaimer">{{ $t('page_pricing_tables.vat_excluded') }}</small>
                     </b>
                     <ButtonBase @click.native="selectPlan(plan)" type="submit" button-style="secondary" class="sign-in-button">
                         {{ $t('global.get_it') }}
@@ -133,6 +134,15 @@
                 @include font-size(18);
                 display: block;
                 margin-bottom: 20px;
+
+                .vat-disclaimer {
+                    @include font-size(11);
+                    color: $text;
+                    display: block;
+                    font-weight: 300;
+                    opacity: 0.45;
+                    margin-top: 5px;
+                }
             }
         }
     }
@@ -188,6 +198,13 @@
 
                     /deep/ .content {
                         color: $theme;
+                    }
+                }
+
+                .price {
+
+                    .vat-disclaimer {
+                        color: $dark_mode_text_primary;
                     }
                 }
             }

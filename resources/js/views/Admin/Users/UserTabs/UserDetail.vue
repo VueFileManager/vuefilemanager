@@ -82,9 +82,9 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>{{ $t('user_settings.state') }}:</label>
+                    <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_state"
+                        <input :value="user.relationships.settings.data.attributes.billing_country"
                                type="text"
                                disabled
                         />
@@ -111,9 +111,9 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>{{ $t('user_settings.country') }}:</label>
+                    <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_country"
+                        <input :value="user.relationships.settings.data.attributes.billing_state"
                                type="text"
                                disabled
                         />

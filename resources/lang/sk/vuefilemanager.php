@@ -19,6 +19,13 @@ return [
     // Invoice
     'print_button' => 'Vytlačiť dokument',
 
+    'vat'          => 'Daň',
+    'vat_included' => 'zah.',
+    'subtotal'     => 'Medzisúčet',
+
+    'tax_exempted'        => 'Daň je oslobodená',
+    'tax_be_paid_reverse' => 'Daň, ktorá sa má zaplatiť na základe prenesenia daňovej povinnosti',
+
     'invoice_title'  => 'Faktúra',
     'date'           => 'Dátum',
     'product'        => 'Produkt',

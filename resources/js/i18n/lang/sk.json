@@ -411,6 +411,7 @@
 	"page_pricing_tables": {
 		"description": "Vyberte si plán, ktorý dokonale vyhovuje vašim potrebám. Všetky plány sa fakturujú mesačne automaticky prostredníctvom vašej kreditnej karty.",
 		"storage_capacity": "Kapacita úložiska",
+		"vat_excluded": "Ceny nezahrňajú DPH.",
 		"title": "Vyberte si svoj plán"
 	},
 	"page_registration": {
@@ -461,6 +462,8 @@
 		"section_card": "Platobná karta",
 		"section_summary": "Zhrnutie objednávky",
 		"summary": {
+			"total_with_vat": "Spolu s DPH",
+			"vat": "DPH",
 			"period": "Účtované mesačne",
 			"submit_button": "Zaplatiť kreditnou kartou",
 			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
@@ -722,7 +725,7 @@
 		"city": "Mesto",
 		"city_plac": "Zadajte svoje fakturačné mesto",
 		"country": "Krajina",
-		"country_plac": "Zadajte svoju fakturačnú krajinu",
+		"country_plac": "Vyberte svoju fakturačnú krajinu",
 		"name": "Meno",
 		"name_plac": "Zadajte svoje fakturačné meno",
 		"phone_number": "Telefónne číslo",

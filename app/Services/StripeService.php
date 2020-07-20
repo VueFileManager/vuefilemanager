@@ -50,6 +50,17 @@ class StripeService
     }
 
     /**
+     * Get tax rate ids
+     * @return array
+     */
+    public function getTaxRates()
+    {
+        $tax_rates = $this->stripe->taxRates()->all();
+
+        return $tax_rates['data'];
+    }
+
+    /**
      * Get default payment option or set new default payment
      *
      * @param $request

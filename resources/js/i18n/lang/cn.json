@@ -411,6 +411,7 @@
 	"page_pricing_tables": {
 		"description": "选择计划巫婆完全适合您的需求。所有计划都会通过您的信用卡每月自动结算。",
 		"storage_capacity": "储存容量",
+		"vat_excluded": "Price displayed excludes VAT.",
 		"title": "选择您的计划"
 	},
 	"page_registration": {
@@ -463,7 +464,9 @@
 		"summary": {
 			"period": "每月计费",
 			"submit_button": "用信用卡付款",
-			"submit_disclaimer": "通过提交表单，您同意在您的{app}帐户中保存付款方式和帐单信息。"
+			"submit_disclaimer": "通过提交表单，您同意在您的{app}帐户中保存付款方式和帐单信息。",
+			"total_with_vat": "Total with VAT",
+			"vat": "VAT"
 		},
 		"title": "选择付款方式"
 	},

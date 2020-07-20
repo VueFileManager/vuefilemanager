@@ -14,7 +14,7 @@
             'size'
         ],
         computed: {
-            ...mapGetters(['user']),
+            ...mapGetters(['user', 'config']),
             isIncompletePayment() {
                 return this.user.data.attributes.incomplete_payment
             },

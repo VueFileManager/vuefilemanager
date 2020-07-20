@@ -19,6 +19,13 @@ return [
     // Invoice
     'print_button' => 'Print Document',
 
+    'vat'          => 'VAT',
+    'vat_included' => 'incl.',
+    'subtotal'     => 'Subtotal',
+
+    'tax_exempted'        => 'Tax is exempted',
+    'tax_be_paid_reverse' => 'Tax to be paid on reverse charge basis',
+
     'invoice_title'  => 'Invoice',
     'date'           => 'Date',
     'product'        => 'Product',

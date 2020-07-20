@@ -35,7 +35,8 @@
     <header class="invoice-header">
         <div class="logo">
             @if(isset($settings->app_logo_horizontal))
-                <img src="{{ url($settings->app_logo_horizontal) }}" alt="{{ $settings->app_title ?? 'VueFileManager' }}">
+                <img src="{{ url($settings->app_logo_horizontal) }}"
+                     alt="{{ $settings->app_title ?? 'VueFileManager' }}">
             @else
                 <h1>{{ $settings->app_title ?? 'VueFileManager' }}</h1>
             @endif
@@ -58,6 +59,14 @@
                 <b>@lang('vuefilemanager.invoice_number'):</b>
                 <span>{{ $invoice->number }}</span>
             </li>
+
+            <!-- Extra / VAT Information -->
+            @if (isset($vat))
+                <li class="list-item">
+                    <b>@lang('vuefilemanager.vat'):</b>
+                    <span>{{ $vat }}</span>
+                </li>
+            @endif
         </ul>
     </section>
     <div class="invoice-partners">
@@ -179,31 +188,172 @@
         </div>
     </div>
     <div class="invoice-order">
-        <table class="table" width="100%" class="table" border="0">
+    {{--<table class="table" width="100%" border="0">
+        <thead class="table-header">
+        <tr>
+            <td>@lang('vuefilemanager.col_description')</td>
+            <td>@lang('vuefilemanager.col_date')</td>
+            <td>@lang('vuefilemanager.col_amount')</td>
+        </tr>
+        </thead>
+        <tbody class="table-body">
+
+            --}}{{--Display invoices--}}{{--
+            @foreach($invoice->invoiceItems() as $item)
+                <tr>
+                    <td colspan="2">{{ $item->description }}</td>
+                    <td>{{ $item->total() }}</td>
+                </tr>
+            @endforeach
+
+            --}}{{--Display subscription--}}{{--
+            @foreach($invoice->subscriptions() as $subscription)
+                <tr>
+                    <td>@lang('vuefilemanager.subscription') ({{ $subscription->quantity }})</td>
+                    <td>{{ $subscription->startDateAsCarbon()->formatLocalized('%d. %B. %Y') }} -
+                        {{ $subscription->endDateAsCarbon()->formatLocalized('%d. %B. %Y') }}</td>
+                    <td>{{ $subscription->total() }}</td>
+                </tr>
+            @endforeach
+
+            <!-- Display The Taxes -->
+            @unless ($invoice->isNotTaxExempt())
+                <tr>
+                    <td colspan="{{ $invoice->hasTax() ? 2 : 1 }}" style="text-align: right;">
+                        @if ($invoice->isTaxExempt())
+                            Tax is exempted
+                        @else
+                            Tax to be paid on reverse charge basis
+                        @endif
+                    </td>
+                    <td></td>
+                </tr>
+            @else
+                @foreach ($invoice->taxes() as $tax)
+                    <tr>
+                        <td colspan="2" style="text-align: right;">
+                            {{ $tax->display_name }} {{ $tax->jurisdiction ? ' - '.$tax->jurisdiction : '' }}
+                            ({{ $tax->percentage }}%{{ $tax->isInclusive() ? ' incl.' : '' }})
+                        </td>
+                        <td>{{ $tax->amount() }}</td>
+                    </tr>
+                @endforeach
+            @endunless
+        </tbody>
+    </table>--}}
+
+    <!-- Invoice Table -->
+        <table width="100%" class="table" border="0">
             <thead class="table-header">
             <tr>
                 <td>@lang('vuefilemanager.col_description')</td>
                 <td>@lang('vuefilemanager.col_date')</td>
+                @if ($invoice->hasTax())
+                    <td align="right">@lang('vuefilemanager.vat')</td>
+                @endif
                 <td>@lang('vuefilemanager.col_amount')</td>
             </tr>
             </thead>
+
             <tbody class="table-body">
-                @foreach($invoice->invoiceItems() as $item)
-                    <tr>
+
+                <!-- Display The Invoice Items -->
+                @foreach ($invoice->invoiceItems() as $item)
+                    <tr class="row">
                         <td colspan="2">{{ $item->description }}</td>
+
+                        @if ($invoice->hasTax())
+                            <td>
+                                @if ($inclusiveTaxPercentage = $item->inclusiveTaxPercentage())
+                                    {{ $inclusiveTaxPercentage }}% incl.
+                                @endif
+
+                                @if ($item->hasBothInclusiveAndExclusiveTax())
+                                    +
+                                @endif
+
+                                @if ($exclusiveTaxPercentage = $item->exclusiveTaxPercentage())
+                                    {{ $exclusiveTaxPercentage }}%
+                                @endif
+                            </td>
+                        @endif
+
                         <td>{{ $item->total() }}</td>
                     </tr>
                 @endforeach
 
-                @foreach($invoice->subscriptions() as $subscription)
-                    <tr>
+                <!-- Display The Subscriptions -->
+                @foreach ($invoice->subscriptions() as $subscription)
+                    <tr class="row">
                         <td>@lang('vuefilemanager.subscription') ({{ $subscription->quantity }})</td>
-                        <td>{{ $subscription->startDateAsCarbon()->formatLocalized('%d. %B. %Y') }} -
-                            {{ $subscription->endDateAsCarbon()->formatLocalized('%d. %B. %Y') }}</td>
+                        <td>
+                            {{ $subscription->startDateAsCarbon()->formatLocalized('%B %e, %Y') }} -
+                            {{ $subscription->endDateAsCarbon()->formatLocalized('%B %e, %Y') }}
+                        </td>
+
+                        @if ($invoice->hasTax())
+                            <td>
+                                @if ($inclusiveTaxPercentage = $subscription->inclusiveTaxPercentage())
+                                    {{ $inclusiveTaxPercentage }}% @lang('vuefilemanager.vat_included')
+                                @endif
+
+                                @if ($subscription->hasBothInclusiveAndExclusiveTax())
+                                    +
+                                @endif
+
+                                @if ($exclusiveTaxPercentage = $subscription->exclusiveTaxPercentage())
+                                    {{ $exclusiveTaxPercentage }}%
+                                @endif
+                            </td>
+                        @endif
+
                         <td>{{ $subscription->total() }}</td>
                     </tr>
                 @endforeach
+
+                <!-- Display The Subtotal -->
+                @if ($invoice->hasDiscount() || $invoice->hasTax() || $invoice->hasStartingBalance())
+                    <tr>
+                        <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">@lang('vuefilemanager.subtotal')</td>
+                        <td>{{ $invoice->subtotal() }}</td>
+                    </tr>
+                @endif
+
+                <!-- Display The Taxes -->
+                @unless ($invoice->isNotTaxExempt())
+                    <tr>
+                        <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">
+                            @if ($invoice->isTaxExempt())
+                                @lang('vuefilemanager.tax_exempted')
+                            @else
+                                @lang('vuefilemanager.tax_be_paid_reverse')
+                            @endif
+                        </td>
+                        <td></td>
+                    </tr>
+                @else
+                    @foreach ($invoice->taxes() as $tax)
+                        <tr>
+                            <td colspan="3" style="text-align: right;">
+                                {{ $tax->display_name }} {{ $tax->jurisdiction ? ' - '.$tax->jurisdiction : '' }}
+                                ({{ $tax->percentage }}%{{ $tax->isInclusive() ? ' ' . __('vuefilemanager.vat_included') : '' }})
+                            </td>
+                            <td>{{ $tax->amount() }}</td>
+                        </tr>
+                    @endforeach
+                @endunless
+
+                <!-- Display The Final Total -->
+                <tr>
+                    <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">
+                        <strong>@lang('vuefilemanager.total')</strong>
+                    </td>
+                    <td>
+                        <strong>{{ $invoice->total() }}</strong>
+                    </td>
+                </tr>
             </tbody>
+
         </table>
     </div>
     <div class="invoice-summary">

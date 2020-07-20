@@ -48,16 +48,6 @@
                         />
                     </div>
                 </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('user_settings.state') }}:</label>
-                    <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'billing_state', billingInfo.billing_state)"
-                               v-model="billingInfo.billing_state"
-                               :placeholder="$t('user_settings.state_plac')"
-                               type="text"
-                        />
-                    </div>
-                </div>
                 <div class="wrapper-inline">
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.city') }}:</label>
@@ -83,11 +73,24 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'billing_country', billingInfo.billing_country)"
-                               v-model="billingInfo.billing_country"
-                               :placeholder="$t('user_settings.country_plac')"
+                        <SelectInput @input="$updateText('/user/relationships/settings', 'billing_country', billingInfo.billing_country)"
+                                     v-model="billingInfo.billing_country"
+                                     :default="billingInfo.billing_country"
+                                     :options="countries"
+                                     :placeholder="$t('user_settings.country_plac')"/>
+                    </div>
+                </div>
+                <div class="block-wrapper">
+                    <label>{{ $t('user_settings.state') }}:</label>
+                    <div class="input-wrapper">
+                        <input @keyup="$updateText('/user/relationships/settings', 'billing_state', billingInfo.billing_state)"
+                               v-model="billingInfo.billing_state"
+                               :placeholder="$t('user_settings.state_plac')"
                                type="text"
                         />
+                        <small class="input-help">
+                            State, county, province, or region.
+                        </small>
                     </div>
                 </div>
                 <div class="block-wrapper">
@@ -108,6 +111,7 @@
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import SelectInput from '@/components/Others/Forms/SelectInput'
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -124,19 +128,20 @@
             'user'
         ],
         components: {
-            PageTabGroup,
-            FormLabel,
-            PageTab,
             ValidationProvider,
             ValidationObserver,
+            PageTabGroup,
             MobileHeader,
+            SelectInput,
             PageHeader,
             ButtonBase,
             ThemeLabel,
+            FormLabel,
             required,
+            PageTab,
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters(['config', 'countries']),
         },
         data() {
             return {

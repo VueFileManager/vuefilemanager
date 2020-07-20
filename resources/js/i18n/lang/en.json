@@ -411,6 +411,7 @@
 	"page_pricing_tables": {
 		"description": "Choose plan witch perfect fit your needs. All plans is billed monthly automatically via your credit card.",
 		"storage_capacity": "Of Storage Capacity",
+		"vat_excluded": "Price displayed excludes VAT.",
 		"title": "Choose Your Plan"
 	},
 	"page_registration": {
@@ -461,6 +462,8 @@
 		"section_card": "Payment Card",
 		"section_summary": "Order Summary",
 		"summary": {
+			"total_with_vat": "Total with VAT",
+			"vat": "VAT",
 			"period": "Billed monthly",
 			"submit_button": "Pay with credit card",
 			"submit_disclaimer": "By submit form, you agree to save the payment method and billing information in your {app} account."
@@ -722,7 +725,7 @@
 		"city": "City",
 		"city_plac": "Type your billing city",
 		"country": "Country",
-		"country_plac": "Type your billing country",
+		"country_plac": "Select your billing country",
 		"name": "Name",
 		"name_plac": "Type your billing name",
 		"phone_number": "Phone Number",

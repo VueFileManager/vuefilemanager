@@ -114,20 +114,6 @@
                                         </ValidationProvider>
                                     </div>
 
-                                    <div class="block-wrapper">
-                                        <label>{{ $t('user_settings.state') }}:</label>
-                                        <ValidationProvider tag="div" mode="passive" class="input-wrapper"
-                                                            rules="required"
-                                                            name="billing_state" v-slot="{ errors }">
-                                            <input v-model="billing.billing_state"
-                                                   :placeholder="$t('user_settings.state_plac')"
-                                                   type="text"
-                                                   :class="{'is-error': errors[0]}"
-                                            />
-                                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                                        </ValidationProvider>
-                                    </div>
-
                                     <div class="wrapper-inline">
                                         <div class="block-wrapper">
                                             <label>{{ $t('user_settings.city') }}:</label>
@@ -163,11 +149,28 @@
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_country" v-slot="{ errors }">
-                                            <input v-model="billing.billing_country"
-                                                   :placeholder="$t('user_settings.country_plac')"
+                                            <SelectInput v-model="billing.billing_country"
+                                                         :default="billing.billing_country"
+                                                         :options="countries"
+                                                         :placeholder="$t('user_settings.country_plac')"
+                                                         :isError="errors[0]" />
+                                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                        </ValidationProvider>
+                                    </div>
+
+                                    <div class="block-wrapper">
+                                        <label>{{ $t('user_settings.state') }}:</label>
+                                        <ValidationProvider tag="div" mode="passive" class="input-wrapper"
+                                                            rules="required"
+                                                            name="billing_state" v-slot="{ errors }">
+                                            <input v-model="billing.billing_state"
+                                                   :placeholder="$t('user_settings.state_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
                                             />
+                                            <small class="input-help">
+                                                State, county, province, or region.
+                                            </small>
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
                                     </div>
@@ -201,7 +204,17 @@
                                     <b>{{ requestedPlan.data.attributes.price }}</b>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" v-if="taxRates">
+                                <div class="cell">
+                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ taxRates.jurisdiction }} {{ taxRates.percentage }}%)</b>
+                                </div>
+                                <div class="cell">
+                                    <b>{{ taxRates.plan_price_formatted }}</b>
+                                </div>
+                            </div>
+
+                            <!--Show total when tax rates is not specified-->
+                            <div class="row" v-if="! taxRates">
                                 <div class="cell">
                                     <b>{{ $t('global.total') }}</b>
                                 </div>
@@ -209,6 +222,17 @@
                                     <b>{{ requestedPlan.data.attributes.price }}</b>
                                 </div>
                             </div>
+
+                            <!--Show total when is tax rates-->
+                            <div class="row" v-if="taxRates">
+                                <div class="cell">
+                                    <b>{{ $t('page_upgrade_account.summary.total_with_vat') }}</b>
+                                </div>
+                                <div class="cell">
+                                    <b>{{ taxRates.plan_price_formatted }}</b>
+                                </div>
+                            </div>
+
                             <ButtonBase :disabled="isSubmitted" :loading="isSubmitted" @click.native="submitOrder"
                                         type="submit" button-style="theme-solid" class="next-submit">
                                 {{ $t('page_upgrade_account.summary.submit_button') }}
@@ -231,6 +255,7 @@
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PlanPricingTables from '@/components/Others/PlanPricingTables'
+    import SelectInput from '@/components/Others/Forms/SelectInput'
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -254,6 +279,7 @@
             PlanPricingTables,
             CreditCardIcon,
             MobileHeader,
+            SelectInput,
             ButtonBase,
             PageHeader,
             ColorLabel,
@@ -263,9 +289,14 @@
             InfoBox,
         },
         computed: {
-            ...mapGetters(['requestedPlan', 'config']),
+            ...mapGetters(['requestedPlan', 'config', 'countries']),
             billing() {
                 return this.$store.getters.user.relationships.settings.data.attributes
+            },
+            taxRates() {
+                return this.requestedPlan.data.attributes.tax_rates.find(taxRate => {
+                   return taxRate.jurisdiction === this.billing.billing_country
+                })
             }
         },
         data() {
@@ -325,6 +356,16 @@
                 if (error.response.status === 400) {
                     this.isError = true
                     this.errorMessage = error.response.data.message
+                }
+
+                if (error.response.status === 500) {
+                    this.isError = true
+                    this.errorMessage = error.response.data.message
+
+                    events.$emit('alert:open', {
+                        title: this.$t('popup_error.title'),
+                        message: this.$t('popup_error.message'),
+                    })
                 }
             },
             async submitOrder() {

@@ -115,6 +115,26 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get tax rate id for user
+     *
+     * @return array
+     */
+    public function taxRates()
+    {
+        $stripe = resolve('App\Services\StripeService');
+
+        // Get tax rates
+        $rates = collect($stripe->getTaxRates());
+
+        // Find tax rate
+        $user_tax_rate = $rates->first(function ($item) {
+            return $item['jurisdiction'] === $this->settings->billing_country && $item['active'];
+        });
+
+        return $user_tax_rate ? [$user_tax_rate['id']] : [];
+    }
+
+    /**
      * Get user used storage details
      *
      * @return mixed

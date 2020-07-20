@@ -64,6 +64,9 @@
         },
         computed: {
             status() {
+                if (this.subscription.attributes.incomplete) {
+                    return this.$t('global.incomplete')
+                }
                 if (this.subscription.attributes.canceled) {
                     return this.$t('global.canceled')
                 }
