@@ -3,7 +3,9 @@
 
         <!--Registration-->
         <AuthContent name="sign-up" :visible="true">
-            <img class="logo" :src="config.app_logo" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo" :src="config.app_logo" :alt="config.app_name">
+            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+
             <h1>{{ $t('page_registration.title') }}</h1>
             <h2>{{ $t('page_registration.subtitle') }}</h2>
 
@@ -50,7 +52,11 @@
                     </ValidationProvider>
                 </div>
 
-                <div>
+                <div v-if="config.isSaaS">
+                    <i18n path="page_registration.agreement" tag="p" class="legal-agreement">
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">{{ termsOfService.title }}</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">{{ privacyPolicy.title }}</router-link>
+                    </i18n>
                     <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
@@ -87,6 +93,16 @@
         },
         computed: {
             ...mapGetters(['config']),
+            privacyPolicy() {
+                return this.config.legal.find(legal => {
+                    return legal.slug === 'privacy-policy'
+                })
+            },
+            termsOfService() {
+                return this.config.legal.find(legal => {
+                    return legal.slug === 'terms-of-service'
+                })
+            },
         },
         data() {
             return {
@@ -168,10 +184,26 @@
                     })
             }
         },
+        created() {
+            this.$scrollTop()
+        }
     }
 </script>
 
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_auth-form';
     @import '@assets/vue-file-manager/_auth';
+
+    .legal-agreement {
+        @include font-size(16);
+        padding: 55px 0 0;
+        max-width: 400px;
+        font-weight: 700;
+        line-height: 1.6;
+        margin: 0 auto;
+
+        a {
+            color: $theme;
+        }
+    }
 </style>

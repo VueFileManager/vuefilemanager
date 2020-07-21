@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\CheckAccountRequest;
+use App\Setting;
 use App\User;
 use App\UserSettings;
 use Illuminate\Http\Request;
@@ -20,20 +21,21 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function check_account(CheckAccountRequest $request) {
-
+    public function check_account(CheckAccountRequest $request)
+    {
         // Get User
         $user = User::where('email', $request->input('email'))->select(['name', 'avatar'])->first();
 
         // Return user info
         if ($user) return [
-            'name' => $user->name,
+            'name'   => $user->name,
             'avatar' => $user->avatar,
         ];
 
         // Abort with 404, user not found
         return abort('404', __('vuefilemanager.user_not_fount'));
     }
+
     /**
      * Login user
      *
@@ -42,17 +44,16 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $response = Route::dispatch(self::make_request($request));
+        $response = Route::dispatch(self::make_login_request($request));
 
         if ($response->isSuccessful()) {
 
             $data = json_decode($response->content(), true);
 
             return response('Login Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
-        } else {
-
-            return $response;
         }
+
+        return $response;
     }
 
     /**
@@ -63,12 +64,14 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $settings = Setting::whereIn('name', ['storage_default', 'registration'])->pluck('value', 'name');
+
         // Check if account registration is enabled
-        if (! config('vuefilemanager.registration') ) abort(401);
+        if (! intval($settings['registration'])) abort(401);
 
         // Validate request
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
@@ -81,21 +84,21 @@ class AuthController extends Controller
         ]);
 
         // Create settings
-        $settings = UserSettings::create([
-            'user_id' => $user->id
+        UserSettings::forceCreate([
+            'user_id'          => $user->id,
+            'storage_capacity' => $settings['storage_default'],
         ]);
 
-        $response = Route::dispatch(self::make_request($request));
+        $response = Route::dispatch(self::make_login_request($request));
 
         if ($response->isSuccessful()) {
 
             $data = json_decode($response->content(), true);
 
             return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
-        } else {
-
-            return $response;
         }
+
+        return $response;
     }
 
     /**
@@ -106,7 +109,7 @@ class AuthController extends Controller
     public function logout()
     {
         // Demo preview
-        if (is_demo( Auth::id())) {
+        if (is_demo(Auth::id())) {
             return response('Logout successfull', 204)
                 ->cookie('access_token', '', -1);
         }
@@ -118,18 +121,17 @@ class AuthController extends Controller
             $token->delete();
         });
 
-        return response('Logout successfull', 204)
+        return response('Logout successful', 204)
             ->cookie('access_token', '', -1);
     }
 
     /**
-     * Make request for get user token
+     * Make login request for get access token
      *
      * @param Request $request
-     * @param string $provider
      * @return Request
      */
-    private static function make_request($request)
+    private static function make_login_request($request)
     {
         $request->request->add([
             'grant_type'    => 'password',

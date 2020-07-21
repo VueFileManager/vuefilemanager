@@ -8,5 +8,5 @@ class UserSettings extends Model
 {
     public $timestamps = false;
 
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'storage_capacity'];
 }

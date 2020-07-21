@@ -101,7 +101,7 @@
             required,
         },
         computed: {
-            ...mapGetters(['app', 'permissionOptions', 'currentFolder']),
+            ...mapGetters(['user', 'permissionOptions', 'currentFolder']),
             isFolder() {
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },

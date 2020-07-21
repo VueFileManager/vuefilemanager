@@ -6,27 +6,31 @@ import router from '@/router'
 const defaultState = {
     authorized: undefined,
     permission: 'master', // master | editor | visitor
-    app: undefined,
+    user: undefined,
 }
 
 const actions = {
     getAppData: ({commit, getters}) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(getters.api + '/user')
+                .then((response) => {
+                    resolve(response)
 
-        axios
-            .get(getters.api + '/user')
-            .then((response) => {
-                commit('RETRIEVE_APP_DATA', response.data)
+                    commit('RETRIEVE_USER', response.data)
 
-            }).catch((error) => {
+                }).catch((error) => {
+                    reject(error)
 
-                // Redirect if unauthenticated
-                if ([401, 403].includes(error.response.status)) {
+                    // Redirect if unauthenticated
+                    if ([401, 403].includes(error.response.status)) {
 
-                    commit('SET_AUTHORIZED', false)
-                    router.push({name: 'SignIn'})
+                        commit('SET_AUTHORIZED', false)
+                        router.push({name: 'SignIn'})
+                    }
                 }
-            }
-        )
+            )
+        })
     },
     logOut: ({getters, commit}) => {
         axios
@@ -74,8 +78,8 @@ const actions = {
 }
 
 const mutations = {
-    RETRIEVE_APP_DATA(state, app) {
-        state.app = app
+    RETRIEVE_USER(state, user) {
+        state.user = user
     },
     SET_PERMISSION(state, role) {
         state.permission = role
@@ -85,30 +89,23 @@ const mutations = {
         state.app = undefined
     },
     ADD_TO_FAVOURITES(state, folder) {
-        state.app.favourites.push({
+        state.user.relationships.favourites.data.attributes.folders.push({
             unique_id: folder.unique_id,
             name: folder.name,
             type: folder.type,
         })
     },
     UPDATE_NAME(state, name) {
-        state.app.user.name = name
+        state.user.data.attributes.name = name
     },
     UPDATE_AVATAR(state, avatar) {
-        state.app.user.avatar = avatar
-    },
-    UPDATE_RECENT_UPLOAD(state, file) {
-        // Remove last file from altest uploads
-        if (state.app.latest_uploads.length === 7) state.app.latest_uploads.pop()
-
-        // Add new file to latest uploads
-        state.app.latest_uploads.unshift(file)
+        state.user.data.attributes.avatar = avatar
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.app.favourites = state.app.favourites.filter(folder => folder.unique_id !== item.unique_id)
+        state.user.relationships.favourites.data.attributes.folders = state.user.relationships.favourites.data.attributes.folders.filter(folder => folder.unique_id !== item.unique_id)
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
-        state.app.favourites.find(folder => {
+        state.user.relationships.favourites.data.attributes.folders.find(folder => {
             if (folder.unique_id == data.unique_id) folder.name = data.name
         })
     }
@@ -118,7 +115,7 @@ const getters = {
     permission: state => state.permission,
     isGuest: state => ! state.authorized,
     isLogged: state => state.authorized,
-    app: state => state.app,
+    user: state => state.user,
 }
 
 export default {

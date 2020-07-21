@@ -5,13 +5,19 @@
  */
 
 /*!
- * vue-i18n v8.17.4 
+ * vue-i18n v8.18.2 
  * (c) 2020 kazuya kawaguchi
  * Released under the MIT License.
  */
 
+/*!
+ * vuex v3.5.1
+ * (c) 2020 Evan You
+ * @license MIT
+ */
+
 /**
-  * vee-validate v3.3.0
+  * vee-validate v3.3.7
   * (c) 2020 Abdelrahman Awad
   * @license MIT
   */
@@ -23,10 +29,4 @@
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * vuex v3.3.0
- * (c) 2020 Evan You
- * @license MIT
  */

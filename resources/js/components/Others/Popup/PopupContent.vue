@@ -18,7 +18,6 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .popup-content {
-
         &.height-limited {
             height: 400px;
             overflow-y: auto;

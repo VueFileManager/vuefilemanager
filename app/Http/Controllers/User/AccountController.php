@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\FileManagerFile;
 use App\FileManagerFolder;
+use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\StorageDetailResource;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -21,31 +23,13 @@ class AccountController extends Controller
     /**
      * Get all user data to frontend
      *
-     * @return array
+     * @return UserResource
      */
     public function user()
     {
-        // Get User
-        $user = User::with(['favourites', 'latest_uploads'])
-            ->where('id', Auth::id())
-            ->first();
-
-        // Get folder tree
-        $tree = FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
-            ->where('parent_id', 0)
-            ->where('user_id', $user->id)
-            ->get();
-
-        return [
-            'user'       => $user->only(['name', 'email', 'avatar', 'role']),
-            'favourites' => $user->favourites->makeHidden(['pivot']),
-            'tree'       => $tree,
-            'storage'    => [
-                'used'       => Metric::bytes($user->used_capacity)->format(),
-                'capacity'   => format_gigabytes($user->settings->storage_capacity),
-                'percentage' => get_storage_fill_percentage($user->used_capacity, $user->settings->storage_capacity),
-            ],
-        ];
+        return new UserResource(
+            Auth::user()
+        );
     }
 
     /**
@@ -55,7 +39,20 @@ class AccountController extends Controller
      */
     public function storage()
     {
-        return new UserStorageResource(Auth::user());
+        return new UserStorageResource(
+            Auth::user()
+        );
+    }
+
+    /**
+     * Get user invoices
+     *
+     * @return InvoiceCollection
+     */
+    public function invoices() {
+        return new InvoiceCollection(
+            Auth::user()->invoices()
+        );
     }
 
     /**
@@ -84,9 +81,6 @@ class AccountController extends Controller
             return Demo::response_204();
         }
 
-        // Check role
-        if ($request->has('role')) abort(403);
-
         // Update data
         if ($request->hasFile('avatar')) {
 
@@ -101,6 +95,29 @@ class AccountController extends Controller
             // Update text data
             $user->update(make_single_input($request));
         }
+
+        return response('Saved!', 204);
+    }
+
+    /**
+     * Update user settings relationship
+     *
+     * @param Request $request
+     * @return ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update_user_settings(Request $request)
+    {
+        // TODO: validation
+        // Get user
+        $user = Auth::user();
+
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return Demo::response_204();
+        }
+
+        // Update text data
+        $user->settings->update(make_single_input($request));
 
         return response('Saved!', 204);
     }

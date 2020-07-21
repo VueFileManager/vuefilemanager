@@ -42,7 +42,7 @@ class TrashController extends Controller
             Storage::delete('/file-manager/' . $file->basename);
 
             // Delete thumbnail if exist
-            if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+            if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
 
             // Delete file permanently
             $file->forceDelete();

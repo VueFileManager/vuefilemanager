@@ -164,6 +164,7 @@ return [
 
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -193,76 +194,102 @@ return [
 
     'aliases' => [
 
-        'App' => Illuminate\Support\Facades\App::class,
-        'Arr' => Illuminate\Support\Arr::class,
-        'Artisan' => Illuminate\Support\Facades\Artisan::class,
-        'Auth' => Illuminate\Support\Facades\Auth::class,
-        'Blade' => Illuminate\Support\Facades\Blade::class,
-        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
-        'Bus' => Illuminate\Support\Facades\Bus::class,
-        'Cache' => Illuminate\Support\Facades\Cache::class,
-        'Config' => Illuminate\Support\Facades\Config::class,
-        'Cookie' => Illuminate\Support\Facades\Cookie::class,
-        'Crypt' => Illuminate\Support\Facades\Crypt::class,
-        'DB' => Illuminate\Support\Facades\DB::class,
-        'Eloquent' => Illuminate\Database\Eloquent\Model::class,
-        'Event' => Illuminate\Support\Facades\Event::class,
-        'File' => Illuminate\Support\Facades\File::class,
-        'Gate' => Illuminate\Support\Facades\Gate::class,
-        'Hash' => Illuminate\Support\Facades\Hash::class,
-        'Lang' => Illuminate\Support\Facades\Lang::class,
-        'Log' => Illuminate\Support\Facades\Log::class,
-        'Mail' => Illuminate\Support\Facades\Mail::class,
+        'App'          => Illuminate\Support\Facades\App::class,
+        'Arr'          => Illuminate\Support\Arr::class,
+        'Artisan'      => Illuminate\Support\Facades\Artisan::class,
+        'Auth'         => Illuminate\Support\Facades\Auth::class,
+        'Blade'        => Illuminate\Support\Facades\Blade::class,
+        'Broadcast'    => Illuminate\Support\Facades\Broadcast::class,
+        'Bus'          => Illuminate\Support\Facades\Bus::class,
+        'Cache'        => Illuminate\Support\Facades\Cache::class,
+        'Config'       => Illuminate\Support\Facades\Config::class,
+        'Cookie'       => Illuminate\Support\Facades\Cookie::class,
+        'Crypt'        => Illuminate\Support\Facades\Crypt::class,
+        'DB'           => Illuminate\Support\Facades\DB::class,
+        'Eloquent'     => Illuminate\Database\Eloquent\Model::class,
+        'Event'        => Illuminate\Support\Facades\Event::class,
+        'File'         => Illuminate\Support\Facades\File::class,
+        'Gate'         => Illuminate\Support\Facades\Gate::class,
+        'Hash'         => Illuminate\Support\Facades\Hash::class,
+        'Lang'         => Illuminate\Support\Facades\Lang::class,
+        'Log'          => Illuminate\Support\Facades\Log::class,
+        'Mail'         => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
-        'Password' => Illuminate\Support\Facades\Password::class,
-        'Queue' => Illuminate\Support\Facades\Queue::class,
-        'Redirect' => Illuminate\Support\Facades\Redirect::class,
-        'Redis' => Illuminate\Support\Facades\Redis::class,
-        'Request' => Illuminate\Support\Facades\Request::class,
-        'Response' => Illuminate\Support\Facades\Response::class,
-        'Route' => Illuminate\Support\Facades\Route::class,
-        'Schema' => Illuminate\Support\Facades\Schema::class,
-        'Session' => Illuminate\Support\Facades\Session::class,
-        'Storage' => Illuminate\Support\Facades\Storage::class,
-        'Str' => Illuminate\Support\Str::class,
-        'URL' => Illuminate\Support\Facades\URL::class,
-        'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View' => Illuminate\Support\Facades\View::class,
-
-        'Image' => Intervention\Image\Facades\Image::class
-
+        'Password'     => Illuminate\Support\Facades\Password::class,
+        'Queue'        => Illuminate\Support\Facades\Queue::class,
+        'Redirect'     => Illuminate\Support\Facades\Redirect::class,
+        'Redis'        => Illuminate\Support\Facades\Redis::class,
+        'Request'      => Illuminate\Support\Facades\Request::class,
+        'Response'     => Illuminate\Support\Facades\Response::class,
+        'Route'        => Illuminate\Support\Facades\Route::class,
+        'Schema'       => Illuminate\Support\Facades\Schema::class,
+        'Session'      => Illuminate\Support\Facades\Session::class,
+        'Storage'      => Illuminate\Support\Facades\Storage::class,
+        'Str'          => Illuminate\Support\Str::class,
+        'URL'          => Illuminate\Support\Facades\URL::class,
+        'Validator'    => Illuminate\Support\Facades\Validator::class,
+        'View'         => Illuminate\Support\Facades\View::class,
+        'Image'        => Intervention\Image\Facades\Image::class,
+        'Stripe'       => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
     ],
 
     'deploy_secret' => env('APP_DEPLOY_SECRET'),
     'deploy_branch' => env('APP_DEPLOY_BRANCH'),
 
     'debug_blacklist' => [
-        '_ENV' => [
+        '_ENV'    => [
             'APP_KEY',
+
+            'DB_USERNAME',
             'DB_PASSWORD',
             'REDIS_PASSWORD',
             'MAIL_PASSWORD',
+
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
+
             'PASSPORT_CLIENT_ID',
             'PASSPORT_CLIENT_SECRET',
+
             'AWS_SECRET_ACCESS_KEY',
             'AWS_ACCESS_KEY_ID',
-            'AWS_SECRET_ACCESS_KEY',
+
+            'DO_SPACES_KEY',
+            'DO_SPACES_SECRET',
+
+            'WASABI_KEY',
+            'WASABI_SECRET',
+
+            'BACKBLAZE_KEY',
+            'BACKBLAZE_SECRET',
         ],
         '_SERVER' => [
             'APP_KEY',
+
+            'DB_USERNAME',
             'DB_PASSWORD',
             'REDIS_PASSWORD',
             'MAIL_PASSWORD',
+
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
+
             'PASSPORT_CLIENT_ID',
             'PASSPORT_CLIENT_SECRET',
-            'AWS_ACCESS_KEY_ID',
+
             'AWS_SECRET_ACCESS_KEY',
+            'AWS_ACCESS_KEY_ID',
+
+            'DO_SPACES_KEY',
+            'DO_SPACES_SECRET',
+
+            'WASABI_KEY',
+            'WASABI_SECRET',
+
+            'BACKBLAZE_KEY',
+            'BACKBLAZE_SECRET',
         ],
-        '_POST' => [
+        '_POST'   => [
             'password',
         ],
     ],

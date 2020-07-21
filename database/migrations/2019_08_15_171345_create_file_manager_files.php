@@ -26,7 +26,7 @@ class CreateFileManagerFiles extends Migration
             $table->text('mimetype')->nullable();
             $table->text('filesize')->nullable();
 
-            $table->enum('type', ['image', 'file'])->nullable();
+            $table->text('type')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

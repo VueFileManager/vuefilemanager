@@ -61,6 +61,14 @@
                 if (args.emoji) {
                     this.emoji = args.emoji
                 }
+
+                if (args.buttonStyle) {
+                    this.buttonStyle = args.buttonStyle
+                }
+
+                if (args.button) {
+                    this.button = args.button
+                }
             })
 
             // Show alert
@@ -128,6 +136,7 @@
     }
 
     .popup-content {
+
         .title {
             @include font-size(22);
             text-transform: uppercase;
@@ -159,11 +168,9 @@
     }
 
     @media (prefers-color-scheme: dark) {
-
         .popup-wrapper {
             background: $dark_mode_background;
         }
-
         .popup-content {
             .title {
                 color: $dark_mode_text_primary;

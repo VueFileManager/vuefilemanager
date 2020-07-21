@@ -124,7 +124,7 @@ class Editor
                     Storage::delete('/file-manager/' . $file->basename);
 
                     // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
 
                     // Delete file permanently
                     $file->forceDelete();
@@ -138,7 +138,7 @@ class Editor
             if (!$request->force_delete) {
 
                 // Remove folder from user favourites
-                $user->favourites()->detach($unique_id);
+                $user->favourite_folders()->detach($unique_id);
 
                 // Soft delete folder record
                 $folder->delete();
@@ -172,7 +172,7 @@ class Editor
                 Storage::delete('/file-manager/' . $file->basename);
 
                 // Delete thumbnail if exist
-                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
 
                 // Delete file permanently
                 $file->forceDelete();
@@ -197,13 +197,22 @@ class Editor
      */
     public static function upload($request, $shared = null)
     {
-        // Get user data
-        $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-
         // Get parent_id from request
         $folder_id = $request->parent_id === 0 ? 0 : $request->parent_id;
         $file = $request->file('file');
+
+        // Get user data
+        $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+        $user_storage_used = user_storage_percentage($user_id, $file->getSize());
+
+        // Get storage limitation setup
+        $storage_limitation = get_setting('storage_limitation');
+
+        // Check if user can upload
+        if ($storage_limitation && $user_storage_used >= 100) {
+            abort(423, 'You exceed your storage limit!');
+        }
 
         // File
         $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());

@@ -1,0 +1,55 @@
+.landing-page {
+  overflow-x: hidden;
+}
+
+.page-wrapper {
+  position: relative;
+  margin: 0 auto;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  &.large {
+    width: 1490px;
+  }
+
+  &.medium {
+    width: 1150px;
+  }
+
+  &.small {
+    width: 890px;
+  }
+}
+
+@media only screen and (max-width: 1390px) {
+  .page-wrapper {
+
+    &.large {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 1190px) {
+  .page-wrapper {
+
+    &.large {
+      width: 100%;
+    }
+
+    &.medium {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .page-wrapper {
+    padding-left: 25px;
+    padding-right: 25px;
+
+    &.small {
+      width: 100%;
+    }
+  }
+}

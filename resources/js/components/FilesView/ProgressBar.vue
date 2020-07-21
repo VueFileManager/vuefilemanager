@@ -18,7 +18,7 @@ export default {
 	.progress-bar {
 		width: 100%;
 		height: 5px;
-		background: $dark_background;
+		background: $light_background;
 		margin-top: 5px;
 		border-radius: 10px;
 

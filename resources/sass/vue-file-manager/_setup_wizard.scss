@@ -1,0 +1,101 @@
+.content-headline {
+  max-width: 630px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-form {
+
+  input {
+    min-width: initial;
+  }
+}
+
+.duplicator {
+
+  .duplicator-add-button {
+    width: 100%;
+  }
+
+  .duplicator-item {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    background: white;
+    padding: 25px;
+    margin: 0 -25px 32px;
+    position: relative;
+
+    .duplicator-title {
+      @include font-size(18);
+      margin-bottom: 20px;
+      display: block;
+      font-weight: 700;
+    }
+
+    .delete-item {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+
+      &:hover {
+
+        line {
+          stroke: $theme;
+        }
+      }
+    }
+
+    input,
+    textarea {
+      box-shadow: none;
+      background: #FAFAFA;
+    }
+  }
+}
+
+.form {
+  max-width: 580px;
+  text-align: left;
+}
+
+.submit-wrapper {
+  text-align: right;
+
+  .button {
+    margin: 58px 0 50px 0;
+    width: 100%;
+  }
+}
+
+.title-icon {
+  margin-bottom: 10px;
+  animation: spinner 5s linear infinite;
+
+  circle, path {
+    stroke: $theme;
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .duplicator {
+
+    .duplicator-item {
+      background: $dark_mode_foreground;
+
+      input,
+      textarea {
+        background: $dark_mode_background;
+      }
+    }
+  }
+}

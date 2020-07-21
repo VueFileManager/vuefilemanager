@@ -258,9 +258,12 @@
             EyeIcon,
         },
         computed: {
-            ...mapGetters(['fileInfoDetail', 'app']),
+            ...mapGetters(['fileInfoDetail', 'user']),
+            favourites() {
+                return this.user.relationships.favourites.data.attributes.folders
+            },
             isInFavourites() {
-                return this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)
+                return this.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)
             },
             isFile() {
                 return (this.fileInfoDetail && this.fileInfoDetail.type !== 'folder') && (this.fileInfoDetail && this.fileInfoDetail.type !== 'image')
@@ -292,7 +295,7 @@
                 }
             },
             addToFavourites() {
-                if (this.app.favourites && !this.app.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {
+                if (this.favourites && !this.favourites.find(el => el.unique_id == this.fileInfoDetail.unique_id)) {
                     this.$store.dispatch('addToFavourites', this.fileInfoDetail)
                 } else {
                     this.$store.dispatch('removeFromFavourites', this.fileInfoDetail)

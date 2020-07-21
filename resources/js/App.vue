@@ -6,7 +6,11 @@
 
         <div id="application-wrapper" v-if="layout === 'authorized'">
 
+            <!--Mobile Navigation-->
             <MobileNavigation />
+
+            <!--Confirm Popup-->
+            <Confirm />
 
             <!--Share Item setup-->
             <ShareCreate/>
@@ -32,6 +36,8 @@
 
         <router-view v-if="layout === 'unauthorized'"/>
 
+        <CookieDisclaimer />
+
         <!--Background vignette-->
         <Vignette/>
     </div>
@@ -40,8 +46,10 @@
 <script>
     import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
     import MobileNavigation from '@/components/Others/MobileNavigation'
+    import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
+    import Confirm from '@/components/Others/Popup/Confirm'
     import ShareEdit from '@/components/Others/ShareEdit'
     import MoveItem from '@/components/Others/MoveItem'
     import Vignette from '@/components/Others/Vignette'
@@ -55,21 +63,46 @@
         name: 'app',
         components: {
             MobileNavigation,
+            CookieDisclaimer,
             ToastrWrapper,
             ShareCreate,
             MobileMenu,
             ShareEdit,
             MoveItem,
             Vignette,
+            Confirm,
             MenuBar,
             Alert,
         },
         computed: {
             ...mapGetters([
-                'isLogged', 'isGuest'
+                'isLogged', 'isGuest', 'config'
             ]),
             layout() {
-                if (includes(['VerifyByPassword', 'SharedPage', 'NotFoundShared', 'SignIn', 'SignUp', 'ForgottenPassword', 'CreateNewPassword'], this.$route.name)) {
+                if (includes([
+                    'InstallationDisclaimer',
+                    'SubscriptionService',
+                    'StripeCredentials',
+                    'SubscriptionPlans',
+                    'ForgottenPassword',
+                    'CreateNewPassword',
+                    'EnvironmentSetup',
+                    'VerifyByPassword',
+                    'SaaSLandingPage',
+                    'BillingsDetail',
+                    'NotFoundShared',
+                    'AdminAccount',
+                    'PurchaseCode',
+                    'DynamicPage',
+                    'SharedPage',
+                    'ContactUs',
+                    'AppSetup',
+                    'Database',
+                    'Upgrade',
+                    'SignIn',
+                    'SignUp',
+                    ], this.$route.name)
+                ) {
                     return 'unauthorized'
                 }
 
@@ -93,6 +126,19 @@
                     unique_id: 0,
                 }
             })
+
+            // Get installation state
+            let installation = this.$root.$data.config.installation
+
+            // Redirect to database verify code
+            if ( installation === 'setup-database') {
+                this.$router.push({name: 'PurchaseCode'})
+            }
+
+            // Redirect to starting installation process
+            if ( installation === 'setup-disclaimer' ) {
+                this.$router.push({name: 'InstallationDisclaimer'})
+            }
         },
         mounted() {
             // Handle mobile navigation scale animation
@@ -105,7 +151,7 @@
 </script>
 
 <style lang="scss">
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 
@@ -124,6 +170,8 @@
         box-sizing: border-box;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         font-size: 16px;
+        text-decoration: none;
+        color: $text;
     }
 
     #auth {
@@ -136,6 +184,7 @@
         width: 100%;
         height: 100%;
         overflow-y: auto;
+        scroll-behavior:smooth;
     }
 
     @media only screen and (max-width: 690px) {
@@ -147,6 +196,10 @@
 
     // Dark mode support
     @media (prefers-color-scheme: dark) {
+
+        * {
+            color: $dark_mode_text_primary;
+        }
 
         body, html {
             background: $dark_mode_background;

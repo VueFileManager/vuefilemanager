@@ -116,14 +116,14 @@ class FileManagerFile extends Model
      */
     public function getThumbnailAttribute()
     {
-        // Get thumbnail from s3
-        if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces'])) {
+        // Get thumbnail from external storage
+        if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
 
-            return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addDay());
+            return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addHour());
         }
 
         // Get thumbnail from local storage
-        if ($this->attributes['thumbnail'] && is_storage_driver('local')) {
+        if ($this->attributes['thumbnail']) {
 
             // Thumbnail route
             $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
@@ -146,7 +146,7 @@ class FileManagerFile extends Model
     public function getFileUrlAttribute()
     {
         // Get file from s3
-        if (is_storage_driver(['s3', 'spaces'])) {
+        if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
 
             $header = [
                 "ResponseAcceptRanges"       => "bytes",
@@ -160,16 +160,13 @@ class FileManagerFile extends Model
         }
 
         // Get thumbnail from local storage
-        if (is_storage_driver('local')) {
+        $route = route('file', ['name' => $this->attributes['basename']]);
 
-            $route = route('file', ['name' => $this->attributes['basename']]);
-
-            if ($this->public_access) {
-                return $route . '/public/' . $this->public_access;
-            }
-
-            return $route;
+        if ($this->public_access) {
+            return $route . '/public/' . $this->public_access;
         }
+
+        return $route;
     }
 
     /**

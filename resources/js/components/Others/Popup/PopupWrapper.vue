@@ -35,6 +35,13 @@
                     this.isVisibleWrapper = true
             })
 
+            // Open called popup
+            events.$on('confirm:open', ({name}) => {
+
+                if (this.name === name)
+                    this.isVisibleWrapper = true
+            })
+
             // Close popup
             events.$on('popup:close', () => {
 
@@ -73,7 +80,6 @@
 
     // Desktop, tablet
     .medium, .large {
-
         // Animations
         .popup-enter-active {
             animation: popup-in 0.35s 0.15s ease both;
@@ -94,6 +100,7 @@
             transform: scale(1);
         }
     }
+
     @keyframes popup-slide-in {
         0% {
             transform: translateY(100%);
@@ -104,11 +111,9 @@
     }
 
     @media only screen and (max-width: 690px) {
-
         .popup {
             overflow: hidden;
         }
-
         .popup-wrapper {
             position: absolute;
             top: 0;
@@ -120,12 +125,10 @@
             width: 100%;
             border-radius: 0px;
         }
-
         // Animations
         .popup-enter-active {
             animation: popup-slide-in 0.35s 0.15s ease both;
         }
-
         .popup-leave-active {
             animation: popup-slide-in 0.15s ease reverse;
         }

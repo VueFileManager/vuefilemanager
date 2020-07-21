@@ -4,9 +4,10 @@
 
 #viewport {
   display: flex;
-  width: 100%;
   height: 100%;
+  width: 100%;
   @include transition(200ms);
+  flex: 1;
 }
 
 #application-wrapper {
@@ -35,13 +36,35 @@
     }
 
     &.medium-width {
-      max-width: 1024px;
+      max-width: 700px;
+    }
+
+    &.large-width {
+      max-width: 1190px;
     }
 
     &.small-width {
       max-width: 690px;
     }
+
+    &.center-page {
+      height: 100%;
+      padding-top: 20px;
+      margin-bottom: 50px;
+      display: grid;
+      width: 100%;
+
+      .content-page {
+        margin: auto;
+        width: 100%;
+      }
+    }
   }
+}
+
+.form-fixed-width {
+  width: 700px;
+  margin: 0 auto;
 }
 
 .form-group {
@@ -49,8 +72,9 @@
 }
 
 .form-group-label {
-  @include font-size(17);
-  font-weight: 500;
+  @include font-size(18);
+  font-weight: 800;
+  letter-spacing: 0.3px;
   margin-bottom: 25px;
   display: block;
 }
@@ -71,6 +95,10 @@
     border-bottom: 2px solid $light_mode_border;
     margin-bottom: 30px;
     overflow-x: auto;
+    z-index: 9;
+    position: sticky;
+    background: white;
+    top: 40px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -107,7 +135,7 @@
       &:hover {
 
         svg {
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             stroke: $theme;
           }
         }
@@ -121,7 +149,7 @@
         margin-right: 12px;
         line-height: 0;
 
-        path, line, polyline, rect, circle {
+        path, line, polyline, rect, circle, ellipse {
           stroke: $text;
         }
       }
@@ -185,7 +213,7 @@
           margin-right: 5px;
           width: 20px;
 
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             @include transition(150ms);
           }
         }
@@ -195,7 +223,7 @@
         &.is-current {
 
           .folder-icon {
-            path, line, polyline, rect, circle {
+            path, line, polyline, rect, circle, ellipse {
               stroke: $theme;
             }
           }
@@ -213,6 +241,51 @@
   @include font-size(12);
   color: $text-muted;
   display: block;
+}
+
+.table {
+
+  .action-icons {
+    white-space: nowrap;
+
+    a, .icon, .icon-wrapper {
+      display: inline-block;
+      margin-left: 10px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+
+    .icon {
+      cursor: pointer;
+
+      circle, path, line, polyline {
+        stroke: $text;
+      }
+
+      &.icon-trash {
+        circle, path, line, polyline {
+          stroke: $red;
+        }
+      }
+    }
+  }
+
+  .cell-item {
+    white-space: nowrap;
+    //color: $text;
+    font-weight: 700;
+  }
+}
+
+// Helpers
+.mt-70 {
+  margin-top: 70px;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -250,6 +323,24 @@
   #single-page {
     padding-left: 30px;
     padding-right: 30px;
+
+    #page-content {
+      padding-top: 0;
+
+      &.center-page {
+        padding-top: 0;
+      }
+    }
+  }
+
+  .menu-list-wrapper {
+    &.horizontal {
+      top: 30px;
+    }
+  }
+
+  .form-fixed-width {
+    width: 100%;
   }
 }
 
@@ -271,6 +362,7 @@
 
     &.horizontal {
       border-bottom: 2px solid $dark_mode_border_color;
+      background: $dark_mode_background;
     }
 
     .menu-list-item {
@@ -279,7 +371,7 @@
 
         .icon {
 
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             stroke: $dark_mode_text_primary;
           }
         }
@@ -291,7 +383,7 @@
 
       .icon {
 
-        path, line, polyline, rect, circle {
+        path, line, polyline, rect, circle, ellipse {
           stroke: $dark_mode_text_primary;
         }
       }
@@ -305,11 +397,25 @@
 
         .icon {
 
-          path, line, polyline, rect, circle {
+          path, line, polyline, rect, circle, ellipse {
             stroke: $theme;
           }
         }
       }
     }
   }
+
+  .table {
+
+    .action-icons {
+
+      .icon {
+
+        circle, path, line, polyline {
+          stroke: $dark_mode_text_primary;
+        }
+      }
+    }
+  }
+
 }

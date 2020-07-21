@@ -16,6 +16,30 @@
 |--------------------------------------------------------------------------
 */
 
+// Setup Wizard
+Route::group(['middleware' => ['api'], 'prefix' => 'setup'], function () {
+    Route::post('/purchase-code', 'General\SetupWizardController@verify_purchase_code');
+    Route::post('/database', 'General\SetupWizardController@setup_database');
+
+    Route::post('/stripe-credentials', 'General\SetupWizardController@store_stripe_credentials');
+    Route::post('/stripe-billings', 'General\SetupWizardController@store_stripe_billings');
+    Route::post('/stripe-plans', 'General\SetupWizardController@store_stripe_plans');
+
+    Route::post('/environment-setup', 'General\SetupWizardController@store_environment_setup');
+    Route::post('/app-setup', 'General\SetupWizardController@store_app_settings');
+    Route::post('/admin-setup', 'General\SetupWizardController@create_admin_account');
+});
+
+// Upgrade App
+Route::group(['middleware' => ['api'], 'prefix' => 'upgrade'], function () {
+    Route::post('/app', 'General\UpgradeAppController@upgrade');
+});
+
+// Plans
+Route::group(['middleware' => ['api'], 'prefix' => 'public'], function () {
+    Route::get('/pricing', 'General\PricingController@index');
+});
+
 // Public routes
 Route::group(['middleware' => ['api']], function () {
 
@@ -42,16 +66,36 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/user/check', 'Auth\AuthController@check_account');
     Route::post('/user/register', 'Auth\AuthController@register');
     Route::post('/user/login', 'Auth\AuthController@login');
+
+    // Pages
+    Route::post('/contact', 'AppFunctionsController@contact_form');
+    Route::get('/page/{slug}', 'AppFunctionsController@get_page');
+    Route::get('/content', 'AppFunctionsController@get_settings');
 });
 
 // User master Routes
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
 
     // User
+    Route::patch('/user/relationships/settings', 'User\AccountController@update_user_settings');
     Route::post('/user/password', 'User\AccountController@change_password');
     Route::patch('/user/profile', 'User\AccountController@update_profile');
+    Route::get('/user/subscription', 'User\SubscriptionController@show');
+    Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
+
+    // Payment cards
+    Route::delete('/user/payment-cards/{id}', 'User\PaymentMethodsController@delete');
+    Route::patch('/user/payment-cards/{id}', 'User\PaymentMethodsController@update');
+    Route::post('/user/payment-cards', 'User\PaymentMethodsController@store');
+    Route::get('/user/payments', 'User\PaymentMethodsController@index');
+
+    // Subscription
+    Route::get('/stripe/setup-intent', 'User\SubscriptionController@stripe_setup_intent');
+    Route::post('/subscription/upgrade', 'User\SubscriptionController@upgrade');
+    Route::post('/subscription/cancel', 'User\SubscriptionController@cancel');
+    Route::post('/subscription/resume', 'User\SubscriptionController@resume');
 
     // Browse
     Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
@@ -83,19 +127,46 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 // Admin
 Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
 
+    // Admin
+    Route::get('/dashboard', 'Admin\DashboardController@index');
+    Route::get('/dashboard/new-users', 'Admin\DashboardController@new_registrations');
+
     // Get users info
+    Route::get('/users/{id}/subscription', 'Admin\UserController@subscription');
     Route::get('/users/{id}/storage', 'Admin\UserController@storage');
     Route::get('/users/{id}/detail', 'Admin\UserController@details');
     Route::get('/users', 'Admin\UserController@users');
 
     // Edit users
-    Route::post('/users/create', 'Admin\UserController@create_user');
-    Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
-    Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
-    Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
     Route::post('/users/{id}/send-password-email', 'Admin\UserController@send_password_reset_email');
-});
+    Route::patch('/users/{id}/capacity', 'Admin\UserController@change_storage_capacity');
+    Route::delete('/users/{id}/delete', 'Admin\UserController@delete_user');
+    Route::patch('/users/{id}/role', 'Admin\UserController@change_role');
+    Route::get('/users/{id}/invoices', 'Admin\UserController@invoices');
+    Route::post('/users/create', 'Admin\UserController@create_user');
 
+    // Plans
+    Route::get('/plans/{id}/subscribers', 'Admin\PlanController@subscribers');
+    Route::patch('/plans/{id}/update', 'Admin\PlanController@update');
+    Route::delete('/plans/{id}', 'Admin\PlanController@delete');
+    Route::post('/plans/store', 'Admin\PlanController@store');
+    Route::get('/plans/{id}', 'Admin\PlanController@show');
+    Route::get('/plans', 'Admin\PlanController@index');
+
+    // Pages
+    Route::get('/pages', 'Admin\PagesController@index');
+    Route::get('/pages/{slug}', 'Admin\PagesController@show');
+    Route::patch('/pages/{slug}', 'Admin\PagesController@update');
+
+    // Invoices
+    Route::get('/invoices/{token}', 'Admin\InvoiceController@show');
+    Route::get('/invoices', 'Admin\InvoiceController@index');
+
+    // Settings
+    Route::put('/settings/email', 'SettingController@set_email');
+    Route::patch('/settings', 'SettingController@update');
+    Route::get('/settings', 'SettingController@show');
+});
 
 // Protected sharing routes for authenticated user
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {

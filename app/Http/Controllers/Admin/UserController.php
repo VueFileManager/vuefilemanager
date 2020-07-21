@@ -9,10 +9,13 @@ use App\Http\Requests\Admin\ChangeRoleRequest;
 use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
 use App\Http\Requests\Admin\CreateUserByAdmin;
 use App\Http\Requests\Admin\DeleteUserRequest;
+use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\UsersCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
+use App\Http\Resources\UserSubscription;
 use App\Http\Tools\Demo;
+use App\Services\StripeService;
 use App\Share;
 use App\User;
 use App\UserSettings;
@@ -27,6 +30,11 @@ use Storage;
 
 class UserController extends Controller
 {
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
+
     /**
      * Get user details
      *
@@ -35,7 +43,9 @@ class UserController extends Controller
      */
     public function details($id)
     {
-        return new UserResource(User::findOrFail($id));
+        return new UserResource(
+            User::findOrFail($id)
+        );
     }
 
     /**
@@ -46,7 +56,42 @@ class UserController extends Controller
      */
     public function storage($id)
     {
-        return new UserStorageResource(User::findOrFail($id));
+        return new UserStorageResource(
+            User::findOrFail($id)
+        );
+    }
+
+    /**
+     * Get user storage details
+     *
+     * @return InvoiceCollection
+     */
+    public function invoices($id)
+    {
+        $user = User::find($id);
+
+        return new InvoiceCollection(
+            $this->stripe->getUserInvoices($user)
+        );
+    }
+
+    /**
+     * Get user subscription details
+     *
+     * @param $id
+     * @return UserSubscription
+     */
+    public function subscription($id)
+    {
+        $user = User::find($id);
+
+        if (! $user->stripeId()) {
+            return response('User is not stripe customer', 404);
+        }
+
+        return new UserSubscription(
+            User::find($id)
+        );
     }
 
     /**
@@ -56,7 +101,9 @@ class UserController extends Controller
      */
     public function users()
     {
-        return new UsersCollection(User::all());
+        return new UsersCollection(
+            User::all()
+        );
     }
 
     /**
@@ -75,7 +122,9 @@ class UserController extends Controller
             return new UserResource($user);
         }
 
-        $user->update($request->input('attributes'));
+        // Update user role
+        $user->role = $request->input('attributes.role');
+        $user->save();
 
         return new UserResource($user);
     }
@@ -130,13 +179,11 @@ class UserController extends Controller
     {
         // Store avatar
         if ($request->hasFile('avatar')) {
-
-            // Update avatar
             $avatar = store_avatar($request->file('avatar'), 'avatars');
         }
 
         // Create user
-        $user = User::create([
+        $user = User::forceCreate([
             'avatar'   => $request->hasFile('avatar') ? $avatar : null,
             'name'     => $request->name,
             'role'     => $request->role,
@@ -145,7 +192,7 @@ class UserController extends Controller
         ]);
 
         // Create settings
-        $settings = UserSettings::create([
+        UserSettings::forceCreate([
             'user_id'          => $user->id,
             'storage_capacity' => $request->storage_capacity,
         ]);
@@ -165,6 +212,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        if ($user->subscribed('main')) {
+            abort(202, 'You can\'t delete this account while user have active subscription.');
+        }
+
         // Demo preview
         if (env('APP_DEMO')) {
             return response('Done!', 204);
@@ -179,6 +230,7 @@ class UserController extends Controller
         if ($user->name !== $request->name) abort(403);
 
         $shares = Share::where('user_id', $user->id)->get();
+
         $files = FileManagerFile::withTrashed()
             ->where('user_id', $user->id)
             ->get();
@@ -194,7 +246,7 @@ class UserController extends Controller
 
             // Delete thumbnail if exist
             if (!is_null($file->thumbnail)) {
-                Storage::delete('/file-manager/' . $file->getOriginal('thumbnail'));
+                Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
             }
 
             // Delete file permanently
@@ -212,7 +264,7 @@ class UserController extends Controller
 
         // Remove favourites
         $user->settings->delete();
-        $user->favourites()->sync([]);
+        $user->favourite_folders()->sync([]);
 
         // Delete user
         $user->delete();

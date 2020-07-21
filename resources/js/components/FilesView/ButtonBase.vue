@@ -1,16 +1,23 @@
 <template>
     <button class="button-base" :class="buttonStyle" type="button">
-        <span v-if="loading" class="icon">
-			<FontAwesomeIcon icon="sync-alt" class="sync-alt"/>
-		</span>
-        <slot v-if="! loading"></slot>
+        <div v-if="loading" class="icon">
+            <refresh-cw-icon size="16" class="sync-alt"></refresh-cw-icon>
+		</div>
+        <div class="content">
+            <slot v-if="! loading"></slot>
+        </div>
     </button>
 </template>
 
 <script>
+    import { RefreshCwIcon } from 'vue-feather-icons'
+
     export default {
         name: 'ButtonBase',
-        props: ['buttonStyle', 'loading']
+        props: ['buttonStyle', 'loading'],
+        components: {
+            RefreshCwIcon,
+        }
     }
 </script>
 
@@ -26,31 +33,78 @@
         border-radius: 8px;
         border: 0;
         padding: 10px 28px;
-        display: inline-block;
         white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+            line-height: 1;
+            margin-right: 10px;
+        }
 
         &:active {
             transform: scale(0.95);
         }
 
         &.theme {
-            color: $theme;
             background: rgba($theme, .1);
+
+            .content {
+                color: $theme;
+            }
+
+            polyline, path {
+                stroke: $theme;
+            }
+        }
+
+        &.theme-solid {
+            background: $theme;
+
+            .content {
+                color: white;
+            }
+
+            polyline, path {
+                stroke: white;
+            }
         }
 
         &.danger {
-            color: $danger;
             background: rgba($danger, .1);
+
+            .content {
+                color: $danger;
+            }
+
+            polyline, path {
+                stroke: $danger;
+            }
         }
 
         &.danger-solid {
-            color: white;
             background: $danger;
+
+            .content {
+                color: white;
+            }
+
+            polyline, path {
+                stroke: white;
+            }
         }
 
         &.secondary {
-            color: $text;
             background: $light_background;
+
+            .content {
+                color: $text;
+            }
+
+            polyline, path {
+                stroke: $text;
+            }
         }
     }
 
@@ -72,8 +126,15 @@
         .button-base {
 
             &.secondary {
-                color: $dark_mode_text_primary;
                 background: $dark_mode_foreground;
+
+                .content {
+                    color: $dark_mode_text_primary;
+                }
+
+                polyline, path {
+                    stroke: $theme;
+                }
             }
         }
     }

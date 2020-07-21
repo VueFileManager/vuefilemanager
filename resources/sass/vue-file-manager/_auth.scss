@@ -1,6 +1,13 @@
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
 
+.auth-logo-text {
+  @include font-size(22);
+  font-weight: 800;
+  margin-bottom: 40px;
+  display: block;
+}
+
 .auth-form {
   text-align: center;
   max-width: 600px;
@@ -52,10 +59,6 @@
   .block-form {
     margin-left: auto;
     margin-right: auto;
-
-    .block-wrapper label {
-      text-align: right;
-    }
   }
 }
 

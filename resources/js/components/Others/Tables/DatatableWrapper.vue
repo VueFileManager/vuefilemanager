@@ -3,16 +3,17 @@
         <table v-if="hasData" class="table">
             <thead class="table-header">
             <tr>
-                <td
+                <th
                         v-for="(column, index) in columns"
                         @click="sort(column.field, column.sortable, index)"
                         :key="index"
                         :class="{ sortable: column.sortable }"
+                        v-if="! column.hidden"
                 >
                     <span>{{ column.label }}</span>
 
                     <chevron-up-icon v-if="false" :class="{ 'arrow-down': filter.sort === 'ASC' }" size="14" class="filter-arrow"></chevron-up-icon>
-                </td>
+                </th>
             </tr>
             </thead>
 
@@ -178,7 +179,7 @@
         tr {
             width: 100%;
 
-            td {
+            td, th {
                 &:first-child {
                     padding-left: 15px;
                 }
@@ -194,11 +195,12 @@
             margin-bottom: 10px;
 
             tr {
-                td {
+                td, th {
                     padding: 12px;
+                    text-align: left;
 
                     span {
-                        color: #AFAFAF;
+                        color: $theme;
                         font-weight: 700;
                         @include font-size(12);
                         white-space: nowrap;
@@ -238,12 +240,13 @@
         .table-body {
             tr {
                 border-radius: 8px;
+                //border-bottom: 1px solid #f5f5f5;
 
                 &:hover {
                     background: $light_background;
                 }
 
-                td {
+                td, th {
                     padding: 12px;
 
                     &:last-child {
@@ -257,8 +260,9 @@
             span, a.page-link {
                 @include font-size(15);
                 font-weight: 700;
-                padding: 10px 0;
+                padding: 10px 35px 10px 0;
                 display: block;
+                white-space: nowrap;
             }
         }
     }
@@ -351,7 +355,7 @@
             .table-header {
 
                 tr {
-                    td {
+                    td, th {
 
                         span {
                             color: $theme;
@@ -361,7 +365,7 @@
             }
 
             .table-body {
-                tr {
+                tr, th {
                     &:hover {
                         background: $dark_mode_foreground;
                     }

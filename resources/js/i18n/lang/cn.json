@@ -1,339 +1,757 @@
 {
-    "routes": {
-        "create_new_password": "创建新密码"
-    },
-    "routes_title": {
-        "profile": "My Profile",
-        "settings_password": "Change Password",
-        "settings_storage": "Storage",
-        "settings_mobile": "Settings",
-        "users_list": "User Management",
-        "users_user": "User",
-        "users_detail": "Detail",
-        "users_storage_usage": "Storage Usage",
-        "users_password": "Password",
-        "users_delete": "Delete User",
-        "user_create": "Create User"
-    },
-    "profile": {
-        "store_pass": "保存您的密码",
-        "change_pass": "修改您的密码",
-        "profile_info": "用户信息"
-    },
-    "page_registration": {
-        "title": "创建一个新用户",
-        "subtitle": "填写所有内容进行创建",
-        "label_email": "邮箱：",
-        "placeholder_email": "键入您的邮箱地址",
-        "label_name": "全名：",
-        "placeholder_name": "键入您的全名",
-        "label_pass": "创建密码：",
-        "placeholder_pass": "键入新密码",
-        "label_confirm_pass": "确认密码：",
-        "placeholder_confirm_pass": "请重复输入一遍密码",
-        "button_create_account": "创建账户",
-        "have_an_account": "您之前有过账户了么？"
-    },
-    "page_shared": {
-        "subtitle": "请输入密码后得到分享链接",
-        "title": "您的分享链接已被保护",
-        "placeholder_pass": "输入密码",
-        "download_file": "下载文件",
-        "submit": "提交"
-    },
-    "page_shared_404": {
-        "subtitle": "您要找的内容可能已经被删除了。",
-        "title": "没有找到文件"
-    },
-    "page_create_password": {
-        "title": "只需一步进行登录",
-        "subtitle": "在此创建您的新密码",
-        "button_update": "更新密码",
-        "label_email": "邮箱：",
-        "label_new_pass": "键入新密码",
-        "label_confirm_pass": "确认密码"
-    },
-    "page_forgotten_password": {
-        "title": "忘记密码？",
-        "subtitle": "通过邮箱获得重置链接：",
-        "button_get_link": "获得链接",
-        "password_remember_text": "还记得住您的密码么？",
-        "password_remember_button": "登录。",
-        "pass_sennded_title": "感谢！",
-        "pass_sennded_subtitle": "我们为您发送了一封确认邮件！",
-        "pass_reseted_title": "太棒了！",
-        "pass_reseted_subtitle": "您的密码被成功重置。",
-        "pass_reseted_signin": "登录"
-    },
-    "page_sign_in": {
-        "title": "您是 {name}?",
-        "subtitle": "请用您的密码登录",
-        "placeholder_password": "键入密码",
-        "button_log_in": "登录",
-        "password_reset_text": "忘记密码？",
-        "password_reset_button": "重置密码。"
-    },
-    "page_login": {
-        "title": "欢迎回来！",
-        "subtitle": "请输入您的邮箱来登录。",
-        "placeholder_email": "键入您的邮箱",
-        "button_next": "下一步",
-        "registration_text": "没有帐号？",
-        "registration_button": "注册帐号"
-    },
-    "uploading": {
-        "progress": "上传文件 {current}/{total}"
-    },
-    "inputs": {
-        "placeholder_search_files": "搜索文件"
-    },
-    "messages": {
-        "nothing_from_participants": "You don't have any uploads from other users.",
-        "nothing_to_preview": "没有任何信息可以预览。",
-        "nothing_was_found": "没找到任何信息。"
-    },
-    "locations": {
-        "shared": "已分享",
-        "trash": "垃圾箱",
-        "home": "首页"
-    },
-    "file_detail": {
-        "author_participant": "公共参与者",
-        "created_at": "创建于",
-        "shared": "分享",
-        "author": "作者",
-        "where": "地址",
-        "size": "大小"
-    },
-    "empty_page": {
-        "description": "拖动文件至此处，或使用上传按钮",
-        "call_to_action": "文件上传",
-        "title": "这里什么都还没有"
-    },
-    "alerts": {
-        "error_confirm": "哦，出了个问题！",
-        "success_confirm": "太棒了！"
-    },
-    "validation_errors": {
-        "wrong_image": "您可能上传了一个错误的文件！",
-        "incorrect_password": "不好意思，您输入的密码可能有误！"
-    },
-    "pronouns": {
-        "of": "of"
-    },
-    "storage": {
-        "sec_capacity": "Storage Capacity",
-        "sec_details": "Capacity Used Details",
-        "total_used": "Total used {used}",
-        "total_capacity": "Your storage capacity {capacity}",
-        "images": "Images",
-        "videos": "Videos",
-        "audios": "Audios",
-        "documents": "Documents",
-        "others": "Others"
-    },
-    "folder": {
-        "item_counts": "{count} 个文件 | {count} 个文件",
-        "empty": "空的"
-    },
-    "item_thumbnail": {
-        "original_location": "原始位置",
-        "deleted_at": "删除时间： {time}"
-    },
-    "preview_type": {
-        "list": "列表",
-        "grid": "方块"
-    },
-    "context_menu": {
-        "remove_from_favourites": "移出收藏",
-        "add_to_favourites": "添加进收藏",
-        "profile_settings": "个人信息编辑",
-        "create_folder": "创建文件夹",
-        "empty_trash": "清空垃圾箱",
-        "share_edit": "编辑分享设定",
-        "add_folder": "添加文件夹",
-        "download": "下载",
-        "log_out": "注销",
-        "restore": "恢复文件",
-        "upload": "上传",
-        "detail": "详情",
-        "rename": "重命名",
-        "delete": "删除",
-        "share": "分享",
-        "move": "移动"
-    },
-    "menu": {
-        "files": "Files",
-        "latest": "Recent Uploads",
-        "shared": "Shared Files",
-        "trash": "Trash",
-        "settings": "Settings",
-        "logout": "Log Out",
-        "profile": "Profile Settings",
-        "password": "Password",
-        "storage": "Storage",
-        "admin": "Admin"
-    },
-    "sidebar": {
-        "favourites": "收藏",
-        "favourites_empty": "将您想要收藏的文件夹拖动至此",
-        "folders_empty": "Create some new folder.",
-        "latest": "Recent Uploads",
-        "home": "Home",
-        "tools_title": "Tools",
-        "locations_title": "Base",
-        "navigator_title": "Navigator",
-        "my_shared": "My Shared Items",
-        "participant_uploads": "Participant Uploads"
-    },
-    "popup_rename": {
-        "title": "修改文件/夹名称"
-    },
-    "popup_create_folder": {
-        "title": "请填入新文件夹名称",
-        "folder_default_name": "新文件夹"
-    },
-    "popup_move_item": {
-        "submit": "移动文件/夹",
-        "title": "移动文件/夹",
-        "cancel": "取消"
-    },
-    "popup_pass_changed": {
-        "title": "您的密码已经改变！",
-        "message": "现在，您拥有一个新的密码。"
-    },
-    "popup_trashed": {
-        "title": "您的垃圾箱已清空！",
-        "message": "现在，您的垃圾箱已经被完全清空。"
-    },
-    "popup_error": {
-        "title": "wow，好像有什么东西坏掉了！",
-        "message": "有什么东西坏掉了，请联系我们，引导我们修复。"
-    },
-    "popup_exceed_limit": {
-        "title": "wow，您已经超过了存储上线。",
-        "message": "请联系我们来增加您的存储空间。"
-    },
-    "popup_share_create": {
-        "title": "分享您的 {item}"
-    },
-    "popup_share_edit": {
-        "title": "更新分享设定",
-        "change_pass": "更改密码",
-        "save": "保存更改",
-        "stop": "停止风险",
-        "confirm": "确认"
-    },
-    "shared": {
-        "empty_shared": "您还没有分享任何内容",
-        "editor": "可以编辑和上传文件",
-        "visitor": "仅可以查看或下载文件",
-        "can_download": "仅可以下载"
-    },
-    "shared_form": {
-        "placeholder_permission": "请设置权限",
-        "label_password_protection": "密码保护",
-        "button_done": "太好了！",
-        "button_generate": "生成分享链接",
-        "label_permission": "权限",
-        "label_shared_url": "分享链接"
-    },
-    "actions": {
-        "create_folder": "穿件文件夹",
-        "preview": "更改预览",
-        "upload": "上传文件",
-        "delete": "删除内容",
-        "move": "Move item",
-        "share": "Share item"
-    },
-    "types": {
-        "folder": "文件夹",
-        "file": "文件"
-    },
-    "popup_passport_error": {
-        "title": "Invalid Passport Grand Client",
-        "message": "Probably you didn't generated Passport Grant client or you didn't set up passport credentials in your .env file. Please follow install instructions."
-    },
-    "popup_signup_error": {
-        "title": "Server Error",
-        "message": "Please check your database connection if everything works correctly."
-    },
-    "popup_paylod_error": {
-        "title": "File is too large",
-        "message": "Sorry, your file is too large and can't be uploaded"
-    },
-    "popup_deleted_user": {
-        "title": "User was deleted",
-        "message": "Your user was deleted with all user data content."
-    },
-    "user_box_storage": {
-        "title": "Change User Storage Capacity",
-        "description": "Change user storage capacity by input bellow. You have to type only number e.g. value '5' means, user will have 5GB of storage capacity."
-    },
-    "user_box_password": {
-        "title": "Change User Password",
-        "description": "You can send password reset email via button bellow. User will be redirected to page where he can update password for his account."
-    },
-    "user_box_delete": {
-        "title": "Delete User",
-        "description": "You can delete your user, but, pay attention! This event is irreversible and all user data include user files will be deleted."
-    },
-    "user_box_role": {
-        "title": "Change User Role",
-        "description": "You can change role for current user. Admin role can edit or create new users, change storage capacity and any other application settings."
-    },
-    "admin_menu": {
-        "admin_label": "Admin",
-        "users": "Users"
-    },
-    "admin_page_user": {
-        "select_role": "Select user role",
-        "save_role": "Save Role",
-        "label_person_info": "Personal Information",
-        "label_delete_user": "Type with Case Sensitive user name ‘{user}‘",
-        "label_change_capacity": "Type storage capacity in GB",
-        "placeholder_delete_user": "Type here",
-        "delete_user": "Delete User",
-        "change_capacity": "Change Capacity",
-        "send_password_link": "Send Password Reset Link",
-        "tabs": {
-            "detail": "Detail",
-            "storage": "Storage Usage",
-            "password": "Password",
-            "delete": "Delete User"
-        },
-        "table": {
-            "name": "User",
-            "role": "Role",
-            "storage_used": "Storage Used",
-            "storage_capacity": "Storage Capacity",
-            "created_at": "Registered",
-            "action": "Action"
-        },
-        "create_user": {
-            "group_details": "Account Details",
-            "group_settings": "Account Settings",
-            "submit": "Create User",
-            "label_email": "Type E-mail",
-            "label_name": "Type full name",
-            "label_conf_pass": "Confirm password"
-        }
-    },
-    "toaster": {
-        "changed_user": "You successfully changed user's role!",
-        "sended_password": "You successfully send user email for reset password!",
-        "changed_capacity": "You successfully changed user's storage size!",
-        "created_user": "User was created successfully!"
-    },
-    "roles": {
-        "admin": "Admin",
-        "user": "User"
-    },
-    "datatable": {
-        "paginate_info": "Showing 1 - {visible} from {total} records"
-    },
-    "input_image": {
-        "title": "Upload Image",
-        "supported": "Supported formats are .png, .jpg, .jpeg."
-    }
+	"actions": {
+		"create_folder": "穿件文件夹",
+		"delete": "删除内容",
+		"move": "Move item",
+		"preview": "更改预览",
+		"share": "Share item",
+		"upload": "上传文件"
+	},
+	"activation": {
+		"stripe": {
+			"button": "设置您的Stripe帐户",
+			"description": "To charge your users, please set up your Stripe account credentials.",
+			"title": "您的Stripe帐户尚未设置"
+		}
+	},
+	"admin_menu": {
+		"dashboard": "仪表板",
+		"invoices": "发票",
+		"pages": "网页",
+		"plans": "计划",
+		"settings": "设置",
+		"users": "Users"
+	},
+	"admin_page_dashboard": {
+		"backer_button": "成为支持者",
+		"license": "执照",
+		"version": "版",
+		"w_latest_users": {
+			"title": "最新注册"
+		},
+		"w_total_premium": {
+			"link": "显示所有计划",
+			"title": "高级用户总数"
+		},
+		"w_total_space": {
+			"link": "显示所有用户",
+			"title": "总使用空间"
+		},
+		"w_total_users": {
+			"link": "显示所有用户",
+			"title": "用户总数"
+		}
+	},
+	"admin_page_invoices": {
+		"empty": {
+			"description": "所有客户发票将在此处显示。",
+			"title": "您还没有发票"
+		},
+		"table": {
+			"number": "发票编号",
+			"payed": "祈祷，",
+			"plan": "计划",
+			"total": "总",
+			"user": "用户"
+		}
+	},
+	"admin_page_plans": {
+		"create_plan_button": "创建计划",
+		"delete_plan_button": "删除计划",
+		"disclaimer_delete_plan": "您可以删除计划，但是请注意！",
+		"disclaimer_edit_price": "由于Stripe服务设计，您的计划的价格更改不可用。如果您希望更改价格计划，请创建新计划。",
+		"empty": {
+			"button": "创建新计划",
+			"description": "要创建新计划，请单击下面的按钮。",
+			"title": "您还没有任何计划"
+		},
+		"form": {
+			"description": "说明（可选）",
+			"description_plac": "计划说明",
+			"name": "名称",
+			"name_delete_plac": "键入计划名称",
+			"name_plac": "计划名称",
+			"price": "价钱",
+			"price_plac": "计划价格",
+			"status": "状态",
+			"status_help": "您计划在网站上的可用性状态。",
+			"storage": "存储容量",
+			"storage_helper": "您只需要输入数字，例如值“ 5”表示用户将拥有5GB的存储容量。",
+			"storage_plac": "存储容量",
+			"title_delete": "删除计划",
+			"title_details": "计划详情",
+			"title_pricing": "计划定价"
+		},
+		"subscribers": {
+			"empty": "尚无任何订阅者。"
+		},
+		"table": {
+			"name": "计划名称",
+			"price": "价钱",
+			"status": "状态",
+			"storage_capacity": "存储容量",
+			"subscribers": "订户"
+		},
+		"tabs": {
+			"delete": "删除计划",
+			"settings": "设置",
+			"subscribers": "订户"
+		}
+	},
+	"admin_page_user": {
+		"change_capacity": "Change Capacity",
+		"create_user": {
+			"avatar": "阿凡达",
+			"group_details": "Account Details",
+			"group_settings": "Account Settings",
+			"label_conf_pass": "Confirm password",
+			"label_email": "Type E-mail",
+			"label_name": "Type full name",
+			"submit": "Create User"
+		},
+		"delete_user": "Delete User",
+		"invoices": {
+			"empty": "用户还没有任何发票。"
+		},
+		"label_change_capacity": "Type storage capacity in GB",
+		"label_delete_user": "Type with Case Sensitive user name ‘{user}‘",
+		"label_person_info": "Personal Information",
+		"placeholder_delete_user": "Type here",
+		"save_role": "Save Role",
+		"select_role": "Select user role",
+		"send_password_link": "Send Password Reset Link",
+		"subscription": {
+			"empty": "用户还没有任何订阅。",
+			"interval_mo": "每月一次"
+		},
+		"table": {
+			"action": "Action",
+			"created_at": "Registered",
+			"name": "User",
+			"plan": "订阅计划",
+			"role": "Role",
+			"storage_capacity": "Storage Capacity",
+			"storage_used": "Storage Used"
+		},
+		"tabs": {
+			"delete": "Delete User",
+			"detail": "Detail",
+			"invoices": "发票",
+			"password": "Password",
+			"storage": "Storage Usage",
+			"subscription": "订阅"
+		}
+	},
+	"admin_pages": {
+		"form": {
+			"content": "内容",
+			"content_plac": "在这里输入您的内容...",
+			"slug": "金属块",
+			"title": "标题",
+			"title_plac": "标题名称",
+			"visibility": "能见度",
+			"visibility_help": "您的网页在网站上的可见性状态。"
+		},
+		"table": {
+			"page": "页",
+			"slug": "金属块",
+			"status": "状态"
+		}
+	},
+	"admin_settings": {
+		"appearance": {
+			"description": "应用说明",
+			"description_plac": "输入您的应用说明",
+			"favicon": "App Favicon（可选）",
+			"logo": "应用徽标（可选）",
+			"logo_horizontal": "应用徽标水平（可选）",
+			"section_appearance": "出现",
+			"section_general": "常规设置",
+			"title": "应用标题",
+			"title_plac": "输入您的应用标题"
+		},
+		"billings": {
+			"address": "帐单地址",
+			"address_plac": "输入您的帐单地址",
+			"city": "计费城市",
+			"city_plac": "输入您的帐单城市",
+			"company_name": "公司名",
+			"company_name_plac": "输入您的公司名称",
+			"country": "账单国家",
+			"country_plac": "选择您的帐单国家",
+			"phone_number": "帐单电话号码（可选）",
+			"phone_number_plac": "输入您的帐单电话号码",
+			"postal_code": "帐单邮递区号",
+			"postal_code_plac": "输入您的帐单邮递区号",
+			"section_billing": "账单信息",
+			"section_company": "公司信息",
+			"state": "账单状态",
+			"state_plac": "输入您的帐单状态",
+			"vat": "增值税号",
+			"vat_plac": "输入您的增值税号"
+		},
+		"email": {
+			"driver": "邮件驱动程序",
+			"driver_plac": "输入您的邮件驱动程序",
+			"email_disclaimer": "This form is not fully pre-filled for security reasons. Your email settings is available in your <b>.env</b> file. For apply new Email settings, please confirm your options by button at the end of formular.",
+			"encryption": "邮件加密",
+			"encryption_plac": "选择您的邮件加密",
+			"host": "邮件主机",
+			"host_plac": "输入您的邮件主机",
+			"password": "邮件密码",
+			"password_plac": "输入您的邮件密码",
+			"port": "邮件端口",
+			"port_plac": "输入您的邮件端口",
+			"save_button": "保存电子邮件设置",
+			"section_email": "电邮设定",
+			"username": "邮件用户名",
+			"username_plac": "输入您的邮件用户名"
+		},
+		"others": {
+			"allow_registration": "允许用户注册",
+			"allow_registration_help": "您可以为新用户禁用公共注册。您仍然可以在管理面板中 <br/>创建新用户。",
+			"contact_email": "联系电子邮件",
+			"contact_email_plac": "输入您的联系电子邮件",
+			"default_storage": "用户帐户的默认存储空间",
+			"default_storage_plac": "设置默认存储空间（以GB为单位）",
+			"google_analytics": "Google Analytics（分析）代码（可选）",
+			"google_analytics_plac": "粘贴您的Google Analytics（分析）代码",
+			"section_others": "其他设定",
+			"section_user": "用户和存储",
+			"storage_limit": "储存限制",
+			"storage_limit_help": "如果禁用此值，则所有用户将具有无限存储容量，并且您将无法 <br/>向用户收取存储计划的费用。"
+		},
+		"payments": {
+			"allow_payments": "允许订阅付款",
+			"button_submit": "测试并保存条带",
+			"button_testing": "测试条连接",
+			"credentials_disclaimer": "不显示您的Stripe凭据，因为这些值是秘密的，陌生人不得透露。您可以在 <b>.env</b> 文件中更改Stripe凭据。",
+			"section_payments": "条纹付款",
+			"stripe_create_acc": "如果您没有带区帐户，请 <a href=\"https://dashboard.stripe.com/register\" target=\"_blank\">在</a> 这里注册并获取您的可发布密钥，秘密密钥并创建您的网络挂钩。",
+			"stripe_create_webhook": "",
+			"stripe_currency": "Stripe Currency",
+			"stripe_currency_plac": "Select your Stripe currency",
+			"stripe_pub_key": "Publishable Key",
+			"stripe_pub_key_plac": "Paste your publishable key",
+			"stripe_sec_key": "Secret Key",
+			"stripe_sec_key_plac": "Paste your secret key",
+			"stripe_setup": "Stripe Setup",
+			"stripe_webhook_key_plac": "Paste your stripe webhook secret",
+			"webhook_url": "Stripe webhook URL"
+		},
+		"tabs": {
+			"appearance": "出现",
+			"billings": "帐单",
+			"email": "电子邮件",
+			"others": "其他",
+			"payments": "支付"
+		}
+	},
+	"alerts": {
+		"error_confirm": "哦，出了个问题！",
+		"success_confirm": "太棒了！"
+	},
+	"context_menu": {
+		"add_folder": "添加文件夹",
+		"add_to_favourites": "添加进收藏",
+		"create_folder": "创建文件夹",
+		"delete": "删除",
+		"detail": "详情",
+		"download": "下载",
+		"empty_trash": "清空垃圾箱",
+		"log_out": "注销",
+		"move": "移动",
+		"profile_settings": "个人信息编辑",
+		"remove_from_favourites": "移出收藏",
+		"rename": "重命名",
+		"restore": "恢复文件",
+		"share": "分享",
+		"share_edit": "编辑分享设定",
+		"upload": "上传"
+	},
+	"cookie_disclaimer": {
+		"button": "cookies policy",
+		"description": "By browsing this website you are agreeing to our {0}."
+	},
+	"datatable": {
+		"paginate_info": "Showing 1 - {visible} from {total} records"
+	},
+	"empty_page": {
+		"call_to_action": "文件上传",
+		"description": "拖动文件至此处，或使用上传按钮",
+		"title": "这里什么都还没有"
+	},
+	"errors": {
+		"capacity_digit": "存储容量必须小于10位数字。"
+	},
+	"file_detail": {
+		"author": "作者",
+		"author_participant": "公共参与者",
+		"created_at": "创建于",
+		"shared": "分享",
+		"size": "大小",
+		"where": "地址"
+	},
+	"folder": {
+		"empty": "空的",
+		"item_counts": "{count} 个文件 | {count} 个文件"
+	},
+	"global": {
+		"incomplete": "Incomplete",
+		"active": "活性",
+		"admin": "管理员",
+		"cancel": "取消",
+		"canceled": "取消",
+		"confirm_action": "是，我确定",
+		"default": "默认",
+		"free": "自由",
+		"get_it": "莫",
+		"menu": "菜单",
+		"monthly_ac": "莫",
+		"or": "要么",
+		"premium": "额外费用",
+		"saas": "服务",
+		"subscription": "订阅",
+		"total": "总",
+		"upgrade_plan": "升级计划"
+	},
+	"input_image": {
+		"supported": "Supported formats are .png, .jpg, .jpeg.",
+		"title": "Upload Image"
+	},
+	"inputs": {
+		"placeholder_search_files": "搜索文件"
+	},
+	"item_thumbnail": {
+		"deleted_at": "删除时间： {time}",
+		"original_location": "原始位置"
+	},
+	"locations": {
+		"home": "首页",
+		"shared": "已分享",
+		"trash": "垃圾箱"
+	},
+	"menu": {
+		"admin": "Admin",
+		"files": "Files",
+		"invoices": "发票",
+		"latest": "Recent Uploads",
+		"logout": "Log Out",
+		"password": "Password",
+		"payment_cards": "付款卡",
+		"profile": "Profile Settings",
+		"settings": "Settings",
+		"shared": "Shared Files",
+		"storage": "Storage",
+		"subscription": "订阅",
+		"trash": "Trash"
+	},
+	"messages": {
+		"nothing_from_participants": "You don't have any uploads from other users.",
+		"nothing_to_preview": "没有任何信息可以预览。",
+		"nothing_was_found": "没找到任何信息。"
+	},
+	"notice": {
+		"stripe_activation": "您的Stripe帐户尚未设置。要向您的用户收费，请 {0}。",
+		"stripe_activation_button": "设置您的Stripe帐户"
+	},
+	"page_contact_us": {
+		"description": "你有任何问题吗？请与我们联系。",
+		"error_message": "出问题了，请重试。",
+		"form": {
+			"email": "电子邮件",
+			"email_plac": "输入您的电子邮件",
+			"message": "信息",
+			"message_plac": "在这里输入你的消息...",
+			"submit_button": "发信息"
+		},
+		"success_message": "您的消息已成功发送。",
+		"title": "联系我们"
+	},
+	"page_create_password": {
+		"button_update": "更新密码",
+		"label_confirm_pass": "确认密码",
+		"label_email": "邮箱：",
+		"label_new_pass": "键入新密码",
+		"subtitle": "在此创建您的新密码",
+		"title": "只需一步进行登录"
+	},
+	"page_forgotten_password": {
+		"button_get_link": "获得链接",
+		"pass_reseted_signin": "登录",
+		"pass_reseted_subtitle": "您的密码被成功重置。",
+		"pass_reseted_title": "太棒了！",
+		"pass_sennded_subtitle": "我们为您发送了一封确认邮件！",
+		"pass_sennded_title": "感谢！",
+		"password_remember_button": "登录。",
+		"password_remember_text": "还记得住您的密码么？",
+		"subtitle": "通过邮箱获得重置链接：",
+		"title": "忘记密码？"
+	},
+	"page_index": {
+		"get_started_button": "立即注册",
+		"menu": {
+			"contact_us": "联系我们",
+			"log_in": "登录",
+			"pricing": "价钱",
+			"sign_in": "注册"
+		},
+		"sign_feature_1": "无需信用卡",
+		"sign_feature_2": "{defaultSpace} 可用存储空间",
+		"sign_up_button": "立即注册"
+	},
+	"page_login": {
+		"button_next": "下一步",
+		"placeholder_email": "键入您的邮箱",
+		"registration_button": "注册帐号",
+		"registration_text": "没有帐号？",
+		"subtitle": "请输入您的邮箱来登录。",
+		"title": "欢迎回来！"
+	},
+	"page_pricing_tables": {
+		"description": "选择计划巫婆完全适合您的需求。所有计划都会通过您的信用卡每月自动结算。",
+		"storage_capacity": "储存容量",
+		"vat_excluded": "Price displayed excludes VAT.",
+		"title": "选择您的计划"
+	},
+	"page_registration": {
+		"agreement": "通过单击“创建帐户”按钮，我同意 {0} 和 {1}。",
+		"button_create_account": "创建账户",
+		"have_an_account": "您之前有过账户了么？",
+		"label_confirm_pass": "确认密码：",
+		"label_email": "邮箱：",
+		"label_name": "全名：",
+		"label_pass": "创建密码：",
+		"placeholder_confirm_pass": "请重复输入一遍密码",
+		"placeholder_email": "键入您的邮箱地址",
+		"placeholder_name": "键入您的全名",
+		"placeholder_pass": "键入新密码",
+		"subtitle": "填写所有内容进行创建",
+		"title": "创建一个新用户"
+	},
+	"page_shared": {
+		"download_file": "下载文件",
+		"placeholder_pass": "输入密码",
+		"submit": "提交",
+		"subtitle": "请输入密码后得到分享链接",
+		"title": "您的分享链接已被保护"
+	},
+	"page_shared_404": {
+		"subtitle": "您要找的内容可能已经被删除了。",
+		"title": "没有找到文件"
+	},
+	"page_sign_in": {
+		"button_log_in": "登录",
+		"password_reset_button": "重置密码。",
+		"password_reset_text": "忘记密码？",
+		"placeholder_password": "键入密码",
+		"subtitle": "请用您的密码登录",
+		"title": "您是 {name}?"
+	},
+	"page_upgrade_account": {
+		"change_payment": {
+			"change_payment": "更改您的默认付款方式",
+			"pay_by_new_card": "用新信用卡付款",
+			"you_can": "你也可以"
+		},
+		"desription": "选择计划巫婆完全适合您的需求。所有计划都会通过您的信用卡每月自动结算。",
+		"errors": {
+			"pay_by_another_card": "请用另一张付款卡付款"
+		},
+		"section_billing": "账单信息",
+		"section_card": "支付卡",
+		"section_summary": "订购摘要",
+		"summary": {
+			"period": "每月计费",
+			"submit_button": "用信用卡付款",
+			"submit_disclaimer": "通过提交表单，您同意在您的{app}帐户中保存付款方式和帐单信息。",
+			"total_with_vat": "Total with VAT",
+			"vat": "VAT"
+		},
+		"title": "选择付款方式"
+	},
+	"popup_create_folder": {
+		"folder_default_name": "新文件夹",
+		"title": "请填入新文件夹名称"
+	},
+	"popup_delete_card": {
+		"message": "此事件不可逆转，您的付款卡将被永久删除",
+		"title": "你确定吗？"
+	},
+	"popup_deleted_plan": {
+		"message": "您的计划已成功删除。",
+		"title": "计划已删除"
+	},
+	"popup_deleted_user": {
+		"message": "Your user was deleted with all user data content.",
+		"title": "User was deleted"
+	},
+	"popup_deleted_user_aborted": {
+		"message": "You can't delete this account while user have active subscription.",
+		"title": "User wasn't deleted"
+	},
+	"popup_error": {
+		"message": "有什么东西坏掉了，请联系我们，引导我们修复。",
+		"title": "wow，好像有什么东西坏掉了！"
+	},
+	"popup_exceed_limit": {
+		"message": "请联系我们来增加您的存储空间。",
+		"title": "wow，您已经超过了存储上线。"
+	},
+	"popup_move_item": {
+		"cancel": "取消",
+		"submit": "移动文件/夹",
+		"title": "移动文件/夹"
+	},
+	"popup_pass_changed": {
+		"message": "现在，您拥有一个新的密码。",
+		"title": "您的密码已经改变！"
+	},
+	"popup_passport_error": {
+		"message": "Probably you didn't generated Passport Grant client or you didn't set up passport credentials in your .env file. Please follow install instructions.",
+		"title": "Invalid Passport Grand Client"
+	},
+	"popup_paylod_error": {
+		"message": "Sorry, your file is too large and can't be uploaded",
+		"title": "File is too large"
+	},
+	"popup_rename": {
+		"title": "修改文件/夹名称"
+	},
+	"popup_set_card": {
+		"message": "您的卡将被设置为默认卡，并且在以后的结算中始终会收取费用。",
+		"title": "设为默认卡？"
+	},
+	"popup_share_create": {
+		"title": "分享您的 {item}"
+	},
+	"popup_share_edit": {
+		"change_pass": "更改密码",
+		"confirm": "确认",
+		"save": "保存更改",
+		"stop": "停止风险",
+		"title": "更新分享设定"
+	},
+	"popup_signup_error": {
+		"message": "Please check your database connection if everything works correctly.",
+		"title": "Server Error"
+	},
+	"popup_subscription_cancel": {
+		"button": "我受够了",
+		"message": "在结算周期结束之前，您将可以继续使用已付费的功能。",
+		"title": "订阅已恢复"
+	},
+	"popup_subscription_resumed": {
+		"button": "棒极了！",
+		"message": "您的订阅已重新激活，并且将按原始计费周期计费。",
+		"title": "订阅已取消"
+	},
+	"popup_trashed": {
+		"message": "现在，您的垃圾箱已经被完全清空。",
+		"title": "您的垃圾箱已清空！"
+	},
+	"preview_type": {
+		"grid": "方块",
+		"list": "列表"
+	},
+	"profile": {
+		"change_pass": "修改您的密码",
+		"profile_info": "用户信息",
+		"store_pass": "保存您的密码"
+	},
+	"pronouns": {
+		"of": "of"
+	},
+	"roles": {
+		"admin": "Admin",
+		"user": "User"
+	},
+	"routes": {
+		"create_new_password": "创建新密码"
+	},
+	"routes_title": {
+		"appearance": "出现",
+		"billings": "帐单",
+		"dashboard": "仪表板",
+		"email": "电子邮件",
+		"invoices": "发票",
+		"others": "其他",
+		"page_edit": "编辑页面",
+		"pages": "网页",
+		"payment_methods": "支付方式",
+		"payments": "支付",
+		"plan": "计划",
+		"plan_create": "创建计划",
+		"plan_delete": "计划删除",
+		"plan_settings": "计划设定",
+		"pricing_plans": "定价方案",
+		"profile": "My Profile",
+		"profile_settings": "档案设置",
+		"settings": "设置",
+		"settings_mobile": "Settings",
+		"settings_password": "Change Password",
+		"settings_storage": "Storage",
+		"subscribers": "订户",
+		"subscription": "订阅",
+		"upgrade_billing": "开票",
+		"upgrade_plan": "升级计划",
+		"user_create": "Create User",
+		"users_delete": "Delete User",
+		"users_detail": "Detail",
+		"users_list": "User Management",
+		"users_password": "Password",
+		"users_storage_usage": "Storage Usage",
+		"users_user": "User"
+	},
+	"rows": {
+		"card": {
+			"expiration": "截止日期",
+			"number": "卡号",
+			"status": "状态"
+		},
+		"invoice": {
+			"number": "发票编号",
+			"payed": "祈祷，",
+			"plan": "计划",
+			"total": "总"
+		}
+	},
+	"shared": {
+		"can_download": "仅可以下载",
+		"editor": "可以编辑和上传文件",
+		"empty_shared": "您还没有分享任何内容",
+		"visitor": "仅可以查看或下载文件"
+	},
+	"shared_form": {
+		"button_done": "太好了！",
+		"button_generate": "生成分享链接",
+		"label_password_protection": "密码保护",
+		"label_permission": "权限",
+		"label_shared_url": "分享链接",
+		"placeholder_permission": "请设置权限"
+	},
+	"sidebar": {
+		"favourites": "收藏",
+		"favourites_empty": "将您想要收藏的文件夹拖动至此",
+		"folders_empty": "Create some new folder.",
+		"home": "Home",
+		"latest": "Recent Uploads",
+		"locations_title": "Base",
+		"my_shared": "My Shared Items",
+		"navigator_title": "Navigator",
+		"participant_uploads": "Participant Uploads",
+		"tools_title": "Tools"
+	},
+	"storage": {
+		"audios": "Audios",
+		"documents": "Documents",
+		"images": "Images",
+		"others": "Others",
+		"sec_capacity": "Storage Capacity",
+		"sec_details": "Capacity Used Details",
+		"total_capacity": "Your storage capacity is {capacity}",
+		"total_used": "Total used {used}",
+		"videos": "Videos"
+	},
+	"toaster": {
+		"account_upgraded": "您的帐户已成功升级。",
+		"card_deleted": "您的卡已成功删除。",
+		"card_new_add": "Your card was successfully added",
+		"card_set": "您的卡已成功设置为默认值。",
+		"changed_capacity": "You successfully changed user's storage size!",
+		"changed_user": "You successfully changed user's role!",
+		"created_user": "User was created successfully!",
+		"email_set": "您的电子邮件设置已成功更新",
+		"plan_created": "您的计划已成功创建！",
+		"sended_password": "You successfully send user email for reset password!",
+		"stripe_set": "您的Stripe帐户已成功设置！"
+	},
+	"types": {
+		"file": "文件",
+		"folder": "文件夹"
+	},
+	"upgrade_banner": {
+		"button": "Upgrade",
+		"description": "You nearly reach your storage capacity.",
+		"title": "You reach your storage capacity. Please upgrade."
+	},
+	"incomplete_payment": {
+		"description": "Your latest payment is incomplete. {0}",
+		"href": "Please confirm your payment."
+	},
+	"uploading": {
+		"progress": "上传文件 {current}/{total}"
+	},
+	"user_add_card": {
+		"default_description": "",
+		"default_title": "Set as Default Payment Method"
+	},
+	"user_box_delete": {
+		"description": "You can delete your user, but, pay attention! This event is irreversible and all user data include user files will be deleted.",
+		"title": "Delete User"
+	},
+	"user_box_password": {
+		"description": "You can send password reset email via button bellow. User will be redirected to page where he can update password for his account.",
+		"title": "Change User Password"
+	},
+	"user_box_role": {
+		"description": "You can change role for current user. Admin role can edit or create new users, change storage capacity and any other application settings.",
+		"title": "Change User Role"
+	},
+	"user_box_storage": {
+		"description": "Change user storage capacity by input bellow. You have to type only number e.g. value '5' means, user will have 5GB of storage capacity.",
+		"title": "Change User Storage Capacity"
+	},
+	"user_invoices": {
+		"empty": "您还没有发票。",
+		"title": "发票"
+	},
+	"user_password": {
+		"title": "更改您的密码"
+	},
+	"user_payments": {
+		"add_card": "Add Payment Card",
+		"card_field_title": "Credit Card",
+		"delete_card": "删除卡",
+		"empty": "您还没有任何付款卡。",
+		"field_loading": "Loading card field...",
+		"set_as_default": "设为默认卡",
+		"store_card": "Store Payment Card",
+		"title": "支付方式"
+	},
+	"user_settings": {
+		"address": "地址",
+		"address_plac": "输入您的帐单地址",
+		"city": "市",
+		"city_plac": "输入您的帐单城市",
+		"country": "国家",
+		"country_plac": "输入您的帐单国家",
+		"name": "名称",
+		"name_plac": "输入您的帐单名称",
+		"phone_number": "电话号码",
+		"phone_number_plac": "输入您的帐单电话号码",
+		"postal_code": "邮政编码",
+		"postal_code_plac": "输入您的帐单邮递区号",
+		"state": "州",
+		"state_plac": "输入您的帐单状态",
+		"title_account": "帐户信息",
+		"title_billing": "账单信息"
+	},
+	"user_subscription": {
+		"billed": "开票",
+		"cancel_plan": "取消计划",
+		"canceled_at": "取消于",
+		"created_at": "创建于",
+		"empty": "您还没有任何订阅。",
+		"ends_at": "结束于",
+		"plan": "计划",
+		"renews_at": "续约时间",
+		"resume_plan": "恢复计划",
+		"status": "状态",
+		"title": "订阅计划"
+	},
+	"validation_errors": {
+		"incorrect_password": "不好意思，您输入的密码可能有误！",
+		"wrong_image": "您可能上传了一个错误的文件！"
+	}
 }

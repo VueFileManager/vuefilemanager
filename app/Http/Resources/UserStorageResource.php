@@ -23,25 +23,25 @@ class UserStorageResource extends JsonResource
         // Get all images
         $images = FileManagerFile::where('user_id', $this->id)
             ->where('type', 'image')->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
+                return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all audios
         $audios = FileManagerFile::where('user_id', $this->id)
             ->where('type', 'audio')->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
+                return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all videos
         $videos = FileManagerFile::where('user_id', $this->id)
             ->where('type', 'video')->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
+                return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all documents
         $documents = FileManagerFile::where('user_id', $this->id)
             ->whereIn('mimetype', $document_mimetypes)->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
+                return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all other files
@@ -49,13 +49,13 @@ class UserStorageResource extends JsonResource
             ->whereNotIn('mimetype', $document_mimetypes)
             ->whereNotIn('type', ['audio', 'video', 'image'])
             ->get()->map(function ($item) {
-                return (int)$item->getOriginal('filesize');
+                return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         return [
             'data' => [
                 'id'            => (string)$this->id,
-                'type'          => 'user-storage',
+                'type'          => 'storage',
                 'attributes'    => [
                     'used'       => Metric::bytes($this->used_capacity)->format(),
                     'capacity'   => format_gigabytes($this->settings->storage_capacity),

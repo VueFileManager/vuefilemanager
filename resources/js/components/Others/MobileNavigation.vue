@@ -1,5 +1,5 @@
 <template>
-    <div class="mobile-main-navigation" v-if="app">
+    <div class="mobile-main-navigation" v-if="user">
         <transition name="context-menu">
             <nav v-if="isVisible" class="mobile-navigation">
 
@@ -27,14 +27,14 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'MenuBar',
+        name: 'UserMobileNavigation',
         components: {
             MenuItemList,
             UserHeadline,
             UserAvatar,
         },
         computed: {
-            ...mapGetters(['app', 'homeDirectory']),
+            ...mapGetters(['user', 'homeDirectory']),
             navigation() {
                 return [
                     {
@@ -62,16 +62,16 @@
                         isVisible: true,
                     },
                     {
-                        icon: 'settings',
+                        icon: 'user',
                         title: this.$t('menu.settings'),
-                        routeName: 'Profile',
+                        routeName: 'UserProfileMobileMenu',
                         isVisible: true,
                     },
                     {
-                        icon: 'users',
+                        icon: 'settings',
                         title: this.$t('menu.admin'),
-                        routeName: 'Users',
-                        isVisible: this.app.user.role === 'admin',
+                        routeName: 'AdminMobileMenu',
+                        isVisible: this.user.data.attributes.role === 'admin',
                     },
                     {
                         icon: 'power',

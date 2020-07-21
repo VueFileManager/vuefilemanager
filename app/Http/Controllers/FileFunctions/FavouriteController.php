@@ -39,10 +39,10 @@ class FavouriteController extends Controller
         if ($folder->user_id !== $user->id) abort(403);
 
         // Add folder to user favourites
-        $user->favourites()->syncWithoutDetaching($request->unique_id);
+        $user->favourite_folders()->syncWithoutDetaching($request->unique_id);
 
         // Return updated favourites
-        return $user->favourites->makeHidden(['pivot']);
+        return $user->favourite_folders;
     }
 
     /**
@@ -61,9 +61,9 @@ class FavouriteController extends Controller
         }
 
         // Remove folder from user favourites
-        $user->favourites()->detach($unique_id);
+        $user->favourite_folders()->detach($unique_id);
 
         // Return updated favourites
-        return $user->favourites->makeHidden(['pivot']);
+        return $user->favourite_folders;
     }
 }

@@ -7,6 +7,7 @@
     display: flex;
     position: relative;
     justify-content: center;
+    margin: 0 auto;
 
     .input-wrapper {
       position: relative;
@@ -45,6 +46,7 @@
         width: 200px;
         text-align: right !important;
         color: $text;
+        text-align: right;
       }
     }
 

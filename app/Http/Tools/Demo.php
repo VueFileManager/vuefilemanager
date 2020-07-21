@@ -138,6 +138,6 @@ class Demo
      */
     public static function favourites($user) {
 
-        return $user->favourites->makeHidden(['pivot']);
+        return $user->favourite_folders->makeHidden(['pivot']);
     }
 }

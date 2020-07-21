@@ -37,6 +37,25 @@ class FileAccessController extends Controller
     }
 
     /**
+     * Get system image
+     *
+     * @param $basename
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_system_image($basename)
+    {
+        // Get file path
+        $path = '/system/' . $basename;
+
+        // Check if file exist
+        if (!Storage::exists($path)) abort(404);
+
+        // Return avatar
+        return Storage::download($path, $basename);
+    }
+
+    /**
      * Get file
      *
      * @param Request $request
@@ -206,12 +225,12 @@ class FileAccessController extends Controller
     private function thumbnail_file($file)
     {
         // Get file path
-        $path = '/file-manager/' . $file->getOriginal('thumbnail');
+        $path = '/file-manager/' . $file->getRawOriginal('thumbnail');
 
         // Check if file exist
         if (!Storage::exists($path)) abort(404);
 
         // Return image thumbnail
-        return Storage::download($path, $file->getOriginal('thumbnail'));
+        return Storage::download($path, $file->getRawOriginal('thumbnail'));
     }
 }

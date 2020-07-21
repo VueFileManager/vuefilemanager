@@ -1,0 +1,230 @@
+// Colors
+$text: #1c1d1f;
+$text-muted: rgba($text, 0.7);
+$light_background: #f4f6f6;
+$light_mode_border: #F8F8F8;
+$theme: #00BC7E;
+
+@mixin font-size($size) {
+  font-size:($size/16) + 0em;
+}
+
+@mixin transition($time: 0.3s) {
+  transition: $time all ease;
+}
+
+@mixin transform($effect) {
+  -webkit-transform: $effect;
+  -moz-transform: $effect;
+  transform: $effect;
+}
+
+* {
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+body {
+  background: $light_background;
+}
+
+#toolbar-wrapper {
+  max-width: 800px;
+  margin: 30px auto;
+
+  .button {
+    background: white;
+    margin-right: 15px;
+    border-radius: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+    border: none;
+    @include transition(150ms);
+
+    .icon {
+      height: 14px;
+      vertical-align: middle;
+
+      path, line, polyline, rect, circle {
+        @include transition(150ms);
+      }
+    }
+
+    .label {
+      @include transition(150ms);
+      @include font-size(14);
+      font-weight: 700;
+      color: $text;
+    }
+
+    &:active {
+      @include transform(scale(0.95));
+    }
+
+    &:hover {
+      background: rgba($theme, 0.1);
+
+      .icon {
+        path, line, polyline, rect, circle {
+          stroke: $theme;
+        }
+      }
+
+      .label {
+        color: $theme;
+      }
+    }
+  }
+}
+
+#invoice-wrapper {
+  max-width: 800px;
+  padding: 50px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+
+  .table-header {
+    border-bottom: 1px solid $light_mode_border;
+
+    td {
+      padding-bottom: 10px;
+      @include font-size(12);
+      font-weight: 700;
+      color: $theme;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  .table-body {
+    td {
+      @include font-size(16);
+      font-weight: 700;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.list {
+  margin-bottom: 20px;
+
+  .list-item {
+    display: block;
+    margin-bottom: 5px;
+
+    b {
+      @include font-size(16);
+      font-weight: 700;
+    }
+
+    span {
+      @include font-size(16);
+      font-weight: 500;
+    }
+  }
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+ align-items: center;
+
+  .logo {
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
+  .title {
+
+    h1 {
+      @include font-size(30);
+      font-weight: 300;
+      color: $theme;
+    }
+  }
+}
+
+.invoice-subject {
+  margin-top: 40px;
+  background: hsla(0, 0%, 98%, 1);
+  padding: 15px 20px;
+  border-radius: 10px;
+
+  .list {
+    margin-bottom: 0;
+  }
+}
+
+.invoice-partners {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+
+  .partner:last-child {
+    min-width: 250px;
+  }
+
+  .partner-title {
+    color: $theme;
+    @include font-size(22);
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+}
+
+.invoice-order {
+  margin-top: 40px;
+}
+
+.invoice-summary {
+  margin-top: 60px;
+  text-align: right;
+
+  b {
+    font-weight: 700;
+    @include font-size(22);
+  }
+}
+
+@media print {
+  #toolbar-wrapper {
+    display: none;
+  }
+
+  #invoice-wrapper {
+    padding: 0;
+    margin: 0;
+  }
+
+  .invoice-subject {
+    padding: 0;
+  }
+
+  @page {
+    margin: 0;
+  }
+
+  body {
+    margin: 1.6cm;
+  }
+}

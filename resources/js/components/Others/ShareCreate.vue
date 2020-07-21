@@ -97,7 +97,7 @@
             required,
         },
         computed: {
-            ...mapGetters(['app', 'permissionOptions']),
+            ...mapGetters(['permissionOptions']),
             itemTypeTitle() {
                 return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
             },

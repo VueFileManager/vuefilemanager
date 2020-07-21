@@ -1,5 +1,5 @@
 <template>
-    <nav class="menu-bar" v-if="app">
+    <nav class="menu-bar" v-if="user">
 
         <!--Navigation Icons-->
         <div class="icon-navigation menu">
@@ -26,15 +26,15 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': $isThisRoute($route, ['Password', 'Profile', 'Storage'])}" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" class="icon-navigation-item settings">
                 <div class="button-icon">
-                    <settings-icon size="19"></settings-icon>
+                    <user-icon size="19"></user-icon>
                 </div>
             </router-link>
 
-            <router-link v-if="app.user.role === 'admin'" :to="{name: 'Users'}" :class="{'is-active': $isThisRoute($route, ['Users', 'User', 'UserDetail', 'UserStorage', 'UserPassword', 'UserDelete'])}" class="icon-navigation-item users">
+            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
                 <div class="button-icon">
-                    <users-icon size="19"></users-icon>
+                    <settings-icon size="19"></settings-icon>
                 </div>
             </router-link>
         </div>
@@ -57,7 +57,7 @@
         HardDriveIcon,
         SettingsIcon,
         Trash2Icon,
-        UsersIcon,
+        UserIcon,
         PowerIcon,
         ShareIcon,
     } from 'vue-feather-icons'
@@ -71,10 +71,47 @@
             Trash2Icon,
             PowerIcon,
             ShareIcon,
-            UsersIcon,
+            UserIcon,
         },
         computed: {
-            ...mapGetters(['app']),
+            ...mapGetters(['user']),
+            isUserProfileRoute() {
+                return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription', 'PaymentMethods'])
+            }
+        },
+        data() {
+            return {
+                adminRoutes: [
+                    'AppSettings',
+                    'AppAppearance',
+                    'AppBillings',
+                    'AppEmail',
+                    'AppOthers',
+                    'Dashboard',
+                    'PlanSubscribers',
+                    'PlanCreate',
+                    'PlanSettings',
+                    'PlanDelete',
+                    'UserSubscription',
+                    'UserInvoices',
+                    'UserPassword',
+                    'UserStorage',
+                    'UserDelete',
+                    'PlanCreate',
+                    'UserCreate',
+                    'AppPayments',
+                    'PageEdit',
+                    'Pages',
+                    'UserDelete',
+                    'UserDetail',
+                    'Invoices',
+                    'Gateways',
+                    'Gateway',
+                    'Plans',
+                    'Users',
+                    'User',
+                ]
+            }
         },
         mounted() {
             this.$store.dispatch('getAppData')
@@ -87,11 +124,12 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .menu-bar {
-        background: linear-gradient(180deg, rgba(246, 245, 241, 0.8) 0%, rgba(243, 244, 246, 0.8) 100%);
+        //background: linear-gradient(180deg, rgba(246, 245, 241, 0.8) 0%, rgba(243, 244, 246, 0.8) 100%);
+        background: $light_background;
         user-select: none;
         padding-top: 25px;
         display: grid;
-        width: 72px;
+        flex: 0 0 72px;
     }
 
     .icon-navigation {
@@ -190,8 +228,7 @@
 
     @media only screen and (max-width: 1024px) {
         .menu-bar {
-            min-width: 60px;
-            width: 60px;
+            flex: 0 0 60px;
         }
 
         .icon-navigation {

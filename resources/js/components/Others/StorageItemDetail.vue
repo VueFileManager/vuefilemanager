@@ -49,14 +49,14 @@
             .icon {
 
                 path, line, polyline, rect, circle, polygon {
-                    stroke: $theme;
+                    stroke: $text;
                 }
             }
 
             .storage-progress {
 
                 /deep/ span {
-                    background: $theme;
+                    background: $text;
                 }
             }
         }
@@ -182,7 +182,7 @@
 
         .detail-storage-item {
 
-            &.others {
+            &.others, &.disk {
 
                 .icon {
 

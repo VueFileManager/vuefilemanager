@@ -11,6 +11,12 @@
                 <user-icon v-if="link.icon === 'user'" size="17"></user-icon>
                 <users-icon v-if="link.icon === 'users'" size="17"></users-icon>
                 <lock-icon v-if="link.icon === 'lock'" size="17"></lock-icon>
+                <file-text-icon v-if="link.icon === 'file-text'" size="17"></file-text-icon>
+                <database-icon v-if="link.icon === 'database'" size="17"></database-icon>
+                <credit-card-icon v-if="link.icon === 'credit-card'" size="17"></credit-card-icon>
+                <cloud-icon v-if="link.icon === 'cloud'" size="17"></cloud-icon>
+                <monitor-icon v-if="link.icon === 'monitor'" size="17"></monitor-icon>
+                <box-icon v-if="link.icon === 'box'" size="17"></box-icon>
             </div>
             <b class="menu-link">
                 <span>{{ link.title }}</span>
@@ -24,24 +30,36 @@
     import {
         ChevronRightIcon,
         UploadCloudIcon,
+        CreditCardIcon,
         HardDriveIcon,
+        FileTextIcon,
         SettingsIcon,
+        DatabaseIcon,
+        MonitorIcon,
         Trash2Icon,
+        CloudIcon,
         PowerIcon,
         ShareIcon,
         UsersIcon,
         UserIcon,
         LockIcon,
+        BoxIcon,
     } from 'vue-feather-icons'
 
     export default {
         name: 'MenuBar',
         components: {
+            BoxIcon,
+            MonitorIcon,
             ChevronRightIcon,
             UploadCloudIcon,
+            CreditCardIcon,
             HardDriveIcon,
+            DatabaseIcon,
+            FileTextIcon,
             SettingsIcon,
             Trash2Icon,
+            CloudIcon,
             PowerIcon,
             UsersIcon,
             ShareIcon,
@@ -68,7 +86,7 @@
 
             .menu-icon {
 
-                path, line, polyline, rect, circle {
+                path, line, polyline, rect, circle, ellipse {
                     stroke: $red;
                 }
             }
@@ -87,7 +105,7 @@
                 vertical-align: middle;
             }
 
-            path, line, polyline, rect, circle {
+            path, line, polyline, rect, circle, ellipse {
                 stroke: $text;
             }
         }
@@ -110,7 +128,7 @@
 
             .menu-icon {
 
-                path, line, polyline, rect, circle {
+                path, line, polyline, rect, circle, ellipse {
                     stroke: $dark_mode_text_primary;
                 }
             }

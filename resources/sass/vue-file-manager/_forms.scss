@@ -8,6 +8,7 @@
     display: flex;
     position: relative;
     justify-content: center;
+    margin: 0 auto;
 
     .input-wrapper {
       position: relative;
@@ -33,14 +34,15 @@
     }
 
     .block-wrapper {
-      margin-bottom: 20px;
+      margin-bottom: 32px;
 
       label {
-        @include font-size(12);
-        color: #AFAFAF;
+        @include font-size(14);
+        color: rgba($text, 0.8);
         font-weight: 700;
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
+        text-align: left;
       }
 
       &:last-child {
@@ -51,6 +53,41 @@
     .button {
       margin-top: 50px;
     }
+  }
+
+  .inline-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .switch-label {
+      .input-help {
+        padding-top: 0;
+      }
+
+      .input-label {
+        font-weight: 700;
+        color: $text;
+        @include font-size(16);
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  .input-help {
+    @include font-size(12);
+    color: $text-muted;
+    line-height: 1.35;
+    padding-top: 10px;
+    display: block;
+  }
+}
+
+.single-line-form {
+  display: flex;
+
+  .submit-button {
+    margin-left: 20px;
   }
 }
 
@@ -71,20 +108,21 @@ input[type="password"],
 input[type="text"],
 input[type="number"],
 input[type="email"] {
-  border: 1px solid #ebebeb;
+  border: 1px solid transparent;
   @include transition(150ms);
-  @include font-size(15);
+  @include font-size(16);
   border-radius: 8px;
   padding: 13px 20px;
   appearance: none;
   font-weight: 700;
   outline: 0;
   width: 100%;
-  background: $light_mode_input_background;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+  //background: hsla(210, 10%, 98%, 1);
 
   &.is-error {
     border-color: $danger;
-    box-shadow: 0 0 7px rgba($danger, 0.3);
+    box-shadow: 0 1px 5px rgba($danger, 0.3);
   }
 
   &::placeholder {
@@ -94,11 +132,12 @@ input[type="email"] {
 
   &:focus {
     border-color: $theme;
-    box-shadow: 0 0 7px rgba($theme, 0.3);
+    box-shadow: 0 1px 5px rgba($theme, 0.3);
   }
 
   &[disabled] {
-    background: hsl(0, 0%, 98%);
+    background: white;
+    color: rgba($text, 0.8);
     cursor: not-allowed;
   }
 }
@@ -177,6 +216,15 @@ input[type="email"] {
     }
   }
 
+  .single-line-form {
+    display: block;
+
+    .submit-button {
+      margin-left: 0;
+      margin-top: 20px;
+      width: 100%;
+    }
+  }
 
   textarea,
   input[type="password"],
@@ -198,10 +246,24 @@ input[type="email"] {
 
   .form {
 
+    .input-help {
+      color: $dark_mode_text_secondary;
+    }
+
     &.block-form {
 
       .block-wrapper label {
         color: $dark_mode_text_primary;
+      }
+    }
+
+    .inline-wrapper {
+
+      .switch-label {
+
+        .input-label {
+          color: $dark_mode_text_primary;
+        }
       }
     }
   }

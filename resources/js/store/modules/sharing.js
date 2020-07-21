@@ -39,7 +39,7 @@ const actions = {
 
         let route = getters.sharedDetail.protected
             ? '/api/folders/' + payload.folder.unique_id + '/private'
-            : '/api/folders/' + payload.folder.unique_id + '/public/' + router.currentRoute.params.token +'/'
+            : '/api/folders/' + payload.folder.unique_id + '/public/' + router.currentRoute.params.token
 
         return new Promise((resolve, reject) => {
             axios

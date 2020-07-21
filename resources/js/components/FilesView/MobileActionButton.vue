@@ -1,11 +1,13 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
+            <credit-card-icon v-if="icon === 'credit-card'" size="15" class="icon"></credit-card-icon>
             <folder-plus-icon v-if="icon === 'folder-plus'" size="15" class="icon"></folder-plus-icon>
             <list-icon v-if="icon === 'th-list'" size="15" class="icon"></list-icon>
             <trash-icon v-if="icon === 'trash'" size="15" class="icon"></trash-icon>
             <grid-icon v-if="icon === 'th'" size="15" class="icon"></grid-icon>
             <user-plus-icon v-if="icon === 'user-plus'" size="15" class="icon"></user-plus-icon>
+            <plus-icon v-if="icon === 'plus'" size="15" class="icon"></plus-icon>
             <span class="label">
                 <slot></slot>
             </span>
@@ -14,7 +16,7 @@
 </template>
 
 <script>
-    import { FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon } from 'vue-feather-icons'
+    import { FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon } from 'vue-feather-icons'
 
     export default {
         name: 'MobileActionButton',
@@ -22,9 +24,11 @@
             'icon'
         ],
         components: {
+            CreditCardIcon,
             FolderPlusIcon,
             UserPlusIcon,
             TrashIcon,
+            PlusIcon,
             ListIcon,
             GridIcon,
         }

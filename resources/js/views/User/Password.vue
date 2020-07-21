@@ -1,11 +1,10 @@
 <template>
-    <div class="page-tab">
-        <div class="page-tab-group">
-            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form"
-                                class="form block-form">
-
+    <PageTab>
+        <PageTabGroup>
+            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
+                <FormLabel>{{ $t('user_password.title') }}</FormLabel>
                 <div class="block-wrapper">
-                    <b class="form-group-label">{{ $t('page_create_password.label_new_pass') }}:</b>
+                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
@@ -14,7 +13,6 @@
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
-
                 <div class="block-wrapper">
                     <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
@@ -25,32 +23,36 @@
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
-
                 <div class="block-wrapper">
                     <ButtonBase type="submit" button-style="theme" class="confirm-form">
                         {{ $t('profile.store_pass') }}
                     </ButtonBase>
                 </div>
             </ValidationObserver>
-        </div>
-    </div>
+        </PageTabGroup>
+    </PageTab>
 </template>
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import UserImageInput from '@/components/Others/UserImageInput'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
-    import {mapGetters} from 'vuex'
     import {events} from '@/bus'
     import axios from 'axios'
 
     export default {
         name: 'Profile',
         components: {
+            PageTabGroup,
+            FormLabel,
+            PageTab,
             ValidationProvider,
             ValidationObserver,
             UserImageInput,
@@ -59,9 +61,6 @@
             ButtonBase,
             ThemeLabel,
             required,
-        },
-        computed: {
-            ...mapGetters(['app']),
         },
         data() {
             return {
@@ -120,6 +119,10 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
+
+    .block-form {
+        max-width: 100%;
+    }
 
     @media only screen and (max-width: 960px) {
 

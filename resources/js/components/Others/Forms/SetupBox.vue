@@ -20,11 +20,13 @@
     .setup-box {
         padding: 20px;
         border-radius: 8px;
+        margin-bottom: 30px;
 
         .title {
-            @include font-size(19);
-            margin-bottom: 15px;
+            @include font-size(21);
+            margin-bottom: 5px;
             display: block;
+            font-weight: 700;
         }
 
         .description {

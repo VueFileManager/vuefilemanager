@@ -1,23 +1,25 @@
 <template>
-    <div class="page-tab">
-
-        <!--Change role-->
-        <div class="page-tab-group">
-            <SetupBox
-                    theme="base"
-                    :title="$t('user_box_password.title')"
-                    :description="$t('user_box_password.description')"
-            >
-                <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest"
-                            :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
-                    {{ $t('admin_page_user.send_password_link') }}
-                </ButtonBase>
-            </SetupBox>
-        </div>
-    </div>
+    <PageTab class="form-fixed-width">
+        <PageTabGroup>
+            <FormLabel>
+                {{ $t('user_box_password.title') }}
+            </FormLabel>
+            <InfoBox>
+                <p>{{ $t('user_box_password.description') }}</p>
+            </InfoBox>
+            <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest"
+                        :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+                {{ $t('admin_page_user.send_password_link') }}
+            </ButtonBase>
+        </PageTabGroup>
+    </PageTab>
 </template>
 
 <script>
+    import FormLabel from '@/components/Others/Forms/FormLabel'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
+    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import PageTab from '@/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import SetupBox from '@/components/Others/Forms/SetupBox'
@@ -28,6 +30,10 @@
     export default {
         name: 'UserPassword',
         components: {
+            FormLabel,
+            InfoBox,
+            PageTabGroup,
+            PageTab,
             ValidationProvider,
             ValidationObserver,
             ButtonBase,
@@ -76,24 +82,7 @@
     @import '@assets/vue-file-manager/_mixins';
     @import '@assets/vue-file-manager/_forms';
 
-    .page-tab {
-
-        .page-tab-group {
-            margin-bottom: 45px;
-        }
-    }
-
     .block-form {
         max-width: 100%;
     }
-
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
-    }
-
 </style>

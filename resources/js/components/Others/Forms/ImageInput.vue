@@ -14,7 +14,7 @@
         />
 
         <div class="dropzone-message" v-show="! isData">
-            <upload-icon size="19" class="icon-upload"></upload-icon>
+            <image-icon size="28" class="icon-upload"></image-icon>
             <span class="dropzone-title">
                 {{ $t('input_image.title') }}
             </span>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import { UploadIcon } from 'vue-feather-icons'
+    import ImageIcon from "vue-feather-icons/icons/ImageIcon";
 
     export default {
         name: 'ImageInput',
@@ -34,7 +34,7 @@
             'image', 'error'
         ],
         components: {
-            UploadIcon
+            ImageIcon,
         },
         data() {
             return {
@@ -53,7 +53,7 @@
                         .substring(imgPath.lastIndexOf('.') + 1)
                         .toLowerCase()
 
-                if (['png', 'jpg', 'jpeg'].includes(extn)) {
+                if (['png', 'jpg', 'jpeg', 'svg'].includes(extn)) {
                     const file = event.target.files[0],
                         reader = new FileReader()
 
@@ -86,7 +86,7 @@
         text-align: center;
         display: flex;
         align-items: center;
-        min-height: 210px;
+        min-height: 175px;
 
         &.is-error {
             border: 2px dashed rgba(253, 57, 122, 0.3);
@@ -95,8 +95,10 @@
                 color: $danger;
             }
 
-            .icon-upload path {
-                fill: $danger
+            .icon-upload {
+                rect, circle, polyline {
+                    stroke: $danger
+                }
             }
         }
 
@@ -118,7 +120,7 @@
             height: 100%;
             object-fit: contain;
             left: 0;
-            padding: 7px;
+            padding: 25px;
             display: block;
 
             &.fit-image {
@@ -132,6 +134,12 @@
         .dropzone-message {
             padding: 50px 0;
             width: 100%;
+
+            .icon-upload {
+                rect, circle, polyline {
+                    stroke: $theme
+                }
+            }
 
             .dropzone-title {
                 @include font-size(16);
@@ -148,6 +156,7 @@
 
     @media (prefers-color-scheme: dark) {
         .dropzone {
+            border-color: rgba(white, 0.2);
 
             .dropzone-message {
 
