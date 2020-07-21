@@ -64,6 +64,8 @@ But, it can't be done without you, development is more and more complicated and 
 
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
+Then change your **public directory** for your domain. It should be changed to /public directory in the app.
+
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
 
 Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
