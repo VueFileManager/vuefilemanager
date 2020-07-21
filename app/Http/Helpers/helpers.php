@@ -171,7 +171,6 @@ function get_version()
  */
 function is_demo($user_id)
 {
-
     return env('APP_DEMO', false) && $user_id === 1;
 }
 

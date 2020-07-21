@@ -175,7 +175,7 @@
                 return this.config.isSaaS
             },
             canShowUpgradeButton() {
-                return this.config.storageDefaultSpace === this.user.relationships.storage.data.attributes.capacity || this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
+                return this.config.isDemo || this.config.storageDefaultSpace === this.user.relationships.storage.data.attributes.capacity || this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
             },
             canShowUpgradeWarning() {
                 return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95

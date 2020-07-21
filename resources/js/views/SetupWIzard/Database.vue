@@ -12,7 +12,7 @@
             <ValidationObserver @submit.prevent="databaseCredentialsSubmit" ref="verifyPurchaseCode" v-slot="{ invalid }" tag="form" class="form block-form">
                 <FormLabel>Database Credentials</FormLabel>
                 <InfoBox>
-                    <p>We strongly recommend use MySQL or MariaDB database. Create new database and get credentials in your locale database client. For those who use cPanel or Plesk, here is useful resources:</p>
+                    <p>We strongly recommend use MySQL or MariaDB database. Create new database, set all privileges and get credentials. For those who use cPanel or Plesk, here is useful resources:</p>
                     <ul>
                         <li>
                             <a href="https://www.inmotionhosting.com/support/edu/cpanel/create-database-2/" target="_blank">1. cPanel - MySQL Database Wizard</a>

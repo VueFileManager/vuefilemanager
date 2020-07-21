@@ -128,6 +128,11 @@ class PaymentMethodsController extends Controller
         // Get user
         $user = Auth::user();
 
+        // Check if is demo
+        if (is_demo($user->id)) {
+            return response('Done', 201);
+        }
+
         // Register new payment method
         $this->stripe->registerNewPaymentMethod($request, $user);
 

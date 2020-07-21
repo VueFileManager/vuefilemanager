@@ -1,4 +1,14 @@
+![logo](https://vuefilemanager.com/assets/images/vuefilemanager-horizontal-logo.svg)
 # Private Cloud Storage Build on Laravel & Vue.js
+
+## Supporting VueFileManager
+Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
+
+But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks!
+
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/vuefilemanager)
+- [One-time donation via PayPal](https://www.paypal.me/peterpapp)
+- [Purchase Licence on CodeCanyon](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986)
 
 ## Contents
 
@@ -9,10 +19,11 @@
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
     - [Recover Failed Installation](#installation-failed)
-    - [Update VueFileManager from 1.6.x to 1.7 ](#update-vuefilemanager)
+    - [Update VueFileManager from 1.6.x to 1.7 ](#update-vuefilemanager-from-16x-to-17)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
+    - [Tax Rates](#tax-rates)
 - [Technical Informations](#technical-informations)
     - [For Developers](#for-developers)
     - [Supported Storages](#supported-storages)
@@ -28,7 +39,7 @@
 ## Server Requirements
 
 
-** For running app make sure you have installed:**
+**For running app make sure you have installed:**
 
 - PHP >= 7.2.5 version
 - MySQL 5.6+
@@ -36,7 +47,7 @@
 
 
 
-** These PHP Extensions are required:**
+**These PHP Extensions are required:**
 
 - GD
 - BCMath
@@ -52,6 +63,8 @@
 ## Installation
 
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
+
+Make sure `.env` file was uploaded. This type of file can be hidden in default.
 
 Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
 
@@ -165,7 +178,7 @@ Then follow this steps:
 - Restore your `.env` config file on your server.
 - Go to https://your-domain.com/upgrade and follow the setup wizard instructions.
 
-#Payments
+# Payments
 VueFileManager is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
 
 ## Get your active plans
@@ -176,6 +189,11 @@ GET /api/public/pricing
 
 ## Manage Failed Payments
 VueFileManager manage failed payments with additional email notification. But, there is more you can do for better User Experience. There is some additionals option in Stripe, look on [prevent failed payments](https://dashboard.stripe.com/settings/billing/automatic).
+
+## Tax Rates
+You are able to manage tax rates. When adding a new tax rate, if no Region is specified, the tax rate will apply to everyone. Add a [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) to the Region field if you wish to apply taxes per country.
+
+Just log in to your stripe dashboard, and you will find taxes under `Dashboard / Products / Tax Rates`.
 
 # Technical Informations
 ## For Developers
@@ -194,6 +212,10 @@ APP_DEBUG=true
 To start server on your localhost, run this command
 ```
 php artisan serve
+```
+To develop your front-end, you have to install npm modules by this command:
+```
+npm install
 ```
 
 To compiles and hot-reloads for development. Then run this command:

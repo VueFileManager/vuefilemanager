@@ -42,7 +42,7 @@ class FavouriteController extends Controller
         $user->favourite_folders()->syncWithoutDetaching($request->unique_id);
 
         // Return updated favourites
-        return $user->favourites;
+        return $user->favourite_folders;
     }
 
     /**
@@ -64,6 +64,6 @@ class FavouriteController extends Controller
         $user->favourite_folders()->detach($unique_id);
 
         // Return updated favourites
-        return $user->favourites;
+        return $user->favourite_folders;
     }
 }
