@@ -160,10 +160,10 @@ function get_storage()
 function is_storage_driver($driver)
 {
     if (is_array($driver)) {
-        return in_array(config('filesystem.default'), $driver);
+        return in_array(config('filesystems.default'), $driver);
     }
 
-    return config('filesystem.default') === $driver;
+    return config('filesystems.default') === $driver;
 }
 
 /**
