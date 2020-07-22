@@ -248,6 +248,8 @@
 
             .download-button {
                 margin-top: 15px;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
 
