@@ -236,7 +236,7 @@
                     bucket: '',
                 },
                 mail: {
-                    driver: '',
+                    driver: 'smtp',
                     host: '',
                     port: '',
                     username: '',
