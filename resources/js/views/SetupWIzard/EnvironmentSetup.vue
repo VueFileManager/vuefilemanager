@@ -41,10 +41,13 @@
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper" v-if="storage.driver !== 's3'">
-                        <label>Endpoint:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" rules="required" v-slot="{ errors }">
+                        <label>Endpoint URL:</label>
+                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" :rules="{ required: true, regex: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ }" v-slot="{ errors }">
                             <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            <small class="input-help">
+                                Provide full URIs of your storage endpoint, for example 'https://ams3.digitaloceanspaces.com'.
+                            </small>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
@@ -52,6 +55,9 @@
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Region" rules="required" v-slot="{ errors }">
                             <input v-model="storage.region" placeholder="Type your region" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            <small class="input-help">
+                                Provide your region, for example 'ams3', 'fra1', 'nyc1'...
+                            </small>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
@@ -59,6 +65,9 @@
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Bucket" rules="required" v-slot="{ errors }">
                             <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'is-error': errors[0]}" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            <small class="input-help">
+                                Provide your created unique bucket name
+                            </small>
                         </ValidationProvider>
                     </div>
 
@@ -72,7 +81,7 @@
                 <div class="block-wrapper">
                     <label>Mail Driver:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" placeholder="Type your mail driver" type="text" :class="{'is-error': errors[0]}" />
+                        <SelectInput v-model="mail.driver" :options="mailDriverList" default="smtp" placeholder="Select your mail driver" :isError="errors[0]"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -186,6 +195,36 @@
                     {
                         label: 'SSL',
                         value: 'ssl',
+                    },
+                ],
+                mailDriverList: [
+                    {
+                        label: 'smtp',
+                        value: 'smtp',
+                    },
+                    {
+                        label: 'sendmail',
+                        value: 'sendmail',
+                    },
+                    {
+                        label: 'mailgun',
+                        value: 'mailgun',
+                    },
+                    {
+                        label: 'ses',
+                        value: 'ses',
+                    },
+                    {
+                        label: 'postmark',
+                        value: 'postmark',
+                    },
+                    {
+                        label: 'log',
+                        value: 'log',
+                    },
+                    {
+                        label: 'array',
+                        value: 'array',
                     },
                 ],
                 storage: {

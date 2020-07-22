@@ -201,6 +201,11 @@ Just log in to your stripe dashboard, and you will find taxes under `Dashboard /
 ## For Developers
 Installation process on your localhost is the same. But, there are some good hints.
 
+When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run this command in your terminal to install vendors:
+```
+composer install
+```
+
 After successfully installation with setup wizard, you have to set your `APP_ENV` to local mode, in default, it's in production mode.
 ```
 APP_ENV=local

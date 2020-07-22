@@ -89,18 +89,30 @@ function add_paragraphs($str)
  *
  * @param $key
  * @param $value
+ * @return bool
  */
-function setEnvironmentValue($key, $value)
+function setEnvironmentValue(array $values)
 {
-    $env_path = app()->environmentFilePath();
+    $envFile = app()->environmentFilePath();
+    $str = file_get_contents($envFile);
 
-    $escaped = preg_quote('=' . env($key), '/');
+    if (count($values) > 0) {
+        foreach ($values as $envKey => $envValue) {
 
-    file_put_contents($env_path, preg_replace(
-        "/^{$key}{$escaped}/m",
-        $key . '=' . $value,
-        file_get_contents($env_path)
-    ));
+            $str .= "\n"; // In case the searched variable is in the last line without \n
+            $keyPosition = strpos($str, "{$envKey}=");
+            $endOfLinePosition = strpos($str, "\n", $keyPosition);
+            $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+
+            // If key does not exist, add it
+            $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+        }
+    }
+
+    $str = substr($str, 0, -1);
+    if (!file_put_contents($envFile, $str)) return false;
+    return true;
+
 }
 
 /**

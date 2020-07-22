@@ -37,7 +37,7 @@
 
                 <div class="block-wrapper">
                     <label>Password:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required" v-slot="{ errors }">
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required|confirmed:confirmation" v-slot="{ errors }">
                         <input v-model="admin.password" placeholder="Type your password" type="password" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -45,7 +45,7 @@
 
                 <div class="block-wrapper">
                     <label>Password Confirmation:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password confirmation" rules="required" v-slot="{ errors }">
+                    <ValidationProvider tag="div" class="input-wrapper" name="confirmation" rules="required" vid="confirmation" v-slot="{ errors }">
                         <input v-model="admin.password_confirmation" placeholder="Confirm your password" type="password" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>

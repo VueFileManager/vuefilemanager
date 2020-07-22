@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Schema;
 use Stripe;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -86,37 +87,14 @@ class SetupWizardController extends Controller
             throw new HttpException(500, $e->getMessage());
         }
 
-        $database_credentials = collect([
-            [
-                'name'  => 'DB_CONNECTION',
-                'value' => $request->connection,
-            ],
-            [
-                'name'  => 'DB_HOST',
-                'value' => $request->host,
-            ],
-            [
-                'name'  => 'DB_PORT',
-                'value' => $request->port,
-            ],
-            [
-                'name'  => 'DB_DATABASE',
-                'value' => $request->name,
-            ],
-            [
-                'name'  => 'DB_USERNAME',
-                'value' => $request->username,
-            ],
-            [
-                'name'  => 'DB_PASSWORD',
-                'value' => $request->password,
-            ],
+        setEnvironmentValue([
+            'DB_CONNECTION' => $request->connection,
+            'DB_HOST'       => $request->host,
+            'DB_PORT'       => $request->port,
+            'DB_DATABASE'   => $request->name,
+            'DB_USERNAME'   => $request->username,
+            'DB_PASSWORD'   => $request->password,
         ]);
-
-        // Store database credentials
-        $database_credentials->each(function ($col) {
-            setEnvironmentValue($col['name'], $col['value']);
-        });
 
         // Clear cache
         Artisan::call('config:cache');
@@ -176,10 +154,12 @@ class SetupWizardController extends Controller
         });
 
         // Set stripe credentials to .env
-        setEnvironmentValue('CASHIER_CURRENCY', $request->currency);
-        setEnvironmentValue('STRIPE_KEY', $request->key);
-        setEnvironmentValue('STRIPE_SECRET', $request->secret);
-        setEnvironmentValue('STRIPE_WEBHOOK_SECRET', $request->webhookSecret);
+        setEnvironmentValue([
+            'CASHIER_CURRENCY'      => $request->currency,
+            'STRIPE_KEY'            => $request->key,
+            'STRIPE_SECRET'         => $request->secret,
+            'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
+        ]);
 
         // Clear cache
         Artisan::call('config:cache');
@@ -275,171 +255,66 @@ class SetupWizardController extends Controller
 
         if ($storage_driver === 'local') {
 
-            $storage = collect([
-                [
-                    'name'  => 'FILESYSTEM_DRIVER',
-                    'value' => 'local',
-                ],
+            setEnvironmentValue([
+                'FILESYSTEM_DRIVER' => 'local',
             ]);
-
         }
 
         if ($storage_driver === 's3') {
 
-            $storage = collect([
-                [
-                    'name'  => 'FILESYSTEM_DRIVER',
-                    'value' => $request->input('storage.driver'),
-                ],
-                [
-                    'name'  => 'AWS_ACCESS_KEY_ID',
-                    'value' => $request->input('storage.key'),
-                ],
-                [
-                    'name'  => 'AWS_SECRET_ACCESS_KEY',
-                    'value' => $request->input('storage.secret'),
-                ],
-                [
-                    'name'  => 'AWS_DEFAULT_REGION',
-                    'value' => $request->input('storage.region'),
-                ],
-                [
-                    'name'  => 'AWS_BUCKET',
-                    'value' => $request->input('storage.bucket'),
-                ],
+            setEnvironmentValue([
+                'FILESYSTEM_DRIVER'     => $request->input('storage.driver'),
+                'AWS_ACCESS_KEY_ID'     => $request->input('storage.key'),
+                'AWS_SECRET_ACCESS_KEY' => $request->input('storage.secret'),
+                'AWS_DEFAULT_REGION'    => $request->input('storage.region'),
+                'AWS_BUCKET'            => $request->input('storage.bucket'),
             ]);
-
         }
 
         if ($storage_driver === 'spaces') {
 
-            $storage = collect([
-                [
-                    'name'  => 'FILESYSTEM_DRIVER',
-                    'value' => $request->input('storage.driver'),
-                ],
-                [
-                    'name'  => 'DO_SPACES_KEY',
-                    'value' => $request->input('storage.key'),
-                ],
-                [
-                    'name'  => 'DO_SPACES_SECRET',
-                    'value' => $request->input('storage.secret'),
-                ],
-                [
-                    'name'  => 'DO_SPACES_ENDPOINT',
-                    'value' => $request->input('storage.endpoint'),
-                ],
-                [
-                    'name'  => 'DO_SPACES_REGION',
-                    'value' => $request->input('storage.region'),
-                ],
-                [
-                    'name'  => 'DO_SPACES_BUCKET',
-                    'value' => $request->input('storage.bucket'),
-                ],
+            setEnvironmentValue([
+                'FILESYSTEM_DRIVER'  => $request->input('storage.driver'),
+                'DO_SPACES_KEY'      => $request->input('storage.key'),
+                'DO_SPACES_SECRET'   => $request->input('storage.secret'),
+                'DO_SPACES_ENDPOINT' => $request->input('storage.endpoint'),
+                'DO_SPACES_REGION'   => $request->input('storage.region'),
+                'DO_SPACES_BUCKET'   => $request->input('storage.bucket'),
             ]);
-
         }
 
         if ($storage_driver === 'wasabi') {
 
-            $storage = collect([
-                [
-                    'name'  => 'FILESYSTEM_DRIVER',
-                    'value' => $request->input('storage.driver'),
-                ],
-                [
-                    'name'  => 'WASABI_KEY',
-                    'value' => $request->input('storage.key'),
-                ],
-                [
-                    'name'  => 'WASABI_SECRET',
-                    'value' => $request->input('storage.secret'),
-                ],
-                [
-                    'name'  => 'WASABI_ENDPOINT',
-                    'value' => $request->input('storage.endpoint'),
-                ],
-                [
-                    'name'  => 'WASABI_REGION',
-                    'value' => $request->input('storage.region'),
-                ],
-                [
-                    'name'  => 'WASABI_BUCKET',
-                    'value' => $request->input('storage.bucket'),
-                ],
+            setEnvironmentValue([
+                'FILESYSTEM_DRIVER' => $request->input('storage.driver'),
+                'WASABI_KEY'        => $request->input('storage.key'),
+                'WASABI_SECRET'     => $request->input('storage.secret'),
+                'WASABI_ENDPOINT'   => $request->input('storage.endpoint'),
+                'WASABI_REGION'     => $request->input('storage.region'),
+                'WASABI_BUCKET'     => $request->input('storage.bucket'),
             ]);
-
         }
 
         if ($storage_driver === 'backblaze') {
 
-            $storage = collect([
-                [
-                    'name'  => 'FILESYSTEM_DRIVER',
-                    'value' => $request->input('storage.driver'),
-                ],
-                [
-                    'name'  => 'BACKBLAZE_KEY',
-                    'value' => $request->input('storage.key'),
-                ],
-                [
-                    'name'  => 'BACKBLAZE_SECRET',
-                    'value' => $request->input('storage.secret'),
-                ],
-                [
-                    'name'  => 'BACKBLAZE_ENDPOINT',
-                    'value' => $request->input('storage.endpoint'),
-                ],
-                [
-                    'name'  => 'BACKBLAZE_REGION',
-                    'value' => $request->input('storage.region'),
-                ],
-                [
-                    'name'  => 'BACKBLAZE_BUCKET',
-                    'value' => $request->input('storage.bucket'),
-                ],
+            setEnvironmentValue([
+                'FILESYSTEM_DRIVER'  => $request->input('storage.driver'),
+                'BACKBLAZE_KEY'      => $request->input('storage.key'),
+                'BACKBLAZE_SECRET'   => $request->input('storage.secret'),
+                'BACKBLAZE_ENDPOINT' => $request->input('storage.endpoint'),
+                'BACKBLAZE_REGION'   => $request->input('storage.region'),
+                'BACKBLAZE_BUCKET'   => $request->input('storage.bucket'),
             ]);
         }
 
-        // Store storage options
-        $storage->each(function ($col) {
-            setEnvironmentValue($col['name'], $col['value']);
-        });
-
-        // Get options
-        $mail = collect([
-            [
-                'name'  => 'MAIL_DRIVER',
-                'value' => $request->input('mail.driver'),
-            ],
-            [
-                'name'  => 'MAIL_HOST',
-                'value' => $request->input('mail.host'),
-            ],
-            [
-                'name'  => 'MAIL_PORT',
-                'value' => $request->input('mail.port'),
-            ],
-            [
-                'name'  => 'MAIL_USERNAME',
-                'value' => $request->input('mail.username'),
-            ],
-            [
-                'name'  => 'MAIL_PASSWORD',
-                'value' => $request->input('mail.password'),
-            ],
-            [
-                'name'  => 'MAIL_ENCRYPTION',
-                'value' => $request->input('mail.encryption'),
-            ],
+        setEnvironmentValue([
+            'MAIL_DRIVER'     => $request->input('mail.driver'),
+            'MAIL_HOST'       => $request->input('mail.host'),
+            'MAIL_PORT'       => $request->input('mail.port'),
+            'MAIL_USERNAME'   => $request->input('mail.username'),
+            'MAIL_PASSWORD'   => $request->input('mail.password'),
+            'MAIL_ENCRYPTION' => $request->input('mail.encryption'),
         ]);
-
-        // Store mail options
-        $mail->each(function ($col) {
-            setEnvironmentValue($col['name'], $col['value']);
-        });
 
         // Clear cache
         Artisan::call('config:cache');
@@ -520,6 +395,10 @@ class SetupWizardController extends Controller
         $settings->each(function ($col) {
             Setting::updateOrCreate(['name' => $col['name']], $col);
         });
+
+        setEnvironmentValue([
+            'APP_NAME'     => Str::camel($request->title),
+        ]);
 
         return response('Done', 200);
     }
@@ -651,8 +530,10 @@ class SetupWizardController extends Controller
         $client = \DB::table('oauth_clients')->where('name', '=', 'vuefilemanager')->first();
 
         // Set passport client to .env
-        setEnvironmentValue('PASSPORT_CLIENT_ID', $client->id);
-        setEnvironmentValue('PASSPORT_CLIENT_SECRET', $client->secret);
+        setEnvironmentValue([
+            'PASSPORT_CLIENT_ID'     => $client->id,
+            'PASSPORT_CLIENT_SECRET' => $client->secret,
+        ]);
     }
 
     /**
