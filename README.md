@@ -24,8 +24,8 @@ But, it can't be done without you, development is more and more complicated and 
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
     - [Tax Rates](#tax-rates)
-- [Technical Informations](#technical-informations)
-    - [For Developers](#for-developers)
+- [Developers](#developers)
+    - [Running development environment on your localhost](#running-development-environment-on-your-localhost)
     - [Supported Storages](#supported-storages)
     - [How to Create New Language](#how-to-create-new-language)
 - [Others](#others)
@@ -67,6 +67,11 @@ Copy project files to web root folder of your domain. It's mostly located in `ht
 Then change your **public directory** for your domain. It should be changed to /public directory in the app.
 
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
+
+When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
+```
+composer install
+```
 
 Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
 
@@ -197,16 +202,15 @@ You are able to manage tax rates. When adding a new tax rate, if no Region is sp
 
 Just log in to your stripe dashboard, and you will find taxes under `Dashboard / Products / Tax Rates`.
 
-# Technical Informations
-## For Developers
-Installation process on your localhost is the same. But, there are some good hints.
+# Developers
+## Running development environment on your localhost
 
-When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run this command in your terminal to install vendors:
+When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
 ```
 composer install
 ```
 
-After successfully installation with setup wizard, you have to set your `APP_ENV` to local mode, in default, it's in production mode.
+Set your `APP_ENV` to local mode, in default, it's in production mode.
 ```
 APP_ENV=local
 ```
@@ -216,21 +220,22 @@ Also, to debug application, set `APP_DEBUG` on true:
 APP_DEBUG=true
 ```
 
-To start server on your localhost, run this command
+To start server on your localhost, run command below. Then go to your generated localhost URL by terminal, and follow Setup Wizard steps to configure VueFileManager.
 ```
 php artisan serve
 ```
-To develop your front-end, you have to install npm modules by this command:
+
+To develop your Vue front-end, you have to install npm modules by this command:
 ```
 npm install
 ```
 
-To compiles and hot-reloads for development. Then run this command:
+To compiles and hot-reloads for front-end development. Then run this command:
 ```
 npm run hot
 ```
 
-To compiles for production, run this command
+To compiles for production build, run this command
 ```
 npm run prod
 ```
