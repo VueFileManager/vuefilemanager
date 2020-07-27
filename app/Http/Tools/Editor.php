@@ -10,6 +10,7 @@ use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -201,72 +202,70 @@ class Editor
         $folder_id = $request->parent_id === 0 ? 0 : $request->parent_id;
         $file = $request->file('file');
 
-        // Get user data
-        $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-        $user_storage_used = user_storage_percentage($user_id, $file->getSize());
+        // Check or create directories
+        self::check_directories(['chunks', 'file-manager']);
 
-        // Get storage limitation setup
-        $storage_limitation = get_setting('storage_limitation');
+        // Generate file
+        File::append(storage_path() . '/app/chunks/' . $file->getClientOriginalName(), $file->get());
 
-        // Check if user can upload
-        if ($storage_limitation && $user_storage_used >= 100) {
-            abort(423, 'You exceed your storage limit!');
+        // If last then process file
+        if ($request->has('is_last') && $request->boolean('is_last')) {
+
+            // Get original file name
+            $original_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
+
+            // Rename chunk part to original file name in chunk directory
+            Storage::disk('local')->move('chunks/' . $file->getClientOriginalName(), 'chunks/' . $original_file_name);
+
+            // Get user data
+            $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+            $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+            $user_storage_used = user_storage_percentage($user_id, Storage::disk('local')->size('chunks/' . $original_file_name));
+
+            // Get storage limitation setup
+            $storage_limitation = get_setting('storage_limitation');
+
+            // Check if user can upload
+            if ($storage_limitation && $user_storage_used >= 100) {
+
+                // Delete file
+                Storage::disk('local')->delete('chunks/' . $original_file_name);
+
+                // Abort uploading
+                abort(423, 'You exceed your storage limit!');
+            }
+
+            // File name
+            $prefixed_file_name = Str::random() . '-' . str_replace(' ', '', $original_file_name);
+
+            // Create thumbnail
+            $thumbnail = self::get_image_thumbnail('chunks/' . $original_file_name, $prefixed_file_name, $file);
+
+            // Store to disk
+            Storage::disk('local')->move('chunks/' . $original_file_name, 'file-manager/' . $prefixed_file_name);
+
+            // Store file
+            $options = [
+                'name'       => pathinfo($file->getClientOriginalName())['filename'],
+                'mimetype'   => get_file_type_from_mimetype(Storage::disk('local')->mimeType('file-manager/' . $prefixed_file_name)),
+                'unique_id'  => get_unique_id(),
+                'user_scope' => $user_scope,
+                'folder_id'  => $folder_id,
+                'thumbnail'  => $thumbnail,
+                'basename'   => $prefixed_file_name,
+                'filesize'   => Storage::disk('local')->size('file-manager/' . $prefixed_file_name),
+                'type'       => get_file_type('file-manager/' . $prefixed_file_name),
+                'user_id'    => $user_id,
+            ];
+
+            // Move files to external storage
+            if (! is_storage_driver(['local'])) {
+                self::move_to_external_storage($prefixed_file_name, $thumbnail);
+            }
+
+            // Return new file
+            return FileManagerFile::create($options);
         }
-
-        // File
-        $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());
-        $filetype = get_file_type($file);
-        $filesize = $file->getSize();
-        $directory = 'file-manager';
-        $thumbnail = null;
-
-        // create directory if not exist
-        if (!Storage::exists($directory)) {
-            Storage::makeDirectory($directory);
-        }
-
-        // Store to disk
-        Storage::putFileAs($directory, $file, $filename, 'private');
-
-        // Create image thumbnail
-        if (in_array($file->getMimeType(), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
-
-            // Get thumbnail name
-            $thumbnail = 'thumbnail-' . $filename;
-
-            // Create intervention image
-            $image = Image::make($file->getRealPath())->orientate();
-
-            // Resize image
-            $image->resize(564, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->stream();
-
-            // Store thumbnail to disk
-            Storage::put($directory . '/' . $thumbnail, $image);
-
-        } elseif ($file->getMimeType() == 'image/svg+xml') {
-
-            $thumbnail = $filename;
-        }
-
-        // Store file
-        $options = [
-            'name'       => pathinfo($file->getClientOriginalName())['filename'],
-            'mimetype'   => $file->getClientOriginalExtension(),
-            'unique_id'  => get_unique_id(),
-            'user_scope' => $user_scope,
-            'folder_id'  => $folder_id,
-            'thumbnail'  => $thumbnail,
-            'basename'   => $filename,
-            'filesize'   => $filesize,
-            'type'       => $filetype,
-            'user_id'    => $user_id,
-        ];
-
-        // Return new file
-        return FileManagerFile::create($options);
     }
 
     /**
@@ -302,6 +301,82 @@ class Editor
             $item->update([
                 'folder_id' => $request->to_unique_id
             ]);
+        }
+    }
+
+    /**
+     * Check if directories 'chunks' and 'file-manager exist', if no, then create
+     *
+     * @param $directories
+     */
+    private static function check_directories($directories): void
+    {
+        foreach ($directories as $directory) {
+
+            if (!Storage::disk('local')->exists($directory)) {
+                Storage::disk('local')->makeDirectory($directory);
+            }
+
+            if (! is_storage_driver(['local'])) {
+                if (!Storage::exists($directory)) {
+                    Storage::makeDirectory($directory);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create thumbnail for images
+     *
+     * @param string $chunk_file_path
+     * @param string $filename
+     * @param $file
+     * @return string|null
+     */
+    private static function get_image_thumbnail(string $chunk_file_path, string $filename, $file)
+    {
+        if (in_array(Storage::disk('local')->mimeType($chunk_file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
+
+            // Get thumbnail name
+            $thumbnail = 'thumbnail-' . $filename;
+
+            // Create intervention image
+            $image = Image::make(storage_path() . '/app/' . $chunk_file_path)->orientate();
+
+            // Resize image
+            $image->resize(564, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream();
+
+            // Store thumbnail to disk
+            Storage::disk('local')->put('file-manager/' . $thumbnail, $image);
+
+        } elseif (Storage::disk('local')->mimeType($chunk_file_path) === 'image/svg+xml') {
+
+            $thumbnail = $filename;
+        }
+
+        return $thumbnail ?? null;
+    }
+
+    /**
+     * Move file to external storage if is set
+     *
+     * @param string $filename
+     * @param string|null $thumbnail
+     */
+    private static function move_to_external_storage(string $filename, ?string $thumbnail): void
+    {
+        foreach ([$filename, $thumbnail] as $file) {
+
+            // Check if file exist
+            if (!$file) continue;
+
+            // Move file
+            Storage::putFileAs('/file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
+
+            // Delete file after upload
+            Storage::disk('local')->delete('file-manager/' . $file);
         }
     }
 }

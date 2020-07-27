@@ -85,60 +85,79 @@ const Helpers = {
                 total: fileCount
             })
 
+            store.commit('UPLOADING_FILE_PROGRESS', 0)
+
             // Get parent id
             const rootFolder = this.$store.getters.currentFolder
                 ? this.$store.getters.currentFolder.unique_id
                 : 0
 
             for (var i = files.length - 1; i >= 0; i--) {
+
+                let file = files[i],
+                    chunks = []
+
+                // Calculate ceils
+                let size = 1388608,
+                    chunksCeil = Math.ceil(file.size / size);
+
+                // Create chunks
+                for (let i = 0; i < chunksCeil; i++) {
+                    chunks.push(file.slice(
+                        i * size, Math.min(i * size + size, file.size), file.type
+                    ));
+                }
+
+                // Set form Data
                 let formData = new FormData()
+                let uploadedSize = 0
 
-                // Append data
-                formData.append('file', files[i])
+                do {
+                    let isLast = chunks.length === 1
+                    let chunk = chunks.shift()
+                    let attempts = 0
 
-                // Append form data
-                formData.append('parent_id', rootFolder)
+                    // Set form data
+                    formData.set('is_last', isLast);
+                    formData.set('file', chunk, `${file.name}.part`);
+                    formData.set('parent_id', rootFolder)
 
-                // Upload data
-                await store.dispatch('uploadFiles', formData)
-                    .then(() => {
-                        // Progress file log
-                        store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                            current: fileCountSucceed,
-                            total: fileCount
-                        })
+                    // Upload data
+                    do {
+                        await store.dispatch('uploadFiles', {
+                            form: formData,
+                            fileSize: file.size,
+                            totalUploadedSize: uploadedSize
+                        }).then(() => {
+                            uploadedSize = uploadedSize + chunk.size
+                        }).catch(() => {
 
-                        // Uploading finished
-                        if (fileCount === fileCountSucceed) {
-                            store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-                        } else {
-                            // Add uploaded file
-                            fileCountSucceed++
-                        }
-                    }).catch(error => {
-                        switch (error.response.status) {
-                            case 423:
-                                events.$emit('alert:open', {
-                                    emoji: '😬',
-                                    title: this.$t('popup_exceed_limit.title'),
-                                    message: this.$t('popup_exceed_limit.message')
-                                })
-                                break;
-                            case 413:
-                                events.$emit('alert:open', {
-                                    emoji: '😟',
-                                    title: this.$t('popup_paylod_error.title'),
-                                    message: this.$t('popup_paylod_error.message')
-                                })
-                                break;
-                            default:
+                            attempts++
+
+                            if (attempts === 3) {
                                 events.$emit('alert:open', {
                                     title: this.$t('popup_error.title'),
                                     message: this.$t('popup_error.message'),
                                 })
-                                break;
-                        }
-                    })
+                            }
+                        })
+                    } while (attempts !== 0 && attempts !== 3)
+
+                } while (chunks.length !== 0)
+
+                // Progress file log
+                store.commit('UPDATE_FILE_COUNT_PROGRESS', {
+                    current: fileCountSucceed,
+                    total: fileCount
+                })
+
+                // Uploading finished
+                if (fileCount === fileCountSucceed) {
+                    store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+                } else {
+                    // Add uploaded file
+                    fileCountSucceed++
+                }
             }
         }
 
@@ -183,29 +202,6 @@ const Helpers = {
                     } else {
                         // Add uploaded file
                         fileCountSucceed++
-                    }
-                }).catch(error => {
-                    switch (error.response.status) {
-                        case 423:
-                            events.$emit('alert:open', {
-                                emoji: '😬',
-                                title: this.$t('popup_exceed_limit.title'),
-                                message: this.$t('popup_exceed_limit.message')
-                            })
-                            break;
-                        case 413:
-                            events.$emit('alert:open', {
-                                emoji: '😟',
-                                title: this.$t('popup_paylod_error.title'),
-                                message: this.$t('popup_paylod_error.message')
-                            })
-                            break;
-                        default:
-                            events.$emit('alert:open', {
-                                title: this.$t('popup_error.title'),
-                                message: this.$t('popup_error.message'),
-                            })
-                            break;
                     }
                 })
             }

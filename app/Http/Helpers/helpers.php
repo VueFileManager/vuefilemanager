@@ -19,11 +19,11 @@ use Intervention\Image\ImageManagerStatic as Image;
  */
 function obfuscate_email($email)
 {
-    $em   = explode("@",$email);
-    $name = implode('@', array_slice($em, 0, count($em)-1));
-    $len  = floor(strlen($name)/2);
+    $em = explode("@", $email);
+    $name = implode('@', array_slice($em, 0, count($em) - 1));
+    $len = floor(strlen($name) / 2);
 
-    return substr($name,0, $len) . str_repeat('*', $len) . "@" . end($em);
+    return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
 }
 
 /**
@@ -148,10 +148,10 @@ function get_storage()
 function is_storage_driver($driver)
 {
     if (is_array($driver)) {
-        return in_array(config('filesystem.default'), $driver);
+        return in_array(config('filesystems.default'), $driver);
     }
 
-    return config('filesystem.default') === $driver;
+    return config('filesystems.default') === $driver;
 }
 
 /**
@@ -452,10 +452,10 @@ function format_date($date, $format = '%d. %B. %Y, %H:%M')
  * @param $file
  * @return string
  */
-function get_file_type($file)
+function get_file_type($file_path)
 {
     // Get mimetype from file
-    $mimetype = explode('/', $file->getMimeType());
+    $mimetype = explode('/', Storage::disk('local')->mimeType($file_path));
 
     switch ($mimetype[0]) {
         case 'image':
@@ -470,4 +470,33 @@ function get_file_type($file)
         default:
             return 'file';
     }
+}
+
+// Get mimetype from file
+function get_file_type_from_mimetype($mimetype)
+{
+    return explode('/', $mimetype)[1];
+}
+
+/**
+ * Format pretty name file
+ *
+ * @param $basename
+ * @param $name
+ * @param $mimetype
+ * @return string
+ */
+function get_pretty_name($basename, $name, $mimetype)
+{
+    $file_extension = substr(strrchr($basename, '.'), 1);
+
+    if (strpos($name, $file_extension) !== false) {
+        return $name;
+    }
+
+    if ($file_extension) {
+        return $name . '.' . $file_extension;
+    }
+
+    return $name . '.' . $mimetype;
 }

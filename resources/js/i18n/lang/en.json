@@ -680,7 +680,7 @@
 		"href": "Please confirm your payment."
 	},
 	"uploading": {
-		"progress": "Uploading files {current}/{total}"
+		"progress": "Uploading File {progress}% - {current}/{total}"
 	},
 	"user_add_card": {
 		"default_description": "Your card will be charged for billing plans as first.",

@@ -245,7 +245,7 @@ class EditItemsController extends Controller
     }
 
     /**
-     * Delete file for authenticated master|editor user
+     * Upload file for authenticated master|editor user
      *
      * @param UploadRequest $request
      * @return FileManagerFile|Model
