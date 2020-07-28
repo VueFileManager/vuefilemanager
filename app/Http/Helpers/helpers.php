@@ -344,6 +344,17 @@ function format_gigabytes($gigabytes)
 }
 
 /**
+ * Convert megabytes to bytes
+ *
+ * @param $megabytes
+ * @return int|string
+ */
+function format_bytes($megabytes)
+{
+    return Metric::megabytes($megabytes)->numberOfBytes();
+}
+
+/**
  * Get storage usage in percent
  *
  * @param $used

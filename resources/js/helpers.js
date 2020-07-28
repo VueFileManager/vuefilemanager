@@ -98,7 +98,7 @@ const Helpers = {
                     chunks = []
 
                 // Calculate ceils
-                let size = 1388608,
+                let size = this.$store.getters.config.chunkSize,
                     chunksCeil = Math.ceil(file.size / size);
 
                 // Create chunks

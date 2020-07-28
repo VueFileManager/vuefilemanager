@@ -2,7 +2,10 @@
 
 return [
 
-    'version' => '1.7',
+    'version' => '1.7.3',
+
+    // Define size of chunk uploaded by MB. E.g. integer 128 means chunk size will be 128MB.
+    'chunk_size' => '128',
 
     'pages' => [
         [

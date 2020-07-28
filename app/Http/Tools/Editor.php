@@ -8,12 +8,16 @@ use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
+use Aws\Exception\MultipartUploadException;
+use Aws\S3\MultipartUploader;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 class Editor
@@ -189,6 +193,42 @@ class Editor
     }
 
     /**
+     * Move folder or file to new location
+     *
+     * @param $request
+     * @param $unique_id
+     * @param null $shared
+     */
+    public static function move($request, $unique_id, $shared = null)
+    {
+        // Get user id
+        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+
+        if ($request->from_type === 'folder') {
+
+            // Move folder
+            $item = FileManagerFolder::where('user_id', $user_id)
+                ->where('unique_id', $unique_id)
+                ->firstOrFail();
+
+            $item->update([
+                'parent_id' => $request->to_unique_id
+            ]);
+
+        } else {
+
+            // Move file under new folder
+            $item = FileManagerFile::where('user_id', $user_id)
+                ->where('unique_id', $unique_id)
+                ->firstOrFail();
+
+            $item->update([
+                'folder_id' => $request->to_unique_id
+            ]);
+        }
+    }
+
+    /**
      * Upload file
      *
      * @param $request
@@ -269,38 +309,61 @@ class Editor
     }
 
     /**
-     * Move folder or file to new location
+     * Move file to external storage if is set
      *
-     * @param $request
-     * @param $unique_id
-     * @param null $shared
+     * @param string $filename
+     * @param string|null $thumbnail
      */
-    public static function move($request, $unique_id, $shared = null)
+    private static function move_to_external_storage(string $filename, ?string $thumbnail): void
     {
-        // Get user id
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+        foreach ([$filename, $thumbnail] as $file) {
 
-        if ($request->from_type === 'folder') {
+            // Check if file exist
+            if (!$file) continue;
 
-            // Move folder
-            $item = FileManagerFolder::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
+            // Get file size
+            $filesize = Storage::disk('local')->size('file-manager/' . $filename);
 
-            $item->update([
-                'parent_id' => $request->to_unique_id
-            ]);
+            // If file is bigger than 5.2MB then run multipart upload
+            if ($filesize > 5242880) {
 
-        } else {
+                // Get driver
+                $driver = \Storage::getDriver();
 
-            // Move file under new folder
-            $item = FileManagerFile::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
+                // Get adapter
+                $adapter = $driver->getAdapter();
 
-            $item->update([
-                'folder_id' => $request->to_unique_id
-            ]);
+                // Get client
+                $client = $adapter->getClient();
+
+                // Prepare the upload parameters.
+                $uploader = new MultipartUploader($client, storage_path() . '/app/file-manager/' . $file, [
+                    'bucket' => $adapter->getBucket(),
+                    'key'    => 'file-manager/' . $file
+                ]);
+
+                // Upload content
+                try {
+                    $uploader->upload();
+
+                } catch (MultipartUploadException $e) {
+
+                    Log::error($e->getMessage());
+
+                    // Delete file after error
+                    Storage::disk('local')->delete('file-manager/' . $file);
+
+                    throw new HttpException(409, $e->getMessage());
+                }
+
+            } else {
+
+                // Stream file object to s3
+                Storage::putFileAs('/file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
+            }
+
+            // Delete file after upload
+            Storage::disk('local')->delete('file-manager/' . $file);
         }
     }
 
@@ -357,26 +420,5 @@ class Editor
         }
 
         return $thumbnail ?? null;
-    }
-
-    /**
-     * Move file to external storage if is set
-     *
-     * @param string $filename
-     * @param string|null $thumbnail
-     */
-    private static function move_to_external_storage(string $filename, ?string $thumbnail): void
-    {
-        foreach ([$filename, $thumbnail] as $file) {
-
-            // Check if file exist
-            if (!$file) continue;
-
-            // Move file
-            Storage::putFileAs('/file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
-
-            // Delete file after upload
-            Storage::disk('local')->delete('file-manager/' . $file);
-        }
     }
 }
