@@ -463,10 +463,10 @@ function format_date($date, $format = '%d. %B. %Y, %H:%M')
  * @param $file
  * @return string
  */
-function get_file_type($file_path)
+function get_file_type($file_mimetype)
 {
     // Get mimetype from file
-    $mimetype = explode('/', Storage::disk('local')->mimeType($file_path));
+    $mimetype = explode('/', $file_mimetype);
 
     switch ($mimetype[0]) {
         case 'image':
@@ -483,7 +483,13 @@ function get_file_type($file_path)
     }
 }
 
-// Get mimetype from file
+
+/**
+ * Get file type from mimetype
+ *
+ * @param $mimetype
+ * @return mixed
+ */
 function get_file_type_from_mimetype($mimetype)
 {
     return explode('/', $mimetype)[1];

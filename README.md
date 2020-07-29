@@ -16,6 +16,7 @@ But, it can't be done without you, development is more and more complicated and 
     - [Server Requirements](#server-requirements)
     - [Installation](#installation)
     - [PHP Configuration](#php-configuration)
+    - [Chunk Upload](#chunk-upload)
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
     - [Recover Failed Installation](#installation-failed)
@@ -82,11 +83,16 @@ That was the hardest part of installation proces. Please follow instructions in 
 There are several PHP settings good to know to setup before you try upload any file. Please set these values in your php.ini, we provide minimal setup for you. When you set `-1` then you set infinity limits.
 
 ```
-memory_limit = 512M
-upload_max_filesize = 1024M
-post_max_size = 1024M
+memory_limit = 128M
+upload_max_filesize = 128
+post_max_size = 128M
 max_file_uploads = 50
+max_execution_time = 1800
 ```
+## Chunk Upload
+VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to `/config/vuefilemanager.php` and change `chunk_size` attribute.
+
+if you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space.
 
 ## Nginx Configuration
 If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:

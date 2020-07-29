@@ -25,8 +25,8 @@ class UpgradeAppController extends Controller
         // Create legal pages and index content
         if ($request->license === 'Extended') {
 
-            $pages = collect(config('vuefilemanager.pages'));
-            $content = collect(config('vuefilemanager.content'));
+            $pages = collect(config('content.pages'));
+            $content = collect(config('content.content'));
 
             $content->each(function ($content) {
                 Setting::updateOrCreate($content);

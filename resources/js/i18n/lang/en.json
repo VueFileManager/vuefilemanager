@@ -680,6 +680,8 @@
 		"href": "Please confirm your payment."
 	},
 	"uploading": {
+		"processing_file": "Processing File...",
+		"progress_single_upload": "Uploading File {progress}%",
 		"progress": "Uploading File {progress}% - {current}/{total}"
 	},
 	"user_add_card": {

@@ -238,6 +238,7 @@
         flex: 0 0 100%;
         @include transition(150ms);
         position: relative;
+        scroll-behavior: smooth;
 
         &.is-fileinfo-visible {
             flex: 0 1 100%;

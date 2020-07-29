@@ -148,6 +148,7 @@ class BrowseController extends Controller
         $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected'])
             ->where('user_id', $user_id)
             ->where('parent_id', $unique_id)
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected'])

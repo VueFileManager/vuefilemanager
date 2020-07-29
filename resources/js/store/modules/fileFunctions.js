@@ -42,6 +42,8 @@ const actions = {
             .then(response => {
                 commit('ADD_NEW_FOLDER', response.data)
 
+                events.$emit('scrollTop')
+
                 if ( getters.currentFolder.location !== 'public' ) {
                     dispatch('getAppData')
                 }
@@ -87,14 +89,17 @@ const actions = {
                     },
                     onUploadProgress: event => {
 
-                        let loaded = totalUploadedSize + event.loaded
+                        var percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100)
 
-                        var percentCompleted = Math.floor((loaded * 100) / fileSize)
+                        commit('UPLOADING_FILE_PROGRESS', percentCompleted >= 100 ? 100 : percentCompleted)
 
-                        commit('UPLOADING_FILE_PROGRESS', percentCompleted)
+                        if (percentCompleted >= 100) {
+                            commit('PROCESSING_FILE', true)
+                        }
                     }
                 })
                 .then(response => {
+                    commit('PROCESSING_FILE', false)
 
                     // Check if user is in uploading folder, if yes, than show new file
                     if (response.data.folder_id == getters.currentFolder.unique_id)
@@ -103,6 +108,8 @@ const actions = {
                     resolve(response)
                 })
                 .catch(error => {
+                    commit('PROCESSING_FILE', false)
+
                     reject(error)
 
                     switch (error.response.status) {

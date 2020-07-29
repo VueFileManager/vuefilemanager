@@ -239,68 +239,58 @@ class Editor
     public static function upload($request, $shared = null)
     {
         // Get parent_id from request
-        $folder_id = $request->parent_id === 0 ? 0 : $request->parent_id;
         $file = $request->file('file');
 
         // Check or create directories
         self::check_directories(['chunks', 'file-manager']);
 
+        // File name
+        $user_file_name = basename('chunks/' . substr($file->getClientOriginalName(),17), '.part');
+        $disk_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
+        $temp_filename = $file->getClientOriginalName();
+
         // Generate file
-        File::append(storage_path() . '/app/chunks/' . $file->getClientOriginalName(), $file->get());
+        File::append(storage_path() . '/app/chunks/' . $temp_filename, $file->get());
 
         // If last then process file
-        if ($request->has('is_last') && $request->boolean('is_last')) {
+        if ($request->boolean('is_last')) {
 
-            // Get original file name
-            $original_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
-
-            // Rename chunk part to original file name in chunk directory
-            Storage::disk('local')->move('chunks/' . $file->getClientOriginalName(), 'chunks/' . $original_file_name);
+            $disk_local = Storage::disk('local');
 
             // Get user data
             $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
             $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-            $user_storage_used = user_storage_percentage($user_id, Storage::disk('local')->size('chunks/' . $original_file_name));
 
-            // Get storage limitation setup
-            $storage_limitation = get_setting('storage_limitation');
+            // File Info
+            $file_size = $disk_local->size('chunks/' . $temp_filename);
+            $file_mimetype = $disk_local->mimeType('chunks/' . $temp_filename);
 
-            // Check if user can upload
-            if ($storage_limitation && $user_storage_used >= 100) {
-
-                // Delete file
-                Storage::disk('local')->delete('chunks/' . $original_file_name);
-
-                // Abort uploading
-                abort(423, 'You exceed your storage limit!');
-            }
-
-            // File name
-            $prefixed_file_name = Str::random() . '-' . str_replace(' ', '', $original_file_name);
+            // Check if user has enough space to upload file
+            self::check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = self::get_image_thumbnail('chunks/' . $original_file_name, $prefixed_file_name, $file);
+            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $user_file_name);
 
-            // Store to disk
-            Storage::disk('local')->move('chunks/' . $original_file_name, 'file-manager/' . $prefixed_file_name);
+            // Move finished file from chunk to file-manager directory
+            $disk_local->move('chunks/' . $temp_filename, 'file-manager/' . $disk_file_name);
 
             // Store file
             $options = [
-                'name'       => pathinfo($file->getClientOriginalName())['filename'],
-                'mimetype'   => get_file_type_from_mimetype(Storage::disk('local')->mimeType('file-manager/' . $prefixed_file_name)),
+                'mimetype'   => get_file_type_from_mimetype($file_mimetype),
+                'type'       => get_file_type($file_mimetype),
+                'folder_id'  => $request->parent_id,
+                'name'       => $user_file_name,
                 'unique_id'  => get_unique_id(),
+                'basename'   => $disk_file_name,
                 'user_scope' => $user_scope,
-                'folder_id'  => $folder_id,
                 'thumbnail'  => $thumbnail,
-                'basename'   => $prefixed_file_name,
-                'filesize'   => Storage::disk('local')->size('file-manager/' . $prefixed_file_name),
-                'type'       => get_file_type('file-manager/' . $prefixed_file_name),
+                'filesize'   => $file_size,
                 'user_id'    => $user_id,
             ];
 
             // Move files to external storage
             if (! is_storage_driver(['local'])) {
-                self::move_to_external_storage($prefixed_file_name, $thumbnail);
+                self::move_to_external_storage($disk_file_name, $thumbnail);
             }
 
             // Return new file
@@ -316,13 +306,15 @@ class Editor
      */
     private static function move_to_external_storage(string $filename, ?string $thumbnail): void
     {
+        $disk_local = Storage::disk('local');
+
         foreach ([$filename, $thumbnail] as $file) {
 
             // Check if file exist
             if (!$file) continue;
 
             // Get file size
-            $filesize = Storage::disk('local')->size('file-manager/' . $filename);
+            $filesize = $disk_local->size('file-manager/' . $filename);
 
             // If file is bigger than 5.2MB then run multipart upload
             if ($filesize > 5242880) {
@@ -342,16 +334,18 @@ class Editor
                     'key'    => 'file-manager/' . $file
                 ]);
 
-                // Upload content
                 try {
+
+                    // Upload content
                     $uploader->upload();
 
                 } catch (MultipartUploadException $e) {
 
+                    // Write error log
                     Log::error($e->getMessage());
 
                     // Delete file after error
-                    Storage::disk('local')->delete('file-manager/' . $file);
+                    $disk_local->delete('file-manager/' . $file);
 
                     throw new HttpException(409, $e->getMessage());
                 }
@@ -363,7 +357,7 @@ class Editor
             }
 
             // Delete file after upload
-            Storage::disk('local')->delete('file-manager/' . $file);
+            $disk_local->delete('file-manager/' . $file);
         }
     }
 
@@ -391,34 +385,63 @@ class Editor
     /**
      * Create thumbnail for images
      *
-     * @param string $chunk_file_path
+     * @param string $file_path
      * @param string $filename
      * @param $file
      * @return string|null
      */
-    private static function get_image_thumbnail(string $chunk_file_path, string $filename, $file)
+    private static function get_image_thumbnail(string $file_path, string $filename)
     {
-        if (in_array(Storage::disk('local')->mimeType($chunk_file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
+        $local_disk = Storage::disk('local');
+
+        // Create thumbnail from image
+        if (in_array($local_disk->mimeType($file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
 
             // Get thumbnail name
             $thumbnail = 'thumbnail-' . $filename;
 
             // Create intervention image
-            $image = Image::make(storage_path() . '/app/' . $chunk_file_path)->orientate();
+            $image = Image::make(storage_path() . '/app/' . $file_path)->orientate();
 
             // Resize image
-            $image->resize(564, null, function ($constraint) {
+            $image->resize(512, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->stream();
 
             // Store thumbnail to disk
-            Storage::disk('local')->put('file-manager/' . $thumbnail, $image);
+            $local_disk->put('file-manager/' . $thumbnail, $image);
+        }
 
-        } elseif (Storage::disk('local')->mimeType($chunk_file_path) === 'image/svg+xml') {
+        // Return thumbnail as svg file
+        if ($local_disk->mimeType($file_path) === 'image/svg+xml') {
 
             $thumbnail = $filename;
         }
 
         return $thumbnail ?? null;
+    }
+
+    /**
+     * Check if user has enough space to upload file
+     *
+     * @param $user_id
+     * @param int $file_size
+     * @param $temp_filename
+     */
+    private static function check_user_storage_capacity($user_id, int $file_size, $temp_filename): void
+    {
+        // Get user storage percentage and get storage_limitation setting
+        $user_storage_used = user_storage_percentage($user_id, $file_size);
+        $storage_limitation = get_setting('storage_limitation');
+
+        // Check if user can upload
+        if ($storage_limitation && $user_storage_used >= 100) {
+
+            // Delete file
+            Storage::disk('local')->delete('chunks/' . $temp_filename);
+
+            // Abort uploading
+            abort(423, 'You exceed your storage limit!');
+        }
     }
 }

@@ -680,7 +680,9 @@
 		"href": "Prosím potvrďte Vašu platbu."
 	},
 	"uploading": {
-		"progress": "Nahrávam súbory {current}/{total}"
+		"processing_file": "Spracuvávam súbor...",
+		"progress_single_upload": "Nahrávam súbor {progress}%",
+		"progress": "Nahrávam súbory {progress}% - {current}/{total}"
 	},
 	"user_add_card": {
 		"default_description": "Vaša karta bude uložená a použitá pre platbu ako prvá.",
