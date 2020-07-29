@@ -16,6 +16,7 @@ But, it can't be done without you, development is more and more complicated and 
     - [Server Requirements](#server-requirements)
     - [Installation](#installation)
     - [PHP Configuration](#php-configuration)
+    - [Chunk Upload](#chunk-upload)
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
     - [Recover Failed Installation](#installation-failed)
@@ -64,7 +65,7 @@ But, it can't be done without you, development is more and more complicated and 
 
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
-Then change your **public directory** for your domain. It should be changed to /public directory in the app.
+Configure your web server's document / web root to point to the public directory of the software. For example, if you've uploaded the software in `example.com` folder, your web directory should be changed to `example.com/public` folder.
 
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
 
@@ -93,7 +94,14 @@ memory_limit = 512M
 upload_max_filesize = 1024M
 post_max_size = 1024M
 max_file_uploads = 50
+max_execution_time = 1800
 ```
+
+## Chunk Upload
+VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to `/config/vuefilemanager.php` and change `chunk_size` attribute.
+
+if you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space.
+
 
 ## Nginx Configuration
 If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:
