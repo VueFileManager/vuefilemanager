@@ -314,7 +314,7 @@ class Editor
             if (!$file) continue;
 
             // Get file size
-            $filesize = $disk_local->size('file-manager/' . $filename);
+            $filesize = $disk_local->size('file-manager/' . $file);
 
             // If file is bigger than 5.2MB then run multipart upload
             if ($filesize > 5242880) {
@@ -353,7 +353,7 @@ class Editor
             } else {
 
                 // Stream file object to s3
-                Storage::putFileAs('/file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
+                Storage::putFileAs('file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
             }
 
             // Delete file after upload

@@ -114,13 +114,13 @@ const Helpers = {
                 // Set Data
                 let formData = new FormData(),
                     uploadedSize = 0,
-                    isNotGeneralError = true
+                    isNotGeneralError = true,
+                    filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + file.name + '.part'
 
                 do {
                     let isLast = chunks.length === 1,
                         chunk = chunks.shift(),
-                        attempts = 0,
-                        filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + file.name + '.part'
+                        attempts = 0
 
                     // Set form data
                     formData.set('file', chunk, filename);

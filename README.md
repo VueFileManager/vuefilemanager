@@ -25,8 +25,8 @@ But, it can't be done without you, development is more and more complicated and 
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
     - [Tax Rates](#tax-rates)
-- [Technical Informations](#technical-informations)
-    - [For Developers](#for-developers)
+- [Developers](#developers)
+    - [Running development environment on your localhost](#running-development-environment-on-your-localhost)
     - [Supported Storages](#supported-storages)
     - [How to Create New Language](#how-to-create-new-language)
 - [Others](#others)
@@ -65,7 +65,14 @@ But, it can't be done without you, development is more and more complicated and 
 
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
+Configure your web server's document / web root to point to the public directory of the software. For example, if you've uploaded the software in `example.com` folder, your web directory should be changed to `example.com/public` folder.
+
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
+
+When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
+```
+composer install
+```
 
 Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
 
@@ -83,16 +90,18 @@ That was the hardest part of installation proces. Please follow instructions in 
 There are several PHP settings good to know to setup before you try upload any file. Please set these values in your php.ini, we provide minimal setup for you. When you set `-1` then you set infinity limits.
 
 ```
-memory_limit = 128M
-upload_max_filesize = 128
-post_max_size = 128M
+memory_limit = 512M
+upload_max_filesize = 1024M
+post_max_size = 1024M
 max_file_uploads = 50
 max_execution_time = 1800
 ```
+
 ## Chunk Upload
 VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to `/config/vuefilemanager.php` and change `chunk_size` attribute.
 
 if you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space.
+
 
 ## Nginx Configuration
 If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:
@@ -201,11 +210,15 @@ You are able to manage tax rates. When adding a new tax rate, if no Region is sp
 
 Just log in to your stripe dashboard, and you will find taxes under `Dashboard / Products / Tax Rates`.
 
-# Technical Informations
-## For Developers
-Installation process on your localhost is the same. But, there are some good hints.
+# Developers
+## Running development environment on your localhost
 
-After successfully installation with setup wizard, you have to set your `APP_ENV` to local mode, in default, it's in production mode.
+When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
+```
+composer install
+```
+
+Set your `APP_ENV` to local mode, in default, it's in production mode.
 ```
 APP_ENV=local
 ```
@@ -215,21 +228,22 @@ Also, to debug application, set `APP_DEBUG` on true:
 APP_DEBUG=true
 ```
 
-To start server on your localhost, run this command
+To start server on your localhost, run command below. Then go to your generated localhost URL by terminal, and follow Setup Wizard steps to configure VueFileManager.
 ```
 php artisan serve
 ```
-To develop your front-end, you have to install npm modules by this command:
+
+To develop your Vue front-end, you have to install npm modules by this command:
 ```
 npm install
 ```
 
-To compiles and hot-reloads for development. Then run this command:
+To compiles and hot-reloads for front-end development. Then run this command:
 ```
 npm run hot
 ```
 
-To compiles for production, run this command
+To compiles for production build, run this command
 ```
 npm run prod
 ```

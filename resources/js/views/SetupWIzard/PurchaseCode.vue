@@ -94,6 +94,10 @@
                             this.$refs.verifyPurchaseCode.setErrors({
                                 'Purchase Code': ['Purchase code is invalid.']
                             });
+                        } else if (error.response.status == 404) {
+                            this.$refs.verifyPurchaseCode.setErrors({
+                                'Purchase Code': ['You may have misconfigured the app, please read the readme file and try it again.']
+                            });
                         } else {
                             this.$refs.verifyPurchaseCode.setErrors({
                                 'Purchase Code': ['Something is wrong. Please try again.']
