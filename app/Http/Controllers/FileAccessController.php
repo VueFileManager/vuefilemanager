@@ -197,8 +197,7 @@ class FileAccessController extends Controller
      */
     private function download_file($file)
     {
-        // Format pretty filename
-        $file_pretty_name = $file->name . '.' . $file->mimetype;
+        $file_pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
 
         // Get file path
         $path = '/file-manager/' . $file->basename;

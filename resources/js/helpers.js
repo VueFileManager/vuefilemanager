@@ -73,73 +73,101 @@ const Helpers = {
             this.$store.dispatch('createFolder', folderName)
         }
 
-        Vue.prototype.$uploadFiles = async function (files) {
-            // Prevent submit empty files
-            if (files && files.length == 0) return
+        Vue.prototype.$handleUploading = async function (files, parent_id) {
 
-            let fileCount = files ? files.length : 0
-            let fileCountSucceed = 1
+            let fileBuffer = []
 
+            // Append the file list to fileBuffer array
+            Array.prototype.push.apply(fileBuffer, files);
+
+            let fileSucceed = 0
+
+            // Update files count in progressbar
             store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                current: fileCountSucceed,
-                total: fileCount
+                current: fileSucceed,
+                total: files.length
             })
 
+            // Reset upload progress to 0
+            store.commit('UPLOADING_FILE_PROGRESS', 0)
+
             // Get parent id
-            const rootFolder = this.$store.getters.currentFolder
-                ? this.$store.getters.currentFolder.unique_id
-                : 0
+            let parentFolder = this.$store.getters.currentFolder ? this.$store.getters.currentFolder.unique_id : 0
+            let rootFolder = parent_id ? parent_id : parentFolder
 
-            for (var i = files.length - 1; i >= 0; i--) {
-                let formData = new FormData()
+            // Upload files
+            do {
+                let file = fileBuffer.shift(),
+                    chunks = []
 
-                // Append data
-                formData.append('file', files[i])
+                // Calculate ceils
+                let size = this.$store.getters.config.chunkSize,
+                    chunksCeil = Math.ceil(file.size / size);
 
-                // Append form data
-                formData.append('parent_id', rootFolder)
+                // Create chunks
+                for (let i = 0; i < chunksCeil; i++) {
+                    chunks.push(file.slice(
+                        i * size, Math.min(i * size + size, file.size), file.type
+                    ));
+                }
 
-                // Upload data
-                await store.dispatch('uploadFiles', formData)
-                    .then(() => {
-                        // Progress file log
-                        store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                            current: fileCountSucceed,
-                            total: fileCount
+                // Set Data
+                let formData = new FormData(),
+                    uploadedSize = 0,
+                    isNotGeneralError = true,
+                    filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + file.name + '.part'
+
+                do {
+                    let isLast = chunks.length === 1,
+                        chunk = chunks.shift(),
+                        attempts = 0
+
+                    // Set form data
+                    formData.set('file', chunk, filename);
+                    formData.set('parent_id', rootFolder)
+                    formData.set('is_last', isLast);
+
+                    // Upload chunks
+                    do {
+                        await store.dispatch('uploadFiles', {
+                            form: formData,
+                            fileSize: file.size,
+                            totalUploadedSize: uploadedSize
+                        }).then(() => {
+                            uploadedSize = uploadedSize + chunk.size
+                        }).catch((error) => {
+
+                            // Count attempts
+                            attempts++
+
+                            // Break uploading proccess
+                            if (error.response.status === 500)
+                                isNotGeneralError = false
+
+                            // Show Error
+                            if (attempts === 3)
+                                this.$isSomethingWrong()
                         })
+                    } while (isNotGeneralError && attempts !== 0 && attempts !== 3)
 
-                        // Uploading finished
-                        if (fileCount === fileCountSucceed) {
-                            store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-                        } else {
-                            // Add uploaded file
-                            fileCountSucceed++
-                        }
-                    }).catch(error => {
-                        switch (error.response.status) {
-                            case 423:
-                                events.$emit('alert:open', {
-                                    emoji: '😬',
-                                    title: this.$t('popup_exceed_limit.title'),
-                                    message: this.$t('popup_exceed_limit.message')
-                                })
-                                break;
-                            case 413:
-                                events.$emit('alert:open', {
-                                    emoji: '😟',
-                                    title: this.$t('popup_paylod_error.title'),
-                                    message: this.$t('popup_paylod_error.message')
-                                })
-                                break;
-                            default:
-                                events.$emit('alert:open', {
-                                    title: this.$t('popup_error.title'),
-                                    message: this.$t('popup_error.message'),
-                                })
-                                break;
-                        }
-                    })
-            }
+                } while (isNotGeneralError && chunks.length !== 0)
+
+                fileSucceed++
+
+                // Progress file log
+                store.commit('UPDATE_FILE_COUNT_PROGRESS', {
+                    current: fileSucceed,
+                    total: files.length
+                })
+
+            } while (fileBuffer.length !== 0)
+
+            store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+        }
+
+        Vue.prototype.$uploadFiles = async function (files) {
+
+            this.$handleUploading(files, undefined)
         }
 
         Vue.prototype.$uploadExternalFiles = async function (event, parent_id) {
@@ -148,67 +176,9 @@ const Helpers = {
             if (event.dataTransfer.items.length == 0) return
 
             // Get files
-            const files = [...event.dataTransfer.items].map(item => item.getAsFile());
+            let files = [...event.dataTransfer.items].map(item => item.getAsFile());
 
-            let fileCountSucceed = 1
-
-            store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                current: fileCountSucceed,
-                total: files.length
-            })
-
-            for (var i = files.length - 1; i >= 0; i--) {
-
-                let formData = new FormData()
-
-                // Append data
-                formData.append('file', files[i])
-
-                // Append form data
-                formData.append('parent_id', parent_id)
-
-                // Upload data
-                await store.dispatch('uploadFiles', formData).then(() => {
-                    // Progress file log
-                    store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                        current: fileCountSucceed,
-                        total: files.length
-                    })
-                    // Progress file log
-                    store.commit('INCREASE_FOLDER_ITEM', parent_id)
-
-                    // Uploading finished
-                    if (files.length === fileCountSucceed) {
-                        store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-                    } else {
-                        // Add uploaded file
-                        fileCountSucceed++
-                    }
-                }).catch(error => {
-                    switch (error.response.status) {
-                        case 423:
-                            events.$emit('alert:open', {
-                                emoji: '😬',
-                                title: this.$t('popup_exceed_limit.title'),
-                                message: this.$t('popup_exceed_limit.message')
-                            })
-                            break;
-                        case 413:
-                            events.$emit('alert:open', {
-                                emoji: '😟',
-                                title: this.$t('popup_paylod_error.title'),
-                                message: this.$t('popup_paylod_error.message')
-                            })
-                            break;
-                        default:
-                            events.$emit('alert:open', {
-                                title: this.$t('popup_error.title'),
-                                message: this.$t('popup_error.message'),
-                            })
-                            break;
-                    }
-                })
-            }
+            this.$handleUploading(files, parent_id)
         }
 
         Vue.prototype.$downloadFile = function (url, filename) {

@@ -102,7 +102,7 @@ class Demo
         $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());
         $thumbnail = null;
         $filesize = $file->getSize();
-        $filetype = get_file_type($file);
+        $filetype = get_file_type($file->getMimeType());
 
         return [
             'id'         => random_int(1000, 9999),

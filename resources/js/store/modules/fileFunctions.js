@@ -42,6 +42,8 @@ const actions = {
             .then(response => {
                 commit('ADD_NEW_FOLDER', response.data)
 
+                events.$emit('scrollTop')
+
                 if ( getters.currentFolder.location !== 'public' ) {
                     dispatch('getAppData')
                 }
@@ -72,7 +74,7 @@ const actions = {
             })
             .catch(() => isSomethingWrong())
     },
-    uploadFiles: ({commit, getters}, files) => {
+    uploadFiles: ({commit, getters}, {form, fileSize, totalUploadedSize}) => {
         return new Promise((resolve, reject) => {
 
             // Get route
@@ -81,28 +83,57 @@ const actions = {
                 : '/api/upload'
 
             axios
-                .post(route, files, {
+                .post(route, form, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'application/octet-stream'
                     },
-                    onUploadProgress: progressEvent => {
-                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                    onUploadProgress: event => {
 
-                        commit('UPLOADING_FILE_PROGRESS', percentCompleted)
+                        var percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100)
+
+                        commit('UPLOADING_FILE_PROGRESS', percentCompleted >= 100 ? 100 : percentCompleted)
+
+                        if (percentCompleted >= 100) {
+                            commit('PROCESSING_FILE', true)
+                        }
                     }
                 })
                 .then(response => {
+                    commit('PROCESSING_FILE', false)
 
                     // Check if user is in uploading folder, if yes, than show new file
                     if (response.data.folder_id == getters.currentFolder.unique_id)
                         commit('ADD_NEW_ITEMS', response.data)
 
-                    commit('UPLOADING_FILE_PROGRESS', 0)
-
                     resolve(response)
                 })
                 .catch(error => {
+                    commit('PROCESSING_FILE', false)
+
                     reject(error)
+
+                    switch (error.response.status) {
+                        case 423:
+                            events.$emit('alert:open', {
+                                emoji: '😬',
+                                title: i18n.t('popup_exceed_limit.title'),
+                                message: i18n.t('popup_exceed_limit.message')
+                            })
+                            break;
+                        case 413:
+                            events.$emit('alert:open', {
+                                emoji: '😟',
+                                title: i18n.t('popup_paylod_error.title'),
+                                message: i18n.t('popup_paylod_error.message')
+                            })
+                            break;
+                        default:
+                            events.$emit('alert:open', {
+                                title: i18n.t('popup_error.title'),
+                                message: i18n.t('popup_error.message'),
+                            })
+                            break;
+                    }
 
                     // Reset uploader
                     commit('UPDATE_FILE_COUNT_PROGRESS', undefined)

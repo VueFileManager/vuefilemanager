@@ -52,6 +52,7 @@
             border-radius: 6px;
             width: 40px;
             height: 40px;
+            object-fit: cover;
         }
 
         &.large {

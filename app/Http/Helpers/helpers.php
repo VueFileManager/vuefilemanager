@@ -19,11 +19,11 @@ use Intervention\Image\ImageManagerStatic as Image;
  */
 function obfuscate_email($email)
 {
-    $em   = explode("@",$email);
-    $name = implode('@', array_slice($em, 0, count($em)-1));
-    $len  = floor(strlen($name)/2);
+    $em = explode("@", $email);
+    $name = implode('@', array_slice($em, 0, count($em) - 1));
+    $len = floor(strlen($name) / 2);
 
-    return substr($name,0, $len) . str_repeat('*', $len) . "@" . end($em);
+    return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
 }
 
 /**
@@ -356,6 +356,17 @@ function format_gigabytes($gigabytes)
 }
 
 /**
+ * Convert megabytes to bytes
+ *
+ * @param $megabytes
+ * @return int|string
+ */
+function format_bytes($megabytes)
+{
+    return Metric::megabytes($megabytes)->numberOfBytes();
+}
+
+/**
  * Get storage usage in percent
  *
  * @param $used
@@ -464,10 +475,10 @@ function format_date($date, $format = '%d. %B. %Y, %H:%M')
  * @param $file
  * @return string
  */
-function get_file_type($file)
+function get_file_type($file_mimetype)
 {
     // Get mimetype from file
-    $mimetype = explode('/', $file->getMimeType());
+    $mimetype = explode('/', $file_mimetype);
 
     switch ($mimetype[0]) {
         case 'image':
@@ -482,4 +493,39 @@ function get_file_type($file)
         default:
             return 'file';
     }
+}
+
+
+/**
+ * Get file type from mimetype
+ *
+ * @param $mimetype
+ * @return mixed
+ */
+function get_file_type_from_mimetype($mimetype)
+{
+    return explode('/', $mimetype)[1];
+}
+
+/**
+ * Format pretty name file
+ *
+ * @param $basename
+ * @param $name
+ * @param $mimetype
+ * @return string
+ */
+function get_pretty_name($basename, $name, $mimetype)
+{
+    $file_extension = substr(strrchr($basename, '.'), 1);
+
+    if (strpos($name, $file_extension) !== false) {
+        return $name;
+    }
+
+    if ($file_extension) {
+        return $name . '.' . $file_extension;
+    }
+
+    return $name . '.' . $mimetype;
 }

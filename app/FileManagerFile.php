@@ -145,15 +145,17 @@ class FileManagerFile extends Model
      */
     public function getFileUrlAttribute()
     {
-        // Get file from s3
+        // Get file from external storage
         if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
+
+            $file_pretty_name = get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);
 
             $header = [
                 "ResponseAcceptRanges"       => "bytes",
                 "ResponseContentType"        => $this->attributes['mimetype'],
                 "ResponseContentLength"      => $this->attributes['filesize'],
                 "ResponseContentRange"       => "bytes 0-600/" . $this->attributes['filesize'],
-                'ResponseContentDisposition' => 'attachment; filename=' . $this->attributes['name'] . '.' . $this->attributes['mimetype'],
+                'ResponseContentDisposition' => 'attachment; filename=' . $file_pretty_name,
             ];
 
             return Storage::temporaryUrl('file-manager/' . $this->attributes['basename'], now()->addDay(), $header);

@@ -8,6 +8,7 @@ const defaultState = {
     fileInfoDetail: undefined,
     currentFolder: undefined,
     uploadingFileProgress: 0,
+    isProcessingFile: false,
     navigation: undefined,
     isSearching: false,
     browseHistory: [],
@@ -285,11 +286,15 @@ const mutations = {
     STORE_CURRENT_FOLDER(state, folder) {
         state.currentFolder = folder
     },
+    PROCESSING_FILE(state, status) {
+        state.isProcessingFile = status
+    }
 }
 
 const getters = {
     uploadingFileProgress: state => state.uploadingFileProgress,
     uploadingFilesCount: state => state.uploadingFilesCount,
+    isProcessingFile: state => state.isProcessingFile,
     fileInfoDetail: state => state.fileInfoDetail,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
