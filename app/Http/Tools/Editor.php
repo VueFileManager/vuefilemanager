@@ -10,6 +10,7 @@ use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -245,7 +246,7 @@ class Editor
         self::check_directories(['chunks', 'file-manager']);
 
         // File name
-        $user_file_name = basename('chunks/' . substr($file->getClientOriginalName(),17), '.part');
+        $user_file_name = basename('chunks/' . substr($file->getClientOriginalName(), 17), '.part');
         $disk_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
         $temp_filename = $file->getClientOriginalName();
 
@@ -289,13 +290,50 @@ class Editor
             ];
 
             // Move files to external storage
-            if (! is_storage_driver(['local'])) {
+            if (!is_storage_driver(['local'])) {
+
+                // Clear failed uploads if exists
+                self::clear_failed_files();
+
+                // Move file to external storage service
                 self::move_to_external_storage($disk_file_name, $thumbnail);
             }
 
             // Return new file
             return FileManagerFile::create($options);
         }
+    }
+
+    /**
+     * Clear failed files
+     */
+    private static function clear_failed_files()
+    {
+        $local_disk = Storage::disk('local');
+
+        // Get all files from storage
+        $files = collect([
+            $local_disk->allFiles('file-manager'),
+            $local_disk->allFiles('chunks')
+        ])->collapse();
+
+        $files->each(function ($file) use ($local_disk) {
+
+            // Get the file's last modification time.
+            $last_modified = $local_disk->lastModified($file);
+
+            // Get diffInHours
+            $diff = Carbon::parse($last_modified)->diffInHours(Carbon::now());
+
+            // Delete if file is in local storage more than 24 hours
+            if ($diff > 24) {
+
+                Log::info('Failed file or chunk ' . $file . ' deleted.');
+
+                // Delete file from local storage
+                $local_disk->delete($file);
+            }
+        });
     }
 
     /**
@@ -374,7 +412,7 @@ class Editor
                 Storage::disk('local')->makeDirectory($directory);
             }
 
-            if (! is_storage_driver(['local'])) {
+            if (!is_storage_driver(['local'])) {
                 if (!Storage::exists($directory)) {
                     Storage::makeDirectory($directory);
                 }

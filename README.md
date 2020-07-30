@@ -63,26 +63,34 @@ But, it can't be done without you, development is more and more complicated and 
 
 ## Installation
 
+#### 1. Upload files on your server
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
+#### 2. Configure your web root folder
 Configure your web server's document / web root to point to the public directory of the software. For example, if you've uploaded the software in `example.com` folder, your web directory should be changed to `example.com/public` folder.
 
+#### 3. Check your .env file
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
 
+#### 3.1 When you install from GitHub
 When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
 ```
 composer install
 ```
 
+#### 4. Set write permissions
 Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
 
 - /bootstrap/cache
 - /storage
 - /.env
 
+#### 5. Open your application in your web browser
 Then open your application in web browser. If everything works fine, you will be redirect to setup wizard installation process. 
 
-At first step you have to verify your purchase code. **Subscription service with stripe payments is available only for Extended License.**
+At first step you have to verify your purchase code. **Subscription service with stripe payments is available only for Extended License.** If you can't verify your purchase code, check, if you did previously steps correctly.
+
+#### 6. Follow setup wizard steps
 
 That was the hardest part of installation proces. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
 
@@ -91,16 +99,16 @@ There are several PHP settings good to know to setup before you try upload any f
 
 ```
 memory_limit = 512M
-upload_max_filesize = 1024M
-post_max_size = 1024M
+upload_max_filesize = 128M
+post_max_size = 128M
 max_file_uploads = 50
-max_execution_time = 1800
+max_execution_time = 3600
 ```
 
-## Chunk Upload
+## Chunk & Multipart Upload
 VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to `/config/vuefilemanager.php` and change `chunk_size` attribute.
 
-if you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space.
+When you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space and set higher `max_execution_time` in your php.ini to move your files to external storage. 
 
 
 ## Nginx Configuration
