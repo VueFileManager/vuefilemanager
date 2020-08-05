@@ -167,6 +167,8 @@ const Helpers = {
 
         Vue.prototype.$uploadFiles = async function (files) {
 
+            if (files.length == 0) return
+
             this.$handleUploading(files, undefined)
         }
 

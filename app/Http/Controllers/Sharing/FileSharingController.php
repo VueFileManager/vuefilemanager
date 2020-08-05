@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
 use App\Http\Tools\Guardian;
+use App\Setting;
 use http\Env\Response;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
@@ -42,14 +43,14 @@ class FileSharingController extends Controller
         Cookie::queue('shared_access_token', '', -1);
 
         // Set cookies
-        if ($shared->protected) {
+        if ((int) $shared->protected) {
 
             // Set shared token
             Cookie::queue('shared_token', $token, 43200);
         }
 
         // Check if shared is image file and then show it
-        if ($shared->type === 'file' && ! $shared->protected) {
+        if ($shared->type === 'file' && ! (int) $shared->protected) {
 
             $image = FileManagerFile::where('user_id', $shared->user_id)
                 ->where('type', 'image')
@@ -61,8 +62,12 @@ class FileSharingController extends Controller
             }
         }
 
+        // Get all settings
+        $settings = Setting::all();
+
         // Return page index
-        return view("index");
+        return view("index")
+            ->with('settings', $settings ? json_decode($settings->pluck('value', 'name')->toJson()) : null);
     }
 
     /**
@@ -160,7 +165,7 @@ class FileSharingController extends Controller
         $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
 
         // Abort if folder is protected
-        if ($shared->protected) {
+        if ((int) $shared->protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -191,7 +196,7 @@ class FileSharingController extends Controller
         $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
 
         // Abort if file is protected
-        if ($shared->protected) {
+        if ((int) $shared->protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -341,7 +346,7 @@ class FileSharingController extends Controller
         $shared = get_shared($token);
 
         // Abort if folder is protected
-        if ($shared->protected) {
+        if ((int) $shared->protected) {
             abort(403, "Sorry, you don't have permission");
         }
 

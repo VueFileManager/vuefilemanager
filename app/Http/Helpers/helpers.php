@@ -248,8 +248,8 @@ function get_unique_id(): int
     $files = FileManagerFile::withTrashed()->get();
 
     // Get last ids
-    $folders_unique = $folders->isEmpty() ? 0 : $folders->last()->unique_id;
-    $files_unique = $files->isEmpty() ? 0 : $files->last()->unique_id;
+    $folders_unique = $folders->isEmpty() ? 0 : (int) $folders->last()->unique_id;
+    $files_unique = $files->isEmpty() ? 0 : (int) $files->last()->unique_id;
 
     // Count new unique id
     $unique_id = $folders_unique > $files_unique ? $folders_unique + 1 : $files_unique + 1;

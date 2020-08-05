@@ -270,7 +270,7 @@ class Editor
             self::check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $user_file_name);
+            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name);
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move('chunks/' . $temp_filename, 'file-manager/' . $disk_file_name);
