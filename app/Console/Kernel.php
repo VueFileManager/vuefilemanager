@@ -17,9 +17,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        SetupProductionEnvironment::class,
-        SetupDevEnvironment::class,
-        UpgradeApp::class,
         Deploy::class,
     ];
 
