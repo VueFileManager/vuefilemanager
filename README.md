@@ -53,6 +53,7 @@ But, it can't be done without you, development is more and more complicated and 
 - GD
 - BCMath
 - PDO
+- SQLite
 - Ctype
 - Fileinfo
 - JSON
@@ -60,6 +61,7 @@ But, it can't be done without you, development is more and more complicated and 
 - OpenSSL
 - Tokenizer
 - XML
+- Exif
 
 ## Installation
 
@@ -67,7 +69,9 @@ But, it can't be done without you, development is more and more complicated and 
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
 #### 2. Configure your web root folder
-Configure your web server's document / web root to point to the public directory of the software. For example, if you've uploaded the software in `example.com` folder, your web directory should be changed to `example.com/public` folder.
+Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory.
+
+![Domain Root](https://vuefilemanager.com/assets/images/domain-root.jpg)
 
 #### 3. Check your .env file
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
