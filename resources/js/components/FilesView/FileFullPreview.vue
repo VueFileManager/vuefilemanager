@@ -1,5 +1,9 @@
 <template>
-  <div class="file-full-preview-wrapper" v-if="showFullPreview">
+  <div
+    class="file-full-preview-wrapper"
+    v-if="showFullPreview"
+    id="fileFullPreview"
+  >
     <MediaFullPreview v-if="isMedia" />
   </div>
 </template>
@@ -44,14 +48,7 @@ export default {
   z-index: 7;
   background-color: $light-background;
 }
-.container {
-  max-width: 888px;
-  height: 100%;
-  padding-top: 20px;
-  padding: 10px;
 
-  margin: auto;
-}
 @media (prefers-color-scheme: dark) {
   .file-full-preview-wrapper {
     background-color: $dark_mode_background;

@@ -33,7 +33,6 @@
           :action="$t('actions.download')"
         />
         <ToolbarButton
-          v-if="!$isThisLocation(['public'])"
           source="share"
           :class="{ 'is-inactive': canShareInView }"
           :action="$t('actions.share')"
@@ -93,6 +92,7 @@ export default {
       loaded: false,
       sizeWidth: "",
       sizeHeight: "",
+      showingFile: "",
     };
   },
   computed: {
@@ -143,7 +143,14 @@ export default {
           this.$store.commit("GET_FILEINFO_DETAIL", this.currentFile);
           this.sliderFile = [];
           this.filteredFiles();
+          this.$forceUpdate();
         }
+      }
+    },
+    data(newValue, oldValue) {
+      if (newValue != oldValue) {
+        this.sliderFile = [];
+        this.filteredFiles();
       }
     },
   },
@@ -175,7 +182,7 @@ export default {
       win.print();
     },
     filteredFiles() {
-      this.data.forEach((element) => {
+      this.data.filter((element) => {
         if (element.type == this.fileInfoDetail.type) {
           this.sliderFile.push(element);
         }
@@ -339,14 +346,15 @@ export default {
   overflow: hidden;
   justify-content: center;
   align-items: center;
+  background-color: white;
   .file-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     .file {
-      max-height: 100%;
       max-width: 100%;
+      max-height: 100%;
       margin: auto;
     }
   }

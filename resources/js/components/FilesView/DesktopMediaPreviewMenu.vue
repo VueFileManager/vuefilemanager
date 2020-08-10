@@ -1,5 +1,5 @@
-<template>
-  <div v-if="showMenu" class="menu-wrapper">
+<template  >
+  <div v-if="showMenu && $checkPermission('master')" class="menu-wrapper">
     <div class="item-list">
       <li @click="renameItem">
         <p><edit-2-icon class="icon" size="19" /> Rename</p>
@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import { events } from "@/bus";
-import ToolbarButton from "@/components/FilesView/ToolbarButton";
 import { Trash2Icon, Edit2Icon, CornerDownRightIcon } from "vue-feather-icons";
+import ToolbarButton from "@/components/FilesView/ToolbarButton";
+import { events } from "@/bus";
 
 export default {
   components: {
@@ -39,7 +39,11 @@ export default {
       this.showMenu = !this.showMenu;
     });
   },
+
   methods: {
+    closeMenu() {
+      this.showMenu = false;
+    },
     deleteItem() {
       this.$store.dispatch("deleteItem", this.fileInfoDetail);
     },
