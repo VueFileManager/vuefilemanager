@@ -164,6 +164,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
 
     // Settings
     Route::put('/settings/email', 'SettingController@set_email');
+    Route::put('/settings/stripe', 'SettingController@set_stripe');
     Route::patch('/settings', 'SettingController@update');
     Route::get('/settings', 'SettingController@show');
 });
