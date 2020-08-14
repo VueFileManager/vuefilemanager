@@ -4,7 +4,7 @@
         <!--System alerts-->
         <Alert/>
 
-        <div id="application-wrapper" v-if="layout === 'authorized'">
+        <div id="application-wrapper" v-if="! isGuestLayout">
 
             <!--Mobile Navigation-->
             <MobileNavigation />
@@ -34,7 +34,7 @@
             </keep-alive>
         </div>
 
-        <router-view v-if="layout === 'unauthorized'"/>
+        <router-view v-if="isGuestLayout"/>
 
         <CookieDisclaimer />
 
@@ -78,8 +78,8 @@
             ...mapGetters([
                 'isLogged', 'isGuest', 'config'
             ]),
-            layout() {
-                if (includes([
+            isGuestLayout() {
+                return (includes([
                     'InstallationDisclaimer',
                     'SubscriptionService',
                     'StripeCredentials',
@@ -102,11 +102,7 @@
                     'SignIn',
                     'SignUp',
                     ], this.$route.name)
-                ) {
-                    return 'unauthorized'
-                }
-
-                return 'authorized'
+                )
             }
         },
         data() {
@@ -151,7 +147,7 @@
 </script>
 
 <style lang="scss">
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap');
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 

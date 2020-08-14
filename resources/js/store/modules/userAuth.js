@@ -26,7 +26,7 @@ const actions = {
                     if ([401, 403].includes(error.response.status)) {
 
                         commit('SET_AUTHORIZED', false)
-                        router.push({name: 'SignIn'})
+                        //router.push({name: 'SignIn'})
                     }
                 }
             )

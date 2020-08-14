@@ -31,7 +31,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'header_title',
-                'value' => 'Simple <span style="color: #41B883">&</span> Powerfull Personal Cloud Storage',
+                'value' => 'Simple <span style="color: #41B883">&</span> Powerful Personal Cloud Storage',
             ],
             [
                 'name'  => 'header_description',
@@ -87,7 +87,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'footer_content',
-                'value' => '© 2020 Simple & Powerfull Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
+                'value' => '© 2020 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
             ],
         ]);
 

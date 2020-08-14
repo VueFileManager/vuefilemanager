@@ -96,7 +96,7 @@ return [
         ],
         [
             'name'  => 'footer_content',
-            'value' => '© 2020 Simple & Powerfull Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
+            'value' => '© 2020 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
         ],
     ],
 ];
