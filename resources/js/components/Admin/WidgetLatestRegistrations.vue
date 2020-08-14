@@ -1,7 +1,7 @@
 <template>
     <WidgetWrapper :icon="icon" :title="title">
         <DatatableWrapper v-if="users" :paginator="false" :columns="columns" :data="users" class="table table-users">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                     <td style="width: 300px">
                         <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">

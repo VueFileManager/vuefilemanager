@@ -138,6 +138,8 @@ input[type="email"] {
   &[disabled] {
     background: white;
     color: rgba($text, 0.8);
+    -webkit-text-fill-color: rgba($text, 0.8);
+    opacity: 1;
     cursor: not-allowed;
   }
 }
@@ -284,7 +286,8 @@ input[type="email"] {
 
     &[disabled] {
       background: $dark_mode_foreground;
-      color: rgba($dark_mode_text_secondary, 15%);
+      color: rgba($dark_mode_text_secondary, 0.8);
+      -webkit-text-fill-color: rgba($dark_mode_text_secondary, 0.8);
     }
   }
 }

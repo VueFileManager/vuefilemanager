@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading" :class="{'form-fixed-width': ! isLoading && invoices.length === 0}">
         <PageTabGroup v-if="invoices && invoices.length > 0">
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
-                <template scope="{ row }">
+                <template slot-scope="{ row }">
                     <tr>
                         <td>
                             <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">

@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td style="max-width: 80px">
                                 <span class="cell-item">

@@ -6,7 +6,7 @@
 
             <div class="content-page">
                 <DatatableWrapper :paginator="false" :columns="columns" :data="pages" class="table table-users">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td class="name" style="min-width: 200px">
                                 <router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="cell-item" tag="div">

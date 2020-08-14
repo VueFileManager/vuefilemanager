@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active && !canShowIncompletePayment" class="headline-actions">
-                            <router-link :to="{name: 'UpgradePlan'}" v-if="canShowUpgradeButton">
+                            <router-link :to="{name: 'UpgradePlan'}">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
                                     {{ $t('global.upgrade_plan') }}
                                 </ButtonBase>
@@ -173,9 +173,6 @@
             },
             canShowSubscriptionSettings() {
                 return this.config.isSaaS
-            },
-            canShowUpgradeButton() {
-                return this.config.isDemo || this.config.storageDefaultSpace === this.user.relationships.storage.data.attributes.capacity || this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
             },
             canShowUpgradeWarning() {
                 return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95

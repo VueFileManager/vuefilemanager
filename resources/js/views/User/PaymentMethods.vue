@@ -10,7 +10,7 @@
                 </router-link>
             </div>
             <DatatableWrapper :paginator="false" :columns="columns" :data="PaymentMethods" class="table">
-                <template scope="{ row }">
+                <template slot-scope="{ row }">
                     <tr :class="{'is-deleting': row.data.attributes.card_id === deletingID}">
                         <td style="width: 300px">
                             <span class="cell-item">

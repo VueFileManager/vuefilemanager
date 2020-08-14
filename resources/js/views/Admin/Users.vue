@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <DatatableWrapper :paginator="true" :columns="columns" :data="users" class="table table-users">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">

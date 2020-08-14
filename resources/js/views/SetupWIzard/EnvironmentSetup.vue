@@ -29,41 +29,38 @@
                     <div class="block-wrapper">
                         <label>Key:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Key" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{'is-error': errors[0]}" />
+                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Secret:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{'is-error': errors[0]}" />
+                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                    <div class="block-wrapper" v-if="storage.driver !== 's3'">
-                        <label>Endpoint URL:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" :rules="{ required: true, regex: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ }" v-slot="{ errors }">
-                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'is-error': errors[0]}" />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            <small class="input-help">
-                                Provide full URIs of your storage endpoint, for example 'https://ams3.digitaloceanspaces.com'.
-                            </small>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Region:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Region" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.region" placeholder="Type your region" type="text" :class="{'is-error': errors[0]}" />
+                            <SelectInput v-model="storage.region" :options="regionList" :key="storage.driver" placeholder="Select your region" :isError="errors[0]"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             <small class="input-help">
-                                Provide your region, for example 'ams3', 'fra1', 'nyc1'...
+                                Select your region where is your bucket/space created.
                             </small>
+                        </ValidationProvider>
+                    </div>
+                    <div class="block-wrapper" v-if="storage.driver !== 's3'">
+                        <label>Endpoint URL:</label>
+                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" rules="required" v-slot="{ errors }">
+                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'is-error': errors[0]}" readonly/>
+                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Bucket:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Bucket" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'is-error': errors[0]}" />
+                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             <small class="input-help">
                                 Provide your created unique bucket name
@@ -89,7 +86,7 @@
                 <div class="block-wrapper">
                     <label>Mail Host:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -97,7 +94,7 @@
                 <div class="block-wrapper">
                     <label>Mail Port:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -105,7 +102,7 @@
                 <div class="block-wrapper">
                     <label>Mail Username:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -113,7 +110,7 @@
                 <div class="block-wrapper">
                     <label>Mail Password:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -136,156 +133,320 @@
 </template>
 
 <script>
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
-    import SelectInput from '@/components/Others/Forms/SelectInput'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
-    import AuthContent from '@/components/Auth/AuthContent'
-    import AuthButton from '@/components/Auth/AuthButton'
-    import { SettingsIcon } from 'vue-feather-icons'
-    import {required} from 'vee-validate/dist/rules'
-    import {mapGetters} from 'vuex'
-    import axios from 'axios'
+import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
+import SelectInput from '@/components/Others/Forms/SelectInput'
+import FormLabel from '@/components/Others/Forms/FormLabel'
+import InfoBox from '@/components/Others/Forms/InfoBox'
+import AuthContent from '@/components/Auth/AuthContent'
+import AuthButton from '@/components/Auth/AuthButton'
+import {SettingsIcon} from 'vue-feather-icons'
+import {required} from 'vee-validate/dist/rules'
+import {mapGetters} from 'vuex'
+import axios from 'axios'
 
-    export default {
-        name: 'EnvironmentSetup',
-        components: {
-            AuthContentWrapper,
-            ValidationProvider,
-            ValidationObserver,
-            SettingsIcon,
-            SelectInput,
-            AuthContent,
-            AuthButton,
-            FormLabel,
-            required,
-            InfoBox,
+export default {
+    name: 'EnvironmentSetup',
+    components: {
+        AuthContentWrapper,
+        ValidationProvider,
+        ValidationObserver,
+        SettingsIcon,
+        SelectInput,
+        AuthContent,
+        AuthButton,
+        FormLabel,
+        required,
+        InfoBox,
+    },
+    watch: {
+        'storage.driver': function () {
+            this.storage.region = ''
         },
-        data() {
-            return {
-                isLoading: false,
-                storageServiceList: [
-                    {
-                        label: 'Local Driver',
-                        value: 'local',
-                    },
-                    {
-                        label: 'Amazon Web Services S3',
-                        value: 's3',
-                    },
-                    {
-                        label: 'Digital Ocean Spaces',
-                        value: 'spaces',
-                    },
-                    {
-                        label: 'Object Cloud Storage by Wasabi',
-                        value: 'wasabi',
-                    },
-                    {
-                        label: 'Backblaze B2 Cloud Storage',
-                        value: 'backblaze',
-                    },
-                ],
-                encryptionList: [
-                    {
-                        label: 'TLS',
-                        value: 'tls',
-                    },
-                    {
-                        label: 'SSL',
-                        value: 'ssl',
-                    },
-                ],
-                mailDriverList: [
-                    {
-                        label: 'smtp',
-                        value: 'smtp',
-                    },
-                    {
-                        label: 'sendmail',
-                        value: 'sendmail',
-                    },
-                    {
-                        label: 'mailgun',
-                        value: 'mailgun',
-                    },
-                    {
-                        label: 'ses',
-                        value: 'ses',
-                    },
-                    {
-                        label: 'postmark',
-                        value: 'postmark',
-                    },
-                    {
-                        label: 'log',
-                        value: 'log',
-                    },
-                    {
-                        label: 'array',
-                        value: 'array',
-                    },
-                ],
-                storage: {
-                    driver: 'local',
-                    key: '',
-                    secret: '',
-                    endpoint: '',
-                    region: '',
-                    bucket: '',
-                },
-                mail: {
-                    driver: 'smtp',
-                    host: '',
-                    port: '',
-                    username: '',
-                    password: '',
-                    encryption: '',
-                }
+        'storage.region': function (val) {
+            if (this.storage.driver === 'spaces')
+                this.storage.endpoint = 'https://' + val + '.digitaloceanspaces.com'
+
+            if (this.storage.driver === 'wasabi')
+                this.storage.endpoint = 'https://s3.' + val + '.wasabisys.com'
+
+            if (this.storage.driver === 'backblaze')
+                this.storage.endpoint = 'https://s3.' + val + '.backblazeb2.com'
+        },
+    },
+    computed: {
+        regionList() {
+            switch (this.storage.driver) {
+                case 's3':
+                    return this.s3Regions
+                    break
+                case 'spaces':
+                    return this.digitalOceanRegions
+                    break
+                case 'wasabi':
+                    return this.wasabiRegions
+                    break
+                case 'backblaze':
+                    return this.backblazeRegions
+                    break
             }
         },
-        methods: {
-            async EnvironmentSetupSubmit() {
-
-                // Validate fields
-                const isValid = await this.$refs.environmentSetup.validate();
-
-                if (!isValid) return;
-
-                // Start loading
-                this.isLoading = true
-
-                // Send request to get verify account
-                axios
-                    .post('/api/setup/environment-setup', {
-                        storage: this.storage,
-                        mail: this.mail,
-                    })
-                    .then(response => {
-
-                        // End loading
-                        this.isLoading = false
-
-                        // Redirect to next step
-                        this.$router.push({name: 'AppSetup'})
-                    })
-                    .catch(error => {
-
-                        // End loading
-                        this.isLoading = false
-                    })
+    },
+    data() {
+        return {
+            isLoading: false,
+            wasabiRegions: [
+                {
+                    label: 'US East 1 (N. Virginia)',
+                    value: 'us-east-1',
+                },
+                {
+                    label: 'US East 2 (N. Virginia)',
+                    value: 'us-east-2',
+                },
+                {
+                    label: 'US West 1 (Oregon)',
+                    value: 'us-west-1',
+                },
+                {
+                    label: 'EU Central 1 (Amsterdam)',
+                    value: 'eu-central-1',
+                },
+            ],
+            backblazeRegions: [
+                {
+                    label: 'us-west-001',
+                    value: 'us-west-001',
+                },
+                {
+                    label: 'us-west-002',
+                    value: 'us-west-002',
+                },
+            ],
+            digitalOceanRegions: [
+                {
+                    label: 'New York',
+                    value: 'nyc3',
+                },
+                {
+                    label: 'San Francisco',
+                    value: 'sfo2',
+                },
+                {
+                    label: 'Amsterdam',
+                    value: 'ams3',
+                },
+                {
+                    label: 'Singapore',
+                    value: 'sgp1',
+                },
+                {
+                    label: 'Frankfurt',
+                    value: 'fra1',
+                },
+            ],
+            s3Regions: [
+                {
+                    label: 'us-east-1',
+                    value: 'us-east-1',
+                },
+                {
+                    label: 'us-east-2',
+                    value: 'us-east-2',
+                },
+                {
+                    label: 'us-west-1',
+                    value: 'us-west-1',
+                },
+                {
+                    label: 'us-west-2',
+                    value: 'us-west-2',
+                },
+                {
+                    label: 'af-south-1',
+                    value: 'af-south-1',
+                },
+                {
+                    label: 'ap-east-1',
+                    value: 'ap-east-1',
+                },
+                {
+                    label: 'ap-south-1',
+                    value: 'ap-south-1',
+                },
+                {
+                    label: 'ap-northeast-2',
+                    value: 'ap-northeast-2',
+                },
+                {
+                    label: 'ap-southeast-1',
+                    value: 'ap-southeast-1',
+                },
+                {
+                    label: 'ap-southeast-2',
+                    value: 'ap-southeast-2',
+                },
+                {
+                    label: 'ap-northeast-1',
+                    value: 'ap-northeast-1',
+                },
+                {
+                    label: 'ca-central-1',
+                    value: 'ca-central-1',
+                },
+                {
+                    label: 'eu-central-1',
+                    value: 'eu-central-1',
+                },
+                {
+                    label: 'eu-west-1',
+                    value: 'eu-west-1',
+                },
+                {
+                    label: 'eu-west-2',
+                    value: 'eu-west-2',
+                },
+                {
+                    label: 'eu-south-1',
+                    value: 'eu-south-1',
+                },
+                {
+                    label: 'eu-west-3',
+                    value: 'eu-west-3',
+                },
+                {
+                    label: 'eu-north-1',
+                    value: 'eu-north-1',
+                },
+                {
+                    label: 'me-south-1',
+                    value: 'me-south-1',
+                },
+                {
+                    label: 'sa-east-1',
+                    value: 'sa-east-1',
+                },
+            ],
+            storageServiceList: [
+                {
+                    label: 'Local Driver',
+                    value: 'local',
+                },
+                {
+                    label: 'Amazon Web Services S3',
+                    value: 's3',
+                },
+                {
+                    label: 'Digital Ocean Spaces',
+                    value: 'spaces',
+                },
+                {
+                    label: 'Object Cloud Storage by Wasabi',
+                    value: 'wasabi',
+                },
+                {
+                    label: 'Backblaze B2 Cloud Storage',
+                    value: 'backblaze',
+                },
+            ],
+            encryptionList: [
+                {
+                    label: 'TLS',
+                    value: 'tls',
+                },
+                {
+                    label: 'SSL',
+                    value: 'ssl',
+                },
+            ],
+            mailDriverList: [
+                {
+                    label: 'smtp',
+                    value: 'smtp',
+                },
+                {
+                    label: 'sendmail',
+                    value: 'sendmail',
+                },
+                {
+                    label: 'mailgun',
+                    value: 'mailgun',
+                },
+                {
+                    label: 'ses',
+                    value: 'ses',
+                },
+                {
+                    label: 'postmark',
+                    value: 'postmark',
+                },
+                {
+                    label: 'log',
+                    value: 'log',
+                },
+                {
+                    label: 'array',
+                    value: 'array',
+                },
+            ],
+            storage: {
+                driver: 'local',
+                key: '',
+                secret: '',
+                endpoint: '',
+                region: '',
+                bucket: '',
             },
-        },
-        created() {
-            this.$scrollTop()
+            mail: {
+                driver: 'smtp',
+                host: '',
+                port: '',
+                username: '',
+                password: '',
+                encryption: '',
+            }
         }
+    },
+    methods: {
+        async EnvironmentSetupSubmit() {
+
+            // Validate fields
+            const isValid = await this.$refs.environmentSetup.validate();
+
+            if (!isValid) return;
+
+            // Start loading
+            this.isLoading = true
+
+            // Send request to get verify account
+            axios
+                .post('/api/setup/environment-setup', {
+                    storage: this.storage,
+                    mail: this.mail,
+                })
+                .then(response => {
+
+                    // End loading
+                    this.isLoading = false
+
+                    // Redirect to next step
+                    this.$router.push({name: 'AppSetup'})
+                })
+                .catch(error => {
+
+                    // End loading
+                    this.isLoading = false
+                })
+        },
+    },
+    created() {
+        this.$scrollTop()
     }
+}
 </script>
 
 <style scoped lang="scss">
-    //@import '@assets/vue-file-manager/_auth-form';
-    @import '@assets/vue-file-manager/_forms';
-    @import '@assets/vue-file-manager/_auth';
-    @import '@assets/vue-file-manager/_setup_wizard';
+@import '@assets/vue-file-manager/_forms';
+@import '@assets/vue-file-manager/_auth';
+@import '@assets/vue-file-manager/_setup_wizard';
 </style>

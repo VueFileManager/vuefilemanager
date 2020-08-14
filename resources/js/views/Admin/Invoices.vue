@@ -8,7 +8,7 @@
 
             <div class="content-page">
                 <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td>
                                 <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">

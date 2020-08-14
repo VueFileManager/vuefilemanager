@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-if="subscribers && subscribers.length > 0">
             <DatatableWrapper :paginator="true" :columns="columns" :data="subscribers" class="table">
-                <template scope="{ row }">
+                <template slot-scope="{ row }">
                     <tr>
                         <td>
                             <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">

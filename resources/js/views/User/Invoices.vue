@@ -3,7 +3,7 @@
         <PageTabGroup v-if="invoices && invoices.length > 0">
             <FormLabel>{{ $t('user_invoices.title') }}</FormLabel>
             <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
-                <template scope="{ row }">
+                <template slot-scope="{ row }">
                     <tr>
                         <td>
                             <a :href="'/invoice/' + row.data.attributes.customer + '/' + row.data.id" target="_blank" class="cell-item">
