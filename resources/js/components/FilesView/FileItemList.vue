@@ -136,6 +136,9 @@ export default {
     isVideo() {
       return this.data.type === "video";
     },
+    isAudio() {
+      return this.data.type === "audio";
+    },
     canEditName() {
       return (
         !this.$isMobile() &&
@@ -229,12 +232,12 @@ export default {
         return;
     },
     goToItem() {
-      if (this.isImage || this.isVideo) {
+      if (this.isImage || this.isVideo || this.isAudio) {
         // this.$openImageOnNewTab(this.data.file_url)
         events.$emit("fileFullPreview:show");
       }
 
-      if (this.isFile && !this.isPdf && !this.isVideo) {
+      if (this.isFile && !this.isPdf && !this.isVideo && !this.isAudio) {
         this.$downloadFile(
           this.data.file_url,
           this.data.name + "." + this.data.mimetype

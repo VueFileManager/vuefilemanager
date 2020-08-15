@@ -3,8 +3,15 @@
     class="file-full-preview-wrapper"
     v-if="showFullPreview"
     id="fileFullPreview"
+    ref="filePreview"
+    tabindex="-1"
+    @keydown.esc="showFullPreview = false"
+    @keydown.right="next"
+    @keydown.left="prev"
   >
+    <FilePreviewNavigationPanel />
     <MediaFullPreview v-if="isMedia" />
+    <FilePreviewActions />
   </div>
 </template>
 
@@ -13,27 +20,58 @@ import { events } from "@/bus";
 import { mapGetters } from "vuex";
 
 import MediaFullPreview from "@/components/FilesView/MediaFullPreview";
+import FilePreviewActions from "@/components/FilesView/FilePreviewActions";
+import FilePreviewNavigationPanel from "@/components/FilesView/FilePreviewNavigationPanel";
 
 export default {
-  components: { MediaFullPreview },
+  components: {
+    MediaFullPreview,
+    FilePreviewNavigationPanel,
+    FilePreviewActions,
+  },
   data() {
     return {
       showFullPreview: false,
     };
   },
+  methods: {
+    next: function () {
+      events.$emit("filePreviewAction:next");
+    },
+    prev: function () {
+      events.$emit("filePreviewAction:prev");
+    },
+  },
+
+  updated() {
+    if (this.showFullPreview) {
+      this.$refs.filePreview.focus();
+    }
+  },
   computed: {
     ...mapGetters(["fileInfoDetail"]),
     isMedia() {
-      return this.fileInfoDetail === "image" || "video";
+      return this.fileInfoDetail === "image" || "video" || "audio";
     },
   },
+
   mounted() {
+    if (this.showFullPreview) {
+      let preview = document.getElementById("file-wrapper-preview");
+      preview.addEventListener("click", this.hideMenu);
+    }
     events.$on("fileFullPreview:show", () => {
       this.showFullPreview = true;
     });
     events.$on("fileFullPreview:hide", () => {
       this.showFullPreview = false;
     });
+  },
+  methods: {
+    hideMenu() {
+      events.$emit("showContextMenuPreview:hide");
+      console.log("aaaa");
+    },
   },
 };
 </script>
