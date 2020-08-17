@@ -222,6 +222,10 @@ export default {
                     label: 'us-west-002',
                     value: 'us-west-002',
                 },
+                {
+                    label: 'eu-central-003',
+                    value: 'eu-central-003',
+                },
             ],
             digitalOceanRegions: [
                 {
