@@ -202,7 +202,7 @@ class StripeService
             $product = $this->stripe->products()->find($plan['product']);
 
             // Push data to $plan container
-            if ($product['active']) {
+            if ($product['active'] && isset($product['metadata']['capacity'])) {
                 array_push($plans, [
                     'plan'    => $plan,
                     'product' => $product,
@@ -234,7 +234,7 @@ class StripeService
                 $product = $this->stripe->products()->find($plan['product']);
 
                 // Push data to $plan container
-                if ($product['active']) {
+                if ($product['active'] && isset($product['metadata']['capacity'])) {
                     array_push($plans, [
                         'plan'    => $plan,
                         'product' => $product,
