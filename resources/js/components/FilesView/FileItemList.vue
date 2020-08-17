@@ -137,7 +137,10 @@ export default {
       return this.data.type === "video";
     },
     isAudio() {
-      return this.data.type === "audio";
+      return (
+        // this.data.type === "audio" &&
+        this.data.mimetype === "mp3" || "wan" || "mpeg"
+      );
     },
     canEditName() {
       return (

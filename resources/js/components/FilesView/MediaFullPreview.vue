@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import { events } from "@/bus";
-import { mapGetters } from "vuex";
-import ToolbarButton from "@/components/FilesView/ToolbarButton";
-import Spinner from "@/components/FilesView/Spinner";
+import { events } from '@/bus';
+import { mapGetters } from 'vuex';
+import ToolbarButton from '@/components/FilesView/ToolbarButton';
+import Spinner from '@/components/FilesView/Spinner';
 
 export default {
   components: { ToolbarButton, Spinner },
@@ -48,14 +48,14 @@ export default {
       currentIndex: 1,
       sliderFile: [],
       loaded: false,
-      sizeWidth: "",
-      sizeHeight: "",
+      sizeWidth: '',
+      sizeHeight: '',
     };
   },
   computed: {
-    ...mapGetters(["fileInfoDetail", "data"]),
+    ...mapGetters(['fileInfoDetail', 'data']),
 
-    currentFile: function () {
+    currentFile: function() {
       return this.sliderFile[
         Math.abs(this.currentIndex) % this.sliderFile.length
       ];
@@ -63,22 +63,22 @@ export default {
 
     canShareInView() {
       return !this.$isThisLocation([
-        "base",
-        "participant_uploads",
-        "latest",
-        "shared",
-        "public",
+        'base',
+        'participant_uploads',
+        'latest',
+        'shared',
+        'public',
       ]);
     },
   },
   mounted() {
-    events.$on("filePreviewAction:next", () => {
+    events.$on('filePreviewAction:next', () => {
       this.currentIndex += 1;
       if (this.currentIndex > this.sliderFile.length - 1) {
         this.currentIndex = 0;
       }
     });
-    events.$on("filePreviewAction:prev", () => {
+    events.$on('filePreviewAction:prev', () => {
       this.currentIndex -= 1;
       if (this.currentIndex < 0) {
         this.currentIndex = this.sliderFile.length - 1;
@@ -92,17 +92,17 @@ export default {
   watch: {
     currentFile() {
       //HANDLE ACUTAL VIEW IMAGE IN FIELINFODETAIL
-      this.$store.commit("GET_FILEINFO_DETAIL", this.currentFile);
-      events.$emit("actualShowingImage:ContextMenu", this.currentFile);
+      this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile);
+      events.$emit('actualShowingImage:ContextMenu', this.currentFile);
     },
     fileInfoDetail() {
       //FILE DELETE HANDLING
       if (!this.fileInfoDetail) {
         if (this.data.length == 0) {
-          events.$emit("fileFullPreview:hide");
+          events.$emit('fileFullPreview:hide');
         } else {
           this.currentIndex = this.currentIndex - 1;
-          this.$store.commit("GET_FILEINFO_DETAIL", this.currentFile);
+          this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile);
           this.sliderFile = [];
           this.filteredFiles();
         }
@@ -119,15 +119,15 @@ export default {
   methods: {
     imageSizing() {
       if (this.$isMobile()) {
-        this.sizeWidth = "100%";
-        this.sizeHeight = "auto";
+        this.sizeWidth = '100%';
+        this.sizeHeight = 'auto';
       } else {
-        this.sizeWidth = "auto";
-        this.sizeHeight = "100%";
+        this.sizeWidth = 'auto';
+        this.sizeHeight = '100%';
       }
     },
     closeFullPreview() {
-      events.$emit("fileFullPreview:hide");
+      events.$emit('fileFullPreview:hide');
     },
 
     filteredFiles() {
@@ -153,11 +153,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
 
 .media-full-preview {
-  height: 93%;
+  height: 93.1%;
   position: relative;
 }
 

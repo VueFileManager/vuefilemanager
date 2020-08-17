@@ -5,7 +5,7 @@
     id="fileFullPreview"
     ref="filePreview"
     tabindex="-1"
-    @keydown.esc="showFullPreview = false"
+    @keydown.esc="(showFullPreview = false), hideMenu()"
     @keydown.right="next"
     @keydown.left="prev"
   >
@@ -41,6 +41,9 @@ export default {
     prev: function () {
       events.$emit("filePreviewAction:prev");
     },
+    hideMenu() {
+      events.$emit("showContextMenuPreview:show");
+    },
   },
 
   updated() {
@@ -66,12 +69,6 @@ export default {
     events.$on("fileFullPreview:hide", () => {
       this.showFullPreview = false;
     });
-  },
-  methods: {
-    hideMenu() {
-      events.$emit("showContextMenuPreview:hide");
-      console.log("aaaa");
-    },
   },
 };
 </script>

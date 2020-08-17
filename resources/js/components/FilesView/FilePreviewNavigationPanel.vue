@@ -9,10 +9,10 @@
         <span class="file-count">
           ({{
             showImageIndex +
-            " " +
-            $t("pronouns.of") +
-            " " +
-            filteredFiles.length
+              ' ' +
+              $t('pronouns.of') +
+              ' ' +
+              filteredFiles.length
           }})
         </span>
       </div>
@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import { events } from "@/bus";
-import { mapGetters } from "vuex";
-import { XIcon, MoreHorizontalIcon } from "vue-feather-icons";
+import { events } from '@/bus';
+import { mapGetters } from 'vuex';
+import { XIcon, MoreHorizontalIcon } from 'vue-feather-icons';
 
-import ToolbarButton from "@/components/FilesView/ToolbarButton";
+import ToolbarButton from '@/components/FilesView/ToolbarButton';
 
 export default {
   components: { ToolbarButton, XIcon, MoreHorizontalIcon },
@@ -71,7 +71,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["fileInfoDetail", "data"]),
+    ...mapGetters(['fileInfoDetail', 'data']),
     filteredFiles() {
       let files = [];
       this.data.filter((element) => {
@@ -83,7 +83,7 @@ export default {
       return files;
     },
     showImageIndex() {
-      let activeIndex = "";
+      let activeIndex = '';
       this.filteredFiles.filter((element, index) => {
         if (element.unique_id == this.fileInfoDetail.unique_id) {
           activeIndex = index + 1;
@@ -94,8 +94,8 @@ export default {
 
     formatedName() {
       let name = this.fileInfoDetail.name;
-      if (name.lastIndexOf(".") > -1) {
-        return _.truncate(name.substring(0, name.lastIndexOf(".")), {
+      if (name.lastIndexOf('.') > -1) {
+        return _.truncate(name.substring(0, name.lastIndexOf('.')), {
           length: 20,
         });
       } else {
@@ -106,19 +106,19 @@ export default {
     },
     canShareInView() {
       return !this.$isThisLocation([
-        "base",
-        "participant_uploads",
-        "latest",
-        "shared",
-        "public",
+        'base',
+        'participant_uploads',
+        'latest',
+        'shared',
+        'public',
       ]);
     },
   },
 
   methods: {
     printMethod() {
-      var tab = document.getElementById("image");
-      var win = window.open("", "", "height=700,width=700");
+      var tab = document.getElementById('image');
+      var win = window.open('', '', 'height=700,width=700');
       win.document.write(tab.outerHTML);
       win.document.close();
       win.print();
@@ -127,47 +127,50 @@ export default {
       // Download file
       this.$downloadFile(
         this.fileInfoDetail.file_url,
-        this.fileInfoDetail.name + "." + this.fileInfoDetail.mimetype
+        this.fileInfoDetail.name + '.' + this.fileInfoDetail.mimetype
       );
     },
     shareItem() {
       if (this.fileInfoDetail.shared) {
-        events.$emit("popup:open", {
-          name: "share-edit",
+        events.$emit('popup:open', {
+          name: 'share-edit',
           item: this.fileInfoDetail,
         });
       } else {
-        events.$emit("popup:open", {
-          name: "share-create",
+        events.$emit('popup:open', {
+          name: 'share-create',
           item: this.fileInfoDetail,
         });
       }
     },
     menuOpen() {
       if (this.$isMobile()) {
-        events.$emit("mobileMenu:show", "showFromMediaPreview");
+        events.$emit('mobileMenu:show', 'showFromMediaPreview');
       } else {
-        events.$emit("showContextMenuPreview:show", this.fileInfoDetail);
+        events.$emit('showContextMenuPreview:show', this.fileInfoDetail);
       }
     },
     closeFullPreview() {
-      events.$emit("fileFullPreview:hide");
-      events.$emit("showContextMenuPreview:hide");
+      events.$emit('fileFullPreview:hide');
+      events.$emit('showContextMenuPreview:hide');
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
 
 .name-wrapper {
   width: 33%;
   height: 22px;
   display: flex;
   position: relative;
-  align-items: center;
+  // align-items: center;
+  flex-grow: 1;
+  align-self: center;
+  white-space: nowrap;
   .name-count-wrapper {
     display: flex;
     .file-count {
@@ -179,6 +182,7 @@ export default {
       text-overflow: ellipsis;
       display: inline-block;
       vertical-align: middle;
+      align-self: center;
       color: $text;
     }
     .title {
@@ -189,6 +193,7 @@ export default {
       text-overflow: ellipsis;
       display: inline-block;
       vertical-align: middle;
+      align-self: center;
       color: $text;
     }
   }
@@ -197,6 +202,7 @@ export default {
     cursor: pointer;
     margin-right: 6px;
     color: $text;
+    align-self: center;
     @include transition(150ms);
   }
   .fast-menu-icon {
@@ -288,25 +294,20 @@ export default {
   }
 }
 .navigation-panel {
-  height: 6.7%;
-  min-height: 63px;
+  height: 6.9%;
   padding: 10px 15px;
   display: flex;
   position: relative;
+  align-items: center;
   background-color: $light-background;
   color: $text;
-  > div {
-    flex-grow: 1;
-    align-self: center;
-    white-space: nowrap;
-  }
 }
 @media (prefers-color-scheme: dark) {
   .navigation-panel {
     background-color: $dark_mode_foreground;
-    color: $light-text;
+    color: $dark_mode_text_primary;
     .icon-close {
-      color: $light-text;
+      color: $dark_mode_text_primary;
     }
     .fast-menu-icon:hover {
       background: $dark_mode_background;
@@ -315,7 +316,7 @@ export default {
   .name-wrapper {
     .title,
     .file-count {
-      color: $light-text !important;
+      color: $dark_mode_text_primary !important;
     }
   }
   .navigation-icons {

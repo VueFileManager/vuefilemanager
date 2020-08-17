@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import { events } from "@/bus";
-import { ChevronLeftIcon, ChevronRightIcon } from "vue-feather-icons";
+import { events } from '@/bus';
+import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
 
 export default {
   components: {
@@ -25,18 +25,18 @@ export default {
   },
 
   methods: {
-    next: function () {
-      events.$emit("filePreviewAction:next");
+    next: function() {
+      events.$emit('filePreviewAction:next');
     },
-    prev: function () {
-      events.$emit("filePreviewAction:prev");
+    prev: function() {
+      events.$emit('filePreviewAction:prev');
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vue-file-manager/_variables";
+@import '@assets/vue-file-manager/_variables';
 
 .icon-wrapper {
   width: 40px;
@@ -47,10 +47,10 @@ export default {
 .next {
   cursor: pointer;
   position: absolute;
-  top: 50%;
+  top: 49.5%;
   display: flex;
   justify-content: center;
-  background-color: white;
+  background-color: white !important;
   color: $text;
   border-radius: 50%;
   text-decoration: none;
@@ -67,7 +67,7 @@ export default {
   .prev,
   .next {
     color: $light-text;
-    background-color: $dark_mode_background;
+    background-color: $dark_mode_background !important;
   }
 }
 </style>
