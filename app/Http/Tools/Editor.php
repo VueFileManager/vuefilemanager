@@ -251,7 +251,7 @@ class Editor
         $temp_filename = $file->getClientOriginalName();
 
         // Generate file
-        File::append(storage_path() . '/app/chunks/' . $temp_filename, $file->get());
+        File::append(config('filesystems.disks.local.root') . '/chunks/' . $temp_filename, $file->get());
 
         // If last then process file
         if ($request->boolean('is_last')) {
@@ -367,7 +367,7 @@ class Editor
                 $client = $adapter->getClient();
 
                 // Prepare the upload parameters.
-                $uploader = new MultipartUploader($client, storage_path() . '/app/file-manager/' . $file, [
+                $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/file-manager/' . $file, [
                     'bucket' => $adapter->getBucket(),
                     'key'    => 'file-manager/' . $file
                 ]);
@@ -391,7 +391,7 @@ class Editor
             } else {
 
                 // Stream file object to s3
-                Storage::putFileAs('file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
+                Storage::putFileAs('file-manager', config('filesystems.disks.local.root') . '/file-manager/' . $file, $file, 'private');
             }
 
             // Delete file after upload
@@ -439,7 +439,7 @@ class Editor
             $thumbnail = 'thumbnail-' . $filename;
 
             // Create intervention image
-            $image = Image::make(storage_path() . '/app/' . $file_path)->orientate();
+            $image = Image::make(config('filesystems.disks.local.root') . '/' . $file_path)->orientate();
 
             // Resize image
             $image->resize(512, null, function ($constraint) {
