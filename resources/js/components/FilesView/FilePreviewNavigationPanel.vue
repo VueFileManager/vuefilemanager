@@ -152,7 +152,7 @@ export default {
     },
     closeFullPreview() {
       events.$emit('fileFullPreview:hide');
-      events.$emit('showContextMenuPreview:hide');
+      events.$emit('showContextMenuPreview:show');
     },
   },
 };

@@ -528,12 +528,23 @@ export default {
       }
     },
   },
+  updated () {
+     if(this.showFromPreview) {
+      let filePreview = document.getElementById('mediaPreview')
+      filePreview.addEventListener('click' , () => {
+         this.showFromPreview = false;
+        this.item = undefined;
+      })
+    }
+  },
   mounted() {
     events.$on("actualShowingImage:ContextMenu", (item) => {
       this.item = item;
     });
   },
   created() {
+   
+
     events.$on("showContextMenuPreview:show", (item) => {
       if (!this.showFromPreview) {
         this.item = item;

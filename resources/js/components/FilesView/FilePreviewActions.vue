@@ -31,6 +31,7 @@ export default {
     prev: function() {
       events.$emit('filePreviewAction:prev');
     },
+  
   },
 };
 </script>
@@ -47,7 +48,7 @@ export default {
 .next {
   cursor: pointer;
   position: absolute;
-  top: 49.5%;
+  top: 52%;
   display: flex;
   justify-content: center;
   background-color: white !important;

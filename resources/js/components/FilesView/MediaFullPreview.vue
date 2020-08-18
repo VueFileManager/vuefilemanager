@@ -1,11 +1,11 @@
 <template>
-  <div class="media-full-preview" @keydown.esc="closeFullPreview">
-    <div class="file-wrapper-preview" v-for="i in [currentIndex]" :key="i">
-      <div class="file-wrapper">
+  <div class="media-full-preview"  id="mediaPreview">
+    <div class="file-wrapper-preview" v-for="i in [currentIndex]" :key="i" >
+      <div class="file-wrapper" >
         <audio
           class="file"
           v-if="fileInfoDetail.type == 'audio'"
-          :src="fileInfoDetail.file_url"
+          :src="currentFile.file_url"
           controlsList="nodownload"
           controls
         ></audio>
@@ -15,9 +15,7 @@
           class="file"
           id="image"
           :src="currentFile.file_url"
-          :style="{ width: sizeWidth, height: sizeHeight }"
           v-on:load="onLoaded"
-          v-show="loaded"
         />
         <video
           v-if="fileInfoDetail.type === 'video' && currentFile.file_url"
@@ -74,11 +72,13 @@ export default {
   mounted() {
     events.$on('filePreviewAction:next', () => {
       this.currentIndex += 1;
+      this.slideType = 'next'
       if (this.currentIndex > this.sliderFile.length - 1) {
         this.currentIndex = 0;
       }
     });
     events.$on('filePreviewAction:prev', () => {
+      this.slideType = 'prev'
       this.currentIndex -= 1;
       if (this.currentIndex < 0) {
         this.currentIndex = this.sliderFile.length - 1;
@@ -129,6 +129,7 @@ export default {
     closeFullPreview() {
       events.$emit('fileFullPreview:hide');
     },
+
 
     filteredFiles() {
       this.data.filter((element) => {
@@ -196,10 +197,12 @@ export default {
     .file {
       max-width: 100%;
       max-height: 100%;
-      margin: auto;
+      align-self: center;
     }
   }
 }
+
+
 
 @media (prefers-color-scheme: dark) {
   .file-wrapper-preview {
