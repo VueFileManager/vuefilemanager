@@ -710,7 +710,9 @@
 
                 // Send request to get verify account
                 axios
-                    .put('/api/settings/stripe', this.stripeCredentials)
+                    .post('/api/settings/stripe', this.stripeCredentials, {
+                        _method: 'put'
+                    })
                     .then(() => {
 
                         // End loading

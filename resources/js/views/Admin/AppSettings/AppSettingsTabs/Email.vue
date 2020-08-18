@@ -135,7 +135,9 @@
 
                 // Send request to get verify account
                 axios
-                    .put('/api/settings/email', this.mail)
+                    .post('/api/settings/email', this.mail, {
+                        _method: 'put'
+                    })
                     .then(() => {
 
                         events.$emit('toaster', {

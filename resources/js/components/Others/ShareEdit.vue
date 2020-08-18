@@ -142,7 +142,9 @@
 
                     // Send delete request
                     axios
-                        .delete('/api/share/' + this.pickedItem.shared.token)
+                        .post('/api/share/' + this.pickedItem.shared.token, {
+                            _method: 'delete'
+                        })
                         .then(() => {
                             // Remove item from file browser
                             if ( this.isSharedLocation ) {
@@ -182,10 +184,11 @@
 
                 // Send request to get share link
                 axios
-                    .patch('/api/share/' + this.shareOptions.token, {
+                    .post('/api/share/' + this.shareOptions.token, {
                         permission: this.shareOptions.permission,
                         protected: this.shareOptions.isProtected,
                         password: this.shareOptions.password ? this.shareOptions.password : undefined,
+                        _method: 'patch'
                     })
                     .then(response => {
 

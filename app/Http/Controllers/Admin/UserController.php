@@ -227,7 +227,7 @@ class UserController extends Controller
         }
 
         // Validate user name
-        if ($user->name !== $request->name) abort(403);
+        if ($user->name !== $request->input('data.name')) abort(403);
 
         $shares = Share::where('user_id', $user->id)->get();
 

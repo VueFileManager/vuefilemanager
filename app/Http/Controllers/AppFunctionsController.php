@@ -59,7 +59,7 @@ class AppFunctionsController extends Controller
             $users_table = Schema::hasTable('users');
 
             // If settings table don't exist, then run migrations
-            if ($users_table && ! $settings_table) {
+            if ($users_table && !$settings_table) {
                 Artisan::call('migrate', [
                     '--force' => true
                 ]);
@@ -71,7 +71,7 @@ class AppFunctionsController extends Controller
             // Get connection string
             if ($upgraded && $upgraded->value !== '1.7') {
                 $connection = 'quiet-update';
-            } else if (! $upgraded) {
+            } else if (!$upgraded) {
                 $connection = 'quiet-update';
             } else {
                 $connection = $this->get_setup_status();
@@ -163,5 +163,15 @@ class AppFunctionsController extends Controller
         if (!in_array($column, $this->whitelist)) abort(401);
 
         return Setting::where('name', $column)->pluck('value', 'name');
+    }
+
+    /**
+     * Clear application cache
+     */
+    public function flush_cache()
+    {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('config:cache');
     }
 }

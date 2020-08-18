@@ -57,7 +57,9 @@
                     </div>
                 </div>
 
-                <FormLabel class="mt-70">{{ $t('admin_settings.others.section_others') }}</FormLabel>
+                <FormLabel class="mt-70">
+                    {{ $t('admin_settings.others.section_others') }}
+                </FormLabel>
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.contact_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email"
@@ -77,6 +79,16 @@
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
+
+                <FormLabel class="mt-70">
+                    Application Cache
+                </FormLabel>
+                <InfoBox>
+                    Did you change anything in your .env file or change your stripe credentials? Then clear your cache.
+                </InfoBox>
+                <ButtonBase @click.native="flushCache" type="submit" button-style="theme" class="submit-button">
+                    Clear Cache
+                </ButtonBase>
             </div>
         </PageTabGroup>
     </PageTab>
@@ -95,6 +107,7 @@
     import PageTab from '@/components/Others/Layout/PageTab'
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
+    import {events} from '@/bus'
     import axios from 'axios'
 
     export default {
@@ -124,6 +137,17 @@
                     userRegistration: 1,
                     storageLimitation: 1,
                 },
+            }
+        },
+        methods: {
+            flushCache() {
+                axios.get('/api/flush-cache')
+                    .then(() => {
+                        events.$emit('toaster', {
+                            type: 'success',
+                            message: 'Your cache was successfully deleted.',
+                        })
+                    })
             }
         },
         mounted() {

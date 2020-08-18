@@ -11,7 +11,7 @@ const Helpers = {
 
             if (value === '') return
 
-            axios.patch(this.$store.getters.api + route, {name, value})
+            axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
                 .catch(error => {
                     events.$emit('alert:open', {
                         title: this.$t('popup_error.title'),

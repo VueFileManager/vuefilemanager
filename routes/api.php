@@ -167,6 +167,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::put('/settings/stripe', 'SettingController@set_stripe');
     Route::patch('/settings', 'SettingController@update');
     Route::get('/settings', 'SettingController@show');
+    Route::get('/flush-cache', 'AppFunctionsController@flush_cache');
 });
 
 // Protected sharing routes for authenticated user

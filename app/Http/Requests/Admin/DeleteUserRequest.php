@@ -24,7 +24,7 @@ class DeleteUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'data.name' => 'required|string|max:255',
         ];
     }
 }

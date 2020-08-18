@@ -36,11 +36,12 @@ class Editor
         $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
         $name = $request->has('name') ? $request->input('name') : 'New Folder';
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+        $unique_id = get_unique_id();
 
         // Create folder
         $folder = FileManagerFolder::create([
             'parent_id'  => $request->parent_id,
-            'unique_id'  => get_unique_id(),
+            'unique_id'  => $unique_id,
             'user_scope' => $user_scope,
             'user_id'    => $user_id,
             'type'       => 'folder',
@@ -257,6 +258,7 @@ class Editor
         if ($request->boolean('is_last')) {
 
             $disk_local = Storage::disk('local');
+            $unique_id = get_unique_id();
 
             // Get user data
             $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
@@ -275,20 +277,6 @@ class Editor
             // Move finished file from chunk to file-manager directory
             $disk_local->move('chunks/' . $temp_filename, 'file-manager/' . $disk_file_name);
 
-            // Store file
-            $options = [
-                'mimetype'   => get_file_type_from_mimetype($file_mimetype),
-                'type'       => get_file_type($file_mimetype),
-                'folder_id'  => $request->parent_id,
-                'name'       => $user_file_name,
-                'unique_id'  => get_unique_id(),
-                'basename'   => $disk_file_name,
-                'user_scope' => $user_scope,
-                'thumbnail'  => $thumbnail,
-                'filesize'   => $file_size,
-                'user_id'    => $user_id,
-            ];
-
             // Move files to external storage
             if (!is_storage_driver(['local'])) {
 
@@ -298,6 +286,20 @@ class Editor
                 // Move file to external storage service
                 self::move_to_external_storage($disk_file_name, $thumbnail);
             }
+
+            // Store file
+            $options = [
+                'mimetype'   => get_file_type_from_mimetype($file_mimetype),
+                'type'       => get_file_type($file_mimetype),
+                'folder_id'  => $request->parent_id,
+                'name'       => $user_file_name,
+                'unique_id'  => $unique_id,
+                'basename'   => $disk_file_name,
+                'user_scope' => $user_scope,
+                'thumbnail'  => $thumbnail,
+                'filesize'   => $file_size,
+                'user_id'    => $user_id,
+            ];
 
             // Return new file
             return FileManagerFile::create($options);

@@ -188,10 +188,11 @@
 
                 // Send request to get user reset link
                 axios
-                    .patch(this.$store.getters.api + '/users/' + this.$route.params.id + '/role', {
+                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/role', {
                         attributes: {
                             role: this.userRole,
-                        }
+                        },
+                        _method: 'patch'
                     })
                     .then(() => {
 

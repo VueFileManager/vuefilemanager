@@ -13,9 +13,10 @@ const actions = {
             : '/api/move/' + item_from.unique_id
 
         axios
-            .patch(route, {
+            .post(route, {
                 from_type: item_from.type,
-                to_unique_id: to_item.unique_id
+                to_unique_id: to_item.unique_id,
+                _method: 'patch'
             })
             .then(() => {
                 commit('REMOVE_ITEM', item_from.unique_id)
@@ -62,9 +63,10 @@ const actions = {
             : '/api/rename-item/' + data.unique_id
 
         axios
-            .patch(route, {
+            .post(route, {
                 name: data.name,
                 type: data.type,
+                _method: 'patch'
             })
             .then(response => {
                 commit('CHANGE_ITEM_NAME', response.data)
@@ -155,9 +157,10 @@ const actions = {
         commit('CLEAR_FILEINFO_DETAIL')
 
         axios
-            .patch(getters.api + '/restore-item/' + item.unique_id, {
+            .post(getters.api + '/restore-item/' + item.unique_id, {
                 type: item.type,
                 to_home: restoreToHome,
+                _method: 'patch'
             })
             .catch(() => isSomethingWrong())
     },
@@ -182,11 +185,12 @@ const actions = {
             : '/api/remove-item/' + data.unique_id
 
         axios
-            .delete(route, {
+            .post(route, {
+                _method: 'delete',
                 data: {
                     type: data.type,
-                    force_delete: data.deleted_at ? true : false
-                }
+                    force_delete: data.deleted_at ? true : false,
+                },
             })
             .then(() => {
 
@@ -214,7 +218,9 @@ const actions = {
         commit('LOADING_STATE', {loading: true, data: []})
 
         axios
-            .delete(getters.api + '/empty-trash')
+            .post(getters.api + '/empty-trash', {
+                _method: 'delete'
+            })
             .then(() => {
                 commit('LOADING_STATE', {loading: false, data: []})
                 events.$emit('scrollTop')

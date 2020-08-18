@@ -193,7 +193,9 @@
 
                     this.deletingID = data.id
 
-                    axios.delete('/api/user/payment-cards/' + data.id)
+                    axios.post('/api/user/payment-cards/' + data.id, {
+                        _method: 'delete'
+                    })
                         .then(() => {
 
                             // Get payments card
@@ -215,8 +217,9 @@
 
                 if (data.operation === 'set-as-default-credit-card') {
 
-                    axios.patch('/api/user/payment-cards/' + data.id, {
-                        default: 1
+                    axios.post('/api/user/payment-cards/' + data.id, {
+                        default: 1,
+                        _method: 'patch'
                     })
                         .then(() => {
 

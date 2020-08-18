@@ -66,7 +66,9 @@ const actions = {
         context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .delete(context.getters.api + '/folders/favourites/' + folder.unique_id)
+            .post(context.getters.api + '/folders/favourites/' + folder.unique_id, {
+                _method: 'delete'
+            })
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {
