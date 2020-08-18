@@ -208,6 +208,9 @@
 			"username_plac": "输入您的邮件用户名"
 		},
 		"others": {
+			"section_cache": "Application Cache",
+			"cache_disclaimer": "Did you change anything in your .env file or change your stripe credentials? Then clear your cache.",
+			"cache_clear": "Clear Cache",
 			"allow_registration": "允许用户注册",
 			"allow_registration_help": "您可以为新用户禁用公共注册。您仍然可以在管理面板中 <br/>创建新用户。",
 			"contact_email": "联系电子邮件",

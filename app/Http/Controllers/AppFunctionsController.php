@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Content;
 use App\Http\Requests\PublicPages\SendMessageRequest;
 use App\Http\Resources\PageResource;
+use App\Http\Tools\Demo;
 use App\Mail\SendSupportForm;
 use App\Page;
 use App\Setting;
@@ -170,6 +171,11 @@ class AppFunctionsController extends Controller
      */
     public function flush_cache()
     {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         Artisan::call('config:cache');

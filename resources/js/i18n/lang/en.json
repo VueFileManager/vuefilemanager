@@ -208,6 +208,9 @@
 			"username_plac": "Type your mail username"
 		},
 		"others": {
+			"section_cache": "Application Cache",
+			"cache_disclaimer": "Did you change anything in your .env file or change your Stripe credentials? Then clear your cache.",
+			"cache_clear": "Clear Cache",
 			"allow_registration": "Allow User Registration",
 			"allow_registration_help": "You can disable public registration for new users. You will still able to <br/>create new users in administration panel.",
 			"contact_email": "Contact Email",

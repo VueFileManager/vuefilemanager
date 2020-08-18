@@ -81,13 +81,13 @@
                 </div>
 
                 <FormLabel class="mt-70">
-                    Application Cache
+                    {{ $t('admin_settings.others.section_cache') }}
                 </FormLabel>
                 <InfoBox>
-                    Did you change anything in your .env file or change your stripe credentials? Then clear your cache.
+                    {{ $t('admin_settings.others.cache_disclaimer') }}
                 </InfoBox>
-                <ButtonBase @click.native="flushCache" type="submit" button-style="theme" class="submit-button">
-                    Clear Cache
+                <ButtonBase @click.native="flushCache" :loading="isFlushingCache" :disabled="isFlushingCache" type="submit" button-style="theme" class="submit-button">
+                    {{ $t('admin_settings.others.cache_clear') }}
                 </ButtonBase>
             </div>
         </PageTabGroup>
@@ -130,6 +130,7 @@
         data() {
             return {
                 isLoading: true,
+                isFlushingCache: false,
                 app: {
                     contactMail: '',
                     googleAnalytics: '',
@@ -141,12 +142,18 @@
         },
         methods: {
             flushCache() {
+
+                this.isFlushingCache = true
+
                 axios.get('/api/flush-cache')
                     .then(() => {
                         events.$emit('toaster', {
                             type: 'success',
                             message: 'Your cache was successfully deleted.',
                         })
+                    })
+                    .finally(() => {
+                        this.isFlushingCache = false
                     })
             }
         },

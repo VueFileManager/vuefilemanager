@@ -208,6 +208,9 @@
 			"username_plac": "Zadajte svoje používateľské meno pre poštu"
 		},
 		"others": {
+			"section_cache": "Aplikačná pamäť",
+			"cache_disclaimer": "Zmenili ste niečo v .env súbore alebo ste zmenili Stripe poverenia? Vymažte aplikačnú pamäť.",
+			"cache_clear": "Vymazať aplikačnú pamäť",
 			"allow_registration": "Povoliť registráciu používateľov",
 			"allow_registration_help": "Môžete zakázať verejnú registráciu nových používateľov. V administračnom paneli stále budete môcť <br/>vytvárať nových používateľov.",
 			"contact_email": "Kontaktný email",

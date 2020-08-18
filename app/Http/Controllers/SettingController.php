@@ -91,6 +91,7 @@ class SettingController extends Controller
 
         // Clear config cache
         Artisan::call('config:clear');
+        Artisan::call('config:cache');
 
         return response('Done', 204);
     }

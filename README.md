@@ -4,10 +4,11 @@
 ## Supporting VueFileManager
 Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
 
-But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks!
+But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks you for participating on this awesome software!
 
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/vuefilemanager)
+- [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
 - [One-time donation via PayPal](https://www.paypal.me/peterpapp)
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/vuefilemanager)
 - [Purchase Licence on CodeCanyon](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986)
 
 ## Contents
@@ -20,7 +21,8 @@ But, it can't be done without you, development is more and more complicated and 
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
     - [Recover Failed Installation](#installation-failed)
-    - [Update VueFileManager from 1.6.x to 1.7 ](#update-vuefilemanager-from-16x-to-17)
+    - [Regular Update](#regular-update)
+    - [Update from 1.6.x to 1.7 ](#update-from-16x-to-17)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
@@ -69,7 +71,9 @@ But, it can't be done without you, development is more and more complicated and 
 Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
 #### 2. Configure your web root folder
-Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory.
+Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory. 
+
+Please don't try go to `yourdomain.com/public` URL address, you will have issue to verify your purchase code, this is not correct domain root setup, you must do this in your webhosting settings panel.
 
 ![Domain Root](https://vuefilemanager.com/assets/images/domain-root.jpg)
 
@@ -183,6 +187,15 @@ What to do when installation fail and you can't continue, at first, try to fix i
 At worst scenarios, to reset Setup Wizard, delete all tables in your previously created database, delete content of `/storage/framework/cache`. Then replace content in your `.env` file from `.env.example` file. 
 
 After these steps, installation will be reseted.
+
+## Regular Update
+- `Don't forget create backup of your database and storage before make any changes in your production application.`
+- `If you serve your files in local storage driver pay attention and don't delete your /storage folder`
+
+Follow this steps:
+- Make a backup of the .env config file located on your server.
+- Upload and replace all the files on your server with what's inside the app folder.
+- Restore your `.env` config file on your server.
 
 ## Update VueFileManager from 1.6.x to 1.7
 `Don't forget create backup of your database and storage before make any changes in your production application.`
@@ -340,5 +353,6 @@ The following support channels are available at your fingertips:
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this project, please send an e-mail to [peterpapp@makingcg.com](peterpapp@makingcg.com). All security vulnerabilities will be promptly addressed.
+
 
 
