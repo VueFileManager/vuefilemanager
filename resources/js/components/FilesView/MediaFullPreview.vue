@@ -87,6 +87,12 @@ export default {
     this.filteredFiles();
   },
   watch: {
+    sliderFile() {
+      if(this.sliderFile.length == 0 ) {
+          events.$emit('fileFullPreview:hide');
+
+      }
+    },
     currentFile() {
       //HANDLE ACUTAL VIEW IMAGE IN FIELINFODETAIL
       if(this.fileInfoDetail) {
@@ -202,8 +208,10 @@ export default {
       border-radius: 28px;
     }
     .video {
+      max-height: 100%;
       max-width: 1072px;
-      height: auto;
+      box-shadow: 0 8px 40px rgba($text, 0.3);
+
       @media (min-width: 1920px) {
         & {
           max-width: 1080px;

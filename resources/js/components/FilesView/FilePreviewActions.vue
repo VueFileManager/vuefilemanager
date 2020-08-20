@@ -62,7 +62,7 @@ export default {
 .next {
   cursor: pointer;
   position: absolute;
-  top: 52%;
+  top: 53.5%;
   display: flex;
   justify-content: center;
   background-color: white !important;
