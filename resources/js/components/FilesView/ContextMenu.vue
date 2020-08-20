@@ -520,6 +520,7 @@ export default {
         this.positionY = container.offsetTop + 51;
       }
     },
+
   },
   watch: {
     item(newValue, oldValue) {
@@ -528,33 +529,32 @@ export default {
       }
     },
   },
-  updated () {
-     if(this.showFromPreview) {
-      let filePreview = document.getElementById('mediaPreview')
-      filePreview.addEventListener('click' , () => {
-         this.showFromPreview = false;
-        this.item = undefined;
-      })
-    }
-  },
+ 
   mounted() {
     events.$on("actualShowingImage:ContextMenu", (item) => {
       this.item = item;
     });
   },
   created() {
-   
-
     events.$on("showContextMenuPreview:show", (item) => {
       if (!this.showFromPreview) {
         this.item = item;
-        this.showFromPreview = !this.showFromPreview;
+        this.showFromPreview = true;
         this.showFilePreviewMenu();
       } else if (this.showFromPreview) {
         this.showFromPreview = false;
         this.item = undefined;
       }
     });
+
+    events.$on('showContextMenuPreview:hide', () => {
+
+      this.showFromPreview = false;
+       this.item = undefined;
+   
+    }) 
+   
+
     events.$on("contextMenu:show", (event, item) => {
       // Store item
       this.item = item;
@@ -573,7 +573,7 @@ export default {
       else this.showFolderActionsMenu();
     });
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

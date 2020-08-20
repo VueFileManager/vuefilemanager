@@ -5,13 +5,14 @@
     id="fileFullPreview"
     ref="filePreview"
     tabindex="-1"
+     @click="closeContextMenu"
     @keydown.esc="(showFullPreview = false), hideMenu()"
     @keydown.right="next"
     @keydown.left="prev"
   >
     <FilePreviewNavigationPanel />
     <MediaFullPreview v-if="isMedia" />
-    <FilePreviewActions />
+    <FilePreviewActions  />
   </div>
 </template>
 
@@ -35,6 +36,13 @@ export default {
     };
   },
   methods: {
+      closeContextMenu(event) {
+        if( (event.target.parentElement.id ||  event.target.id) === "fast-preview-menu") {
+          return
+      } else {
+          events.$emit('showContextMenuPreview:hide')
+      }
+    },
     next: function () {
       events.$emit("filePreviewAction:next");
     },
@@ -42,7 +50,7 @@ export default {
       events.$emit("filePreviewAction:prev");
     },
     hideMenu() {
-      events.$emit("showContextMenuPreview:show");
+      events.$emit("showContextMenuPreview:hide");
     },
   },
 
@@ -52,10 +60,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["fileInfoDetail"]),
+    ...mapGetters(["fileInfoDetail" , "data"]),
     isMedia() {
       return this.fileInfoDetail === "image" || "video" || "audio";
     },
+    
   },
 
   mounted() {
@@ -81,7 +90,7 @@ export default {
   height: 100%;
   position: absolute;
   z-index: 7;
-  background-color: $light-background;
+  background-color: white;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="filteredFiles.length > 1">
     <chevron-left-icon
       class="prev"
       @click.prevent="prev"
@@ -16,12 +16,26 @@
 
 <script>
 import { events } from '@/bus';
+import { mapGetters } from "vuex";
 import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
 
 export default {
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
+  },
+  computed: {
+        ...mapGetters(["fileInfoDetail", "data"]),
+
+     filteredFiles() {
+       let filteredData = []
+      this.data.filter((element) => {
+        if (element.type == this.fileInfoDetail.type) {
+          filteredData.push(element);
+        }
+      });
+        return filteredData
+    },
   },
 
   methods: {
@@ -59,9 +73,11 @@ export default {
 }
 .next {
   right: 0;
+  margin-right: 10px;
 }
 .prev {
   left: 0;
+  margin-left: 10px;
 }
 
 @media (prefers-color-scheme: dark) {

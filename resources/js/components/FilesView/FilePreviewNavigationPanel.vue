@@ -1,6 +1,7 @@
 <template>
   <!-- <div class="navigation-wrapper"> -->
-  <div class="navigation-panel" v-if="fileInfoDetail">
+  <div class="navigation-panel" v-if="fileInfoDetail"    
+ >
     <div class="name-wrapper">
       <x-icon @click="closeFullPreview" size="17" class="icon-close"></x-icon>
       <div class="name-count-wrapper">
@@ -96,11 +97,11 @@ export default {
       let name = this.fileInfoDetail.name;
       if (name.lastIndexOf('.') > -1) {
         return _.truncate(name.substring(0, name.lastIndexOf('.')), {
-          length: 20,
+          length: 27,
         });
       } else {
         return _.truncate(name, {
-          length: 18,
+          length: 27,
         });
       }
     },
@@ -152,7 +153,7 @@ export default {
     },
     closeFullPreview() {
       events.$emit('fileFullPreview:hide');
-      events.$emit('showContextMenuPreview:show');
+      events.$emit('showContextMenuPreview:hide');
     },
   },
 };
@@ -172,7 +173,6 @@ export default {
   align-self: center;
   white-space: nowrap;
   .name-count-wrapper {
-    display: flex;
     .file-count {
       @include font-size(15);
       margin-left: 6px;
@@ -198,6 +198,8 @@ export default {
     }
   }
   .icon-close {
+          min-width: 17px;
+
     vertical-align: middle;
     cursor: pointer;
     margin-right: 6px;
@@ -221,7 +223,7 @@ export default {
       @include transition(150ms);
     }
     &:hover {
-      background: white;
+      background: $light_background;
 
       svg circle {
         stroke: $theme;
@@ -248,12 +250,12 @@ export default {
   }
 }
 
-@media (min-width: 420px) and (max-width: 890px) {
+@media (min-width: 420px) and (max-width: 930px) {
   .name-wrapper {
     width: 67%;
   }
 }
-@media (max-width: 523px) {
+@media (max-width: 570px) {
   .name-wrapper {
     width: 100%;
     justify-content: space-between;
@@ -270,7 +272,7 @@ export default {
     align-items: center;
     @include font-size(11);
   }
-  @media (max-width: 890px) {
+  @media (max-width: 930px) {
     display: none;
   }
 }
@@ -286,20 +288,22 @@ export default {
   .button {
     margin-left: 5px;
     &:hover {
-      background: white;
+      background: $light_background;
     }
   }
-  @media (max-width: 523px) {
+  @media (max-width: 570px) {
     display: none;
   }
 }
 .navigation-panel {
-  height: 6.9%;
+height: 63px;
+  width: 100%;
   padding: 10px 15px;
   display: flex;
-  position: relative;
+  position: absolute;
+  z-index: 8;
   align-items: center;
-  background-color: $light-background;
+  background-color: white;
   color: $text;
 }
 @media (prefers-color-scheme: dark) {

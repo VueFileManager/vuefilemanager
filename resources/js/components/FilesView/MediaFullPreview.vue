@@ -1,9 +1,9 @@
 <template>
-  <div class="media-full-preview"  id="mediaPreview">
+  <div class="media-full-preview"  id="mediaPreview" v-if="fileInfoDetail" @click="closeContextMenu" >
     <div class="file-wrapper-preview" v-for="i in [currentIndex]" :key="i" >
       <div class="file-wrapper" >
         <audio
-          class="file"
+          class="file audio"
           v-if="fileInfoDetail.type == 'audio'"
           :src="currentFile.file_url"
           controlsList="nodownload"
@@ -20,8 +20,7 @@
         <video
           v-if="fileInfoDetail.type === 'video' && currentFile.file_url"
           :src="currentFile.file_url"
-          class="file"
-          :style="{ width: sizeWidth, height: sizeHeight }"
+          class="video"
           controlsList="nodownload"
           disablePictureInPicture
           playsinline
@@ -46,8 +45,7 @@ export default {
       currentIndex: 1,
       sliderFile: [],
       loaded: false,
-      sizeWidth: '',
-      sizeHeight: '',
+    
     };
   },
   computed: {
@@ -87,25 +85,26 @@ export default {
   },
   created() {
     this.filteredFiles();
-    this.imageSizing();
   },
   watch: {
     currentFile() {
       //HANDLE ACUTAL VIEW IMAGE IN FIELINFODETAIL
+      if(this.fileInfoDetail) {
+        this.loaded = false
       this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile);
       events.$emit('actualShowingImage:ContextMenu', this.currentFile);
+      }
     },
     fileInfoDetail() {
       //FILE DELETE HANDLING
       if (!this.fileInfoDetail) {
-        if (this.data.length == 0) {
-          events.$emit('fileFullPreview:hide');
-        } else {
           this.currentIndex = this.currentIndex - 1;
           this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile);
           this.sliderFile = [];
-          this.filteredFiles();
-        }
+          this.filteredFiles();   
+      }
+      if(this.sliderFile.length == 0 ) {
+          events.$emit('fileFullPreview:hide');
       }
     },
     data(newValue, oldValue) {
@@ -117,15 +116,11 @@ export default {
     },
   },
   methods: {
-    imageSizing() {
-      if (this.$isMobile()) {
-        this.sizeWidth = '100%';
-        this.sizeHeight = 'auto';
-      } else {
-        this.sizeWidth = 'auto';
-        this.sizeHeight = '100%';
-      }
+
+    closeContextMenu() {
+      events.$emit('showContextMenuPreview:hide')
     },
+    
     closeFullPreview() {
       events.$emit('fileFullPreview:hide');
     },
@@ -158,8 +153,10 @@ export default {
 @import '@assets/vue-file-manager/_mixins';
 
 .media-full-preview {
-  height: 93.1%;
+  height: calc(100% - 72px) ;
+  top: 72px;
   position: relative;
+  background-color: white;
 }
 
 .navigation-panel {
@@ -194,10 +191,34 @@ export default {
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     .file {
       max-width: 100%;
       max-height: 100%;
       align-self: center;
+      box-shadow: 0 8px 40px rgba($text, 0.3);
+    }
+    .audio {
+      border-radius: 28px;
+    }
+    .video {
+      max-width: 1072px;
+      height: auto;
+      @media (min-width: 1920px) {
+        & {
+          max-width: 1080px;
+        }
+      }
+       @media (min-width: 2560px) {
+        & {
+          max-width: 1440px;
+        }
+      }
+       @media (min-width: 3840px) {
+        & {
+          max-width: 2160px;
+        }
+      }
     }
   }
 }
