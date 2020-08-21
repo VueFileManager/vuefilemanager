@@ -137,9 +137,9 @@ export default {
       return this.data.type === "video";
     },
     isAudio() {
-      let mimetypes = ['mpeg' , "mp3" , 'wan'];
+      let mimetypes = ['mpeg' , "mp3" , 'mp4', 'wan' ,'flac'];
       return (
-        mimetypes.includes(this.data.mimetype)
+        mimetypes.includes(this.data.mimetype) && this.data.type === 'audio'
       );
     },
     canEditName() {
