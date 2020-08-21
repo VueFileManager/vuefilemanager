@@ -1,9 +1,9 @@
 <template>
     <div class="page-tab">
-        <div id="loader" v-if="isLoading">
+        <div id="loader" v-show="isLoading">
             <Spinner></Spinner>
         </div>
-        <slot v-if="! isLoading"></slot>
+        <slot v-show="! isLoading"></slot>
     </div>
 </template>
 

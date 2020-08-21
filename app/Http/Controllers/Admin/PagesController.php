@@ -19,7 +19,7 @@ class PagesController extends Controller
     public function index()
     {
         return new PageCollection(
-            Page::all()
+            Page::sortable()->paginate(10)
         );
     }
 

@@ -358,6 +358,7 @@
                     this.errorMessage = error.response.data.message
                 }
 
+                // Show server error
                 if (error.response.status === 500) {
                     this.isError = true
                     this.errorMessage = error.response.data.message
@@ -452,16 +453,22 @@
 
             // Get setup intent for stripe
             axios.get('/api/stripe/setup-intent')
-                .then(response => this.clientSecret = response.data.client_secret)
+                .then(response => {
+                    this.clientSecret = response.data.client_secret
+                })
+                .catch(() => this.$isSomethingWrong())
 
             axios.get('/api/user/payments')
                 .then(response => {
 
                     this.defaultPaymentMethod = response.data.default
                     this.PaymentMethods = response.data.others
-
-                    this.isLoading = false
                 })
+                .catch(() => this.$isSomethingWrong())
+                .finally(() => {
+                        this.isLoading = false
+                    }
+                )
         }
     }
 </script>

@@ -1,8 +1,10 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup v-if="invoices && invoices.length > 0">
+        <PageTabGroup v-show="! isLoading">
             <FormLabel>{{ $t('user_invoices.title') }}</FormLabel>
-            <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
+            <DatatableWrapper @init="isLoading = false" api="/api/user/invoices" :paginator="false" :columns="columns" class="table">
+
+                <!--Table data content-->
                 <template slot-scope="{ row }">
                     <tr>
                         <td>
@@ -34,11 +36,15 @@
                         </td>
                     </tr>
                 </template>
+
+                <!--Empty page-->
+                <template v-slot:empty-page>
+                    <InfoBox>
+                        <p>{{ $t('user_invoices.empty') }}</p>
+                    </InfoBox>
+                </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <InfoBox v-else>
-            <p>{{ $t('user_invoices.empty') }}</p>
-        </InfoBox>
     </PageTab>
 </template>
 
@@ -69,22 +75,22 @@
                     {
                         label: this.$t('rows.invoice.number'),
                         field: 'data.attributes.order',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('rows.invoice.total'),
                         field: 'data.attributes.bag.amount',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('rows.invoice.plan'),
                         field: 'data.attributes.bag.amount',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('rows.invoice.payed'),
                         field: 'data.attributes.created_at',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -93,13 +99,6 @@
                 ],
             }
         },
-        created() {
-            axios.get('/api/user/invoices')
-                .then(response => {
-                    this.invoices = response.data.data
-                    this.isLoading = false
-                })
-        }
     }
 </script>
 

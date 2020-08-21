@@ -5,14 +5,12 @@ namespace App;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResetUserPasswordNotification;
 use ByteUnits\Metric;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use Kyslik\ColumnSortable\Sortable;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
@@ -78,7 +76,7 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Billable;
+    use HasApiTokens, Notifiable, Billable, Sortable;
 
     protected $guarded = ['id', 'role'];
 
@@ -111,6 +109,19 @@ class User extends Authenticatable
 
     protected $appends = [
         'used_capacity', 'storage'
+    ];
+
+    /**
+     * Sortable columns
+     *
+     * @var string[]
+     */
+    public $sortable = [
+        'id',
+        'name',
+        'role',
+        'created_at',
+        'storage_capacity',
     ];
 
     /**
@@ -197,7 +208,6 @@ class User extends Authenticatable
     {
         // Get avatar from external storage
         if ($this->attributes['avatar'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
-
             return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
         }
 

@@ -380,6 +380,8 @@ class StripeService
      */
     public function getInvoices()
     {
-        return $this->stripe->invoices()->all();
+        return $this->stripe->invoices()->all([
+            'limit' => 20
+        ]);
     }
 }

@@ -60,7 +60,7 @@ class DashboardController extends Controller
     public function new_registrations()
     {
         return new UsersCollection(
-            User::take(7)->orderByDesc('created_at')->get()
+            User::sortable(['created_at' => 'desc'])->paginate(10)
         );
     }
 }
