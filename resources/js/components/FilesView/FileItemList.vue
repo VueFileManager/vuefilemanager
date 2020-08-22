@@ -220,7 +220,7 @@ export default {
       }
 
       if (this.$isMobile()) {
-        if (this.isImage || this.isVideo) {
+        if (this.isImage || this.isVideo || this.isAudio) {
           events.$emit("fileFullPreview:show");
         }
       }
