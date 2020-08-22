@@ -18,8 +18,7 @@
           v-on:load="onLoaded"
         />
         <div class="video-wrapper"  v-if="fileInfoDetail.type === 'video' && currentFile.file_url">
-        <video
-         
+        <video   
           :src="currentFile.file_url"
           class="video"
           controlsList="nodownload"
@@ -70,6 +69,7 @@ export default {
     },
   },
   mounted() {
+    if(this.sliderFile.length > 1 ) {
     events.$on('filePreviewAction:next', () => {
       this.currentIndex += 1;
       this.slideType = 'next'
@@ -84,6 +84,7 @@ export default {
         this.currentIndex = this.sliderFile.length - 1;
       }
     });
+    }
   },
   created() {
     this.filteredFiles();
@@ -110,9 +111,6 @@ export default {
           this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile);
           this.sliderFile = [];
           this.filteredFiles();   
-      }
-      if(this.sliderFile.length == 0 ) {
-          events.$emit('fileFullPreview:hide');
       }
     },
     data(newValue, oldValue) {
@@ -239,8 +237,6 @@ export default {
       max-height: 100%;
       align-self: center;
       box-shadow: 0 8px 40px rgba($text, 0.3);
-
-     
     }
     }
   }

@@ -21,7 +21,7 @@
         id="fast-preview-menu"
         class="fast-menu-icon"
         @click="menuOpen"
-        v-if="$checkPermission('master', 'editor')"
+        v-if="$checkPermission(['master', 'editor'])"
       >
         <more-horizontal-icon class="more-icon" size="14">
         </more-horizontal-icon>
