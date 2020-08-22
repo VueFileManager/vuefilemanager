@@ -35,11 +35,13 @@
     <div class="navigation-icons">
       <div class="navigation-tool-wrapper">
         <ToolbarButton
+           v-if="!this.$isMobile()"
           source="download"
           @click.native="downloadItem"
           :action="$t('actions.download')"
         />
         <ToolbarButton
+        v-if="!this.$isMobile()"
           source="share"
           :class="{ 'is-inactive': canShareInView }"
           :action="$t('actions.share')"

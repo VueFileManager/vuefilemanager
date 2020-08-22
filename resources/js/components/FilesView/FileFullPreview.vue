@@ -68,10 +68,6 @@ export default {
   },
 
   mounted() {
-    if (this.showFullPreview) {
-      let preview = document.getElementById("file-wrapper-preview");
-      preview.addEventListener("click", this.hideMenu);
-    }
     events.$on("fileFullPreview:show", () => {
       this.showFullPreview = true;
     });

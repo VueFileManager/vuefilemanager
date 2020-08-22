@@ -17,8 +17,9 @@
           :src="currentFile.file_url"
           v-on:load="onLoaded"
         />
+        <div class="video-wrapper"  v-if="fileInfoDetail.type === 'video' && currentFile.file_url">
         <video
-          v-if="fileInfoDetail.type === 'video' && currentFile.file_url"
+         
           :src="currentFile.file_url"
           class="video"
           controlsList="nodownload"
@@ -26,6 +27,7 @@
           playsinline
           controls
         />
+        </div>
         <spinner v-if="!loaded && fileInfoDetail.type === 'image'" />
       </div>
     </div>
@@ -207,17 +209,22 @@ export default {
     .audio {
       border-radius: 28px;
     }
-    .video {
+    .video-wrapper {
+      max-width: 1080px;
       max-height: 100%;
-      max-width: 1072px;
-      box-shadow: 0 8px 40px rgba($text, 0.3);
 
-      @media (min-width: 1920px) {
+      @media (min-width: 1200px) {
+        & {
+          max-width: 800px;
+        }
+      }
+
+       @media (min-width: 1920px) and (max-width: 2560px) {
         & {
           max-width: 1080px;
         }
       }
-       @media (min-width: 2560px) {
+       @media (min-width: 2560px) and (max-width: 3840px) {
         & {
           max-width: 1440px;
         }
@@ -227,6 +234,14 @@ export default {
           max-width: 2160px;
         }
       }
+    .video {
+      max-width: 100%;
+      max-height: 100%;
+      align-self: center;
+      box-shadow: 0 8px 40px rgba($text, 0.3);
+
+     
+    }
     }
   }
 }
