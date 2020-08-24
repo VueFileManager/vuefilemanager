@@ -70,7 +70,7 @@
                     </a>
                 </li>
 
-                <li v-if="pageIndex < 5" v-for="(page, index) in 5" :key="index" class="page-item" @click="goToPage(pageIndex + 1)">
+                <li v-if="pageIndex < 5" v-for="(page, index) in 5" :key="index" class="page-item" @click="goToPage(page)">
                     <a class="page-link" :class="{ active: pageIndex === page }">
                         {{ page }}
                     </a>
