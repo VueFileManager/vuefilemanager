@@ -15,7 +15,7 @@
             </div>
 
             <!--Payment methods table-->
-            <DatatableWrapper :table-data="{data: PaymentMethods}" :paginator="false" :columns="columns" class="table">
+            <DatatableWrapper v-if="PaymentMethods" :table-data="{data: PaymentMethods}" :paginator="false" :columns="columns" class="table">
 
                 <!--Table data content-->
                 <template slot-scope="{ row }">

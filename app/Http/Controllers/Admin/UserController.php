@@ -85,8 +85,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if (! $user->stripeId()) {
-            return response('User is not stripe customer', 404);
+        if (! $user->stripeId() || ! $user->subscription('main')) {
+            return response('User doesn\'t have any subscription.', 404);
         }
 
         return new UserSubscription(
