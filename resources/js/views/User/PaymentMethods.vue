@@ -1,12 +1,12 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup v-if="PaymentMethods && PaymentMethods.length > 0">
+        <PageTabGroup>
 
             <!--Page title-->
             <FormLabel>{{ $t('user_payments.title') }}</FormLabel>
 
             <!--Add payment method button-->
-            <div class="page-actions">
+            <div class="page-actions" v-if="PaymentMethods && PaymentMethods.length > 0">
                 <router-link :to="{name: 'CreatePaymentMethod'}">
                     <MobileActionButton icon="credit-card">
                         {{ $t('user_payments.add_card') }}
@@ -129,19 +129,6 @@
                     break
                 }
             },
-            getCardStatus(status) {
-                switch (status) {
-                    case 'active':
-                        return 'Active'
-                    break
-                    case 'card_declined':
-                        return 'Rejected'
-                    break
-                    case 'expired':
-                        return 'Expired'
-                    break
-                }
-            },
             setDefaultCard(card) {
                 events.$emit('confirm:open', {
                     title: this.$t('popup_set_card.title'),
@@ -168,7 +155,7 @@
                     .then(response => {
 
                         if (response.status == 204) {
-                            this.PaymentMethods = []
+                            this.PaymentMethods = {}
                         }
 
                         if (response.status == 200) {

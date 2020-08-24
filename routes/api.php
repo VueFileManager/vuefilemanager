@@ -163,8 +163,8 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/invoices', 'Admin\InvoiceController@index');
 
     // Settings
-    Route::put('/settings/email', 'SettingController@set_email');
-    Route::put('/settings/stripe', 'SettingController@set_stripe');
+    Route::post('/settings/email', 'SettingController@set_email');
+    Route::post('/settings/stripe', 'SettingController@set_stripe');
     Route::patch('/settings', 'SettingController@update');
     Route::get('/settings', 'SettingController@show');
     Route::get('/flush-cache', 'AppFunctionsController@flush_cache');

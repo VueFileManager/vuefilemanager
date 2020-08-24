@@ -35,7 +35,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'header_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom.',
+                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'features_title',
@@ -43,7 +43,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'features_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom.',
+                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'feature_title_1',
@@ -75,7 +75,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'pricing_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom.',
+                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'get_started_title',
@@ -83,7 +83,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'get_started_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Trully freedom.',
+                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'footer_content',

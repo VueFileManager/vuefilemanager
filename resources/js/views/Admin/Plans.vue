@@ -6,7 +6,7 @@
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
-            <div class="content-page">
+            <div class="content-page" v-if="config.stripe_public_key">
                 <div class="table-tools">
                     <div class="buttons">
                         <router-link :to="{name: 'PlanCreate'}">

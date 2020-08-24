@@ -137,7 +137,7 @@ export default {
     },
     computed: {
         hasData() {
-            return this.data && this.data.data.length > 0 ? true : false
+            return this.data && this.data.data && this.data.data.length > 0
         },
         floatPages() {
             return [(this.pageIndex - 1), this.pageIndex, (this.pageIndex + 1)];

@@ -244,12 +244,12 @@ function is_editor($shared)
 function get_unique_id(): int
 {
     // Get files and folders
-    $folders = FileManagerFolder::withTrashed()->latest();
-    $files = FileManagerFile::withTrashed()->latest();
+    $folders = FileManagerFolder::withTrashed()->get();
+    $files = FileManagerFile::withTrashed()->get();
 
     // Get last ids
-    $folders_unique = ! $folders->first() ? 0 : (int) $folders->first()->unique_id;
-    $files_unique = ! $files->first() ? 0 : (int) $files->first()->unique_id;
+    $folders_unique = $folders->isEmpty() ? 0 : $folders->last()->unique_id;
+    $files_unique = $files->isEmpty() ? 0 : $files->last()->unique_id;
 
     // Count new unique id
     $unique_id = $folders_unique > $files_unique ? $folders_unique + 1 : $files_unique + 1;

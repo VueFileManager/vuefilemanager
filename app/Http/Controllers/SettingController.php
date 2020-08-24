@@ -149,6 +149,8 @@ class SettingController extends Controller
         ]);
 
         // Clear cache
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
         Artisan::call('config:cache');
     }
 }
