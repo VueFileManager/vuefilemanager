@@ -21,8 +21,10 @@ But, it can't be done without you, development is more and more complicated and 
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
     - [Recover Failed Installation](#installation-failed)
-    - [Regular Update](#regular-update)
-    - [Update from 1.6.x to 1.7 ](#update-from-16x-to-17)
+    - [Update Guide](#update-guide)
+        - [Instructions](#instructions)
+        - [Update from 1.7.x to 1.7.7](#update-from-17x-to-177)
+        - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
@@ -188,17 +190,23 @@ At worst scenarios, to reset Setup Wizard, delete all tables in your previously 
 
 After these steps, installation will be reseted.
 
-## Regular Update
-- `Don't forget create backup of your database and storage before make any changes in your production application.`
-- `If you serve your files in local storage driver pay attention and don't delete your /storage folder`
+## Update Guide
+
+### Instructions
+`Don't forget create backup of your database and storage before make any changes in your production application.`
+
+`If you serve your files in local storage driver pay attention and don't delete your /storage folder`
 
 Follow this steps:
+
 - Make a backup of the .env config file located on your server.
 - Upload and replace all the files on your server with what's inside the app folder.
 - Restore your `.env` config file on your server.
 
-## Update VueFileManager from 1.6.x to 1.7
-`Don't forget create backup of your database and storage before make any changes in your production application.`
+## Update from 1.7.x to 1.7.7
+If you are upgrading app to 1.7.7 from 1.7.x, make sure you have copied new /vendor folder or if you are using terminal or git, run `composer update` command to update your vendors.
+
+## Update from 1.6.x to 1.7
 
 For those, who purchase extended licence, place these lines at the end of your `/.env` file:
 ```
@@ -210,13 +218,7 @@ STRIPE_WEBHOOK_SECRET=
 CASHIER_PAYMENT_NOTIFICATION=App\Notifications\ConfirmPayment
 ```
 
-Then follow this steps:
-
-- Make sure you have PHP >= 7.2.5 version
-- Make a backup of the .env config file located on your server.
-- Upload and replace all the files on your server with what's inside the app folder.
-- Restore your `.env` config file on your server.
-- Go to https://your-domain.com/upgrade and follow the setup wizard instructions.
+Then go to https://your-domain.com/upgrade and follow the setup wizard instructions.
 
 # Payments
 VueFileManager is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
@@ -257,6 +259,13 @@ To start server on your localhost, run command below. Then go to your generated 
 ```
 php artisan serve
 ```
+
+After successfully installation via Setup Wizard, stop your artisan server, clear config cache and run your artisan server again:
+```
+php artisan config:clear
+php artisan serve
+```
+*After any change in your .env you have to restart your artisan server to reload your config cache.*
 
 To develop your Vue front-end, you have to install npm modules by this command:
 ```
