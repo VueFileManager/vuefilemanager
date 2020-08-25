@@ -129,15 +129,13 @@ class AppFunctionsController extends Controller
 
             $metadata = [
                 'is_protected' => $shared->protected,
-                'url'          => $file->thumbnail ? $file->thumbnail : null,
+                'url'          => url('/shared', ['token' => $token]),
                 'user'         => $user->name,
                 'name'         => $file->name,
                 'size'         => $file->filesize,
                 'thumbnail'    => $file->thumbnail ? $file->thumbnail : null,
             ];
         }
-
-        return $metadata;
 
         // Handle single file
         if ($shared->type === 'folder') {

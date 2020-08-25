@@ -7,23 +7,22 @@
     <meta name="fragment" content="!">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="{{ $metadata['user'] }} is sending you this file">
+    <meta name="description" content="{{ __('vuefilemanager.user_sending', ['name' => $metadata['user']]) }}">
 
     {{--OG Public items--}}
     <meta property="og:url" content="{{ $metadata['url'] }}">
-    <meta property="og:description" content="{{ $metadata['user'] }} is sending you this file">
+    <meta property="og:description" content="{{ __('vuefilemanager.user_sending', ['name' => $metadata['user']]) }}">
 
     {{--Show protected og metadata--}}
     @if($metadata['is_protected'])
-        <meta property="og:title" content="This file is protected by password">
-        <title>This file is protected by password</title>
+        <meta property="og:title" content="{{ __('vuefilemanager.protected_file') }}">
+        <title>{{ __('vuefilemanager.protected_file') }}</title>
     @endif
 
     {{--Show public og metadata--}}
     @if(! $metadata['is_protected'])
 
         @if($metadata['thumbnail'])
-            <meta property="og:type" content="image" />
             <meta property="og:image" content="{{ $metadata['thumbnail'] }}">
         @endif
 

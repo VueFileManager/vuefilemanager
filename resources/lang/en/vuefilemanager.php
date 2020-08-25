@@ -54,6 +54,6 @@ return [
     'total' => 'Total',
 
     // OG Page
-    'user_sending' => '',
-    'protected_file' => '',
+    'user_sending' => ':name is sending you this file',
+    'protected_file' => 'This link is protected by password',
 ];
