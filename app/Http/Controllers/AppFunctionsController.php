@@ -157,7 +157,7 @@ class AppFunctionsController extends Controller
 
         // Return view
         return view("og-view")
-            ->with('settings', $settings)
+            ->with('settings', json_decode($settings->pluck('value', 'name')->toJson()))
             ->with('metadata', $metadata);
     }
 

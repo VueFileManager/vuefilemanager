@@ -15,8 +15,8 @@
 
     {{--Show protected og metadata--}}
     @if($metadata['is_protected'])
-        <meta property="og:title" content="{{ __('vuefilemanager.protected_file') }}">
-        <title>{{ __('vuefilemanager.protected_file') }}</title>
+        <meta property="og:title" content="{{ __('vuefilemanager.protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}">
+        <title>{{ __('vuefilemanager.protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}</title>
     @endif
 
     {{--Show public og metadata--}}
