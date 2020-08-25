@@ -631,6 +631,9 @@
 		"label_password_protection": "密码保护",
 		"label_permission": "权限",
 		"label_shared_url": "分享链接",
+		"label_expiration": "Link Expiration",
+		"expiration_hour": "{value}h.",
+		"expiration_day": "{value}d.",
 		"placeholder_permission": "请设置权限"
 	},
 	"sidebar": {

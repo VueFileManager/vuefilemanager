@@ -32,6 +32,12 @@
                     <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
+
+                <!--Set expiration-->
+                <div class="input-wrapper">
+                    <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
+                    <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" class="box"/>
+                </div>
             </ValidationObserver>
 
             <!--Copy generated link-->
@@ -66,6 +72,7 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import SelectBoxInput from '@/components/Others/Forms/SelectBoxInput'
     import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
@@ -85,6 +92,7 @@
         components: {
             ValidationProvider,
             ValidationObserver,
+            SelectBoxInput,
             ThumbnailItem,
             PopupWrapper,
             PopupActions,
@@ -110,8 +118,39 @@
         },
         data() {
             return {
+                expirationList: [
+                    {
+                        label: this.$t('shared_form.expiration_hour', {value: 1}),
+                        value: '1',
+                    },
+                    {
+                        label: this.$t('shared_form.expiration_hour', {value: 2}),
+                        value: '2',
+                    },
+                    {
+                        label: this.$t('shared_form.expiration_hour', {value: 6}),
+                        value: '6',
+                    },
+                    {
+                        label: this.$t('shared_form.expiration_hour', {value: 12}),
+                        value: '12',
+                    },
+                    {
+                        label: this.$t('shared_form.expiration_day', {value: 1}),
+                        value: '24',
+                    },
+                    {
+                        label: this.$t('shared_form.expiration_day', {value: 2}),
+                        value: '48',
+                    },
+                    {
+                        label: this.$t('shared_form.expiration_day', {value: 7}),
+                        value: '168',
+                    },
+                ],
                 shareOptions: {
                     isPassword: false,
+                    expiration: undefined,
                     password: undefined,
                     permission: undefined,
                     type: undefined,
