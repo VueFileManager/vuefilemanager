@@ -23,7 +23,7 @@ But, it can't be done without you, development is more and more complicated and 
     - [Recover Failed Installation](#installation-failed)
     - [Update Guide](#update-guide)
         - [Instructions](#instructions)
-        - [Update from 1.7.x to 1.7.7](#update-from-17x-to-177)
+        - [Update from 1.7.x to 1.7.7 & 1.7.8](#update-from-17x-to-177-&178)
         - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
@@ -203,7 +203,7 @@ Follow this steps:
 - Upload and replace all the files on your server with what's inside the app folder.
 - Restore your `.env` config file on your server.
 
-## Update from 1.7.x to 1.7.7
+## Update from 1.7.x to 1.7.7 & 1.7.8
 If you are upgrading app to 1.7.7 from 1.7.x, make sure you have copied new /vendor folder or if you are using terminal or git, run `composer update` command to update your vendors.
 
 ## Update from 1.6.x to 1.7
