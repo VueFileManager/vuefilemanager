@@ -32,8 +32,7 @@ class FileSharingController extends Controller
     public function index($token)
     {
         // Get shared token
-        $shared = Share::where(\DB::raw('BINARY `token`'), $token)
-            ->first();
+        $shared = get_shared($token);
 
         if (! $shared) {
             return view("index");

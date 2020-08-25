@@ -73,6 +73,7 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User sortable($defaultParameters = null)
  */
 class User extends Authenticatable
 {

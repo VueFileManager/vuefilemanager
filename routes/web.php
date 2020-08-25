@@ -11,6 +11,11 @@
 |
 */
 
+// Get og site for web crawlers
+if( Crawler::isCrawler()) {
+    Route::get('/shared/{token}', 'AppFunctionsController@og_site');
+}
+
 // Stripe WebHook
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 
