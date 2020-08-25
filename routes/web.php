@@ -11,10 +11,6 @@
 |
 */
 
-// Get og site for web crawlers
-if( Crawler::isCrawler()) {
-    Route::get('/shared/{token}', 'AppFunctionsController@og_site');
-}
 
 // Stripe WebHook
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
@@ -40,6 +36,11 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/invoice/{customer}/{token}', 'Admin\InvoiceController@show');
 });
 
-// Pages
-Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
+// Get og site for web crawlers
+if( Crawler::isCrawler()) {
+    Route::get('/shared/{token}', 'AppFunctionsController@og_site');
+} else {
+    Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
+}
+
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

@@ -23,6 +23,7 @@
     @if(! $metadata['is_protected'])
 
         @if($metadata['thumbnail'])
+            <meta property="og:type" content="image" />
             <meta property="og:image" content="{{ $metadata['thumbnail'] }}">
         @endif
 

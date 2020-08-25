@@ -123,15 +123,21 @@ class AppFunctionsController extends Controller
                 ->where('unique_id', $shared->item_id)
                 ->first();
 
+            if ($file->thumbnail) {
+                $file->setPublicUrl($token);
+            }
+
             $metadata = [
                 'is_protected' => $shared->protected,
-                'url'          => url('/shared', ['token' => $token]),
+                'url'          => $file->thumbnail ? $file->thumbnail : null,
                 'user'         => $user->name,
                 'name'         => $file->name,
                 'size'         => $file->filesize,
                 'thumbnail'    => $file->thumbnail ? $file->thumbnail : null,
             ];
         }
+
+        return $metadata;
 
         // Handle single file
         if ($shared->type === 'folder') {

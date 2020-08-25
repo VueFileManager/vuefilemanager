@@ -52,4 +52,8 @@ return [
     'col_amount'      => 'Amount',
 
     'total' => 'Total',
+
+    // OG Page
+    'user_sending' => '',
+    'protected_file' => '',
 ];
