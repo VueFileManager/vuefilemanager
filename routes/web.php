@@ -38,8 +38,10 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 });
 
 // Admin system tools
-Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
+Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master'], 'prefix' => 'service'], function () {
     Route::get('/upgrade-database', 'General\UpgradeAppController@upgrade_database');
+    Route::get('/down', 'General\UpgradeAppController@down');
+    Route::get('/up', 'General\UpgradeAppController@up');
 });
 
 // Get og site for web crawlers

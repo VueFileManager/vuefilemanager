@@ -126,6 +126,28 @@ class UpgradeAppController extends Controller
     }
 
     /**
+     *  Start maintenance mode
+     */
+    public function up() {
+        $command = Artisan::call('up');
+
+        if ($command === 0) {
+            echo 'System is in production mode';
+        }
+    }
+
+    /**
+     *  End maintenance mode
+     */
+    public function down() {
+        $command = Artisan::call('down');
+
+        if ($command === 0) {
+            echo 'System is in maintenance mode';
+        }
+    }
+
+    /**
      *  Upgrade database
      */
     public function upgrade_database()
@@ -137,7 +159,9 @@ class UpgradeAppController extends Controller
         */
         if (! Schema::hasColumn('shares', 'expire_in')) {
 
-            $command = Artisan::call('migrate');
+            $command = Artisan::call('migrate', [
+                '--force' => true
+            ]);
 
             if ($command === 0) {
                 echo 'Operation was successful.';

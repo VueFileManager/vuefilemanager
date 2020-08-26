@@ -212,7 +212,7 @@ Follow this steps:
 - Restore your `.env` config file on your server.
 
 ## Update from 1.7.8 to 1.7.9
-After uploaded new files, log in as admin to the app and go to `your-domain.com/upgrade-database`. This will upgrade your database on the background.
+After uploaded new files, log in as admin to the app and go to `your-domain.com/service/upgrade-database`. This will upgrade your database on the background.
 
 After that, **update path to your project in command below** and add the following **Cron** entry to your server:
 ```
