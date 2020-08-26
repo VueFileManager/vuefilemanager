@@ -33,11 +33,17 @@
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <!--Set expiration-->
-                <div class="input-wrapper">
-                    <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
-                    <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" class="box"/>
+                <!--More options-->
+                <div class="more-options" v-if="isMoreOptions">
+
+                    <!--Set expiration-->
+                    <div class="input-wrapper">
+                        <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
+                        <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" class="box"/>
+                    </div>
                 </div>
+
+                <ActionButton @click.native="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
             </ValidationObserver>
 
             <!--Copy generated link-->
@@ -80,6 +86,7 @@
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
+    import ActionButton from '@/components/Others/ActionButton'
     import CopyInput from '@/components/Others/Forms/CopyInput'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import {required} from 'vee-validate/dist/rules'
@@ -94,6 +101,7 @@
             ValidationObserver,
             SelectBoxInput,
             ThumbnailItem,
+            ActionButton,
             PopupWrapper,
             PopupActions,
             PopupContent,
@@ -105,7 +113,10 @@
             required,
         },
         computed: {
-            ...mapGetters(['permissionOptions']),
+            ...mapGetters([
+                'permissionOptions',
+                'expirationList',
+            ]),
             itemTypeTitle() {
                 return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
             },
@@ -114,40 +125,13 @@
             },
             submitButtonText() {
                 return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
+            },
+            moreOptionsTitle() {
+                return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_more_options')
             }
         },
         data() {
             return {
-                expirationList: [
-                    {
-                        label: this.$t('shared_form.expiration_hour', {value: 1}),
-                        value: '1',
-                    },
-                    {
-                        label: this.$t('shared_form.expiration_hour', {value: 2}),
-                        value: '2',
-                    },
-                    {
-                        label: this.$t('shared_form.expiration_hour', {value: 6}),
-                        value: '6',
-                    },
-                    {
-                        label: this.$t('shared_form.expiration_hour', {value: 12}),
-                        value: '12',
-                    },
-                    {
-                        label: this.$t('shared_form.expiration_day', {value: 1}),
-                        value: '24',
-                    },
-                    {
-                        label: this.$t('shared_form.expiration_day', {value: 2}),
-                        value: '48',
-                    },
-                    {
-                        label: this.$t('shared_form.expiration_day', {value: 7}),
-                        value: '168',
-                    },
-                ],
                 shareOptions: {
                     isPassword: false,
                     expiration: undefined,
@@ -160,9 +144,16 @@
                 shareLink: undefined,
                 isGeneratedShared: false,
                 isLoading: false,
+                isMoreOptions: false,
             }
         },
         methods: {
+            moreOptions() {
+                this.isMoreOptions = ! this.isMoreOptions
+
+                if (! this.isMoreOptions)
+                    this.shareOptions.expiration = undefined
+            },
             async submitShareOptions() {
 
                 // If shared was generated, then close popup
@@ -224,10 +215,12 @@
                         permission: undefined,
                         password: undefined,
                         isPassword: false,
+                        expiration: undefined,
                         type: undefined,
                         unique_id: undefined,
                     }
                     this.isGeneratedShared = false
+                    this.isMoreOptions = false
                     this.shareLink = undefined
                 }, 150)
             })
@@ -238,6 +231,10 @@
 <style scoped lang="scss">
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
+
+    .more-options {
+        margin-bottom: 10px;
+    }
 
     .input-wrapper {
 

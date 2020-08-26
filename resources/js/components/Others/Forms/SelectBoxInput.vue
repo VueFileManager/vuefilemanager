@@ -1,7 +1,7 @@
 <template>
     <div class="select-box">
         <div class="box-item"
-             :class="{'selected': item.value === value}"
+             :class="{'selected': item.value === input}"
              @click="getSelectedValue(item)"
              v-for="(item, i) in data" :key="i"
         >
@@ -13,21 +13,28 @@
 <script>
     export default {
         name: 'SelectBoxInput',
-        props: ['data'],
+        props: [
+            'data',
+            'value',
+        ],
         data() {
             return {
-                value: undefined,
+                input: undefined,
             }
         },
         methods: {
             getSelectedValue(item) {
-                if (! this.value || this.value !== item.value)
-                    this.value = item.value
+                if (! this.input || this.input !== item.value)
+                    this.input = item.value
                 else
-                    this.value = undefined
+                    this.input = undefined
 
-                this.$emit('input', this.value)
+                this.$emit('input', this.input)
             }
+        },
+        created() {
+            if (this.value)
+                this.input = this.value
         }
     }
 </script>
@@ -41,14 +48,21 @@
     .select-box {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-bottom: 10px;
 
         .box-item {
-            padding: 12px 14px;
+            margin-bottom: 10px;
+            padding: 12px 4px;
+            text-align: center;
             background: $light_background;
             border-radius: 8px;
             font-weight: 700;
             border: 2px solid $light_background;
             cursor: pointer;
+            flex-direction: column;
+            flex-basis: 55px;
 
             .box-value {
                 @include font-size(15);
@@ -61,6 +75,15 @@
                 .box-value {
                     color: $theme;
                 }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 960px) {
+        .select-box {
+
+            .box-item {
+                flex-basis: calc(34% - 10px);
             }
         }
     }

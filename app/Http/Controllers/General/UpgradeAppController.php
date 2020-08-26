@@ -7,6 +7,7 @@ use App\Page;
 use App\Setting;
 use Artisan;
 use Illuminate\Http\Request;
+use Schema;
 
 class UpgradeAppController extends Controller
 {
@@ -122,5 +123,29 @@ class UpgradeAppController extends Controller
         });
 
         return response('Done', 200);
+    }
+
+    /**
+     *  Upgrade database
+     */
+    public function upgrade_database()
+    {
+        /*
+         * Upgrade expire_in in shares table
+         *
+         * @since v1.7.9
+        */
+        if (! Schema::hasColumn('shares', 'expire_in')) {
+
+            $command = Artisan::call('migrate');
+
+            if ($command === 0) {
+                echo 'Operation was successful.';
+            }
+
+            if ($command === 1) {
+                echo 'Operation failed.';
+            }
+        }
     }
 }

@@ -626,6 +626,8 @@
 		"visitor": "Môže len vidieť a sťahovať súbory"
 	},
 	"shared_form": {
+		"button_more_options": "Viac nastavení",
+		"button_close_options": "Zavrieť viac možností",
 		"button_done": "Super, som hotový!",
 		"button_generate": "Vygenerovať link",
 		"label_password_protection": "Chrániť heslom",

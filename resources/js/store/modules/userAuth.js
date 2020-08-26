@@ -17,6 +17,10 @@ const actions = {
                 .then((response) => {
                     resolve(response)
 
+                    // Redirect user if is logged
+                    if (router.currentRoute.name === 'SignIn')
+                        router.push({ name: 'Files' })
+
                     commit('RETRIEVE_USER', response.data)
 
                 }).catch((error) => {

@@ -52,11 +52,11 @@
 }
 
 .input-label {
-  @include font-size(12);
+  @include font-size(14);
   color: $text;
   font-weight: 700;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 @media (prefers-color-scheme: dark) {

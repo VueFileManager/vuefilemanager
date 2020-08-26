@@ -23,7 +23,8 @@ But, it can't be done without you, development is more and more complicated and 
     - [Recover Failed Installation](#installation-failed)
     - [Update Guide](#update-guide)
         - [Instructions](#instructions)
-        - [Update from 1.7.x to 1.7.7 & 1.7.8](#update-from-17x-to-177-&178)
+        - [Update from 1.7.8 to 1.7.9](#update-from-178-to-179)
+        - [Update from 1.7.x to 1.7.8](#update-from-17x-to-178)
         - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
@@ -103,6 +104,13 @@ At first step you have to verify your purchase code. **Subscription service with
 #### 6. Follow setup wizard steps
 
 That was the hardest part of installation proces. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
+
+#### 7. Set up Cron
+
+Add the following Cron entry to your server
+```
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
 
 ## PHP Configuration
 There are several PHP settings good to know to setup before you try upload any file. Please set these values in your php.ini, we provide minimal setup for you. When you set `-1` then you set infinity limits.
@@ -203,7 +211,17 @@ Follow this steps:
 - Upload and replace all the files on your server with what's inside the app folder.
 - Restore your `.env` config file on your server.
 
-## Update from 1.7.x to 1.7.7 & 1.7.8
+## Update from 1.7.8 to 1.7.9
+After uploaded new files, log in as admin to the app and go to `your-domain.com/upgrade-database`. This will upgrade your database on the background.
+
+After that, **update path to your project in command below** and add the following **Cron** entry to your server:
+```
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+That's all.
+
+## Update from 1.7.x to 1.7.8
 If you are upgrading app to 1.7.7 from 1.7.x, make sure you have copied new /vendor folder or if you are using terminal or git, run `composer update` command to update your vendors.
 
 ## Update from 1.6.x to 1.7

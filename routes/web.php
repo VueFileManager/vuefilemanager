@@ -32,8 +32,14 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
 });
 
+// Get user invoice
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
     Route::get('/invoice/{customer}/{token}', 'Admin\InvoiceController@show');
+});
+
+// Admin system tools
+Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
+    Route::get('/upgrade-database', 'General\UpgradeAppController@upgrade_database');
 });
 
 // Get og site for web crawlers

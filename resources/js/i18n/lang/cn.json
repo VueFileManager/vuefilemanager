@@ -626,6 +626,8 @@
 		"visitor": "仅可以查看或下载文件"
 	},
 	"shared_form": {
+		"button_more_options": "More Options",
+		"button_close_options": "Close Options",
 		"button_done": "太好了！",
 		"button_generate": "生成分享链接",
 		"label_password_protection": "密码保护",
