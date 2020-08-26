@@ -12,6 +12,8 @@ class CheckForMaintenanceMode extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '/service/upgrade-database',
+        '/service/down',
+        '/service/up',
     ];
 }

@@ -52,7 +52,7 @@ const Helpers = {
         }
 
         Vue.prototype.$getImage = function (source) {
-            return source ? '/' + source : ''
+            return source ? this.$store.getters.config.host + '/' + source : ''
         }
 
         Vue.prototype.$getCreditCardBrand = function (brand) {

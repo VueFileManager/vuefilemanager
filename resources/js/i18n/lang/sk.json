@@ -626,11 +626,16 @@
 		"visitor": "Môže len vidieť a sťahovať súbory"
 	},
 	"shared_form": {
+		"button_more_options": "Viac nastavení",
+		"button_close_options": "Zavrieť viac možností",
 		"button_done": "Super, som hotový!",
 		"button_generate": "Vygenerovať link",
 		"label_password_protection": "Chrániť heslom",
 		"label_permission": "Oprávnenie",
 		"label_shared_url": "Zdieľací odkaz",
+		"label_expiration": "Expirácia Linku",
+		"expiration_hour": "{value}h.",
+		"expiration_day": "{value}d.",
 		"placeholder_permission": "Zvoľte oprávnenia"
 	},
 	"sidebar": {

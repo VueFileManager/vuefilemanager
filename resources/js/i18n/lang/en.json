@@ -626,11 +626,16 @@
 		"visitor": "Can only view and download"
 	},
 	"shared_form": {
+		"button_more_options": "More Options",
+		"button_close_options": "Close Options",
 		"button_done": "Awesome, I’m done!",
 		"button_generate": "Generate Link",
 		"label_password_protection": "Password Protected",
 		"label_permission": "Permission",
 		"label_shared_url": "Share url",
+		"label_expiration": "Link Expiration",
+		"expiration_hour": "{value}h.",
+		"expiration_day": "{value}d.",
 		"placeholder_permission": "Select your permission"
 	},
 	"sidebar": {
