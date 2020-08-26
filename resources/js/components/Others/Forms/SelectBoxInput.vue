@@ -90,6 +90,12 @@
 
 
     @media (prefers-color-scheme: dark) {
+        .select-box {
 
+            .box-item {
+                border-color: $dark_mode_border_color;
+                background: $dark_mode_foreground;
+            }
+        }
     }
 </style>
