@@ -11,8 +11,10 @@
 .env.backup
 .phpunit.result.cache
 .phpstorm.meta.php
+.vscode/
 _ide_helper.php
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+prettier.json
