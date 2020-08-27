@@ -626,7 +626,7 @@
 		"visitor": "Can only view and download"
 	},
 	"shared_form": {
-		"button_more_options": "More Options",
+		"button_more_options": "Set Expiration",
 		"button_close_options": "Close Options",
 		"button_done": "Awesome, I’m done!",
 		"button_generate": "Generate Link",

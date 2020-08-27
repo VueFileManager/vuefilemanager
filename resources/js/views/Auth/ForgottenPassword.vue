@@ -3,7 +3,7 @@
 
         <!--Forgotten your password?-->
         <AuthContent name="forgotten-password" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="config.app_logo" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_forgotten_password.title') }}</h1>
@@ -30,7 +30,7 @@
 
         <!--Password reset link sended-->
         <AuthContent name="password-reset-link-sended" :visible="false">
-            <img v-if="config.app_logo" class="logo" :src="config.app_logo" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_forgotten_password.pass_sennded_title') }}</h1>
