@@ -7,7 +7,6 @@
                 <div class="logo">
                     <a href="https://vuefilemanager.com" target="_blank">
                         <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager" class="light-mode">
-                        <img src="/assets/images/vuefilemanager-horizontal-logo-dark.svg" alt="VueFileManager" class="dark-mode">
                     </a>
                 </div>
                 <div class="metadata">
@@ -275,16 +274,6 @@
     }
 
     @media (prefers-color-scheme: dark) {
-
-        .logo {
-            .dark-mode {
-                display: block;
-            }
-
-            .light-mode {
-                display: none;
-            }
-        }
 
         .metadata {
 
