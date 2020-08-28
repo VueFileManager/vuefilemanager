@@ -53,7 +53,7 @@ export default {
 	border-radius: 50%;
 	text-decoration: none;
 	user-select: none;
-	filter: drop-shadow(0px 0px 0.8px rgba(255, 255, 255, 1));
+	filter: drop-shadow(0px 1px 0 rgba(255, 255, 255, 1));
 }
 .next {
 	right: 0;
@@ -68,7 +68,7 @@ export default {
 	.prev,
 	.next {
 		color: $light-text;
-		filter: drop-shadow(0px 0px 0.8px rgba(17, 19, 20, 1));
+		filter: drop-shadow(0px 1px 0 rgba(17, 19, 20, 1));
 	}
 }
 </style>

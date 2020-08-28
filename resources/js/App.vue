@@ -7,6 +7,7 @@
         <div id="application-wrapper" v-if="! isGuestLayout">
             <!-- Full File Preview -->
             <FileFullPreview />
+
             <!--Mobile Navigation-->
             <MobileNavigation />
 
@@ -66,6 +67,7 @@
         components: {
             MobileNavigation,
             CookieDisclaimer,
+            FileFullPreview,
             ToastrWrapper,
             ShareCreate,
             MobileMenu,
