@@ -1,8 +1,16 @@
 <template>
-    <PageTab :is-loading="isLoading" :class="{'form-fixed-width': ! isLoading && invoices.length === 0}">
-        <PageTabGroup v-if="invoices && invoices.length > 0">
-            <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
-                <template scope="{ row }">
+    <PageTab :is-loading="isLoading">
+        <PageTabGroup>
+            <DatatableWrapper
+                @init="isLoading = false"
+                :api="'/api/users/' + this.$route.params.id + '/invoices'"
+                :paginator="false"
+                :columns="columns"
+                class="table"
+            >
+
+                <!--Table data content-->
+                <template slot-scope="{ row }">
                     <tr>
                         <td>
                             <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">
@@ -33,11 +41,15 @@
                         </td>
                     </tr>
                 </template>
+
+                <!--Empty page-->
+                <template v-slot:empty-page>
+                    <InfoBox class="form-fixed-width">
+                        <p>{{ $t('admin_page_user.invoices.empty') }}</p>
+                    </InfoBox>
+                </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <InfoBox v-else>
-            <p>{{ $t('admin_page_user.invoices.empty') }}</p>
-        </InfoBox>
     </PageTab>
 </template>
 
@@ -63,27 +75,26 @@
         data() {
             return {
                 isLoading: true,
-                invoices: undefined,
                 columns: [
                     {
                         label: this.$t('admin_page_invoices.table.number'),
                         field: 'data.attributes.order',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.total'),
                         field: 'data.attributes.bag.amount',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.plan'),
                         field: 'data.attributes.bag.amount',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.payed'),
                         field: 'data.attributes.created_at',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -92,13 +103,6 @@
                 ],
             }
         },
-        created() {
-            axios.get('/api/users/' + this.$route.params.id + '/invoices')
-                .then(response => {
-                    this.invoices = response.data.data
-                    this.isLoading = false
-                })
-        }
     }
 </script>
 

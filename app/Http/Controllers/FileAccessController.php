@@ -101,7 +101,7 @@ class FileAccessController extends Controller
         $shared = get_shared($token);
 
         // Abort if shared is protected
-        if ($shared->protected) {
+        if ((int) $shared->protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -154,7 +154,7 @@ class FileAccessController extends Controller
         $shared = get_shared($token);
 
         // Abort if thumbnail is protected
-        if ($shared->protected) {
+        if ((int) $shared->protected) {
             abort(403, "Sorry, you don't have permission");
         }
 

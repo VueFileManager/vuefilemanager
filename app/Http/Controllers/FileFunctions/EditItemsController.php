@@ -179,7 +179,7 @@ class EditItemsController extends Controller
         if ($request->user()->tokenCan('editor')) {
 
             // Prevent force delete for non-master users
-            if ($request->force_delete) abort('401');
+            if ($request->input('data.force_delete')) abort('401');
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -188,10 +188,10 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Get file|folder item
-            $item = get_item($request->type, $unique_id, Auth::id());
+            $item = get_item($request->input('data.type'), $unique_id, Auth::id());
 
             // Check access to requested directory
-            if ($request->type === 'folder') {
+            if ($request->input('data.type') === 'folder') {
                 Guardian::check_item_access($item->unique_id, $shared);
             } else {
                 Guardian::check_item_access($item->folder_id, $shared);
@@ -228,10 +228,10 @@ class EditItemsController extends Controller
         if (!is_editor($shared)) abort(403);
 
         // Get file|folder item
-        $item = get_item($request->type, $unique_id, $shared->user_id);
+        $item = get_item($request->input('data.type'), $unique_id, $shared->user_id);
 
         // Check access to requested item
-        if ($request->type === 'folder') {
+        if ($request->input('data.type') === 'folder') {
             Guardian::check_item_access($item->unique_id, $shared);
         } else {
             Guardian::check_item_access($item->folder_id, $shared);

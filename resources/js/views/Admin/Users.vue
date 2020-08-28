@@ -1,10 +1,12 @@
 <template>
     <div id="single-page">
-        <div id="page-content" v-if="! isLoading">
+        <div id="page-content">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
+
+                <!--Table tools-->
                 <div class="table-tools">
                     <div class="buttons">
                         <router-link :to="{name: 'UserCreate'}">
@@ -13,12 +15,11 @@
                             </MobileActionButton>
                         </router-link>
                     </div>
-                    <div class="searching">
-
-                    </div>
                 </div>
-                <DatatableWrapper :paginator="true" :columns="columns" :data="users" class="table table-users">
-                    <template scope="{ row }">
+
+                <!--Datatable-->
+                <DatatableWrapper @init="isLoading = false" api="/api/users" :paginator="true" :columns="columns" class="table table-users">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
@@ -113,7 +114,6 @@
         data() {
             return {
                 isLoading: true,
-                users: [],
                 columns: undefined,
             }
         },
@@ -133,34 +133,34 @@
             this.columns = [
                 {
                     label: this.$t('admin_page_user.table.name'),
-                    field: 'data.attributes.name',
+                    field: 'name',
                     sortable: true
                 },
                 {
                     label: this.$t('admin_page_user.table.role'),
-                    field: 'data.attributes.role',
+                    field: 'role',
                     sortable: true
                 },
                 {
                     label: this.$t('admin_page_user.table.plan'),
-                    field: 'data.attributes.subscription',
-                    sortable: true,
+                    field: 'subscription',
+                    sortable: false,
                     hidden: ! this.config.isSaaS,
                 },
                 {
                     label: this.$t('admin_page_user.table.storage_used'),
-                    field: 'relationships.storage.data.attributes.used',
+                    field: 'used',
                     sortable: true
                 },
                 {
                     label: this.$t('admin_page_user.table.storage_capacity'),
-                    field: 'relationships.storage.data.attributes.capacity',
+                    field: 'settings.storage_capacity',
                     sortable: true,
                     hidden: ! this.config.storageLimit,
                 },
                 {
                     label: this.$t('admin_page_user.table.created_at'),
-                    field: 'data.attributes.created_at_formatted',
+                    field: 'created_at',
                     sortable: true
                 },
                 {
@@ -169,12 +169,6 @@
                     sortable: false
                 },
             ]
-
-            axios.get('/api/users')
-                .then(response => {
-                    this.users = response.data.data
-                    this.isLoading = false
-                })
         }
     }
 </script>

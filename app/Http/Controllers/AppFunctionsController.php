@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Content;
+use App\FileManagerFile;
+use App\FileManagerFolder;
 use App\Http\Requests\PublicPages\SendMessageRequest;
 use App\Http\Resources\PageResource;
+use App\Http\Tools\Demo;
 use App\Mail\SendSupportForm;
 use App\Page;
 use App\Setting;
+use App\User;
 use Artisan;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Http\Request;
@@ -59,7 +63,7 @@ class AppFunctionsController extends Controller
             $users_table = Schema::hasTable('users');
 
             // If settings table don't exist, then run migrations
-            if ($users_table && ! $settings_table) {
+            if ($users_table && !$settings_table) {
                 Artisan::call('migrate', [
                     '--force' => true
                 ]);
@@ -71,7 +75,7 @@ class AppFunctionsController extends Controller
             // Get connection string
             if ($upgraded && $upgraded->value !== '1.7') {
                 $connection = 'quiet-update';
-            } else if (! $upgraded) {
+            } else if (!$upgraded) {
                 $connection = 'quiet-update';
             } else {
                 $connection = $this->get_setup_status();
@@ -93,6 +97,68 @@ class AppFunctionsController extends Controller
             ->with('settings', $settings ? json_decode($settings->pluck('value', 'name')->toJson()) : null)
             ->with('legal', isset($legal) ? $legal : null)
             ->with('installation', $connection);
+    }
+
+    /**
+     * Get og site for web crawlers
+     *
+     * @param $token
+     */
+    public function og_site($token)
+    {
+        // Get all settings
+        $settings = Setting::all();
+
+        // Get shared token
+        $shared = get_shared($token);
+
+        // Get user
+        $user = User::findOrFail($shared->user_id);
+
+        // Handle single file
+        if ($shared->type === 'file') {
+
+            // Get file record
+            $file = FileManagerFile::where('user_id', $shared->user_id)
+                ->where('unique_id', $shared->item_id)
+                ->first();
+
+            if ($file->thumbnail) {
+                $file->setPublicUrl($token);
+            }
+
+            $metadata = [
+                'is_protected' => $shared->protected,
+                'url'          => url('/shared', ['token' => $token]),
+                'user'         => $user->name,
+                'name'         => $file->name,
+                'size'         => $file->filesize,
+                'thumbnail'    => $file->thumbnail ? $file->thumbnail : null,
+            ];
+        }
+
+        // Handle single file
+        if ($shared->type === 'folder') {
+
+            // Get file record
+            $folder = FileManagerFolder::where('user_id', $shared->user_id)
+                ->where('unique_id', $shared->item_id)
+                ->first();
+
+            $metadata = [
+                'is_protected' => $shared->protected,
+                'url'       => url('/shared', ['token' => $token]),
+                'user'      => $user->name,
+                'name'      => $folder->name,
+                'size'      => $folder->items,
+                'thumbnail' => null,
+            ];
+        }
+
+        // Return view
+        return view("og-view")
+            ->with('settings', json_decode($settings->pluck('value', 'name')->toJson()))
+            ->with('metadata', $metadata);
     }
 
     /**
@@ -163,5 +229,20 @@ class AppFunctionsController extends Controller
         if (!in_array($column, $this->whitelist)) abort(401);
 
         return Setting::where('name', $column)->pluck('value', 'name');
+    }
+
+    /**
+     * Clear application cache
+     */
+    public function flush_cache()
+    {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('config:cache');
     }
 }

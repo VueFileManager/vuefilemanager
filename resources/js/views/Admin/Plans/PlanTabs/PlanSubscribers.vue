@@ -1,8 +1,10 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup v-if="subscribers && subscribers.length > 0">
-            <DatatableWrapper :paginator="true" :columns="columns" :data="subscribers" class="table">
-                <template scope="{ row }">
+        <PageTabGroup>
+            <DatatableWrapper @init="isLoading = false" :api="'/api/plans/' + this.$route.params.id + '/subscribers'" :paginator="false" :columns="columns" :data="subscribers" class="table">
+
+                <!--Table data content-->
+                <template slot-scope="{ row }">
                     <tr>
                         <td>
                             <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
@@ -30,11 +32,15 @@
                         </td>
                     </tr>
                 </template>
+
+                <!--Empty page-->
+                <template v-slot:empty-page>
+                    <InfoBox>
+                        <p>{{ $t('admin_page_plans.subscribers.empty') }}</p>
+                    </InfoBox>
+                </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <InfoBox v-else>
-            <p>{{ $t('admin_page_plans.subscribers.empty') }}</p>
-        </InfoBox>
     </PageTab>
 </template>
 
@@ -62,17 +68,17 @@
         data() {
             return {
                 subscribers: undefined,
-                isLoading: false,
+                isLoading: true,
                 columns: [
                     {
                         label: this.$t('admin_page_user.table.name'),
-                        field: 'data.attributes.name',
+                        field: 'name',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'data.relationships.storage.data.attributes.used',
-                        sortable: true
+                        field: 'used',
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -81,13 +87,6 @@
                 ],
             }
         },
-        created() {
-            axios.get('/api/plans/' + this.$route.params.id + '/subscribers')
-                .then(response => {
-                    this.subscribers = response.data.data
-                    this.isLoading = false
-                })
-        }
     }
 </script>
 

@@ -4,12 +4,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="description" content="{{ __('vuefilemanager.app_description') }}">
+    <meta name="description" content="{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __('vuefilemanager.app_description') }}">
 
-    <title>{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : 'Your self-hosted storage cloud software powered by Laravel and Vue' }}</title>
+    <title>{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __('vuefilemanager.app_description') }}</title>
 
     {{--StyleSheet--}}
     <link href="{{ asset('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">
+
+    {{--OG items--}}
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __('vuefilemanager.app_description') }}">
+    <meta property="og:description" content="{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __('vuefilemanager.app_description') }}">
+    <meta property="og:image" content="{{ asset('assets/images/vuefilemanager-og-image.jpg') }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">

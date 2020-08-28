@@ -69,12 +69,12 @@ class BrowseController extends Controller
             ->pluck('item_id');
 
         // Get folders and files
-        $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected'])
+        $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $folder_ids)
             ->get();
 
-        $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected'])
+        $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $file_ids)
             ->get();
@@ -145,13 +145,13 @@ class BrowseController extends Controller
         }
 
         // Get folders and files
-        $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected'])
+        $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('parent_id', $unique_id)
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected'])
+        $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('folder_id', $unique_id)
             ->orderBy('created_at', 'DESC')
@@ -217,7 +217,7 @@ class BrowseController extends Controller
         // Get user id
         $user_id = Auth::id();
 
-        return FileManagerFile::with(['shared:token,id,item_id,permission,protected'])
+        return FileManagerFile::with(['shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('unique_id', $unique_id)
             ->firstOrFail();

@@ -208,6 +208,9 @@
 			"username_plac": "输入您的邮件用户名"
 		},
 		"others": {
+			"section_cache": "Application Cache",
+			"cache_disclaimer": "Did you change anything in your .env file or change your stripe credentials? Then clear your cache.",
+			"cache_clear": "Clear Cache",
 			"allow_registration": "允许用户注册",
 			"allow_registration_help": "您可以为新用户禁用公共注册。您仍然可以在管理面板中 <br/>创建新用户。",
 			"contact_email": "联系电子邮件",
@@ -623,11 +626,16 @@
 		"visitor": "仅可以查看或下载文件"
 	},
 	"shared_form": {
+		"button_more_options": "More Options",
+		"button_close_options": "Close Options",
 		"button_done": "太好了！",
 		"button_generate": "生成分享链接",
 		"label_password_protection": "密码保护",
 		"label_permission": "权限",
 		"label_shared_url": "分享链接",
+		"label_expiration": "Link Expiration",
+		"expiration_hour": "{value}h.",
+		"expiration_day": "{value}d.",
 		"placeholder_permission": "请设置权限"
 	},
 	"sidebar": {

@@ -1,12 +1,12 @@
 <template>
     <div id="single-page">
-        <div id="page-content" v-if="! isLoading && pages.length > 0">
+        <div id="page-content" v-show="! isLoading">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
             <div class="content-page">
-                <DatatableWrapper :paginator="false" :columns="columns" :data="pages" class="table table-users">
-                    <template scope="{ row }">
+                <DatatableWrapper @init="isLoading = false" api="/api/pages" :paginator="false" :columns="columns" class="table table-users">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td class="name" style="min-width: 200px">
                                 <router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="cell-item" tag="div">
@@ -75,21 +75,20 @@
         data() {
             return {
                 isLoading: true,
-                pages: undefined,
                 columns: [
                     {
                         label: this.$t('admin_pages.table.page'),
-                        field: 'data.attributes.title',
+                        field: 'title',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_pages.table.slug'),
-                        field: 'data.attributes.slug',
+                        field: 'slug',
                         sortable: true
                     },
                     {
                         label: this.$t('admin_pages.table.status'),
-                        field: 'data.attributes.visibility',
+                        field: 'visibility',
                         sortable: true
                     },
                     {
@@ -104,13 +103,6 @@
                 this.$updateText('/pages/' + slug, 'visibility', val)
             }
         },
-        created() {
-            axios.get('/api/pages')
-                .then(response => {
-                    this.pages = response.data.data
-                    this.isLoading = false
-                })
-        }
     }
 </script>
 

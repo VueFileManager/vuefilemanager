@@ -31,7 +31,7 @@
                         <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
                         <SwitchInput v-model="shareOptions.isProtected" :state="shareOptions.isProtected" class="switch"/>
                     </div>
-                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" icon="pencil-alt">{{ $t('popup_share_edit.change_pass') }}</ActionButton>
+                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">{{ $t('popup_share_edit.change_pass') }}</ActionButton>
                 </div>
 
                 <!--Set password-->
@@ -39,6 +39,18 @@
                     <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
+
+                <!--More options-->
+                <div class="more-options" v-if="isMoreOptions">
+
+                    <!--Set expiration-->
+                    <div class="input-wrapper">
+                        <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
+                        <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" :value="shareOptions.expiration" class="box"/>
+                    </div>
+                </div>
+
+                <ActionButton @click.native="moreOptions" :icon="isMoreOptions || shareOptions.expiration ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
 
             </ValidationObserver>
 
@@ -68,6 +80,7 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import SelectBoxInput from '@/components/Others/Forms/SelectBoxInput'
     import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
@@ -88,6 +101,7 @@
         components: {
             ValidationProvider,
             ValidationObserver,
+            SelectBoxInput,
             ThumbnailItem,
             ActionButton,
             PopupWrapper,
@@ -101,7 +115,12 @@
             required,
         },
         computed: {
-            ...mapGetters(['user', 'permissionOptions', 'currentFolder']),
+            ...mapGetters([
+                'permissionOptions',
+                'expirationList',
+                'currentFolder',
+                'user',
+            ]),
             isFolder() {
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },
@@ -114,18 +133,28 @@
             isSharedLocation() {
                 return this.currentFolder && this.currentFolder.location === 'shared'
             },
+            moreOptionsTitle() {
+                return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_more_options')
+            }
         },
         data() {
             return {
+                isConfirmedDestroy: false,
+                canChangePassword: false,
                 shareOptions: undefined,
                 pickedItem: undefined,
-                isLoading: false,
+                isMoreOptions: false,
                 isDeleting: false,
-                canChangePassword: false,
-                isConfirmedDestroy: false,
+                isLoading: false,
             }
         },
         methods: {
+            moreOptions() {
+                this.isMoreOptions = ! this.isMoreOptions
+
+                if (! this.isMoreOptions)
+                    this.shareOptions.expiration = undefined
+            },
             changePassword() {
                 this.canChangePassword = false
             },
@@ -142,7 +171,9 @@
 
                     // Send delete request
                     axios
-                        .delete('/api/share/' + this.pickedItem.shared.token)
+                        .post('/api/share/' + this.pickedItem.shared.token, {
+                            _method: 'delete'
+                        })
                         .then(() => {
                             // Remove item from file browser
                             if ( this.isSharedLocation ) {
@@ -182,24 +213,25 @@
 
                 // Send request to get share link
                 axios
-                    .patch('/api/share/' + this.shareOptions.token, {
+                    .post('/api/share/' + this.shareOptions.token, {
                         permission: this.shareOptions.permission,
                         protected: this.shareOptions.isProtected,
+                        expiration: this.shareOptions.expiration,
                         password: this.shareOptions.password ? this.shareOptions.password : undefined,
+                        _method: 'patch'
                     })
                     .then(response => {
-
-                        // End loading
-                        this.isLoading = false
 
                         // Update shared data
                         this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)
 
                         events.$emit('popup:close')
                     })
-                    .catch(error => {
+                    .catch(() => {
 
-                        // todo: catch errors
+                        this.$isSomethingWrong()
+                    })
+                    .finally(() => {
 
                         // End loading
                         this.isLoading = false
@@ -219,10 +251,14 @@
                 // Store shared options
                 this.shareOptions = {
                     token: args.item.shared.token,
+                    expiration: args.item.shared.expire_in,
                     isProtected: args.item.shared.protected,
                     permission: args.item.shared.permission,
                     password: undefined,
                 }
+
+                if (args.item.shared.expire_in)
+                    this.isMoreOptions = true
 
                 this.canChangePassword = args.item.shared.protected
             })
@@ -251,6 +287,11 @@
         &.password {
             margin-top: -10px;
         }
+    }
+
+    .change-password {
+        opacity: 0.7;
+        text-decoration: underline;
     }
 
     .item-thumbnail {

@@ -85,8 +85,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if (! $user->stripeId()) {
-            return response('User is not stripe customer', 404);
+        if (! $user->stripeId() || ! $user->subscription('main')) {
+            return response('User doesn\'t have any subscription.', 404);
         }
 
         return new UserSubscription(
@@ -102,7 +102,7 @@ class UserController extends Controller
     public function users()
     {
         return new UsersCollection(
-            User::all()
+            User::sortable()->paginate('20')
         );
     }
 
@@ -227,7 +227,7 @@ class UserController extends Controller
         }
 
         // Validate user name
-        if ($user->name !== $request->name) abort(403);
+        if ($user->name !== $request->input('data.name')) abort(403);
 
         $shares = Share::where('user_id', $user->id)->get();
 

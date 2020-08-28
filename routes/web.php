@@ -11,6 +11,7 @@
 |
 */
 
+
 // Stripe WebHook
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 
@@ -31,10 +32,23 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
 });
 
+// Get user invoice
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
     Route::get('/invoice/{customer}/{token}', 'Admin\InvoiceController@show');
 });
 
-// Pages
-Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
+// Admin system tools
+Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master'], 'prefix' => 'service'], function () {
+    Route::get('/upgrade-database', 'General\UpgradeAppController@upgrade_database');
+    Route::get('/down', 'General\UpgradeAppController@down');
+    Route::get('/up', 'General\UpgradeAppController@up');
+});
+
+// Get og site for web crawlers
+if( Crawler::isCrawler()) {
+    Route::get('/shared/{token}', 'AppFunctionsController@og_site');
+} else {
+    Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
+}
+
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

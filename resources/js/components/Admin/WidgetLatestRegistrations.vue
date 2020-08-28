@@ -1,7 +1,7 @@
 <template>
     <WidgetWrapper :icon="icon" :title="title">
-        <DatatableWrapper v-if="users" :paginator="false" :columns="columns" :data="users" class="table table-users">
-            <template scope="{ row }">
+        <DatatableWrapper  @init="isLoading = false" api="/api/dashboard/new-users" :paginator="false" :columns="columns" class="table table-users">
+            <template slot-scope="{ row }">
                 <tr>
                     <td style="width: 300px">
                         <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
@@ -65,27 +65,26 @@
         data() {
             return {
                 isLoading: false,
-                users: undefined,
                 columns: [
                     {
                         label: this.$t('admin_page_user.table.name'),
-                        field: 'data.attributes.name',
-                        sortable: true
+                        field: 'name',
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.role'),
-                        field: 'data.attributes.role',
-                        sortable: true
+                        field: 'role',
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.storage_used'),
-                        field: 'relationships.storage.data.attributes.used',
-                        sortable: true
+                        field: 'used',
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.created_at'),
-                        field: 'data.attributes.created_at_formatted',
-                        sortable: true
+                        field: 'created_at',
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -107,13 +106,6 @@
                 }
             }
         },
-        created() {
-            axios.get('/api/dashboard/new-users')
-                .then(response => {
-                    this.users = response.data.data
-                    this.isLoading = false
-                })
-        }
     }
 </script>
 

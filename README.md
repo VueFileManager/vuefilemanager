@@ -4,10 +4,11 @@
 ## Supporting VueFileManager
 Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
 
-But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks!
+But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks you for participating on this awesome software!
 
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/vuefilemanager)
+- [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
 - [One-time donation via PayPal](https://www.paypal.me/peterpapp)
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/vuefilemanager)
 - [Purchase Licence on CodeCanyon](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986)
 
 ## Contents
@@ -17,10 +18,13 @@ But, it can't be done without you, development is more and more complicated and 
     - [Installation](#installation)
     - [PHP Configuration](#php-configuration)
     - [Chunk Upload](#chunk-upload)
+    - [Upgrade Guide](#upgrade-guide)
+        - [Common Instructions](#common-instructions)
+        - [Update from 1.7.8 to 1.7.9](#update-from-178-to-179)
+        - [Update from 1.7.x to 1.7.8](#update-from-17x-to-178)
+        - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
-    - [Recover Failed Installation](#installation-failed)
-    - [Update VueFileManager from 1.6.x to 1.7 ](#update-vuefilemanager-from-16x-to-17)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
@@ -53,6 +57,7 @@ But, it can't be done without you, development is more and more complicated and 
 - GD
 - BCMath
 - PDO
+- SQLite
 - Ctype
 - Fileinfo
 - JSON
@@ -60,14 +65,19 @@ But, it can't be done without you, development is more and more complicated and 
 - OpenSSL
 - Tokenizer
 - XML
+- Exif
 
 ## Installation
 
 #### 1. Upload files on your server
-Copy project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
+Upload project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
 #### 2. Configure your web root folder
-Configure your web server's document / web root to point to the public directory of the software. For example, if you've uploaded the software in `example.com` folder, your web directory should be changed to `example.com/public` folder.
+Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory. 
+
+Please don't try go to `yourdomain.com/public` URL address, you will have issue to verify your purchase code, this is not correct domain root setup, you must do this in your webhosting settings panel.
+
+![Domain Root](https://vuefilemanager.com/assets/images/domain-root.jpg)
 
 #### 3. Check your .env file
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
@@ -94,6 +104,13 @@ At first step you have to verify your purchase code. **Subscription service with
 
 That was the hardest part of installation proces. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
 
+#### 7. Set up Cron
+
+Add the following Cron entry to your server. Just update your php path (if it's different) and project path:
+```
+* * * * *  /usr/local/bin/php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+```
+
 ## PHP Configuration
 There are several PHP settings good to know to setup before you try upload any file. Please set these values in your php.ini, we provide minimal setup for you. When you set `-1` then you set infinity limits.
 
@@ -106,10 +123,44 @@ max_execution_time = 3600
 ```
 
 ## Chunk & Multipart Upload
-VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to `/config/vuefilemanager.php` and change `chunk_size` attribute.
+VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to your `.env` and change `CHUNK_SIZE` attribute.
 
 When you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space and set higher `max_execution_time` in your php.ini to move your files to external storage. 
 
+## Upgrade Guide
+
+### Common Instructions
+`Don't forget create backup of your database before make any changes in your production application. If you serve your files in local storage driver pay attention and don't delete your /storage folder!`
+
+These instructions is applicable for all updates. Please follow this step:
+
+- Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
+
+### Update from 1.7.8 to 1.7.9
+After rewrited old files with new files, log in as admin to the app and go to `your-domain.com/service/upgrade-database`. This will upgrade your database on the background.
+
+Add the following Cron entry to your server. Just update your php path (if it's different) and project path:
+```
+* * * * *  /usr/local/bin/php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+
+```
+
+### Update from 1.7.x to 1.7.8
+For those who have installed VueFileManager via git or any other repository synchronization tool, dont't forget after updated code run `composer update` command to update your vendors.
+
+### Update from 1.6.x to 1.7
+
+For those, who purchase extended licence, place these lines at the end of your `/.env` file:
+```
+CASHIER_LOGGER=stack
+CASHIER_CURRENCY=
+STRIPE_KEY=
+STRIPE_SECRET=
+STRIPE_WEBHOOK_SECRET=
+CASHIER_PAYMENT_NOTIFICATION=App\Notifications\ConfirmPayment
+```
+
+Then go to https://your-domain.com/upgrade and follow the setup wizard instructions.
 
 ## Nginx Configuration
 If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:
@@ -172,35 +223,6 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 </VirtualHost>
 ```
 
-## Installation Failed
-
-What to do when installation fail and you can't continue, at first, try to fix issue why installation fail. Probably missing PHP extension or permissions wasn't set correctly.
-
-At worst scenarios, to reset Setup Wizard, delete all tables in your previously created database, delete content of `/storage/framework/cache`. Then replace content in your `.env` file from `.env.example` file. 
-
-After these steps, installation will be reseted.
-
-## Update VueFileManager from 1.6.x to 1.7
-`Don't forget create backup of your database and storage before make any changes in your production application.`
-
-For those, who purchase extended licence, place these lines at the end of your `/.env` file:
-```
-CASHIER_LOGGER=stack
-CASHIER_CURRENCY=
-STRIPE_KEY=
-STRIPE_SECRET=
-STRIPE_WEBHOOK_SECRET=
-CASHIER_PAYMENT_NOTIFICATION=App\Notifications\ConfirmPayment
-```
-
-Then follow this steps:
-
-- Make sure you have PHP >= 7.2.5 version
-- Make a backup of the .env config file located on your server.
-- Upload and replace all the files on your server with what's inside the app folder.
-- Restore your `.env` config file on your server.
-- Go to https://your-domain.com/upgrade and follow the setup wizard instructions.
-
 # Payments
 VueFileManager is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
 
@@ -240,6 +262,13 @@ To start server on your localhost, run command below. Then go to your generated 
 ```
 php artisan serve
 ```
+
+After successfully installation via Setup Wizard, stop your artisan server, clear config cache and run your artisan server again:
+```
+php artisan config:clear
+php artisan serve
+```
+*After any change in your .env you have to restart your artisan server to reload your config cache.*
 
 To develop your Vue front-end, you have to install npm modules by this command:
 ```
@@ -336,5 +365,6 @@ The following support channels are available at your fingertips:
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this project, please send an e-mail to [peterpapp@makingcg.com](peterpapp@makingcg.com). All security vulnerabilities will be promptly addressed.
+
 
 

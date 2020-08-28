@@ -51,6 +51,7 @@ class ShareController extends Controller
             'protected'  => $request->isPassword,
             'permission' => $request->permission,
             'item_id'    => $request->unique_id,
+            'expire_in'  => $request->expiration,
             'user_id'    => Auth::id(),
             'token'      => $token,
         ];
@@ -77,6 +78,7 @@ class ShareController extends Controller
         $shared->update([
             'permission' => $request->permission,
             'protected'  => $request->protected,
+            'expire_in'  => $request->expiration,
             'password'   => $request->password ? Hash::make($request->password) : $shared->password,
         ]);
 

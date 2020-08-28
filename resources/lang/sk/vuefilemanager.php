@@ -52,4 +52,8 @@ return [
     'col_amount'      => 'Čiastka',
 
     'total' => 'Spolu',
+
+    // OG Page
+    'user_sending' => ':name ti posiela súbor.',
+    'protected_file' => 'Tento link je chránený heslom',
 ];

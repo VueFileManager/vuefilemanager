@@ -1,6 +1,6 @@
 <template>
     <PageTab :is-loading="isLoading" class="form-fixed-width">
-        <PageTabGroup v-if="subscription">
+        <PageTabGroup v-if="subscription && !isLoading">
             <FormLabel>
                 {{ $t('user_subscription.title') }}
             </FormLabel>
@@ -27,7 +27,7 @@
                 </ListInfo>
             </div>
         </PageTabGroup>
-        <PageTabGroup v-if="! subscription">
+        <PageTabGroup v-if="! subscription && !isLoading">
             <InfoBox>
                 <p>{{ $t('admin_page_user.subscription.empty') }}</p>
             </InfoBox>

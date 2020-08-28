@@ -2,13 +2,13 @@
     <div id="single-page">
 
         <!--Page Content-->
-        <div id="page-content" v-if="! isLoading && invoices.length > 0">
+        <div id="page-content" v-show="! isLoading && config.stripe_public_key">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
-            <div class="content-page">
-                <DatatableWrapper :paginator="true" :columns="columns" :data="invoices" class="table">
-                    <template scope="{ row }">
+            <div class="content-page" v-if="config.stripe_public_key">
+                <DatatableWrapper @data="invoices = $event" @init="isLoading = false" api="/api/invoices" :paginator="false" :columns="columns" class="table">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td>
                                 <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">
@@ -126,27 +126,27 @@
                     {
                         label: this.$t('admin_page_invoices.table.number'),
                         field: 'data.attributes.order',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.total'),
                         field: 'data.attributes.bag.amount',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.plan'),
                         field: 'data.attributes.bag.amount',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.payed'),
                         field: 'data.attributes.created_at',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_invoices.table.user'),
                         field: 'relationships.user.data.attributes.name',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -156,15 +156,8 @@
             }
         },
         created() {
-            if (this.config.stripe_public_key) {
-                axios.get('/api/invoices')
-                    .then(response => {
-                        this.invoices = response.data.data
-                        this.isLoading = false
-                    })
-            } else {
+            if (! this.config.stripe_public_key)
                 this.isLoading = false
-            }
         }
     }
 </script>

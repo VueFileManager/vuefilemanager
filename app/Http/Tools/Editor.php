@@ -36,11 +36,12 @@ class Editor
         $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
         $name = $request->has('name') ? $request->input('name') : 'New Folder';
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+        $unique_id = get_unique_id();
 
         // Create folder
         $folder = FileManagerFolder::create([
             'parent_id'  => $request->parent_id,
-            'unique_id'  => get_unique_id(),
+            'unique_id'  => $unique_id,
             'user_scope' => $user_scope,
             'user_id'    => $user_id,
             'type'       => 'folder',
@@ -91,7 +92,7 @@ class Editor
         $user = is_null($shared) ? Auth::user() : User::findOrFail($shared->user_id);
 
         // Delete folder
-        if ($request->type === 'folder') {
+        if ($request->input('data.type') === 'folder') {
 
             // Get folder
             $folder = FileManagerFolder::withTrashed()
@@ -112,7 +113,7 @@ class Editor
             }
 
             // Force delete children files
-            if ($request->force_delete) {
+            if ($request->input('data.force_delete')) {
 
                 // Get children folder ids
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
@@ -141,7 +142,7 @@ class Editor
             }
 
             // Soft delete items
-            if (!$request->force_delete) {
+            if (!$request->input('data.force_delete')) {
 
                 // Remove folder from user favourites
                 $user->favourite_folders()->detach($unique_id);
@@ -152,7 +153,7 @@ class Editor
         }
 
         // Delete item
-        if ($request->type !== 'folder') {
+        if ($request->input('data.type') !== 'folder') {
 
             // Get file
             $file = FileManagerFile::withTrashed()
@@ -172,7 +173,7 @@ class Editor
             }
 
             // Force delete file
-            if ($request->force_delete) {
+            if ($request->input('data.force_delete')) {
 
                 // Delete file
                 Storage::delete('/file-manager/' . $file->basename);
@@ -185,7 +186,7 @@ class Editor
             }
 
             // Soft delete file
-            if (!$request->force_delete) {
+            if (!$request->input('data.force_delete')) {
 
                 // Soft delete file
                 $file->delete();
@@ -251,12 +252,13 @@ class Editor
         $temp_filename = $file->getClientOriginalName();
 
         // Generate file
-        File::append(storage_path() . '/app/chunks/' . $temp_filename, $file->get());
+        File::append(config('filesystems.disks.local.root') . '/chunks/' . $temp_filename, $file->get());
 
         // If last then process file
         if ($request->boolean('is_last')) {
 
             $disk_local = Storage::disk('local');
+            $unique_id = get_unique_id();
 
             // Get user data
             $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
@@ -270,24 +272,10 @@ class Editor
             self::check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $user_file_name);
+            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name);
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move('chunks/' . $temp_filename, 'file-manager/' . $disk_file_name);
-
-            // Store file
-            $options = [
-                'mimetype'   => get_file_type_from_mimetype($file_mimetype),
-                'type'       => get_file_type($file_mimetype),
-                'folder_id'  => $request->parent_id,
-                'name'       => $user_file_name,
-                'unique_id'  => get_unique_id(),
-                'basename'   => $disk_file_name,
-                'user_scope' => $user_scope,
-                'thumbnail'  => $thumbnail,
-                'filesize'   => $file_size,
-                'user_id'    => $user_id,
-            ];
 
             // Move files to external storage
             if (!is_storage_driver(['local'])) {
@@ -298,6 +286,20 @@ class Editor
                 // Move file to external storage service
                 self::move_to_external_storage($disk_file_name, $thumbnail);
             }
+
+            // Store file
+            $options = [
+                'mimetype'   => get_file_type_from_mimetype($file_mimetype),
+                'type'       => get_file_type($file_mimetype),
+                'folder_id'  => $request->parent_id,
+                'name'       => $user_file_name,
+                'unique_id'  => $unique_id,
+                'basename'   => $disk_file_name,
+                'user_scope' => $user_scope,
+                'thumbnail'  => $thumbnail,
+                'filesize'   => $file_size,
+                'user_id'    => $user_id,
+            ];
 
             // Return new file
             return FileManagerFile::create($options);
@@ -367,7 +369,7 @@ class Editor
                 $client = $adapter->getClient();
 
                 // Prepare the upload parameters.
-                $uploader = new MultipartUploader($client, storage_path() . '/app/file-manager/' . $file, [
+                $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/file-manager/' . $file, [
                     'bucket' => $adapter->getBucket(),
                     'key'    => 'file-manager/' . $file
                 ]);
@@ -391,7 +393,7 @@ class Editor
             } else {
 
                 // Stream file object to s3
-                Storage::putFileAs('file-manager', storage_path() . '/app/file-manager/' . $file, $file, 'private');
+                Storage::putFileAs('file-manager', config('filesystems.disks.local.root') . '/file-manager/' . $file, $file, 'private');
             }
 
             // Delete file after upload
@@ -439,7 +441,7 @@ class Editor
             $thumbnail = 'thumbnail-' . $filename;
 
             // Create intervention image
-            $image = Image::make(storage_path() . '/app/' . $file_path)->orientate();
+            $image = Image::make(config('filesystems.disks.local.root') . '/' . $file_path)->orientate();
 
             // Resize image
             $image->resize(512, null, function ($constraint) {

@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Personal Information-->
-        <PageTabGroup>
+        <PageTabGroup v-if="! isLoading">
             <div class="form block-form">
                 <FormLabel>{{ $t('admin_settings.appearance.section_general') }}</FormLabel>
 

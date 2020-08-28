@@ -17,6 +17,10 @@ const actions = {
                 .then((response) => {
                     resolve(response)
 
+                    // Redirect user if is logged
+                    if (router.currentRoute.name === 'SignIn')
+                        router.push({ name: 'Files' })
+
                     commit('RETRIEVE_USER', response.data)
 
                 }).catch((error) => {
@@ -26,7 +30,7 @@ const actions = {
                     if ([401, 403].includes(error.response.status)) {
 
                         commit('SET_AUTHORIZED', false)
-                        router.push({name: 'SignIn'})
+                        //router.push({name: 'SignIn'})
                     }
                 }
             )
@@ -66,7 +70,9 @@ const actions = {
         context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .delete(context.getters.api + '/folders/favourites/' + folder.unique_id)
+            .post(context.getters.api + '/folders/favourites/' + folder.unique_id, {
+                _method: 'delete'
+            })
             .catch(() => {
                 // Show error message
                 events.$emit('alert:open', {

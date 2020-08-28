@@ -2,8 +2,8 @@
 
 return [
 
-    'version' => '1.7.3',
+    'version'    => '1.7.9',
 
     // Define size of chunk uploaded by MB. E.g. integer 128 means chunk size will be 128MB.
-    'chunk_size' => '128',
+    'chunk_size' => env('CHUNK_SIZE', '128'),
 ];

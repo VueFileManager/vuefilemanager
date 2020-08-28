@@ -1,16 +1,24 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup v-if="PaymentMethods && PaymentMethods.length > 0">
+        <PageTabGroup>
+
+            <!--Page title-->
             <FormLabel>{{ $t('user_payments.title') }}</FormLabel>
-            <div class="page-actions">
+
+            <!--Add payment method button-->
+            <div class="page-actions" v-if="PaymentMethods && PaymentMethods.length > 0">
                 <router-link :to="{name: 'CreatePaymentMethod'}">
                     <MobileActionButton icon="credit-card">
                         {{ $t('user_payments.add_card') }}
                     </MobileActionButton>
                 </router-link>
             </div>
-            <DatatableWrapper :paginator="false" :columns="columns" :data="PaymentMethods" class="table">
-                <template scope="{ row }">
+
+            <!--Payment methods table-->
+            <DatatableWrapper v-if="PaymentMethods" :table-data="{data: PaymentMethods}" :paginator="false" :columns="columns" class="table">
+
+                <!--Table data content-->
+                <template slot-scope="{ row }">
                     <tr :class="{'is-deleting': row.data.attributes.card_id === deletingID}">
                         <td style="width: 300px">
                             <span class="cell-item">
@@ -24,11 +32,6 @@
                                 </div>
                             </span>
                         </td>
-                        <!--<td>
-                            <span class="cell-item">
-                                <ColorLabel :color="getCardStatusColor(row.data.attributes.status)">{{ getCardStatus(row.data.attributes.status) }}</ColorLabel>
-                            </span>
-                        </td>-->
                         <td>
                             <span class="cell-item">
                                 {{ row.data.attributes.exp_month }} / {{ row.data.attributes.exp_year }}
@@ -46,11 +49,15 @@
                         </td>
                     </tr>
                 </template>
+
+                <!--Empty page-->
+                <template v-slot:empty-page>
+                    <InfoBox>
+                        <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}">Add new payment method.</router-link> </p>
+                    </InfoBox>
+                </template>
             </DatatableWrapper>
         </PageTabGroup>
-        <InfoBox v-else>
-            <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}">Add new payment method.</router-link> </p>
-        </InfoBox>
     </PageTab>
 </template>
 
@@ -92,17 +99,12 @@
                     {
                         label: this.$t('rows.card.number'),
                         field: 'data.attributes.total',
-                        sortable: true
+                        sortable: false
                     },
-                    /*{
-                        label: this.$t('rows.card.status'),
-                        field: 'data.attributes.status',
-                        sortable: true
-                    },*/
                     {
                         label: this.$t('rows.card.expiration'),
                         field: 'data.attributes.total',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -124,19 +126,6 @@
                     break
                     case 'expired':
                         return 'red'
-                    break
-                }
-            },
-            getCardStatus(status) {
-                switch (status) {
-                    case 'active':
-                        return 'Active'
-                    break
-                    case 'card_declined':
-                        return 'Rejected'
-                    break
-                    case 'expired':
-                        return 'Expired'
                     break
                 }
             },
@@ -166,19 +155,19 @@
                     .then(response => {
 
                         if (response.status == 204) {
-                            this.PaymentMethods = []
+                            this.PaymentMethods = {}
                         }
 
                         if (response.status == 200) {
-
                             this.defaultPaymentCard = response.data.default
 
                             this.PaymentMethods = response.data.others.data
                             this.PaymentMethods.push(response.data.default)
                         }
-
+                    }).finally(() => {
                         this.isLoading = false
-                    })
+                    }
+                )
             }
         },
         created() {
@@ -193,7 +182,9 @@
 
                     this.deletingID = data.id
 
-                    axios.delete('/api/user/payment-cards/' + data.id)
+                    axios.post('/api/user/payment-cards/' + data.id, {
+                        _method: 'delete'
+                    })
                         .then(() => {
 
                             // Get payments card
@@ -215,8 +206,9 @@
 
                 if (data.operation === 'set-as-default-credit-card') {
 
-                    axios.patch('/api/user/payment-cards/' + data.id, {
-                        default: 1
+                    axios.post('/api/user/payment-cards/' + data.id, {
+                        default: 1,
+                        _method: 'patch'
                     })
                         .then(() => {
 

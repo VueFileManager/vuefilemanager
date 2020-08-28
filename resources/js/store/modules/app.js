@@ -263,9 +263,39 @@ const defaultState = {
 		{label: 'Zambia', value: 'ZM'},
 		{label: 'Zimbabwe', value: 'ZW'}
 	],
+	expirationList: [
+		{
+			label: i18n.t('shared_form.expiration_hour', {value: 1}),
+			value: 1,
+		},
+		{
+			label: i18n.t('shared_form.expiration_hour', {value: 2}),
+			value: 2,
+		},
+		{
+			label: i18n.t('shared_form.expiration_hour', {value: 6}),
+			value: 6,
+		},
+		{
+			label: i18n.t('shared_form.expiration_hour', {value: 12}),
+			value: 12,
+		},
+		{
+			label: i18n.t('shared_form.expiration_day', {value: 1}),
+			value: 24,
+		},
+		{
+			label: i18n.t('shared_form.expiration_day', {value: 2}),
+			value: 48,
+		},
+		{
+			label: i18n.t('shared_form.expiration_day', {value: 7}),
+			value: 168,
+		},
+	],
 }
 const actions = {
-	changePreviewType: ({commit, dispatch, state, getters}) => {
+	changePreviewType: ({commit, state}) => {
 		// Get preview type
 		let previewType = state.FilePreviewType == 'grid' ? 'list' : 'grid'
 
@@ -320,6 +350,7 @@ const mutations = {
 const getters = {
 	fileInfoVisible: state => state.fileInfoPanelVisible,
 	FilePreviewType: state => state.FilePreviewType,
+	expirationList: state => state.expirationList,
 	homeDirectory: state => state.homeDirectory,
 	requestedPlan: state => state.requestedPlan,
 	countries: state => state.countries,

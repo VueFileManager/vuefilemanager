@@ -28,6 +28,7 @@ class CreateShareRequest extends FormRequest
             'isPassword' => 'required|boolean',
             'unique_id'  => 'required|integer',
             'type'       => 'required|string',
+            'expiration' => 'integer|nullable',
             'permission' => 'string',
             'password'   => 'string',
         ];

@@ -1,761 +1,769 @@
 {
-  "actions": {
-    "create_folder": "Vytvoriť priečinok",
-    "delete": "Vymazať položku",
-    "move": "Presunúť položku",
-    "preview": "Zmeniť náhľad",
-    "share": "Zdieľať položku",
-    "upload": "Nahrať súbory",
-    "download": "Stiahnuť položku",
-    "print": "Vytlačiť položku"
-  },
-  "activation": {
-    "stripe": {
-      "button": "Nastaviť účet Stripe",
-      "description": "Pre spoplatňovanie Vaších uživateľov, prosím nastavte poverenia služby Stripe",
-      "title": "Váš účet Stripe nie je nastavený"
-    }
-  },
-  "admin_menu": {
-    "dashboard": "Prehľad",
-    "invoices": "Faktúry",
-    "pages": "Stránky",
-    "plans": "Plány",
-    "settings": "Nastavenia",
-    "users": "Uživatelia"
-  },
-  "admin_page_dashboard": {
-    "backer_button": "Staňte sa podporovateľom",
-    "license": "Licencia",
-    "version": "Verzia",
-    "w_latest_users": {
-      "title": "Najnovšie registrácie"
-    },
-    "w_total_premium": {
-      "link": "Zobraziť všetky plány",
-      "title": "Celkový počet prémiových používateľov"
-    },
-    "w_total_space": {
-      "link": "Zobraziť všetkých používateľov",
-      "title": "Celkový využitý priestor"
-    },
-    "w_total_users": {
-      "link": "Zobraziť všetkých používateľov",
-      "title": "Celkový počet používateľov"
-    }
-  },
-  "admin_page_invoices": {
-    "empty": {
-      "description": "Tu sa zobrazia všetky faktúry zákazníkov.",
-      "title": "Zatiaľ nemáte žiadne faktúry"
-    },
-    "table": {
-      "number": "Číslo faktúry",
-      "payed": "Zaplatené",
-      "plan": "Plán",
-      "total": "Celkom",
-      "user": "Užívateľ"
-    }
-  },
-  "admin_page_plans": {
-    "create_plan_button": "Vytvoriť plán",
-    "delete_plan_button": "Odstrániť plán",
-    "disclaimer_delete_plan": "Môžete odstrániť plán, ale dávajte pozor!",
-    "disclaimer_edit_price": "Zmena ceny za váš plán nie je k dispozícii z dôvodu návrhu služby Stripe. Ak si želáte zmeniť cenový plán, vytvorte nový.",
-    "empty": {
-      "button": "Vytvoriť nový plán",
-      "description": "Ak chcete vytvoriť nový plán, kliknite na tlačidlo nižšie.",
-      "title": "Zatiaľ nemáte žiadny plán"
-    },
-    "form": {
-      "description": "Popis (nepovinné)",
-      "description_plac": "Popis plánu",
-      "name": "Názov",
-      "name_delete_plac": "Zadajte názov plánu",
-      "name_plac": "Názov plánu",
-      "price": "Cena",
-      "price_plac": "Cena plánu",
-      "status": "Stav",
-      "status_help": "Stav dostupnosti vášho plánu na webovej stránke.",
-      "storage": "Úložná kapacita v GB",
-      "storage_helper": "Musíte zadať iba číslo, napr. hodnota „5“ znamená, že používateľ bude mať 5 GB úložnej kapacity.",
-      "storage_plac": "Kapacita úložiska",
-      "title_delete": "Odstrániť plán",
-      "title_details": "Podrobnosti plánu",
-      "title_pricing": "Cena plánu"
-    },
-    "subscribers": {
-      "empty": "Zatiaľ nie je žiadny odberateľ."
-    },
-    "table": {
-      "name": "Názov plánu",
-      "price": "Cena",
-      "status": "Stav",
-      "storage_capacity": "Kapacita úložiska",
-      "subscribers": "Odberatelia"
-    },
-    "tabs": {
-      "delete": "Odstrániť plán",
-      "settings": "Nastavenia",
-      "subscribers": "Odberatelia"
-    }
-  },
-  "admin_page_user": {
-    "change_capacity": "Zmeniť kapacitu",
-    "create_user": {
-      "avatar": "Avatar",
-      "group_details": "Detail účtu",
-      "group_settings": "Nastavenia účtu",
-      "label_conf_pass": "Potvrďte heslo",
-      "label_email": "Napíšte E-mail",
-      "label_name": "Napíšte celé meno",
-      "submit": "Vytvoriť uživateľa"
-    },
-    "delete_user": "Vymazať uživateľa",
-    "invoices": {
-      "empty": "Užívateľ zatiaľ nemá žiadne faktúry."
-    },
-    "label_change_capacity": "Vpíšte kapacitu úložiska v GB",
-    "label_delete_user": "Napíšte uživateľovo meno ‘{user}‘. Rozlišujte medzi malými a veľkými písmenami",
-    "label_person_info": "Osobné informácie",
-    "placeholder_delete_user": "Píšte sem",
-    "save_role": "Uložiť Rolu",
-    "select_role": "Vyberte uživateľskú rolu",
-    "send_password_link": "Odoslať email s resetom hesla",
-    "subscription": {
-      "empty": "Užívateľ zatiaľ nemá žiadne predplatné.",
-      "interval_mo": "Mesačne"
-    },
-    "table": {
-      "action": "Akcia",
-      "created_at": "Registrovaný",
-      "name": "Užívateľ",
-      "plan": "Plán",
-      "role": "Rola",
-      "storage_capacity": "Kapacita úložiska",
-      "storage_used": "Využitie úložiska"
-    },
-    "tabs": {
-      "delete": "Vymazať uživateľa",
-      "detail": "Detail",
-      "invoices": "Faktúry",
-      "password": "Heslo",
-      "storage": "Využitie úložiska",
-      "subscription": "Predplatné"
-    }
-  },
-  "admin_pages": {
-    "form": {
-      "content": "Obsah",
-      "content_plac": "Sem zadajte svoj obsah ...",
-      "slug": "Slug",
-      "title": "Nadpis",
-      "title_plac": "Názov titulky",
-      "visibility": "Viditeľnosť",
-      "visibility_help": "Stav viditeľnosti stránky na webe."
-    },
-    "table": {
-      "page": "Stránka",
-      "slug": "Slug",
-      "status": "Stav"
-    }
-  },
-  "admin_settings": {
-    "appearance": {
-      "description": "Popis aplikácie",
-      "description_plac": "Zadajte popis svojej aplikácie",
-      "favicon": "Favicon aplikácie (voliteľné)",
-      "logo": "Logo aplikácie (voliteľné)",
-      "logo_horizontal": "Horizontálne logo aplikácie (voliteľné)",
-      "section_appearance": "Vzhľad",
-      "section_general": "Všeobecné nastavenia",
-      "title": "Názov aplikácie",
-      "title_plac": "Zadajte názov aplikácie"
-    },
-    "billings": {
-      "address": "Fakturačná adresa",
-      "address_plac": "Zadajte svoju fakturačnú adresu",
-      "city": "Mesto fakturácie",
-      "city_plac": "Zadajte svoje fakturačné mesto",
-      "company_name": "Meno spoločnosti",
-      "company_name_plac": "Zadajte názov svojej spoločnosti",
-      "country": "Krajina fakturácie",
-      "country_plac": "Vyberte krajinu fakturácie",
-      "phone_number": "Telefónne číslo (voliteľné)",
-      "phone_number_plac": "Zadajte svoje telefónne číslo pre fakturáciu",
-      "postal_code": "Poštové smerovacie číslo",
-      "postal_code_plac": "Zadajte svoj fakturačný poštový kód",
-      "section_billing": "Fakturačné údaje",
-      "section_company": "informácie o spoločnosti",
-      "state": "Stav fakturácie",
-      "state_plac": "Zadajte stav fakturácie",
-      "vat": "identifikačné číslo DPH",
-      "vat_plac": "Zadajte svoje IČ DPH"
-    },
-    "email": {
-      "driver": "Mail Driver",
-      "driver_plac": "Zadajte mail driver",
-      "email_disclaimer": "Tento formulár nie je predvyplnený z bezpečnostných dôvodov. Vaše emailové nastavenia sú dostupné v <b>.env</b> súbore aplikácie. Pre aplikovanie nastavení, prosim potvdte tlačítkom na konci formulára.",
-      "encryption": "Šifrovanie pošty",
-      "encryption_plac": "Vyberte šifrovanie pošty",
-      "host": "Hostiteľ pošty",
-      "host_plac": "Zadajte svojho poštového hostiteľa",
-      "password": "Heslo k e-mailu",
-      "password_plac": "Zadajte svoje e-mailové heslo",
-      "port": "Port",
-      "port_plac": "Zadajte poštový port",
-      "save_button": "Uložte nastavenia e-mailu",
-      "section_email": "Nastavenie e-mailu",
-      "username": "Používateľské meno pre poštu",
-      "username_plac": "Zadajte svoje používateľské meno pre poštu"
-    },
-    "others": {
-      "allow_registration": "Povoliť registráciu používateľov",
-      "allow_registration_help": "Môžete zakázať verejnú registráciu nových používateľov. V administračnom paneli stále budete môcť <br/>vytvárať nových používateľov.",
-      "contact_email": "Kontaktný email",
-      "contact_email_plac": "Zadajte svoj kontaktný e-mail",
-      "default_storage": "Predvolený úložný priestor pre používateľské účty v GB",
-      "default_storage_plac": "Nastaviť predvolený úložný priestor v GB",
-      "google_analytics": "Kód Google Analytics (voliteľné)",
-      "google_analytics_plac": "Vložte svoj kód Google Analytics",
-      "section_others": "Ostatné nastavenia",
-      "section_user": "Používatelia a ukladací priestor",
-      "storage_limit": "Obmedzenie priestoru",
-      "storage_limit_help": "Ak je táto hodnota vypnutá, všetci používatelia budú mať nekonečnú kapacitu úložiska a vy nebudete môcť <br/>účtovať svojim používateľom poplatky za plán úložiska."
-    },
-    "payments": {
-      "allow_payments": "Povoliť platby za plány",
-      "button_submit": "Otestovať a uložiť Stripe",
-      "button_testing": "Testovanie Stripe pripojenia",
-      "credentials_disclaimer": "Vaše poverenia v službe Stripe sa nezobrazujú, pretože tieto hodnoty sú tajné a nesmie ich odhaliť cudzinec. Svoje poverenia v službe Stripe môžete zmeniť v súbore <b>.env</b> aplikácie.",
-      "section_payments": "Stripe platby",
-      "stripe_create_acc": "Ak nemáte účet Stripe, <a href=\"https://dashboard.stripe.com/register\" target=\"_blank\">zaregistrujte sa tu</a> a získajte svoj publikovateľný kľúč, tajný kľúč a vytvorte Stripe webhook.",
-      "stripe_create_webhook": "",
-      "stripe_currency": "Stripe Mena",
-      "stripe_currency_plac": "Vyberte Stripe menu",
-      "stripe_pub_key": "Verejný kľúč",
-      "stripe_pub_key_plac": "Vložte Váš verejný kľúč",
-      "stripe_sec_key": "Tajný kľúč",
-      "stripe_sec_key_plac": "Vložte Váš tajný kľúč",
-      "stripe_setup": "Stripe nastavenia",
-      "stripe_webhook_key_plac": "Vložte Váš Stripe webhook tajný kľúč",
-      "webhook_url": "Stripe webhook URL adresa"
-    },
-    "tabs": {
-      "appearance": "Vzhľad",
-      "billings": "Fakturácia",
-      "email": "E-mail",
-      "others": "Aplikácia",
-      "payments": "Platby"
-    }
-  },
-  "alerts": {
-    "error_confirm": "To je hrozné!",
-    "success_confirm": "Skvelé!"
-  },
-  "context_menu": {
-    "add_folder": "Nový priečinok",
-    "add_to_favourites": "Pridať do obľúbených",
-    "create_folder": "Vytvoriť priečinok",
-    "delete": "Vymazať",
-    "detail": "Detail",
-    "download": "Stiahnúť",
-    "empty_trash": "Vyprázdniť kôš",
-    "log_out": "Odhlásiť sa",
-    "move": "Presunúť",
-    "profile_settings": "Nastavenia profilu",
-    "remove_from_favourites": "Vymazať obľúbené",
-    "rename": "Premenovať",
-    "restore": "Obnoviť",
-    "share": "Zdieľať",
-    "share_edit": "Upraviť zdieľanie",
-    "upload": "Nahrať"
-  },
-  "cookie_disclaimer": {
-    "button": "politikou cookies",
-    "description": "Prehliadaním tejto stránky súhlasim s našou"
-  },
-  "datatable": {
-    "paginate_info": "Zobrazuje sa 1 - {visible} z {total} položiek"
-  },
-  "empty_page": {
-    "call_to_action": "Nahrať súbory",
-    "description": "Nahrajte súbory jednoducho cez tlačidlo nahrať",
-    "title": "Tu nie je nič"
-  },
-  "errors": {
-    "capacity_digit": "Kapacita úložiska musí byť nižšia ako 10 číslic."
-  },
-  "file_detail": {
-    "author": "Autor",
-    "author_participant": "Verejný účastník",
-    "created_at": "Vytvorené",
-    "shared": "Zdieľané",
-    "size": "Veľkosť",
-    "where": "Umiestnenie"
-  },
-  "folder": {
-    "empty": "Prázdne",
-    "item_counts": "{count} Položka | {count} Položky"
-  },
-  "global": {
-    "incomplete": "Incomplete",
-    "active": "Aktívny",
-    "admin": "Admin",
-    "cancel": "Zrušiť",
-    "canceled": "Zrušený",
-    "confirm_action": "Áno, som si istý",
-    "default": "Predvolený",
-    "free": "Zadarmo",
-    "get_it": "Získať",
-    "menu": "Ponuka",
-    "monthly_ac": "Mes.",
-    "or": "alebo",
-    "premium": "Premium",
-    "saas": "Služby",
-    "subscription": "Predplatné",
-    "total": "Celkom",
-    "upgrade_plan": "Navýšiť úložisko"
-  },
-  "input_image": {
-    "supported": "Podporované formáty sú .png, .jpg, .jpeg.",
-    "title": "Vložte obrázok"
-  },
-  "inputs": {
-    "placeholder_search_files": "Hľadajte súbory…"
-  },
-  "item_thumbnail": {
-    "deleted_at": "Vymazané {time}",
-    "original_location": "Pôvodné umiestnenie"
-  },
-  "locations": {
-    "home": "Domov",
-    "shared": "Zdieľané",
-    "trash": "Kôš"
-  },
-  "menu": {
-    "admin": "Administrácia",
-    "files": "Súbory",
-    "invoices": "Faktúry",
-    "latest": "Posledne nahrané",
-    "logout": "Odhlásiť sa",
-    "password": "Heslo",
-    "payment_cards": "Platobné karty",
-    "profile": "Nastavenia profilu",
-    "settings": "Nastavenia",
-    "shared": "Zdieľané súbory",
-    "storage": "Úložisko",
-    "subscription": "Predplatné",
-    "trash": "Kôš"
-  },
-  "messages": {
-    "nothing_from_participants": "Zatiaľ nemáš žiadné súbory od ostatných uživateľov",
-    "nothing_to_preview": "Tu nie je nič pre zobrazenie.",
-    "nothing_was_found": "Nič sa nenašlo."
-  },
-  "notice": {
-    "stripe_activation": "Váš účet Stripe nie je nastavený. Pre spoplatňovanie používateľov prosím {0}.",
-    "stripe_activation_button": "nastavte účet Stripe"
-  },
-  "page_contact_us": {
-    "description": "Máte nejaké otázky? Spojte sa s nami.",
-    "error_message": "Niečo sa pokazilo, skúste to znova.",
-    "form": {
-      "email": "E-mail",
-      "email_plac": "Zadajte svoj e-mail",
-      "message": "Správa",
-      "message_plac": "Sem napíšte správu...",
-      "submit_button": "Odoslať správu"
-    },
-    "success_message": "Vaša správa bola úspešne odoslaná.",
-    "title": "Kontaktujte nás"
-  },
-  "page_create_password": {
-    "button_update": "Aktualizovať heslo",
-    "label_confirm_pass": "Potvrďte nové heslo",
-    "label_email": "Email:",
-    "label_new_pass": "Vaše nové heslo",
-    "subtitle": "Vytvorte si nové heslo tu:",
-    "title": "Iba jeden krok pre prihlásenie"
-  },
-  "page_forgotten_password": {
-    "button_get_link": "Získať link",
-    "pass_reseted_signin": "Prihlásiť sa",
-    "pass_reseted_subtitle": "Tvoje heslo bolo obnovené úspešne.",
-    "pass_reseted_title": "Skvelé!",
-    "pass_sennded_subtitle": "Práve sme Vám odoslali link na Váš email!",
-    "pass_sennded_title": "Ďakujeme!",
-    "password_remember_button": "Prihlásiť sa.",
-    "password_remember_text": "Pamätáte si heslo?",
-    "subtitle": "Získajte resetovací link pre Váš účet:",
-    "title": "Zabudnuté heslo?"
-  },
-  "page_index": {
-    "get_started_button": "Zaregistrovať sa teraz",
-    "menu": {
-      "contact_us": "Kontaktuj nás",
-      "log_in": "Prihlásiť sa",
-      "pricing": "Plány",
-      "sign_in": "Zaregistrovať sa"
-    },
-    "sign_feature_1": "Nevyžaduje sa žiadna kreditná karta",
-    "sign_feature_2": "{defaultSpace} Kapacita úložiska zadarmo",
-    "sign_up_button": "Zaregistrovať sa teraz"
-  },
-  "page_login": {
-    "button_next": "Ďalší krok",
-    "placeholder_email": "Napíšte svoj E-mail",
-    "registration_button": "Vytvoriť účet.",
-    "registration_text": "Ešte nemáte účet?",
-    "subtitle": "Prosím, vložte svoj email pre prihlásenie:",
-    "title": "Vitajte späť!"
-  },
-  "page_pricing_tables": {
-    "description": "Vyberte si plán, ktorý dokonale vyhovuje vašim potrebám. Všetky plány sa fakturujú mesačne automaticky prostredníctvom vašej kreditnej karty.",
-    "storage_capacity": "Kapacita úložiska",
-    "vat_excluded": "Ceny nezahrňajú DPH.",
-    "title": "Vyberte si svoj plán"
-  },
-  "page_registration": {
-    "agreement": "Kliknutím na tlačidlo Vytvoriť účet súhlasím s {0} a {1}.",
-    "button_create_account": "Vytvoriť účet",
-    "have_an_account": "Máš už účet?",
-    "label_confirm_pass": "Potvrďte heslo:",
-    "label_email": "Email:",
-    "label_name": "Celé meno:",
-    "label_pass": "Vytvorte heslo:",
-    "placeholder_confirm_pass": "Potvrďte nové heslo",
-    "placeholder_email": "Napíš svoj E-mail",
-    "placeholder_name": "Napíš svoje celé meno",
-    "placeholder_pass": "Vaše nové heslo",
-    "subtitle": "Prosím, vyplňte formulár pre vytvorenie nového účtu:",
-    "title": "Vytvorenie nového účtu"
-  },
-  "page_shared": {
-    "download_file": "Stiahnúť súbor",
-    "placeholder_pass": "Vložte heslo",
-    "submit": "Potvrdiť",
-    "subtitle": "Prosím vložte heslo pre získanie prístupu k obsahu:",
-    "title": "Zdieľaný odkaz je chránený"
-  },
-  "page_shared_404": {
-    "subtitle": "Obsah ktorý hľadáš bol pravdepodobne vymazaný.",
-    "title": "Obsah sa nenašiel :("
-  },
-  "page_sign_in": {
-    "button_log_in": "Prihlásiť sa",
-    "password_reset_button": "Resetovať heslo.",
-    "password_reset_text": "Zabudli ste heslo?",
-    "placeholder_password": "Napíšte svoje heslo",
-    "subtitle": "Potvrďte zadaním hesla:",
-    "title": "Voláte sa {name}?"
-  },
-  "page_upgrade_account": {
-    "change_payment": {
-      "change_payment": "zmeniť svoj predvolený spôsob platby",
-      "pay_by_new_card": "platiť novou kreditnou kartou",
-      "you_can": "Tiež môžete"
-    },
-    "desription": "Vyberte si plán, ktorý dokonale vyhovuje vašim potrebám. Všetky programy sa fakturujú mesačne automaticky prostredníctvom vašej kreditnej karty.",
-    "errors": {
-      "pay_by_another_card": "Zaplaťte inou platobnou kartou"
-    },
-    "section_billing": "Fakturačné údaje",
-    "section_card": "Platobná karta",
-    "section_summary": "Zhrnutie objednávky",
-    "summary": {
-      "total_with_vat": "Spolu s DPH",
-      "vat": "DPH",
-      "period": "Účtované mesačne",
-      "submit_button": "Zaplatiť kreditnou kartou",
-      "submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
-    },
-    "title": "Vyberte si metódu platby"
-  },
-  "popup_create_folder": {
-    "folder_default_name": "Nový priečinok",
-    "title": "Prosím, vložte názov nového priečinka"
-  },
-  "popup_delete_card": {
-    "message": "Táto udalosť je nezvratná a vaša platobná karta bude navždy odstránená",
-    "title": "Ste si istý?"
-  },
-  "popup_deleted_plan": {
-    "message": "Váš plán bol úspešne odstránený.",
-    "title": "Plán bol odstránený"
-  },
-  "popup_deleted_user": {
-    "message": "Uživateľ bol vymazaný so všetkými uživateľskými dátami.",
-    "title": "Uživateľ bol vymazaný"
-  },
-  "popup_deleted_user_aborted": {
-    "message": "Nemôžte vymazať účet kým uživateľ má aktívne predplatné.",
-    "title": "Uživateľ nebol vymazaný"
-  },
-  "popup_error": {
-    "message": "Niečo sa stalo a nemôžme pokračovať. Prosím kontaktuj nás.",
-    "title": "Ups, niekde nastala chyba!"
-  },
-  "popup_exceed_limit": {
-    "message": "Prosím, kontaktujte administrátora pre navyšenie limitu.",
-    "title": "Ups, presiahli ste limit úložiska"
-  },
-  "popup_move_item": {
-    "cancel": "Zrušiť",
-    "submit": "Presunúť položku",
-    "title": "Presuňte položku"
-  },
-  "popup_pass_changed": {
-    "message": "Od teraz máte nové heslo.",
-    "title": "Tvoje heslo bolo zmenené!"
-  },
-  "popup_passport_error": {
-    "message": "Pravdebodobne ste nespravne vygenerovali Passport Grant client alebo ste nenastavili udaje správne. Prosím následujte inštalačné inštrukcie.",
-    "title": "Nesprávny Passport Grand Client"
-  },
-  "popup_paylod_error": {
-    "message": "Prepáčte, súbor je príliš veľký a nemôže byť nahraný.",
-    "title": "Súbor je príliš veľký"
-  },
-  "popup_rename": {
-    "title": "Zmeňte názov položky"
-  },
-  "popup_set_card": {
-    "message": "Vaša karta bude nastavená ako predvolená a bude vám z nej vždy stiahnutá čiastka za nasledujúce obdobie fakturácie.",
-    "title": "Nastaviť ako predvolenú kartu?"
-  },
-  "popup_share_create": {
-    "title": "Zdieľaj {item}"
-  },
-  "popup_share_edit": {
-    "change_pass": "Zmeniť heslo",
-    "confirm": "Potvrdiť",
-    "save": "Uložiť zmeny",
-    "stop": "Zastaviť zdieľanie",
-    "title": "Upraviť nastavenia zdieľania"
-  },
-  "popup_signup_error": {
-    "message": "Prosím skontrolujte databázove spojenie, či všetko funguje správne.",
-    "title": "Chyba serveru"
-  },
-  "popup_subscription_cancel": {
-    "button": "Som hotový",
-    "message": "Do konca fakturačného cyklu budete mať naďalej prístup k funkciám, za ktoré ste zaplatili.",
-    "title": "Predplatné bolo ukončené"
-  },
-  "popup_subscription_resumed": {
-    "button": "To je úžasné!",
-    "message": "Váš odber bol znova aktivovaný a budú vám účtované poplatky podľa pôvodného fakturačného cyklu.",
-    "title": "Predplatné bolo obnovené"
-  },
-  "popup_trashed": {
-    "message": "Od teraz máte prázdny a čistý kôš",
-    "title": "Váš kôš bol vymazaný!"
-  },
-  "preview_type": {
-    "grid": "Mriežka",
-    "list": "List"
-  },
-  "profile": {
-    "change_pass": "Zmeniť heslo",
-    "profile_info": "Profil",
-    "store_pass": "Uložiť nové heslo"
-  },
-  "pronouns": {
-    "of": "z"
-  },
-  "roles": {
-    "admin": "Admin",
-    "user": "Užívateľ"
-  },
-  "routes": {
-    "create_new_password": "vytvorit-nove-heslo"
-  },
-  "routes_title": {
-    "appearance": "Vzhľad",
-    "billings": "Fakturácia",
-    "dashboard": "Prehľad",
-    "email": "E-mail",
-    "invoices": "Faktúry",
-    "others": "Ostatné",
-    "page_edit": "Upraviť stránku",
-    "pages": "Stránky",
-    "payment_methods": "Spôsob platby",
-    "payments": "Platby",
-    "plan": "Plán",
-    "plan_create": "Vytvoriť plán",
-    "plan_delete": "Odstránenie plánu",
-    "plan_settings": "Nastavenia plánu",
-    "pricing_plans": "Cenové plány",
-    "profile": "Môj profil",
-    "profile_settings": "Nastavenia profilu",
-    "settings": "Nastavenia",
-    "settings_mobile": "Nastavenia",
-    "settings_password": "Zmeniť heslo",
-    "settings_storage": "Úložisko",
-    "subscribers": "Odberatelia",
-    "subscription": "Predplatné",
-    "upgrade_billing": "Fakturácia",
-    "upgrade_plan": "Plán inovácie",
-    "user_create": "Vytvoriť uživateľa",
-    "users_delete": "Vymazať uživateľa",
-    "users_detail": "Detail",
-    "users_list": "Správca uživateľov",
-    "users_password": "Heslo",
-    "users_storage_usage": "Využitie úložiska",
-    "users_user": "Uživateľ"
-  },
-  "rows": {
-    "card": {
-      "expiration": "Dátum expirácie",
-      "number": "Číslo karty",
-      "status": "Stav"
-    },
-    "invoice": {
-      "number": "Číslo faktúry",
-      "payed": "Zaplatené",
-      "plan": "Plán",
-      "total": "Celkom"
-    }
-  },
-  "shared": {
-    "can_download": "Môže stiahnúť súbor",
-    "editor": "Môže upravovať a nahrávať súbory",
-    "empty_shared": "Zatiaľ ste nič nezdieľali",
-    "visitor": "Môže len vidieť a sťahovať súbory"
-  },
-  "shared_form": {
-    "button_done": "Super, som hotový!",
-    "button_generate": "Vygenerovať link",
-    "label_password_protection": "Chrániť heslom",
-    "label_permission": "Oprávnenie",
-    "label_shared_url": "Zdieľací odkaz",
-    "placeholder_permission": "Zvoľte oprávnenia"
-  },
-  "sidebar": {
-    "favourites": "Obľúbené",
-    "favourites_empty": "Presuňte sem obľúbený priečinok",
-    "folders_empty": "Vytvorte svoj prvý priečinok",
-    "home": "Domov",
-    "latest": "Posledne nahraté",
-    "locations_title": "Menu",
-    "my_shared": "Moje zdieľané položky",
-    "navigator_title": "Navigátor",
-    "participant_uploads": "Nahrávania účastníkov",
-    "tools_title": "Nástroje"
-  },
-  "storage": {
-    "audios": "Audio",
-    "documents": "Dokumenty",
-    "images": "Obrázky",
-    "others": "Ostatné",
-    "sec_capacity": "Kapacita úložiska",
-    "sec_details": "Detail využitej kapacity",
-    "total_capacity": "Vaša kapacita disku je {capacity}",
-    "total_used": "Používané {used}",
-    "videos": "Videá"
-  },
-  "toaster": {
-    "account_upgraded": "Váš účet bol úspešne inovovaný.",
-    "card_deleted": "Vaša karta bola úspešne odstránená.",
-    "card_new_add": "Vaša karta bola úspešne pridaná",
-    "card_set": "Vaša karta bola úspešne nastavená ako predvolená.",
-    "changed_capacity": "Úspešne ste zmenili kapacitu úložiska uživateľa!",
-    "changed_user": "Úspešne ste zmenili rolu užívateľa",
-    "created_user": "Úspešne ste vytvorili uživateľa!",
-    "email_set": "Vaše nastavenia e-mailu boli úspešne aktualizované",
-    "plan_created": "Váš plán bol úspešne vytvorený!",
-    "sended_password": "Úspešne ste odoslali email uživateľovi pre reset hesla!",
-    "stripe_set": "Váš účet Stripe bol úspešne nastavený!"
-  },
-  "types": {
-    "file": "Súbor",
-    "folder": "Priečinok"
-  },
-  "upgrade_banner": {
-    "button": "Inovovať",
-    "description": "Takmer ste dosiahli kapacitu úložiska",
-    "title": "Dosiahli ste kapacitu úložiska. Prosím inovujte úložisko."
-  },
-  "incomplete_payment": {
-    "description": "Vaša posledná platba nie je dokončená. {0}",
-    "href": "Prosím potvrďte Vašu platbu."
-  },
-  "uploading": {
-    "processing_file": "Spracuvávam súbor...",
-    "progress_single_upload": "Nahrávam súbor {progress}%",
-    "progress": "Nahrávam súbory {progress}% - {current}/{total}"
-  },
-  "user_add_card": {
-    "default_description": "Vaša karta bude uložená a použitá pre platbu ako prvá.",
-    "default_title": "Nastaviť ako predvolenú platobnú kartu"
-  },
-  "user_box_delete": {
-    "description": "Môžete vymazať svojho uživateľa, avšak, dávajte pozor! Táto událosť je nezvratná a všetke uživateľské dáta vrátane uživateľových súborov budú vymazané!",
-    "title": "Vymazať uživateľa"
-  },
-  "user_box_password": {
-    "description": "Môžete zmeniť uživateľské heslo zaslaním resetovacieho emailu uživateľovi. Uživateľ bude presmerovaný na stránku, kde si môže zmeniť heslo na nové.",
-    "title": "Zmeňiť uživateľské heslo"
-  },
-  "user_box_role": {
-    "description": "Môžete zmeniť uživateľskú rolu pre aktuálneho uživateľa. Administrátorska rola môže editovať alebo vytvárať nových uživateľov, zmeniť kapacitu úložiska a mnoho dalších nastavení aplikácie.",
-    "title": "Zmeniť uživateľskú rolu"
-  },
-  "user_box_storage": {
-    "description": "Zmeňte kapacitu úložiska formulárom nižšie. Môžeš písať iba čiselné hodnoty, napríklad hodnota '5' znamená, že uživateľ bude mať 5GB kapacity úložiska.",
-    "title": "Zmeňiť kapacitu úložiska"
-  },
-  "user_invoices": {
-    "empty": "Zatiaľ nemáte žiadne faktúry.",
-    "title": "Faktúry"
-  },
-  "user_password": {
-    "title": "Zmeňte si heslo"
-  },
-  "user_payments": {
-    "add_card": "Pridať Platobnú Kartu",
-    "card_field_title": "Kreditná Karta",
-    "delete_card": "Odstrániť kartu",
-    "empty": "Zatiaľ nemáte žiadne platobné karty.",
-    "field_loading": "Načitávam kartové pole...",
-    "set_as_default": "Nastaviť ako predvolenú kartu",
-    "store_card": "Uložiť platobnú kartu",
-    "title": "Spôsob platby"
-  },
-  "user_settings": {
-    "address": "Adresa",
-    "address_plac": "Zadajte svoju fakturačnú adresu",
-    "city": "Mesto",
-    "city_plac": "Zadajte svoje fakturačné mesto",
-    "country": "Krajina",
-    "country_plac": "Vyberte svoju fakturačnú krajinu",
-    "name": "Meno",
-    "name_plac": "Zadajte svoje fakturačné meno",
-    "phone_number": "Telefónne číslo",
-    "phone_number_plac": "Zadajte svoje telefónne číslo pre fakturáciu",
-    "postal_code": "Poštové smerovacie číslo",
-    "postal_code_plac": "Zadajte svoj fakturačný poštový kód",
-    "state": "Štát",
-    "state_plac": "Zadajte Štát",
-    "title_account": "informácie o účte",
-    "title_billing": "Fakturačné údaje"
-  },
-  "user_subscription": {
-    "billed": "Ůčtované",
-    "cancel_plan": "Zrušiť plán",
-    "canceled_at": "Zrušené",
-    "created_at": "Vytvorené",
-    "empty": "Zatiaľ nemáte žiadne predplatné.",
-    "ends_at": "Ukončenie",
-    "plan": "Plán",
-    "renews_at": "Obnovenie",
-    "resume_plan": "Obnoviť plán",
-    "status": "Stav",
-    "title": "Plán predplatného"
-  },
-  "validation_errors": {
-    "incorrect_password": "Prepáčte, vložili ste nesprávne heslo :(",
-    "wrong_image": "Zrejme ste vložili zlý obrázok, skúste to znova!"
-  }
+	"actions": {
+		"create_folder": "Vytvoriť priečinok",
+		"delete": "Vymazať položku",
+		"move": "Presunúť položku",
+		"preview": "Zmeniť náhľad",
+		"share": "Zdieľať položku",
+		"upload": "Nahrať súbory",
+		"download": "Stiahnuť položku",
+		"print": "Vytlačiť položku"
+	},
+	"activation": {
+		"stripe": {
+			"button": "Nastaviť účet Stripe",
+			"description": "Pre spoplatňovanie Vaších uživateľov, prosím nastavte poverenia služby Stripe",
+			"title": "Váš účet Stripe nie je nastavený"
+		}
+	},
+	"admin_menu": {
+		"dashboard": "Prehľad",
+		"invoices": "Faktúry",
+		"pages": "Stránky",
+		"plans": "Plány",
+		"settings": "Nastavenia",
+		"users": "Uživatelia"
+	},
+	"admin_page_dashboard": {
+		"backer_button": "Staňte sa podporovateľom",
+		"license": "Licencia",
+		"version": "Verzia",
+		"w_latest_users": {
+			"title": "Najnovšie registrácie"
+		},
+		"w_total_premium": {
+			"link": "Zobraziť všetky plány",
+			"title": "Celkový počet prémiových používateľov"
+		},
+		"w_total_space": {
+			"link": "Zobraziť všetkých používateľov",
+			"title": "Celkový využitý priestor"
+		},
+		"w_total_users": {
+			"link": "Zobraziť všetkých používateľov",
+			"title": "Celkový počet používateľov"
+		}
+	},
+	"admin_page_invoices": {
+		"empty": {
+			"description": "Tu sa zobrazia všetky faktúry zákazníkov.",
+			"title": "Zatiaľ nemáte žiadne faktúry"
+		},
+		"table": {
+			"number": "Číslo faktúry",
+			"payed": "Zaplatené",
+			"plan": "Plán",
+			"total": "Celkom",
+			"user": "Užívateľ"
+		}
+	},
+	"admin_page_plans": {
+		"create_plan_button": "Vytvoriť plán",
+		"delete_plan_button": "Odstrániť plán",
+		"disclaimer_delete_plan": "Môžete odstrániť plán, ale dávajte pozor!",
+		"disclaimer_edit_price": "Zmena ceny za váš plán nie je k dispozícii z dôvodu návrhu služby Stripe. Ak si želáte zmeniť cenový plán, vytvorte nový.",
+		"empty": {
+			"button": "Vytvoriť nový plán",
+			"description": "Ak chcete vytvoriť nový plán, kliknite na tlačidlo nižšie.",
+			"title": "Zatiaľ nemáte žiadny plán"
+		},
+		"form": {
+			"description": "Popis (nepovinné)",
+			"description_plac": "Popis plánu",
+			"name": "Názov",
+			"name_delete_plac": "Zadajte názov plánu",
+			"name_plac": "Názov plánu",
+			"price": "Cena",
+			"price_plac": "Cena plánu",
+			"status": "Stav",
+			"status_help": "Stav dostupnosti vášho plánu na webovej stránke.",
+			"storage": "Úložná kapacita v GB",
+			"storage_helper": "Musíte zadať iba číslo, napr. hodnota „5“ znamená, že používateľ bude mať 5 GB úložnej kapacity.",
+			"storage_plac": "Kapacita úložiska",
+			"title_delete": "Odstrániť plán",
+			"title_details": "Podrobnosti plánu",
+			"title_pricing": "Cena plánu"
+		},
+		"subscribers": {
+			"empty": "Zatiaľ nie je žiadny odberateľ."
+		},
+		"table": {
+			"name": "Názov plánu",
+			"price": "Cena",
+			"status": "Stav",
+			"storage_capacity": "Kapacita úložiska",
+			"subscribers": "Odberatelia"
+		},
+		"tabs": {
+			"delete": "Odstrániť plán",
+			"settings": "Nastavenia",
+			"subscribers": "Odberatelia"
+		}
+	},
+	"admin_page_user": {
+		"change_capacity": "Zmeniť kapacitu",
+		"create_user": {
+			"avatar": "Avatar",
+			"group_details": "Detail účtu",
+			"group_settings": "Nastavenia účtu",
+			"label_conf_pass": "Potvrďte heslo",
+			"label_email": "Napíšte E-mail",
+			"label_name": "Napíšte celé meno",
+			"submit": "Vytvoriť uživateľa"
+		},
+		"delete_user": "Vymazať uživateľa",
+		"invoices": {
+			"empty": "Užívateľ zatiaľ nemá žiadne faktúry."
+		},
+		"label_change_capacity": "Vpíšte kapacitu úložiska v GB",
+		"label_delete_user": "Napíšte uživateľovo meno ‘{user}‘. Rozlišujte medzi malými a veľkými písmenami",
+		"label_person_info": "Osobné informácie",
+		"placeholder_delete_user": "Píšte sem",
+		"save_role": "Uložiť Rolu",
+		"select_role": "Vyberte uživateľskú rolu",
+		"send_password_link": "Odoslať email s resetom hesla",
+		"subscription": {
+			"empty": "Užívateľ zatiaľ nemá žiadne predplatné.",
+			"interval_mo": "Mesačne"
+		},
+		"table": {
+			"action": "Akcia",
+			"created_at": "Registrovaný",
+			"name": "Užívateľ",
+			"plan": "Plán",
+			"role": "Rola",
+			"storage_capacity": "Kapacita úložiska",
+			"storage_used": "Využitie úložiska"
+		},
+		"tabs": {
+			"delete": "Vymazať uživateľa",
+			"detail": "Detail",
+			"invoices": "Faktúry",
+			"password": "Heslo",
+			"storage": "Využitie úložiska",
+			"subscription": "Predplatné"
+		}
+	},
+	"admin_pages": {
+		"form": {
+			"content": "Obsah",
+			"content_plac": "Sem zadajte svoj obsah ...",
+			"slug": "Slug",
+			"title": "Nadpis",
+			"title_plac": "Názov titulky",
+			"visibility": "Viditeľnosť",
+			"visibility_help": "Stav viditeľnosti stránky na webe."
+		},
+		"table": {
+			"page": "Stránka",
+			"slug": "Slug",
+			"status": "Stav"
+		}
+	},
+	"admin_settings": {
+		"appearance": {
+			"description": "Popis aplikácie",
+			"description_plac": "Zadajte popis svojej aplikácie",
+			"favicon": "Favicon aplikácie (voliteľné)",
+			"logo": "Logo aplikácie (voliteľné)",
+			"logo_horizontal": "Horizontálne logo aplikácie (voliteľné)",
+			"section_appearance": "Vzhľad",
+			"section_general": "Všeobecné nastavenia",
+			"title": "Názov aplikácie",
+			"title_plac": "Zadajte názov aplikácie"
+		},
+		"billings": {
+			"address": "Fakturačná adresa",
+			"address_plac": "Zadajte svoju fakturačnú adresu",
+			"city": "Mesto fakturácie",
+			"city_plac": "Zadajte svoje fakturačné mesto",
+			"company_name": "Meno spoločnosti",
+			"company_name_plac": "Zadajte názov svojej spoločnosti",
+			"country": "Krajina fakturácie",
+			"country_plac": "Vyberte krajinu fakturácie",
+			"phone_number": "Telefónne číslo (voliteľné)",
+			"phone_number_plac": "Zadajte svoje telefónne číslo pre fakturáciu",
+			"postal_code": "Poštové smerovacie číslo",
+			"postal_code_plac": "Zadajte svoj fakturačný poštový kód",
+			"section_billing": "Fakturačné údaje",
+			"section_company": "informácie o spoločnosti",
+			"state": "Stav fakturácie",
+			"state_plac": "Zadajte stav fakturácie",
+			"vat": "identifikačné číslo DPH",
+			"vat_plac": "Zadajte svoje IČ DPH"
+		},
+		"email": {
+			"driver": "Mail Driver",
+			"driver_plac": "Zadajte mail driver",
+			"email_disclaimer": "Tento formulár nie je predvyplnený z bezpečnostných dôvodov. Vaše emailové nastavenia sú dostupné v <b>.env</b> súbore aplikácie. Pre aplikovanie nastavení, prosim potvdte tlačítkom na konci formulára.",
+			"encryption": "Šifrovanie pošty",
+			"encryption_plac": "Vyberte šifrovanie pošty",
+			"host": "Hostiteľ pošty",
+			"host_plac": "Zadajte svojho poštového hostiteľa",
+			"password": "Heslo k e-mailu",
+			"password_plac": "Zadajte svoje e-mailové heslo",
+			"port": "Port",
+			"port_plac": "Zadajte poštový port",
+			"save_button": "Uložte nastavenia e-mailu",
+			"section_email": "Nastavenie e-mailu",
+			"username": "Používateľské meno pre poštu",
+			"username_plac": "Zadajte svoje používateľské meno pre poštu"
+		},
+		"others": {
+			"section_cache": "Aplikačná pamäť",
+			"cache_disclaimer": "Zmenili ste niečo v .env súbore alebo ste zmenili Stripe poverenia? Vymažte aplikačnú pamäť.",
+			"cache_clear": "Vymazať aplikačnú pamäť",
+			"allow_registration": "Povoliť registráciu používateľov",
+			"allow_registration_help": "Môžete zakázať verejnú registráciu nových používateľov. V administračnom paneli stále budete môcť <br/>vytvárať nových používateľov.",
+			"contact_email": "Kontaktný email",
+			"contact_email_plac": "Zadajte svoj kontaktný e-mail",
+			"default_storage": "Predvolený úložný priestor pre používateľské účty v GB",
+			"default_storage_plac": "Nastaviť predvolený úložný priestor v GB",
+			"google_analytics": "Kód Google Analytics (voliteľné)",
+			"google_analytics_plac": "Vložte svoj kód Google Analytics",
+			"section_others": "Ostatné nastavenia",
+			"section_user": "Používatelia a ukladací priestor",
+			"storage_limit": "Obmedzenie priestoru",
+			"storage_limit_help": "Ak je táto hodnota vypnutá, všetci používatelia budú mať nekonečnú kapacitu úložiska a vy nebudete môcť <br/>účtovať svojim používateľom poplatky za plán úložiska."
+		},
+		"payments": {
+			"allow_payments": "Povoliť platby za plány",
+			"button_submit": "Otestovať a uložiť Stripe",
+			"button_testing": "Testovanie Stripe pripojenia",
+			"credentials_disclaimer": "Vaše poverenia v službe Stripe sa nezobrazujú, pretože tieto hodnoty sú tajné a nesmie ich odhaliť cudzinec. Svoje poverenia v službe Stripe môžete zmeniť v súbore <b>.env</b> aplikácie.",
+			"section_payments": "Stripe platby",
+			"stripe_create_acc": "Ak nemáte účet Stripe, <a href=\"https://dashboard.stripe.com/register\" target=\"_blank\">zaregistrujte sa tu</a> a získajte svoj publikovateľný kľúč, tajný kľúč a vytvorte Stripe webhook.",
+			"stripe_create_webhook": "",
+			"stripe_currency": "Stripe Mena",
+			"stripe_currency_plac": "Vyberte Stripe menu",
+			"stripe_pub_key": "Verejný kľúč",
+			"stripe_pub_key_plac": "Vložte Váš verejný kľúč",
+			"stripe_sec_key": "Tajný kľúč",
+			"stripe_sec_key_plac": "Vložte Váš tajný kľúč",
+			"stripe_setup": "Stripe nastavenia",
+			"stripe_webhook_key_plac": "Vložte Váš Stripe webhook tajný kľúč",
+			"webhook_url": "Stripe webhook URL adresa"
+		},
+		"tabs": {
+			"appearance": "Vzhľad",
+			"billings": "Fakturácia",
+			"email": "E-mail",
+			"others": "Aplikácia",
+			"payments": "Platby"
+		}
+	},
+	"alerts": {
+		"error_confirm": "To je hrozné!",
+		"success_confirm": "Skvelé!"
+	},
+	"context_menu": {
+		"add_folder": "Nový priečinok",
+		"add_to_favourites": "Pridať do obľúbených",
+		"create_folder": "Vytvoriť priečinok",
+		"delete": "Vymazať",
+		"detail": "Detail",
+		"download": "Stiahnúť",
+		"empty_trash": "Vyprázdniť kôš",
+		"log_out": "Odhlásiť sa",
+		"move": "Presunúť",
+		"profile_settings": "Nastavenia profilu",
+		"remove_from_favourites": "Vymazať obľúbené",
+		"rename": "Premenovať",
+		"restore": "Obnoviť",
+		"share": "Zdieľať",
+		"share_edit": "Upraviť zdieľanie",
+		"upload": "Nahrať"
+	},
+	"cookie_disclaimer": {
+		"button": "politikou cookies",
+		"description": "Prehliadaním tejto stránky súhlasim s našou"
+	},
+	"datatable": {
+		"paginate_info": "Zobrazuje sa 1 - {visible} z {total} položiek"
+	},
+	"empty_page": {
+		"call_to_action": "Nahrať súbory",
+		"description": "Nahrajte súbory jednoducho cez tlačidlo nahrať",
+		"title": "Tu nie je nič"
+	},
+	"errors": {
+		"capacity_digit": "Kapacita úložiska musí byť nižšia ako 10 číslic."
+	},
+	"file_detail": {
+		"author": "Autor",
+		"author_participant": "Verejný účastník",
+		"created_at": "Vytvorené",
+		"shared": "Zdieľané",
+		"size": "Veľkosť",
+		"where": "Umiestnenie"
+	},
+	"folder": {
+		"empty": "Prázdne",
+		"item_counts": "{count} Položka | {count} Položky"
+	},
+	"global": {
+		"incomplete": "Incomplete",
+		"active": "Aktívny",
+		"admin": "Admin",
+		"cancel": "Zrušiť",
+		"canceled": "Zrušený",
+		"confirm_action": "Áno, som si istý",
+		"default": "Predvolený",
+		"free": "Zadarmo",
+		"get_it": "Získať",
+		"menu": "Ponuka",
+		"monthly_ac": "Mes.",
+		"or": "alebo",
+		"premium": "Premium",
+		"saas": "Služby",
+		"subscription": "Predplatné",
+		"total": "Celkom",
+		"upgrade_plan": "Navýšiť úložisko"
+	},
+	"input_image": {
+		"supported": "Podporované formáty sú .png, .jpg, .jpeg.",
+		"title": "Vložte obrázok"
+	},
+	"inputs": {
+		"placeholder_search_files": "Hľadajte súbory…"
+	},
+	"item_thumbnail": {
+		"deleted_at": "Vymazané {time}",
+		"original_location": "Pôvodné umiestnenie"
+	},
+	"locations": {
+		"home": "Domov",
+		"shared": "Zdieľané",
+		"trash": "Kôš"
+	},
+	"menu": {
+		"admin": "Administrácia",
+		"files": "Súbory",
+		"invoices": "Faktúry",
+		"latest": "Posledne nahrané",
+		"logout": "Odhlásiť sa",
+		"password": "Heslo",
+		"payment_cards": "Platobné karty",
+		"profile": "Nastavenia profilu",
+		"settings": "Nastavenia",
+		"shared": "Zdieľané súbory",
+		"storage": "Úložisko",
+		"subscription": "Predplatné",
+		"trash": "Kôš"
+	},
+	"messages": {
+		"nothing_from_participants": "Zatiaľ nemáš žiadné súbory od ostatných uživateľov",
+		"nothing_to_preview": "Tu nie je nič pre zobrazenie.",
+		"nothing_was_found": "Nič sa nenašlo."
+	},
+	"notice": {
+		"stripe_activation": "Váš účet Stripe nie je nastavený. Pre spoplatňovanie používateľov prosím {0}.",
+		"stripe_activation_button": "nastavte účet Stripe"
+	},
+	"page_contact_us": {
+		"description": "Máte nejaké otázky? Spojte sa s nami.",
+		"error_message": "Niečo sa pokazilo, skúste to znova.",
+		"form": {
+			"email": "E-mail",
+			"email_plac": "Zadajte svoj e-mail",
+			"message": "Správa",
+			"message_plac": "Sem napíšte správu...",
+			"submit_button": "Odoslať správu"
+		},
+		"success_message": "Vaša správa bola úspešne odoslaná.",
+		"title": "Kontaktujte nás"
+	},
+	"page_create_password": {
+		"button_update": "Aktualizovať heslo",
+		"label_confirm_pass": "Potvrďte nové heslo",
+		"label_email": "Email:",
+		"label_new_pass": "Vaše nové heslo",
+		"subtitle": "Vytvorte si nové heslo tu:",
+		"title": "Iba jeden krok pre prihlásenie"
+	},
+	"page_forgotten_password": {
+		"button_get_link": "Získať link",
+		"pass_reseted_signin": "Prihlásiť sa",
+		"pass_reseted_subtitle": "Tvoje heslo bolo obnovené úspešne.",
+		"pass_reseted_title": "Skvelé!",
+		"pass_sennded_subtitle": "Práve sme Vám odoslali link na Váš email!",
+		"pass_sennded_title": "Ďakujeme!",
+		"password_remember_button": "Prihlásiť sa.",
+		"password_remember_text": "Pamätáte si heslo?",
+		"subtitle": "Získajte resetovací link pre Váš účet:",
+		"title": "Zabudnuté heslo?"
+	},
+	"page_index": {
+		"get_started_button": "Zaregistrovať sa teraz",
+		"menu": {
+			"contact_us": "Kontaktuj nás",
+			"log_in": "Prihlásiť sa",
+			"pricing": "Plány",
+			"sign_in": "Zaregistrovať sa"
+		},
+		"sign_feature_1": "Nevyžaduje sa žiadna kreditná karta",
+		"sign_feature_2": "{defaultSpace} Kapacita úložiska zadarmo",
+		"sign_up_button": "Zaregistrovať sa teraz"
+	},
+	"page_login": {
+		"button_next": "Ďalší krok",
+		"placeholder_email": "Napíšte svoj E-mail",
+		"registration_button": "Vytvoriť účet.",
+		"registration_text": "Ešte nemáte účet?",
+		"subtitle": "Prosím, vložte svoj email pre prihlásenie:",
+		"title": "Vitajte späť!"
+	},
+	"page_pricing_tables": {
+		"description": "Vyberte si plán, ktorý dokonale vyhovuje vašim potrebám. Všetky plány sa fakturujú mesačne automaticky prostredníctvom vašej kreditnej karty.",
+		"storage_capacity": "Kapacita úložiska",
+		"vat_excluded": "Ceny nezahrňajú DPH.",
+		"title": "Vyberte si svoj plán"
+	},
+	"page_registration": {
+		"agreement": "Kliknutím na tlačidlo Vytvoriť účet súhlasím s {0} a {1}.",
+		"button_create_account": "Vytvoriť účet",
+		"have_an_account": "Máš už účet?",
+		"label_confirm_pass": "Potvrďte heslo:",
+		"label_email": "Email:",
+		"label_name": "Celé meno:",
+		"label_pass": "Vytvorte heslo:",
+		"placeholder_confirm_pass": "Potvrďte nové heslo",
+		"placeholder_email": "Napíš svoj E-mail",
+		"placeholder_name": "Napíš svoje celé meno",
+		"placeholder_pass": "Vaše nové heslo",
+		"subtitle": "Prosím, vyplňte formulár pre vytvorenie nového účtu:",
+		"title": "Vytvorenie nového účtu"
+	},
+	"page_shared": {
+		"download_file": "Stiahnúť súbor",
+		"placeholder_pass": "Vložte heslo",
+		"submit": "Potvrdiť",
+		"subtitle": "Prosím vložte heslo pre získanie prístupu k obsahu:",
+		"title": "Zdieľaný odkaz je chránený"
+	},
+	"page_shared_404": {
+		"subtitle": "Obsah ktorý hľadáš bol pravdepodobne vymazaný.",
+		"title": "Obsah sa nenašiel :("
+	},
+	"page_sign_in": {
+		"button_log_in": "Prihlásiť sa",
+		"password_reset_button": "Resetovať heslo.",
+		"password_reset_text": "Zabudli ste heslo?",
+		"placeholder_password": "Napíšte svoje heslo",
+		"subtitle": "Potvrďte zadaním hesla:",
+		"title": "Voláte sa {name}?"
+	},
+	"page_upgrade_account": {
+		"change_payment": {
+			"change_payment": "zmeniť svoj predvolený spôsob platby",
+			"pay_by_new_card": "platiť novou kreditnou kartou",
+			"you_can": "Tiež môžete"
+		},
+		"desription": "Vyberte si plán, ktorý dokonale vyhovuje vašim potrebám. Všetky programy sa fakturujú mesačne automaticky prostredníctvom vašej kreditnej karty.",
+		"errors": {
+			"pay_by_another_card": "Zaplaťte inou platobnou kartou"
+		},
+		"section_billing": "Fakturačné údaje",
+		"section_card": "Platobná karta",
+		"section_summary": "Zhrnutie objednávky",
+		"summary": {
+			"total_with_vat": "Spolu s DPH",
+			"vat": "DPH",
+			"period": "Účtované mesačne",
+			"submit_button": "Zaplatiť kreditnou kartou",
+			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
+		},
+		"title": "Vyberte si metódu platby"
+	},
+	"popup_create_folder": {
+		"folder_default_name": "Nový priečinok",
+		"title": "Prosím, vložte názov nového priečinka"
+	},
+	"popup_delete_card": {
+		"message": "Táto udalosť je nezvratná a vaša platobná karta bude navždy odstránená",
+		"title": "Ste si istý?"
+	},
+	"popup_deleted_plan": {
+		"message": "Váš plán bol úspešne odstránený.",
+		"title": "Plán bol odstránený"
+	},
+	"popup_deleted_user": {
+		"message": "Uživateľ bol vymazaný so všetkými uživateľskými dátami.",
+		"title": "Uživateľ bol vymazaný"
+	},
+	"popup_deleted_user_aborted": {
+		"message": "Nemôžte vymazať účet kým uživateľ má aktívne predplatné.",
+		"title": "Uživateľ nebol vymazaný"
+	},
+	"popup_error": {
+		"message": "Niečo sa stalo a nemôžme pokračovať. Prosím kontaktuj nás.",
+		"title": "Ups, niekde nastala chyba!"
+	},
+	"popup_exceed_limit": {
+		"message": "Prosím, kontaktujte administrátora pre navyšenie limitu.",
+		"title": "Ups, presiahli ste limit úložiska"
+	},
+	"popup_move_item": {
+		"cancel": "Zrušiť",
+		"submit": "Presunúť položku",
+		"title": "Presuňte položku"
+	},
+	"popup_pass_changed": {
+		"message": "Od teraz máte nové heslo.",
+		"title": "Tvoje heslo bolo zmenené!"
+	},
+	"popup_passport_error": {
+		"message": "Pravdebodobne ste nespravne vygenerovali Passport Grant client alebo ste nenastavili udaje správne. Prosím následujte inštalačné inštrukcie.",
+		"title": "Nesprávny Passport Grand Client"
+	},
+	"popup_paylod_error": {
+		"message": "Prepáčte, súbor je príliš veľký a nemôže byť nahraný.",
+		"title": "Súbor je príliš veľký"
+	},
+	"popup_rename": {
+		"title": "Zmeňte názov položky"
+	},
+	"popup_set_card": {
+		"message": "Vaša karta bude nastavená ako predvolená a bude vám z nej vždy stiahnutá čiastka za nasledujúce obdobie fakturácie.",
+		"title": "Nastaviť ako predvolenú kartu?"
+	},
+	"popup_share_create": {
+		"title": "Zdieľaj {item}"
+	},
+	"popup_share_edit": {
+		"change_pass": "Zmeniť heslo",
+		"confirm": "Potvrdiť",
+		"save": "Uložiť zmeny",
+		"stop": "Zastaviť zdieľanie",
+		"title": "Upraviť nastavenia zdieľania"
+	},
+	"popup_signup_error": {
+		"message": "Prosím skontrolujte databázove spojenie, či všetko funguje správne.",
+		"title": "Chyba serveru"
+	},
+	"popup_subscription_cancel": {
+		"button": "Som hotový",
+		"message": "Do konca fakturačného cyklu budete mať naďalej prístup k funkciám, za ktoré ste zaplatili.",
+		"title": "Predplatné bolo ukončené"
+	},
+	"popup_subscription_resumed": {
+		"button": "To je úžasné!",
+		"message": "Váš odber bol znova aktivovaný a budú vám účtované poplatky podľa pôvodného fakturačného cyklu.",
+		"title": "Predplatné bolo obnovené"
+	},
+	"popup_trashed": {
+		"message": "Od teraz máte prázdny a čistý kôš",
+		"title": "Váš kôš bol vymazaný!"
+	},
+	"preview_type": {
+		"grid": "Mriežka",
+		"list": "List"
+	},
+	"profile": {
+		"change_pass": "Zmeniť heslo",
+		"profile_info": "Profil",
+		"store_pass": "Uložiť nové heslo"
+	},
+	"pronouns": {
+		"of": "z"
+	},
+	"roles": {
+		"admin": "Admin",
+		"user": "Užívateľ"
+	},
+	"routes": {
+		"create_new_password": "vytvorit-nove-heslo"
+	},
+	"routes_title": {
+		"appearance": "Vzhľad",
+		"billings": "Fakturácia",
+		"dashboard": "Prehľad",
+		"email": "E-mail",
+		"invoices": "Faktúry",
+		"others": "Ostatné",
+		"page_edit": "Upraviť stránku",
+		"pages": "Stránky",
+		"payment_methods": "Spôsob platby",
+		"payments": "Platby",
+		"plan": "Plán",
+		"plan_create": "Vytvoriť plán",
+		"plan_delete": "Odstránenie plánu",
+		"plan_settings": "Nastavenia plánu",
+		"pricing_plans": "Cenové plány",
+		"profile": "Môj profil",
+		"profile_settings": "Nastavenia profilu",
+		"settings": "Nastavenia",
+		"settings_mobile": "Nastavenia",
+		"settings_password": "Zmeniť heslo",
+		"settings_storage": "Úložisko",
+		"subscribers": "Odberatelia",
+		"subscription": "Predplatné",
+		"upgrade_billing": "Fakturácia",
+		"upgrade_plan": "Plán inovácie",
+		"user_create": "Vytvoriť uživateľa",
+		"users_delete": "Vymazať uživateľa",
+		"users_detail": "Detail",
+		"users_list": "Správca uživateľov",
+		"users_password": "Heslo",
+		"users_storage_usage": "Využitie úložiska",
+		"users_user": "Uživateľ"
+	},
+	"rows": {
+		"card": {
+			"expiration": "Dátum expirácie",
+			"number": "Číslo karty",
+			"status": "Stav"
+		},
+		"invoice": {
+			"number": "Číslo faktúry",
+			"payed": "Zaplatené",
+			"plan": "Plán",
+			"total": "Celkom"
+		}
+	},
+	"shared": {
+		"can_download": "Môže stiahnúť súbor",
+		"editor": "Môže upravovať a nahrávať súbory",
+		"empty_shared": "Zatiaľ ste nič nezdieľali",
+		"visitor": "Môže len vidieť a sťahovať súbory"
+	},
+	"shared_form": {
+		"button_more_options": "Viac nastavení",
+		"button_close_options": "Zavrieť viac možností",
+		"button_done": "Super, som hotový!",
+		"button_generate": "Vygenerovať link",
+		"label_password_protection": "Chrániť heslom",
+		"label_permission": "Oprávnenie",
+		"label_shared_url": "Zdieľací odkaz",
+		"label_expiration": "Expirácia Linku",
+		"expiration_hour": "{value}h.",
+		"expiration_day": "{value}d.",
+		"placeholder_permission": "Zvoľte oprávnenia"
+	},
+	"sidebar": {
+		"favourites": "Obľúbené",
+		"favourites_empty": "Presuňte sem obľúbený priečinok",
+		"folders_empty": "Vytvorte svoj prvý priečinok",
+		"home": "Domov",
+		"latest": "Posledne nahraté",
+		"locations_title": "Menu",
+		"my_shared": "Moje zdieľané položky",
+		"navigator_title": "Navigátor",
+		"participant_uploads": "Nahrávania účastníkov",
+		"tools_title": "Nástroje"
+	},
+	"storage": {
+		"audios": "Audio",
+		"documents": "Dokumenty",
+		"images": "Obrázky",
+		"others": "Ostatné",
+		"sec_capacity": "Kapacita úložiska",
+		"sec_details": "Detail využitej kapacity",
+		"total_capacity": "Vaša kapacita disku je {capacity}",
+		"total_used": "Používané {used}",
+		"videos": "Videá"
+	},
+	"toaster": {
+		"account_upgraded": "Váš účet bol úspešne inovovaný.",
+		"card_deleted": "Vaša karta bola úspešne odstránená.",
+		"card_new_add": "Vaša karta bola úspešne pridaná",
+		"card_set": "Vaša karta bola úspešne nastavená ako predvolená.",
+		"changed_capacity": "Úspešne ste zmenili kapacitu úložiska uživateľa!",
+		"changed_user": "Úspešne ste zmenili rolu užívateľa",
+		"created_user": "Úspešne ste vytvorili uživateľa!",
+		"email_set": "Vaše nastavenia e-mailu boli úspešne aktualizované",
+		"plan_created": "Váš plán bol úspešne vytvorený!",
+		"sended_password": "Úspešne ste odoslali email uživateľovi pre reset hesla!",
+		"stripe_set": "Váš účet Stripe bol úspešne nastavený!"
+	},
+	"types": {
+		"file": "Súbor",
+		"folder": "Priečinok"
+	},
+	"upgrade_banner": {
+		"button": "Inovovať",
+		"description": "Takmer ste dosiahli kapacitu úložiska",
+		"title": "Dosiahli ste kapacitu úložiska. Prosím inovujte úložisko."
+	},
+	"incomplete_payment": {
+		"description": "Vaša posledná platba nie je dokončená. {0}",
+		"href": "Prosím potvrďte Vašu platbu."
+	},
+	"uploading": {
+		"processing_file": "Spracuvávam súbor...",
+		"progress_single_upload": "Nahrávam súbor {progress}%",
+		"progress": "Nahrávam súbory {progress}% - {current}/{total}"
+	},
+	"user_add_card": {
+		"default_description": "Vaša karta bude uložená a použitá pre platbu ako prvá.",
+		"default_title": "Nastaviť ako predvolenú platobnú kartu"
+	},
+	"user_box_delete": {
+		"description": "Môžete vymazať svojho uživateľa, avšak, dávajte pozor! Táto událosť je nezvratná a všetke uživateľské dáta vrátane uživateľových súborov budú vymazané!",
+		"title": "Vymazať uživateľa"
+	},
+	"user_box_password": {
+		"description": "Môžete zmeniť uživateľské heslo zaslaním resetovacieho emailu uživateľovi. Uživateľ bude presmerovaný na stránku, kde si môže zmeniť heslo na nové.",
+		"title": "Zmeňiť uživateľské heslo"
+	},
+	"user_box_role": {
+		"description": "Môžete zmeniť uživateľskú rolu pre aktuálneho uživateľa. Administrátorska rola môže editovať alebo vytvárať nových uživateľov, zmeniť kapacitu úložiska a mnoho dalších nastavení aplikácie.",
+		"title": "Zmeniť uživateľskú rolu"
+	},
+	"user_box_storage": {
+		"description": "Zmeňte kapacitu úložiska formulárom nižšie. Môžeš písať iba čiselné hodnoty, napríklad hodnota '5' znamená, že uživateľ bude mať 5GB kapacity úložiska.",
+		"title": "Zmeňiť kapacitu úložiska"
+	},
+	"user_invoices": {
+		"empty": "Zatiaľ nemáte žiadne faktúry.",
+		"title": "Faktúry"
+	},
+	"user_password": {
+		"title": "Zmeňte si heslo"
+	},
+	"user_payments": {
+		"add_card": "Pridať Platobnú Kartu",
+		"card_field_title": "Kreditná Karta",
+		"delete_card": "Odstrániť kartu",
+		"empty": "Zatiaľ nemáte žiadne platobné karty.",
+		"field_loading": "Načitávam kartové pole...",
+		"set_as_default": "Nastaviť ako predvolenú kartu",
+		"store_card": "Uložiť platobnú kartu",
+		"title": "Spôsob platby"
+	},
+	"user_settings": {
+		"address": "Adresa",
+		"address_plac": "Zadajte svoju fakturačnú adresu",
+		"city": "Mesto",
+		"city_plac": "Zadajte svoje fakturačné mesto",
+		"country": "Krajina",
+		"country_plac": "Vyberte svoju fakturačnú krajinu",
+		"name": "Meno",
+		"name_plac": "Zadajte svoje fakturačné meno",
+		"phone_number": "Telefónne číslo",
+		"phone_number_plac": "Zadajte svoje telefónne číslo pre fakturáciu",
+		"postal_code": "Poštové smerovacie číslo",
+		"postal_code_plac": "Zadajte svoj fakturačný poštový kód",
+		"state": "Štát",
+		"state_plac": "Zadajte Štát",
+		"title_account": "informácie o účte",
+		"title_billing": "Fakturačné údaje"
+	},
+	"user_subscription": {
+		"billed": "Ůčtované",
+		"cancel_plan": "Zrušiť plán",
+		"canceled_at": "Zrušené",
+		"created_at": "Vytvorené",
+		"empty": "Zatiaľ nemáte žiadne predplatné.",
+		"ends_at": "Ukončenie",
+		"plan": "Plán",
+		"renews_at": "Obnovenie",
+		"resume_plan": "Obnoviť plán",
+		"status": "Stav",
+		"title": "Plán predplatného"
+	},
+	"validation_errors": {
+		"incorrect_password": "Prepáčte, vložili ste nesprávne heslo :(",
+		"wrong_image": "Zrejme ste vložili zlý obrázok, skúste to znova!"
+	}
 }

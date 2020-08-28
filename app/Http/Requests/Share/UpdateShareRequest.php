@@ -27,6 +27,7 @@ class UpdateShareRequest extends FormRequest
         return [
             'protected'  => 'required|boolean',
             'permission' => 'nullable|string',
+            'expiration' => 'integer|nullable',
             'password'   => 'string',
         ];
     }

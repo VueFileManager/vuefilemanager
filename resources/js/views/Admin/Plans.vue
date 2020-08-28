@@ -1,12 +1,12 @@
 <template>
     <div id="single-page">
 
-        <!--Page Content-->
-        <div id="page-content" v-if="! isLoading && plans.length > 0">
+        <!--Stripe plans-->
+        <div id="page-content" v-show="stripeConfiguredWithPlans">
             <MobileHeader :title="$router.currentRoute.meta.title"/>
             <PageHeader :title="$router.currentRoute.meta.title"/>
 
-            <div class="content-page">
+            <div class="content-page" v-if="config.stripe_public_key">
                 <div class="table-tools">
                     <div class="buttons">
                         <router-link :to="{name: 'PlanCreate'}">
@@ -19,8 +19,8 @@
 
                     </div>
                 </div>
-                <DatatableWrapper :paginator="false" :columns="columns" :data="plans" class="table table-users">
-                    <template scope="{ row }">
+                <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/plans" :paginator="false" :columns="columns" class="table table-users">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td style="max-width: 80px">
                                 <span class="cell-item">
@@ -64,9 +64,9 @@
             </div>
         </div>
 
-        <!--Empty plans-->
+        <!--Stripe configured but has empty plans-->
         <EmptyPageContent
-                v-if="! isLoading && plans.length === 0 && config.stripe_public_key"
+                v-if="isEmptyPlans"
                 icon="file"
                 :title="$t('admin_page_plans.empty.title')"
                 :description="$t('admin_page_plans.empty.description')"
@@ -76,9 +76,9 @@
             </router-link>
         </EmptyPageContent>
 
-        <!--Stripe Not Configured-->
+        <!--Stripe is Not Configured-->
         <EmptyPageContent
-                v-if="! config.stripe_public_key"
+                v-if="stripeIsNotConfigured"
                 icon="settings"
                 :title="$t('activation.stripe.title')"
                 :description="$t('activation.stripe.description')"
@@ -126,6 +126,18 @@
             Edit2Icon,
             Spinner,
         },
+        computed: {
+            ...mapGetters(['config']),
+            isEmptyPlans() {
+                return ! this.isLoading && this.plans.length === 0 && this.config.stripe_public_key
+            },
+            stripeIsNotConfigured() {
+                return ! this.config.stripe_public_key
+            },
+            stripeConfiguredWithPlans() {
+                return ! this.isLoading && this.config.stripe_public_key
+            }
+        },
         data() {
             return {
                 isLoading: true,
@@ -134,27 +146,27 @@
                     {
                         label: this.$t('admin_page_plans.table.status'),
                         field: 'data.attributes.status',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_plans.table.name'),
                         field: 'data.attributes.name',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_plans.table.subscribers'),
                         field: 'data.attributes.subscribers',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_plans.table.price'),
                         field: 'data.attributes.price',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_plans.table.storage_capacity'),
                         field: 'data.attributes.capacity',
-                        sortable: true
+                        sortable: false
                     },
                     {
                         label: this.$t('admin_page_user.table.action'),
@@ -163,24 +175,14 @@
                 ],
             }
         },
-        computed: {
-            ...mapGetters(['config']),
-        },
         methods: {
             changeStatus(val, id) {
                 this.$updateText('/plans/' + id + '/update', 'is_active', val)
             }
         },
         created() {
-            if (this.config.stripe_public_key) {
-                axios.get('/api/plans')
-                    .then(response => {
-                        this.plans = response.data.data
-                        this.isLoading = false
-                    })
-            } else {
+            if (! this.config.stripe_public_key)
                 this.isLoading = false
-            }
         }
     }
 </script>

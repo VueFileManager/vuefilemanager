@@ -96,10 +96,11 @@
 
                 // Send request to get user reset link
                 axios
-                    .patch(this.$store.getters.api + '/users/' + this.$route.params.id + '/capacity', {
+                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/capacity', {
                         attributes: {
                             storage_capacity: this.capacity
-                        }
+                        },
+                        _method: 'patch'
                     })
                     .then(() => {
 

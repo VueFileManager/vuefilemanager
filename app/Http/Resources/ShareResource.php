@@ -20,8 +20,9 @@ class ShareResource extends JsonResource
                 'type'       => 'shares',
                 'attributes' => [
                     'permission' => $this->permission,
-                    'protected'  => $this->protected,
-                    'item_id'    => $this->item_id,
+                    'protected'  => (int) $this->protected,
+                    'item_id'    => (int) $this->item_id,
+                    'expire_in'  => (int) $this->expire_in,
                     'token'      => $this->token,
                     'link'       => $this->link,
                     'type'       => $this->type,

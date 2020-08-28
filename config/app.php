@@ -231,6 +231,7 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Image'        => Intervention\Image\Facades\Image::class,
         'Stripe'       => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        'Crawler'      => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class,
     ],
 
     'deploy_secret' => env('APP_DEPLOY_SECRET'),

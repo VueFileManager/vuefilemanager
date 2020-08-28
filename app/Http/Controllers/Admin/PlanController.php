@@ -153,7 +153,7 @@ class PlanController extends Controller
         $subscribers = Subscription::where('stripe_plan', $id)->pluck('user_id');
 
         return new UsersCollection(
-            User::findMany($subscribers)
+            User::sortable()->findMany($subscribers)
         );
     }
 }

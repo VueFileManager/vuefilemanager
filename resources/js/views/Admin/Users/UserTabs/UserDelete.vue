@@ -73,11 +73,12 @@
                 this.isSendingRequest = true
 
                 axios
-                    .delete(this.$store.getters.api + '/users/' + this.$route.params.id + '/delete',
+                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/delete',
                         {
                             data: {
                                 name: this.userName
-                            }
+                            },
+                            _method: 'delete'
                         }
                     )
                     .then((response) => {

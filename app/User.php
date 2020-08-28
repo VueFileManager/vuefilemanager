@@ -5,14 +5,12 @@ namespace App;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResetUserPasswordNotification;
 use ByteUnits\Metric;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use Kyslik\ColumnSortable\Sortable;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
@@ -75,10 +73,11 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User sortable($defaultParameters = null)
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Billable;
+    use HasApiTokens, Notifiable, Billable, Sortable;
 
     protected $guarded = ['id', 'role'];
 
@@ -111,6 +110,19 @@ class User extends Authenticatable
 
     protected $appends = [
         'used_capacity', 'storage'
+    ];
+
+    /**
+     * Sortable columns
+     *
+     * @var string[]
+     */
+    public $sortable = [
+        'id',
+        'name',
+        'role',
+        'created_at',
+        'storage_capacity',
     ];
 
     /**
@@ -182,7 +194,7 @@ class User extends Authenticatable
      */
     public function getFolderTreeAttribute()
     {
-        return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected'])
+        return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
             ->get();
@@ -197,7 +209,6 @@ class User extends Authenticatable
     {
         // Get avatar from external storage
         if ($this->attributes['avatar'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
-
             return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
         }
 
@@ -248,7 +259,7 @@ class User extends Authenticatable
      */
     public function favourite_folders()
     {
-        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected');
+        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in');
     }
 
     /**
