@@ -137,8 +137,6 @@ export default {
 			// Load file info detail
 			this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 
-			//this.isClicked = true
-
 			events.$emit('mobileMenu:show')
 		},
 		dragEnter() {
@@ -182,7 +180,6 @@ export default {
 		},
 		goToItem() {
 			if (this.isImage || this.isVideo || this.isAudio) {
-				// this.$openImageOnNewTab(this.data.file_url)
 				events.$emit('fileFullPreview:show')
 			}
 

@@ -177,10 +177,11 @@ export default {
 		vertical-align: middle;
 		cursor: pointer;
 		color: $text;
-		align-self: center;
 		@include transition(150ms);
+
 		&:hover {
 			background: $light_background;
+
 			line {
 				stroke: $theme;
 			}

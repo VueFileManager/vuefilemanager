@@ -101,8 +101,18 @@
             isFile() {
                 return this.data.type !== 'folder' && this.data.type !== 'image'
             },
+            isPdf() {
+                return this.data.mimetype === 'pdf'
+            },
             isImage() {
                 return this.data.type === 'image'
+            },
+            isVideo() {
+                return this.data.type === 'video'
+            },
+            isAudio() {
+                let mimetypes = ['mpeg', 'mp3', 'mp4', 'wan', 'flac']
+                return mimetypes.includes(this.data.mimetype) && this.data.type === 'audio'
             },
             canEditName() {
                 return !this.$isMobile()
@@ -166,6 +176,12 @@
                     }
                 }
 
+                if (this.$isMobile()) {
+                    if (this.isImage || this.isVideo || this.isAudio) {
+                        events.$emit('fileFullPreview:show')
+                    }
+                }
+
                 // Load file info detail
                 this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 
@@ -180,11 +196,11 @@
                     return
             },
             goToItem() {
-                if (this.isImage) {
-                    this.$openImageOnNewTab(this.data.file_url)
+                if (this.isImage || this.isVideo || this.isAudio) {
+                    events.$emit('fileFullPreview:show')
                 }
 
-                if (this.isFile) {
+                if (this.isFile && !this.isPdf && !this.isVideo && !this.isAudio) {
                     this.$downloadFile(
                         this.data.file_url,
                         this.data.name + '.' + this.data.mimetype
