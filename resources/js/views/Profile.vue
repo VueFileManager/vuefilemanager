@@ -172,7 +172,7 @@
                 return this.user.data.attributes.subscription ? 'green' : 'purple'
             },
             canShowSubscriptionSettings() {
-                return this.config.isSaaS
+                return this.config.isSaaS && this.config.app_payments_active
             },
             canShowUpgradeWarning() {
                 return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95

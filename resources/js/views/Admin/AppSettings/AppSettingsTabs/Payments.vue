@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Stripe Information-->
-        <PageTabGroup v-if="config.stripe_public_key">
+        <PageTabGroup v-if="config.stripe_public_key && payments">
             <div class="form block-form">
                 <FormLabel>{{ $t('admin_settings.payments.section_payments') }}</FormLabel>
                 <InfoBox>
@@ -143,10 +143,7 @@
                 isLoading: true,
                 isError: false,
                 errorMessage: '',
-                payments: {
-                    status: 1,
-                    configured: undefined,
-                },
+                payments: undefined,
                 stripeCredentials: {
                     key: '',
                     secret: '',
@@ -746,8 +743,10 @@
                 .then(response => {
                     this.isLoading = false
 
-                    this.payments.configured = parseInt(response.data.payments_configured)
-                    this.payments.status = parseInt(response.data.payments_active)
+                    this.payments = {
+                        configured: parseInt(response.data.payments_configured),
+                        status: parseInt(response.data.payments_active),
+                    }
                 })
         }
     }
