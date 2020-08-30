@@ -7,34 +7,47 @@
       :style="{ top: positionY + 'px', left: positionX + 'px' }"
     >
       <!-- ContextMenu for File Preview -->
-
       <div class="menu-options" id="menu-list">
-        <ul class="menu-option-group">
-          <li class="menu-option" @click="renameItem" v-if="item">
-            <div class="icon">
-              <edit-2-icon size="17"></edit-2-icon>
-            </div>
-            <div class="text-label">
-              {{ $t("context_menu.rename") }}
-            </div>
-          </li>
-          <li class="menu-option" @click="moveItem" v-if="item">
-            <div class="icon">
-              <corner-down-right-icon size="17"></corner-down-right-icon>
-            </div>
-            <div class="text-label">
-              {{ $t("context_menu.move") }}
-            </div>
-          </li>
-          <li class="menu-option" @click="deleteItem" v-if="item">
-            <div class="icon">
-              <trash-2-icon size="17"></trash-2-icon>
-            </div>
-            <div class="text-label">
-              {{ $t("context_menu.delete") }}
-            </div>
-          </li>
-        </ul>
+          <ul class="menu-option-group">
+              <li class="menu-option" @click="moveItem">
+                  <div class="icon">
+                      <corner-down-right-icon size="17"></corner-down-right-icon>
+                  </div>
+                  <div class="text-label">
+                      {{ $t("context_menu.move") }}
+                  </div>
+              </li>
+              <li class="menu-option" @click="shareItem">
+                  <div class="icon">
+                      <link-icon size="17"></link-icon>
+                  </div>
+                  <div class="text-label">
+                      {{
+                          item.shared
+                              ? $t("context_menu.share_edit")
+                              : $t("context_menu.share")
+                      }}
+                  </div>
+              </li>
+              <li class="menu-option" @click="deleteItem">
+                  <div class="icon">
+                      <trash-2-icon size="17"></trash-2-icon>
+                  </div>
+                  <div class="text-label">
+                      {{ $t("context_menu.delete") }}
+                  </div>
+              </li>
+          </ul>
+          <ul class="menu-option-group">
+              <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+                  <div class="icon">
+                      <download-cloud-icon size="17"></download-cloud-icon>
+                  </div>
+                  <div class="text-label">
+                      {{ $t("context_menu.download") }}
+                  </div>
+              </li>
+          </ul>
       </div>
     </div>
 

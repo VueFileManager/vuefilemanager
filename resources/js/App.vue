@@ -5,6 +5,7 @@
         <Alert/>
 
         <div id="application-wrapper" v-if="! isGuestLayout">
+
             <!-- Full File Preview -->
             <FileFullPreview />
 

@@ -133,14 +133,17 @@ export default {
 	height: 22px;
 	display: flex;
 	position: relative;
-	// align-items: center;
+	align-items: center;
 	flex-grow: 1;
 	align-self: center;
 	white-space: nowrap;
+
 	.name-count-wrapper {
-		.file-count {
+        margin-left: 6px;
+        margin-right: 6px;
+
+        .file-count {
 			@include font-size(15);
-			margin-left: 6px;
 			line-height: 1;
 			font-weight: 700;
 			overflow: hidden;
@@ -173,7 +176,6 @@ export default {
 		border-radius: 6px;
 		vertical-align: middle;
 		cursor: pointer;
-		margin-right: 6px;
 		color: $text;
 		align-self: center;
 		@include transition(150ms);
@@ -227,32 +229,19 @@ export default {
 	}
 }
 
-@media (min-width: 420px) and (max-width: 985px) {
-	.name-wrapper {
-		width: 67%;
-	}
-}
-@media (max-width: 570px) {
-	.name-wrapper {
-		width: 100%;
-		justify-content: space-between;
-	}
-}
 .created-at-wrapper {
 	width: 33%;
-	// height: 100%;
 	display: flex;
 	text-align: center;
 	justify-content: center;
+
 	p {
 		display: flex;
 		align-items: center;
 		@include font-size(11);
 	}
-	@media (max-width: 985px) {
-		display: none;
-	}
 }
+
 .navigation-icons {
 	width: 33%;
 	text-align: right;
@@ -262,21 +251,15 @@ export default {
 		display: inline-block;
 		vertical-align: middle;
 	}
-	@media (max-width: 960px) {
-		.mobile-hide {
-			display: none;
-		}
-	}
+
 	.button {
 		margin-left: 5px;
 		&:hover {
 			background: $light_background;
 		}
 	}
-	@media (max-width: 570px) {
-		display: none;
-	}
 }
+
 .navigation-panel {
 	height: 63px;
 	width: 100%;
@@ -287,33 +270,61 @@ export default {
 	align-items: center;
 	background-color: white;
 	color: $text;
-	@media (max-width: 960px) {
-		& {
-			height: 53px;
-			padding: 15px;
-		}
-	}
 }
+
+@media (max-width: 960px) {
+
+    .context-menu {
+
+        .name-wrapper {
+            width: 67%;
+        }
+    }
+
+    .navigation-icons {
+        display: none;
+    }
+
+    .navigation-panel {
+        height: 53px;
+        padding: 15px;
+    }
+
+    .created-at-wrapper {
+        display: none;
+    }
+
+    .name-wrapper {
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        width: 100%;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
 	.navigation-panel {
-		background-color: $dark_mode_foreground;
+		background-color: $dark_mode_background;
 		color: $dark_mode_text_primary;
+
 		.icon-close {
 			color: $dark_mode_text_primary;
 			&:hover {
 				background-color: $dark_mode_background;
 			}
 		}
+
 		.fast-menu-icon:hover {
 			background: $dark_mode_background;
 		}
 	}
+
 	.name-wrapper {
 		.title,
 		.file-count {
 			color: $dark_mode_text_primary !important;
 		}
 	}
+
 	.navigation-icons {
 		.button:hover {
 			background: $dark_mode_background;

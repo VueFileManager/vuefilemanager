@@ -166,23 +166,32 @@ export default {
 	justify-content: center;
 	align-items: center;
 	background-color: white;
+
 	.file-wrapper {
 		width: 100%;
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+
 		.file-shadow {
-			box-shadow: 0 8px 40px rgba(17, 26, 52, 0.1);
+			box-shadow: 0 8px 40px rgba(17, 26, 52, 0.15);
 		}
+
 		.file {
 			max-width: 100%;
 			max-height: 100%;
 			align-self: center;
 		}
+
 		.audio {
 			border-radius: 28px;
 		}
+
+        img {
+            border-radius: 4px;
+        }
+
 		.video-wrapper {
 			max-width: 1080px;
 			max-height: 100%;
