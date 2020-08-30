@@ -191,7 +191,6 @@ export default {
 		display: flex;
 		align-items: center;
 		vertical-align: middle;
-		margin-left: 6px;
 		padding: 1px 4px;
 		line-height: 0;
 		border-radius: 3px;

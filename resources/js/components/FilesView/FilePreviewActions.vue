@@ -1,7 +1,12 @@
 <template>
 	<div v-if="filteredFiles.length > 1">
-		<chevron-left-icon class="prev" @click.prevent="prev" size="17"></chevron-left-icon>
-		<chevron-right-icon class="next" @click.prevent="next" size="17"></chevron-right-icon>
+        <div @click.prevent="prev" class="prev">
+		    <chevron-left-icon size="17"></chevron-left-icon>
+        </div>
+
+        <div @click.prevent="next" class="next">
+		    <chevron-right-icon size="17"></chevron-right-icon>
+        </div>
 	</div>
 </template>
 
@@ -54,14 +59,13 @@ export default {
 	text-decoration: none;
 	user-select: none;
 	filter: drop-shadow(0px 1px 0 rgba(255, 255, 255, 1));
+    padding: 10px;
 }
 .next {
 	right: 0;
-	margin-right: 10px;
 }
 .prev {
 	left: 0;
-	margin-left: 10px;
 }
 
 @media (prefers-color-scheme: dark) {
