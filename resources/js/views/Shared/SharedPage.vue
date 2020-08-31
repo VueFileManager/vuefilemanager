@@ -70,7 +70,7 @@
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
-    import FileFullPreview from "@/components/FilesView/FileFullpreview";
+    import FileFullPreview from "@/components/FilesView/FileFullPreview";
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
