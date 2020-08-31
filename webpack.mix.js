@@ -22,5 +22,12 @@ mix.js('resources/js/main.js', 'public/js')
                 "@": path.resolve(__dirname, "resources/js"),
             }
         },
+        output: {
+            chunkFilename: '[name].js?id=[chunkhash]',
+        }
     })
     .disableNotifications();
+
+if (mix.inProduction()) {
+    mix.version();
+}
