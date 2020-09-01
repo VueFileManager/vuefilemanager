@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Personal Information-->
-        <PageTabGroup>
+        <PageTabGroup v-if="app">
             <div class="form block-form">
                 <FormLabel>
                     {{ $t('admin_settings.others.section_user') }}
@@ -131,13 +131,7 @@
             return {
                 isLoading: true,
                 isFlushingCache: false,
-                app: {
-                    contactMail: '',
-                    googleAnalytics: '',
-                    defaultStorage: '',
-                    userRegistration: 1,
-                    storageLimitation: 1,
-                },
+                app: undefined,
             }
         },
         methods: {
@@ -166,11 +160,13 @@
                 .then(response => {
                     this.isLoading = false
 
-                    this.app.contactMail = response.data.contact_email
-                    this.app.googleAnalytics = response.data.google_analytics
-                    this.app.defaultStorage = response.data.storage_default
-                    this.app.userRegistration = parseInt(response.data.registration)
-                    this.app.storageLimitation = parseInt(response.data.storage_limitation)
+                    this.app = {
+                        contactMail: response.data.contact_email,
+                        googleAnalytics: response.data.google_analytics,
+                        defaultStorage: response.data.storage_default,
+                        userRegistration: parseInt(response.data.registration),
+                        storageLimitation: parseInt(response.data.storage_limitation),
+                    }
                 })
         }
     }

@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading" class="form-fixed-width">
 
         <!--Personal Information-->
-        <PageTabGroup v-if="! isLoading">
+        <PageTabGroup v-if="app">
             <div class="form block-form">
                 <FormLabel>{{ $t('admin_settings.appearance.section_general') }}</FormLabel>
 
@@ -85,13 +85,7 @@
         data() {
             return {
                 isLoading: true,
-                app: {
-                    logo_horizontal: undefined,
-                    favicon: undefined,
-                    logo: undefined,
-                    description: '',
-                    title: '',
-                },
+                app: undefined,
             }
         },
         mounted() {
@@ -101,11 +95,13 @@
                 }
             })
                 .then(response => {
-                    this.app.logo_horizontal = response.data.app_logo_horizontal
-                    this.app.description = response.data.app_description
-                    this.app.favicon = response.data.app_favicon
-                    this.app.title = response.data.app_title
-                    this.app.logo = response.data.app_logo
+                    this.app = {
+                        logo_horizontal: response.data.app_logo_horizontal,
+                        description: response.data.app_description,
+                        favicon: response.data.app_favicon,
+                        title: response.data.app_title,
+                        logo: response.data.app_logo,
+                    }
                 })
                 .finally(() => {
                     this.isLoading = false
