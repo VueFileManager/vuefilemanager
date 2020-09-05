@@ -210,6 +210,9 @@
 			"username_plac": "Zadajte svoje používateľské meno pre poštu"
 		},
 		"others": {
+			"mimetypes_blacklist": "Čierna listina mimetypov",
+			"mimetypes_blacklist_plac":"Pridajte mimetypy do Čiernej listiny",
+			"mimetypes_blacklist_help" :"Ak chcete zakázať nahrávanie niektorých typov súborov, jednoducho ich pridajte na čiernu listinu, príklad: php, mp3, jpeg <br/> Medzi mimetypmi použite čiarku. Nevkladajte bodku pred mimetyp." ,
 			"section_cache": "Aplikačná pamäť",
 			"cache_disclaimer": "Zmenili ste niečo v .env súbore alebo ste zmenili Stripe poverenia? Vymažte aplikačnú pamäť.",
 			"cache_clear": "Vymazať aplikačnú pamäť",
@@ -296,6 +299,19 @@
 		"shared": "Zdieľané",
 		"size": "Veľkosť",
 		"where": "Umiestnenie"
+	},
+	"file_detail_meta": {
+		"meta_data": "Metadata",
+		"author": "Autor",
+		"time_data": "Pôvodných časový údaj",
+		"make": "Fotoaparát",
+		"model": "Model",
+		"camera_lens": "Objektív fotoaparátu",
+		"aperature": "Clona",
+		"iso": "ISO",
+		"focal": "Ohnisková vzdialenosť",
+		"exposure": "Doba expozície",
+		"not_avaible": "Metadáta nie sú k dispozícii"
 	},
 	"folder": {
 		"empty": "Prázdne",
@@ -474,6 +490,10 @@
 			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
 		},
 		"title": "Vyberte si metódu platby"
+	},
+	"popup_mimetypes_blacklist": {
+		"title": "Ospravelnujume sa",
+		"message": "Nieje povolené nahrávať tento typ súboru."
 	},
 	"popup_create_folder": {
 		"folder_default_name": "Nový priečinok",

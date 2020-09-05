@@ -257,6 +257,8 @@ class Editor
         // If last then process file
         if ($request->boolean('is_last')) {
 
+            $meta_data = get_image_meta_data($file);
+            
             $disk_local = Storage::disk('local');
             $unique_id = get_unique_id();
 
@@ -292,6 +294,7 @@ class Editor
                 'mimetype'   => get_file_type_from_mimetype($file_mimetype),
                 'type'       => get_file_type($file_mimetype),
                 'folder_id'  => $request->parent_id,
+                'meta_data'  => $meta_data,
                 'name'       => $user_file_name,
                 'unique_id'  => $unique_id,
                 'basename'   => $disk_file_name,

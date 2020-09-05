@@ -122,6 +122,13 @@ const actions = {
                                 message: i18n.t('popup_exceed_limit.message')
                             })
                             break;
+                            case 415:
+                                events.$emit('alert:open', {
+                                    emoji: '😬',
+                                    title: i18n.t('popup_mimetypes_blacklist.title'),
+                                    message: i18n.t('popup_mimetypes_blacklist.message')
+                                })
+                            break;
                         case 413:
                             events.$emit('alert:open', {
                                 emoji: '😟',
