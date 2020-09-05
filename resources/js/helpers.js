@@ -145,6 +145,10 @@ const Helpers = {
                             if (error.response.status === 500)
                                 isNotGeneralError = false
 
+                            //Break if mimetype of file is in blacklist
+                            if(error.response.status === 415)
+                                isNotGeneralError = false
+
                             // Show Error
                             if (attempts === 3)
                                 this.$isSomethingWrong()

@@ -210,6 +210,9 @@
 			"username_plac": "Type your mail username"
 		},
 		"others": {
+			"mimetypes_blacklist": "Mimetypes Blacklist",
+			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
+			"mimetypes_blacklist_help" :"If you want ban some type of files to upload just add them to blacklist like this: php,mp3,jpeg <br/> Use a comma between each mime type. Don't use a dot before mimetypes." ,
 			"section_cache": "Application Cache",
 			"cache_disclaimer": "Did you change anything in your .env file or change your Stripe credentials? Then clear your cache.",
 			"cache_clear": "Clear Cache",
@@ -296,6 +299,19 @@
 		"shared": "Shared",
 		"size": "Size",
 		"where": "Where"
+	},
+	"file_detail_meta": {
+		"meta_data": "Metadata",
+		"author": "Author",
+		"time_data": "Original time data",
+		"make": "Camera",
+		"model": "Model",
+		"camera_lens": "Camera lens",
+		"aperature": "Aperture F Number",
+		"iso": "ISO",
+		"focal": "Focal length",
+		"exposure": "Exposure time",
+		"not_avaible": "Metadata not avaible"
 	},
 	"folder": {
 		"empty": "Empty",
@@ -474,6 +490,10 @@
 			"submit_disclaimer": "By submit form, you agree to save the payment method and billing information in your {app} account."
 		},
 		"title": "Choose Payment Method"
+	},
+	"popup_mimetypes_blacklist": {
+		"title": "Sorry",
+		"message": "File of this type is not allowed to upload."
 	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",

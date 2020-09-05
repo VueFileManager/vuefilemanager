@@ -56,12 +56,21 @@
                     <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail.shared.link"/>
                 </div>
             </ListInfoItem>
+
+            <div  @click="this.showMetaData">
+                <ListInfoItem   v-if="fileInfoDetail.meta_data"            
+                                :title="$t('file_detail_meta.meta_data')"
+                                class="meta-data">    
+                    <ImageMetaData v-if="this.metaDataShow" />
+                </ListInfoItem>
+            </div>
         </ListInfo>
     </div>
 </template>
 
 <script>
     import {Edit2Icon, LockIcon, UnlockIcon, ImageIcon, VideoIcon, FolderIcon, FileIcon} from 'vue-feather-icons'
+    import ImageMetaData from '@/components/FilesView/ImageMetaData'
     import FilePreview from '@/components/FilesView/FilePreview'
     import CopyInput from '@/components/Others/Forms/CopyInput'
     import ListInfoItem from '@/components/Others/ListInfoItem'
@@ -72,6 +81,7 @@
     export default {
         name: 'FileInfoPanel',
         components: {
+            ImageMetaData,
             ListInfoItem,
             ListInfo,
             FilePreview,
@@ -131,7 +141,15 @@
                 return this.fileInfoDetail.shared.protected
             }
         },
+        data() {
+            return {
+                metaDataShow: false
+            }
+        },
         methods: {
+            showMetaData() {
+                this.metaDataShow = !this.metaDataShow
+            },
             shareItemOptions() {
                 // Open share item popup
                 events.$emit('popup:open', {name: 'share-edit', item: this.fileInfoDetail})
@@ -211,6 +229,9 @@
         .copy-sharelink {
             width: 100%;
         }
+    }
+    .meta-data{
+        cursor: pointer;
     }
 
     @media (prefers-color-scheme: dark) {

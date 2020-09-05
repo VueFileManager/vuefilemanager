@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\FileFunctions;
 
+use App\Rules\MimetypeBlacklistValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +27,7 @@ class UploadRequest extends FormRequest
     {
         return [
             'parent_id' => 'required|integer',
-            'file'      => 'required|file',
+            'file'      => ['required','file' ,  new MimetypeBlacklistValidation]
         ];
     }
 }

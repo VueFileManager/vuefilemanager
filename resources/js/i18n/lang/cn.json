@@ -208,6 +208,9 @@
 			"username_plac": "输入您的邮件用户名"
 		},
 		"others": {
+			"mimetypes_blacklist": "Mimetypes Blacklist",
+			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
+			"mimetypes_blacklist_help" :"If you want ban some type of files to upload just add them to blacklist like this: php,mp3,jpeg <br/> Use a comma between each mime type. Don't use a dot before mimetypes." ,
 			"section_cache": "Application Cache",
 			"cache_disclaimer": "Did you change anything in your .env file or change your stripe credentials? Then clear your cache.",
 			"cache_clear": "Clear Cache",
@@ -294,6 +297,19 @@
 		"shared": "分享",
 		"size": "大小",
 		"where": "地址"
+	},
+	"file_detail_meta": {
+		"meta_data": "Metadata",
+		"author": "Author",
+		"time_data": "Original time data",
+		"make": "Camera",
+		"model": "Model",
+		"camera_lens": "Camera lens",
+		"aperature": "Aperture F Number",
+		"iso": "ISO",
+		"focal": "Focal length",
+		"exposure": "Exposure time",
+		"not_avaible": "Metadata not avaible"
 	},
 	"folder": {
 		"empty": "空的",
@@ -472,6 +488,10 @@
 			"vat": "VAT"
 		},
 		"title": "选择付款方式"
+	},
+	"popup_mimetypes_blacklist": {
+		"title": "Sorry",
+		"message": "File of this type is not allowed to upload."
 	},
 	"popup_create_folder": {
 		"folder_default_name": "新文件夹",

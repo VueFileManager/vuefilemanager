@@ -67,6 +67,10 @@ class FileManagerFile extends Model
         'file_url'
     ];
 
+    protected $casts = [
+        'meta_data' => 'array',
+    ];
+
     /**
      * Set routes with public access
      *
