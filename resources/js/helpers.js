@@ -1,3 +1,4 @@
+import i18n from '@/i18n/index'
 import store from './store/index'
 import {debounce, includes} from "lodash";
 import {events} from './bus'
@@ -174,6 +175,8 @@ const Helpers = {
 
             if (files.length == 0) return
 
+           if (!this.$checkFileMimetype(files)) return
+           
             this.$handleUploading(files, undefined)
         }
 
@@ -276,6 +279,28 @@ const Helpers = {
                 title: this.$t('popup_error.title'),
                 message: this.$t('popup_error.message'),
             })
+        }
+        Vue.prototype.$checkFileMimetype = function(files) {
+            let validated = true
+            let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
+            console.log(files[0])
+            
+              for (let i = 0 ; i<files.length; i++ ) {
+                  let fileType = files[i].type.split("/")
+
+                  if(mimetypesBlacklist.includes(fileType[1])) {  
+                      validated = false
+                      
+                      events.$emit('alert:open', {
+                        emoji: '😬',
+                        title: i18n.t('popup_mimetypes_blacklist.title'),
+                        message: i18n.t('popup_mimetypes_blacklist.message') + '(' + fileType[1] + ')'  ,
+                    })
+                  }else {
+                      validated = true 
+                  }
+              } 
+              return validated
         }
     }
 }
