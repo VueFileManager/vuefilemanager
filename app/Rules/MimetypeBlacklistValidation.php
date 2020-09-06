@@ -25,9 +25,9 @@ class MimetypeBlacklistValidation implements Rule
     public function passes($attribute, $value)
     {
         $mimetype_blacklist = explode(',' ,get_setting('mimetypes_blacklist'));
-        $fileMimetype = explode('/' ,$value->getMimeType());
-
-        return !array_intersect($fileMimetype , $mimetype_blacklist);
+        $file_mimetype = explode('/' ,$value->getMimeType());
+        
+        return !array_intersect($file_mimetype , $mimetype_blacklist);
     }
 
     /**

@@ -210,7 +210,7 @@
 		"others": {
 			"mimetypes_blacklist": "Mimetypes Blacklist",
 			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
-			"mimetypes_blacklist_help" :"If you want ban some type of files to upload just add them to blacklist like this: php,mp3,jpeg <br/> Use a comma between each mime type. Don't use a dot before mimetypes." ,
+			"mimetypes_blacklist_help" :"If you want ban some type of files to upload just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mime type. Don't use a dot before mimetypes." ,
 			"section_cache": "Application Cache",
 			"cache_disclaimer": "Did you change anything in your .env file or change your stripe credentials? Then clear your cache.",
 			"cache_clear": "Clear Cache",

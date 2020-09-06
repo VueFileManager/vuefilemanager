@@ -212,7 +212,7 @@
 		"others": {
 			"mimetypes_blacklist": "Čierna listina mimetypov",
 			"mimetypes_blacklist_plac":"Pridajte mimetypy do Čiernej listiny",
-			"mimetypes_blacklist_help" :"Ak chcete zakázať nahrávanie niektorých typov súborov, jednoducho ich pridajte na čiernu listinu, príklad: php, mp3, jpeg <br/> Medzi mimetypmi použite čiarku. Nevkladajte bodku pred mimetyp." ,
+			"mimetypes_blacklist_help" :"Ak chcete zakázať nahrávanie niektorých typov súborov, jednoducho ich pridajte na čiernu listinu, príklad: x-php, mp3, jpeg <br/> Medzi mimetypmi použite čiarku. Nevkladajte bodku pred mimetyp." ,
 			"section_cache": "Aplikačná pamäť",
 			"cache_disclaimer": "Zmenili ste niečo v .env súbore alebo ste zmenili Stripe poverenia? Vymažte aplikačnú pamäť.",
 			"cache_clear": "Vymazať aplikačnú pamäť",

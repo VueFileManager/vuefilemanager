@@ -10,7 +10,7 @@ const Helpers = {
 
         Vue.prototype.$updateText = debounce(function (route, name, value) {
 
-            if (value === '') return
+            // if (value === '') return
 
             axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
                 .catch(error => {
@@ -283,14 +283,17 @@ const Helpers = {
         Vue.prototype.$checkFileMimetype = function(files) {
             let validated = true
             let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
-            console.log(files[0])
             
               for (let i = 0 ; i<files.length; i++ ) {
-                  let fileType = files[i].type.split("/")
+                  let fileType = files[i].type.split("/") 
+
+                  if(!fileType[0]) {
+                      fileType[1] = _.last(files[i].name.split('.'))
+                  }
 
                   if(mimetypesBlacklist.includes(fileType[1])) {  
                       validated = false
-                      
+                                          
                       events.$emit('alert:open', {
                         emoji: '😬',
                         title: i18n.t('popup_mimetypes_blacklist.title'),
