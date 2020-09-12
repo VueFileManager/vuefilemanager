@@ -285,7 +285,7 @@ const Helpers = {
             let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
             
               for (let i = 0 ; i<files.length; i++ ) {
-                  let fileType = files[i].type.split("/") 
+                  let fileType = files[i].type.split('/')
 
                   if(!fileType[0]) {
                       fileType[1] = _.last(files[i].name.split('.'))
