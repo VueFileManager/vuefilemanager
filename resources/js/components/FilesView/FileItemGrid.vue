@@ -200,11 +200,8 @@
                     events.$emit('fileFullPreview:show')
                 }
 
-                if (this.isFile && !this.isPdf && !this.isVideo && !this.isAudio) {
-                    this.$downloadFile(
-                        this.data.file_url,
-                        this.data.name + '.' + this.data.mimetype
-                    )
+                if (this.isFile || !this.isFolder && !this.isPdf && !this.isVideo && !this.isAudio && !this.isImage) {
+                    this.$downloadFile(this.data.file_url, this.data.name + '.' + this.data.mimetype)
                 }
 
                 if (this.isFolder) {
