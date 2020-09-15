@@ -531,7 +531,7 @@ function get_pretty_name($basename, $name, $mimetype)
 }
 function get_image_meta_data($file)
 {
-    if(get_file_type($file->getMimeType()) === 'image') {
+    if(get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
        return  exif_read_data($file);
     }
 }
