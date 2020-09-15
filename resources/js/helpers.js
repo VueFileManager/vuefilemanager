@@ -9,8 +9,10 @@ const Helpers = {
     install(Vue) {
 
         Vue.prototype.$updateText = debounce(function (route, name, value) {
+    
+            let enableEmptyInput = ['mimetypes_blacklist' , 'google_analytics']
 
-            // if (value === '') return
+            if (value === '' && !enableEmptyInput.includes(name)) return
 
             axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
                 .catch(error => {
