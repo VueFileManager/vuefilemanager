@@ -307,11 +307,11 @@
 		"time_data": "Content Created",
 		"make": "Camera",
 		"model": "Model",
-		"camera_lens": "Camera lens",
+		"camera_lens": "Camera Lens",
 		"aperature": "F Number",
 		"iso": "ISO",
-		"focal": "Focal length",
-		"exposure": "Exposure time"
+		"focal": "Focal Length",
+		"exposure": "Exposure Time"
 	},
 	"folder": {
 		"empty": "空的",

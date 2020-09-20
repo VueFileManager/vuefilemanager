@@ -29,7 +29,7 @@
     "/chunks/environment-setup.js": "/chunks/environment-setup.js?id=ea5b79171e63757bda0f",
     "/chunks/files.js": "/chunks/files.js?id=5e0fcc6e5f356c89344c",
     "/chunks/files~chunks/settings-subscription~chunks/shared-files~chunks/shared-page~chunks/trash~chunks~3ea7670b.js": "/chunks/files~chunks/settings-subscription~chunks/shared-files~chunks/shared-page~chunks/trash~chunks~3ea7670b.js?id=335030ccf561b022c47f",
-    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.js?id=4c1acbe1463ff4300929",
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.js?id=d1b65d091b9631110925",
     "/chunks/forgotten-password.js": "/chunks/forgotten-password.js?id=f430110273d76b28906f",
     "/chunks/installation-disclaimer.js": "/chunks/installation-disclaimer.js?id=4fb4c089ddd76db676d9",
     "/chunks/invoices.js": "/chunks/invoices.js?id=196a4666d5a7438d5f12",
@@ -140,5 +140,11 @@
     "/js/main.9f9ce18a97070342f7ef.hot-update.js": "/js/main.9f9ce18a97070342f7ef.hot-update.js",
     "/js/main.ce56165786df0f625c39.hot-update.js": "/js/main.ce56165786df0f625c39.hot-update.js",
     "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.6ba8e3be9fcfc0b96ed6.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.6ba8e3be9fcfc0b96ed6.hot-update.js",
-    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.5f20e8febf94927cc405.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.5f20e8febf94927cc405.hot-update.js"
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.5f20e8febf94927cc405.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.5f20e8febf94927cc405.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.bc2707a1e416a27fd772.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.bc2707a1e416a27fd772.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.589e8fed8170e905ee46.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.589e8fed8170e905ee46.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.aa6f98272fdd0aa805a6.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.aa6f98272fdd0aa805a6.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.9c7462a9d870259e702f.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.9c7462a9d870259e702f.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.ae9abb5429ef206e0b4a.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page~chunks/trash.ae9abb5429ef206e0b4a.hot-update.js",
+    "/js/main.7d8beb650a45db7d020d.hot-update.js": "/js/main.7d8beb650a45db7d020d.hot-update.js"
 }

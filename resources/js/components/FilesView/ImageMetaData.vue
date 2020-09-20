@@ -17,7 +17,7 @@
             </li>
 
             <li v-if="fileInfoDetail.metadata.XResolution && fileInfoDetail.metadata.YResolution">
-                <span>{{ $t('file_detail_meta.resolution') }}Resolution</span>
+                <span>{{ $t('file_detail_meta.resolution') }}</span>
                 <b>{{ fileInfoDetail.metadata.XResolution }}x{{ fileInfoDetail.metadata.YResolution }}</b>
             </li>
 
@@ -104,11 +104,14 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-    li {
-        color: $dark_mode_text_primary !important;
 
-        p {
-            color: $dark_mode_text_primary !important;
+    .meta-data-list {
+        li {
+            border-color: $dark_mode_border_color;
+
+            b, span {
+                color: $dark_mode_text_primary !important;
+            }
         }
     }
 }
