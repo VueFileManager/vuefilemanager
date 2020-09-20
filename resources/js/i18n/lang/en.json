@@ -212,7 +212,7 @@
 		"others": {
 			"mimetypes_blacklist": "Mimetypes Blacklist",
 			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
-			"mimetypes_blacklist_help" :"If you want ban some type of files to upload just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mime type. Don't use a dot before mimetypes." ,
+			"mimetypes_blacklist_help" :"If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes." ,
 			"section_cache": "Application Cache",
 			"cache_disclaimer": "Did you change anything in your .env file or change your Stripe credentials? Then clear your cache.",
 			"cache_clear": "Clear Cache",
@@ -301,17 +301,19 @@
 		"where": "Where"
 	},
 	"file_detail_meta": {
+		"dimension": "Dimensions",
+		"resolution": "Resolution",
+		"aperture_value": "Aperture Value",
 		"meta_data": "Metadata",
 		"author": "Author",
-		"time_data": "Original time data",
+		"time_data": "Content Created",
 		"make": "Camera",
 		"model": "Model",
 		"camera_lens": "Camera lens",
-		"aperature": "Aperture F Number",
+		"aperature": "F Number",
 		"iso": "ISO",
 		"focal": "Focal length",
-		"exposure": "Exposure time",
-		"not_avaible": "Metadata not avaible"
+		"exposure": "Exposure time"
 	},
 	"folder": {
 		"empty": "Empty",

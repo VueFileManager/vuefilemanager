@@ -68,7 +68,7 @@ class FileManagerFile extends Model
     ];
 
     protected $casts = [
-        'meta_data' => 'array',
+        'metadata' => 'array',
     ];
 
     /**

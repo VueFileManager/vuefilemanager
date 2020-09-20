@@ -14,7 +14,7 @@ class AddExifDataToFileManagerFilesTable extends Migration
     public function up()
     {
         Schema::table('file_manager_files', function (Blueprint $table) {
-            $table->longText('meta_data')->after('type')->nullable();
+            $table->longText('metadata')->after('type')->nullable();
         });
     }
 
