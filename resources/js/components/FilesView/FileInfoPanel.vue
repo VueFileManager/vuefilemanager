@@ -57,13 +57,9 @@
                 </div>
             </ListInfoItem>
 
-            <div  @click="this.showMetaData">
-                <ListInfoItem   v-if="fileInfoDetail.meta_data"            
-                                :title="$t('file_detail_meta.meta_data')"
-                                class="meta-data">    
-                    <ImageMetaData v-if="this.metaDataShow" />
-                </ListInfoItem>
-            </div>
+            <ListInfoItem v-if="canShowMetaData" :title="$t('file_detail_meta.meta_data')">
+                <ImageMetaData />
+            </ListInfoItem>
         </ListInfo>
     </div>
 </template>
@@ -98,26 +94,11 @@
             ...mapGetters(['fileInfoDetail', 'permissionOptions']),
             fileType() {
                 return this.fileInfoDetail.type
-                /*                switch () {
-                                    case 'folder':
-                                        return 'folder'
-                                    break;
-                                    case 'file':
-                                        return 'file'
-                                    break;
-                                    case 'image':
-                                        return 'file-image'
-                                    break;
-                                    case 'video':
-                                        return 'file-video'
-                                    break;
-                                    case 'file':
-                                        return 'file-audio'
-                                    break;
-                                }*/
+            },
+            canShowMetaData() {
+                return this.fileInfoDetail.metadata && this.fileInfoDetail.metadata.ExifImageWidth
             },
             sharedInfo() {
-
                 // Get permission title
                 let title = this.permissionOptions.find(option => {
                     return option.value === this.fileInfoDetail.shared.permission
@@ -141,15 +122,7 @@
                 return this.fileInfoDetail.shared.protected
             }
         },
-        data() {
-            return {
-                metaDataShow: false
-            }
-        },
         methods: {
-            showMetaData() {
-                this.metaDataShow = !this.metaDataShow
-            },
             shareItemOptions() {
                 // Open share item popup
                 events.$emit('popup:open', {name: 'share-edit', item: this.fileInfoDetail})
@@ -229,9 +202,6 @@
         .copy-sharelink {
             width: 100%;
         }
-    }
-    .meta-data{
-        cursor: pointer;
     }
 
     @media (prefers-color-scheme: dark) {

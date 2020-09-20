@@ -301,17 +301,19 @@
 		"where": "Umiestnenie"
 	},
 	"file_detail_meta": {
+		"dimension": "Dimenzie",
+		"resolution": "Rozlíšenie",
+		"aperture_value": "Hodnota clony",
 		"meta_data": "Metadata",
 		"author": "Autor",
-		"time_data": "Pôvodných časový údaj",
+		"time_data": "Obsah vytvorený",
 		"make": "Fotoaparát",
 		"model": "Model",
 		"camera_lens": "Objektív fotoaparátu",
 		"aperature": "Clona",
 		"iso": "ISO",
 		"focal": "Ohnisková vzdialenosť",
-		"exposure": "Doba expozície",
-		"not_avaible": "Metadáta nie sú k dispozícii"
+		"exposure": "Doba expozície"
 	},
 	"folder": {
 		"empty": "Prázdne",
