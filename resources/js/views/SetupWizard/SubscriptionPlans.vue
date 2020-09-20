@@ -45,7 +45,7 @@
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Price"
                                                 rules="required" v-slot="{ errors }">
                                 <input v-model="plan.attributes.price" placeholder="Type your plan price" type="number"
-                                       step="0.01" min="1" max="99999"
+                                       step="0.01" min="1" max="999999999999"
                                        :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>

@@ -198,18 +198,15 @@
             goToItem() {
                 if (this.isImage || this.isVideo || this.isAudio) {
                     events.$emit('fileFullPreview:show')
-                }
 
-                if (this.isFile || !this.isFolder && !this.isPdf && !this.isVideo && !this.isAudio && !this.isImage) {
+                } else if (this.isFile || !this.isFolder && !this.isPdf && !this.isVideo && !this.isAudio && !this.isImage) {
                     this.$downloadFile(this.data.file_url, this.data.name + '.' + this.data.mimetype)
-                }
 
-                if (this.isFolder) {
-
+                } else if (this.isFolder) {
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{folder: this.data, back: false, init: false}])
+                        this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
                     } else {
-                        this.$store.dispatch('getFolder', [{folder: this.data, back: false, init: false}])
+                        this.$store.dispatch('getFolder', [{ folder: this.data, back: false, init: false }])
                     }
                 }
             },

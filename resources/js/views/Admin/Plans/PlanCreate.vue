@@ -39,7 +39,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_plans.form.price') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Plan price" rules="required" v-slot="{ errors }">
-                                <input v-model="plan.price" :placeholder="$t('admin_page_plans.form.price_plac')" type="number" step="0.01" min="1" max="99999"
+                                <input v-model="plan.price" :placeholder="$t('admin_page_plans.form.price_plac')" type="number" step="0.01" min="1" max="999999999999"
                                        :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>

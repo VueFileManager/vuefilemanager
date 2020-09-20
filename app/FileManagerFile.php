@@ -148,7 +148,9 @@ class FileManagerFile extends Model
         // Get file from external storage
         if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
 
-            $file_pretty_name = is_storage_driver('backblaze') ? Str::slug(get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype'])) : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);
+            $file_pretty_name = is_storage_driver('backblaze')
+                ? Str::snake(mb_strtolower($this->attributes['name']))
+                : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);
 
             $header = [
                 "ResponseAcceptRanges"       => "bytes",
