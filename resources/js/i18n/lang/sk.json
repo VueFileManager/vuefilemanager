@@ -303,6 +303,7 @@
 	"file_detail_meta": {
 		"dimension": "Dimenzie",
 		"resolution": "Rozlíšenie",
+		"color_space": "Farebný priestor",
 		"aperture_value": "Hodnota clony",
 		"meta_data": "Metadata",
 		"author": "Autor",
@@ -313,7 +314,9 @@
 		"aperature": "Clona",
 		"iso": "ISO",
 		"focal": "Ohnisková vzdialenosť",
-		"exposure": "Doba expozície"
+		"exposure": "Doba expozície",
+		"longitude": "Zemepisná dĺžka",
+		"latitude": "Zemepisná šírka"
 	},
 	"folder": {
 		"empty": "Prázdne",

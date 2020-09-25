@@ -301,6 +301,7 @@
 	"file_detail_meta": {
 		"dimension": "Dimensions",
 		"resolution": "Resolution",
+		"color_space": "Color Space",
 		"aperture_value": "Aperture Value",
 		"meta_data": "Metadata",
 		"author": "Author",
@@ -311,7 +312,9 @@
 		"aperature": "F Number",
 		"iso": "ISO",
 		"focal": "Focal Length",
-		"exposure": "Exposure Time"
+		"exposure": "Exposure Time",
+		"longitude": "Longitude",
+		"latitude": "Latitude"
 	},
 	"folder": {
 		"empty": "空的",

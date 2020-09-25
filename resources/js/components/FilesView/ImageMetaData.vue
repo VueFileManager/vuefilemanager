@@ -21,7 +21,11 @@
                 <b>{{ fileInfoDetail.metadata.XResolution }}x{{ fileInfoDetail.metadata.YResolution }}</b>
             </li>
 
-            <!--TODO: Colour space:RGB-->
+            <li v-if="fileInfoDetail.metadata.ColorSpace">
+                <span> {{ $t('file_detail_meta.color_space') }}</span>
+                <b>{{ fileInfoDetail.metadata.ColorSpace}}</b>
+            </li>
+
             <!--TODO: Colour profile:sRGB IEC61966-2.1-->
 
             <li v-if="fileInfoDetail.metadata.Make">
@@ -64,20 +68,39 @@
                 <b>{{ fileInfoDetail.metadata.COMPUTED.CCDWidth }}</b>
             </li>
 
-            <!--TODO: Longitude: 20° 50' 24,432" E-->
-            <!--TODO: Latitude: 47° 23' 14,49" N-->
+              <li v-if="fileInfoDetail.metadata.GPSLongitude">
+                <span>{{ $t('file_detail_meta.longitude') }}</span>
+                <b>{{ formatGps(fileInfoDetail.metadata.GPSLongitude,fileInfoDetail.metadata.GPSLongitudeRef) }}</b>
+            </li>
+
+               <li v-if="fileInfoDetail.metadata.GPSLatitude">
+                <span>{{ $t('file_detail_meta.latitude') }}</span>
+                <b>{{ formatGps(fileInfoDetail.metadata.GPSLatitude, fileInfoDetail.metadata.GPSLatitudeRef) }}</b>
+            </li>
+
         </ul>
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import {split} from 'lodash'
 
 export default {
     name: 'ImageMetaData',
     computed: {
-        ...mapGetters(['fileInfoDetail'])
-    }
+        ...mapGetters(['fileInfoDetail']),
+    },
+    methods: {
+        formatGps(location, ref) {
+            let data = []
+            location.forEach(location => {
+                data.push(split(location , '/' , 2)[0])
+            })
+          return `${data[0]}° ${data[1]}' ${data[2].substr(0,4) / 100}" ${ref} `
+        }
+    },
+    
 }
 </script>
 
