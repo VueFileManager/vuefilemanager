@@ -610,7 +610,7 @@ const routesIndex = [
         name: 'SaaSLandingPage',
         path: '/',
         component: () =>
-            import(/* webpackChunkName: "chunks/landing-page" */ './views/index/SaaSLandingPage'),
+            import(/* webpackChunkName: "chunks/landing-page" */ './views/Index/SaaSLandingPage'),
         meta: {
             requiresAuth: false
         },
