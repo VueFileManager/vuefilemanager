@@ -24,7 +24,7 @@
         "lodash": "^4.17.20",
         "node-sass": "^4.14.1",
         "vee-validate": "^3.3.9",
-        "vue": "^2.6.10",
+        "vue": "^2.6.11",
         "vue-feather-icons": "^5.1.0",
         "vue-i18n": "^8.21.0",
         "vue-router": "^3.4.3",
