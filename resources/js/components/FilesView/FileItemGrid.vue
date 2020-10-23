@@ -30,7 +30,7 @@
                 <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
 
                 <!--Image thumbnail-->
-                <img v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name"/>
+                <img loading="lazy" v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name"/>
 
                 <!--Else show only folder icon-->
                 <FontAwesomeIcon v-if="isFolder" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>

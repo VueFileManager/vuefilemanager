@@ -35,6 +35,12 @@
         }
     }
 
+    @media only screen and (max-width: 320px) {
+        .popup-content {
+            position: unset;
+        }
+    }
+
     @keyframes popup-in {
         0% {
             opacity: 0;
