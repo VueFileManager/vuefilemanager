@@ -134,6 +134,12 @@
         }
     }
 
+    @media only screen and (max-width: 320px){
+        .popup-wrapper {
+            overflow-y: auto;
+        }
+    }
+
     @media (prefers-color-scheme: dark) {
         .popup-wrapper {
             background: $dark_mode_background;

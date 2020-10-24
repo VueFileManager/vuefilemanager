@@ -81,7 +81,7 @@
                     </ValidationProvider>
                 </div>
 
-                <InfoBox v-if="isError" type="error" style="margin-bottom: -20px">
+                <InfoBox v-if="isError" type="error" >
                     <p>{{ errorMessage }}</p>
                 </InfoBox>
 

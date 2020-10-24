@@ -34,4 +34,10 @@
             right: 0;
         }
     }
+
+    @media only screen and (max-width: 320px) {
+        .actions {
+            position: unset;
+        }
+    }
 </style>

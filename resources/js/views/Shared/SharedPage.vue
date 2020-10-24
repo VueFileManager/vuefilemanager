@@ -226,6 +226,19 @@
     @import '@assets/vue-file-manager/_auth-form';
     @import '@assets/vue-file-manager/_auth';
 
+     #files-view {
+        font-family: 'Nunito', sans-serif;
+        font-size: 16px;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        min-width: 320px;
+        overflow-x: hidden;
+        padding-left: 15px;
+        padding-right: 15px;
+        overflow-y: hidden;
+    }
+
     #shared {
         height: 100%;
     }
