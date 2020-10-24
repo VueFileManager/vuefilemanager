@@ -498,7 +498,7 @@
 	},
 	"popup_mimetypes_blacklist": {
 		"title": "Ospravelnujume sa",
-		"message": "Nieje povolené nahrávať tento typ súboru."
+		"message": "Nieje povolené nahrávať tento typ súboru ({mimetype})."
 	},
 	"popup_create_folder": {
 		"folder_default_name": "Nový priečinok",

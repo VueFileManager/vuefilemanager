@@ -495,8 +495,8 @@
 		"title": "选择付款方式"
 	},
 	"popup_mimetypes_blacklist": {
-		"title": "Sorry",
-		"message": "File of this type is not allowed to upload."
+		"title": "Oh no",
+		"message": "File of this type ({mimetype}) is not allowed to upload."
 	},
 	"popup_create_folder": {
 		"folder_default_name": "新文件夹",

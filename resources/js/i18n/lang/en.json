@@ -497,8 +497,8 @@
 		"title": "Choose Payment Method"
 	},
 	"popup_mimetypes_blacklist": {
-		"title": "Sorry",
-		"message": "File of this type is not allowed to upload."
+		"title": "Oh No",
+		"message": "File of this type ({mimetype}) is not allowed to upload."
 	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",

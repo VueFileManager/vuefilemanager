@@ -117,21 +117,21 @@ const actions = {
                     switch (error.response.status) {
                         case 423:
                             events.$emit('alert:open', {
-                                emoji: '😬',
+                                emoji: '😬😬😬',
                                 title: i18n.t('popup_exceed_limit.title'),
                                 message: i18n.t('popup_exceed_limit.message')
                             })
                             break;
                             case 415:
                                 events.$emit('alert:open', {
-                                    emoji: '😬',
+                                    emoji: '😬😬😬',
                                     title: i18n.t('popup_mimetypes_blacklist.title'),
                                     message: i18n.t('popup_mimetypes_blacklist.message')
                                 })
                             break;
                         case 413:
                             events.$emit('alert:open', {
-                                emoji: '😟',
+                                emoji: '😟😟😟',
                                 title: i18n.t('popup_paylod_error.title'),
                                 message: i18n.t('popup_paylod_error.message')
                             })

@@ -1,16 +1,6 @@
 ![logo](https://vuefilemanager.com/assets/images/vuefilemanager-horizontal-logo.svg)
 # Private Cloud Storage Build on Laravel & Vue.js
 
-## Supporting VueFileManager
-Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
-
-But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks you for participating on this awesome software!
-
-- [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
-- [One-time donation via PayPal](https://www.paypal.me/peterpapp)
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/vuefilemanager)
-- [Purchase Licence on CodeCanyon](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986)
-
 ## Contents
 
 - [Installation](#installation)
@@ -20,6 +10,7 @@ But, it can't be done without you, development is more and more complicated and 
     - [Chunk Upload](#chunk-upload)
     - [Upgrade Guide](#upgrade-guide)
         - [Common Instructions](#common-instructions)
+        - [Update from 1.7.10 to 1.7.11](#update-from-1710-to-1711)
         - [Update from 1.7.8 to 1.7.9](#update-from-178-to-179)
         - [Update from 1.7.x to 1.7.8](#update-from-17x-to-178)
         - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
@@ -109,6 +100,7 @@ That was the hardest part of installation proces. Please follow instructions in 
 Add the following Cron entry to your server. Just update your php path (if it's different) and project path:
 ```
 * * * * *  /usr/local/bin/php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+
 ```
 
 ## PHP Configuration
@@ -135,6 +127,9 @@ When you use external storage, and upload large files, to prevent failing upload
 These instructions is applicable for all updates. Please follow this step:
 
 - Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
+
+### Update from 1.7.10 to 1.7.11
+Before upload new files to your hosting, log in to VueFileManager as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
 
 ### Update from 1.7.8 to 1.7.9
 After rewrited old files with new files, log in as admin to the app and go to `your-domain.com/service/upgrade-database`. This will upgrade your database on the background.
@@ -361,6 +356,14 @@ The following support channels are available at your fingertips:
 
 - [CodeCanyon support message](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986/support)
 - [GitHub repository](https://vuefilemanager.com/github-access)
+
+## Supporting VueFileManager
+Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
+
+But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks you for participating on this awesome software!
+
+- [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
+- [One-time donation via PayPal](https://www.paypal.me/peterpapp)
 
 ## Security Vulnerabilities
 

@@ -171,5 +171,25 @@ class UpgradeAppController extends Controller
                 echo 'Operation failed.';
             }
         }
+
+        /*
+         * Upgrade expire_in in shares table
+         *
+         * @since v1.7.11
+        */
+        if (! Schema::hasColumn('file_manager_files', 'metadata')) {
+
+            $command = Artisan::call('migrate', [
+                '--force' => true
+            ]);
+
+            if ($command === 0) {
+                echo 'Operation was successful.';
+            }
+
+            if ($command === 1) {
+                echo 'Operation failed.';
+            }
+        }
     }
 }

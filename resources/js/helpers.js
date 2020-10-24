@@ -297,9 +297,9 @@ const Helpers = {
                       validated = false
                                           
                       events.$emit('alert:open', {
-                        emoji: '😬',
+                        emoji: '😬😬😬',
                         title: i18n.t('popup_mimetypes_blacklist.title'),
-                        message: i18n.t('popup_mimetypes_blacklist.message') + '(' + fileType[1] + ')'  ,
+                        message: i18n.t('popup_mimetypes_blacklist.message', {mimetype: fileType[1]}),
                     })
                   }else {
                       validated = true 

@@ -80,20 +80,14 @@
                     </ValidationProvider>
                 </div>
 
-
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.mimetypes_blacklist') }}:</label>
-                    <small class="input-help" v-html="$t('admin_settings.others.mimetypes_blacklist_help')"></small>
-                </div>  
-                <div class="block-wrapper">
-                   <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mimetypes Blacklist"
-                                        v-slot="{ errors }">
-                        <textarea rows="2" @input="$updateText('/settings', 'mimetypes_blacklist', app.mimetypesBlacklist)" v-model="app.mimetypesBlacklist"
-                               :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')"
-                               type="text" :class="{'is-error': errors[0]}"/>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mimetypes Blacklist" v-slot="{ errors }">
+                        <textarea rows="2" @input="$updateText('/settings', 'mimetypes_blacklist', app.mimetypesBlacklist)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
-                </div>            
+                    <small class="input-help" v-html="$t('admin_settings.others.mimetypes_blacklist_help')"></small>
+                </div>
 
                 <FormLabel class="mt-70">
                     {{ $t('admin_settings.others.section_cache') }}
