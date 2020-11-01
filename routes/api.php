@@ -44,7 +44,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'public'], function () {
 Route::group(['middleware' => ['api']], function () {
 
     // Edit Functions
-    Route::delete('/remove-item/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_delete_item');
+    Route::post('/remove-item/public/{token}', 'FileFunctions\EditItemsController@guest_delete_item');
     Route::patch('/rename-item/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_rename_item');
     Route::post('/create-folder/public/{token}', 'FileFunctions\EditItemsController@guest_create_folder');
     Route::patch('/move/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_move');
@@ -184,7 +184,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor']], function () {
 
     // Edit items
-    Route::delete('/remove-item/{unique_id}', 'FileFunctions\EditItemsController@user_delete_item');
+    Route::post('/remove-item', 'FileFunctions\EditItemsController@user_delete_item');
     Route::patch('/rename-item/{unique_id}', 'FileFunctions\EditItemsController@user_rename_item');
     Route::post('/create-folder', 'FileFunctions\EditItemsController@user_create_folder');
     Route::patch('/move/{unique_id}', 'FileFunctions\EditItemsController@user_move');
