@@ -323,28 +323,28 @@ class EditItemsController extends Controller
      * @param $unique_id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function user_move(MoveItemRequest $request, $unique_id)
+    public function user_move(MoveItemRequest $request)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
             return Demo::response_204();
         }
+    
+            $to_unique_id = $request->input('to_unique_id');
 
-        // Check permission to upload for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+            // Check permission to upload for authenticated editor
+            if ($request->user()->tokenCan('editor')) {
+                // check if shared_token cookie exist
+                if (!$request->hasCookie('shared_token')) abort('401');
 
-            // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+                // Get shared token
+                $shared = get_shared($request->cookie('shared_token'));
 
-            // Get shared token
-            $shared = get_shared($request->cookie('shared_token'));
-
-            // Check access to requested directory
-            Guardian::check_item_access($request->to_unique_id, $shared);
-        }
-
+                // Check access to requested directory
+                 Guardian::check_item_access($to_unique_id, $shared);
+            }
         // Move item
-        Editor::move($request, $unique_id);
+        Editor::move($request, $to_unique_id);
 
         return response('Done!', 204);
     }
@@ -357,10 +357,13 @@ class EditItemsController extends Controller
      * @param $token
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function guest_move(MoveItemRequest $request, $unique_id, $token)
+    public function guest_move(MoveItemRequest $request, $token)
     {
         // Get shared record
         $shared = get_shared($token);
+
+        //Unique id of Folder where move
+        $to_unique_id = $request->input('to_unique_id');
 
         // Demo preview
         if (is_demo(Auth::id())) {
@@ -370,23 +373,28 @@ class EditItemsController extends Controller
         // Check shared permission
         if (!is_editor($shared)) abort(403);
 
-        $moving_unique_id = $unique_id;
+        foreach($request->input('items') as $item) {
 
-        if ($request->from_type !== 'folder') {
-            $file = FileManagerFile::where('unique_id', $unique_id)
-                ->where('user_id', $shared->user_id)
-                ->firstOrFail();
+            $unique_id = $item['unique_id'];
+            $moving_unique_id = $unique_id;
+       
 
-            $moving_unique_id = $file->folder_id;
+            if ($item['type'] !== 'folder') {
+                $file = FileManagerFile::where('unique_id', $unique_id)
+                    ->where('user_id', $shared->user_id)
+                    ->firstOrFail();
+
+                $moving_unique_id = $file->folder_id;
+            }
+
+            // Check access to requested item
+            Guardian::check_item_access([
+                $to_unique_id, $moving_unique_id
+            ], $shared);
         }
 
-        // Check access to requested item
-        Guardian::check_item_access([
-            $request->to_unique_id, $moving_unique_id
-        ], $shared);
-
         // Move item
-        Editor::move($request, $unique_id, $shared);
+        Editor::move($request, $to_unique_id, $shared);
 
         return response('Done!', 204);
     }

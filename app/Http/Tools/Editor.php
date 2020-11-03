@@ -201,32 +201,36 @@ class Editor
      * @param $unique_id
      * @param null $shared
      */
-    public static function move($request, $unique_id, $shared = null)
+    public static function move($request, $to_unique_id, $shared = null)
     {
         // Get user id
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
-        if ($request->from_type === 'folder') {
+        foreach($request->input('items') as $item) {
+            $unique_id = $item['unique_id'];
 
-            // Move folder
-            $item = FileManagerFolder::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
+            if ($item['type'] === 'folder') {
 
-            $item->update([
-                'parent_id' => $request->to_unique_id
-            ]);
+                // Move folder
+                $item = FileManagerFolder::where('user_id', $user_id)
+                    ->where('unique_id', $unique_id)
+                    ->firstOrFail();
 
-        } else {
+                $item->update([
+                    'parent_id' => $to_unique_id
+                ]);
 
-            // Move file under new folder
-            $item = FileManagerFile::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
+            } else {
 
-            $item->update([
-                'folder_id' => $request->to_unique_id
-            ]);
+                // Move file under new folder
+                $item = FileManagerFile::where('user_id', $user_id)
+                    ->where('unique_id', $unique_id)
+                    ->firstOrFail();
+
+                $item->update([
+                    'folder_id' => $to_unique_id
+                ]);
+            }
         }
     }
 
