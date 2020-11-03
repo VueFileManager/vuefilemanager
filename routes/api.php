@@ -47,7 +47,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/remove-item/public/{token}', 'FileFunctions\EditItemsController@guest_delete_item');
     Route::patch('/rename-item/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_rename_item');
     Route::post('/create-folder/public/{token}', 'FileFunctions\EditItemsController@guest_create_folder');
-    Route::patch('/move/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_move');
+    Route::post('/move/public/{token}', 'FileFunctions\EditItemsController@guest_move');
     Route::post('/upload/public/{token}', 'FileFunctions\EditItemsController@guest_upload');
 
     // Sharing page browsing
@@ -187,6 +187,6 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::post('/remove-item', 'FileFunctions\EditItemsController@user_delete_item');
     Route::patch('/rename-item/{unique_id}', 'FileFunctions\EditItemsController@user_rename_item');
     Route::post('/create-folder', 'FileFunctions\EditItemsController@user_create_folder');
-    Route::patch('/move/{unique_id}', 'FileFunctions\EditItemsController@user_move');
+    Route::post('/move', 'FileFunctions\EditItemsController@user_move');
     Route::post('/upload', 'FileFunctions\EditItemsController@user_upload');
 });
