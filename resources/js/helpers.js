@@ -10,7 +10,7 @@ const Helpers = {
 
         Vue.prototype.$updateText = debounce(function (route, name, value) {
     
-            let enableEmptyInput = ['mimetypes_blacklist' , 'google_analytics']
+            let enableEmptyInput = ['mimetypes_blacklist' , 'google_analytics' , 'upload_limit']
 
             if (value === '' && !enableEmptyInput.includes(name)) return
 
@@ -148,8 +148,8 @@ const Helpers = {
                             if (error.response.status === 500)
                                 isNotGeneralError = false
 
-                            //Break if mimetype of file is in blacklist
-                            if(error.response.status === 415)
+                            //Break if mimetype of file is in blacklist or file size exceed upload limit
+                            if(error.response.status === 415 || 413)
                                 isNotGeneralError = false
 
                             // Show Error
@@ -177,7 +177,7 @@ const Helpers = {
 
             if (files.length == 0) return
 
-           if (!this.$checkFileMimetype(files)) return
+           if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
            
             this.$handleUploading(files, undefined)
         }
@@ -306,6 +306,27 @@ const Helpers = {
                   }
               } 
               return validated
+        }
+        Vue.prototype.$checkUploadLimit = function (files) {
+            let uploadLimit = store.getters.config.uploadLimit
+            let validate = true
+
+            for (let i = 0 ; i<files.length; i++ ) {
+                if(files[i].size > uploadLimit * 1000000 ) {
+                    validate = false 
+                    events.$emit('alert:open', {
+                        emoji: '😬😬😬',
+                        title: i18n.t('popup_upload_limit.title'),
+                        message: i18n.t('popup_upload_limit.message', {uploadLimit: uploadLimit}),
+                    })
+                    break 
+            }else {
+                validate = true
+                }
+            }
+
+            return validate
+           
         }
     }
 }

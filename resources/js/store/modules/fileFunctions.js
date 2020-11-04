@@ -132,8 +132,8 @@ const actions = {
                         case 413:
                             events.$emit('alert:open', {
                                 emoji: '😟😟😟',
-                                title: i18n.t('popup_paylod_error.title'),
-                                message: i18n.t('popup_paylod_error.message')
+                                title: i18n.t('popup_upload_limit.title'),
+                                message: i18n.t('popup_upload_limit.message', {uploadLimit: getters.config.uploadLimit})
                             })
                             break;
                         default:

@@ -208,6 +208,9 @@
 			"username_plac": "输入您的邮件用户名"
 		},
 		"others": {
+			"upload_limit": "Upload Limit",
+			"upload_limit_plac": "Type your upload limit in MB",
+			"upload_limit_help": "If you want make a limit of files size upload add size of you'r limit in MB",
 			"mimetypes_blacklist": "Mimetypes Blacklist",
 			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
 			"mimetypes_blacklist_help" :"If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes." ,
@@ -493,6 +496,10 @@
 			"vat": "VAT"
 		},
 		"title": "选择付款方式"
+	},
+	"popup_upload_limit": {
+		"title": "Oh No",
+		"message": "Size of your file upload exceed the upload limit ({uploadLimit} MB)"
 	},
 	"popup_mimetypes_blacklist": {
 		"title": "Oh no",
