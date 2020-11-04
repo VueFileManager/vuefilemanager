@@ -210,6 +210,9 @@
 			"username_plac": "Zadajte svoje používateľské meno pre poštu"
 		},
 		"others": {
+			"upload_limit": "Limit pre velkost nahrávaného súbor",
+			"upload_limit_plac": "Pridajte veľkosť limitu v MB",
+			"upload_limit_help": "Ak chcete vytvoriť limit pre nahravane súbory pridajte veľkosť vášho limitu v MB.",
 			"mimetypes_blacklist": "Čierna listina mimetypov",
 			"mimetypes_blacklist_plac":"Pridajte mimetypy do Čiernej listiny",
 			"mimetypes_blacklist_help" :"Ak chcete zakázať nahrávanie niektorých typov súborov, jednoducho ich pridajte na čiernu listinu, príklad: x-php, mp3, jpeg <br/> Medzi mimetypmi použite čiarku. Nevkladajte bodku pred mimetyp." ,
@@ -495,6 +498,10 @@
 			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
 		},
 		"title": "Vyberte si metódu platby"
+	},
+	"popup_upload_limit": {
+		"title": "Je nám ľúto",
+		"message": "Veľkosť nahravaneho súboru prekročila limit pre nahravane súbory ({uploadLimit} MB)"
 	},
 	"popup_mimetypes_blacklist": {
 		"title": "Ospravelnujume sa",
