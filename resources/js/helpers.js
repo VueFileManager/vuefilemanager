@@ -177,7 +177,7 @@ const Helpers = {
 
             if (files.length == 0) return
 
-           if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
+            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
            
             this.$handleUploading(files, undefined)
         }
@@ -301,8 +301,6 @@ const Helpers = {
                         title: i18n.t('popup_mimetypes_blacklist.title'),
                         message: i18n.t('popup_mimetypes_blacklist.message', {mimetype: fileType[1]}),
                     })
-                  }else {
-                      validated = true 
                   }
               } 
               return validated
@@ -310,21 +308,19 @@ const Helpers = {
         Vue.prototype.$checkUploadLimit = function (files) {
             let uploadLimit = store.getters.config.uploadLimit
             let validate = true
+            console.log(store.getters.config.uploadLimitPopup)
 
             for (let i = 0 ; i<files.length; i++ ) {
-                if(files[i].size > uploadLimit * 1000000 ) {
+                if(uploadLimit != 0 && files[i].size > uploadLimit) {
                     validate = false 
                     events.$emit('alert:open', {
-                        emoji: '😬😬😬',
+                        emoji: '😟😟😟',
                         title: i18n.t('popup_upload_limit.title'),
-                        message: i18n.t('popup_upload_limit.message', {uploadLimit: uploadLimit}),
+                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitPopup}),
                     })
                     break 
-            }else {
-                validate = true
                 }
             }
-
             return validate
            
         }

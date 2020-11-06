@@ -258,7 +258,7 @@ class Editor
         //Size of file
         $file_size = File::size($file_path);
         //File size handling
-        if($file_size > get_setting('upload_limit') * 1000000) abort(413);
+        if($file_size > format_bytes(get_setting('upload_limit')) && get_setting('upload_limit') !== null) abort(413);
     
         // If last then process file
         if ($request->boolean('is_last')) {

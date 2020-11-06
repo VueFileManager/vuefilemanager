@@ -1,6 +1,6 @@
 <template>
     <div v-if="canBePreview" class="preview">
-        <img v-if="fileInfoDetail.type == 'image'" :src="fileInfoDetail.thumbnail" :alt="fileInfoDetail.name" />
+        <img v-if="fileInfoDetail.type == 'image' && fileInfoDetail.thumbnail" :src="fileInfoDetail.thumbnail" :alt="fileInfoDetail.name" />
         <audio v-else-if="fileInfoDetail.type == 'audio'" :src="fileInfoDetail.file_url" controlsList="nodownload" controls></audio>
         <video v-else-if="fileInfoDetail.type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
             <source :src="fileInfoDetail.file_url" type="video/mp4">
