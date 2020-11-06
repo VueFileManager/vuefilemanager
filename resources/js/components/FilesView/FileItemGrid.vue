@@ -22,15 +22,15 @@
             <div class="icon-item">
 
                 <!--If is file or image, then link item-->
-                <span v-if="isFile" class="file-icon-text">
+                <span v-if="isFile || (isImage && !data.thumbnail)" class="file-icon-text">
                     {{ data.mimetype }}
                 </span>
 
                 <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
+                <FontAwesomeIcon v-if="isFile || (isImage && !data.thumbnail)" class="file-icon" icon="file"/>
 
                 <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name"/>
+                <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
 
                 <!--Else show only folder icon-->
                 <FontAwesomeIcon v-if="isFolder" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
