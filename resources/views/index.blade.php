@@ -56,8 +56,8 @@
             storageDefaultSpace: {{ isset($settings->storage_default) ? $settings->storage_default : 5 }},
             storageDefaultSpaceFormatted: '{{ isset($settings->storage_default) ? format_gigabytes($settings->storage_default) : format_gigabytes(5) }}',
             mimetypesBlacklist: '{{ isset($settings->mimetypes_blacklist) ? $settings->mimetypes_blacklist: null}}',
-            uploadLimit: '{{ format_bytes(isset($settings->upload_limit) ? $settings->upload_limit: null)}}' ,
-            uploadLimitPopup: '{{isset($settings->upload_limit)}}',
+            uploadLimit: '{{ isset($settings->upload_limit) ? format_bytes($settings->upload_limit) : null }}',
+            uploadLimitFormate: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
 
             hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
             isSaaS: {{ isset($settings->license) && $settings->license === 'Extended' ? 1 : 0 }},

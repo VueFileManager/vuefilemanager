@@ -501,7 +501,7 @@
 	},
 	"popup_upload_limit": {
 		"title": "Je nám ľúto",
-		"message": "Veľkosť nahravaneho súboru prekročila limit pre nahravane súbory ({uploadLimit} MB)"
+		"message": "Veľkosť nahravaneho súboru prekročila limit pre nahravane súbory ({uploadLimit})"
 	},
 	"popup_mimetypes_blacklist": {
 		"title": "Ospravelnujume sa",

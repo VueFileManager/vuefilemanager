@@ -499,7 +499,7 @@
 	},
 	"popup_upload_limit": {
 		"title": "Oh No",
-		"message": "Size of your uploaded file exceeds the upload limit ({uploadLimit} MB)."
+		"message": "Size of your uploaded file exceeds the upload limit ({uploadLimit})."
 	},
 	"popup_mimetypes_blacklist": {
 		"title": "Oh no",
