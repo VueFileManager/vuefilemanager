@@ -316,7 +316,7 @@ const Helpers = {
                     events.$emit('alert:open', {
                         emoji: '😟😟😟',
                         title: i18n.t('popup_upload_limit.title'),
-                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitPopup}),
+                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitFormate}),
                     })
                     break 
                 }
