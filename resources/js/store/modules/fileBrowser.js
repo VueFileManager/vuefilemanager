@@ -5,7 +5,7 @@ import i18n from '@/i18n/index'
 
 const defaultState = {
     uploadingFilesCount: undefined,
-    fileInfoDetail: undefined,
+    fileInfoDetail: [],
     currentFolder: undefined,
     uploadingFileProgress: 0,
     isProcessingFile: false,
@@ -244,16 +244,21 @@ const mutations = {
             if (item.unique_id == updatedFile.unique_id) item.name = updatedFile.name
         })
     },
+    REMOVE_ITEM_FILEINFO_DETAIL(state,item) {
+      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.unique_id !== item.unique_id)
+    },
     CLEAR_FILEINFO_DETAIL(state) {
-        state.fileInfoDetail = undefined
+        state.fileInfoDetail = []
     },
     LOAD_FILEINFO_DETAIL(state, item) {
-        state.fileInfoDetail = item
+        state.fileInfoDetail = []
+        state.fileInfoDetail.push(item)
     },
     GET_FILEINFO_DETAIL(state, item) {
         let checkData = state.data.find(el => el.unique_id == item.unique_id)
+        if(state.fileInfoDetail.includes(checkData)) return
 
-        state.fileInfoDetail = checkData ? checkData : state.currentFolder
+        state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
     },
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState
