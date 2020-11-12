@@ -16,7 +16,7 @@
                 @dragleave="dragLeave"
                 @dragover.prevent="dragEnter"
                 class="file-item"
-                :class="{ 'is-clicked': isClicked, 'is-dragenter': area }"
+                :class="{ 'is-clicked': this.isClicked, 'is-dragenter': area }"
         >
             <!--Thumbnail for item-->
             <div class="icon-item">
@@ -93,8 +93,16 @@
         },
         computed: {
             ...mapGetters([
-                'FilePreviewType', 'sharedDetail'
+                'FilePreviewType', 'sharedDetail' , 'fileInfoDetail'
             ]),
+            ...mapGetters({allData: 'data'}),
+            isClicked() {
+			if(this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)){
+				return true
+			}else {
+				return false
+			}	
+		    },
             isFolder() {
                 return this.data.type === 'folder'
             },
@@ -138,7 +146,6 @@
         },
         data() {
             return {
-                isClicked: false,
                 area: false,
                 itemName: undefined
             }
@@ -160,10 +167,39 @@
             },
             clickedItem(e) {
                 events.$emit('contextMenu:hide')
-                events.$emit('fileItem:deselect')
 
-                // Set clicked item
-                this.isClicked = true
+                if(e.ctrlKey && !e.shiftKey) {
+				if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)){
+					this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL',this.data )
+				}else {
+					console.log(this.data.name)
+					this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+				}
+			}else if (e.shiftKey){
+				let lastItem = this.allData.indexOf(this.fileInfoDetail[this.fileInfoDetail.length -1])
+				let clickedItem = this.allData.indexOf(this.data)
+				
+				if(!e.ctrlKey) {
+					this.$store.commit('CLEAR_FILEINFO_DETAIL')
+				}
+				
+				if(lastItem < clickedItem) {
+					for(let i=lastItem ; i<=clickedItem; i++ ) {
+						this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+						console.log(this.allData[i].name)
+					}
+				}else {
+					for(let i=clickedItem ; i<=lastItem; i++ ) {
+						this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+						console.log(this.allData[i].name)
+					}
+				}
+				this.fileInfoDetail.forEach(element => console.log(element.id ,element.name))
+			}else {
+				events.$emit('fileItem:deselect')
+				this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+			}
 
                 // Open in mobile version on first click
                 if (this.$isMobile() && this.isFolder) {
@@ -181,9 +217,6 @@
                         events.$emit('fileFullPreview:show')
                     }
                 }
-
-                // Load file info detail
-                this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 
                 // Get target classname
                 let itemClass = e.target.className
@@ -227,7 +260,7 @@
 
             events.$on('fileItem:deselect', () => {
                 // Deselect file
-                this.isClicked = false
+                this.$store.commit('CLEAR_FILEINFO_DETAIL')
             })
 
             // Change item name

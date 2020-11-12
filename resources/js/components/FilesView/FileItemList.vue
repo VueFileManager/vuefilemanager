@@ -85,14 +85,12 @@ export default {
 	computed: {
 		...mapGetters(['FilePreviewType', 'fileInfoDetail' ]),
 		...mapGetters({allData: 'data'}),
-		isClicked() {
-			// let clicked = false
+		isClicked() {	
 			if(this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)){
 				return true
 			}else {
 				return false
-			}
-			// return clicked
+			}	
 		},
 		isFolder() {
 			return this.data.type === 'folder'
@@ -140,7 +138,6 @@ export default {
 	},
 	data() {
 		return {
-			// isClicked: false,
 			area: false,
 			itemName: undefined
 		}
@@ -192,7 +189,8 @@ export default {
 				this.fileInfoDetail.forEach(element => console.log(element.id ,element.name))
 			}else {
 				events.$emit('fileItem:deselect')
-				this.$store.commit('LOAD_FILEINFO_DETAIL', this.data )
+				this.$store.commit('CLEAR_FILEINFO_DETAIL')
+				this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 			}
 
 			// Open in mobile version on first click
@@ -247,7 +245,6 @@ export default {
 
 		events.$on('fileItem:deselect', () => {
 			// Deselect file
-			// this.isClicked = false
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
 		})
 
