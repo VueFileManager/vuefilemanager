@@ -365,11 +365,14 @@ function format_megabytes($megabytes)
 {
     if ($megabytes >= 1000) {
         return $megabytes / 1000 . 'GB';
-    } else if ($megabytes >= 1000000) {
-        return $megabytes / 1000000 . 'TB';
-    }else {
-        return $megabytes . 'MB';
     }
+
+    if ($megabytes >= 1000000) {
+        return $megabytes / 1000000 . 'TB';
+    }
+
+    return $megabytes . 'MB';
+    
 }
 
 /**
