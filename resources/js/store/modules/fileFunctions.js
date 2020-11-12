@@ -133,7 +133,7 @@ const actions = {
                             events.$emit('alert:open', {
                                 emoji: '😟😟😟',
                                 title: i18n.t('popup_upload_limit.title'),
-                                message: i18n.t('popup_upload_limit.message', {uploadLimit: getters.config.uploadLimitFormate})
+                                message: i18n.t('popup_upload_limit.message', {uploadLimit: getters.config.uploadLimitFormatted})
                             })
                             break;
                         default:

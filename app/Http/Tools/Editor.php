@@ -251,14 +251,20 @@ class Editor
         $disk_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
         $temp_filename = $file->getClientOriginalName();
 
-        //File Path
-        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;
+        // File Path
+        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;\
+
         // Generate file
         File::append($file_path, $file->get());
-        //Size of file
+
+        // Size of file
         $file_size = File::size($file_path);
-        //File size handling
-        if($file_size > format_bytes(get_setting('upload_limit')) && get_setting('upload_limit') !== null) abort(413);
+
+        // Size of limit
+        $limit = get_setting('upload_limit');
+
+        // File size handling
+        if( $limit && $file_size > format_bytes($limit)) abort(413);
     
         // If last then process file
         if ($request->boolean('is_last')) {

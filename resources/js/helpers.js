@@ -308,7 +308,6 @@ const Helpers = {
         Vue.prototype.$checkUploadLimit = function (files) {
             let uploadLimit = store.getters.config.uploadLimit
             let validate = true
-            console.log(store.getters.config.uploadLimitPopup)
 
             for (let i = 0 ; i<files.length; i++ ) {
                 if(uploadLimit != 0 && files[i].size > uploadLimit) {
@@ -316,13 +315,12 @@ const Helpers = {
                     events.$emit('alert:open', {
                         emoji: '😟😟😟',
                         title: i18n.t('popup_upload_limit.title'),
-                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitFormate}),
+                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitFormatted}),
                     })
                     break 
                 }
             }
             return validate
-           
         }
     }
 }
