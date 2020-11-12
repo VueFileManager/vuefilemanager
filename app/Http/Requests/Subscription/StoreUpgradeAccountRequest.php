@@ -46,7 +46,7 @@ class StoreUpgradeAccountRequest extends FormRequest
             'plan.data.attributes.capacity'           => 'required|digits_between:1,9',
             'plan.data.attributes.capacity_formatted' => 'required|string',
             'plan.data.attributes.currency'           => 'required|string',
-            'plan.data.attributes.description'        => 'required|string',
+            'plan.data.attributes.description'        => 'sometimes|string',
             'plan.data.attributes.name'               => 'required|string',
             'plan.data.attributes.price'              => 'required|string',
             'plan.data.id'                            => 'required|string',
