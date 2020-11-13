@@ -25,8 +25,9 @@ class DeleteItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.type'         => 'required|string',
-            'data.force_delete' => 'required|boolean',
+            'data[*].force_delete' => 'required|boolean',
+            'data[*].type'         => 'required|string',
+            'data[*].unique_id'    => 'required|numeric'  
         ];
     }
 }

@@ -168,41 +168,45 @@ class EditItemsController extends Controller
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws Exception
      */
-    public function user_delete_item(DeleteItemRequest $request, $unique_id)
+    public function user_delete_item(DeleteItemRequest $request)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
             return Demo::response_204();
         }
 
-        // Check permission to delete item for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        foreach($request->input('data') as $file){
+            $unique_id = $file['unique_id'];
 
-            // Prevent force delete for non-master users
-            if ($request->input('data.force_delete')) abort('401');
+            // Check permission to delete item for authenticated editor 
+            if ($request->user()->tokenCan('editor')) {
 
-            // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+                // Prevent force delete for non-master users
+                if ($file['force_delete']) abort('401');
 
-            // Get shared token
-            $shared = get_shared($request->cookie('shared_token'));
+                // check if shared_token cookie exist
+                if (!$request->hasCookie('shared_token')) abort('401');
 
-            // Get file|folder item
-            $item = get_item($request->input('data.type'), $unique_id, Auth::id());
+                // Get shared token
+                $shared = get_shared($request->cookie('shared_token'));
 
-            // Check access to requested directory
-            if ($request->input('data.type') === 'folder') {
-                Guardian::check_item_access($item->unique_id, $shared);
-            } else {
-                Guardian::check_item_access($item->folder_id, $shared);
+                // Get file|folder item
+                $item = get_item($file['type'], $unique_id, Auth::id());
+
+                // Check access to requested directory
+                if ($file['type'] === 'folder') {
+                    Guardian::check_item_access($item->unique_id, $shared);
+                } else {
+                    Guardian::check_item_access($item->folder_id, $shared);
+                }
             }
-        }
 
-        // Delete item
-        Editor::delete_item($request, $unique_id);
+            // Delete item
+            Editor::delete_item($file, $unique_id);
 
         // Return response
-        return response(null, 204);
+        }
+    return response(null, 204);
     }
 
     /**
@@ -214,7 +218,7 @@ class EditItemsController extends Controller
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws Exception
      */
-    public function guest_delete_item(DeleteItemRequest $request, $unique_id, $token)
+    public function guest_delete_item(DeleteItemRequest $request, $token)
     {
         // Get shared record
         $shared = get_shared($token);
@@ -224,22 +228,26 @@ class EditItemsController extends Controller
             return Demo::response_204();
         }
 
+        
         // Check shared permission
         if (!is_editor($shared)) abort(403);
+        
+        foreach($request->input('data') as $file){
+            $unique_id = $file['unique_id'];
 
-        // Get file|folder item
-        $item = get_item($request->input('data.type'), $unique_id, $shared->user_id);
+            // Get file|folder item
+            $item = get_item($file['type'], $unique_id, $shared->user_id);
 
-        // Check access to requested item
-        if ($request->input('data.type') === 'folder') {
-            Guardian::check_item_access($item->unique_id, $shared);
-        } else {
-            Guardian::check_item_access($item->folder_id, $shared);
+            // Check access to requested item
+            if ($file['type'] === 'folder') {
+                Guardian::check_item_access($item->unique_id, $shared);
+            } else {
+                Guardian::check_item_access($item->folder_id, $shared);
+            }
+
+            // Delete item
+            Editor::delete_item($file, $unique_id, $shared);
         }
-
-        // Delete item
-        Editor::delete_item($request, $unique_id, $shared);
-
         // Return response
         return response(null, 204);
     }

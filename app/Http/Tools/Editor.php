@@ -86,13 +86,13 @@ class Editor
      * @param null $shared
      * @throws \Exception
      */
-    public static function delete_item($request, $unique_id, $shared = null)
+    public static function delete_item($file, $unique_id, $shared = null)
     {
         // Get user id
         $user = is_null($shared) ? Auth::user() : User::findOrFail($shared->user_id);
 
         // Delete folder
-        if ($request->input('data.type') === 'folder') {
+        if ($file['type'] === 'folder') {
 
             // Get folder
             $folder = FileManagerFolder::withTrashed()
@@ -113,7 +113,7 @@ class Editor
             }
 
             // Force delete children files
-            if ($request->input('data.force_delete')) {
+            if ($file['force_delete']) {
 
                 // Get children folder ids
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
@@ -142,7 +142,7 @@ class Editor
             }
 
             // Soft delete items
-            if (!$request->input('data.force_delete')) {
+            if (!$file['force_delete']) {
 
                 // Remove folder from user favourites
                 $user->favourite_folders()->detach($unique_id);
@@ -153,7 +153,7 @@ class Editor
         }
 
         // Delete item
-        if ($request->input('data.type') !== 'folder') {
+        if ($file['type'] !== 'folder') {
 
             // Get file
             $file = FileManagerFile::withTrashed()
@@ -173,7 +173,7 @@ class Editor
             }
 
             // Force delete file
-            if ($request->input('data.force_delete')) {
+            if ($file['force_delete']) {
 
                 // Delete file
                 Storage::delete('/file-manager/' . $file->basename);
@@ -186,7 +186,7 @@ class Editor
             }
 
             // Soft delete file
-            if (!$request->input('data.force_delete')) {
+            if (!$file['force_delete']) {
 
                 // Soft delete file
                 $file->delete();
