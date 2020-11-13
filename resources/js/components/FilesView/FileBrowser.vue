@@ -74,10 +74,12 @@
         <!--File Info Panel-->
         <div v-if="! $isMinimalScale()" class="file-info-container" :class="{ 'is-fileinfo-visible': fileInfoVisible }">
             <!--File info panel-->
-            <FileInfoPanel v-if="fileInfoDetail"/>
+            <FileInfoPanel v-if="fileInfoDetail.length === 1"/>
+
+            <MultiSelected v-if="fileInfoDetail.length > 1 "/>
 
             <!--If file info panel empty show message-->
-            <EmptyMessage v-if="!fileInfoDetail" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
+            <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
         </div>
     </div>
 </template>
@@ -85,6 +87,7 @@
 <script>
     import MobileToolbar from '@/components/FilesView/MobileToolbar'
     import MobileActions from '@/components/FilesView/MobileActions'
+    import MultiSelected from '@/components/FilesView/MultiSelected'
     import FileInfoPanel from '@/components/FilesView/FileInfoPanel'
     import FileItemList from '@/components/FilesView/FileItemList'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
@@ -99,6 +102,7 @@
         components: {
             MobileToolbar,
             MobileActions,
+            MultiSelected,
             FileInfoPanel,
             FileItemList,
             FileItemGrid,

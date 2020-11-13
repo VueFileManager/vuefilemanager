@@ -473,7 +473,7 @@ export default {
     },
     deleteItem() {
       // Dispatch remove item
-      this.$store.dispatch("deleteItem", this.item);
+      this.$store.dispatch("deleteItem");
     },
     createFolder() {
       // Create folder

@@ -1,5 +1,5 @@
 <template>
-    <div class="file-info-content" v-if="fileInfoDetail">
+    <div class="file-info-content" v-if="fileInfoDetail.length === 1">
         <div class="file-headline" spellcheck="false">
             <FilePreview/>
 
@@ -14,37 +14,37 @@
                     </div>
                 </div>
                 <div class="file-info">
-                    <span ref="name" class="name">{{ fileInfoDetail.name }}</span>
-                    <span class="mimetype" v-if="fileInfoDetail.mimetype">.{{ fileInfoDetail.mimetype }}</span>
+                    <span ref="name" class="name">{{ fileInfoDetail[0].name }}</span>
+                    <span class="mimetype" v-if="fileInfoDetail[0].mimetype">.{{ fileInfoDetail[0].mimetype }}</span>
                 </div>
             </div>
         </div>
 
         <!--Info list-->
         <ListInfo>
-            <ListInfoItem v-if="fileInfoDetail.filesize"
+            <ListInfoItem v-if="fileInfoDetail[0].filesize"
                           :title="$t('file_detail.size')"
-                          :content="fileInfoDetail.filesize">
+                          :content="fileInfoDetail[0].filesize">
             </ListInfoItem>
 
-            <ListInfoItem v-if="$checkPermission(['master']) && fileInfoDetail.user_scope !== 'master'"
+            <ListInfoItem v-if="$checkPermission(['master']) && fileInfoDetail[0].user_scope !== 'master'"
                           :title="$t('file_detail.author')"
                           :content="$t('file_detail.author_participant')">
             </ListInfoItem>
 
             <ListInfoItem
                     :title="$t('file_detail.created_at')"
-                    :content="fileInfoDetail.created_at">
+                    :content="fileInfoDetail[0].created_at">
             </ListInfoItem>
 
             <ListInfoItem v-if="$checkPermission(['master'])"
                           :title="$t('file_detail.where')">
                 <div class="action-button" @click="moveItem">
-                    <span>{{ fileInfoDetail.parent ? fileInfoDetail.parent.name : $t('locations.home') }}</span>
+                    <span>{{ fileInfoDetail[0].parent ? fileInfoDetail[0].parent.name : $t('locations.home') }}</span>
                     <edit-2-icon size="10" class="edit-icon"></edit-2-icon>
                 </div>
             </ListInfoItem>
-            <ListInfoItem v-if="$checkPermission('master') && fileInfoDetail.shared"
+            <ListInfoItem v-if="$checkPermission('master') && fileInfoDetail[0].shared"
                           :title="$t('file_detail.shared')">
                 <div class="action-button" @click="shareItemOptions">
                     <span>{{ sharedInfo }}</span>
@@ -53,7 +53,7 @@
                 <div class="sharelink">
                     <lock-icon v-if="isLocked" @click="shareItemOptions" class="lock-icon" size="17"></lock-icon>
                     <unlock-icon v-if="! isLocked" @click="shareItemOptions" class="lock-icon" size="17"></unlock-icon>
-                    <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail.shared.link"/>
+                    <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail[0].shared.link"/>
                 </div>
             </ListInfoItem>
         </ListInfo>
@@ -87,7 +87,7 @@
         computed: {
             ...mapGetters(['fileInfoDetail', 'permissionOptions']),
             fileType() {
-                return this.fileInfoDetail.type
+                return this.fileInfoDetail[0].type
                 /*                switch () {
                                     case 'folder':
                                         return 'folder'
@@ -110,13 +110,13 @@
 
                 // Get permission title
                 let title = this.permissionOptions.find(option => {
-                    return option.value === this.fileInfoDetail.shared.permission
+                    return option.value === this.fileInfoDetail[0].shared.permission
                 })
 
                 return title ? title.label : this.$t('shared.can_download')
             },
             sharedIcon() {
-                switch (this.fileInfoDetail.shared.permission) {
+                switch (this.fileInfoDetail[0].shared.permission) {
                     case 'editor':
                         return 'user-edit'
                         break
@@ -128,17 +128,17 @@
                 }
             },
             isLocked() {
-                return this.fileInfoDetail.shared.protected
+                return this.fileInfoDetail[0].shared.protected
             }
         },
         methods: {
             shareItemOptions() {
                 // Open share item popup
-                events.$emit('popup:open', {name: 'share-edit', item: this.fileInfoDetail})
+                events.$emit('popup:open', {name: 'share-edit', item: this.fileInfoDetail[0]})
             },
             moveItem() {
                 // Move item fire popup
-                events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail})
+                events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail[0]})
             }
         }
     }

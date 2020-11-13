@@ -161,6 +161,8 @@ export default {
 			events.$emit('contextMenu:hide')
 			
 			if(e.ctrlKey && !e.shiftKey) {
+				// Click + Ctrl
+
 				if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)){
 					this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL',this.data )
 				}else {
@@ -168,9 +170,12 @@ export default {
 					this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 				}
 			}else if (e.shiftKey){
+				// Click + Shift
+
 				let lastItem = this.allData.indexOf(this.fileInfoDetail[this.fileInfoDetail.length -1])
 				let clickedItem = this.allData.indexOf(this.data)
-				
+
+				// If Click + Shift + Ctrl dont remove already selected items
 				if(!e.ctrlKey) {
 					this.$store.commit('CLEAR_FILEINFO_DETAIL')
 				}
@@ -178,16 +183,15 @@ export default {
 				if(lastItem < clickedItem) {
 					for(let i=lastItem ; i<=clickedItem; i++ ) {
 						this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
-						console.log(this.allData[i].name)
 					}
 				}else {
 					for(let i=clickedItem ; i<=lastItem; i++ ) {
 						this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
-						console.log(this.allData[i].name)
 					}
 				}
-				this.fileInfoDetail.forEach(element => console.log(element.id ,element.name))
 			}else {
+				// Click
+				
 				events.$emit('fileItem:deselect')
 				this.$store.commit('CLEAR_FILEINFO_DETAIL')
 				this.$store.commit('GET_FILEINFO_DETAIL', this.data)

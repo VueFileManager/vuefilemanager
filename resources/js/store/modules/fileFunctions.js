@@ -3,28 +3,40 @@ import router from '@/router'
 import {events} from '@/bus'
 import {last} from 'lodash'
 import axios from 'axios'
+import { Store } from 'vuex'
 
 const actions = {
-    moveItem: ({commit, getters, dispatch}, [item_from, to_item]) => {
+    moveItem: ({commit, getters, dispatch}, [undefined, to_item]) => {
+
+        let items = []
+
+        getters.fileInfoDetail.forEach((data) => {
+            items.push({
+                'force_delete': data.deleted_at ? true : false,
+                'type': data.type,
+                "unique_id": data.unique_id
+            })
+        })
 
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
-            ? '/api/move/' + item_from.unique_id + '/public/' + router.currentRoute.params.token
-            : '/api/move/' + item_from.unique_id
+            ? '/api/move/public' + router.currentRoute.params.token
+            : '/api/move'
 
         axios
             .post(route, {
-                from_type: item_from.type,
-                to_unique_id: to_item.unique_id,
-                _method: 'patch'
+                _method: 'post',
+                to_unique_id:to_item.unique_id,
+                items: items
             })
             .then(() => {
-                commit('REMOVE_ITEM', item_from.unique_id)
-                commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
+                items.forEach(item=> {
+                    commit('REMOVE_ITEM', item.unique_id)
+                    commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
 
-                if (item_from.type === 'folder' && getters.currentFolder.location !== 'public')
-                    dispatch('getAppData')
-
+                    if (item.type === 'folder' && getters.currentFolder.location !== 'public')
+                        dispatch('getAppData')
+                    })
             })
             .catch(() => isSomethingWrong())
     },
@@ -164,51 +176,72 @@ const actions = {
             })
             .catch(() => isSomethingWrong())
     },
-    deleteItem: ({commit, getters, dispatch}, data) => {
+    deleteItem: ({commit, getters, dispatch}) => {
 
-        // Remove file
-        commit('REMOVE_ITEM', data.unique_id)
+        let items = []
 
-        // Remove item from sidebar
-        if (getters.permission === 'master') {
+        getters.fileInfoDetail.forEach((data) => {
+            items.push({
+                'force_delete': data.deleted_at ? true : false,
+                'type': data.type,
+                "unique_id": data.unique_id
+            })
+            
+            //    Remove file
+            commit('REMOVE_ITEM', data.unique_id)
 
-            if (data.type === 'folder')
-                commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-        }
+            // Remove item from sidebar
+            if (getters.permission === 'master') {
 
+                if (data.type === 'folder')
+                    commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+            }
+
+            // Remove file
+            commit('REMOVE_ITEM', data.unique_id)
+
+            // Remove item from sidebar
+            if (getters.permission === 'master') {
+
+                if (data.type === 'folder')
+                    commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+            }
+        
+        })
+        
         // Remove file preview
         commit('CLEAR_FILEINFO_DETAIL')
 
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
-            ? '/api/remove-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
-            : '/api/remove-item/' + data.unique_id
+            ? '/api/remove-item/public/' + router.currentRoute.params.token
+            : '/api/remove-item'
 
         axios
             .post(route, {
-                _method: 'delete',
-                data: {
-                    type: data.type,
-                    force_delete: data.deleted_at ? true : false,
-                },
+                _method: 'post',
+                data: items
             })
             .then(() => {
 
-                // If is folder, update app data
-                if (data.type === 'folder') {
+                items.forEach(data => {
+                    
+                    // If is folder, update app data
+                    if (data.type === 'folder') {
 
-                    if (data.unique_id === getters.currentFolder.unique_id) {
+                        if (data.unique_id === getters.currentFolder.unique_id) {
 
-                        if ( getters.currentFolder.location === 'public' ) {
-                            dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
-                        } else {
-                            dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
+                            if ( getters.currentFolder.location === 'public' ) {
+                                dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
+                            } else {
+                                dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
+                            }
                         }
-                    }
 
-                    if ( getters.currentFolder.location !== 'public' )
-                        dispatch('getAppData')
-                }
+                        if ( getters.currentFolder.location !== 'public' )
+                            dispatch('getAppData')
+                    }
+                })
             })
             .catch(() => isSomethingWrong())
     },

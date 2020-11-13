@@ -1,9 +1,9 @@
 <template>
     <div v-if="canBePreview" class="preview">
-        <img v-if="fileInfoDetail.type == 'image'" :src="fileInfoDetail.thumbnail" :alt="fileInfoDetail.name" />
-        <audio v-else-if="fileInfoDetail.type == 'audio'" :src="fileInfoDetail.file_url" controlsList="nodownload" controls></audio>
-        <video v-else-if="fileInfoDetail.type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
-            <source :src="fileInfoDetail.file_url" type="video/mp4">
+        <img v-if="fileInfoDetail[0].type == 'image'" :src="fileInfoDetail[0].thumbnail" :alt="fileInfoDetail[0].name" />
+        <audio v-else-if="fileInfoDetail[0].type == 'audio'" :src="fileInfoDetail[0].file_url" controlsList="nodownload" controls></audio>
+        <video v-else-if="fileInfoDetail[0].type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
+            <source :src="fileInfoDetail[0].file_url" type="video/mp4">
         </video>
     </div>
 </template>
@@ -17,9 +17,9 @@
         computed: {
             ...mapGetters(['fileInfoDetail']),
             canBePreview() {
-                return this.fileInfoDetail && ! includes([
+                return this.fileInfoDetail[0] && ! includes([
                     'folder', 'file'
-                ], this.fileInfoDetail.type)
+                ], this.fileInfoDetail[0].type)
             }
         },
     }
