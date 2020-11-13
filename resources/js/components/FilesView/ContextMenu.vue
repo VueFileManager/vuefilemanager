@@ -321,6 +321,7 @@ import {
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
+<<<<<<< HEAD
 export default {
     name: 'ContextMenu',
     components: {
@@ -334,6 +335,18 @@ export default {
         LinkIcon,
         StarIcon,
         EyeIcon
+=======
+      // Show panel if is not open
+      this.$store.dispatch("fileInfoToggle", true);
+    },
+    deleteItem() {
+      // Dispatch remove item
+      this.$store.dispatch("deleteItem");
+    },
+    createFolder() {
+      // Create folder
+      this.$createFolder(this.$t("popup_create_folder.folder_default_name"));
+>>>>>>> 559bee6 (bulk-operations v0.1 setup bulk delete,move items and FileInfoPanel)
     },
     computed: {
         ...mapGetters(['user']),
