@@ -49,7 +49,7 @@
           $isThisLocation(['trash', 'trash-root']) && $checkPermission('master') && !showFromPreview
         " id="menu-list" class="menu-options">
             <ul class="menu-option-group">
-                <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item">
+                <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item &&  multiSelectContextMenu ">
                     <div class="icon">
                         <life-buoy-icon size="17"></life-buoy-icon>
                     </div>
@@ -74,7 +74,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item">
+            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
                 <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -96,7 +96,7 @@
 
         <!--ContextMenu for Base location with MASTER permission-->
         <div v-if="$isThisLocation(['shared']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="item && isFolder">
+            <ul class="menu-option-group" v-if="item && isFolder &&  multiSelectContextMenu">
                 <li class="menu-option" @click="addToFavourites">
                     <div class="icon">
                         <star-icon size="17"></star-icon>
@@ -111,7 +111,7 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="shareItem">
+                <li class="menu-option" @click="shareItem" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
@@ -132,7 +132,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item">
+            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
                 <li class="menu-option" @click="ItemDetail" v-if="item">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -158,7 +158,7 @@
           $checkPermission('master') && !showFromPreview
         " id="menu-list" class="menu-options">
             <ul class="menu-option-group" v-if="!$isThisLocation(['participant_uploads', 'latest'])">
-                <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
+                <li class="menu-option" @click="addToFavourites" v-if="item && isFolder && multiSelectContextMenu">
                     <div class="icon">
                         <star-icon size="17"></star-icon>
                     </div>
@@ -188,7 +188,7 @@
                         {{ $t('context_menu.move') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="shareItem">
+                <li class="menu-option" @click="shareItem" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
@@ -209,7 +209,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item">
+            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
                 <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -230,7 +230,7 @@
         </div>
 
         <!--ContextMenu for Base location with EDITOR permission-->
-        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
             <ul class="menu-option-group">
                 <li class="menu-option" @click="createFolder">
                     <div class="icon">
@@ -259,7 +259,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item">
+            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu ">
                 <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -281,9 +281,9 @@
 
         <!--ContextMenu for Base location with VISITOR permission-->
         <div v-if="
-          $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview
+          $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview 
         " id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="item">
+            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
                 <li class="menu-option" @click="ItemDetail">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -321,7 +321,6 @@ import {
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
-<<<<<<< HEAD
 export default {
     name: 'ContextMenu',
     components: {
@@ -334,22 +333,18 @@ export default {
         TrashIcon,
         LinkIcon,
         StarIcon,
-        EyeIcon
-=======
-      // Show panel if is not open
-      this.$store.dispatch("fileInfoToggle", true);
-    },
-    deleteItem() {
-      // Dispatch remove item
-      this.$store.dispatch("deleteItem");
-    },
-    createFolder() {
-      // Create folder
-      this.$createFolder(this.$t("popup_create_folder.folder_default_name"));
->>>>>>> 559bee6 (bulk-operations v0.1 setup bulk delete,move items and FileInfoPanel)
+        EyeIcon,
     },
     computed: {
-        ...mapGetters(['user']),
+        ...mapGetters(['user', 'fileInfoDetail']),
+        multiSelectContextMenu() {
+            if(this.fileInfoDetail.length  > 1 && this.fileInfoDetail.includes(this.item)) {
+                return false
+            }
+            if(this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item)) {
+                return true
+            }
+        },
         favourites() {
             return this.user.relationships.favourites.data.attributes.folders
         },
@@ -402,7 +397,7 @@ export default {
         },
         moveItem() {
             // Open move item popup
-            events.$emit('popup:open', { name: 'move', item: this.item })
+            events.$emit('popup:open', { name: 'move', item: [this.item] })
         },
         shareItem() {
             if (this.item.shared) {

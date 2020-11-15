@@ -7,11 +7,30 @@
         class="options"
         @click="closeAndResetContextMenu"
       >
+  
         <div class="menu-wrapper">
+
+          <div class="mobile-selected-menu" v-if="mobileMultiSelect">
+            <ToolbarButton
+            source="move"
+            
+            :action="$t('actions.move')"
+            @click.native="moveItem"
+          />
+
+           <ToolbarButton
+            source="trash"
+            
+            :action="$t('actions.move')"
+            @click.native="moveItem"
+          />
+          </div>
+
           <!--Item Thumbnail-->
           <ThumbnailItem
+            v-if="!mobileMultiSelect"
             class="item-thumbnail"
-            :item="fileInfoDetail"
+            :item="fileInfoDetail[0]"
             info="metadata"
           />
 
@@ -19,15 +38,15 @@
           <div
             v-if="
               $isThisLocation(['trash', 'trash-root']) &&
-              $checkPermission('master')
+              $checkPermission('master') && !mobileMultiSelect
             "
             class="menu-options"
           >
             <ul class="menu-option-group">
               <li
                 class="menu-option"
-                @click="$store.dispatch('restoreItem', fileInfoDetail)"
-                v-if="fileInfoDetail"
+                @click="$store.dispatch('restoreItem', fileInfoDetail[0])"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <life-buoy-icon size="17"></life-buoy-icon>
@@ -39,7 +58,7 @@
               <li
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -64,14 +83,14 @@
 
           <!--Mobile for Base location-->
           <div
-            v-if="$isThisLocation(['shared']) && $checkPermission('master')"
+            v-if="$isThisLocation(['shared']) && $checkPermission('master') && !mobileMultiSelect"
             class="menu-options"
           >
             <ul class="menu-option-group">
               <li
                 class="menu-option"
                 @click="addToFavourites"
-                v-if="fileInfoDetail && isFolder"
+                v-if="fileInfoDetail[0] && isFolder"
               >
                 <div class="icon">
                   <star-icon size="17"></star-icon>
@@ -87,7 +106,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
                 </div>
@@ -95,13 +114,13 @@
                   {{ $t("context_menu.rename") }}
                 </div>
               </li>
-              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <link-icon size="17"></link-icon>
                 </div>
                 <div class="text-label">
                   {{
-                    fileInfoDetail.shared
+                    fileInfoDetail[0].shared
                       ? $t("context_menu.share_edit")
                       : $t("context_menu.share")
                   }}
@@ -110,7 +129,7 @@
               <li
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -137,11 +156,11 @@
           <div
             v-if="
               $isThisLocation(['base', 'participant_uploads', 'latest']) &&
-              $checkPermission('master')
+              $checkPermission('master') && !mobileMultiSelect
             "
             class="menu-options"
           >
-            <ul class="menu-option-group" v-if="fileInfoDetail && isFolder">
+            <ul class="menu-option-group" v-if="fileInfoDetail[0] && isFolder">
               <li class="menu-option" @click="addToFavourites">
                 <div class="icon">
                   <star-icon size="17"></star-icon>
@@ -157,7 +176,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
                 </div>
@@ -165,7 +184,7 @@
                   {{ $t("context_menu.rename") }}
                 </div>
               </li>
-              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <corner-down-right-icon size="17"></corner-down-right-icon>
                 </div>
@@ -173,13 +192,13 @@
                   {{ $t("context_menu.move") }}
                 </div>
               </li>
-              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <link-icon size="17"></link-icon>
                 </div>
                 <div class="text-label">
                   {{
-                    fileInfoDetail.shared
+                    fileInfoDetail[0].shared
                       ? $t("context_menu.share_edit")
                       : $t("context_menu.share")
                   }}
@@ -188,7 +207,7 @@
               <li
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -214,12 +233,12 @@
           <!--Mobile for Base location with EDITOR permission-->
           <div
             v-if="
-              $isThisLocation(['base', 'public']) && $checkPermission('editor')
+              $isThisLocation(['base', 'public']) && $checkPermission('editor') && !mobileMultiSelect
             "
             class="menu-options"
           >
             <ul class="menu-option-group">
-              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
                 </div>
@@ -227,7 +246,7 @@
                   {{ $t("context_menu.rename") }}
                 </div>
               </li>
-              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <corner-down-right-icon size="17"></corner-down-right-icon>
                 </div>
@@ -260,7 +279,7 @@
           <!--Mobile for Base location with VISITOR permission-->
           <div
             v-if="
-              $isThisLocation(['base', 'public']) && $checkPermission('visitor')
+              $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !mobileMultiSelect
             "
             class="menu-options"
           >
@@ -280,7 +299,7 @@
     </transition>
     <transition name="fade">
       <div
-        v-show="isVisible"
+        v-show="isVisible && !mobileMultiSelect"
         class="vignette"
         @click="closeAndResetContextMenu"
       ></div>
@@ -290,6 +309,7 @@
 
 <script>
 import ThumbnailItem from "@/components/Others/ThumbnailItem";
+import ToolbarButton from "@/components/FilesView/ToolbarButton";
 import {
   CornerDownRightIcon,
   DownloadCloudIcon,
@@ -311,6 +331,7 @@ export default {
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
+    ToolbarButton,
     ThumbnailItem,
     LifeBuoyIcon,
     Trash2Icon,
@@ -327,47 +348,53 @@ export default {
     },
     isInFavourites() {
       return this.favourites.find(
-        (el) => el.unique_id == this.fileInfoDetail.unique_id
+        (el) => el.unique_id == this.fileInfoDetail[0].unique_id
       );
     },
     isFile() {
       return (
-        this.fileInfoDetail &&
-        this.fileInfoDetail.type !== "folder" &&
-        this.fileInfoDetail &&
-        this.fileInfoDetail.type !== "image"
+        this.fileInfoDetail[0] &&
+        this.fileInfoDetail[0].type !== "folder" &&
+        this.fileInfoDetail[0] &&
+        this.fileInfoDetail[0].type !== "image"
       );
     },
     isImage() {
-      return this.fileInfoDetail && this.fileInfoDetail.type === "image";
+      return this.fileInfoDetail[0] && this.fileInfoDetail[0].type === "image";
     },
     isFolder() {
-      return this.fileInfoDetail && this.fileInfoDetail.type === "folder";
+      return this.fileInfoDetail[0] && this.fileInfoDetail[0].type === "folder";
     },
   },
   data() {
     return {
       isVisible: false,
       showFromMediaPreview: false,
+      mobileMultiSelect:false
     };
   },
   methods: {
     moveItem() {
       // Open move item popup
-      events.$emit("popup:open", { name: "move", item: this.fileInfoDetail });
+      if(!this.mobileMultiSelect) {
+        events.$emit("popup:open", { name: "move", item: [this.fileInfoDetail[0]] });
+      }
+      if(this.mobileMultiSelect) {
+        events.$emit("popup:open", { name: "move", item: null });
+      }
     },
     shareItem() {
-      if (this.fileInfoDetail.shared) {
+      if (this.fileInfoDetail[0].shared) {
         // Open share item popup
         events.$emit("popup:open", {
           name: "share-edit",
-          item: this.fileInfoDetail,
+          item: this.fileInfoDetail[0],
         });
       } else {
         // Open share item popup
         events.$emit("popup:open", {
           name: "share-create",
-          item: this.fileInfoDetail,
+          item: this.fileInfoDetail[0],
         });
       }
     },
@@ -375,33 +402,33 @@ export default {
       if (
         this.favourites &&
         !this.favourites.find(
-          (el) => el.unique_id == this.fileInfoDetail.unique_id
+          (el) => el.unique_id == this.fileInfoDetail[0].unique_id
         )
       ) {
-        this.$store.dispatch("addToFavourites", this.fileInfoDetail);
+        this.$store.dispatch("addToFavourites", this.fileInfoDetail[0]);
       } else {
-        this.$store.dispatch("removeFromFavourites", this.fileInfoDetail);
+        this.$store.dispatch("removeFromFavourites", this.fileInfoDetail[0]);
       }
     },
     downloadItem() {
       this.$downloadFile(
-        this.fileInfoDetail.file_url,
-        this.fileInfoDetail.name + "." + this.fileInfoDetail.mimetype
+        this.fileInfoDetail[0].file_url,
+        this.fileInfoDetail[0].name + "." + this.fileInfoDetail[0].mimetype
       );
     },
     deleteItem() {
-      this.$store.dispatch("deleteItem", this.fileInfoDetail);
+      this.$store.dispatch("deleteItem", this.fileInfoDetail[0]);
     },
     renameItem() {
       let itemName = prompt(
         this.$t("popup_rename.title"),
-        this.fileInfoDetail.name
+        this.fileInfoDetail[0].name
       );
 
       if (itemName && itemName !== "") {
         let item = {
-          unique_id: this.fileInfoDetail.unique_id,
-          type: this.fileInfoDetail.type,
+          unique_id: this.fileInfoDetail[0].unique_id,
+          type: this.fileInfoDetail[0].type,
           name: itemName,
         };
 
@@ -428,6 +455,10 @@ export default {
     },
   },
   created() {
+    events.$on('mobileSelecting-start' , () => {
+      this.mobileMultiSelect = !this.mobileMultiSelect
+      this.isVisible = !this.isVisible
+    })
     // Show context menu
     events.$on("mobileMenu:show", (showFromMedia) => {
       //If emit come from MediaFullPreview

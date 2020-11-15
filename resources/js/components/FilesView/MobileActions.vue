@@ -19,6 +19,9 @@
             <MobileActionButtonUpload>
                 {{ $t('context_menu.upload') }}
             </MobileActionButtonUpload>
+            <MobileMultiSelectButton @click.native="mobileSelecting">
+                Select
+            </MobileMultiSelectButton>
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
@@ -38,6 +41,7 @@
 
 <script>
     import MobileActionButtonUpload from '@/components/FilesView/MobileActionButtonUpload'
+    import MobileMultiSelectButton from '@/components/FilesView/MobileMultiSelectButton'
     import MobileActionButton from '@/components/FilesView/MobileActionButton'
     import UploadProgress from '@/components/FilesView/UploadProgress'
     import {mapGetters} from 'vuex'
@@ -48,6 +52,7 @@
         name: 'MobileActions',
         components: {
             MobileActionButtonUpload,
+            MobileMultiSelectButton,
             MobileActionButton,
             UploadProgress,
         },
@@ -61,6 +66,9 @@
             }
         },
         methods: {
+            mobileSelecting() {
+                events.$emit('mobileSelecting-start')
+            },
             switchPreview() {
                 this.$store.dispatch('changePreviewType')
             },

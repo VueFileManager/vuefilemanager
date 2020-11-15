@@ -11,7 +11,10 @@
 
             <!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
-                <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="location"/>
+                <ThumbnailItem v-if="fileInfoDetail.length < 2 || noSelectedItem" class="item-thumbnail" :item="pickedItem" info="location"/>
+
+                <MultiSelected class="multiple-selected" moveItem="true" v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
+                    
                 <TreeMenu :disabled-by-id="pickedItem.unique_id" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
         </PopupContent>
@@ -37,6 +40,7 @@
 <script>
     import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
     import PopupActions from '@/components/Others/Popup/PopupActions'
+    import MultiSelected from '@/components/FilesView/MultiSelected'
     import PopupContent from '@/components/Others/Popup/PopupContent'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
@@ -51,6 +55,7 @@
         components: {
             ThumbnailItem,
             PopupWrapper,
+            MultiSelected,
             PopupActions,
             PopupContent,
             PopupHeader,
@@ -59,13 +64,14 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['navigation']),
+            ...mapGetters(['navigation', 'fileInfoDetail']),
         },
         data() {
             return {
                 selectedFolder: undefined,
                 pickedItem: undefined,
                 isLoadingTree: true,
+                noSelectedItem: false
             }
         },
         methods: {
@@ -75,8 +81,13 @@
                 if (! this.selectedFolder) return
 
                 // Move item
-                this.$store.dispatch('moveItem', [this.pickedItem, this.selectedFolder])
+                if(!this.noSelectedItem){
+                    this.$store.dispatch('moveItem', {to_item:this.selectedFolder ,noSelectedItem: null})
+                }
 
+                if(this.noSelectedItem){
+                    this.$store.dispatch('moveItem', {to_item:this.selectedFolder ,noSelectedItem:this.pickedItem})
+                }
                 // Close popup
                 events.$emit('popup:close')
             },
@@ -97,7 +108,7 @@
             events.$on('popup:open', args => {
 
                 if (args.name !== 'move') return
-
+                // console.log(args.item[0])
                 // Show tree spinner
                 this.isLoadingTree = true
 
@@ -107,7 +118,17 @@
                 })
 
                 // Store picked item
-                this.pickedItem = args.item
+                if(!this.fileInfoDetail.includes(args.item[0])){
+                    this.pickedItem = args.item[0]
+                    this.noSelectedItem = true
+                }
+                if(this.fileInfoDetail.includes(args.item[0])){
+                    this.pickedItem = this.fileInfoDetail[0]
+                    this.noSelectedItem = false
+                }
+
+                // this.pickedItem = args.item[0]
+                // this.totalItems = args.item
             })
 
             // Close popup
@@ -125,6 +146,10 @@
 <style scoped lang="scss">
 
     .item-thumbnail {
+        margin-bottom: 20px;
+    }
+    .multiple-selected { 
+        padding: 0 20px;;
         margin-bottom: 20px;
     }
 </style>

@@ -14,8 +14,15 @@
 			@dragleave="dragLeave"
 			@dragover.prevent="dragEnter"
 			class="file-item"
-			:class="{ 'is-clicked': this.isClicked, 'is-dragenter': area }"
+			:class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked, 'is-dragenter': area }"
 		>
+
+			<div class="check-select" v-if="mobileMultiSelect">			
+				<div class="select-box" :class="{'select-box-active' : isClicked } ">
+					<CheckIcon v-if="isClicked" class="icon" size="17"/>		
+				</div>
+			</div>
+
 			<!--Thumbnail for item-->
 			<div class="icon-item">
 				<!--If is file or image, then link item-->
@@ -60,7 +67,7 @@
 			</div>
 
 			<!--Go Next icon-->
-			<div class="actions" v-if="$isMobile() && !($checkPermission('visitor') && isFolder)">
+			<div class="actions" v-if="$isMobile() && !($checkPermission('visitor') && isFolder || mobileMultiSelect)">
 				<span @click.stop="showItemActions" class="show-actions">
 					<FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
 				</span>
@@ -70,7 +77,7 @@
 </template>
 
 <script>
-import { LinkIcon, UserPlusIcon } from 'vue-feather-icons'
+import { LinkIcon, UserPlusIcon , CheckIcon } from 'vue-feather-icons'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
@@ -80,13 +87,15 @@ export default {
 	props: ['data'],
 	components: {
 		UserPlusIcon,
-		LinkIcon
+		LinkIcon,
+		CheckIcon,
 	},
 	computed: {
 		...mapGetters(['FilePreviewType', 'fileInfoDetail' ]),
 		...mapGetters({allData: 'data'}),
 		isClicked() {	
 			if(this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)){
+				console.log('som tu')
 				return true
 			}else {
 				return false
@@ -139,12 +148,14 @@ export default {
 	data() {
 		return {
 			area: false,
-			itemName: undefined
+			itemName: undefined,
+			mobileMultiSelect:false
 		}
 	},
 	methods: {
 		showItemActions() {
 			// Load file info detail
+			this.$store.commit('CLEAR_FILEINFO_DETAIL')
 			this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 
 			events.$emit('mobileMenu:show')
@@ -159,57 +170,68 @@ export default {
 		},
 		clickedItem(e) {
 			events.$emit('contextMenu:hide')
-			
-			if(e.ctrlKey && !e.shiftKey) {
-				// Click + Ctrl
+			if(!this.$isMobile()) {
+				if(e.ctrlKey && !e.shiftKey) {
+					// Click + Ctrl
 
-				if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)){
-					this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL',this.data )
+					if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)){
+						this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL',this.data )
+					}else {
+						console.log(this.data.name)
+						this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+					}
+				}else if (e.shiftKey){
+					// Click + Shift
+
+					let lastItem = this.allData.indexOf(this.fileInfoDetail[this.fileInfoDetail.length -1])
+					let clickedItem = this.allData.indexOf(this.data)
+
+					// If Click + Shift + Ctrl dont remove already selected items
+					if(!e.ctrlKey) {
+						this.$store.commit('CLEAR_FILEINFO_DETAIL')
+					}
+					
+					if(lastItem < clickedItem) {
+						for(let i=lastItem ; i<=clickedItem; i++ ) {
+							this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+						}
+					}else {
+						for(let i=clickedItem ; i<=lastItem; i++ ) {
+							this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+						}
+					}
 				}else {
-					console.log(this.data.name)
+					// Click
+					events.$emit('fileItem:deselect')
+					this.$store.commit('CLEAR_FILEINFO_DETAIL')
 					this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 				}
-			}else if (e.shiftKey){
-				// Click + Shift
+			}
 
-				let lastItem = this.allData.indexOf(this.fileInfoDetail[this.fileInfoDetail.length -1])
-				let clickedItem = this.allData.indexOf(this.data)
-
-				// If Click + Shift + Ctrl dont remove already selected items
-				if(!e.ctrlKey) {
-					this.$store.commit('CLEAR_FILEINFO_DETAIL')
-				}
-				
-				if(lastItem < clickedItem) {
-					for(let i=lastItem ; i<=clickedItem; i++ ) {
-						this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+			if(!this.mobileMultiSelect && this.$isMobile()){
+				// Open in mobile version on first click
+				if (this.$isMobile() && this.isFolder) {
+					// Go to folder
+					if (this.$isThisLocation('public')) {
+						this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
+					} else {
+						this.$store.dispatch('getFolder', [{ folder: this.data, back: false, init: false }])
 					}
+				}
+
+				if (this.$isMobile()) {
+					if (this.isImage || this.isVideo || this.isAudio) {
+						events.$emit('fileFullPreview:show')
+					}
+				}
+			}
+
+			if(this.mobileMultiSelect && this.$isMobile()) {
+				if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {
+					this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.data )
+					console.log(this.data)
 				}else {
-					for(let i=clickedItem ; i<=lastItem; i++ ) {
-						this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
-					}
-				}
-			}else {
-				// Click
-				
-				events.$emit('fileItem:deselect')
-				this.$store.commit('CLEAR_FILEINFO_DETAIL')
-				this.$store.commit('GET_FILEINFO_DETAIL', this.data)
-			}
-
-			// Open in mobile version on first click
-			if (this.$isMobile() && this.isFolder) {
-				// Go to folder
-				if (this.$isThisLocation('public')) {
-					this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
-				} else {
-					this.$store.dispatch('getFolder', [{ folder: this.data, back: false, init: false }])
-				}
-			}
-
-			if (this.$isMobile()) {
-				if (this.isImage || this.isVideo || this.isAudio) {
-					events.$emit('fileFullPreview:show')
+					this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 				}
 			}
 
@@ -247,6 +269,11 @@ export default {
 	created() {
 		this.itemName = this.data.name
 
+		events.$on('mobileSelecting-start', () => {
+			this.mobileMultiSelect = !this.mobileMultiSelect
+			this.$store.commit('CLEAR_FILEINFO_DETAIL')
+		})
+
 		events.$on('fileItem:deselect', () => {
 			// Deselect file
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
@@ -263,6 +290,27 @@ export default {
 <style scoped lang="scss">
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
+
+.check-select { 
+	margin-right: 10px;
+	margin-left: 3px;
+	.select-box {
+		width: 20px;
+		height: 20px;
+		background-color: $light_background;
+		display: flex;
+    	justify-content: center;
+		align-items: center;
+		border-radius: 5px;
+  		box-shadow: 0 3px 15px 2px hsla(220, 36%, 16%, 0.05);
+	}
+	.select-box-active {
+		background-color: $text !important;
+		.icon {
+			stroke: white;
+		}
+	}
+}
 
 .file-wrapper {
 	user-select: none;
@@ -429,16 +477,21 @@ export default {
 		display: flex;
 		align-items: center;
 		padding: 7px;
+		// background-color: white ;
 
 		&.is-dragenter {
 			border: 2px dashed $theme;
 			border-radius: 8px;
 		}
 
+		&.no-clicked {
+			background: white !important;
+		}
+
 		&:hover,
 		&.is-clicked {
 			border-radius: 8px;
-			background: $light_background;
+			background: $light_background  ;
 
 			.item-name .name {
 				color: $theme;
@@ -448,6 +501,18 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
+	.check-select {
+		.select-box {
+			background-color: $dark_mode_foreground;
+		}
+		.select-box-active {
+			background-color: $dark_mode_text_primary !important;
+			.icon {
+				stroke: $text;
+			}
+		}
+	}
+
 	.file-wrapper {
 		.icon-item {
 			.file-icon {
@@ -467,6 +532,9 @@ export default {
 		}
 
 		.file-item {
+			&.no-clicked {
+				background: $dark_mode_background !important;
+			}
 			&:hover,
 			&.is-clicked {
 				background: $dark_mode_foreground;

@@ -1,6 +1,6 @@
 <template>
-    <div class="wrapper">
-        <div class="icon-wrapper">
+    <div :class="this.moveItem ? 'move-item'  : 'wrapper'">
+        <div class="icon-wrapper">   
             <CheckSquareIcon class="icon" size="21"/>
         </div>
         <div class="text">
@@ -16,6 +16,7 @@ import {mapGetters} from 'vuex'
 
     export default {
         name:'MultiSelected',
+        props: ['moveItem'],
         components: {CheckSquareIcon},
         computed: {
             ...mapGetters(['fileInfoDetail'])
@@ -60,6 +61,45 @@ import {mapGetters} from 'vuex'
         white-space: nowrap;
         outline: none;
         border: none;
+        .icon { 
+           stroke: $text;
+        }
+    }
+}
+.move-item {
+    display: flex;
+    justify-content: center;
+    .text{
+        padding-left: 10px;
+        width: 100%;
+        word-break: break-all;
+
+        .title {
+           @include font-size(14);
+            font-weight: 700;
+            line-height: 1.4;
+            display: block;
+            color: $text;
+        }
+        .count {
+             @include font-size(12);
+            font-weight: 600;
+            color: $text-muted;
+            display: block;
+        }
+    }
+    .icon-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        text-align: center;
+        white-space: nowrap;
+        outline: none;
+        border: none;
+        .icon { 
+            stroke: $theme;
+        }
     }
 }
 @media (prefers-color-scheme: dark) {
@@ -67,6 +107,16 @@ import {mapGetters} from 'vuex'
         .text {
             .title {
                 color: $dark_mode_text_primary;
+            }
+        }      
+    }
+    .move-item {
+        .text {
+            .title {
+                color: $dark_mode_text_primary;
+            }
+            .count {
+                color: $dark_mode_text_secondary;
             }
         }      
     }

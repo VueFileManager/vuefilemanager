@@ -89,7 +89,9 @@ import {split} from 'lodash'
 export default {
     name: 'ImageMetaData',
     computed: {
-        ...mapGetters(['fileInfoDetail']),
+    fileInfoDetail() {
+        return this.$store.getters.fileInfoDetail[0]
+    },
     },
     methods: {
         formatGps(location, ref) {

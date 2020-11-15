@@ -6,17 +6,26 @@ import axios from 'axios'
 import { Store } from 'vuex'
 
 const actions = {
-    moveItem: ({commit, getters, dispatch}, [undefined, to_item]) => {
+    moveItem: ({commit, getters, dispatch}, {to_item ,noSelectedItem}) => {
 
-        let items = []
 
-        getters.fileInfoDetail.forEach((data) => {
-            items.push({
+        let itemsToMove = []
+        let items = [noSelectedItem]
+       
+        //If coming no selected item dont get items to move from fileInfoDetail
+        if(!noSelectedItem) {
+            items = getters.fileInfoDetail
+        }
+
+        items.forEach((data) => {
+            itemsToMove.push({
                 'force_delete': data.deleted_at ? true : false,
                 'type': data.type,
                 "unique_id": data.unique_id
             })
         })
+
+        console.log(items)
 
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
@@ -27,10 +36,10 @@ const actions = {
             .post(route, {
                 _method: 'post',
                 to_unique_id:to_item.unique_id,
-                items: items
+                items: itemsToMove
             })
             .then(() => {
-                items.forEach(item=> {
+                itemsToMove.forEach(item=> {
                     commit('REMOVE_ITEM', item.unique_id)
                     commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
 
@@ -183,12 +192,18 @@ const actions = {
             })
             .catch(() => isSomethingWrong())
     },
-    deleteItem: ({commit, getters, dispatch}) => {
+    deleteItem: ({commit, getters, dispatch}, noSelectedItem) => {
 
-        let items = []
-
-        getters.fileInfoDetail.forEach((data) => {
-            items.push({
+        let itemsToDelete = []
+        let items = [noSelectedItem]
+       
+         //If coming no selected item dont get items to move from fileInfoDetail
+        if(!noSelectedItem) {
+            items = getters.fileInfoDetail
+        }
+        
+        items.forEach((data) => {
+            itemsToDelete.push({
                 'force_delete': data.deleted_at ? true : false,
                 'type': data.type,
                 "unique_id": data.unique_id
@@ -212,12 +227,13 @@ const actions = {
 
                 if (data.type === 'folder')
                     commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-            }
-        
+            }   
         })
         
         // Remove file preview
-        commit('CLEAR_FILEINFO_DETAIL')
+        if(!noSelectedItem){
+            commit('CLEAR_FILEINFO_DETAIL')
+        }
 
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
@@ -227,11 +243,11 @@ const actions = {
         axios
             .post(route, {
                 _method: 'post',
-                data: items
+                data: itemsToDelete
             })
             .then(() => {
 
-                items.forEach(data => {
+                itemsToDelete.forEach(data => {
                     
                     // If is folder, update app data
                     if (data.type === 'folder') {

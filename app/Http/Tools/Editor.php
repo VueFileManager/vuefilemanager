@@ -156,7 +156,7 @@ class Editor
         if ($file['type'] !== 'folder') {
 
             // Get file
-            $file = FileManagerFile::withTrashed()
+            $item = FileManagerFile::withTrashed()
                 ->where('user_id', $user->id)
                 ->where('unique_id', $unique_id)
                 ->first();
@@ -176,20 +176,20 @@ class Editor
             if ($file['force_delete']) {
 
                 // Delete file
-                Storage::delete('/file-manager/' . $file->basename);
+                Storage::delete('/file-manager/' . $item->basename);
 
                 // Delete thumbnail if exist
-                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+                if ($item->thumbnail) Storage::delete('/file-manager/' . $item->getRawOriginal('thumbnail'));
 
                 // Delete file permanently
-                $file->forceDelete();
+                $item->forceDelete();
             }
 
             // Soft delete file
             if (!$file['force_delete']) {
 
                 // Soft delete file
-                $file->delete();
+                $item->delete();
             }
         }
     }

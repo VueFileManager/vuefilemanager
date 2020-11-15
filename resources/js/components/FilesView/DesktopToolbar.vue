@@ -175,13 +175,16 @@ export default {
       ]);
     },
     canShareInView() {
-      return !this.$isThisLocation([
+    let location = !this.$isThisLocation([
         "base",
         "participant_uploads",
         "latest",
         "shared",
         "public",
       ]);
+    if(location || this.fileInfoDetail.length > 1) {
+      return true
+    }
     },
   },
   methods: {
