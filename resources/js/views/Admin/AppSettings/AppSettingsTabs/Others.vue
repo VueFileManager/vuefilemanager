@@ -91,8 +91,8 @@
 
                  <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.upload_limit') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mimetypes Blacklist" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" :class="{'is-error': errors[0]}"/>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Upload Limit" v-slot="{ errors }">
+                        <input @input="$updateText('/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help" v-html="$t('admin_settings.others.upload_limit_help')"></small>
