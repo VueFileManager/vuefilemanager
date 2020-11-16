@@ -372,7 +372,6 @@ function format_megabytes($megabytes)
     }
 
     return $megabytes . 'MB';
-    
 }
 
 /**
@@ -550,6 +549,12 @@ function get_pretty_name($basename, $name, $mimetype)
     return $name . '.' . $mimetype;
 }
 
+/**
+ * Read exif data from jpeg image file
+ *
+ * @param $file
+ * @return array
+ */
 function get_image_meta_data($file)
 {
     if(get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
