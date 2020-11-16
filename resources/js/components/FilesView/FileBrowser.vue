@@ -8,7 +8,7 @@
         <div
                 class="files-container"
                 ref="fileContainer"
-                :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() }"
+                :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() , 'mobile-multi-select' : mobileMultiSelect}"
                 @click.self="filesContainerClick"
         >
             <!--MobileToolbar-->
@@ -135,6 +135,7 @@
             return {
                 draggingId: undefined,
                 isDragging: false,
+                mobileMultiSelect: false
             }
         },
         methods: {
@@ -191,6 +192,14 @@
             }
         },
         created() {
+            events.$on('mobileSelecting-start' , () => {
+            this.mobileMultiSelect =true
+            })
+
+            events.$on('mobileSelecting-stop' , () => {
+            this.mobileMultiSelect = false
+            })
+
             events.$on('fileItem:deselect', () =>
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
             )
@@ -215,6 +224,10 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .mobile-multi-select {
+        bottom: 50px !important;
+    }
 
     .button-upload {
         display: block;

@@ -1,5 +1,5 @@
 <template>
-  <div class="options-wrapper">
+  <div class="options-wrapper" :class="{'mobile-selected-menu-wrapper' : mobileMultiSelect}">
     <transition name="context-menu">
       <div
         v-if="isVisible"
@@ -11,19 +11,26 @@
         <div class="menu-wrapper">
 
           <div class="mobile-selected-menu" v-if="mobileMultiSelect">
-            <ToolbarButton
-            source="move"
-            
-            :action="$t('actions.move')"
-            @click.native="moveItem"
-          />
+              <ToolbarButton
+               v-if="
+              !$isThisLocation(['trash', 'trash-root']) &&
+              $checkPermission('master')
+            "
+              source="move"
+              :action="$t('actions.move')"
+              class="move-icon"
+              @click.native="moveItem"/>
 
-           <ToolbarButton
-            source="trash"
-            
-            :action="$t('actions.move')"
-            @click.native="moveItem"
-          />
+            <ToolbarButton
+              source="trash"
+              :action="$t('actions.delete')"
+              @click.native="deleteItem"/>
+              
+              <ToolbarButton
+              source="close"
+              :action="$t('actions.close')"
+              class="close-icon"
+              @click.native="closeSelecting"/>
           </div>
 
           <!--Item Thumbnail-->
@@ -374,13 +381,18 @@ export default {
     };
   },
   methods: {
+    closeSelecting() {
+      events.$emit('mobileSelecting-stop')
+    },
     moveItem() {
-      // Open move item popup
+      // Open move item popup 
       if(!this.mobileMultiSelect) {
-        events.$emit("popup:open", { name: "move", item: [this.fileInfoDetail[0]] });
+        let item = this.fileInfoDetail[0]
+        this.$store.commit('CLEAR_FILEINFO_DETAIL')
+        events.$emit('popup:open', { name: 'move', item: [item] })
       }
       if(this.mobileMultiSelect) {
-        events.$emit("popup:open", { name: "move", item: null });
+        events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
       }
     },
     shareItem() {
@@ -417,7 +429,14 @@ export default {
       );
     },
     deleteItem() {
-      this.$store.dispatch("deleteItem", this.fileInfoDetail[0]);
+      if(!this.mobileMultiSelect) {
+        let item = this.fileInfoDetail[0]
+        this.$store.commit('CLEAR_FILEINFO_DETAIL')
+        this.$store.dispatch("deleteItem", item);
+      }
+      if(this.mobileMultiSelect) {
+        this.$store.dispatch("deleteItem");
+      }
     },
     renameItem() {
       let itemName = prompt(
@@ -446,18 +465,22 @@ export default {
         this.isVisible = false;
         this.showFromMediaPreview = false;
       } else {
-        this.isVisible = false;
-        events.$emit("fileItem:deselect");
+        if(!this.mobileMultiSelect) {
+          this.isVisible = false;
+          events.$emit("fileItem:deselect");
+        }
       }
-
-      // Close context menu
-      //   this.isVisible = false;
     },
   },
   created() {
     events.$on('mobileSelecting-start' , () => {
-      this.mobileMultiSelect = !this.mobileMultiSelect
-      this.isVisible = !this.isVisible
+      this.mobileMultiSelect = true
+      this.isVisible = true
+    })
+
+    events.$on('mobileSelecting-stop' , () => {
+      this.mobileMultiSelect = false
+      this.isVisible = false
     })
     // Show context menu
     events.$on("mobileMenu:show", (showFromMedia) => {
@@ -481,6 +504,19 @@ export default {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+
+.mobile-selected-menu-wrapper {
+  z-index: 1;
+}
+
+.mobile-selected-menu {
+  display: flex;
+  margin-left: 15px;
+  margin-right: 15px;
+  .close-icon {
+    margin-left: auto !important;
+  }
+}
 
 .menu-option {
   display: flex;

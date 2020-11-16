@@ -19,6 +19,7 @@
     <info-icon v-if="source === 'info'" size="19"></info-icon>
     <grid-icon v-if="source === 'th'" size="19"></grid-icon>
     <link-icon v-if="source === 'share'" size="19"></link-icon>
+    <x-icon v-if="source === 'close'" size="19"></x-icon>
   </button>
 </template>
 
@@ -33,6 +34,7 @@ import {
   CornerDownRightIcon,
   LinkIcon,
   DownloadCloudIcon,
+  XIcon,
   PrinterIcon,
 } from "vue-feather-icons";
 
@@ -47,6 +49,7 @@ export default {
     Trash2Icon,
     Edit2Icon,
     ListIcon,
+    XIcon,
     GridIcon,
     InfoIcon,
     LinkIcon,

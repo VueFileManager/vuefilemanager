@@ -7,7 +7,8 @@
 		"share": "Zdieľať položku",
 		"upload": "Nahrať súbory",
 		"download": "Stiahnuť položku",
-		"print": "Vytlačiť položku"
+		"print": "Vytlačiť položku",
+		"close": "Zatvoriť"
 	},
 	"activation": {
 		"stripe": {

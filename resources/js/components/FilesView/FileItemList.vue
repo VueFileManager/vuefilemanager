@@ -95,7 +95,6 @@ export default {
 		...mapGetters({allData: 'data'}),
 		isClicked() {	
 			if(this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)){
-				console.log('som tu')
 				return true
 			}else {
 				return false
@@ -221,6 +220,7 @@ export default {
 
 				if (this.$isMobile()) {
 					if (this.isImage || this.isVideo || this.isAudio) {
+						this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 						events.$emit('fileFullPreview:show')
 					}
 				}
@@ -229,7 +229,6 @@ export default {
 			if(this.mobileMultiSelect && this.$isMobile()) {
 				if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {
 					this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.data )
-					console.log(this.data)
 				}else {
 					this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 				}
@@ -270,7 +269,12 @@ export default {
 		this.itemName = this.data.name
 
 		events.$on('mobileSelecting-start', () => {
-			this.mobileMultiSelect = !this.mobileMultiSelect
+			this.mobileMultiSelect = true
+			this.$store.commit('CLEAR_FILEINFO_DETAIL')
+		})
+
+		events.$on('mobileSelecting-stop', () => {
+			this.mobileMultiSelect = false
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
 		})
 
@@ -486,13 +490,17 @@ export default {
 
 		&.no-clicked {
 			background: white !important;
+                    .item-name {
+                        .name {
+                            color: $text !important;
+                        }
+                    }
 		}
 
 		&:hover,
 		&.is-clicked {
 			border-radius: 8px;
 			background: $light_background  ;
-
 			.item-name .name {
 				color: $theme;
 			}
@@ -534,6 +542,19 @@ export default {
 		.file-item {
 			&.no-clicked {
 				background: $dark_mode_background !important;
+				.file-icon {
+
+                        path {
+                            fill: $dark_mode_foreground !important;
+                            stroke: #2F3C54 !important;
+                        }
+                    }
+                    .item-name {
+
+                        .name {
+                            color: $dark_mode_text_primary !important;
+                        }
+                    }
 			}
 			&:hover,
 			&.is-clicked {

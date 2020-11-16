@@ -7,7 +7,8 @@
 		"share": "Share item",
 		"upload": "Upload file",
 		"download": "Download item",
-		"print": "Print item"
+		"print": "Print item",
+		"close": "Close"
 	},
 	"activation": {
 		"stripe": {

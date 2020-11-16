@@ -15,7 +15,7 @@
 
                 <MultiSelected class="multiple-selected" moveItem="true" v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
                     
-                <TreeMenu :disabled-by-id="pickedItem.unique_id" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
+                <TreeMenu  :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
         </PopupContent>
 
@@ -108,7 +108,6 @@
             events.$on('popup:open', args => {
 
                 if (args.name !== 'move') return
-                // console.log(args.item[0])
                 // Show tree spinner
                 this.isLoadingTree = true
 
@@ -126,9 +125,6 @@
                     this.pickedItem = this.fileInfoDetail[0]
                     this.noSelectedItem = false
                 }
-
-                // this.pickedItem = args.item[0]
-                // this.totalItems = args.item
             })
 
             // Close popup

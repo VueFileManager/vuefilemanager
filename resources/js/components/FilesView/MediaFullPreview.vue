@@ -1,14 +1,13 @@
 <template>
-	<div class="media-full-preview" id="mediaPreview" v-if="this.isMedia && fileInfoDetail">
+	<div class="media-full-preview" id="mediaPreview" v-if="this.isMedia && fileInfoDetail[0]">
 		<div class="file-wrapper-preview" v-for="i in [currentIndex]" :key="i">
 			<div class="file-wrapper">
-				<audio class="file audio" :class="{ 'file-shadow': !isMobileDevice }" v-if="fileInfoDetail.type == 'audio'" :src="currentFile.file_url" controlsList="nodownload" controls></audio>
-				<img v-if="fileInfoDetail.type === 'image' && currentFile.thumbnail" class="file" :class="{ 'file-shadow': !isMobileDevice }" id="image" :src="currentFile.file_url" />
-				<div class="video-wrapper" v-if="fileInfoDetail.type === 'video' && currentFile.file_url">
+				<audio class="file audio" :class="{ 'file-shadow': !isMobileDevice }" v-if="fileInfoDetail[0].type == 'audio'" :src="currentFile.file_url" controlsList="nodownload" controls></audio>
+				<img v-if="fileInfoDetail[0].type === 'image' && currentFile.thumbnail" class="file" :class="{ 'file-shadow': !isMobileDevice }" id="image" :src="currentFile.file_url" />
+				<div class="video-wrapper" v-if="fileInfoDetail[0].type === 'video' && currentFile.file_url">
 					<video :src="currentFile.file_url" class="video" :class="{ 'file-shadow': !isMobileDevice }" controlsList="nodownload" disablePictureInPicture playsinline controls />
 				</div>
 			</div>
-			<!-- <spinner class="loading-spinner" v-if="!loaded && fileInfoDetail.type === 'image'" /> -->
 		</div>
 	</div>
 </template>
@@ -33,7 +32,7 @@ export default {
 			return this.sliderFile[Math.abs(this.currentIndex) % this.sliderFile.length]
 		},
 		isMedia() {
-			return this.fileInfoDetail === 'image' || 'video' || 'audio'
+			return this.fileInfoDetail[0] === 'image' || 'video' || 'audio'
 		},
 
 		canShareInView() {
@@ -57,7 +56,8 @@ export default {
 		},
 		currentFile() {
 			//Handle actual view image in fileInfoDetail
-			if (this.fileInfoDetail) {
+			if (this.fileInfoDetail[0]) {
+				this.$store.commit('CLEAR_FILEINFO_DETAIL')
 				this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile)
 				events.$emit('actualShowingImage:ContextMenu', this.currentFile)
 				// this.loaded = false
@@ -65,7 +65,7 @@ export default {
 		},
 		fileInfoDetail() {
 			//File delete handling - show next image after delete one
-			if (!this.fileInfoDetail) {
+			if (!this.fileInfoDetail[0]) {
 				this.currentIndex = this.currentIndex - 1
 				this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile)
 				this.sliderFile = []
@@ -83,18 +83,15 @@ export default {
 	methods: {
 		filteredFiles() {
 			this.data.filter((element) => {
-				if (element.type == this.fileInfoDetail.type) {
+				if (element.type == this.fileInfoDetail[0].type) {
 					this.sliderFile.push(element)
 				}
 			})
 			this.choseActiveFile()
 		},
-		// onLoaded(event) {
-		// 	this.loaded = true
-		// },
 		choseActiveFile() {
 			this.sliderFile.forEach((element, index) => {
-				if (element.unique_id == this.fileInfoDetail.unique_id) {
+				if (element.unique_id == this.fileInfoDetail[0].unique_id) {
 					this.currentIndex = index
 				}
 			})

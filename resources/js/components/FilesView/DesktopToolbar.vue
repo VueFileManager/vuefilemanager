@@ -149,7 +149,11 @@ export default {
       return this.FilePreviewType === "list" ? "th" : "th-list";
     },
     canCreateFolderInView() {
-      return !this.$isThisLocation(["base", "public"]);
+      let location = !this.$isThisLocation(["base", "public"]);
+
+      if(location || this.fileInfoDetail.length >1) {
+        return true
+      }
     },
     canDeleteInView() {
       return !this.$isThisLocation([
@@ -163,7 +167,10 @@ export default {
       ]);
     },
     canUploadInView() {
-      return !this.$isThisLocation(["base", "public"]);
+     let location = !this.$isThisLocation(["base", "public"]);
+       if(location || this.fileInfoDetail.length >1) {
+        return true
+      }
     },
     canMoveInView() {
       return !this.$isThisLocation([

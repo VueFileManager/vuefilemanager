@@ -28,7 +28,11 @@
         },
       mounted() {
           events.$on('mobileSelecting-start' , () => {
-              this.mobileSelectingActive = !this.mobileSelectingActive
+              this.mobileSelectingActive = true
+          })
+
+           events.$on('mobileSelecting-stop' , () => {
+              this.mobileSelectingActive = false
           })
       }
     }
@@ -70,7 +74,7 @@
 
         .active {
             // @include transform(scale(0.95));
-             background: rgba($theme, 0.1);
+            //  background: rgba($theme, 0.1);
 
             .icon {
                 path, line, polyline, rect, circle {

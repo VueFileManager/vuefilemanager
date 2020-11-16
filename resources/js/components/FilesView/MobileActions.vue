@@ -6,6 +6,9 @@
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
+            <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
+                Select
+            </MobileMultiSelectButton>
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
             </MobileActionButton>
@@ -13,13 +16,13 @@
 
         <!--ContextMenu for Base location with MASTER permission-->
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission(['master', 'editor'])" class="mobile-actions">
-            <MobileActionButton @click.native="createFolder" icon="folder-plus">
+            <MobileActionButton @click.native="createFolder" icon="folder-plus" :class="{'is-inactive' : mobileMultiSelect}">
                 {{ $t('context_menu.add_folder') }}
             </MobileActionButton>
-            <MobileActionButtonUpload>
+            <MobileActionButtonUpload :class="{'is-inactive' : mobileMultiSelect}">
                 {{ $t('context_menu.upload') }}
             </MobileActionButtonUpload>
-            <MobileMultiSelectButton @click.native="mobileSelecting">
+            <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                 Select
             </MobileMultiSelectButton>
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
@@ -65,12 +68,29 @@
                 return this.FilePreviewType === 'list' ? this.$t('preview_type.grid') : this.$t('preview_type.list')
             }
         },
+        data () {
+            return {
+                mobileMultiSelect: false,
+                turnOff:false
+            }
+        },
+        watch: {
+            mobileMultiSelect () {
+                
+                if(this.mobileMultiSelect ) {
+                    events.$emit('mobileSelecting-start')
+                    // this.mobileMultiSelect = true
+                }
+                if(!this.mobileMultiSelect) {
+                    events.$emit('mobileSelecting-stop')
+                    // this.mobileSelecting = false
+                }
+            }
+        },
         methods: {
-            mobileSelecting() {
-                events.$emit('mobileSelecting-start')
-            },
             switchPreview() {
                 this.$store.dispatch('changePreviewType')
+                events.$emit('mobileSelecting-stop')
             },
             createFolder() {
                 if (this.$isMobile()) {
@@ -84,6 +104,12 @@
                     this.$createFolder(this.$t('popup_create_folder.folder_default_name'))
                 }
             },
+        },
+        mounted () {
+                events.$on('mobileSelecting-stop', () => {
+                    this.mobileMultiSelect = false
+                }) 
+
         }
     }
 </script>
@@ -98,6 +124,13 @@
         position: sticky;
         top: 35px;
         z-index: 3;
+    }
+
+    .mobile-action-button {
+        &.is-inactive {
+            opacity: 0.25;
+            pointer-events: none;
+        }
     }
 
     .mobile-actions {

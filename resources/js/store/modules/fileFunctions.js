@@ -25,8 +25,6 @@ const actions = {
             })
         })
 
-        console.log(items)
-
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
             ? '/api/move/public' + router.currentRoute.params.token

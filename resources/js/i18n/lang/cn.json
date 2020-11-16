@@ -5,7 +5,8 @@
 		"move": "Move item",
 		"preview": "更改预览",
 		"share": "Share item",
-		"upload": "上传文件"
+		"upload": "上传文件",
+		"close": "Close"
 	},
 	"activation": {
 		"stripe": {

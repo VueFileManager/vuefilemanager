@@ -1,5 +1,5 @@
 <template>
-	<div class="navigation-panel" v-if="fileInfoDetail">
+	<div class="navigation-panel" v-if="fileInfoDetail[0]">
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close"></x-icon>
 			<div class="name-count-wrapper">
@@ -12,13 +12,13 @@
 		</div>
 
 		<div class="created-at-wrapper">
-			<p>{{ fileInfoDetail.filesize }}, {{ fileInfoDetail.created_at }}</p>
+			<p>{{ fileInfoDetail[0].filesize }}, {{ fileInfoDetail[0].created_at }}</p>
 		</div>
 		<div class="navigation-icons">
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton source="download" class="mobile-hide" @click.native="downloadItem" :action="$t('actions.download')" />
 				<ToolbarButton source="share" class="mobile-hide" :class="{ 'is-inactive': canShareInView }" :action="$t('actions.share')" @click.native="shareItem" />
-				<ToolbarButton v-if="this.fileInfoDetail.type === 'image'" source="print" :action="$t('actions.print')" @click.native="printMethod()" />
+				<ToolbarButton v-if="this.fileInfoDetail[0].type === 'image'" source="print" :action="$t('actions.print')" @click.native="printMethod()" />
 			</div>
 		</div>
 	</div>
@@ -39,7 +39,7 @@ export default {
 		filteredFiles() {
 			let files = []
 			this.data.filter((element) => {
-				if (element.type == this.fileInfoDetail.type) {
+				if (element.type == this.fileInfoDetail[0].type) {
 					files.push(element)
 				}
 			})
@@ -48,7 +48,7 @@ export default {
 		showingImageIndex() {
 			let activeIndex = ''
 			this.filteredFiles.filter((element, index) => {
-				if (element.unique_id == this.fileInfoDetail.unique_id) {
+				if (element.unique_id == this.fileInfoDetail[0].unique_id) {
 					activeIndex = index + 1
 				}
 			})
@@ -57,7 +57,7 @@ export default {
 
 		formatedName() {
 			//Name length handling
-			let name = this.fileInfoDetail.name
+			let name = this.fileInfoDetail[0].name
 			let windowWidth = window.innerWidth
 			let nameLength
 			if (windowWidth < 410) {
@@ -94,18 +94,18 @@ export default {
 		},
 		downloadItem() {
 			// Download file
-			this.$downloadFile(this.fileInfoDetail.file_url, this.fileInfoDetail.name + '.' + this.fileInfoDetail.mimetype)
+			this.$downloadFile(this.fileInfoDetail[0].file_url, this.fileInfoDetail[0].name + '.' + this.fileInfoDetail[0].mimetype)
 		},
 		shareItem() {
-			if (this.fileInfoDetail.shared) {
+			if (this.fileInfoDetail[0].shared) {
 				events.$emit('popup:open', {
 					name: 'share-edit',
-					item: this.fileInfoDetail
+					item: this.fileInfoDetail[0]
 				})
 			} else {
 				events.$emit('popup:open', {
 					name: 'share-create',
-					item: this.fileInfoDetail
+					item: this.fileInfoDetail[0]
 				})
 			}
 		},
@@ -113,7 +113,7 @@ export default {
 			if (this.$isMobile()) {
 				events.$emit('mobileMenu:show', 'showFromMediaPreview')
 			} else {
-				events.$emit('showContextMenuPreview:show', this.fileInfoDetail)
+				events.$emit('showContextMenuPreview:show', this.fileInfoDetail[0])
 			}
 		},
 		closeFullPreview() {
