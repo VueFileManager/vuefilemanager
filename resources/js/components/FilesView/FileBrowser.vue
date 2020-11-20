@@ -161,12 +161,23 @@
             dragFinish(data, event) {
 
                 if (event.dataTransfer.items.length == 0) {
-
+                   
                     // Prevent to drop on file or image
                     if (data.type !== 'folder' || this.draggingId === data) return
 
+                    //Prevent move selected folder to folder if in beteewn selected folders
+                    if(this.fileInfoDetail.find(item => item === data)) return 
                     // Move folder to new parent
-                    this.$store.dispatch('moveItem', [this.draggingId, data])
+
+                    //Move selected items to folder
+                    if(this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)){
+                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem: null})
+                    }
+
+                    //Move item if is not included in selected items
+                    if(this.fileInfoDetail.length === 0 || !this.fileInfoDetail.includes(this.draggingId)){
+                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem:this.draggingId})
+                    }
 
                 } else {
 
@@ -198,6 +209,10 @@
 
             events.$on('mobileSelecting-stop' , () => {
             this.mobileMultiSelect = false
+            })
+
+            events.$on('drop', () => {
+                this.isDragging = false
             })
 
             events.$on('fileItem:deselect', () =>

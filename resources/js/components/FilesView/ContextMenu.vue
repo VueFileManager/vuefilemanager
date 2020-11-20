@@ -11,7 +11,7 @@
                         {{ $t('context_menu.move') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="shareItem">
+                <li class="menu-option" @click="shareItem" v-if="$checkPermission('master')"> 
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
@@ -158,7 +158,7 @@
           $checkPermission('master') && !showFromPreview
         " id="menu-list" class="menu-options">
             <ul class="menu-option-group" v-if="!$isThisLocation(['participant_uploads', 'latest'])">
-                <li class="menu-option" @click="addToFavourites" v-if="item && isFolder && multiSelectContextMenu">
+                <li class="menu-option" @click="addToFavourites" v-if="item && isFolder && multiSelectContextMenu ">
                     <div class="icon">
                         <star-icon size="17"></star-icon>
                     </div>
@@ -338,9 +338,12 @@ export default {
     computed: {
         ...mapGetters(['user', 'fileInfoDetail']),
         multiSelectContextMenu() {
-            if(this.fileInfoDetail.length  > 1 && this.fileInfoDetail.includes(this.item)) {
+
+            // If is context Menu open on multi selected items open just options for the multi selected items
+            if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.item)) {
                 return false
             }
+            // If is context Menu open for the non selected item open options for the single item
             if(this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item)) {
                 return true
             }
@@ -364,7 +367,7 @@ export default {
         },
         isInFavourites() {
             return this.favourites.find((el) => el.unique_id == this.item.unique_id)
-        }
+        },
     },
     data() {
         return {
@@ -414,7 +417,15 @@ export default {
                 this.favourites &&
                 !this.favourites.find((el) => el.unique_id == this.item.unique_id)
             ) {
+                //Add to favourite folder that is not selected
+                if(!this.fileInfoDetail.includes(this.item)){
                 this.$store.dispatch('addToFavourites', this.item)
+                }
+                
+                //Add to favourites all selected folders
+                 if(this.fileInfoDetail.includes(this.item)) {
+                this.$store.dispatch('addToFavourites', null)            
+                }
             } else {
                 this.$store.dispatch('removeFromFavourites', this.item)
             }
@@ -435,7 +446,14 @@ export default {
         },
         deleteItem() {
             // Dispatch remove item
-            this.$store.dispatch('deleteItem', this.item)
+            // If is contet menu open on non selected item delete this single item
+            if(!this.fileInfoDetail.includes(this.item)){
+                this.$store.dispatch('deleteItem', this.item)
+            }
+            // If is context menu open to multi selected items dele this selected items
+            if(this.fileInfoDetail.includes(this.item)) {
+                this.$store.dispatch('deleteItem')
+            }
         },
         createFolder() {
             // Create folder

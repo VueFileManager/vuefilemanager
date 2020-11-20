@@ -4,8 +4,8 @@
             <CheckSquareIcon class="icon" size="21"/>
         </div>
         <div class="text">
-            <span class="title">Selected Multiple Items</span>
-            <span class="count">{{this.fileInfoDetail.length}} items</span>
+            <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
+            <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
         </div>
     </div>
 </template>
@@ -108,7 +108,15 @@ import {mapGetters} from 'vuex'
             .title {
                 color: $dark_mode_text_primary;
             }
-        }      
+            .count {
+                color: $dark_mode_text_secondary;
+            }
+        }    
+        .icon-wrapper {
+            .icon { 
+                stroke: $theme;
+            }   
+        }  
     }
     .move-item {
         .text {

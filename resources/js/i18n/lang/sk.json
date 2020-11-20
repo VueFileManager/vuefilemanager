@@ -276,7 +276,8 @@
 		"restore": "Obnoviť",
 		"share": "Zdieľať",
 		"share_edit": "Upraviť zdieľanie",
-		"upload": "Nahrať"
+		"upload": "Nahrať",
+		"select": "Výber"
 	},
 	"cookie_disclaimer": {
 		"button": "politikou cookies",
@@ -299,7 +300,9 @@
 		"created_at": "Vytvorené",
 		"shared": "Zdieľané",
 		"size": "Veľkosť",
-		"where": "Umiestnenie"
+		"where": "Umiestnenie",
+		"selected_multiple": "Vybratých viac položiek",
+		"items": "{count} Položky | {count} Položiek"
 	},
 	"file_detail_meta": {
 		"dimension": "Dimenzie",

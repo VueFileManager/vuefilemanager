@@ -102,7 +102,7 @@
             XIcon,
         },
         computed: {
-            ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config']),
+            ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'fileInfoDetail']),
             favourites() {
                 return this.user.relationships.favourites.data.attributes.folders
             },
@@ -132,6 +132,8 @@
             dragEnter() {
                 if (this.draggedItem && this.draggedItem.type !== 'folder') return
 
+                if(this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(item => item.type !== 'folder'))  return
+
                 this.area = true
             },
             dragLeave() {
@@ -146,8 +148,20 @@
                 // Check if folder exist in favourites
                 if (this.favourites.find(folder => folder.unique_id == this.draggedItem.unique_id)) return
 
+                // Prevent to move folders to self
+                if(this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(item => item.type !== 'folder'))  return
+               
                 // Store favourites folder
+                
+                //Add to favourites non selected folder
+                if(!this.fileInfoDetail.includes(this.draggedItem)){
                 this.$store.dispatch('addToFavourites', this.draggedItem)
+                }
+                
+                //Add to favourites selected folders
+                 if(this.fileInfoDetail.includes(this.draggedItem)) {
+                this.$store.dispatch('addToFavourites', null)            
+                }
 
             },
             removeFavourite(folder) {

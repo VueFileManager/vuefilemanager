@@ -274,7 +274,8 @@
 		"restore": "恢复文件",
 		"share": "分享",
 		"share_edit": "编辑分享设定",
-		"upload": "上传"
+		"upload": "上传",
+		"select": "Select"
 	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
@@ -297,7 +298,9 @@
 		"created_at": "创建于",
 		"shared": "分享",
 		"size": "大小",
-		"where": "地址"
+		"where": "地址",
+		"selected_multiple": "Selected Multiple Items",
+		"items": "Items"
 	},
 	"file_detail_meta": {
 		"dimension": "Dimensions",

@@ -149,11 +149,9 @@ export default {
       return this.FilePreviewType === "list" ? "th" : "th-list";
     },
     canCreateFolderInView() {
-      let location = !this.$isThisLocation(["base", "public"]);
+      let locations = ["base", "public"];
 
-      if(location || this.fileInfoDetail.length >1) {
-        return true
-      }
+      return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
     },
     canDeleteInView() {
       return !this.$isThisLocation([
@@ -167,10 +165,9 @@ export default {
       ]);
     },
     canUploadInView() {
-     let location = !this.$isThisLocation(["base", "public"]);
-       if(location || this.fileInfoDetail.length >1) {
-        return true
-      }
+      let locations = ["base", "public"]
+
+      return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
     },
     canMoveInView() {
       return !this.$isThisLocation([
@@ -182,16 +179,15 @@ export default {
       ]);
     },
     canShareInView() {
-    let location = !this.$isThisLocation([
+    let locations = [
         "base",
         "participant_uploads",
         "latest",
         "shared",
         "public",
-      ]);
-    if(location || this.fileInfoDetail.length > 1) {
-      return true
-    }
+      ]
+    
+    return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
     },
   },
   methods: {

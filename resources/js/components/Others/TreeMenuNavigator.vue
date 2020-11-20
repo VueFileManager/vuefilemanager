@@ -1,15 +1,21 @@
 <template>
     <transition name="folder">
-        <div class="folder-item-wrapper">
+        <div class="folder-item-wrapper" >
 
-            <div class="folder-item" :class="{'is-selected': isSelected}" :style="indent" @click="getFolder">
+            <div class="folder-item" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }" 
+                                    :style="indent" @click="getFolder"
+                                    @dragover.prevent="dragEnter"
+                                    @dragleave="dragLeave"
+                                    @drop="dragFinish()"
+                                                        
+             >
                 <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow"
                                     :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
                 <folder-icon size="17" class="icon"></folder-icon>
                 <span class="label">{{ nodes.name }}</span>
             </div>
 
-            <TreeMenuNavigator :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders"
+            <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders"
                                :key="item.unique_id"/>
         </div>
     </transition>
@@ -18,12 +24,13 @@
 <script>
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import {FolderIcon, ChevronRightIcon} from 'vue-feather-icons'
+    import { mapGetters } from 'vuex'
     import {events} from "@/bus"
 
     export default {
         name: 'TreeMenuNavigator',
         props: [
-            'nodes', 'depth'
+            'nodes', 'depth' , 'disabled',
         ],
         components: {
             TreeMenuNavigator,
@@ -31,6 +38,29 @@
             FolderIcon,
         },
         computed: {
+            ...mapGetters(['fileInfoDetail']),
+           
+            disabledFolder() {
+                let disableFolder = false
+                if(this.draggedItem.length > 0) {
+
+                    this.draggedItem.forEach(item => {
+                        //Disable the parent of the folder      
+                        if(item.type === "folder" && this.nodes.unique_id === item.parent_id){
+                            disableFolder = true
+                        }
+                        //Disable the self folder with all children 
+                        if (this.nodes.unique_id === item.unique_id && item.type === 'folder') {
+                            disableFolder = true
+                            this.disableChildren = true
+                        }
+                    })
+                }else {
+                    disableFolder = false
+                    this.disableChildren = false
+               }
+            return disableFolder
+            },
             indent() {
 
                 let offset = window.innerWidth <= 1024 ? 17 : 22;
@@ -44,9 +74,34 @@
             return {
                 isVisible: false,
                 isSelected: false,
+                area:false,
+                draggedItem:[],
+                disableChildren:false,
             }
         },
         methods: {
+            dragFinish() {
+                // Move item
+                //Move no selected item
+                if(!this.fileInfoDetail.includes(this.draggedItem[0])) {
+                    this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:this.draggedItem[0]})
+                     this.draggedItem = []
+                }
+                //Move all selected items
+                if(this.fileInfoDetail.includes(this.draggedItem[0])) {
+                    this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:null})
+                     this.draggedItem = []
+                }
+                this.area = false
+                events.$emit('drop')
+                
+            },
+             dragEnter() {
+                this.area = true
+            },
+            dragLeave() {
+                this.area = false
+            },
             getFolder() {
 
                 events.$emit('show-folder', this.nodes)
@@ -59,6 +114,22 @@
             }
         },
         created() {
+            
+            events.$on('drop' , () => {
+                this.draggedItem = []
+            })
+
+            //Get draged item
+            events.$on('dragstart' , (data) => {
+               //If is draged item not selected
+                if(!this.fileInfoDetail.includes(data)) {
+                    this.draggedItem = [data]
+                }
+                //If are the draged items selected
+                if(this.fileInfoDetail.includes(data)) {
+                    this.draggedItem = this.fileInfoDetail
+                }
+            })
 
             // Select clicked folder
             events.$on('show-folder', node => {
@@ -74,6 +145,16 @@
 <style lang="scss" scoped>
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .is-inactive {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .is-dragenter {
+			border: 2px dashed $theme;
+			border-radius: 8px;
+		}
 
     .folder-item {
         display: block;

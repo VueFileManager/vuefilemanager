@@ -276,7 +276,8 @@
 		"restore": "Restore",
 		"share": "Share",
 		"share_edit": "Edit Sharing",
-		"upload": "Upload"
+		"upload": "Upload",
+		"select": "Select"
 	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
@@ -299,7 +300,9 @@
 		"created_at": "Created at",
 		"shared": "Shared",
 		"size": "Size",
-		"where": "Where"
+		"where": "Where",
+		"selected_multiple": "Selected Multiple Items",
+		"items": "Items"
 	},
 	"file_detail_meta": {
 		"dimension": "Dimensions",

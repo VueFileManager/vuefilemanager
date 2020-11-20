@@ -8,13 +8,13 @@
 			:draggable="canDrag"
 			@dragstart="$emit('dragstart')"
 			@drop="
-				$emit('drop')
+				drop()
 				area = false
 			"
 			@dragleave="dragLeave"
 			@dragover.prevent="dragEnter"
 			class="file-item"
-			:class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked, 'is-dragenter': area }"
+			:class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
 		>
 
 			<div class="check-select" v-if="mobileMultiSelect">			
@@ -94,11 +94,7 @@ export default {
 		...mapGetters(['FilePreviewType', 'fileInfoDetail' ]),
 		...mapGetters({allData: 'data'}),
 		isClicked() {	
-			if(this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)){
-				return true
-			}else {
-				return false
-			}	
+			return this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)	
 		},
 		isFolder() {
 			return this.data.type === 'folder'
@@ -152,6 +148,9 @@ export default {
 		}
 	},
 	methods: {
+		drop() {
+			events.$emit('drop')
+		},
 		showItemActions() {
 			// Load file info detail
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
@@ -161,6 +160,8 @@ export default {
 		},
 		dragEnter() {
 			if (this.data.type !== 'folder') return
+
+			if(this.fileInfoDetail.includes(this.data)) return
 
 			this.area = true
 		},
@@ -280,6 +281,7 @@ export default {
 
 		events.$on('fileItem:deselect', () => {
 			// Deselect file
+			if(this.fileInfoDetail.length > 0)
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
 		})
 
@@ -309,7 +311,7 @@ export default {
   		box-shadow: 0 3px 15px 2px hsla(220, 36%, 16%, 0.05);
 	}
 	.select-box-active {
-		background-color: $text !important;
+		background-color: $text ;
 		.icon {
 			stroke: white;
 		}
@@ -492,17 +494,17 @@ export default {
 			background: white !important;
                     .item-name {
                         .name {
-                            color: $text !important;
+                            color: $text !important ;
                         }
                     }
 		}
 
-		&:hover,
+		&:hover ,
 		&.is-clicked {
 			border-radius: 8px;
 			background: $light_background  ;
 			.item-name .name {
-				color: $theme;
+				color: $theme ;
 			}
 		}
 	}
@@ -514,7 +516,7 @@ export default {
 			background-color: $dark_mode_foreground;
 		}
 		.select-box-active {
-			background-color: $dark_mode_text_primary !important;
+			background-color: $dark_mode_text_primary ;
 			.icon {
 				stroke: $text;
 			}
@@ -546,7 +548,7 @@ export default {
 
                         path {
                             fill: $dark_mode_foreground !important;
-                            stroke: #2F3C54 !important;
+                            stroke: #2F3C54 ;
                         }
                     }
                     .item-name {
@@ -556,15 +558,19 @@ export default {
                         }
                     }
 			}
-			&:hover,
-			&.is-clicked {
-				background: $dark_mode_foreground;
+				&:hover,
+				&.is-clicked {
+					background: $dark_mode_foreground ;
 
-				.file-icon {
-					path {
-						fill: $dark_mode_background;
-					}
+					.item-name .name {
+						color: $theme ;
 				}
+
+					.file-icon {
+						path {
+							fill: $dark_mode_background ;
+						}
+					}
 			}
 		}
 

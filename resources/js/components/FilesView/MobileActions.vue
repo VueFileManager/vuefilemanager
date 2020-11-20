@@ -7,7 +7,7 @@
                 {{ previewText }}
             </MobileActionButton>
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
-                Select
+                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
@@ -23,7 +23,7 @@
                 {{ $t('context_menu.upload') }}
             </MobileActionButtonUpload>
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
-                Select
+               {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
@@ -79,11 +79,9 @@
                 
                 if(this.mobileMultiSelect ) {
                     events.$emit('mobileSelecting-start')
-                    // this.mobileMultiSelect = true
                 }
                 if(!this.mobileMultiSelect) {
                     events.$emit('mobileSelecting-stop')
-                    // this.mobileSelecting = false
                 }
             }
         },

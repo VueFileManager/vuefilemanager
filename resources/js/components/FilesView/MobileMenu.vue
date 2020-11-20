@@ -14,7 +14,7 @@
               <ToolbarButton
                v-if="
               !$isThisLocation(['trash', 'trash-root']) &&
-              $checkPermission('master')
+              $checkPermission('master') || $checkPermission('editor')
             "
               source="move"
               :action="$t('actions.move')"
@@ -386,11 +386,14 @@ export default {
     },
     moveItem() {
       // Open move item popup 
+
+      //Move item if is not selected
       if(!this.mobileMultiSelect) {
         let item = this.fileInfoDetail[0]
         this.$store.commit('CLEAR_FILEINFO_DETAIL')
         events.$emit('popup:open', { name: 'move', item: [item] })
       }
+      //Move all selected items
       if(this.mobileMultiSelect) {
         events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
       }
@@ -507,6 +510,9 @@ export default {
 
 .mobile-selected-menu-wrapper {
   z-index: 1;
+    .options {
+      z-index: 1;
+    }
 }
 
 .mobile-selected-menu {

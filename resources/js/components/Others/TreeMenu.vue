@@ -1,6 +1,6 @@
 <template>
     <!--Folder Icon-->
-    <div class="folder-item-wrapper" :class="{'is-inactive': !disableId} ">
+    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById === nodes.unique_id || !disableId} ">
 
         <div class="folder-item" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
             <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
@@ -9,7 +9,7 @@
             <span class="label">{{ nodes.name }}</span>
         </div>
 
-        <TreeMenu  :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.unique_id" />
+        <TreeMenu :disabled-by-id="disabledById" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.unique_id" />
     </div>
 </template>
 
@@ -22,7 +22,7 @@
     export default {
         name: 'TreeMenu',
         props: [
-            'nodes', 'depth', 
+            'nodes', 'depth', 'disabledById'
         ],
         components: {
             ChevronRightIcon,

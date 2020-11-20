@@ -8,7 +8,6 @@ import { Store } from 'vuex'
 const actions = {
     moveItem: ({commit, getters, dispatch}, {to_item ,noSelectedItem}) => {
 
-
         let itemsToMove = []
         let items = [noSelectedItem]
        
@@ -25,6 +24,11 @@ const actions = {
             })
         })
 
+        // Remove file preview
+        if(!noSelectedItem){
+            commit('CLEAR_FILEINFO_DETAIL')
+        }
+        
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
             ? '/api/move/public' + router.currentRoute.params.token

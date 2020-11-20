@@ -10,23 +10,23 @@
                 :draggable="canDrag"
                 @dragstart="$emit('dragstart')"
                 @drop="
-				$emit('drop')
+				drop()
 				area = false
 			"
                 @dragleave="dragLeave"
                 @dragover.prevent="dragEnter"
                 class="file-item"
-                :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked, 'is-dragenter': area }"
+                :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
         >       
             <!--Thumbnail for item-->
             <div class="icon-item">
 
-            <div :class="{'check-select-folder' : this.data.type === 'folder', 'check-select' : this.data.type !== 'folder'}" v-if="mobileMultiSelect">			
-				<div class="select-box" :class="{'select-box-active' : isClicked } ">
-                    <!-- <p>|</p> -->
-					<CheckIcon v-if="isClicked" class="icon" size="17"/>		
-				</div>
-			</div>
+                <!-- MultiSelecting for the mobile version -->
+                <div :class="{'check-select-folder' : this.data.type === 'folder', 'check-select' : this.data.type !== 'folder'}" v-if="mobileMultiSelect">			
+                    <div class="select-box" :class="{'select-box-active' : isClicked } ">
+                        <CheckIcon v-if="isClicked" class="icon" size="17"/>		
+                    </div>
+                </div>
 
                 <!--If is file or image, then link item-->
                 <span v-if="isFile" class="file-icon-text">
@@ -105,11 +105,7 @@
             ]),
             ...mapGetters({allData: 'data'}),
             isClicked() {
-                if(this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)){	
-                    return true
-                }else {
-                    return false
-                }	
+              return this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)
             },
             isFolder() {
                 return this.data.type === 'folder'
@@ -160,6 +156,9 @@
             }
         },
         methods: {
+            drop() {
+			    events.$emit('drop')
+		    },
             showItemActions() {
                 // Load file info detail
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
@@ -169,6 +168,8 @@
             },
             dragEnter() {
                 if (this.data.type !== 'folder') return
+
+                if(this.fileInfoDetail.includes(this.data)) return
 
                 this.area = true
             },
@@ -334,7 +335,7 @@
   		box-shadow: 0 3px 15px 2px hsla(220, 36%, 16%, 0.05);
 	}
 	.select-box-active {
-		background-color: $text !important;
+		background-color: $text ;
 		.icon {
 			stroke: white;
 		}
@@ -584,7 +585,7 @@
 			background-color: $dark_mode_foreground;
 		}
 		.select-box-active {
-			background-color: $dark_mode_text_primary !important;
+			background-color: $dark_mode_text_primary ;
 			.icon {
 				stroke: $text;
 			}
@@ -619,7 +620,7 @@
 
                         path {
                             fill: $dark_mode_foreground !important;
-                            stroke: #2F3C54 !important;
+                            stroke: #2F3C54 ;
                         }
                     }
                     .item-name {

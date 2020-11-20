@@ -48,13 +48,32 @@ const actions = {
             })
     },
     addToFavourites: (context, folder) => {
+        let addFavourites = []
+        let items = [folder]
+
+        console.log(context.getters.fileInfoDetail)
+        if(!folder){
+            items = context.getters.fileInfoDetail
+        }        
+
+        items.forEach((data) => {
+            if(data.type === 'folder') {
+                addFavourites.push({
+                    'unique_id': data.unique_id
+                })
+            }
+        })
+
+        if(!folder) {
+            context.commit('CLEAR_FILEINFO_DETAIL')
+        }
 
         // Add to storage
-        context.commit('ADD_TO_FAVOURITES', folder)
+        context.commit('ADD_TO_FAVOURITES', items)
 
         axios
             .post(context.getters.api + '/folders/favourites', {
-                unique_id: folder.unique_id
+                folders: addFavourites
             })
             .catch(() => {
                 // Show error message
@@ -95,11 +114,13 @@ const mutations = {
         state.app = undefined
     },
     ADD_TO_FAVOURITES(state, folder) {
+        folder.forEach(item => { 
         state.user.relationships.favourites.data.attributes.folders.push({
-            unique_id: folder.unique_id,
-            name: folder.name,
-            type: folder.type,
+            unique_id: item.unique_id,
+            name: item.name,
+            type: item.type,
         })
+    })
     },
     UPDATE_NAME(state, name) {
         state.user.data.attributes.name = name
