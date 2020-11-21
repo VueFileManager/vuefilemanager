@@ -41,7 +41,7 @@
             </ContentGroup>
 
             <!--Navigator-->
-            <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
+            <ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
                 <span class="empty-note navigator" v-if="tree.length == 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
@@ -50,7 +50,7 @@
             </ContentGroup>
 
             <!--Favourites-->
-            <ContentGroup :title="$t('sidebar.favourites')">
+            <ContentGroup :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
 
                 <div class="menu-list-wrapper vertical favourites"
                      :class="{ 'is-dragenter': area }"
