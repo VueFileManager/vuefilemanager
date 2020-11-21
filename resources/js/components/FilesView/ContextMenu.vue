@@ -96,7 +96,7 @@
 
         <!--ContextMenu for Base location with MASTER permission-->
         <div v-if="$isThisLocation(['shared']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="item && isFolder &&  multiSelectContextMenu">
+            <ul class="menu-option-group" v-if="item && isFolder && multiSelectContextMenu">
                 <li class="menu-option" @click="addToFavourites">
                     <div class="icon">
                         <star-icon size="17"></star-icon>
@@ -111,6 +111,14 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="renameItem">
+                    <div class="icon">
+                        <edit2-icon size="17"></edit2-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.rename') }}
+                    </div>
+                </li>
                 <li class="menu-option" @click="shareItem" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
@@ -132,7 +140,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
+            <ul class="menu-option-group" v-if="item && multiSelectContextMenu">
                 <li class="menu-option" @click="ItemDetail" v-if="item">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
@@ -180,6 +188,14 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="renameItem">
+                    <div class="icon">
+                        <edit2-icon size="17"></edit2-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.rename') }}
+                    </div>
+                </li>
                 <li class="menu-option" @click="moveItem">
                     <div class="icon">
                         <corner-down-right-icon size="17"></corner-down-right-icon>
@@ -242,6 +258,14 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="renameItem">
+                    <div class="icon">
+                        <edit2-icon size="17"></edit2-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.rename') }}
+                    </div>
+                </li>
                 <li class="menu-option" @click="moveItem">
                     <div class="icon">
                         <corner-down-right-icon size="17"></corner-down-right-icon>
@@ -381,33 +405,17 @@ export default {
 
     methods: {
         renameItem() {
-            let itemName = prompt(this.$t('popup_rename.title'), this.item.name)
-
-            if (itemName && itemName !== '') {
-                let item = {
-                    unique_id: this.item.unique_id,
-                    type: this.item.type,
-                    name: itemName
-                }
-
-                this.$store.dispatch('renameItem', item)
-
-                // Change item name if is mobile device or prompted
-                if (this.$isMobile()) {
-                    events.$emit('change:name', item)
-                }
-            }
+            events.$emit('popup:open', { name: 'rename-item', item: this.item })
         },
         moveItem() {
-            // Open move item popup
             events.$emit('popup:open', { name: 'move', item: [this.item] })
         },
         shareItem() {
             if (this.item.shared) {
-                // Open share item popup
+                // Open edit share popup
                 events.$emit('popup:open', { name: 'share-edit', item: this.item })
             } else {
-                // Open share item popup
+                // Open create share popup
                 events.$emit('popup:open', { name: 'share-create', item: this.item })
             }
         },
@@ -432,10 +440,7 @@ export default {
         },
         downloadItem() {
             // Download file
-            this.$downloadFile(
-                this.item.file_url,
-                this.item.name + '.' + this.item.mimetype
-            )
+            this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
         },
         ItemDetail() {
             // Dispatch load file info detail

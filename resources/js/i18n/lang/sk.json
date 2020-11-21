@@ -550,7 +550,9 @@
 		"title": "Súbor je príliš veľký"
 	},
 	"popup_rename": {
-		"title": "Zmeňte názov položky"
+		"title": "Zmeňte názov {item}",
+		"label": "Zmeniť názov",
+		"placeholder": "Napíš názov..."
 	},
 	"popup_set_card": {
 		"message": "Vaša karta bude nastavená ako predvolená a bude vám z nej vždy stiahnutá čiastka za nasledujúce obdobie fakturácie.",

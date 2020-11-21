@@ -550,7 +550,9 @@
 		"title": "File is too large"
 	},
 	"popup_rename": {
-		"title": "Change your item name"
+		"title": "Rename Your {item}",
+		"label": "Edit Name",
+		"placeholder": "Type your title"
 	},
 	"popup_set_card": {
 		"message": "Your card will be set as default and will be always charged for the next billings.",

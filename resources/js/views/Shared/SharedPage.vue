@@ -9,6 +9,9 @@
         <!--Move item setup-->
         <MoveItem />
 
+        <!--Rename folder or file item-->
+        <RenameItem/>
+
         <!--Mobile Menu-->
         <MobileMenu/>
 
@@ -19,7 +22,7 @@
         <Vignette/>
 
         <!--Password verification-->
-        <div v-if="currentPage === 'page-password'" id="password-view">
+        <div v-if="isPagePasswordVerification" id="password-view">
 
             <!--Verify share link by password-->
             <AuthContent class="center" name="password" :visible="true">
@@ -42,7 +45,7 @@
         </div>
 
         <!--Single file page-->
-        <div id="single-file" v-if="sharedDetail.type === 'file' && currentPage === 'page-files'">
+        <div v-if="sharedDetail.type === 'file' && isPageFiles" id="single-file">
             <div class="single-file-wrapper">
                 <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
 
@@ -52,10 +55,15 @@
             </div>
         </div>
 
-        <!--Items view page-->
-        <div id="viewport" v-if="sharedDetail.type === 'folder' && currentPage === 'page-files'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
+        <!--Multiple items view page-->
+        <div v-if="sharedDetail.type === 'folder' && isPageFiles"
+             @contextmenu.prevent.capture="contextMenu($event, undefined)"
+             @click="fileViewClick"
+             id="viewport">
 
-                <ContentSidebar v-if="navigationTree && navigationTree.length > 1">
+                <ContentSidebar v-if="navigationTree">
+
+                    <!--Locations-->
                     <ContentGroup :title="$t('sidebar.locations_title')">
                         <div class="menu-list-wrapper vertical">
                             <a class="menu-list-item link" @click="goHome">
@@ -68,7 +76,12 @@
                             </a>
                         </div>
                     </ContentGroup>
-                    <ContentGroup :title="$t('sidebar.navigator_title')">
+
+                    <!--Navigator-->
+                    <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
+                        <span class="empty-note navigator" v-if="navigationTree.length == 0">
+                            {{ $t('sidebar.folders_empty') }}
+                        </span>
                         <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.unique_id"/>
                     </ContentGroup>
                 </ContentSidebar>
@@ -100,6 +113,7 @@
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import AuthContent from '@/components/Auth/AuthContent'
+    import RenameItem from '@/components/Others/RenameItem'
     import AuthButton from '@/components/Auth/AuthButton'
     import Spinner from '@/components/FilesView/Spinner'
     import MoveItem from '@/components/Others/MoveItem'
@@ -130,6 +144,7 @@
             AuthButton,
             MobileMenu,
             ButtonBase,
+            RenameItem,
             HomeIcon,
             MoveItem,
             required,
@@ -146,6 +161,12 @@
             ]),
             navigationTree() {
                 return this.navigation ? this.navigation[0].folders : undefined
+            },
+            isPageFiles() {
+                return this.currentPage === 'page-files'
+            },
+            isPagePasswordVerification() {
+                return this.currentPage === 'page-password'
             }
         },
         data() {
@@ -330,6 +351,13 @@
                     display: none;
                 }
             }
+        }
+    }
+
+    .empty-note {
+
+        &.navigator {
+            padding: 5px 25px 10px;
         }
     }
 

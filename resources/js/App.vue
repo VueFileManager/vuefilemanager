@@ -19,6 +19,9 @@
             <ShareCreate/>
             <ShareEdit/>
 
+            <!--Rename folder or file item-->
+            <RenameItem/>
+
             <!--Move item setup-->
             <MoveItem/>
 
@@ -54,6 +57,7 @@
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
     import Confirm from '@/components/Others/Popup/Confirm'
+    import RenameItem from '@/components/Others/RenameItem'
     import ShareEdit from '@/components/Others/ShareEdit'
     import MoveItem from '@/components/Others/MoveItem'
     import Vignette from '@/components/Others/Vignette'
@@ -71,6 +75,7 @@
             FileFullPreview,
             ToastrWrapper,
             ShareCreate,
+            RenameItem,
             MobileMenu,
             ShareEdit,
             MoveItem,

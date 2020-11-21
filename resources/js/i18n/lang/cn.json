@@ -548,7 +548,9 @@
 		"title": "File is too large"
 	},
 	"popup_rename": {
-		"title": "修改文件/夹名称"
+		"title": "Rename Your {item}",
+		"label": "Edit Name",
+		"placeholder": "Type your title"
 	},
 	"popup_set_card": {
 		"message": "您的卡将被设置为默认卡，并且在以后的结算中始终会收取费用。",
