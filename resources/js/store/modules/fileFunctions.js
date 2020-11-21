@@ -293,12 +293,6 @@ const actions = {
 
                 // Remove file preview
                 commit('CLEAR_FILEINFO_DETAIL')
-
-                // Show success message
-                events.$emit('success:open', {
-                    title: i18n.t('popup_trashed.title'),
-                    message: i18n.t('popup_trashed.message'),
-                })
             })
             .catch(() => isSomethingWrong())
     },

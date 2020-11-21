@@ -357,7 +357,10 @@
 	"locations": {
 		"home": "首页",
 		"shared": "已分享",
-		"trash": "垃圾箱"
+		"trash": "垃圾箱",
+		"profile": "Profile",
+		"settings": "Settings",
+		"logout": "Log Out"
 	},
 	"menu": {
 		"admin": "Admin",
@@ -579,10 +582,6 @@
 		"button": "棒极了！",
 		"message": "您的订阅已重新激活，并且将按原始计费周期计费。",
 		"title": "订阅已取消"
-	},
-	"popup_trashed": {
-		"message": "现在，您的垃圾箱已经被完全清空。",
-		"title": "您的垃圾箱已清空！"
 	},
 	"preview_type": {
 		"grid": "方块",

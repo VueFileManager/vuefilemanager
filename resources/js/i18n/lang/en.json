@@ -359,7 +359,10 @@
 	"locations": {
 		"home": "Home",
 		"shared": "Shared",
-		"trash": "Trash"
+		"trash": "Trash",
+		"profile": "Profile",
+		"settings": "Settings",
+		"logout": "Log Out"
 	},
 	"menu": {
 		"admin": "Administration",
@@ -581,10 +584,6 @@
 		"button": "That's awesome!",
 		"message": "Your subscription was re-activated, and they will be billed on the original billing cycle.",
 		"title": "Subscription Was Resumed"
-	},
-	"popup_trashed": {
-		"message": "So now, you have clear and empty trash.",
-		"title": "Your trash was erased!"
 	},
 	"preview_type": {
 		"grid": "Grid",

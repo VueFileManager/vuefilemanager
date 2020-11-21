@@ -28,6 +28,15 @@
                             {{ $t('sidebar.latest') }}
                         </div>
                     </a>
+                    <a class="menu-list-item link trash" :class="{'is-active-trash': $isThisLocation(['trash', 'trash-root'])}"
+                       @click="getTrash">
+                        <div class="icon">
+                            <trash2-icon size="17"></trash2-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('locations.trash') }}
+                        </div>
+                    </a>
                 </div>
             </ContentGroup>
 
@@ -85,6 +94,7 @@
     import {
         UploadCloudIcon,
         FolderIcon,
+        Trash2Icon,
         HomeIcon,
         XIcon,
     } from 'vue-feather-icons'
@@ -99,6 +109,7 @@
             UploadCloudIcon,
             ContentGroup,
             FolderIcon,
+            Trash2Icon,
             HomeIcon,
             XIcon,
         },
@@ -121,6 +132,9 @@
             }
         },
         methods: {
+            getTrash() {
+                this.$store.dispatch('getTrash')
+            },
             getLatest() {
                 this.$store.dispatch('getLatest')
             },

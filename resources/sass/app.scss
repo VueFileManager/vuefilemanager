@@ -130,6 +130,22 @@
       display: flex;
       align-items: center;
 
+      &.trash {
+
+        &.is-active-trash,
+        &:hover {
+          svg {
+            path, line, polyline, rect, circle, ellipse {
+              stroke: $danger;
+            }
+          }
+
+          .label {
+            color: $danger;
+          }
+        }
+      }
+
       &.is-active,
       &.router-link-exact-active,
       &:hover {

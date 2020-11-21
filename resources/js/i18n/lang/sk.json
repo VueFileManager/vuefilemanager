@@ -359,7 +359,10 @@
 	"locations": {
 		"home": "Domov",
 		"shared": "Zdieľané",
-		"trash": "Kôš"
+		"trash": "Kôš",
+		"profile": "Profil",
+		"settings": "Nastavenia",
+		"logout": "Odhlásiť sa"
 	},
 	"menu": {
 		"admin": "Administrácia",
@@ -581,10 +584,6 @@
 		"button": "To je úžasné!",
 		"message": "Váš odber bol znova aktivovaný a budú vám účtované poplatky podľa pôvodného fakturačného cyklu.",
 		"title": "Predplatné bolo obnovené"
-	},
-	"popup_trashed": {
-		"message": "Od teraz máte prázdny a čistý kôš",
-		"title": "Váš kôš bol vymazaný!"
 	},
 	"preview_type": {
 		"grid": "Mriežka",
