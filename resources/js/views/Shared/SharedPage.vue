@@ -41,37 +41,60 @@
             </AuthContent>
         </div>
 
-        <!--File browser-->
-        <div v-if="currentPage === 'page-files'" id="files-view">
-            <div id="single-file" v-if="sharedDetail.type === 'file'">
-                <div class="single-file-wrapper">
-                    <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
+        <!--Single file page-->
+        <div id="single-file" v-if="sharedDetail.type === 'file' && currentPage === 'page-files'">
+            <div class="single-file-wrapper">
+                <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
 
-                    <ButtonBase @click.native="download" class="download-button" button-style="theme">
-                        {{ $t('page_shared.download_file') }}
-                    </ButtonBase>
-                </div>
-            </div>
-            <div v-if="sharedDetail.type === 'folder'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
-
-                <!--Context menu-->
-                <ContextMenu/>
-
-                <!--Desktop Toolbar-->
-                <DesktopToolbar/>
-
-                <!--File browser-->
-                <FileBrowser/>
+                <ButtonBase @click.native="download" class="download-button" button-style="theme">
+                    {{ $t('page_shared.download_file') }}
+                </ButtonBase>
             </div>
         </div>
+
+        <!--Items view page-->
+        <div id="viewport" v-if="sharedDetail.type === 'folder' && currentPage === 'page-files'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
+
+                <ContentSidebar v-if="navigationTree && navigationTree.length > 1">
+                    <ContentGroup :title="$t('sidebar.locations_title')">
+                        <div class="menu-list-wrapper vertical">
+                            <a class="menu-list-item link" @click="goHome">
+                                <div class="icon">
+                                    <home-icon size="17"></home-icon>
+                                </div>
+                                <div class="label">
+                                    {{ $t('sidebar.home') }}
+                                </div>
+                            </a>
+                        </div>
+                    </ContentGroup>
+                    <ContentGroup :title="$t('sidebar.navigator_title')">
+                        <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.unique_id"/>
+                    </ContentGroup>
+                </ContentSidebar>
+
+                <div id="files-view">
+                    <!--Context menu-->
+                    <ContextMenu/>
+
+                    <!--Desktop Toolbar-->
+                    <DesktopToolbar/>
+
+                    <!--File browser-->
+                    <FileBrowser/>
+                </div>
+            </div>
     </div>
 </template>
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
+    import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
-    import FileFullPreview from "@/components/FilesView/FileFullPreview";
+    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
+    import ContentGroup from '@/components/Sidebar/ContentGroup'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -86,21 +109,28 @@
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
     import axios from 'axios'
+    import {
+        HomeIcon,
+    } from 'vue-feather-icons'
 
     export default {
         name: 'SharedPage',
         components: {
             ValidationProvider,
             ValidationObserver,
+            TreeMenuNavigator,
             FileFullPreview,
             DesktopToolbar,
+            ContentSidebar,
             FileItemGrid,
+            ContentGroup,
             AuthContent,
             FileBrowser,
             ContextMenu,
             AuthButton,
             MobileMenu,
             ButtonBase,
+            HomeIcon,
             MoveItem,
             required,
             Vignette,
@@ -108,7 +138,15 @@
             Alert,
         },
         computed: {
-            ...mapGetters(['config', 'sharedDetail', 'sharedFile']),
+            ...mapGetters([
+                'config',
+                'sharedDetail',
+                'sharedFile',
+                'navigation'
+            ]),
+            navigationTree() {
+                return this.navigation ? this.navigation[0].folders : undefined
+            }
         },
         data() {
             return {
@@ -116,10 +154,14 @@
                 password: '',
                 isLoading: false,
                 isPageLoading: true,
-                currentPage: undefined
+                currentPage: undefined,
+                homeDirectory: undefined,
             }
         },
         methods: {
+            goHome() {
+                this.$store.dispatch('browseShared', [{folder: this.homeDirectory, back: false, init: true}])
+            },
             async authenticateProtected() {
 
                 // Validate fields
@@ -163,14 +205,17 @@
                 // Show folder
                 if (this.sharedDetail.type === 'folder') {
 
-                    let homeDirectory = {
+                    this.homeDirectory = {
                         unique_id: this.sharedDetail.item_id,
                         name: this.$t('locations.home'),
                         location: 'public',
                     }
 
+                    // Get folder tree
+                    this.$store.dispatch('getFolderTree')
+
                     // Load folder
-                    this.$store.dispatch('browseShared', [{folder: homeDirectory, back: false, init: true}])
+                    this.goHome()
                 }
 
                 // Get file

@@ -68,9 +68,11 @@ const actions = {
 
                 events.$emit('scrollTop')
 
-                if ( getters.currentFolder.location !== 'public' ) {
+                if ( getters.currentFolder.location !== 'public' )
                     dispatch('getAppData')
-                }
+                if ( getters.currentFolder.location === 'public')
+                    dispatch('getFolderTree')
+
             })
             .catch(() => isSomethingWrong())
     },
@@ -96,6 +98,8 @@ const actions = {
 
                 if (data.type === 'folder' && getters.currentFolder.location !== 'public')
                     dispatch('getAppData')
+                if (data.type === 'folder' && getters.currentFolder.location === 'public')
+                    dispatch('getFolderTree')
             })
             .catch(() => isSomethingWrong())
     },
@@ -262,11 +266,15 @@ const actions = {
                                 dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
                             }
                         }
-
-                        if ( getters.currentFolder.location !== 'public' )
-                            dispatch('getAppData')
                     }
                 })
+
+                if ( getters.currentFolder.location !== 'public' )
+                    dispatch('getAppData')
+
+                if ( getters.currentFolder.location === 'public')
+                    dispatch('getFolderTree')
+
             })
             .catch(() => isSomethingWrong())
     },
