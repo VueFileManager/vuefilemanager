@@ -188,7 +188,21 @@
 
             // Listen for dragstart folder items
             events.$on('dragstart', (item) => this.draggedItem = item)
-        }
+        },
+        beforeRouteLeave(to, from, next) {
+            // Inquire user about his willing to step back to sign in page
+            if (to.name === 'SignIn') {
+                const answer = window.confirm('Do you really want to leave?')
+
+                if (answer) {
+                    next()
+                } else {
+                    next(false)
+                }
+            } else {
+                next()
+            }
+        },
     }
 </script>
 
