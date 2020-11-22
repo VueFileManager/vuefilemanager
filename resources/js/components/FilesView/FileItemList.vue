@@ -171,7 +171,8 @@ export default {
 		clickedItem(e) {
 			events.$emit('contextMenu:hide')
 			if(!this.$isMobile()) {
-				if(e.ctrlKey && !e.shiftKey) {
+
+				if( (e.ctrlKey || e.metaKey ) && !e.shiftKey) {
 					// Click + Ctrl
 
 					if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)){
@@ -181,12 +182,11 @@ export default {
 					}
 				}else if (e.shiftKey){
 					// Click + Shift
-
 					let lastItem = this.allData.indexOf(this.fileInfoDetail[this.fileInfoDetail.length -1])
 					let clickedItem = this.allData.indexOf(this.data)
 
 					// If Click + Shift + Ctrl dont remove already selected items
-					if(!e.ctrlKey) {
+					if(!e.ctrlKey && !e.metaKey ) {
 						this.$store.commit('CLEAR_FILEINFO_DETAIL')
 					}
 					
