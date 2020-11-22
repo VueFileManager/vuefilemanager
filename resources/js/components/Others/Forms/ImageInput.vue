@@ -1,5 +1,9 @@
 <template>
     <div class="dropzone" :class="{ 'is-error': error }">
+        <div v-if="imagePreview" @click="resetImage" class="reset-image">
+            <x-icon size="14" class="close-icon"></x-icon>
+        </div>
+
         <input
                 ref="file"
                 type="file"
@@ -26,7 +30,7 @@
 </template>
 
 <script>
-    import ImageIcon from "vue-feather-icons/icons/ImageIcon";
+    import { XIcon, ImageIcon } from 'vue-feather-icons'
 
     export default {
         name: 'ImageInput',
@@ -35,6 +39,7 @@
         ],
         components: {
             ImageIcon,
+            XIcon,
         },
         data() {
             return {
@@ -47,6 +52,10 @@
             },
         },
         methods: {
+            resetImage() {
+                this.imagePreview = undefined
+                this.$emit('input', undefined)
+            },
             showImagePreview(event) {
                 const imgPath = event.target.files[0].name,
                     extn = imgPath
@@ -150,6 +159,30 @@
             .dropzone-description {
                 color: $text_muted;
                 @include font-size(12);
+            }
+        }
+
+        .reset-image {
+            z-index: 2;
+            background: white;
+            border-radius: 50px;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+            @include transform(translateY(-50%) translateX(50%));
+            padding: 0px 4px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+
+            .close-icon {
+                vertical-align: middle;
+
+                line {
+                    path {
+                        fill: $text;
+                    }
+                }
             }
         }
     }
