@@ -111,8 +111,13 @@ const actions = {
                 ? '/api/upload/public/' + router.currentRoute.params.token
                 : '/api/upload'
 
+            // Create cancel token for axios cancelation
+            const CancelToken = axios.CancelToken;
+            const source = CancelToken.source();
+
             axios
                 .post(route, form, {
+                    cancelToken: source.token,
                     headers: {
                         'Content-Type': 'application/octet-stream'
                     },
@@ -174,6 +179,15 @@ const actions = {
                     // Reset uploader
                     commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
                 })
+
+            // Cancel the upload request
+            events.$on('cancel-upload', () => {
+                source.cancel();
+
+                // Hide upload progress bar
+                commit('PROCESSING_FILE', false)
+                commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+            })
         })
     },
     restoreItem: ({commit, getters}, item) => {
