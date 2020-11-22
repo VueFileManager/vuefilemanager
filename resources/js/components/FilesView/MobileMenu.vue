@@ -1,5 +1,5 @@
 <template>
-  <div class="options-wrapper" :class="{'mobile-selected-menu-wrapper' : mobileMultiSelect}">
+  <div class="options-wrapper">
     <transition name="context-menu">
       <div
         v-if="isVisible"
@@ -10,32 +10,8 @@
   
         <div class="menu-wrapper">
 
-          <div class="mobile-selected-menu" v-if="mobileMultiSelect">
-              <ToolbarButton
-               v-if="
-              !$isThisLocation(['trash', 'trash-root']) &&
-              $checkPermission('master') || $checkPermission('editor')
-            "
-              source="move"
-              :action="$t('actions.move')"
-              class="move-icon"
-              @click.native="moveItem"/>
-
-            <ToolbarButton
-              source="trash"
-              :action="$t('actions.delete')"
-              @click.native="deleteItem"/>
-              
-              <ToolbarButton
-              source="close"
-              :action="$t('actions.close')"
-              class="close-icon"
-              @click.native="closeSelecting"/>
-          </div>
-
           <!--Item Thumbnail-->
           <ThumbnailItem
-            v-if="!mobileMultiSelect"
             class="item-thumbnail"
             :item="fileInfoDetail[0]"
             info="metadata"
@@ -45,7 +21,7 @@
           <div
             v-if="
               $isThisLocation(['trash', 'trash-root']) &&
-              $checkPermission('master') && !mobileMultiSelect
+              $checkPermission('master')
             "
             class="menu-options"
           >
@@ -90,7 +66,7 @@
 
           <!--Mobile for Base location-->
           <div
-            v-if="$isThisLocation(['shared']) && $checkPermission('master') && !mobileMultiSelect"
+            v-if="$isThisLocation(['shared']) && $checkPermission('master')"
             class="menu-options"
           >
             <ul class="menu-option-group">
@@ -163,7 +139,7 @@
           <div
             v-if="
               $isThisLocation(['base', 'participant_uploads', 'latest']) &&
-              $checkPermission('master') && !mobileMultiSelect
+              $checkPermission('master')
             "
             class="menu-options"
           >
@@ -240,7 +216,7 @@
           <!--Mobile for Base location with EDITOR permission-->
           <div
             v-if="
-              $isThisLocation(['base', 'public']) && $checkPermission('editor') && !mobileMultiSelect
+              $isThisLocation(['base', 'public']) && $checkPermission('editor')
             "
             class="menu-options"
           >
@@ -286,7 +262,7 @@
           <!--Mobile for Base location with VISITOR permission-->
           <div
             v-if="
-              $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !mobileMultiSelect
+              $isThisLocation(['base', 'public']) && $checkPermission('visitor')
             "
             class="menu-options"
           >
@@ -306,7 +282,7 @@
     </transition>
     <transition name="fade">
       <div
-        v-show="isVisible && !mobileMultiSelect"
+        v-show="isVisible"
         class="vignette"
         @click="closeAndResetContextMenu"
       ></div>
@@ -316,7 +292,7 @@
 
 <script>
 import ThumbnailItem from "@/components/Others/ThumbnailItem";
-import ToolbarButton from "@/components/FilesView/ToolbarButton";
+
 import {
   CornerDownRightIcon,
   DownloadCloudIcon,
@@ -338,7 +314,6 @@ export default {
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
-    ToolbarButton,
     ThumbnailItem,
     LifeBuoyIcon,
     Trash2Icon,
@@ -377,26 +352,11 @@ export default {
     return {
       isVisible: false,
       showFromMediaPreview: false,
-      mobileMultiSelect:false
     };
   },
   methods: {
-    closeSelecting() {
-      events.$emit('mobileSelecting-stop')
-    },
     moveItem() {
-      // Open move item popup 
-
-      //Move item if is not selected
-      if(!this.mobileMultiSelect) {
-        let item = this.fileInfoDetail[0]
-        this.$store.commit('CLEAR_FILEINFO_DETAIL')
-        events.$emit('popup:open', { name: 'move', item: [item] })
-      }
-      //Move all selected items
-      if(this.mobileMultiSelect) {
-        events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
-      }
+      events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
     },
     shareItem() {
       if (this.fileInfoDetail[0].shared) {
@@ -432,14 +392,7 @@ export default {
       );
     },
     deleteItem() {
-      if(!this.mobileMultiSelect) {
-        let item = this.fileInfoDetail[0]
-        this.$store.commit('CLEAR_FILEINFO_DETAIL')
-        this.$store.dispatch("deleteItem", item);
-      }
-      if(this.mobileMultiSelect) {
-        this.$store.dispatch("deleteItem");
-      }
+      this.$store.dispatch("deleteItem");
     },
     renameItem() {
       let itemName = prompt(
@@ -464,27 +417,11 @@ export default {
     },
     closeAndResetContextMenu() {
       //If emit to show menu coming from MediaFullPreview dont reset data
-      if (this.showFromMediaPreview) {
         this.isVisible = false;
         this.showFromMediaPreview = false;
-      } else {
-        if(!this.mobileMultiSelect) {
-          this.isVisible = false;
-          events.$emit("fileItem:deselect");
-        }
-      }
     },
   },
   created() {
-    events.$on('mobileSelecting-start' , () => {
-      this.mobileMultiSelect = true
-      this.isVisible = true
-    })
-
-    events.$on('mobileSelecting-stop' , () => {
-      this.mobileMultiSelect = false
-      this.isVisible = false
-    })
     // Show context menu
     events.$on("mobileMenu:show", (showFromMedia) => {
       //If emit come from MediaFullPreview
@@ -507,13 +444,6 @@ export default {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
-
-.mobile-selected-menu-wrapper {
-  z-index: 1;
-    .options {
-      z-index: 1;
-    }
-}
 
 .mobile-selected-menu {
   display: flex;

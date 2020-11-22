@@ -35,6 +35,9 @@
             <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
                 {{ previewText }}
             </MobileActionButton>
+             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
+               {{ $t('context_menu.select') }}
+            </MobileMultiSelectButton>
         </div>
 
         <!--Upload Progressbar-->

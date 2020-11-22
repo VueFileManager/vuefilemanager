@@ -22,6 +22,9 @@
             <!--Move item setup-->
             <MoveItem/>
 
+            <!-- Mobile Menu for Multiselected items -->
+            <MobileMultiSelectMenu/>
+
             <!--Mobile Menu-->
             <MobileMenu/>
 
@@ -47,6 +50,7 @@
 </template>
 
 <script>
+    import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
     import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import MobileNavigation from '@/components/Others/MobileNavigation'
@@ -66,6 +70,7 @@
     export default {
         name: 'app',
         components: {
+            MobileMultiSelectMenu,
             MobileNavigation,
             CookieDisclaimer,
             FileFullPreview,

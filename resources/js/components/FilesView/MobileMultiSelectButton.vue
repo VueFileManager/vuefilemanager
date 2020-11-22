@@ -1,6 +1,6 @@
 <template>
-    <button class="mobile-action-button">
-        <div class="flex" :class="{'active' : mobileSelectingActive}">
+    <button class="mobile-action-button" :class="{'active' : mobileSelectingActive}">
+        <div class="flex" >
             <CheckSquareIcon size="15" class="icon"></CheckSquareIcon>
             <span class="label">
                 <slot></slot>
@@ -71,22 +71,17 @@
             font-weight: 700;
             color: $text;
         }
-
-        .active {
-            // @include transform(scale(0.95));
-            //  background: rgba($theme, 0.1);
-
+    }
+    .active {
             .icon {
                 path, line, polyline, rect, circle {
-                    stroke: $theme;
+                    stroke: $theme !important;
                 }
             }
 
             .label {
-                color: $theme;
+                color: $theme !important;
             }
-        }
-
     }
 
     @media (prefers-color-scheme: dark) {

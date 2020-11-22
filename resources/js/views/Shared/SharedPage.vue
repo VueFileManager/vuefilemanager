@@ -9,6 +9,9 @@
         <!--Move item setup-->
         <MoveItem />
 
+        <!-- Mobile Menu for Multiselected items -->
+        <MobileMultiSelectMenu/>
+
         <!--Mobile Menu-->
         <MobileMenu/>
 
@@ -69,6 +72,7 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import FileFullPreview from "@/components/FilesView/FileFullPreview";
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
@@ -90,6 +94,7 @@
     export default {
         name: 'SharedPage',
         components: {
+            MobileMultiSelectMenu,
             ValidationProvider,
             ValidationObserver,
             FileFullPreview,

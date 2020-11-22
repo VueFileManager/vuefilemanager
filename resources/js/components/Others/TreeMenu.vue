@@ -38,11 +38,13 @@
             },
             disableId() {
                 let canBeShow = true
-                this.fileInfoDetail.map(item => {
-                    if(item.unique_id === this.nodes.unique_id) {
-                        canBeShow = false
-                    }
-                })
+                if(this.fileInfoDetail.includes(this.nodes)){
+                    this.fileInfoDetail.map(item => {
+                        if(item.unique_id === this.nodes.unique_id) {
+                            canBeShow = false
+                        }
+                    })
+                }
                 return canBeShow
             }
         },

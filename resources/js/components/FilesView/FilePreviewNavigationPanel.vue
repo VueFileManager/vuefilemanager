@@ -3,7 +3,7 @@
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close"></x-icon>
 			<div class="name-count-wrapper">
-				<p class="title">{{ formatedName }}</p>
+				<p class="title">{{ fileInfoDetail[0].name }}</p>
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + filteredFiles.length }}) </span>
 			</div>
 			<span id="fast-preview-menu" class="fast-menu-icon" @click="menuOpen" v-if="$checkPermission(['master', 'editor'])">
@@ -53,27 +53,6 @@ export default {
 				}
 			})
 			return activeIndex
-		},
-
-		formatedName() {
-			//Name length handling
-			let name = this.fileInfoDetail[0].name
-			let windowWidth = window.innerWidth
-			let nameLength
-			if (windowWidth < 410) {
-				nameLength = 18
-			} else {
-				nameLength = 27
-			}
-			if (name.lastIndexOf('.') > -1) {
-				return _.truncate(name.substring(0, name.lastIndexOf('.')), {
-					length: nameLength
-				})
-			} else {
-				return _.truncate(name, {
-					length: nameLength
-				})
-			}
 		},
 		canShareInView() {
 			return !this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared', 'public'])
@@ -155,6 +134,7 @@ export default {
 		}
 		.title {
 			@include font-size(15);
+			max-width: 250px;
 			line-height: 1;
 			font-weight: 700;
 			overflow: hidden;
@@ -164,7 +144,10 @@ export default {
 			color: $text;
 		}
 		@media (max-width: 570px) {
-			.title,
+			.title{
+				max-width: 180px;
+				@include font-size(17);
+			}
 			.file-count {
 				@include font-size(17);
 			}

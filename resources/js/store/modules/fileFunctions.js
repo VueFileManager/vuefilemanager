@@ -31,7 +31,7 @@ const actions = {
         
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
-            ? '/api/move/public' + router.currentRoute.params.token
+            ? '/api/move/public/' + router.currentRoute.params.token
             : '/api/move'
 
         axios
@@ -263,10 +263,11 @@ const actions = {
                             }
                         }
 
-                        if ( getters.currentFolder.location !== 'public' )
-                            dispatch('getAppData')
+                        
                     }
                 })
+                if ( getters.currentFolder.location !== 'public' )
+                            dispatch('getAppData')
             })
             .catch(() => isSomethingWrong())
     },

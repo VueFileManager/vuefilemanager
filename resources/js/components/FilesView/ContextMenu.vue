@@ -74,8 +74,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
-                <li class="menu-option" @click="ItemDetail">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -132,8 +132,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
-                <li class="menu-option" @click="ItemDetail" v-if="item">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail" v-if="item && multiSelectContextMenu">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -141,7 +141,7 @@
                         {{ $t('context_menu.detail') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+                <li class="menu-option" @click="downloadItem" v-if="!isFolder ">
                     <div class="icon">
                         <download-cloud-icon size="17"></download-cloud-icon>
                     </div>
@@ -209,8 +209,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
-                <li class="menu-option" @click="ItemDetail">
+            <ul class="menu-option-group" v-if="item ">
+                <li class="menu-option" @click="ItemDetail" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -259,8 +259,8 @@
                     </div>
                 </li>
             </ul>
-            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu ">
-                <li class="menu-option" @click="ItemDetail">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -283,8 +283,8 @@
         <div v-if="
           $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview 
         " id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="item &&  multiSelectContextMenu">
-                <li class="menu-option" @click="ItemDetail">
+            <ul class="menu-option-group" v-if="item">
+                <li class="menu-option" @click="ItemDetail" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <eye-icon size="17"></eye-icon>
                     </div>
@@ -432,10 +432,22 @@ export default {
         },
         downloadItem() {
             // Download file
-            this.$downloadFile(
-                this.item.file_url,
-                this.item.name + '.' + this.item.mimetype
-            )
+            //Download no selected item
+            if(!this.fileInfoDetail.includes(this.item)) {
+                this.$downloadFile(
+                    this.item.file_url,
+                    this.item.name + '.' + this.item.mimetype
+                )
+            }
+            //Download all selected items
+            if(this.fileInfoDetail.includes(this.item)) {
+                this.fileInfoDetail.forEach(item => {
+                    this.$downloadFile(
+                    item.file_url,
+                    item.name + '.' + item.mimetype
+                )
+                })
+            }
         },
         ItemDetail() {
             // Dispatch load file info detail

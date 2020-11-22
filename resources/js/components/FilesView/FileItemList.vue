@@ -177,7 +177,6 @@ export default {
 					if(this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)){
 						this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL',this.data )
 					}else {
-						console.log(this.data.name)
 						this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 					}
 				}else if (e.shiftKey){

@@ -13,7 +13,7 @@
             <div v-if="! isLoadingTree && navigation">
                 <ThumbnailItem v-if="fileInfoDetail.length < 2 || noSelectedItem" class="item-thumbnail" :item="pickedItem" info="location"/>
 
-                <MultiSelected class="multiple-selected" moveItem="true" v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
+                <MultiSelected class="multiple-selected" :move-item="true" v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
                     
                 <TreeMenu :disabled-by-id="pickedItem.unique_id" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
@@ -76,7 +76,6 @@
         },
         methods: {
             moveItem() {
-
                 // Prevent empty submit
                 if (! this.selectedFolder) return
 

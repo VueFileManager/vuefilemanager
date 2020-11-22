@@ -54,6 +54,9 @@
                             disableFolder = true
                             this.disableChildren = true
                         }
+                        if(this.disabled) {
+                            this.disableChildren = true
+                        }
                     })
                 }else {
                     disableFolder = false
