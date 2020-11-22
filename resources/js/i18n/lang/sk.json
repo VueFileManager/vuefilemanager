@@ -720,6 +720,7 @@
 		"href": "Prosím potvrďte Vašu platbu."
 	},
 	"uploading": {
+		"cancel": "Zrušiť nahrávanie",
 		"processing_file": "Spracuvávam súbor...",
 		"progress_single_upload": "Nahrávam súbor {progress}%",
 		"progress": "Nahrávam súbory {progress}% - {current}/{total}"

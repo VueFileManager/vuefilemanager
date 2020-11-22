@@ -718,6 +718,7 @@
 		"href": "Please confirm your payment."
 	},
 	"uploading": {
+		"cancel": "Cancel Uploading",
 		"processing_file": "Processing File...",
 		"progress_single_upload": "上传文件 {progress}%",
 		"progress": "上传文件 {progress}% - {current}/{total}"
