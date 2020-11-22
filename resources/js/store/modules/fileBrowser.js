@@ -172,14 +172,6 @@ const actions = {
             })
             .catch(() => isSomethingWrong())
     },
-    getFileDetail: ({commit, getters}, file) => {
-        axios
-            .get(getters.api + '/file-detail/' + file.unique_id)
-            .then(response => {
-                commit('LOAD_FILEINFO_DETAIL', response.data)
-            })
-            .catch(() => isSomethingWrong())
-    },
     getFolderTree: ({commit, getters}) => {
 
         return new Promise((resolve, reject) => {

@@ -395,25 +395,7 @@ export default {
       this.$store.dispatch("deleteItem");
     },
     renameItem() {
-      let itemName = prompt(
-        this.$t("popup_rename.title"),
-        this.fileInfoDetail[0].name
-      );
-
-      if (itemName && itemName !== "") {
-        let item = {
-          unique_id: this.fileInfoDetail[0].unique_id,
-          type: this.fileInfoDetail[0].type,
-          name: itemName,
-        };
-
-        this.$store.dispatch("renameItem", item);
-
-        // Change item name if is mobile device or prompted
-        if (this.$isMobile()) {
-          events.$emit("change:name", item);
-        }
-      }
+        events.$emit('popup:open', { name: 'rename-item', item: this.fileInfoDetail[0] })
     },
     closeAndResetContextMenu() {
       //If emit to show menu coming from MediaFullPreview dont reset data

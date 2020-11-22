@@ -130,6 +130,22 @@
       display: flex;
       align-items: center;
 
+      &.trash {
+
+        &.is-active-trash,
+        &:hover {
+          svg {
+            path, line, polyline, rect, circle, ellipse {
+              stroke: $danger;
+            }
+          }
+
+          .label {
+            color: $danger;
+          }
+        }
+      }
+
       &.is-active,
       &.router-link-exact-active,
       &:hover {
@@ -208,6 +224,10 @@
 
       .menu-list-item {
         padding: 8px 23px;
+
+        .label {
+          max-width: 140px;
+        }
 
         .icon {
           margin-right: 5px;

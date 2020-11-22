@@ -357,7 +357,10 @@
 	"locations": {
 		"home": "首页",
 		"shared": "已分享",
-		"trash": "垃圾箱"
+		"trash": "垃圾箱",
+		"profile": "Profile",
+		"settings": "Settings",
+		"logout": "Log Out"
 	},
 	"menu": {
 		"admin": "Admin",
@@ -548,7 +551,9 @@
 		"title": "File is too large"
 	},
 	"popup_rename": {
-		"title": "修改文件/夹名称"
+		"title": "Rename Your {item}",
+		"label": "Edit Name",
+		"placeholder": "Type your title"
 	},
 	"popup_set_card": {
 		"message": "您的卡将被设置为默认卡，并且在以后的结算中始终会收取费用。",
@@ -577,10 +582,6 @@
 		"button": "棒极了！",
 		"message": "您的订阅已重新激活，并且将按原始计费周期计费。",
 		"title": "订阅已取消"
-	},
-	"popup_trashed": {
-		"message": "现在，您的垃圾箱已经被完全清空。",
-		"title": "您的垃圾箱已清空！"
 	},
 	"preview_type": {
 		"grid": "方块",
@@ -717,6 +718,7 @@
 		"href": "Please confirm your payment."
 	},
 	"uploading": {
+		"cancel": "Cancel Uploading",
 		"processing_file": "Processing File...",
 		"progress_single_upload": "上传文件 {progress}%",
 		"progress": "上传文件 {progress}% - {current}/{total}"

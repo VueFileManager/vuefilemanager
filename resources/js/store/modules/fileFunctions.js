@@ -68,9 +68,11 @@ const actions = {
 
                 events.$emit('scrollTop')
 
-                if ( getters.currentFolder.location !== 'public' ) {
+                if ( getters.currentFolder.location !== 'public' )
                     dispatch('getAppData')
-                }
+                if ( getters.currentFolder.location === 'public')
+                    dispatch('getFolderTree')
+
             })
             .catch(() => isSomethingWrong())
     },
@@ -96,6 +98,8 @@ const actions = {
 
                 if (data.type === 'folder' && getters.currentFolder.location !== 'public')
                     dispatch('getAppData')
+                if (data.type === 'folder' && getters.currentFolder.location === 'public')
+                    dispatch('getFolderTree')
             })
             .catch(() => isSomethingWrong())
     },
@@ -107,8 +111,13 @@ const actions = {
                 ? '/api/upload/public/' + router.currentRoute.params.token
                 : '/api/upload'
 
+            // Create cancel token for axios cancelation
+            const CancelToken = axios.CancelToken;
+            const source = CancelToken.source();
+
             axios
                 .post(route, form, {
+                    cancelToken: source.token,
                     headers: {
                         'Content-Type': 'application/octet-stream'
                     },
@@ -170,6 +179,15 @@ const actions = {
                     // Reset uploader
                     commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
                 })
+
+            // Cancel the upload request
+            events.$on('cancel-upload', () => {
+                source.cancel();
+
+                // Hide upload progress bar
+                commit('PROCESSING_FILE', false)
+                commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+            })
         })
     },
     restoreItem: ({commit, getters}, item) => {
@@ -262,12 +280,15 @@ const actions = {
                                 dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
                             }
                         }
-
-                        
                     }
                 })
+
                 if ( getters.currentFolder.location !== 'public' )
-                            dispatch('getAppData')
+                    dispatch('getAppData')
+
+                if ( getters.currentFolder.location === 'public')
+                    dispatch('getFolderTree')
+
             })
             .catch(() => isSomethingWrong())
     },
@@ -286,12 +307,6 @@ const actions = {
 
                 // Remove file preview
                 commit('CLEAR_FILEINFO_DETAIL')
-
-                // Show success message
-                events.$emit('success:open', {
-                    title: i18n.t('popup_trashed.title'),
-                    message: i18n.t('popup_trashed.message'),
-                })
             })
             .catch(() => isSomethingWrong())
     },

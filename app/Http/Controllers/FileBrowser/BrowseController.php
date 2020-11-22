@@ -205,21 +205,4 @@ class BrowseController extends Controller
         // Collect folders and files to single array
         return collect([$searched_folders, $searched_files])->collapse();
     }
-
-    /**
-     * Get file record
-     *
-     * @param $unique_id
-     * @return mixed
-     */
-    public function file_detail($unique_id)
-    {
-        // Get user id
-        $user_id = Auth::id();
-
-        return FileManagerFile::with(['shared:token,id,item_id,permission,protected,expire_in'])
-            ->where('user_id', $user_id)
-            ->where('unique_id', $unique_id)
-            ->firstOrFail();
-    }
 }

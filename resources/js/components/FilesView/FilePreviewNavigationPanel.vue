@@ -3,7 +3,7 @@
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close"></x-icon>
 			<div class="name-count-wrapper">
-				<p class="title">{{ fileInfoDetail[0].name }}</p>
+				<p class="title">{{ fileInfoDetail[0].name }}</p>				
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + filteredFiles.length }}) </span>
 			</div>
 			<span id="fast-preview-menu" class="fast-menu-icon" @click="menuOpen" v-if="$checkPermission(['master', 'editor'])">
@@ -17,7 +17,7 @@
 		<div class="navigation-icons">
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton source="download" class="mobile-hide" @click.native="downloadItem" :action="$t('actions.download')" />
-				<ToolbarButton source="share" class="mobile-hide" :class="{ 'is-inactive': canShareInView }" :action="$t('actions.share')" @click.native="shareItem" />
+				<ToolbarButton v-if="canShowShareView" :class="{ 'is-inactive': canShareInView }" @click.native="shareItem" source="share" class="mobile-hide" :action="$t('actions.share')" />
 				<ToolbarButton v-if="this.fileInfoDetail[0].type === 'image'" source="print" :action="$t('actions.print')" @click.native="printMethod()" />
 			</div>
 		</div>
@@ -54,8 +54,11 @@ export default {
 			})
 			return activeIndex
 		},
+        canShowShareView() {
+			return this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared'])
+        },
 		canShareInView() {
-			return !this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared', 'public'])
+			return ! this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared'])
 		}
 	},
 	data() {

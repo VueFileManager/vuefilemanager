@@ -160,7 +160,7 @@
         }
 
         &.widgets-coll-3 {
-            grid-template-columns: repeat(auto-fill, 33%);
+            grid-template-columns: repeat(auto-fill, 33.3%);
         }
 
         .widget {

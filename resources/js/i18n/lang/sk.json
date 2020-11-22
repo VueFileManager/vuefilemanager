@@ -359,7 +359,10 @@
 	"locations": {
 		"home": "Domov",
 		"shared": "Zdieľané",
-		"trash": "Kôš"
+		"trash": "Kôš",
+		"profile": "Profil",
+		"settings": "Nastavenia",
+		"logout": "Odhlásiť sa"
 	},
 	"menu": {
 		"admin": "Administrácia",
@@ -550,7 +553,9 @@
 		"title": "Súbor je príliš veľký"
 	},
 	"popup_rename": {
-		"title": "Zmeňte názov položky"
+		"title": "Zmeňte názov {item}",
+		"label": "Zmeniť názov",
+		"placeholder": "Napíš názov..."
 	},
 	"popup_set_card": {
 		"message": "Vaša karta bude nastavená ako predvolená a bude vám z nej vždy stiahnutá čiastka za nasledujúce obdobie fakturácie.",
@@ -579,10 +584,6 @@
 		"button": "To je úžasné!",
 		"message": "Váš odber bol znova aktivovaný a budú vám účtované poplatky podľa pôvodného fakturačného cyklu.",
 		"title": "Predplatné bolo obnovené"
-	},
-	"popup_trashed": {
-		"message": "Od teraz máte prázdny a čistý kôš",
-		"title": "Váš kôš bol vymazaný!"
 	},
 	"preview_type": {
 		"grid": "Mriežka",
@@ -719,6 +720,7 @@
 		"href": "Prosím potvrďte Vašu platbu."
 	},
 	"uploading": {
+		"cancel": "Zrušiť nahrávanie",
 		"processing_file": "Spracuvávam súbor...",
 		"progress_single_upload": "Nahrávam súbor {progress}%",
 		"progress": "Nahrávam súbory {progress}% - {current}/{total}"

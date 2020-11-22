@@ -359,7 +359,10 @@
 	"locations": {
 		"home": "Home",
 		"shared": "Shared",
-		"trash": "Trash"
+		"trash": "Trash",
+		"profile": "Profile",
+		"settings": "Settings",
+		"logout": "Log Out"
 	},
 	"menu": {
 		"admin": "Administration",
@@ -550,7 +553,9 @@
 		"title": "File is too large"
 	},
 	"popup_rename": {
-		"title": "Change your item name"
+		"title": "Rename Your {item}",
+		"label": "Edit Name",
+		"placeholder": "Type your title"
 	},
 	"popup_set_card": {
 		"message": "Your card will be set as default and will be always charged for the next billings.",
@@ -579,10 +584,6 @@
 		"button": "That's awesome!",
 		"message": "Your subscription was re-activated, and they will be billed on the original billing cycle.",
 		"title": "Subscription Was Resumed"
-	},
-	"popup_trashed": {
-		"message": "So now, you have clear and empty trash.",
-		"title": "Your trash was erased!"
 	},
 	"preview_type": {
 		"grid": "Grid",
@@ -719,6 +720,7 @@
 		"href": "Please confirm your payment."
 	},
 	"uploading": {
+		"cancel": "Cancel Uploading",
 		"processing_file": "Processing File...",
 		"progress_single_upload": "Uploading File {progress}%",
 		"progress": "Uploading File {progress}% - {current}/{total}"

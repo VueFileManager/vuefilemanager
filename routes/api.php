@@ -99,7 +99,6 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 
     // Browse
     Route::get('/participant-uploads', 'FileBrowser\BrowseController@participant_uploads');
-    Route::get('/file-detail/{unique_id}', 'FileBrowser\BrowseController@file_detail');
     Route::get('/navigation', 'FileBrowser\BrowseController@navigation_tree');
     Route::get('/folders/{unique_id}', 'FileBrowser\BrowseController@folder');
     Route::get('/shared-all', 'FileBrowser\BrowseController@shared');

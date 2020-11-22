@@ -3,6 +3,7 @@
 
         <ContentSidebar>
 
+            <!--Empty storage warning-->
             <ContentGroup v-if="config.storageLimit && storage.used > 95">
                 <UpgradeSidebarBanner />
             </ContentGroup>
@@ -27,11 +28,20 @@
                             {{ $t('sidebar.latest') }}
                         </div>
                     </a>
+                    <a class="menu-list-item link trash" :class="{'is-active-trash': $isThisLocation(['trash', 'trash-root'])}"
+                       @click="getTrash">
+                        <div class="icon">
+                            <trash2-icon size="17"></trash2-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('locations.trash') }}
+                        </div>
+                    </a>
                 </div>
             </ContentGroup>
 
             <!--Navigator-->
-            <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
+            <ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
                 <span class="empty-note navigator" v-if="tree.length == 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
@@ -40,7 +50,7 @@
             </ContentGroup>
 
             <!--Favourites-->
-            <ContentGroup :title="$t('sidebar.favourites')">
+            <ContentGroup :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
 
                 <div class="menu-list-wrapper vertical favourites"
                      :class="{ 'is-dragenter': area }"
@@ -84,6 +94,7 @@
     import {
         UploadCloudIcon,
         FolderIcon,
+        Trash2Icon,
         HomeIcon,
         XIcon,
     } from 'vue-feather-icons'
@@ -98,6 +109,7 @@
             UploadCloudIcon,
             ContentGroup,
             FolderIcon,
+            Trash2Icon,
             HomeIcon,
             XIcon,
         },
@@ -120,6 +132,9 @@
             }
         },
         methods: {
+            getTrash() {
+                this.$store.dispatch('getTrash')
+            },
             getLatest() {
                 this.$store.dispatch('getLatest')
             },
@@ -173,7 +188,21 @@
 
             // Listen for dragstart folder items
             events.$on('dragstart', (item) => this.draggedItem = item)
-        }
+        },
+        beforeRouteLeave(to, from, next) {
+            // Inquire user about his willing to step back to sign in page
+            if (to.name === 'SignIn') {
+                const answer = window.confirm('Do you really want to leave?')
+
+                if (answer) {
+                    next()
+                } else {
+                    next(false)
+                }
+            } else {
+                next()
+            }
+        },
     }
 </script>
 
