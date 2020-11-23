@@ -308,6 +308,9 @@ class Editor
                 'user_id'    => $user_id,
             ];
 
+            // Store user upload size
+            $request->user()->record_upload($file_size);
+
             // Return new file
             return FileManagerFile::create($options);
         }
