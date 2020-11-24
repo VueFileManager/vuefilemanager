@@ -152,6 +152,16 @@
                 this.isDragging = false
             },
             dragStart(data) {
+               
+               let elementClone = event.target.cloneNode(true)
+               elementClone.className = 'draged-clone'
+               console.log(elementClone)
+            //    elementClone.style.backgroundColor  = "red"  
+                // let element = document.getElementsByClassName('file-item')
+                // element.style.display = "none"
+                // var crt = this.cloneNode(true);
+                // crt.style.backgroundColor = "red";
+                // this.style.display = "none"
 
                 events.$emit('dragstart', data)
 
@@ -239,6 +249,11 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .draged-clone {
+        display: none !important;
+        opacity: 0 !important;
+    }
 
     .mobile-multi-select {
         bottom: 50px !important;

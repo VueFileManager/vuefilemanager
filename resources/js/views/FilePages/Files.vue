@@ -1,5 +1,5 @@
 <template>
-    <section id="viewport" v-if="user">
+     <section id="viewport" v-if="user" ref="wrapper" @mousemove="mousePosition">
 
         <ContentSidebar>
 
@@ -79,6 +79,8 @@
             </ContentGroup>
         </ContentSidebar>
 
+        <MultiSelected :clone-element="false" :style="{ top: positionY + 'px', left: positionX + 'px' }" id="multi-selected" v-if="dragInProgress" />
+
         <ContentFileView/>
     </section>
 </template>
@@ -86,6 +88,7 @@
 <script>
     import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
+    import MultiSelected from '@/components/FilesView/MultiSelected'
     import ContentFileView from '@/components/Others/ContentFileView'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
@@ -105,6 +108,7 @@
             UpgradeSidebarBanner,
             TreeMenuNavigator,
             ContentFileView,
+            MultiSelected,
             ContentSidebar,
             UploadCloudIcon,
             ContentGroup,
@@ -129,9 +133,18 @@
             return {
                 area: false,
                 draggedItem: undefined,
+                dragInProgress:false,
+                positionY:undefined,
+                positionX:undefined
             }
         },
         methods: {
+             mousePosition(event){
+              
+                    this.positionX = event.clientX -50
+                    this.positionY = event.clientY -25
+                    
+            },
             getTrash() {
                 this.$store.dispatch('getTrash')
             },
@@ -183,11 +196,18 @@
                 this.$store.dispatch('removeFromFavourites', folder)
             }
         },
+        updated () {
+            this.$refs.wrapper.focus()
+        },
         created() {
             this.goHome()
 
             // Listen for dragstart folder items
-            events.$on('dragstart', (item) => this.draggedItem = item)
+            events.$on('dragstart', (item) => { this.draggedItem = item , this.dragInProgress = true})
+
+            events.$on('drop', () => {
+                this.dragInProgress = false
+            })
         },
         beforeRouteLeave(to, from, next) {
             // Inquire user about his willing to step back to sign in page
@@ -207,6 +227,10 @@
 </script>
 
 <style lang="scss" scoped>
+
+    #multi-selected {
+        position: absolute;
+    }
 
     .empty-note {
 
