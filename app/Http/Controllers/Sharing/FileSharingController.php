@@ -58,6 +58,10 @@ class FileSharingController extends Controller
                 ->first();
 
             if ($image) {
+
+                // Store user download size
+                User::find($shared->user_id)->record_download((int) $image->getRawOriginal('filesize'));
+
                 return $this->show_image($image);
             }
         }

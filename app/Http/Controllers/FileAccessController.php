@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\FileManagerFolder;
 use App\Http\Tools\Guardian;
 use App\Share;
+use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,9 @@ class FileAccessController extends Controller
             $this->check_file_access($shared, $file);
         }
 
+        // Store user download size
+        $request->user()->record_download((int) $file->getRawOriginal('filesize'));
+
         return $this->download_file($file);
     }
 
@@ -112,6 +116,9 @@ class FileAccessController extends Controller
 
         // Check file access
         $this->check_file_access($shared, $file);
+
+        // Store user download size
+        User::find($shared->user_id)->record_download((int) $file->getRawOriginal('filesize'));
 
         return $this->download_file($file);
     }
