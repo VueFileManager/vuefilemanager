@@ -152,10 +152,14 @@
                 this.isDragging = false
             },
             dragStart(data) {
+                let img = document.createElement('img')
+                img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+
+                event.dataTransfer.setDragImage(img, 0, 0)
                
-               let elementClone = event.target.cloneNode(true)
+               /*let elementClone = event.target.cloneNode(true)
                elementClone.className = 'draged-clone'
-               console.log(elementClone)
+               console.log(elementClone)*/
             //    elementClone.style.backgroundColor  = "red"  
                 // let element = document.getElementsByClassName('file-item')
                 // element.style.display = "none"
