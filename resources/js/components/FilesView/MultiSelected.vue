@@ -1,5 +1,5 @@
 <template>
-    <div :class="this.moveItem ? 'move-item'  : 'wrapper'">
+    <div :class="[this.moveItem ? 'move-item'  : 'wrapper' , this.cloneElement ? 'clone' : '']">
         <div class="icon-wrapper">   
             <CheckSquareIcon class="icon" size="21"/>
         </div>
@@ -16,7 +16,7 @@ import {mapGetters} from 'vuex'
 
     export default {
         name:'MultiSelected',
-        props: ['moveItem'],
+        props: ['moveItem' , 'cloneElement'],
         components: {CheckSquareIcon},
         computed: {
             ...mapGetters(['fileInfoDetail'])
@@ -28,6 +28,9 @@ import {mapGetters} from 'vuex'
 <style lang="scss" scoped>
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
+.clone {
+    position: relative;
+}
 
 .wrapper {
     display: flex;

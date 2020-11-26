@@ -1,5 +1,5 @@
 <template>
-     <section id="viewport" v-if="user" ref="wrapper" @mousemove="mousePosition">
+     <section id="viewport" v-if="user">
 
         <ContentSidebar>
 
@@ -79,7 +79,6 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <MultiSelected :clone-element="false" :style="{ top: positionY + 'px', left: positionX + 'px' }" id="multi-selected" v-if="dragInProgress" />
 
         <ContentFileView/>
     </section>
@@ -133,18 +132,9 @@
             return {
                 area: false,
                 draggedItem: undefined,
-                dragInProgress:false,
-                positionY:undefined,
-                positionX:undefined
             }
         },
         methods: {
-             mousePosition(event){
-              
-                    this.positionX = event.clientX -50
-                    this.positionY = event.clientY -25
-                    
-            },
             getTrash() {
                 this.$store.dispatch('getTrash')
             },
@@ -196,9 +186,6 @@
                 this.$store.dispatch('removeFromFavourites', folder)
             }
         },
-        updated () {
-            this.$refs.wrapper.focus()
-        },
         created() {
             this.goHome()
 
@@ -227,10 +214,6 @@
 </script>
 
 <style lang="scss" scoped>
-
-    #multi-selected {
-        position: absolute;
-    }
 
     .empty-note {
 

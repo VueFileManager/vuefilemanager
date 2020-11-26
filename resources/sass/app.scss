@@ -439,3 +439,30 @@
   }
 
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  // border-radius: 15px;  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  width: 4px;
+  background: #7f7f7f;
+  border-radius: 25px;
+
+}
+::-webkit-scrollbar-track {
+  width: 8px;
+  padding: 4px;
+}
+
+@media (prefers-color-scheme: dark) { 
+
+  ::-webkit-scrollbar-thumb {
+    background: $light_text;
+  
+  }
+
+}
+
