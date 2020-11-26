@@ -5,6 +5,7 @@ namespace App;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResetUserPasswordNotification;
 use ByteUnits\Metric;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -157,10 +158,10 @@ class User extends Authenticatable
         $is_storage_limit = $storage_limitation ? $storage_limitation : 1;
 
         // Get user storage usage
-        if (! $is_storage_limit) {
+        if (!$is_storage_limit) {
 
             return [
-                'used' => $this->used_capacity,
+                'used'           => $this->used_capacity,
                 'used_formatted' => Metric::bytes($this->used_capacity)->format(),
             ];
         }
@@ -250,6 +251,40 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
+    }
+
+    /**
+     * Record user upload filesize
+     *
+     * @param $file_size
+     */
+    public function record_upload($file_size)
+    {
+        $record = Traffic::whereMonth('created_at', '=', Carbon::now()->month)
+            ->firstOrCreate([
+                'user_id' => $this->id,
+            ]);
+
+        $record->update([
+            'upload' => $record->upload + $file_size
+        ]);
+    }
+    
+    /**
+     * Record user download filesize
+     *
+     * @param $file_size
+     */
+    public function record_download($file_size)
+    {
+        $record = Traffic::whereMonth('created_at', '=', Carbon::now()->month)
+            ->firstOrCreate([
+                'user_id' => $this->id,
+            ]);
+
+        $record->update([
+            'download' => $record->download + $file_size
+        ]);
     }
 
     /**

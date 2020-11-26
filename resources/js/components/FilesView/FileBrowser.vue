@@ -171,9 +171,24 @@
             dragStart(data) {
                 let img = document.createElement('img')
                 img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+<<<<<<< HEAD
                 event.dataTransfer.setDragImage(img, 0, 0)
 
                 this.dragInProgress = true
+=======
+
+                event.dataTransfer.setDragImage(img, 0, 0)
+               
+               /*let elementClone = event.target.cloneNode(true)
+               elementClone.className = 'draged-clone'
+               console.log(elementClone)*/
+            //    elementClone.style.backgroundColor  = "red"  
+                // let element = document.getElementsByClassName('file-item')
+                // element.style.display = "none"
+                // var crt = this.cloneNode(true);
+                // crt.style.backgroundColor = "red";
+                // this.style.display = "none"
+>>>>>>> 65f7855703c7a163dc2bf3cc05b23469d76d7453
 
                 events.$emit('dragstart', data)
 
