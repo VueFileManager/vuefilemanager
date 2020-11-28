@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Traffic extends Model
 {
-    protected $guarded = ['id'];
+    protected $fillable = ['user_id', 'upload', 'download'];
+
+    protected $primaryKey = null;
 }
