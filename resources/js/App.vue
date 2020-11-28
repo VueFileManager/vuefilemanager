@@ -28,6 +28,7 @@
             <!-- Mobile Menu for Multiselected items -->
             <MobileMultiSelectMenu/>
 
+            <!-- Multi Select Drag & Drop UI -->
             <MultiSelected :draged-ghost="draged" :draged-item="dragedItem" v-show="draged" id="multi-select-ui"/>
 
             <!--Mobile Menu-->

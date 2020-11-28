@@ -16,6 +16,9 @@
         <!--Rename folder or file item-->
         <RenameItem/>
 
+         <!-- Multi Select Drag & Drop UI -->
+        <MultiSelected :draged-ghost="draged" :draged-item="dragedItem" v-show="draged" id="multi-select-ui"/>
+
         <!--Mobile Menu-->
         <MobileMenu/>
 
@@ -111,6 +114,7 @@
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
+    import MultiSelected from '@/components/FilesView/MultiSelected'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import FileBrowser from '@/components/FilesView/FileBrowser'
@@ -142,6 +146,7 @@
             FileFullPreview,
             DesktopToolbar,
             ContentSidebar,
+            MultiSelected,
             FileItemGrid,
             ContentGroup,
             AuthContent,
@@ -183,6 +188,8 @@
                 isPageLoading: true,
                 currentPage: undefined,
                 homeDirectory: undefined,
+                draged: false,
+                dragedItem: undefined
             }
         },
         methods: {
@@ -261,6 +268,23 @@
             },
         },
         created() {
+
+             // Handle default scrollbar for the macOS
+             if (!navigator.userAgent.indexOf('Mac OS X') != -1) {
+               let body = document.body
+               body.classList.add('scroll-bar')
+            }
+
+             // Hnadle Drag & Drop Ghost show
+            events.$on('dragstart', (data) => {
+                this.dragedItem = data
+                setTimeout(() => {
+                    this.draged = true
+                }, 50);
+             })
+            events.$on('drop', () => {
+                this.draged = false
+            })
 
             axios
                 .get('/api/shared/' + this.$route.params.token, )

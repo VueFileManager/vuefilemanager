@@ -111,7 +111,7 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="renameItem">
+                <li class="menu-option" @click="renameItem" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <edit2-icon size="17"></edit2-icon>
                     </div>
@@ -188,7 +188,7 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="renameItem">
+                <li class="menu-option" @click="renameItem" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <edit2-icon size="17"></edit2-icon>
                     </div>
@@ -258,7 +258,7 @@
                 </li>
             </ul>
             <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="renameItem">
+                <li class="menu-option" @click="renameItem" v-if="multiSelectContextMenu">
                     <div class="icon">
                         <edit2-icon size="17"></edit2-icon>
                     </div>
