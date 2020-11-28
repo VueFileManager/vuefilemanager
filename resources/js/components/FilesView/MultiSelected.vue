@@ -1,11 +1,23 @@
 <template>
-    <div :class="[this.moveItem ? 'move-item'  : 'wrapper' , this.cloneElement ? 'clone' : '']">
+    <div :class="[this.moveItem ? 'move-item'  : 'wrapper' , this.dragedGhost ? 'ghost' : '']">
         <div class="icon-wrapper">   
             <CheckSquareIcon class="icon" size="21"/>
         </div>
-        <div class="text">
+        <!-- Multi select for the move item popup and file info -->
+        <div class="text" v-if="!this.dragedGhost">
             <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
             <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
+        </div>
+        <!-- Multi select for the Drag & Drop -->
+        <div class="text" v-if="this.dragedGhost">
+            <div v-if="this.fileInfoDetail.length > 1 && !noSelectedItem">
+                <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
+                <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
+            </div>
+
+            <div v-if="this.fileInfoDetail.length < 2 || noSelectedItem">
+                <span class="title">{{ this.dragedItem.name }}</span>
+            </div>
         </div>
     </div>
 </template>
@@ -16,10 +28,14 @@ import {mapGetters} from 'vuex'
 
     export default {
         name:'MultiSelected',
-        props: ['moveItem' , 'cloneElement'],
+        props: ['moveItem' , 'dragedGhost' , 'dragedItem'],
         components: {CheckSquareIcon},
         computed: {
-            ...mapGetters(['fileInfoDetail'])
+            ...mapGetters(['fileInfoDetail']),
+            // If the draged item is not in selected items
+            noSelectedItem() {
+                return  !this.fileInfoDetail.includes(this.dragedItem)
+            }
         },
         
     }
@@ -28,8 +44,19 @@ import {mapGetters} from 'vuex'
 <style lang="scss" scoped>
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
-.clone {
-    position: relative;
+.ghost {
+    // width: 200px !important;
+    max-width: 300px;
+    min-width: 250px;
+    position: fixed;
+    z-index: 10;
+    pointer-events: none;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px -6px rgba(26, 36, 55, 0.15);
+    background:$light_background;
+    
+   
 }
 
 .wrapper {
@@ -130,6 +157,9 @@ import {mapGetters} from 'vuex'
                 color: $dark_mode_text_secondary;
             }
         }      
+    }
+    .ghost {
+        background: $dark_mode_foreground;
     }
 }
 </style>

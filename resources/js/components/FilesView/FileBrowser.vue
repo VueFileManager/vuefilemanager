@@ -29,7 +29,6 @@
                         :class="FilePreviewType"
                 >
                     <FileItemList
-                            @drag.native="mousePosition"
                             @dragstart="dragStart(item)"
                             @drop.stop.native.prevent="dragFinish(item, $event)"
                             @contextmenu.native.prevent="contextMenu($event, item)"
@@ -82,7 +81,6 @@
             <!--If file info panel empty show message-->
             <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
         </div>
-            <MultiSelected @click.prevent="" :clone-element="dragInProgress" :style="{ top: positionY + 'px', left: positionX + 'px' }" id="multi-selected" v-if="dragInProgress && this.fileInfoDetail.length > 1" />
     </div>
 </template>
 
@@ -138,24 +136,9 @@
                 draggingId: undefined,
                 isDragging: false,
                 mobileMultiSelect: false,
-                dragInProgress:false,
-                positionY:undefined,
-                positionX:undefined
             }
         },
         methods: {
-            mousePosition() {
-               let contentLeft = document.getElementById('file-content-id').getBoundingClientRect().left -15
-                
-                if(event.clientX  > contentLeft ) {
-                this.positionY = event.clientY -85
-                this.positionX = event.clientX -350
-                }else if (event.clientX < contentLeft){
-                this.positionY = event.clientY -15
-                this.positionX = event.clientX -30
-                }
-                // console.log(event.clientX, contentLeft)
-            },
             dropUpload(event) {
                 // Upload external file
                 this.$uploadExternalFiles(event, this.currentFolder.unique_id)
@@ -171,24 +154,7 @@
             dragStart(data) {
                 let img = document.createElement('img')
                 img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-<<<<<<< HEAD
                 event.dataTransfer.setDragImage(img, 0, 0)
-
-                this.dragInProgress = true
-=======
-
-                event.dataTransfer.setDragImage(img, 0, 0)
-               
-               /*let elementClone = event.target.cloneNode(true)
-               elementClone.className = 'draged-clone'
-               console.log(elementClone)*/
-            //    elementClone.style.backgroundColor  = "red"  
-                // let element = document.getElementsByClassName('file-item')
-                // element.style.display = "none"
-                // var crt = this.cloneNode(true);
-                // crt.style.backgroundColor = "red";
-                // this.style.display = "none"
->>>>>>> 65f7855703c7a163dc2bf3cc05b23469d76d7453
 
                 events.$emit('dragstart', data)
 
@@ -197,7 +163,6 @@
             },
             dragFinish(data, event) {
 
-                this.dragInProgress = false
                 if (event.dataTransfer.items.length == 0) {
                    
                     // Prevent to drop on file or image
@@ -250,8 +215,7 @@
             })
 
             events.$on('drop', () => {
-                this.isDragging = false,
-                this.dragInProgress = false
+                this.isDragging = false
             })
 
             events.$on('fileItem:deselect', () =>

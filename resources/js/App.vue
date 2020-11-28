@@ -28,6 +28,8 @@
             <!-- Mobile Menu for Multiselected items -->
             <MobileMultiSelectMenu/>
 
+            <MultiSelected :draged-ghost="draged" :draged-item="dragedItem" v-show="draged" id="multi-select-ui"/>
+
             <!--Mobile Menu-->
             <MobileMenu/>
 
@@ -58,6 +60,7 @@
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import MobileNavigation from '@/components/Others/MobileNavigation'
     import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
+    import MultiSelected from '@/components/FilesView/MultiSelected'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
     import Confirm from '@/components/Others/Popup/Confirm'
@@ -78,6 +81,7 @@
             MobileNavigation,
             CookieDisclaimer,
             FileFullPreview,
+            MultiSelected,
             ToastrWrapper,
             ShareCreate,
             RenameItem,
@@ -123,6 +127,8 @@
         data() {
             return {
                 isScaledDown: false,
+                draged: false,
+                dragedItem: undefined
             }
         },
         beforeMount() {
@@ -152,11 +158,28 @@
             }
         },
         mounted() {
+            // Handle default scrollbar for the macOS
+            if (!navigator.userAgent.indexOf('Mac OS X') != -1) {
+               let body = document.body
+               body.classList.add('scroll-bar')
+            }
+
             // Handle mobile navigation scale animation
             events.$on('show:mobile-navigation', () => this.isScaledDown = true)
             events.$on('hide:mobile-navigation', () => this.isScaledDown = false)
             events.$on('mobileMenu:show', () => this.isScaledDown = true)
             events.$on('fileItem:deselect', () => this.isScaledDown = false)
+
+            // Hnadle Drag & Drop Ghost show
+            events.$on('dragstart', (data) => {
+                this.dragedItem = data
+                setTimeout(() => {
+                    this.draged = true
+                }, 50);
+             })
+            events.$on('drop', () => {
+                this.draged = false
+            })
         }
     }
 </script>
