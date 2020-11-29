@@ -4,6 +4,8 @@
          @drop.stop.prevent="dropUpload($event)"
          @dragover="dragEnter"
          @dragleave="dragLeave"
+         @keydown.delete="deleteItems"
+         tabindex="-1"
     >
         <div
                 class="files-container"
@@ -139,6 +141,9 @@
             }
         },
         methods: {
+            deleteItems() {
+                console.log('delete items');
+            },
             dropUpload(event) {
                 // Upload external file
                 this.$uploadExternalFiles(event, this.currentFolder.unique_id)
