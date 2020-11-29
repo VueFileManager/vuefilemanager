@@ -14,6 +14,7 @@ class CreateTrafficTable extends Migration
     public function up()
     {
         Schema::create('traffic', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->bigInteger('upload')->default(0);
             $table->bigInteger('download')->default(0);
@@ -28,6 +29,6 @@ class CreateTrafficTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('traffics');
+        Schema::dropIfExists('traffic');
     }
 }

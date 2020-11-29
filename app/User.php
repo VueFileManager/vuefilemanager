@@ -260,7 +260,10 @@ class User extends Authenticatable
      */
     public function record_upload($file_size)
     {
-        $record = Traffic::whereMonth('created_at', '=', Carbon::now()->month)
+        $now = Carbon::now();
+
+        $record = Traffic::whereYear('created_at', '=', $now->year)
+            ->whereMonth('created_at', '=', $now->month)
             ->firstOrCreate([
                 'user_id' => $this->id,
             ]);
@@ -269,7 +272,7 @@ class User extends Authenticatable
             'upload' => $record->upload + $file_size
         ]);
     }
-    
+
     /**
      * Record user download filesize
      *
@@ -277,7 +280,10 @@ class User extends Authenticatable
      */
     public function record_download($file_size)
     {
-        $record = Traffic::whereMonth('created_at', '=', Carbon::now()->month)
+        $now = Carbon::now();
+
+        $record = Traffic::whereYear('created_at', '=', $now->year)
+            ->whereMonth('created_at', '=', $now->month)
             ->firstOrCreate([
                 'user_id' => $this->id,
             ]);

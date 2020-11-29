@@ -100,7 +100,7 @@ var vueFileManager = new Vue({
 
 document.addEventListener('drag', (event) => {
   let multiSelect = document.getElementById('multi-select-ui')
-  multiSelect.style.top = event.clientY +25 + 'px'
-  multiSelect.style.left = event.clientX - 50 + 'px'
-  
+  multiSelect.style.top = event.clientY + 20 + 'px'
+  multiSelect.style.left = event.clientX + 'px'
+
 },false)

@@ -53,10 +53,8 @@ import {mapGetters} from 'vuex'
     pointer-events: none;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 5px 10px -6px rgba(26, 36, 55, 0.15);
-    background:$light_background;
-    
-   
+    box-shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
+    background:white;
 }
 
 .wrapper {
