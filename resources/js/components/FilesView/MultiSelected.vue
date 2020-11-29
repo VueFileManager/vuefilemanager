@@ -1,22 +1,22 @@
 <template>
-    <div :class="[this.moveItem ? 'move-item'  : 'wrapper' , this.dragedGhost ? 'ghost' : '']">
+    <div :class="[this.moveItem ? 'move-item'  : 'wrapper' , this.isGhost ? 'ghost' : '']">
         <div class="icon-wrapper">   
             <CheckSquareIcon class="icon" size="21"/>
         </div>
         <!-- Multi select for the move item popup and file info -->
-        <div class="text" v-if="!this.dragedGhost">
+        <div class="text" v-if="!this.isGhost">
             <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
             <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
         </div>
         <!-- Multi select for the Drag & Drop -->
-        <div class="text" v-if="this.dragedGhost">
+        <div class="text" v-if="this.isGhost">
             <div v-if="this.fileInfoDetail.length > 1 && !noSelectedItem">
                 <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
                 <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
             </div>
 
             <div v-if="this.fileInfoDetail.length < 2 || noSelectedItem">
-                <span class="title">{{ this.dragedItem.name }}</span>
+                <span v-if="this.dragedItem" class="title">{{ this.dragedItem.name }}</span>
             </div>
         </div>
     </div>
@@ -25,10 +25,12 @@
 <script>
 import {CheckSquareIcon} from "vue-feather-icons";
 import {mapGetters} from 'vuex'
+import {events} from '@/bus'
+
 
     export default {
         name:'MultiSelected',
-        props: ['moveItem' , 'dragedGhost' , 'dragedItem'],
+        props: [ 'moveItem' , 'isGhost' ],
         components: {CheckSquareIcon},
         computed: {
             ...mapGetters(['fileInfoDetail']),
@@ -37,6 +39,20 @@ import {mapGetters} from 'vuex'
                 return  !this.fileInfoDetail.includes(this.dragedItem)
             }
         },
+        data () {
+            return {
+                dragedItem: undefined,
+            }
+        },
+        mounted () {
+
+            // Hnadle Drag & Drop Ghost show
+            if(this.isGhost) {
+                events.$on('dragstart', (data) => {
+                    this.dragedItem = data
+                })
+            }
+        }
         
     }
 </script>
@@ -45,7 +61,6 @@ import {mapGetters} from 'vuex'
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
 .ghost {
-    // width: 200px !important;
     max-width: 300px;
     min-width: 250px;
     position: fixed;

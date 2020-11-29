@@ -440,7 +440,7 @@
 
 }
 
-.scroll-bar {
+.windows {
   ::-webkit-scrollbar {
     width: 18px;
     height: 18px;
@@ -454,8 +454,9 @@
       border-radius: 25px;
   }
 }
+
 @media (prefers-color-scheme: dark) { 
-  .scroll-bar {
+  .windows {
     ::-webkit-scrollbar-thumb {
       border: 6px solid $dark_mode_background;
       background: $dark_mode_foreground !important;

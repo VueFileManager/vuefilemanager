@@ -88,6 +88,14 @@ Vue.use(Helpers);
 
 Vue.config.productionTip = false;
 
+// Handle position of Drag & Drop Ghost
+document.addEventListener('drag', (event) => {
+  let multiSelect = document.getElementById('multi-select-ui')
+  multiSelect.style.top = event.clientY + 20 + 'px'
+  multiSelect.style.left = event.clientX + 'px'
+
+},false)
+
 var vueFileManager = new Vue({
   i18n,
   store,
@@ -98,9 +106,4 @@ var vueFileManager = new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-document.addEventListener('drag', (event) => {
-  let multiSelect = document.getElementById('multi-select-ui')
-  multiSelect.style.top = event.clientY + 20 + 'px'
-  multiSelect.style.left = event.clientX + 'px'
 
-},false)

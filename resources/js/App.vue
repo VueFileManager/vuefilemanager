@@ -29,7 +29,7 @@
             <MobileMultiSelectMenu/>
 
             <!-- Multi Select Drag & Drop UI -->
-            <MultiSelected :draged-ghost="draged" :draged-item="dragedItem" v-show="draged" id="multi-select-ui"/>
+            <MultiSelected :is-ghost="true" v-show="draged" id="multi-select-ui"/>
 
             <!--Mobile Menu-->
             <MobileMenu/>
@@ -129,7 +129,6 @@
             return {
                 isScaledDown: false,
                 draged: false,
-                dragedItem: undefined
             }
         },
         beforeMount() {
@@ -159,11 +158,6 @@
             }
         },
         mounted() {
-            // Handle default scrollbar for the macOS
-            if (!navigator.userAgent.indexOf('Mac OS X') != -1) {
-               let body = document.body
-               body.classList.add('scroll-bar')
-            }
 
             // Handle mobile navigation scale animation
             events.$on('show:mobile-navigation', () => this.isScaledDown = true)
@@ -173,7 +167,6 @@
 
             // Hnadle Drag & Drop Ghost show
             events.$on('dragstart', (data) => {
-                this.dragedItem = data
                 setTimeout(() => {
                     this.draged = true
                 }, 50);

@@ -160,6 +160,8 @@
             dragFinish() {
                 this.area = false
 
+                events.$emit('drop')
+
                 // Check if draged item is folder
                 if (this.draggedItem && this.draggedItem.type !== 'folder') return
 
@@ -181,7 +183,7 @@
                 this.$store.dispatch('addToFavourites', null)            
                 }
 
-                 events.$emit('drop')
+               
             },
             removeFavourite(folder) {
                 this.$store.dispatch('removeFromFavourites', folder)

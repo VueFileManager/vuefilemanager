@@ -38,6 +38,7 @@
                             v-for="item in data"
                             :key="item.unique_id"
                             class="file-item"
+                            :class="dragedItems.includes(item) ? 'draged' : '' "                      
                     />
                 </transition-group>
             </div>
@@ -58,6 +59,7 @@
                             v-for="item in data"
                             :key="item.unique_id"
                             class="file-item"
+                            :class="dragedItems.includes(item) ? 'draged' : '' "
                     />
                 </transition-group>
             </div>
@@ -132,6 +134,15 @@
             isEmpty() {
                 return this.data.length == 0
             },
+            dragedItems() {
+                if(!this.fileInfoDetail.includes(this.draggingId)){
+                    return [this.draggingId]
+                }
+
+                if(this.fileInfoDetail.includes(this.draggingId)) {
+                    return this.fileInfoDetail
+                }
+            }
         },
         data() {
             return {
@@ -142,7 +153,9 @@
         },
         methods: {
             deleteItems() {
-                console.log('delete items');
+                if(this.fileInfoDetail.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
+                    this.$store.dispatch('deleteItem')
+                }
             },
             dropUpload(event) {
                 // Upload external file
@@ -221,6 +234,9 @@
 
             events.$on('drop', () => {
                 this.isDragging = false
+                setTimeout(() => {
+                    this.draggingId = undefined
+                }, 10);
             })
 
             events.$on('fileItem:deselect', () =>
@@ -247,6 +263,10 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .draged {
+        opacity: 0.5;
+    }
 
     #multi-selected {
         position: fixed;

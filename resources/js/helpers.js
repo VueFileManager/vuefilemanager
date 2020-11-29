@@ -311,3 +311,9 @@ const Helpers = {
 }
 
 export default Helpers
+
+// Handle styled scrollbar for Windows
+if (navigator.userAgent.indexOf('Windows') != -1) {
+   let body = document.body
+   body.classList.add('windows')
+}

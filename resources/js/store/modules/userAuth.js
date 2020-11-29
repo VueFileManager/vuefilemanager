@@ -51,13 +51,13 @@ const actions = {
         let addFavourites = []
         let items = [folder]
 
-        console.log(context.getters.fileInfoDetail)
         if(!folder){
             items = context.getters.fileInfoDetail
         }        
 
         items.forEach((data) => {
-            if(data.type === 'folder') {
+            if(data.type === 'folder' ) {
+                if(context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)) return
                 addFavourites.push({
                     'unique_id': data.unique_id
                 })
@@ -68,8 +68,16 @@ const actions = {
             context.commit('CLEAR_FILEINFO_DETAIL')
         }
 
+        let pushToFavorites = []
+        //Dont push to favorites a folder what is already in favourites
+        items.map(data => {
+            if(!context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)){
+                pushToFavorites.push(data)
+            }
+        })
+        
         // Add to storage
-        context.commit('ADD_TO_FAVOURITES', items)
+        context.commit('ADD_TO_FAVOURITES', pushToFavorites)
 
         axios
             .post(context.getters.api + '/folders/favourites', {
