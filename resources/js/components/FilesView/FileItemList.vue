@@ -9,14 +9,13 @@
 			@dragstart="$emit('dragstart')"
 			@drop="
 				drop()
-				area = false
-			"
+				area = false"
 			@dragleave="dragLeave"
 			@dragover.prevent="dragEnter"
 			class="file-item"
 			:class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
 		>
-
+			<!-- MultiSelecting for the mobile version -->
 			<div class="check-select" v-if="mobileMultiSelect">			
 				<div class="select-box" :class="{'select-box-active' : isClicked } ">
 					<CheckIcon v-if="isClicked" class="icon" size="17"/>		
@@ -170,6 +169,7 @@ export default {
 		},
 		clickedItem(e) {
 			events.$emit('contextMenu:hide')
+
 			if(!this.$isMobile()) {
 
 				if( (e.ctrlKey || e.metaKey ) && !e.shiftKey) {
@@ -190,18 +190,19 @@ export default {
 						this.$store.commit('CLEAR_FILEINFO_DETAIL')
 					}
 					
+					//Shift selecting from top to bottom
 					if(lastItem < clickedItem) {
 						for(let i=lastItem ; i<=clickedItem; i++ ) {
 							this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
 						}
+					//Shift selecting from bottom to top
 					}else {
-						for(let i=clickedItem ; i<=lastItem; i++ ) {
+						for(let i=lastItem ; i>=clickedItem; i-- ) {
 							this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
 						}
 					}
 				}else {
 					// Click
-					events.$emit('fileItem:deselect')
 					this.$store.commit('CLEAR_FILEINFO_DETAIL')
 					this.$store.commit('GET_FILEINFO_DETAIL', this.data)
 				}
@@ -269,18 +270,12 @@ export default {
 		this.itemName = this.data.name
 
 		events.$on('mobileSelecting-start', () => {
-			this.mobileMultiSelect = true
-			this.$store.commit('CLEAR_FILEINFO_DETAIL')
+			this.mobileMultiSelect = true			
+			this.$store.commit('CLEAR_FILEINFO_DETAIL')			
 		})
 
 		events.$on('mobileSelecting-stop', () => {
-			this.mobileMultiSelect = false
-			this.$store.commit('CLEAR_FILEINFO_DETAIL')
-		})
-
-		events.$on('fileItem:deselect', () => {
-			// Deselect file
-			if(this.fileInfoDetail.length > 0)
+			this.mobileMultiSelect = false		
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
 		})
 

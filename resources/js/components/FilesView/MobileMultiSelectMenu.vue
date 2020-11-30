@@ -78,6 +78,7 @@ export default {
             events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
         },
         deleteItem() {
+        //Delete items
             this.$store.dispatch("deleteItem");
         },
     },

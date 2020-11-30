@@ -466,7 +466,7 @@ export default {
         },
         deleteItem() {
             // Dispatch remove item
-            // If is contet menu open on non selected item delete this single item
+            // If is context menu open on non selected item delete this single item
             if(!this.fileInfoDetail.includes(this.item)){
                 this.$store.dispatch('deleteItem', this.item)
             }

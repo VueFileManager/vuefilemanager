@@ -135,6 +135,8 @@
                 return this.data.length == 0
             },
             dragedItems() {
+                //Set opacity for dragged items
+
                 if(!this.fileInfoDetail.includes(this.draggingId)){
                     return [this.draggingId]
                 }
@@ -188,6 +190,7 @@
 
                     //Prevent move selected folder to folder if in beteewn selected folders
                     if(this.fileInfoDetail.find(item => item === data)) return 
+
                     // Move folder to new parent
 
                     //Move selected items to folder
@@ -215,9 +218,8 @@
                 events.$emit('contextMenu:show', event, item)
             },
             filesContainerClick() {
-
-                // Deselect clicked item
-                events.$emit('fileItem:deselect')
+                // Deselect itms clicked by outside
+                this.$store.commit('CLEAR_FILEINFO_DETAIL')
 
                 // Hide context menu if is opened
                 events.$emit('contextMenu:hide')
@@ -250,11 +252,6 @@
                 )[0]
 
                 if (container) container.scrollTop = 0
-            })
-
-            // On items delete
-            events.$on('items:delete', () => {
-                this.$store.dispatch('deleteItem')
             })
         }
     }

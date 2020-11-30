@@ -15,7 +15,7 @@
 
                 <MultiSelected class="multiple-selected" :move-item="true" v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
                     
-                <TreeMenu :disabled-by-id="pickedItem.unique_id" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
+                <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
         </PopupContent>
 

@@ -11,8 +11,7 @@
                 @dragstart="$emit('dragstart')"
                 @drop="
 				drop()
-				area = false
-			"
+				area = false"
                 @dragleave="dragLeave"
                 @dragover.prevent="dragEnter"
                 class="file-item"
@@ -197,19 +196,19 @@
                             this.$store.commit('CLEAR_FILEINFO_DETAIL')
                         }
                         
+                        //Shift selecting from top to bottom
                         if(lastItem < clickedItem) {
                             for(let i=lastItem ; i<=clickedItem; i++ ) {
                                 this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
                             }
+                        //Shift selecting from bottom to top
                         }else {
-                            for(let i=clickedItem ; i<=lastItem; i++ ) {
+                            for(let i=lastItem ; i>=clickedItem; i-- ) {
                                 this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
                             }
                         }
                     }else {
                         // Click
-                        
-                        events.$emit('fileItem:deselect')
                         this.$store.commit('CLEAR_FILEINFO_DETAIL')
                         this.$store.commit('GET_FILEINFO_DETAIL', this.data)
                     }
@@ -290,16 +289,10 @@
 			this.mobileMultiSelect = false
 			this.$store.commit('CLEAR_FILEINFO_DETAIL')
 		})
-
-            events.$on('fileItem:deselect', () => {
-                // Deselect file
-                this.$store.commit('CLEAR_FILEINFO_DETAIL')
-            })
-
-            // Change item name
-            events.$on('change:name', (item) => {
-                if (this.data.unique_id == item.unique_id) this.itemName = item.name
-            })
+        // Change item name
+        events.$on('change:name', (item) => {
+            if (this.data.unique_id == item.unique_id) this.itemName = item.name
+        })
         }
     }
 </script>
@@ -309,20 +302,20 @@
     @import '@assets/vue-file-manager/_mixins';
 
     .check-select { 
-	margin-right: 10px;
-    margin-left: 3px;
-    position: absolute;
-    top: -10px;
-    z-index: 5;
-    left: 0px;
-    }
+        margin-right: 10px;
+        margin-left: 3px;
+        position: absolute;
+        top: -10px;
+        z-index: 5;
+        left: 0px;
+        }
     .check-select-folder { 
-	margin-right: 10px;
-    margin-left: 3px;
-    position: absolute;
-    top: 8px;
-    z-index: 5;
-    left: 10px;
+        margin-right: 10px;
+        margin-left: 3px;
+        position: absolute;
+        top: 8px;
+        z-index: 5;
+        left: 10px;
     }
 	.select-box {
 		width: 20px;

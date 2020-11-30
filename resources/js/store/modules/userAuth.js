@@ -69,7 +69,8 @@ const actions = {
         }
 
         let pushToFavorites = []
-        //Dont push to favorites a folder what is already in favourites
+        
+        //Check is favorites already don't include some of pushed folders
         items.map(data => {
             if(!context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)){
                 pushToFavorites.push(data)
