@@ -162,7 +162,7 @@
 
                 events.$emit('drop')
 
-                // Check if draged item is folder
+                // Check if dragged item is folder
                 if (this.draggedItem && this.draggedItem.type !== 'folder') return
 
                 // Check if folder exist in favourites

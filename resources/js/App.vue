@@ -28,7 +28,7 @@
             <!-- Mobile Menu for Multiselected items -->
             <MobileMultiSelectMenu/>
 
-            <!-- Multi Select Drag & Drop UI -->
+            <!--  Drag & Drop UI -->
             <DragUI/>
 
             <!--Mobile Menu-->

@@ -122,13 +122,13 @@
                 this.draggedItem = []
             })
 
-            //Get draged item
+            //Get dragged item
             events.$on('dragstart' , (data) => {
-               //If is draged item not selected
+               //If is dragged item not selected
                 if(!this.fileInfoDetail.includes(data)) {
                     this.draggedItem = [data]
                 }
-                //If are the draged items selected
+                //If are the dragged items selected
                 if(this.fileInfoDetail.includes(data)) {
                     this.draggedItem = this.fileInfoDetail
                 }

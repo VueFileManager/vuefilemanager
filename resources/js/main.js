@@ -5,6 +5,7 @@ import router from "./router";
 import i18n from "./i18n/index.js";
 import App from "./App.vue";
 import store from "./store";
+import {events} from "./bus";
 import Helpers from "./helpers";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -95,6 +96,10 @@ document.addEventListener('drag', (event) => {
   multiSelect.style.left = event.clientX + 'px'
 
 },false)
+
+document.addEventListener("dragend", () => {
+  events.$emit('drop')
+}, false);
 
 var vueFileManager = new Vue({
   i18n,

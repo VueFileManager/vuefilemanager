@@ -160,8 +160,6 @@ export default {
 		dragEnter() {
 			if (this.data.type !== 'folder') return
 
-			if(this.fileInfoDetail.includes(this.data)) return
-
 			this.area = true
 		},
 		dragLeave() {

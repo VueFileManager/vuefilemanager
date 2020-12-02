@@ -38,7 +38,7 @@
                             v-for="item in data"
                             :key="item.unique_id"
                             class="file-item"
-                            :class="dragedItems.includes(item) ? 'draged' : '' "                      
+                            :class="draggedItems.includes(item) ? 'dragged' : '' "                      
                     />
                 </transition-group>
             </div>
@@ -59,7 +59,7 @@
                             v-for="item in data"
                             :key="item.unique_id"
                             class="file-item"
-                            :class="dragedItems.includes(item) ? 'draged' : '' "
+                            :class="draggedItems.includes(item) ? 'dragged' : '' "
                     />
                 </transition-group>
             </div>
@@ -137,7 +137,7 @@
             isEmpty() {
                 return this.data.length == 0
             },
-            dragedItems() {
+            draggedItems() {
                 //Set opacity for dragged items
 
                 if(!this.fileInfoDetail.includes(this.draggingId)){
@@ -264,7 +264,15 @@
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
 
-    .draged {
+    .file-list {
+        .dragged {
+        /deep/.is-dragenter {
+            border: 2px solid transparent;
+        }
+        }
+    }
+
+    .dragged {
         opacity: 0.5;
     }
 
@@ -273,11 +281,6 @@
         pointer-events: none;
         z-index: 100;
         
-    }
-
-    .draged-clone {
-        display: none !important;
-        opacity: 0 !important;
     }
 
     .mobile-multi-select {

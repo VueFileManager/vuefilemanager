@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <MultiSelected :title="title" :subtitle="subtitle" id="multi-select-ui" v-show="draged" />
-    </div>
+        <MultiSelected :title="title" :subtitle="subtitle" id="multi-select-ui" v-show="dragged" />
 </template>
 
 <script>
@@ -15,24 +13,24 @@ import {events} from '@/bus'
         computed: {
             ...mapGetters(['fileInfoDetail']),
             title(){
-                if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.dragedItem)) {
+                if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.draggedItem)) {
                     return this.$t('file_detail.selected_multiple')
                 }
 
-                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.dragedItem)) && this.dragedItem ) {
-                    return this.dragedItem.name
+                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem ) {
+                    return this.draggedItem.name
                 }
             },
             subtitle(){
-                if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.dragedItem) ) {
+                if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.draggedItem) ) {
                     return this.fileInfoDetail.length + ' ' + this.$tc('file_detail.items', this.fileInfoDetail.length)
                 }
             },
         },
         data () {
             return {
-                draged: false,
-                dragedItem: undefined
+                dragged: false,
+                draggedItem: undefined
             }
         },
         mounted () {
@@ -40,11 +38,13 @@ import {events} from '@/bus'
             // Hnadle Drag & Drop Ghost show
             
             events.$on('dragstart', (data) => {
-                this.draged = true
-                this.dragedItem = data
+                setTimeout(() => {
+                    this.dragged = true
+                }, 50);
+                this.draggedItem = data
             })
             events.$on('drop', () => {
-                this.draged = false
+                this.dragged = false
             })
             
         }
