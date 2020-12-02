@@ -1,23 +1,12 @@
 <template>
-    <div :class="[this.moveItem ? 'move-item'  : 'wrapper' , this.isGhost ? 'ghost' : '']">
+    <div class="wrapper">
         <div class="icon-wrapper">   
             <CheckSquareIcon class="icon" size="21"/>
         </div>
-        <!-- Multi select for the move item popup and file info -->
-        <div class="text" v-if="!this.isGhost">
-            <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
-            <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
-        </div>
-        <!-- Multi select for the Drag & Drop -->
-        <div class="text" v-if="this.isGhost">
-            <div v-if="this.fileInfoDetail.length > 1 && !noSelectedItem">
-                <span class="title">{{ $t('file_detail.selected_multiple') }}</span>
-                <span class="count">{{this.fileInfoDetail.length}}  {{ $tc('file_detail.items', this.fileInfoDetail.length) }}</span>
-            </div>
-
-            <div v-if="this.fileInfoDetail.length < 2 || noSelectedItem">
-                <span v-if="this.dragedItem" class="title">{{ this.dragedItem.name }}</span>
-            </div>
+        
+        <div class="text" >
+            <span class="title">{{title }}</span>
+            <span class="count">{{subtitle }}</span>
         </div>
     </div>
 </template>
@@ -30,47 +19,14 @@ import {events} from '@/bus'
 
     export default {
         name:'MultiSelected',
-        props: [ 'moveItem' , 'isGhost' ],
+        props: [ 'title' , 'subtitle' ],
         components: {CheckSquareIcon},
-        computed: {
-            ...mapGetters(['fileInfoDetail']),
-            // If the draged item is not in selected items
-            noSelectedItem() {
-                return  !this.fileInfoDetail.includes(this.dragedItem)
-            }
-        },
-        data () {
-            return {
-                dragedItem: undefined,
-            }
-        },
-        mounted () {
-
-            // Hnadle Drag & Drop Ghost show
-            if(this.isGhost) {
-                events.$on('dragstart', (data) => {
-                    this.dragedItem = data
-                })
-            }
-        }
-        
     }
 </script>
 
 <style lang="scss" scoped>
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
-.ghost {
-    max-width: 300px;
-    min-width: 250px;
-    position: fixed;
-    z-index: 10;
-    pointer-events: none;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
-    background:white;
-}
 
 .wrapper {
     display: flex;
@@ -109,42 +65,7 @@ import {events} from '@/bus'
         }
     }
 }
-.move-item {
-    display: flex;
-    justify-content: center;
-    .text{
-        padding-left: 10px;
-        width: 100%;
-        word-break: break-all;
 
-        .title {
-           @include font-size(14);
-            font-weight: 700;
-            line-height: 1.4;
-            display: block;
-            color: $text;
-        }
-        .count {
-             @include font-size(12);
-            font-weight: 600;
-            color: $text-muted;
-            display: block;
-        }
-    }
-    .icon-wrapper {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        text-align: center;
-        white-space: nowrap;
-        outline: none;
-        border: none;
-        .icon { 
-            stroke: $theme;
-        }
-    }
-}
 @media (prefers-color-scheme: dark) {
     .wrapper {
         .text {
@@ -160,19 +81,6 @@ import {events} from '@/bus'
                 stroke: $theme;
             }   
         }  
-    }
-    .move-item {
-        .text {
-            .title {
-                color: $dark_mode_text_primary;
-            }
-            .count {
-                color: $dark_mode_text_secondary;
-            }
-        }      
-    }
-    .ghost {
-        background: $dark_mode_foreground;
     }
 }
 </style>

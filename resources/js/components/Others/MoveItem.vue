@@ -13,7 +13,10 @@
             <div v-if="! isLoadingTree && navigation">
                 <ThumbnailItem v-if="fileInfoDetail.length < 2 || noSelectedItem" class="item-thumbnail" :item="pickedItem" info="location"/>
 
-                <MultiSelected class="multiple-selected" :move-item="true" v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
+                <MultiSelected  class="multiple-selected" 
+                                :title="$t('file_detail.selected_multiple')" 
+                                :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
+                                v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
                     
                 <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
             </div>
@@ -139,6 +142,8 @@
 </script>
 
 <style scoped lang="scss">
+@import '@assets/vue-file-manager/_variables';
+@import '@assets/vue-file-manager/_mixins';
 
     .item-thumbnail {
         margin-bottom: 20px;
@@ -146,5 +151,31 @@
     .multiple-selected { 
         padding: 0 20px;;
         margin-bottom: 20px;
+        /deep/.text{
+            .title {
+                color: $text;
+            }
+            .count {
+                color: $text-muted;
+            }
+        }
+        /deep/.icon-wrapper {
+            .icon { 
+                stroke: $theme;
+            }
+        }
     }
+
+    @media (prefers-color-scheme: dark) {
+    .multiple-selected {
+        /deep/.text {
+            .title {
+                color: $dark_mode_text_primary;
+            }
+            .count {
+                color: $dark_mode_text_secondary;
+            }
+        }      
+    }
+}
 </style>

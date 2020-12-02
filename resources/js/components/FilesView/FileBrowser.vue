@@ -80,7 +80,10 @@
             <!--File info panel-->
             <FileInfoPanel v-if="fileInfoDetail.length === 1"/>
 
-            <MultiSelected v-if="fileInfoDetail.length > 1 "/>
+            <MultiSelected  v-if="fileInfoDetail.length > 1"
+                            :title="$t('file_detail.selected_multiple')" 
+                            :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"            
+            />
 
             <!--If file info panel empty show message-->
             <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>

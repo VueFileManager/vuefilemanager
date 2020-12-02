@@ -16,8 +16,8 @@
         <!--Rename folder or file item-->
         <RenameItem/>
 
-         <!-- Multi Select Drag & Drop UI -->
-        <MultiSelected :is-ghost="true" v-show="draged" id="multi-select-ui"/>
+         <!-- Drag & Drop UI -->
+        <DragUI/>
 
         <!--Mobile Menu-->
         <MobileMenu/>
@@ -114,7 +114,7 @@
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-    import MultiSelected from '@/components/FilesView/MultiSelected'
+    import DragUI from '@/components/FilesView/DragUI'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import FileBrowser from '@/components/FilesView/FileBrowser'
@@ -146,7 +146,7 @@
             FileFullPreview,
             DesktopToolbar,
             ContentSidebar,
-            MultiSelected,
+            DragUI,
             FileItemGrid,
             ContentGroup,
             AuthContent,
@@ -188,7 +188,6 @@
                 isPageLoading: true,
                 currentPage: undefined,
                 homeDirectory: undefined,
-                draged: false,
             }
         },
         methods: {
@@ -267,16 +266,6 @@
             },
         },
         created() {
-
-             // Hnadle Drag & Drop Ghost show
-            events.$on('dragstart', (data) => {
-                setTimeout(() => {
-                    this.draged = true
-                }, 50);
-             })
-            events.$on('drop', () => {
-                this.draged = false
-            })
 
             axios
                 .get('/api/shared/' + this.$route.params.token, )

@@ -29,7 +29,7 @@
             <MobileMultiSelectMenu/>
 
             <!-- Multi Select Drag & Drop UI -->
-            <MultiSelected :is-ghost="true" v-show="draged" id="multi-select-ui"/>
+            <DragUI/>
 
             <!--Mobile Menu-->
             <MobileMenu/>
@@ -61,7 +61,7 @@
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import MobileNavigation from '@/components/Others/MobileNavigation'
     import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
-    import MultiSelected from '@/components/FilesView/MultiSelected'
+    import DragUI from '@/components/FilesView/DragUI'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import ShareCreate from '@/components/Others/ShareCreate'
     import Confirm from '@/components/Others/Popup/Confirm'
@@ -82,7 +82,7 @@
             MobileNavigation,
             CookieDisclaimer,
             FileFullPreview,
-            MultiSelected,
+            DragUI,
             ToastrWrapper,
             ShareCreate,
             RenameItem,
@@ -128,7 +128,6 @@
         data() {
             return {
                 isScaledDown: false,
-                draged: false,
             }
         },
         beforeMount() {
@@ -164,16 +163,6 @@
             events.$on('hide:mobile-navigation', () => this.isScaledDown = false)
             events.$on('mobileMenu:show', () => this.isScaledDown = true)
             events.$on('fileItem:deselect', () => this.isScaledDown = false)
-
-            // Hnadle Drag & Drop Ghost show
-            events.$on('dragstart', (data) => {
-                setTimeout(() => {
-                    this.draged = true
-                }, 50);
-             })
-            events.$on('drop', () => {
-                this.draged = false
-            })
         }
     }
 </script>
