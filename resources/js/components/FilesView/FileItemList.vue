@@ -289,9 +289,10 @@ export default {
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
 
-.check-select { 
-	margin-right: 10px;
-	margin-left: 3px;
+.check-select {
+    margin-right: 15px;
+    margin-left: 6px;
+
 	.select-box {
 		width: 20px;
 		height: 20px;
@@ -508,7 +509,7 @@ export default {
 			background-color: $dark_mode_foreground;
 		}
 		.select-box-active {
-			background-color: $dark_mode_text_primary ;
+			background-color: $theme;
 			.icon {
 				stroke: $text;
 			}

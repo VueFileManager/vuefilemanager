@@ -58,7 +58,7 @@
                     {
                         icon: 'trash',
                         title: this.$t('menu.trash'),
-                        routeName: 'Trash',
+                        routeName: 'Files',
                         isVisible: true,
                     },
                     {
@@ -92,6 +92,10 @@
 
                 if (name === 'latest') {
                     this.$store.dispatch('getLatest')
+                }
+
+                if (name === 'trash') {
+                    this.$store.dispatch('getTrash')
                 }
 
                 if (name === 'hard-drive') {
