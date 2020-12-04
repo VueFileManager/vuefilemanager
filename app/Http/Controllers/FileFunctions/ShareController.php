@@ -93,16 +93,18 @@ class ShareController extends Controller
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy($token)
+    public function destroy(Request $request)
     {
-        // Get sharing record
-        $shared = Share::where('token', $token)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        foreach($request->input('folders') as $tokens) {
 
-        // Delete shared record
-        $shared->delete();
+            // Get sharing record
+            $shared = Share::where('token', $tokens['token'])
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
 
+            // Delete shared record
+            $shared->delete();
+        }
         // Done
         return response('Done!', 204);
     }

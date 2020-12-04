@@ -158,7 +158,7 @@
             changePassword() {
                 this.canChangePassword = false
             },
-            destroySharing() {
+            async destroySharing() {
 
                 // Set confirm button
                 if (! this.isConfirmedDestroy) {
@@ -170,18 +170,9 @@
                     this.isDeleting = true
 
                     // Send delete request
-                    axios
-                        .post('/api/share/' + this.pickedItem.shared.token, {
-                            _method: 'delete'
-                        })
-                        .then(() => {
-                            // Remove item from file browser
-                            if ( this.isSharedLocation ) {
-                                this.$store.commit('REMOVE_ITEM', this.pickedItem.unique_id)
-                            }
 
-                            // Flush shared data
-                            this.$store.commit('FLUSH_SHARED', this.pickedItem.unique_id)
+                    await this.$store.dispatch('shareCancel' , this.pickedItem)
+                        .then((response) => {
 
                             // End deleting spinner button
                             setTimeout(() => this.isDeleting = false, 150)

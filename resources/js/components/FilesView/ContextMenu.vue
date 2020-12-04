@@ -131,6 +131,14 @@
                         }}
                     </div>
                 </li>
+                 <li class="menu-option" @click="shareCancel" v-if="this.fileInfoDetail.length > 1 && !multiSelectContextMenu">
+                    <div class="icon">
+                        <link-icon size="17"></link-icon>
+                    </div>
+                    <div class="text-label">
+                        {{$t('context_menu.share_cancel')}}
+                    </div>
+                </li>
                 <li class="menu-option" @click="deleteItem">
                     <div class="icon">
                         <trash-2-icon size="17"></trash-2-icon>
@@ -404,6 +412,9 @@ export default {
     },
 
     methods: {
+        shareCancel() {
+            this.$store.dispatch('shareCancel')
+        },
         renameItem() {
             events.$emit('popup:open', { name: 'rename-item', item: this.item })
         },

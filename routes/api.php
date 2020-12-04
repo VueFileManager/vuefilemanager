@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::post('/folders/favourites', 'FileFunctions\FavouriteController@store');
 
     // Share
-    Route::delete('/share/{token}', 'FileFunctions\ShareController@destroy');
+    Route::post('/share/cancel', 'FileFunctions\ShareController@destroy');
     Route::patch('/share/{token}', 'FileFunctions\ShareController@update');
     Route::post('/share', 'FileFunctions\ShareController@store');
 

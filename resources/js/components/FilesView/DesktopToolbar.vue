@@ -226,17 +226,17 @@ export default {
       events.$emit("popup:open", { name: "move", item: this.fileInfoDetail });
     },
     shareItem() {
-      if (this.fileInfoDetail) {
+      if (this.fileInfoDetail[0]) {
         //ADD BY M
-        if (this.fileInfoDetail.shared) {
+        if (this.fileInfoDetail[0].shared) {
           events.$emit("popup:open", {
             name: "share-edit",
-            item: this.fileInfoDetail,
+            item: this.fileInfoDetail[0],
           });
         } else {
           events.$emit("popup:open", {
             name: "share-create",
-            item: this.fileInfoDetail,
+            item: this.fileInfoDetail[0],
           });
         }
       }

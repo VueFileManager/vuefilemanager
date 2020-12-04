@@ -65,6 +65,51 @@ const actions = {
                 })
         })
     },
+    shareCancel: ({commit, getters} , singleItem) => {
+        return new Promise((resolve, reject) => {
+
+            let cancelSharedFolders = []
+            let items = [singleItem]
+
+            if(!singleItem) {
+                items = getters.fileInfoDetail
+            }
+
+            items.forEach((data) => {
+                cancelSharedFolders.push({
+                    'token': data.shared.token
+                })
+            })
+
+            axios
+                .post('/api/share/cancel', {
+                    _method: 'post',
+                    folders: cancelSharedFolders
+                })
+                .then(() => {
+
+                    items.forEach((item) => {
+
+                        // Remove item from file browser
+                        if ( getters.currentFolder , getters.currentFolder.location === 'shared' ) {
+                            commit('REMOVE_ITEM', item.unique_id)
+                        }
+
+                        // Flush shared data
+                        commit('FLUSH_SHARED', item.unique_id)
+
+                        commit('CLEAR_FILEINFO_DETAIL')
+                    })
+                    resolve(true)
+
+                })
+                .catch((error) => {
+                    isSomethingWrong()
+
+                    reject(error)
+                })
+        })
+    },
     getSingleFile: ({commit, state}) => {
 
         let route = state.sharedDetail.protected
