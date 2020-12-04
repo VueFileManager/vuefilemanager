@@ -82,7 +82,10 @@
                 // Prevent empty submit
                 if (! this.selectedFolder) return
 
-                // Move item
+                //Prevent to move items to the same parent 
+                if(this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.unique_id)) return
+
+                // Move item 
                 if(!this.noSelectedItem){
                     this.$store.dispatch('moveItem', {to_item:this.selectedFolder ,noSelectedItem: null})
                 }

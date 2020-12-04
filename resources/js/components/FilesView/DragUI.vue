@@ -26,7 +26,7 @@ import {events} from '@/bus'
                     return this.fileInfoDetail.length + ' ' + this.$tc('file_detail.items', this.fileInfoDetail.length)
                 }
 
-                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem ) {
+                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem && this.draggedItem.mimetype) {
                     return '.'+this.draggedItem.mimetype
                 }
             },
