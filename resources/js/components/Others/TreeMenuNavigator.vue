@@ -2,12 +2,12 @@
     <transition name="folder">
         <div class="folder-item-wrapper" >
 
-            <div class="folder-item" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }" 
+            <div class="folder-item" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
                                     :style="indent" @click="getFolder"
                                     @dragover.prevent="dragEnter"
                                     @dragleave="dragLeave"
                                     @drop="dragFinish()"
-                                                        
+
              >
                 <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow"
                                     :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
@@ -39,17 +39,17 @@
         },
         computed: {
             ...mapGetters(['fileInfoDetail']),
-           
+
             disabledFolder() {
                 let disableFolder = false
                 if(this.draggedItem.length > 0) {
 
                     this.draggedItem.forEach(item => {
-                        //Disable the parent of the folder      
+                        //Disable the parent of the folder
                         if(item.type === "folder" && this.nodes.unique_id === item.parent_id){
                             disableFolder = true
                         }
-                        //Disable the self folder with all children 
+                        //Disable the self folder with all children
                         if (this.nodes.unique_id === item.unique_id && item.type === 'folder') {
                             disableFolder = true
                             this.disableChildren = true
@@ -84,20 +84,20 @@
         },
         methods: {
             dragFinish() {
-                // Move item
-                //Move no selected item
+                // Move no selected item
                 if(!this.fileInfoDetail.includes(this.draggedItem[0])) {
                     this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:this.draggedItem[0]})
                 }
-                //Move all selected items
+
+                // Move all selected items
                 if(this.fileInfoDetail.includes(this.draggedItem[0])) {
                     this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:null})
                 }
                 
                 this.draggedItem = []
                 this.area = false
+
                 events.$emit('drop')
-                
             },
              dragEnter() {
                 this.area = true
@@ -106,18 +106,21 @@
                 this.area = false
             },
             getFolder() {
-
                 events.$emit('show-folder', this.nodes)
 
-                // Get folder content
-                this.$store.dispatch('getFolder', [{folder: this.nodes, back: false, init: false}])
+                // Go to folder
+                if (this.$isThisLocation('public')) {
+                    this.$store.dispatch('browseShared', [{ folder: this.nodes, back: false, init: false }])
+                } else {
+                    this.$store.dispatch('getFolder', [{ folder: this.nodes, back: false, init: false }])
+                }
             },
             showTree() {
                 this.isVisible = !this.isVisible
             }
         },
         created() {
-            
+
             events.$on('drop' , () => {
                 this.draggedItem = []
             })

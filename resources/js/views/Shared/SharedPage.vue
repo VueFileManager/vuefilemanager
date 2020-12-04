@@ -9,8 +9,7 @@
         <!--Move item setup-->
         <MoveItem />
 
-
-        <!-- Mobile Menu for Multiselected items -->
+        <!-- Mobile Menu for Multi selected items -->
         <MobileMultiSelectMenu/>
 
         <!--Rename folder or file item-->
