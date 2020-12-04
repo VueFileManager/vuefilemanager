@@ -401,6 +401,7 @@ export default {
       //If emit to show menu coming from MediaFullPreview dont reset data
         this.isVisible = false;
         this.showFromMediaPreview = false;
+        events.$emit('hide:mobile-navigation')
     },
   },
   created() {

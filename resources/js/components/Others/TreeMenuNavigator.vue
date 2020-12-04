@@ -88,13 +88,13 @@
                 //Move no selected item
                 if(!this.fileInfoDetail.includes(this.draggedItem[0])) {
                     this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:this.draggedItem[0]})
-                     this.draggedItem = []
                 }
                 //Move all selected items
                 if(this.fileInfoDetail.includes(this.draggedItem[0])) {
                     this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:null})
-                     this.draggedItem = []
                 }
+                
+                this.draggedItem = []
                 this.area = false
                 events.$emit('drop')
                 
@@ -155,7 +155,7 @@
     }
 
     .is-dragenter {
-			border: 2px dashed $theme;
+			border: 2px dashed $theme !important;
 			border-radius: 8px;
 		}
 
@@ -167,6 +167,7 @@
         position: relative;
         white-space: nowrap;
         width: 100%;
+        border: 2px dashed transparent ;
 
         .icon {
             line-height: 0;

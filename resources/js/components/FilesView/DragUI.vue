@@ -25,6 +25,10 @@ import {events} from '@/bus'
                 if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.draggedItem) ) {
                     return this.fileInfoDetail.length + ' ' + this.$tc('file_detail.items', this.fileInfoDetail.length)
                 }
+
+                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem ) {
+                    return '.'+this.draggedItem.mimetype
+                }
             },
         },
         data () {

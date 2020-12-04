@@ -187,24 +187,25 @@
             dragFinish(data, event) {
 
                 if (event.dataTransfer.items.length == 0) {
-                   
                     // Prevent to drop on file or image
                     if (data.type !== 'folder' || this.draggingId === data) return
 
                     //Prevent move selected folder to folder if in beteewn selected folders
-                    if(this.fileInfoDetail.find(item => item === data)) return 
+                    if(this.fileInfoDetail.find(item => item === data && this.fileInfoDetail.length > 1)) return 
 
                     // Move folder to new parent
+
+                     //Move item if is not included in selected items
+                    if(!this.fileInfoDetail.includes(this.draggingId)){
+                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem:this.draggingId})
+                    }
 
                     //Move selected items to folder
                     if(this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)){
                         this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem: null})
                     }
-
-                    //Move item if is not included in selected items
-                    if(this.fileInfoDetail.length === 0 || !this.fileInfoDetail.includes(this.draggingId)){
-                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem:this.draggingId})
-                    }
+                   
+                   
 
                 } else {
 
@@ -285,6 +286,7 @@
 
     .mobile-multi-select {
         bottom: 50px !important;
+        top: 0px;
     }
 
     .button-upload {
