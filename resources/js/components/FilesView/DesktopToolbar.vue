@@ -217,7 +217,7 @@ export default {
       events.$emit("folder:actions", this.currentFolder);
     },
     deleteItem() {
-      events.$emit("items:delete");
+      this.$store.dispatch('deleteItem')
     },
     createFolder() {
       this.$createFolder();
