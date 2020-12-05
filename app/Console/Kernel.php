@@ -35,6 +35,11 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $this->delete_expired_shared_links();
         })->everyMinute();
+
+        // Run queue jobs every minute
+        $schedule->command('queue:work --tries=3')
+            ->everyMinute()
+            ->withoutOverlapping();
     }
 
     /**

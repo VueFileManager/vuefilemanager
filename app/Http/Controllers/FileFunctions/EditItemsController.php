@@ -228,10 +228,10 @@ class EditItemsController extends Controller
             return Demo::response_204();
         }
 
-        
+
         // Check shared permission
         if (!is_editor($shared)) abort(403);
-        
+
         foreach($request->input('data') as $file){
             $unique_id = $file['unique_id'];
 
@@ -329,20 +329,21 @@ class EditItemsController extends Controller
         if (is_demo(Auth::id())) {
             return Demo::response_204();
         }
-    
-            $to_unique_id = $request->input('to_unique_id');
 
-            // Check permission to upload for authenticated editor
-            if ($request->user()->tokenCan('editor')) {
-                // check if shared_token cookie exist
-                if (!$request->hasCookie('shared_token')) abort('401');
+        $to_unique_id = $request->input('to_unique_id');
 
-                // Get shared token
-                $shared = get_shared($request->cookie('shared_token'));
+        // Check permission to upload for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
 
-                // Check access to requested directory
-                 Guardian::check_item_access($to_unique_id, $shared);
-            }
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
+
+            // Check access to requested directory
+             Guardian::check_item_access($to_unique_id, $shared);
+        }
+
         // Move item
         Editor::move($request, $to_unique_id);
 
@@ -377,7 +378,7 @@ class EditItemsController extends Controller
 
             $unique_id = $item['unique_id'];
             $moving_unique_id = $unique_id;
-       
+
 
             if ($item['type'] !== 'folder') {
                 $file = FileManagerFile::where('unique_id', $unique_id)

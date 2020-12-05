@@ -258,6 +258,7 @@
 	},
 	"alerts": {
 		"error_confirm": "That’s horrible!",
+		"leave_to_sign_in": "Do you really want to leave?",
 		"success_confirm": "Awesome!"
 	},
 	"context_menu": {
@@ -275,7 +276,7 @@
 		"rename": "Rename",
 		"restore": "Restore",
 		"share": "Share",
-		"share_cancel": "Share Cancel",
+		"share_cancel": "Cancel Sharing",
 		"share_edit": "Edit Sharing",
 		"upload": "Upload",
 		"select": "Select"

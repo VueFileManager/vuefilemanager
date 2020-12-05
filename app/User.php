@@ -198,6 +198,7 @@ class User extends Authenticatable
         return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
+            ->orderByDesc('created_at')
             ->get();
     }
 

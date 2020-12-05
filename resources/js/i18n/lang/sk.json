@@ -258,6 +258,7 @@
 	},
 	"alerts": {
 		"error_confirm": "To je hrozné!",
+		"leave_to_sign_in": "Naozaj chcete odísť?",
 		"success_confirm": "Skvelé!"
 	},
 	"context_menu": {

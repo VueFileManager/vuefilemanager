@@ -256,6 +256,7 @@
 	},
 	"alerts": {
 		"error_confirm": "哦，出了个问题！",
+		"leave_to_sign_in": "Do you really want to leave?",
 		"success_confirm": "太棒了！"
 	},
 	"context_menu": {
@@ -273,7 +274,7 @@
 		"rename": "重命名",
 		"restore": "恢复文件",
 		"share": "分享",
-		"share_cancel": "Share Cancel",
+		"share_cancel": "Cancel Sharing",
 		"share_edit": "编辑分享设定",
 		"upload": "上传",
 		"select": "Select"
