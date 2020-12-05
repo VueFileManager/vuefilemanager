@@ -171,6 +171,7 @@ class BrowseController extends Controller
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', 0)
             ->where('user_id', Auth::id())
+            ->orderByDesc('created_at')
             ->get(['id', 'parent_id', 'unique_id', 'name']);
 
         return [
