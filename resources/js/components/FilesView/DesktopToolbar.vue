@@ -149,9 +149,7 @@ export default {
       return this.FilePreviewType === "list" ? "th" : "th-list";
     },
     canCreateFolderInView() {
-      let locations = ["base", "public"];
-
-      return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
+       return !this.$isThisLocation(["base", "public"]);
     },
     canDeleteInView() {
       return !this.$isThisLocation([
@@ -165,9 +163,7 @@ export default {
       ]);
     },
     canUploadInView() {
-      let locations = ["base", "public"]
-
-      return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
+      return !this.$isThisLocation(["base", "public"]);
     },
     canMoveInView() {
       return !this.$isThisLocation([
