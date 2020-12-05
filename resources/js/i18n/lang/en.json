@@ -258,6 +258,7 @@
 	},
 	"alerts": {
 		"error_confirm": "That’s horrible!",
+		"leave_to_sign_in": "Do you really want to leave?",
 		"success_confirm": "Awesome!"
 	},
 	"context_menu": {
