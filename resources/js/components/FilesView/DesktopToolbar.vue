@@ -81,11 +81,11 @@
 
         <!--View options-->
         <div class="toolbar-button-wrapper">
-          <ToolbarButton
-            :source="preview"
-            :action="$t('actions.preview')"
-            @click.native="$store.dispatch('changePreviewType')"
-          />
+          <img 
+          src="/assets/icons/sorting-icon.svg" size="17"
+          :class="{ active: fileInfoVisible }"
+          >
+
           <ToolbarButton
             :class="{ active: fileInfoVisible }"
             @click.native="$store.dispatch('fileInfoToggle')"
