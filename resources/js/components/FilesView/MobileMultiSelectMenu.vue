@@ -33,11 +33,13 @@ export default {
             events.$emit('mobileSelecting-stop')
         },
         downloadItem() {
-            this.fileInfoDetail.forEach(item => {
-                this.$downloadFile(
-                    item.file_url,
-                    item.name + '.' + item.mimetype
-                )
+            this.fileInfoDetail.forEach((item , i) => {
+                setTimeout(() => {
+                    this.$downloadFile(
+                        item.file_url,
+                        item.name + '.' + item.mimetype
+                    )
+                }, i * 100);   
             })
         },
         moveItem() {

@@ -84,6 +84,7 @@
           <img 
           src="/assets/icons/sorting-icon.svg" size="17"
           :class="{ active: fileInfoVisible }"
+          @click=" sortingAndPreview = !sortingAndPreview"
           >
 
           <ToolbarButton
@@ -149,9 +150,7 @@ export default {
       return this.FilePreviewType === "list" ? "th" : "th-list";
     },
     canCreateFolderInView() {
-      let locations = ["base", "public"];
-
-      return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
+       return !this.$isThisLocation(["base", "public"]);
     },
     canDeleteInView() {
       return !this.$isThisLocation([
@@ -165,9 +164,7 @@ export default {
       ]);
     },
     canUploadInView() {
-      let locations = ["base", "public"]
-
-      return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
+      return !this.$isThisLocation(["base", "public"]);
     },
     canMoveInView() {
       return !this.$isThisLocation([
@@ -189,6 +186,22 @@ export default {
     
     return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
     },
+  },
+  data () {
+    return {
+      sortingAndPreview: false
+    }
+  },
+  watch: {
+    sortingAndPreview () {
+      if(this.sortingAndPreview) {
+        events.$emit('sortingAndPreview-open')
+      }
+
+      if(!this.sortingAndPreview) {
+        events.$emit('sortingAndPreview-close')
+      }
+    }
   },
   methods: {
     goBack() {

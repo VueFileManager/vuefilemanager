@@ -460,11 +460,13 @@ export default {
             }
             //Download all selected items
             if(this.fileInfoDetail.includes(this.item)) {
-                this.fileInfoDetail.forEach(item => {
-                    this.$downloadFile(
-                    item.file_url,
-                    item.name + '.' + item.mimetype
-                )
+                this.fileInfoDetail.forEach((item , i) => {
+                    setTimeout(() => {
+                        this.$downloadFile(
+                            item.file_url,
+                            item.name + '.' + item.mimetype
+                        )
+                    }, i * 100);   
                 })
             }
         },

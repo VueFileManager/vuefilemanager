@@ -1,11 +1,11 @@
 <template>
-    <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" ref="contextmenu" >
-        <!-- ContextMenu for File Preview -->
+    <div  v-if="isVisible" @click="close" class="sorting-preview" ref="contextmenu" >
+       
         <div class="menu-options" id="menu-list">
             <ul class="menu-option-group">
-                <li class="menu-option">
+                <li class="menu-option" >
                     <div class="icon">
-                        <corner-down-right-icon size="17"></corner-down-right-icon>
+                        <grid-icon size="17"/>
                     </div>
                     <div class="text-label">
                        Grid View
@@ -13,7 +13,7 @@
                 </li>
                 <li class="menu-option"> 
                     <div class="icon">
-                        <link-icon size="17"></link-icon>
+                        <list-icon size="17"/>
                     </div>
                     <div class="text-label">
                         List View
@@ -22,20 +22,26 @@
                 
             </ul>
             <ul class="menu-option-group">
-                <li class="menu-option" >
+                <li class="menu-option" @click="sort('date')">
                     <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
+                        <calendar-icon size="17"/>
                     </div>
                     <div class="text-label">
                         Sort By Date
                     </div>
+                    <div class="sort-row" v-show="sorting.filed === 'date'" >
+                        <chevron-up-icon/>
+                    </div>
                 </li>
-                <li class="menu-option" >
+                <li class="menu-option" @click="sort('name')"  >
                     <div class="icon">
-                       <img src="/assets/icons/alphabet.svg" size="17">
+                       <img class="aplhabet" src="/assets/icons/alphabet.svg" size="17">
                     </div>
                     <div class="text-label">
                        Sort By Aplhabet
+                    </div>
+                    <div class="sort-row" v-show="sorting.filed === 'name'">
+                        <chevron-up-icon/>
                     </div>
                 </li>
             </ul>
@@ -44,46 +50,59 @@
 </template>
 
 <script>
-import ToolbarButton from "@/components/FilesView/ToolbarButton";
+import { CalendarIcon,
+        ListIcon,
+        GridIcon,
+        ChevronUpIcon 
+        } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
 export default {
-    name: 'ContextMenu',
+    name: 'SortingAndPreview',
     components: {
-        ToolbarButton
-    },
-    computed: {
-        ...mapGetters(['user', 'fileInfoDetail']),
+        CalendarIcon,
+        ListIcon,
+        GridIcon,
+        ChevronUpIcon
     },
     data() {
         return {
-            showFromPreview: false,
-            item: undefined,
             isVisible: false,
-            positionX: 0,
-            positionY: 0
+            sorting: {
+                sort: 'DESC',
+                field: undefined,
+            },
         }
     },
 
     methods: {
-        closeAndResetContextMenu() {
-            // Close context menu
-            this.isVisible = false
-
-            // Reset item container
-            this.item = undefined
+        close() {
+            // this.isVisible = false
         },
-        showFolderActionsMenu() {
-            let container = document.getElementById('folder-actions')
+        sort(field) {
+           
+           this.sorting.field = field
 
-            this.positionX = container.offsetLeft + 16
-            this.positionY = container.offsetTop + 30
+            if (this.sorting.sort === 'DESC') {
+                this.sorting.sort = 'ASC'
+            } else if (this.sorting.sort === 'ASC') {
+                this.sorting.sort = 'DESC'
+            }
 
-            // Show context menu
-            this.isVisible = true
-        },
+            console.log(this.sorting)
+
+        }
     },
+    mounted () {
+        events.$on('sortingAndPreview-open' , () => {
+            this.isVisible = true
+        })
+
+        events.$on('sortingAndPreview-close', () => {
+            this.isVisible = false
+        })
+    }
 
 }
 </script>
@@ -99,11 +118,13 @@ export default {
 
 .menu-option {
     display: flex;
-    align-items: center;
 
     .icon {
         margin-right: 20px;
         line-height: 0;
+        svg {
+            color: red;
+        }
     }
 
     .text-label {
@@ -111,7 +132,7 @@ export default {
     }
 }
 
-.contextmenu {
+.sorting-preview {
     min-width: 250px;
     position: absolute;
     z-index: 99;
@@ -119,6 +140,8 @@ export default {
     background: white;
     border-radius: 8px;
     overflow: hidden;
+    right: 66px;
+    top: 63px;
 
     &.showed {
         display: block;
@@ -174,7 +197,7 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-    .contextmenu {
+    .sorting-preview {
         background: $dark_mode_foreground;
 
         .menu-options {
