@@ -81,11 +81,12 @@
 
         <!--View options-->
         <div class="toolbar-button-wrapper">
-          <img 
-          src="/assets/icons/sorting-icon.svg" size="17"
-          :class="{ active: fileInfoVisible }"
-          @click=" sortingAndPreview = !sortingAndPreview"
-          >
+          <ToolbarButton 
+            source="preview-sorting"
+            class="preview-sorting"
+            :class="{ active: sortingAndPreview }"
+            @click.native=" sortingAndPreview = !sortingAndPreview"
+          />
 
           <ToolbarButton
             :class="{ active: fileInfoVisible }"
@@ -369,9 +370,14 @@ export default {
     &.active {
       /deep/ svg {
         line,
-        circle {
+        circle,
+        rect {
           stroke: $theme;
         }
+      }
+
+      &.preview-sorting{
+        background: $light_background;
       }
     }
 
@@ -426,5 +432,11 @@ export default {
       }
     }
   }
+  
+    .active {     
+      &.preview-sorting{
+        background: $dark_mode_foreground !important;
+      }
+    }
 }
 </style>

@@ -41,7 +41,7 @@
                 </li>
                 <li class="menu-option" @click="sort('name')"  >
                     <div class="icon">
-                       <img class="aplhabet" src="/assets/icons/alphabet.svg" size="17">
+                       <alphabet-icon size="17" class="aplhabet-icon"/>
                     </div>
                     <div class="text-label">
                        {{$t('preview_sorting.sort_alphabet')}}
@@ -58,6 +58,7 @@
 <script>
 
     import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
+    import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
     import { mapGetters } from 'vuex'
     import { events } from '@/bus'
 
@@ -65,6 +66,7 @@
         name:'SortingAndPreview',
         components: {
             CalendarIcon,
+            AlphabetIcon,
             ArrowUpIcon,
             CheckIcon,
             ListIcon,
@@ -90,6 +92,7 @@
         },
         methods: {
             sort (field) {
+
                 this.filter.field = field
 
                  // Set sorting direction
@@ -100,6 +103,7 @@
                 }
 
                 localStorage.setItem('sorting', JSON.stringify({sort: this.filter.sort , field: this.filter.field}))
+                
                 this.$getDataByLocation()
             },
             changePreview(previewType) {
@@ -110,8 +114,8 @@
 
             let sorting = JSON.parse(localStorage.getItem('sorting'))
 
-            this.filter.sort = sorting.sort
-            this.filter.field = sorting.field
+            this.filter.sort = sorting ? sorting.sort : undefined
+            this.filter.field = sorting ? sorting.field : undefined
 
             events.$on('sortingAndPreview-open', () => {
                 this.isVisible = true
@@ -137,23 +141,19 @@
     }
 }
 
-.filePreviewFixed {
-    position: fixed !important;
-    display: flex;
-}
-
 .menu-option {
     display: flex;
 
     .icon {
         margin-right: 20px;
-        line-height: 0;
-        .alphabet {
-            svg {
-                fill: red !important;
-                stroke: red !important;
+        line-height: 0; 
+        .aplhabet-icon {
+            /deep/line,
+            /deep/polyline {
+                stroke:$text ;
             }
         }
+            
     }
 
     .text-label {
@@ -214,12 +214,12 @@
             }
 
             path,
-            line,
-            polyline,
+            /deep/line,
+            /deep/polyline,
             rect,
             circle,
             polygon {
-                stroke: $theme;
+                stroke: $theme !important; 
             }
         }
     }
@@ -237,9 +237,18 @@
             .menu-option {
                 color: $dark_mode_text_primary;
 
+                .icon {
+                    .aplhabet-icon {
+                        /deep/line,
+                        /deep/polyline {
+                            stroke:$dark_mode_text_primary ;
+                        }
+                    }
+                }
+
                 &:hover {
                     background: rgba($theme, 0.1);
-                }
+                }           
             }
         }
     }

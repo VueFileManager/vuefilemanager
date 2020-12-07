@@ -308,10 +308,10 @@ const Helpers = {
               return validated
         }
         Vue.prototype.$getDataByLocation = function() {
-            let previousFolder = store.getters.browseHistory
+            let previousFolder = store.getters.currentFolder
             
             if(this.$isThisLocation('base')){
-            this.$store.dispatch('getFolder', [{folder: previousFolder, back: true, init: false}])
+            this.$store.dispatch('getFolder', [{folder: previousFolder, back: false, init: false}])
             }
         }
     }
