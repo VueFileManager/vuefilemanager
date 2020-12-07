@@ -49,6 +49,7 @@ const actions = {
                     commit('REMOVE_BROWSER_HISTORY')
 
                 events.$emit('scrollTop')
+                commit('CLEAR_FILEINFO_DETAIL')
             })
             .catch(error => {
 
@@ -83,6 +84,7 @@ const actions = {
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
+                commit('CLEAR_FILEINFO_DETAIL')
             })
             .catch(() => isSomethingWrong())
     },
@@ -105,6 +107,7 @@ const actions = {
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
 
                 events.$emit('scrollTop')
+                commit('CLEAR_FILEINFO_DETAIL')
             })
             .catch(() => isSomethingWrong())
     },
@@ -146,6 +149,7 @@ const actions = {
                 commit('STORE_PREVIOUS_FOLDER', trash)
 
                 events.$emit('scrollTop')
+                commit('CLEAR_FILEINFO_DETAIL')
             })
             .catch(() => isSomethingWrong())
     },

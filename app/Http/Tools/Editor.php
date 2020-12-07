@@ -309,7 +309,17 @@ class Editor
             ];
 
             // Store user upload size
-            $request->user()->record_upload($file_size);
+            if($request->user()){
+                
+                // If upload a loged user
+                $request->user()->record_upload($file_size);
+
+            } else {
+
+                // If upload guest
+                User::find($shared->user_id)->record_upload($file_size);
+
+            }
 
             // Return new file
             return FileManagerFile::create($options);
