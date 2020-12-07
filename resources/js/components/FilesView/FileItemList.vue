@@ -246,6 +246,10 @@ export default {
 				this.$downloadFile(this.data.file_url, this.data.name + '.' + this.data.mimetype)
 
 			} else if (this.isFolder) {
+
+				//Clear selected items after open another folder
+				this.$store.commit('CLEAR_FILEINFO_DETAIL')
+
 				if (this.$isThisLocation('public')) {
 					this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
 				} else {
