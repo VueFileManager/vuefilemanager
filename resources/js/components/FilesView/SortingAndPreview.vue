@@ -1,22 +1,28 @@
 <template>
-    <div  v-if="isVisible" @click="close" class="sorting-preview" ref="contextmenu" >
-       
+     <div v-if="isVisible"  class="sorting-preview" >
+
         <div class="menu-options" id="menu-list">
             <ul class="menu-option-group">
-                <li class="menu-option" >
+                <li class="menu-option" @click="changePreview('grid')" >
                     <div class="icon">
                         <grid-icon size="17"/>
                     </div>
                     <div class="text-label">
-                       Grid View
+                      {{$t('preview_sorting.grid_view')}}
+                    </div>
+                    <div class="show-icon" v-if="isGrid">
+                        <check-icon size="17"/>
                     </div>
                 </li>
-                <li class="menu-option"> 
+                <li class="menu-option" @click="changePreview('list')"> 
                     <div class="icon">
                         <list-icon size="17"/>
                     </div>
                     <div class="text-label">
-                        List View
+                        {{$t('preview_sorting.list_view')}}
+                    </div>
+                    <div class="show-icon" v-if="isList">
+                        <check-icon size="17"/>
                     </div>
                 </li>
                 
@@ -27,10 +33,10 @@
                         <calendar-icon size="17"/>
                     </div>
                     <div class="text-label">
-                        Sort By Date
+                        {{$t('preview_sorting.sort_date')}}
                     </div>
-                    <div class="sort-row" v-show="sorting.filed === 'date'" >
-                        <chevron-up-icon/>
+                    <div class="show-icon" >
+                        <arrow-up-icon size="17" v-if="filter.field === 'date'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
                     </div>
                 </li>
                 <li class="menu-option" @click="sort('name')"  >
@@ -38,10 +44,10 @@
                        <img class="aplhabet" src="/assets/icons/alphabet.svg" size="17">
                     </div>
                     <div class="text-label">
-                       Sort By Aplhabet
+                       {{$t('preview_sorting.sort_alphabet')}}
                     </div>
-                    <div class="sort-row" v-show="sorting.filed === 'name'">
-                        <chevron-up-icon/>
+                    <div class="show-icon">
+                        <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
                     </div>
                 </li>
             </ul>
@@ -50,66 +56,86 @@
 </template>
 
 <script>
-import { CalendarIcon,
-        ListIcon,
-        GridIcon,
-        ChevronUpIcon 
-        } from 'vue-feather-icons'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
 
-export default {
-    name: 'SortingAndPreview',
-    components: {
-        CalendarIcon,
-        ListIcon,
-        GridIcon,
-        ChevronUpIcon
-    },
-    data() {
-        return {
-            isVisible: false,
-            sorting: {
-                sort: 'DESC',
-                field: undefined,
-            },
-        }
-    },
+    import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
+    import { mapGetters } from 'vuex'
+    import { events } from '@/bus'
 
-    methods: {
-        close() {
-            // this.isVisible = false
+    export default {
+        name:'SortingAndPreview',
+        components: {
+            CalendarIcon,
+            ArrowUpIcon,
+            CheckIcon,
+            ListIcon,
+            GridIcon
         },
-        sort(field) {
-           
-           this.sorting.field = field
-
-            if (this.sorting.sort === 'DESC') {
-                this.sorting.sort = 'ASC'
-            } else if (this.sorting.sort === 'ASC') {
-                this.sorting.sort = 'DESC'
+        computed: {
+            ...mapGetters(['FilePreviewType']),
+            isGrid() {
+                return this.FilePreviewType === 'grid'
+            },
+            isList() {
+                return this.FilePreviewType === 'list'
+            },
+        },
+        data () {
+            return {
+                isVisible: false,
+                filter: {
+                    sort: 'DESC',
+                    field: undefined,
+                }
             }
+        },
+        methods: {
+            sort (field) {
+                this.filter.field = field
 
-            console.log(this.sorting)
+                 // Set sorting direction
+                if (this.filter.sort === 'DESC') {
+                    this.filter.sort = 'ASC'
+                } else if (this.filter.sort === 'ASC') {
+                    this.filter.sort = 'DESC'
+                }
 
+                localStorage.setItem('sorting', JSON.stringify({sort: this.filter.sort , field: this.filter.field}))
+                this.$getDataByLocation()
+            },
+            changePreview(previewType) {
+                this.$store.dispatch('changePreviewType' , previewType)
+            }
+        },
+        mounted () {
+
+            let sorting = JSON.parse(localStorage.getItem('sorting'))
+
+            this.filter.sort = sorting.sort
+            this.filter.field = sorting.field
+
+            events.$on('sortingAndPreview-open', () => {
+                this.isVisible = true
+            })
+
+             events.$on('sortingAndPreview-close', () => {
+                this.isVisible = false
+            })
         }
-    },
-    mounted () {
-        events.$on('sortingAndPreview-open' , () => {
-            this.isVisible = true
-        })
-
-        events.$on('sortingAndPreview-close', () => {
-            this.isVisible = false
-        })
+        
     }
-
-}
 </script>
 
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+
+.show-icon {
+    margin-left: auto;
+    max-height: 19px;
+     .arrow-down {
+        @include transform(rotate(180deg));
+    }
+}
 
 .filePreviewFixed {
     position: fixed !important;
@@ -122,8 +148,11 @@ export default {
     .icon {
         margin-right: 20px;
         line-height: 0;
-        svg {
-            color: red;
+        .alphabet {
+            svg {
+                fill: red !important;
+                stroke: red !important;
+            }
         }
     }
 

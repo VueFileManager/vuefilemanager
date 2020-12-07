@@ -837,9 +837,10 @@ const defaultState = {
 	],
 }
 const actions = {
-	changePreviewType: ({commit, state}) => {
+	changePreviewType: ({commit, state}, preview) => {
+		
 		// Get preview type
-		let previewType = state.FilePreviewType == 'grid' ? 'list' : 'grid'
+		let previewType = preview
 
 		// Store preview type to localStorage
 		localStorage.setItem('preview_type', previewType)

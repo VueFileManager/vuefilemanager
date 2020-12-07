@@ -307,6 +307,13 @@ const Helpers = {
               } 
               return validated
         }
+        Vue.prototype.$getDataByLocation = function() {
+            let previousFolder = store.getters.browseHistory
+            
+            if(this.$isThisLocation('base')){
+            this.$store.dispatch('getFolder', [{folder: previousFolder, back: true, init: false}])
+            }
+        }
     }
 }
 

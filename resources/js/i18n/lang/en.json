@@ -281,6 +281,12 @@
 		"upload": "Upload",
 		"select": "Select"
 	},
+	"preview_sorting": {
+		"grid_view": "Grid View",
+		"list_view": "List View",
+		"sort_date": "Sort By Date",
+		"sort_alphabet": "Sort By Aplhabet"
+	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
 		"description": "By browsing this website you are agreeing to our {0}."
