@@ -28,7 +28,7 @@
                 
             </ul>
             <ul class="menu-option-group">
-                <li class="menu-option" @click="sort('date')">
+                <li class="menu-option" @click="sort('created_at')">
                     <div class="icon">
                         <calendar-icon size="17"/>
                     </div>
@@ -36,7 +36,7 @@
                         {{$t('preview_sorting.sort_date')}}
                     </div>
                     <div class="show-icon" >
-                        <arrow-up-icon size="17" v-if="filter.field === 'date'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
+                        <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
                     </div>
                 </li>
                 <li class="menu-option" @click="sort('name')"  >
@@ -114,8 +114,8 @@
 
             let sorting = JSON.parse(localStorage.getItem('sorting'))
 
-            this.filter.sort = sorting ? sorting.sort : undefined
-            this.filter.field = sorting ? sorting.field : undefined
+            this.filter.sort = sorting ? sorting.sort : 'DESC'
+            this.filter.field = sorting ? sorting.field : 'created_at'
 
             events.$on('sortingAndPreview-open', () => {
                 this.isVisible = true

@@ -195,10 +195,14 @@ class User extends Authenticatable
      */
     public function getFolderTreeAttribute()
     {
+
+        $sort = strtolower(request()->input('sort'));
+        $direction = strtolower(request()->input('direction'));
+
         return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
-            ->orderByDesc('created_at')
+            ->orderBy($sort , $direction)
             ->get();
     }
 
@@ -301,7 +305,10 @@ class User extends Authenticatable
      */
     public function favourite_folders()
     {
-        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in');
+        $sort = strtolower(request()->input('sort') ? request()->input('sort') : 'created_at' );
+        $direction = strtolower(request()->input('direction') ? request()->input('direction') : 'desc');
+
+        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in')->orderBy($sort , $direction);
     }
 
     /**
@@ -311,7 +318,7 @@ class User extends Authenticatable
      */
     public function latest_uploads()
     {
-        return $this->hasMany(FileManagerFile::class)->with(['parent'])->orderBy('created_at', 'DESC')->take(40);
+        return $this->hasMany(FileManagerFile::class)->with(['parent'])->take(40);
     }
 
     /**

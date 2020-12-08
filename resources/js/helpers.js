@@ -308,11 +308,29 @@ const Helpers = {
               return validated
         }
         Vue.prototype.$getDataByLocation = function() {
-            let previousFolder = store.getters.currentFolder
+            let folder = store.getters.currentFolder
             
-            if(this.$isThisLocation('base')){
-            this.$store.dispatch('getFolder', [{folder: previousFolder, back: false, init: false}])
+            if(this.$isThisLocation('base') || this.$isThisLocation('public')){
+                this.$store.dispatch('getFolder', [{ folder: folder, back: true, init: false, sorting:true}])
             }
+
+            if(this.$isThisLocation('latest')) {
+                this.$store.dispatch('getLatest')
+            }
+
+            if(this.$isThisLocation('shared')) {
+                this.$store.dispatch('getShared')
+            }
+
+            if(this.$isThisLocation('participant_uploads')) {
+                this.$store.dispatch('getParticipantUploads')
+            }
+
+            if(this.$isThisLocation('trash-root')) {
+                this.$store.dispatch('getTrash')
+            }
+
+            this.$store.dispatch('getAppData')
         }
     }
 }
