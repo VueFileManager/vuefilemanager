@@ -20,10 +20,6 @@ const actions = {
     getFolder: ({commit, getters}, [payload]) => {
         commit('LOADING_STATE', {loading: true, data: []})
 
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
-
         if (payload.init)
             commit('FLUSH_FOLDER_HISTORY')
 
@@ -44,7 +40,7 @@ const actions = {
             : '/folders/' + payload.folder.unique_id
 
         axios
-            .get(getters.api + url + sortingUrl)
+            .get(getters.api + url + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_CURRENT_FOLDER', payload.folder)
@@ -75,10 +71,6 @@ const actions = {
     getLatest: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
 
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
-
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
             name: i18n.t('sidebar.latest'),
@@ -87,7 +79,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/latest' + sortingUrl)
+            .get(getters.api + '/latest' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -98,9 +90,6 @@ const actions = {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
 
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
 
         let currentFolder = {
             name: i18n.t('sidebar.my_shared'),
@@ -111,7 +100,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
-            .get(getters.api + '/shared-all' + sortingUrl)
+            .get(getters.api + '/shared-all' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
@@ -123,10 +112,6 @@ const actions = {
     getParticipantUploads: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
 
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
-
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
             name: i18n.t('sidebar.participant_uploads'),
@@ -135,7 +120,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/participant-uploads' + sortingUrl)
+            .get(getters.api + '/participant-uploads' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
 
@@ -147,11 +132,6 @@ const actions = {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
 
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
-
-
         let trash = {
             name: i18n.t('locations.trash'),
             unique_id: undefined,
@@ -161,7 +141,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/trash' + sortingUrl)
+            .get(getters.api + '/trash' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', trash)
@@ -195,10 +175,6 @@ const actions = {
     },
     getFolderTree: ({commit, getters}) => {
 
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
-
         return new Promise((resolve, reject) => {
 
             // Get route
@@ -212,7 +188,7 @@ const actions = {
                 route = '/api/navigation'
 
             axios
-                .get(route + sortingUrl)
+                .get(route + getters.sorting.URI)
                 .then(response => {
                     resolve(response)
 

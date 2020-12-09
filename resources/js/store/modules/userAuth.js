@@ -11,13 +11,10 @@ const defaultState = {
 
 const actions = {
     getAppData: ({commit, getters}) => {
-        let getSort = JSON.parse(localStorage.getItem('sorting'))
-        let sorting = {sort : getSort ? getSort.sort : 'DESC' , field:getSort ? getSort.field : 'created_at'}
-        let sortingUrl =  '?sort=' + sorting.field + '&direction=' + sorting.sort
 
         return new Promise((resolve, reject) => {
             axios
-                .get(getters.api + '/user' + sortingUrl)
+                .get(getters.api + '/user' + getters.sorting.URI)
                 .then((response) => {
                     resolve(response)
 

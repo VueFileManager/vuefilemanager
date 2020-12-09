@@ -21,6 +21,9 @@
         <!--Mobile Menu-->
         <MobileMenu/>
 
+        <!-- Mobile menu for selecting view and sorting -->
+        <MobileSortingAndPreview/>
+
         <!--System alerts-->
         <Alert />
 
@@ -111,6 +114,7 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
     import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
     import SortingAndPreview from '@/components/FilesView/SortingAndPreview'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
@@ -142,6 +146,7 @@
     export default {
         name: 'SharedPage',
         components: {
+            MobileSortingAndPreview,
             MobileMultiSelectMenu,
             ValidationProvider,
             SortingAndPreview,

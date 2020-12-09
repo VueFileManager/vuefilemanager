@@ -97,6 +97,7 @@ document.addEventListener('drag', (event) => {
 
 },false)
 
+// Handle for drop 
 document.addEventListener("dragend", () => {
   events.$emit('drop')
 }, false);

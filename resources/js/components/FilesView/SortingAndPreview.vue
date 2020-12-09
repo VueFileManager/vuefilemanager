@@ -102,8 +102,13 @@
                     this.filter.sort = 'DESC'
                 }
 
+                // Save to localStorage sorting options
                 localStorage.setItem('sorting', JSON.stringify({sort: this.filter.sort , field: this.filter.field}))
+
+                // Update sorting state in vuex
+                this.$store.commit('UPDATE_SORTING')
                 
+                // Get data using the application location
                 this.$getDataByLocation()
             },
             changePreview(previewType) {
@@ -114,6 +119,7 @@
 
             let sorting = JSON.parse(localStorage.getItem('sorting'))
 
+            // Set default sorting if in not setup in LocalStorage
             this.filter.sort = sorting ? sorting.sort : 'DESC'
             this.filter.field = sorting ? sorting.field : 'created_at'
 

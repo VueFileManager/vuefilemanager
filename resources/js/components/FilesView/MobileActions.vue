@@ -3,8 +3,8 @@
 
         <!--Actions for trash location with MASTER permission--->
         <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="mobile-actions">
-            <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
-                {{ previewText }}
+            <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
+                View  Sorting
             </MobileActionButton>
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                 {{ $t('context_menu.select') }}
@@ -25,15 +25,15 @@
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
-            <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
-                {{ previewText }}
+            <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
+                View  Sorting
             </MobileActionButton>
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
         <div v-if="($isThisLocation(['base', 'shared', 'public']) && $checkPermission('visitor')) || ($isThisLocation(['latest', 'shared']) && $checkPermission('master'))" class="mobile-actions">
-            <MobileActionButton @click.native="switchPreview" :icon="previewIcon">
-                {{ previewText }}
+            <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
+                View  Sorting
             </MobileActionButton>
              <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                {{ $t('context_menu.select') }}
@@ -67,14 +67,12 @@
             previewIcon() {
                 return this.FilePreviewType === 'list' ? 'th' : 'th-list'
             },
-            previewText() {
-                return this.FilePreviewType === 'list' ? this.$t('preview_type.grid') : this.$t('preview_type.list')
-            }
         },
         data () {
             return {
                 mobileMultiSelect: false,
-                turnOff:false
+                turnOff:false,
+                mobileSortingAndPreview: false
             }
         },
         watch: {
@@ -86,13 +84,19 @@
                 if(!this.mobileMultiSelect) {
                     events.$emit('mobileSelecting-stop')
                 }
+            },
+            mobileSortingAndPreview (oldValue , newValue) {
+                if(this.mobileSortingAndPreview) {
+                    events.$emit('mobileSortingAndPreview-open')
+                    this.mobileMultiSelect = false
+                }
+
+                if(!this.mobileSortingAndPreview && oldValue !== newValue) {
+                    events.$emit('mobileSortingAndPreview-close')
+                }
             }
         },
         methods: {
-            switchPreview() {
-                this.$store.dispatch('changePreviewType')
-                events.$emit('mobileSelecting-stop')
-            },
             createFolder() {
                 if (this.$isMobile()) {
                     // Get folder name
@@ -111,6 +115,11 @@
                     this.mobileMultiSelect = false
                 }) 
 
+                events.$on('mobileSortingAndPreview-close', () => {
+                    this.mobileSortingAndPreview = false
+                })
+                
+
         }
     }
 </script>
@@ -118,6 +127,11 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+    .active {
+            /deep/.label {
+                color: $theme !important;
+            }
+    }
 
     #mobile-actions-wrapper {
         display: none;
