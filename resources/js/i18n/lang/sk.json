@@ -281,6 +281,13 @@
 		"upload": "Nahrať",
 		"select": "Výber"
 	},
+	"preview_sorting": {
+		"grid_view": "Mriežka",
+		"list_view": "List",
+		"sort_date": "Zoradiť podľa dátumu",
+		"sort_alphabet": "Zoradiť podľa náyvu",
+		"preview_sorting_button": "Zobrazenie"
+	},
 	"cookie_disclaimer": {
 		"button": "politikou cookies",
 		"description": "Prehliadaním tejto stránky súhlasim s našou"
@@ -586,10 +593,6 @@
 		"button": "To je úžasné!",
 		"message": "Váš odber bol znova aktivovaný a budú vám účtované poplatky podľa pôvodného fakturačného cyklu.",
 		"title": "Predplatné bolo obnovené"
-	},
-	"preview_type": {
-		"grid": "Mriežka",
-		"list": "List"
 	},
 	"profile": {
 		"change_pass": "Zmeniť heslo",

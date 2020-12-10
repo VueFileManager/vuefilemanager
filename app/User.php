@@ -305,10 +305,7 @@ class User extends Authenticatable
      */
     public function favourite_folders()
     {
-        $sort = strtolower(request()->input('sort') ? request()->input('sort') : 'created_at' );
-        $direction = strtolower(request()->input('direction') ? request()->input('direction') : 'desc');
-
-        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in')->orderBy($sort , $direction);
+        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in');
     }
 
     /**

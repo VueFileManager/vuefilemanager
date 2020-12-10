@@ -4,7 +4,7 @@
         <!--Actions for trash location with MASTER permission--->
         <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="mobile-actions">
             <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
-                View  Sorting
+                {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                 {{ $t('context_menu.select') }}
@@ -26,14 +26,14 @@
                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
             <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
-                View  Sorting
+                {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
         <div v-if="($isThisLocation(['base', 'shared', 'public']) && $checkPermission('visitor')) || ($isThisLocation(['latest', 'shared']) && $checkPermission('master'))" class="mobile-actions">
             <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
-                View  Sorting
+                {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
              <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                {{ $t('context_menu.select') }}
@@ -91,7 +91,7 @@
                     this.mobileMultiSelect = false
                 }
 
-                if(!this.mobileSortingAndPreview && oldValue !== newValue) {
+                if(!this.mobileSortingAndPreview) {
                     events.$emit('mobileSortingAndPreview-close')
                 }
             }

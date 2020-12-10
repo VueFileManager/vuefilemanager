@@ -251,6 +251,7 @@ class FileSharingController extends Controller
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
+            ->sortable()
             ->get(['id', 'parent_id', 'unique_id', 'name']);
 
         // Return folder tree
@@ -281,6 +282,7 @@ class FileSharingController extends Controller
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
+            ->sortable()
             ->get(['id', 'parent_id', 'unique_id', 'name']);
 
         // Return folder tree

@@ -329,8 +329,11 @@ const Helpers = {
             if(this.$isThisLocation('trash-root')) {
                 this.$store.dispatch('getTrash')
             }
-
+            // Get dara of user with favourites tree
             this.$store.dispatch('getAppData')
+
+            // Get data of Navigator tree
+            this.$store.dispatch('getFolderTree')
         }
     }
 }
