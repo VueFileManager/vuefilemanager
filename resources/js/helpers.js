@@ -308,27 +308,20 @@ const Helpers = {
               return validated
         }
         Vue.prototype.$getDataByLocation = function() {
+
             let folder = store.getters.currentFolder
+
+            let actions = {
+                'base' : ['getFolder', [{ folder: folder, back: true, init: false, sorting:true}]],
+                'public' : ['browseShared', [{ folder: folder, back: true, init: false, sorting:true}]],
+                'latest' : ['getLatest'],
+                'shared' : ['getShared'],
+                'trash-root' : ['getTrash'],
+                'participant_uploads' : ['getParticipantUploads'],
+            }
+
+            this.$store.dispatch(...actions[folder.location])
             
-            if(this.$isThisLocation('base') || this.$isThisLocation('public')){
-                this.$store.dispatch('getFolder', [{ folder: folder, back: true, init: false, sorting:true}])
-            }
-
-            if(this.$isThisLocation('latest')) {
-                this.$store.dispatch('getLatest')
-            }
-
-            if(this.$isThisLocation('shared')) {
-                this.$store.dispatch('getShared')
-            }
-
-            if(this.$isThisLocation('participant_uploads')) {
-                this.$store.dispatch('getParticipantUploads')
-            }
-
-            if(this.$isThisLocation('trash-root')) {
-                this.$store.dispatch('getTrash')
-            }
             // Get dara of user with favourites tree
             this.$store.dispatch('getAppData')
 
