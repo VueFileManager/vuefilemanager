@@ -307,6 +307,27 @@ const Helpers = {
               } 
               return validated
         }
+        Vue.prototype.$getDataByLocation = function() {
+
+            let folder = store.getters.currentFolder
+
+            let actions = {
+                'base' : ['getFolder', [{ folder: folder, back: true, init: false, sorting:true}]],
+                'public' : ['browseShared', [{ folder: folder, back: true, init: false, sorting:true}]],
+                'latest' : ['getLatest'],
+                'shared' : ['getShared'],
+                'trash-root' : ['getTrash'],
+                'participant_uploads' : ['getParticipantUploads'],
+            }
+
+            this.$store.dispatch(...actions[folder.location])
+            
+            // Get dara of user with favourites tree
+            this.$store.dispatch('getAppData')
+
+            // Get data of Navigator tree
+            this.$store.dispatch('getFolderTree')
+        }
     }
 }
 

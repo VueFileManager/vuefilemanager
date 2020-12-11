@@ -81,11 +81,13 @@
 
         <!--View options-->
         <div class="toolbar-button-wrapper">
-          <ToolbarButton
-            :source="preview"
-            :action="$t('actions.preview')"
-            @click.native="$store.dispatch('changePreviewType')"
+          <ToolbarButton 
+            source="preview-sorting"
+            class="preview-sorting"
+            :class="{ active: sortingAndPreview }"
+            @click.native=" sortingAndPreview = !sortingAndPreview"
           />
+
           <ToolbarButton
             :class="{ active: fileInfoVisible }"
             @click.native="$store.dispatch('fileInfoToggle')"
@@ -185,6 +187,22 @@ export default {
     
     return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
     },
+  },
+  data () {
+    return {
+      sortingAndPreview: false
+    }
+  },
+  watch: {
+    sortingAndPreview () {
+      if(this.sortingAndPreview) {
+        events.$emit('sortingAndPreview-open')
+      }
+
+      if(!this.sortingAndPreview) {
+        events.$emit('sortingAndPreview-close')
+      }
+    }
   },
   methods: {
     goBack() {
@@ -352,9 +370,14 @@ export default {
     &.active {
       /deep/ svg {
         line,
-        circle {
+        circle,
+        rect {
           stroke: $theme;
         }
+      }
+
+      &.preview-sorting{
+        background: $light_background;
       }
     }
 
@@ -409,5 +432,11 @@ export default {
       }
     }
   }
+  
+    .active {     
+      &.preview-sorting{
+        background: $dark_mode_foreground !important;
+      }
+    }
 }
 </style>

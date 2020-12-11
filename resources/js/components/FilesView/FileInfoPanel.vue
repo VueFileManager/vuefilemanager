@@ -129,7 +129,7 @@
             },
             moveItem() {
                 // Move item fire popup
-                events.$emit('popup:open', {name: 'move', item: this.fileInfoDetail[0]})
+               events.$emit("popup:open", { name: "move", item: this.fileInfoDetail});
             }
         }
     }

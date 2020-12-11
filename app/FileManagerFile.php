@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * App\FileManagerFile
@@ -55,7 +56,7 @@ use \Illuminate\Database\Eloquent\SoftDeletes;
  */
 class FileManagerFile extends Model
 {
-    use Searchable, SoftDeletes;
+    use Searchable, SoftDeletes , Sortable;
 
     public $public_access = null;
 
@@ -69,6 +70,16 @@ class FileManagerFile extends Model
 
     protected $casts = [
         'metadata' => 'array',
+    ];
+
+    /**
+     * Sortable columns
+     *
+     * @var string[]
+     */
+    public $sortable = [
+        'name',
+        'created_at',
     ];
 
     /**

@@ -281,6 +281,13 @@
 		"upload": "Upload",
 		"select": "Select"
 	},
+	"preview_sorting": {
+		"grid_view": "Grid View",
+		"list_view": "List View",
+		"sort_date": "Sort By Date",
+		"sort_alphabet": "Sort By Aplhabet",
+		"preview_sorting_button": "View"
+	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
 		"description": "By browsing this website you are agreeing to our {0}."
@@ -586,10 +593,6 @@
 		"button": "That's awesome!",
 		"message": "Your subscription was re-activated, and they will be billed on the original billing cycle.",
 		"title": "Subscription Was Resumed"
-	},
-	"preview_type": {
-		"grid": "Grid",
-		"list": "List"
 	},
 	"profile": {
 		"change_pass": "Change Password",

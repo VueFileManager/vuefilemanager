@@ -11,9 +11,10 @@ const defaultState = {
 
 const actions = {
     getAppData: ({commit, getters}) => {
+
         return new Promise((resolve, reject) => {
             axios
-                .get(getters.api + '/user')
+                .get(getters.api + '/user' + getters.sorting.URI)
                 .then((response) => {
                     resolve(response)
 

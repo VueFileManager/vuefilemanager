@@ -32,7 +32,7 @@ const actions = {
             events.$emit('clear-query')
         }
 
-        if (! payload.back)
+        if (! payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         payload.folder.location = 'public'
@@ -43,13 +43,13 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios
-                .get(route)
+                .get(route + getters.sorting.URI)
                 .then(response => {
                     commit('LOADING_STATE', {loading: false, data: response.data})
                     commit('STORE_CURRENT_FOLDER', payload.folder)
                     events.$emit('scrollTop')
 
-                    if (payload.back)
+                    if (payload.back && !payload.sorting)
                         commit('REMOVE_BROWSER_HISTORY')
 
                     resolve(response)

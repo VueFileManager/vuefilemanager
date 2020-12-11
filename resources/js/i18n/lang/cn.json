@@ -279,6 +279,13 @@
 		"upload": "上传",
 		"select": "Select"
 	},
+	"preview_sorting": {
+		"grid_view": "Grid View",
+		"list_view": "List View",
+		"sort_date": "Sort By Date",
+		"sort_alphabet": "Sort By Aplhabet",
+		"preview_sorting_button": "View"
+	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
 		"description": "By browsing this website you are agreeing to our {0}."
@@ -584,10 +591,6 @@
 		"button": "棒极了！",
 		"message": "您的订阅已重新激活，并且将按原始计费周期计费。",
 		"title": "订阅已取消"
-	},
-	"preview_type": {
-		"grid": "方块",
-		"list": "列表"
 	},
 	"profile": {
 		"change_pass": "修改您的密码",

@@ -3,12 +3,14 @@
          @contextmenu.prevent.capture="contextMenu($event, undefined)"
          id="files-view">
         <ContextMenu/>
+        <SortingAndPreview/>
         <DesktopToolbar/>
         <FileBrowser/>
     </div>
 </template>
 
 <script>
+    import SortingAndPreview from '@/components/FilesView/SortingAndPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
@@ -18,6 +20,7 @@
     export default {
         name: 'FilesView',
         components: {
+            SortingAndPreview,
             DesktopToolbar,
             FileBrowser,
             ContextMenu,

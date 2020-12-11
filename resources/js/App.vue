@@ -31,6 +31,9 @@
             <!--  Drag & Drop UI -->
             <DragUI/>
 
+            <!-- Mobile menu for selecting view and sorting -->
+            <MobileSortingAndPreview/>
+
             <!--Mobile Menu-->
             <MobileMenu/>
 
@@ -56,6 +59,7 @@
 </template>
 
 <script>
+    import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
     import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
     import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
@@ -78,6 +82,7 @@
     export default {
         name: 'app',
         components: {
+            MobileSortingAndPreview,
             MobileMultiSelectMenu,
             MobileNavigation,
             CookieDisclaimer,

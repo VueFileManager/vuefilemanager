@@ -32,7 +32,7 @@ const actions = {
         // Set folder location
         payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
 
-        if (! payload.back)
+        if (! payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         let url = payload.folder.location === 'trash'
@@ -40,12 +40,12 @@ const actions = {
             : '/folders/' + payload.folder.unique_id
 
         axios
-            .get(getters.api + url)
+            .get(getters.api + url + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_CURRENT_FOLDER', payload.folder)
 
-                if (payload.back)
+                if (payload.back && !payload.sorting)
                     commit('REMOVE_BROWSER_HISTORY')
 
                 events.$emit('scrollTop')
@@ -79,7 +79,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/latest')
+            .get(getters.api + '/latest' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -90,6 +90,7 @@ const actions = {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
 
+
         let currentFolder = {
             name: i18n.t('sidebar.my_shared'),
             location: 'shared',
@@ -99,7 +100,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
-            .get(getters.api + '/shared-all')
+            .get(getters.api + '/shared-all' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
@@ -119,7 +120,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/participant-uploads')
+            .get(getters.api + '/participant-uploads' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
 
@@ -140,7 +141,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/trash')
+            .get(getters.api + '/trash' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', trash)
@@ -187,7 +188,7 @@ const actions = {
                 route = '/api/navigation'
 
             axios
-                .get(route)
+                .get(route + getters.sorting.URI)
                 .then(response => {
                     resolve(response)
 
