@@ -465,7 +465,7 @@ export default {
                             item.file_url,
                             item.name + '.' + item.mimetype
                         )
-                    }, 300);
+                    }, 150);
                 })
             }
         },
