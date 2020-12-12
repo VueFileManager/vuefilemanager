@@ -450,7 +450,6 @@ export default {
             }
         },
         downloadItem() {
-            // Download file
             //Download no selected item
             if(!this.fileInfoDetail.includes(this.item)) {
                 this.$downloadFile(
@@ -466,7 +465,7 @@ export default {
                             item.file_url,
                             item.name + '.' + item.mimetype
                         )
-                    }, i * 100);   
+                    }, 300);
                 })
             }
         },
