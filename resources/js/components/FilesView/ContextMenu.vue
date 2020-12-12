@@ -457,16 +457,20 @@ export default {
                     this.item.name + '.' + this.item.mimetype
                 )
             }
-            //Download all selected items
+            // Download all selected items
             if(this.fileInfoDetail.includes(this.item)) {
-                this.fileInfoDetail.forEach((item , i) => {
-                    setTimeout(() => {
-                        this.$downloadFile(
-                            item.file_url,
-                            item.name + '.' + item.mimetype
-                        )
-                    }, 150);
-                })
+
+                var files = this.fileInfoDetail;
+
+                var interval = setInterval(() => {
+
+                    let file = files.pop()
+
+                    this.$downloadFile(file.file_url,file.name + '.' + file.mimetype)
+
+                    if (files.length === 0)
+                        clearInterval(interval)
+                }, 300)
             }
         },
         ItemDetail() {
