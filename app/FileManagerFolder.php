@@ -59,6 +59,7 @@ use Kyslik\ColumnSortable\Sortable;
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withoutTrashed()
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFolder sortable($defaultParameters = null)
  */
 class FileManagerFolder extends Model
 {

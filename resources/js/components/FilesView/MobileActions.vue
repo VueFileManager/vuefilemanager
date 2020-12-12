@@ -25,6 +25,7 @@
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
+            <!--TODO: toto tlacitko nepotrebuje mat active classu, spusta iba event, nie je sucastou prebiehajucej udalosti (z pohladu UX)-->
             <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
                 {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>

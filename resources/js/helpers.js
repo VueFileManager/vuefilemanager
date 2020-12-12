@@ -302,6 +302,7 @@ const Helpers = {
                         message: i18n.t('popup_mimetypes_blacklist.message', {mimetype: fileType[1]}),
                     })
                   }else {
+                      // TODO: tento else tu nemusi byt, defaultne je uz prednastaveny true cize ak sa nevykona podmienka vyssie tak vzdy bude true
                       validated = true 
                   }
               } 
@@ -317,6 +318,7 @@ const Helpers = {
                 'latest' : ['getLatest'],
                 'shared' : ['getShared'],
                 'trash-root' : ['getTrash'],
+                // 'trash' : ['getTrash'], TODO: skontrolovat a spojazdnit
                 'participant_uploads' : ['getParticipantUploads'],
             }
 
@@ -334,6 +336,7 @@ const Helpers = {
 export default Helpers
 
 // Handle styled scrollbar for Windows
+// TODO: toto treba dat jednoznacne na svoje spravne miesto
 if (navigator.userAgent.indexOf('Windows') != -1) {
    let body = document.body
    body.classList.add('windows')

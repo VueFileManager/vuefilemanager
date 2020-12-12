@@ -53,6 +53,9 @@ use Kyslik\ColumnSortable\Sortable;
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withoutTrashed()
  * @mixin \Eloquent
+ * @property array|null $metadata
+ * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile sortable($defaultParameters = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile whereMetadata($value)
  */
 class FileManagerFile extends Model
 {

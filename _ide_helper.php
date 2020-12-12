@@ -7527,6 +7527,57 @@
                         return $instance->setConnectionName($name);
         }
                     /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */ 
+        public static function release($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->release($queue, $job, $delay);
+        }
+                    /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @throws \Throwable
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $id)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteReserved($queue, $id);
+        }
+                    /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getQueue($queue);
+        }
+                    /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function getDatabase()
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getDatabase();
+        }
+                    /**
          * Get the retry delay for an object-based queue handler.
          *
          * @param mixed $job
@@ -7535,7 +7586,7 @@
          */ 
         public static function getJobRetryDelay($job)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobRetryDelay($job);
         }
                     /**
@@ -7547,7 +7598,7 @@
          */ 
         public static function getJobExpiration($job)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobExpiration($job);
         }
                     /**
@@ -7559,7 +7610,7 @@
          */ 
         public static function createPayloadUsing($callback)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
+                        \Illuminate\Queue\DatabaseQueue::createPayloadUsing($callback);
         }
                     /**
          * Set the IoC container instance.
@@ -7570,7 +7621,7 @@
          */ 
         public static function setContainer($container)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         $instance->setContainer($container);
         }
          
@@ -14448,6 +14499,324 @@
      
 }
 
+    namespace Madnest\Madzipper\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class Madzipper {
+                    /**
+         * Create a new zip Archive if the file does not exists
+         * opens a zip archive if the file exists
+         *
+         * @param $pathToFile string The file to open
+         * @param \Madnest\Madzipper\RepositoryInterface|string $type The type of the archive, defaults to zip, possible are zip, phar
+         * @throws \RuntimeException
+         * @throws \Exception
+         * @throws \InvalidArgumentException
+         * @return \Madnest\Madzipper\Madzipper Madzipper instance
+         * @static 
+         */ 
+        public static function make($pathToFile, $type = 'zip')
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->make($pathToFile, $type);
+        }
+                    /**
+         * Create a new zip archive or open an existing one
+         *
+         * @param $pathToFile
+         * @throws \Exception
+         * @return \Madnest\Madzipper\Madzipper 
+         * @static 
+         */ 
+        public static function zip($pathToFile)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->zip($pathToFile);
+        }
+                    /**
+         * Create a new phar file or open one
+         *
+         * @param $pathToFile
+         * @throws \Exception
+         * @return \Madnest\Madzipper\Madzipper 
+         * @static 
+         */ 
+        public static function phar($pathToFile)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->phar($pathToFile);
+        }
+                    /**
+         * Create a new rar file or open one
+         *
+         * @param $pathToFile
+         * @throws \Exception
+         * @return \Madnest\Madzipper\Madzipper 
+         * @static 
+         */ 
+        public static function rar($pathToFile)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->rar($pathToFile);
+        }
+                    /**
+         * Extracts the opened zip archive to the specified location <br/>
+         * you can provide an array of files and folders and define if they should be a white list
+         * or a black list to extract. By default this method compares file names using "string starts with" logic
+         *
+         * @param $path string The path to extract to
+         * @param array $files An array of files
+         * @param int $methodFlags The Method the files should be treated
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function extractTo($path, $files = [], $methodFlags = 2)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->extractTo($path, $files, $methodFlags);
+        }
+                    /**
+         * Extracts matching files/folders from the opened zip archive to the specified location.
+         *
+         * @param string $extractToPath The path to extract to
+         * @param string $regex regular expression used to match files. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
+         * @throws \InvalidArgumentException
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function extractMatchingRegex($extractToPath, $regex)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->extractMatchingRegex($extractToPath, $regex);
+        }
+                    /**
+         * Gets the content of a single file if available
+         *
+         * @param $filePath string The full path (including all folders) of the file in the zip
+         * @throws \Exception
+         * @return mixed returns the content or throws an exception
+         * @static 
+         */ 
+        public static function getFileContent($filePath)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getFileContent($filePath);
+        }
+                    /**
+         * Add one or multiple files to the zip.
+         *
+         * @param $pathToAdd array|string An array or string of files and folders to add
+         * @param null|mixed $fileName
+         * @return \Madnest\Madzipper\Madzipper Madzipper instance
+         * @static 
+         */ 
+        public static function add($pathToAdd, $fileName = null)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->add($pathToAdd, $fileName);
+        }
+                    /**
+         * Add an empty directory
+         *
+         * @param $dirName
+         * @return \Madzipper 
+         * @static 
+         */ 
+        public static function addEmptyDir($dirName)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->addEmptyDir($dirName);
+        }
+                    /**
+         * Add a file to the zip using its contents
+         *
+         * @param $filename string The name of the file to create
+         * @param $content string The file contents
+         * @return \Madnest\Madzipper\Madzipper Madzipper instance
+         * @static 
+         */ 
+        public static function addString($filename, $content)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->addString($filename, $content);
+        }
+                    /**
+         * Gets the status of the zip.
+         *
+         * @return int The status of the internal zip file
+         * @static 
+         */ 
+        public static function getStatus()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getStatus();
+        }
+                    /**
+         * Remove a file or array of files and folders from the zip archive
+         *
+         * @param $fileToRemove array|string The path/array to the files in the zip
+         * @return \Madnest\Madzipper\Madzipper Madzipper instance
+         * @static 
+         */ 
+        public static function remove($fileToRemove)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->remove($fileToRemove);
+        }
+                    /**
+         * Returns the path of the current zip file if there is one.
+         *
+         * @return string The path to the file
+         * @static 
+         */ 
+        public static function getFilePath()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getFilePath();
+        }
+                    /**
+         * Sets the password to be used for decompressing
+         *
+         * @param $password
+         * @return bool 
+         * @static 
+         */ 
+        public static function usePassword($password)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->usePassword($password);
+        }
+                    /**
+         * Closes the zip file and frees all handles
+         *
+         * @static 
+         */ 
+        public static function close()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->close();
+        }
+                    /**
+         * Sets the internal folder to the given path.<br/>
+         * Useful for extracting only a segment of a zip file.
+         *
+         * @param $path
+         * @return \Madnest\Madzipper\Madzipper 
+         * @static 
+         */ 
+        public static function folder($path)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->folder($path);
+        }
+                    /**
+         * Resets the internal folder to the root of the zip file.
+         *
+         * @return \Madnest\Madzipper\Madzipper 
+         * @static 
+         */ 
+        public static function home()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->home();
+        }
+                    /**
+         * Deletes the archive file
+         *
+         * @static 
+         */ 
+        public static function delete()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->delete();
+        }
+                    /**
+         * Get the type of the Archive
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getArchiveType()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getArchiveType();
+        }
+                    /**
+         * Get the current internal folder pointer
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getCurrentFolderPath()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getCurrentFolderPath();
+        }
+                    /**
+         * Checks if a file is present in the archive
+         *
+         * @param $fileInArchive
+         * @return bool 
+         * @static 
+         */ 
+        public static function contains($fileInArchive)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->contains($fileInArchive);
+        }
+                    /**
+         * 
+         *
+         * @return \Madnest\Madzipper\RepositoryInterface 
+         * @static 
+         */ 
+        public static function getRepository()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getRepository();
+        }
+                    /**
+         * 
+         *
+         * @return \Madnest\Madzipper\Filesystem 
+         * @static 
+         */ 
+        public static function getFileHandler()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getFileHandler();
+        }
+                    /**
+         * Gets the path to the internal folder
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getInternalPath()
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->getInternalPath();
+        }
+                    /**
+         * List all files that are within the archive
+         *
+         * @param string|null $regexFilter regular expression to filter returned files/folders. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
+         * @throws \RuntimeException
+         * @return array 
+         * @static 
+         */ 
+        public static function listFiles($regexFilter = null)
+        {
+                        /** @var \Madnest\Madzipper\Madzipper $instance */
+                        return $instance->listFiles($regexFilter);
+        }
+         
+    }
+     
+}
+
 
 namespace  { 
             class App extends \Illuminate\Support\Facades\App {}
@@ -17425,6 +17794,7 @@ namespace  {
             class Stripe extends \Cartalyst\Stripe\Laravel\Facades\Stripe {}
             class Crawler extends \Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
+            class Madzipper extends \Madnest\Madzipper\Facades\Madzipper {}
      
 }
 

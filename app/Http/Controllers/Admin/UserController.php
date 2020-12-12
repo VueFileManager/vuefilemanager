@@ -102,7 +102,7 @@ class UserController extends Controller
     public function users()
     {
         return new UsersCollection(
-            User::sortable()->paginate('20')
+            User::sortable(['created_at', 'DESC'])->paginate('20')
         );
     }
 

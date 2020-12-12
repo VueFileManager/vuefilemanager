@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereUserId($value)
  * @mixin \Eloquent
+ * @property int|null $expire_in
+ * @method static \Illuminate\Database\Eloquent\Builder|Share whereExpireIn($value)
  */
 class Share extends Model
 {

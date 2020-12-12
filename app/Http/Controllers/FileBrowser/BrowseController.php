@@ -95,6 +95,7 @@ class BrowseController extends Controller
     public function latest() {
 
         // Get User
+        // TODO: SFORMATOVAT!
         $user = User::with(['latest_uploads' => function($query) {
             $query->sortable(); }])
             ->where('id', Auth::id())
@@ -111,8 +112,11 @@ class BrowseController extends Controller
     public function participant_uploads() {
 
         // Get User
-        $uploads = FileManagerFile::with(['parent'])->where('user_id', Auth::id())
-            ->whereUserScope('editor')->sortable()->get();
+        $uploads = FileManagerFile::with(['parent'])
+            ->where('user_id', Auth::id())
+            ->whereUserScope('editor')
+            ->sortable()
+            ->get();
 
         return $uploads;
     }
@@ -130,6 +134,7 @@ class BrowseController extends Controller
         $user_id = Auth::id();
 
         // Get folder trash items
+        // TODO: do funkcii nizsie potrebujeme tiez sortable, totizto foldre v kosi vies tiez prechadzat, takisto spojazdnit na frontende. Lokacie mame 'trash-root' a 'trash'
         if ($request->query('trash')) {
 
             // Get folders and files
@@ -199,12 +204,13 @@ class BrowseController extends Controller
     {
         // Get user
         $user_id = Auth::id();
+        $query = remove_accents($request->input('query'));
 
         // Search files id db
-        $searched_files = FileManagerFile::search($request->input('query'))
+        $searched_files = FileManagerFile::search($query)
             ->where('user_id', $user_id)
             ->get();
-        $searched_folders = FileManagerFolder::search($request->input('query'))
+        $searched_folders = FileManagerFolder::search($query)
             ->where('user_id', $user_id)
             ->get();
 

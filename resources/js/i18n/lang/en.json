@@ -366,7 +366,7 @@
 		"original_location": "Original Location"
 	},
 	"locations": {
-		"home": "Home",
+		"home": "Files",
 		"shared": "Shared",
 		"trash": "Trash",
 		"profile": "Profile",
@@ -679,7 +679,7 @@
 		"favourites": "Favourites",
 		"favourites_empty": "Drag here your favourite folder.",
 		"folders_empty": "Create some new folder.",
-		"home": "Home",
+		"home": "Files",
 		"latest": "Recent Uploads",
 		"locations_title": "Base",
 		"my_shared": "My Shared Items",
