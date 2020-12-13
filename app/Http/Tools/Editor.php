@@ -8,6 +8,7 @@ use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
+use App\Zip;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Carbon\Carbon;
@@ -18,11 +19,81 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
+use League\Flysystem\FileNotFoundException;
+use Madnest\Madzipper\Facades\Madzipper;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 class Editor
 {
+
+    /**
+     * Zip selected files, store it in /zip folder and retrieve zip record
+     *
+     * @param $files
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function zip_files($files)
+    {
+        // Local storage instance
+        $disk_local = Storage::disk('local');
+
+        // Create zip directory
+        if (!$disk_local->exists('zip')) {
+            $disk_local->makeDirectory('zip');
+        }
+
+        // Move file to local storage from external storage service
+        if (!is_storage_driver('local')) {
+
+            // Create temp directory
+            if (!$disk_local->exists('temp')) {
+                $disk_local->makeDirectory('temp');
+            }
+
+            foreach ($files as $file) {
+                try {
+                    $disk_local->put('temp/' . $file['basename'], Storage::get('file-manager/' . $file['basename']));
+                } catch (FileNotFoundException $e) {
+                    throw new HttpException(404, 'File not found');
+                }
+            }
+        }
+
+        // Get zip path
+        $zip_name = Str::random(16) . '.zip';
+        $zip_path = 'zip/' . $zip_name;
+
+        // Create zip
+        $zip = Madzipper::make(storage_path() . '/app/' . $zip_path);
+
+        // Get files folder on local storage drive
+        $files_directory = is_storage_driver('local') ? 'file-manager' : 'temp';
+
+        // Add files to zip
+        $files->each(function ($file) use ($zip, $files_directory) {
+            $zip->addString($file['name'], File::get(storage_path() . '/app/' . $files_directory . '/' . $file['basename']));
+        });
+
+        // Close zip
+        $zip->close();
+
+        // Delete temporary files
+        if (!is_storage_driver('local')) {
+
+            $files->each(function ($file) use ($disk_local) {
+                $disk_local->delete('temp/' . $file['basename']);
+            });
+        }
+
+        // Store zip record
+        return Zip::create([
+            'user_id'  => Auth::id(),
+            'basename' => $zip_name,
+        ]);
+    }
+
     /**
      * Create new directory
      *
@@ -206,7 +277,7 @@ class Editor
         // Get user id
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
-        foreach($request->input('items') as $item) {
+        foreach ($request->input('items') as $item) {
             $unique_id = $item['unique_id'];
 
             if ($item['type'] === 'folder') {
@@ -309,8 +380,8 @@ class Editor
             ];
 
             // Store user upload size
-            if($request->user()){
-                
+            if ($request->user()) {
+
                 // If upload a loged user
                 $request->user()->record_upload($file_size);
 

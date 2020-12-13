@@ -3,11 +3,13 @@
 namespace App\Console;
 
 use App\Console\Commands\Deploy;
+
 // use App\Console\Commands\SetupDevelopmentEnvironment;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProductionEnvironment;
 use App\Console\Commands\UpgradeApp;
 use App\Share;
+use App\Zip;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -36,6 +38,10 @@ class Kernel extends ConsoleKernel
             $this->delete_expired_shared_links();
         })->everyMinute();
 
+        $schedule->call(function () {
+            $this->delete_old_zips();
+        })->everySixHours();
+
         // Run queue jobs every minute
         $schedule->command('queue:work --tries=3')
             ->everyMinute()
@@ -52,6 +58,24 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
+    }
+
+    /**
+     * Delete old zips
+     */
+    protected function delete_old_zips(): void
+    {
+        // Get all zips
+        $zips = Zip::where('created_at', '<=', Carbon::now()->subDay()->toDateTimeString())->get();
+
+        $zips->each(function ($zip) {
+
+            // Delete zip file
+            \Storage::disk('local')->delete('zip/' . $zip->basename);
+
+            // Delete zip record
+            $zip->delete();
+        });
     }
 
     /**

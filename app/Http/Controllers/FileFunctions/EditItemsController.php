@@ -10,6 +10,7 @@ use App\Http\Requests\FileFunctions\UploadRequest;
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Tools\Guardian;
@@ -175,7 +176,7 @@ class EditItemsController extends Controller
             return Demo::response_204();
         }
 
-        foreach($request->input('data') as $file){
+        foreach ($request->input('data') as $file) {
             $unique_id = $file['unique_id'];
 
             // Check permission to delete item for authenticated editor 
@@ -204,9 +205,9 @@ class EditItemsController extends Controller
             // Delete item
             Editor::delete_item($file, $unique_id);
 
-        // Return response
+            // Return response
         }
-    return response(null, 204);
+        return response(null, 204);
     }
 
     /**
@@ -232,7 +233,7 @@ class EditItemsController extends Controller
         // Check shared permission
         if (!is_editor($shared)) abort(403);
 
-        foreach($request->input('data') as $file){
+        foreach ($request->input('data') as $file) {
             $unique_id = $file['unique_id'];
 
             // Get file|folder item
@@ -317,6 +318,28 @@ class EditItemsController extends Controller
     }
 
     /**
+     * User download multiple files via zip
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function user_zip_multiple_files(Request $request)
+    {
+        // Get requested files
+        $files = FileManagerFile::whereUserId(Auth::id())
+            ->whereIn('unique_id', $request->input('files'))
+            ->get();
+
+        $zip = Editor::zip_files($files);
+
+        // Get file
+        return response([
+            'url'  => route('zip', $zip->id),
+            'name' => $zip->basename,
+        ], 200);
+    }
+
+    /**
      * Move item for authenticated master|editor user
      *
      * @param MoveItemRequest $request
@@ -341,7 +364,7 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-             Guardian::check_item_access($to_unique_id, $shared);
+            Guardian::check_item_access($to_unique_id, $shared);
         }
 
         // Move item
@@ -374,7 +397,7 @@ class EditItemsController extends Controller
         // Check shared permission
         if (!is_editor($shared)) abort(403);
 
-        foreach($request->input('items') as $item) {
+        foreach ($request->input('items') as $item) {
 
             $unique_id = $item['unique_id'];
             $moving_unique_id = $unique_id;

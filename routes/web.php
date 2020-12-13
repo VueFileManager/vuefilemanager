@@ -11,7 +11,6 @@
 |
 */
 
-
 // Stripe WebHook
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 
@@ -30,6 +29,8 @@ Route::get('/file/{name}/public/{token}', 'FileAccessController@get_file_public'
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor,visitor']], function () {
     Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
+    Route::post('/download', 'FileFunctions\EditItemsController@user_zip_multiple_files');
+    Route::get('/zip/{id}', 'FileAccessController@get_zip')->name('zip');
 });
 
 // Get user invoice

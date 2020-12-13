@@ -1,11 +1,31 @@
 import i18n from '@/i18n/index'
 import router from '@/router'
 import {events} from '@/bus'
+import { Store } from 'vuex'
 import {last} from 'lodash'
 import axios from 'axios'
-import { Store } from 'vuex'
+import Vue from "vue"
+
 
 const actions = {
+    downloadFiles: ({ getters }) => {
+        let files = []
+
+        // get unique_ids of selected files
+        getters.fileInfoDetail.forEach(file => files.push(file.unique_id))
+
+        let route = '/download'
+
+        axios.post(route, {
+            files: files
+        })
+            .then(response => {
+                Vue.prototype.$downloadFile(response.data.url, response.data.name)
+            })
+            .catch(() => {
+                Vue.prototype.$isSomethingWrong()
+            })
+    },
     moveItem: ({commit, getters, dispatch}, {to_item ,noSelectedItem}) => {
 
         let itemsToMove = []
@@ -49,7 +69,7 @@ const actions = {
                         dispatch('getAppData')
                     })
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     createFolder: ({commit, getters, dispatch}, folderName) => {
 
@@ -74,7 +94,7 @@ const actions = {
                     dispatch('getFolderTree')
 
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     renameItem: ({commit, getters, dispatch}, data) => {
 
@@ -101,7 +121,7 @@ const actions = {
                 if (data.type === 'folder' && getters.currentFolder.location === 'public')
                     dispatch('getFolderTree')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     uploadFiles: ({commit, getters}, {form, fileSize, totalUploadedSize}) => {
         return new Promise((resolve, reject) => {
@@ -210,7 +230,7 @@ const actions = {
                 to_home: restoreToHome,
                 _method: 'patch'
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     deleteItem: ({commit, getters, dispatch}, noSelectedItem) => {
 
@@ -290,7 +310,7 @@ const actions = {
                     dispatch('getFolderTree')
 
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     emptyTrash: ({commit, getters}) => {
 
@@ -308,16 +328,8 @@ const actions = {
                 // Remove file preview
                 commit('CLEAR_FILEINFO_DETAIL')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
-}
-
-// Show error message
-function isSomethingWrong() {
-    events.$emit('alert:open', {
-        title: i18n.t('popup_error.title'),
-        message: i18n.t('popup_error.message'),
-    })
 }
 
 export default {

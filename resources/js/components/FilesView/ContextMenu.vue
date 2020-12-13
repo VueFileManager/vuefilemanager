@@ -11,7 +11,7 @@
                         {{ $t('context_menu.move') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="shareItem" v-if="$checkPermission('master')"> 
+                <li class="menu-option" @click="shareItem" v-if="$checkPermission('master')">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
@@ -131,12 +131,12 @@
                         }}
                     </div>
                 </li>
-                 <li class="menu-option" @click="shareCancel" v-if="this.fileInfoDetail.length > 1 && !multiSelectContextMenu">
+                <li class="menu-option" @click="shareCancel" v-if="this.fileInfoDetail.length > 1 && !multiSelectContextMenu">
                     <div class="icon">
                         <link-icon size="17"></link-icon>
                     </div>
                     <div class="text-label">
-                        {{$t('context_menu.share_cancel')}}
+                        {{ $t('context_menu.share_cancel') }}
                     </div>
                 </li>
                 <li class="menu-option" @click="deleteItem">
@@ -365,18 +365,18 @@ export default {
         TrashIcon,
         LinkIcon,
         StarIcon,
-        EyeIcon,
+        EyeIcon
     },
     computed: {
         ...mapGetters(['user', 'fileInfoDetail']),
         multiSelectContextMenu() {
 
             // If is context Menu open on multi selected items open just options for the multi selected items
-            if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.item)) {
+            if (this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.item)) {
                 return false
             }
             // If is context Menu open for the non selected item open options for the single item
-            if(this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item)) {
+            if (this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item)) {
                 return true
             }
         },
@@ -399,7 +399,7 @@ export default {
         },
         isInFavourites() {
             return this.favourites.find((el) => el.unique_id == this.item.unique_id)
-        },
+        }
     },
     data() {
         return {
@@ -436,41 +436,26 @@ export default {
                 this.favourites &&
                 !this.favourites.find((el) => el.unique_id == this.item.unique_id)
             ) {
-                //Add to favourite folder that is not selected
-                if(!this.fileInfoDetail.includes(this.item)){
-                this.$store.dispatch('addToFavourites', this.item)
+                // Add to favourite folder that is not selected
+                if (!this.fileInfoDetail.includes(this.item)) {
+                    this.$store.dispatch('addToFavourites', this.item)
                 }
-                
-                //Add to favourites all selected folders
-                 if(this.fileInfoDetail.includes(this.item)) {
-                this.$store.dispatch('addToFavourites', null)            
+
+                // Add to favourites all selected folders
+                if (this.fileInfoDetail.includes(this.item)) {
+                    this.$store.dispatch('addToFavourites', null)
                 }
             } else {
                 this.$store.dispatch('removeFromFavourites', this.item)
             }
         },
         downloadItem() {
-            //Download no selected item
-            if(!this.fileInfoDetail.includes(this.item)) {
-                this.$downloadFile(
-                    this.item.file_url,
-                    this.item.name + '.' + this.item.mimetype
-                )
-            }
-            // Download all selected items
-            if(this.fileInfoDetail.includes(this.item)) {
 
-                var files = this.fileInfoDetail;
-
-                var interval = setInterval(() => {
-
-                    let file = files.pop()
-
-                    this.$downloadFile(file.file_url,file.name + '.' + file.mimetype)
-
-                    if (files.length === 0)
-                        clearInterval(interval)
-                }, 300)
+            // Zip and download multiple files
+            if (this.fileInfoDetail.length > 1)
+                this.$store.dispatch('downloadFiles')
+            else {
+                this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
             }
         },
         ItemDetail() {
@@ -481,13 +466,12 @@ export default {
             this.$store.dispatch('fileInfoToggle', true)
         },
         deleteItem() {
-            // Dispatch remove item
             // If is context menu open on non selected item delete this single item
-            if(!this.fileInfoDetail.includes(this.item)){
+            if (!this.fileInfoDetail.includes(this.item)) {
                 this.$store.dispatch('deleteItem', this.item)
             }
             // If is context menu open to multi selected items dele this selected items
-            if(this.fileInfoDetail.includes(this.item)) {
+            if (this.fileInfoDetail.includes(this.item)) {
                 this.$store.dispatch('deleteItem')
             }
         },
@@ -549,7 +533,6 @@ export default {
                 this.positionY = container.offsetTop + 51
             }
         }
-
     },
     watch: {
         item(newValue, oldValue) {

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\FileManagerFolder;
+use App\Http\Tools\Editor;
 use App\Http\Tools\Guardian;
 use App\Share;
 use App\User;
+use App\Zip;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,11 @@ use Illuminate\Http\Request;
 use App\FileManagerFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Madnest\Madzipper\Facades\Madzipper;
 use Response;
+use League\Flysystem\FileNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FileAccessController extends Controller
 {
@@ -86,9 +92,34 @@ class FileAccessController extends Controller
         }
 
         // Store user download size
-        $request->user()->record_download((int) $file->getRawOriginal('filesize'));
+        $request->user()->record_download((int)$file->getRawOriginal('filesize'));
 
         return $this->download_file($file);
+    }
+
+    /**
+     * Get generated zip for user
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function get_zip($id)
+    {
+        $zip = Zip::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        $zip_path = 'zip/' . $zip->basename;
+
+        $header = [
+            "Content-Type"        => 'application/zip',
+            "Content-Length"      => Storage::size($zip_path),
+            "Accept-Ranges"       => "bytes",
+            "Content-Range"       => "bytes 0-600/" . Storage::size($zip_path),
+            "Content-Disposition" => "attachment; filename=" . $zip->basename,
+        ];
+
+        return Storage::download($zip_path, $zip->basename, $header);
     }
 
     /**
@@ -118,7 +149,7 @@ class FileAccessController extends Controller
         $this->check_file_access($shared, $file);
 
         // Store user download size
-        User::find($shared->user_id)->record_download((int) $file->getRawOriginal('filesize'));
+        User::find($shared->user_id)->record_download((int)$file->getRawOriginal('filesize'));
 
         return $this->download_file($file);
     }
