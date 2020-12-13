@@ -52,7 +52,7 @@
         methods: {
             showMobileNavigation() {
                 events.$emit('show:mobile-navigation')
-                events.$emit('mobileSelecting-stop')
+                events.$emit('mobileSelecting:stop')
             },
             goBack() {
 

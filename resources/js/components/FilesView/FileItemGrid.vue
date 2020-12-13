@@ -157,6 +157,8 @@ export default {
         clickedItem(e) {
             events.$emit('contextMenu:hide')
 
+            events.$emit('sortingAndPreview', false)
+
             if (!this.$isMobile()) {
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {
                     // Click + Ctrl
@@ -263,12 +265,12 @@ export default {
     created() {
         this.itemName = this.data.name
 
-        events.$on('mobileSelecting-start', () => {
+        events.$on('mobileSelecting:start', () => {
             this.mobileMultiSelect = true
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
         })
 
-        events.$on('mobileSelecting-stop', () => {
+        events.$on('mobileSelecting:stop', () => {
             this.mobileMultiSelect = false
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
         })

@@ -8,7 +8,7 @@
             <grid-icon v-if="icon === 'th'" size="15" class="icon"></grid-icon>
             <user-plus-icon v-if="icon === 'user-plus'" size="15" class="icon"></user-plus-icon>
             <plus-icon v-if="icon === 'plus'" size="15" class="icon"></plus-icon>
-            <svg v-if="icon === 'preview-sorting'" size="15" class="icon"
+            <svg v-if="icon === 'preview-sorting'" size="15" class="icon preview-sorting"
                 width="15px" height="15px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g id="VueFileManager" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
                     <g id="Storage-Alert-Copy" transform="translate(-1092.000000, -28.000000)" stroke="#000000" stroke-width="1.4">

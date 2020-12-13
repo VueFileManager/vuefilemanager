@@ -431,21 +431,22 @@ export default {
             }
         },
         addToFavourites() {
+            
             // Check if folder is in favourites and then add/remove from favourites
-            if (
-                this.favourites &&
-                !this.favourites.find((el) => el.unique_id == this.item.unique_id)
-            ) {
-                //Add to favourite folder that is not selected
+            if (this.favourites &&!this.favourites.find((el) => el.unique_id == this.item.unique_id)) {
+
+                // Add to favourite folder that is not selected
                 if(!this.fileInfoDetail.includes(this.item)){
                 this.$store.dispatch('addToFavourites', this.item)
                 }
                 
-                //Add to favourites all selected folders
+                // Add to favourites all selected folders
                  if(this.fileInfoDetail.includes(this.item)) {
                 this.$store.dispatch('addToFavourites', null)            
                 }
+
             } else {
+
                 this.$store.dispatch('removeFromFavourites', this.item)
             }
         },

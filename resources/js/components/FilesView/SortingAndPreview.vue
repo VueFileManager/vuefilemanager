@@ -41,7 +41,7 @@
                 </li>
                 <li class="menu-option" @click="sort('name')"  >
                     <div class="icon">
-                       <alphabet-icon size="17" class="aplhabet-icon"/>
+                       <alphabet-icon size="17" class="alphabet-icon"/>
                     </div>
                     <div class="text-label">
                        {{$t('preview_sorting.sort_alphabet')}}
@@ -112,7 +112,12 @@
                 this.$getDataByLocation()
             },
             changePreview(previewType) {
+
                 this.$store.dispatch('changePreviewType' , previewType)
+
+                this.isVisible = false
+
+                events.$emit('sortingAndPreview', false)
             }
         },
         mounted () {
@@ -123,12 +128,8 @@
             this.filter.sort = sorting ? sorting.sort : 'DESC'
             this.filter.field = sorting ? sorting.field : 'created_at'
 
-            events.$on('sortingAndPreview-open', () => {
-                this.isVisible = true
-            })
-
-             events.$on('sortingAndPreview-close', () => {
-                this.isVisible = false
+            events.$on('sortingAndPreview', (state) => {
+                this.isVisible = state
             })
         }
         
@@ -153,7 +154,7 @@
     .icon {
         margin-right: 20px;
         line-height: 0; 
-        .aplhabet-icon {
+        .alphabet-icon {
             /deep/line,
             /deep/polyline {
                 stroke:$text ;
@@ -244,7 +245,7 @@
                 color: $dark_mode_text_primary;
 
                 .icon {
-                    .aplhabet-icon {
+                    .alphabet-icon {
                         /deep/line,
                         /deep/polyline {
                             stroke:$dark_mode_text_primary ;

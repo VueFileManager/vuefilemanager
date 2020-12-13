@@ -84,11 +84,13 @@
           <ToolbarButton 
             source="preview-sorting"
             class="preview-sorting"
+            :action="$t('actions.sorting_view')"
             :class="{ active: sortingAndPreview }"
             @click.native=" sortingAndPreview = !sortingAndPreview"
           />
 
           <ToolbarButton
+            :action="$t('actions.info_panel')"
             :class="{ active: fileInfoVisible }"
             @click.native="$store.dispatch('fileInfoToggle')"
             source="info"
@@ -196,11 +198,11 @@ export default {
   watch: {
     sortingAndPreview () {
       if(this.sortingAndPreview) {
-        events.$emit('sortingAndPreview-open')
+        events.$emit('sortingAndPreview', true)
       }
 
       if(!this.sortingAndPreview) {
-        events.$emit('sortingAndPreview-close')
+        events.$emit('sortingAndPreview', false)
       }
     }
   },
@@ -256,6 +258,11 @@ export default {
       }
     },
   },
+  mounted () {
+    events.$on('sortingAndPreview', (state) => {
+      this.sortingAndPreview = state
+    })
+  }
 };
 </script>
 

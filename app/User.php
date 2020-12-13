@@ -195,15 +195,14 @@ class User extends Authenticatable
      */
     public function getFolderTreeAttribute()
     {
-
+        // Get sorting setup
         $sort = strtolower(request()->input('sort'));
         $direction = strtolower(request()->input('direction'));
 
-        // TODO: pozor pozor tu by sme mali pouzit sortable(), tak ako si pouzil v BrowseController
         return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
-            ->orderBy($sort , $direction)
+            ->sortable($sort , $direction)
             ->get();
     }
 
