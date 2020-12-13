@@ -301,9 +301,6 @@ const Helpers = {
                         title: i18n.t('popup_mimetypes_blacklist.title'),
                         message: i18n.t('popup_mimetypes_blacklist.message', {mimetype: fileType[1]}),
                     })
-                  }else {
-                      // TODO: tento else tu nemusi byt, defaultne je uz prednastaveny true cize ak sa nevykona podmienka vyssie tak vzdy bude true
-                      validated = true 
                   }
               } 
               return validated
@@ -315,11 +312,11 @@ const Helpers = {
             let actions = {
                 'base' : ['getFolder', [{ folder: folder, back: true, init: false, sorting:true}]],
                 'public' : ['browseShared', [{ folder: folder, back: true, init: false, sorting:true}]],
+                'trash' : ['getFolder', [{ folder: folder, back: true, init: false, sorting:true}]],
+                'participant_uploads' : ['getParticipantUploads'],
+                'trash-root' : ['getTrash'],
                 'latest' : ['getLatest'],
                 'shared' : ['getShared'],
-                'trash-root' : ['getTrash'],
-                // 'trash' : ['getTrash'], TODO: skontrolovat a spojazdnit
-                'participant_uploads' : ['getParticipantUploads'],
             }
 
             this.$store.dispatch(...actions[folder.location])
@@ -330,14 +327,14 @@ const Helpers = {
             // Get data of Navigator tree
             this.$store.dispatch('getFolderTree')
         }
+        Vue.prototype.$checkOS = function() {
+            // Handle styled scrollbar for Windows
+            if (navigator.userAgent.indexOf('Windows') != -1) {
+                let body = document.body
+                body.classList.add('windows')
+             }
+        }
     }
 }
 
 export default Helpers
-
-// Handle styled scrollbar for Windows
-// TODO: toto treba dat jednoznacne na svoje spravne miesto
-if (navigator.userAgent.indexOf('Windows') != -1) {
-   let body = document.body
-   body.classList.add('windows')
-}

@@ -163,11 +163,16 @@
         },
         mounted() {
 
+            this.$checkOS()
+
             // Handle mobile navigation scale animation
             events.$on('show:mobile-navigation', () => this.isScaledDown = true)
             events.$on('hide:mobile-navigation', () => this.isScaledDown = false)
             events.$on('mobileMenu:show', () => this.isScaledDown = true)
             events.$on('fileItem:deselect', () => this.isScaledDown = false)
+            events.$on('mobileSortingAndPreview', (state) => {
+                this.isScaledDown = state
+            })
         }
     }
 </script>

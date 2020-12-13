@@ -18,6 +18,7 @@
             closePopup() {
                 events.$emit('popup:close')
                 events.$emit('mobileMenu:hide')
+                events.$emit('mobileSortingAndPreview', false)
             }
         },
         created() {
@@ -30,6 +31,10 @@
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
             events.$on('confirm:open', () => this.isVisibleVignette = true)
+            events.$on('mobileSortingAndPreviewVignette', (state) => {
+                this.isVisibleVignette = state
+            })
+
         }
     }
 </script>

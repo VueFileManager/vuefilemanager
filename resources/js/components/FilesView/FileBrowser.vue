@@ -230,11 +230,11 @@
             }
         },
         created() {
-            events.$on('mobileSelecting-start' , () => {
+            events.$on('mobileSelecting:start' , () => {
             this.mobileMultiSelect =true
             })
 
-            events.$on('mobileSelecting-stop' , () => {
+            events.$on('mobileSelecting:stop' , () => {
             this.mobileMultiSelect = false
             })
 

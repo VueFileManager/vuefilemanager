@@ -8,7 +8,9 @@
 		"upload": "Nahrať súbory",
 		"download": "Stiahnuť položku",
 		"print": "Vytlačiť položku",
-		"close": "Zatvoriť"
+		"close": "Zatvoriť",
+		"sorting_view" : "Zoradenie a zobrazenie ",
+		"info_panel" : "Informačný panel"
 	},
 	"activation": {
 		"stripe": {

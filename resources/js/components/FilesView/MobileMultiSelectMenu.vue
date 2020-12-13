@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         closeSelecting() {
-            events.$emit('mobileSelecting-stop')
+            events.$emit('mobileSelecting:stop')
         },
         downloadItem() {
             this.fileInfoDetail.forEach((item , i) => {
@@ -52,12 +52,12 @@ export default {
         }
     },
     created() {
-        events.$on('mobileSelecting-start', () => {
+        events.$on('mobileSelecting:start', () => {
             this.mobileMultiSelect = true
 
         })
 
-        events.$on('mobileSelecting-stop', () => {
+        events.$on('mobileSelecting:stop', () => {
             this.mobileMultiSelect = false
 
         })

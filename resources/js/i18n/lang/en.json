@@ -8,7 +8,9 @@
 		"upload": "Upload file",
 		"download": "Download item",
 		"print": "Print item",
-		"close": "Close"
+		"close": "Close",
+		"sorting_view": "Sorting and View",
+		"info_panel": "Info panel"
 	},
 	"activation": {
 		"stripe": {

@@ -27,11 +27,11 @@
             }
         },
       mounted() {
-          events.$on('mobileSelecting-start' , () => {
+          events.$on('mobileSelecting:start' , () => {
               this.mobileSelectingActive = true
           })
 
-           events.$on('mobileSelecting-stop' , () => {
+           events.$on('mobileSelecting:stop' , () => {
               this.mobileSelectingActive = false
           })
       }

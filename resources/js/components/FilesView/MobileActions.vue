@@ -3,14 +3,14 @@
 
         <!--Actions for trash location with MASTER permission--->
         <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" class="mobile-actions">
-            <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
-                {{$t('preview_sorting.preview_sorting_button')}}
-            </MobileActionButton>
-            <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
-                {{ $t('context_menu.select') }}
-            </MobileMultiSelectButton>
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
+            </MobileActionButton>
+             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
+                {{ $t('context_menu.select') }}
+            </MobileMultiSelectButton>
+             <MobileActionButton class="preview-sorting" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
+                {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
         </div>
 
@@ -25,20 +25,19 @@
             <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
-            <!--TODO: toto tlacitko nepotrebuje mat active classu, spusta iba event, nie je sucastou prebiehajucej udalosti (z pohladu UX)-->
-            <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
+            <MobileActionButton class="preview-sorting" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
                 {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
         <div v-if="($isThisLocation(['base', 'shared', 'public']) && $checkPermission('visitor')) || ($isThisLocation(['latest', 'shared']) && $checkPermission('master'))" class="mobile-actions">
-            <MobileActionButton :class="{'active' : mobileSortingAndPreview}" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
-                {{$t('preview_sorting.preview_sorting_button')}}
-            </MobileActionButton>
              <MobileMultiSelectButton @click.native="mobileMultiSelect = !mobileMultiSelect">
                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
+             <MobileActionButton class="preview-sorting" @click.native="mobileSortingAndPreview = ! mobileSortingAndPreview" icon="preview-sorting">
+                {{$t('preview_sorting.preview_sorting_button')}}
+            </MobileActionButton>
         </div>
 
         <!--Upload Progressbar-->
@@ -80,20 +79,22 @@
             mobileMultiSelect () {
                 
                 if(this.mobileMultiSelect ) {
-                    events.$emit('mobileSelecting-start')
+                    events.$emit('mobileSelecting:start')
                 }
                 if(!this.mobileMultiSelect) {
-                    events.$emit('mobileSelecting-stop')
+                    events.$emit('mobileSelecting:stop')
                 }
             },
             mobileSortingAndPreview (oldValue , newValue) {
                 if(this.mobileSortingAndPreview) {
-                    events.$emit('mobileSortingAndPreview-open')
+                    events.$emit('mobileSortingAndPreview' , true)
+                    events.$emit('mobileSortingAndPreviewVignette' , true)
                     this.mobileMultiSelect = false
                 }
 
                 if(!this.mobileSortingAndPreview) {
-                    events.$emit('mobileSortingAndPreview-close')
+                    events.$emit('mobileSortingAndPreview', false)
+                    events.$emit('mobileSortingAndPreviewVignette' , false)
                 }
             }
         },
@@ -112,12 +113,12 @@
             },
         },
         mounted () {
-                events.$on('mobileSelecting-stop', () => {
+                events.$on('mobileSelecting:stop', () => {
                     this.mobileMultiSelect = false
                 }) 
 
-                events.$on('mobileSortingAndPreview-close', () => {
-                    this.mobileSortingAndPreview = false
+                events.$on('mobileSortingAndPreview', (state) => {
+                    this.mobileSortingAndPreview = state
                 })
                 
 
@@ -128,10 +129,17 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
-    .active {
-            /deep/.label {
-                color: $theme !important;
-            }
+
+    .preview-sorting { 
+        background: $light_background !important;
+        /deep/ .label {
+            color: $text !important;
+        }
+        /deep/ .preview-sorting {
+              path, line, polyline, rect, circle {
+                    stroke: $text !important;
+                }
+        }
     }
 
     #mobile-actions-wrapper {
@@ -166,6 +174,17 @@
     @media (prefers-color-scheme: dark) {
         #mobile-actions-wrapper {
             background: $dark_mode_background;
+        }
+        .preview-sorting { 
+            background: $dark_mode_foreground !important;
+            /deep/ .label {
+                color: $dark_mode_text_primary !important;
+            }
+            /deep/ .preview-sorting {
+                path, line, polyline, rect, circle {
+                        stroke: $theme !important;
+                    }
+            }
         }
     }
 </style>

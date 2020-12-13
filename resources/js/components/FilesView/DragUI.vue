@@ -13,21 +13,34 @@ import {events} from '@/bus'
         computed: {
             ...mapGetters(['fileInfoDetail']),
             title(){
+
+                // Title for multiple selected items
                 if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.draggedItem)) {
                     return this.$t('file_detail.selected_multiple')
                 }
 
+                // Title for single item
                 if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem ) {
                     return this.draggedItem.name
                 }
             },
             subtitle(){
+                // Subtitle for multiple selected items
                 if(this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.draggedItem) ) {
                     return this.fileInfoDetail.length + ' ' + this.$tc('file_detail.items', this.fileInfoDetail.length)
                 }
 
-                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem && this.draggedItem.mimetype) {
-                    return '.'+this.draggedItem.mimetype
+                if((this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.draggedItem)) && this.draggedItem) {
+
+                    // Subtitle for single folder
+                    if(this.draggedItem.type === 'folder') {
+                       return  this.draggedItem.items == 0 ? this.$t('folder.empty') : this.$tc('folder.item_counts', this.draggedItem.items)
+                    }
+                    
+                    // Subtitle for single file
+                    if(this.draggedItem !== 'folder' && this.draggedItem.mimetype){
+                        return '.'+this.draggedItem.mimetype
+                    }
                 }
             },
         },

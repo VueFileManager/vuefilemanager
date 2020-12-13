@@ -1,6 +1,5 @@
 <template>
-    <div class="options-wrapper">
-        <transition name="context-menu">
+        <transition name="context-menu" class="options-wrapper">
             <div class="options" v-if="isVisible">
                 <div class="menu-options">
 
@@ -30,8 +29,7 @@
                     </ul>
 
                     <ul class="menu-option-group">
-                        <!--TODO: co to ten c class atribute? :D -->
-                        <li c class="menu-option" @click="sort('created_at')">
+                        <li class="menu-option" @click="sort('created_at')">
                             <div class="icon">
                                 <calendar-icon size="17"/>
                             </div>
@@ -44,7 +42,7 @@
                         </li>
                         <li class="menu-option" @click="sort('name')">
                             <div class="icon">
-                                <alphabet-icon size="17" class="aplhabet-icon"/>
+                                <alphabet-icon size="17" class="alphabet-icon"/>
                             </div>
                             <div class="text-label">
                                 {{ $t('preview_sorting.sort_alphabet') }}
@@ -55,15 +53,8 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </transition>
-
-        <!-- TODO: tento fade tu nemusi byt, mame uz jeden hlavny implementovany pre appku, iba odpalit spravny event, pozri Vignette.vue-->
-        <transition name="fade">
-            <div v-show="isVisible" class="vignette" @click.self="close"></div>
-        </transition>
-    </div>
 </template>
 
 <script>
@@ -104,7 +95,7 @@ export default {
     methods: {
         close() {
             this.isVisible = false
-            events.$emit('mobileSortingAndPreview-close')
+            events.$emit('mobileSortingAndPreview', false)
         },
         sort(field) {
 
@@ -127,8 +118,11 @@ export default {
             this.$getDataByLocation()
         },
         changePreview(previewType) {
+            
             this.$store.dispatch('changePreviewType', previewType)
-        }
+
+            this.close()
+        },
     },
     mounted() {
 
@@ -138,13 +132,8 @@ export default {
         this.filter.sort = sorting ? sorting.sort : 'DESC'
         this.filter.field = sorting ? sorting.field : 'created_at'
 
-        // TODO: tento event by som zrefaktoroval do jedneho, nech mame menej kodu pre takuto jednoduchu operaciu
-        events.$on('mobileSortingAndPreview-open', () => {
-            this.isVisible = true
-        })
-
-        events.$on('mobileSortingAndPreview-close', () => {
-            this.isVisible = false
+        events.$on('mobileSortingAndPreview', (state) => {
+            this.isVisible = state
         })
     }
 }
@@ -167,10 +156,7 @@ export default {
     margin-right: 20px;
     line-height: 0;
 
-    /*
-    TODO: preklep
-    */
-    .aplhabet-icon {
+    .alphabet-icon {
         /deep/ line,
         /deep/ polyline {
             stroke: $text;
@@ -272,7 +258,7 @@ export default {
         }
     }
     .icon {
-        .aplhabet-icon {
+        .alphabet-icon {
             /deep/ line,
             /deep/ polyline {
                 stroke: $dark_mode_text_primary;
