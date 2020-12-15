@@ -204,9 +204,8 @@ class EditItemsController extends Controller
 
             // Delete item
             Editor::delete_item($file, $unique_id);
-
-            // Return response
         }
+
         return response(null, 204);
     }
 
@@ -228,7 +227,6 @@ class EditItemsController extends Controller
         if (is_demo($shared->user_id)) {
             return Demo::response_204();
         }
-
 
         // Check shared permission
         if (!is_editor($shared)) abort(403);
@@ -325,6 +323,25 @@ class EditItemsController extends Controller
      */
     public function user_zip_multiple_files(Request $request)
     {
+        // Check permission to upload for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
+
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
+
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
+
+            $file_parent_folders = FileManagerFile::whereUserId(Auth::id())
+                ->whereIn('unique_id', $request->input('files'))
+                ->get()
+                ->pluck('folder_id')
+                ->toArray();
+
+            // Check access to requested directory
+            Guardian::check_item_access($file_parent_folders, $shared);
+        }
+
         // Get requested files
         $files = FileManagerFile::whereUserId(Auth::id())
             ->whereIn('unique_id', $request->input('files'))

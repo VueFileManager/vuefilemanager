@@ -1,31 +1,24 @@
 <template>
-     <div v-if="isVisible"  class="sorting-preview" >
+    <div v-if="isVisible" class="sorting-preview">
 
         <div class="menu-options" id="menu-list">
             <ul class="menu-option-group">
-                <li class="menu-option" @click="changePreview('grid')" >
+                <li v-if="isList" class="menu-option" @click="changePreview('grid')">
                     <div class="icon">
                         <grid-icon size="17"/>
                     </div>
                     <div class="text-label">
-                      {{$t('preview_sorting.grid_view')}}
-                    </div>
-                    <div class="show-icon" v-if="isGrid">
-                        <check-icon size="17"/>
+                        {{ $t('preview_sorting.grid_view') }}
                     </div>
                 </li>
-                <li class="menu-option" @click="changePreview('list')"> 
+                <li v-if="isGrid" class="menu-option" @click="changePreview('list')">
                     <div class="icon">
                         <list-icon size="17"/>
                     </div>
                     <div class="text-label">
-                        {{$t('preview_sorting.list_view')}}
-                    </div>
-                    <div class="show-icon" v-if="isList">
-                        <check-icon size="17"/>
+                        {{ $t('preview_sorting.list_view') }}
                     </div>
                 </li>
-                
             </ul>
             <ul class="menu-option-group">
                 <li class="menu-option" @click="sort('created_at')">
@@ -33,18 +26,18 @@
                         <calendar-icon size="17"/>
                     </div>
                     <div class="text-label">
-                        {{$t('preview_sorting.sort_date')}}
+                        {{ $t('preview_sorting.sort_date') }}
                     </div>
-                    <div class="show-icon" >
+                    <div class="show-icon">
                         <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
                     </div>
                 </li>
-                <li class="menu-option" @click="sort('name')"  >
+                <li class="menu-option" @click="sort('name')">
                     <div class="icon">
-                       <alphabet-icon size="17" class="alphabet-icon"/>
+                        <alphabet-icon size="17" class="alphabet-icon"/>
                     </div>
                     <div class="text-label">
-                       {{$t('preview_sorting.sort_alphabet')}}
+                        {{ $t('preview_sorting.sort_alphabet') }}
                     </div>
                     <div class="show-icon">
                         <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
@@ -57,83 +50,83 @@
 
 <script>
 
-    import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
-    import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
-    import { mapGetters } from 'vuex'
-    import { events } from '@/bus'
+import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
+import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
+import { mapGetters } from 'vuex'
+import { events } from '@/bus'
 
-    export default {
-        name:'SortingAndPreview',
-        components: {
-            CalendarIcon,
-            AlphabetIcon,
-            ArrowUpIcon,
-            CheckIcon,
-            ListIcon,
-            GridIcon
+export default {
+    name: 'SortingAndPreview',
+    components: {
+        CalendarIcon,
+        AlphabetIcon,
+        ArrowUpIcon,
+        CheckIcon,
+        ListIcon,
+        GridIcon
+    },
+    computed: {
+        ...mapGetters(['FilePreviewType']),
+        isGrid() {
+            return this.FilePreviewType === 'grid'
         },
-        computed: {
-            ...mapGetters(['FilePreviewType']),
-            isGrid() {
-                return this.FilePreviewType === 'grid'
-            },
-            isList() {
-                return this.FilePreviewType === 'list'
-            },
-        },
-        data () {
-            return {
-                isVisible: false,
-                filter: {
-                    sort: 'DESC',
-                    field: undefined,
-                }
-            }
-        },
-        methods: {
-            sort (field) {
-
-                this.filter.field = field
-
-                 // Set sorting direction
-                if (this.filter.sort === 'DESC') {
-                    this.filter.sort = 'ASC'
-                } else if (this.filter.sort === 'ASC') {
-                    this.filter.sort = 'DESC'
-                }
-
-                // Save to localStorage sorting options
-                localStorage.setItem('sorting', JSON.stringify({sort: this.filter.sort , field: this.filter.field}))
-
-                // Update sorting state in vuex
-                this.$store.commit('UPDATE_SORTING')
-                
-                // Get data using the application location
-                this.$getDataByLocation()
-            },
-            changePreview(previewType) {
-
-                this.$store.dispatch('changePreviewType' , previewType)
-
-                this.isVisible = false
-
-                events.$emit('sortingAndPreview', false)
-            }
-        },
-        mounted () {
-
-            let sorting = JSON.parse(localStorage.getItem('sorting'))
-
-            // Set default sorting if in not setup in LocalStorage
-            this.filter.sort = sorting ? sorting.sort : 'DESC'
-            this.filter.field = sorting ? sorting.field : 'created_at'
-
-            events.$on('sortingAndPreview', (state) => {
-                this.isVisible = state
-            })
+        isList() {
+            return this.FilePreviewType === 'list'
         }
-        
+    },
+    data() {
+        return {
+            isVisible: false,
+            filter: {
+                sort: 'DESC',
+                field: undefined
+            }
+        }
+    },
+    methods: {
+        sort(field) {
+
+            this.filter.field = field
+
+            // Set sorting direction
+            if (this.filter.sort === 'DESC') {
+                this.filter.sort = 'ASC'
+            } else if (this.filter.sort === 'ASC') {
+                this.filter.sort = 'DESC'
+            }
+
+            // Save to localStorage sorting options
+            localStorage.setItem('sorting', JSON.stringify({ sort: this.filter.sort, field: this.filter.field }))
+
+            // Update sorting state in vuex
+            this.$store.commit('UPDATE_SORTING')
+
+            // Get data using the application location
+            this.$getDataByLocation()
+        },
+        changePreview(previewType) {
+
+            this.$store.dispatch('changePreviewType', previewType)
+
+            this.isVisible = false
+
+            events.$emit('sortingAndPreview', false)
+        }
+    },
+    mounted() {
+
+        let sorting = JSON.parse(localStorage.getItem('sorting'))
+
+        // Set default sorting if in not setup in LocalStorage
+        this.filter.sort = sorting ? sorting.sort : 'DESC'
+        this.filter.field = sorting ? sorting.field : 'created_at'
+
+        events.$on('sortingAndPreview', (state) => {
+            this.isVisible = state
+        })
     }
+
+}
 </script>
 
 <style scoped lang="scss">
@@ -143,7 +136,8 @@
 .show-icon {
     margin-left: auto;
     max-height: 19px;
-     .arrow-down {
+
+    .arrow-down {
         @include transform(rotate(180deg));
     }
 }
@@ -153,14 +147,15 @@
 
     .icon {
         margin-right: 20px;
-        line-height: 0; 
+        line-height: 0;
+
         .alphabet-icon {
-            /deep/line,
-            /deep/polyline {
-                stroke:$text ;
+            /deep/ line,
+            /deep/ polyline {
+                stroke: $text;
             }
         }
-            
+
     }
 
     .text-label {
@@ -221,12 +216,12 @@
             }
 
             path,
-            /deep/line,
-            /deep/polyline,
+            /deep/ line,
+            /deep/ polyline,
             rect,
             circle,
             polygon {
-                stroke: $theme !important; 
+                stroke: $theme !important;
             }
         }
     }
@@ -246,16 +241,16 @@
 
                 .icon {
                     .alphabet-icon {
-                        /deep/line,
-                        /deep/polyline {
-                            stroke:$dark_mode_text_primary ;
+                        /deep/ line,
+                        /deep/ polyline {
+                            stroke: $dark_mode_text_primary;
                         }
                     }
                 }
 
                 &:hover {
                     background: rgba($theme, 0.1);
-                }           
+                }
             }
         }
     }

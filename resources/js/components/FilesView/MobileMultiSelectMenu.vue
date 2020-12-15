@@ -5,7 +5,7 @@
 
             <ToolbarButton class="action-btn" v-if="$checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem"/>
 
-            <ToolbarButton class="action-btn" source="download" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="downloadItem"/>
+            <ToolbarButton class="action-btn" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem"/>
 
             <ToolbarButton class="action-btn close-icon" source="close" :action="$t('actions.close')" @click.native="closeSelecting"/>
         </div>
@@ -21,7 +21,10 @@ export default {
     name: 'MobileMultiSelectMenu',
     components: { ToolbarButton },
     computed: {
-        ...mapGetters(['fileInfoDetail'])
+        ...mapGetters(['fileInfoDetail']),
+        canDownloadItems() {
+            return this.fileInfoDetail.filter(item => item.type === 'folder').length !== 0
+        }
     },
     data() {
         return {
@@ -33,14 +36,11 @@ export default {
             events.$emit('mobileSelecting:stop')
         },
         downloadItem() {
-            this.fileInfoDetail.forEach((item , i) => {
-                setTimeout(() => {
-                    this.$downloadFile(
-                        item.file_url,
-                        item.name + '.' + item.mimetype
-                    )
-                }, i * 100);   
-            })
+            if (this.fileInfoDetail.length > 1)
+                this.$store.dispatch('downloadFiles')
+            else {
+                this.$downloadFile(this.fileInfoDetail[0].file_url, this.fileInfoDetail[0].name + '.' + this.fileInfoDetail[0].mimetype)
+            }
         },
         moveItem() {
             // Open move item popup

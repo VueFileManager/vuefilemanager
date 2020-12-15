@@ -1,60 +1,52 @@
 <template>
-        <transition name="context-menu" class="options-wrapper">
-            <div class="options" v-if="isVisible">
-                <div class="menu-options">
-
-                    <ul class="menu-option-group">
-                        <li class="menu-option" @click="changePreview('grid')">
-                            <div class="icon">
-                                <grid-icon size="17"/>
-                            </div>
-                            <div class="text-label">
-                                {{ $t('preview_sorting.grid_view') }}
-                            </div>
-                            <div class="show-icon" v-if="isGrid">
-                                <check-icon size="17"/>
-                            </div>
-                        </li>
-                        <li class="menu-option" @click="changePreview('list')">
-                            <div class="icon">
-                                <list-icon size="17"/>
-                            </div>
-                            <div class="text-label">
-                                {{ $t('preview_sorting.list_view') }}
-                            </div>
-                            <div class="show-icon" v-if="isList">
-                                <check-icon size="17"/>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <ul class="menu-option-group">
-                        <li class="menu-option" @click="sort('created_at')">
-                            <div class="icon">
-                                <calendar-icon size="17"/>
-                            </div>
-                            <div class="text-label">
-                                {{ $t('preview_sorting.sort_date') }}
-                            </div>
-                            <div class="show-icon">
-                                <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-                            </div>
-                        </li>
-                        <li class="menu-option" @click="sort('name')">
-                            <div class="icon">
-                                <alphabet-icon size="17" class="alphabet-icon"/>
-                            </div>
-                            <div class="text-label">
-                                {{ $t('preview_sorting.sort_alphabet') }}
-                            </div>
-                            <div class="show-icon">
-                                <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+    <transition name="context-menu" class="options-wrapper">
+        <div class="options" v-if="isVisible">
+            <div class="menu-options">
+                <ul class="menu-option-group">
+                    <li v-if="isList" class="menu-option" @click="changePreview('grid')">
+                        <div class="icon">
+                            <grid-icon size="17"/>
+                        </div>
+                        <div class="text-label">
+                            {{ $t('preview_sorting.grid_view') }}
+                        </div>
+                    </li>
+                    <li v-if="isGrid" class="menu-option" @click="changePreview('list')">
+                        <div class="icon">
+                            <list-icon size="17"/>
+                        </div>
+                        <div class="text-label">
+                            {{ $t('preview_sorting.list_view') }}
+                        </div>
+                    </li>
+                </ul>
+                <ul class="menu-option-group">
+                    <li class="menu-option" @click="sort('created_at')">
+                        <div class="icon">
+                            <calendar-icon size="17"/>
+                        </div>
+                        <div class="text-label">
+                            {{ $t('preview_sorting.sort_date') }}
+                        </div>
+                        <div class="show-icon">
+                            <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
+                        </div>
+                    </li>
+                    <li class="menu-option" @click="sort('name')">
+                        <div class="icon">
+                            <alphabet-icon size="17" class="alphabet-icon"/>
+                        </div>
+                        <div class="text-label">
+                            {{ $t('preview_sorting.sort_alphabet') }}
+                        </div>
+                        <div class="show-icon">
+                            <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </transition>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -118,11 +110,11 @@ export default {
             this.$getDataByLocation()
         },
         changePreview(previewType) {
-            
+
             this.$store.dispatch('changePreviewType', previewType)
 
             this.close()
-        },
+        }
     },
     mounted() {
 

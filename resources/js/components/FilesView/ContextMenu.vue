@@ -450,8 +450,6 @@ export default {
             }
         },
         downloadItem() {
-
-            // Zip and download multiple files
             if (this.fileInfoDetail.length > 1)
                 this.$store.dispatch('downloadFiles')
             else {
