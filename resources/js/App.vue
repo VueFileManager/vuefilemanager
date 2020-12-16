@@ -1,5 +1,5 @@
 <template>
-    <div id="vue-file-manager" v-cloak>
+    <div id="vue-file-manager" v-cloak @click="close">
 
         <!--System alerts-->
         <Alert/>
@@ -133,6 +133,11 @@
         data() {
             return {
                 isScaledDown: false,
+            }
+        },
+        methods: {
+            close () {
+                events.$emit('sortingAndPreview', false)
             }
         },
         beforeMount() {

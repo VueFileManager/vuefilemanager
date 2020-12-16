@@ -21,7 +21,7 @@
                 </li>
             </ul>
             <ul class="menu-option-group">
-                <li class="menu-option" @click="sort('created_at')">
+                <li class="menu-option" @click.stop="sort('created_at')">
                     <div class="icon">
                         <calendar-icon size="17"/>
                     </div>
@@ -32,7 +32,7 @@
                         <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
                     </div>
                 </li>
-                <li class="menu-option" @click="sort('name')">
+                <li class="menu-option" @click.stop="sort('name')">
                     <div class="icon">
                         <alphabet-icon size="17" class="alphabet-icon"/>
                     </div>

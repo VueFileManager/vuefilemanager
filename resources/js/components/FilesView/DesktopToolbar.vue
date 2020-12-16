@@ -39,7 +39,7 @@
 
                 <!--View options-->
                 <div class="toolbar-button-wrapper">
-                    <ToolbarButton source="preview-sorting" class="preview-sorting" :action="$t('actions.sorting_view')" :class="{ active: sortingAndPreview }" @click.native="sortingAndPreview = !sortingAndPreview"/>
+                    <ToolbarButton source="preview-sorting" class="preview-sorting" :action="$t('actions.sorting_view')" :class="{ active: sortingAndPreview }" @click.stop.native="sortingAndPreview = !sortingAndPreview"/>
 
                     <ToolbarButton :action="$t('actions.info_panel')" :class="{ active: fileInfoVisible }" @click.native="$store.dispatch('fileInfoToggle')" source="info"/>
                 </div>
