@@ -1,5 +1,5 @@
 <template>
-    <div id="vue-file-manager" v-cloak @click="close">
+    <div id="vue-file-manager" v-cloak @click="unClick">
 
         <!--System alerts-->
         <Alert/>
@@ -136,7 +136,7 @@
             }
         },
         methods: {
-            close () {
+            unClick () {
                 events.$emit('sortingAndPreview', false)
             }
         },

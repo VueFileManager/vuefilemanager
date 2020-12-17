@@ -106,7 +106,7 @@
                     <FileBrowser/>
                     
                     <!-- Selecting preview list and sorting -->
-                    <SortingAndPreview/>
+                    <DesktopSortingAndPreview/>
                 </div>
             </div>
     </div>
@@ -116,7 +116,7 @@
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
     import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
-    import SortingAndPreview from '@/components/FilesView/SortingAndPreview'
+    import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
@@ -149,7 +149,7 @@
             MobileSortingAndPreview,
             MobileMultiSelectMenu,
             ValidationProvider,
-            SortingAndPreview,
+            DesktopSortingAndPreview,
             ValidationObserver,
             TreeMenuNavigator,
             FileFullPreview,

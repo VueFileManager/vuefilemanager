@@ -1,6 +1,4 @@
 <template>
-    <div v-if="isVisible" class="sorting-preview">
-
         <div class="menu-options" id="menu-list">
             <ul class="menu-option-group">
                 <li v-if="isList" class="menu-option" @click="changePreview('grid')">
@@ -45,7 +43,6 @@
                 </li>
             </ul>
         </div>
-    </div>
 </template>
 
 <script>
@@ -56,7 +53,7 @@ import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
 export default {
-    name: 'SortingAndPreview',
+    name: 'SortingAndPreviewMenu',
     components: {
         CalendarIcon,
         AlphabetIcon,
@@ -76,7 +73,6 @@ export default {
     },
     data() {
         return {
-            isVisible: false,
             filter: {
                 sort: 'DESC',
                 field: undefined
@@ -108,9 +104,9 @@ export default {
 
             this.$store.dispatch('changePreviewType', previewType)
 
-            this.isVisible = false
-
-            events.$emit('sortingAndPreview', false)
+            if(this.$isMobile()) {
+                events.$emit('mobileSortingAndPreview', false )
+            }
         }
     },
     mounted() {
@@ -121,9 +117,6 @@ export default {
         this.filter.sort = sorting ? sorting.sort : 'DESC'
         this.filter.field = sorting ? sorting.field : 'created_at'
 
-        events.$on('sortingAndPreview', (state) => {
-            this.isVisible = state
-        })
     }
 
 }
@@ -207,49 +200,24 @@ export default {
         cursor: pointer;
         width: 100%;
         color: $text;
-
-        &:hover {
-            background: $light_background;
-
-            .text-label {
-                color: $theme;
-            }
-
-            path,
-            /deep/ line,
-            /deep/ polyline,
-            rect,
-            circle,
-            polygon {
-                stroke: $theme !important;
-            }
-        }
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    .sorting-preview {
-        background: $dark_mode_foreground;
+    .menu-options {
+        .menu-option-group {
+            border-color: $dark_mode_border_color;
+        }
 
-        .menu-options {
-            .menu-option-group {
-                border-color: $dark_mode_border_color;
-            }
+        .menu-option {
+            color: $dark_mode_text_primary;
 
-            .menu-option {
-                color: $dark_mode_text_primary;
-
-                .icon {
-                    .alphabet-icon {
-                        /deep/ line,
-                        /deep/ polyline {
-                            stroke: $dark_mode_text_primary;
-                        }
+            .icon {
+                .alphabet-icon {
+                    /deep/ line,
+                    /deep/ polyline {
+                        stroke: $dark_mode_text_primary;
                     }
-                }
-
-                &:hover {
-                    background: rgba($theme, 0.1);
                 }
             }
         }
