@@ -172,7 +172,7 @@ export default {
 		align-items: center;
 
 		.file-shadow {
-			box-shadow: 0 8px 40px rgba(17, 26, 52, 0.15);
+			box-shadow: 0 8px 40px rgba(17, 26, 52, 0.05);
 		}
 
 		.file {
@@ -228,7 +228,7 @@ export default {
 		background-color: $dark_mode_background;
 		.file-wrapper {
 			.file-shadow {
-				box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+				box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
 			}
 		}
 	}

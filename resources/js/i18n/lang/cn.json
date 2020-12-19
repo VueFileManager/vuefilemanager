@@ -517,8 +517,10 @@
 		"message": "File of this type ({mimetype}) is not allowed to upload."
 	},
 	"popup_create_folder": {
-		"folder_default_name": "新文件夹",
-		"title": "请填入新文件夹名称"
+		"folder_default_name": "New Folder",
+		"title": "Create Folder",
+		"label": "Type Name",
+		"placeholder": "Type your name"
 	},
 	"popup_delete_card": {
 		"message": "此事件不可逆转，您的付款卡将被永久删除",

@@ -1,21 +1,19 @@
 <template>
-    <PopupWrapper name="rename-item">
+    <PopupWrapper name="create-folder">
+
         <!--Title-->
-        <PopupHeader :title="$t('popup_rename.title', {item: itemTypeTitle})" icon="edit" />
+        <PopupHeader :title="$t('popup_create_folder.title')" icon="edit" />
 
         <!--Content-->
         <PopupContent>
 
-            <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
-
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Set password-->
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('popup_rename.label') }}:</label>
-                    <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('popup_rename.placeholder')">
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Title" rules="required" v-slot="{ errors }">
+                    <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
+                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('popup_create_folder.placeholder')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
@@ -31,9 +29,9 @@
             </ButtonBase>
             <ButtonBase
                     class="popup-button"
-                    @click.native="changeName"
+                    @click.native="createFolder"
                     button-style="theme"
-            >{{ $t('popup_share_edit.save') }}
+            >{{ $t('popup_create_folder.title') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -53,7 +51,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'RenameItem',
+        name: 'CreateFolder',
         components: {
             ValidationProvider,
             ValidationObserver,
@@ -66,47 +64,24 @@
             ButtonBase,
             required,
         },
-        computed: {
-            itemTypeTitle() {
-                return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
-            },
-        },
         data() {
             return {
-                pickedItem: undefined,
+                name: undefined,
             }
         },
         methods: {
-            changeName() {
-                if (this.pickedItem.name && this.pickedItem.name !== '') {
+            async createFolder() {
 
-                    let item = {
-                        unique_id: this.pickedItem.unique_id,
-                        type: this.pickedItem.type,
-                        name: this.pickedItem.name
-                    }
+                // Validate fields
+                const isValid = await this.$refs.createForm.validate();
 
-                    // Rename item request
-                    this.$store.dispatch('renameItem', item)
-
-                    // Rename item in view
-                    events.$emit('change:name', item)
+                if (isValid) {
+                    this.$store.dispatch('createFolder', this.name)
 
                     this.$closePopup()
                 }
             },
         },
-        mounted() {
-
-            // Show popup
-            events.$on('popup:open', args => {
-
-                if (args.name !== 'rename-item') return
-
-                // Store picked item
-                this.pickedItem = args.item
-            })
-        }
     }
 </script>
 

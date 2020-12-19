@@ -518,10 +518,6 @@
 		"title": "Oh No",
 		"message": "File of this type ({mimetype}) is not allowed to upload."
 	},
-	"popup_create_folder": {
-		"folder_default_name": "New Folder",
-		"title": "Please enter your new folder name"
-	},
 	"popup_delete_card": {
 		"message": "This event is irreversible and your payment card will be delete forever",
 		"title": "Are you sure?"
@@ -567,6 +563,12 @@
 		"title": "Rename Your {item}",
 		"label": "Edit Name",
 		"placeholder": "Type your title"
+	},
+	"popup_create_folder": {
+		"folder_default_name": "New Folder",
+		"title": "Create Folder",
+		"label": "Type Name",
+		"placeholder": "Type your name"
 	},
 	"popup_set_card": {
 		"message": "Your card will be set as default and will be always charged for the next billings.",

@@ -77,7 +77,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 99;
+    z-index: 9;
     overflow: hidden;
     background: white;
 
