@@ -19,7 +19,7 @@ export default {
 		width: 100%;
 		height: 5px;
 		background: $light_background;
-		margin-top: 5px;
+		margin-top: 6px;
 		border-radius: 10px;
 
 		span {
