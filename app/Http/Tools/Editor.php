@@ -31,10 +31,11 @@ class Editor
      * Zip selected files, store it in /zip folder and retrieve zip record
      *
      * @param $files
+     * @param null $shared
      * @return mixed
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function zip_files($files)
+    public static function zip_files($files, $shared = null)
     {
         // Local storage instance
         $disk_local = Storage::disk('local');
@@ -89,8 +90,9 @@ class Editor
 
         // Store zip record
         return Zip::create([
-            'user_id'  => Auth::id(),
-            'basename' => $zip_name,
+            'user_id'      => $shared->user_id ?? Auth::id(),
+            'shared_token' => $shared->token ?? null,
+            'basename'     => $zip_name,
         ]);
     }
 

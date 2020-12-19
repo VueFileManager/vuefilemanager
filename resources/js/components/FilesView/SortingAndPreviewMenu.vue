@@ -1,48 +1,48 @@
 <template>
-        <div class="menu-options" id="menu-list">
-            <ul class="menu-option-group">
-                <li v-if="isList" class="menu-option" @click="changePreview('grid')">
-                    <div class="icon">
-                        <grid-icon size="17"/>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('preview_sorting.grid_view') }}
-                    </div>
-                </li>
-                <li v-if="isGrid" class="menu-option" @click="changePreview('list')">
-                    <div class="icon">
-                        <list-icon size="17"/>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('preview_sorting.list_view') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group">
-                <li class="menu-option" @click.stop="sort('created_at')">
-                    <div class="icon">
-                        <calendar-icon size="17"/>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('preview_sorting.sort_date') }}
-                    </div>
-                    <div class="show-icon">
-                        <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-                    </div>
-                </li>
-                <li class="menu-option" @click.stop="sort('name')">
-                    <div class="icon">
-                        <alphabet-icon size="17" class="alphabet-icon"/>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('preview_sorting.sort_alphabet') }}
-                    </div>
-                    <div class="show-icon">
-                        <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    <div class="menu-options" id="menu-list">
+        <ul class="menu-option-group">
+            <li v-if="isList" class="menu-option" @click="changePreview('grid')">
+                <div class="icon">
+                    <grid-icon size="17"/>
+                </div>
+                <div class="text-label">
+                    {{ $t('preview_sorting.grid_view') }}
+                </div>
+            </li>
+            <li v-if="isGrid" class="menu-option" @click="changePreview('list')">
+                <div class="icon">
+                    <list-icon size="17"/>
+                </div>
+                <div class="text-label">
+                    {{ $t('preview_sorting.list_view') }}
+                </div>
+            </li>
+        </ul>
+        <ul class="menu-option-group">
+            <li class="menu-option" @click.stop="sort('created_at')">
+                <div class="icon">
+                    <calendar-icon size="17"/>
+                </div>
+                <div class="text-label">
+                    {{ $t('preview_sorting.sort_date') }}
+                </div>
+                <div class="show-icon">
+                    <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
+                </div>
+            </li>
+            <li class="menu-option" @click.stop="sort('name')">
+                <div class="icon">
+                    <alphabet-icon size="17" class="alphabet-icon"/>
+                </div>
+                <div class="text-label">
+                    {{ $t('preview_sorting.sort_alphabet') }}
+                </div>
+                <div class="show-icon">
+                    <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -85,11 +85,11 @@ export default {
             this.filter.field = field
 
             // Set sorting direction
-            if (this.filter.sort === 'DESC') {
+            if (this.filter.sort === 'DESC')
                 this.filter.sort = 'ASC'
-            } else if (this.filter.sort === 'ASC') {
+
+            if (this.filter.sort === 'ASC')
                 this.filter.sort = 'DESC'
-            }
 
             // Save to localStorage sorting options
             localStorage.setItem('sorting', JSON.stringify({ sort: this.filter.sort, field: this.filter.field }))
@@ -104,9 +104,8 @@ export default {
 
             this.$store.dispatch('changePreviewType', previewType)
 
-            if(this.$isMobile()) {
-                events.$emit('mobileSortingAndPreview', false )
-            }
+            if (this.$isMobile())
+                events.$emit('mobileSortingAndPreview', false)
         }
     },
     mounted() {
@@ -116,7 +115,6 @@ export default {
         // Set default sorting if in not setup in LocalStorage
         this.filter.sort = sorting ? sorting.sort : 'DESC'
         this.filter.field = sorting ? sorting.field : 'created_at'
-
     }
 
 }

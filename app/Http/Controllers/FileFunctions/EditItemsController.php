@@ -357,6 +357,44 @@ class EditItemsController extends Controller
     }
 
     /**
+     * Guest download multiple files via zip
+     *
+     * @param Request $request
+     * @param $token
+     * @return string
+     */
+    public function guest_zip_multiple_files(Request $request, $token)
+    {
+        // Get shared record
+        $shared = get_shared($token);
+
+        $file_parent_folders = FileManagerFile::whereUserId($shared->user_id)
+            ->whereIn('unique_id', $request->input('files'))
+            ->get()
+            ->pluck('folder_id')
+            ->toArray();
+
+        // Check access to requested directory
+        Guardian::check_item_access($file_parent_folders, $shared);
+
+        // Get requested files
+        $files = FileManagerFile::whereUserId($shared->user_id)
+            ->whereIn('unique_id', $request->input('files'))
+            ->get();
+
+        $zip = Editor::zip_files($files, $shared);
+
+        // Get file
+        return response([
+            'url'  => route('zip_public', [
+                'id'    => $zip->id,
+                'token' => $shared->token,
+            ]),
+            'name' => $zip->basename,
+        ], 200);
+    }
+
+    /**
      * Move item for authenticated master|editor user
      *
      * @param MoveItemRequest $request

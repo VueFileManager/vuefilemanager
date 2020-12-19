@@ -14,7 +14,10 @@ const actions = {
         // get unique_ids of selected files
         getters.fileInfoDetail.forEach(file => files.push(file.unique_id))
 
-        let route = '/download'
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/zip/public/' + router.currentRoute.params.token
+            : '/api/zip'
 
         axios.post(route, {
             files: files
@@ -30,24 +33,20 @@ const actions = {
 
         let itemsToMove = []
         let items = [noSelectedItem]
-       
-        //If coming no selected item dont get items to move from fileInfoDetail
-        if(!noSelectedItem) {
-            items = getters.fileInfoDetail
-        }
 
-        items.forEach((data) => {
-            itemsToMove.push({
-                'force_delete': data.deleted_at ? true : false,
-                'type': data.type,
-                "unique_id": data.unique_id
-            })
-        })
+        // If coming no selected item dont get items to move from fileInfoDetail
+        if (!noSelectedItem)
+            items = getters.fileInfoDetail
+
+        items.forEach(data => itemsToMove.push({
+            'force_delete': data.deleted_at ? true : false,
+            "unique_id": data.unique_id,
+            'type': data.type
+        }))
 
         // Remove file preview
-        if(!noSelectedItem){
+        if (!noSelectedItem)
             commit('CLEAR_FILEINFO_DETAIL')
-        }
         
         // Get route
         let route = getters.sharedDetail && ! getters.sharedDetail.protected
@@ -57,17 +56,17 @@ const actions = {
         axios
             .post(route, {
                 _method: 'post',
-                to_unique_id:to_item.unique_id,
+                to_unique_id: to_item.unique_id,
                 items: itemsToMove
             })
             .then(() => {
-                itemsToMove.forEach(item=> {
+                itemsToMove.forEach(item => {
                     commit('REMOVE_ITEM', item.unique_id)
                     commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
 
                     if (item.type === 'folder' && getters.currentFolder.location !== 'public')
                         dispatch('getAppData')
-                    })
+                })
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },

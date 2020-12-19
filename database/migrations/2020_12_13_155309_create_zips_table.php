@@ -16,6 +16,7 @@ class CreateZipsTable extends Migration
         Schema::create('zips', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->bigInteger('user_id');
+            $table->string('shared_token')->nullable();
             $table->text('basename');
             $table->timestamps();
         });

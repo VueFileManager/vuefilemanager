@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FileFunctions;
 use App\Http\Requests\Share\CreateShareRequest;
 use App\Http\Requests\Share\UpdateShareRequest;
 use App\Http\Resources\ShareResource;
+use App\Zip;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -95,16 +96,24 @@ class ShareController extends Controller
      */
     public function destroy(Request $request)
     {
-        foreach($request->input('folders') as $tokens) {
+        foreach($request->input('tokens') as $folder) {
 
             // Get sharing record
-            $shared = Share::where('token', $tokens['token'])
+            Share::where('token', $folder['token'])
                 ->where('user_id', Auth::id())
-                ->firstOrFail();
+                ->firstOrFail()
+                ->delete();
 
-            // Delete shared record
-            $shared->delete();
+            // Get zip record
+            $zip = Zip::where('shared_token', $folder['token'])
+                ->where('user_id', Auth::id())
+                ->first();
+
+            if ($zip) {
+                $zip->delete();
+            }
         }
+
         // Done
         return response('Done!', 204);
     }

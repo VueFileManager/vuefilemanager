@@ -123,6 +123,32 @@ class FileAccessController extends Controller
     }
 
     /**
+     * Get generated zip for guest
+     *
+     * @param $id
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function get_zip_public($id, $token)
+    {
+        $zip = Zip::where('id', $id)
+            ->where('shared_token', $token)
+            ->first();
+
+        $zip_path = 'zip/' . $zip->basename;
+
+        $header = [
+            "Content-Type"        => 'application/zip',
+            "Content-Length"      => Storage::size($zip_path),
+            "Accept-Ranges"       => "bytes",
+            "Content-Range"       => "bytes 0-600/" . Storage::size($zip_path),
+            "Content-Disposition" => "attachment; filename=" . $zip->basename,
+        ];
+
+        return Storage::download($zip_path, $zip->basename, $header);
+    }
+
+    /**
      * Get file public
      *
      * @param $filename

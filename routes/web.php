@@ -24,12 +24,12 @@ Route::get('/system/{image}', 'FileAccessController@get_system_image');
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/public/{token}', 'FileAccessController@get_thumbnail_public');
 Route::get('/file/{name}/public/{token}', 'FileAccessController@get_file_public');
+Route::get('/zip/{id}/public/{token}', 'FileAccessController@get_zip_public')->name('zip_public');
 
 // User master,editor,visitor access to image thumbnails and file downloads
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor,visitor']], function () {
     Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
-    Route::post('/download', 'FileFunctions\EditItemsController@user_zip_multiple_files');
     Route::get('/zip/{id}', 'FileAccessController@get_zip')->name('zip');
 });
 
