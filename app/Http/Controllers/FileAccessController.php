@@ -119,7 +119,7 @@ class FileAccessController extends Controller
             "Content-Disposition" => "attachment; filename=" . $zip->basename,
         ];
 
-        return Storage::download($zip_path, $zip->basename, $header);
+        return Storage::disk('local')->download($zip_path, $zip->basename, $header);
     }
 
     /**
@@ -145,7 +145,7 @@ class FileAccessController extends Controller
             "Content-Disposition" => "attachment; filename=" . $zip->basename,
         ];
 
-        return Storage::download($zip_path, $zip->basename, $header);
+        return Storage::disk('local')->download($zip_path, $zip->basename, $header);
     }
 
     /**
