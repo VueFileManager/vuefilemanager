@@ -55,7 +55,7 @@
                             {{ $t('sidebar.favourites_empty') }}
                         </span>
 
-                        <a @click.stop="openFolder(folder)" class="menu-list-item" :class="{'is-current': (folder && currentFolder) && (currentFolder.unique_id === folder.unique_id)}" v-for="folder in favourites" :key="folder.unique_id">
+                        <a @click.stop="openFolder(folder)" class="menu-list-item" :class="{'is-current': (folder && currentFolder) && (currentFolder.unique_id === folder.unique_id)}" v-for="(folder, i) in favourites" :key="i">
                             <div>
                                 <folder-icon size="17" class="folder-icon"></folder-icon>
                                 <span class="label">{{ folder.name }}</span>

@@ -1,6 +1,7 @@
 <template>
     <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" v-show="isVisible || showFromPreview" ref="contextmenu" :class="{ 'filePreviewFixed' : showFromPreview}">
-        <!-- ContextMenu for File Preview -->
+
+        <!-- File Preview -->
         <div class="menu-options" id="menu-list" v-if="showFromPreview">
             <ul class="menu-option-group">
                 <li class="menu-option" @click="renameItem" v-if="multiSelectContextMenu">
@@ -52,7 +53,7 @@
             </ul>
         </div>
 
-        <!--ContextMenu for trash location-->
+        <!-- Trash location-->
         <div v-if="
           $isThisLocation(['trash', 'trash-root']) && $checkPermission('master') && !showFromPreview
         " id="menu-list" class="menu-options">
@@ -102,7 +103,7 @@
             </ul>
         </div>
 
-        <!--ContextMenu for Base location with MASTER permission-->
+        <!-- Shared location with MASTER permission-->
         <div v-if="$isThisLocation(['shared']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
             <ul class="menu-option-group" v-if="item && isFolder && multiSelectContextMenu">
                 <li class="menu-option" @click="addToFavourites">
@@ -176,7 +177,7 @@
             </ul>
         </div>
 
-        <!--ContextMenu for Base location with MASTER permission-->
+        <!-- Base location with MASTER permission-->
         <div v-if="
           $isThisLocation(['base', 'participant_uploads', 'latest']) &&
           $checkPermission('master') && !showFromPreview
@@ -261,7 +262,7 @@
             </ul>
         </div>
 
-        <!--ContextMenu for Base location with EDITOR permission-->
+        <!-- Base & Public location with EDITOR permission-->
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
             <ul class="menu-option-group">
                 <li class="menu-option" @click="createFolder">
@@ -319,7 +320,7 @@
             </ul>
         </div>
 
-        <!--ContextMenu for Base location with VISITOR permission-->
+        <!-- Base & Public location with VISITOR permission-->
         <div v-if="
           $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview 
         " id="menu-list" class="menu-options">
@@ -442,7 +443,7 @@ export default {
             // Check if folder is in favourites and then add/remove from favourites
             if (
                 this.favourites &&
-                !this.favourites.find((el) => el.unique_id == this.item.unique_id)
+                !this.favourites.find(el => el.unique_id == this.item.unique_id)
             ) {
                 // Add to favourite folder that is not selected
                 if (!this.fileInfoDetail.includes(this.item)) {
@@ -472,7 +473,6 @@ export default {
             this.$store.dispatch('fileInfoToggle', true)
         },
         deleteItem() {
-            // Dispatch remove item
             // If is context menu open on non selected item delete this single item
             if (!this.fileInfoDetail.includes(this.item)) {
                 this.$store.dispatch('deleteItem', this.item)
