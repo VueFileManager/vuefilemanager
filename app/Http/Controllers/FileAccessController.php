@@ -113,9 +113,9 @@ class FileAccessController extends Controller
 
         $header = [
             "Content-Type"        => 'application/zip',
-            "Content-Length"      => Storage::size($zip_path),
+            "Content-Length"      => Storage::disk('local')->size($zip_path),
             "Accept-Ranges"       => "bytes",
-            "Content-Range"       => "bytes 0-600/" . Storage::size($zip_path),
+            "Content-Range"       => "bytes 0-600/" . Storage::disk('local')->size($zip_path),
             "Content-Disposition" => "attachment; filename=" . $zip->basename,
         ];
 
@@ -139,9 +139,9 @@ class FileAccessController extends Controller
 
         $header = [
             "Content-Type"        => 'application/zip',
-            "Content-Length"      => Storage::size($zip_path),
+            "Content-Length"      => Storage::disk('local')->size($zip_path),
             "Accept-Ranges"       => "bytes",
-            "Content-Range"       => "bytes 0-600/" . Storage::size($zip_path),
+            "Content-Range"       => "bytes 0-600/" . Storage::disk('local')->size($zip_path),
             "Content-Disposition" => "attachment; filename=" . $zip->basename,
         ];
 
