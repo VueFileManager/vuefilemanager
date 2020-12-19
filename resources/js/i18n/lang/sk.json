@@ -520,7 +520,9 @@
 	},
 	"popup_create_folder": {
 		"folder_default_name": "Nový priečinok",
-		"title": "Prosím, vložte názov nového priečinka"
+		"title": "Vytvoriť priečinok",
+		"label": "Napíš meno",
+		"placeholder": "Prosím, vložte názov nového priečinka"
 	},
 	"popup_delete_card": {
 		"message": "Táto udalosť je nezvratná a vaša platobná karta bude navždy odstránená",

@@ -8,7 +8,7 @@
             <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem"/>
 
             <ToolbarButton class="action-btn" source="shared-off" @click.native="shareCancel" v-if="$isThisLocation(['shared'])"/>
-            
+
             <ToolbarButton class="action-btn close-icon" source="close" :action="$t('actions.close')" @click.native="closeSelecting"/>
         </div>
     </transition>

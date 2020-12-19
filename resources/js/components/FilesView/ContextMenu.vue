@@ -3,6 +3,14 @@
         <!-- ContextMenu for File Preview -->
         <div class="menu-options" id="menu-list" v-if="showFromPreview">
             <ul class="menu-option-group">
+                <li class="menu-option" @click="renameItem" v-if="multiSelectContextMenu">
+                    <div class="icon">
+                        <edit2-icon size="17"></edit2-icon>
+                    </div>
+                    <div class="text-label">
+                        {{ $t('context_menu.rename') }}
+                    </div>
+                </li>
                 <li class="menu-option" @click="moveItem">
                     <div class="icon">
                         <corner-down-right-icon size="17"></corner-down-right-icon>
@@ -475,8 +483,7 @@ export default {
             }
         },
         createFolder() {
-            // Create folder
-            this.$createFolder(this.$t('popup_create_folder.folder_default_name'))
+            this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))
         },
         closeAndResetContextMenu() {
             // Close context menu

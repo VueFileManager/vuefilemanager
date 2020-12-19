@@ -64,8 +64,10 @@ const actions = {
                     commit('REMOVE_ITEM', item.unique_id)
                     commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
 
-                    if (item.type === 'folder' && getters.currentFolder.location !== 'public')
+                    if (item.type === 'folder')
                         dispatch('getAppData')
+                    if ( getters.currentFolder.location === 'public')
+                        dispatch('getFolderTree')
                 })
             })
             .catch(() => Vue.prototype.$isSomethingWrong())

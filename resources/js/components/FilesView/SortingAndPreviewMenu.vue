@@ -84,11 +84,12 @@ export default {
 
             this.filter.field = field
 
+            console.log(this.filter);
+
             // Set sorting direction
             if (this.filter.sort === 'DESC')
                 this.filter.sort = 'ASC'
-
-            if (this.filter.sort === 'ASC')
+            else if (this.filter.sort === 'ASC')
                 this.filter.sort = 'DESC'
 
             // Save to localStorage sorting options

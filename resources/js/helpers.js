@@ -72,10 +72,6 @@ const Helpers = {
 			win.focus()
 		}
 
-		Vue.prototype.$createFolder = function(folderName) {
-			this.$store.dispatch('createFolder', folderName)
-		}
-
 		Vue.prototype.$handleUploading = async function(files, parent_id) {
 
 			let fileBuffer = []

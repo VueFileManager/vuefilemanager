@@ -85,7 +85,8 @@
                     events.$emit('mobileSelecting:stop')
                 }
             },
-            mobileSortingAndPreview (oldValue , newValue) {
+            mobileSortingAndPreview () {
+                // TODO: co to
                 if(this.mobileSortingAndPreview) {
                     events.$emit('mobileSortingAndPreview' , true)
                     events.$emit('mobileSortingAndPreviewVignette' , true)
@@ -100,16 +101,7 @@
         },
         methods: {
             createFolder() {
-                if (this.$isMobile()) {
-                    // Get folder name
-                    let folderName = prompt(this.$t('popup_create_folder.title'))
-
-                    // Create folder
-                    if (folderName) this.$createFolder(folderName)
-                } else {
-                    // Create folder
-                    this.$createFolder(this.$t('popup_create_folder.folder_default_name'))
-                }
+                events.$emit('popup:open', {name: 'create-folder'})
             },
         },
         mounted () {
@@ -120,8 +112,6 @@
                 events.$on('mobileSortingAndPreview', (state) => {
                     this.mobileSortingAndPreview = state
                 })
-                
-
         }
     }
 </script>
