@@ -20,6 +20,7 @@
     <grid-icon v-if="source === 'th'" size="19"></grid-icon>
     <link-icon v-if="source === 'share'" size="19"></link-icon>
     <x-icon v-if="source === 'close'" size="19"></x-icon>
+    <cloud-off-icon v-if="source === 'shared-off'" size="19"></cloud-off-icon>
 
     <svg v-if="source === 'preview-sorting'" size="19"
       width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -55,6 +56,7 @@ import {
   DownloadCloudIcon,
   XIcon,
   PrinterIcon,
+  CloudOffIcon,
 } from "vue-feather-icons";
 
 export default {
@@ -64,6 +66,7 @@ export default {
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
+    CloudOffIcon,
     PrinterIcon,
     Trash2Icon,
     Edit2Icon,

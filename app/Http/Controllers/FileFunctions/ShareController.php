@@ -96,16 +96,16 @@ class ShareController extends Controller
      */
     public function destroy(Request $request)
     {
-        foreach($request->input('tokens') as $folder) {
+        foreach($request->input('tokens') as $token) {
 
             // Get sharing record
-            Share::where('token', $folder['token'])
+            Share::where('token', $token)
                 ->where('user_id', Auth::id())
                 ->firstOrFail()
                 ->delete();
 
             // Get zip record
-            $zip = Zip::where('shared_token', $folder['token'])
+            $zip = Zip::where('shared_token', $token)
                 ->where('user_id', Auth::id())
                 ->first();
 

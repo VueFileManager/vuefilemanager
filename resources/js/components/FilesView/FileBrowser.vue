@@ -222,11 +222,9 @@
                 events.$emit('contextMenu:show', event, item)
             },
             filesContainerClick() {
+                
                 // Deselect itms clicked by outside
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
-
-                // Hide context menu if is opened
-                events.$emit('contextMenu:hide')
             }
         },
         created() {

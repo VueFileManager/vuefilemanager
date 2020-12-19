@@ -149,7 +149,7 @@ export default {
             }
 
             if (!this.sortingAndPreview) {
-                events.$emit('sortingAndPreview', false)
+                events.$emit('unClick')
             }
         }
     },
@@ -186,7 +186,8 @@ export default {
             this.$createFolder()
         },
         moveItem() {
-            events.$emit('popup:open', { name: 'move', item: this.fileInfoDetail })
+            if(this.fileInfoDetail.length > 0)
+                events.$emit('popup:open', { name: 'move', item: this.fileInfoDetail })
         },
         shareItem() {
             if (this.fileInfoDetail[0]) {
@@ -206,9 +207,13 @@ export default {
         }
     },
     mounted() {
-        events.$on('sortingAndPreview', (state) => {
-            this.sortingAndPreview = state
-        })
+        // events.$on('sortingAndPreview', (state) => {
+        //     this.sortingAndPreview = state
+        // })
+
+         events.$on('unClick', () => {
+                this.sortingAndPreview = false
+            })
     }
 }
 </script>

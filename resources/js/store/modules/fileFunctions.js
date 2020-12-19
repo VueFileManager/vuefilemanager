@@ -237,11 +237,10 @@ const actions = {
         let items = [noSelectedItem]
        
          //If coming no selected item dont get items to move from fileInfoDetail
-        if(!noSelectedItem) {
+        if(!noSelectedItem) 
             items = getters.fileInfoDetail
-        }
         
-        items.forEach((data) => {
+        items.forEach(data => {
             itemsToDelete.push({
                 'force_delete': data.deleted_at ? true : false,
                 'type': data.type,

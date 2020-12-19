@@ -137,7 +137,7 @@
         },
         methods: {
             unClick () {
-                events.$emit('sortingAndPreview', false)
+                events.$emit('unClick')
             }
         },
         beforeMount() {

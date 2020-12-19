@@ -1,12 +1,14 @@
 <template>
     <transition name="context-menu">
         <div class="multiselect-actions" v-if="mobileMultiSelect">
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : fileInfoDetail.length < 1}" @click.native="moveItem"/>
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root' , 'shared', 'latest']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : fileInfoDetail.length < 1}" @click.native="moveItem"/>
 
-            <ToolbarButton class="action-btn" v-if="$checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem"/>
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem"/>
 
-            <ToolbarButton class="action-btn" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem"/>
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem"/>
 
+            <ToolbarButton class="action-btn" source="shared-off" @click.native="shareCancel" v-if="$isThisLocation(['shared'])"/>
+            
             <ToolbarButton class="action-btn close-icon" source="close" :action="$t('actions.close')" @click.native="closeSelecting"/>
         </div>
     </transition>
@@ -32,6 +34,10 @@ export default {
         }
     },
     methods: {
+         shareCancel() {
+            this.$store.dispatch('shareCancel')
+            this.closeSelecting()
+        },
         closeSelecting() {
             events.$emit('mobileSelecting:stop')
         },
@@ -41,14 +47,17 @@ export default {
             else {
                 this.$downloadFile(this.fileInfoDetail[0].file_url, this.fileInfoDetail[0].name + '.' + this.fileInfoDetail[0].mimetype)
             }
+            this.closeSelecting()
         },
         moveItem() {
             // Open move item popup
             events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
+            this.closeSelecting()
         },
         deleteItem() {
             //Delete items
             this.$store.dispatch('deleteItem')
+            this.closeSelecting()
         }
     },
     created() {

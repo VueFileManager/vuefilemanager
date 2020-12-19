@@ -67,7 +67,6 @@
         <!--Multiple items view page-->
         <div v-if="sharedDetail.type === 'folder' && isPageFiles"
              @contextmenu.prevent.capture="contextMenu($event, undefined)"
-             @click="fileViewClick"
              id="viewport">
 
                 <ContentSidebar v-if="navigationTree">
@@ -266,9 +265,6 @@
             },
             download() {
                 this.$downloadFile(this.sharedFile.file_url, this.sharedFile.name + '.' + this.sharedFile.mimetype)
-            },
-            fileViewClick() {
-                events.$emit('contextMenu:hide')
             },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)

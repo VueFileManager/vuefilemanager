@@ -196,13 +196,11 @@ class User extends Authenticatable
     public function getFolderTreeAttribute()
     {
         // Get sorting setup
-        $sort = strtolower(request()->input('sort'));
-        $direction = strtolower(request()->input('direction'));
 
         return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
-            ->sortable($sort , $direction)
+            ->sortable()
             ->get();
     }
 

@@ -1,6 +1,5 @@
 <template>
-    <div @click="fileViewClick"
-         @contextmenu.prevent.capture="contextMenu($event, undefined)"
+    <div @contextmenu.prevent.capture="contextMenu($event, undefined)"
          id="files-view">
         <ContextMenu/>
         <DesktopSortingAndPreview/>
@@ -29,9 +28,6 @@
             ...mapGetters(['config']),
         },
         methods: {
-            fileViewClick() {
-                events.$emit('contextMenu:hide')
-            },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
             },

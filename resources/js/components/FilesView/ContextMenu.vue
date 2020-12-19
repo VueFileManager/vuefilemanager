@@ -574,7 +574,7 @@ export default {
             setTimeout(() => this.showContextMenu(event, item), 10)
         })
 
-        events.$on('contextMenu:hide', () => this.closeAndResetContextMenu())
+        events.$on('unClick', () => this.closeAndResetContextMenu())
 
         events.$on('folder:actions', (folder) => {
             // Store item

@@ -32,7 +32,7 @@
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <b ref="name" @input="renameItem" :contenteditable="canEditName" class="name">
+                <b ref="name" @input="renameItem" @keydown.delete.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
@@ -155,9 +155,7 @@ export default {
             this.area = false
         },
         clickedItem(e) {
-            events.$emit('contextMenu:hide')
-
-            events.$emit('sortingAndPreview', false)
+            events.$emit('unClick')
 
             if (!this.$isMobile()) {
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {

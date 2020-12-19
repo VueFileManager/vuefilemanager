@@ -68,27 +68,25 @@ const actions = {
     shareCancel: ({commit, getters} , singleItem) => {
         return new Promise((resolve, reject) => {
 
-            let cancelSharedFolders = []
+            let tokens = []
             let items = [singleItem]
 
             if(!singleItem) {
                 items = getters.fileInfoDetail
             }
 
-            items.forEach((data) => {
-                cancelSharedFolders.push({
-                    'token': data.shared.token
-                })
+            items.forEach(data => {
+                tokens.push(data.shared.token)
             })
 
             axios
                 .post('/api/share/cancel', {
                     _method: 'post',
-                    folders: cancelSharedFolders
+                    tokens: tokens
                 })
                 .then(() => {
 
-                    items.forEach((item) => {
+                    items.forEach(item => {
 
                         // Remove item from file browser
                         if ( getters.currentFolder , getters.currentFolder.location === 'shared' ) {

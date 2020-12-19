@@ -6,7 +6,6 @@
 
 <script>
 import SortingAndPreviewMenu from '@/components/FilesView/SortingAndPreviewMenu'
-import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
     export default {
