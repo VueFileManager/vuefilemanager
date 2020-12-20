@@ -90,7 +90,7 @@ export default {
     background: white;
 
     .action-btn {
-        margin-right: 15px;
+        margin-right: 25px;
 
         &:last-child {
             margin-right: 0;

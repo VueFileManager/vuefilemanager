@@ -107,6 +107,7 @@ export default {
 
             if (this.$isMobile())
                 events.$emit('mobileSortingAndPreview', false)
+                events.$emit('mobileSortingAndPreviewVignette', this.mobileSortingAndPreview)
         }
     },
     mounted() {
