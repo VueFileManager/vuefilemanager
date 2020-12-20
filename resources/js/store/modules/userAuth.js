@@ -2,6 +2,7 @@ import axios from 'axios'
 import {events} from '@/bus'
 import i18n from '@/i18n/index.js'
 import router from '@/router'
+import Vue from 'vue'
 
 const defaultState = {
     authorized: undefined,
@@ -53,13 +54,14 @@ const actions = {
         let items = [folder]
 
         // If dont coming single folder get folders to add to favourites from fileInfoDetail
-        if(!folder){
+        if(!folder)
             items = context.getters.fileInfoDetail
-        }        
 
         items.forEach((data) => {
             if(data.type === 'folder' ) {
+
                 if(context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)) return
+
                 addFavourites.push({
                     'unique_id': data.unique_id
                 })
@@ -88,28 +90,20 @@ const actions = {
                 folders: addFavourites
             })
             .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
+                Vue.prototype.$isSomethingWrong()
             })
     },
-    removeFromFavourites: (context, folder) => {
+    removeFromFavourites: ({commit, getters, dispatch}, folder) => {
 
         // Remove from storage
-        context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
+        commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(context.getters.api + '/folders/favourites/' + folder.unique_id, {
+            .post(getters.api + '/folders/favourites/' + folder.unique_id, {
                 _method: 'delete'
             })
             .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
+                Vue.prototype.$isSomethingWrong()
             })
     },
 }
