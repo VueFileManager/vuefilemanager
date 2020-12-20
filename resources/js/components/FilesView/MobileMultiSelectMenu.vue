@@ -52,7 +52,6 @@ export default {
         moveItem() {
             // Open move item popup
             events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
-            this.closeSelecting()
         },
         deleteItem() {
             //Delete items
@@ -86,7 +85,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 99;
+    z-index: 9;
     overflow: hidden;
     background: white;
 

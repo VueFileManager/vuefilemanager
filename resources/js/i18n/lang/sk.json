@@ -281,7 +281,8 @@
 		"share_cancel": "Zrušenie zdieľania",
 		"share_edit": "Upraviť zdieľanie",
 		"upload": "Nahrať",
-		"select": "Výber"
+		"select": "Výber",
+		"no_options": "Nie sú k dispozícii žiadne možnosti" 
 	},
 	"preview_sorting": {
 		"grid_view": "Mriežka",

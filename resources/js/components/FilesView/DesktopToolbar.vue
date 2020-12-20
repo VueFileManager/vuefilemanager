@@ -180,7 +180,8 @@ export default {
             events.$emit('folder:actions', this.currentFolder)
         },
         deleteItem() {
-            this.$store.dispatch('deleteItem')
+            if(this.fileInfoDetail.length > 0)
+                this.$store.dispatch('deleteItem')
         },
         createFolder() {
             this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))

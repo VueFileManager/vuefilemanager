@@ -238,7 +238,7 @@ const actions = {
         let itemsToDelete = []
         let items = [noSelectedItem]
        
-         //If coming no selected item dont get items to move from fileInfoDetail
+         // If coming no selected item dont get items to move from fileInfoDetail
         if(!noSelectedItem) 
             items = getters.fileInfoDetail
         
@@ -249,7 +249,7 @@ const actions = {
                 "unique_id": data.unique_id
             })
             
-            //    Remove file
+            // Remove file
             commit('REMOVE_ITEM', data.unique_id)
 
             // Remove item from sidebar

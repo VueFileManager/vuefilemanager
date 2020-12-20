@@ -93,8 +93,13 @@
                 if(this.noSelectedItem){
                     this.$store.dispatch('moveItem', {to_item:this.selectedFolder ,noSelectedItem:this.pickedItem})
                 }
+                
                 // Close popup
                 events.$emit('popup:close')
+
+                // If is mobile, close the selecting mod after done the move action
+                if(this.$isMobile())
+                    events.$emit('mobileSelecting:stop')
             },
         },
         mounted() {

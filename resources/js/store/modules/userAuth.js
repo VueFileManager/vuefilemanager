@@ -52,6 +52,7 @@ const actions = {
         let addFavourites = []
         let items = [folder]
 
+        // If dont coming single folder get folders to add to favourites from fileInfoDetail
         if(!folder){
             items = context.getters.fileInfoDetail
         }        
@@ -65,13 +66,14 @@ const actions = {
             }
         })
 
+        // If dont coming single folder clear the selected folders in fileInfoDetail
         if(!folder) {
             context.commit('CLEAR_FILEINFO_DETAIL')
         }
 
         let pushToFavorites = []
         
-        //Check is favorites already don't include some of pushed folders
+        // Check is favorites already don't include some of pushed folders
         items.map(data => {
             if(!context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)){
                 pushToFavorites.push(data)
