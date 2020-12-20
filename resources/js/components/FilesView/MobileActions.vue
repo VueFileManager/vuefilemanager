@@ -93,7 +93,6 @@
             return {
                 multiSelectMode: false,
                 mobileSortingAndPreview: false,
-                turnOff:false,
             }
         },
         methods: {
