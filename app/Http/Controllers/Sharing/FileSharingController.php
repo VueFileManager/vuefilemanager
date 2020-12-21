@@ -58,6 +58,10 @@ class FileSharingController extends Controller
                 ->first();
 
             if ($image) {
+
+                // Store user download size
+                User::find($shared->user_id)->record_download((int) $image->getRawOriginal('filesize'));
+
                 return $this->show_image($image);
             }
         }
@@ -247,6 +251,7 @@ class FileSharingController extends Controller
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
+            ->sortable()
             ->get(['id', 'parent_id', 'unique_id', 'name']);
 
         // Return folder tree
@@ -277,6 +282,7 @@ class FileSharingController extends Controller
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
+            ->sortable()
             ->get(['id', 'parent_id', 'unique_id', 'name']);
 
         // Return folder tree
@@ -399,10 +405,12 @@ class FileSharingController extends Controller
     {
         $folders = FileManagerFolder::where('user_id', $shared->user_id)
             ->where('parent_id', $unique_id)
+            ->sortable()
             ->get();
 
         $files = FileManagerFile::where('user_id', $shared->user_id)
             ->where('folder_id', $unique_id)
+            ->sortable()
             ->get();
 
         return [$folders, $files];

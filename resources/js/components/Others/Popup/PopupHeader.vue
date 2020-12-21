@@ -3,6 +3,7 @@
         <div class="icon">
             <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon"></corner-down-right-icon>
             <link-icon v-if="icon === 'share'" size="17" class="title-icon"></link-icon>
+            <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon"></edit2-icon>
         </div>
         <div class="label">
             <h1 class="title">{{ title }}</h1>
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-    import {CornerDownRightIcon, LinkIcon, XIcon} from 'vue-feather-icons'
+    import {CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon} from 'vue-feather-icons'
     import {events} from '@/bus'
 
     export default {
@@ -22,6 +23,7 @@
         ],
         components: {
             CornerDownRightIcon,
+            Edit2Icon,
             LinkIcon,
             XIcon,
         },

@@ -11,6 +11,7 @@ use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * App\FileManagerFolder
@@ -58,10 +59,11 @@ use \Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withoutTrashed()
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFolder sortable($defaultParameters = null)
  */
 class FileManagerFolder extends Model
 {
-    use Searchable, SoftDeletes;
+    use Searchable, SoftDeletes , Sortable;
 
     protected $guarded = [
         'id'
@@ -69,6 +71,16 @@ class FileManagerFolder extends Model
 
     protected $appends = [
         'items', 'trashed_items'
+    ];
+
+    /**
+     * Sortable columns
+     *
+     * @var string[]
+     */
+    public $sortable = [
+        'name',
+        'created_at',
     ];
 
     /**

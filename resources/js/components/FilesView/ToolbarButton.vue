@@ -19,6 +19,9 @@
     <info-icon v-if="source === 'info'" size="19"></info-icon>
     <grid-icon v-if="source === 'th'" size="19"></grid-icon>
     <link-icon v-if="source === 'share'" size="19"></link-icon>
+    <x-icon v-if="source === 'close'" size="19"></x-icon>
+    <cloud-off-icon v-if="source === 'shared-off'" size="19"></cloud-off-icon>
+    <sorting-and-preview-icon v-if="source === 'preview-sorting'" size="19" class="preview-sorting"></sorting-and-preview-icon>
   </button>
 </template>
 
@@ -33,20 +36,26 @@ import {
   CornerDownRightIcon,
   LinkIcon,
   DownloadCloudIcon,
+  XIcon,
   PrinterIcon,
+  CloudOffIcon,
 } from "vue-feather-icons";
+import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
 
 export default {
   name: "ToolbarButton",
   props: ["source", "action"],
   components: {
+    SortingAndPreviewIcon,
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
+    CloudOffIcon,
     PrinterIcon,
     Trash2Icon,
     Edit2Icon,
     ListIcon,
+    XIcon,
     GridIcon,
     InfoIcon,
     LinkIcon,
@@ -57,6 +66,13 @@ export default {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+
+.preview-sorting {
+  svg {
+    width: 19px;
+    height: 19px;
+  }
+}
 
 .button {
   height: 42px;
@@ -73,6 +89,14 @@ export default {
   border: none;
   @include transition(150ms);
   background: transparent;
+
+  &:hover {
+     .preview-sorting {
+        path, line, polyline, rect, circle {
+          stroke: $theme !important;
+      }
+    }
+  }
 
   &:hover {
     background: $light_background;

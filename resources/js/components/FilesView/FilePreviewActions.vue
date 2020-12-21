@@ -26,7 +26,7 @@ export default {
 		filteredFiles() {
 			let filteredData = []
 			this.data.filter((element) => {
-				if (element.type == this.fileInfoDetail.type) {
+				if (element.type == this.fileInfoDetail[0].type) {
 					filteredData.push(element)
 				}
 			})

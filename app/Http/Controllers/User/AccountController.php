@@ -107,7 +107,15 @@ class AccountController extends Controller
      */
     public function update_user_settings(Request $request)
     {
-        // TODO: validation
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'name'   => 'string',
+            'value'  => 'string',
+        ]);
+
+        // Return error
+        if ($validator->fails()) abort(400, 'Bad input');
+
         // Get user
         $user = Auth::user();
 

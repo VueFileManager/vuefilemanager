@@ -13,21 +13,28 @@
                     {{ $t('uploading.progress', {current:uploadingFilesCount.current, total: uploadingFilesCount.total, progress: uploadingFileProgress}) }}
                 </span>
             </div>
-            <ProgressBar :progress="uploadingFileProgress" />
+            <div class="progress-wrapper">
+                <ProgressBar :progress="uploadingFileProgress" />
+                <span @click="cancelUpload" :title="$t('uploading.cancel')" class="cancel-icon">
+                    <x-icon size="16" @click="cancelUpload"></x-icon>
+                </span>
+            </div>
         </div>
     </transition>
 </template>
 
 <script>
     import ProgressBar from '@/components/FilesView/ProgressBar'
-    import { RefreshCwIcon } from 'vue-feather-icons'
+    import { RefreshCwIcon, XIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
+    import {events} from '@/bus'
 
     export default {
         name: 'UploadProgress',
         components: {
             RefreshCwIcon,
             ProgressBar,
+            XIcon,
         },
         computed: {
             ...mapGetters([
@@ -35,6 +42,11 @@
                 'uploadingFilesCount',
                 'isProcessingFile',
             ])
+        },
+        methods: {
+            cancelUpload() {
+                events.$emit('cancel-upload')
+            }
         }
     }
 </script>
@@ -78,12 +90,38 @@
         position: relative;
         z-index: 1;
 
+        .progress-wrapper {
+            display: flex;
+
+            .cancel-icon {
+                cursor: pointer;
+                padding: 0 13px;
+
+                &:hover {
+
+                    line {
+                        stroke: $theme;
+                    }
+                }
+            }
+        }
+
         .progress-title {
             font-weight: 700;
             text-align: center;
 
             span {
                 @include font-size(14);
+            }
+        }
+    }
+
+    @media only screen and (max-width: 690px) {
+
+        .upload-progress {
+
+            .progress-wrapper .cancel-icon {
+                padding: 0 9px;
             }
         }
     }

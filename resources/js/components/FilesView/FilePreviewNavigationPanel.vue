@@ -1,24 +1,24 @@
 <template>
-	<div class="navigation-panel" v-if="fileInfoDetail">
+	<div class="navigation-panel" v-if="fileInfoDetail[0]">
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close"></x-icon>
 			<div class="name-count-wrapper">
-				<p class="title">{{ formatedName }}</p>
+				<p class="title">{{ fileInfoDetail[0].name }}</p>				
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + filteredFiles.length }}) </span>
 			</div>
-			<span id="fast-preview-menu" class="fast-menu-icon" @click="menuOpen" v-if="$checkPermission(['master', 'editor'])">
+			<span id="fast-preview-menu" class="fast-menu-icon" @click.stop="menuOpen" v-if="$checkPermission(['master', 'editor'])">
 				<more-horizontal-icon class="more-icon" size="14"> </more-horizontal-icon>
 			</span>
 		</div>
 
 		<div class="created-at-wrapper">
-			<p>{{ fileInfoDetail.filesize }}, {{ fileInfoDetail.created_at }}</p>
+			<p>{{ fileInfoDetail[0].filesize }}, {{ fileInfoDetail[0].created_at }}</p>
 		</div>
 		<div class="navigation-icons">
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton source="download" class="mobile-hide" @click.native="downloadItem" :action="$t('actions.download')" />
-				<ToolbarButton source="share" class="mobile-hide" :class="{ 'is-inactive': canShareInView }" :action="$t('actions.share')" @click.native="shareItem" />
-				<ToolbarButton v-if="this.fileInfoDetail.type === 'image'" source="print" :action="$t('actions.print')" @click.native="printMethod()" />
+				<ToolbarButton v-if="canShowShareView" :class="{ 'is-inactive': canShareInView }" @click.native="shareItem" source="share" class="mobile-hide" :action="$t('actions.share')" />
+				<ToolbarButton v-if="this.fileInfoDetail[0].type === 'image'" source="print" :action="$t('actions.print')" @click.native="printMethod()" />
 			</div>
 		</div>
 	</div>
@@ -39,7 +39,7 @@ export default {
 		filteredFiles() {
 			let files = []
 			this.data.filter((element) => {
-				if (element.type == this.fileInfoDetail.type) {
+				if (element.type == this.fileInfoDetail[0].type) {
 					files.push(element)
 				}
 			})
@@ -48,35 +48,17 @@ export default {
 		showingImageIndex() {
 			let activeIndex = ''
 			this.filteredFiles.filter((element, index) => {
-				if (element.unique_id == this.fileInfoDetail.unique_id) {
+				if (element.unique_id == this.fileInfoDetail[0].unique_id) {
 					activeIndex = index + 1
 				}
 			})
 			return activeIndex
 		},
-
-		formatedName() {
-			//Name length handling
-			let name = this.fileInfoDetail.name
-			let windowWidth = window.innerWidth
-			let nameLength
-			if (windowWidth < 410) {
-				nameLength = 18
-			} else {
-				nameLength = 27
-			}
-			if (name.lastIndexOf('.') > -1) {
-				return _.truncate(name.substring(0, name.lastIndexOf('.')), {
-					length: nameLength
-				})
-			} else {
-				return _.truncate(name, {
-					length: nameLength
-				})
-			}
-		},
+        canShowShareView() {
+			return this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared'])
+        },
 		canShareInView() {
-			return !this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared', 'public'])
+			return ! this.$isThisLocation(['base', 'participant_uploads', 'latest', 'shared'])
 		}
 	},
 	data() {
@@ -94,18 +76,18 @@ export default {
 		},
 		downloadItem() {
 			// Download file
-			this.$downloadFile(this.fileInfoDetail.file_url, this.fileInfoDetail.name + '.' + this.fileInfoDetail.mimetype)
+			this.$downloadFile(this.fileInfoDetail[0].file_url, this.fileInfoDetail[0].name + '.' + this.fileInfoDetail[0].mimetype)
 		},
 		shareItem() {
-			if (this.fileInfoDetail.shared) {
+			if (this.fileInfoDetail[0].shared) {
 				events.$emit('popup:open', {
 					name: 'share-edit',
-					item: this.fileInfoDetail
+					item: this.fileInfoDetail[0]
 				})
 			} else {
 				events.$emit('popup:open', {
 					name: 'share-create',
-					item: this.fileInfoDetail
+					item: this.fileInfoDetail[0]
 				})
 			}
 		},
@@ -113,7 +95,7 @@ export default {
 			if (this.$isMobile()) {
 				events.$emit('mobileMenu:show', 'showFromMediaPreview')
 			} else {
-				events.$emit('showContextMenuPreview:show', this.fileInfoDetail)
+				events.$emit('showContextMenuPreview:show', this.fileInfoDetail[0])
 			}
 		},
 		closeFullPreview() {
@@ -155,6 +137,7 @@ export default {
 		}
 		.title {
 			@include font-size(15);
+			max-width: 250px;
 			line-height: 1;
 			font-weight: 700;
 			overflow: hidden;
@@ -164,7 +147,10 @@ export default {
 			color: $text;
 		}
 		@media (max-width: 570px) {
-			.title,
+			.title{
+				max-width: 180px;
+				@include font-size(17);
+			}
 			.file-count {
 				@include font-size(17);
 			}

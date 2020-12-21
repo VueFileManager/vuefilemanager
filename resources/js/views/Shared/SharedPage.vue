@@ -9,8 +9,20 @@
         <!--Move item setup-->
         <MoveItem />
 
+        <!-- Mobile Menu for Multi selected items -->
+        <MobileMultiSelectMenu/>
+
+        <!--Rename folder or file item-->
+        <RenameItem/>
+
+         <!-- Drag & Drop UI -->
+        <DragUI/>
+
         <!--Mobile Menu-->
         <MobileMenu/>
+
+        <!-- Mobile menu for selecting view and sorting -->
+        <MobileSortingAndPreview/>
 
         <!--System alerts-->
         <Alert />
@@ -19,7 +31,7 @@
         <Vignette/>
 
         <!--Password verification-->
-        <div v-if="currentPage === 'page-password'" id="password-view">
+        <div v-if="isPagePasswordVerification" id="password-view">
 
             <!--Verify share link by password-->
             <AuthContent class="center" name="password" :visible="true">
@@ -41,42 +53,82 @@
             </AuthContent>
         </div>
 
-        <!--File browser-->
-        <div v-if="currentPage === 'page-files'" id="files-view">
-            <div id="single-file" v-if="sharedDetail.type === 'file'">
-                <div class="single-file-wrapper">
-                    <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
+        <!--Single file page-->
+        <div v-if="sharedDetail.type === 'file' && isPageFiles" id="single-file">
+            <div class="single-file-wrapper">
+                <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
 
-                    <ButtonBase @click.native="download" class="download-button" button-style="theme">
-                        {{ $t('page_shared.download_file') }}
-                    </ButtonBase>
-                </div>
-            </div>
-            <div v-if="sharedDetail.type === 'folder'" @contextmenu.prevent.capture="contextMenu($event, undefined)" @click="fileViewClick">
-
-                <!--Context menu-->
-                <ContextMenu/>
-
-                <!--Desktop Toolbar-->
-                <DesktopToolbar/>
-
-                <!--File browser-->
-                <FileBrowser/>
+                <ButtonBase @click.native="download" class="download-button" button-style="theme">
+                    {{ $t('page_shared.download_file') }}
+                </ButtonBase>
             </div>
         </div>
+
+        <!--Multiple items view page-->
+        <div v-if="sharedDetail.type === 'folder' && isPageFiles"
+             @contextmenu.prevent.capture="contextMenu($event, undefined)"
+             id="viewport">
+
+                <ContentSidebar v-if="navigationTree">
+
+                    <!--Locations-->
+                    <ContentGroup :title="$t('sidebar.locations_title')">
+                        <div class="menu-list-wrapper vertical">
+                            <a class="menu-list-item link" @click="goHome">
+                                <div class="icon">
+                                    <home-icon size="17"></home-icon>
+                                </div>
+                                <div class="label">
+                                    {{ $t('sidebar.home') }}
+                                </div>
+                            </a>
+                        </div>
+                    </ContentGroup>
+
+                    <!--Navigator-->
+                    <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
+                        <span class="empty-note navigator" v-if="navigationTree.length == 0">
+                            {{ $t('sidebar.folders_empty') }}
+                        </span>
+                        <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.unique_id"/>
+                    </ContentGroup>
+                </ContentSidebar>
+
+                <div id="files-view">
+                    <!--Context menu-->
+                    <ContextMenu/>
+
+                    <!--Desktop Toolbar-->
+                    <DesktopToolbar/>
+
+                    <!--File browser-->
+                    <FileBrowser/>
+                    
+                    <!-- Selecting preview list and sorting -->
+                    <DesktopSortingAndPreview/>
+                </div>
+            </div>
     </div>
 </template>
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
+    import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
+    import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
+    import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
+    import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
-    import FileFullPreview from "@/components/FilesView/FileFullPreview";
+    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
+    import DragUI from '@/components/FilesView/DragUI'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
+    import ContentGroup from '@/components/Sidebar/ContentGroup'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import AuthContent from '@/components/Auth/AuthContent'
+    import RenameItem from '@/components/Others/RenameItem'
     import AuthButton from '@/components/Auth/AuthButton'
     import Spinner from '@/components/FilesView/Spinner'
     import MoveItem from '@/components/Others/MoveItem'
@@ -86,21 +138,33 @@
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
     import axios from 'axios'
+    import {
+        HomeIcon,
+    } from 'vue-feather-icons'
 
     export default {
         name: 'SharedPage',
         components: {
+            MobileSortingAndPreview,
+            MobileMultiSelectMenu,
             ValidationProvider,
+            DesktopSortingAndPreview,
             ValidationObserver,
+            TreeMenuNavigator,
             FileFullPreview,
             DesktopToolbar,
+            ContentSidebar,
+            DragUI,
             FileItemGrid,
+            ContentGroup,
             AuthContent,
             FileBrowser,
             ContextMenu,
             AuthButton,
             MobileMenu,
             ButtonBase,
+            RenameItem,
+            HomeIcon,
             MoveItem,
             required,
             Vignette,
@@ -108,7 +172,21 @@
             Alert,
         },
         computed: {
-            ...mapGetters(['config', 'sharedDetail', 'sharedFile']),
+            ...mapGetters([
+                'config',
+                'sharedDetail',
+                'sharedFile',
+                'navigation'
+            ]),
+            navigationTree() {
+                return this.navigation ? this.navigation[0].folders : undefined
+            },
+            isPageFiles() {
+                return this.currentPage === 'page-files'
+            },
+            isPagePasswordVerification() {
+                return this.currentPage === 'page-password'
+            }
         },
         data() {
             return {
@@ -116,10 +194,14 @@
                 password: '',
                 isLoading: false,
                 isPageLoading: true,
-                currentPage: undefined
+                currentPage: undefined,
+                homeDirectory: undefined,
             }
         },
         methods: {
+            goHome() {
+                this.$store.dispatch('browseShared', [{folder: this.homeDirectory, back: false, init: true}])
+            },
             async authenticateProtected() {
 
                 // Validate fields
@@ -163,14 +245,17 @@
                 // Show folder
                 if (this.sharedDetail.type === 'folder') {
 
-                    let homeDirectory = {
+                    this.homeDirectory = {
                         unique_id: this.sharedDetail.item_id,
                         name: this.$t('locations.home'),
                         location: 'public',
                     }
 
+                    // Get folder tree
+                    this.$store.dispatch('getFolderTree')
+
                     // Load folder
-                    this.$store.dispatch('browseShared', [{folder: homeDirectory, back: false, init: true}])
+                    this.goHome()
                 }
 
                 // Get file
@@ -180,9 +265,6 @@
             },
             download() {
                 this.$downloadFile(this.sharedFile.file_url, this.sharedFile.name + '.' + this.sharedFile.mimetype)
-            },
-            fileViewClick() {
-                events.$emit('contextMenu:hide')
             },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
@@ -285,6 +367,13 @@
                     display: none;
                 }
             }
+        }
+    }
+
+    .empty-note {
+
+        &.navigator {
+            padding: 5px 25px 10px;
         }
     }
 

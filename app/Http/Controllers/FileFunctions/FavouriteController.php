@@ -20,16 +20,18 @@ class FavouriteController extends Controller
     public function store(Request $request)
     {
         // Validate request
-        $validator = Validator::make($request->all(), [
-            'unique_id' => 'required|integer',
+        $validator = Validator::make($request->input('folders'), [
+            '*.unique_id' => 'required|integer',
         ]);
 
         // Return error
         if ($validator->fails()) abort(400, 'Bad input');
 
+        foreach($request->input('folders') as $item) {
+
         // Get user & folder
         $user = Auth::user();
-        $folder = FileManagerFolder::where('unique_id', $request->unique_id)->first();
+        $folder = FileManagerFolder::where('unique_id', $item['unique_id'])->first();
 
         if (is_demo($user->id)) {
             return Demo::favourites($user);
@@ -39,8 +41,9 @@ class FavouriteController extends Controller
         if ($folder->user_id !== $user->id) abort(403);
 
         // Add folder to user favourites
-        $user->favourite_folders()->syncWithoutDetaching($request->unique_id);
+        $user->favourite_folders()->syncWithoutDetaching($item['unique_id']);
 
+        }
         // Return updated favourites
         return $user->favourite_folders;
     }

@@ -8,6 +8,10 @@
             <grid-icon v-if="icon === 'th'" size="15" class="icon"></grid-icon>
             <user-plus-icon v-if="icon === 'user-plus'" size="15" class="icon"></user-plus-icon>
             <plus-icon v-if="icon === 'plus'" size="15" class="icon"></plus-icon>
+            <check-square-icon v-if="icon === 'check-square'" size="15" class="icon"></check-square-icon>
+            <x-square-icon v-if="icon === 'x-square'" size="15" class="icon"></x-square-icon>
+            <check-icon v-if="icon === 'check'" size="15" class="icon"></check-icon>
+            <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon preview-sorting"></sorting-and-preview-icon>
             <span class="label">
                 <slot></slot>
             </span>
@@ -16,7 +20,8 @@
 </template>
 
 <script>
-    import { FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon } from 'vue-feather-icons'
+    import { CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
 
     export default {
         name: 'MobileActionButton',
@@ -24,9 +29,13 @@
             'icon'
         ],
         components: {
+            SortingAndPreviewIcon,
+            CheckSquareIcon,
             CreditCardIcon,
             FolderPlusIcon,
             UserPlusIcon,
+            XSquareIcon,
+            CheckIcon,
             TrashIcon,
             PlusIcon,
             ListIcon,
@@ -73,7 +82,7 @@
             @include transform(scale(0.95));
         }
 
-        &:hover {
+        /*&:hover {
             background: rgba($theme, 0.1);
 
             .icon {
@@ -85,7 +94,7 @@
             .label {
                 color: $theme;
             }
-        }
+        }*/
     }
 
     @media (prefers-color-scheme: dark) {

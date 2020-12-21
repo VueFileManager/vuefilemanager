@@ -383,15 +383,6 @@ const routesUser = [
         },
     },
     {
-        name: 'Trash',
-        path: '/trash',
-        component: () =>
-            import(/* webpackChunkName: "chunks/trash" */ './views/FilePages/Trash'),
-        meta: {
-            requiresAuth: true
-        },
-    },
-    {
         name: 'Settings',
         path: '/settings',
         component: () =>

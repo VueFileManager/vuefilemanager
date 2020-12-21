@@ -2,6 +2,7 @@ import axios from 'axios'
 import {events} from '@/bus'
 import i18n from '@/i18n/index.js'
 import router from '@/router'
+import Vue from 'vue'
 
 const defaultState = {
     authorized: undefined,
@@ -11,9 +12,10 @@ const defaultState = {
 
 const actions = {
     getAppData: ({commit, getters}) => {
+
         return new Promise((resolve, reject) => {
             axios
-                .get(getters.api + '/user')
+                .get(getters.api + '/user' + getters.sorting.URI)
                 .then((response) => {
                     resolve(response)
 
@@ -48,37 +50,60 @@ const actions = {
             })
     },
     addToFavourites: (context, folder) => {
+        let addFavourites = []
+        let items = [folder]
 
+        // If dont coming single folder get folders to add to favourites from fileInfoDetail
+        if(!folder)
+            items = context.getters.fileInfoDetail
+
+        items.forEach((data) => {
+            if(data.type === 'folder' ) {
+
+                if(context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)) return
+
+                addFavourites.push({
+                    'unique_id': data.unique_id
+                })
+            }
+        })
+
+        // If dont coming single folder clear the selected folders in fileInfoDetail
+        if(!folder) {
+            context.commit('CLEAR_FILEINFO_DETAIL')
+        }
+
+        let pushToFavorites = []
+        
+        // Check is favorites already don't include some of pushed folders
+        items.map(data => {
+            if(!context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)){
+                pushToFavorites.push(data)
+            }
+        })
+        
         // Add to storage
-        context.commit('ADD_TO_FAVOURITES', folder)
+        context.commit('ADD_TO_FAVOURITES', pushToFavorites)
 
         axios
             .post(context.getters.api + '/folders/favourites', {
-                unique_id: folder.unique_id
+                folders: addFavourites
             })
             .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
+                Vue.prototype.$isSomethingWrong()
             })
     },
-    removeFromFavourites: (context, folder) => {
+    removeFromFavourites: ({commit, getters, dispatch}, folder) => {
 
         // Remove from storage
-        context.commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
+        commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(context.getters.api + '/folders/favourites/' + folder.unique_id, {
+            .post(getters.api + '/folders/favourites/' + folder.unique_id, {
                 _method: 'delete'
             })
             .catch(() => {
-                // Show error message
-                events.$emit('alert:open', {
-                    title: i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
-                })
+                Vue.prototype.$isSomethingWrong()
             })
     },
 }
@@ -95,11 +120,13 @@ const mutations = {
         state.app = undefined
     },
     ADD_TO_FAVOURITES(state, folder) {
+        folder.forEach(item => { 
         state.user.relationships.favourites.data.attributes.folders.push({
-            unique_id: folder.unique_id,
-            name: folder.name,
-            type: folder.type,
+            unique_id: item.unique_id,
+            name: item.name,
+            type: item.type,
         })
+    })
     },
     UPDATE_NAME(state, name) {
         state.user.data.attributes.name = name

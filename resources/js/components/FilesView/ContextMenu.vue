@@ -1,342 +1,223 @@
 <template>
     <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" v-show="isVisible || showFromPreview" ref="contextmenu" :class="{ 'filePreviewFixed' : showFromPreview}">
-        <!-- ContextMenu for File Preview -->
+
+        <!-- File Preview -->
         <div class="menu-options" id="menu-list" v-if="showFromPreview">
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="moveItem">
-                    <div class="icon">
-                        <corner-down-right-icon size="17"></corner-down-right-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.move') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="shareItem">
-                    <div class="icon">
-                        <link-icon size="17"></link-icon>
-                    </div>
-                    <div class="text-label">
-                        {{
-                            item.shared
-                                ? $t('context_menu.share_edit')
-                                : $t('context_menu.share')
-                        }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="deleteItem">
-                    <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.delete') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
-                    <div class="icon">
-                        <download-cloud-icon size="17"></download-cloud-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.download') }}
-                    </div>
-                </li>
-            </ul>
+            <OptionGroup class="menu-option-group">
+                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
+                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
+                <Option @click.native="shareItem" v-if="$checkPermission('master')" :title="item.shared
+                            ? $t('context_menu.share_edit')
+                            : $t('context_menu.share')" icon="share"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" class="menu-option"/>
+            </OptionGroup>
+
+            <OptionGroup>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
         </div>
 
-        <!--ContextMenu for trash location-->
-        <div v-if="
-          $isThisLocation(['trash', 'trash-root']) && $checkPermission('master') && !showFromPreview
-        " id="menu-list" class="menu-options">
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="$store.dispatch('restoreItem', item)" v-if="item">
-                    <div class="icon">
-                        <life-buoy-icon size="17"></life-buoy-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.restore') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="deleteItem" v-if="item">
-                    <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.delete') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="$store.dispatch('emptyTrash')">
-                    <div class="icon">
-                        <trash-icon size="17"></trash-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.empty_trash') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="ItemDetail">
-                    <div class="icon">
-                        <eye-icon size="17"></eye-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.detail') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
-                    <div class="icon">
-                        <download-cloud-icon size="17"></download-cloud-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.download') }}
-                    </div>
-                </li>
-            </ul>
+        <!-- Trash location-->
+        <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
+
+            <!-- Single options -->
+            <OptionGroup v-if="multiSelectContextMenu">
+                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+                <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
+
+            <!-- Multi options -->
+            <OptionGroup v-if="!multiSelectContextMenu">
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+                <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
         </div>
 
-        <!--ContextMenu for Base location with MASTER permission-->
+        <!-- Shared location with MASTER permission-->
         <div v-if="$isThisLocation(['shared']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="item && isFolder">
-                <li class="menu-option" @click="addToFavourites">
-                    <div class="icon">
-                        <star-icon size="17"></star-icon>
-                    </div>
-                    <div class="text-label">
-                        {{
-                            isInFavourites
+
+            <!-- Single options -->
+            <OptionGroup class="menu-option-group" v-if="item && isFolder && multiSelectContextMenu">
+                <Option @click.native="addToFavourites" :title=" isInFavourites
+                        ? $t('context_menu.remove_from_favourites')
+                        : $t('context_menu.add_to_favourites')" icon="favourites"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
+                <Option @click.native="shareItem" :title=" item.shared ? $t('context_menu.share_edit'): $t('context_menu.share')" icon="share"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
+
+            <!-- Multi options -->
+            <OptionGroup class="menu-option-group" v-if="item && !hasFile && !multiSelectContextMenu">
+                <Option @click.native="addToFavourites" :title=" isInFavourites
                                 ? $t('context_menu.remove_from_favourites')
-                                : $t('context_menu.add_to_favourites')
-                        }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="shareItem">
-                    <div class="icon">
-                        <link-icon size="17"></link-icon>
-                    </div>
-                    <div class="text-label">
-                        {{
-                            item.shared
-                                ? $t('context_menu.share_edit')
-                                : $t('context_menu.share')
-                        }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="deleteItem">
-                    <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.delete') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="ItemDetail" v-if="item">
-                    <div class="icon">
-                        <eye-icon size="17"></eye-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.detail') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
-                    <div class="icon">
-                        <download-cloud-icon size="17"></download-cloud-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.download') }}
-                    </div>
-                </li>
-            </ul>
+                                : $t('context_menu.add_to_favourites')" icon="favourites"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu">
+                <Option @click.native="shareCancel" :title="$t('context_menu.share_cancel')" icon="share"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
         </div>
 
-        <!--ContextMenu for Base location with MASTER permission-->
-        <div v-if="
-          $isThisLocation(['base', 'participant_uploads', 'latest']) &&
-          $checkPermission('master') && !showFromPreview
-        " id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="!$isThisLocation(['participant_uploads', 'latest'])">
-                <li class="menu-option" @click="addToFavourites" v-if="item && isFolder">
-                    <div class="icon">
-                        <star-icon size="17"></star-icon>
-                    </div>
-                    <div class="text-label">
-                        {{
-                            isInFavourites
-                                ? $t('context_menu.remove_from_favourites')
-                                : $t('context_menu.add_to_favourites')
-                        }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="createFolder">
-                    <div class="icon">
-                        <folder-plus-icon size="17"></folder-plus-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.create_folder') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="moveItem">
-                    <div class="icon">
-                        <corner-down-right-icon size="17"></corner-down-right-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.move') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="shareItem">
-                    <div class="icon">
-                        <link-icon size="17"></link-icon>
-                    </div>
-                    <div class="text-label">
-                        {{
-                            item.shared
-                                ? $t('context_menu.share_edit')
-                                : $t('context_menu.share')
-                        }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="deleteItem">
-                    <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.delete') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="ItemDetail">
-                    <div class="icon">
-                        <eye-icon size="17"></eye-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.detail') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
-                    <div class="icon">
-                        <download-cloud-icon size="17"></download-cloud-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.download') }}
-                    </div>
-                </li>
-            </ul>
+        <!-- Base location with MASTER permission-->
+        <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
+
+            <!-- Single options -->
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu">
+                <Option @click.native="addToFavourites" v-if="item && isFolder " :title="isInFavourites
+                                                                                ? $t('context_menu.remove_from_favourites')
+                                                                                : $t('context_menu.add_to_favourites')" icon="favourites"/>
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            </OptionGroup>
+
+
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
+                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item"/>
+                <Option @click.native="shareItem" :title="item.shared
+                                                            ? $t('context_menu.share_edit')
+                                                            : $t('context_menu.share')" icon="share"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            </OptionGroup>
+
+
+            <OptionGroup v-if="item && multiSelectContextMenu ">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
+
+            <!-- Multi options -->
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !multiSelectContextMenu">
+                <Option @click.native="addToFavourites" v-if="item && !hasFile" :title=" isInFavourites
+                                                                                    ? $t('context_menu.remove_from_favourites')
+                                                                                    : $t('context_menu.add_to_favourites')" icon="favourites"/>
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu">
+                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
         </div>
 
-        <!--ContextMenu for Base location with EDITOR permission-->
-        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview" id="menu-list" class="menu-options">
-            <ul class="menu-option-group">
-                <li class="menu-option" @click="createFolder">
-                    <div class="icon">
-                        <folder-plus-icon size="17"></folder-plus-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.create_folder') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="moveItem">
-                    <div class="icon">
-                        <corner-down-right-icon size="17"></corner-down-right-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.move') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="deleteItem">
-                    <div class="icon">
-                        <trash-2-icon size="17"></trash-2-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.delete') }}
-                    </div>
-                </li>
-            </ul>
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="ItemDetail">
-                    <div class="icon">
-                        <eye-icon size="17"></eye-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.detail') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
-                    <div class="icon">
-                        <download-cloud-icon size="17"></download-cloud-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.download') }}
-                    </div>
-                </li>
-            </ul>
+        <!-- Base & Public location with EDITOR permission-->
+        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
+
+            <!-- Single options -->
+            <OptionGroup v-if="multiSelectContextMenu">
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="renameItem" :title=" $t('context_menu.rename')" icon="rename"/>
+                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
+
+            <!-- Multi options -->
+            <OptionGroup v-if="!multiSelectContextMenu">
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu">
+                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            </OptionGroup>
+
+            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
         </div>
 
-        <!--ContextMenu for Base location with VISITOR permission-->
-        <div v-if="
-          $isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview
-        " id="menu-list" class="menu-options">
-            <ul class="menu-option-group" v-if="item">
-                <li class="menu-option" @click="ItemDetail">
-                    <div class="icon">
-                        <eye-icon size="17"></eye-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.detail') }}
-                    </div>
-                </li>
-                <li class="menu-option" @click="downloadItem" v-if="!isFolder">
-                    <div class="icon">
-                        <download-cloud-icon size="17"></download-cloud-icon>
-                    </div>
-                    <div class="text-label">
-                        {{ $t('context_menu.download') }}
-                    </div>
-                </li>
-            </ul>
+        <!-- Base & Public location with VISITOR permission-->
+        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview" id="menu-list" class="menu-options">
+
+            <!-- Single options -->
+            <OptionGroup v-if="item && multiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            </OptionGroup>
+
+            <!-- Multi options -->
+            <OptionGroup v-if="!multiSelectContextMenu && item ">
+                <Option @click.native="downloadItem" v-if="!hasFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option v-if="hasFolder" :title="$t('context_menu.no_options')" icon="no-options" class="no-options"/>
+            </OptionGroup>
+
         </div>
     </div>
 </template>
 
 <script>
-import {
-    CornerDownRightIcon,
-    DownloadCloudIcon,
-    FolderPlusIcon,
-    LifeBuoyIcon,
-    Trash2Icon,
-    Edit2Icon,
-    TrashIcon,
-    StarIcon,
-    LinkIcon,
-    EyeIcon
-} from 'vue-feather-icons'
+import OptionGroup from '@/components/FilesView/OptionGroup'
+import Option from '@/components/FilesView/Option'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
 export default {
     name: 'ContextMenu',
     components: {
-        CornerDownRightIcon,
-        DownloadCloudIcon,
-        FolderPlusIcon,
-        LifeBuoyIcon,
-        Trash2Icon,
-        Edit2Icon,
-        TrashIcon,
-        LinkIcon,
-        StarIcon,
-        EyeIcon
+        OptionGroup,
+        Option
     },
     computed: {
-        ...mapGetters(['user']),
+        ...mapGetters(['user', 'fileInfoDetail']),
+        hasFolder() {
+
+            // Check if selected items includes some folder
+            if (this.fileInfoDetail.find(item => item.type === 'folder'))
+                return true
+
+        },
+        hasFile() {
+
+            // Check if selected items includes some files
+            if (this.fileInfoDetail.find(item => item.type !== 'folder'))
+                return true
+
+        },
+        multiSelectContextMenu() {
+
+            // If is context Menu open on multi selected items open just options for the multi selected items
+            if (this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.item))
+                return false
+
+            // If is context Menu open for the non selected item open options for the single item
+            if (this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item))
+                return true
+
+        },
         favourites() {
             return this.user.relationships.favourites.data.attributes.folders
         },
@@ -369,34 +250,27 @@ export default {
     },
 
     methods: {
+        emptyTrash() {
+            this.$store.dispatch('emptyTrash')
+        },
+        restoreItem() {
+            this.$store.dispatch('restoreItem', this.item)
+        },
+        shareCancel() {
+            this.$store.dispatch('shareCancel')
+        },
         renameItem() {
-            let itemName = prompt(this.$t('popup_rename.title'), this.item.name)
-
-            if (itemName && itemName !== '') {
-                let item = {
-                    unique_id: this.item.unique_id,
-                    type: this.item.type,
-                    name: itemName
-                }
-
-                this.$store.dispatch('renameItem', item)
-
-                // Change item name if is mobile device or prompted
-                if (this.$isMobile()) {
-                    events.$emit('change:name', item)
-                }
-            }
+            events.$emit('popup:open', { name: 'rename-item', item: this.item })
         },
         moveItem() {
-            // Open move item popup
-            events.$emit('popup:open', { name: 'move', item: this.item })
+            events.$emit('popup:open', { name: 'move', item: [this.item] })
         },
         shareItem() {
             if (this.item.shared) {
-                // Open share item popup
+                // Open edit share popup
                 events.$emit('popup:open', { name: 'share-edit', item: this.item })
             } else {
-                // Open share item popup
+                // Open create share popup
                 events.$emit('popup:open', { name: 'share-create', item: this.item })
             }
         },
@@ -404,19 +278,27 @@ export default {
             // Check if folder is in favourites and then add/remove from favourites
             if (
                 this.favourites &&
-                !this.favourites.find((el) => el.unique_id == this.item.unique_id)
+                !this.favourites.find(el => el.unique_id == this.item.unique_id)
             ) {
-                this.$store.dispatch('addToFavourites', this.item)
+                // Add to favourite folder that is not selected
+                if (!this.fileInfoDetail.includes(this.item)) {
+                    this.$store.dispatch('addToFavourites', this.item)
+                }
+
+                // Add to favourites all selected folders
+                if (this.fileInfoDetail.includes(this.item)) {
+                    this.$store.dispatch('addToFavourites', null)
+                }
             } else {
                 this.$store.dispatch('removeFromFavourites', this.item)
             }
         },
         downloadItem() {
-            // Download file
-            this.$downloadFile(
-                this.item.file_url,
-                this.item.name + '.' + this.item.mimetype
-            )
+            if (this.fileInfoDetail.length > 1)
+                this.$store.dispatch('downloadFiles')
+            else {
+                this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
+            }
         },
         ItemDetail() {
             // Dispatch load file info detail
@@ -426,12 +308,17 @@ export default {
             this.$store.dispatch('fileInfoToggle', true)
         },
         deleteItem() {
-            // Dispatch remove item
-            this.$store.dispatch('deleteItem', this.item)
+            // If is context menu open on non selected item delete this single item
+            if (!this.fileInfoDetail.includes(this.item)) {
+                this.$store.dispatch('deleteItem', this.item)
+            }
+            // If is context menu open to multi selected items dele this selected items
+            if (this.fileInfoDetail.includes(this.item)) {
+                this.$store.dispatch('deleteItem')
+            }
         },
         createFolder() {
-            // Create folder
-            this.$createFolder(this.$t('popup_create_folder.folder_default_name'))
+            this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))
         },
         closeAndResetContextMenu() {
             // Close context menu
@@ -487,7 +374,6 @@ export default {
                 this.positionY = container.offsetTop + 51
             }
         }
-
     },
     watch: {
         item(newValue, oldValue) {
@@ -530,7 +416,7 @@ export default {
             setTimeout(() => this.showContextMenu(event, item), 10)
         })
 
-        events.$on('contextMenu:hide', () => this.closeAndResetContextMenu())
+        events.$on('unClick', () => this.closeAndResetContextMenu())
 
         events.$on('folder:actions', (folder) => {
             // Store item
@@ -547,23 +433,25 @@ export default {
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
 
+.no-options {
+    /deep/ .text-label {
+        color: $text-muted !important;
+    }
+
+    /deep/ &:hover {
+        background: transparent;
+    }
+
+    /deep/ path,
+    /deep/ line,
+    /deep/ circle {
+        stroke: $text-muted !important;
+    }
+}
+
 .filePreviewFixed {
     position: fixed !important;
     display: flex;
-}
-
-.menu-option {
-    display: flex;
-    align-items: center;
-
-    .icon {
-        margin-right: 20px;
-        line-height: 0;
-    }
-
-    .text-label {
-        @include font-size(16);
-    }
 }
 
 .contextmenu {
@@ -585,65 +473,25 @@ export default {
     width: 100%;
     margin: 0;
     padding: 0;
-
-    .menu-option-group {
-        padding: 5px 0;
-        border-bottom: 1px solid $light_mode_border;
-
-        &:first-child {
-            padding-top: 0;
-        }
-
-        &:last-child {
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-    }
-
-    .menu-option {
-        white-space: nowrap;
-        font-weight: 700;
-        @include font-size(14);
-        padding: 15px 20px;
-        cursor: pointer;
-        width: 100%;
-        color: $text;
-
-        &:hover {
-            background: $light_background;
-
-            .text-label {
-                color: $theme;
-            }
-
-            path,
-            line,
-            polyline,
-            rect,
-            circle,
-            polygon {
-                stroke: $theme;
-            }
-        }
-    }
 }
 
 @media (prefers-color-scheme: dark) {
     .contextmenu {
         background: $dark_mode_foreground;
+    }
+    .no-options {
+        /deep/ .text-label {
+            color: $dark_mode_text_secondary !important;
+        }
 
-        .menu-options {
-            .menu-option-group {
-                border-color: $dark_mode_border_color;
-            }
+        /deep/ &:hover {
+            background: transparent;
+        }
 
-            .menu-option {
-                color: $dark_mode_text_primary;
-
-                &:hover {
-                    background: rgba($theme, 0.1);
-                }
-            }
+        /deep/ path,
+        /deep/ line,
+        /deep/ circle {
+            stroke: $dark_mode_text_secondary !important;
         }
     }
 }

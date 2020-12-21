@@ -1,14 +1,15 @@
 <template>
-    <div @click="fileViewClick"
-         @contextmenu.prevent.capture="contextMenu($event, undefined)"
+    <div @contextmenu.prevent.capture="contextMenu($event, undefined)"
          id="files-view">
         <ContextMenu/>
+        <DesktopSortingAndPreview/>
         <DesktopToolbar/>
         <FileBrowser/>
     </div>
 </template>
 
 <script>
+    import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
@@ -18,6 +19,7 @@
     export default {
         name: 'FilesView',
         components: {
+            DesktopSortingAndPreview,
             DesktopToolbar,
             FileBrowser,
             ContextMenu,
@@ -26,9 +28,6 @@
             ...mapGetters(['config']),
         },
         methods: {
-            fileViewClick() {
-                events.$emit('contextMenu:hide')
-            },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
             },

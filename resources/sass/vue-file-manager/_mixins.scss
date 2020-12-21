@@ -27,8 +27,8 @@
 @mixin widget-card {
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 3px 15px 2px hsla(220, 36%, 16%, 0.05);
-  background: white;
+  //box-shadow: 0 5px 10px -6px rgba(26, 36, 55, 0.15);
+  background: $light_background;
 }
 
 @mixin blurred-image {

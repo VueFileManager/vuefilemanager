@@ -1,14 +1,16 @@
 <template>
-    <div class="file-content" :class="{ 'is-offset': uploadingFilesCount, 'is-dragging': isDragging }"
+    <div class="file-content" id="file-content-id" :class="{ 'is-offset': uploadingFilesCount, 'is-dragging': isDragging }"
          @dragover.prevent
          @drop.stop.prevent="dropUpload($event)"
          @dragover="dragEnter"
          @dragleave="dragLeave"
+         @keydown.delete="deleteItems"
+         tabindex="-1"
     >
         <div
                 class="files-container"
                 ref="fileContainer"
-                :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() }"
+                :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() , 'mobile-multi-select' : mobileMultiSelect}"
                 @click.self="filesContainerClick"
         >
             <!--MobileToolbar-->
@@ -36,6 +38,7 @@
                             v-for="item in data"
                             :key="item.unique_id"
                             class="file-item"
+                            :class="draggedItems.includes(item) ? 'dragged' : '' "                      
                     />
                 </transition-group>
             </div>
@@ -56,6 +59,7 @@
                             v-for="item in data"
                             :key="item.unique_id"
                             class="file-item"
+                            :class="draggedItems.includes(item) ? 'dragged' : '' "
                     />
                 </transition-group>
             </div>
@@ -74,10 +78,15 @@
         <!--File Info Panel-->
         <div v-if="! $isMinimalScale()" class="file-info-container" :class="{ 'is-fileinfo-visible': fileInfoVisible }">
             <!--File info panel-->
-            <FileInfoPanel v-if="fileInfoDetail"/>
+            <FileInfoPanel v-if="fileInfoDetail.length === 1"/>
+
+            <MultiSelected  v-if="fileInfoDetail.length > 1"
+                            :title="$t('file_detail.selected_multiple')" 
+                            :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"            
+            />
 
             <!--If file info panel empty show message-->
-            <EmptyMessage v-if="!fileInfoDetail" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
+            <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
         </div>
     </div>
 </template>
@@ -85,6 +94,7 @@
 <script>
     import MobileToolbar from '@/components/FilesView/MobileToolbar'
     import MobileActions from '@/components/FilesView/MobileActions'
+    import MultiSelected from '@/components/FilesView/MultiSelected'
     import FileInfoPanel from '@/components/FilesView/FileInfoPanel'
     import FileItemList from '@/components/FilesView/FileItemList'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
@@ -99,6 +109,7 @@
         components: {
             MobileToolbar,
             MobileActions,
+            MultiSelected,
             FileInfoPanel,
             FileItemList,
             FileItemGrid,
@@ -126,14 +137,31 @@
             isEmpty() {
                 return this.data.length == 0
             },
+            draggedItems() {
+                //Set opacity for dragged items
+
+                if(!this.fileInfoDetail.includes(this.draggingId)){
+                    return [this.draggingId]
+                }
+
+                if(this.fileInfoDetail.includes(this.draggingId)) {
+                    return this.fileInfoDetail
+                }
+            }
         },
         data() {
             return {
                 draggingId: undefined,
                 isDragging: false,
+                mobileMultiSelect: false,
             }
         },
         methods: {
+            deleteItems() {
+                if(this.fileInfoDetail.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
+                    this.$store.dispatch('deleteItem')
+                }
+            },
             dropUpload(event) {
                 // Upload external file
                 this.$uploadExternalFiles(event, this.currentFolder.unique_id)
@@ -147,6 +175,9 @@
                 this.isDragging = false
             },
             dragStart(data) {
+                let img = document.createElement('img')
+                img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                event.dataTransfer.setDragImage(img, 0, 0)
 
                 events.$emit('dragstart', data)
 
@@ -156,12 +187,25 @@
             dragFinish(data, event) {
 
                 if (event.dataTransfer.items.length == 0) {
-
                     // Prevent to drop on file or image
                     if (data.type !== 'folder' || this.draggingId === data) return
 
+                    //Prevent move selected folder to folder if in beteewn selected folders
+                    if(this.fileInfoDetail.find(item => item === data && this.fileInfoDetail.length > 1)) return 
+
                     // Move folder to new parent
-                    this.$store.dispatch('moveItem', [this.draggingId, data])
+
+                     //Move item if is not included in selected items
+                    if(!this.fileInfoDetail.includes(this.draggingId)){
+                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem:this.draggingId})
+                    }
+
+                    //Move selected items to folder
+                    if(this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)){
+                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem: null})
+                    }
+                   
+                   
 
                 } else {
 
@@ -178,15 +222,27 @@
                 events.$emit('contextMenu:show', event, item)
             },
             filesContainerClick() {
-
-                // Deselect clicked item
-                events.$emit('fileItem:deselect')
-
-                // Hide context menu if is opened
-                events.$emit('contextMenu:hide')
+                
+                // Deselect itms clicked by outside
+                this.$store.commit('CLEAR_FILEINFO_DETAIL')
             }
         },
         created() {
+            events.$on('mobileSelecting:start' , () => {
+            this.mobileMultiSelect =true
+            })
+
+            events.$on('mobileSelecting:stop' , () => {
+            this.mobileMultiSelect = false
+            })
+
+            events.$on('drop', () => {
+                this.isDragging = false
+                setTimeout(() => {
+                    this.draggingId = undefined
+                }, 10);
+            })
+
             events.$on('fileItem:deselect', () =>
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
             )
@@ -199,11 +255,6 @@
 
                 if (container) container.scrollTop = 0
             })
-
-            // On items delete
-            events.$on('items:delete', () => {
-                this.$store.dispatch('deleteItem', this.fileInfoDetail)
-            })
         }
     }
 </script>
@@ -211,6 +262,30 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .file-list {
+        .dragged {
+        /deep/.is-dragenter {
+            border: 2px solid transparent;
+        }
+        }
+    }
+
+    .dragged {
+        opacity: 0.5;
+    }
+
+    #multi-selected {
+        position: fixed;
+        pointer-events: none;
+        z-index: 100;
+        
+    }
+
+    .mobile-multi-select {
+        bottom: 50px !important;
+        top: 0px;
+    }
 
     .button-upload {
         display: block;

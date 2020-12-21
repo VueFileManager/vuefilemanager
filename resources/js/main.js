@@ -5,6 +5,7 @@ import router from "./router";
 import i18n from "./i18n/index.js";
 import App from "./App.vue";
 import store from "./store";
+import {events} from "./bus";
 import Helpers from "./helpers";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -88,6 +89,19 @@ Vue.use(Helpers);
 
 Vue.config.productionTip = false;
 
+// Handle position of Drag & Drop Ghost
+document.addEventListener('drag', (event) => {
+  let multiSelect = document.getElementById('multi-select-ui')
+  multiSelect.style.top = event.clientY + 20 + 'px'
+  multiSelect.style.left = event.clientX + 'px'
+
+},false)
+
+// Handle for drop 
+document.addEventListener("dragend", () => {
+  events.$emit('drop')
+}, false);
+
 var vueFileManager = new Vue({
   i18n,
   store,
@@ -97,3 +111,5 @@ var vueFileManager = new Vue({
   },
   render: (h) => h(App),
 }).$mount("#app");
+
+

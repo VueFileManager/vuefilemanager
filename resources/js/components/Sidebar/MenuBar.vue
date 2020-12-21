@@ -20,19 +20,13 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Trash'}" :title="$t('locations.trash')" class="icon-navigation-item trash">
-                <div class="button-icon">
-                    <trash-2-icon size="19"></trash-2-icon>
-                </div>
-            </router-link>
-
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <user-icon size="19"></user-icon>
                 </div>
             </router-link>
 
-            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" class="icon-navigation-item users">
+            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" :title="$t('locations.settings')" class="icon-navigation-item users">
                 <div class="button-icon">
                     <settings-icon size="19"></settings-icon>
                 </div>
@@ -41,7 +35,7 @@
 
         <!--User avatar & Logout-->
         <ul class="icon-navigation logout">
-            <li @click="$store.dispatch('logOut')" class="icon-navigation-item">
+            <li @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
                 <div class="button-icon">
                     <power-icon size="19"></power-icon>
                 </div>

@@ -165,6 +165,7 @@ return [
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        Madnest\Madzipper\MadzipperServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -232,6 +233,7 @@ return [
         'Image'        => Intervention\Image\Facades\Image::class,
         'Stripe'       => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
         'Crawler'      => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class,
+        'Madzipper' => Madnest\Madzipper\Madzipper::class,
     ],
 
     'deploy_secret' => env('APP_DEPLOY_SECRET'),

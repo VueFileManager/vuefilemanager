@@ -1,3 +1,4 @@
+import Vue from "vue"
 import axios from 'axios'
 import {events} from '@/bus'
 import router from '@/router'
@@ -5,7 +6,7 @@ import i18n from '@/i18n/index'
 
 const defaultState = {
     uploadingFilesCount: undefined,
-    fileInfoDetail: undefined,
+    fileInfoDetail: [],
     currentFolder: undefined,
     uploadingFileProgress: 0,
     isProcessingFile: false,
@@ -32,12 +33,12 @@ const actions = {
         // Set folder location
         payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
 
-        if (! payload.back)
+        if (! payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         let url = payload.folder.location === 'trash'
-            ? '/folders/' + payload.folder.unique_id + '?trash=true'
-            : '/folders/' + payload.folder.unique_id
+            ? '/folders/' + payload.folder.unique_id + getters.sorting.URI + '&trash=true'
+            : '/folders/' + payload.folder.unique_id + getters.sorting.URI
 
         axios
             .get(getters.api + url)
@@ -45,7 +46,7 @@ const actions = {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_CURRENT_FOLDER', payload.folder)
 
-                if (payload.back)
+                if (payload.back && !payload.sorting)
                     commit('REMOVE_BROWSER_HISTORY')
 
                 events.$emit('scrollTop')
@@ -79,16 +80,17 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/latest')
+            .get(getters.api + '/latest' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getShared: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
+
 
         let currentFolder = {
             name: i18n.t('sidebar.my_shared'),
@@ -99,14 +101,14 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
-            .get(getters.api + '/shared-all')
+            .get(getters.api + '/shared-all' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
 
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getParticipantUploads: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -119,13 +121,13 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/participant-uploads')
+            .get(getters.api + '/participant-uploads' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
 
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getTrash: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -140,14 +142,14 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/trash')
+            .get(getters.api + '/trash' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', trash)
 
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getSearchResult: ({commit, getters}, query) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -170,15 +172,7 @@ const actions = {
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
             })
-            .catch(() => isSomethingWrong())
-    },
-    getFileDetail: ({commit, getters}, file) => {
-        axios
-            .get(getters.api + '/file-detail/' + file.unique_id)
-            .then(response => {
-                commit('LOAD_FILEINFO_DETAIL', response.data)
-            })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getFolderTree: ({commit, getters}) => {
 
@@ -195,7 +189,7 @@ const actions = {
                 route = '/api/navigation'
 
             axios
-                .get(route)
+                .get(route + getters.sorting.URI)
                 .then(response => {
                     resolve(response)
 
@@ -204,7 +198,7 @@ const actions = {
                 .catch((error) => {
                     reject(error)
 
-                    isSomethingWrong()
+                    Vue.prototype.$isSomethingWrong()
                 })
         })
     },
@@ -244,16 +238,24 @@ const mutations = {
             if (item.unique_id == updatedFile.unique_id) item.name = updatedFile.name
         })
     },
+    REMOVE_ITEM_FILEINFO_DETAIL(state,item) {
+      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.unique_id !== item.unique_id)
+    },
     CLEAR_FILEINFO_DETAIL(state) {
-        state.fileInfoDetail = undefined
+        state.fileInfoDetail = []
     },
     LOAD_FILEINFO_DETAIL(state, item) {
-        state.fileInfoDetail = item
+        state.fileInfoDetail = []
+        state.fileInfoDetail.push(item)
     },
     GET_FILEINFO_DETAIL(state, item) {
         let checkData = state.data.find(el => el.unique_id == item.unique_id)
+        if(state.fileInfoDetail.includes(checkData)) return
 
-        state.fileInfoDetail = checkData ? checkData : state.currentFolder
+        state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
+    },
+    SELECT_ALL_FILES(state){
+        state.fileInfoDetail = state.data
     },
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState
@@ -302,14 +304,6 @@ const getters = {
     navigation: state => state.navigation,
     isLoading: state => state.isLoading,
     data: state => state.data,
-}
-
-// Show error message
-function isSomethingWrong() {
-    events.$emit('alert:open', {
-        title: i18n.t('popup_error.title'),
-        message: i18n.t('popup_error.message'),
-    })
 }
 
 export default {

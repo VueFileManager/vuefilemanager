@@ -7,7 +7,10 @@
 		"share": "Share item",
 		"upload": "Upload file",
 		"download": "Download item",
-		"print": "Print item"
+		"print": "Print item",
+		"close": "Close",
+		"sorting_view": "Sorting and View",
+		"info_panel": "Info panel"
 	},
 	"activation": {
 		"stripe": {
@@ -260,6 +263,7 @@
 	},
 	"alerts": {
 		"error_confirm": "That’s horrible!",
+		"leave_to_sign_in": "Do you really want to leave?",
 		"success_confirm": "Awesome!"
 	},
 	"context_menu": {
@@ -277,8 +281,23 @@
 		"rename": "Rename",
 		"restore": "Restore",
 		"share": "Share",
+		"share_cancel": "Cancel Sharing",
 		"share_edit": "Edit Sharing",
-		"upload": "Upload"
+		"upload": "Upload",
+		"select": "Select",
+		"no_options": "No Options Available" 
+	},
+	"mobile_selecting": {
+		"select_all": "Select All",
+		"deselect_all": "Deselect All",
+		"done": "Done"
+	},
+	"preview_sorting": {
+		"grid_view": "Grid View",
+		"list_view": "List View",
+		"sort_date": "Sort By Date",
+		"sort_alphabet": "Sort By Aplhabet",
+		"preview_sorting_button": "View"
 	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
@@ -301,7 +320,9 @@
 		"created_at": "Created at",
 		"shared": "Shared",
 		"size": "Size",
-		"where": "Where"
+		"where": "Where",
+		"selected_multiple": "Selected Multiple Items",
+		"items": "Items"
 	},
 	"file_detail_meta": {
 		"dimension": "Dimensions",
@@ -356,9 +377,12 @@
 		"original_location": "Original Location"
 	},
 	"locations": {
-		"home": "Home",
+		"home": "Files",
 		"shared": "Shared",
-		"trash": "Trash"
+		"trash": "Trash",
+		"profile": "Profile",
+		"settings": "Settings",
+		"logout": "Log Out"
 	},
 	"menu": {
 		"admin": "Administration",
@@ -507,10 +531,6 @@
 		"title": "You are trying to upload unsupported file type",
 		"message": "File of this type ({mimetype}) is not allowed to upload."
 	},
-	"popup_create_folder": {
-		"folder_default_name": "New Folder",
-		"title": "Please enter your new folder name"
-	},
 	"popup_delete_card": {
 		"message": "This event is irreversible and your payment card will be delete forever",
 		"title": "Are you sure?"
@@ -552,8 +572,20 @@
 		"message": "Sorry, your file is too large and can't be uploaded",
 		"title": "File is too large"
 	},
+	"popup_zipping": {
+		"title": "Zipping Your Files...",
+		"message": "Please wait until your files start downloading."
+	},
 	"popup_rename": {
-		"title": "Change your item name"
+		"title": "Rename Your {item}",
+		"label": "Edit Name",
+		"placeholder": "Type your title"
+	},
+	"popup_create_folder": {
+		"folder_default_name": "New Folder",
+		"title": "Create Folder",
+		"label": "Type Name",
+		"placeholder": "Type your name"
 	},
 	"popup_set_card": {
 		"message": "Your card will be set as default and will be always charged for the next billings.",
@@ -582,14 +614,6 @@
 		"button": "That's awesome!",
 		"message": "Your subscription was re-activated, and they will be billed on the original billing cycle.",
 		"title": "Subscription Was Resumed"
-	},
-	"popup_trashed": {
-		"message": "So now, you have clear and empty trash.",
-		"title": "Your trash was erased!"
-	},
-	"preview_type": {
-		"grid": "Grid",
-		"list": "List"
 	},
 	"profile": {
 		"change_pass": "Change Password",
@@ -676,7 +700,7 @@
 		"favourites": "Favourites",
 		"favourites_empty": "Drag here your favourite folder.",
 		"folders_empty": "Create some new folder.",
-		"home": "Home",
+		"home": "Files",
 		"latest": "Recent Uploads",
 		"locations_title": "Base",
 		"my_shared": "My Shared Items",
@@ -722,6 +746,7 @@
 		"href": "Please confirm your payment."
 	},
 	"uploading": {
+		"cancel": "Cancel Uploading",
 		"processing_file": "Processing File...",
 		"progress_single_upload": "Uploading File {progress}%",
 		"progress": "Uploading File {progress}% - {current}/{total}"

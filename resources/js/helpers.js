@@ -1,328 +1,335 @@
 import i18n from '@/i18n/index'
 import store from './store/index'
-import {debounce, includes} from "lodash";
-import {events} from './bus'
+import { debounce, includes } from 'lodash'
+import { events } from './bus'
 import axios from 'axios'
 import router from '@/router'
 
 const Helpers = {
-    install(Vue) {
-
-        Vue.prototype.$updateText = debounce(function (route, name, value) {
-    
-            let enableEmptyInput = ['mimetypes_blacklist' , 'google_analytics' , 'upload_limit']
-
-            if (value === '' && !enableEmptyInput.includes(name)) return
-
-            axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
-                .catch(error => {
-                    events.$emit('alert:open', {
-                        title: this.$t('popup_error.title'),
-                        message: this.$t('popup_error.message'),
-                    })
-                })
-        }, 150)
-
-        Vue.prototype.$updateImage = function (route, name, image) {
-
-            // Create form
-            let formData = new FormData()
-
-            // Add image to form
-            formData.append('name', name)
-            formData.append(name, image)
-            formData.append('_method', 'PATCH')
-
-            axios.post(this.$store.getters.api + route, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            })
-                .catch(error => {
-                    events.$emit('alert:open', {
-                        title: this.$t('popup_error.title'),
-                        message: this.$t('popup_error.message'),
-                    })
-                })
-        }
-
-        Vue.prototype.$scrollTop = function () {
-            var container = document.getElementById('vue-file-manager')
-
-            if (container) {
-                container.scrollTop = 0
-            }
-        }
-
-        Vue.prototype.$getImage = function (source) {
-            return source ? this.$store.getters.config.host + '/' + source : ''
-        }
-
-        Vue.prototype.$getCreditCardBrand = function (brand) {
-            return `/assets/icons/${brand}.svg`
-        }
-
-        Vue.prototype.$getInvoiceLink = function (customer, id) {
-            return '/invoice/' + customer + '/' + id
-        }
-
-        Vue.prototype.$openImageOnNewTab = function (source) {
-            let win = window.open(source, '_blank')
-
-            win.focus()
-        }
-
-        Vue.prototype.$createFolder = function (folderName) {
-            this.$store.dispatch('createFolder', folderName)
-        }
-
-        Vue.prototype.$handleUploading = async function (files, parent_id) {
-
-            let fileBuffer = []
-
-            // Append the file list to fileBuffer array
-            Array.prototype.push.apply(fileBuffer, files);
-
-            let fileSucceed = 0
-
-            // Update files count in progressbar
-            store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                current: fileSucceed,
-                total: files.length
-            })
-
-            // Reset upload progress to 0
-            store.commit('UPLOADING_FILE_PROGRESS', 0)
-
-            // Get parent id
-            let parentFolder = this.$store.getters.currentFolder ? this.$store.getters.currentFolder.unique_id : 0
-            let rootFolder = parent_id ? parent_id : parentFolder
-
-            // Upload files
-            do {
-                let file = fileBuffer.shift(),
-                    chunks = []
+	install(Vue) {
+
+		Vue.prototype.$updateText = debounce(function(route, name, value) {
+
+			let enableEmptyInput = ['mimetypes_blacklist', 'google_analytics']
+
+			if (value === '' && !enableEmptyInput.includes(name)) return
+
+			axios.post(this.$store.getters.api + route, { name, value, _method: 'patch' })
+				.catch(error => {
+					events.$emit('alert:open', {
+						title: this.$t('popup_error.title'),
+						message: this.$t('popup_error.message')
+					})
+				})
+		}, 150)
+
+		Vue.prototype.$updateImage = function(route, name, image) {
+
+			// Create form
+			let formData = new FormData()
+
+			// Add image to form
+			formData.append('name', name)
+			formData.append(name, image)
+			formData.append('_method', 'PATCH')
+
+			axios.post(this.$store.getters.api + route, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			})
+				.catch(error => {
+					events.$emit('alert:open', {
+						title: this.$t('popup_error.title'),
+						message: this.$t('popup_error.message')
+					})
+				})
+		}
+
+		Vue.prototype.$scrollTop = function() {
+			var container = document.getElementById('vue-file-manager')
+
+			if (container) {
+				container.scrollTop = 0
+			}
+		}
+
+		Vue.prototype.$getImage = function(source) {
+			return source ? this.$store.getters.config.host + '/' + source : ''
+		}
+
+		Vue.prototype.$getCreditCardBrand = function(brand) {
+			return `/assets/icons/${brand}.svg`
+		}
+
+		Vue.prototype.$getInvoiceLink = function(customer, id) {
+			return '/invoice/' + customer + '/' + id
+		}
+
+		Vue.prototype.$openImageOnNewTab = function(source) {
+			let win = window.open(source, '_blank')
+
+			win.focus()
+		}
+
+		Vue.prototype.$handleUploading = async function(files, parent_id) {
+
+			let fileBuffer = []
+
+			// Append the file list to fileBuffer array
+			Array.prototype.push.apply(fileBuffer, files)
 
-                // Calculate ceils
-                let size = this.$store.getters.config.chunkSize,
-                    chunksCeil = Math.ceil(file.size / size);
+			let fileSucceed = 0
 
-                // Create chunks
-                for (let i = 0; i < chunksCeil; i++) {
-                    chunks.push(file.slice(
-                        i * size, Math.min(i * size + size, file.size), file.type
-                    ));
-                }
+			// Update files count in progressbar
+			store.commit('UPDATE_FILE_COUNT_PROGRESS', {
+				current: fileSucceed,
+				total: files.length
+			})
 
-                // Set Data
-                let formData = new FormData(),
-                    uploadedSize = 0,
-                    isNotGeneralError = true,
-                    striped_name = file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
-                    filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
+			// Reset upload progress to 0
+			store.commit('UPLOADING_FILE_PROGRESS', 0)
 
-                do {
-                    let isLast = chunks.length === 1,
-                        chunk = chunks.shift(),
-                        attempts = 0
+			// Get parent id
+			let parentFolder = this.$store.getters.currentFolder ? this.$store.getters.currentFolder.unique_id : 0
+			let rootFolder = parent_id ? parent_id : parentFolder
 
-                    // Set form data
-                    formData.set('file', chunk, filename);
-                    formData.set('parent_id', rootFolder)
-                    formData.set('is_last', isLast);
+			// Upload files
+			do {
+				let file = fileBuffer.shift(),
+					chunks = []
 
-                    // Upload chunks
-                    do {
-                        await store.dispatch('uploadFiles', {
-                            form: formData,
-                            fileSize: file.size,
-                            totalUploadedSize: uploadedSize
-                        }).then(() => {
-                            uploadedSize = uploadedSize + chunk.size
-                        }).catch((error) => {
+				// Calculate ceils
+				let size = this.$store.getters.config.chunkSize,
+					chunksCeil = Math.ceil(file.size / size)
 
-                            // Count attempts
-                            attempts++
+				// Create chunks
+				for (let i = 0; i < chunksCeil; i++) {
+					chunks.push(file.slice(
+						i * size, Math.min(i * size + size, file.size), file.type
+					))
+				}
 
-                            // Break uploading proccess
-                            if (error.response.status === 500)
-                                isNotGeneralError = false
+				// Set Data
+				let formData = new FormData(),
+					uploadedSize = 0,
+					isNotGeneralError = true,
+					striped_name = file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
+					filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
 
-                            //Break if mimetype of file is in blacklist or file size exceed upload limit
-                            if(error.response.status === 415 || 413)
-                                isNotGeneralError = false
+				do {
+					let isLast = chunks.length === 1,
+						chunk = chunks.shift(),
+						attempts = 0
 
-                            // Show Error
-                            if (attempts === 3)
-                                this.$isSomethingWrong()
-                        })
-                    } while (isNotGeneralError && attempts !== 0 && attempts !== 3)
+					// Set form data
+					formData.set('file', chunk, filename)
+					formData.set('parent_id', rootFolder)
+					formData.set('is_last', isLast)
 
-                } while (isNotGeneralError && chunks.length !== 0)
+					// Upload chunks
+					do {
+						await store.dispatch('uploadFiles', {
+							form: formData,
+							fileSize: file.size,
+							totalUploadedSize: uploadedSize
+						}).then(() => {
+							uploadedSize = uploadedSize + chunk.size
+						}).catch((error) => {
 
-                fileSucceed++
+							// Count attempts
+							attempts++
 
-                // Progress file log
-                store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                    current: fileSucceed,
-                    total: files.length
-                })
+							// Break uploading proccess
+							if (error.response.status === 500)
+								isNotGeneralError = false
 
-            } while (fileBuffer.length !== 0)
+							//Break if mimetype of file is in blacklist
+							if (error.response.status === 415)
+								isNotGeneralError = false
 
-            store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-        }
+							// Show Error
+							if (attempts === 3)
+								this.$isSomethingWrong()
+						})
+					} while (isNotGeneralError && attempts !== 0 && attempts !== 3)
 
-        Vue.prototype.$uploadFiles = async function (files) {
+				} while (isNotGeneralError && chunks.length !== 0)
 
-            if (files.length == 0) return
+				fileSucceed++
 
-            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
-           
-            this.$handleUploading(files, undefined)
-        }
+				// Progress file log
+				store.commit('UPDATE_FILE_COUNT_PROGRESS', {
+					current: fileSucceed,
+					total: files.length
+				})
 
-        Vue.prototype.$uploadExternalFiles = async function (event, parent_id) {
+			} while (fileBuffer.length !== 0)
 
-            // Prevent submit empty files
-            if (event.dataTransfer.items.length == 0) return
+			store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+		}
 
-            // Get files
-            let files = [...event.dataTransfer.items].map(item => item.getAsFile());
+		Vue.prototype.$uploadFiles = async function(files) {
 
-            this.$handleUploading(files, parent_id)
-        }
+			if (files.length == 0) return
 
-        Vue.prototype.$downloadFile = function (url, filename) {
-            var anchor = document.createElement('a')
+			if (!this.$checkFileMimetype(files)) return
 
-            anchor.href = url
+			this.$handleUploading(files, undefined)
+		}
 
-            anchor.download = filename
+		Vue.prototype.$uploadExternalFiles = async function(event, parent_id) {
 
-            document.body.appendChild(anchor)
+			// Prevent submit empty files
+			if (event.dataTransfer.items.length == 0) return
 
-            anchor.click()
-        }
-
-        Vue.prototype.$closePopup = function () {
-            events.$emit('popup:close')
-        }
-
-        Vue.prototype.$isThisRoute = function (route, locations) {
-
-            return includes(locations, route.name)
-        }
-
-        Vue.prototype.$isThisLocation = function (location) {
-
-            // Get current location
-            let currentLocation = store.getters.currentFolder && store.getters.currentFolder.location ? store.getters.currentFolder.location : undefined
-
-            // Check if type is object
-            if (typeof location === 'Object' || location instanceof Object) {
-                return includes(location, currentLocation)
-
-            } else {
-                return currentLocation === location
-            }
-        }
-
-        Vue.prototype.$checkPermission = function (type) {
-
-            let currentPermission = store.getters.permission
-
-            // Check if type is object
-            if (typeof type === 'Object' || type instanceof Object) {
-                return includes(type, currentPermission)
-
-            } else {
-                return currentPermission === type
-            }
-        }
-
-        Vue.prototype.$isMobile = function () {
-            const toMatch = [
-                /Android/i,
-                /webOS/i,
-                /iPhone/i,
-                /iPad/i,
-                /iPod/i,
-                /BlackBerry/i,
-                /Windows Phone/i
-            ]
-
-            return toMatch.some(toMatchItem => {
-                return navigator.userAgent.match(toMatchItem)
-            })
-        }
-
-        Vue.prototype.$isMinimalScale = function () {
-            let sizeType = store.getters.filesViewWidth
-
-            return sizeType === 'minimal-scale'
-        }
-
-        Vue.prototype.$isCompactScale = function () {
-            let sizeType = store.getters.filesViewWidth
-
-            return sizeType === 'compact-scale'
-        }
-
-        Vue.prototype.$isFullScale = function () {
-            let sizeType = store.getters.filesViewWidth
-
-            return sizeType === 'full-scale'
-        }
-
-        Vue.prototype.$isSomethingWrong = function () {
-
-            events.$emit('alert:open', {
-                title: this.$t('popup_error.title'),
-                message: this.$t('popup_error.message'),
-            })
-        }
-        Vue.prototype.$checkFileMimetype = function(files) {
-            let validated = true
-            let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
-            
-              for (let i = 0 ; i<files.length; i++ ) {
-                  let fileType = files[i].type.split('/')
-
-                  if(!fileType[0]) {
-                      fileType[1] = _.last(files[i].name.split('.'))
-                  }
-
-                  if(mimetypesBlacklist.includes(fileType[1])) {  
-                      validated = false
-                                          
-                      events.$emit('alert:open', {
-                        emoji: '😬😬😬',
-                        title: i18n.t('popup_mimetypes_blacklist.title'),
-                        message: i18n.t('popup_mimetypes_blacklist.message', {mimetype: fileType[1]}),
-                    })
-                  }
-              } 
-              return validated
-        }
-        Vue.prototype.$checkUploadLimit = function (files) {
-            let uploadLimit = store.getters.config.uploadLimit
-            let validate = true
-
-            for (let i = 0 ; i<files.length; i++ ) {
-                if(uploadLimit != 0 && files[i].size > uploadLimit) {
-                    validate = false 
-                    events.$emit('alert:open', {
-                        emoji: '😟😟😟',
-                        title: i18n.t('popup_upload_limit.title'),
-                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitFormatted}),
-                    })
-                    break 
-                }
-            }
-            return validate
-        }
-    }
+			// Get files
+			let files = [...event.dataTransfer.items].map(item => item.getAsFile())
+
+			this.$handleUploading(files, parent_id)
+		}
+
+		Vue.prototype.$downloadFile = function(url, filename) {
+			var anchor = document.createElement('a')
+
+			anchor.href = url
+
+			anchor.download = filename
+
+			document.body.appendChild(anchor)
+
+			anchor.click()
+		}
+
+		Vue.prototype.$closePopup = function() {
+			events.$emit('popup:close')
+		}
+
+		Vue.prototype.$isThisRoute = function(route, locations) {
+
+			return includes(locations, route.name)
+		}
+
+		Vue.prototype.$isThisLocation = function(location) {
+
+			// Get current location
+			let currentLocation = store.getters.currentFolder && store.getters.currentFolder.location ? store.getters.currentFolder.location : undefined
+
+			// Check if type is object
+			if (typeof location === 'Object' || location instanceof Object) {
+				return includes(location, currentLocation)
+
+			} else {
+				return currentLocation === location
+			}
+		}
+
+		Vue.prototype.$checkPermission = function(type) {
+
+			let currentPermission = store.getters.permission
+
+			// Check if type is object
+			if (typeof type === 'Object' || type instanceof Object) {
+				return includes(type, currentPermission)
+
+			} else {
+				return currentPermission === type
+			}
+		}
+
+		Vue.prototype.$isMobile = function() {
+			const toMatch = [
+				/Android/i,
+				/webOS/i,
+				/iPhone/i,
+				/iPad/i,
+				/iPod/i,
+				/BlackBerry/i,
+				/Windows Phone/i
+			]
+
+			return toMatch.some(toMatchItem => {
+				return navigator.userAgent.match(toMatchItem)
+			})
+		}
+
+		Vue.prototype.$isMinimalScale = function() {
+			let sizeType = store.getters.filesViewWidth
+
+			return sizeType === 'minimal-scale'
+		}
+
+		Vue.prototype.$isCompactScale = function() {
+			let sizeType = store.getters.filesViewWidth
+
+			return sizeType === 'compact-scale'
+		}
+
+		Vue.prototype.$isFullScale = function() {
+			let sizeType = store.getters.filesViewWidth
+
+			return sizeType === 'full-scale'
+		}
+
+		Vue.prototype.$isSomethingWrong = function() {
+			events.$emit('alert:open', {
+				title: i18n.t('popup_error.title'),
+				message: i18n.t('popup_error.message')
+			})
+		}
+		Vue.prototype.$checkFileMimetype = function(files) {
+			let validated = true
+			let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
+
+			for (let i = 0; i < files.length; i++) {
+				let fileType = files[i].type.split('/')
+
+				if (!fileType[0]) {
+					fileType[1] = _.last(files[i].name.split('.'))
+				}
+
+				if (mimetypesBlacklist.includes(fileType[1])) {
+					validated = false
+
+					events.$emit('alert:open', {
+						emoji: '😬😬😬',
+						title: i18n.t('popup_mimetypes_blacklist.title'),
+						message: i18n.t('popup_mimetypes_blacklist.message', { mimetype: fileType[1] })
+					})
+				}
+			}
+			return validated
+		}
+		Vue.prototype.$getDataByLocation = function() {
+
+			let folder = store.getters.currentFolder
+
+			let actions = {
+				'base': ['getFolder', [{ folder: folder, back: true, init: false, sorting: true }]],
+				'public': ['browseShared', [{ folder: folder, back: true, init: false, sorting: true }]],
+				'trash': ['getFolder', [{ folder: folder, back: true, init: false, sorting: true }]],
+				'participant_uploads': ['getParticipantUploads'],
+				'trash-root': ['getTrash'],
+				'latest': ['getLatest'],
+				'shared': ['getShared']
+			}
+
+			this.$store.dispatch(...actions[folder.location])
+
+			// Get dara of user with favourites tree
+			this.$store.dispatch('getAppData')
+
+			// Get data of Navigator tree
+			this.$store.dispatch('getFolderTree')
+		}
+		Vue.prototype.$checkOS = function() {
+			// Handle styled scrollbar for Windows
+			if (navigator.userAgent.indexOf('Windows') != -1) {
+				let body = document.body
+				body.classList.add('windows')
+			}
+		}
+	}
 }
 
 export default Helpers

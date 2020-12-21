@@ -8,6 +8,7 @@ use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
+use App\Zip;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Carbon\Carbon;
@@ -18,11 +19,83 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
+use League\Flysystem\FileNotFoundException;
+use Madnest\Madzipper\Facades\Madzipper;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 class Editor
 {
+
+    /**
+     * Zip selected files, store it in /zip folder and retrieve zip record
+     *
+     * @param $files
+     * @param null $shared
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function zip_files($files, $shared = null)
+    {
+        // Local storage instance
+        $disk_local = Storage::disk('local');
+
+        // Create zip directory
+        if (!$disk_local->exists('zip')) {
+            $disk_local->makeDirectory('zip');
+        }
+
+        // Move file to local storage from external storage service
+        if (!is_storage_driver('local')) {
+
+            // Create temp directory
+            if (!$disk_local->exists('temp')) {
+                $disk_local->makeDirectory('temp');
+            }
+
+            foreach ($files as $file) {
+                try {
+                    $disk_local->put('temp/' . $file['basename'], Storage::get('file-manager/' . $file['basename']));
+                } catch (FileNotFoundException $e) {
+                    throw new HttpException(404, 'File not found');
+                }
+            }
+        }
+
+        // Get zip path
+        $zip_name = Str::random(16) . '.zip';
+        $zip_path = 'zip/' . $zip_name;
+
+        // Create zip
+        $zip = Madzipper::make(storage_path() . '/app/' . $zip_path);
+
+        // Get files folder on local storage drive
+        $files_directory = is_storage_driver('local') ? 'file-manager' : 'temp';
+
+        // Add files to zip
+        $files->each(function ($file) use ($zip, $files_directory) {
+            $zip->addString($file['name'], File::get(storage_path() . '/app/' . $files_directory . '/' . $file['basename']));
+        });
+
+        // Close zip
+        $zip->close();
+
+        // Delete temporary files
+        if (!is_storage_driver('local')) {
+
+            $files->each(function ($file) use ($disk_local) {
+                $disk_local->delete('temp/' . $file['basename']);
+            });
+        }
+
+        // Store zip record
+        return Zip::create([
+            'user_id'      => $shared->user_id ?? Auth::id(),
+            'shared_token' => $shared->token ?? null,
+            'basename'     => $zip_name,
+        ]);
+    }
+
     /**
      * Create new directory
      *
@@ -86,13 +159,13 @@ class Editor
      * @param null $shared
      * @throws \Exception
      */
-    public static function delete_item($request, $unique_id, $shared = null)
+    public static function delete_item($file, $unique_id, $shared = null)
     {
         // Get user id
         $user = is_null($shared) ? Auth::user() : User::findOrFail($shared->user_id);
 
         // Delete folder
-        if ($request->input('data.type') === 'folder') {
+        if ($file['type'] === 'folder') {
 
             // Get folder
             $folder = FileManagerFolder::withTrashed()
@@ -113,7 +186,7 @@ class Editor
             }
 
             // Force delete children files
-            if ($request->input('data.force_delete')) {
+            if ($file['force_delete']) {
 
                 // Get children folder ids
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
@@ -142,7 +215,7 @@ class Editor
             }
 
             // Soft delete items
-            if (!$request->input('data.force_delete')) {
+            if (!$file['force_delete']) {
 
                 // Remove folder from user favourites
                 $user->favourite_folders()->detach($unique_id);
@@ -153,10 +226,10 @@ class Editor
         }
 
         // Delete item
-        if ($request->input('data.type') !== 'folder') {
+        if ($file['type'] !== 'folder') {
 
             // Get file
-            $file = FileManagerFile::withTrashed()
+            $item = FileManagerFile::withTrashed()
                 ->where('user_id', $user->id)
                 ->where('unique_id', $unique_id)
                 ->first();
@@ -173,23 +246,23 @@ class Editor
             }
 
             // Force delete file
-            if ($request->input('data.force_delete')) {
+            if ($file['force_delete']) {
 
                 // Delete file
-                Storage::delete('/file-manager/' . $file->basename);
+                Storage::delete('/file-manager/' . $item->basename);
 
                 // Delete thumbnail if exist
-                if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+                if ($item->thumbnail) Storage::delete('/file-manager/' . $item->getRawOriginal('thumbnail'));
 
                 // Delete file permanently
-                $file->forceDelete();
+                $item->forceDelete();
             }
 
             // Soft delete file
-            if (!$request->input('data.force_delete')) {
+            if (!$file['force_delete']) {
 
                 // Soft delete file
-                $file->delete();
+                $item->delete();
             }
         }
     }
@@ -201,32 +274,36 @@ class Editor
      * @param $unique_id
      * @param null $shared
      */
-    public static function move($request, $unique_id, $shared = null)
+    public static function move($request, $to_unique_id, $shared = null)
     {
         // Get user id
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
-        if ($request->from_type === 'folder') {
+        foreach ($request->input('items') as $item) {
+            $unique_id = $item['unique_id'];
 
-            // Move folder
-            $item = FileManagerFolder::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
+            if ($item['type'] === 'folder') {
 
-            $item->update([
-                'parent_id' => $request->to_unique_id
-            ]);
+                // Move folder
+                $item = FileManagerFolder::where('user_id', $user_id)
+                    ->where('unique_id', $unique_id)
+                    ->firstOrFail();
 
-        } else {
+                $item->update([
+                    'parent_id' => $to_unique_id
+                ]);
 
-            // Move file under new folder
-            $item = FileManagerFile::where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->firstOrFail();
+            } else {
 
-            $item->update([
-                'folder_id' => $request->to_unique_id
-            ]);
+                // Move file under new folder
+                $item = FileManagerFile::where('user_id', $user_id)
+                    ->where('unique_id', $unique_id)
+                    ->firstOrFail();
+
+                $item->update([
+                    'folder_id' => $to_unique_id
+                ]);
+            }
         }
     }
 
@@ -315,6 +392,19 @@ class Editor
                 'filesize'   => $file_size,
                 'user_id'    => $user_id,
             ];
+
+            // Store user upload size
+            if ($request->user()) {
+
+                // If upload a loged user
+                $request->user()->record_upload($file_size);
+
+            } else {
+
+                // If upload guest
+                User::find($shared->user_id)->record_upload($file_size);
+
+            }
 
             // Return new file
             return FileManagerFile::create($options);

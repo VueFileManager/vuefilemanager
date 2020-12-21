@@ -36,6 +36,7 @@ class BrowseController extends Controller
             ->with(['parent'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', filter_folders_ids($folders_trashed))
+            ->sortable()
             ->get();
 
         // Get files trashed
@@ -43,6 +44,7 @@ class BrowseController extends Controller
             ->with(['parent'])
             ->where('user_id', $user_id)
             ->whereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'unique_id'))))
+            ->sortable()
             ->get();
 
         // Collect folders and files to single array
@@ -72,11 +74,13 @@ class BrowseController extends Controller
         $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $folder_ids)
+            ->sortable()
             ->get();
 
         $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $file_ids)
+            ->sortable()
             ->get();
 
         // Collect folders and files to single array
@@ -91,7 +95,9 @@ class BrowseController extends Controller
     public function latest() {
 
         // Get User
-        $user = User::with(['latest_uploads'])
+        $user = User::with(['latest_uploads' => function($query) {
+            $query->sortable(); 
+        }])
             ->where('id', Auth::id())
             ->first();
 
@@ -106,8 +112,11 @@ class BrowseController extends Controller
     public function participant_uploads() {
 
         // Get User
-        $uploads = FileManagerFile::with(['parent'])->where('user_id', Auth::id())
-            ->whereUserScope('editor')->orderBy('created_at', 'DESC')->get();
+        $uploads = FileManagerFile::with(['parent'])
+            ->where('user_id', Auth::id())
+            ->whereUserScope('editor')
+            ->sortable()
+            ->get();
 
         return $uploads;
     }
@@ -132,12 +141,14 @@ class BrowseController extends Controller
                 ->with('parent')
                 ->where('user_id', $user_id)
                 ->where('parent_id', $unique_id)
+                ->sortable()
                 ->get();
 
             $files = FileManagerFile::onlyTrashed()
                 ->with('parent')
                 ->where('user_id', $user_id)
                 ->where('folder_id', $unique_id)
+                ->sortable()
                 ->get();
 
             // Collect folders and files to single array
@@ -148,13 +159,13 @@ class BrowseController extends Controller
         $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('parent_id', $unique_id)
-            ->orderBy('created_at', 'DESC')
+            ->sortable()
             ->get();
 
         $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('folder_id', $unique_id)
-            ->orderBy('created_at', 'DESC')
+            ->sortable()
             ->get();
 
         // Collect folders and files to single array
@@ -171,6 +182,7 @@ class BrowseController extends Controller
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', 0)
             ->where('user_id', Auth::id())
+            ->sortable()
             ->get(['id', 'parent_id', 'unique_id', 'name']);
 
         return [
@@ -193,33 +205,17 @@ class BrowseController extends Controller
     {
         // Get user
         $user_id = Auth::id();
+        $query = remove_accents($request->input('query'));
 
         // Search files id db
-        $searched_files = FileManagerFile::search($request->input('query'))
+        $searched_files = FileManagerFile::search($query)
             ->where('user_id', $user_id)
             ->get();
-        $searched_folders = FileManagerFolder::search($request->input('query'))
+        $searched_folders = FileManagerFolder::search($query)
             ->where('user_id', $user_id)
             ->get();
 
         // Collect folders and files to single array
         return collect([$searched_folders, $searched_files])->collapse();
-    }
-
-    /**
-     * Get file record
-     *
-     * @param $unique_id
-     * @return mixed
-     */
-    public function file_detail($unique_id)
-    {
-        // Get user id
-        $user_id = Auth::id();
-
-        return FileManagerFile::with(['shared:token,id,item_id,permission,protected,expire_in'])
-            ->where('user_id', $user_id)
-            ->where('unique_id', $unique_id)
-            ->firstOrFail();
     }
 }

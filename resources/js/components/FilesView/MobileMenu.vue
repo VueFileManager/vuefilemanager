@@ -7,11 +7,13 @@
         class="options"
         @click="closeAndResetContextMenu"
       >
+  
         <div class="menu-wrapper">
+
           <!--Item Thumbnail-->
           <ThumbnailItem
             class="item-thumbnail"
-            :item="fileInfoDetail"
+            :item="fileInfoDetail[0]"
             info="metadata"
           />
 
@@ -26,8 +28,8 @@
             <ul class="menu-option-group">
               <li
                 class="menu-option"
-                @click="$store.dispatch('restoreItem', fileInfoDetail)"
-                v-if="fileInfoDetail"
+                @click="$store.dispatch('restoreItem', fileInfoDetail[0])"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <life-buoy-icon size="17"></life-buoy-icon>
@@ -39,7 +41,7 @@
               <li
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -71,7 +73,7 @@
               <li
                 class="menu-option"
                 @click="addToFavourites"
-                v-if="fileInfoDetail && isFolder"
+                v-if="fileInfoDetail[0] && isFolder"
               >
                 <div class="icon">
                   <star-icon size="17"></star-icon>
@@ -87,7 +89,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
                 </div>
@@ -95,13 +97,13 @@
                   {{ $t("context_menu.rename") }}
                 </div>
               </li>
-              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <link-icon size="17"></link-icon>
                 </div>
                 <div class="text-label">
                   {{
-                    fileInfoDetail.shared
+                    fileInfoDetail[0].shared
                       ? $t("context_menu.share_edit")
                       : $t("context_menu.share")
                   }}
@@ -110,7 +112,7 @@
               <li
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -141,7 +143,7 @@
             "
             class="menu-options"
           >
-            <ul class="menu-option-group" v-if="fileInfoDetail && isFolder">
+            <ul class="menu-option-group" v-if="fileInfoDetail[0] && isFolder">
               <li class="menu-option" @click="addToFavourites">
                 <div class="icon">
                   <star-icon size="17"></star-icon>
@@ -157,7 +159,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
                 </div>
@@ -165,7 +167,7 @@
                   {{ $t("context_menu.rename") }}
                 </div>
               </li>
-              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <corner-down-right-icon size="17"></corner-down-right-icon>
                 </div>
@@ -173,13 +175,13 @@
                   {{ $t("context_menu.move") }}
                 </div>
               </li>
-              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="shareItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <link-icon size="17"></link-icon>
                 </div>
                 <div class="text-label">
                   {{
-                    fileInfoDetail.shared
+                    fileInfoDetail[0].shared
                       ? $t("context_menu.share_edit")
                       : $t("context_menu.share")
                   }}
@@ -188,7 +190,7 @@
               <li
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail"
+                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -219,7 +221,7 @@
             class="menu-options"
           >
             <ul class="menu-option-group">
-              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="renameItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
                 </div>
@@ -227,7 +229,7 @@
                   {{ $t("context_menu.rename") }}
                 </div>
               </li>
-              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail">
+              <li class="menu-option" @click="moveItem" v-if="fileInfoDetail[0]">
                 <div class="icon">
                   <corner-down-right-icon size="17"></corner-down-right-icon>
                 </div>
@@ -290,6 +292,7 @@
 
 <script>
 import ThumbnailItem from "@/components/Others/ThumbnailItem";
+
 import {
   CornerDownRightIcon,
   DownloadCloudIcon,
@@ -327,22 +330,22 @@ export default {
     },
     isInFavourites() {
       return this.favourites.find(
-        (el) => el.unique_id == this.fileInfoDetail.unique_id
+        (el) => el.unique_id == this.fileInfoDetail[0].unique_id
       );
     },
     isFile() {
       return (
-        this.fileInfoDetail &&
-        this.fileInfoDetail.type !== "folder" &&
-        this.fileInfoDetail &&
-        this.fileInfoDetail.type !== "image"
+        this.fileInfoDetail[0] &&
+        this.fileInfoDetail[0].type !== "folder" &&
+        this.fileInfoDetail[0] &&
+        this.fileInfoDetail[0].type !== "image"
       );
     },
     isImage() {
-      return this.fileInfoDetail && this.fileInfoDetail.type === "image";
+      return this.fileInfoDetail[0] && this.fileInfoDetail[0].type === "image";
     },
     isFolder() {
-      return this.fileInfoDetail && this.fileInfoDetail.type === "folder";
+      return this.fileInfoDetail[0] && this.fileInfoDetail[0].type === "folder";
     },
   },
   data() {
@@ -353,21 +356,20 @@ export default {
   },
   methods: {
     moveItem() {
-      // Open move item popup
-      events.$emit("popup:open", { name: "move", item: this.fileInfoDetail });
+      events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
     },
     shareItem() {
-      if (this.fileInfoDetail.shared) {
+      if (this.fileInfoDetail[0].shared) {
         // Open share item popup
         events.$emit("popup:open", {
           name: "share-edit",
-          item: this.fileInfoDetail,
+          item: this.fileInfoDetail[0],
         });
       } else {
         // Open share item popup
         events.$emit("popup:open", {
           name: "share-create",
-          item: this.fileInfoDetail,
+          item: this.fileInfoDetail[0],
         });
       }
     },
@@ -375,56 +377,31 @@ export default {
       if (
         this.favourites &&
         !this.favourites.find(
-          (el) => el.unique_id == this.fileInfoDetail.unique_id
+          (el) => el.unique_id == this.fileInfoDetail[0].unique_id
         )
       ) {
-        this.$store.dispatch("addToFavourites", this.fileInfoDetail);
+        this.$store.dispatch("addToFavourites", this.fileInfoDetail[0]);
       } else {
-        this.$store.dispatch("removeFromFavourites", this.fileInfoDetail);
+        this.$store.dispatch("removeFromFavourites", this.fileInfoDetail[0]);
       }
     },
     downloadItem() {
       this.$downloadFile(
-        this.fileInfoDetail.file_url,
-        this.fileInfoDetail.name + "." + this.fileInfoDetail.mimetype
+        this.fileInfoDetail[0].file_url,
+        this.fileInfoDetail[0].name + "." + this.fileInfoDetail[0].mimetype
       );
     },
     deleteItem() {
-      this.$store.dispatch("deleteItem", this.fileInfoDetail);
+      this.$store.dispatch("deleteItem");
     },
     renameItem() {
-      let itemName = prompt(
-        this.$t("popup_rename.title"),
-        this.fileInfoDetail.name
-      );
-
-      if (itemName && itemName !== "") {
-        let item = {
-          unique_id: this.fileInfoDetail.unique_id,
-          type: this.fileInfoDetail.type,
-          name: itemName,
-        };
-
-        this.$store.dispatch("renameItem", item);
-
-        // Change item name if is mobile device or prompted
-        if (this.$isMobile()) {
-          events.$emit("change:name", item);
-        }
-      }
+        events.$emit('popup:open', { name: 'rename-item', item: this.fileInfoDetail[0] })
     },
     closeAndResetContextMenu() {
       //If emit to show menu coming from MediaFullPreview dont reset data
-      if (this.showFromMediaPreview) {
         this.isVisible = false;
         this.showFromMediaPreview = false;
-      } else {
-        this.isVisible = false;
-        events.$emit("fileItem:deselect");
-      }
-
-      // Close context menu
-      //   this.isVisible = false;
+        events.$emit('hide:mobile-navigation')
     },
   },
   created() {
@@ -450,6 +427,15 @@ export default {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+
+.mobile-selected-menu {
+  display: flex;
+  margin-left: 15px;
+  margin-right: 15px;
+  .close-icon {
+    margin-left: auto !important;
+  }
+}
 
 .menu-option {
   display: flex;

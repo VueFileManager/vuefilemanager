@@ -8,6 +8,10 @@ const defaultState = {
 	authorized: undefined,
 	homeDirectory: undefined,
 	requestedPlan: undefined,
+	sorting: {
+		sort: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).sort : 'DESC',
+		field: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).field : 'created_at',
+	},
 	roles: [
 		{
 			label: i18n.t('roles.admin'),
@@ -837,9 +841,10 @@ const defaultState = {
 	],
 }
 const actions = {
-	changePreviewType: ({commit, state}) => {
+	changePreviewType: ({commit, state}, preview) => {
+		
 		// Get preview type
-		let previewType = state.FilePreviewType == 'grid' ? 'list' : 'grid'
+		let previewType = preview
 
 		// Store preview type to localStorage
 		localStorage.setItem('preview_type', previewType)
@@ -860,6 +865,10 @@ const actions = {
 	},
 }
 const mutations = {
+	UPDATE_SORTING(state) {
+		state.sorting.field = JSON.parse(localStorage.getItem('sorting')).field
+		state.sorting.sort = JSON.parse(localStorage.getItem('sorting')).sort
+	},
 	INIT(state, data) {
 		state.config = data.config
 		state.authorized = data.authCookie
@@ -901,6 +910,9 @@ const getters = {
 	config: state => state.config,
 	index: state => state.index,
 	roles: state => state.roles,
+	sorting: (state) => {
+		return  {sorting: state.sorting , URI: '?sort=' + state.sorting.field + '&direction=' + state.sorting.sort}
+	},
 }
 
 export default {

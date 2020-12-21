@@ -1,6 +1,6 @@
 <template>
     <!--Folder Icon-->
-    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById === nodes.unique_id}">
+    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.unique_id === nodes.unique_id || !disableId} ">
 
         <div class="folder-item" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
             <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
@@ -17,6 +17,7 @@
     import TreeMenu from '@/components/Others/TreeMenu'
     import {FolderIcon, ChevronRightIcon, HardDriveIcon} from 'vue-feather-icons'
     import {events} from "@/bus"
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'TreeMenu',
@@ -30,9 +31,21 @@
             TreeMenu,
         },
         computed: {
+            ...mapGetters(['fileInfoDetail']),
             indent() {
                 return { paddingLeft: this.depth * 20 + 'px' }
             },
+            disableId() {
+                let canBeShow = true
+                if(this.fileInfoDetail.includes(this.disabledById)){
+                    this.fileInfoDetail.map(item => {
+                        if(item.unique_id === this.nodes.unique_id) {
+                            canBeShow = false
+                        }
+                    })
+                }
+                return canBeShow
+            }
         },
         data() {
             return {

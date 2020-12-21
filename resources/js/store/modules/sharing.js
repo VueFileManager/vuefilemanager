@@ -32,7 +32,7 @@ const actions = {
             events.$emit('clear-query')
         }
 
-        if (! payload.back)
+        if (! payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         payload.folder.location = 'public'
@@ -43,13 +43,13 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios
-                .get(route)
+                .get(route + getters.sorting.URI)
                 .then(response => {
                     commit('LOADING_STATE', {loading: false, data: response.data})
                     commit('STORE_CURRENT_FOLDER', payload.folder)
                     events.$emit('scrollTop')
 
-                    if (payload.back)
+                    if (payload.back && !payload.sorting)
                         commit('REMOVE_BROWSER_HISTORY')
 
                     resolve(response)
@@ -60,6 +60,49 @@ const actions = {
                         title: i18n.t('popup_error.title'),
                         message: i18n.t('popup_error.message'),
                     })
+
+                    reject(error)
+                })
+        })
+    },
+    shareCancel: ({commit, getters} , singleItem) => {
+        return new Promise((resolve, reject) => {
+
+            let tokens = []
+            let items = [singleItem]
+
+            if(!singleItem) {
+                items = getters.fileInfoDetail
+            }
+
+            items.forEach(data => {
+                tokens.push(data.shared.token)
+            })
+
+            axios
+                .post('/api/share/cancel', {
+                    _method: 'post',
+                    tokens: tokens
+                })
+                .then(() => {
+
+                    items.forEach(item => {
+
+                        // Remove item from file browser
+                        if ( getters.currentFolder , getters.currentFolder.location === 'shared' ) {
+                            commit('REMOVE_ITEM', item.unique_id)
+                        }
+
+                        // Flush shared data
+                        commit('FLUSH_SHARED', item.unique_id)
+
+                        commit('CLEAR_FILEINFO_DETAIL')
+                    })
+                    resolve(true)
+
+                })
+                .catch((error) => {
+                    isSomethingWrong()
 
                     reject(error)
                 })
