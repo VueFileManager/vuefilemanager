@@ -8,7 +8,7 @@
             <div class="icon-item">
 
                 <!-- MultiSelecting for the mobile version -->
-                <div :class="{'check-select-folder' : this.data.type === 'folder', 'check-select' : this.data.type !== 'folder'}" v-if="mobileMultiSelect">
+                <div :class="{'check-select-folder' : this.data.type === 'folder', 'check-select' : this.data.type !== 'folder'}" v-if="multiSelectMode">
                     <div class="select-box" :class="{'select-box-active' : isClicked } ">
                         <CheckIcon v-if="isClicked" class="icon" size="17"/>
                     </div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! ( $checkPermission('visitor') && isFolder || mobileMultiSelect ) && canShowMobileOptions">
+            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! ( $checkPermission('visitor') && isFolder || multiSelectMode ) && canShowMobileOptions">
                 <FontAwesomeIcon icon="ellipsis-h" class="icon-action"></FontAwesomeIcon>
             </span>
         </div>
@@ -132,7 +132,7 @@ export default {
         return {
             area: false,
             itemName: undefined,
-            mobileMultiSelect: false
+            multiSelectMode: false
         }
     },
     methods: {
@@ -193,7 +193,7 @@ export default {
                 }
             }
 
-            if (!this.mobileMultiSelect && this.$isMobile()) {
+            if (!this.multiSelectMode && this.$isMobile()) {
                 // Open in mobile version on first click
                 if (this.$isMobile() && this.isFolder) {
                     // Go to folder
@@ -212,7 +212,7 @@ export default {
                 }
             }
 
-            if (this.mobileMultiSelect && this.$isMobile()) {
+            if (this.multiSelectMode && this.$isMobile()) {
                 if (this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {
                     this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.data)
                 } else {
@@ -240,7 +240,7 @@ export default {
 
                 //Clear selected data after open another folder
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
-                
+
                 if (this.$isThisLocation('public')) {
                     this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
                 } else {
@@ -264,12 +264,12 @@ export default {
         this.itemName = this.data.name
 
         events.$on('mobileSelecting:start', () => {
-            this.mobileMultiSelect = true
+            this.multiSelectMode = true
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
         })
 
         events.$on('mobileSelecting:stop', () => {
-            this.mobileMultiSelect = false
+            this.multiSelectMode = false
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
         })
         // Change item name

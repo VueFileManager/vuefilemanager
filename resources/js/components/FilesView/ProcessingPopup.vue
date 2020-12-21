@@ -88,6 +88,17 @@ export default {
         left: 15px;
         right: 15px;
     }
+
+    .popup-content {
+
+        .title {
+            @include font-size(19);
+        }
+
+        .message {
+            @include font-size(15);
+        }
+    }
 }
 
 @media (prefers-color-scheme: dark) {

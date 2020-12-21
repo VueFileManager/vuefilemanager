@@ -16,31 +16,35 @@
 
         <!--ContextMenu for Base location with MASTER permission-->
         <div v-if="baseLocationMasterMenu" class="mobile-actions">
-            <div v-if="! multiSelectMode">
-                <MobileActionButton @click.native="createFolder" icon="folder-plus" :class="{'is-inactive' : multiSelectMode}">
-                    {{ $t('context_menu.add_folder') }}
-                </MobileActionButton>
-                <MobileActionButtonUpload :class="{'is-inactive' : multiSelectMode}">
-                    {{ $t('context_menu.upload') }}
-                </MobileActionButtonUpload>
-                <MobileMultiSelectButton @click.native="enableMultiSelectMode">
-                   {{ $t('context_menu.select') }}
-                </MobileMultiSelectButton>
-                <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
-                    {{$t('preview_sorting.preview_sorting_button')}}
-                </MobileActionButton>
-            </div>
-            <div v-if="multiSelectMode">
-                <MobileActionButton @click.native="selectAll" icon="check-square">
-                    Select All
-                </MobileActionButton>
-                <MobileActionButton @click.native="deselectAll" icon="x-square">
-                    Deselect All
-                </MobileActionButton>
-                <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
-                    Done
-                </MobileActionButton>
-            </div>
+            <transition name="button">
+                <div v-if="! multiSelectMode">
+                    <MobileActionButton @click.native="createFolder" icon="folder-plus" :class="{'is-inactive' : multiSelectMode}">
+                        {{ $t('context_menu.add_folder') }}
+                    </MobileActionButton>
+                    <MobileActionButtonUpload :class="{'is-inactive' : multiSelectMode}">
+                        {{ $t('context_menu.upload') }}
+                    </MobileActionButtonUpload>
+                    <MobileMultiSelectButton @click.native="enableMultiSelectMode">
+                       {{ $t('context_menu.select') }}
+                    </MobileMultiSelectButton>
+                    <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
+                        {{$t('preview_sorting.preview_sorting_button')}}
+                    </MobileActionButton>
+                </div>
+            </transition>
+            <transition name="button">
+                <div v-if="multiSelectMode">
+                    <MobileActionButton @click.native="selectAll" icon="check-square">
+                        Select All
+                    </MobileActionButton>
+                    <MobileActionButton @click.native="deselectAll" icon="x-square">
+                        Deselect All
+                    </MobileActionButton>
+                    <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
+                        Done
+                    </MobileActionButton>
+                </div>
+            </transition>
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
@@ -133,6 +137,25 @@
 <style scoped lang="scss">
     @import '@assets/vue-file-manager/_variables';
     @import '@assets/vue-file-manager/_mixins';
+
+    .button-enter-active,
+    .button-leave-active, {
+        transition: all 250ms;
+    }
+
+    .button-enter {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    .button-leave-to {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    .button-leave-active, {
+        position: absolute;
+    }
 
     .preview-sorting { 
         background: $light_background !important;

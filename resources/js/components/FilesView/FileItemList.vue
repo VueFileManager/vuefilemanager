@@ -16,32 +16,33 @@
 			:class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
 		>
 			<!-- MultiSelecting for the mobile version -->
-			<div class="check-select" v-if="mobileMultiSelect">			
-				<div class="select-box" :class="{'select-box-active' : isClicked } ">
-					<CheckIcon v-if="isClicked" class="icon" size="17"/>		
-				</div>
-			</div>
+            <transition name="slide-from-left">
+                <div class="check-select" v-if="mobileMultiSelect">
+                    <div class="select-box" :class="{'select-box-active' : isClicked } ">
+                        <CheckIcon v-if="isClicked" class="icon" size="17"/>
+                    </div>
+                </div>
+            </transition>
 
 			<!--Thumbnail for item-->
-			<div class="icon-item">
-				<!--If is file or image, then link item-->
-				<span v-if="isFile" class="file-icon-text">
-					{{ data.mimetype | limitCharacters }}
-				</span>
+            <div class="icon-item">
+                <!--If is file or image, then link item-->
+                <span v-if="isFile" class="file-icon-text">
+                    {{ data.mimetype | limitCharacters }}
+                </span>
 
-				<!--Folder thumbnail-->
-				<FontAwesomeIcon v-if="isFile" class="file-icon" icon="file" />
+                <!--Folder thumbnail-->
+                <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file" />
 
-				<!--Image thumbnail-->
-				<img loading="lazy" v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name" />
+                <!--Image thumbnail-->
+                <img loading="lazy" v-if="isImage" class="image" :src="data.thumbnail" :alt="data.name" />
 
-				<!--Else show only folder icon-->
-				<FontAwesomeIcon v-if="isFolder" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder" />
-			</div>
+                <!--Else show only folder icon-->
+                <FontAwesomeIcon v-if="isFolder" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder" />
+            </div>
 
-			<!--Name-->
+            <!--Name-->
 			<div class="item-name">
-				<!--Name-->
 				<b ref="name" @input="renameItem" @keydown.delete.stop :contenteditable="canEditName" class="name">
 					{{ itemName }}
 				</b>
@@ -65,12 +66,14 @@
 				</div>
 			</div>
 
-			<!--Go Next icon-->
-			<div class="actions" v-if="$isMobile() && !($checkPermission('visitor') && isFolder || mobileMultiSelect)">
-				<span @click.stop="showItemActions" class="show-actions">
-					<FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
-				</span>
-			</div>
+			<!--Show item actions-->
+            <transition name="slide-from-right">
+                <div class="actions" v-if="$isMobile() && !($checkPermission('visitor') && isFolder || mobileMultiSelect)">
+                    <span @click.stop="showItemActions" class="show-actions">
+                        <FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
+                    </span>
+                </div>
+            </transition>
 		</div>
 	</div>
 </template>
@@ -293,6 +296,31 @@ export default {
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
 
+.slide-from-left-move {
+    transition: transform 300s ease;
+}
+
+.slide-from-left-enter-active,
+.slide-from-right-enter-active,
+.slide-from-left-leave-active,
+.slide-from-right-leave-active {
+    transition: all 300ms;
+}
+
+.slide-from-left-enter,
+.slide-from-left-leave-to {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.slide-from-right-enter,
+.slide-from-right-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+
+
 .check-select {
     margin-right: 15px;
     margin-left: 6px;
@@ -300,7 +328,7 @@ export default {
 	.select-box {
 		width: 20px;
 		height: 20px;
-		background-color: $light_background;
+		background-color: darken($light_background, 5%);
 		display: flex;
     	justify-content: center;
 		align-items: center;
