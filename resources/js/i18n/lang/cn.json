@@ -517,6 +517,10 @@
 		"title": "Oh no",
 		"message": "File of this type ({mimetype}) is not allowed to upload."
 	},
+	"popup_zipping": {
+		"title": "Zipping Your Files...",
+		"message": "Please wait until your files start downloading."
+	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",
 		"title": "Create Folder",

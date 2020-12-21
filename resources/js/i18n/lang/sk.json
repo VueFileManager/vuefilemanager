@@ -519,6 +519,10 @@
 		"title": "Ospravelnujume sa",
 		"message": "Nieje povolené nahrávať tento typ súboru ({mimetype})."
 	},
+	"popup_zipping": {
+		"title": "Súbory sa zipujú...",
+		"message": "Čakajte prosím, kým súbory sa nezačnú sťahovať."
+	},
 	"popup_create_folder": {
 		"folder_default_name": "Nový priečinok",
 		"title": "Vytvoriť priečinok",

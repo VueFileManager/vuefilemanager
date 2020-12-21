@@ -560,6 +560,10 @@
 		"message": "Sorry, your file is too large and can't be uploaded",
 		"title": "File is too large"
 	},
+	"popup_zipping": {
+		"title": "Zipping Your Files...",
+		"message": "Please wait until your files start downloading."
+	},
 	"popup_rename": {
 		"title": "Rename Your {item}",
 		"label": "Edit Name",

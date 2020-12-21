@@ -1,3 +1,4 @@
+import Vue from "vue"
 import axios from 'axios'
 import {events} from '@/bus'
 import router from '@/router'
@@ -84,7 +85,7 @@ const actions = {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getShared: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -107,7 +108,7 @@ const actions = {
 
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getParticipantUploads: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -126,7 +127,7 @@ const actions = {
 
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getTrash: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -148,7 +149,7 @@ const actions = {
 
                 events.$emit('scrollTop')
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getSearchResult: ({commit, getters}, query) => {
         commit('LOADING_STATE', {loading: true, data: []})
@@ -171,7 +172,7 @@ const actions = {
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
             })
-            .catch(() => isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getFolderTree: ({commit, getters}) => {
 
@@ -197,7 +198,7 @@ const actions = {
                 .catch((error) => {
                     reject(error)
 
-                    isSomethingWrong()
+                    Vue.prototype.$isSomethingWrong()
                 })
         })
     },
@@ -300,14 +301,6 @@ const getters = {
     navigation: state => state.navigation,
     isLoading: state => state.isLoading,
     data: state => state.data,
-}
-
-// Show error message
-function isSomethingWrong() {
-    events.$emit('alert:open', {
-        title: i18n.t('popup_error.title'),
-        message: i18n.t('popup_error.message'),
-    })
 }
 
 export default {
