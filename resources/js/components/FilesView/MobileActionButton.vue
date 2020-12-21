@@ -82,7 +82,7 @@
             @include transform(scale(0.95));
         }
 
-        &:hover {
+        /*&:hover {
             background: rgba($theme, 0.1);
 
             .icon {
@@ -94,7 +94,7 @@
             .label {
                 color: $theme;
             }
-        }
+        }*/
     }
 
     @media (prefers-color-scheme: dark) {

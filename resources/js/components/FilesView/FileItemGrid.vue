@@ -437,10 +437,6 @@ export default {
         &.is-clicked {
             border-radius: 8px;
             background: $light_background;
-
-            .item-name .name {
-                color: $theme;
-            }
         }
     }
 
