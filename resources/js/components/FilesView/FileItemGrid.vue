@@ -568,10 +568,10 @@ export default {
     }
 
     .select-box-active {
-        background-color: lighten($dark_mode_foreground, 10%);
+        background-color: #f4f5f6;
 
         .icon {
-            stroke: $theme;
+            stroke: $text;
         }
     }
 
