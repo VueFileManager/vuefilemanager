@@ -2,7 +2,7 @@
     <div id="mobile-actions-wrapper">
 
         <!--Actions for trash location with MASTER permission--->
-        <div v-if="trashLocationMenu" class="mobile-actions">
+        <div v-if="trashLocationMenu && ! multiSelectMode" class="mobile-actions">
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
             </MobileActionButton>
@@ -15,36 +15,36 @@
         </div>
 
         <!--ContextMenu for Base location with MASTER permission-->
-        <div v-if="baseLocationMasterMenu" class="mobile-actions">
-            <div v-if="! multiSelectMode">
-                <MobileActionButton @click.native="createFolder" icon="folder-plus" :class="{'is-inactive' : multiSelectMode}">
-                    {{ $t('context_menu.add_folder') }}
-                </MobileActionButton>
-                <MobileActionButtonUpload :class="{'is-inactive' : multiSelectMode}">
-                    {{ $t('context_menu.upload') }}
-                </MobileActionButtonUpload>
-                <MobileMultiSelectButton @click.native="enableMultiSelectMode">
-                   {{ $t('context_menu.select') }}
-                </MobileMultiSelectButton>
-                <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
-                    {{$t('preview_sorting.preview_sorting_button')}}
-                </MobileActionButton>
-            </div>
-            <div v-if="multiSelectMode">
-                <MobileActionButton @click.native="selectAll" icon="check-square">
-                    Select All
-                </MobileActionButton>
-                <MobileActionButton @click.native="deselectAll" icon="x-square">
-                    Deselect All
-                </MobileActionButton>
-                <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
-                    Done
-                </MobileActionButton>
-            </div>
+        <div v-if="baseLocationMasterMenu && ! multiSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="createFolder" icon="folder-plus" :class="{'is-inactive' : multiSelectMode}">
+                {{ $t('context_menu.add_folder') }}
+            </MobileActionButton>
+            <MobileActionButtonUpload :class="{'is-inactive' : multiSelectMode}">
+                {{ $t('context_menu.upload') }}
+            </MobileActionButtonUpload>
+            <MobileMultiSelectButton @click.native="enableMultiSelectMode">
+                {{ $t('context_menu.select') }}
+            </MobileMultiSelectButton>
+            <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
+                {{$t('preview_sorting.preview_sorting_button')}}
+            </MobileActionButton>
+        </div>
+
+        <!-- Selecting buttons -->
+        <div v-if="multiSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="selectAll" icon="check-square">
+                {{$t('mobile_selecting.select_all')}}
+            </MobileActionButton>
+            <MobileActionButton @click.native="deselectAll" icon="x-square">
+                {{$t('mobile_selecting.deselect_all')}}
+            </MobileActionButton>
+            <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
+                {{$t('mobile_selecting.done')}}
+            </MobileActionButton>
         </div>
 
         <!--ContextMenu for Base location with VISITOR permission-->
-        <div v-if="baseLocationVisitorMenu" class="mobile-actions">
+        <div v-if="baseLocationVisitorMenu && ! multiSelectMode" class="mobile-actions">
              <MobileMultiSelectButton @click.native="enableMultiSelectMode">
                {{ $t('context_menu.select') }}
             </MobileMultiSelectButton>
@@ -97,10 +97,10 @@
         },
         methods: {
             selectAll() {
-
+                this.$store.commit('SELECT_ALL_FILES')
             },
             deselectAll() {
-
+                this.$store.commit('CLEAR_FILEINFO_DETAIL')
             },
             enableMultiSelectMode() {
                 this.multiSelectMode = true

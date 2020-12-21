@@ -284,6 +284,11 @@
 		"select": "Výber",
 		"no_options": "Nie sú k dispozícii žiadne možnosti" 
 	},
+	"mobile_selecting": {
+		"select_all": "Vybrať všetko",
+		"deselect_all": "Odznačiť všetko",
+		"done": "Hotovo"
+	},
 	"preview_sorting": {
 		"grid_view": "Mriežka",
 		"list_view": "List",

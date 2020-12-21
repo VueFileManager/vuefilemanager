@@ -222,6 +222,23 @@ export default {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+.preview-sorting { 
+    /deep/ .label {
+        color: $text !important;
+    }
+    /deep/ .preview-sorting {
+            path, line, polyline, rect, circle {
+                stroke: $text !important;
+            }
+    }
+    &:hover {
+        /deep/ .preview-sorting {
+            path, line, polyline, rect, circle {
+                stroke: $theme !important;
+            }
+        }
+    }
+}
 
 .toolbar-wrapper {
     padding-top: 10px;
@@ -338,6 +355,11 @@ export default {
 
             &.preview-sorting {
                 background: $light_background;
+                /deep/ .preview-sorting {
+                    path, line, polyline, rect, circle {
+                        stroke: $theme !important;
+                    }
+                }
             }
         }
 
@@ -396,6 +418,16 @@ export default {
     .active {
         &.preview-sorting {
             background: $dark_mode_foreground !important;
+        }
+    }
+    .preview-sorting { 
+        /deep/ .label {
+            color: $text !important;
+        }
+        /deep/ .preview-sorting {
+                path, line, polyline, rect, circle {
+                    stroke: $dark_mode_text_primary !important;
+                }
         }
     }
 }

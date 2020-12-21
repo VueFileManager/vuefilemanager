@@ -253,6 +253,9 @@ const mutations = {
 
         state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
     },
+    SELECT_ALL_FILES(state){
+        state.fileInfoDetail = state.data
+    },
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState
     },
