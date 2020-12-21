@@ -537,13 +537,16 @@ export default {
 
 @media (prefers-color-scheme: dark) {
 	.check-select {
-		.select-box {
-			background-color: $dark_mode_foreground;
+
+        .select-box {
+			background-color: lighten($dark_mode_foreground, 10%);
 		}
+
 		.select-box-active {
-			background-color: $theme;
-			.icon {
-				stroke: $text;
+			background-color: lighten($dark_mode_foreground, 10%);
+
+            .icon {
+				stroke: $theme;
 			}
 		}
 	}

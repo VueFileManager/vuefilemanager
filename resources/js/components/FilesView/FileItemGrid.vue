@@ -564,14 +564,14 @@ export default {
 @media (prefers-color-scheme: dark) {
 
     .select-box {
-        background-color: $dark_mode_foreground;
+        background-color: lighten($dark_mode_foreground, 10%);
     }
 
     .select-box-active {
-        background-color: $theme;
+        background-color: lighten($dark_mode_foreground, 10%);
 
         .icon {
-            stroke: $text;
+            stroke: $theme;
         }
     }
 

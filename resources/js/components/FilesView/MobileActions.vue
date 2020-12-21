@@ -145,12 +145,12 @@
 
     .button-enter {
         opacity: 0;
-        transform: translateY(-100%);
+        transform: translateY(-50%);
     }
 
     .button-leave-to {
         opacity: 0;
-        transform: translateY(100%);
+        transform: translateY(50%);
     }
 
     .button-leave-active, {
