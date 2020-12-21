@@ -74,7 +74,7 @@ class Editor
 
         // Add files to zip
         $files->each(function ($file) use ($zip, $files_directory) {
-            $zip->addString($file['name'], File::get(storage_path() . '/app/' . $files_directory . '/' . $file['basename']));
+            $zip->addString($file['name'] . '.' . $file['mimetype'], File::get(storage_path() . '/app/' . $files_directory . '/' . $file['basename']));
         });
 
         // Close zip
