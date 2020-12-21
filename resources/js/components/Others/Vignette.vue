@@ -1,14 +1,23 @@
 <template>
     <transition name="vignette">
-        <div v-if="isVisibleVignette" class="vignette" @click="closePopup"></div>
+        <div v-if="isVisible" class="vignette" @click="closePopup"></div>
     </transition>
 </template>
 
 <script>
     import {events} from '@/bus'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'Vignette',
+        computed: {
+            ...mapGetters([
+                'isZippingFiles'
+            ]),
+            isVisible() {
+                return this.isZippingFiles || this.isVisibleVignette
+            },
+        },
         data() {
             return {
                 isVisibleVignette: false,
@@ -31,9 +40,7 @@
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
             events.$on('confirm:open', () => this.isVisibleVignette = true)
-            events.$on('mobileSortingAndPreviewVignette', (state) => {
-                this.isVisibleVignette = state
-            })
+            events.$on('mobileSortingAndPreviewVignette', (state) => this.isVisibleVignette = state)
 
         }
     }

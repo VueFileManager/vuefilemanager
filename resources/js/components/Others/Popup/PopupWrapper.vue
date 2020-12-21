@@ -43,11 +43,7 @@
             })
 
             // Close popup
-            events.$on('popup:close', () => {
-
-                // Close popup
-                this.isVisibleWrapper = false
-            })
+            events.$on('popup:close', () => this.isVisibleWrapper = false)
         }
     }
 </script>
