@@ -155,6 +155,26 @@ class UpgradeAppController extends Controller
         /*
          * Upgrade expire_in in shares table
          *
+         * @since v1.8
+        */
+        if (! Schema::hasTable('traffic') && ! Schema::hasTable('zips') && ! Schema::hasTable('jobs')) {
+
+            $command = Artisan::call('migrate', [
+                '--force' => true
+            ]);
+
+            if ($command === 0) {
+                echo 'Operation was successful.';
+            }
+
+            if ($command === 1) {
+                echo 'Operation failed.';
+            }
+        }
+
+        /*
+         * Upgrade expire_in in shares table
+         *
          * @since v1.7.9
         */
         if (! Schema::hasColumn('shares', 'expire_in')) {
