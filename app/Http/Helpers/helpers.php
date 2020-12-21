@@ -356,6 +356,25 @@ function format_gigabytes($gigabytes)
 }
 
 /**
+ * Format string to formated megabytes string
+ *
+ * @param $megabytes
+ * @return string
+ */
+function format_megabytes($megabytes)
+{
+    if ($megabytes >= 1000) {
+        return $megabytes / 1000 . 'GB';
+    }
+
+    if ($megabytes >= 1000000) {
+        return $megabytes / 1000000 . 'TB';
+    }
+
+    return $megabytes . 'MB';
+}
+
+/**
  * Convert megabytes to bytes
  *
  * @param $megabytes
@@ -494,6 +513,7 @@ function get_file_type($file_mimetype)
             return 'file';
     }
 }
+
 
 /**
  * Get file type from mimetype
