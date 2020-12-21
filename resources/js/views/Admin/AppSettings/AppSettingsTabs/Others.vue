@@ -89,6 +89,15 @@
                     <small class="input-help" v-html="$t('admin_settings.others.mimetypes_blacklist_help')"></small>
                 </div>
 
+                 <div class="block-wrapper">
+                    <label>{{ $t('admin_settings.others.upload_limit') }}:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Upload Limit" v-slot="{ errors }">
+                        <input @input="$updateText('/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}"/>
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                    <small class="input-help" v-html="$t('admin_settings.others.upload_limit_help')"></small>
+                </div>
+
                 <FormLabel class="mt-70">
                     {{ $t('admin_settings.others.section_cache') }}
                 </FormLabel>
@@ -163,7 +172,7 @@
         mounted() {
             axios.get('/api/settings', {
                 params: {
-                    column: 'contact_email|google_analytics|storage_default|registration|storage_limitation|mimetypes_blacklist'
+                    column: 'contact_email|google_analytics|storage_default|registration|storage_limitation|mimetypes_blacklist|upload_limit'
                 }
             })
                 .then(response => {
@@ -175,7 +184,8 @@
                         defaultStorage: response.data.storage_default,
                         userRegistration: parseInt(response.data.registration),
                         storageLimitation: parseInt(response.data.storage_limitation),
-                        mimetypesBlacklist : response.data.mimetypes_blacklist
+                        mimetypesBlacklist : response.data.mimetypes_blacklist,
+                        uploadLimit: response.data.upload_limit
                     }
                 })
         }

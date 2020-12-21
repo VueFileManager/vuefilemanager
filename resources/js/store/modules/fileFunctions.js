@@ -1,357 +1,258 @@
 import i18n from '@/i18n/index'
 import router from '@/router'
-import { events } from '@/bus'
-import { last } from 'lodash'
+import {events} from '@/bus'
+import {last} from 'lodash'
 import axios from 'axios'
-import Vue from 'vue'
-
-const defaultState = {
-	isZippingFiles: false,
-}
 
 const actions = {
-	downloadFiles: ({ commit, getters }) => {
-		let files = []
+    moveItem: ({commit, getters, dispatch}, [item_from, to_item]) => {
 
-		// get unique_ids of selected files
-		getters.fileInfoDetail.forEach(file => files.push(file.unique_id))
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/move/' + item_from.unique_id + '/public/' + router.currentRoute.params.token
+            : '/api/move/' + item_from.unique_id
 
-		// Get route
-		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/zip/public/' + router.currentRoute.params.token
-			: '/api/zip'
+        axios
+            .post(route, {
+                from_type: item_from.type,
+                to_unique_id: to_item.unique_id,
+                _method: 'patch'
+            })
+            .then(() => {
+                commit('REMOVE_ITEM', item_from.unique_id)
+                commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
 
-		commit('ZIPPING_FILE_STATUS', true)
+                if (item_from.type === 'folder' && getters.currentFolder.location !== 'public')
+                    dispatch('getAppData')
 
-		axios.post(route, {
-			files: files
-		})
-			.then(response => {
-				Vue.prototype.$downloadFile(response.data.url, response.data.name)
-			})
-			.catch(() => {
-				Vue.prototype.$isSomethingWrong()
-			})
-			.finally(() => {
-				commit('ZIPPING_FILE_STATUS', false)
-			})
-	},
-	moveItem: ({ commit, getters, dispatch }, { to_item, noSelectedItem }) => {
+            })
+            .catch(() => isSomethingWrong())
+    },
+    createFolder: ({commit, getters, dispatch}, folderName) => {
 
-		let itemsToMove = []
-		let items = [noSelectedItem]
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/create-folder/public/' + router.currentRoute.params.token
+            : '/api/create-folder'
 
-		// If coming no selected item dont get items to move from fileInfoDetail
-		if (!noSelectedItem)
-			items = getters.fileInfoDetail
+        axios
+            .post(route, {
+                parent_id: getters.currentFolder.unique_id,
+                name: folderName
+            })
+            .then(response => {
+                commit('ADD_NEW_FOLDER', response.data)
 
-		items.forEach(data => itemsToMove.push({
-			'force_delete': data.deleted_at ? true : false,
-			'unique_id': data.unique_id,
-			'type': data.type
-		}))
+                events.$emit('scrollTop')
 
-		// Remove file preview
-		if (!noSelectedItem)
-			commit('CLEAR_FILEINFO_DETAIL')
+                if ( getters.currentFolder.location !== 'public' ) {
+                    dispatch('getAppData')
+                }
+            })
+            .catch(() => isSomethingWrong())
+    },
+    renameItem: ({commit, getters, dispatch}, data) => {
 
-		// Get route
-		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/move/public/' + router.currentRoute.params.token
-			: '/api/move'
+        // Updated name in favourites panel
+        if (getters.permission === 'master' && data.type === 'folder')
+            commit('UPDATE_NAME_IN_FAVOURITES', data)
 
-		axios
-			.post(route, {
-				_method: 'post',
-				to_unique_id: to_item.unique_id,
-				items: itemsToMove
-			})
-			.then(() => {
-				itemsToMove.forEach(item => {
-					commit('REMOVE_ITEM', item.unique_id)
-					commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/rename-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
+            : '/api/rename-item/' + data.unique_id
 
-					if (item.type === 'folder')
-						dispatch('getAppData')
-					if (getters.currentFolder.location === 'public')
-						dispatch('getFolderTree')
-				})
-			})
-			.catch(() => Vue.prototype.$isSomethingWrong())
-	},
-	createFolder: ({ commit, getters, dispatch }, folderName) => {
+        axios
+            .post(route, {
+                name: data.name,
+                type: data.type,
+                _method: 'patch'
+            })
+            .then(response => {
+                commit('CHANGE_ITEM_NAME', response.data)
 
-		// Get route
-		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/create-folder/public/' + router.currentRoute.params.token
-			: '/api/create-folder'
+                if (data.type === 'folder' && getters.currentFolder.location !== 'public')
+                    dispatch('getAppData')
+            })
+            .catch(() => isSomethingWrong())
+    },
+    uploadFiles: ({commit, getters}, {form, fileSize, totalUploadedSize}) => {
+        return new Promise((resolve, reject) => {
 
-		axios
-			.post(route, {
-				parent_id: getters.currentFolder.unique_id,
-				name: folderName
-			})
-			.then(response => {
-				commit('ADD_NEW_FOLDER', response.data)
+            // Get route
+            let route = getters.sharedDetail && ! getters.sharedDetail.protected
+                ? '/api/upload/public/' + router.currentRoute.params.token
+                : '/api/upload'
 
-				events.$emit('scrollTop')
+            axios
+                .post(route, form, {
+                    headers: {
+                        'Content-Type': 'application/octet-stream'
+                    },
+                    onUploadProgress: event => {
 
-				if (getters.currentFolder.location !== 'public')
-					dispatch('getAppData')
-				if (getters.currentFolder.location === 'public')
-					dispatch('getFolderTree')
+                        var percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100)
 
-			})
-			.catch(() => Vue.prototype.$isSomethingWrong())
-	},
-	renameItem: ({ commit, getters, dispatch }, data) => {
+                        commit('UPLOADING_FILE_PROGRESS', percentCompleted >= 100 ? 100 : percentCompleted)
 
-		// Updated name in favourites panel
-		if (getters.permission === 'master' && data.type === 'folder')
-			commit('UPDATE_NAME_IN_FAVOURITES', data)
+                        if (percentCompleted >= 100) {
+                            commit('PROCESSING_FILE', true)
+                        }
+                    }
+                })
+                .then(response => {
+                    commit('PROCESSING_FILE', false)
 
-		// Get route
-		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/rename-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
-			: '/api/rename-item/' + data.unique_id
+                    // Check if user is in uploading folder, if yes, than show new file
+                    if (response.data.folder_id == getters.currentFolder.unique_id)
+                        commit('ADD_NEW_ITEMS', response.data)
 
-		axios
-			.post(route, {
-				name: data.name,
-				type: data.type,
-				_method: 'patch'
-			})
-			.then(response => {
-				commit('CHANGE_ITEM_NAME', response.data)
+                    resolve(response)
+                })
+                .catch(error => {
+                    commit('PROCESSING_FILE', false)
 
-				if (data.type === 'folder' && getters.currentFolder.location !== 'public')
-					dispatch('getAppData')
-				if (data.type === 'folder' && getters.currentFolder.location === 'public')
-					dispatch('getFolderTree')
-			})
-			.catch(() => Vue.prototype.$isSomethingWrong())
-	},
-	uploadFiles: ({ commit, getters }, { form, fileSize, totalUploadedSize }) => {
-		return new Promise((resolve, reject) => {
+                    reject(error)
 
-			// Get route
-			let route = getters.sharedDetail && !getters.sharedDetail.protected
-				? '/api/upload/public/' + router.currentRoute.params.token
-				: '/api/upload'
+                    switch (error.response.status) {
+                        case 423:
+                            events.$emit('alert:open', {
+                                emoji: '😬😬😬',
+                                title: i18n.t('popup_exceed_limit.title'),
+                                message: i18n.t('popup_exceed_limit.message')
+                            })
+                            break;
+                            case 415:
+                                events.$emit('alert:open', {
+                                    emoji: '😬😬😬',
+                                    title: i18n.t('popup_mimetypes_blacklist.title'),
+                                    message: i18n.t('popup_mimetypes_blacklist.message')
+                                })
+                            break;
+                        case 413:
+                            events.$emit('alert:open', {
+                                emoji: '😟😟😟',
+                                title: i18n.t('popup_upload_limit.title'),
+                                message: i18n.t('popup_upload_limit.message', {uploadLimit: getters.config.uploadLimitFormatted})
+                            })
+                            break;
+                        default:
+                            events.$emit('alert:open', {
+                                title: i18n.t('popup_error.title'),
+                                message: i18n.t('popup_error.message'),
+                            })
+                            break;
+                    }
 
-			// Create cancel token for axios cancelation
-			const CancelToken = axios.CancelToken
-			const source = CancelToken.source()
+                    // Reset uploader
+                    commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+                })
+        })
+    },
+    restoreItem: ({commit, getters}, item) => {
 
-			axios
-				.post(route, form, {
-					cancelToken: source.token,
-					headers: {
-						'Content-Type': 'application/octet-stream'
-					},
-					onUploadProgress: event => {
+        let restoreToHome = false
 
-						var percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100)
+        // Check if file can be restored to home directory
+        if (getters.currentFolder.location === 'trash')
+            restoreToHome = true
 
-						commit('UPLOADING_FILE_PROGRESS', percentCompleted >= 100 ? 100 : percentCompleted)
+        // Remove file
+        commit('REMOVE_ITEM', item.unique_id)
 
-						if (percentCompleted >= 100) {
-							commit('PROCESSING_FILE', true)
-						}
-					}
-				})
-				.then(response => {
-					commit('PROCESSING_FILE', false)
+        // Remove file preview
+        commit('CLEAR_FILEINFO_DETAIL')
 
-					// Check if user is in uploading folder, if yes, than show new file
-					if (response.data.folder_id == getters.currentFolder.unique_id)
-						commit('ADD_NEW_ITEMS', response.data)
+        axios
+            .post(getters.api + '/restore-item/' + item.unique_id, {
+                type: item.type,
+                to_home: restoreToHome,
+                _method: 'patch'
+            })
+            .catch(() => isSomethingWrong())
+    },
+    deleteItem: ({commit, getters, dispatch}, data) => {
 
-					resolve(response)
-				})
-				.catch(error => {
-					commit('PROCESSING_FILE', false)
+        // Remove file
+        commit('REMOVE_ITEM', data.unique_id)
 
-					reject(error)
+        // Remove item from sidebar
+        if (getters.permission === 'master') {
 
-					switch (error.response.status) {
-						case 423:
-							events.$emit('alert:open', {
-								emoji: '😬😬😬',
-								title: i18n.t('popup_exceed_limit.title'),
-								message: i18n.t('popup_exceed_limit.message')
-							})
-							break
-						case 415:
-							events.$emit('alert:open', {
-								emoji: '😬😬😬',
-								title: i18n.t('popup_mimetypes_blacklist.title'),
-								message: i18n.t('popup_mimetypes_blacklist.message')
-							})
-							break
-						case 413:
-							events.$emit('alert:open', {
-								emoji: '😟😟😟',
-								title: i18n.t('popup_paylod_error.title'),
-								message: i18n.t('popup_paylod_error.message')
-							})
-							break
-						default:
-							events.$emit('alert:open', {
-								title: i18n.t('popup_error.title'),
-								message: i18n.t('popup_error.message')
-							})
-							break
-					}
+            if (data.type === 'folder')
+                commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+        }
 
-					// Reset uploader
-					commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-				})
+        // Remove file preview
+        commit('CLEAR_FILEINFO_DETAIL')
 
-			// Cancel the upload request
-			events.$on('cancel-upload', () => {
-				source.cancel()
+        // Get route
+        let route = getters.sharedDetail && ! getters.sharedDetail.protected
+            ? '/api/remove-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
+            : '/api/remove-item/' + data.unique_id
 
-				// Hide upload progress bar
-				commit('PROCESSING_FILE', false)
-				commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-			})
-		})
-	},
-	restoreItem: ({ commit, getters }, item) => {
+        axios
+            .post(route, {
+                _method: 'delete',
+                data: {
+                    type: data.type,
+                    force_delete: data.deleted_at ? true : false,
+                },
+            })
+            .then(() => {
 
-		let restoreToHome = false
+                // If is folder, update app data
+                if (data.type === 'folder') {
 
-		// Check if file can be restored to home directory
-		if (getters.currentFolder.location === 'trash')
-			restoreToHome = true
+                    if (data.unique_id === getters.currentFolder.unique_id) {
 
-		// Remove file
-		commit('REMOVE_ITEM', item.unique_id)
+                        if ( getters.currentFolder.location === 'public' ) {
+                            dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
+                        } else {
+                            dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
+                        }
+                    }
 
-		// Remove file preview
-		commit('CLEAR_FILEINFO_DETAIL')
+                    if ( getters.currentFolder.location !== 'public' )
+                        dispatch('getAppData')
+                }
+            })
+            .catch(() => isSomethingWrong())
+    },
+    emptyTrash: ({commit, getters}) => {
 
-		axios
-			.post(getters.api + '/restore-item/' + item.unique_id, {
-				type: item.type,
-				to_home: restoreToHome,
-				_method: 'patch'
-			})
-			.catch(() => Vue.prototype.$isSomethingWrong())
-	},
-	deleteItem: ({ commit, getters, dispatch }, noSelectedItem) => {
+        // Clear file browser
+        commit('LOADING_STATE', {loading: true, data: []})
 
-		let itemsToDelete = []
-		let items = [noSelectedItem]
+        axios
+            .post(getters.api + '/empty-trash', {
+                _method: 'delete'
+            })
+            .then(() => {
+                commit('LOADING_STATE', {loading: false, data: []})
+                events.$emit('scrollTop')
 
-		// If coming no selected item dont get items to move from fileInfoDetail
-		if (!noSelectedItem)
-			items = getters.fileInfoDetail
+                // Remove file preview
+                commit('CLEAR_FILEINFO_DETAIL')
 
-		items.forEach(data => {
-			itemsToDelete.push({
-				'force_delete': data.deleted_at ? true : false,
-				'type': data.type,
-				'unique_id': data.unique_id
-			})
-
-			// Remove file
-			commit('REMOVE_ITEM', data.unique_id)
-
-			// Remove item from sidebar
-			if (getters.permission === 'master') {
-
-				if (data.type === 'folder')
-					commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-			}
-
-			// Remove file
-			commit('REMOVE_ITEM', data.unique_id)
-
-			// Remove item from sidebar
-			if (getters.permission === 'master') {
-
-				if (data.type === 'folder')
-					commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-			}
-		})
-
-		// Remove file preview
-		if (!noSelectedItem) {
-			commit('CLEAR_FILEINFO_DETAIL')
-		}
-
-		// Get route
-		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/remove-item/public/' + router.currentRoute.params.token
-			: '/api/remove-item'
-
-		axios
-			.post(route, {
-				_method: 'post',
-				data: itemsToDelete
-			})
-			.then(() => {
-
-				itemsToDelete.forEach(data => {
-
-					// If is folder, update app data
-					if (data.type === 'folder') {
-
-						if (data.unique_id === getters.currentFolder.unique_id) {
-
-							if (getters.currentFolder.location === 'public') {
-								dispatch('browseShared', [{ folder: last(getters.browseHistory), back: true, init: false }])
-							} else {
-								dispatch('getFolder', [{ folder: last(getters.browseHistory), back: true, init: false }])
-							}
-						}
-					}
-				})
-
-				if (getters.currentFolder.location !== 'public')
-					dispatch('getAppData')
-
-				if (getters.currentFolder.location === 'public')
-					dispatch('getFolderTree')
-
-			})
-			.catch(() => Vue.prototype.$isSomethingWrong())
-	},
-	emptyTrash: ({ commit, getters }) => {
-
-		// Clear file browser
-		commit('LOADING_STATE', { loading: true, data: [] })
-
-		axios
-			.post(getters.api + '/empty-trash', {
-				_method: 'delete'
-			})
-			.then(() => {
-				commit('LOADING_STATE', { loading: false, data: [] })
-				events.$emit('scrollTop')
-
-				// Remove file preview
-				commit('CLEAR_FILEINFO_DETAIL')
-			})
-			.catch(() => Vue.prototype.$isSomethingWrong())
-	}
+                // Show success message
+                events.$emit('success:open', {
+                    title: i18n.t('popup_trashed.title'),
+                    message: i18n.t('popup_trashed.message'),
+                })
+            })
+            .catch(() => isSomethingWrong())
+    },
 }
 
-const mutations = {
-	ZIPPING_FILE_STATUS(state, status) {
-		state.isZippingFiles = status
-	}
-}
-
-const getters = {
-	isZippingFiles: state => state.isZippingFiles
+// Show error message
+function isSomethingWrong() {
+    events.$emit('alert:open', {
+        title: i18n.t('popup_error.title'),
+        message: i18n.t('popup_error.message'),
+    })
 }
 
 export default {
-	state: defaultState,
-	mutations,
-	actions,
-	getters
+    actions,
 }
