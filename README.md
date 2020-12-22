@@ -10,7 +10,7 @@
     - [Chunk Upload](#chunk-upload)
     - [Upgrade Guide](#upgrade-guide)
         - [Common Instructions](#common-instructions)
-        - [Update from 1.7.12 to 1.8](#update-from-1712-to-178)
+        - [Update from 1.7.12 to 1.8](#update-from-1712-to-18)
         - [Update from 1.7.10 to 1.7.11](#update-from-1710-to-1711)
         - [Update from 1.7.8 to 1.7.9](#update-from-178-to-179)
         - [Update from 1.7.x to 1.7.8](#update-from-17x-to-178)
