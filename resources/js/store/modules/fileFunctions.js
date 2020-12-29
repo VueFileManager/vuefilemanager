@@ -10,6 +10,27 @@ const defaultState = {
 }
 
 const actions = {
+	downloadFolder: ({commit, getters}, folder) => {
+
+		commit('ZIPPING_FILE_STATUS', true)
+
+		// Get route
+		let route = getters.sharedDetail && !getters.sharedDetail.protected
+			? '/api/zip-folder/' + folder.unique_id + '/public/' + router.currentRoute.params.token
+			: '/api/zip-folder/' + folder.unique_id
+
+		axios.get(route)
+		.then(response => {
+			Vue.prototype.$downloadFile(response.data.url, response.data.name)
+		})
+		.catch(() => {
+			Vue.prototype.$isSomethingWrong()
+		})
+		.finally(() => {
+			commit('ZIPPING_FILE_STATUS', false)
+		})
+
+	},
 	downloadFiles: ({ commit, getters }) => {
 		let files = []
 
@@ -95,6 +116,11 @@ const actions = {
 				commit('ADD_NEW_FOLDER', response.data)
 
 				events.$emit('scrollTop')
+
+				//Set focus on new folder name
+				setTimeout(() => {
+					events.$emit('newFolder:focus', response.data.unique_id)
+				}, 10);
 
 				if (getters.currentFolder.location !== 'public')
 					dispatch('getAppData')
@@ -220,24 +246,36 @@ const actions = {
 	},
 	restoreItem: ({ commit, getters }, item) => {
 
+		let itemToRestore = []
+		let items = [item]
 		let restoreToHome = false
 
+		// If coming no selected item dont get items to restore from fileInfoDetail
+		if (!item)
+			items = getters.fileInfoDetail
+	
 		// Check if file can be restored to home directory
 		if (getters.currentFolder.location === 'trash')
 			restoreToHome = true
 
-		// Remove file
-		commit('REMOVE_ITEM', item.unique_id)
+		items.forEach(data => itemToRestore.push({
+			'type': data.type,
+			'unique_id': data.unique_id,
+		}))
 
 		// Remove file preview
 		commit('CLEAR_FILEINFO_DETAIL')
 
 		axios
-			.post(getters.api + '/restore-item/' + item.unique_id, {
-				type: item.type,
+			.post(getters.api + '/restore-items' ,{
 				to_home: restoreToHome,
-				_method: 'patch'
+				data: itemToRestore,
 			})
+			.then(
+
+				// Remove file
+				items.forEach( data => commit('REMOVE_ITEM', data.unique_id) )
+			)
 			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
 	deleteItem: ({ commit, getters, dispatch }, noSelectedItem) => {

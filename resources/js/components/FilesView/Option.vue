@@ -12,6 +12,7 @@
             <star-icon v-if="icon === 'favourites'" size="17"></star-icon>
             <folder-plus-icon v-if="icon === 'create-folder'" size="17"></folder-plus-icon>
             <smile-icon v-if="icon === 'no-options'" size="17"></smile-icon>
+            <paperclip-icon v-if="icon === 'zip-folder'" size="17"></paperclip-icon> 
         </div>
         <div class="text-label">
             {{ title }}
@@ -24,6 +25,7 @@ import {
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
+    PaperclipIcon,
     LifeBuoyIcon,
     Trash2Icon,
     Edit2Icon,
@@ -41,6 +43,7 @@ import {
             CornerDownRightIcon,
             DownloadCloudIcon,
             FolderPlusIcon,
+            PaperclipIcon,
             LifeBuoyIcon,
             Trash2Icon,
             SmileIcon,

@@ -285,7 +285,8 @@
 		"share_edit": "Upraviť zdieľanie",
 		"upload": "Nahrať",
 		"select": "Výber",
-		"no_options": "Nie sú k dispozícii žiadne možnosti" 
+		"no_options": "Nie sú k dispozícii žiadne možnosti",
+		"zip_folder": "Zazipovať priečinok"
 	},
 	"mobile_selecting": {
 		"select_all": "Vybrať všetko",

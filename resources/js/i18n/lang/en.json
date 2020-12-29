@@ -285,7 +285,8 @@
 		"share_edit": "Edit Sharing",
 		"upload": "Upload",
 		"select": "Select",
-		"no_options": "No Options Available" 
+		"no_options": "No Options Available",
+		"zip_folder": "Zip Folder"
 	},
 	"mobile_selecting": {
 		"select_all": "Select All",

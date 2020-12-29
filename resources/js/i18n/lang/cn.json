@@ -283,7 +283,8 @@
 		"share_edit": "编辑分享设定",
 		"upload": "上传",
 		"select": "Select",
-		"no_options": "No Options Available" 
+		"no_options": "No Options Available",
+		"zip_folder": "Zip Folder"
 	},
 	"mobile_selecting": {
 		"select_all": "Select All",

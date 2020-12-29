@@ -28,11 +28,13 @@
 
                 <!--Else show only folder icon-->
                 <FontAwesomeIcon v-if="isFolder" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder"/>
+                <!-- <div v-if="isFolder" :class="{ 'is-deleted': isDeleted }" class="folder-icon">&#128034;</div> -->
+               
             </div>
 
             <!--Name-->
             <div class="item-name">
-                <b ref="name" @input="renameItem" @keydown.delete.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.data.unique_id" @input="renameItem"  @keydown.delete.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
@@ -262,6 +264,14 @@ export default {
     },
     created() {
         this.itemName = this.data.name
+
+        events.$on('newFolder:focus', (unique_id) => {
+
+            if(this.data.unique_id == unique_id) {
+                this.$refs[unique_id].focus()
+                document.execCommand('selectAll')
+            }
+        })
 
         events.$on('mobileSelecting:start', () => {
             this.mobileMultiSelect = true

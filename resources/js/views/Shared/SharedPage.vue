@@ -9,6 +9,9 @@
         <!--Move item setup-->
         <MoveItem />
 
+    	<!-- Processing popup for zip -->
+        <ProcessingPopup/>
+
         <!-- Mobile Menu for Multi selected items -->
         <MobileMultiSelectMenu/>
 
@@ -116,6 +119,7 @@
     import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
     import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
     import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
+    import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
@@ -152,6 +156,7 @@
             ValidationObserver,
             TreeMenuNavigator,
             FileFullPreview,
+            ProcessingPopup,
             DesktopToolbar,
             ContentSidebar,
             DragUI,

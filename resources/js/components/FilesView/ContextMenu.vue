@@ -30,10 +30,12 @@
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
                 <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
             </OptionGroup>
 
             <!-- Multi options -->
             <OptionGroup v-if="!multiSelectContextMenu">
+                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore"/>
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
                 <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash"/>
             </OptionGroup>
@@ -62,6 +64,7 @@
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
                 <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
             </OptionGroup>
 
             <!-- Multi options -->
@@ -106,6 +109,7 @@
             <OptionGroup v-if="item && multiSelectContextMenu ">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
                 <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
             </OptionGroup>
 
             <!-- Multi options -->
@@ -143,6 +147,7 @@
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
                 <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
             </OptionGroup>
 
             <!-- Multi options -->
@@ -167,6 +172,7 @@
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
                 <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
             </OptionGroup>
 
             <!-- Multi options -->
@@ -250,11 +256,21 @@ export default {
     },
 
     methods: {
+        downloadFolder(){
+            this.$store.dispatch('downloadFolder' , this.item)
+        },
         emptyTrash() {
             this.$store.dispatch('emptyTrash')
         },
         restoreItem() {
-            this.$store.dispatch('restoreItem', this.item)
+
+            // If is item not in selected items restore just this single item
+            if(!this.fileInfoDetail.includes(this.item))
+                this.$store.dispatch('restoreItem', this.item)
+
+            // If is item in selected items restore all items from fileInfoDetail
+            if(this.fileInfoDetail.includes(this.item))
+                this.$store.dispatch('restoreItem', null)
         },
         shareCancel() {
             this.$store.dispatch('shareCancel')

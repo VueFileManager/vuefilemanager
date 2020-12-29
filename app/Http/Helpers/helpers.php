@@ -559,6 +559,10 @@ function get_image_meta_data($file)
 {
     if (get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
         return exif_read_data($file);
+
+        return  mb_convert_encoding(
+            exif_read_data($file), 'UTF8', 'UTF8'
+        );
     }
 }
 
@@ -732,4 +736,33 @@ function remove_accents($string) {
     }
 
     return $string;
+}
+/**
+ * Get all files from folder and get their folder location in VueFileManager directories
+ *
+ * @param $folders
+ * @param array $files
+ * @param array $path
+ * @return array
+ */
+function get_files_for_zip($folders, $files = [], $path = [])
+{
+    // Return file list
+    if (!isset($folders->folders)) {
+        return $files;
+    }
+
+    // Push path
+    array_push($path, $folders->name);
+
+    // Write file list
+    foreach ($folders->files as $file) {
+        array_push($files, [
+            'name'        => $file->name,
+            'basename'    => $file->basename,
+            'folder_path' => implode('/', $path),
+        ]);
+    }
+
+    return get_files_for_zip($folders->folders->first(), $files, $path);
 }

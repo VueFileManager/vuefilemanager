@@ -48,6 +48,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/create-folder/public/{token}', 'FileFunctions\EditItemsController@guest_create_folder');
     Route::post('/remove-item/public/{token}', 'FileFunctions\EditItemsController@guest_delete_item');
     Route::post('/zip/public/{token}', 'FileFunctions\EditItemsController@guest_zip_multiple_files');
+    Route::get('/zip-folder/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_zip_folder');
     Route::post('/upload/public/{token}', 'FileFunctions\EditItemsController@guest_upload');
     Route::post('/move/public/{token}', 'FileFunctions\EditItemsController@guest_move');
 
@@ -108,7 +109,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/trash', 'FileBrowser\BrowseController@trash');
 
     // Trash
-    Route::patch('/restore-item/{unique_id}', 'FileFunctions\TrashController@restore');
+    Route::post('/restore-items', 'FileFunctions\TrashController@restore');
     Route::delete('/empty-trash', 'FileFunctions\TrashController@clear');
 
     // Favourites
@@ -188,6 +189,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::post('/create-folder', 'FileFunctions\EditItemsController@user_create_folder');
     Route::post('/remove-item', 'FileFunctions\EditItemsController@user_delete_item');
     Route::post('/zip', 'FileFunctions\EditItemsController@user_zip_multiple_files');
+    Route::get('/zip-folder/{unique_id}', 'FileFunctions\EditItemsController@user_zip_folder');
     Route::post('/upload', 'FileFunctions\EditItemsController@user_upload');
     Route::post('/move', 'FileFunctions\EditItemsController@user_move');
 });

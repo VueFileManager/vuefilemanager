@@ -12,6 +12,7 @@
             <!--Mobile Navigation-->
             <MobileNavigation/>
 
+            <!-- Processing popup for zip -->
             <ProcessingPopup/>
 
             <!--Confirm Popup-->
