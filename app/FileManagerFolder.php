@@ -133,7 +133,7 @@ class FileManagerFolder extends Model
      */
     public function getCreatedAtAttribute()
     {
-        return format_date($this->attributes['created_at'], __('vuefilemanager.time'));
+        return format_date(set_time_by_user_timezone($this->attributes['created_at']), __('vuefilemanager.time'));
     }
 
     /**
@@ -145,7 +145,7 @@ class FileManagerFolder extends Model
     {
         if (! $this->attributes['deleted_at']) return null;
 
-        return format_date($this->attributes['deleted_at'], __('vuefilemanager.time'));
+        return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __('vuefilemanager.time'));
     }
 
     /**

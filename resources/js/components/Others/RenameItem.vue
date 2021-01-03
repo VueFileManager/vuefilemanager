@@ -15,7 +15,7 @@
                 <!--Set password-->
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_rename.label') }}:</label>
-                    <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('popup_rename.placeholder')">
+                    <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
@@ -102,6 +102,10 @@
             events.$on('popup:open', args => {
 
                 if (args.name !== 'rename-item') return
+
+                this.$nextTick(() => {
+                    this.$refs.input.focus()
+                })
 
                 // Store picked item
                 this.pickedItem = args.item

@@ -429,8 +429,6 @@ class EditItemsController extends Controller
 
         $zip = Editor::zip_files($files);
 
-        dd($zip);
-
         // Get file
         return response([
             'url'  => route('zip', $zip->id),

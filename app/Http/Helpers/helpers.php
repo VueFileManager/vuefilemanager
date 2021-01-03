@@ -2,6 +2,7 @@
 
 use App\FileManagerFile;
 use App\FileManagerFolder;
+use App\User;
 use App\Setting;
 use App\Share;
 use ByteUnits\Metric;
@@ -765,4 +766,20 @@ function get_files_for_zip($folders, $files = [], $path = [])
     }
 
     return get_files_for_zip($folders->folders->first(), $files, $path);
+}
+
+/**
+ * Set time by user timezone GMT 
+ *
+ * @param $time
+ * @return int
+ */
+function set_time_by_user_timezone($time)
+{
+    $user = Auth::user();
+
+    // Get the value of timezone if user have some
+    $time_zone = intval($user->settings->timezone * 60 ?? null);
+
+    return Carbon::parse($time)->addMinutes($time_zone ?? null);
 }

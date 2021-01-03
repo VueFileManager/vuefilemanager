@@ -105,6 +105,25 @@
                 </div>
             </div>
         </PageTabGroup>
+
+         <PageTabGroup v-if="userInfo">
+            <div class="form block-form">
+                <FormLabel>User Timezone</FormLabel>
+                <div class="block-wrapper">
+                    <label>Timezone</label>
+                    <div class="input-wrapper">
+                        <input @change="$updateText('/user/relationships/settings', 'timezone', userTimezone)"
+                                v-model="userTimezone"
+                               placeholder="Type your timezone"
+                               type="number"
+                        />
+                        <small class="input-help">
+                            Set your timezone by type the hours of your GMT : 1, -5, 1.5
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </PageTabGroup>
     </PageTab>
 </template>
 
@@ -147,6 +166,7 @@
             return {
                 userInfo: undefined,
                 billingInfo: undefined,
+                userTimezone: undefined,
                 isLoading: false,
             }
         },
@@ -157,6 +177,8 @@
             }
         },
         created() {
+
+            this.userTimezone = this.user.relationships.timezone.data.attributes.timezone
 
             this.userInfo = {
                 name: this.user.data.attributes.name,
