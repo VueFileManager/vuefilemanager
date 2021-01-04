@@ -108,14 +108,16 @@
 
          <PageTabGroup v-if="userInfo">
             <div class="form block-form">
-                <FormLabel>User Timezone</FormLabel>
+                <FormLabel>Timezone</FormLabel>
                 <div class="block-wrapper">
-                    <label>Timezone</label>
+                    <label>GMT:</label>
                     <div class="input-wrapper">
                         <input @change="$updateText('/user/relationships/settings', 'timezone', userTimezone)"
                                 v-model="userTimezone"
-                               placeholder="Type your timezone"
-                               type="number"
+                                placeholder="Type your GMT"
+                                type="number"
+                                max='30'
+                                min='-30'
                         />
                         <small class="input-help">
                             Set your timezone by type the hours of your GMT : 1, -5, 1.5

@@ -14,7 +14,7 @@ class AddTimezoneToUserSettingsTable extends Migration
     public function up()
     {
         Schema::table('user_settings', function (Blueprint $table) {
-            $table->integer('timezone')->after('billing_phone_number')->nullable();
+            $table->decimal('timezone', 10, 1)->after('billing_phone_number')->nullable();
         });
     }
 

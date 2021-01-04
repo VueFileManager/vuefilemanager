@@ -778,8 +778,15 @@ function set_time_by_user_timezone($time)
 {
     $user = Auth::user();
 
-    // Get the value of timezone if user have some
-    $time_zone = intval($user->settings->timezone * 60 ?? null);
+    if($user) {
 
-    return Carbon::parse($time)->addMinutes($time_zone ?? null);
+        // Get the value of timezone if user have some
+        $time_zone = intval($user->settings->timezone * 60 ?? null);
+
+        return Carbon::parse($time)->addMinutes($time_zone ?? null);
+    }
+    if(! $user) {
+
+        return Carbon::parse($time);
+    }
 }
