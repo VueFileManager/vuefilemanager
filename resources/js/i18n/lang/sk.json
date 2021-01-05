@@ -805,7 +805,9 @@
 		"state": "Štát",
 		"state_plac": "Zadajte Štát",
 		"title_account": "informácie o účte",
-		"title_billing": "Fakturačné údaje"
+		"title_billing": "Fakturačné údaje",
+		"timezone": "Časové pásmo",
+		"timezone_plac" : "Vyberte svoje časové pásmo"
 	},
 	"user_subscription": {
 		"billed": "Ůčtované",

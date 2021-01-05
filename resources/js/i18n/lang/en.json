@@ -805,7 +805,9 @@
 		"state": "State",
 		"state_plac": "Type your billing state",
 		"title_account": "Account Information",
-		"title_billing": "Billing Information"
+		"title_billing": "Billing Information",
+		"timezone": "Timezone",
+		"timezone_plac" : "Select your timezone"
 	},
 	"user_subscription": {
 		"billed": "Billed",

@@ -25,6 +25,23 @@
                 </div>
             </div>
         </PageTabGroup>
+
+         <PageTabGroup v-if="userInfo">
+            <div class="form block-form">
+                <FormLabel>{{$t('user_settings.timezone')}}</FormLabel>
+                <div class="block-wrapper">
+                    <label>GMT:</label>
+                    <div class="input-wrapper">
+                        <SelectInput @input="$updateText('/user/relationships/settings', 'timezone', userTimezone)"
+                                    v-model="userTimezone"
+                                    :default="userTimezone"
+                                    :options="timezones"
+                                    :placeholder="$t('user_settings.timezone_plac')"/>
+                    </div>
+                </div>
+            </div>
+        </PageTabGroup>
+
         <PageTabGroup v-if="config.isSaaS && billingInfo">
             <div class="form block-form">
                 <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
@@ -105,27 +122,6 @@
                 </div>
             </div>
         </PageTabGroup>
-
-         <PageTabGroup v-if="userInfo">
-            <div class="form block-form">
-                <FormLabel>Timezone</FormLabel>
-                <div class="block-wrapper">
-                    <label>GMT:</label>
-                    <div class="input-wrapper">
-                        <input @change="$updateText('/user/relationships/settings', 'timezone', userTimezone)"
-                                v-model="userTimezone"
-                                placeholder="Type your GMT"
-                                type="number"
-                                max='30'
-                                min='-30'
-                        />
-                        <small class="input-help">
-                            Set your timezone by type the hours of your GMT : 1, -5, 1.5
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </PageTabGroup>
     </PageTab>
 </template>
 
@@ -162,7 +158,7 @@
             PageTab,
         },
         computed: {
-            ...mapGetters(['config', 'countries']),
+            ...mapGetters(['config', 'countries', 'timezones']),
         },
         data() {
             return {

@@ -803,7 +803,9 @@
 		"state": "州",
 		"state_plac": "输入您的帐单状态",
 		"title_account": "帐户信息",
-		"title_billing": "账单信息"
+		"title_billing": "账单信息",
+		"timezone": "Timezone",
+		"timezone_plac" : "Select your timezone"
 	},
 	"user_subscription": {
 		"billed": "开票",
