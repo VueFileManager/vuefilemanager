@@ -7,6 +7,11 @@ return [
     'time'                    => '%d. %B. %Y o %H:%M',
     'home'                    => 'Domov',
 
+    //Shared link email message
+    'shared_link_email_greeting' => 'Ahoj!',
+    'shared_link_email_user'     => ':user (:email) ti posiela odkaz pre zdielane súbory.',
+    'shared_link_email_link'     => 'Vaše súbory',
+
     // Reset password email
     'reset_password_greeting' => 'Ahoj!',
     'reset_password_subject'  => 'Resetujte svoje heslo v aplikácií ',

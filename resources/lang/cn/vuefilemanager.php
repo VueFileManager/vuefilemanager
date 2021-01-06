@@ -7,6 +7,11 @@ return [
     'time'                    => '%d. %B. %Y 于 %H:%M',
     'home'                    => '首页',
 
+    //Shared link email message
+    'shared_link_email_greeting' => 'Hello!',
+    'shared_link_email_user'     => ':user (:email) send you a link to shared files.',
+    'shared_link_email_link'     => 'Your files',
+
     // Reset password email
     'reset_password_greeting' => 'Hello!',
     'reset_password_subject'  => 'Reset password for your account on ',

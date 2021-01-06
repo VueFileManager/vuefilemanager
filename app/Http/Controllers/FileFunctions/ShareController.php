@@ -117,4 +117,21 @@ class ShareController extends Controller
         // Done
         return response('Done!', 204);
     }
+
+    public function shared_send_via_email (Request $request, $token)
+    {
+        $share = Share::where('token', $token)
+        ->where('user_id', Auth::id())
+        ->first();
+
+        // Demo preview
+        if (env('APP_DEMO')) {
+            return response('Done!', 204);
+        }
+
+        // Send share link via email
+        $share->sendSharedLinkViaEmail($request->emails, $token);
+          
+        return response('Done!', 204);
+    }
 }

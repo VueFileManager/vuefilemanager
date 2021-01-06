@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\SharedSendViaEmail;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Share
@@ -37,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Share extends Model
 {
+    use  Notifiable;
+
     protected $guarded = ['id'];
 
     protected $appends = ['link'];
@@ -49,5 +53,16 @@ class Share extends Model
     public function getLinkAttribute() {
 
         return url('/shared', ['token' => $this->attributes['token']]);
+    }
+
+    /**
+     * Send the sahared link notification.
+     *
+     * @param string $token $emails
+     * @return void
+     */
+    public function sendSharedLinkViaEmail($emails, $token)
+    {
+        $this->notify(new SharedSendViaEmail($emails, $token));
     }
 }
