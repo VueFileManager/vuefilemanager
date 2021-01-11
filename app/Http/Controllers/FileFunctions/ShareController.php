@@ -58,7 +58,15 @@ class ShareController extends Controller
         ];
 
         // Return created shared record
-        return new ShareResource(Share::create($options));
+        $share = new ShareResource(Share::create($options));
+
+        // Send shared link via email
+        if($request->emails) {
+            $share->sendSharedLinkViaEmail($request->emails, $token);
+        }
+
+
+        return $share;
     }
 
     /**

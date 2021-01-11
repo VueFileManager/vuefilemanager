@@ -695,7 +695,12 @@
 		"label_expiration": "Expirácia Linku",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
-		"placeholder_permission": "Zvoľte oprávnenia"
+		"placeholder_permission": "Zvoľte oprávnenia",
+		"email_successfully_send_message": "Vaša položka bola úspešne odoslaná na e-maily príjemcov.",
+		"share_by_link": "Zdieľať odkazom",
+		"share_by_email": "Zdieľať e-mailom",
+		"recipients_label": "Príjemcovia:",
+		"email_placeholder": "Zadajte e-mailové adresy"
 	},
 	"sidebar": {
 		"favourites": "Obľúbené",

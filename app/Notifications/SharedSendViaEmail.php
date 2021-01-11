@@ -47,7 +47,7 @@ class SharedSendViaEmail extends Notification
        
 
         return (new MailMessage)
-            ->subject(__('vuefilemanager.reset_password_subject') . config('vuefilemanager.app_name'))
+            ->subject(__('vuefilemanager.shared_link_email_subject' , ['user' => $this->user->name]) . config('vuefilemanager.app_name'))
             ->greeting(__('vuefilemanager.shared_link_email_greeting'))
             ->line(__('vuefilemanager.shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
             ->action(__('vuefilemanager.shared_link_email_link'), $shared_link);

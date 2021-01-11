@@ -8,6 +8,7 @@ return [
     'home'                    => 'Home',
 
     //Shared link email message
+    'shared_link_email_subject'  => ':user sned you shared files.',
     'shared_link_email_greeting' => 'Hello!',
     'shared_link_email_user'     => ':user (:email) send you a link to shared files.',
     'shared_link_email_link'     => 'Your files',

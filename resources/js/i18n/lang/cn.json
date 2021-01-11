@@ -693,7 +693,12 @@
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
-		"placeholder_permission": "请设置权限"
+		"placeholder_permission": "请设置权限",
+		"email_successfully_send_message": "Your item was successfully sended to recipients emails.",
+		"share_by_link": "Share by Link",
+		"share_by_email": "Share by Email",
+		"recipients_label": "Recipients:",
+		"email_placeholder": "Type your emails"
 	},
 	"sidebar": {
 		"favourites": "收藏",

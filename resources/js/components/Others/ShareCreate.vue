@@ -9,6 +9,24 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
+            <div class="select-share-wrapper">
+                <div @click="shareBy = 'link'" :class="{'active' : shareBy === 'link'}">
+                    <link-icon class="icon" size="17" />
+                    <h1>{{$t('shared_form.share_by_link')}}</h1> 
+                </div>
+                <div @click="shareBy = 'email'" :class="{'active' : shareBy === 'email'}">
+                    <mail-icon class="icon" size="17"/> 
+                    <h1> {{$t('shared_form.share_by_email')}}</h1>
+                </div>
+            </div>
+
+            <div v-if="shareBy === 'email' && isGeneratedShared  " class="successfully-send-wrapper">
+                <div class="successfully-send"> {{$t('shared_form.email_successfully_send_message')}} </div>
+            </div>
+
+            <EmailsInput v-if="shareBy === 'email' && ! isGeneratedShared "/>
+
+
             <!--Form to set sharing-->
             <ValidationObserver v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
@@ -83,12 +101,14 @@
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
+    import EmailsInput from '@/components/Others/Forms/EmailsInput'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import CopyInput from '@/components/Others/Forms/CopyInput'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import {LinkIcon, MailIcon } from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
@@ -106,11 +126,14 @@
             PopupActions,
             PopupContent,
             PopupHeader,
+            EmailsInput,
             SelectInput,
             SwitchInput,
             ButtonBase,
             CopyInput,
+            MailIcon, 
             required,
+            LinkIcon
         },
         computed: {
             ...mapGetters([
@@ -139,12 +162,14 @@
                     permission: undefined,
                     type: undefined,
                     unique_id: undefined,
+                    emails:undefined
                 },
                 pickedItem: undefined,
                 shareLink: undefined,
                 isGeneratedShared: false,
                 isLoading: false,
                 isMoreOptions: false,
+                shareBy: "link"
             }
         },
         methods: {
@@ -194,8 +219,12 @@
         },
         mounted() {
 
+            events.$on('emailsInputValues', (emails) => this.shareOptions.emails = emails)
+
             // Show popup
             events.$on('popup:open', args => {
+
+                this.shareBy = 'link'
 
                 if (args.name !== 'share-create') return
 
@@ -232,6 +261,66 @@
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
 
+    .successfully-send-wrapper {
+        padding: 0px 20px;
+        margin-bottom: 20px;
+        .successfully-send {
+            width: 100%;
+            height: 34px;
+            border-radius: 8px;
+            background: $light_background ;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            p {
+                color: $theme;
+            }
+        }
+    }
+
+    .select-share-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 0px 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        
+        & > * {
+            width: 100%;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: $light_background;
+            color: $text;
+        }
+        & > :first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        & > :last-child {
+             border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .icon {
+            margin-right: 10px;
+            path,
+            polyline {
+                color: $theme !important;
+            }
+        }
+    }
+
+    .select-share-wrapper {
+        .active {
+            background: $text;
+                h1 {
+                    color: $light_background !important;
+                }
+        }
+    }
+
+
     .more-options {
         margin-bottom: 10px;
     }
@@ -245,5 +334,20 @@
 
     .item-thumbnail {
         margin-bottom: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .select-share-wrapper {   
+            & > * {
+                background: $dark_mode_foreground;
+                color: $dark_mode_text_primary;
+            }
+             .active {
+            background: $dark_mode_text_primary;
+                h1 {
+                    color: $dark_mode_foreground !important;
+                }
+        }
+        }
     }
 </style>
