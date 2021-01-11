@@ -168,6 +168,11 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::patch('/settings', 'SettingController@update');
     Route::get('/settings', 'SettingController@show');
     Route::get('/flush-cache', 'AppFunctionsController@flush_cache');
+
+    // Language
+    Route::patch('/language/update', 'Language\LanguageController@update');
+    Route::get('/language/{language}/strings', 'Language\LanguageController@show_strings');
+    Route::get('/language/get-all', 'Language\LanguageController@all_languages');
 });
 
 // Protected sharing routes for authenticated user
