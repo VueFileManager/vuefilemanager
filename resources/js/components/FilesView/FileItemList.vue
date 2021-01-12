@@ -214,7 +214,7 @@ export default {
                         this.$store.commit('CLEAR_FILEINFO_DETAIL')
                         this.$store.commit('GET_FILEINFO_DETAIL', this.data)
                         events.$emit('fileFullPreview:show')
-                    }else {
+                    } else {
                         this.$store.commit('CLEAR_FILEINFO_DETAIL')
                         this.$store.commit('GET_FILEINFO_DETAIL', this.data)
                     }
