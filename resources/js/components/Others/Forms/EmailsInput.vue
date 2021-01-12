@@ -1,15 +1,23 @@
 <template>
     <div class="wrapper">
         <label class="input-label">{{$t('shared_form.recipients_label')}}</label>
-        <div class="input-wrapper">
+        <div class="input-wrapper" :class="{'is-error' : isError}" @click="$refs.input.focus()">
             <div class="email-list" v-for="(email, index) in emails" :key="index">
                 <span> 
                     <p>{{email}} </p>
                     <x-icon @click="removeEmail(index)" class="icon" size="14" /> 
                 </span>
             </div>
-            <input@keydown.delete=removeLastEmail($event) @keyup="handleEmail()" v-model="singleEmail" class="emails" :placeholder="placeHolder" autocomplete="new-password" />
+            <input @keydown.delete=removeLastEmail($event) 
+                    @keyup="handleEmail()" 
+                    v-model="singleEmail" 
+                    class="emails" 
+                    :placeholder="placeHolder" 
+                    :size="inputSize"
+                    autocomplete="new-password"
+                    ref="input" />
         </div>
+        <span class="error-message" v-if="isError">{{ isError }}</span>
     </div>
 </template>
 
@@ -19,11 +27,21 @@
     export default {
         name: "EmailsInput",
         components: {XIcon},
+        props: ["isError"],
         computed: {
             placeHolder() {
                 if(! this.emails.length)
                     return this.$t('shared_form.email_placeholder')
-            }
+            },
+            inputSize() {
+                if(this.singleEmail !== undefined || this.singleEmail !== undefined ) {
+                    if(this.singleEmail === "" && this.emails.length > 0) {
+                        return 1
+                    }else {
+                        return this.singleEmail.length
+                    }
+                }
+            },
         },
         data () {
             return {
@@ -33,6 +51,7 @@
         },
         methods: {
             removeEmail (email) {
+
                 // Remove email forom array of emails 
                 this.emails.shift(email)
             },
@@ -44,28 +63,34 @@
             },
             handleEmail() {
 
+                if(this.singleEmail.length > 0) {
+                    // Get index of @ and last dot 
+                    let lastDot = this.singleEmail.lastIndexOf('.')
+                    let at = this.singleEmail.indexOf('@')
 
-                // Get index of @ and last dot 
-                let lastDot = this.singleEmail.lastIndexOf('.')
-                let at = this.singleEmail.indexOf('@')
-
-                // Check if is after @ some dot, if email have @ anf if dont have more like one 
-                if(lastDot < at || at === -1 || this.singleEmail.match(/@/g).length > 1 ) return
-               
+                    // Check if is after @ some dot, if email have @ anf if dont have more like one 
+                    if(lastDot < at || at === -1 || this.singleEmail.match(/@/g).length > 1 ) return
                 
-                // After come or backspace push the single email to array or emails
-                if(this.singleEmail.includes(',') || this.singleEmail.includes(' ') ) {
                     
-                    let email = this.singleEmail.replace(/[","," "]/, "")
+                    // After come or backspace push the single email to array or emails
+                    if(this.singleEmail.includes(',') || this.singleEmail.includes(' ') ) {
+                        
+                        let email = this.singleEmail.replace(/[","," "]/, "")
 
-                    // Push single email to aray of emails
-                    this.emails.push(email)
+                        this.singleEmail = ""
 
-                    this.singleEmail = ""
+                        // Push single email to aray of emails
+                        this.emails.push(email)
 
-                    events.$emit('emailsInputValues', this.emails)
+                        events.$emit('emailsInputValues', this.emails)
+                    }
                 }
             }
+        },
+        created () {
+           this.$nextTick(() => {
+                    this.$refs.input.focus()
+                })
         }
     }
 </script>
@@ -76,7 +101,6 @@
 
     .wrapper {
         margin-bottom: 20px;
-        padding: 0px 20px;
     }
 
     .input-label {
@@ -87,14 +111,19 @@
 
     .input-wrapper   {
         background: white;
+        max-width: 100%;
         display: flex;
-        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
         min-height: 50px;
         border-radius: 8px;
-        padding: 13px 20px;
+        padding: 6px 20px;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-        overflow-x: auto;
-        overflow-y: none;
+
+        &.is-error {
+            border: 1px solid $danger;
+            box-shadow: 0 0 7px rgba($danger, 0.3);
+        }
 
         &:focus-within{
             border:1px solid $theme;
@@ -102,6 +131,8 @@
         }
         .email-list {
             white-space: nowrap;
+            margin: 4px 0px;
+
             span {
                 display: flex;
                 padding: 5px;
@@ -121,11 +152,12 @@
             }
         }
         .emails {
-            min-width: 100px;
+            width: auto;
+            height: 32px ;
             border: none ;
             font-weight: 700;
             @include font-size(16);
-            appearance: none;
+            margin: 6px 0px;
 
             &::placeholder {
                 color:rgba($text-muted, .5)

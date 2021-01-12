@@ -31,7 +31,7 @@ class CreateShareRequest extends FormRequest
             'expiration' => 'integer|nullable',
             'permission' => 'string',
             'password'   => 'string',
-            // 'emails'     => 'email'  
+            'emails.*'     => 'email'  
         ];
     }
 }

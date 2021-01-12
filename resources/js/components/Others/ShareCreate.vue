@@ -9,7 +9,7 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
-            <div class="select-share-wrapper">
+            <div class="select-share-wrapper" v-if="!isGeneratedShared">
                 <div @click="shareBy = 'link'" :class="{'active' : shareBy === 'link'}">
                     <link-icon class="icon" size="17" />
                     <h1>{{$t('shared_form.share_by_link')}}</h1> 
@@ -20,16 +20,20 @@
                 </div>
             </div>
 
-            <div v-if="shareBy === 'email' && isGeneratedShared  " class="successfully-send-wrapper">
+            <!-- Message after successfully sned shared link via email -->
+            <div v-if="shareBy === 'email' && isGeneratedShared" class="successfully-send-wrapper">
                 <div class="successfully-send"> {{$t('shared_form.email_successfully_send_message')}} </div>
             </div>
 
-            <EmailsInput v-if="shareBy === 'email' && ! isGeneratedShared "/>
 
 
             <!--Form to set sharing-->
             <ValidationObserver v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
+                 <!-- Email input for the shared via Email1 -->
+                <ValidationProvider v-if="shareBy === 'email' && ! isGeneratedShared " tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                    <EmailsInput  rules="required" v-model="shareOptions.emails" :isError="errors[0]" />
+                </ValidationProvider>
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
@@ -272,6 +276,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            font-weight: 700;
             p {
                 color: $theme;
             }
@@ -347,7 +352,13 @@
                 h1 {
                     color: $dark_mode_foreground !important;
                 }
+            }
         }
+         .successfully-send {
+            background: $dark_mode_foreground !important;
+            p {
+                color: $dark_mode_text_primary;
+            }
         }
     }
 </style>
