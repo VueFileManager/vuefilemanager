@@ -5,13 +5,13 @@
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile" class="file-icon-text">{{ item.mimetype }}</span>
+            <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">{{ item.mimetype }}</span>
 
             <!--Folder thumbnail-->
-            <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
+            <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file"/>
 
             <!--Image thumbnail-->
-            <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
+            <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!--Else show only folder icon-->
             <FontAwesomeIcon v-if="isFolder" class="folder-icon" icon="folder"/>

@@ -381,6 +381,20 @@
         .mobile-search {
             display: block;
         }
+        .file-content {
+            position: absolute;
+            top: 0px;
+            left: 15px;
+            right: 15px;
+            bottom: 0;
+            @include transition;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            &.is-offset {
+                margin-top: 50px;
+            }
+        }
     }
 
     @media only screen and (max-width: 690px) {

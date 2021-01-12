@@ -211,8 +211,12 @@ export default {
 
                 if (this.$isMobile()) {
                     if (this.isImage || this.isVideo || this.isAudio) {
+                        this.$store.commit('CLEAR_FILEINFO_DETAIL')
                         this.$store.commit('GET_FILEINFO_DETAIL', this.data)
                         events.$emit('fileFullPreview:show')
+                    }else {
+                        this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                        this.$store.commit('GET_FILEINFO_DETAIL', this.data)
                     }
                 }
             }
