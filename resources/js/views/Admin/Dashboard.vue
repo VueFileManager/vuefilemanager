@@ -22,7 +22,7 @@
                             {{ data.license }}
                         </ColorLabel>
                     </a>
-                    <a v-if="! config.isDemo" href="https://vuefilemanager.com/become-a-backer" target="_blank" class="became-backer">
+                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer">
                         <div class="icon">
                             <credit-card-icon size="15"></credit-card-icon>
                         </div>
@@ -177,7 +177,7 @@
     }
 
     .became-backer {
-        background: rgba($yellow, 0.1);
+        background: rgba($theme, 0.1);
         display: inline-block;
         padding: 5px 10px;
         border-radius: 6px;
@@ -194,12 +194,12 @@
             line-height: 0;
 
             rect, line {
-                stroke: $yellow;
+                stroke: $theme;
             }
         }
 
         .content {
-            color: $yellow;
+            color: $theme;
             font-weight: 700;
             @include font-size(14);
         }

@@ -14,7 +14,7 @@
             <MainFeatures />
 
             <!--Pricing Tables-->
-            <PricingTables />
+            <PricingTables v-if="config.isSaaS" />
 
             <!--Get Started Call To Action-->
             <GetStarted />
@@ -60,13 +60,7 @@
                 isLoading: true,
             }
         },
-        beforeMount() {
-            if (! this.config.isSaaS) {
-                this.$router.push({name: 'SignIn'})
-            }
-        },
         mounted() {
-            if (! this.config.isSaaS) return
 
             // Get page content
             axios.get('/api/content', {

@@ -89,16 +89,16 @@ export default {
          folderIconHandle(){
 
              // If folder have set some color
-            if(this.data.folder_icon_color) {
+            if(this.data.icon_color) {
                  this.$nextTick(() => {
-                    this.$refs[`folder${this.data.unique_id}`].firstElementChild.style.fill = `${this.data.folder_icon_color}`
+                    this.$refs[`folder${this.data.unique_id}`].firstElementChild.style.fill = `${this.data.icon_color}`
                 })
                 return false
             }
                
             // If folder have set some emoji
-            if(this.data.folder_icon_emoji)
-                return JSON.parse(this.data.folder_icon_emoji).char
+            if(this.data.icon_emoji)
+                return JSON.parse(this.data.icon_emoji).char
 
         },
         ...mapGetters({ allData: 'data' }),

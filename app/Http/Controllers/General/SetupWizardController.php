@@ -466,19 +466,16 @@ class SetupWizardController extends Controller
         ]);
 
         // Create legal pages and index content
-        if ($request->license === 'Extended') {
+        $pages = collect(config('content.pages'));
+        $content = $request->license === 'Extended' ? collect(config('content.content_extended')) : collect(config('content.content_regular'));
 
-            $pages = collect(config('content.pages'));
-            $content = collect(config('content.content'));
+        $content->each(function ($content) {
+            Setting::updateOrCreate($content);
+        });
 
-            $content->each(function ($content) {
-                Setting::updateOrCreate($content);
-            });
-
-            $pages->each(function ($page) {
-                Page::updateOrCreate($page);
-            });
-        }
+        $pages->each(function ($page) {
+            Page::updateOrCreate($page);
+        });
 
         // Retrieve access token
         $response = Route::dispatch(self::make_login_request($request));

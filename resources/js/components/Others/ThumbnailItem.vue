@@ -50,6 +50,7 @@
         computed: {
             ...mapGetters(['currentFolder']),
 
+            // TODO: revision
             folderIconHandle(){
                 let icon = undefined
 
@@ -67,14 +68,14 @@
                 }
 
                 // If folder have already set some icon
-                if(!this.setFolderIcon && (this.item.folder_icon_emoji || this.item.folder_icon_color)){
+                if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
 
-                    if(this.item.folder_icon_emoji !== null)
-                        icon = JSON.parse(this.item.folder_icon_emoji).char
+                    if(this.item.icon_emoji !== null)
+                        icon = JSON.parse(this.item.icon_emoji).char
 
-                    if(this.item.folder_icon_color !== null){
+                    if(this.item.icon_color !== null){
                         this.$nextTick(() => {
-                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.folder_icon_color}`
+                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
                         })
                         icon = false
                     }

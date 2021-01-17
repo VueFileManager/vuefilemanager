@@ -14,8 +14,8 @@ class AddFolderIconOptionsToFileManagerFoldersTable extends Migration
     public function up()
     {
         Schema::table('file_manager_folders', function (Blueprint $table) {
-            $table->string('folder_icon_color')->after('user_scope')->nullable();
-            $table->string('folder_icon_emoji')->after('folder_icon_color')->nullable();
+            $table->string('icon_color')->after('user_scope')->nullable();
+            $table->string('icon_emoji')->after('icon_color')->nullable();
         });
     }
 

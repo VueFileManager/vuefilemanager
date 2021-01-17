@@ -236,8 +236,8 @@ const mutations = {
         state.data.find(item => {
             if (item.unique_id == updatedFile.unique_id) {
                 item.name = updatedFile.name
-                item.folder_icon_color = updatedFile.folder_icon_color ? updatedFile.folder_icon_color : null
-                item.folder_icon_emoji = updatedFile.folder_icon_emoji ? updatedFile.folder_icon_emoji : null
+                item.icon_color = updatedFile.icon_color ? updatedFile.icon_color : null
+                item.icon_emoji = updatedFile.icon_emoji ? updatedFile.icon_emoji : null
             }
         })
     },

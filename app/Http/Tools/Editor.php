@@ -44,14 +44,14 @@ class Editor
         
         // If request have emoji set folder icon emoji
         if(isset($folder_icon['emoji'])) {
-            $folder->folder_icon_emoji = $folder_icon['emoji'];
-            $folder->folder_icon_color = null;
+            $folder->icon_emoji = $folder_icon['emoji'];
+            $folder->icon_color = null;
         }
 
         // If request have color set folder icon color
         if(isset($folder_icon['color'])) {
-            $folder->folder_icon_emoji = null;
-            $folder->folder_icon_color = $folder_icon['color'];
+            $folder->icon_emoji = null;
+            $folder->icon_color = $folder_icon['color'];
         }
 
         // Save changes

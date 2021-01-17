@@ -162,7 +162,7 @@
                 </div>
 
                 <!--Pricing Content-->
-                <div>
+                <div v-if="config.isSaaS">
                     <FormLabel class="mt-70">Pricing Content</FormLabel>
 
                     <div class="block-wrapper">
@@ -182,7 +182,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div v-if="section_pricing_content">
                         <div class="block-wrapper">
@@ -290,6 +289,7 @@
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
     import axios from 'axios'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'AppIndex',
@@ -307,6 +307,9 @@
             required,
             PageTab,
             InfoBox,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {
