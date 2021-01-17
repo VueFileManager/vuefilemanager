@@ -7,7 +7,7 @@
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
+            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" :setFolderIcon="setFolderIcon"/>
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
@@ -18,7 +18,15 @@
                     <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
+
+                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" :unique_id="pickedItem.unique_id" />
+
+                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
+
             </ValidationObserver>
+
+            
+                
         </PopupContent>
 
         <!--Actions-->
@@ -45,6 +53,7 @@
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
+    import SetFolderIcon from '@/components/Others/SetFolderIcon'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -57,6 +66,7 @@
         components: {
             ValidationProvider,
             ValidationObserver,
+            SetFolderIcon,
             ThumbnailItem,
             ActionButton,
             PopupWrapper,
@@ -70,20 +80,31 @@
             itemTypeTitle() {
                 return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
             },
+             moreOptionsTitle() {
+                return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_folder_icon_open')
+            }
         },
         data() {
             return {
                 pickedItem: undefined,
+                isMoreOptions:false,
+                setFolderIcon: undefined,
             }
         },
         methods: {
+            moreOptions(){
+                this.isMoreOptions = ! this.isMoreOptions
+
+                this.setFolderIcon = undefined
+            },
             changeName() {
                 if (this.pickedItem.name && this.pickedItem.name !== '') {
 
                     let item = {
                         unique_id: this.pickedItem.unique_id,
                         type: this.pickedItem.type,
-                        name: this.pickedItem.name
+                        name: this.pickedItem.name,
+                        folder_icon: this.setFolderIcon ? this.setFolderIcon : null
                     }
 
                     // Rename item request
@@ -107,8 +128,16 @@
                     this.$refs.input.focus()
                 })
 
+                this.isMoreOptions = false
+
+                this.setFolderIcon = undefined
+
                 // Store picked item
                 this.pickedItem = args.item
+            })
+
+              events.$on('setFolderIcon', (icon) => {
+                this.setFolderIcon = icon.value
             })
         }
     }

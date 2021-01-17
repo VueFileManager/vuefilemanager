@@ -27,6 +27,39 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class Editor
 {
     /**
+     * Store folder icon
+     *
+     * @param $folder_iconL
+     * @param $unique_id
+     * @param $shared
+     */
+    public static function set_folder_icon ($folder_icon, $unique_id, $shared = null)
+    {
+        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+
+        // Get folder
+        $folder = FileManagerFolder::where('user_id', $user_id)
+        ->where('unique_id', $unique_id)
+        ->first();
+        
+        // If request have emoji set folder icon emoji
+        if(isset($folder_icon['emoji'])) {
+            $folder->folder_icon_emoji = $folder_icon['emoji'];
+            $folder->folder_icon_color = null;
+        }
+
+        // If request have color set folder icon color
+        if(isset($folder_icon['color'])) {
+            $folder->folder_icon_emoji = null;
+            $folder->folder_icon_color = $folder_icon['color'];
+        }
+
+        // Save changes
+        $folder->save();
+
+    }
+
+    /**
      * Zip requested folder
      *
      * @param $unique_id

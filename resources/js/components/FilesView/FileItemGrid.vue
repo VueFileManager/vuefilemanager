@@ -26,7 +26,10 @@
                 <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
 
                 <!--Else show only folder icon-->
-                <FontAwesomeIcon v-if="isFolder" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
+                <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
+
+                <!-- If folder have set emoji -->
+                <div class="emoji" v-if="isFolder && folderIconHandle"> {{folderIconHandle}}</div>
             </div>
 
             <!--Name-->
@@ -83,6 +86,21 @@ export default {
         ...mapGetters([
             'FilePreviewType', 'sharedDetail', 'fileInfoDetail'
         ]),
+         folderIconHandle(){
+
+             // If folder have set some color
+            if(this.data.folder_icon_color) {
+                 this.$nextTick(() => {
+                    this.$refs[`folder${this.data.unique_id}`].firstElementChild.style.fill = `${this.data.folder_icon_color}`
+                })
+                return false
+            }
+               
+            // If folder have set some emoji
+            if(this.data.folder_icon_emoji)
+                return JSON.parse(this.data.folder_icon_emoji).char
+
+        },
         ...mapGetters({ allData: 'data' }),
         isClicked() {
             return this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)
@@ -455,6 +473,11 @@ export default {
         margin-bottom: 20px;
         display: flex;
         align-items: center;
+
+        .emoji {
+            @include font-size(55);
+            margin:auto;
+        }
 
         .file-link {
             display: block;
