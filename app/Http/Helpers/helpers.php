@@ -742,27 +742,34 @@ function remove_accents($string) {
  * Get all files from folder and get their folder location in VueFileManager directories
  *
  * @param $folders
- * @param array $files
+ * @param null $files
  * @param array $path
  * @return array
  */
-function get_files_for_zip($folders, $files = [], $path = [])
+function get_files_for_zip($folders, $files, $path = [])
 {
     // Return file list
     if (!isset($folders->folders)) {
-        return $files;
+        return $files->unique()->values()->all();
     }
 
-    // Push path
+    // Push file path
     array_push($path, $folders->name);
 
-    // Write file list
-    foreach ($folders->files as $file) {
-        array_push($files, [
+    // Push file to collection
+    $folders->files->each(function ($file) use ($files, $path) {
+        $files->push([
             'name'        => $file->name,
             'basename'    => $file->basename,
             'folder_path' => implode('/', $path),
         ]);
+    });
+
+    // Get all children folders and folders within
+    if ($folders->folders->isNotEmpty()) {
+        $folders->folders->map(function ($folder) use ($files, $path) {
+            return get_files_for_zip($folder, $files, $path);
+        });
     }
 
     return get_files_for_zip($folders->folders->first(), $files, $path);

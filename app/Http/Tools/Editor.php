@@ -30,6 +30,7 @@ class Editor
      * Zip requested folder
      *
      * @param $unique_id
+     * @param $shared
      * @return mixed
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
@@ -42,8 +43,7 @@ class Editor
             ->with('folders')
             ->first();
 
-
-        $files = get_files_for_zip($requested_folder);
+        $files = get_files_for_zip($requested_folder, collect([]));
 
         // Local storage instance
         $disk_local = Storage::disk('local');
