@@ -227,7 +227,6 @@ const mutations = {
         state.browseHistory.pop()
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
-
         // Rename filename in file info detail
         if (state.fileInfoDetail && state.fileInfoDetail.unique_id == updatedFile.unique_id) {
             state.fileInfoDetail = updatedFile
@@ -235,7 +234,11 @@ const mutations = {
 
         // Rename item name in data view
         state.data.find(item => {
-            if (item.unique_id == updatedFile.unique_id) item.name = updatedFile.name
+            if (item.unique_id == updatedFile.unique_id) {
+                item.name = updatedFile.name
+                item.folder_icon_color = updatedFile.folder_icon_color ? updatedFile.folder_icon_color : null
+                item.folder_icon_emoji = updatedFile.folder_icon_emoji ? updatedFile.folder_icon_emoji : null
+            }
         })
     },
     REMOVE_ITEM_FILEINFO_DETAIL(state,item) {

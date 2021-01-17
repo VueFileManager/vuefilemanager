@@ -115,6 +115,12 @@ class EditItemsController extends Controller
             }
         }
 
+        // If request have a change folder icon values set the folder icon
+        if ($request->type === 'folder' && $request->filled('folder_icon')) {
+            
+            Editor::set_folder_icon($request->folder_icon, $unique_id);
+        }
+
         // Rename Item
         return Editor::rename_item($request, $unique_id);
     }
@@ -149,6 +155,12 @@ class EditItemsController extends Controller
             Guardian::check_item_access($item->unique_id, $shared);
         } else {
             Guardian::check_item_access($item->folder_id, $shared);
+        }
+
+        // If request have a change folder icon values set the folder icon
+        if ($request->type === 'folder' && $request->filled('folder_icon')) {
+
+            Editor::set_folder_icon($request->folder_icon, $unique_id, $shared);
         }
 
         // Rename item

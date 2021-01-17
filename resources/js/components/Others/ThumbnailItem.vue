@@ -14,7 +14,9 @@
             <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!--Else show only folder icon-->
-            <FontAwesomeIcon v-if="isFolder" class="folder-icon" icon="folder"/>
+            <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
+
+            <div v-if="isFolder && folderIconHandle" class="folder-emoji">{{folderIconHandle}}</div>
         </div>
 
         <!--Name-->
@@ -44,9 +46,43 @@
 
     export default {
         name: 'ThumbnailItem',
-        props: ['item', 'info'],
+        props: ['item', 'info', 'setFolderIcon'],
         computed: {
             ...mapGetters(['currentFolder']),
+
+            folderIconHandle(){
+                let icon = undefined
+
+                // Set icon folder if set folder from rename popup
+                if(this.setFolderIcon){
+
+                    if(this.setFolderIcon.color)
+                        this.$nextTick(() => {
+                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
+                        })
+                        icon = false
+
+                    if(this.setFolderIcon.emoji)
+                        icon = this.setFolderIcon.emoji.char
+                }
+
+                // If folder have already set some icon
+                if(!this.setFolderIcon && (this.item.folder_icon_emoji || this.item.folder_icon_color)){
+
+                    if(this.item.folder_icon_emoji !== null)
+                        icon = JSON.parse(this.item.folder_icon_emoji).char
+
+                    if(this.item.folder_icon_color !== null){
+                        this.$nextTick(() => {
+                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.folder_icon_color}`
+                        })
+                        icon = false
+                    }
+                }
+
+                return icon
+                    
+            },
             isFolder() {
                 return this.item.type === 'folder'
             },
@@ -105,6 +141,10 @@
             min-width: 52px;
             text-align: center;
             line-height: 0;
+
+            .folder-emoji {
+                @include font-size(32)
+            }
 
             .file-icon {
                 @include font-size(35);

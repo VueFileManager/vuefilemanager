@@ -119,6 +119,7 @@
         border-radius: 8px;
         padding: 6px 20px;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+        cursor: text;
 
         &.is-error {
             border: 1px solid $danger;

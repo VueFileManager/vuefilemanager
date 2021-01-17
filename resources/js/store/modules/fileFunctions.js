@@ -145,6 +145,7 @@ const actions = {
 			.post(route, {
 				name: data.name,
 				type: data.type,
+				folder_icon: data.folder_icon,
 				_method: 'patch'
 			})
 			.then(response => {

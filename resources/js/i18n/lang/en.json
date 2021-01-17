@@ -580,7 +580,15 @@
 	"popup_rename": {
 		"title": "Rename Your {item}",
 		"label": "Edit Name",
-		"placeholder": "Type your title"
+		"placeholder": "Type your title",
+		"tab_emoji_title": "Emoji as an Icon",
+		"tab_color_title": "Folder Color",
+		"set_emoji_input_placeholder": "Emojis List...",
+		"search_emoji_input_placeholder": "Search your emoji...",
+		"emoji_list_label": "Objects:",
+		"emoji_list_not_found": "Not Found",
+		"color_pick_label": "Pick Your Color:"
+
 	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",
@@ -687,6 +695,7 @@
 	"shared_form": {
 		"button_more_options": "Set Expiration",
 		"button_close_options": "Close Options",
+		"button_folder_icon_open": "Customize Folder Icon",
 		"button_done": "Awesome, I’m done!",
 		"button_generate": "Generate Link",
 		"label_password_protection": "Password Protected",
