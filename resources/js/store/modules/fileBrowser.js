@@ -80,7 +80,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/latest' + getters.sorting.URI)
+            .get(getters.api + '/latest' )
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -209,6 +209,7 @@ const mutations = {
         state.navigation = tree
     },
     LOADING_STATE(state, payload) {
+        state.fileInfoDetail= []
         state.data = payload.data
         state.isLoading = payload.loading
     },

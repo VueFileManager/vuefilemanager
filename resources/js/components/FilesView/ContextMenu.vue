@@ -86,13 +86,17 @@
 
         <!-- Base location with MASTER permission-->
         <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
+            
+            <!-- No Files options -->
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu && noItems">
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            </OptionGroup>
 
             <!-- Single options -->
             <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu">
                 <Option @click.native="addToFavourites" v-if="item && isFolder " :title="isInFavourites
                                                                                 ? $t('context_menu.remove_from_favourites')
                                                                                 : $t('context_menu.add_to_favourites')" icon="favourites"/>
-                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
             </OptionGroup>
 
 
@@ -117,7 +121,6 @@
                 <Option @click.native="addToFavourites" v-if="item && !hasFile" :title=" isInFavourites
                                                                                     ? $t('context_menu.remove_from_favourites')
                                                                                     : $t('context_menu.add_to_favourites')" icon="favourites"/>
-                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
             </OptionGroup>
 
             <OptionGroup v-if="item && !multiSelectContextMenu">
@@ -133,10 +136,12 @@
         <!-- Base & Public location with EDITOR permission-->
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
 
-            <!-- Single options -->
-            <OptionGroup v-if="multiSelectContextMenu">
+            <!-- No Files options -->
+            <OptionGroup v-if="multiSelectContextMenu && noItems">
                 <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
             </OptionGroup>
+
+            <!-- Single options -->
 
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="renameItem" :title=" $t('context_menu.rename')" icon="rename"/>
@@ -151,9 +156,6 @@
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!multiSelectContextMenu">
-                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
-            </OptionGroup>
 
             <OptionGroup v-if="item && !multiSelectContextMenu">
                 <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
@@ -199,6 +201,10 @@ export default {
     },
     computed: {
         ...mapGetters(['user', 'fileInfoDetail']),
+        noItems(){
+            if(!this.item)
+                return true
+        },
         hasFolder() {
 
             // Check if selected items includes some folder

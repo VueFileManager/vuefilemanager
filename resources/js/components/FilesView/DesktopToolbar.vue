@@ -103,7 +103,7 @@ export default {
             return !this.$isThisLocation(['base', 'public'])
         },
         canDeleteInView() {
-            return !this.$isThisLocation([
+            let locations = [
                 'trash',
                 'trash-root',
                 'base',
@@ -111,19 +111,22 @@ export default {
                 'latest',
                 'shared',
                 'public'
-            ])
+            ]
+            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0 
         },
         canUploadInView() {
             return !this.$isThisLocation(['base', 'public'])
         },
         canMoveInView() {
-            return !this.$isThisLocation([
+            let locations = [
                 'base',
                 'participant_uploads',
                 'latest',
                 'shared',
                 'public'
-            ])
+            ]
+            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0 
+
         },
         canShareInView() {
             let locations = [
@@ -134,7 +137,7 @@ export default {
                 'public'
             ]
 
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1
+            return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1 || this.fileInfoDetail.length === 0 
         }
     },
     data() {

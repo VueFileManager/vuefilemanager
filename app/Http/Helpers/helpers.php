@@ -792,8 +792,7 @@ function set_time_by_user_timezone($time)
 
         return Carbon::parse($time)->addMinutes($time_zone ?? null);
     }
-    if(! $user) {
 
-        return Carbon::parse($time);
-    }
+    return Carbon::parse($time);
+    
 }

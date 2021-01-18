@@ -15,7 +15,12 @@
                 <!--Set password-->
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_rename.label') }}:</label>
-                    <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
+                    <div class="input">
+                        <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
+                        <div @click="pickedItem.name = ''" class="close-icon-wrapper">
+                            <x-icon class="close-icon" size="14"/>
+                        </div>
+                    </div>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -57,6 +62,7 @@
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import {XIcon} from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {events} from '@/bus'
     import axios from 'axios'
@@ -75,6 +81,7 @@
             PopupHeader,
             ButtonBase,
             required,
+            XIcon,
         },
         computed: {
             itemTypeTitle() {
@@ -147,7 +154,60 @@
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
 
+    .input {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .close-icon-wrapper {
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            cursor: pointer;
+            right: 21px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover {
+                background: $light_background;
+                .close-icon {
+                    line {
+                    stroke: $theme;
+                    }
+                }
+            }            
+
+            .close-icon {
+                line {
+                stroke: rgba($text-muted, 0.3);
+                }
+            }
+        }
+
+        
+    }
+
     .item-thumbnail {
         margin-bottom: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+       .close-icon-wrapper {
+            &:hover {
+                background: rgba($theme, 0.1) !important;
+                .close-icon {
+                    line {
+                        stroke: $theme !important;
+                    }
+                }
+            }
+            .close-icon {
+                line {
+                    stroke: rgba($dark_mode_text_primary, 0.3) !important;
+                }
+            }            
+       }
     }
 </style>

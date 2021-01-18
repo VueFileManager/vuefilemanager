@@ -25,6 +25,11 @@
                 <div class="successfully-send"> {{$t('shared_form.email_successfully_send_message')}} </div>
             </div>
 
+            <div class="info-box">
+                <InfoBox >
+                    {{$t('shared_form.email_successfully_send_message')}}
+                </InfoBox>
+            </div>
 
 
             <!--Form to set sharing-->
@@ -111,7 +116,10 @@
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import CopyInput from '@/components/Others/Forms/CopyInput'
+    import TableWrapper from '@/components/Others/TableWrapper'
+    import TableOption from '@/components/Others/TableOption'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {LinkIcon, MailIcon } from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
@@ -128,6 +136,8 @@
             ActionButton,
             PopupWrapper,
             PopupActions,
+            TableWrapper,
+            TableOption,
             PopupContent,
             PopupHeader,
             EmailsInput,
@@ -137,7 +147,8 @@
             CopyInput,
             MailIcon, 
             required,
-            LinkIcon
+            LinkIcon,
+            InfoBox
         },
         computed: {
             ...mapGetters([
@@ -264,6 +275,15 @@
 <style scoped lang="scss">
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
+
+    .info-box {
+        padding: 0px 20px;
+        /deep/.info-box {
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+    }
 
     .successfully-send-wrapper {
         padding: 0px 20px;

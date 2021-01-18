@@ -60,13 +60,21 @@
 
 <script>
     import {SmileIcon, FolderIcon, ChevronDownIcon   } from 'vue-feather-icons'
+    import TableWrapper from '@/components/Others/TableWrapper'
+    import TableOption from '@/components/Others/TableOption'
     import emojis from '../../emoji.json'
     import {events} from '@/bus'
 
     export default {
         name: "SetFolderIcon",
         props: ['folderData', 'unique_id'],
-        components: {SmileIcon, FolderIcon, ChevronDownIcon },
+        components: {
+            ChevronDownIcon ,
+            TableWrapper,
+            TableOption,
+            FolderIcon,
+            SmileIcon,
+        },
         computed: {
             allEmoji() {
                 let emojisList = this.emojis

@@ -1,7 +1,7 @@
 <template>
     <li class="menu-option">
         <div class="icon">
-            <trash-2-icon v-if="icon === 'trash'" size="17"></trash-2-icon>
+            <trash-2-icon v-if="icon === 'trash'" :class="{'danger' : icon === 'trash'}" size="17"></trash-2-icon>
             <life-buoy-icon v-if="icon === 'restore'" size="17"></life-buoy-icon>
             <trash-icon v-if="icon === 'empty-trash'" size="17"></trash-icon>
             <eye-icon v-if="icon ==='detail'" size="17"></eye-icon>
@@ -14,7 +14,7 @@
             <smile-icon v-if="icon === 'no-options'" size="17"></smile-icon>
             <paperclip-icon v-if="icon === 'zip-folder'" size="17"></paperclip-icon> 
         </div>
-        <div class="text-label">
+        <div class="text-label" :class="{'danger' : icon === 'trash'}">
             {{ title }}
         </div>
     </li>
@@ -70,6 +70,20 @@ import {
     color: $text;
     display: flex;
     align-items: center;
+
+    .danger {
+        color: $danger !important;
+        
+        path,
+        line,
+        polyline,
+        rect,
+        circle,
+        polygon {
+            stroke: $danger !important;
+        }
+    
+    }
 
     .icon {
         margin-right: 20px;

@@ -96,7 +96,7 @@ class BrowseController extends Controller
 
         // Get User
         $user = User::with(['latest_uploads' => function($query) {
-            $query->sortable(); 
+            $query->sortable(['created_at' => 'desc']); 
         }])
             ->where('id', Auth::id())
             ->first();
