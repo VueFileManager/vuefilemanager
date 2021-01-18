@@ -88,12 +88,12 @@
         <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
             
             <!-- No Files options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu && noItems">
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu && !item">
                 <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
             </OptionGroup>
 
             <!-- Single options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu">
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && multiSelectContextMenu">
                 <Option @click.native="addToFavourites" v-if="item && isFolder " :title="isInFavourites
                                                                                 ? $t('context_menu.remove_from_favourites')
                                                                                 : $t('context_menu.add_to_favourites')" icon="favourites"/>
@@ -137,7 +137,7 @@
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
 
             <!-- No Files options -->
-            <OptionGroup v-if="multiSelectContextMenu && noItems">
+            <OptionGroup v-if="multiSelectContextMenu && !item">
                 <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
             </OptionGroup>
 
@@ -201,10 +201,6 @@ export default {
     },
     computed: {
         ...mapGetters(['user', 'fileInfoDetail']),
-        noItems(){
-            if(!this.item)
-                return true
-        },
         hasFolder() {
 
             // Check if selected items includes some folder

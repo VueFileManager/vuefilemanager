@@ -29,7 +29,7 @@
     "/chunks/environment-setup.js": "/chunks/environment-setup.js?id=a2eed5073e52410cab54",
     "/chunks/files.js": "/chunks/files.js?id=6a283c2c9f8a02500bc6",
     "/chunks/files~chunks/settings-subscription~chunks/shared-files~chunks/shared-page~chunks/user-subscription.js": "/chunks/files~chunks/settings-subscription~chunks/shared-files~chunks/shared-page~chunks/user-subscription.js?id=b646ec02fb9d6a497e74",
-    "/chunks/files~chunks/shared-files~chunks/shared-page.js": "/chunks/files~chunks/shared-files~chunks/shared-page.js?id=dc551bd28fabebbc4b9c",
+    "/chunks/files~chunks/shared-files~chunks/shared-page.js": "/chunks/files~chunks/shared-files~chunks/shared-page.js?id=bd60dfed54ba26d6b4c9",
     "/chunks/files~chunks/shared-page.js": "/chunks/files~chunks/shared-page.js?id=47ade53389e84dd64310",
     "/chunks/forgotten-password.js": "/chunks/forgotten-password.js?id=d5e39543eeb619cb5513",
     "/chunks/installation-disclaimer.js": "/chunks/installation-disclaimer.js?id=be9304e6ba2c61b6cab3",
@@ -75,5 +75,8 @@
     "/chunks/user-storage.js": "/chunks/user-storage.js?id=5cfec8a8f8a8aef24ef2",
     "/chunks/user-subscription.js": "/chunks/user-subscription.js?id=c001bef2d6d5171cb359",
     "/chunks/users.js": "/chunks/users.js?id=6e68cb068f69fba3199c",
-    "/js/main.5d42c67e03ee7e56f6cc.hot-update.js": "/js/main.5d42c67e03ee7e56f6cc.hot-update.js"
+    "/js/main.5d42c67e03ee7e56f6cc.hot-update.js": "/js/main.5d42c67e03ee7e56f6cc.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page.0cb64b000fb140035db3.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page.0cb64b000fb140035db3.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page.1989f46cef65508b245d.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page.1989f46cef65508b245d.hot-update.js",
+    "/chunks/files~chunks/shared-files~chunks/shared-page.8c1b8ec75cd478403ca3.hot-update.js": "/chunks/files~chunks/shared-files~chunks/shared-page.8c1b8ec75cd478403ca3.hot-update.js"
 }
