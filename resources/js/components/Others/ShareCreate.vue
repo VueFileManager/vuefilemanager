@@ -9,23 +9,8 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
-            <div class="select-share-wrapper" v-if="!isGeneratedShared">
-                <div @click="shareBy = 'link'" :class="{'active' : shareBy === 'link'}">
-                    <link-icon class="icon" size="17" />
-                    <h1>{{$t('shared_form.share_by_link')}}</h1> 
-                </div>
-                <div @click="shareBy = 'email'" :class="{'active' : shareBy === 'email'}">
-                    <mail-icon class="icon" size="17"/> 
-                    <h1> {{$t('shared_form.share_by_email')}}</h1>
-                </div>
-            </div>
-
-            <!-- Message after successfully sned shared link via email -->
-            <div v-if="shareBy === 'email' && isGeneratedShared" class="successfully-send-wrapper">
-                <div class="successfully-send"> {{$t('shared_form.email_successfully_send_message')}} </div>
-            </div>
-
-            <div class="info-box">
+            <!-- Infobox for successfull sended email -->
+            <div v-if="isGeneratedShared && shareViaEmail" class="info-box">
                 <InfoBox >
                     {{$t('shared_form.email_successfully_send_message')}}
                 </InfoBox>
@@ -34,11 +19,21 @@
 
             <!--Form to set sharing-->
             <ValidationObserver v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+                
+                <TableWrapper>
 
-                 <!-- Email input for the shared via Email1 -->
-                <ValidationProvider v-if="shareBy === 'email' && ! isGeneratedShared " tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                    <EmailsInput  rules="required" v-model="shareOptions.emails" :isError="errors[0]" />
-                </ValidationProvider>
+                    <!-- Share via link -->
+                    <TableOption :title="$t('shared_form.share_by_link')" icon="link"/>
+                    
+                    <!-- Share via Email -->
+                    <TableOption :title="$t('shared_form.share_by_email')" icon="email">
+                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                            <EmailsInput  rules="required" v-model="shareOptions.emails" :isError="errors[0]" />
+                        </ValidationProvider>
+                    </TableOption>
+
+                </TableWrapper>
+
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
@@ -76,7 +71,7 @@
             <!--Copy generated link-->
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
-                    <label class="input-label">{{ $t('shared_form.label_shared_url') }}:</label>
+                    <label class="input-label">{{ this.shareViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
                     <CopyInput size="small" :value="shareLink" />
                 </div>
             </div>
@@ -184,7 +179,7 @@
                 isGeneratedShared: false,
                 isLoading: false,
                 isMoreOptions: false,
-                shareBy: "link"
+                shareViaEmail: false
             }
         },
         methods: {
@@ -218,6 +213,8 @@
                         // End loading
                         this.isLoading = false
 
+                        this.shareViaEmail = response.data.data.attributes.email_share
+
                         this.shareLink = response.data.data.attributes.link
                         this.isGeneratedShared = true
 
@@ -238,8 +235,6 @@
 
             // Show popup
             events.$on('popup:open', args => {
-
-                this.shareBy = 'link'
 
                 if (args.name !== 'share-create') return
 
@@ -279,72 +274,13 @@
     .info-box {
         padding: 0px 20px;
         /deep/.info-box {
+            @include font-size(14);
+            font-weight: 700;
             height: 40px;
             display: flex;
             align-items: center;
         }
     }
-
-    .successfully-send-wrapper {
-        padding: 0px 20px;
-        margin-bottom: 20px;
-        .successfully-send {
-            width: 100%;
-            height: 34px;
-            border-radius: 8px;
-            background: $light_background ;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            p {
-                color: $theme;
-            }
-        }
-    }
-
-    .select-share-wrapper {
-        display: flex;
-        justify-content: center;
-        padding: 0px 20px;
-        margin-bottom: 20px;
-        cursor: pointer;
-        
-        & > * {
-            width: 100%;
-            height: 42px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: $light_background;
-            color: $text;
-        }
-        & > :first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-        }
-        & > :last-child {
-             border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-        .icon {
-            margin-right: 10px;
-            path,
-            polyline {
-                color: $theme !important;
-            }
-        }
-    }
-
-    .select-share-wrapper {
-        .active {
-            background: $text;
-                h1 {
-                    color: $light_background !important;
-                }
-        }
-    }
-
 
     .more-options {
         margin-bottom: 10px;
@@ -361,24 +297,4 @@
         margin-bottom: 20px;
     }
 
-    @media (prefers-color-scheme: dark) {
-        .select-share-wrapper {   
-            & > * {
-                background: $dark_mode_foreground;
-                color: $dark_mode_text_primary;
-            }
-             .active {
-            background: $dark_mode_text_primary;
-                h1 {
-                    color: $dark_mode_foreground !important;
-                }
-            }
-        }
-         .successfully-send {
-            background: $dark_mode_foreground !important;
-            p {
-                color: $dark_mode_text_primary;
-            }
-        }
-    }
 </style>

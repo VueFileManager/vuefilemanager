@@ -701,6 +701,7 @@
 		"label_password_protection": "Password Protected",
 		"label_permission": "Permission",
 		"label_shared_url": "Share url",
+		"label_share_vie_email": "Get your link",
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",

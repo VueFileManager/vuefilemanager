@@ -692,6 +692,7 @@
 		"label_password_protection": "Chrániť heslom",
 		"label_permission": "Oprávnenie",
 		"label_shared_url": "Zdieľací odkaz",
+		"label_share_vie_email": "Získajte odkaz",
 		"label_expiration": "Expirácia Linku",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",

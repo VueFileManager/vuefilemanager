@@ -21,6 +21,7 @@ class ShareResource extends JsonResource
                 'attributes' => [
                     'permission' => $this->permission,
                     'protected'  => (int) $this->protected,
+                    'email_share'=> $request->has('emails') ? true : false,
                     'item_id'    => (int) $this->item_id,
                     'expire_in'  => (int) $this->expire_in,
                     'token'      => $this->token,

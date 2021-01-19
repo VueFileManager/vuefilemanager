@@ -1,60 +1,54 @@
 <template>
     <div class="set-folder-icon">
 
-        <div class="select-table">
-                <div @click="changeTab('emoji')" :class="{'active' : activeTab === 'emoji'}">
-                    <smile-icon class="icon" size="17" />
-                    <b class="select-tab-title">{{$t('popup_rename.tab_emoji_title')}}</b> 
-                </div>
-                <div @click="changeTab('color')" :class="{'active' : activeTab === 'color'}">
-                    <folder-icon  class="icon" size="17"/> 
-                    <b class="select-tab-title"> {{$t('popup_rename.tab_color_title')}}</b>
-                </div>
-        </div>
+        <TableWrapper >
+            <TableOption :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
+                <div class="select-emoji-wrapper">
+                    <label class="main-label">Pick Yout Emoji Icon:</label>
 
-        <div class="select-emoji-wrapper" v-if="activeTab === 'emoji'">
-            <label class="main-label">Pick Yout Emoji Icon:</label>
+                    <div @click="openMenu" v-if="!selectOpen" class="select-input-wrapper">
 
-            <div @click="openMenu" v-if="!selectOpen" class="select-input-wrapper">
-
-                <div class="select-input" v-if="selectedEmoji">
-                    <span>{{selectedEmoji.char}}</span>
-                    <span>{{selectedEmoji.name}}</span>
-                </div>
+                        <div class="select-input" v-if="selectedEmoji">
+                            <span>{{selectedEmoji.char}}</span>
+                            <span>{{selectedEmoji.name}}</span>
+                        </div>
                     
-                 <div class="not-selected" v-if="! selectedEmoji">
-                    <span> {{$t('popup_rename.set_emoji_input_placeholder')}}</span>
+                        <div class="not-selected" v-if="! selectedEmoji">
+                            <span> {{$t('popup_rename.set_emoji_input_placeholder')}}</span>
+                        </div>
+
+                        <chevron-down-icon size="19" class="chevron-icon"/>
+                    </div>
+
+                    <transition v-if="selectOpen" name="slide-in">
+                        <div class="emoji-wrapper">
+                            <input v-model="searchEmoji" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
+                            <label class="object-label"> {{$t('popup_rename.emoji_list_label')}}</label>
+                            <ul class="options-list">
+                                <li @click="setIcon({'emoji':emoji})" class="option" v-for="(emoji,i) in allEmoji" :key="i">
+                                    {{emoji.char}}
+                                </li>
+                                <span class="not-found" v-if="allEmoji.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
+                            </ul>
+                        </div>
+                    </transition>
                 </div>
+            </TableOption>
 
-                <chevron-down-icon size="19" class="chevron-icon"/>
-            </div>
-
-            <transition v-if="selectOpen" name="slide-in">
-                <div class="emoji-wrapper">
-                    <input v-model="searchEmoji" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
-                    <label class="object-label"> {{$t('popup_rename.emoji_list_label')}}</label>
-                    <ul class="options-list">
-                        <li @click="setIcon({'emoji':emoji})" class="option" v-for="(emoji,i) in allEmoji" :key="i">
-                            {{emoji.char}}
-                        </li>
-                        <span class="not-found" v-if="allEmoji.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
+            <TableOption :title="$t('popup_rename.tab_color_title')" icon="folder">
+                <div class="color-pick-wrapper">
+                <label class="main-label">{{$t('popup_rename.color_pick_label')}}</label>
+                    <ul class="color-wrapper">
+                        <li  v-for="(color, index) in colors"
+                            :key="index"
+                            @click="setIcon({'color': color})"
+                            class="single-color" 
+                            :class="{'active-color': color === selectedColor }" 
+                            :style="{background:color}" />
                     </ul>
                 </div>
-            </transition>
-        </div>
-
-        <div v-if="activeTab === 'color'" class="color-pick-wrapper">
-            <label class="main-label">{{$t('popup_rename.color_pick_label')}}</label>
-            <ul class="color-wrapper">
-                <li  v-for="(color, index) in colors"
-                    :key="index"
-                    @click="setIcon({'color': color})"
-                    class="single-color" 
-                    :class="{'active-color': color === selectedColor }" 
-                    :style="{background:color}" />
-            </ul>
-        </div>
-
+            </TableOption>
+        </TableWrapper>
     </div>
 </template>
 
@@ -90,7 +84,6 @@
                 selectedEmoji: undefined,
                 selectedColor: undefined,
                 searchEmoji: undefined,
-                activeTab: "emoji",
                 selectOpen: false,
                 emojis: emojis,
                 colors: ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
@@ -99,14 +92,6 @@
             }
         },
         methods: {
-            changeTab(tab) {
-                this.activeTab = tab
-
-                this.selectedEmoji = undefined
-
-                this.selectedColor = undefined
-
-            },
             openMenu() {
                 this.selectOpen = ! this.selectOpen
             },
@@ -124,11 +109,7 @@
             }
         },
         mounted () {
-            this.activeTab = "emoji"
-
             this.selectOpen = false
-
-            this.viewEmojiList = false
         }
         
     }
@@ -268,51 +249,9 @@
         margin-bottom: 10px;
     }
 
-    .select-table {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-        cursor: pointer;
-        
-        & > * {
-            width: 100%;
-            height: 42px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: $light_background;
-            color: $text;
-        }
-        & > :first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-        }
-        & > :last-child {
-             border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-        .icon {
-            margin-right: 10px;
-            path,
-            circle,
-            line,
-            polyline {
-                color: $theme !important;
-            }
-        }
-    }
 
     .set-folder-icon {
         position: relative;
-    }
-
-    .select-table {
-        .active {
-            background: $text;
-                .select-tab-title {
-                    color: $light_background !important;
-                }
-        }
     }
 
      .slide-in-enter-active {
@@ -364,21 +303,6 @@
                 }
             }
         }
-        
-
-        .select-table {   
-            & > * {
-                background: $dark_mode_foreground;
-                color: $dark_mode_text_primary;
-            }
-             .active {
-            background: $dark_mode_text_primary;
-                .select-tab-title {
-                    color: $dark_mode_foreground !important;
-                }
-            }
-        }
-
     }
 
 </style>

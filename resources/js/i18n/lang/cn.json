@@ -690,6 +690,7 @@
 		"label_password_protection": "密码保护",
 		"label_permission": "权限",
 		"label_shared_url": "分享链接",
+		"label_share_vie_email": "Get your link",
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",

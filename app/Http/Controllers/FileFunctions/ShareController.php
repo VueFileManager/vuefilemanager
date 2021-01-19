@@ -65,7 +65,6 @@ class ShareController extends Controller
             $share->sendSharedLinkViaEmail($request->emails, $token);
         }
 
-
         return $share;
     }
 
