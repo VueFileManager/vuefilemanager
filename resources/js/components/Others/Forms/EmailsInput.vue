@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <label class="input-label">{{$t('shared_form.recipients_label')}}</label>
+        <label class="input-label">{{ label }}:</label>
         <div class="input-wrapper" :class="{'is-error' : isError}" @click="$refs.input.focus()">
             <div class="email-list" v-for="(email, index) in emails" :key="index">
                 <span> 
@@ -27,7 +27,7 @@
     export default {
         name: "EmailsInput",
         components: {XIcon},
-        props: ["isError"],
+        props: ["isError", 'label'],
         computed: {
             placeHolder() {
                 if(! this.emails.length)

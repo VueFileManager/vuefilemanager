@@ -608,7 +608,9 @@
 		"confirm": "Confirm",
 		"save": "Save Changes",
 		"stop": "Stop Sharing",
-		"title": "Update sharing options"
+		"title": "Update sharing options",
+		"go_back": "Go Back",
+		"send_to_recipients": "Send to Recipients"
 	},
 	"popup_signup_error": {
 		"message": "Please check your database connection if everything works correctly.",
@@ -702,6 +704,7 @@
 		"label_permission": "Permission",
 		"label_shared_url": "Share url",
 		"label_share_vie_email": "Get your link",
+		"label_send_to_recipients": "Send to Recipients",
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
@@ -709,7 +712,7 @@
 		"email_successfully_send_message": "Your item was successfully sended to recipients emails.",
 		"share_by_link": "Share by Link",
 		"share_by_email": "Share by Email",
-		"recipients_label": "Recipients:",
+		"recipients_label": "Recipients",
 		"email_placeholder": "Type your emails"
 	},
 	"sidebar": {

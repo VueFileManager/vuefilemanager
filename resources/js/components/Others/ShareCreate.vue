@@ -28,7 +28,7 @@
                     <!-- Share via Email -->
                     <TableOption :title="$t('shared_form.share_by_email')" icon="email">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                            <EmailsInput  rules="required" v-model="shareOptions.emails" :isError="errors[0]" />
+                            <EmailsInput  rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
                         </ValidationProvider>
                     </TableOption>
 

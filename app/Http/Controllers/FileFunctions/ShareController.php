@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Share;
+use Validator;
 
 class ShareController extends Controller
 {
@@ -125,8 +126,23 @@ class ShareController extends Controller
         return response('Done!', 204);
     }
 
+    /**
+     * Send shared link via email to recipients
+     *
+     * @param $token
+     * @param $emails
+     */
     public function shared_send_via_email (Request $request, $token)
     {
+        // Make validation of array of emails
+        $validator = Validator::make($request->all(), [
+            'emails.*' => 'required|email',
+        ]);
+
+        // Return error
+        if ($validator->fails()) abort(400, 'Bad emails input');
+
+        // Get shared by token
         $share = Share::where('token', $token)
         ->where('user_id', Auth::id())
         ->first();

@@ -600,7 +600,9 @@
 		"confirm": "Potvrdiť",
 		"save": "Uložiť zmeny",
 		"stop": "Zastaviť zdieľanie",
-		"title": "Upraviť nastavenia zdieľania"
+		"title": "Upraviť nastavenia zdieľania",
+		"go_back": "Spať",
+		"send_to_recipients": "Odoslať príjemcom"
 	},
 	"popup_signup_error": {
 		"message": "Prosím skontrolujte databázove spojenie, či všetko funguje správne.",
@@ -693,6 +695,7 @@
 		"label_permission": "Oprávnenie",
 		"label_shared_url": "Zdieľací odkaz",
 		"label_share_vie_email": "Získajte odkaz",
+		"label_send_to_recipients": "Odoslať príjemcom",
 		"label_expiration": "Expirácia Linku",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
@@ -700,7 +703,7 @@
 		"email_successfully_send_message": "Vaša položka bola úspešne odoslaná na e-maily príjemcov.",
 		"share_by_link": "Zdieľať odkazom",
 		"share_by_email": "Zdieľať e-mailom",
-		"recipients_label": "Príjemcovia:",
+		"recipients_label": "Príjemcovia",
 		"email_placeholder": "Zadajte e-mailové adresy"
 	},
 	"sidebar": {

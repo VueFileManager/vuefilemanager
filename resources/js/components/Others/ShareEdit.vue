@@ -9,14 +9,28 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
-            <!--Form to set sharing-->
-            <ValidationObserver ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <!-- Infobox for successfull sended email -->
+            <div v-if="sendToRecipientsMenu && isEmailSended" class="info-box">
+                <InfoBox >
+                    {{$t('shared_form.email_successfully_send_message')}}
+                </InfoBox>
+            </div>
 
-                <!--Share link-->
-                <div class="input-wrapper">
+            <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
                     <label class="input-label">{{ $t('shared_form.label_shared_url') }}:</label>
-                    <CopyInput size="small" :value="pickedItem.shared.link" />
-                </div>
+                    <CopyInput size="small" :value="pickedItem.shared.link" :share-via-email="sendToRecipientsMenu ? false : true" />
+            </div>
+
+            <ValidationObserver v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
+
+                <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                    <EmailsInput  rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
+                </ValidationProvider>
+
+            </ValidationObserver>
+
+            <!--Form to set sharing-->
+            <ValidationObserver v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
@@ -58,7 +72,7 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase
+            <ButtonBase v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && !isEmailSended)"
                     class="popup-button"
                     @click.native="destroySharing"
                     :button-style="destroyButtonStyle"
@@ -72,7 +86,7 @@
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
-            >{{ $t('popup_share_edit.save') }}
+            >{{ secondButtonText }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -87,10 +101,12 @@
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
+    import EmailsInput from '@/components/Others/Forms/EmailsInput'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import CopyInput from '@/components/Others/Forms/CopyInput'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
@@ -109,10 +125,12 @@
             PopupContent,
             PopupHeader,
             SelectInput,
+            EmailsInput,
             SwitchInput,
             ButtonBase,
             CopyInput,
             required,
+            InfoBox,
         },
         computed: {
             ...mapGetters([
@@ -125,10 +143,26 @@
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },
             destroyButtonText() {
-                return this.isConfirmedDestroy ? this.$t('popup_share_edit.confirm') : this.$t('popup_share_edit.stop')
+                if(! this.sendToRecipientsMenu)
+                    return this.isConfirmedDestroy ? this.$t('popup_share_edit.confirm') : this.$t('popup_share_edit.stop')
+
+                if(this.sendToRecipientsMenu)
+                    return this.$t('popup_share_edit.go_back')
             },
             destroyButtonStyle() {
-                return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
+                    if(! this.sendToRecipientsMenu)
+                        return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
+
+                    if(this.sendToRecipientsMenu)
+                        return 'secondary'
+            },
+            secondButtonText(){
+                if(! this.sendToRecipientsMenu)
+                    return this.$t('popup_share_edit.save')
+
+                if(this.sendToRecipientsMenu)
+                    return this.isEmailSended ? this.$t('shared_form.button_done') : this.$t('popup_share_edit.send_to_recipients')
+
             },
             isSharedLocation() {
                 return this.currentFolder && this.currentFolder.location === 'shared'
@@ -139,11 +173,14 @@
         },
         data() {
             return {
+                sendToRecipientsMenu: false,
                 isConfirmedDestroy: false,
                 canChangePassword: false,
                 shareOptions: undefined,
                 pickedItem: undefined,
+                emails:undefined,
                 isMoreOptions: false,
+                isEmailSended:false,
                 isDeleting: false,
                 isLoading: false,
             }
@@ -158,7 +195,38 @@
             changePassword() {
                 this.canChangePassword = false
             },
+            async sendViaEmail() {
+
+                // Validate email field
+                const isValid = await this.$refs.shareEmail.validate();
+
+                if (!isValid) return;
+
+                this.isLoading = true
+
+                axios.
+                    post(`/api/share/${this.shareOptions.token}/send-email`, {
+                        emails: this.emails
+                    })
+                    .catch(() => {
+
+                        this.$isSomethingWrong()
+                    })
+                    .finally(() => {
+
+                        this.isEmailSended = true
+
+                        // End loading
+                        this.isLoading = false
+                    })
+
+            },
             async destroySharing() {
+
+                if(this.sendToRecipientsMenu) {
+                    this.sendToRecipientsMenu = false
+                    return
+                }
 
                 // Set confirm button
                 if (! this.isConfirmedDestroy) {
@@ -187,6 +255,18 @@
                 }
             },
             async updateShareOptions() {
+
+                // If is open send share via email 
+                if(this.sendToRecipientsMenu && !this.isEmailSended) {
+                    this.sendViaEmail()
+                    return
+                }
+
+                // Is is open send share via email and email was already sended
+                if(this.sendToRecipientsMenu && this.isEmailSended){
+                    events.$emit('popup:close')
+                    return
+                }
 
                 // If shared was generated, then close popup
                 if (this.isGeneratedShared) {
@@ -231,6 +311,16 @@
         },
         mounted() {
 
+            this.sendToRecipientsMenu = false
+
+            events.$on('emailsInputValues', (emails) => {
+                this.emails = emails
+            })
+
+            events.$on('openSendToRecipientsMenu', () => {
+                this.sendToRecipientsMenu = true
+            })
+
             // Show popup
             events.$on('popup:open', args => {
 
@@ -259,6 +349,8 @@
 
                 // Restore data
                 setTimeout(() => {
+                    this.sendToRecipientsMenu = false
+                    this.isEmailSended = false
                     this.isConfirmedDestroy = false
                     this.canChangePassword = false
                     this.pickedItem = undefined
@@ -273,10 +365,25 @@
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
 
+    .info-box {
+        padding: 0px 20px;
+        /deep/.info-box {
+            @include font-size(14);
+            font-weight: 700;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+    }
+
     .input-wrapper {
 
         &.password {
             margin-top: -10px;
+        }
+
+        &.copy-input {
+            padding: 0px 20px;
         }
     }
 

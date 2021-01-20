@@ -598,7 +598,9 @@
 		"confirm": "确认",
 		"save": "保存更改",
 		"stop": "停止风险",
-		"title": "更新分享设定"
+		"title": "更新分享设定",
+		"go_back": "Go Back",
+		"send_to_recipients": "Send to Recipients"
 	},
 	"popup_signup_error": {
 		"message": "Please check your database connection if everything works correctly.",
@@ -691,6 +693,7 @@
 		"label_permission": "权限",
 		"label_shared_url": "分享链接",
 		"label_share_vie_email": "Get your link",
+		"label_send_to_recipients": "Send to Recipients",
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
@@ -698,7 +701,7 @@
 		"email_successfully_send_message": "Your item was successfully sended to recipients emails.",
 		"share_by_link": "Share by Link",
 		"share_by_email": "Share by Email",
-		"recipients_label": "Recipients:",
+		"recipients_label": "Recipients",
 		"email_placeholder": "Type your emails"
 	},
 	"sidebar": {
