@@ -441,6 +441,11 @@
   }
 
 }
+#colored-text {
+  color: $theme;
+  @include font-size(16);
+  font-weight: 700;
+}
 
 .windows {
   

@@ -607,7 +607,7 @@
 		"change_pass": "Change Password",
 		"confirm": "Confirm",
 		"save": "Save Changes",
-		"stop": "Stop Sharing",
+		"stop": "Cancel Sharing",
 		"title": "Update sharing options",
 		"go_back": "Go Back",
 		"send_to_recipients": "Send to Recipients"
@@ -709,7 +709,7 @@
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
 		"placeholder_permission": "Select your permission",
-		"email_successfully_send_message": "Your item was successfully sended to recipients emails.",
+		"email_successfully_send_message": "Your item was &nbsp; <span id='colored-text'>successfully sended</span> &nbsp; to recipients emails.",
 		"share_by_link": "Share by Link",
 		"share_by_email": "Share by Email",
 		"recipients_label": "Recipients",

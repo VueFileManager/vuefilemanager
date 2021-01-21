@@ -11,13 +11,11 @@
 
             <!-- Infobox for successfull sended email -->
             <div v-if="sendToRecipientsMenu && isEmailSended" class="info-box">
-                <InfoBox >
-                    {{$t('shared_form.email_successfully_send_message')}}
-                </InfoBox>
+                <InfoBox v-html="$t('shared_form.email_successfully_send_message')"/>
             </div>
 
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
-                    <label class="input-label">{{ $t('shared_form.label_shared_url') }}:</label>
+                    <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
                     <CopyInput size="small" :value="pickedItem.shared.link" :share-via-email="sendToRecipientsMenu ? false : true" />
             </div>
 

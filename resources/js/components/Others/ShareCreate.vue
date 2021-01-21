@@ -11,9 +11,7 @@
 
             <!-- Infobox for successfull sended email -->
             <div v-if="isGeneratedShared && shareViaEmail" class="info-box">
-                <InfoBox >
-                    {{$t('shared_form.email_successfully_send_message')}}
-                </InfoBox>
+                <InfoBox v-html="$t('shared_form.email_successfully_send_message')"/>
             </div>
 
 
