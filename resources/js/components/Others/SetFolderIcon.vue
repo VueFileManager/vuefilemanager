@@ -2,14 +2,14 @@
     <div class="set-folder-icon">
 
         <TableWrapper >
-            <TableOption :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
+            <TableOption id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
                 <div class="select-emoji-wrapper">
                     <label class="main-label">Pick Yout Emoji Icon:</label>
 
                     <div @click="openMenu" v-if="!selectOpen" class="select-input-wrapper">
 
                         <div class="select-input" v-if="selectedEmoji">
-                            <span>{{selectedEmoji.char}}</span>
+                            <div class="emoji-preview">{{selectedEmoji.char}}</div>
                             <span>{{selectedEmoji.name}}</span>
                         </div>
                     
@@ -76,6 +76,9 @@
                 if(this.searchEmoji !== undefined) {
                     emojisList = this.emojis.filter(emoji => emoji.name.includes(this.searchEmoji))
                 }
+
+                this.$emojisCustomize('emoji-list')
+
                 return emojisList ? emojisList : "Not Found"
             },
         },
@@ -87,13 +90,16 @@
                 selectOpen: false,
                 emojis: emojis,
                 colors: ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-		  '#80B300', '#809900', '#E6B3B3', '#6680B3']
+                        '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+                        '#80B300', '#809900', '#E6B3B3', '#6680B3']
             }
         },
         methods: {
             openMenu() {
                 this.selectOpen = ! this.selectOpen
+
+                 this.$emojisCustomize('emoji-list')
+
             },
             setIcon(value) {
                 if(value.emoji)
@@ -106,6 +112,9 @@
 
 
                 this.selectOpen = false
+
+                this.$emojisCustomize()
+
             }
         },
         mounted () {
@@ -194,9 +203,10 @@
 
             .option {
                 list-style: none;
-                padding: 8px;
+                width: 45px;
+                height: 45px;
+                padding: 6px;
                 cursor: pointer;
-                @include font-size(30);
 
                 &:hover {
                     background: $light_background;
@@ -234,6 +244,15 @@
         .select-input {
             @include font-size(16);
             font-weight: 700;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .emoji-preview {
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
+            }
         }
 
         .not-selected {

@@ -439,7 +439,7 @@ class Editor
         $temp_filename = $file->getClientOriginalName();
 
         // File Path
-        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;\
+        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;
 
         // Generate file
         File::append($file_path, $file->get());

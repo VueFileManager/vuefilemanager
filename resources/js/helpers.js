@@ -1,5 +1,6 @@
 import i18n from '@/i18n/index'
 import store from './store/index'
+import twemoji from 'twemoji'
 import {debounce, includes} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
@@ -351,7 +352,21 @@ const Helpers = {
 				let body = document.body
 				body.classList.add('windows')
 			}
-		}
+        },
+        Vue.prototype.$emojisCustomize = function (elementId) {
+            this.$nextTick(() => {
+                
+                let list = elementId ? document.getElementById(elementId) : document.body
+
+                twemoji.parse(list, {
+                    folder: 'svg',
+                    ext: '.svg',
+                    attributes: () => ({
+                        loading: 'lazy'
+                    }) 
+                })
+            })
+        }
 	}
 }
 

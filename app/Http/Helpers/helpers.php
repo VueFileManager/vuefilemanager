@@ -559,7 +559,6 @@ function get_pretty_name($basename, $name, $mimetype)
 function get_image_meta_data($file)
 {
     if (get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
-        return exif_read_data($file);
 
         return  mb_convert_encoding(
             exif_read_data($file), 'UTF8', 'UTF8'

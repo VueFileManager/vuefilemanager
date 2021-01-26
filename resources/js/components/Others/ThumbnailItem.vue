@@ -16,7 +16,7 @@
             <!--Else show only folder icon-->
             <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
 
-            <div v-if="isFolder && folderIconHandle" class="folder-emoji">{{folderIconHandle}}</div>
+            <div id="thumbnail-emoji" v-if="isFolder && folderIconHandle" class="folder-emoji">{{folderIconHandle}}</div>
         </div>
 
         <!--Name-->
@@ -54,6 +54,7 @@
             folderIconHandle(){
                 let icon = undefined
 
+                this.$emojisCustomize()
                 // Set icon folder if set folder from rename popup
                 if(this.setFolderIcon){
 

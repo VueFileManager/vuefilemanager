@@ -30,7 +30,7 @@
                 <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder"/>
 
                 <!-- If folder have set emoji -->
-                <div class="emoji" v-if="isFolder && folderIconHandle"> {{folderIconHandle}}</div>
+                <div class="emoji-wrapper" v-if="isFolder && folderIconHandle"> {{folderIconHandle}}</div>
                
             </div>
 
@@ -280,7 +280,12 @@ export default {
         }, 300)
     },
     created() {
+    
+        this.$emojisCustomize()
+
         this.itemName = this.data.name
+
+
 
         events.$on('newFolder:focus', (unique_id) => {
 
@@ -311,6 +316,13 @@ export default {
 <style scoped lang="scss">
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
+
+img.emoji {
+   height: 20px;
+   width: 20px;
+   margin: 0 .05em 0 .1em;
+   vertical-align: -0.1em;
+}
 
 .slide-from-left-move {
     transition: transform 300s ease;
@@ -464,8 +476,8 @@ export default {
         line-height: 0;
         margin-right: 20px;
 
-        .emoji {
-            @include font-size(35)
+        .emoji-wrapper {
+            padding: 5px;    
         }
 
         .folder-icon {
