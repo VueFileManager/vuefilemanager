@@ -29,7 +29,7 @@ class Editor
     /**
      * Store folder icon
      *
-     * @param $folder_iconL
+     * @param $folder_icon
      * @param $unique_id
      * @param $shared
      */
