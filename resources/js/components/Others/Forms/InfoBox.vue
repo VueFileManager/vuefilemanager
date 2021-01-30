@@ -35,12 +35,19 @@
         }
 
         p {
-            @include font-size(15);
+            font-size: 15px;
             line-height: 1.6;
             word-break: break-word;
             font-weight: 600;
 
             /deep/ a {
+                font-size: 15px;
+                color: $theme;
+            }
+
+            /deep/ b {
+                font-size: 15px;
+                font-weight: 700;
                 color: $theme;
             }
         }
@@ -69,10 +76,6 @@
                 }
             }
         }
-    }
-
-    @media only screen and (max-width: 960px) {
-
     }
 
     @media only screen and (max-width: 690px) {

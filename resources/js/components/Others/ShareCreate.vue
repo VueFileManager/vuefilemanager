@@ -10,10 +10,9 @@
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
             <!-- Infobox for successfull sended email -->
-            <div v-if="isGeneratedShared && shareViaEmail" class="info-box">
-                <InfoBox v-html="$t('shared_form.email_successfully_send_message')"/>
-            </div>
-
+            <InfoBox v-if="isGeneratedShared && sharedViaEmail" class="info-box-wrapper">
+                <p v-html="$t('shared_form.email_successfully_send_message')"></p>
+            </InfoBox>
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
@@ -69,7 +68,7 @@
             <!--Copy generated link-->
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
-                    <label class="input-label">{{ this.shareViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
+                    <label class="input-label">{{ this.sharedViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
                     <CopyInput size="small" :item="pickedItem" />
                 </div>
             </div>
@@ -170,14 +169,13 @@
                     permission: undefined,
                     type: undefined,
                     unique_id: undefined,
-                    emails:undefined
+                    emails: undefined
                 },
                 pickedItem: undefined,
-                shareLink: undefined,
                 isGeneratedShared: false,
                 isLoading: false,
                 isMoreOptions: false,
-                shareViaEmail: false
+                sharedViaEmail: false
             }
         },
         methods: {
@@ -207,6 +205,10 @@
                 axios
                     .post('/api/share', this.shareOptions)
                     .then(response => {
+
+                        // Show infobox and reset emails container
+                        if (this.shareOptions.emails)
+                            this.sharedViaEmail = true
 
                         // End loading
                         this.isLoading = false
@@ -254,7 +256,7 @@
                     }
                     this.isGeneratedShared = false
                     this.isMoreOptions = false
-                    this.shareLink = undefined
+                    this.sharedViaEmail = false
                 }, 150)
             })
         }
@@ -264,17 +266,6 @@
 <style scoped lang="scss">
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
-
-    .info-box {
-        padding: 0px 20px;
-        /deep/.info-box {
-            @include font-size(14);
-            font-weight: 700;
-            height: 40px;
-            display: flex;
-            align-items: center;
-        }
-    }
 
     .more-options {
         margin-bottom: 10px;

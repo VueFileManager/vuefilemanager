@@ -700,7 +700,7 @@
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
 		"placeholder_permission": "Zvoľte oprávnenia",
-		"email_successfully_send_message": "Vaša položka bola &nbsp; <span id='colored-text'>úspešne odoslaná</span> &nbsp; na e-maily príjemcov.",
+		"email_successfully_send_message": "Vaša položka bola <b>úspešne odoslaná</b> na e-maily príjemcov.",
 		"share_by_link": "Zdieľať odkazom",
 		"share_by_email": "Zdieľať e-mailom",
 		"recipients_label": "Príjemcovia",

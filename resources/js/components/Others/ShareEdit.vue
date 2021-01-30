@@ -10,16 +10,16 @@
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
             <!-- Infobox for successfull sended email -->
-            <div v-if="sendToRecipientsMenu && isEmailSended" class="info-box">
-                <InfoBox v-html="$t('shared_form.email_successfully_send_message')"/>
-            </div>
+            <InfoBox v-if="sendToRecipientsMenu && isEmailSended" class="info-box-wrapper">
+                <p v-html="$t('shared_form.email_successfully_send_message')"></p>
+            </InfoBox>
 
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
                 <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
                 <CopyInput size="small" :item="pickedItem" />
             </div>
 
-            <ValidationObserver v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
 
                 <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                     <MultiEmailInput  rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
@@ -28,7 +28,7 @@
             </ValidationObserver>
 
             <!--Form to set sharing-->
-            <ValidationObserver v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
@@ -361,17 +361,6 @@
 <style scoped lang="scss">
     @import "@assets/vue-file-manager/_inapp-forms.scss";
     @import '@assets/vue-file-manager/_forms';
-
-    .info-box {
-        padding: 0px 20px;
-        /deep/.info-box {
-            @include font-size(14);
-            font-weight: 700;
-            height: 40px;
-            display: flex;
-            align-items: center;
-        }
-    }
 
     .input-wrapper {
 

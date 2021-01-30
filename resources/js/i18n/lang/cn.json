@@ -698,7 +698,7 @@
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
 		"placeholder_permission": "请设置权限",
-		"email_successfully_send_message": "Your item was &nbsp; <span id='colored-text'>successfully sended</span> &nbsp; to recipients emails.",
+		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
 		"share_by_link": "Share by Link",
 		"share_by_email": "Share by Email",
 		"recipients_label": "Recipients",

@@ -441,10 +441,9 @@
   }
 
 }
-#colored-text {
-  color: $theme;
-  @include font-size(16);
-  font-weight: 700;
+
+.info-box-wrapper {
+  margin: 0px 20px;
 }
 
 .windows {
