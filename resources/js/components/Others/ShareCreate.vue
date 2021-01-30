@@ -16,7 +16,7 @@
 
 
             <!--Form to set sharing-->
-            <ValidationObserver v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
                 
                 <TabWrapper>
 
