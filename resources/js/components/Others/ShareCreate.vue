@@ -70,7 +70,7 @@
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
                     <label class="input-label">{{ this.shareViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
-                    <CopyInput size="small" :value="shareLink" />
+                    <CopyInput size="small" :item="pickedItem" />
                 </div>
             </div>
         </PopupContent>
@@ -210,10 +210,6 @@
 
                         // End loading
                         this.isLoading = false
-
-                        this.shareViaEmail = response.data.data.attributes.email_share
-
-                        this.shareLink = response.data.data.attributes.link
                         this.isGeneratedShared = true
 
                         this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)

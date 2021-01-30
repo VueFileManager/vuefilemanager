@@ -16,7 +16,7 @@
 
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
                 <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
-                <CopyInput size="small" :value="pickedItem.shared.link" />
+                <CopyInput size="small" :item="pickedItem" />
             </div>
 
             <ValidationObserver v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
@@ -315,10 +315,6 @@
                 this.emails = emails
             })
 
-            events.$on('openSendToRecipientsMenu', () => {
-                this.sendToRecipientsMenu = true
-            })
-
             // Show popup
             events.$on('popup:open', args => {
 
@@ -338,6 +334,9 @@
 
                 if (args.item.shared.expire_in)
                     this.isMoreOptions = true
+
+                if (args.sentToEmail)
+                    this.sendToRecipientsMenu = true
 
                 this.canChangePassword = args.item.shared.protected
             })

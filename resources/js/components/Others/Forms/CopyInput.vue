@@ -1,6 +1,6 @@
 <template>
     <div class="inline-wrapper icon-append copy-input" :class="size" @click="copyUrl">
-        <input ref="sel" :value="value" id="link-input" type="text" class="input-text" readonly>
+        <input ref="sel" :value="item.shared.link" id="link-input" type="text" class="input-text" readonly>
         <div class="multi-icon">
             <div class="icon-item">
                 <link-icon v-if="! isCopiedLink" size="14"></link-icon>
@@ -19,7 +19,7 @@ import { events } from '@/bus'
 
 export default {
     name: 'CopyInput',
-    props: ['size', 'value'],
+    props: ['size', 'item'],
     components: {
         CheckIcon,
         LinkIcon,
@@ -32,7 +32,11 @@ export default {
     },
     methods: {
         menuForEmail() {
-            events.$emit('openSendToRecipientsMenu')
+            events.$emit('popup:open', {
+                name: 'share-edit',
+                item: this.item,
+                sentToEmail: true,
+            })
         },
         copyUrl() {
 

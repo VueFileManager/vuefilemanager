@@ -97,6 +97,7 @@ export default {
 }
 
 .input-wrapper {
+    margin-bottom: 0;
     background: white;
     max-width: 100%;
     display: flex;
