@@ -82,6 +82,7 @@ export default {
         display: flex;
         align-items: center;
         border-left: 1px solid $light_mode_border_darken;
+        cursor: pointer;
 
         &:hover {
             background: $text;
@@ -144,6 +145,10 @@ export default {
 
 @media (prefers-color-scheme: dark) {
 
+    .copy-input {
+        border-color: #333333;
+    }
+
     .multi-icon {
         background: $dark_mode_foreground;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
@@ -154,8 +159,8 @@ export default {
             stroke: $dark_mode_text_primary !important;
         }
 
-        & > * {
-            border-left: 1px solid $dark_mode_background;
+        .icon-item {
+            border-color: #333333;
 
             &:hover {
                 background: rgba($theme, 0.1);

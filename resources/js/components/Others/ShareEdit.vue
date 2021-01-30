@@ -22,7 +22,7 @@
             <ValidationObserver v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
 
                 <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                    <EmailsInput  rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
+                    <MultiEmailInput  rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
                 </ValidationProvider>
 
             </ValidationObserver>
@@ -99,7 +99,7 @@
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
-    import EmailsInput from '@/components/Others/Forms/EmailsInput'
+    import MultiEmailInput from '@/components/Others/Forms/MultiEmailInput'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import CopyInput from '@/components/Others/Forms/CopyInput'
@@ -123,7 +123,7 @@
             PopupContent,
             PopupHeader,
             SelectInput,
-            EmailsInput,
+            MultiEmailInput,
             SwitchInput,
             ButtonBase,
             CopyInput,

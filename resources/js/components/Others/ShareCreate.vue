@@ -26,7 +26,7 @@
                     <!-- Share via Email -->
                     <TabOption :title="$t('shared_form.share_by_email')" icon="email">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                            <EmailsInput  rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
+                            <MultiEmailInput  rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
                         </ValidationProvider>
                     </TabOption>
 
@@ -103,7 +103,7 @@
     import PopupActions from '@/components/Others/Popup/PopupActions'
     import PopupContent from '@/components/Others/Popup/PopupContent'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
-    import EmailsInput from '@/components/Others/Forms/EmailsInput'
+    import MultiEmailInput from '@/components/Others/Forms/MultiEmailInput'
     import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import SelectInput from '@/components/Others/Forms/SelectInput'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
@@ -133,7 +133,7 @@
             TabOption,
             PopupContent,
             PopupHeader,
-            EmailsInput,
+            MultiEmailInput,
             SelectInput,
             SwitchInput,
             ButtonBase,
