@@ -253,6 +253,7 @@
                         expiration: undefined,
                         type: undefined,
                         unique_id: undefined,
+                        emails: undefined,
                     }
                     this.isGeneratedShared = false
                     this.isMoreOptions = false
