@@ -1,8 +1,8 @@
 <template>
     <div class="set-folder-icon">
 
-        <TableWrapper >
-            <TableOption id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
+        <TabWrapper >
+            <TabOption :selected="true" id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
                 <div class="select-emoji-wrapper">
                     <label class="main-label">Pick Yout Emoji Icon:</label>
 
@@ -33,9 +33,9 @@
                         </div>
                     </transition>
                 </div>
-            </TableOption>
+            </TabOption>
 
-            <TableOption :title="$t('popup_rename.tab_color_title')" icon="folder">
+            <TabOption :title="$t('popup_rename.tab_color_title')" icon="folder">
                 <div class="color-pick-wrapper">
                 <label class="main-label">{{$t('popup_rename.color_pick_label')}}</label>
                     <ul class="color-wrapper">
@@ -47,15 +47,15 @@
                             :style="{background:color}" />
                     </ul>
                 </div>
-            </TableOption>
-        </TableWrapper>
+            </TabOption>
+        </TabWrapper>
     </div>
 </template>
 
 <script>
     import {SmileIcon, FolderIcon, ChevronDownIcon   } from 'vue-feather-icons'
-    import TableWrapper from '@/components/Others/TableWrapper'
-    import TableOption from '@/components/Others/TableOption'
+    import TabWrapper from '@/components/Others/TabWrapper'
+    import TabOption from '@/components/Others/TabOption'
     import emojis from '../../emoji.json'
     import {events} from '@/bus'
 
@@ -64,8 +64,8 @@
         props: ['folderData', 'unique_id'],
         components: {
             ChevronDownIcon ,
-            TableWrapper,
-            TableOption,
+            TabWrapper,
+            TabOption,
             FolderIcon,
             SmileIcon,
         },

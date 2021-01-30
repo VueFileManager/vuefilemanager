@@ -18,19 +18,19 @@
             <!--Form to set sharing-->
             <ValidationObserver v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
                 
-                <TableWrapper>
+                <TabWrapper>
 
                     <!-- Share via link -->
-                    <TableOption :title="$t('shared_form.share_by_link')" icon="link"/>
+                    <TabOption :selected="true" :title="$t('shared_form.share_by_link')" icon="link"/>
                     
                     <!-- Share via Email -->
-                    <TableOption :title="$t('shared_form.share_by_email')" icon="email">
+                    <TabOption :title="$t('shared_form.share_by_email')" icon="email">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                             <EmailsInput  rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
                         </ValidationProvider>
-                    </TableOption>
+                    </TabOption>
 
-                </TableWrapper>
+                </TabWrapper>
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
@@ -109,8 +109,8 @@
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
     import CopyInput from '@/components/Others/Forms/CopyInput'
-    import TableWrapper from '@/components/Others/TableWrapper'
-    import TableOption from '@/components/Others/TableOption'
+    import TabWrapper from '@/components/Others/TabWrapper'
+    import TabOption from '@/components/Others/TabOption'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import {LinkIcon, MailIcon } from 'vue-feather-icons'
@@ -129,8 +129,8 @@
             ActionButton,
             PopupWrapper,
             PopupActions,
-            TableWrapper,
-            TableOption,
+            TabWrapper,
+            TabOption,
             PopupContent,
             PopupHeader,
             EmailsInput,

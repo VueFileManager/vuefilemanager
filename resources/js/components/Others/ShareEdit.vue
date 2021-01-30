@@ -15,8 +15,8 @@
             </div>
 
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
-                    <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
-                    <CopyInput size="small" :value="pickedItem.shared.link" />
+                <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
+                <CopyInput size="small" :value="pickedItem.shared.link" />
             </div>
 
             <ValidationObserver v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
