@@ -176,6 +176,10 @@ export default {
             events.$emit('unClick')
 
             if (!this.$isMobile()) {
+
+                // After click deselect new folder rename input
+                document.getSelection().removeAllRanges();
+                
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {
                     // Click + Ctrl
                     if (this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {

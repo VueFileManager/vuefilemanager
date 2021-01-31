@@ -181,6 +181,9 @@ export default {
 
             if (!this.$isMobile()) {
 
+                // After click deselect new folder rename input
+                document.getSelection().removeAllRanges();
+
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
                     // Click + Ctrl
 
@@ -284,8 +287,6 @@ export default {
         this.$emojisCustomize()
 
         this.itemName = this.data.name
-
-
 
         events.$on('newFolder:focus', (unique_id) => {
 

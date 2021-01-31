@@ -16,7 +16,7 @@
             <!--Else show only folder icon-->
             <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
 
-            <div id="thumbnail-emoji" v-if="isFolder && folderIconHandle" class="folder-emoji">{{folderIconHandle}}</div>
+            <div v-if="isFolder && folderIconHandle" class="folder-emoji">{{folderIconHandle}}</div>
         </div>
 
         <!--Name-->
@@ -50,40 +50,29 @@
         computed: {
             ...mapGetters(['currentFolder']),
 
-            // TODO: revision
             folderIconHandle(){
-                let icon = undefined
 
                 this.$emojisCustomize()
+                
                 // Set icon folder if set folder from rename popup
                 if(this.setFolderIcon){
 
-                    if(this.setFolderIcon.color)
-                        this.$nextTick(() => {
+                    return this.setFolderIcon.emoji 
+                        ? this.setFolderIcon.emoji.char
+                        : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
-                        })
-                        icon = false
-
-                    if(this.setFolderIcon.emoji)
-                        icon = this.setFolderIcon.emoji.char
+                        })  
                 }
 
                 // If folder have already set some icon
                 if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
 
-                    if(this.item.icon_emoji !== null)
-                        icon = JSON.parse(this.item.icon_emoji).char
-
-                    if(this.item.icon_color !== null){
-                        this.$nextTick(() => {
+                    return this.item.icon_emoji 
+                        ? JSON.parse(this.item.icon_emoji).char
+                        : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
                         })
-                        icon = false
-                    }
                 }
-
-                return icon
-                    
             },
             isFolder() {
                 return this.item.type === 'folder'
