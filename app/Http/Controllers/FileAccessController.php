@@ -269,15 +269,15 @@ class FileAccessController extends Controller
         // Check if file exist
         if (!Storage::exists($path)) abort(404);
 
-        $header = [
-            "Content-Type"   => Storage::mimeType($path),
-            "Content-Length" => Storage::size($path),
-            "Accept-Ranges"  => "bytes",
-            "Content-Range"  => "bytes 0-600/" . Storage::size($path),
+        $headers = [
+            "Accept-Ranges"       => "bytes",
+            "Content-Type"        => Storage::mimeType($path),
+            "Content-Length"      => Storage::size($path),
+            "Content-Range"       => "bytes 0-600/" . Storage::size($path),
+            "Content-Disposition" => "attachment; filename=" . $file_pretty_name,
         ];
 
-        // Get file
-        return Storage::download($path, $file_pretty_name, $header);
+        return response()->download(storage_path('/app/file-manager/') . $file->basename, $file_pretty_name, $headers);
     }
 
     /**
