@@ -1,6 +1,6 @@
 {
     "/chunks/files~chunks/shared-files~chunks/shared-page.js": "/chunks/files~chunks/shared-files~chunks/shared-page.js?id=6f92f91cd55e4196332e",
-    "/js/main.js": "/js/main.js?id=5e6c86dbbda150eb9689",
+    "/js/main.js": "/js/main.js?id=e8894d3950c9beed4fac",
     "/css/app.css": "/css/app.css?id=8f6d5dcb7110a726e142",
     "/chunks/admin.js": "/chunks/admin.js?id=e79f03760dd792065e39",
     "/chunks/admin-account.js": "/chunks/admin-account.js?id=ee790061a19bc95065e7",
@@ -45,7 +45,7 @@
     "/chunks/setup-wizard.js": "/chunks/setup-wizard.js?id=47090233afc7b0cdf855",
     "/chunks/shared-files.js": "/chunks/shared-files.js?id=4999dc298d5b5f112199",
     "/chunks/shared-page.js": "/chunks/shared-page.js?id=c947a35f01f93ab6633d",
-    "/chunks/sign-in.js": "/chunks/sign-in.js?id=c405e68ec443400e8289",
+    "/chunks/sign-in.js": "/chunks/sign-in.js?id=a0478dcfe7a0fac4cec3",
     "/chunks/sign-up.js": "/chunks/sign-up.js?id=7fe81882ef9104c1077f",
     "/chunks/stripe-credentials.js": "/chunks/stripe-credentials.js?id=867925c1349f73b17007",
     "/chunks/subscription-plans.js": "/chunks/subscription-plans.js?id=d96da77e778c983afe61",
