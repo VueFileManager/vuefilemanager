@@ -16,7 +16,7 @@
             <!--Else show only folder icon-->
             <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
 
-            <div v-if="isFolder && folderIconHandle" class="folder-emoji">{{folderIconHandle}}</div>
+            <div v-if="isFolder && folderIconHandle" v-html="folderIconHandle" class="folder-emoji"></div>
         </div>
 
         <!--Name-->
@@ -52,13 +52,11 @@
 
             folderIconHandle(){
 
-                this.$emojisCustomize()
-                
                 // Set icon folder if set folder from rename popup
                 if(this.setFolderIcon){
 
                     return this.setFolderIcon.emoji 
-                        ? this.setFolderIcon.emoji.char
+                        ? this.$transferSingleTwemoji(this.setFolderIcon.emoji.char, false)
                         : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
                         })  
@@ -68,7 +66,7 @@
                 if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
 
                     return this.item.icon_emoji 
-                        ? JSON.parse(this.item.icon_emoji).char
+                        ? this.$transferSingleTwemoji(this.item.icon_emoji, true)
                         : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
                         })
@@ -130,11 +128,14 @@
         .icon-item {
             position: relative;
             min-width: 52px;
+            display: flex;
             text-align: center;
+            justify-content: center;
             line-height: 0;
 
             .folder-emoji {
-                @include font-size(32)
+                width: 36px;
+                height: 36px;
             }
 
             .file-icon {

@@ -353,19 +353,31 @@ const Helpers = {
 				body.classList.add('windows')
 			}
         },
-        Vue.prototype.$emojisCustomize = function (elementId) {
+        Vue.prototype.$transferListTwemoji = function (elementId) {
+
+            // Transfer whole DOOM or set element to twemoji
             this.$nextTick(() => {
-                
                 let list = elementId ? document.getElementById(elementId) : document.body
 
                 twemoji.parse(list, {
                     folder: 'svg',
                     ext: '.svg',
                     attributes: () => ({
-                        loading: 'lazy'
+                        loading: 'lazy',
                     }) 
                 })
             })
+        },
+        Vue.prototype.$transferSingleTwemoji = function (emoji, jsonParse) {
+            
+            // Transfer single emoji to twemoji
+           return twemoji.parse( !jsonParse ? emoji : JSON.parse(emoji).char  , {
+                    folder: 'svg',
+                    ext: '.svg',
+                    attributes: () => ({
+                        loading: 'lazy',
+                    }) 
+                })
         }
 	}
 }

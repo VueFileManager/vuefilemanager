@@ -29,7 +29,7 @@
                 <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
 
                 <!-- If folder have set emoji -->
-                <div class="emoji" v-if="isFolder && folderIconHandle"> {{folderIconHandle}}</div>
+                <div class="emoji-wrapper" v-html="folderIconHandle" v-if="isFolder && folderIconHandle"/>
             </div>
 
             <!--Name-->
@@ -98,7 +98,7 @@ export default {
                
             // If folder have set some emoji
             if(this.data.icon_emoji)
-                return JSON.parse(this.data.icon_emoji).char
+                return this.$transferSingleTwemoji(this.data.icon_emoji, true)
 
         },
         ...mapGetters({ allData: 'data' }),
@@ -478,9 +478,12 @@ export default {
         display: flex;
         align-items: center;
 
-        .emoji {
-            @include font-size(55);
-            margin:auto;
+        .emoji-wrapper {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            margin: 0 auto;
+            align-items: center;
         }
 
         .file-link {

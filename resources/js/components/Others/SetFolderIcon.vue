@@ -9,7 +9,7 @@
                     <div @click="openMenu" v-if="!selectOpen" class="select-input-wrapper">
 
                         <div class="select-input" v-if="selectedEmoji">
-                            <div class="emoji-preview">{{selectedEmoji.char}}</div>
+                            <div class="emoji-preview" v-html="setEmoji"></div>
                             <span>{{selectedEmoji.name}}</span>
                         </div>
                     
@@ -70,6 +70,9 @@
             SmileIcon,
         },
         computed: {
+            setEmoji(){
+                return this.$transferSingleTwemoji(this.selectedEmoji.char, false)
+            },
             allEmoji() {
                 let emojisList = this.emojis
                 
@@ -77,7 +80,6 @@
                     emojisList = this.emojis.filter(emoji => emoji.name.includes(this.searchEmoji))
                 }
 
-                this.$emojisCustomize('emoji-list')
 
                 return emojisList ? emojisList : "Not Found"
             },
@@ -98,24 +100,24 @@
             openMenu() {
                 this.selectOpen = ! this.selectOpen
 
-                 this.$emojisCustomize('emoji-list')
+                 this.$transferListTwemoji('emoji-list')
 
             },
             setIcon(value) {
-                if(value.emoji)
+                if(value.emoji){
                     this.selectedEmoji = value.emoji
+                    this.selectedColor = undefined
+                }
                     
-                if(value.color) 
+                if(value.color) {
                     this.selectedColor = value.color
+                    this.selectedEmoji = undefined
+                }
                 
                 events.$emit('setFolderIcon', {'value':value, 'unique_id':this.unique_id})
 
-
                 this.selectOpen = false
-
-                this.$emojisCustomize()
-
-            }
+            },
         },
         mounted () {
             this.selectOpen = false
