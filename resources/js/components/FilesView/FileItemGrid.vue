@@ -35,7 +35,7 @@
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop @click.stop="" :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
