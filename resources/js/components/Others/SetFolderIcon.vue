@@ -22,15 +22,29 @@
 
                     <transition v-if="selectOpen" name="slide-in">
                         <div class="emoji-wrapper">
-                            <input v-model="searchEmoji" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
-                            <label class="object-label"> {{$t('popup_rename.emoji_list_label')}}</label>
-                            <ul class="options-list">
-                                <li @click="setIcon({'emoji':emoji})" class="option" v-for="(emoji,i) in allEmoji" :key="i">
-                                    {{emoji.char}}
-                                </li>
-                                <span class="not-found" v-if="allEmoji.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
-                            </ul>
+                            <input @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
+
+                             <!-- All Emojis -->
+                            <div v-show="searchInput.length < 1"  class="options-list-wrapper">
+                                <ul v-for="(group, name) in allEmoji" :key="name" class="options-list">
+                                    <label class="group-name-label">{{name}}</label>
+                                    <div class="options-wrapper">
+                                        <li @click="setIcon({'emoji':emoji})" v-html="transferEmoji(emoji)" class="option" v-for="(emoji,i) in group" :key="i"/>
+                                    </div>
+                                </ul>
+                            </div>
+                            
+                           <!-- Searched emojis -->
+                            <div v-if="searchInput.length > 0" class="options-list-wrapper">
+                                <ul class="options-list">
+                                    <div class="options-wrapper">
+                                        <li @click="setIcon({'emoji':emoji})" v-html="transferEmoji(emoji)" class="option" v-for="(emoji,i) in filteredEmojis" :key="i"/>
+                                    </div>
+                                    <span class="not-found" v-if="filteredEmojis.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
+                                </ul>
+                            </div>
                         </div>
+
                     </transition>
                 </div>
             </TabOption>
@@ -56,7 +70,8 @@
     import {SmileIcon, FolderIcon, ChevronDownIcon   } from 'vue-feather-icons'
     import TabWrapper from '@/components/Others/TabWrapper'
     import TabOption from '@/components/Others/TabOption'
-    import emojis from '../../emoji.json'
+    import lodash from 'lodash'
+    import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 
     export default {
@@ -70,38 +85,40 @@
             SmileIcon,
         },
         computed: {
+            ...mapGetters(['emojis']),
             setEmoji(){
-                return this.$transferSingleTwemoji(this.selectedEmoji.char, false)
+                return this.$transferSingleTwemoji(this.selectedEmoji, false)
             },
             allEmoji() {
-                let emojisList = this.emojis
-                
-                if(this.searchEmoji !== undefined) {
-                    emojisList = this.emojis.filter(emoji => emoji.name.includes(this.searchEmoji))
-                }
-
-
-                return emojisList ? emojisList : "Not Found"
+                return  _.groupBy(this.emojis,'group')                
             },
         },
         data () {
             return {
                 selectedEmoji: undefined,
                 selectedColor: undefined,
-                searchEmoji: undefined,
+                searchInput: '',
+                filteredEmojis: [],
                 selectOpen: false,
-                emojis: emojis,
                 colors: ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
                         '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
                         '#80B300', '#809900', '#E6B3B3', '#6680B3']
             }
         },
         methods: {
+            transferEmoji(emoji){
+
+                return this.$transferSingleTwemoji(emoji, false)
+            },
+            filterEmojis: _.debounce(function(emoji){
+
+               this.filteredEmojis = this.emojis.filter(emoji => emoji.name.includes(this.searchInput))
+
+            }, 800),
             openMenu() {
                 this.selectOpen = ! this.selectOpen
 
-                 this.$transferListTwemoji('emoji-list')
-
+                this.searchInput = ''
             },
             setIcon(value) {
                 if(value.emoji){
@@ -167,6 +184,7 @@
     }
 
     .emoji-wrapper {
+        height: 350px;
         width: 100%;
         position: absolute;
         border: 1px solid transparent;
@@ -178,8 +196,13 @@
         padding: 10px;
         top: 89px;
 
+        .loader {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
         .emoji-input {
-            margin: auto;
             width: 100%;
             border-radius: 8px;
             padding: 4px;
@@ -195,39 +218,61 @@
             }
         }
 
-        .options-list {
-            max-height: 200px;
+        .options-list-wrapper {
+            height: 100%;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             overflow: hidden;
             overflow-y: scroll;
             padding: 0px;
 
-            .option {
-                list-style: none;
-                width: 45px;
-                height: 45px;
-                padding: 6px;
-                cursor: pointer;
+            .options-list {
+                display: flex;
+                flex-wrap: wrap;
+                margin-bottom: 10px;
 
-                &:hover {
-                    background: $light_background;
+                &:last-child {
+                    margin-bottom: 0px;
+                 }
+
+                 .options-wrapper {
+                    padding: 0px 20px;
+                    display: flex;
+                    flex-wrap: wrap;
+                 }
+                
+                .group-name-label {
+                    width: 100%;
+                    @include font-size(14);
+                    font-weight: 700;
+                    margin-bottom: 10px;
+                }
+
+                 .option {
+                    list-style: none;
+                    width: 45px;
+                    height: 45px;
+                    padding: 6px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: $light_background;
+                        border-radius: 8px;
+                    }
+                }
+
+                 .not-found {
+                    align-self: center;
+                    margin:auto;
+                    font-weight: 700;
+                    padding: 10px;
                     border-radius: 8px;
+                    background:$light_background ;
+                    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
                 }
             }
-            .not-found {
-                margin:auto;
-                font-weight: 700;
-                padding: 10px;
-                border-radius: 8px;
-                background:$light_background ;
-                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-            }
-        }
-        .object-label {
-            @include font-size(14);
-            margin-bottom: 8px;
-            font-weight: 700;
+
+           
         }
     }
     
@@ -311,7 +356,7 @@
                     }
                 }
                 .not-found {
-                    background:  $dark_mode_foreground;
+                    background: $dark_mode_foreground !important;
                 }
             }
         }

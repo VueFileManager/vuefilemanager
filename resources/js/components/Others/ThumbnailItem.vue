@@ -56,7 +56,7 @@
                 if(this.setFolderIcon){
 
                     return this.setFolderIcon.emoji 
-                        ? this.$transferSingleTwemoji(this.setFolderIcon.emoji.char, false)
+                        ? this.$transferSingleTwemoji(this.setFolderIcon.emoji, false)
                         : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
                         })  
