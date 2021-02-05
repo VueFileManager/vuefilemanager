@@ -9,7 +9,7 @@
                     <div @click="openMenu" v-if="!selectOpen" class="select-input-wrapper">
 
                         <div class="select-input" v-if="selectedEmoji">
-                            <div class="emoji-preview" v-html="setEmoji"></div>
+                            <Emoji class="emoji-preview" :emoji="selectedEmoji" size="25"></Emoji>
                             <span>{{selectedEmoji.name}}</span>
                         </div>
                     
@@ -25,23 +25,27 @@
                             <input @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
 
                              <!-- All Emojis -->
-                            <div v-show="searchInput.length < 1"  class="options-list-wrapper">
-                                <ul v-for="(group, name) in allEmoji" :key="name" class="options-list">
+                            <div v-show="searchInput.length < 1"  class="group-wrapper">
+                                <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper">
                                     <label class="group-name-label">{{name}}</label>
-                                    <div class="options-wrapper">
-                                        <li @click="setIcon({'emoji':emoji})" v-html="transferEmoji(emoji)" class="option" v-for="(emoji,i) in group" :key="i"/>
-                                    </div>
-                                </ul>
+                                    <ul class="options-list">
+                                        <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i"  class="option"> 
+                                            <Emoji :emoji="emoji" size="33"/>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             
                            <!-- Searched emojis -->
-                            <div v-if="searchInput.length > 0" class="options-list-wrapper">
-                                <ul class="options-list">
-                                    <div class="options-wrapper">
-                                        <li @click="setIcon({'emoji':emoji})" v-html="transferEmoji(emoji)" class="option" v-for="(emoji,i) in filteredEmojis" :key="i"/>
-                                    </div>
+                            <div v-if="searchInput.length > 0" class="group-wrapper">
+                                <div class="options-wrapper">
+                                    <ul class="options-list">
+                                        <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option" >
+                                            <Emoji :emoji="emoji" size="33"/>    
+                                        </li>
+                                    </ul>
                                     <span class="not-found" v-if="filteredEmojis.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
-                                </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -70,6 +74,7 @@
     import {SmileIcon, FolderIcon, ChevronDownIcon   } from 'vue-feather-icons'
     import TabWrapper from '@/components/Others/TabWrapper'
     import TabOption from '@/components/Others/TabOption'
+    import Emoji from '@/components/Others/Emoji'
     import lodash from 'lodash'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
@@ -83,11 +88,12 @@
             TabOption,
             FolderIcon,
             SmileIcon,
+            Emoji
         },
         computed: {
             ...mapGetters(['emojis']),
             setEmoji(){
-                return this.$transferSingleTwemoji(this.selectedEmoji, false)
+                return this.selectedEmoji, false
             },
             allEmoji() {
                 return  _.groupBy(this.emojis,'group')                
@@ -106,10 +112,6 @@
             }
         },
         methods: {
-            transferEmoji(emoji){
-
-                return this.$transferSingleTwemoji(emoji, false)
-            },
             filterEmojis: _.debounce(function(emoji){
 
                this.filteredEmojis = this.emojis.filter(emoji => emoji.name.includes(this.searchInput))
@@ -218,7 +220,7 @@
             }
         }
 
-        .options-list-wrapper {
+        .group-wrapper {
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -226,7 +228,7 @@
             overflow-y: scroll;
             padding: 0px;
 
-            .options-list {
+            .options-wrapper {
                 display: flex;
                 flex-wrap: wrap;
                 margin-bottom: 10px;
@@ -235,10 +237,10 @@
                     margin-bottom: 0px;
                  }
 
-                 .options-wrapper {
-                    padding: 0px 20px;
+                 .options-list {
                     display: flex;
                     flex-wrap: wrap;
+                    justify-content: center;
                  }
                 
                 .group-name-label {
@@ -278,7 +280,7 @@
     
 
     .select-input-wrapper{
-        height: 48px;
+        height: 50px;
         padding: 13px 20px;
         border: 1px solid transparent;
         border-radius: 8px;
@@ -296,8 +298,6 @@
             align-items: center;
 
             .emoji-preview {
-                width: 25px;
-                height: 25px;
                 margin-right: 10px;
             }
         }
@@ -349,10 +349,10 @@
             .emoji-input {
                 background: $dark_mode_foreground ;
             }
-            .options-list {
+            .options-wrapper {
                 .option {
                     &:hover {
-                        background: $dark_mode_foreground;
+                        background: $dark_mode_foreground !important;
                     }
                 }
                 .not-found {

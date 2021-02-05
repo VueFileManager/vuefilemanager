@@ -13,10 +13,12 @@
             <!--Image thumbnail-->
             <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
 
+            <!-- If folder have set emoji -->
+            <Emoji v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="36"/>
+
             <!--Else show only folder icon-->
             <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
 
-            <div v-if="isFolder && folderIconHandle" v-html="folderIconHandle" class="folder-emoji"></div>
         </div>
 
         <!--Name-->
@@ -43,10 +45,12 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import Emoji from '@/components/Others/Emoji'
 
     export default {
         name: 'ThumbnailItem',
         props: ['item', 'info', 'setFolderIcon'],
+        components: {Emoji},
         computed: {
             ...mapGetters(['currentFolder']),
 
@@ -56,7 +60,7 @@
                 if(this.setFolderIcon){
 
                     return this.setFolderIcon.emoji 
-                        ? this.$transferSingleTwemoji(this.setFolderIcon.emoji, false)
+                        ? this.setFolderIcon.emoji
                         : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
                         })  
@@ -66,7 +70,7 @@
                 if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
 
                     return this.item.icon_emoji 
-                        ? this.$transferSingleTwemoji(this.item.icon_emoji, true)
+                        ? this.item.icon_emoji
                         : this.$nextTick(() => {
                             this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
                         })
@@ -133,10 +137,6 @@
             justify-content: center;
             line-height: 0;
 
-            .folder-emoji {
-                width: 36px;
-                height: 36px;
-            }
 
             .file-icon {
                 @include font-size(35);

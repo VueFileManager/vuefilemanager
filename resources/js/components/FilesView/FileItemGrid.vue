@@ -25,17 +25,18 @@
                 <!--Image thumbnail-->
                 <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
 
+                 <!-- If folder have set emoji -->
+                <Emoji class="emoji" v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="80" />
+
                 <!--Else show only folder icon-->
                 <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
 
-                <!-- If folder have set emoji -->
-                <div class="emoji-wrapper" v-html="folderIconHandle" v-if="isFolder && folderIconHandle"/>
             </div>
 
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop @click.stop="" :contenteditable="canEditName" class="name">
+                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
@@ -70,6 +71,7 @@
 
 <script>
 import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
+import Emoji from '@/components/Others/Emoji'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
@@ -80,7 +82,8 @@ export default {
     components: {
         UserPlusIcon,
         CheckIcon,
-        LinkIcon
+        LinkIcon,
+        Emoji
     },
     computed: {
         ...mapGetters([
@@ -98,7 +101,7 @@ export default {
                
             // If folder have set some emoji
             if(this.data.icon_emoji)
-                return this.$transferSingleTwemoji(this.data.icon_emoji, true)
+                return this.data.icon_emoji
 
         },
         ...mapGetters({ allData: 'data' }),
@@ -478,12 +481,8 @@ export default {
         display: flex;
         align-items: center;
 
-        .emoji-wrapper {
-            width: 80px;
-            height: 80px;
-            display: flex;
+        .emoji {
             margin: 0 auto;
-            align-items: center;
         }
 
         .file-link {

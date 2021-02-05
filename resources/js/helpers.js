@@ -1,6 +1,5 @@
 import i18n from '@/i18n/index'
 import store from './store/index'
-import twemoji from 'twemoji'
 import {debounce, includes} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
@@ -352,17 +351,6 @@ const Helpers = {
 				let body = document.body
 				body.classList.add('windows')
 			}
-        },
-        Vue.prototype.$transferSingleTwemoji = function (emoji, jsonParse) {
-    
-            // Transfer single emoji to twemoji
-           return twemoji.parse( !jsonParse ? emoji.char : JSON.parse(emoji).char  , {
-                    folder: 'svg',
-                    ext: '.svg',
-                    attributes: () => ({
-                        loading: 'lazy',
-                    }) 
-                })
         }
 	}
 }

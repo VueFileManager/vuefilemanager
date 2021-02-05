@@ -73,6 +73,10 @@ class FileManagerFolder extends Model
         'items', 'trashed_items'
     ];
 
+    protected $casts = [
+        'icon_emoji' => 'object',
+    ];
+
     /**
      * Sortable columns
      *
