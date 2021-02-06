@@ -61,7 +61,7 @@
         margin-bottom: 20px;
         cursor: pointer;
         align-items: center;
-        background: $light_background;
+        background: white;
         color: $text;
         border-radius: 8px;
         overflow: hidden;
@@ -79,7 +79,7 @@
             padding: 8px;
 
             &.active {
-                background: #E8E9EB;
+                background: $light_background;
 
                 .tab-title {
                     color: $text;
