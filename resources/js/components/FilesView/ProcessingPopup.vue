@@ -1,13 +1,13 @@
 <template>
     <transition name="popup">
-        <div class="popup" v-if="isZippingFiles">
+        <div class="popup" v-if="processingPopup">
             <div class="popup-wrapper">
                 <div class="popup-content">
                     <div class="spinner-wrapper">
                         <Spinner/>
                     </div>
-                    <h1 class="title">{{ $t('popup_zipping.title') }}</h1>
-                    <p class="message">{{ $t('popup_zipping.message') }}</p>
+                    <h1 class="title">{{ processingPopup.title }}</h1>
+                    <p class="message">{{ processingPopup.message }}</p>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isZippingFiles'
+            'processingPopup'
         ])
     }
 }

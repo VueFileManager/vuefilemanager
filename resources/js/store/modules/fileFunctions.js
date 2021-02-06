@@ -6,13 +6,16 @@ import axios from 'axios'
 import Vue from 'vue'
 
 const defaultState = {
-	isZippingFiles: false,
+	processingPopup: undefined,
 }
 
 const actions = {
 	downloadFolder: ({commit, getters}, folder) => {
 
-		commit('ZIPPING_FILE_STATUS', true)
+		commit('PROCESSING_POPUP', {
+			title: i18n.t('popup_zipping.title'),
+			message: i18n.t('popup_zipping.message'),
+		})
 
 		// Get route
 		let route = getters.sharedDetail && !getters.sharedDetail.protected
@@ -27,7 +30,7 @@ const actions = {
 			Vue.prototype.$isSomethingWrong()
 		})
 		.finally(() => {
-			commit('ZIPPING_FILE_STATUS', false)
+			commit('PROCESSING_POPUP', undefined)
 		})
 
 	},
@@ -379,13 +382,13 @@ const actions = {
 }
 
 const mutations = {
-	ZIPPING_FILE_STATUS(state, status) {
-		state.isZippingFiles = status
+	PROCESSING_POPUP(state, status) {
+		state.processingPopup = status
 	}
 }
 
 const getters = {
-	isZippingFiles: state => state.isZippingFiles
+	processingPopup: state => state.processingPopup
 }
 
 export default {

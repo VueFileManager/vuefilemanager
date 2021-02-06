@@ -208,6 +208,7 @@
         },
         created() {
             this.$scrollTop()
+            this.$store.commit('PROCESSING_POPUP', undefined)
         }
     }
 </script>
