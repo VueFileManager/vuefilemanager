@@ -65,6 +65,7 @@
         color: $text;
         border-radius: 8px;
         overflow: hidden;
+        border: 1px solid #E8E9EB;
 
         .tab-title {
             @include font-size(14);
@@ -78,10 +79,10 @@
             padding: 8px;
 
             &.active {
-                background: $text;
+                background: #E8E9EB;
 
                 .tab-title {
-                    color: $light_background;
+                    color: $text;
                 }
             }
         }
@@ -101,6 +102,7 @@
     @media (prefers-color-scheme: dark) {
         .tab-wrapper {
             background: $dark_mode_foreground;
+            border-color: transparent;
 
             .tab.active {
                 background: rgba($theme, 0.1);
