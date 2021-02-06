@@ -308,9 +308,9 @@
 		"paginate_info": "Showing 1 - {visible} from {total} records"
 	},
 	"empty_page": {
-		"call_to_action": "Upload File",
-		"description": "Upload some files here easily via upload button",
-		"title": "There is Nothing"
+		"call_to_action": "Upload Files",
+		"description": "Upload some files here easily via upload button.",
+		"title": "Upload Your First File"
 	},
 	"errors": {
 		"capacity_digit": "The storage capacity must be lower than 10 digit number."

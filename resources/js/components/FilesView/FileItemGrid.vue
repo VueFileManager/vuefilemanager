@@ -347,7 +347,7 @@ export default {
 }
 
 .select-box-active {
-    background-color: $text;
+    background-color: $theme;
 
     .icon {
         stroke: white;
@@ -601,10 +601,10 @@ export default {
     }
 
     .select-box-active {
-        background-color: #f4f5f6;
+        background-color: lighten($theme, 5%);
 
         .icon {
-            stroke: $text;
+            stroke: white;
         }
     }
 

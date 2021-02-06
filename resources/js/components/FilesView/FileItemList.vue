@@ -1,9 +1,14 @@
 <template>
     <div class="file-wrapper" @click.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <!--List preview-->
-        <div :draggable="canDrag" @dragstart="$emit('dragstart')" @drop="
-				drop()
-				area = false" @dragleave="dragLeave" @dragover.prevent="dragEnter" class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }">
+        <div
+            :draggable="canDrag"
+            @dragstart="$emit('dragstart')"
+            @drop="drop()"
+            @dragleave="dragLeave"
+            @dragover.prevent="dragEnter"
+            class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
+        >
             <!-- MultiSelecting for the mobile version -->
             <transition name="slide-from-left">
                 <div class="check-select" v-if="mobileMultiSelect">
@@ -99,7 +104,7 @@ export default {
                 })
                 return false
             }
-               
+
             // If folder have set some emoji
             if(this.data.icon_emoji)
                return this.data.icon_emoji
@@ -161,6 +166,7 @@ export default {
     },
     methods: {
         drop() {
+            this.area = false
             events.$emit('drop')
         },
         showItemActions() {
@@ -358,10 +364,10 @@ export default {
     }
 
     .select-box-active {
-        background-color: #f4f5f6;
+        background-color: $theme;
 
         .icon {
-            stroke: $text;
+            stroke: white;
         }
     }
 }
@@ -563,10 +569,10 @@ export default {
         }
 
         .select-box-active {
-            background-color: lighten($dark_mode_foreground, 10%);
+            background-color: $theme;
 
             .icon {
-                stroke: $theme;
+                stroke: white;
             }
         }
     }

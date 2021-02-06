@@ -59,7 +59,6 @@
 
         <CookieDisclaimer/>
 
-        <!--Background vignette-->
         <Vignette/>
     </div>
 </template>

@@ -1,7 +1,7 @@
 import i18n from '@/i18n/index'
 
 const defaultState = {
-	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
+	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || true,
 	FilePreviewType: localStorage.getItem('preview_type') || 'list',
 	config: undefined,
 	index: undefined,
