@@ -144,7 +144,7 @@
             })
 
               events.$on('setFolderIcon', (icon) => {
-                this.setFolderIcon = icon.value
+                this.setFolderIcon = ! icon ? undefined : icon.value
             })
         }
     }

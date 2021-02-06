@@ -13946,11 +13946,90 @@ const defaultState = {
             "group": "Flags",
             "subgroup": "subdivision-flag"
         }
+    ],
+
+    emojiGroups : [
+        {
+            "name": "Smileys & Emotion",
+            "emoji": {
+                "codes": "1F600",
+                "char": "😀",
+                "name": "grinning face",
+            }
+        },
+        {
+            "name": "People & Body",
+            "emoji": {
+                "codes": "1F91A",
+                "char": "🤚",
+                "name": "raised back of hand",
+            }
+        },
+        {
+            "name": "Animals & Nature",
+            "emoji": {
+                "codes": "1F435",
+                "char": "🐵",
+                "name": "monkey face",
+            }
+        },
+        {
+            "name": "Food & Drink",
+            "emoji": {
+                "codes": "1F34F",
+                "char": "🍏",
+                "name": "green apple",
+            }
+        },
+        {
+            "name": "Travel & Places",
+            "emoji": {
+                "codes": "1F697",
+                "char": "🚗",
+                "name": "automobile",
+            }
+        },
+        {
+            "name": "Activities",
+            "emoji": {
+                "codes": "26BD",
+                "char": "⚽",
+                "name": "soccer ball",
+            }
+        },
+        {
+            "name": "Objects",
+            "emoji": {
+                "codes": "231A",
+                "char": "⌚",
+                "name": "watch",
+            }
+        },
+        {
+            "name": "Symbols",
+            "emoji": {
+                "codes": "2764",
+                "char": "❤",
+                "name": "red heart",
+            }
+        },
+        {
+            "name": "Flags",
+            "emoji": {
+                "codes": "1F3F3",
+                "char": "🏳",
+                "name": "white flag",
+            }
+        },
+
+
     ]
 }
 
 const getters = {
-    emojis: state=> state.emojis,
+    emojis: state => state.emojis,
+    emojiGroups: state => state.emojiGroups
+
 }
 
 export default {

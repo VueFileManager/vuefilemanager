@@ -2,11 +2,14 @@
     <div class="set-folder-icon">
 
         <TabWrapper >
+
+            <!-- Emojis -->
             <TabOption :selected="true" id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
                 <div class="select-emoji-wrapper">
                     <label class="main-label">Pick Yout Emoji Icon:</label>
 
-                    <div @click="openMenu" v-if="!selectOpen" class="select-input-wrapper">
+                    <!-- Selected Emoji input -->
+                    <div @click.stop="openMenu"  class="select-input-wrapper">
 
                         <div class="select-input" v-if="selectedEmoji">
                             <Emoji class="emoji-preview" :emoji="selectedEmoji" size="25"></Emoji>
@@ -17,16 +20,28 @@
                             <span> {{$t('popup_rename.set_emoji_input_placeholder')}}</span>
                         </div>
 
-                        <chevron-down-icon size="19" class="chevron-icon"/>
+                        <chevron-down-icon v-if="!selectOpen" size="19"/>
+
+                        <div v-if="selectOpen" @click="resetEmoji" class="select-input-icon-wrapper">
+                            <x-icon size="14" class="select-input-icon"/>
+                        </div>
                     </div>
 
+                    <!-- Emojis List -->
                     <transition v-if="selectOpen" name="slide-in">
                         <div class="emoji-wrapper">
-                            <input @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
+                            <input @click.stop @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
+
+                            <!-- Navigation of Emojis Groups -->
+                            <ul v-show="searchInput.length < 1" class="groups-list">
+                                <li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojiGroups" :key="i" class="group-option" :class="{'active' : group.name === groupInView}">
+                                    <Emoji :emoji="group.emoji" size="33"/>
+                                </li>
+                            </ul>
 
                              <!-- All Emojis -->
-                            <div v-show="searchInput.length < 1"  class="group-wrapper">
-                                <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper">
+                            <div v-show="searchInput.length < 1" @scroll="checkGroupInView" id="group-box"  class="group-wrapper">
+                                <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper" :id="`group-${name}`">
                                     <label class="group-name-label">{{name}}</label>
                                     <ul class="options-list">
                                         <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i"  class="option"> 
@@ -53,6 +68,7 @@
                 </div>
             </TabOption>
 
+            <!-- Colors -->
             <TabOption :title="$t('popup_rename.tab_color_title')" icon="folder">
                 <div class="color-pick-wrapper">
                 <label class="main-label">{{$t('popup_rename.color_pick_label')}}</label>
@@ -71,7 +87,7 @@
 </template>
 
 <script>
-    import {SmileIcon, FolderIcon, ChevronDownIcon   } from 'vue-feather-icons'
+    import {SmileIcon, FolderIcon, ChevronDownIcon, XIcon} from 'vue-feather-icons'
     import TabWrapper from '@/components/Others/TabWrapper'
     import TabOption from '@/components/Others/TabOption'
     import Emoji from '@/components/Others/Emoji'
@@ -88,13 +104,11 @@
             TabOption,
             FolderIcon,
             SmileIcon,
+            XIcon,
             Emoji
         },
         computed: {
-            ...mapGetters(['emojis']),
-            setEmoji(){
-                return this.selectedEmoji, false
-            },
+            ...mapGetters(['emojis', 'emojiGroups']),
             allEmoji() {
                 return  _.groupBy(this.emojis,'group')                
             },
@@ -106,12 +120,34 @@
                 searchInput: '',
                 filteredEmojis: [],
                 selectOpen: false,
+                groupInView: 'Smileys & Emotion',
                 colors: ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
                         '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
                         '#80B300', '#809900', '#E6B3B3', '#6680B3']
             }
         },
         methods: {
+            checkGroupInView: _.debounce(function() {
+
+                 this.emojiGroups.forEach(group => { 
+
+                    let element = document.getElementById(`group-${group.name}`).getBoundingClientRect()
+                    let groupBox = document.getElementById('group-box').getBoundingClientRect()
+
+                    // Check if the group is in the viewport of group-box
+                    if(element.top < groupBox.top && element.bottom > groupBox.top){
+                        this.groupInView = group.name
+                    }
+                })
+            }, 200),
+            scrollToGroup(name) {
+
+                let group = document.getElementById(`group-${name}`)
+
+                group.scrollIntoView({behavior: "smooth"})
+
+                this.groupInView = name
+            },
             filterEmojis: _.debounce(function(emoji){
 
                this.filteredEmojis = this.emojis.filter(emoji => emoji.name.includes(this.searchInput))
@@ -121,6 +157,8 @@
                 this.selectOpen = ! this.selectOpen
 
                 this.searchInput = ''
+
+                this.groupInView = 'Smileys & Emotion'
             },
             setIcon(value) {
                 if(value.emoji){
@@ -137,9 +175,18 @@
 
                 this.selectOpen = false
             },
+            resetEmoji(){
+                this.selectedEmoji = undefined
+
+                events.$emit('setFolderIcon', undefined)
+            }
         },
         mounted () {
             this.selectOpen = false
+
+            events.$on('unClick', () => {
+                this.selectOpen = false
+            })
         }
         
     }
@@ -196,13 +243,38 @@
         display: flex;
         flex-direction: column;
         padding: 10px;
-        top: 89px;
+        top: 152px;
 
         .loader {
         width: 100%;
         height: 100%;
         position: relative;
-    }
+        }
+
+        .groups-list{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+
+                .active {
+                    background: $light_background;
+                    border-radius: 8px;
+                }
+
+                .group-option {
+                    list-style: none;
+                    width: 45px;
+                    height: 45px;
+                    padding: 6px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: $light_background;
+                        border-radius: 8px;
+                    }
+                }
+            }
 
         .emoji-input {
             width: 100%;
@@ -278,7 +350,6 @@
         }
     }
     
-
     .select-input-wrapper{
         height: 50px;
         padding: 13px 20px;
@@ -289,6 +360,30 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        .select-input-icon-wrapper {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover {
+                background: $light_background !important;
+
+                .select-input-icon {
+                    line {
+                    stroke: $theme;
+                    }
+                }
+            }            
+
+            .select-input-icon {
+                line {
+                stroke: $text;
+                }
+            }
+        }
 
         .select-input {
             @include font-size(16);
@@ -349,6 +444,16 @@
             .emoji-input {
                 background: $dark_mode_foreground ;
             }
+            .groups-list{
+                .active{
+                    background: $dark_mode_foreground !important;
+                }
+                .group-option {
+                     &:hover {
+                        background: $dark_mode_foreground !important;
+                    }
+                }
+            }
             .options-wrapper {
                 .option {
                     &:hover {
@@ -367,6 +472,21 @@
                 span {
                     color:$dark_mode_text_secondary;
                 }
+            }
+            .select-input-icon-wrapper {
+                &:hover {
+                    background: rgba($theme, 0.1) !important;
+                    .select-input-icon {
+                        line {
+                            stroke: $theme !important;
+                        }
+                    }
+                }
+                .select-input-icon {
+                    line {
+                        stroke:$dark_mode_text_primary !important;
+                    }
+                }            
             }
         }
     }
