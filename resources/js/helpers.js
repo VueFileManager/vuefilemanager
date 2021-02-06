@@ -177,7 +177,7 @@ const Helpers = {
 
             if (files.length == 0) return
 
-           if (!this.$checkFileMimetype(files)) return
+           if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
            
             this.$handleUploading(files, undefined)
         }
