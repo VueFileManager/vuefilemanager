@@ -12,10 +12,10 @@
         name: 'Vignette',
         computed: {
             ...mapGetters([
-                'isZippingFiles'
+                'processingPopup'
             ]),
             isVisible() {
-                return this.isZippingFiles || this.isVisibleVignette
+                return this.processingPopup || this.isVisibleVignette
             },
         },
         data() {

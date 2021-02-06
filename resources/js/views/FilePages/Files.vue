@@ -188,18 +188,6 @@ export default {
         events.$on('drop', () => {
             this.dragInProgress = false
         })
-    },
-    beforeRouteLeave(to, from, next) {
-        // Inquire user about his willing to step back to sign in page
-        if (to.name === 'SignIn') {
-            if (window.confirm(this.$t('alerts.leave_to_sign_in'))) {
-                next()
-            } else {
-                next(false)
-            }
-        } else {
-            next()
-        }
     }
 }
 </script>

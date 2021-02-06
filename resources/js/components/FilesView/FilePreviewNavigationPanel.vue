@@ -6,7 +6,7 @@
 				<p class="title">{{ fileInfoDetail[0].name }}</p>				
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + filteredFiles.length }}) </span>
 			</div>
-			<span id="fast-preview-menu" class="fast-menu-icon" @click.stop="menuOpen" v-if="$checkPermission(['master', 'editor'])">
+			<span id="fast-preview-menu" class="fast-menu-icon" @click.stop="menuOpen" v-if="$checkPermission(['master', 'editor', 'visitor'])">
 				<more-horizontal-icon class="more-icon" size="14"> </more-horizontal-icon>
 			</span>
 		</div>

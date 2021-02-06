@@ -25,22 +25,22 @@
                     <SearchBar/>
                 </div>
 
-                <!--Files controlls-->
+                <!--Creating controls-->
                 <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
                     <ToolbarButtonUpload :class="{ 'is-inactive': canUploadInView || !hasCapacity }" :action="$t('actions.upload')"/>
                     <ToolbarButton :class="{ 'is-inactive': canCreateFolderInView }" @click.native="createFolder" source="folder-plus" :action="$t('actions.create_folder')"/>
                 </div>
 
-                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
+                <!--File Controls-->
+                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
                     <ToolbarButton source="move" :class="{ 'is-inactive': canMoveInView }" :action="$t('actions.move')" @click.native="moveItem"/>
                     <ToolbarButton v-if="!$isThisLocation(['public'])" source="share" :class="{ 'is-inactive': canShareInView }" :action="$t('actions.share')" @click.native="shareItem"/>
                     <ToolbarButton source="trash" :class="{ 'is-inactive': canDeleteInView }" :action="$t('actions.delete')" @click.native="deleteItem"/>
                 </div>
 
-                <!--View options-->
+                <!--View Controls-->
                 <div class="toolbar-button-wrapper">
                     <ToolbarButton source="preview-sorting" class="preview-sorting" :action="$t('actions.sorting_view')" :class="{ active: sortingAndPreview }" @click.stop.native="sortingAndPreview = !sortingAndPreview"/>
-
                     <ToolbarButton :action="$t('actions.info_panel')" :class="{ active: fileInfoVisible }" @click.native="$store.dispatch('fileInfoToggle')" source="info"/>
                 </div>
             </div>
