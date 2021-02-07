@@ -28,7 +28,7 @@
 		"users": "Users"
 	},
 	"admin_page_dashboard": {
-		"backer_button": "Become a Backer",
+		"backer_button": "Help Us Improve",
 		"license": "License",
 		"version": "Version",
 		"w_latest_users": {
@@ -285,7 +285,8 @@
 		"share_edit": "Edit Sharing",
 		"upload": "Upload",
 		"select": "Select",
-		"no_options": "No Options Available" 
+		"no_options": "No Options Available",
+		"zip_folder": "Zip and Download"
 	},
 	"mobile_selecting": {
 		"select_all": "Select All",
@@ -307,9 +308,9 @@
 		"paginate_info": "Showing 1 - {visible} from {total} records"
 	},
 	"empty_page": {
-		"call_to_action": "Upload File",
-		"description": "Upload some files here easily via upload button",
-		"title": "There is Nothing"
+		"call_to_action": "Upload Files",
+		"description": "Upload some files here easily via upload button.",
+		"title": "Upload Your First File"
 	},
 	"errors": {
 		"capacity_digit": "The storage capacity must be lower than 10 digit number."
@@ -579,7 +580,14 @@
 	"popup_rename": {
 		"title": "Rename Your {item}",
 		"label": "Edit Name",
-		"placeholder": "Type your title"
+		"placeholder": "Type your title",
+		"tab_emoji_title": "Emoji as an Icon",
+		"tab_color_title": "Folder Color",
+		"set_emoji_input_placeholder": "Emojis List...",
+		"search_emoji_input_placeholder": "Search your emoji...",
+		"emoji_list_not_found": "Not Found",
+		"color_pick_label": "Pick Your Color:"
+
 	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",
@@ -598,8 +606,10 @@
 		"change_pass": "Change Password",
 		"confirm": "Confirm",
 		"save": "Save Changes",
-		"stop": "Stop Sharing",
-		"title": "Update sharing options"
+		"stop": "Cancel Sharing",
+		"title": "Update sharing options",
+		"go_back": "Go Back",
+		"send_to_recipients": "Send to Recipients"
 	},
 	"popup_signup_error": {
 		"message": "Please check your database connection if everything works correctly.",
@@ -686,15 +696,23 @@
 	"shared_form": {
 		"button_more_options": "Set Expiration",
 		"button_close_options": "Close Options",
+		"button_folder_icon_open": "Customize Folder Icon",
 		"button_done": "Awesome, I’m done!",
 		"button_generate": "Generate Link",
 		"label_password_protection": "Password Protected",
 		"label_permission": "Permission",
 		"label_shared_url": "Share url",
+		"label_share_vie_email": "Get your link",
+		"label_send_to_recipients": "Send to Recipients",
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
-		"placeholder_permission": "Select your permission"
+		"placeholder_permission": "Select your permission",
+		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
+		"share_by_link": "Share by Link",
+		"share_by_email": "Share by Email",
+		"recipients_label": "Recipients",
+		"email_placeholder": "Type your emails"
 	},
 	"sidebar": {
 		"favourites": "Favourites",
@@ -804,7 +822,9 @@
 		"state": "State",
 		"state_plac": "Type your billing state",
 		"title_account": "Account Information",
-		"title_billing": "Billing Information"
+		"title_billing": "Billing Information",
+		"timezone": "Timezone",
+		"timezone_plac" : "Select your timezone"
 	},
 	"user_subscription": {
 		"billed": "Billed",

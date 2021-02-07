@@ -12,10 +12,10 @@
         name: 'Vignette',
         computed: {
             ...mapGetters([
-                'isZippingFiles'
+                'processingPopup'
             ]),
             isVisible() {
-                return this.isZippingFiles || this.isVisibleVignette
+                return this.processingPopup || this.isVisibleVignette
             },
         },
         data() {
@@ -56,7 +56,7 @@
         right: 0;
         left: 0;
         bottom: 0;
-        z-index: 19;
+        z-index: 18;
         background: $light_mode_vignette;
     }
 

@@ -30,6 +30,14 @@
                             {{ $t('admin_menu.settings') }}
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Pages'}" class="menu-list-item link">
+                        <div class="icon">
+                            <monitor-icon size="17"></monitor-icon>
+                        </div>
+                        <div class="label">
+                            {{ $t('admin_menu.pages') }}
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
 
@@ -50,14 +58,6 @@
                         </div>
                         <div class="label">
                             {{ $t('admin_menu.invoices') }}
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'Pages'}" class="menu-list-item link">
-                        <div class="icon">
-                            <monitor-icon size="17"></monitor-icon>
-                        </div>
-                        <div class="label">
-                            {{ $t('admin_menu.pages') }}
                         </div>
                     </router-link>
                 </div>

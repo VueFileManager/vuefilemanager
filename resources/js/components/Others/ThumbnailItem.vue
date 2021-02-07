@@ -13,8 +13,12 @@
             <!--Image thumbnail-->
             <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
+            <!-- If folder have set emoji -->
+            <Emoji v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="36"/>
+
             <!--Else show only folder icon-->
-            <FontAwesomeIcon v-if="isFolder" class="folder-icon" icon="folder"/>
+            <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
+
         </div>
 
         <!--Name-->
@@ -41,12 +45,37 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import Emoji from '@/components/Others/Emoji'
 
     export default {
         name: 'ThumbnailItem',
-        props: ['item', 'info'],
+        props: ['item', 'info', 'setFolderIcon'],
+        components: {Emoji},
         computed: {
             ...mapGetters(['currentFolder']),
+
+            folderIconHandle(){
+
+                // Set icon folder if set folder from rename popup
+                if(this.setFolderIcon){
+
+                    return this.setFolderIcon.emoji 
+                        ? this.setFolderIcon.emoji
+                        : this.$nextTick(() => {
+                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
+                        })  
+                }
+
+                // If folder have already set some icon
+                if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
+
+                    return this.item.icon_emoji 
+                        ? this.item.icon_emoji
+                        : this.$nextTick(() => {
+                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
+                        })
+                }
+            },
             isFolder() {
                 return this.item.type === 'folder'
             },
@@ -103,8 +132,11 @@
         .icon-item {
             position: relative;
             min-width: 52px;
+            display: flex;
             text-align: center;
+            justify-content: center;
             line-height: 0;
+
 
             .file-icon {
                 @include font-size(35);

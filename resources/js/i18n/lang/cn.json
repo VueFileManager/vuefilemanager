@@ -26,7 +26,7 @@
 		"users": "Users"
 	},
 	"admin_page_dashboard": {
-		"backer_button": "成为支持者",
+		"backer_button": "Help Us Improve",
 		"license": "执照",
 		"version": "版",
 		"w_latest_users": {
@@ -283,7 +283,8 @@
 		"share_edit": "编辑分享设定",
 		"upload": "上传",
 		"select": "Select",
-		"no_options": "No Options Available" 
+		"no_options": "No Options Available",
+		"zip_folder": "Zip and Download"
 	},
 	"mobile_selecting": {
 		"select_all": "Select All",
@@ -597,7 +598,9 @@
 		"confirm": "确认",
 		"save": "保存更改",
 		"stop": "停止风险",
-		"title": "更新分享设定"
+		"title": "更新分享设定",
+		"go_back": "Go Back",
+		"send_to_recipients": "Send to Recipients"
 	},
 	"popup_signup_error": {
 		"message": "Please check your database connection if everything works correctly.",
@@ -689,10 +692,17 @@
 		"label_password_protection": "密码保护",
 		"label_permission": "权限",
 		"label_shared_url": "分享链接",
+		"label_share_vie_email": "Get your link",
+		"label_send_to_recipients": "Send to Recipients",
 		"label_expiration": "Link Expiration",
 		"expiration_hour": "{value}h.",
 		"expiration_day": "{value}d.",
-		"placeholder_permission": "请设置权限"
+		"placeholder_permission": "请设置权限",
+		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
+		"share_by_link": "Share by Link",
+		"share_by_email": "Share by Email",
+		"recipients_label": "Recipients",
+		"email_placeholder": "Type your emails"
 	},
 	"sidebar": {
 		"favourites": "收藏",
@@ -802,7 +812,9 @@
 		"state": "州",
 		"state_plac": "输入您的帐单状态",
 		"title_account": "帐户信息",
-		"title_billing": "账单信息"
+		"title_billing": "账单信息",
+		"timezone": "Timezone",
+		"timezone_plac" : "Select your timezone"
 	},
 	"user_subscription": {
 		"billed": "开票",

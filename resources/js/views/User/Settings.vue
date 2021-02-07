@@ -25,6 +25,23 @@
                 </div>
             </div>
         </PageTabGroup>
+
+         <PageTabGroup v-if="userInfo">
+            <div class="form block-form">
+                <FormLabel>{{$t('user_settings.timezone')}}</FormLabel>
+                <div class="block-wrapper">
+                    <label>GMT:</label>
+                    <div class="input-wrapper">
+                        <SelectInput @input="$updateText('/user/relationships/settings', 'timezone', userTimezone)"
+                                    v-model="userTimezone"
+                                    :default="userTimezone"
+                                    :options="timezones"
+                                    :placeholder="$t('user_settings.timezone_plac')"/>
+                    </div>
+                </div>
+            </div>
+        </PageTabGroup>
+
         <PageTabGroup v-if="config.isSaaS && billingInfo">
             <div class="form block-form">
                 <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
@@ -141,12 +158,13 @@
             PageTab,
         },
         computed: {
-            ...mapGetters(['config', 'countries']),
+            ...mapGetters(['config', 'countries', 'timezones']),
         },
         data() {
             return {
                 userInfo: undefined,
                 billingInfo: undefined,
+                userTimezone: undefined,
                 isLoading: false,
             }
         },
@@ -157,6 +175,8 @@
             }
         },
         created() {
+
+            this.userTimezone = this.user.relationships.timezone.data.attributes.timezone
 
             this.userInfo = {
                 name: this.user.data.attributes.name,

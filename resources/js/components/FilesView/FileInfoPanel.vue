@@ -53,7 +53,7 @@
                 <div class="sharelink">
                     <lock-icon v-if="isLocked" @click="shareItemOptions" class="lock-icon" size="17"></lock-icon>
                     <unlock-icon v-if="! isLocked" @click="shareItemOptions" class="lock-icon" size="17"></unlock-icon>
-                    <CopyInput class="copy-sharelink" size="small" :value="fileInfoDetail[0].shared.link"/>
+                    <CopyInput class="copy-sharelink" size="small" :item="fileInfoDetail[0]"/>
                 </div>
             </ListInfoItem>
 

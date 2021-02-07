@@ -1,9 +1,14 @@
 <template>
     <div class="file-wrapper" @click.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <!--List preview-->
-        <div :draggable="canDrag" @dragstart="$emit('dragstart')" @drop="
-				drop()
-				area = false" @dragleave="dragLeave" @dragover.prevent="dragEnter" class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }">
+        <div
+            :draggable="canDrag"
+            @dragstart="$emit('dragstart')"
+            @drop="drop()"
+            @dragleave="dragLeave"
+            @dragover.prevent="dragEnter"
+            class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
+        >
             <!-- MultiSelecting for the mobile version -->
             <transition name="slide-from-left">
                 <div class="check-select" v-if="mobileMultiSelect">
@@ -26,13 +31,17 @@
                 <!--Image thumbnail-->
                 <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
 
+                <!-- If folder have set emoji -->
+                <Emoji  v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="52" />
+
                 <!--Else show only folder icon-->
-                <FontAwesomeIcon v-if="isFolder" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder"/>
+                <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder"/>
+
             </div>
 
             <!--Name-->
             <div class="item-name">
-                <b ref="name" @input="renameItem" @keydown.delete.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
@@ -69,6 +78,7 @@
 
 <script>
 import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
+import Emoji from '@/components/Others/Emoji'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
@@ -79,11 +89,27 @@ export default {
     components: {
         UserPlusIcon,
         LinkIcon,
-        CheckIcon
+        CheckIcon,
+        Emoji
     },
     computed: {
         ...mapGetters(['FilePreviewType', 'fileInfoDetail']),
         ...mapGetters({ allData: 'data' }),
+        folderIconHandle(){
+
+            // If folder have set some icon color
+            if(this.data.icon_color) {
+                 this.$nextTick(() => {
+                    this.$refs[`folder${this.data.unique_id}`].firstElementChild.style.fill = `${this.data.icon_color}`
+                })
+                return false
+            }
+
+            // If folder have set some emoji
+            if(this.data.icon_emoji)
+               return this.data.icon_emoji
+
+        },
         isClicked() {
             return this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)
         },
@@ -140,6 +166,7 @@ export default {
     },
     methods: {
         drop() {
+            this.area = false
             events.$emit('drop')
         },
         showItemActions() {
@@ -161,6 +188,9 @@ export default {
             events.$emit('unClick')
 
             if (!this.$isMobile()) {
+
+                // After click deselect new folder rename input
+                document.getSelection().removeAllRanges();
 
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
                     // Click + Ctrl
@@ -265,7 +295,16 @@ export default {
         }, 300)
     },
     created() {
+
         this.itemName = this.data.name
+
+        events.$on('newFolder:focus', (unique_id) => {
+
+            if(this.data.unique_id == unique_id) {
+                this.$refs[unique_id].focus()
+                document.execCommand('selectAll')
+            }
+        })
 
         events.$on('mobileSelecting:start', () => {
             this.mobileMultiSelect = true
@@ -288,6 +327,7 @@ export default {
 <style scoped lang="scss">
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
+
 
 .slide-from-left-move {
     transition: transform 300s ease;
@@ -328,10 +368,10 @@ export default {
     }
 
     .select-box-active {
-        background-color: #f4f5f6;
+        background-color: $theme;
 
         .icon {
-            stroke: $text;
+            stroke: white;
         }
     }
 }
@@ -533,10 +573,10 @@ export default {
         }
 
         .select-box-active {
-            background-color: lighten($dark_mode_foreground, 10%);
+            background-color: $theme;
 
             .icon {
-                stroke: $theme;
+                stroke: white;
             }
         }
     }

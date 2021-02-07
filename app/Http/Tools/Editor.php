@@ -26,6 +26,116 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Editor
 {
+    /**
+     * Store folder icon
+     *
+     * @param $folder_icon
+     * @param $unique_id
+     * @param $shared
+     */
+    public static function set_folder_icon ($folder_icon, $unique_id, $shared = null)
+    {
+        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+
+        // Get folder
+        $folder = FileManagerFolder::where('user_id', $user_id)
+        ->where('unique_id', $unique_id)
+        ->first();
+        
+        // If request have emoji set folder icon emoji
+        if(isset($folder_icon['emoji'])) {
+            $folder->icon_emoji = $folder_icon['emoji'];
+            $folder->icon_color = null;
+        }
+
+        // If request have color set folder icon color
+        if(isset($folder_icon['color'])) {
+            $folder->icon_emoji = null;
+            $folder->icon_color = $folder_icon['color'];
+        }
+
+        // Save changes
+        $folder->save();
+
+    }
+
+    /**
+     * Zip requested folder
+     *
+     * @param $unique_id
+     * @param $shared
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function zip_folder($unique_id, $shared = null)
+    {
+        // Get folder
+        $requested_folder = FileManagerFolder::with(['folders.files', 'files'])
+            ->where('unique_id', $unique_id)
+            ->where('user_id', Auth::id() ?? $shared->user_id)
+            ->with('folders')
+            ->first();
+
+        $files = get_files_for_zip($requested_folder, collect([]));
+
+        // Local storage instance
+        $disk_local = Storage::disk('local');
+
+        // Create zip directory
+        if (!$disk_local->exists('zip')) {
+            $disk_local->makeDirectory('zip');
+        }
+
+        // Move file to local storage
+        if (!is_storage_driver('local')) {
+
+            // Create temp directory
+            if (!$disk_local->exists('temp')) {
+                $disk_local->makeDirectory('temp');
+            }
+
+            foreach ($files as $file) {
+                try {
+                    $disk_local->put('temp/' . $file['basename'], Storage::get('file-manager/' . $file['basename']));
+                } catch (FileNotFoundException $e) {
+                    throw new HttpException(404, 'File not found');
+                }
+            }
+        }
+
+        // Get zip path
+        $zip_name = Str::random(16) . '-' . Str::slug($requested_folder->name) . '.zip';
+        $zip_path = 'zip/' . $zip_name;
+
+        // Create zip
+        $zip = Madzipper::make(storage_path() . '/app/' . $zip_path);
+
+        // Get files folder on local storage drive
+        $files_folder = is_storage_driver('local') ? 'file-manager' : 'temp';
+
+        // Add files to zip
+        foreach ($files as $file) {
+            $zip->folder($file['folder_path'])->addString($file['name'], File::get(storage_path() . '/app/' . $files_folder . '/' . $file['basename']));
+        }
+
+        // Close zip
+        $zip->close();
+
+        // Delete temporary files
+        if (!is_storage_driver('local')) {
+
+            foreach ($files as $file) {
+                $disk_local->delete('temp/' . $file['basename']);
+            }
+        }
+
+        // Store zip record
+        return Zip::create([
+            'user_id'      => $shared->user_id ?? Auth::id(),
+            'shared_token' => $shared->token ?? null,
+            'basename' => $zip_name,
+        ]);
+    }
 
     /**
      * Zip selected files, store it in /zip folder and retrieve zip record
@@ -329,7 +439,7 @@ class Editor
         $temp_filename = $file->getClientOriginalName();
 
         // File Path
-        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;\
+        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;
 
         // Generate file
         File::append($file_path, $file->get());

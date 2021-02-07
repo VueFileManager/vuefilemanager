@@ -442,7 +442,19 @@
 
 }
 
+.info-box-wrapper {
+  margin: 0px 20px;
+}
+
 .windows {
+  
+  #content-sidebar {
+    scrollbar-width: none; 
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
+  }
+
   ::-webkit-scrollbar {
     width: 18px;
     height: 18px;

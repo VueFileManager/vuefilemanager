@@ -1,5 +1,5 @@
 <template>
-    <li class="menu-option">
+    <li class="menu-option" :class="[icon === 'trash' ? 'danger' : '']">
         <div class="icon">
             <trash-2-icon v-if="icon === 'trash'" size="17"></trash-2-icon>
             <life-buoy-icon v-if="icon === 'restore'" size="17"></life-buoy-icon>
@@ -12,6 +12,7 @@
             <star-icon v-if="icon === 'favourites'" size="17"></star-icon>
             <folder-plus-icon v-if="icon === 'create-folder'" size="17"></folder-plus-icon>
             <smile-icon v-if="icon === 'no-options'" size="17"></smile-icon>
+            <paperclip-icon v-if="icon === 'zip-folder'" size="17"></paperclip-icon> 
         </div>
         <div class="text-label">
             {{ title }}
@@ -24,6 +25,7 @@ import {
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
+    PaperclipIcon,
     LifeBuoyIcon,
     Trash2Icon,
     Edit2Icon,
@@ -41,6 +43,7 @@ import {
             CornerDownRightIcon,
             DownloadCloudIcon,
             FolderPlusIcon,
+            PaperclipIcon,
             LifeBuoyIcon,
             Trash2Icon,
             SmileIcon,
@@ -56,6 +59,22 @@ import {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+
+.danger {
+    .text-label {
+        color: $danger !important;
+    }
+    .icon {
+        path,
+        line,
+        polyline,
+        rect,
+        circle,
+        polygon {
+            stroke: $danger !important;
+        }
+    }
+}
 
 .menu-option {
     white-space: nowrap;
@@ -95,6 +114,11 @@ import {
     }
 }
 @media (prefers-color-scheme: dark) {
+    .danger {
+        &:hover {
+            background: rgba($danger, 0.1) !important;
+        }
+    }
     .menu-option {
         color: $dark_mode_text_primary;
 

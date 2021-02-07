@@ -76,7 +76,16 @@ class UserResource extends JsonResource
                             'folders' => $this->folder_tree
                         ],
                     ],
-                ]
+                ],
+                'timezone'  => [
+                    'data' => [
+                        'id'        => '1',
+                        'type'      => 'timezone',
+                        'attributes' => [
+                            'timezone'  =>$this->settings->timezone
+                        ],
+                    ]
+                ],
             ]
         ];
     }

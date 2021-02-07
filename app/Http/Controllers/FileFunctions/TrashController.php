@@ -59,12 +59,12 @@ class TrashController extends Controller
      * @param $unique_id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function restore(Request $request, $unique_id)
+    public function restore(Request $request)
     {
         // Validate request
-        $validator = Validator::make($request->all(), [
-            'type'      => 'required|string',
-            'to_home'   => 'boolean',
+        $validator = Validator::make($request->input('data'), [
+            '*.type'      => 'required|string',
+            '*.unique_id' => 'integer',
         ]);
 
         // Return error
@@ -77,37 +77,40 @@ class TrashController extends Controller
             return Demo::response_204();
         }
 
-        // Get folder
-        if ($request->type === 'folder') {
-
+        foreach($request->input('data') as $restore_item) {
+    
             // Get folder
-            $item = FileManagerFolder::onlyTrashed()
-                ->where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->first();
+            if ($restore_item['type'] === 'folder') {
 
-            // Restore item to home directory
-            if ($request->has('to_home') && $request->to_home) {
-                $item->parent_id = 0;
-                $item->save();
+                // Get folder
+                $item = FileManagerFolder::onlyTrashed()
+                    ->where('user_id', $user_id)
+                    ->where('unique_id', $restore_item['unique_id'])
+                    ->first();
+
+                // Restore item to home directory
+                if ($request->has('to_home') && $request->to_home) {
+                    $item->parent_id = 0;
+                    $item->save();
+                }
+            } else {
+
+                // Get item
+                $item = FileManagerFile::onlyTrashed()
+                    ->where('user_id', $user_id)
+                    ->where('unique_id', $restore_item['unique_id'])
+                    ->first();
+
+                // Restore item to home directory
+                if ($request->has('to_home') && $request->to_home) {
+                    $item->folder_id = 0;
+                    $item->save();
+                }
             }
-        } else {
 
-            // Get item
-            $item = FileManagerFile::onlyTrashed()
-                ->where('user_id', $user_id)
-                ->where('unique_id', $unique_id)
-                ->first();
-
-            // Restore item to home directory
-            if ($request->has('to_home') && $request->to_home) {
-                $item->folder_id = 0;
-                $item->save();
-            }
+            // Restore Item
+            $item->restore();
         }
-
-        // Restore Item
-        $item->restore();
 
         // Return response
         return response('Done!', 204);

@@ -188,7 +188,7 @@ export default {
         events.$on('drop', () => {
             this.dragInProgress = false
         })
-    },
+    }
 }
 </script>
 

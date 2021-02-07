@@ -25,14 +25,18 @@
                 <!--Image thumbnail-->
                 <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
 
+                 <!-- If folder have set emoji -->
+                <Emoji class="emoji" v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="80" />
+
                 <!--Else show only folder icon-->
-                <FontAwesomeIcon v-if="isFolder" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
+                <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
+
             </div>
 
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <b ref="name" @input="renameItem" @keydown.delete.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
@@ -67,6 +71,7 @@
 
 <script>
 import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
+import Emoji from '@/components/Others/Emoji'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
@@ -77,12 +82,28 @@ export default {
     components: {
         UserPlusIcon,
         CheckIcon,
-        LinkIcon
+        LinkIcon,
+        Emoji
     },
     computed: {
         ...mapGetters([
             'FilePreviewType', 'sharedDetail', 'fileInfoDetail'
         ]),
+         folderIconHandle(){
+
+             // If folder have set some color
+            if(this.data.icon_color) {
+                 this.$nextTick(() => {
+                    this.$refs[`folder${this.data.unique_id}`].firstElementChild.style.fill = `${this.data.icon_color}`
+                })
+                return false
+            }
+               
+            // If folder have set some emoji
+            if(this.data.icon_emoji)
+                return this.data.icon_emoji
+
+        },
         ...mapGetters({ allData: 'data' }),
         isClicked() {
             return this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)
@@ -158,6 +179,10 @@ export default {
             events.$emit('unClick')
 
             if (!this.$isMobile()) {
+
+                // After click deselect new folder rename input
+                document.getSelection().removeAllRanges();
+                
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {
                     // Click + Ctrl
                     if (this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {
@@ -267,6 +292,14 @@ export default {
     created() {
         this.itemName = this.data.name
 
+         events.$on('newFolder:focus', (unique_id) => {
+
+            if(this.data.unique_id == unique_id) {
+                this.$refs[unique_id].focus()
+                document.execCommand('selectAll')
+            }
+        })
+
         events.$on('mobileSelecting:start', () => {
             this.multiSelectMode = true
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
@@ -318,7 +351,7 @@ export default {
 }
 
 .select-box-active {
-    background-color: $text;
+    background-color: $theme;
 
     .icon {
         stroke: white;
@@ -452,6 +485,10 @@ export default {
         display: flex;
         align-items: center;
 
+        .emoji {
+            margin: 0 auto;
+        }
+
         .file-link {
             display: block;
         }
@@ -568,10 +605,10 @@ export default {
     }
 
     .select-box-active {
-        background-color: #f4f5f6;
+        background-color: lighten($theme, 5%);
 
         .icon {
-            stroke: $text;
+            stroke: white;
         }
     }
 

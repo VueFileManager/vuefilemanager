@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Tools\Guardian;
 use App\Http\Tools\Editor;
+use App\FileManagerFolder;
 use App\FileManagerFile;
 use Exception;
 
@@ -114,6 +115,12 @@ class EditItemsController extends Controller
             }
         }
 
+        // If request have a change folder icon values set the folder icon
+        if ($request->type === 'folder' && $request->filled('folder_icon')) {
+            
+            Editor::set_folder_icon($request->folder_icon, $unique_id);
+        }
+
         // Rename Item
         return Editor::rename_item($request, $unique_id);
     }
@@ -148,6 +155,12 @@ class EditItemsController extends Controller
             Guardian::check_item_access($item->unique_id, $shared);
         } else {
             Guardian::check_item_access($item->folder_id, $shared);
+        }
+
+        // If request have a change folder icon values set the folder icon
+        if ($request->type === 'folder' && $request->filled('folder_icon')) {
+
+            Editor::set_folder_icon($request->folder_icon, $unique_id, $shared);
         }
 
         // Rename item
@@ -313,6 +326,85 @@ class EditItemsController extends Controller
         $new_file->setPublicUrl($token);
 
         return $new_file;
+    }
+
+    
+/**
+     * User download folder via zip
+     *
+     * @param $unique_id
+     * @return string
+     */
+    public function user_zip_folder(Request $request,$unique_id)
+    {
+        // Get user id
+        $user_id = Auth::id();
+        
+        // Check permission to download for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
+
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
+
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
+
+            // Check access to requested directory
+            Guardian::check_item_access($unique_id, $shared);
+        }
+
+        // Get folder
+        $folder = FileManagerFolder::whereUserId($user_id)
+            ->where('unique_id', $unique_id);
+
+        if (! $folder->exists()) {
+            abort(404, 'Requested folder doesn\'t exists.');
+        }
+
+        $zip = Editor::zip_folder($unique_id);
+
+        // Get file
+        return response([
+            'url'  => route('zip', $zip->id),
+            'name' => $zip->basename,
+        ], 200);
+    }
+
+    /**
+     * Guest download folder via zip
+     *
+     * @param Request $request
+     * @param $unique_id
+     * @param $token
+     * @return string
+     */
+    public function guest_zip_folder($unique_id, $token)
+    {
+        // Get shared record
+        $shared = get_shared($token);
+
+        // Check access to requested folder
+        Guardian::check_item_access($unique_id, $shared);
+
+        // Get folder
+        $folder = FileManagerFolder::whereUserId($shared->user_id)
+            ->where('unique_id', $unique_id);
+            
+
+        if (! $folder->exists()) {
+            abort(404, 'Requested folder doesn\'t exists.');
+        }
+
+        $zip = Editor::zip_folder($unique_id, $shared);
+
+        // Get file
+        return response([
+            'url'  => route('zip_public', [
+                'id'    => $zip->id,
+                'token' => $shared->token,
+            ]),
+            'name' => $zip->basename,
+        ], 200);
     }
 
     /**

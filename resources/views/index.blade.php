@@ -52,6 +52,7 @@
             stripe_public_key: '{{ config('cashier.key') ? config('cashier.key') : null }}',
 
             userRegistration: {{ isset($settings->registration) ? $settings->registration : 1 }},
+			allowHomepage: {{ isset($settings->allow_homepage) ? $settings->allow_homepage : 1 }},
             storageLimit: {{ isset($settings->storage_limitation) ? $settings->storage_limitation : 1 }},
             storageDefaultSpace: {{ isset($settings->storage_default) ? $settings->storage_default : 5 }},
             storageDefaultSpaceFormatted: '{{ isset($settings->storage_default) ? format_gigabytes($settings->storage_default) : format_gigabytes(5) }}',

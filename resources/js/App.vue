@@ -12,6 +12,7 @@
             <!--Mobile Navigation-->
             <MobileNavigation/>
 
+            <!-- Processing popup for zip -->
             <ProcessingPopup/>
 
             <!--Confirm Popup-->
@@ -58,7 +59,6 @@
 
         <CookieDisclaimer/>
 
-        <!--Background vignette-->
         <Vignette/>
     </div>
 </template>

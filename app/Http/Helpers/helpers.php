@@ -2,6 +2,7 @@
 
 use App\FileManagerFile;
 use App\FileManagerFolder;
+use App\User;
 use App\Setting;
 use App\Share;
 use ByteUnits\Metric;
@@ -558,7 +559,17 @@ function get_pretty_name($basename, $name, $mimetype)
 function get_image_meta_data($file)
 {
     if (get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
-        return exif_read_data($file);
+
+        try {
+
+            // Try to get the exif data
+            return mb_convert_encoding(Image::make($file->getRealPath())->exif(),'UTF8', 'UTF8');
+
+        } catch ( \Exception $e) {
+            
+          return null;
+
+        }
     }
 }
 
@@ -732,4 +743,62 @@ function remove_accents($string) {
     }
 
     return $string;
+}
+/**
+ * Get all files from folder and get their folder location in VueFileManager directories
+ *
+ * @param $folders
+ * @param null $files
+ * @param array $path
+ * @return array
+ */
+function get_files_for_zip($folders, $files, $path = [])
+{
+    // Return file list
+    if (!isset($folders->folders)) {
+        return $files->unique()->values()->all();
+    }
+
+    // Push file path
+    array_push($path, $folders->name);
+
+    // Push file to collection
+    $folders->files->each(function ($file) use ($files, $path) {
+        $files->push([
+            'name'        => $file->name,
+            'basename'    => $file->basename,
+            'folder_path' => implode('/', $path),
+        ]);
+    });
+
+    // Get all children folders and folders within
+    if ($folders->folders->isNotEmpty()) {
+        $folders->folders->map(function ($folder) use ($files, $path) {
+            return get_files_for_zip($folder, $files, $path);
+        });
+    }
+
+    return get_files_for_zip($folders->folders->first(), $files, $path);
+}
+
+/**
+ * Set time by user timezone GMT 
+ *
+ * @param $time
+ * @return int
+ */
+function set_time_by_user_timezone($time)
+{
+    $user = Auth::user();
+
+    if($user) {
+
+        // Get the value of timezone if user have some
+        $time_zone = intval($user->settings->timezone * 60 ?? null);
+
+        return Carbon::parse($time)->addMinutes($time_zone ?? null);
+    }
+
+    return Carbon::parse($time);
+    
 }

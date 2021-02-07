@@ -84,8 +84,6 @@ export default {
 
             this.filter.field = field
 
-            console.log(this.filter);
-
             // Set sorting direction
             if (this.filter.sort === 'DESC')
                 this.filter.sort = 'ASC'

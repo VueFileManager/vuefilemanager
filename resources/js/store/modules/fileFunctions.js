@@ -6,10 +6,34 @@ import axios from 'axios'
 import Vue from 'vue'
 
 const defaultState = {
-	isZippingFiles: false,
+	processingPopup: undefined,
 }
 
 const actions = {
+	downloadFolder: ({commit, getters}, folder) => {
+
+		commit('PROCESSING_POPUP', {
+			title: i18n.t('popup_zipping.title'),
+			message: i18n.t('popup_zipping.message'),
+		})
+
+		// Get route
+		let route = getters.sharedDetail && !getters.sharedDetail.protected
+			? '/api/zip-folder/' + folder.unique_id + '/public/' + router.currentRoute.params.token
+			: '/api/zip-folder/' + folder.unique_id
+
+		axios.get(route)
+		.then(response => {
+			Vue.prototype.$downloadFile(response.data.url, response.data.name)
+		})
+		.catch(() => {
+			Vue.prototype.$isSomethingWrong()
+		})
+		.finally(() => {
+			commit('PROCESSING_POPUP', undefined)
+		})
+
+	},
 	downloadFiles: ({ commit, getters }) => {
 		let files = []
 
@@ -96,6 +120,11 @@ const actions = {
 
 				events.$emit('scrollTop')
 
+				//Set focus on new folder name
+				setTimeout(() => {
+					events.$emit('newFolder:focus', response.data.unique_id)
+				}, 10);
+
 				if (getters.currentFolder.location !== 'public')
 					dispatch('getAppData')
 				if (getters.currentFolder.location === 'public')
@@ -119,6 +148,7 @@ const actions = {
 			.post(route, {
 				name: data.name,
 				type: data.type,
+				folder_icon: data.folder_icon,
 				_method: 'patch'
 			})
 			.then(response => {
@@ -220,24 +250,36 @@ const actions = {
 	},
 	restoreItem: ({ commit, getters }, item) => {
 
+		let itemToRestore = []
+		let items = [item]
 		let restoreToHome = false
 
+		// If coming no selected item dont get items to restore from fileInfoDetail
+		if (!item)
+			items = getters.fileInfoDetail
+	
 		// Check if file can be restored to home directory
 		if (getters.currentFolder.location === 'trash')
 			restoreToHome = true
 
-		// Remove file
-		commit('REMOVE_ITEM', item.unique_id)
+		items.forEach(data => itemToRestore.push({
+			'type': data.type,
+			'unique_id': data.unique_id,
+		}))
 
 		// Remove file preview
 		commit('CLEAR_FILEINFO_DETAIL')
 
 		axios
-			.post(getters.api + '/restore-item/' + item.unique_id, {
-				type: item.type,
+			.post(getters.api + '/restore-items' ,{
 				to_home: restoreToHome,
-				_method: 'patch'
+				data: itemToRestore,
 			})
+			.then(
+
+				// Remove file
+				items.forEach( data => commit('REMOVE_ITEM', data.unique_id) )
+			)
 			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
 	deleteItem: ({ commit, getters, dispatch }, noSelectedItem) => {
@@ -340,13 +382,13 @@ const actions = {
 }
 
 const mutations = {
-	ZIPPING_FILE_STATUS(state, status) {
-		state.isZippingFiles = status
+	PROCESSING_POPUP(state, status) {
+		state.processingPopup = status
 	}
 }
 
 const getters = {
-	isZippingFiles: state => state.isZippingFiles
+	processingPopup: state => state.processingPopup
 }
 
 export default {

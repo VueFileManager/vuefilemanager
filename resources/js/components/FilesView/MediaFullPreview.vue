@@ -5,7 +5,7 @@
 				<audio class="file audio" :class="{ 'file-shadow': !isMobileDevice }" v-if="fileInfoDetail[0].type == 'audio'" :src="currentFile.file_url" controlsList="nodownload" controls></audio>
 				<img v-if="fileInfoDetail[0].type === 'image' && currentFile.thumbnail" class="file" :class="{ 'file-shadow': !isMobileDevice }" id="image" :src="currentFile.file_url" />
 				<div class="video-wrapper" v-if="fileInfoDetail[0].type === 'video' && currentFile.file_url">
-					<video :src="currentFile.file_url" class="video" :class="{ 'file-shadow': !isMobileDevice }" controlsList="nodownload" disablePictureInPicture playsinline controls />
+					<video :src="currentFile.file_url" class="video" :class="{ 'file-shadow': !isMobileDevice }" controlsList="nodownload" disablePictureInPicture playsinline controls autoplay />
 				</div>
 			</div>
 		</div>

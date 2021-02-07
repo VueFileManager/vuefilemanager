@@ -42,7 +42,7 @@ import { events } from '@/bus'
 
 @media (prefers-color-scheme: dark) {
     .options {
-        background: $dark_mode_background;
+        background: $dark_mode_foreground;
     }
 }
 

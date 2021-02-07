@@ -80,7 +80,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/latest' + getters.sorting.URI)
+            .get(getters.api + '/latest' )
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -209,6 +209,7 @@ const mutations = {
         state.navigation = tree
     },
     LOADING_STATE(state, payload) {
+        state.fileInfoDetail= []
         state.data = payload.data
         state.isLoading = payload.loading
     },
@@ -227,7 +228,6 @@ const mutations = {
         state.browseHistory.pop()
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
-
         // Rename filename in file info detail
         if (state.fileInfoDetail && state.fileInfoDetail.unique_id == updatedFile.unique_id) {
             state.fileInfoDetail = updatedFile
@@ -235,7 +235,11 @@ const mutations = {
 
         // Rename item name in data view
         state.data.find(item => {
-            if (item.unique_id == updatedFile.unique_id) item.name = updatedFile.name
+            if (item.unique_id == updatedFile.unique_id) {
+                item.name = updatedFile.name
+                item.icon_color = updatedFile.icon_color ? updatedFile.icon_color : null
+                item.icon_emoji = updatedFile.icon_emoji ? updatedFile.icon_emoji : null
+            }
         })
     },
     REMOVE_ITEM_FILEINFO_DETAIL(state,item) {

@@ -53,7 +53,7 @@
                 </div>
 
                 <div>
-                    <i18n v-if="config.isSaaS" path="page_registration.agreement" tag="p" class="legal-agreement">
+                    <i18n path="page_registration.agreement" tag="p" class="legal-agreement">
                         <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">{{ termsOfService.title }}</router-link>
                         <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">{{ privacyPolicy.title }}</router-link>
                     </i18n>

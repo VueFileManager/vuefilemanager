@@ -1,7 +1,7 @@
 <template>
     <div class="cookie-wrapper" v-if="isVisibleDisclaimer && config.isSaaS">
-        <span class="close-icon">
-            <x-icon @click="closeDisclaimer" size="12"></x-icon>
+        <span @click="closeDisclaimer" class="close-icon">
+            <x-icon size="12"></x-icon>
         </span>
         <i18n path="cookie_disclaimer.description" tag="p">
             <router-link :to="{name: 'DynamicPage', params: {slug: 'cookie-policy'}}">{{ $t('cookie_disclaimer.button') }}</router-link>

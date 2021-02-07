@@ -39,11 +39,18 @@ const actions = {
         })
     },
     logOut: ({getters, commit}) => {
+
+        let popup = setTimeout(() => {
+            commit('PROCESSING_POPUP', {
+                title: 'Logging Out',
+                message: 'Wait a second...',
+            })
+        }, 300)
+
         axios
             .get(getters.api + '/logout')
             .then(() => {
-
-                // Commit Remove Access Token from vuex storage
+                clearTimeout(popup)
                 commit('DESTROY_DATA')
 
                 router.push({name: 'SignIn'})

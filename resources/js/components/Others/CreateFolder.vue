@@ -13,7 +13,7 @@
                 <!--Set password-->
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Title" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('popup_create_folder.placeholder')">
+                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
@@ -82,6 +82,15 @@
                 }
             },
         },
+        mounted() {
+            events.$on('popup:open', ({name}) => {
+
+                if (name === 'create-folder')
+                    this.$nextTick(() => {
+                       this.$refs.input.focus()
+                    })
+            })
+        }
     }
 </script>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FileFunctions;
 use App\Http\Requests\Share\CreateShareRequest;
 use App\Http\Requests\Share\UpdateShareRequest;
 use App\Http\Resources\ShareResource;
+use App\Notifications\SharedSendViaEmail;
 use App\Zip;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Controllers\Controller;
@@ -12,8 +13,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use App\Share;
+use Validator;
 
 class ShareController extends Controller
 {
@@ -58,7 +61,17 @@ class ShareController extends Controller
         ];
 
         // Return created shared record
-        return new ShareResource(Share::create($options));
+        $share = new ShareResource(Share::create($options));
+
+        // Send shared link via email
+        if ($request->has('emails')) {
+
+            foreach ($request->emails as $email) {
+                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
+            }
+        }
+
+        return $share;
     }
 
     /**
@@ -96,7 +109,7 @@ class ShareController extends Controller
      */
     public function destroy(Request $request)
     {
-        foreach($request->input('tokens') as $token) {
+        foreach ($request->input('tokens') as $token) {
 
             // Get sharing record
             Share::where('token', $token)
@@ -115,6 +128,42 @@ class ShareController extends Controller
         }
 
         // Done
+        return response('Done!', 204);
+    }
+
+    /**
+     * Send shared link via email to recipients
+     *
+     * @param $token
+     * @param $request
+     */
+    public function shared_send_via_email(Request $request, $token)
+    {
+        // Make validation of array of emails
+        $validator = Validator::make($request->all(), [
+            'emails.*' => 'required|email',
+        ]);
+
+        // Return error
+        if ($validator->fails()) abort(400, 'Bad emails input');
+
+        // Get shared by token
+        $share = Share::where('token', $token)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        // Demo preview
+        if (env('APP_DEMO')) {
+            return response('Done!', 204);
+        }
+
+        // Send shared link via email
+        if($request->has('emails')) {
+            foreach ($request->emails as $email) {
+                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
+            }
+        }
+
         return response('Done!', 204);
     }
 }
