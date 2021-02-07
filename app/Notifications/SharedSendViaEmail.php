@@ -14,11 +14,10 @@ class SharedSendViaEmail extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $token
      */
-    public function __construct($emails, $token)
+    public function __construct($token)
     {
-        $this->emails = $emails;
         $this->token = $token;
         $this->user = Auth::user();
     }
@@ -42,16 +41,11 @@ class SharedSendViaEmail extends Notification
      */
     public function toMail($notifiable)
     {
-        $notifiable->email = $this->emails;
-        $shared_link = url(env('APP_URL') . '/shared' . '/' . $this->token );
-       
-
         return (new MailMessage)
-            ->subject(__('vuefilemanager.shared_link_email_subject' , ['user' => $this->user->name]) . config('vuefilemanager.app_name'))
+            ->subject(__('vuefilemanager.shared_link_email_subject' , ['user' => $this->user->name]))
             ->greeting(__('vuefilemanager.shared_link_email_greeting'))
             ->line(__('vuefilemanager.shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__('vuefilemanager.shared_link_email_link'), $shared_link);
-            
+            ->action(__('vuefilemanager.shared_link_email_link'), url('/shared', ['token' => $this->token]));
     }
 
     /**

@@ -207,7 +207,6 @@
                         emails: this.emails
                     })
                     .catch(() => {
-
                         this.$isSomethingWrong()
                     })
                     .finally(() => {
@@ -297,12 +296,9 @@
                         events.$emit('popup:close')
                     })
                     .catch(() => {
-
                         this.$isSomethingWrong()
                     })
                     .finally(() => {
-
-                        // End loading
                         this.isLoading = false
                     })
             },

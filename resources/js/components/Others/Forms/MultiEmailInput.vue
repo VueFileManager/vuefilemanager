@@ -122,6 +122,10 @@ export default {
     .email-list {
         display: flex;
         flex-wrap: wrap;
+
+        .email-input {
+            font-size: 14px;
+        }
     }
 
     .email-tag {

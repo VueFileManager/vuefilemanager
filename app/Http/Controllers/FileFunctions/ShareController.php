@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FileFunctions;
 use App\Http\Requests\Share\CreateShareRequest;
 use App\Http\Requests\Share\UpdateShareRequest;
 use App\Http\Resources\ShareResource;
+use App\Notifications\SharedSendViaEmail;
 use App\Zip;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use App\Share;
 use Validator;
@@ -62,8 +64,11 @@ class ShareController extends Controller
         $share = new ShareResource(Share::create($options));
 
         // Send shared link via email
-        if($request->emails) {
-            $share->sendSharedLinkViaEmail($request->emails, $token);
+        if($request->has('emails')) {
+
+            foreach ($request->emails as $email) {
+                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
+            }
         }
 
         return $share;

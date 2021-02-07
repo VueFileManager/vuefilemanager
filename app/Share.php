@@ -50,19 +50,8 @@ class Share extends Model
      *
      * @return string
      */
-    public function getLinkAttribute() {
-
-        return url('/shared', ['token' => $this->attributes['token']]);
-    }
-
-    /**
-     * Send the sahared link notification.
-     *
-     * @param string $token $emails
-     * @return void
-     */
-    public function sendSharedLinkViaEmail($emails, $token)
+    public function getLinkAttribute()
     {
-        $this->notify(new SharedSendViaEmail($emails, $token));
+        return url('/shared', ['token' => $this->attributes['token']]);
     }
 }

@@ -58,7 +58,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 20;
+        z-index: 19;
         overflow-y: auto;
         display: grid;
         padding: 40px;

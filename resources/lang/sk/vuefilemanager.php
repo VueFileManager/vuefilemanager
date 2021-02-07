@@ -8,9 +8,9 @@ return [
     'home'                    => 'Domov',
 
     //Shared link email message
-    'shared_link_email_subject'  => ':user vám posiela zdielany odkaz.',
+    'shared_link_email_subject'  => '🙋 :user vám posiela zdieľané súbory.',
     'shared_link_email_greeting' => 'Ahoj!',
-    'shared_link_email_user'     => ':user (:email) vám posiela odkaz pre zdielane súbory.',
+    'shared_link_email_user'     => ':user (:email) vám posiela odkaz pre zdieľané súbory.',
     'shared_link_email_link'     => 'Vaše súbory',
 
     // Reset password email
