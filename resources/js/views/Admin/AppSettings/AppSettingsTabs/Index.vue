@@ -4,6 +4,29 @@
         <PageTabGroup>
             <div class="form block-form">
 
+                <FormLabel>Home Page</FormLabel>
+
+                <div class="block-wrapper">
+                    <div class="input-wrapper">
+                        <div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">
+                                    Allow Homepage
+                                </label>
+                                <small class="input-help">
+                                    When this is turned on, your visitors can visit your default homepage.
+                                </small>
+                            </div>
+                            <SwitchInput
+                                @input="$updateText('/settings', 'allow_homepage', allow_homepage)"
+                                v-model="allow_homepage"
+                                class="switch"
+                                :state="allow_homepage"
+                            />
+                        </div>
+                    </div>
+                </div>
+
                 <!--Header-->
                 <div>
                     <FormLabel>Header Title</FormLabel>
@@ -314,6 +337,7 @@
         data() {
             return {
                 isLoading: true,
+                allow_homepage: 1,
                 section_features: 1,
                 section_feature_boxes: 1,
                 section_pricing_content: 1,
@@ -346,10 +370,11 @@
         mounted() {
             axios.get('/api/settings', {
                 params: {
-                    column: 'footer_content|get_started_description|get_started_title|pricing_description|pricing_title|feature_description_3|feature_title_3|feature_description_2|feature_title_2|feature_description_1|feature_title_1|features_description|features_title|header_description|header_title|section_get_started|section_pricing_content|section_feature_boxes|section_features'
+                    column: 'allow_homepage|footer_content|get_started_description|get_started_title|pricing_description|pricing_title|feature_description_3|feature_title_3|feature_description_2|feature_title_2|feature_description_1|feature_title_1|features_description|features_title|header_description|header_title|section_get_started|section_pricing_content|section_feature_boxes|section_features'
                 }
             })
                 .then(response => {
+                    this.allow_homepage = parseInt(response.data.allow_homepage)
                     this.section_features = parseInt(response.data.section_features)
                     this.section_feature_boxes = parseInt(response.data.section_feature_boxes)
                     this.section_pricing_content = parseInt(response.data.section_pricing_content)

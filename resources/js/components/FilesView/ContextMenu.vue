@@ -93,10 +93,8 @@
             </OptionGroup>
 
             <!-- Single options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && multiSelectContextMenu">
-                <Option @click.native="addToFavourites" v-if="item && isFolder " :title="isInFavourites
-                                                                                ? $t('context_menu.remove_from_favourites')
-                                                                                : $t('context_menu.add_to_favourites')" icon="favourites"/>
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && multiSelectContextMenu && isFolder">
+                <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites"/>
             </OptionGroup>
 
 

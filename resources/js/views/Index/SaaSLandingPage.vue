@@ -62,6 +62,9 @@
         },
         mounted() {
 
+            if (! this.config.allowHomepage)
+                this.$router.push({name: 'SignIn'})
+
             // Get page content
             axios.get('/api/content', {
                 params: {

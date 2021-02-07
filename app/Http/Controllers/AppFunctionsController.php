@@ -44,7 +44,7 @@ class AppFunctionsController extends Controller
         'section_get_started',
         'section_pricing_content',
         'section_feature_boxes',
-        'section_features',
+        'allow_homepage',
     ];
 
     /**

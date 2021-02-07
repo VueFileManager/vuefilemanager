@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'pages' => [
+    'pages'            => [
         [
             'visibility' => 1,
             'title'      => 'Terms of Service',
@@ -21,7 +21,7 @@ return [
             'content'    => 'Metus penatibus ligula dolor natoque non habitasse laoreet facilisis, libero vivamus eget semper vulputate interdum integer, phasellus lorem enim blandit consectetur nullam sollicitudin. Hendrerit interdum luctus ut in molestie himenaeos eros cum laoreet parturient est, eu lectus hac et netus viverra dictumst congue elit sem senectus litora, fames scelerisque adipiscing inceptos fringilla montes sociosqu suscipit auctor potenti. Elementum lacus vulputate viverra ac morbi ligula ipsum facilisi, sit eu imperdiet lacinia congue dis vitae.',
         ],
     ],
-    'content_regular' => [
+    'content_regular'  => [
         [
             'name'  => 'section_features',
             'value' => '1',
@@ -85,6 +85,10 @@ return [
         [
             'name'  => 'footer_content',
             'value' => '© 2021 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
+        ],
+        [
+            'name'  => 'allow_homepage',
+            'value' => 0,
         ],
     ],
     'content_extended' => [
