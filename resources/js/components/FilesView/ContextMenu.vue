@@ -23,14 +23,13 @@
             <!-- Single options -->
             <OptionGroup v-if="multiSelectContextMenu">
                 <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+                <Option @click.native="deleteItem" v-if="item" :title="$t('context_menu.delete')" icon="trash"/>
                 <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash"/>
             </OptionGroup>
 
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
                 <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
-                <Option @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
             </OptionGroup>
 
             <!-- Multi options -->

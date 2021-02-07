@@ -26,6 +26,7 @@ class AppFunctionsController extends Controller
      * @var array
      */
     private $whitelist = [
+        'section_features',
         'footer_content',
         'get_started_description',
         'get_started_title',

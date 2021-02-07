@@ -39,8 +39,8 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 });
 
 // Admin system tools
+Route::get('/service/upgrade', 'General\UpgradeAppController@upgrade');
 Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master'], 'prefix' => 'service'], function () {
-    Route::get('/upgrade', 'General\UpgradeAppController@upgrade');
     Route::get('/down', 'General\UpgradeAppController@down');
     Route::get('/up', 'General\UpgradeAppController@up');
 });

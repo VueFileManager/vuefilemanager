@@ -64,7 +64,7 @@ class ShareController extends Controller
         $share = new ShareResource(Share::create($options));
 
         // Send shared link via email
-        if($request->has('emails')) {
+        if ($request->has('emails')) {
 
             foreach ($request->emails as $email) {
                 Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
@@ -109,7 +109,7 @@ class ShareController extends Controller
      */
     public function destroy(Request $request)
     {
-        foreach($request->input('tokens') as $token) {
+        foreach ($request->input('tokens') as $token) {
 
             // Get sharing record
             Share::where('token', $token)
@@ -135,9 +135,9 @@ class ShareController extends Controller
      * Send shared link via email to recipients
      *
      * @param $token
-     * @param $emails
+     * @param $request
      */
-    public function shared_send_via_email (Request $request, $token)
+    public function shared_send_via_email(Request $request, $token)
     {
         // Make validation of array of emails
         $validator = Validator::make($request->all(), [
@@ -149,17 +149,21 @@ class ShareController extends Controller
 
         // Get shared by token
         $share = Share::where('token', $token)
-        ->where('user_id', Auth::id())
-        ->first();
+            ->where('user_id', Auth::id())
+            ->first();
 
         // Demo preview
         if (env('APP_DEMO')) {
             return response('Done!', 204);
         }
 
-        // Send share link via email
-        $share->sendSharedLinkViaEmail($request->emails, $token);
-          
+        // Send shared link via email
+        if($request->has('emails')) {
+            foreach ($request->emails as $email) {
+                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
+            }
+        }
+
         return response('Done!', 204);
     }
 }
