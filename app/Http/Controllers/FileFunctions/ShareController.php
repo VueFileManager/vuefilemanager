@@ -147,18 +147,15 @@ class ShareController extends Controller
         // Return error
         if ($validator->fails()) abort(400, 'Bad emails input');
 
-        // Get shared by token
-        $share = Share::where('token', $token)
-        ->where('user_id', Auth::id())
-        ->first();
-
         // Demo preview
         if (env('APP_DEMO')) {
             return response('Done!', 204);
         }
 
         // Send share link via email
-        $share->sendSharedLinkViaEmail($request->emails, $token);
+        foreach ($request->emails as $email) {
+            Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
+        }
           
         return response('Done!', 204);
     }
