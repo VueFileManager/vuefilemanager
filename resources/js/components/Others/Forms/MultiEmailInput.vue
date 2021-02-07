@@ -24,10 +24,10 @@ export default {
     props: ['isError', 'label'],
     computed: {
         getCharactersLength() {
-            return this.emails.join('').length
+            return this.emails.join( '' ).length
         },
         placeHolder() {
-            return !this.emails.length ? this.$t('shared_form.email_placeholder') : ''
+            return !this.emails.length ? this.$t( 'shared_form.email_placeholder' ) : ''
         },
         inputSize() {
             return this.email && this.email.length > 14 ? this.email.length : 14
@@ -40,36 +40,44 @@ export default {
         }
     },
     methods: {
-        removeEmail(email) {
-            this.emails = this.emails.filter(item => item !== email)
+        removeEmail( email ) {
+            this.emails = this.emails.filter( item => item !== email )
+
+            // After romove email send new emails list to parent
+            events.$emit( 'emailsInputValues', this.emails )
         },
-        removeLastEmail(event) {
+        removeLastEmail( event ) {
 
             // If is input empty and presse backspace remove last email from array
-            if (event.code === 'Backspace' && this.email === '')
+            if ( event.code === 'Backspace' && this.email === '' )
                 this.emails.pop()
         },
         handleEmail() {
 
-            if (this.email.length > 0) {
+            if ( this.email.length > 0 ) {
                 // Get index of @ and last dot
-                let lastDot = this.email.lastIndexOf('.')
-                let at = this.email.indexOf('@')
+                let lastDot = this.email.lastIndexOf( '.' )
+                let at = this.email.indexOf( '@' )
 
                 // Check if is after @ some dot, if email have @ anf if dont have more like one
-                if (lastDot < at || at === -1 || this.email.match(/@/g).length > 1) return
+                if ( lastDot < at || at === -1 || this.email.match(/@/g).length > 1 ) return
+
+                // First email dont need to be separated by comma or space to be sended
+                if( this.emails.length === 0 ) 
+                    events.$emit('emailsInputValues', [this.email])
+                
 
                 // After come or backspace push the single email to array or emails
-                if (this.email.includes(',') || this.email.includes(' ')) {
+                if ( this.email.includes(',') || this.email.includes(' ') ) {
 
-                    let email = this.email.replace(/[","," "]/, '')
+                    let email = this.email.replace( /[","," "]/, '' )
 
                     this.email = ''
 
                     // Push single email to aray of emails
-                    this.emails.push(email)
+                    this.emails.push( email )
 
-                    events.$emit('emailsInputValues', this.emails)
+                    events.$emit( 'emailsInputValues', this.emails )
                 }
             }
         }
