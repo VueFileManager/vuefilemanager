@@ -7,6 +7,7 @@ import Vue from 'vue'
 
 const defaultState = {
 	processingPopup: undefined,
+	filesQueue: [],
 }
 
 const actions = {
@@ -197,6 +198,8 @@ const actions = {
 					if (response.data.folder_id == getters.currentFolder.unique_id)
 						commit('ADD_NEW_ITEMS', response.data)
 
+					// TODO: handle new uploads if exist
+
 					resolve(response)
 				})
 				.catch(error => {
@@ -384,11 +387,15 @@ const actions = {
 const mutations = {
 	PROCESSING_POPUP(state, status) {
 		state.processingPopup = status
+	},
+	ADD_FILES_TO_QUEUE(state, file) {
+		state.filesQueue.push(file)
 	}
 }
 
 const getters = {
-	processingPopup: state => state.processingPopup
+	processingPopup: state => state.processingPopup,
+	filesQueue: state => state.filesQueue,
 }
 
 export default {

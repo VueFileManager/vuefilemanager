@@ -76,19 +76,20 @@ const Helpers = {
             this.$store.dispatch('createFolder', folderName)
         }
 
-        Vue.prototype.$handleUploading = async function (files, parent_id) {
+        Vue.prototype.$handleUploading = async function () {
 
+        	//let files = this.$store.getters.filesQueue
             let fileBuffer = []
 
             // Append the file list to fileBuffer array
-            Array.prototype.push.apply(fileBuffer, files);
+            Array.prototype.push.apply(fileBuffer, this.$store.getters.filesQueue);
 
             let fileSucceed = 0
 
             // Update files count in progressbar
             store.commit('UPDATE_FILE_COUNT_PROGRESS', {
                 current: fileSucceed,
-                total: files.length
+                total: this.$store.getters.filesQueue.length
             })
 
             // Reset upload progress to 0
@@ -96,21 +97,20 @@ const Helpers = {
 
             // Get parent id
             let parentFolder = this.$store.getters.currentFolder ? this.$store.getters.currentFolder.unique_id : 0
-            let rootFolder = parent_id ? parent_id : parentFolder
 
             // Upload files
             do {
-                let file = fileBuffer.shift(),
+                let onQueue = fileBuffer.shift(),
                     chunks = []
 
                 // Calculate ceils
                 let size = this.$store.getters.config.chunkSize,
-                    chunksCeil = Math.ceil(file.size / size);
+                    chunksCeil = Math.ceil(onQueue.file.size / size);
 
                 // Create chunks
                 for (let i = 0; i < chunksCeil; i++) {
-                    chunks.push(file.slice(
-                        i * size, Math.min(i * size + size, file.size), file.type
+                    chunks.push(onQueue.file.slice(
+                        i * size, Math.min(i * size + size, onQueue.file.size), onQueue.file.type
                     ));
                 }
 
@@ -118,7 +118,7 @@ const Helpers = {
                 let formData = new FormData(),
                     uploadedSize = 0,
                     isNotGeneralError = true,
-                    striped_name = file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
+                    striped_name = onQueue.file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
                     filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
 
                 do {
@@ -128,14 +128,14 @@ const Helpers = {
 
                     // Set form data
                     formData.set('file', chunk, filename);
-                    formData.set('parent_id', rootFolder)
+                    formData.set('parent_id', onQueue.parent_id)
                     formData.set('is_last', isLast);
 
                     // Upload chunks
                     do {
                         await store.dispatch('uploadFiles', {
                             form: formData,
-                            fileSize: file.size,
+                            fileSize: onQueue.file.size,
                             totalUploadedSize: uploadedSize
                         }).then(() => {
                             uploadedSize = uploadedSize + chunk.size
@@ -165,7 +165,7 @@ const Helpers = {
                 // Progress file log
                 store.commit('UPDATE_FILE_COUNT_PROGRESS', {
                     current: fileSucceed,
-                    total: files.length
+                    total: this.$store.getters.filesQueue.length
                 })
 
             } while (fileBuffer.length !== 0)
@@ -187,10 +187,17 @@ const Helpers = {
             // Prevent submit empty files
             if (event.dataTransfer.items.length == 0) return
 
-            // Get files
-            let files = [...event.dataTransfer.items].map(item => item.getAsFile());
+            // Push files to queue
+            [...event.dataTransfer.items].map(item => {
+				this.$store.commit('ADD_FILES_TO_QUEUE', {
+					parent_id: parent_id,
+					file: item.getAsFile(),
+				})
+			});
 
-            this.$handleUploading(files, parent_id)
+            if (! this.$store.getters.uploadingFilesCount) {
+				this.$handleUploading()
+			}
         }
 
         Vue.prototype.$downloadFile = function (url, filename) {

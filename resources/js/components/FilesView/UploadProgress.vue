@@ -1,20 +1,26 @@
 <template>
     <transition name="info-panel">
-        <div v-if="uploadingFilesCount" class="upload-progress">
+        <div v-if="filesQueue.length > 0" class="upload-progress">
             <div class="progress-title">
+
+                <!--Is processing-->
 				<span v-if="isProcessingFile">
                     <refresh-cw-icon size="12" class="sync-alt"></refresh-cw-icon>
                     {{ $t('uploading.processing_file') }}
                 </span>
-				<span v-if="!isProcessingFile && uploadingFilesCount.total === 1">
-                    {{ $t('uploading.progress_single_upload', {progress: uploadingFileProgress}) }}
+
+                <!--Single file upload-->
+				<span v-if="!isProcessingFile && filesQueue.length === 1">
+                    {{ $t('uploading.progress_single_upload', {progress: 80}) }}
                 </span>
-				<span v-if="!isProcessingFile && uploadingFilesCount.total > 1">
-                    {{ $t('uploading.progress', {current:uploadingFilesCount.current, total: uploadingFilesCount.total, progress: uploadingFileProgress}) }}
+
+                <!--Multi file upload-->
+				<span v-if="!isProcessingFile && filesQueue.length > 1">
+                    {{ $t('uploading.progress', {current:'x', total: filesQueue.length, progress: 80}) }}
                 </span>
             </div>
             <div class="progress-wrapper">
-                <ProgressBar :progress="uploadingFileProgress" />
+                <ProgressBar :progress="80" />
                 <span @click="cancelUpload" :title="$t('uploading.cancel')" class="cancel-icon">
                     <x-icon size="16" @click="cancelUpload"></x-icon>
                 </span>
@@ -38,9 +44,8 @@
         },
         computed: {
             ...mapGetters([
-                'uploadingFileProgress',
-                'uploadingFilesCount',
                 'isProcessingFile',
+                'filesQueue',
             ])
         },
         methods: {
