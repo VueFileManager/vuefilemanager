@@ -88,7 +88,7 @@ return [
         ],
         [
             'name'  => 'allow_homepage',
-            'value' => 0,
+            'value' => 1,
         ],
     ],
     'content_extended' => [
