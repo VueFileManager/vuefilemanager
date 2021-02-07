@@ -82,7 +82,7 @@
                 }
             },
         },
-        mounted () {
+        mounted() {
             events.$on('popup:open', ({name}) => {
 
                 if (name === 'create-folder')

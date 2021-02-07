@@ -18,6 +18,9 @@
         <!--Rename folder or file item-->
         <RenameItem/>
 
+        <!--Create folder in mobile version-->
+        <CreateFolder/>
+
          <!-- Drag & Drop UI -->
         <DragUI/>
 
@@ -124,11 +127,11 @@
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-    import DragUI from '@/components/FilesView/DragUI'
     import FileItemGrid from '@/components/FilesView/FileItemGrid'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import FileBrowser from '@/components/FilesView/FileBrowser'
     import ContextMenu from '@/components/FilesView/ContextMenu'
+    import CreateFolder from '@/components/Others/CreateFolder'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import MobileMenu from '@/components/FilesView/MobileMenu'
     import AuthContent from '@/components/Auth/AuthContent'
@@ -137,6 +140,7 @@
     import Spinner from '@/components/FilesView/Spinner'
     import MoveItem from '@/components/Others/MoveItem'
     import Vignette from '@/components/Others/Vignette'
+    import DragUI from '@/components/FilesView/DragUI'
     import Alert from '@/components/FilesView/Alert'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
@@ -159,7 +163,7 @@
             ProcessingPopup,
             DesktopToolbar,
             ContentSidebar,
-            DragUI,
+            CreateFolder,
             FileItemGrid,
             ContentGroup,
             AuthContent,
@@ -174,6 +178,7 @@
             required,
             Vignette,
             Spinner,
+            DragUI,
             Alert,
         },
         computed: {
