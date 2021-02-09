@@ -41,6 +41,12 @@ class Editor
         $folder = FileManagerFolder::where('user_id', $user_id)
         ->where('unique_id', $unique_id)
         ->first();
+
+        // Set default folder icon
+        if($folder_icon === 'default') {
+            $folder->icon_emoji = null;
+            $folder->icon_color = null;
+        }
         
         // If request have emoji set folder icon emoji
         if(isset($folder_icon['emoji'])) {

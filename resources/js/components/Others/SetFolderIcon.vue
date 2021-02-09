@@ -12,6 +12,9 @@
                     <div @click.stop="openMenu"  class="select-input-wrapper">
 
                         <div class="select-input" v-if="selectedEmoji">
+                            <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
+                                <x-icon size="14" class="select-input-icon"/>
+                            </div>
                             <Emoji class="emoji-preview" :emoji="selectedEmoji" size="25"></Emoji>
                             <span>{{selectedEmoji.name}}</span>
                         </div>
@@ -20,11 +23,9 @@
                             <span> {{$t('popup_rename.set_emoji_input_placeholder')}}</span>
                         </div>
 
-                        <chevron-down-icon v-if="!selectOpen" size="19"/>
+                        <chevron-down-icon :class="{'active-menu' : selectOpen}" size="19"/>
 
-                        <div v-if="selectOpen" @click="resetEmoji" class="select-input-icon-wrapper">
-                            <x-icon size="14" class="select-input-icon"/>
-                        </div>
+                        
                     </div>
 
                     <!-- Emojis List -->
@@ -174,7 +175,7 @@ export default {
                 this.selectedEmoji = undefined
             }
             
-            events.$emit('setFolderIcon', { 'value':value, 'unique_id':this.unique_id })
+            events.$emit('setFolderIcon', { 'value':value })
 
             this.selectOpen = false
         },
@@ -182,12 +183,18 @@ export default {
 
             this.selectedEmoji = undefined
 
-            events.$emit('setFolderIcon', undefined)
+            events.$emit('setFolderIcon', { 'value': 'default' })
         }
     },
     mounted () {
         
         this.selectOpen = false
+
+        // If folder have already set some emoji push him to selected emoji input
+        this.folderData.icon_emoji ? this.selectedEmoji = this.folderData.icon_emoji : ''
+
+        // If folder have already set some color set this color to selected color
+        this.folderData.icon_color ? this.selectedColor = this.folderData.icon_color : ''
 
         events.$on('unClick', () => {
             this.selectOpen = false
@@ -365,28 +372,9 @@ export default {
     justify-content: space-between;
     align-items: center;
 
-    .select-input-icon-wrapper {
-        width: 22px;
-        height: 22px;
-        border-radius: 6px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &:hover {
-            background: $light_background !important;
-
-            .select-input-icon {
-                line {
-                stroke: $theme;
-                }
-            }
-        }            
-
-        .select-input-icon {
-            line {
-            stroke: $text;
-            }
-        }
+    .active-menu {
+        @include transition(150ms);
+        transform: rotate(180deg);
     }
 
     .select-input {
@@ -398,6 +386,31 @@ export default {
 
         .emoji-preview {
             margin-right: 10px;
+            margin-left: 6px;
+        }
+
+        .select-input-icon-wrapper {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+
+                .select-input-icon {
+                    line {
+                    stroke: $theme;
+                    }
+                }
+            }            
+
+            .select-input-icon {
+                line {
+                stroke: $text;
+                }
+            }
         }
     }
 
@@ -479,7 +492,6 @@ export default {
         }
         .select-input-icon-wrapper {
             &:hover {
-                background: rgba($theme, 0.1) !important;
                 .select-input-icon {
                     line {
                         stroke: $theme !important;
