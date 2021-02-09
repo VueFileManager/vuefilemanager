@@ -15,7 +15,7 @@ class CreateLanguageStrings extends Migration
     {
         Schema::create('language_strings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('language_id');
+            $table->uuid('language_id');
             $table->string('key');
             $table->longText('value');
             $table->string('lang');
