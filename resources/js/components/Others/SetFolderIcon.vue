@@ -25,44 +25,56 @@
 
                         <chevron-down-icon :class="{'active-menu' : selectOpen}" size="19"/>
 
-                        
                     </div>
 
                     <!-- Emojis List -->
                     <transition v-if="selectOpen" name="slide-in">
-                        <div class="emoji-wrapper">
-                            <input @click.stop @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
+                        <div>
 
-                            <!-- Navigation of Emojis Groups -->
-                            <ul v-show="searchInput.length < 1" class="groups-list">
-                                <li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojiGroups" :key="i" class="group-option" :class="{'active' : group.name === groupInView}">
-                                    <Emoji :emoji="group.emoji" size="33"/>
-                                </li>
-                            </ul>
-
-                             <!-- All Emojis -->
-                            <div v-show="searchInput.length < 1" @scroll="checkGroupInView" id="group-box"  class="group-wrapper">
-                                <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper" :id="`group-${name}`">
-                                    <label class="group-name-label">{{name}}</label>
-                                    <ul class="options-list">
-                                        <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i"  class="option"> 
-                                            <Emoji :emoji="emoji" size="33"/>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <!-- Spinner -->
+                            <div v-if="!loadedList" class="emoji-wrapper">
+                                <Spinner />
                             </div>
                             
-                           <!-- Searched emojis -->
-                            <div v-if="searchInput.length > 0" class="group-wrapper">
-                                <div class="options-wrapper">
-                                    <ul class="options-list">
-                                        <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option" >
-                                            <Emoji :emoji="emoji" size="33"/>    
-                                        </li>
-                                    </ul>
-                                    <span class="not-found" v-if="filteredEmojis.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
+                            <!-- List -->
+                            <div v-if="loadedList && emojis" class="emoji-wrapper">
+
+                                <!-- Search input -->
+                                <input @click.stop @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
+
+                                <!-- Navigation of Emojis Groups -->
+                                <ul v-show="searchInput.length < 1" class="groups-list">
+                                    <li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.emojisGroups" :key="i" class="group-option" :class="{'active' : group.name === groupInView}">
+                                        <Emoji :emoji="group.emoji" size="33"/>
+                                    </li>
+                                </ul>
+
+                                <!-- All Emojis -->
+                                <div v-show="searchInput.length < 1" @scroll="checkGroupInView" id="group-box"  class="group-wrapper">
+                                    <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper" :id="`group-${name}`">
+                                        <label class="group-name-label">{{name}}</label>
+                                        <ul class="options-list">
+                                            <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i"  class="option"> 
+                                                <Emoji :emoji="emoji" size="33"/>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                
+                            <!-- Searched emojis -->
+                                <div v-if="searchInput.length > 0" class="group-wrapper">
+                                    <div class="options-wrapper">
+                                        <ul class="options-list">
+                                            <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option" >
+                                                <Emoji :emoji="emoji" size="33"/>    
+                                            </li>
+                                        </ul>
+                                        <span class="not-found" v-if="filteredEmojis.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
+                                    </div>
+                                </div>
+                                
                             </div>
+
                         </div>
 
                     </transition>
@@ -91,6 +103,7 @@
 import { SmileIcon, FolderIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
 import TabWrapper from '@/components/Others/TabWrapper'
 import TabOption from '@/components/Others/TabOption'
+import Spinner from '@/components/FilesView/Spinner' 
 import Emoji from '@/components/Others/Emoji'
 import lodash from 'lodash'
 import { mapGetters } from 'vuex'
@@ -105,13 +118,14 @@ export default {
         TabOption,
         FolderIcon,
         SmileIcon,
+        Spinner,
         XIcon,
         Emoji
     },
     computed: {
-        ...mapGetters(['emojis', 'emojiGroups']),
+        ...mapGetters(['emojis']),
         allEmoji() {
-            return  _.groupBy(this.emojis, 'group')                
+            return  _.groupBy(this.emojis.emojisList, 'group')                
         },
     },
     data () {
@@ -121,6 +135,7 @@ export default {
             searchInput: '',
             filteredEmojis: [],
             selectOpen: false,
+            loadedList: false,
             groupInView: 'Smileys & Emotion',
             colors: [ '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
                     '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -128,9 +143,9 @@ export default {
         }
     },
     methods: {
-        checkGroupInView: _.debounce(function() {
+        checkGroupInView: _.debounce( function() {
 
-            this.emojiGroups.forEach(group => { 
+            this.emojis.emojisGroups.forEach( group => { 
 
                 let element = document.getElementById(`group-${group.name}`).getBoundingClientRect()
                 let groupBox = document.getElementById('group-box').getBoundingClientRect()
@@ -144,7 +159,7 @@ export default {
         }, 200),
         scrollToGroup( name ) {
 
-            let group = document.getElementById(`group-${name}`)
+            let group = document.getElementById( `group-${name}` )
 
             group.scrollIntoView({ behavior: "smooth" })
 
@@ -152,12 +167,22 @@ export default {
         },
         filterEmojis: _.debounce(function( emoji ){
 
-            this.filteredEmojis = this.emojis.filter(emoji => emoji.name.includes(this.searchInput))
+            this.filteredEmojis = this.emojis.emojisList.filter(emoji => emoji.name.includes(this.searchInput))
 
         }, 800),
         openMenu() {
 
             this.selectOpen = ! this.selectOpen
+
+            //Load emojis
+            if( this.selectOpen ){
+                this.$store.dispatch('getEmojisList').then(( loaded ) => {
+                    this.loadedList = loaded
+                })
+            }
+
+            if( ! this.selectOpen )
+                this.loadedList = false
 
             this.searchInput = ''
 
@@ -165,12 +190,12 @@ export default {
         },
         setIcon( value ) {
 
-            if(value.emoji){
+            if( value.emoji ){
                 this.selectedEmoji = value.emoji
                 this.selectedColor = undefined
             }
                 
-            if(value.color) {
+            if( value.color ) {
                 this.selectedColor = value.color
                 this.selectedEmoji = undefined
             }
@@ -190,14 +215,17 @@ export default {
         
         this.selectOpen = false
 
-        // If folder have already set some emoji push him to selected emoji input
+        // If folder have already set some emoji set this emoji to selected emoji
         this.folderData.icon_emoji ? this.selectedEmoji = this.folderData.icon_emoji : ''
 
         // If folder have already set some color set this color to selected color
         this.folderData.icon_color ? this.selectedColor = this.folderData.icon_color : ''
 
         events.$on('unClick', () => {
+            
             this.selectOpen = false
+
+            this.loadedList = false
         })
     }
 }
@@ -256,11 +284,6 @@ export default {
     padding: 10px;
     top: 152px;
 
-    .loader {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    }
 
     .groups-list {
             display: flex;
