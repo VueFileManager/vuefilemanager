@@ -14,10 +14,10 @@
             <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!-- If folder have set emoji -->
-            <Emoji v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="36"/>
+            <Emoji v-if="isFolder && setFolderEmojiOrColor" :emoji="setFolderEmojiOrColor" size="36"/>
 
             <!--Else show only folder icon-->
-            <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
+            <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !setFolderEmojiOrColor" class="folder-icon" icon="folder"/>
 
         </div>
 
@@ -54,7 +54,7 @@
         computed: {
             ...mapGetters(['currentFolder']),
 
-            folderIconHandle(){
+            setFolderEmojiOrColor(){
 
                 // Set icon folder if set folder from rename popup
                 if(this.setFolderIcon){

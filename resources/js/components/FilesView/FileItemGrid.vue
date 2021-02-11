@@ -26,10 +26,10 @@
                 <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
 
                  <!-- If folder have set emoji -->
-                <Emoji class="emoji" v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="80" />
+                <Emoji class="emoji" v-if="isFolder && setFolderEmojiOrColor" :emoji="setFolderEmojiOrColor" size="80" />
 
                 <!--Else show only folder icon-->
-                <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
+                <FontAwesomeIcon v-if="isFolder && !setFolderEmojiOrColor" :ref="`folder${this.data.unique_id}`" :class="{'is-deleted': isDeleted}" class="folder-icon" icon="folder"/>
 
             </div>
 
@@ -89,7 +89,7 @@ export default {
         ...mapGetters([
             'FilePreviewType', 'sharedDetail', 'fileInfoDetail'
         ]),
-         folderIconHandle(){
+         setFolderEmojiOrColor(){
 
              // If folder have set some color
             if(this.data.icon_color) {

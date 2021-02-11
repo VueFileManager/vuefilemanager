@@ -583,11 +583,11 @@
 		"placeholder": "Type your title",
 		"tab_emoji_title": "Emoji as an Icon",
 		"tab_color_title": "Folder Color",
+		"select_emoji_label": "Pick Your Emoji Icon",
+		"color_pick_label": "Pick Your Color",
 		"set_emoji_input_placeholder": "Emojis List...",
 		"search_emoji_input_placeholder": "Search your emoji...",
-		"emoji_list_not_found": "Not Found",
-		"color_pick_label": "Pick Your Color:"
-
+		"emoji_list_not_found": "Not Found"
 	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",

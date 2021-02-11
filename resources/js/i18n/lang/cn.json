@@ -584,7 +584,14 @@
 	"popup_rename": {
 		"title": "Rename Your {item}",
 		"label": "Edit Name",
-		"placeholder": "Type your title"
+		"placeholder": "Type your title",
+		"tab_emoji_title": "Emoji as an Icon",
+		"tab_color_title": "Folder Color",
+		"select_emoji_label": "Pick Your Emoji Icon",
+		"color_pick_label": "Pick Your Color",
+		"set_emoji_input_placeholder": "Emojis List...",
+		"search_emoji_input_placeholder": "Search your emoji...",
+		"emoji_list_not_found": "Not Found"
 	},
 	"popup_set_card": {
 		"message": "您的卡将被设置为默认卡，并且在以后的结算中始终会收取费用。",

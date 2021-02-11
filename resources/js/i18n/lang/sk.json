@@ -586,7 +586,14 @@
 	"popup_rename": {
 		"title": "Zmeňte názov {item}",
 		"label": "Zmeniť názov",
-		"placeholder": "Napíš názov..."
+		"placeholder": "Napíš názov...",
+		"tab_emoji_title": "Emodži ako ikona",
+		"tab_color_title": "Farba priečinka",
+		"select_emoji_label": "Vyberte emodži ikonu",
+		"color_pick_label": "Vyberte si farbu",
+		"set_emoji_input_placeholder": "Emodži zoznam ...",
+		"search_emoji_input_placeholder": "Vyhľadajte svoje emodži...",
+		"emoji_list_not_found": "Nenájdené"
 	},
 	"popup_set_card": {
 		"message": "Vaša karta bude nastavená ako predvolená a bude vám z nej vždy stiahnutá čiastka za nasledujúce obdobie fakturácie.",

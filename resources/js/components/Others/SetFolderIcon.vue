@@ -6,11 +6,12 @@
             <!-- Emojis -->
             <TabOption :selected="true" id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
                 <div class="select-emoji-wrapper">
-                    <label class="main-label">Pick Yout Emoji Icon:</label>
+                    <label class="main-label">{{$t('popup_rename.select_emoji_label')}}:</label>
 
                     <!-- Selected Emoji input -->
-                    <div @click.stop="openMenu"  class="select-input-wrapper">
+                    <div @click.stop="openMenu"  class="select-input-wrapper" :class="{'active-menu' : selectOpen}">
 
+                        <!-- If is emoji selected -->
                         <div class="select-input" v-if="selectedEmoji">
                             <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
                                 <x-icon size="14" class="select-input-icon"/>
@@ -19,18 +20,18 @@
                             <span>{{selectedEmoji.name}}</span>
                         </div>
                     
+                        <!-- If is emoji not selected -->
                         <div class="not-selected" v-if="! selectedEmoji">
                             <span> {{$t('popup_rename.set_emoji_input_placeholder')}}</span>
                         </div>
 
-                        <chevron-down-icon :class="{'active-menu' : selectOpen}" size="19"/>
+                        <chevron-down-icon class="row-icon" size="19"/>
 
                     </div>
 
                     <!-- Emojis List -->
-                    <transition v-if="selectOpen" name="slide-in">
-                        <div>
-
+                    <transition name="slide-in">
+                        <div v-if="selectOpen">
                             <!-- Spinner -->
                             <div v-if="!loadedList" class="emoji-wrapper">
                                 <Spinner />
@@ -74,9 +75,7 @@
                                 </div>
                                 
                             </div>
-
                         </div>
-
                     </transition>
                 </div>
             </TabOption>
@@ -84,7 +83,7 @@
             <!-- Colors -->
             <TabOption :title="$t('popup_rename.tab_color_title')" icon="folder">
                 <div class="color-pick-wrapper">
-                <label class="main-label">{{$t('popup_rename.color_pick_label')}}</label>
+                <label class="main-label">{{$t('popup_rename.color_pick_label')}}:</label>
                     <ul class="color-wrapper">
                         <li  v-for="(color, index) in colors"
                             :key="index"
@@ -190,11 +189,13 @@ export default {
         },
         setIcon( value ) {
 
+            // Set emoji
             if( value.emoji ){
                 this.selectedEmoji = value.emoji
                 this.selectedColor = undefined
             }
                 
+            // Set color
             if( value.color ) {
                 this.selectedColor = value.color
                 this.selectedEmoji = undefined
@@ -282,6 +283,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    z-index: 10;
     top: 152px;
 
 
@@ -343,11 +345,11 @@ export default {
                 margin-bottom: 0px;
                 }
 
-                .options-list {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                }
+            .options-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            }
             
             .group-name-label {
                 width: 100%;
@@ -356,12 +358,12 @@ export default {
                 margin-bottom: 10px;
             }
 
-                .option {
-                list-style: none;
-                width: 45px;
-                height: 45px;
-                padding: 6px;
-                cursor: pointer;
+            .option {
+            list-style: none;
+            width: 45px;
+            height: 45px;
+            padding: 6px;
+            cursor: pointer;
 
                 &:hover {
                     background: $light_background;
@@ -369,7 +371,7 @@ export default {
                 }
             }
 
-                .not-found {
+            .not-found {
                 align-self: center;
                 margin:auto;
                 font-weight: 700;
@@ -379,8 +381,6 @@ export default {
                 box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
             }
         }
-
-        
     }
 }
 
@@ -394,10 +394,20 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid transparent;
+    @include transition(150ms);
 
-    .active-menu {
+    .row-icon {
         @include transition(150ms);
-        transform: rotate(180deg);
+    }
+
+    &.active-menu {
+        border-color: $theme;
+        box-shadow: 0 0 7px rgba($theme, 0.3);
+
+        .row-icon {
+            transform: rotate(180deg);
+        }
     }
 
     .select-input {
@@ -446,23 +456,29 @@ export default {
     }
 }
 
-.wrapper {
-    margin-bottom: 10px;
-}
-
-
 .set-folder-icon {
     position: relative;
 }
 
-    .slide-in-enter-active {
-    transition: all 5s ease;
+.slide-in-enter-active {
+    transition: all 150ms ease;
 }
 
-.slide-in-enter
-{
+.slide-in-enter,
+.slide-in-leave-to{
     opacity: 0;
-    transform: translateY(-50px);
+    transform: translateY(-300px);
+}
+
+.slide-in-enter-to,
+.slide-in-leave {
+    transform: translateY(-152px);
+}
+
+@media (max-width: 336px) {
+    .emoji-wrapper {
+        top: 173px;
+    }
 }
 
 @media (prefers-color-scheme: dark) {

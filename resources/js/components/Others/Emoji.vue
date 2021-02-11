@@ -15,15 +15,16 @@ export default {
         transferEmoji () {
             
             // Transfer single emoji to twemoji
-            return !this.isIos 
-                   ? twemoji.parse(this.emoji.char, {
+            let tweomjiParse = twemoji.parse(this.emoji.char, {
                         folder: 'svg',
                         ext: '.svg',
                         attributes: () => ({
                             loading: 'lazy',
                         }) 
                     }) 
-                    : this.emoji.char
+
+            // Check the OS, if is OS not iOS return transfered emoji to twemoji
+            return !this.isIos ? tweomjiParse : this.emoji.char
         },
     },
     data () {
@@ -32,18 +33,7 @@ export default {
         }
     },
     created () {
-       
-        const toMatch = [
-                /iPhone/i,
-                /iPad/i,
-                /iPod/i,
-                /iOS/i,
-                /macOS/i,
-                /Macintosh/i
-            ]
-        this.isIos = toMatch.some(toMatchItem => {
-            return navigator.userAgent.match(toMatchItem)
-        })
+        this.isIos = this.$isIos()
     }
 }
 </script>
