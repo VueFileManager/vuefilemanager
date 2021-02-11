@@ -11,12 +11,33 @@ use App\Http\Controllers\Controller;
 class LanguageController extends Controller
 {
     /**
+     * Get all languages
+     *
+     * @return string
+     */
+    public function get_languages ()
+    {
+        return Language::all();
+    }
+
+    /**
+     * Get all language strings
+     *
+     * @param $language
+     * @return string
+     */
+    public function get_language_strings($language)
+    {
+       return Language::where('locale', $language)->with('languegeStrings')->first();
+    }
+
+    /**
      * Create new language
      *
      * @param Request $request
      * @return string
      */
-    public function create(Request $request) 
+    public function create_language(Request $request) 
     {
         // Check if is demo
         if (env('APP_DEMO')) {
@@ -34,17 +55,6 @@ class LanguageController extends Controller
     }
 
     /**
-     * Get all language strings
-     *
-     * @param $language
-     * @return string
-     */
-    public function get_language_strings($language)
-    {
-       return Language::where('locale', $language)->with('languegeStrings')->first();
-    }
-    
-    /**
      * Update strings for language
      *
      * @param Request $request
@@ -57,9 +67,8 @@ class LanguageController extends Controller
             return Demo::response_204();
         }
 
+        // Get language
         $lang = Language::where('locale', $request->input('locale'))->first();
-
-        // dd($lang->id);
 
         foreach($request->input('language') as $language) 
         {
@@ -67,23 +76,13 @@ class LanguageController extends Controller
             // If key with lang already exist update, if no crate 
             LanguageString::updateOrCreate([
                 'language_id' => $lang->id,
-                'key'  => $language['key'],
-                'lang' => $lang->locale,
+                'key'         => $language['key'],
+                'lang'        => $lang->locale,
             ],[
                 'value'       => $language['value']
             ]);
         }
         
         return response('Done', 204);
-    }
-
-    /**
-     * Get all languages
-     *
-     * @return string
-     */
-    public function get_languages ()
-    {
-        return Language::all();
     }
 }

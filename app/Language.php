@@ -19,8 +19,8 @@ class Language extends Model
 
     protected static function booted()
     {
-        static::creating(function($model) {
-            $model->id = Str::uuid();
+        static::creating(function($language) {
+            $language->id = Str::uuid();
         });
     }
 

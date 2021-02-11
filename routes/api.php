@@ -170,10 +170,10 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/flush-cache', 'AppFunctionsController@flush_cache');
 
     // Language
-    Route::post('/language/create', 'Language\LanguageController@create');
-    Route::patch('/language/update', 'Language\LanguageController@update_string');
-    Route::get('/language/{language}/strings', 'Language\LanguageController@get_language_strings');
+    Route::post('/language/create', 'Language\LanguageController@create_language');
+    Route::patch('/language/update-string', 'Language\LanguageController@update_string');
     Route::get('/language/get', 'Language\LanguageController@get_languages');
+    Route::get('/language/{language}/strings', 'Language\LanguageController@get_language_strings');
 });
 
 // Protected sharing routes for authenticated user
