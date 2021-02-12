@@ -352,7 +352,7 @@ const Helpers = {
 				body.classList.add('windows')
 			}
         }
-        Vue.prototype.$isIos = function() {
+        Vue.prototype.$isApple = function() {
 
             const toMatch = [
                 /iPhone/i,

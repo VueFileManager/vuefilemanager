@@ -418,6 +418,8 @@ export default {
         align-items: center;
 
         .emoji-preview {
+            width: 25px;
+            height: 25px;
             margin-right: 10px;
             margin-left: 6px;
         }
@@ -460,19 +462,20 @@ export default {
     position: relative;
 }
 
-.slide-in-enter-active {
+.slide-in-enter-active
+{
     transition: all 150ms ease;
 }
 
-.slide-in-enter,
-.slide-in-leave-to{
+.slide-in-enter
+{
     opacity: 0;
-    transform: translateY(-300px);
+    transform: translateY(-210px);
 }
 
-.slide-in-enter-to,
-.slide-in-leave {
-    transform: translateY(-152px);
+.slide-in-enter-to
+{
+    transform: translateY(-134px);
 }
 
 @media (max-width: 336px) {

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-if="transferEmoji && !isIos" :style="{width: `${size}px`, height: `${size}px`}"  v-html="transferEmoji"/>
-        <span v-if="transferEmoji && isIos" :style="{fontSize: `${size}px`}">{{transferEmoji}}</span>
+        <div v-if="transferEmoji && !isApple"  v-html="transferEmoji"/>
+        <span v-if="transferEmoji && isApple" class="apple-emoji">{{transferEmoji}}</span>
     </div>
     
 </template>
@@ -10,7 +10,7 @@
 import twemoji from 'twemoji'
 export default {
     name: 'Emoji',
-    props: ['emoji', 'size'],
+    props: ['emoji'],
     computed: {
         transferEmoji () {
             
@@ -24,16 +24,16 @@ export default {
                     }) 
 
             // Check the OS, if is OS not iOS return transfered emoji to twemoji
-            return !this.isIos ? tweomjiParse : this.emoji.char
+            return !this.isApple ? tweomjiParse : this.emoji.char
         },
     },
     data () {
         return {
-            isIos: false
+            isApple: false
         }
     },
     created () {
-        this.isIos = this.$isIos()
+        this.isApple = this.$isApple()
     }
 }
 </script>

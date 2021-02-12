@@ -13,11 +13,8 @@
             <!--Image thumbnail-->
             <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
 
-            <!-- If folder have set emoji -->
-            <Emoji v-if="isFolder && setFolderEmojiOrColor" :emoji="setFolderEmojiOrColor" size="36"/>
-
             <!--Else show only folder icon-->
-            <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !setFolderEmojiOrColor" class="folder-icon" icon="folder"/>
+            <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" class="folder" />
 
         </div>
 
@@ -45,37 +42,14 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import Emoji from '@/components/Others/Emoji'
+    import FolderIcon from '@/components/FilesView/FolderIcon'
 
     export default {
         name: 'ThumbnailItem',
         props: ['item', 'info', 'setFolderIcon'],
-        components: {Emoji},
+        components: {FolderIcon},
         computed: {
             ...mapGetters(['currentFolder']),
-
-            setFolderEmojiOrColor(){
-
-                // Set icon folder if set folder from rename popup
-                if(this.setFolderIcon){
-
-                    return this.setFolderIcon.emoji 
-                        ? this.setFolderIcon.emoji
-                        : this.$nextTick(() => {
-                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
-                        })  
-                }
-
-                // If folder have already set some icon
-                if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
-
-                    return this.item.icon_emoji 
-                        ? this.item.icon_emoji
-                        : this.$nextTick(() => {
-                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
-                        })
-                }
-            },
             isFolder() {
                 return this.item.type === 'folder'
             },
@@ -137,7 +111,6 @@
             justify-content: center;
             line-height: 0;
 
-
             .file-icon {
                 @include font-size(35);
 
@@ -148,11 +121,12 @@
                 }
             }
 
-            .folder-icon {
-                @include font-size(36);
+            .folder {
+                width: 36px;
+                height: 36px;
 
-                path {
-                    fill: $theme;
+                /deep/ .folder-icon {
+                    @include font-size(36);
                 }
             }
 
