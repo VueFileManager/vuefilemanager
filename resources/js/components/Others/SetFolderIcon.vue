@@ -1,122 +1,116 @@
 <template>
-    <div class="set-folder-icon">
+    <TabWrapper class="set-folder-icon">
 
-        <TabWrapper >
+        <!-- Emojis -->
+        <TabOption :selected="true" id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
+            <div class="select-emoji-wrapper">
+                <label class="main-label">{{ $t('popup_rename.select_emoji_label') }}:</label>
 
-            <!-- Emojis -->
-            <TabOption :selected="true" id="emoji-list" :title="$t('popup_rename.tab_emoji_title')" icon="emoji">
-                <div class="select-emoji-wrapper">
-                    <label class="main-label">{{$t('popup_rename.select_emoji_label')}}:</label>
+                <!-- Selected Emoji input -->
+                <div @click.stop="openMenu" class="select-input-wrapper" :class="{'active-menu' : selectOpen}">
 
-                    <!-- Selected Emoji input -->
-                    <div @click.stop="openMenu"  class="select-input-wrapper" :class="{'active-menu' : selectOpen}">
-
-                        <!-- If is emoji selected -->
-                        <div class="select-input" v-if="selectedEmoji">
-                            <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
-                                <x-icon size="14" class="select-input-icon"/>
-                            </div>
-                            <Emoji class="emoji-preview" :emoji="selectedEmoji" size="25"></Emoji>
-                            <span>{{selectedEmoji.name}}</span>
+                    <!-- If is emoji selected -->
+                    <div class="select-input" v-if="selectedEmoji">
+                        <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
+                            <x-icon size="14" class="select-input-icon"/>
                         </div>
-                    
-                        <!-- If is emoji not selected -->
-                        <div class="not-selected" v-if="! selectedEmoji">
-                            <span> {{$t('popup_rename.set_emoji_input_placeholder')}}</span>
-                        </div>
-
-                        <chevron-down-icon class="row-icon" size="19"/>
-
+                        <Emoji class="emoji-preview" :emoji="selectedEmoji" size="25"></Emoji>
+                        <span>{{ selectedEmoji.name }}</span>
                     </div>
 
-                    <!-- Emojis List -->
-                    <transition name="slide-in">
-                        <div v-if="selectOpen">
-                            <!-- Spinner -->
-                            <div v-if="!loadedList" class="emoji-wrapper">
-                                <Spinner />
+                    <!-- If is emoji not selected -->
+                    <div class="not-selected" v-if="! selectedEmoji">
+                        <span> {{ $t('popup_rename.set_emoji_input_placeholder') }}</span>
+                    </div>
+
+                    <chevron-down-icon class="row-icon" size="19"/>
+                </div>
+
+                <!-- Emojis List -->
+                <transition name="slide-in">
+                    <div v-if="selectOpen">
+                        <!-- Spinner -->
+                        <div v-if="!loadedList" class="emoji-wrapper">
+                            <Spinner/>
+                        </div>
+
+                        <!-- List -->
+                        <div v-if="loadedList && emojis" class="emoji-wrapper">
+
+                            <!-- Search input -->
+                            <input @click.stop @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')">
+
+                            <!-- Navigation of Emojis Groups -->
+                            <ul v-show="searchInput.length < 1" class="groups-list">
+                                <li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.emojisGroups" :key="i" class="group-option" :class="{'active' : group.name === groupInView}">
+                                    <Emoji :emoji="group.emoji" size="33"/>
+                                </li>
+                            </ul>
+
+                            <!-- All Emojis -->
+                            <div v-show="searchInput.length < 1" @scroll="checkGroupInView" id="group-box" class="group-wrapper">
+                                <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper" :id="`group-${name}`">
+                                    <label class="group-name-label">{{ name }}</label>
+                                    <ul class="options-list">
+                                        <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i" class="option">
+                                            <Emoji :emoji="emoji" size="33"/>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            
-                            <!-- List -->
-                            <div v-if="loadedList && emojis" class="emoji-wrapper">
 
-                                <!-- Search input -->
-                                <input @click.stop @input="filterEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')" >
-
-                                <!-- Navigation of Emojis Groups -->
-                                <ul v-show="searchInput.length < 1" class="groups-list">
-                                    <li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.emojisGroups" :key="i" class="group-option" :class="{'active' : group.name === groupInView}">
-                                        <Emoji :emoji="group.emoji" size="33"/>
-                                    </li>
-                                </ul>
-
-                                <!-- All Emojis -->
-                                <div v-show="searchInput.length < 1" @scroll="checkGroupInView" id="group-box"  class="group-wrapper">
-                                    <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper" :id="`group-${name}`">
-                                        <label class="group-name-label">{{name}}</label>
-                                        <ul class="options-list">
-                                            <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i"  class="option"> 
-                                                <Emoji :emoji="emoji" size="33"/>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                
                             <!-- Searched emojis -->
-                                <div v-if="searchInput.length > 0" class="group-wrapper">
-                                    <div class="options-wrapper">
-                                        <ul class="options-list">
-                                            <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option" >
-                                                <Emoji :emoji="emoji" size="33"/>    
-                                            </li>
-                                        </ul>
-                                        <span class="not-found" v-if="filteredEmojis.length === 0"> {{$t('popup_rename.emoji_list_not_found')}}</span>
-                                    </div>
+                            <div v-if="searchInput.length > 0" class="group-wrapper">
+                                <div class="options-wrapper">
+                                    <ul class="options-list">
+                                        <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option">
+                                            <Emoji :emoji="emoji" size="33" />
+                                        </li>
+                                    </ul>
+                                    <span class="not-found" v-if="filteredEmojis.length === 0"> {{ $t('popup_rename.emoji_list_not_found') }}</span>
                                 </div>
-                                
                             </div>
                         </div>
-                    </transition>
-                </div>
-            </TabOption>
+                    </div>
+                </transition>
+            </div>
+        </TabOption>
 
-            <!-- Colors -->
-            <TabOption :title="$t('popup_rename.tab_color_title')" icon="folder">
-                <div class="color-pick-wrapper">
-                <label class="main-label">{{$t('popup_rename.color_pick_label')}}:</label>
-                    <ul class="color-wrapper">
-                        <li  v-for="(color, index) in colors"
-                            :key="index"
-                            @click="setIcon({'color': color})"
-                            class="single-color" 
-                            :class="{'active-color': color === selectedColor }" 
-                            :style="{background:color}" />
-                    </ul>
-                </div>
-            </TabOption>
-        </TabWrapper>
-    </div>
+        <!-- Colors -->
+        <TabOption :title="$t('popup_rename.tab_color_title')" icon="folder">
+            <div class="color-pick-wrapper">
+                <label class="main-label">{{ $t('popup_rename.color_pick_label') }}:</label>
+                <ul class="color-wrapper">
+                    <li v-for="(color, i) in colors" :key="i" @click="setIcon({'color': color})" class="single-color">
+                        <check-icon v-if="color === selectedColor" class="color-icon" size="22"/>
+                        <span :style="{background:color}" class="color-box"></span>
+                    </li>
+                </ul>
+            </div>
+        </TabOption>
+    </TabWrapper>
 </template>
 
 <script>
-import { SmileIcon, FolderIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
+import { SmileIcon, FolderIcon, ChevronDownIcon, XIcon, CheckIcon } from 'vue-feather-icons'
 import TabWrapper from '@/components/Others/TabWrapper'
 import TabOption from '@/components/Others/TabOption'
-import Spinner from '@/components/FilesView/Spinner' 
+import Spinner from '@/components/FilesView/Spinner'
 import Emoji from '@/components/Others/Emoji'
-import lodash from 'lodash'
+import { groupBy } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
 export default {
-    name: "SetFolderIcon",
+    name: 'SetFolderIcon',
     props: ['folderData', 'unique_id'],
     components: {
-        ChevronDownIcon ,
+        ChevronDownIcon,
         TabWrapper,
-        TabOption,
         FolderIcon,
         SmileIcon,
+        CheckIcon,
+        TabOption,
         Spinner,
         XIcon,
         Emoji
@@ -124,10 +118,10 @@ export default {
     computed: {
         ...mapGetters(['emojis']),
         allEmoji() {
-            return  _.groupBy(this.emojis.emojisList, 'group')                
-        },
+            return groupBy(this.emojis.emojisList, 'group')
+        }
     },
-    data () {
+    data() {
         return {
             selectedEmoji: undefined,
             selectedColor: undefined,
@@ -136,84 +130,105 @@ export default {
             selectOpen: false,
             loadedList: false,
             groupInView: 'Smileys & Emotion',
-            colors: [ '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-                    '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-                    '#80B300', '#809900', '#E6B3B3', '#6680B3' ]
+            colors: [
+                '#41B883',
+                '#FE6F6F',
+                '#FE6F91',
+                '#FE6FC0',
+                '#FE6FF0',
+                '#DD6FFE',
+                '#AD6FFE',
+                '#7D6FFE',
+                '#6F90FE',
+                '#6FC0FE',
+                '#6FF0FE',
+                '#6FFEDD',
+                '#6FFEAD',
+                '#6FFE7D',
+                '#90FE6F',
+                '#C0FE6F',
+                '#F0FE6F',
+                '#FEDD6F',
+                '#FEAD6F',
+                '#FE7D6F',
+                '#FE6F6F',
+                '#06070B',
+            ]
         }
     },
     methods: {
-        checkGroupInView: _.debounce( function() {
+        checkGroupInView: _.debounce(function() {
 
-            this.emojis.emojisGroups.forEach( group => { 
+            this.emojis.emojisGroups.forEach(group => {
 
                 let element = document.getElementById(`group-${group.name}`).getBoundingClientRect()
                 let groupBox = document.getElementById('group-box').getBoundingClientRect()
 
                 // Check if the group is in the viewport of group-box
-                if(element.top < groupBox.top && element.bottom > groupBox.top){
+                if (element.top < groupBox.top && element.bottom > groupBox.top) {
                     this.groupInView = group.name
                 }
             })
 
         }, 200),
-        scrollToGroup( name ) {
+        scrollToGroup(name) {
 
-            let group = document.getElementById( `group-${name}` )
+            let group = document.getElementById(`group-${name}`)
 
-            group.scrollIntoView({ behavior: "smooth" })
+            group.scrollIntoView({ behavior: 'smooth' })
 
             this.groupInView = name
         },
-        filterEmojis: _.debounce(function( emoji ){
+        filterEmojis: _.debounce(function(emoji) {
 
             this.filteredEmojis = this.emojis.emojisList.filter(emoji => emoji.name.includes(this.searchInput))
 
         }, 800),
         openMenu() {
 
-            this.selectOpen = ! this.selectOpen
+            this.selectOpen = !this.selectOpen
 
             //Load emojis
-            if( this.selectOpen ){
-                this.$store.dispatch('getEmojisList').then(( loaded ) => {
+            if (this.selectOpen) {
+                this.$store.dispatch('getEmojisList').then((loaded) => {
                     this.loadedList = loaded
                 })
             }
 
-            if( ! this.selectOpen )
+            if (!this.selectOpen)
                 this.loadedList = false
 
             this.searchInput = ''
 
             this.groupInView = 'Smileys & Emotion'
         },
-        setIcon( value ) {
+        setIcon(value) {
 
             // Set emoji
-            if( value.emoji ){
+            if (value.emoji) {
                 this.selectedEmoji = value.emoji
                 this.selectedColor = undefined
             }
-                
+
             // Set color
-            if( value.color ) {
+            if (value.color) {
                 this.selectedColor = value.color
                 this.selectedEmoji = undefined
             }
-            
-            events.$emit('setFolderIcon', { 'value':value })
+
+            events.$emit('setFolderIcon', { 'value': value })
 
             this.selectOpen = false
         },
-        resetEmoji(){
+        resetEmoji() {
 
             this.selectedEmoji = undefined
 
             events.$emit('setFolderIcon', { 'value': 'default' })
         }
     },
-    mounted () {
-        
+    mounted() {
+
         this.selectOpen = false
 
         // If folder have already set some emoji set this emoji to selected emoji
@@ -223,7 +238,7 @@ export default {
         this.folderData.icon_color ? this.selectedColor = this.folderData.icon_color : ''
 
         events.$on('unClick', () => {
-            
+
             this.selectOpen = false
 
             this.loadedList = false
@@ -238,30 +253,41 @@ export default {
 
 .color-pick-wrapper {
     .color-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
         margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: repeat(11, 1fr);
+        gap: 10px;
+
         .single-color {
-            width: 40px;
-            height: 40px;
+            height: 31px;
             list-style: none;
-            margin: 8px;
             border-radius: 8px;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-                &.active-color {
-                border: 2px solid $text;
+            .color-icon {
+                z-index: 2;
+
+                polyline {
+                    stroke: white;
+                }
             }
 
-            &:hover {
-                border: 2px solid $text;
+            .color-box {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                display: block;
             }
         }
     }
 }
 
-.select-emoji-wrapper{
+.select-emoji-wrapper {
     margin-bottom: 20px;
 }
 
@@ -288,29 +314,29 @@ export default {
 
 
     .groups-list {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
 
-            .active {
+        .active {
+            background: $light_background;
+            border-radius: 8px;
+        }
+
+        .group-option {
+            list-style: none;
+            width: 45px;
+            height: 45px;
+            padding: 6px;
+            cursor: pointer;
+
+            &:hover {
                 background: $light_background;
                 border-radius: 8px;
             }
-
-            .group-option {
-                list-style: none;
-                width: 45px;
-                height: 45px;
-                padding: 6px;
-                cursor: pointer;
-
-                &:hover {
-                    background: $light_background;
-                    border-radius: 8px;
-                }
-            }
         }
+    }
 
     .emoji-input {
         width: 100%;
@@ -343,14 +369,14 @@ export default {
 
             &:last-child {
                 margin-bottom: 0px;
-                }
+            }
 
             .options-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
             }
-            
+
             .group-name-label {
                 width: 100%;
                 @include font-size(14);
@@ -359,11 +385,11 @@ export default {
             }
 
             .option {
-            list-style: none;
-            width: 45px;
-            height: 45px;
-            padding: 6px;
-            cursor: pointer;
+                list-style: none;
+                width: 45px;
+                height: 45px;
+                padding: 6px;
+                cursor: pointer;
 
                 &:hover {
                     background: $light_background;
@@ -373,11 +399,11 @@ export default {
 
             .not-found {
                 align-self: center;
-                margin:auto;
+                margin: auto;
                 font-weight: 700;
                 padding: 10px;
                 border-radius: 8px;
-                background:$light_background ;
+                background: $light_background;
                 box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
             }
         }
@@ -436,14 +462,14 @@ export default {
 
                 .select-input-icon {
                     line {
-                    stroke: $theme;
+                        stroke: $theme;
                     }
                 }
-            }            
+            }
 
             .select-input-icon {
                 line {
-                stroke: $text;
+                    stroke: $text;
                 }
             }
         }
@@ -462,19 +488,16 @@ export default {
     position: relative;
 }
 
-.slide-in-enter-active
-{
+.slide-in-enter-active {
     transition: all 150ms ease;
 }
 
-.slide-in-enter
-{
+.slide-in-enter {
     opacity: 0;
     transform: translateY(-210px);
 }
 
-.slide-in-enter-to
-{
+.slide-in-enter-to {
     transform: translateY(-134px);
 }
 
@@ -485,40 +508,46 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-    .color-pick-wrapper{
-        .color-wrapper{
+    .color-pick-wrapper {
+        .color-wrapper {
             .single-color {
                 &.active-color {
-                    border: 2px solid ;
+                    border: 2px solid;
                 }
+
                 &:hover {
                     border: 2px solid $dark_mode_text_primary;
-                }  
+                }
             }
         }
     }
 
     .emoji-wrapper {
         background: $dark_mode_background;
+
         .emoji-input {
-            background: $dark_mode_foreground ;
+            background: $dark_mode_foreground;
         }
-        .groups-list{
-            .active{
+
+        .groups-list {
+            .active {
                 background: $dark_mode_foreground !important;
             }
+
             .group-option {
-                    &:hover {
+                &:hover {
                     background: $dark_mode_foreground !important;
                 }
             }
         }
+
         .options-wrapper {
             .option {
                 &:hover {
                     background: $dark_mode_foreground !important;
                 }
             }
+
             .not-found {
                 background: $dark_mode_foreground !important;
             }
@@ -527,11 +556,13 @@ export default {
 
     .select-input-wrapper {
         background: $dark_mode_foreground;
+
         .not-selected {
             span {
-                color:$dark_mode_text_secondary;
+                color: $dark_mode_text_secondary;
             }
         }
+
         .select-input-icon-wrapper {
             &:hover {
                 .select-input-icon {
@@ -540,11 +571,12 @@ export default {
                     }
                 }
             }
+
             .select-input-icon {
                 line {
-                    stroke:$dark_mode_text_primary !important;
+                    stroke: $dark_mode_text_primary !important;
                 }
-            }            
+            }
         }
     }
 }
