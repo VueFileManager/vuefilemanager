@@ -1,7 +1,7 @@
 <template>
     <div>
         <Emoji v-if="folderEmoji" :emoji="folderEmoji"/>
-        <FontAwesomeIcon v-if="!folderEmoji" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder" :style="{fill: `${folderColor}`}"/>
+        <FontAwesomeIcon v-if="!folderEmoji" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder" :style="{fill: folderColor}"/>
     </div>
 </template>
 
