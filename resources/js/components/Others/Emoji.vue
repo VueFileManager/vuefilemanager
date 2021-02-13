@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <span v-if="transferEmoji && !isApple" class="twemoji-emoji" v-html="transferEmoji"></span>
-        <span v-if="transferEmoji && isApple" class="apple-emoji">{{ transferEmoji }}</span>
+    <div :class="[location, 'emoji-container', {'is-apple': $isApple}]">
+        <span v-if="!$isApple()" class="twemoji-emoji emoji-icon" v-html="transferEmoji"></span>
+        <span v-if="$isApple()" class="apple-emoji emoji-icon">{{ this.emoji.char }}</span>
     </div>
 </template>
 
@@ -10,28 +10,21 @@ import twemoji from 'twemoji'
 
 export default {
     name: 'Emoji',
-    props: ['emoji'],
+    props: [
+        'emoji',
+        'location',
+    ],
     computed: {
         transferEmoji() {
-
-            // Transfer single emoji to twemoji
-            let tweomjiParse = twemoji.parse(this.emoji.char, {
+            return twemoji.parse(this.emoji.char, {
                 folder: 'svg',
                 ext: '.svg',
                 attributes: () => ({
                     loading: 'lazy'
                 })
             })
-
-            // Check the OS, if is OS not iOS return transfered emoji to twemoji
-            return !this.isApple ? tweomjiParse : this.emoji.char
         }
     },
-    data() {
-        return {
-            isApple: this.$isApple()
-        }
-    }
 }
 </script>
 
@@ -39,9 +32,26 @@ export default {
 @import "@assets/vue-file-manager/_inapp-forms.scss";
 @import '@assets/vue-file-manager/_forms';
 
-.apple-emoji {
-    font-size: 49px;
-    line-height: 1.2;
+.emoji-container {
+    font-size: inherit;
+
+    .emoji-icon {
+        font-size: inherit;
+    }
+}
+
+.emoji-picker {
+    .apple-emoji {
+        font-size: 34px;
+        line-height: 1.1;
+    }
+}
+
+.emoji-picker-preview {
+    .apple-emoji {
+        font-size: 28px;
+        line-height: 1.1;
+    }
 }
 
 </style>

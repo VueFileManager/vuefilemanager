@@ -14,7 +14,7 @@
                         <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
                             <x-icon size="14" class="select-input-icon"/>
                         </div>
-                        <Emoji class="emoji-preview" :emoji="selectedEmoji" size="25"></Emoji>
+                        <Emoji class="emoji-preview" :emoji="selectedEmoji" location="emoji-picker-preview" />
                         <span>{{ selectedEmoji.name }}</span>
                     </div>
 
@@ -43,7 +43,7 @@
                             <!-- Navigation of Emojis Groups -->
                             <ul v-show="searchInput.length < 1" class="groups-list">
                                 <li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.emojisGroups" :key="i" class="group-option" :class="{'active' : group.name === groupInView}">
-                                    <Emoji :emoji="group.emoji" size="33"/>
+                                    <Emoji :emoji="group.emoji" location="emoji-picker" />
                                 </li>
                             </ul>
 
@@ -53,7 +53,7 @@
                                     <label class="group-name-label">{{ name }}</label>
                                     <ul class="options-list">
                                         <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i" class="option">
-                                            <Emoji :emoji="emoji" size="33"/>
+                                            <Emoji :emoji="emoji" location="emoji-picker" />
                                         </li>
                                     </ul>
                                 </div>
@@ -64,7 +64,7 @@
                                 <div class="options-wrapper">
                                     <ul class="options-list">
                                         <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option">
-                                            <Emoji :emoji="emoji" size="33" />
+                                            <Emoji :emoji="emoji" location="emoji-picker" />
                                         </li>
                                     </ul>
                                     <span class="not-found" v-if="filteredEmojis.length === 0"> {{ $t('popup_rename.emoji_list_not_found') }}</span>
@@ -444,10 +444,8 @@ export default {
         align-items: center;
 
         .emoji-preview {
-            width: 25px;
-            height: 25px;
+            margin-left: 5px;
             margin-right: 10px;
-            margin-left: 6px;
         }
 
         .select-input-icon-wrapper {
@@ -457,6 +455,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-left: -7px;
 
             &:hover {
 

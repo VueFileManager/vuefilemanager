@@ -26,8 +26,7 @@
                 <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
                  <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" class="folder"/>
-
+                <FolderIcon v-if="isFolder" :item="item" location="file-item-grid" class="folder"/>
             </div>
 
             <!--Name-->
