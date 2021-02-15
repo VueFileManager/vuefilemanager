@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! ( $checkPermission('visitor') && isFolder || multiSelectMode ) && canShowMobileOptions">
+            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! multiSelectMode && canShowMobileOptions">
                 <FontAwesomeIcon icon="ellipsis-h" class="icon-action"></FontAwesomeIcon>
             </span>
         </div>

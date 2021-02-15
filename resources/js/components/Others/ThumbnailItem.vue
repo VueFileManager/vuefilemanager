@@ -5,13 +5,13 @@
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile" class="file-icon-text">{{ item.mimetype }}</span>
+            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text">{{ item.mimetype }}</span>
 
             <!--Folder thumbnail-->
-            <FontAwesomeIcon v-if="isFile" class="file-icon" icon="file"/>
+            <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
 
             <!--Image thumbnail-->
-            <img v-if="isImage" class="image" :src="item.thumbnail" :alt="item.name"/>
+            <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!--Else show only folder icon-->
             <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder" />
@@ -172,6 +172,13 @@
                 path {
                     fill: $dark_mode_foreground;
                     stroke: #2F3C54;
+                }
+            }
+
+            .icon-item .file-icon-mobile {
+                path {
+                    fill: $dark_mode_background !important;
+                    // stroke: ;
                 }
             }
 

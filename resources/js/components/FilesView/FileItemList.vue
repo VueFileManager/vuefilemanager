@@ -62,7 +62,7 @@
 
             <!--Show item actions-->
             <transition name="slide-from-right">
-                <div class="actions" v-if="$isMobile() && !($checkPermission('visitor') && isFolder || mobileMultiSelect)">
+                <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
                     <span @click.stop="showItemActions" class="show-actions">
                         <FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
                     </span>
