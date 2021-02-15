@@ -79,6 +79,8 @@
                     this.$store.dispatch('createFolder', this.name)
 
                     this.$closePopup()
+
+                    this.name = undefined
                 }
             },
         },

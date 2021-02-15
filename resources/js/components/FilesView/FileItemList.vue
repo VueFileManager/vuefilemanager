@@ -276,7 +276,7 @@ export default {
 
         events.$on('newFolder:focus', (unique_id) => {
 
-            if(this.item.unique_id == unique_id) {
+            if(this.item.unique_id == unique_id && !this.$isMobile()) {
                 this.$refs[unique_id].focus()
                 document.execCommand('selectAll')
             }
