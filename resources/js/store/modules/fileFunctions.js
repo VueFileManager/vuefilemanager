@@ -45,7 +45,10 @@ const actions = {
 			? '/api/zip/public/' + router.currentRoute.params.token
 			: '/api/zip'
 
-		commit('ZIPPING_FILE_STATUS', true)
+			commit('PROCESSING_POPUP', {
+				title: i18n.t('popup_zipping.title'),
+				message: i18n.t('popup_zipping.message'),
+			})
 
 		axios.post(route, {
 			files: files
@@ -57,7 +60,7 @@ const actions = {
 				Vue.prototype.$isSomethingWrong()
 			})
 			.finally(() => {
-				commit('ZIPPING_FILE_STATUS', false)
+				commit('PROCESSING_POPUP', undefined)
 			})
 	},
 	moveItem: ({ commit, getters, dispatch }, { to_item, noSelectedItem }) => {
