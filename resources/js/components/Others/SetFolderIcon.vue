@@ -446,6 +446,8 @@ export default {
         .emoji-preview {
             margin-left: 5px;
             margin-right: 10px;
+            width: 22px;
+            height: 22px;
         }
 
         .select-input-icon-wrapper {

@@ -7,7 +7,7 @@
         />
         <FontAwesomeIcon
             v-if="!emoji"
-            :class="[{ 'is-deleted': isDeleted }, 'folder-icon']"
+            :class="[{ 'is-deleted': isDeleted },{'default-color' : ! color && ! isDeleted}, 'folder-icon' ]"
             :style="{fill: color}"
             icon="folder"
         />
@@ -42,10 +42,10 @@
             color() {
                 // Return color if is changed from rename popup
                 if (this.folderIcon)
-                    return this.folderIcon.color ? this.folderIcon.color : '#00BC7E'
+                    return this.folderIcon.color ? this.folderIcon.color : false
 
                 // Return color if is already set
-                return this.item.icon_color ? this.item.icon_color : '#00BC7E'
+                return this.item.icon_color ? this.item.icon_color : false
             }
         }
     }
@@ -74,6 +74,19 @@
     &.is-apple .emoji-icon {
         font-size: 36px;
         line-height: 1.1;
+    }
+}
+
+.emoji-picker-preview {
+    &.is-apple .emoji-icon {
+        font-size: 22px;
+        line-height: 1.1;
+    }
+}
+
+.default-color {
+    path {
+        fill: $theme !important;
     }
 }
 
