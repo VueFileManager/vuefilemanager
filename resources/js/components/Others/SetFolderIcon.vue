@@ -318,7 +318,9 @@ export default {
         display: grid;
         grid-template-columns: repeat(9, auto);
         justify-content: space-between;
-        margin-bottom: 20px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 90px;
 
         .active {
             background: $light_background;
@@ -326,8 +328,8 @@ export default {
         }
 
         .group-option {
-            width: 100%;
-            height: 100%;
+            width: 45px;
+            height: 45px;
             list-style: none;
             padding: 6px;
             cursor: pointer;
@@ -502,6 +504,12 @@ export default {
 
 .slide-in-enter-to {
     transform: translateY(-134px);
+}
+
+@media (max-width: 690px) {
+    .emoji-wrapper {
+        height: 300px;
+    }
 }
 
 @media (max-width: 336px) {

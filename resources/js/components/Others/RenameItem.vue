@@ -120,9 +120,9 @@ export default {
 
             if (args.name !== 'rename-item') return
 
-            this.$nextTick(() => {
-                this.$refs.input.focus()
-            })
+            if (! this.$isMobile()) {
+                this.$nextTick(() => this.$refs.input.focus())
+            }
 
             this.isMoreOptions = false
 

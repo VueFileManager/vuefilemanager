@@ -87,10 +87,8 @@
         mounted() {
             events.$on('popup:open', ({name}) => {
 
-                if (name === 'create-folder')
-                    this.$nextTick(() => {
-                       this.$refs.input.focus()
-                    })
+                if (name === 'create-folder' && ! this.$isMobile())
+                    this.$nextTick(() => this.$refs.input.focus())
             })
         }
     }
