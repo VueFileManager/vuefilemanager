@@ -33,29 +33,29 @@ class Editor
      * @param $unique_id
      * @param $shared
      */
-    public static function set_folder_icon ($folder_icon, $unique_id, $shared = null)
+    public static function set_folder_icon($folder_icon, $unique_id, $shared = null)
     {
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
         // Get folder
         $folder = FileManagerFolder::where('user_id', $user_id)
-        ->where('unique_id', $unique_id)
-        ->first();
+            ->where('unique_id', $unique_id)
+            ->first();
 
         // Set default folder icon
-        if($folder_icon === 'default') {
+        if ($folder_icon === 'default') {
             $folder->icon_emoji = null;
             $folder->icon_color = null;
         }
-        
+
         // If request have emoji set folder icon emoji
-        if(isset($folder_icon['emoji'])) {
+        if (isset($folder_icon['emoji'])) {
             $folder->icon_emoji = $folder_icon['emoji'];
             $folder->icon_color = null;
         }
 
         // If request have color set folder icon color
-        if(isset($folder_icon['color'])) {
+        if (isset($folder_icon['color'])) {
             $folder->icon_emoji = null;
             $folder->icon_color = $folder_icon['color'];
         }
@@ -139,7 +139,7 @@ class Editor
         return Zip::create([
             'user_id'      => $shared->user_id ?? Auth::id(),
             'shared_token' => $shared->token ?? null,
-            'basename' => $zip_name,
+            'basename'     => $zip_name,
         ]);
     }
 
@@ -457,8 +457,8 @@ class Editor
         $limit = get_setting('upload_limit');
 
         // File size handling
-        if( $limit && $file_size > format_bytes($limit)) abort(413);
-    
+        if ($limit && $file_size > format_bytes($limit)) abort(413);
+
         // If last then process file
         if ($request->boolean('is_last')) {
 

@@ -151,7 +151,7 @@ export default {
                 '#FEDD6F',
                 '#FEAD6F',
                 '#FE7D6F',
-                '#FE6F6F',
+                '#4c4c4c',
                 '#06070B',
             ]
         }
@@ -255,8 +255,9 @@ export default {
     .color-wrapper {
         margin-bottom: 20px;
         display: grid;
-        grid-template-columns: repeat(11, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, 32px);
+        justify-content: space-between;
+        gap: 7px;
 
         .single-color {
             height: 31px;
@@ -299,7 +300,7 @@ export default {
 }
 
 .emoji-wrapper {
-    height: 350px;
+    height: 400px;
     width: 100%;
     position: absolute;
     border: 1px solid transparent;
@@ -314,9 +315,9 @@ export default {
 
 
     .groups-list {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(9, auto);
+        justify-content: space-between;
         margin-bottom: 20px;
 
         .active {
@@ -325,9 +326,9 @@ export default {
         }
 
         .group-option {
+            width: 100%;
+            height: 100%;
             list-style: none;
-            width: 45px;
-            height: 45px;
             padding: 6px;
             cursor: pointer;
 
@@ -372,9 +373,10 @@ export default {
             }
 
             .options-list {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 45px);
+                justify-content: space-between;
+                width: 100%;
             }
 
             .group-name-label {

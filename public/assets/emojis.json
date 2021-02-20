@@ -147,7 +147,7 @@
         },
         {
             "codes": "263A",
-            "char": "☺",
+            "char": "☺️",
             "name": "smiling face",
             "category": "Smileys & Emotion (face-affection)",
             "group": "Smileys & Emotion",
@@ -13946,7 +13946,6 @@
             "subgroup": "subdivision-flag"
         }
     ],
-
     "emojisGroups" : [
         {
             "name": "Smileys & Emotion",
@@ -14007,9 +14006,9 @@
         {
             "name": "Symbols",
             "emoji": {
-                "codes": "2764",
-                "char": "❤",
-                "name": "red heart"
+                "codes": "2705",
+                "char": "✅",
+                "name": "check mark button"
             }
         },
         {

@@ -254,7 +254,7 @@ class AppFunctionsController extends Controller
      */
     public function get_emojis_list()
     {
-        $emojisList = json_decode(file_get_contents(public_path('assets/emojisList.json'), true));
+        $emojisList = json_decode(file_get_contents(public_path('assets/emojis.json'), true));
 
         return collect([$emojisList]);
     }

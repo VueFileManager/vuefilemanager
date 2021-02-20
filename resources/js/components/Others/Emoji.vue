@@ -44,13 +44,24 @@ export default {
     .apple-emoji {
         font-size: 34px;
         line-height: 1.1;
+        font-family: "Apple Color Emoji";
     }
 }
 
 .emoji-picker-preview {
     .apple-emoji {
         font-size: 28px;
-        line-height: 1.1;
+        line-height: 0.85;
+        font-family: "Apple Color Emoji";
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .groups-list .emoji-picker {
+        .apple-emoji {
+            font-size: 34px;
+            line-height: 1.1;
+        }
     }
 }
 
