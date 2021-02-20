@@ -5,20 +5,16 @@
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">{{ item.mimetype }}</span>
+            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text">{{ item.mimetype }}</span>
 
             <!--Folder thumbnail-->
-            <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file"/>
+            <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
 
             <!--Image thumbnail-->
             <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
-            <!-- If folder have set emoji -->
-            <Emoji v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="36"/>
-
             <!--Else show only folder icon-->
-            <FontAwesomeIcon ref="folderIcon" v-if="isFolder && !folderIconHandle" class="folder-icon" icon="folder"/>
-
+            <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder" />
         </div>
 
         <!--Name-->
@@ -45,37 +41,14 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import Emoji from '@/components/Others/Emoji'
+    import FolderIcon from '@/components/FilesView/FolderIcon'
 
     export default {
         name: 'ThumbnailItem',
         props: ['item', 'info', 'setFolderIcon'],
-        components: {Emoji},
+        components: {FolderIcon},
         computed: {
             ...mapGetters(['currentFolder']),
-
-            folderIconHandle(){
-
-                // Set icon folder if set folder from rename popup
-                if(this.setFolderIcon){
-
-                    return this.setFolderIcon.emoji 
-                        ? this.setFolderIcon.emoji
-                        : this.$nextTick(() => {
-                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.setFolderIcon.color}`
-                        })  
-                }
-
-                // If folder have already set some icon
-                if(!this.setFolderIcon && (this.item.icon_emoji || this.item.icon_color)){
-
-                    return this.item.icon_emoji 
-                        ? this.item.icon_emoji
-                        : this.$nextTick(() => {
-                            this.$refs.folderIcon.firstElementChild.style.fill = `${this.item.icon_color}`
-                        })
-                }
-            },
             isFolder() {
                 return this.item.type === 'folder'
             },
@@ -137,7 +110,6 @@
             justify-content: center;
             line-height: 0;
 
-
             .file-icon {
                 @include font-size(35);
 
@@ -148,11 +120,12 @@
                 }
             }
 
-            .folder-icon {
-                @include font-size(36);
+            .folder {
+                width: 36px;
+                height: 36px;
 
-                path {
-                    fill: $theme;
+                /deep/ .folder-icon {
+                    @include font-size(36);
                 }
             }
 
@@ -199,6 +172,13 @@
                 path {
                     fill: $dark_mode_foreground;
                     stroke: #2F3C54;
+                }
+            }
+
+            .icon-item .file-icon-mobile {
+                path {
+                    fill: $dark_mode_background !important;
+                    // stroke: ;
                 }
             }
 

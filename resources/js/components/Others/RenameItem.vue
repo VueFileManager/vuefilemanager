@@ -24,9 +24,9 @@
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <!--<SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" :unique_id="pickedItem.unique_id" />-->
+                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" :unique_id="pickedItem.unique_id" />
 
-                <!-- <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton> -->
+                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
 
             </ValidationObserver>
 
@@ -92,8 +92,6 @@ export default {
     methods: {
         moreOptions() {
             this.isMoreOptions = !this.isMoreOptions
-
-            this.setFolderIcon = undefined
         },
         changeName() {
             if (this.pickedItem.name && this.pickedItem.name !== '') {
@@ -122,9 +120,9 @@ export default {
 
             if (args.name !== 'rename-item') return
 
-            this.$nextTick(() => {
-                this.$refs.input.focus()
-            })
+            if (! this.$isMobile()) {
+                this.$nextTick(() => this.$refs.input.focus())
+            }
 
             this.isMoreOptions = false
 
@@ -135,7 +133,7 @@ export default {
         })
 
         events.$on('setFolderIcon', (icon) => {
-            this.setFolderIcon = !icon ? undefined : icon.value
+            this.setFolderIcon = icon.value
         })
     }
 }

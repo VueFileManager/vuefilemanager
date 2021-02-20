@@ -21,43 +21,39 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !data.thumbnail)" class="file-icon-text">
-                    {{ data.mimetype | limitCharacters }}
+                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">
+                    {{ item.mimetype | limitCharacters }}
                 </span>
 
                 <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || (isImage && !data.thumbnail)" class="file-icon" icon="file"/>
+                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file"/>
 
                 <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage && data.thumbnail" class="image" :src="data.thumbnail" :alt="data.name"/>
+                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
-                <!-- If folder have set emoji -->
-                <Emoji  v-if="isFolder && folderIconHandle" :emoji="folderIconHandle" size="52" />
-
-                <!--Else show only folder icon-->
-                <FontAwesomeIcon v-if="isFolder && !folderIconHandle" :ref="`folder${this.data.unique_id}`" :class="{ 'is-deleted': isDeleted }" class="folder-icon" icon="folder"/>
-
+                 <!--Else show only folder icon-->
+                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder" />
             </div>
 
             <!--Name-->
             <div class="item-name">
-                <b :ref="this.data.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.item.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
                 <div class="item-info">
                     <!--Shared Icon-->
-                    <div v-if="$checkPermission('master') && data.shared" class="item-shared">
+                    <div v-if="$checkPermission('master') && item.shared" class="item-shared">
                         <link-icon size="12" class="shared-icon"></link-icon>
                     </div>
 
                     <!--Participant owner Icon-->
-                    <div v-if="$checkPermission('master') && data.user_scope !== 'master'" class="item-shared">
+                    <div v-if="$checkPermission('master') && item.user_scope !== 'master'" class="item-shared">
                         <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
                     </div>
 
                     <!--Filesize and timestamp-->
-                    <span v-if="!isFolder" class="item-size">{{ data.filesize }}, {{ timeStamp }}</span>
+                    <span v-if="!isFolder" class="item-size">{{ item.filesize }}, {{ timeStamp }}</span>
 
                     <!--Folder item counts-->
                     <span v-if="isFolder" class="item-length"> {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }} </span>
@@ -66,7 +62,7 @@
 
             <!--Show item actions-->
             <transition name="slide-from-right">
-                <div class="actions" v-if="$isMobile() && !($checkPermission('visitor') && isFolder || mobileMultiSelect)">
+                <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
                     <span @click.stop="showItemActions" class="show-actions">
                         <FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
                     </span>
@@ -78,59 +74,43 @@
 
 <script>
 import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
-import Emoji from '@/components/Others/Emoji'
+import FolderIcon from '@/components/FilesView/FolderIcon'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
 export default {
     name: 'FileItemList',
-    props: ['data'],
+    props: ['item'],
     components: {
         UserPlusIcon,
         LinkIcon,
+        FolderIcon,
         CheckIcon,
-        Emoji
     },
     computed: {
-        ...mapGetters(['FilePreviewType', 'fileInfoDetail']),
-        ...mapGetters({ allData: 'data' }),
-        folderIconHandle(){
-
-            // If folder have set some icon color
-            if(this.data.icon_color) {
-                 this.$nextTick(() => {
-                    this.$refs[`folder${this.data.unique_id}`].firstElementChild.style.fill = `${this.data.icon_color}`
-                })
-                return false
-            }
-
-            // If folder have set some emoji
-            if(this.data.icon_emoji)
-               return this.data.icon_emoji
-
-        },
+        ...mapGetters(['FilePreviewType', 'fileInfoDetail', 'data']),
         isClicked() {
-            return this.fileInfoDetail.some(element => element.unique_id == this.data.unique_id)
+            return this.fileInfoDetail.some(element => element.unique_id == this.item.unique_id)
         },
         isFolder() {
-            return this.data.type === 'folder'
+            return this.item.type === 'folder'
         },
         isFile() {
-            return this.data.type !== 'folder' && this.data.type !== 'image'
+            return this.item.type !== 'folder' && this.item.type !== 'image'
         },
         isImage() {
-            return this.data.type === 'image'
+            return this.item.type === 'image'
         },
         isPdf() {
-            return this.data.mimetype === 'pdf'
+            return this.item.mimetype === 'pdf'
         },
         isVideo() {
-            return this.data.type === 'video'
+            return this.item.type === 'video'
         },
         isAudio() {
             let mimetypes = ['mpeg', 'mp3', 'mp4', 'wan', 'flac']
-            return mimetypes.includes(this.data.mimetype) && this.data.type === 'audio'
+            return mimetypes.includes(this.item.mimetype) && this.item.type === 'audio'
         },
         canEditName() {
             return !this.$isMobile() && !this.$isThisLocation(['trash', 'trash-root']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.type === 'file')
@@ -139,13 +119,13 @@ export default {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])
         },
         timeStamp() {
-            return this.data.deleted_at ? this.$t('item_thumbnail.deleted_at', { time: this.data.deleted_at }) : this.data.created_at
+            return this.item.deleted_at ? this.$t('item_thumbnail.deleted_at', { time: this.item.deleted_at }) : this.item.created_at
         },
         folderItems() {
-            return this.data.deleted_at ? this.data.trashed_items : this.data.items
+            return this.item.deleted_at ? this.item.trashed_items : this.item.items
         },
         isDeleted() {
-            return this.data.deleted_at ? true : false
+            return this.item.deleted_at ? true : false
         }
     },
     filters: {
@@ -172,12 +152,12 @@ export default {
         showItemActions() {
             // Load file info detail
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
-            this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+            this.$store.commit('GET_FILEINFO_DETAIL', this.item)
 
             events.$emit('mobileMenu:show')
         },
         dragEnter() {
-            if (this.data.type !== 'folder') return
+            if (this.item.type !== 'folder') return
 
             this.area = true
         },
@@ -195,15 +175,15 @@ export default {
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
                     // Click + Ctrl
 
-                    if (this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {
-                        this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.data)
+                    if (this.fileInfoDetail.some(item => item.unique_id === this.item.unique_id)) {
+                        this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                     } else {
-                        this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+                        this.$store.commit('GET_FILEINFO_DETAIL', this.item)
                     }
                 } else if (e.shiftKey) {
                     // Click + Shift
-                    let lastItem = this.allData.indexOf(this.fileInfoDetail[this.fileInfoDetail.length - 1])
-                    let clickedItem = this.allData.indexOf(this.data)
+                    let lastItem = this.data.indexOf(this.fileInfoDetail[this.fileInfoDetail.length - 1])
+                    let clickedItem = this.data.indexOf(this.item)
 
                     // If Click + Shift + Ctrl dont remove already selected items
                     if (!e.ctrlKey && !e.metaKey) {
@@ -213,18 +193,18 @@ export default {
                     //Shift selecting from top to bottom
                     if (lastItem < clickedItem) {
                         for (let i = lastItem; i <= clickedItem; i++) {
-                            this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+                            this.$store.commit('GET_FILEINFO_DETAIL', this.data[i])
                         }
                         //Shift selecting from bottom to top
                     } else {
                         for (let i = lastItem; i >= clickedItem; i--) {
-                            this.$store.commit('GET_FILEINFO_DETAIL', this.allData[i])
+                            this.$store.commit('GET_FILEINFO_DETAIL', this.data[i])
                         }
                     }
                 } else {
                     // Click
                     this.$store.commit('CLEAR_FILEINFO_DETAIL')
-                    this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+                    this.$store.commit('GET_FILEINFO_DETAIL', this.item)
                 }
             }
 
@@ -233,29 +213,25 @@ export default {
                 if (this.$isMobile() && this.isFolder) {
                     // Go to folder
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
+                        this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
                     } else {
-                        this.$store.dispatch('getFolder', [{ folder: this.data, back: false, init: false }])
+                        this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
                     }
                 }
 
                 if (this.$isMobile()) {
                     if (this.isImage || this.isVideo || this.isAudio) {
-                        this.$store.commit('CLEAR_FILEINFO_DETAIL')
-                        this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+                        this.$store.commit('GET_FILEINFO_DETAIL', this.item)
                         events.$emit('fileFullPreview:show')
-                    } else {
-                        this.$store.commit('CLEAR_FILEINFO_DETAIL')
-                        this.$store.commit('GET_FILEINFO_DETAIL', this.data)
                     }
                 }
             }
 
             if (this.mobileMultiSelect && this.$isMobile()) {
-                if (this.fileInfoDetail.some(item => item.unique_id === this.data.unique_id)) {
-                    this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.data)
+                if (this.fileInfoDetail.some(item => item.unique_id === this.item.unique_id)) {
+                    this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                 } else {
-                    this.$store.commit('GET_FILEINFO_DETAIL', this.data)
+                    this.$store.commit('GET_FILEINFO_DETAIL', this.item)
                 }
             }
 
@@ -269,7 +245,7 @@ export default {
                 events.$emit('fileFullPreview:show')
 
             } else if (this.isFile || !this.isFolder && !this.isPdf && !this.isVideo && !this.isAudio && !this.isImage) {
-                this.$downloadFile(this.data.file_url, this.data.name + '.' + this.data.mimetype)
+                this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
 
             } else if (this.isFolder) {
 
@@ -277,9 +253,9 @@ export default {
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
 
                 if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [{ folder: this.data, back: false, init: false }])
+                    this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
                 } else {
-                    this.$store.dispatch('getFolder', [{ folder: this.data, back: false, init: false }])
+                    this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
                 }
             }
         },
@@ -288,19 +264,19 @@ export default {
             if (e.target.innerText.trim() === '') return
 
             this.$store.dispatch('renameItem', {
-                unique_id: this.data.unique_id,
-                type: this.data.type,
+                unique_id: this.item.unique_id,
+                type: this.item.type,
                 name: e.target.innerText
             })
         }, 300)
     },
     created() {
 
-        this.itemName = this.data.name
+        this.itemName = this.item.name
 
         events.$on('newFolder:focus', (unique_id) => {
 
-            if(this.data.unique_id == unique_id) {
+            if(this.item.unique_id == unique_id && !this.$isMobile()) {
                 this.$refs[unique_id].focus()
                 document.execCommand('selectAll')
             }
@@ -318,7 +294,7 @@ export default {
 
         // Change item name
         events.$on('change:name', (item) => {
-            if (this.data.unique_id == item.unique_id) this.itemName = item.name
+            if (this.item.unique_id == item.unique_id) this.itemName = item.name
         })
     }
 }
@@ -480,18 +456,13 @@ export default {
         flex: 0 0 50px;
         line-height: 0;
         margin-right: 20px;
+        
+        .folder {
+            width: 52px;
+            height: 52px;
 
-        .folder-icon {
-            @include font-size(52);
-
-            path {
-                fill: $theme;
-            }
-
-            &.is-deleted {
-                path {
-                    fill: $dark_background;
-                }
+            /deep/ .folder-icon {
+                @include font-size(52)
             }
         }
 
@@ -587,14 +558,6 @@ export default {
                 path {
                     fill: $dark_mode_foreground;
                     stroke: #2f3c54;
-                }
-            }
-
-            .folder-icon {
-                &.is-deleted {
-                    path {
-                        fill: lighten($dark_mode_foreground, 5%);
-                    }
                 }
             }
         }

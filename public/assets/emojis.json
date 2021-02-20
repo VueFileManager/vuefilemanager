@@ -1,6 +1,5 @@
-const defaultState = {
-
-    emojis : 
+{
+"emojisList" : 
     [
         {
             "codes": "1F600",
@@ -148,7 +147,7 @@ const defaultState = {
         },
         {
             "codes": "263A",
-            "char": "☺",
+            "char": "☺️",
             "name": "smiling face",
             "category": "Smileys & Emotion (face-affection)",
             "group": "Smileys & Emotion",
@@ -13947,14 +13946,13 @@ const defaultState = {
             "subgroup": "subdivision-flag"
         }
     ],
-
-    emojiGroups : [
+    "emojisGroups" : [
         {
             "name": "Smileys & Emotion",
             "emoji": {
                 "codes": "1F600",
                 "char": "😀",
-                "name": "grinning face",
+                "name": "grinning face"
             }
         },
         {
@@ -13962,7 +13960,7 @@ const defaultState = {
             "emoji": {
                 "codes": "1F91A",
                 "char": "🤚",
-                "name": "raised back of hand",
+                "name": "raised back of hand"
             }
         },
         {
@@ -13970,7 +13968,7 @@ const defaultState = {
             "emoji": {
                 "codes": "1F435",
                 "char": "🐵",
-                "name": "monkey face",
+                "name": "monkey face"
             }
         },
         {
@@ -13978,7 +13976,7 @@ const defaultState = {
             "emoji": {
                 "codes": "1F34F",
                 "char": "🍏",
-                "name": "green apple",
+                "name": "green apple"
             }
         },
         {
@@ -13986,7 +13984,7 @@ const defaultState = {
             "emoji": {
                 "codes": "1F697",
                 "char": "🚗",
-                "name": "automobile",
+                "name": "automobile"
             }
         },
         {
@@ -13994,7 +13992,7 @@ const defaultState = {
             "emoji": {
                 "codes": "26BD",
                 "char": "⚽",
-                "name": "soccer ball",
+                "name": "soccer ball"
             }
         },
         {
@@ -14002,15 +14000,15 @@ const defaultState = {
             "emoji": {
                 "codes": "231A",
                 "char": "⌚",
-                "name": "watch",
+                "name": "watch"
             }
         },
         {
             "name": "Symbols",
             "emoji": {
-                "codes": "2764",
-                "char": "❤",
-                "name": "red heart",
+                "codes": "2705",
+                "char": "✅",
+                "name": "check mark button"
             }
         },
         {
@@ -14018,21 +14016,8 @@ const defaultState = {
             "emoji": {
                 "codes": "1F3F3",
                 "char": "🏳",
-                "name": "white flag",
+                "name": "white flag"
             }
-        },
-
-
+        }
     ]
-}
-
-const getters = {
-    emojis: state => state.emojis,
-    emojiGroups: state => state.emojiGroups
-
-}
-
-export default {
-    state: defaultState,
-    getters
 }

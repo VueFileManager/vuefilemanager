@@ -29,13 +29,22 @@
                             </li>
                         </ul>
 
-                        <ul class="menu-option-group" v-if="!isFolder">
-                            <li class="menu-option" @click="downloadItem">
+                        <ul class="menu-option-group" >
+                            <li class="menu-option" @click="downloadItem" v-if="!isFolder">
                                 <div class="icon">
                                     <download-cloud-icon size="17"></download-cloud-icon>
                                 </div>
                                 <div class="text-label">
                                     {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+
+                             <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+                                <div class="icon">
+                                    <paperclip-icon size="17"></paperclip-icon>
+                                </div>
+                                <div class="text-label">
+                                   {{ $t('context_menu.zip_folder') }}
                                 </div>
                             </li>
                         </ul>
@@ -96,6 +105,15 @@
                                 </div>
                                 <div class="text-label">
                                     {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+
+                             <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+                                <div class="icon">
+                                    <paperclip-icon size="17"></paperclip-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.zip_folder') }}
                                 </div>
                             </li>
                         </ul>
@@ -166,6 +184,15 @@
                                     {{ $t('context_menu.download') }}
                                 </div>
                             </li>
+
+                            <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+                                <div class="icon">
+                                    <paperclip-icon size="17"></paperclip-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.zip_folder') }}
+                                </div>
+                            </li>
                         </ul>
                     </div>
 
@@ -207,6 +234,15 @@
                                     {{ $t('context_menu.download') }}
                                 </div>
                             </li>
+
+                             <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+                                <div class="icon">
+                                    <paperclip-icon size="17"></paperclip-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.zip_folder') }}
+                                </div>
+                            </li>
                         </ul>
                     </div>
 
@@ -219,6 +255,15 @@
                                 </div>
                                 <div class="text-label">
                                     {{ $t('context_menu.download') }}
+                                </div>
+                            </li>
+
+                            <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+                                <div class="icon">
+                                    <paperclip-icon size="17"></paperclip-icon>
+                                </div>
+                                <div class="text-label">
+                                    {{ $t('context_menu.zip_folder') }}
                                 </div>
                             </li>
                         </ul>
@@ -239,6 +284,7 @@ import {
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
+    PaperclipIcon,
     LifeBuoyIcon,
     Trash2Icon,
     Edit2Icon,
@@ -256,6 +302,7 @@ export default {
         CornerDownRightIcon,
         DownloadCloudIcon,
         FolderPlusIcon,
+        PaperclipIcon,
         ThumbnailItem,
         LifeBuoyIcon,
         Trash2Icon,
@@ -297,6 +344,9 @@ export default {
         }
     },
     methods: {
+        downloadFolder(){
+            this.$store.dispatch( 'downloadFolder' , this.fileInfoDetail[0] )
+        },
         moveItem() {
             events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
         },

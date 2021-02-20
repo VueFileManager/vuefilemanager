@@ -246,4 +246,16 @@ class AppFunctionsController extends Controller
         Artisan::call('config:clear');
         Artisan::call('config:cache');
     }
+    
+    /**
+     * Get Emojis List from the server
+     *
+     * @return $emojisList
+     */
+    public function get_emojis_list()
+    {
+        $emojisList = json_decode(file_get_contents(public_path('assets/emojis.json'), true));
+
+        return collect([$emojisList]);
+    }
 }

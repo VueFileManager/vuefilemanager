@@ -193,4 +193,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/zip-folder/{unique_id}', 'FileFunctions\EditItemsController@user_zip_folder');
     Route::post('/upload', 'FileFunctions\EditItemsController@user_upload');
     Route::post('/move', 'FileFunctions\EditItemsController@user_move');
+
+    //Get Emojis List
+    Route::get('/emojis-list', 'AppFunctionsController@get_emojis_list');
 });

@@ -352,6 +352,22 @@ const Helpers = {
 				body.classList.add('windows')
 			}
         }
+        Vue.prototype.$isApple = function() {
+
+            const toMatch = [
+                /iPhone/i,
+                /iPad/i,
+                /iPod/i,
+                /iOS/i,
+                /macOS/i,
+                /Macintosh/i
+                ]
+
+             // Check if device is iOS
+            return toMatch.some(toMatchItem => {
+                return navigator.userAgent.match(toMatchItem)
+            })
+        }
 	}
 }
 

@@ -79,16 +79,16 @@
                     this.$store.dispatch('createFolder', this.name)
 
                     this.$closePopup()
+
+                    this.name = undefined
                 }
             },
         },
         mounted() {
             events.$on('popup:open', ({name}) => {
 
-                if (name === 'create-folder')
-                    this.$nextTick(() => {
-                       this.$refs.input.focus()
-                    })
+                if (name === 'create-folder' && ! this.$isMobile())
+                    this.$nextTick(() => this.$refs.input.focus())
             })
         }
     }

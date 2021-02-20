@@ -89,11 +89,12 @@
 
         .tab-icon {
             margin-right: 10px;
+
             path,
             circle,
             line,
             polyline {
-                color: $theme !important;
+                stroke: $theme !important;
             }
         }
     }

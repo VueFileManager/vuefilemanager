@@ -8,6 +8,7 @@ const defaultState = {
 	authorized: undefined,
 	homeDirectory: undefined,
 	requestedPlan: undefined,
+	emojis: undefined,
 	sorting: {
 		sort: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).sort : 'DESC',
 		field: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).field : 'created_at',
@@ -967,6 +968,21 @@ const defaultState = {
 	]
 }
 const actions = {
+	getEmojisList: ({commit}) => {
+		return new Promise((resolve, reject) => {
+
+			axios.get('/api/emojis-list')
+				.then((response) => {
+					commit('LOAD_EMOJIS_LIST', response.data[0])
+
+				})
+				.catch(() => Vue.prototype.$isSomethingWrong())
+				.finally(() => {
+					resolve(true)
+				})
+		})
+
+	},
 	changePreviewType: ({commit, state}, preview) => {
 		
 		// Get preview type
@@ -991,6 +1007,9 @@ const actions = {
 	},
 }
 const mutations = {
+	LOAD_EMOJIS_LIST(state, data) {
+		state.emojis = data
+	},
 	UPDATE_SORTING(state) {
 		state.sorting.field = JSON.parse(localStorage.getItem('sorting')).field
 		state.sorting.sort = JSON.parse(localStorage.getItem('sorting')).sort
@@ -1035,6 +1054,7 @@ const getters = {
 	timezones: state=> state.timezones,
 	api: state => state.config.api,
 	config: state => state.config,
+	emojis: state => state.emojis,
 	index: state => state.index,
 	roles: state => state.roles,
 	sorting: (state) => {
