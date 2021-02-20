@@ -72,7 +72,8 @@ class Demo
 
         if ($item) {
             $item->name = $request->name;
-            $item->icon_emoji = $request->folder_icon['emoji'];
+            $item->icon_emoji = $request->folder_icon['emoji'] ?? null;
+            $item->icon_color = $request->folder_icon['color'] ?? null;
 
             return $item;
 
