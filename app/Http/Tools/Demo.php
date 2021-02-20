@@ -72,15 +72,16 @@ class Demo
 
         if ($item) {
             $item->name = $request->name;
+            $item->icon_emoji = $request->folder_icon['emoji'];
 
             return $item;
 
         } else {
 
             return [
-                'unique_id' => $request->unique_id,
-                'name'      => $request->name,
-                'type'      => $request->type,
+                'unique_id'  => $request->unique_id,
+                'name'       => $request->name,
+                'type'       => $request->type,
             ];
         }
     }
@@ -126,7 +127,8 @@ class Demo
      *
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public static function response_204() {
+    public static function response_204()
+    {
 
         return response('Done!', 204);
     }
@@ -136,7 +138,8 @@ class Demo
      *
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public static function favourites($user) {
+    public static function favourites($user)
+    {
 
         return $user->favourite_folders->makeHidden(['pivot']);
     }
