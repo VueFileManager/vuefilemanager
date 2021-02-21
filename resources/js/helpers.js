@@ -76,103 +76,6 @@ const Helpers = {
             this.$store.dispatch('createFolder', folderName)
         }
 
-        Vue.prototype.$handleUploading = async function () {
-
-        	//let files = this.$store.getters.filesQueue
-            let fileBuffer = []
-
-            // Append the file list to fileBuffer array
-            Array.prototype.push.apply(fileBuffer, this.$store.getters.filesQueue);
-
-            let fileSucceed = 0
-
-            // Update files count in progressbar
-            store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                current: fileSucceed,
-                total: this.$store.getters.filesQueue.length
-            })
-
-            // Reset upload progress to 0
-            store.commit('UPLOADING_FILE_PROGRESS', 0)
-
-            // Get parent id
-            let parentFolder = this.$store.getters.currentFolder ? this.$store.getters.currentFolder.unique_id : 0
-
-            // Upload files
-            do {
-                let onQueue = fileBuffer.shift(),
-                    chunks = []
-
-                // Calculate ceils
-                let size = this.$store.getters.config.chunkSize,
-                    chunksCeil = Math.ceil(onQueue.file.size / size);
-
-                // Create chunks
-                for (let i = 0; i < chunksCeil; i++) {
-                    chunks.push(onQueue.file.slice(
-                        i * size, Math.min(i * size + size, onQueue.file.size), onQueue.file.type
-                    ));
-                }
-
-                // Set Data
-                let formData = new FormData(),
-                    uploadedSize = 0,
-                    isNotGeneralError = true,
-                    striped_name = onQueue.file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
-                    filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
-
-                do {
-                    let isLast = chunks.length === 1,
-                        chunk = chunks.shift(),
-                        attempts = 0
-
-                    // Set form data
-                    formData.set('file', chunk, filename);
-                    formData.set('parent_id', onQueue.parent_id)
-                    formData.set('is_last', isLast);
-
-                    // Upload chunks
-                    do {
-                        await store.dispatch('uploadFiles', {
-                            form: formData,
-                            fileSize: onQueue.file.size,
-                            totalUploadedSize: uploadedSize
-                        }).then(() => {
-                            uploadedSize = uploadedSize + chunk.size
-                        }).catch((error) => {
-
-                            // Count attempts
-                            attempts++
-
-                            // Break uploading proccess
-                            if (error.response.status === 500)
-                                isNotGeneralError = false
-
-                            //Break if mimetype of file is in blacklist
-                            if(error.response.status === 415)
-                                isNotGeneralError = false
-
-                            // Show Error
-                            if (attempts === 3)
-                                this.$isSomethingWrong()
-                        })
-                    } while (isNotGeneralError && attempts !== 0 && attempts !== 3)
-
-                } while (isNotGeneralError && chunks.length !== 0)
-
-                fileSucceed++
-
-                // Progress file log
-                store.commit('UPDATE_FILE_COUNT_PROGRESS', {
-                    current: fileSucceed,
-                    total: this.$store.getters.filesQueue.length
-                })
-
-            } while (fileBuffer.length !== 0)
-
-            store.commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
-        }
-
         Vue.prototype.$uploadFiles = async function (files) {
 
             if (files.length == 0) return
@@ -185,7 +88,7 @@ const Helpers = {
         Vue.prototype.$uploadExternalFiles = async function (event, parent_id) {
 
             // Prevent submit empty files
-            if (event.dataTransfer.items.length == 0) return
+            if (event.dataTransfer.items.length === 0) return
 
             // Push files to queue
             [...event.dataTransfer.items].map(item => {
@@ -195,10 +98,69 @@ const Helpers = {
 				})
 			});
 
-            if (! this.$store.getters.uploadingFilesCount) {
-				this.$handleUploading()
+            if (! this.$store.getters.uploadingProgress > 0) {
+				this.$handleUploading(
+					this.$store.getters.filesQueue.shift()
+				)
 			}
         }
+
+		Vue.prototype.$handleUploading = async function (item) {
+
+			// Create ceil
+			let size = 128000000, // todo: chunksize doriesit
+				chunksCeil = Math.ceil(item.file.size / size),
+				chunks = []
+
+			// Create chunks
+			for (let i = 0; i < chunksCeil; i++) {
+				chunks.push(item.file.slice(
+					i * size, Math.min(i * size + size, item.file.size), item.file.type
+				));
+			}
+
+			// Set Data
+			let formData = new FormData(),
+				uploadedSize = 0,
+				isNotGeneralError = true,
+				striped_name = item.file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
+				filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
+
+			do {
+				let isLast = chunks.length === 1,
+					chunk = chunks.shift(),
+					attempts = 0
+
+				// Set form data
+				formData.set('file', chunk, filename);
+				formData.set('parent_id', item.parent_id)
+				formData.set('is_last', isLast);
+
+				// Upload chunks
+				do {
+					await store.dispatch('uploadFiles', {
+						form: formData,
+						fileSize: item.file.size,
+						totalUploadedSize: uploadedSize
+					}).then(() => {
+						uploadedSize = uploadedSize + chunk.size
+					}).catch((error) => {
+
+						// Count attempts
+						attempts++
+
+						// Show Error
+						if (attempts === 3)
+							this.$isSomethingWrong()
+
+						// Break uploading process
+						if ([500, 415].includes(error.response.status))
+							isNotGeneralError = false
+					})
+				} while (isNotGeneralError && attempts !== 0 && attempts !== 3)
+
+			} while (isNotGeneralError && chunks.length !== 0)
+		}
 
         Vue.prototype.$downloadFile = function (url, filename) {
             var anchor = document.createElement('a')
@@ -288,6 +250,7 @@ const Helpers = {
 				message: i18n.t('popup_error.message')
 			})
 		}
+
 		Vue.prototype.$checkFileMimetype = function(files) {
 			let validated = true
 			let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
@@ -352,6 +315,7 @@ const Helpers = {
 			// Get data of Navigator tree
 			this.$store.dispatch('getFolderTree')
 		}
+
 		Vue.prototype.$checkOS = function() {
 			// Handle styled scrollbar for Windows
 			if (navigator.userAgent.indexOf('Windows') != -1) {

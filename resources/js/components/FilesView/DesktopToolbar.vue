@@ -112,7 +112,7 @@ export default {
                 'shared',
                 'public'
             ]
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0 
+            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0
         },
         canUploadInView() {
             return !this.$isThisLocation(['base', 'public'])
@@ -125,7 +125,7 @@ export default {
                 'shared',
                 'public'
             ]
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0 
+            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0
 
         },
         canShareInView() {
@@ -137,7 +137,7 @@ export default {
                 'public'
             ]
 
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1 || this.fileInfoDetail.length === 0 
+            return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1 || this.fileInfoDetail.length === 0
         }
     },
     data() {
@@ -183,14 +183,14 @@ export default {
             events.$emit('folder:actions', this.currentFolder)
         },
         deleteItem() {
-            if(this.fileInfoDetail.length > 0)
+            if (this.fileInfoDetail.length > 0)
                 this.$store.dispatch('deleteItem')
         },
         createFolder() {
             this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))
         },
         moveItem() {
-            if(this.fileInfoDetail.length > 0)
+            if (this.fileInfoDetail.length > 0)
                 events.$emit('popup:open', { name: 'move', item: this.fileInfoDetail })
         },
         shareItem() {
@@ -215,9 +215,9 @@ export default {
         //     this.sortingAndPreview = state
         // })
 
-         events.$on('unClick', () => {
-                this.sortingAndPreview = false
-            })
+        events.$on('unClick', () => {
+            this.sortingAndPreview = false
+        })
     }
 }
 </script>
@@ -225,15 +225,18 @@ export default {
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
-.preview-sorting { 
+
+.preview-sorting {
     /deep/ .label {
         color: $text !important;
     }
+
     /deep/ .preview-sorting {
-            path, line, polyline, rect, circle {
-                stroke: $text !important;
-            }
+        path, line, polyline, rect, circle {
+            stroke: $text !important;
+        }
     }
+
     &:hover {
         /deep/ .preview-sorting {
             path, line, polyline, rect, circle {
@@ -358,6 +361,7 @@ export default {
 
             &.preview-sorting {
                 background: $light_background;
+
                 /deep/ .preview-sorting {
                     path, line, polyline, rect, circle {
                         stroke: $theme !important;
@@ -423,14 +427,15 @@ export default {
             background: $dark_mode_foreground !important;
         }
     }
-    .preview-sorting { 
+    .preview-sorting {
         /deep/ .label {
             color: $text !important;
         }
+
         /deep/ .preview-sorting {
-                path, line, polyline, rect, circle {
-                    stroke: $dark_mode_text_primary !important;
-                }
+            path, line, polyline, rect, circle {
+                stroke: $dark_mode_text_primary !important;
+            }
         }
     }
 }

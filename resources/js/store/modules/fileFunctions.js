@@ -4,18 +4,22 @@ import { events } from '@/bus'
 import { last } from 'lodash'
 import axios from 'axios'
 import Vue from 'vue'
+import store from '../index'
 
 const defaultState = {
 	processingPopup: undefined,
 	filesQueue: [],
+
+	isProcessingFile: false,
+	uploadingProgress: 0
 }
 
 const actions = {
-	downloadFolder: ({commit, getters}, folder) => {
+	downloadFolder: ({ commit, getters }, folder) => {
 
 		commit('PROCESSING_POPUP', {
 			title: i18n.t('popup_zipping.title'),
-			message: i18n.t('popup_zipping.message'),
+			message: i18n.t('popup_zipping.message')
 		})
 
 		// Get route
@@ -24,15 +28,15 @@ const actions = {
 			: '/api/zip-folder/' + folder.unique_id
 
 		axios.get(route)
-		.then(response => {
-			Vue.prototype.$downloadFile(response.data.url, response.data.name)
-		})
-		.catch(() => {
-			Vue.prototype.$isSomethingWrong()
-		})
-		.finally(() => {
-			commit('PROCESSING_POPUP', undefined)
-		})
+			.then(response => {
+				Vue.prototype.$downloadFile(response.data.url, response.data.name)
+			})
+			.catch(() => {
+				Vue.prototype.$isSomethingWrong()
+			})
+			.finally(() => {
+				commit('PROCESSING_POPUP', undefined)
+			})
 
 	},
 	downloadFiles: ({ commit, getters }) => {
@@ -124,7 +128,7 @@ const actions = {
 				//Set focus on new folder name
 				setTimeout(() => {
 					events.$emit('newFolder:focus', response.data.unique_id)
-				}, 10);
+				}, 10)
 
 				if (getters.currentFolder.location !== 'public')
 					dispatch('getAppData')
@@ -170,9 +174,9 @@ const actions = {
 				? '/api/upload/public/' + router.currentRoute.params.token
 				: '/api/upload'
 
-			// Create cancel token for axios cancelation
-			const CancelToken = axios.CancelToken
-			const source = CancelToken.source()
+			// Create cancel token for axios cancellation
+			const CancelToken = axios.CancelToken,
+				source = CancelToken.source()
 
 			axios
 				.post(route, form, {
@@ -181,63 +185,63 @@ const actions = {
 						'Content-Type': 'application/octet-stream'
 					},
 					onUploadProgress: event => {
-
 						var percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100)
 
 						commit('UPLOADING_FILE_PROGRESS', percentCompleted >= 100 ? 100 : percentCompleted)
 
-						if (percentCompleted >= 100) {
+						// Set processing file
+						if (percentCompleted >= 100)
 							commit('PROCESSING_FILE', true)
-						}
 					}
 				})
 				.then(response => {
+					resolve(response)
+
 					commit('PROCESSING_FILE', false)
 
 					// Check if user is in uploading folder, if yes, than show new file
-					if (response.data.folder_id == getters.currentFolder.unique_id)
+					if (response.data.folder_id == getters.currentFolder.unique_id) {
+
+						// Add uploaded item into view
 						commit('ADD_NEW_ITEMS', response.data)
 
-					// TODO: handle new uploads if exist
-
-					resolve(response)
-				})
-				.catch(error => {
-					commit('PROCESSING_FILE', false)
-
-					reject(error)
-
-					switch (error.response.status) {
-						case 423:
-							events.$emit('alert:open', {
-								emoji: '😬😬😬',
-								title: i18n.t('popup_exceed_limit.title'),
-								message: i18n.t('popup_exceed_limit.message')
-							})
-							break
-						case 415:
-							events.$emit('alert:open', {
-								emoji: '😬😬😬',
-								title: i18n.t('popup_mimetypes_blacklist.title'),
-								message: i18n.t('popup_mimetypes_blacklist.message')
-							})
-							break
-						case 413:
-							events.$emit('alert:open', {
-								emoji: '😟😟😟',
-								title: i18n.t('popup_paylod_error.title'),
-								message: i18n.t('popup_paylod_error.message')
-							})
-							break
-						default:
-							events.$emit('alert:open', {
-								title: i18n.t('popup_error.title'),
-								message: i18n.t('popup_error.message')
-							})
-							break
+						// Reset file progress
+						commit('UPLOADING_FILE_PROGRESS', 0)
 					}
 
-					// Reset uploader
+					// TODO: handle new uploads if exist
+					if (getters.filesQueue.length > 0) {
+						Vue.prototype.$handleUploading(getters.filesQueue[0])
+						commit('SHIFT_FILE_FROM_QUEUE')
+						// todo: doriesit uploading ffile statistiky na frontende
+					}
+
+				})
+				.catch(error => {
+					reject(error)
+
+					let messages = {
+						'423': {
+							title: i18n.t('popup_exceed_limit.title'),
+							message: i18n.t('popup_exceed_limit.message')
+						},
+						'415': {
+							title: i18n.t('popup_mimetypes_blacklist.title'),
+							message: i18n.t('popup_mimetypes_blacklist.message')
+						},
+						'413': {
+							title: i18n.t('popup_paylod_error.title'),
+							message: i18n.t('popup_paylod_error.message')
+						}
+					}
+
+					events.$emit('alert:open', {
+						emoji: '😬😬😬',
+						title: messages[error.response.status]['title'],
+						message: messages[error.response.status]['message']
+					})
+
+					commit('PROCESSING_FILE', false)
 					commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
 				})
 
@@ -260,28 +264,27 @@ const actions = {
 		// If coming no selected item dont get items to restore from fileInfoDetail
 		if (!item)
 			items = getters.fileInfoDetail
-	
+
 		// Check if file can be restored to home directory
 		if (getters.currentFolder.location === 'trash')
 			restoreToHome = true
 
 		items.forEach(data => itemToRestore.push({
 			'type': data.type,
-			'unique_id': data.unique_id,
+			'unique_id': data.unique_id
 		}))
 
 		// Remove file preview
 		commit('CLEAR_FILEINFO_DETAIL')
 
 		axios
-			.post(getters.api + '/restore-items' ,{
+			.post(getters.api + '/restore-items', {
 				to_home: restoreToHome,
-				data: itemToRestore,
+				data: itemToRestore
 			})
 			.then(
-
 				// Remove file
-				items.forEach( data => commit('REMOVE_ITEM', data.unique_id) )
+				items.forEach(data => commit('REMOVE_ITEM', data.unique_id))
 			)
 			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
@@ -390,12 +393,23 @@ const mutations = {
 	},
 	ADD_FILES_TO_QUEUE(state, file) {
 		state.filesQueue.push(file)
+	},
+	SHIFT_FILE_FROM_QUEUE(state) {
+		state.filesQueue.shift()
+	},
+	PROCESSING_FILE(state, status) {
+		state.isProcessingFile = status
+	},
+	UPLOADING_FILE_PROGRESS(state, percentage) {
+		state.uploadingProgress = percentage
 	}
 }
 
 const getters = {
+	uploadingProgress: state => state.uploadingProgress,
+	isProcessingFile: state => state.isProcessingFile,
 	processingPopup: state => state.processingPopup,
-	filesQueue: state => state.filesQueue,
+	filesQueue: state => state.filesQueue
 }
 
 export default {
