@@ -24,7 +24,7 @@ class Language extends Model
         });
     }
 
-    public function languegeStrings()
+    public function languageStrings()
     {
         return $this->hasMany('App\LanguageString', 'language_id', 'id');
     }

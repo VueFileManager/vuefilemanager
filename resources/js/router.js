@@ -284,6 +284,17 @@ const routesAdmin = [
                     },
                 ]
             },
+
+            {
+                name: 'Language',
+                path: '/admin/language',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/app-language" */ './views/Admin/Languages/Language'),
+                    meta: {
+                        requiresAuth: true,
+                        title: i18n.t('routes_title.language')
+                    },
+            }
         ]
     },
     {

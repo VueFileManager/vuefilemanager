@@ -1,4 +1,5 @@
 import i18n from '@/i18n/index'
+import Axios from 'axios'
 
 const defaultState = {
 	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || false,
@@ -8,6 +9,10 @@ const defaultState = {
 	authorized: undefined,
 	homeDirectory: undefined,
 	requestedPlan: undefined,
+	languages: {
+		allLanguages: undefined,
+		strings: undefined,
+	},
 	sorting: {
 		sort: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).sort : 'DESC',
 		field: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).field : 'created_at',
@@ -841,6 +846,35 @@ const defaultState = {
 	],
 }
 const actions = {
+	getLanguages: ({commit, state}) => {
+
+		return new Promise((resolve, reject) => {
+
+			axios
+				.get('/api/language/get')
+				.then((response) => {
+					commit('LOAD_LANGUAGES', response.data)
+				})
+				.catch(() => Vue.prototype.$isSomethingWrong())
+				.finally(() => {
+					resolve(true)
+				})
+			})
+	},
+	getLanguageStrings: ({ commit }, language) => {
+		return new Promise((resolve, reject) => {
+
+			axios
+				.get(`/api/language/${language.locale}/strings`)
+				.then(response => {
+					commit('LOAD_LANGUAGE_STRINGS', response.data)
+				})
+				.catch(() => Vue.prototype.$isSomethingWrong())
+				.finally(() => {
+					resolve(true)
+				})
+		})
+	},
 	changePreviewType: ({commit, state}, preview) => {
 		
 		// Get preview type
@@ -865,6 +899,12 @@ const actions = {
 	},
 }
 const mutations = {
+	LOAD_LANGUAGE_STRINGS (state, data) {
+		state.languages.strings = data
+	},
+	LOAD_LANGUAGES(state, data) {
+		state.languages.allLanguages = data
+	},
 	UPDATE_SORTING(state) {
 		state.sorting.field = JSON.parse(localStorage.getItem('sorting')).field
 		state.sorting.sort = JSON.parse(localStorage.getItem('sorting')).sort
@@ -906,6 +946,7 @@ const getters = {
 	requestedPlan: state => state.requestedPlan,
 	currencyList: state => state.currencyList,
 	countries: state => state.countries,
+	languages: state => state.languages,
 	api: state => state.config.api,
 	config: state => state.config,
 	index: state => state.index,

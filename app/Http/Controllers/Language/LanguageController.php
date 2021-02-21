@@ -26,9 +26,9 @@ class LanguageController extends Controller
      * @param $language
      * @return string
      */
-    public function get_language_strings($language)
+    public function get_language_strings($locale)
     {
-       return Language::where('locale', $language)->with('languegeStrings')->first();
+       return Language::where('locale', $locale)->with('languageStrings')->first();
     }
 
     /**
@@ -51,6 +51,30 @@ class LanguageController extends Controller
         ]);
 
         // Return created language
+        return $language;
+    }
+
+     /**
+     * Update language
+     *
+     * @param Request $request
+     * @param $id
+     * @return $language
+     */
+    public function update_language(Request $request, $id)
+    {
+        // Check if is demo
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+        
+        // Get language
+        $language = Language::findOrFail($id);
+
+        // Update language
+        $language->update([$request->input('name') => $request->input('value')]);
+
+        // Return updated language
         return $language;
     }
 

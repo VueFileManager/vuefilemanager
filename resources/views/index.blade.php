@@ -69,6 +69,8 @@
             latest_upgrade: '{{ isset($settings->latest_upgrade) && $settings->latest_upgrade ? $settings->latest_upgrade : null }}',
 
             chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
+
+            // language_strings: '{{ config('language_strings[test]') }}',
         }
     </script>
 

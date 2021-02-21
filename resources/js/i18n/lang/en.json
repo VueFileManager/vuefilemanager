@@ -25,7 +25,8 @@
 		"pages": "Pages",
 		"plans": "Plans",
 		"settings": "Settings",
-		"users": "Users"
+		"users": "Users",
+		"language": "Language"
 	},
 	"admin_page_dashboard": {
 		"backer_button": "Become a Backer",
@@ -662,7 +663,8 @@
 		"users_list": "User Management",
 		"users_password": "Password",
 		"users_storage_usage": "Storage Usage",
-		"users_user": "User"
+		"users_user": "User",
+		"language": "Language"
 	},
 	"rows": {
 		"card": {
