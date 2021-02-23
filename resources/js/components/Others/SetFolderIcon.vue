@@ -39,8 +39,8 @@ export default {
     },
     computed: {
         pickedEmoji () {
-            // If is color not seted send picked emoji via props to EmojiPicker for the EmojiSelected input
-            return !this.selectedColor ? this.selectedEmoji : ''
+            // If is color not selected and emoji is selected, push picked emoji to EmojiPicker for the EmojiSelected input
+            return !this.selectedColor && this.selectedEmoji ? this.selectedEmoji : ''
         }
     },
     data() {
@@ -76,7 +76,7 @@ export default {
     methods: {
         setIcon(value) {
 
-            // Set emoji
+            // Set color
             this.selectedColor = value.color
 
             this.selectedEmoji = undefined
@@ -94,6 +94,9 @@ export default {
                 this.selectedEmoji = icon.value.emoji
                 this.selectedColor = undefined
             }
+
+            // If want to set default folder icon from emoji, set selectedEmoji to undefined 
+            icon.value === 'default' ? this.selectedEmoji = undefined : ''
         })
 
         // If folder have already set some color set this color to selected color

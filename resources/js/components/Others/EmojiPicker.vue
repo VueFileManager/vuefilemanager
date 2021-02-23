@@ -151,17 +151,23 @@ export default {
         }, 800),
         openMenu() {
 
+            this.loadedList = false
+
             this.selectOpen = !this.selectOpen
 
-            //Load emojis
-            if (this.selectOpen) {
+            // Load emojis from server just if not loaded already
+            if (this.selectOpen && ! this.emojis) {
                 this.$store.dispatch('getEmojisList').then((loaded) => {
                     this.loadedList = loaded
                 })
             }
 
-            if ( ! this.selectOpen ) 
-                this.loadedList = false
+            // Simulate loading for the emojisList processing
+            if(this.emojis) {
+                setTimeout(() => {
+                    this.loadedList = true
+                }, 20);
+            }
 
             this.searchInput = ''
 
