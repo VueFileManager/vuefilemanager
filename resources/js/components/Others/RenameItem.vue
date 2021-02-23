@@ -24,7 +24,7 @@
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" :unique_id="pickedItem.unique_id" />
+                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem"/>
 
                 <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
 
