@@ -3,10 +3,10 @@
         <label class="main-label">{{ $t('popup_rename.select_emoji_label') }}:</label>
 
         <!-- Selected Emoji input -->
-        <div @click.stop="openMenu" class="select-input-wrapper" :class="{'active-menu' : selectOpen}">
+        <div @click.stop="openList" class="select-input-wrapper" :class="{'active-menu' : selectOpen}">
 
             <!-- If is emoji selected -->
-            <div class="select-input" v-if="selectedEmoji">
+            <div class="select-input" v-if="selectedEmoji && selectedEmoji !== 'default'">
                 <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
                     <x-icon size="14" class="select-input-icon"/>
                 </div>
@@ -15,7 +15,7 @@
             </div>
 
             <!-- If is emoji not selected -->
-            <div class="not-selected" v-if="! selectedEmoji">
+            <div class="not-selected" v-if="! selectedEmoji || selectedEmoji === 'default'">
                 <span> {{ $t('popup_rename.set_emoji_input_placeholder') }}</span>
             </div>
 
@@ -45,10 +45,10 @@
 
                     <!-- All Emojis -->
                     <div v-show="searchInput.length < 1" @scroll="checkGroupInView" id="group-box" class="group-wrapper">
-                        <div v-for="(group, name) in allEmoji" :key="name" class="options-wrapper" :id="`group-${name}`">
+                        <div v-for="(group, name) in allEmoji()" :key="name" class="options-wrapper" :id="`group-${name}`">
                             <label class="group-name-label">{{ name }}</label>
                             <ul class="options-list">
-                                <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in group" :key="i" class="option">
+                                <li @click="setEmoji( emoji )" v-for="(emoji,i) in group" :key="i" class="option">
                                     <Emoji :emoji="emoji" location="emoji-picker" />
                                 </li>
                             </ul>
@@ -59,7 +59,7 @@
                     <div v-if="searchInput.length > 0" class="group-wrapper">
                         <div class="options-wrapper">
                             <ul class="options-list">
-                                <li @click="setIcon({'emoji':emoji})" v-for="(emoji,i) in filteredEmojis" :key="i" class="option">
+                                <li @click="setEmoji( emoji )" v-for="(emoji,i) in filteredEmojis" :key="i" class="option">
                                     <Emoji :emoji="emoji" location="emoji-picker" />
                                 </li>
                             </ul>
@@ -93,9 +93,6 @@ export default {
     },
     computed: {
         ...mapGetters([ 'emojis' ]),
-        allEmoji() {
-            return groupBy(this.emojis.emojisList, 'group')
-        }
     },
     data () {
         return {
@@ -109,6 +106,9 @@ export default {
         }
     },
     methods: {
+        allEmoji() {
+            return groupBy(this.emojis.emojisList, 'group')
+        },
         checkGroupInView: _.debounce( function() {
 
             this.emojis.emojisGroups.forEach(group => {
@@ -149,7 +149,7 @@ export default {
             this.filteredEmojisLoaded = true
 
         }, 800),
-        openMenu() {
+        openList() {
 
             this.loadedList = false
 
@@ -173,12 +173,12 @@ export default {
 
             this.groupInView = 'Smileys & Emotion'
         },
-        setIcon(value) {
+        setEmoji(value) {
 
             // Set emoji
-            this.selectedEmoji = value.emoji
+            this.selectedEmoji = value
 
-            events.$emit('setFolderIcon', { 'value': value })
+            this.$emit('input', value)
 
             this.selectOpen = false
         },
@@ -186,7 +186,7 @@ export default {
 
             this.selectedEmoji = undefined
 
-            events.$emit('setFolderIcon', { 'value': 'default' })
+            this.$emit('input', 'default')
         }
     },
      mounted() {
