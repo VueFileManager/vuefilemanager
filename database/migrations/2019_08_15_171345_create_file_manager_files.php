@@ -13,20 +13,21 @@ class CreateFileManagerFiles extends Migration
      */
     public function up()
     {
-        Schema::create('file_manager_files', function (Blueprint $table) {
-
-            $table->bigIncrements('id');
-            $table->integer('unique_id');
-            $table->integer('folder_id')->default(0);
+        Schema::create('files', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
+            $table->uuid('folder_id');
 
             $table->text('thumbnail')->nullable();
-            $table->text('name')->nullable();
-            $table->text('basename')->nullable();
+            $table->text('name');
+            $table->text('basename');
 
             $table->text('mimetype')->nullable();
-            $table->text('filesize')->nullable();
+            $table->text('filesize');
 
             $table->text('type')->nullable();
+            $table->longText('metadata')->nullable();
+            $table->enum('user_scope', ['master', 'editor', 'visitor'])->default('master');
 
             $table->softDeletes();
             $table->timestamps();
