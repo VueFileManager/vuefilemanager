@@ -452,7 +452,7 @@
         created() {
 
             // Get setup intent for stripe
-            axios.get('/api/stripe/setup-intent')
+            axios.get('/api/subscription/setup-intent')
                 .then(response => {
                     this.clientSecret = response.data.client_secret
                 })

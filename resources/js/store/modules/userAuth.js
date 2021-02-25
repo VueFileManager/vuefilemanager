@@ -48,7 +48,7 @@ const actions = {
         }, 300)
 
         axios
-            .get(getters.api + '/logout')
+            .get(getters.api + '/user/logout')
             .then(() => {
                 clearTimeout(popup)
                 commit('DESTROY_DATA')
@@ -93,7 +93,7 @@ const actions = {
         context.commit('ADD_TO_FAVOURITES', pushToFavorites)
 
         axios
-            .post(context.getters.api + '/folders/favourites', {
+            .post(context.getters.api + '/browse/folders/favourites', {
                 folders: addFavourites
             })
             .catch(() => {

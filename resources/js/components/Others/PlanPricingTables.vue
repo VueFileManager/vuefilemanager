@@ -54,7 +54,7 @@
             }
         },
         created() {
-            axios.get('/api/public/pricing')
+            axios.get('/api/pricing')
                 .then(response => {
                     this.plans = response.data.filter(plan => {
                         return plan.data.attributes.capacity > this.user.data.attributes.storage_capacity

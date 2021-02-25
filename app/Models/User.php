@@ -1,9 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Notifications\ResetPassword;
 use App\Notifications\ResetUserPasswordNotification;
+use App\UserSettings;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,13 +13,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
-use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, Billable, Sortable, HasFactory, \Laravel\Sanctum\HasApiTokens;
+    use Notifiable, Billable, Sortable, HasFactory, HasApiTokens;
 
     protected $guarded = ['id', 'role'];
 

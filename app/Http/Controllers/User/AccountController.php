@@ -125,7 +125,11 @@ class AccountController extends Controller
         }
 
         // Update text data
-        $user->settings->update(make_single_input($request));
+        $user
+            ->settings()
+            ->update(
+                make_single_input($request)
+            );
 
         return response('Saved!', 204);
     }

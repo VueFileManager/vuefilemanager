@@ -157,7 +157,7 @@
 
                 this.isFlushingCache = true
 
-                axios.get('/api/flush-cache')
+                axios.get('/api/settings/flush-cache')
                     .then(() => {
                         events.$emit('toaster', {
                             type: 'success',

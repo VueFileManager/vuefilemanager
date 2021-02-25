@@ -1,4 +1,4 @@
-/app/Console/Commands/SetupDevelopmentEnvironment.php
+/app/Console/Commands/SetupDevEnvironment.php
 /node_modules
 /public/hot
 /public/storage

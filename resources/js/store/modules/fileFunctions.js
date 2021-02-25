@@ -291,7 +291,7 @@ const actions = {
 		commit('CLEAR_FILEINFO_DETAIL')
 
 		axios
-			.post(getters.api + '/restore-items', {
+			.post(getters.api + '/trash/restore-items', {
 				to_home: restoreToHome,
 				data: itemToRestore
 			})
@@ -386,7 +386,7 @@ const actions = {
 		commit('LOADING_STATE', { loading: true, data: [] })
 
 		axios
-			.post(getters.api + '/empty-trash', {
+			.post(getters.api + '/trash/empty-trash', {
 				_method: 'delete'
 			})
 			.then(() => {

@@ -39,7 +39,7 @@
             }
         },
         created() {
-            axios.get('/api/public/pricing')
+            axios.get('/api/pricing')
                 .then(response => {
                     this.plans = response.data
                     this.$emit('load', response.data)

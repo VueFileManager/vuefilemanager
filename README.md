@@ -230,7 +230,7 @@ VueFileManager is packed with **Stripe** payment options. To configure Stripe, y
 ## Get your active plans
 Would you like to get your subscription plans for your custom front-end page? Create GET request and get all your active plans:
 ```
-GET /api/public/pricing
+GET /api/pricing
 ```
 
 ## Manage Failed Payments

@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -27,6 +28,78 @@ class UserTest extends TestCase
 
         $this->assertDatabaseHas('user_settings', [
             'user_id' => $user->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_register_user_via_public_api()
+    {
+        $this->postJson('/register', [
+            'email'                 => 'john@doe.com',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('users', [
+            'email'  => 'john@doe.com',
+        ]);
+
+        $this->assertDatabaseHas('user_settings', [
+            'name'    => 'John Doe',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_login_user_via_post_request()
+    {
+        $user = User::factory(User::class)
+            ->create(['email' => 'john@doe.com']);
+
+        $this->postJson('/login', [
+            'email'    => $user->email,
+            'password' => 'secret',
+        ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_change_user_password_via_post_request()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->putJson('/user/password', [
+            'current_password'      => 'secret',
+            'password'              => 'VerySecretPassword',
+            'password_confirmation' => 'VerySecretPassword',
+        ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_user_settings()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->patchJson('/api/user/relationships/settings', [
+            'name'  => 'address',
+            'value' => 'Jantar',
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('user_settings', [
+            'address' => 'Jantar',
         ]);
     }
 }

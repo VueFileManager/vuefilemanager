@@ -77,7 +77,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/latest' )
+            .get(getters.api + '/browse/latest' )
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -98,7 +98,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
-            .get(getters.api + '/shared-all' + getters.sorting.URI)
+            .get(getters.api + '/browse/shared-all' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
@@ -118,7 +118,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/participant-uploads' + getters.sorting.URI)
+            .get(getters.api + '/browse/participant-uploads' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
 
@@ -160,7 +160,7 @@ const actions = {
         else if (getters.sharedDetail && !getters.sharedDetail.protected)
             route = '/api/search/public/' + router.currentRoute.params.token
         else
-            route = '/api/search'
+            route = '/api/browse/search'
 
         axios
             .get(route, {
@@ -183,7 +183,7 @@ const actions = {
             else if (getters.sharedDetail && !getters.sharedDetail.protected)
                 route = '/api/navigation/public/' + router.currentRoute.params.token
             else
-                route = '/api/navigation'
+                route = '/api/browse/navigation'
 
             axios
                 .get(route + getters.sorting.URI)

@@ -12,6 +12,8 @@
 */
 
 // Stripe WebHook
+use App\Http\Controllers\General\UpgradeAppController;
+
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 
 // Deployment WebHook URL
@@ -39,10 +41,10 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 });
 
 // Admin system tools
-Route::get('/service/upgrade', 'General\UpgradeAppController@upgrade');
 Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master'], 'prefix' => 'service'], function () {
-    Route::get('/down', 'General\UpgradeAppController@down');
-    Route::get('/up', 'General\UpgradeAppController@up');
+    Route::post('/upgrade', [UpgradeAppController::class, 'upgrade']);
+    Route::get('/down', [UpgradeAppController::class, 'down']);
+    Route::get('/up', [UpgradeAppController::class, 'up']);
 });
 
 // Get og site for web crawlers
