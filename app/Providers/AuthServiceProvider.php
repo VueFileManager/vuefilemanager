@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Passport\Passport;
+//use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,19 +30,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin-settings', function ($user) {
             return $user->role === 'admin';
         });
-
-        Passport::routes();
-
-        Passport::tokensCan([
-            'master'  => 'Master',
-            'editor'  => 'Editor',
-            'visitor' => 'Visitor',
-        ]);
-
-        Passport::setDefaultScope([
-            'master',
-            'editor',
-            'visitor',
-        ]);
     }
 }
