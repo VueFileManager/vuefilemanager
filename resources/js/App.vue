@@ -110,7 +110,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isLogged', 'isGuest', 'config', 'filesQueue'
+            'isLogged', 'isGuest', 'config', 'fileQueue'
         ]),
         isGuestLayout() {
             return (includes([
@@ -137,11 +137,6 @@ export default {
                     'SignUp'
                 ], this.$route.name)
             )
-        }
-    },
-    watch: {
-        filesQueue() {
-            //this.$handleUploading()
         }
     },
     data() {

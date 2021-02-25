@@ -1,7 +1,6 @@
 <template>
     <transition name="info-panel">
-        <!--<div v-if="filesQueue.length > 0" class="upload-progress">-->
-        <div class="upload-progress">
+        <div v-if="fileQueue.length > 0" class="upload-progress">
             <div class="progress-title">
 
                 <!--Is processing-->
@@ -10,14 +9,9 @@
                     {{ $t('uploading.processing_file') }}
                 </span>
 
-                <!--Single file upload-->
-				<span v-if="!isProcessingFile && filesQueue.length === 1">
-                    {{ $t('uploading.progress_single_upload', {progress: uploadingProgress}) }}
-                </span>
-
                 <!--Multi file upload-->
-				<span v-if="!isProcessingFile && filesQueue.length > 1">
-                    {{ $t('uploading.progress', {current:'x', total: filesQueue.length, progress: uploadingProgress}) }}
+				<span v-if="!isProcessingFile && fileQueue.length > 0">
+                    {{ $t('uploading.progress', {current:filesInQueueUploaded, total: filesInQueueTotal, progress: uploadingProgress}) }}
                 </span>
             </div>
             <div class="progress-wrapper">
@@ -45,9 +39,11 @@
         },
         computed: {
             ...mapGetters([
+                'filesInQueueUploaded',
+                'filesInQueueTotal',
                 'uploadingProgress',
                 'isProcessingFile',
-                'filesQueue',
+                'fileQueue',
             ])
         },
         methods: {

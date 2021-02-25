@@ -8,7 +8,9 @@ import store from '../index'
 
 const defaultState = {
 	processingPopup: undefined,
-	filesQueue: [],
+	fileQueue: [],
+	filesInQueueTotal: 0,
+	filesInQueueUploaded: 0,
 
 	isProcessingFile: false,
 	uploadingProgress: 0
@@ -199,6 +201,9 @@ const actions = {
 
 					commit('PROCESSING_FILE', false)
 
+					// Remove first file from file queue
+					commit('SHIFT_FROM_FILE_QUEUE')
+
 					// Check if user is in uploading folder, if yes, than show new file
 					if (response.data.folder_id == getters.currentFolder.unique_id) {
 
@@ -207,14 +212,19 @@ const actions = {
 
 						// Reset file progress
 						commit('UPLOADING_FILE_PROGRESS', 0)
+
+						// Increase count in files in queue uploaded for 1
+						commit('INCREASE_FILES_IN_QUEUE_UPLOADED')
 					}
 
-					// TODO: handle new uploads if exist
-					if (getters.filesQueue.length > 0) {
-						Vue.prototype.$handleUploading(getters.filesQueue[0])
-						commit('SHIFT_FILE_FROM_QUEUE')
-						// todo: doriesit uploading ffile statistiky na frontende
+					// Start uploading next file if file queue is not empty
+					if (getters.fileQueue.length) {
+						Vue.prototype.$handleUploading(getters.fileQueue[0])
 					}
+
+					// Reset upload process
+					if (! getters.fileQueue.length)
+						commit('CLEAR_UPLOAD_PROGRESS')
 
 				})
 				.catch(error => {
@@ -242,7 +252,7 @@ const actions = {
 					})
 
 					commit('PROCESSING_FILE', false)
-					commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+					commit('CLEAR_UPLOAD_PROGRESS')
 				})
 
 			// Cancel the upload request
@@ -251,7 +261,7 @@ const actions = {
 
 				// Hide upload progress bar
 				commit('PROCESSING_FILE', false)
-				commit('UPDATE_FILE_COUNT_PROGRESS', undefined)
+				commit('CLEAR_UPLOAD_PROGRESS')
 			})
 		})
 	},
@@ -392,24 +402,37 @@ const mutations = {
 		state.processingPopup = status
 	},
 	ADD_FILES_TO_QUEUE(state, file) {
-		state.filesQueue.push(file)
+		state.fileQueue.push(file)
 	},
-	SHIFT_FILE_FROM_QUEUE(state) {
-		state.filesQueue.shift()
+	SHIFT_FROM_FILE_QUEUE(state) {
+		state.fileQueue.shift()
 	},
 	PROCESSING_FILE(state, status) {
 		state.isProcessingFile = status
 	},
 	UPLOADING_FILE_PROGRESS(state, percentage) {
 		state.uploadingProgress = percentage
+	},
+	INCREASE_FILES_IN_QUEUES_TOTAL(state, count) {
+		state.filesInQueueTotal += count
+	},
+	INCREASE_FILES_IN_QUEUE_UPLOADED(state) {
+		state.filesInQueueUploaded++
+	},
+	CLEAR_UPLOAD_PROGRESS(state) {
+		state.filesInQueueUploaded = 0
+		state.filesInQueueTotal = 0
+		state.fileQueue = []
 	}
 }
 
 const getters = {
+	filesInQueueUploaded: state => state.filesInQueueUploaded,
+	filesInQueueTotal: state => state.filesInQueueTotal,
 	uploadingProgress: state => state.uploadingProgress,
 	isProcessingFile: state => state.isProcessingFile,
 	processingPopup: state => state.processingPopup,
-	filesQueue: state => state.filesQueue
+	fileQueue: state => state.fileQueue
 }
 
 export default {

@@ -78,11 +78,24 @@ const Helpers = {
 
         Vue.prototype.$uploadFiles = async function (files) {
 
-            if (files.length == 0) return
+           if (files.length == 0) return
 
            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
-           
-            this.$handleUploading(files, undefined)
+
+			// Push items to file queue
+			[...files].map(item => {
+				this.$store.commit('ADD_FILES_TO_QUEUE', {
+					parent_id: store.getters.currentFolder.unique_id,
+					file: item,
+				})
+			});
+
+			// Start uploading if uploading process isn't running
+			if (this.$store.getters.filesInQueueTotal == 0)
+				this.$handleUploading(store.getters.fileQueue[0])
+
+			// Increase total files in upload bar
+			this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
         }
 
         Vue.prototype.$uploadExternalFiles = async function (event, parent_id) {
@@ -90,7 +103,7 @@ const Helpers = {
             // Prevent submit empty files
             if (event.dataTransfer.items.length === 0) return
 
-            // Push files to queue
+			// Push items to file queue
             [...event.dataTransfer.items].map(item => {
 				this.$store.commit('ADD_FILES_TO_QUEUE', {
 					parent_id: parent_id,
@@ -98,17 +111,18 @@ const Helpers = {
 				})
 			});
 
-            if (! this.$store.getters.uploadingProgress > 0) {
-				this.$handleUploading(
-					this.$store.getters.filesQueue.shift()
-				)
-			}
+            // Start uploading if uploading process isn't running
+            if (this.$store.getters.filesInQueueTotal == 0)
+				this.$handleUploading(this.$store.getters.fileQueue[0])
+
+			// Increase total files in upload bar
+			this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
         }
 
 		Vue.prototype.$handleUploading = async function (item) {
 
 			// Create ceil
-			let size = 128000000, // todo: chunksize doriesit
+			let size = store.getters.config.chunkSize,
 				chunksCeil = Math.ceil(item.file.size / size),
 				chunks = []
 

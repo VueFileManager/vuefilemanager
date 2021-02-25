@@ -1,5 +1,5 @@
 <template>
-    <div class="file-content" id="file-content-id" :class="{ 'is-offset': filesQueue > 0, 'is-dragging': isDragging }"
+    <div class="file-content" id="file-content-id" :class="{ 'is-offset': filesInQueueTotal > 0, 'is-dragging': isDragging }"
          @dragover.prevent
          @drop.stop.prevent="dropUpload($event)"
          @dragover="dragEnter"
@@ -119,7 +119,7 @@
         },
         computed: {
             ...mapGetters([
-                'filesQueue',
+                'filesInQueueTotal',
                 'fileInfoVisible',
                 'fileInfoDetail',
                 'currentFolder',
