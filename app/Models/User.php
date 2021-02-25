@@ -6,79 +6,19 @@ use App\Notifications\ResetPassword;
 use App\Notifications\ResetUserPasswordNotification;
 use ByteUnits\Metric;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
-/**
- * App\User
- *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string $password
- * @property \Illuminate\Contracts\Routing\UrlGenerator|string $avatar
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
- * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $favourites
- * @property-read int|null $favourites_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $files
- * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $files_with_trashed
- * @property-read int|null $files_with_trashed_count
- * @property-read mixed $used_capacity
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $latest_uploads
- * @property-read int|null $latest_uploads_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
- * @property-read int|null $tokens_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property string $role
- * @property string|null $stripe_id
- * @property string|null $card_brand
- * @property string|null $card_last_four
- * @property string|null $trial_ends_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $favourite_folders
- * @property-read int|null $favourite_folders_count
- * @property-read mixed $folder_tree
- * @property-read mixed $storage
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
- * @property-read int|null $invoices_count
- * @property-read int|null $payment_cards_count
- * @property-read \App\UserSettings|null $settings
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
- * @property-read int|null $subscriptions_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCardBrand($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCardLastFour($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User sortable($defaultParameters = null)
- */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Billable, Sortable;
+    use Notifiable, Billable, Sortable, HasFactory, \Laravel\Sanctum\HasApiTokens;
 
     protected $guarded = ['id', 'role'];
 
@@ -125,6 +65,10 @@ class User extends Authenticatable
         'created_at',
         'storage_capacity',
     ];
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /**
      * Get tax rate id for user
@@ -344,5 +288,17 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->hasOne(UserSettings::class);
+    }
+
+    /**
+     * Generate uuid
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -12,14 +13,20 @@ class UserTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @test
      */
-    public function test_example()
+    public function it_generate_and_store_user()
     {
-        $response = $this->get('/');
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
 
-        $response->assertStatus(200);
+        $this->assertDatabaseHas('users', [
+            'id'   => $user->id,
+            'role' => 'user',
+        ]);
+
+        $this->assertDatabaseHas('user_settings', [
+            'user_id' => $user->id,
+        ]);
     }
 }
