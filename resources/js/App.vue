@@ -110,7 +110,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isLogged', 'isGuest', 'config'
+            'isLogged', 'isGuest', 'config', 'fileQueue'
         ]),
         isGuestLayout() {
             return (includes([

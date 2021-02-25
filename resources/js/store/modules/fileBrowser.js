@@ -5,11 +5,8 @@ import router from '@/router'
 import i18n from '@/i18n/index'
 
 const defaultState = {
-    uploadingFilesCount: undefined,
     fileInfoDetail: [],
     currentFolder: undefined,
-    uploadingFileProgress: 0,
-    isProcessingFile: false,
     navigation: undefined,
     isSearching: false,
     browseHistory: [],
@@ -264,12 +261,6 @@ const mutations = {
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState
     },
-    UPLOADING_FILE_PROGRESS(state, percentage) {
-        state.uploadingFileProgress = percentage
-    },
-    UPDATE_FILE_COUNT_PROGRESS(state, data) {
-        state.uploadingFilesCount = data
-    },
     UPDATE_SHARED_ITEM(state, data) {
         state.data.find(item => {
             if (item.unique_id == data.item_id) item.shared = data
@@ -292,15 +283,9 @@ const mutations = {
     STORE_CURRENT_FOLDER(state, folder) {
         state.currentFolder = folder
     },
-    PROCESSING_FILE(state, status) {
-        state.isProcessingFile = status
-    }
 }
 
 const getters = {
-    uploadingFileProgress: state => state.uploadingFileProgress,
-    uploadingFilesCount: state => state.uploadingFilesCount,
-    isProcessingFile: state => state.isProcessingFile,
     fileInfoDetail: state => state.fileInfoDetail,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
