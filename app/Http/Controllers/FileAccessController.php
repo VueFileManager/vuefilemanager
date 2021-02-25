@@ -277,7 +277,7 @@ class FileAccessController extends Controller
             "Content-Disposition" => "attachment; filename=" . $file_pretty_name,
         ];
 
-        return response()->download(storage_path('/app/file-manager/') . $file->basename, $file_pretty_name, $headers);
+        return response()->download(config('filesystems.disks.local.root') . '/file-manager/' . $file->basename, $file_pretty_name, $headers);
     }
 
     /**
