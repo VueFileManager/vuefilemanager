@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
@@ -42,11 +43,14 @@ class SharedSendViaEmail extends Notification
      */
     public function toMail($notifiable)
     {
+        $app_name = strval(Setting::where('name', 'app_title')->pluck('value')[0]);
+        
         return (new MailMessage)
             ->subject(__('vuefilemanager.shared_link_email_subject' , ['user' => $this->user->name]))
             ->greeting(__('vuefilemanager.shared_link_email_greeting'))
             ->line(__('vuefilemanager.shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__('vuefilemanager.shared_link_email_link'), url('/shared', ['token' => $this->token]));
+            ->action(__('vuefilemanager.shared_link_email_link'), url('/shared', ['token' => $this->token]))
+            ->salutation(__('vuefilemanager.shared_link_email_salutation', ['app_name' => $app_name ? $app_name : 'VueFileManager']));
     }
 
     /**
