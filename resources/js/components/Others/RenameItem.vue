@@ -56,7 +56,6 @@ import ButtonBase from '@/components/FilesView/ButtonBase'
 import { XIcon } from 'vue-feather-icons'
 import { required } from 'vee-validate/dist/rules'
 import { events } from '@/bus'
-import axios from 'axios'
 
 export default {
     name: 'RenameItem',
@@ -100,7 +99,7 @@ export default {
                     unique_id: this.pickedItem.unique_id,
                     type: this.pickedItem.type,
                     name: this.pickedItem.name,
-                    folder_icon: this.setFolderIcon ? this.setFolderIcon : null
+                    icon: this.setFolderIcon ? this.setFolderIcon : null
                 }
 
                 // Rename item request
@@ -133,7 +132,7 @@ export default {
         })
 
         events.$on('setFolderIcon', (icon) => {
-            this.setFolderIcon = icon.value
+            this.setFolderIcon = icon
         })
     }
 }

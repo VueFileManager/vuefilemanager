@@ -53,7 +53,7 @@ export default {
             if( this.selectedColor ) {
 
                 this.selectedEmoji = undefined
-                events.$emit('setFolderIcon', { 'value': color })
+                events.$emit('setFolderIcon', color )
             }
           
         },
@@ -64,25 +64,29 @@ export default {
             if( this.selectedEmoji ) {
 
                 this.selectedColor = undefined
-                events.$emit('setFolderIcon', { 'value': this.selectedEmoji ==='default' ? 'default' : emoji })
+                events.$emit('setFolderIcon', this.selectedEmoji ==='default' ? 'default' : emoji )
             }
         },
     },
     created() {
+        if(this.folderData) {
+            
+            // If folder have already set some color set this color to selected color
+            this.folderData.icon_color ? this.selectedColor = this.folderData.icon_color : ''
 
-        // If folder have already set some color set this color to selected color
-        this.folderData.icon_color ? this.selectedColor = this.folderData.icon_color : ''
-
-        // If folder have already set some emojit set this emoji to selected emoji
-        this.folderData.icon_emoji ? this.selectedEmoji = this.folderData.icon_emoji : ''
+            // If folder have already set some emojit set this emoji to selected emoji
+            this.folderData.icon_emoji ? this.selectedEmoji = this.folderData.icon_emoji : ''
+        }
     },
     destroyed () {
-
-        // After close SetFolderIcon set the saved folder icon for thumbnail
-        let color = {'color': this.folderData.icon_color }
-        let emoji = {'emoji': this.folderData.icon_emoji }
-
-        events.$emit('setFolderIcon', { 'value': this.folderData.icon_emoji ? emoji : color  })
+        if(this.folderData) {
+            
+            // After close SetFolderIcon set the saved folder icon for thumbnail
+            let color = {'color': this.folderData.icon_color }
+            let emoji = {'emoji': this.folderData.icon_emoji }
+    
+            events.$emit('setFolderIcon', this.folderData.icon_emoji ? emoji : color  )
+        }
     }
 }
 </script>

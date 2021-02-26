@@ -16,6 +16,10 @@
                     <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
+
+                <SetFolderIcon v-if="isMoreOptions"/>
+
+                <ActionButton @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
             </ValidationObserver>
         </PopupContent>
 
@@ -44,11 +48,11 @@
     import PopupContent from '@/components/Others/Popup/PopupContent'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
+    import SetFolderIcon from '@/components/Others/SetFolderIcon'
     import ActionButton from '@/components/Others/ActionButton'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import {required} from 'vee-validate/dist/rules'
     import {events} from '@/bus'
-    import axios from 'axios'
 
     export default {
         name: 'CreateFolder',
@@ -56,6 +60,7 @@
             ValidationProvider,
             ValidationObserver,
             ThumbnailItem,
+            SetFolderIcon,
             ActionButton,
             PopupWrapper,
             PopupActions,
@@ -64,19 +69,29 @@
             ButtonBase,
             required,
         },
+        computed: {
+            moreOptionsTitle() {
+                return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_folder_icon_open')
+            }
+        },
         data() {
             return {
                 name: undefined,
+                isMoreOptions: false,
+                folderIcon: undefined
             }
         },
         methods: {
+            moreOptions() {
+                this.isMoreOptions = !this.isMoreOptions
+            },
             async createFolder() {
 
                 // Validate fields
                 const isValid = await this.$refs.createForm.validate();
 
                 if (isValid) {
-                    this.$store.dispatch('createFolder', this.name)
+                    this.$store.dispatch('createFolder', {'name':this.name, 'icon': this.folderIcon})
 
                     this.$closePopup()
 
@@ -85,10 +100,18 @@
             },
         },
         mounted() {
+            events.$on('setFolderIcon', (icon) => {
+                this.folderIcon = icon
+            })
+
             events.$on('popup:open', ({name}) => {
 
                 if (name === 'create-folder' && ! this.$isMobile())
                     this.$nextTick(() => this.$refs.input.focus())
+            })
+
+            events.$on('setFolderIcon', (icon) => {
+                this.setFolderIcon = icon
             })
         }
     }

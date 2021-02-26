@@ -106,7 +106,7 @@ const actions = {
 			})
 			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
-	createFolder: ({ commit, getters, dispatch }, folderName) => {
+	createFolder: ({ commit, getters, dispatch }, folder) => {
 
 		// Get route
 		let route = getters.sharedDetail && !getters.sharedDetail.protected
@@ -116,7 +116,8 @@ const actions = {
 		axios
 			.post(route, {
 				parent_id: getters.currentFolder.unique_id,
-				name: folderName
+				name: folder.name,
+				icon: folder.icon
 			})
 			.then(response => {
 				commit('ADD_NEW_FOLDER', response.data)
@@ -151,7 +152,7 @@ const actions = {
 			.post(route, {
 				name: data.name,
 				type: data.type,
-				folder_icon: data.folder_icon,
+				icon: data.icon,
 				_method: 'patch'
 			})
 			.then(response => {

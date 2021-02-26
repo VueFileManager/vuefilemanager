@@ -42,6 +42,8 @@ class Demo
             'unique_id'  => random_int(1000, 9999),
             'user_scope' => $user_scope,
             'items'      => '0',
+            'icon_color' => isset($request->icon['color']) ? $request->icon['color'] : null,
+            'icon_emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
             'updated_at' => Carbon::now()->format('j M Y \a\t H:i'),
             'created_at' => Carbon::now()->format('j M Y \a\t H:i'),
         ];
@@ -72,8 +74,8 @@ class Demo
 
         if ($item) {
             $item->name = $request->name;
-            $item->icon_emoji = $request->folder_icon['emoji'] ?? null;
-            $item->icon_color = $request->folder_icon['color'] ?? null;
+            $item->icon_emoji = $request->icon['emoji'] ?? null;
+            $item->icon_color = $request->icon['color'] ?? null;
 
             return $item;
 

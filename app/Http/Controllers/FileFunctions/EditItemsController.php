@@ -116,9 +116,9 @@ class EditItemsController extends Controller
         }
 
         // If request have a change folder icon values set the folder icon
-        if ($request->type === 'folder' && $request->filled('folder_icon')) {
+        if ($request->type === 'folder' && $request->filled('icon')) {
             
-            Editor::set_folder_icon($request->folder_icon, $unique_id);
+            Editor::set_folder_icon($request->icon, $unique_id);
         }
 
         // Rename Item
@@ -158,9 +158,9 @@ class EditItemsController extends Controller
         }
 
         // If request have a change folder icon values set the folder icon
-        if ($request->type === 'folder' && $request->filled('folder_icon')) {
+        if ($request->type === 'folder' && $request->filled('icon')) {
 
-            Editor::set_folder_icon($request->folder_icon, $unique_id, $shared);
+            Editor::set_folder_icon($request->icon, $unique_id, $shared);
         }
 
         // Rename item

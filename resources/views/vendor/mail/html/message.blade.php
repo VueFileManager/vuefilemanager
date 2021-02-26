@@ -1,15 +1,9 @@
-<?php
-use App\Setting;
-
-$app_name = strval(Setting::where('name', 'app_title')->pluck('value')[0]);
-
-?>
 
 @component('mail::layout')
 {{-- Header --}}
 @slot('header')
 @component('mail::header', ['url' => config('app.url')])
-{{ $app_name ? $app_name : 'VueFileManager' }}
+{{ get_setting('app_title') ?? 'VueFileManager' }}
 @endcomponent
 @endslot
 
@@ -28,7 +22,7 @@ $app_name = strval(Setting::where('name', 'app_title')->pluck('value')[0]);
 {{-- Footer --}}
 @slot('footer')
 @component('mail::footer')
-© {{ date('Y') }} {{ $app_name ? $app_name : 'VueFileManager' }}. @lang('All rights reserved.')
+© {{ date('Y') }} {{ get_setting('app_title') ?? 'VueFileManager' }}. @lang('All rights reserved.')
 @endcomponent
 @endslot
 @endcomponent
