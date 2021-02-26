@@ -25,13 +25,17 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'role'              => $this->faker->randomElement(['user', 'admin']),
+            'role'              => $this->faker->randomElement(
+                ['user', 'admin']
+            ),
             'name'              => $this->faker->name(),
             'email'             => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password'          => Hash::make('secret'),
             'remember_token'    => Str::random(10),
-            'created_at'        => $this->faker->dateTimeBetween($startDate = '-36 months', $endDate = 'now', $timezone = null),
+            'created_at'        => $this->faker->dateTimeBetween(
+                $startDate = '-36 months', $endDate = 'now', $timezone = null
+            ),
         ];
     }
 
@@ -52,9 +56,13 @@ class UserFactory extends Factory
                     'state'            => $this->faker->state,
                     'city'             => $this->faker->city,
                     'postal_code'      => $this->faker->postcode,
-                    'country'          => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                    'country'          => $this->faker->randomElement(
+                        ['SK', 'CZ', 'DE', 'FR']
+                    ),
                     'phone_number'     => $this->faker->phoneNumber,
-                    'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                    'timezone'         => $this->faker->randomElement(
+                        ['+1.0', '+2.0', '+3.0']
+                    ),
                 ]);
         });
     }

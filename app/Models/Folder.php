@@ -15,7 +15,7 @@ use Kyslik\ColumnSortable\Sortable;
 
 class Folder extends Model
 {
-    use Searchable, SoftDeletes , Sortable;
+    use Searchable, SoftDeletes, Sortable;
 
     protected $guarded = [
         'id'
