@@ -1,23 +1,6 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Stripe WebHook
-use App\Http\Controllers\General\UpgradeAppController;
-
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
-
-// Deployment WebHook URL
-Route::post('/deploy/github', 'DeployController@github');
 
 // App public files
 Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
@@ -38,13 +21,6 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
 // Get user invoice
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
     Route::get('/invoice/{customer}/{token}', 'Admin\InvoiceController@show');
-});
-
-// Admin system tools
-Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master'], 'prefix' => 'service'], function () {
-    Route::post('/upgrade', [UpgradeAppController::class, 'upgrade']);
-    Route::get('/down', [UpgradeAppController::class, 'down']);
-    Route::get('/up', [UpgradeAppController::class, 'up']);
 });
 
 // Get og site for web crawlers

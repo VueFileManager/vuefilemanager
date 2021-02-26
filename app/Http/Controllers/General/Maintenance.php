@@ -9,7 +9,7 @@ use Artisan;
 use Illuminate\Http\Request;
 use Schema;
 
-class UpgradeAppController extends Controller
+class Maintenance extends Controller
 {
 
     /**

@@ -49,6 +49,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapSetupWizardApiRoutes();
 
         $this->mapUserApiRoutes();
+
+        $this->mapMaintenanceRoutes();
     }
 
     /**
@@ -63,6 +65,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
+    }
+
+    protected function mapMaintenanceRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/maintenance.php'));
     }
 
     /**
