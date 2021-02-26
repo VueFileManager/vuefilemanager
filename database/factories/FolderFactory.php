@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Folder;
+use App\Models\Folder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FolderFactory extends Factory

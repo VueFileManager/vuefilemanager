@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\File;
-use App\Models\User;
+use App\Models\File;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class FileFactory extends Factory
 {
@@ -25,7 +25,10 @@ class FileFactory extends Factory
         return [
             'id'         => $this->faker->uuid,
             'user_id'    => $this->faker->uuid,
-            'name'       => $this->faker->name,
+            'name'       => $this->faker->word,
+            'basename'   => Str::slug($this->faker->name),
+            'mimetype'   => $this->faker->mimeType,
+            'filesize'   => $this->faker->numberBetween(10000, 99999),
             'type'       => $this->faker->randomElement(
                 ['image', 'file', 'video', 'audio']
             ),

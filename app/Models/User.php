@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword;
-use App\Notifications\ResetUserPasswordNotification;
-use App\UserSettings;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -139,9 +137,7 @@ class User extends Authenticatable
      */
     public function getFolderTreeAttribute()
     {
-        // Get sorting setup
-
-        return FileManagerFolder::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
+        return File::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
             ->sortable()
@@ -247,7 +243,7 @@ class User extends Authenticatable
      */
     public function favourite_folders()
     {
-        return $this->belongsToMany(FileManagerFolder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in');
+        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in');
     }
 
     /**
@@ -257,7 +253,7 @@ class User extends Authenticatable
      */
     public function latest_uploads()
     {
-        return $this->hasMany(FileManagerFile::class)->with(['parent'])->take(40);
+        return $this->hasMany(File::class)->with(['parent'])->take(40);
     }
 
     /**
@@ -267,7 +263,7 @@ class User extends Authenticatable
      */
     public function files()
     {
-        return $this->hasMany(FileManagerFile::class);
+        return $this->hasMany(File::class);
     }
 
     /**
@@ -277,7 +273,7 @@ class User extends Authenticatable
      */
     public function files_with_trashed()
     {
-        return $this->hasMany(FileManagerFile::class)->withTrashed();
+        return $this->hasMany(File::class)->withTrashed();
     }
 
     /**

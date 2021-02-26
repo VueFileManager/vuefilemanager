@@ -1,21 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
 class Folder extends Model
 {
-    use Searchable, SoftDeletes, Sortable;
+    use Searchable, SoftDeletes, Sortable, HasFactory;
 
     protected $guarded = [
         'id'
@@ -115,7 +112,7 @@ class Folder extends Model
      */
     public function parent()
     {
-        return $this->belongsTo('App\Folder', 'parent_id', 'unique_id');
+        return $this->belongsTo(Folder::class, 'parent_id', 'unique_id');
     }
 
     public function folderIds()
@@ -130,7 +127,7 @@ class Folder extends Model
      */
     public function files()
     {
-        return $this->hasMany('App\File', 'folder_id', 'unique_id');
+        return $this->hasMany(File::class, 'folder_id', 'unique_id');
     }
 
     /**
@@ -141,7 +138,7 @@ class Folder extends Model
     public function trashed_files()
     {
 
-        return $this->hasMany('App\File', 'folder_id', 'unique_id')->withTrashed();
+        return $this->hasMany(File::class, 'folder_id', 'unique_id')->withTrashed();
     }
 
     /**
@@ -171,7 +168,7 @@ class Folder extends Model
      */
     public function children()
     {
-        return $this->hasMany('App\Folder', 'parent_id', 'unique_id');
+        return $this->hasMany(Folder::class, 'parent_id', 'unique_id');
     }
 
     /**
@@ -181,7 +178,7 @@ class Folder extends Model
      */
     public function trashed_children()
     {
-        return $this->hasMany('App\Folder', 'parent_id', 'unique_id')->withTrashed();
+        return $this->hasMany(Folder::class, 'parent_id', 'unique_id')->withTrashed();
     }
 
     /**
@@ -191,7 +188,7 @@ class Folder extends Model
      */
     public function shared()
     {
-        return $this->hasOne('App\Share', 'item_id', 'unique_id');
+        return $this->hasOne(Share::class, 'item_id', 'unique_id');
     }
 
     // Delete all folder children

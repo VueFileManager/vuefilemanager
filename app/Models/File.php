@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use ByteUnits\Metric;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ use Kyslik\ColumnSortable\Sortable;
 
 class File extends Model
 {
-    use Searchable, SoftDeletes , Sortable;
+    use Searchable, SoftDeletes, Sortable, HasFactory;
 
     public $public_access = null;
 
@@ -167,33 +168,27 @@ class File extends Model
     }
 
     /**
-     * Get parent
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent()
     {
-        return $this->belongsTo('App\Folder', 'folder_id', 'unique_id');
+        return $this->belongsTo(Folder::class, 'folder_id', 'unique_id');
     }
 
     /**
-     * Get folder
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function folder()
     {
-        return $this->hasOne('App\Folder', 'unique_id', 'folder_id');
+        return $this->hasOne(Folder::class, 'unique_id', 'folder_id');
     }
 
     /**
-     * Get sharing attributes
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function shared()
     {
-        return $this->hasOne('App\Share', 'item_id', 'unique_id');
+        return $this->hasOne(Share::class, 'item_id', 'unique_id');
     }
 
     /**
