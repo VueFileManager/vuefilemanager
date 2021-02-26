@@ -60,6 +60,16 @@ class FolderTest extends TestCase
 
     }
 
+    public function it_delete_single_folder()
+    {
+
+    }
+
+    public function it_delete_multiple_folder()
+    {
+
+    }
+
     public function it_delete_folder_softly()
     {
 

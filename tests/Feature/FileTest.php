@@ -43,6 +43,16 @@ class FileTest extends TestCase
 
     }
 
+    public function it_delete_single_file()
+    {
+
+    }
+
+    public function it_delete_multiple_files()
+    {
+
+    }
+
     public function it_delete_file_softly()
     {
 

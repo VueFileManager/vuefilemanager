@@ -34,7 +34,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_register_user_via_public_api()
+    public function it_register_user()
     {
         $this->postJson('/register', [
             'email'                 => 'john@doe.com',
@@ -55,7 +55,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_login_user_via_post_request()
+    public function it_login_user()
     {
         $user = User::factory(User::class)
             ->create(['email' => 'john@doe.com']);
@@ -69,7 +69,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_change_user_password_via_post_request()
+    public function it_change_user_password_in_profile_settings()
     {
         $user = User::factory(User::class)
             ->create();

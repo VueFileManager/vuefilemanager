@@ -10,7 +10,7 @@ use Tests\TestCase;
 class BrowseTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     public function it_get_navigator_tree()
     {
 
