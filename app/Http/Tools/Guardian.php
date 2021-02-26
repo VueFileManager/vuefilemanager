@@ -3,7 +3,7 @@
 namespace App\Http\Tools;
 
 use App;
-use App\FileManagerFolder;
+use App\Folder;
 use Illuminate\Support\Arr;
 
 
@@ -18,7 +18,7 @@ class Guardian
     public static function check_item_access($requested_id, $shared)
     {
         // Get all children folders
-        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $foldersIds = Folder::with('folders:id,parent_id,unique_id,name')
             ->where('user_id', $shared->user_id)
             ->where('parent_id', $shared->item_id)
             ->get();

@@ -13,55 +13,7 @@ use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
-/**
- * App\FileManagerFolder
- *
- * @property int $id
- * @property int|null $user_id
- * @property int $unique_id
- * @property int $parent_id
- * @property string|null $name
- * @property string|null $type
- * @property string $user_scope
- * @property string $deleted_at
- * @property string $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $children
- * @property-read int|null $children_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $files
- * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $folders
- * @property-read int|null $folders_count
- * @property-read int $items
- * @property-read int $trashed_items
- * @property-read \App\FileManagerFolder $parent
- * @property-read \App\Share|null $shared
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $trashed_children
- * @property-read int|null $trashed_children_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFile[] $trashed_files
- * @property-read int|null $trashed_files_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\FileManagerFolder[] $trashed_folders
- * @property-read int|null $trashed_folders_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUniqueId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFolder whereUserScope($value)
- * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withoutTrashed()
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFolder sortable($defaultParameters = null)
- */
-class FileManagerFolder extends Model
+class Folder extends Model
 {
     use Searchable, SoftDeletes , Sortable;
 
@@ -86,6 +38,10 @@ class FileManagerFolder extends Model
         'name',
         'created_at',
     ];
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /**
      * Index folder
@@ -159,7 +115,7 @@ class FileManagerFolder extends Model
      */
     public function parent()
     {
-        return $this->belongsTo('App\FileManagerFolder', 'parent_id', 'unique_id');
+        return $this->belongsTo('App\Folder', 'parent_id', 'unique_id');
     }
 
     public function folderIds()
@@ -174,7 +130,7 @@ class FileManagerFolder extends Model
      */
     public function files()
     {
-        return $this->hasMany('App\FileManagerFile', 'folder_id', 'unique_id');
+        return $this->hasMany('App\File', 'folder_id', 'unique_id');
     }
 
     /**
@@ -185,7 +141,7 @@ class FileManagerFolder extends Model
     public function trashed_files()
     {
 
-        return $this->hasMany('App\FileManagerFile', 'folder_id', 'unique_id')->withTrashed();
+        return $this->hasMany('App\File', 'folder_id', 'unique_id')->withTrashed();
     }
 
     /**
@@ -215,7 +171,7 @@ class FileManagerFolder extends Model
      */
     public function children()
     {
-        return $this->hasMany('App\FileManagerFolder', 'parent_id', 'unique_id');
+        return $this->hasMany('App\Folder', 'parent_id', 'unique_id');
     }
 
     /**
@@ -225,7 +181,7 @@ class FileManagerFolder extends Model
      */
     public function trashed_children()
     {
-        return $this->hasMany('App\FileManagerFolder', 'parent_id', 'unique_id')->withTrashed();
+        return $this->hasMany('App\Folder', 'parent_id', 'unique_id')->withTrashed();
     }
 
     /**
@@ -238,10 +194,14 @@ class FileManagerFolder extends Model
         return $this->hasOne('App\Share', 'item_id', 'unique_id');
     }
 
-    // Delete all folder childrens
+    // Delete all folder children
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
 
         static::deleting(function ($item) {
 

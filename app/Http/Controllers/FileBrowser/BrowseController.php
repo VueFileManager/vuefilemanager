@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
-use App\FileManagerFolder;
-use App\FileManagerFile;
+use App\Folder;
+use App\File;
 use App\Share;
 
 class BrowseController extends Controller
@@ -27,12 +27,12 @@ class BrowseController extends Controller
         $user_id = Auth::id();
 
         // Get folders and files
-        $folders_trashed = FileManagerFolder::onlyTrashed()
+        $folders_trashed = Folder::onlyTrashed()
             ->with(['trashed_folders', 'parent'])
             ->where('user_id', $user_id)
             ->get(['parent_id', 'unique_id', 'name']);
 
-        $folders = FileManagerFolder::onlyTrashed()
+        $folders = Folder::onlyTrashed()
             ->with(['parent'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', filter_folders_ids($folders_trashed))
@@ -40,7 +40,7 @@ class BrowseController extends Controller
             ->get();
 
         // Get files trashed
-        $files_trashed = FileManagerFile::onlyTrashed()
+        $files_trashed = File::onlyTrashed()
             ->with(['parent'])
             ->where('user_id', $user_id)
             ->whereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'unique_id'))))
@@ -71,13 +71,13 @@ class BrowseController extends Controller
             ->pluck('item_id');
 
         // Get folders and files
-        $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
+        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $folder_ids)
             ->sortable()
             ->get();
 
-        $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
+        $files = File::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $file_ids)
             ->sortable()
@@ -112,7 +112,7 @@ class BrowseController extends Controller
     public function participant_uploads() {
 
         // Get User
-        $uploads = FileManagerFile::with(['parent'])
+        $uploads = File::with(['parent'])
             ->where('user_id', Auth::id())
             ->whereUserScope('editor')
             ->sortable()
@@ -137,14 +137,14 @@ class BrowseController extends Controller
         if ($request->query('trash')) {
 
             // Get folders and files
-            $folders = FileManagerFolder::onlyTrashed()
+            $folders = Folder::onlyTrashed()
                 ->with('parent')
                 ->where('user_id', $user_id)
                 ->where('parent_id', $unique_id)
                 ->sortable()
                 ->get();
 
-            $files = FileManagerFile::onlyTrashed()
+            $files = File::onlyTrashed()
                 ->with('parent')
                 ->where('user_id', $user_id)
                 ->where('folder_id', $unique_id)
@@ -156,13 +156,13 @@ class BrowseController extends Controller
         }
 
         // Get folders and files
-        $folders = FileManagerFolder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
+        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('parent_id', $unique_id)
             ->sortable()
             ->get();
 
-        $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
+        $files = File::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->where('user_id', $user_id)
             ->where('folder_id', $unique_id)
             ->sortable()
@@ -179,7 +179,7 @@ class BrowseController extends Controller
      */
     public function navigation_tree() {
 
-        $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $folders = Folder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', 0)
             ->where('user_id', Auth::id())
             ->sortable()
@@ -208,10 +208,10 @@ class BrowseController extends Controller
         $query = remove_accents($request->input('query'));
 
         // Search files id db
-        $searched_files = FileManagerFile::search($query)
+        $searched_files = File::search($query)
             ->where('user_id', $user_id)
             ->get();
-        $searched_folders = FileManagerFolder::search($query)
+        $searched_folders = Folder::search($query)
             ->where('user_id', $user_id)
             ->get();
 

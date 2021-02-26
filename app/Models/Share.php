@@ -5,45 +5,19 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\SharedSendViaEmail;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
-/**
- * App\Share
- *
- * @property int $id
- * @property int $user_id
- * @property string $token
- * @property int $item_id
- * @property string $type
- * @property string|null $permission
- * @property int $protected
- * @property string|null $password
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read string $link
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereItemId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share wherePermission($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereProtected($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Share whereUserId($value)
- * @mixin \Eloquent
- * @property int|null $expire_in
- * @method static \Illuminate\Database\Eloquent\Builder|Share whereExpireIn($value)
- */
 class Share extends Model
 {
-    use  Notifiable;
+    use Notifiable;
 
     protected $guarded = ['id'];
 
     protected $appends = ['link'];
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /**
      * Generate share link
@@ -53,5 +27,17 @@ class Share extends Model
     public function getLinkAttribute()
     {
         return url('/shared', ['token' => $this->attributes['token']]);
+    }
+
+    /**
+     * Model events
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
     }
 }

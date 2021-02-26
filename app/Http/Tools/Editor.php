@@ -4,8 +4,8 @@ namespace App\Http\Tools;
 
 use App;
 use App\Share;
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\File;
+use App\Folder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
 use App\Zip;
@@ -38,7 +38,7 @@ class Editor
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
         // Get folder
-        $folder = FileManagerFolder::where('user_id', $user_id)
+        $folder = Folder::where('user_id', $user_id)
             ->where('unique_id', $unique_id)
             ->first();
 
@@ -76,7 +76,7 @@ class Editor
     public static function zip_folder($unique_id, $shared = null)
     {
         // Get folder
-        $requested_folder = FileManagerFolder::with(['folders.files', 'files'])
+        $requested_folder = Folder::with(['folders.files', 'files'])
             ->where('unique_id', $unique_id)
             ->where('user_id', Auth::id() ?? $shared->user_id)
             ->with('folders')
@@ -217,7 +217,7 @@ class Editor
      *
      * @param $request
      * @param null $shared
-     * @return FileManagerFolder|\Illuminate\Database\Eloquent\Model
+     * @return Folder|\Illuminate\Database\Eloquent\Model
      */
     public static function create_folder($request, $shared = null)
     {
@@ -228,7 +228,7 @@ class Editor
         $unique_id = get_unique_id();
 
         // Create folder
-        $folder = FileManagerFolder::create([
+        $folder = Folder::create([
             'parent_id'  => $request->parent_id,
             'unique_id'  => $unique_id,
             'user_scope' => $user_scope,
@@ -284,7 +284,7 @@ class Editor
         if ($file['type'] === 'folder') {
 
             // Get folder
-            $folder = FileManagerFolder::withTrashed()
+            $folder = Folder::withTrashed()
                 ->with(['folders'])
                 ->where('user_id', $user->id)
                 ->where('unique_id', $unique_id)
@@ -308,7 +308,7 @@ class Editor
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
 
                 // Get children files
-                $files = FileManagerFile::onlyTrashed()
+                $files = File::onlyTrashed()
                     ->where('user_id', $user->id)
                     ->whereIn('folder_id', Arr::flatten([$unique_id, $child_folders]))
                     ->get();
@@ -345,7 +345,7 @@ class Editor
         if ($file['type'] !== 'folder') {
 
             // Get file
-            $item = FileManagerFile::withTrashed()
+            $item = File::withTrashed()
                 ->where('user_id', $user->id)
                 ->where('unique_id', $unique_id)
                 ->first();
@@ -401,7 +401,7 @@ class Editor
             if ($item['type'] === 'folder') {
 
                 // Move folder
-                $item = FileManagerFolder::where('user_id', $user_id)
+                $item = Folder::where('user_id', $user_id)
                     ->where('unique_id', $unique_id)
                     ->firstOrFail();
 
@@ -412,7 +412,7 @@ class Editor
             } else {
 
                 // Move file under new folder
-                $item = FileManagerFile::where('user_id', $user_id)
+                $item = File::where('user_id', $user_id)
                     ->where('unique_id', $unique_id)
                     ->firstOrFail();
 
@@ -428,7 +428,7 @@ class Editor
      *
      * @param $request
      * @param null $shared
-     * @return FileManagerFile|\Illuminate\Database\Eloquent\Model
+     * @return File|\Illuminate\Database\Eloquent\Model
      * @throws \Exception
      */
     public static function upload($request, $shared = null)
@@ -523,7 +523,7 @@ class Editor
             }
 
             // Return new file
-            return FileManagerFile::create($options);
+            return File::create($options);
         }
     }
 

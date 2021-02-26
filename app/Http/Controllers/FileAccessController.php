@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\FileManagerFolder;
+use App\Folder;
 use App\Http\Tools\Editor;
 use App\Http\Tools\Guardian;
 use App\Share;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use App\FileManagerFile;
+use App\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -76,7 +76,7 @@ class FileAccessController extends Controller
         $user_id = Auth::id();
 
         // Get file record
-        $file = FileManagerFile::withTrashed()
+        $file = File::withTrashed()
             ->where('user_id', $user_id)
             ->where('basename', $filename)
             ->firstOrFail();
@@ -167,7 +167,7 @@ class FileAccessController extends Controller
         }
 
         // Get file record
-        $file = FileManagerFile::where('user_id', $shared->user_id)
+        $file = File::where('user_id', $shared->user_id)
             ->where('basename', $filename)
             ->firstOrFail();
 
@@ -191,7 +191,7 @@ class FileAccessController extends Controller
     public function get_thumbnail(Request $request, $filename)
     {
         // Get file record
-        $file = FileManagerFile::withTrashed()
+        $file = File::withTrashed()
             ->where('user_id', $request->user()->id)
             ->where('thumbnail', $filename)
             ->firstOrFail();
@@ -223,7 +223,7 @@ class FileAccessController extends Controller
         }
 
         // Get file record
-        $file = FileManagerFile::where('user_id', $shared->user_id)
+        $file = File::where('user_id', $shared->user_id)
             ->where('thumbnail', $filename)
             ->firstOrFail();
 

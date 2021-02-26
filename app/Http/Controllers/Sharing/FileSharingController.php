@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\FileManagerFolder;
-use App\FileManagerFile;
+use App\Folder;
+use App\File;
 use App\User;
 use App\Share;
 use Illuminate\Support\Facades\Storage;
@@ -52,7 +52,7 @@ class FileSharingController extends Controller
         // Check if shared is image file and then show it
         if ($shared->type === 'file' && ! (int) $shared->protected) {
 
-            $image = FileManagerFile::where('user_id', $shared->user_id)
+            $image = File::where('user_id', $shared->user_id)
                 ->where('type', 'image')
                 ->where('unique_id', $shared->item_id)
                 ->first();
@@ -205,7 +205,7 @@ class FileSharingController extends Controller
         }
 
         // Get file
-        $file = FileManagerFile::where('user_id', $shared->user_id)
+        $file = File::where('user_id', $shared->user_id)
             ->where('unique_id', $shared->item_id)
             ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
 
@@ -228,7 +228,7 @@ class FileSharingController extends Controller
         $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
         // Return record
-        return FileManagerFile::where('user_id', $shared->user_id)
+        return File::where('user_id', $shared->user_id)
             ->where('unique_id', $shared->item_id)
             ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
     }
@@ -248,7 +248,7 @@ class FileSharingController extends Controller
         Guardian::check_item_access($shared->item_id, $shared);
 
         // Get folders
-        $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $folders = Folder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
             ->sortable()
@@ -279,7 +279,7 @@ class FileSharingController extends Controller
         Guardian::check_item_access($shared->item_id, $shared);
 
         // Get folders
-        $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $folders = Folder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
             ->sortable()
@@ -309,15 +309,15 @@ class FileSharingController extends Controller
         $shared = get_shared($request->cookie('shared_token'));
 
         // Search files id db
-        $searched_files = FileManagerFile::search($request->input('query'))
+        $searched_files = File::search($request->input('query'))
             ->where('user_id', $shared->user_id)
             ->get();
-        $searched_folders = FileManagerFolder::search($request->input('query'))
+        $searched_folders = Folder::search($request->input('query'))
             ->where('user_id', $shared->user_id)
             ->get();
 
         // Get all children content
-        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $foldersIds = Folder::with('folders:id,parent_id,unique_id,name')
             ->where('user_id', $shared->user_id)
             ->where('parent_id', $shared->item_id)
             ->get();
@@ -357,15 +357,15 @@ class FileSharingController extends Controller
         }
 
         // Search files id db
-        $searched_files = FileManagerFile::search($request->input('query'))
+        $searched_files = File::search($request->input('query'))
             ->where('user_id', $shared->user_id)
             ->get();
-        $searched_folders = FileManagerFolder::search($request->input('query'))
+        $searched_folders = Folder::search($request->input('query'))
             ->where('user_id', $shared->user_id)
             ->get();
 
         // Get all children content
-        $foldersIds = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
+        $foldersIds = Folder::with('folders:id,parent_id,unique_id,name')
             ->where('user_id', $shared->user_id)
             ->where('parent_id', $shared->item_id)
             ->get();
@@ -403,12 +403,12 @@ class FileSharingController extends Controller
      */
     private function get_items($unique_id, $shared): array
     {
-        $folders = FileManagerFolder::where('user_id', $shared->user_id)
+        $folders = Folder::where('user_id', $shared->user_id)
             ->where('parent_id', $unique_id)
             ->sortable()
             ->get();
 
-        $files = FileManagerFile::where('user_id', $shared->user_id)
+        $files = File::where('user_id', $shared->user_id)
             ->where('folder_id', $unique_id)
             ->sortable()
             ->get();

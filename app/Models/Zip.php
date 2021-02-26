@@ -14,7 +14,7 @@ class Zip extends Model
     protected $keyType = 'string';
 
     /**
-     * Generate uuid
+     * Model events
      */
     protected static function boot()
     {

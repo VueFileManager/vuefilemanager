@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\FileManagerFile;
+use App\File;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsersCollection;
 use App\Services\StripeService;
@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $total_users = User::all()->count();
 
         // Get total used space
-        $total_used_space = FileManagerFile::all()->map(function ($item) {
+        $total_used_space = File::all()->map(function ($item) {
             return (int)$item->getRawOriginal('filesize');
         })->sum();
 

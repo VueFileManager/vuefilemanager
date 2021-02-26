@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Tools\Guardian;
 use App\Http\Tools\Editor;
-use App\FileManagerFolder;
-use App\FileManagerFile;
+use App\Folder;
+use App\File;
 use Exception;
 
 
@@ -268,7 +268,7 @@ class EditItemsController extends Controller
      * Upload file for authenticated master|editor user
      *
      * @param UploadRequest $request
-     * @return FileManagerFile|Model
+     * @return File|Model
      * @throws Exception
      */
     public function user_upload(UploadRequest $request)
@@ -300,7 +300,7 @@ class EditItemsController extends Controller
      *
      * @param UploadRequest $request
      * @param $token
-     * @return FileManagerFile|Model
+     * @return File|Model
      * @throws Exception
      */
     public function guest_upload(UploadRequest $request, $token)
@@ -354,7 +354,7 @@ class EditItemsController extends Controller
         }
 
         // Get folder
-        $folder = FileManagerFolder::whereUserId($user_id)
+        $folder = Folder::whereUserId($user_id)
             ->where('unique_id', $unique_id);
 
         if (! $folder->exists()) {
@@ -387,7 +387,7 @@ class EditItemsController extends Controller
         Guardian::check_item_access($unique_id, $shared);
 
         // Get folder
-        $folder = FileManagerFolder::whereUserId($shared->user_id)
+        $folder = Folder::whereUserId($shared->user_id)
             ->where('unique_id', $unique_id);
             
 
@@ -424,7 +424,7 @@ class EditItemsController extends Controller
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
 
-            $file_parent_folders = FileManagerFile::whereUserId(Auth::id())
+            $file_parent_folders = File::whereUserId(Auth::id())
                 ->whereIn('unique_id', $request->input('files'))
                 ->get()
                 ->pluck('folder_id')
@@ -435,7 +435,7 @@ class EditItemsController extends Controller
         }
 
         // Get requested files
-        $files = FileManagerFile::whereUserId(Auth::id())
+        $files = File::whereUserId(Auth::id())
             ->whereIn('unique_id', $request->input('files'))
             ->get();
 
@@ -460,7 +460,7 @@ class EditItemsController extends Controller
         // Get shared record
         $shared = get_shared($token);
 
-        $file_parent_folders = FileManagerFile::whereUserId($shared->user_id)
+        $file_parent_folders = File::whereUserId($shared->user_id)
             ->whereIn('unique_id', $request->input('files'))
             ->get()
             ->pluck('folder_id')
@@ -470,7 +470,7 @@ class EditItemsController extends Controller
         Guardian::check_item_access($file_parent_folders, $shared);
 
         // Get requested files
-        $files = FileManagerFile::whereUserId($shared->user_id)
+        $files = File::whereUserId($shared->user_id)
             ->whereIn('unique_id', $request->input('files'))
             ->get();
 
@@ -551,7 +551,7 @@ class EditItemsController extends Controller
 
 
             if ($item['type'] !== 'folder') {
-                $file = FileManagerFile::where('unique_id', $unique_id)
+                $file = File::where('unique_id', $unique_id)
                     ->where('user_id', $shared->user_id)
                     ->firstOrFail();
 

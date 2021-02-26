@@ -11,53 +11,7 @@ use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
-/**
- * App\FileManagerFile
- *
- * @property int $id
- * @property int|null $user_id
- * @property int $unique_id
- * @property int $folder_id
- * @property string $thumbnail
- * @property string|null $name
- * @property string|null $basename
- * @property string|null $mimetype
- * @property string $filesize
- * @property string|null $type
- * @property string $user_scope
- * @property string $deleted_at
- * @property string $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\FileManagerFolder|null $folder
- * @property-read string $file_url
- * @property-read \App\FileManagerFolder $parent
- * @property-read \App\Share|null $shared
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereBasename($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereFilesize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereFolderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereMimetype($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereThumbnail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUniqueId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FileManagerFile whereUserScope($value)
- * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFile withoutTrashed()
- * @mixin \Eloquent
- * @property array|null $metadata
- * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile sortable($defaultParameters = null)
- * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile whereMetadata($value)
- */
-class FileManagerFile extends Model
+class File extends Model
 {
     use Searchable, SoftDeletes , Sortable;
 
@@ -84,6 +38,10 @@ class FileManagerFile extends Model
         'name',
         'created_at',
     ];
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /**
      * Set routes with public access
@@ -215,7 +173,7 @@ class FileManagerFile extends Model
      */
     public function parent()
     {
-        return $this->belongsTo('App\FileManagerFolder', 'folder_id', 'unique_id');
+        return $this->belongsTo('App\Folder', 'folder_id', 'unique_id');
     }
 
     /**
@@ -225,7 +183,7 @@ class FileManagerFile extends Model
      */
     public function folder()
     {
-        return $this->hasOne('App\FileManagerFolder', 'unique_id', 'folder_id');
+        return $this->hasOne('App\Folder', 'unique_id', 'folder_id');
     }
 
     /**
@@ -236,5 +194,17 @@ class FileManagerFile extends Model
     public function shared()
     {
         return $this->hasOne('App\Share', 'item_id', 'unique_id');
+    }
+
+    /**
+     * Model events
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Content;
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\File;
+use App\Folder;
 use App\Http\Requests\PublicPages\SendMessageRequest;
 use App\Http\Resources\PageResource;
 use App\Http\Tools\Demo;
@@ -120,7 +120,7 @@ class AppFunctionsController extends Controller
         if ($shared->type === 'file') {
 
             // Get file record
-            $file = FileManagerFile::where('user_id', $shared->user_id)
+            $file = File::where('user_id', $shared->user_id)
                 ->where('unique_id', $shared->item_id)
                 ->first();
 
@@ -142,7 +142,7 @@ class AppFunctionsController extends Controller
         if ($shared->type === 'folder') {
 
             // Get file record
-            $folder = FileManagerFolder::where('user_id', $shared->user_id)
+            $folder = Folder::where('user_id', $shared->user_id)
                 ->where('unique_id', $shared->item_id)
                 ->first();
 

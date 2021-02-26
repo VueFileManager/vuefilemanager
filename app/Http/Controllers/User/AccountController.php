@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\File;
+use App\Folder;
 use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\StorageDetailResource;
 use App\Http\Resources\UserResource;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\File;
+use App\Folder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChangeRoleRequest;
 use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
@@ -231,10 +231,10 @@ class UserController extends Controller
 
         $shares = Share::where('user_id', $user->id)->get();
 
-        $files = FileManagerFile::withTrashed()
+        $files = File::withTrashed()
             ->where('user_id', $user->id)
             ->get();
-        $folders = FileManagerFolder::withTrashed()
+        $folders = Folder::withTrashed()
             ->where('user_id', $user->id)
             ->get();
 

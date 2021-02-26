@@ -291,7 +291,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Generate uuid
+     * Model Events
      */
     protected static function boot()
     {

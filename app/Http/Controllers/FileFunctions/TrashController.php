@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\FileManagerFolder;
-use App\FileManagerFile;
+use App\Folder;
+use App\File;
 
 class TrashController extends Controller
 {
@@ -29,8 +29,8 @@ class TrashController extends Controller
         }
 
         // Get files and folders
-        $folders = FileManagerFolder::onlyTrashed()->where('user_id', $user_id)->get();
-        $files = FileManagerFile::onlyTrashed()->where('user_id', $user_id)->get();
+        $folders = Folder::onlyTrashed()->where('user_id', $user_id)->get();
+        $files = File::onlyTrashed()->where('user_id', $user_id)->get();
 
         // Force delete folder
         $folders->each->forceDelete();
@@ -83,7 +83,7 @@ class TrashController extends Controller
             if ($restore_item['type'] === 'folder') {
 
                 // Get folder
-                $item = FileManagerFolder::onlyTrashed()
+                $item = Folder::onlyTrashed()
                     ->where('user_id', $user_id)
                     ->where('unique_id', $restore_item['unique_id'])
                     ->first();
@@ -96,7 +96,7 @@ class TrashController extends Controller
             } else {
 
                 // Get item
-                $item = FileManagerFile::onlyTrashed()
+                $item = File::onlyTrashed()
                     ->where('user_id', $user_id)
                     ->where('unique_id', $restore_item['unique_id'])
                     ->first();

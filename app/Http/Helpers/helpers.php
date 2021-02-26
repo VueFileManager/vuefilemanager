@@ -1,7 +1,7 @@
 <?php
 
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\File;
+use App\Folder;
 use App\User;
 use App\Setting;
 use App\Share;
@@ -201,13 +201,13 @@ function get_item($type, $unique_id, $user_id)
     if ($type === 'folder') {
 
         // Return folder item
-        return FileManagerFolder::where('unique_id', $unique_id)
+        return Folder::where('unique_id', $unique_id)
             ->where('user_id', $user_id)
             ->firstOrFail();
     }
 
     // Return file item
-    return FileManagerFile::where('unique_id', $unique_id)
+    return File::where('unique_id', $unique_id)
         ->where('user_id', $user_id)
         ->firstOrFail();
 }
@@ -245,8 +245,8 @@ function is_editor($shared)
 function get_unique_id(): int
 {
     // Get files and folders
-    $folders = FileManagerFolder::withTrashed()->get();
-    $files = FileManagerFile::withTrashed()->get();
+    $folders = Folder::withTrashed()->get();
+    $files = File::withTrashed()->get();
 
     // Get last ids
     $folders_unique = $folders->isEmpty() ? 0 : $folders->last()->unique_id;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\FileFunctions;
 
-use App\FileManagerFolder;
+use App\Folder;
 use App\Http\Tools\Demo;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -31,7 +31,7 @@ class FavouriteController extends Controller
 
         // Get user & folder
         $user = Auth::user();
-        $folder = FileManagerFolder::where('unique_id', $item['unique_id'])->first();
+        $folder = Folder::where('unique_id', $item['unique_id'])->first();
 
         if (is_demo($user->id)) {
             return Demo::favourites($user);

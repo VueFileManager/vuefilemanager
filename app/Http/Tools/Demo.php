@@ -4,8 +4,8 @@ namespace App\Http\Tools;
 
 use App;
 use App\Share;
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\File;
+use App\Folder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\User;
 use ByteUnits\Metric;
@@ -59,13 +59,13 @@ class Demo
         // Get item
         if ($request->type === 'folder') {
 
-            $item = FileManagerFolder::where('unique_id', $unique_id)
+            $item = Folder::where('unique_id', $unique_id)
                 ->where('user_id', 1)
                 ->first();
 
         } else {
 
-            $item = FileManagerFile::where('unique_id', $unique_id)
+            $item = File::where('unique_id', $unique_id)
                 ->where('user_id', 1)
                 ->first();
         }
