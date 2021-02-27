@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Page;
+use App\Services\SetupService;
 use App\Setting;
 use App\User;
 use Illuminate\Console\Command;
@@ -34,6 +35,7 @@ class SetupDevEnvironment extends Command
     {
         parent::__construct();
         $this->faker = Faker\Factory::create();
+        $this->setup = app()->make(SetupService::class);
     }
 
     /**
@@ -44,6 +46,9 @@ class SetupDevEnvironment extends Command
     public function handle()
     {
         $this->info('Setting up development environment');
+
+        $this->info('Creating system directories...');
+        $this->setup->create_directories();
 
         $this->migrate_and_generate();
         $this->store_data();

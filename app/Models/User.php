@@ -295,7 +295,11 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+            // Store uuid into model
+            $model->id = Str::uuid();
+
+            // Create user directory
+            Storage::makeDirectory("files/$model->id");
         });
     }
 }

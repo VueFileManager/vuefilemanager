@@ -7,6 +7,7 @@ use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Sanctum\Sanctum;
+use Storage;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -29,6 +30,9 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('user_settings', [
             'user_id' => $user->id,
         ]);
+
+        Storage::disk('local')
+            ->assertExists('files/' . User::first()->id);
     }
 
     /**
@@ -50,6 +54,9 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('user_settings', [
             'name'    => 'John Doe',
         ]);
+
+        Storage::disk('local')
+            ->assertExists('files/' . User::first()->id);
     }
 
     /**

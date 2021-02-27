@@ -296,21 +296,6 @@ function store_system_image($image, $path)
 }
 
 /**
- * Check if directory exist, if no, then create it
- *
- * @param $directory
- * @return mixed
- */
-function check_directory($directory)
-{
-    if (!Storage::exists($directory)) {
-        Storage::makeDirectory($directory);
-    }
-
-    return $directory;
-}
-
-/**
  * Make input from request
  *
  * @param $request

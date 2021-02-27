@@ -85,22 +85,12 @@ class Editor
         // Local storage instance
         $disk_local = Storage::disk('local');
 
-        // Create zip directory
-        if (!$disk_local->exists('zip')) {
-            $disk_local->makeDirectory('zip');
-        }
-
         // Move file to local storage
         if (!is_storage_driver('local')) {
 
-            // Create temp directory
-            if (!$disk_local->exists('temp')) {
-                $disk_local->makeDirectory('temp');
-            }
-
             foreach ($files as $file) {
                 try {
-                    $disk_local->put('temp/' . $file['basename'], Storage::get('file-manager/' . $file['basename']));
+                    $disk_local->put('temp/' . $file['basename'], Storage::get('files/' . $file['basename']));
                 } catch (FileNotFoundException $e) {
                     throw new HttpException(404, 'File not found');
                 }
@@ -154,22 +144,12 @@ class Editor
         // Local storage instance
         $disk_local = Storage::disk('local');
 
-        // Create zip directory
-        if (!$disk_local->exists('zip')) {
-            $disk_local->makeDirectory('zip');
-        }
-
         // Move file to local storage from external storage service
         if (!is_storage_driver('local')) {
 
-            // Create temp directory
-            if (!$disk_local->exists('temp')) {
-                $disk_local->makeDirectory('temp');
-            }
-
             foreach ($files as $file) {
                 try {
-                    $disk_local->put('temp/' . $file['basename'], Storage::get('file-manager/' . $file['basename']));
+                    $disk_local->put('temp/' . $file['basename'], Storage::get('files/' . $file['basename']));
                 } catch (FileNotFoundException $e) {
                     throw new HttpException(404, 'File not found');
                 }
@@ -184,7 +164,7 @@ class Editor
         $zip = Madzipper::make(storage_path() . '/app/' . $zip_path);
 
         // Get files folder on local storage drive
-        $files_directory = is_storage_driver('local') ? 'file-manager' : 'temp';
+        $files_directory = is_storage_driver('local') ? 'files' : 'temp';
 
         // Add files to zip
         $files->each(function ($file) use ($zip, $files_directory) {
@@ -322,10 +302,10 @@ class Editor
                 foreach ($files as $file) {
 
                     // Delete file
-                    Storage::delete('/file-manager/' . $file->basename);
+                    Storage::delete('/files/' . $file->basename);
 
                     // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+                    if (!is_null($file->thumbnail)) Storage::delete('/files/' . $file->getRawOriginal('thumbnail'));
 
                     // Delete file permanently
                     $file->forceDelete();
@@ -357,10 +337,10 @@ class Editor
             if ($item['force_delete']) {
 
                 // Delete file
-                Storage::delete('/file-manager/' . $item->basename);
+                Storage::delete('/files/' . $item->basename);
 
                 // Delete thumbnail if exist
-                if ($item->thumbnail) Storage::delete('/file-manager/' . $item->getRawOriginal('thumbnail'));
+                if ($item->thumbnail) Storage::delete('/files/' . $item->getRawOriginal('thumbnail'));
 
                 // Delete file permanently
                 $item->forceDelete();
@@ -418,9 +398,6 @@ class Editor
         // Get parent_id from request
         $file = $request->file('file');
 
-        // Check or create directories
-        self::check_directories(['chunks', 'file-manager']);
-
         // File name
         $user_file_name = basename('chunks/' . substr($file->getClientOriginalName(), 17), '.part');
         $disk_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
@@ -464,7 +441,7 @@ class Editor
             $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name);
 
             // Move finished file from chunk to file-manager directory
-            $disk_local->move('chunks/' . $temp_filename, 'file-manager/' . $disk_file_name);
+            $disk_local->move('chunks/' . $temp_filename, 'files/' . $disk_file_name);
 
             // Move files to external storage
             if (!is_storage_driver(['local'])) {
@@ -518,7 +495,7 @@ class Editor
 
         // Get all files from storage
         $files = collect([
-            $local_disk->allFiles('file-manager'),
+            $local_disk->allFiles('files'),
             $local_disk->allFiles('chunks')
         ])->collapse();
 
@@ -557,7 +534,7 @@ class Editor
             if (!$file) continue;
 
             // Get file size
-            $filesize = $disk_local->size('file-manager/' . $file);
+            $filesize = $disk_local->size('files/' . $file);
 
             // If file is bigger than 5.2MB then run multipart upload
             if ($filesize > 5242880) {
@@ -572,9 +549,9 @@ class Editor
                 $client = $adapter->getClient();
 
                 // Prepare the upload parameters.
-                $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/file-manager/' . $file, [
+                $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/files/' . $file, [
                     'bucket' => $adapter->getBucket(),
-                    'key'    => 'file-manager/' . $file
+                    'key'    => 'files/' . $file
                 ]);
 
                 try {
@@ -588,7 +565,7 @@ class Editor
                     Log::error($e->getMessage());
 
                     // Delete file after error
-                    $disk_local->delete('file-manager/' . $file);
+                    $disk_local->delete('files/' . $file);
 
                     throw new HttpException(409, $e->getMessage());
                 }
@@ -596,32 +573,11 @@ class Editor
             } else {
 
                 // Stream file object to s3
-                Storage::putFileAs('file-manager', config('filesystems.disks.local.root') . '/file-manager/' . $file, $file, 'private');
+                Storage::putFileAs('files', config('filesystems.disks.local.root') . '/files/' . $file, $file, 'private');
             }
 
             // Delete file after upload
-            $disk_local->delete('file-manager/' . $file);
-        }
-    }
-
-    /**
-     * Check if directories 'chunks' and 'file-manager exist', if no, then create
-     *
-     * @param $directories
-     */
-    private static function check_directories($directories): void
-    {
-        foreach ($directories as $directory) {
-
-            if (!Storage::disk('local')->exists($directory)) {
-                Storage::disk('local')->makeDirectory($directory);
-            }
-
-            if (!is_storage_driver(['local'])) {
-                if (!Storage::exists($directory)) {
-                    Storage::makeDirectory($directory);
-                }
-            }
+            $disk_local->delete('files/' . $file);
         }
     }
 
@@ -652,7 +608,7 @@ class Editor
             })->stream();
 
             // Store thumbnail to disk
-            $local_disk->put('file-manager/' . $thumbnail, $image);
+            $local_disk->put('files/' . $thumbnail, $image);
         }
 
         // Return thumbnail as svg file
