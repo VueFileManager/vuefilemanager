@@ -81,7 +81,7 @@ class FolderTest extends TestCase
     /**
      * @test
      */
-    public function it_set_folder_icon()
+    public function it_set_folder_emoji()
     {
         $folder = Folder::factory(Folder::class)
             ->create();
@@ -148,37 +148,6 @@ class FolderTest extends TestCase
     /**
      * @test
      */
-    public function it_move_folder_to_another_folder()
-    {
-        $root = Folder::factory(Folder::class)
-            ->create();
-
-        $children = Folder::factory(Folder::class)
-            ->create();
-
-        $user = User::factory(User::class)
-            ->create();
-
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/move", [
-            'to_id' => $root->id,
-            'items' => [
-                [
-                    'type' => 'folder',
-                    'id'   => $children->id,
-                ]
-            ],
-        ])->assertStatus(204);
-
-        $this->assertEquals(
-            $root->id, Folder::find($children->id)->parent_id
-        );
-    }
-
-    /**
-     * @test
-     */
     public function it_add_folder_to_favourites()
     {
         $folder = Folder::factory(Folder::class)
@@ -225,6 +194,37 @@ class FolderTest extends TestCase
             'user_id'   => $user->id,
             'folder_id' => $folder->id,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_move_folder_to_another_folder()
+    {
+        $root = Folder::factory(Folder::class)
+            ->create();
+
+        $children = Folder::factory(Folder::class)
+            ->create();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson("/api/move", [
+            'to_id' => $root->id,
+            'items' => [
+                [
+                    'type' => 'folder',
+                    'id'   => $children->id,
+                ]
+            ],
+        ])->assertStatus(204);
+
+        $this->assertEquals(
+            $root->id, Folder::find($children->id)->parent_id
+        );
     }
 
     /**

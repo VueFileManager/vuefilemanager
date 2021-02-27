@@ -337,18 +337,15 @@ class Editor
         }
 
         // Delete item
-        if ($item['type'] !== 'folder') {
+        if ($item['type'] === 'file') {
 
             // Get file
-            $item = File::withTrashed()
-                ->where('user_id', $user->id)
-                ->where('unique_id', $unique_id)
-                ->first();
+            $item = UserFile::withTrashed()
+                ->find($id);
 
             // Get folder shared record
-            $shared = Share::where('user_id', $user->id)
-                ->where('type', '=', 'file')
-                ->where('item_id', $unique_id)
+            $shared = Share::where('type', 'file')
+                ->where('item_id', $id)
                 ->first();
 
             // Delete file shared record
@@ -357,7 +354,7 @@ class Editor
             }
 
             // Force delete file
-            if ($file['force_delete']) {
+            if ($item['force_delete']) {
 
                 // Delete file
                 Storage::delete('/file-manager/' . $item->basename);
@@ -370,7 +367,7 @@ class Editor
             }
 
             // Soft delete file
-            if (!$file['force_delete']) {
+            if (!$item['force_delete']) {
 
                 // Soft delete file
                 $item->delete();

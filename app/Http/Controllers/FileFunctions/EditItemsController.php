@@ -188,13 +188,13 @@ class EditItemsController extends Controller
             return Demo::response_204();
         }
 
-        foreach ($request->input('items') as $file) {
+        foreach ($request->input('items') as $item) {
 
             // Check permission to delete item for authenticated editor 
             if ($request->user()->tokenCan('editor')) {
 
                 // Prevent force delete for non-master users
-                if ($file['force_delete']) abort('401');
+                if ($item['force_delete']) abort('401');
 
                 // check if shared_token cookie exist
                 if (!$request->hasCookie('shared_token')) abort('401');
@@ -203,10 +203,10 @@ class EditItemsController extends Controller
                 $shared = get_shared($request->cookie('shared_token'));
 
                 // Get file|folder item
-                $item = get_item($file['type'], $file['id']);
+                $item = get_item($item['type'], $item['id']);
 
                 // Check access to requested directory
-                if ($file['type'] === 'folder') {
+                if ($item['type'] === 'folder') {
                     Guardian::check_item_access($item->id, $shared);
                 } else {
                     Guardian::check_item_access($item->folder_id, $shared);
@@ -214,7 +214,7 @@ class EditItemsController extends Controller
             }
 
             // Delete item
-            Editor::delete_item($file, $file['id']);
+            Editor::delete_item($item, $item['id']);
         }
 
         return response(null, 204);
