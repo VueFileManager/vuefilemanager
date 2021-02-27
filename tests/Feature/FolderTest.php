@@ -78,9 +78,42 @@ class FolderTest extends TestCase
         ]);
     }
 
-    public function it_set_folder_emoji()
+    /**
+     * @test
+     */
+    public function it_set_folder_icon()
     {
+        $folder = Folder::factory(Folder::class)
+            ->create();
 
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        // TODO: pridat do api skupiny
+        $this->patchJson("/api/rename/{$folder->id}", [
+            'name'  => 'Renamed Folder',
+            'type'  => 'folder',
+            'emoji' => [
+                'category' => 'Smileys & Emotion (face-smiling)',
+                'char'     => '😁',
+                'name'     => 'beaming face with smiling eyes',
+            ]
+        ])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name' => 'Renamed Folder',
+                'emoji' => [
+                    'category' => 'Smileys & Emotion (face-smiling)',
+                    'char'     => '😁',
+                    'name'     => 'beaming face with smiling eyes',
+                ]
+            ]);
+
+        $this->assertDatabaseMissing('folders', [
+            'emoji' => null
+        ]);
     }
 
     public function it_set_folder_color()

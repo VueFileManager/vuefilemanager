@@ -19,7 +19,7 @@ class CreateFileManagerFolders extends Migration
             $table->uuid('parent_id')->nullable();
             $table->text('name');
             $table->string('color')->nullable();
-            $table->string('emoji')->nullable();
+            $table->longText('emoji')->nullable();
             $table->enum('user_scope', ['master', 'editor', 'visitor'])->default('master');
             $table->softDeletes();
             $table->timestamps();

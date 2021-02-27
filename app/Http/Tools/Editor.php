@@ -29,40 +29,37 @@ class Editor
     /**
      * Store folder icon
      *
-     * @param $icon
-     * @param $unique_id
-     * @param $shared
+     * @param $request
+     * @param $id
      */
-    public static function set_folder_icon($icon, $unique_id, $shared = null)
+    public static function set_folder_icon($request, $id)
     {
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-
         // Get folder
-        $folder = Folder::where('user_id', $user_id)
-            ->where('unique_id', $unique_id)
-            ->first();
+        $folder = Folder::find($id);
 
         // Set default folder icon
-        if ($icon === 'default') {
-            $folder->icon_emoji = null;
-            $folder->icon_color = null;
+        if ($request->emoji === 'default') {
+            $folder->update([
+                'emoji' => null,
+                'color' => null,
+            ]);
         }
 
-        // If request have emoji set folder icon emoji
-        if (isset($icon['emoji'])) {
-            $folder->icon_emoji = $icon['emoji'];
-            $folder->icon_color = null;
+        // Set emoji
+        if ($request->filled('emoji')) {
+            $folder->update([
+                'emoji' => $request->emoji,
+                'color' => null,
+            ]);
         }
 
-        // If request have color set folder icon color
-        if (isset($icon['color'])) {
-            $folder->icon_emoji = null;
-            $folder->icon_color = $icon['color'];
+        // Set color
+        if ($request->filled('color')) {
+            $folder->update([
+                'emoji' => null,
+                'color' => $request->color,
+            ]);
         }
-
-        // Save changes
-        $folder->save();
-
     }
 
     /**

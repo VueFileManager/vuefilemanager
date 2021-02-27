@@ -116,9 +116,8 @@ class EditItemsController extends Controller
         }
 
         // If request have a change folder icon values set the folder icon
-        if ($request->type === 'folder' && $request->filled('icon')) {
-            
-            Editor::set_folder_icon($request->folder_icon, $id);
+        if ($request->type === 'folder' && $request->filled('emoji')) {
+            Editor::set_folder_icon($request, $id);
         }
 
         // Rename Item

@@ -23,7 +23,7 @@ class Folder extends Model
     ];
 
     protected $casts = [
-        'icon_emoji' => 'object',
+        'emoji' => 'array',
     ];
 
     /**
