@@ -84,15 +84,15 @@ class EditItemsController extends Controller
      * Rename item for authenticated master|editor user
      *
      * @param RenameItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @return mixed
      * @throws Exception
      */
-    public function user_rename_item(RenameItemRequest $request, $unique_id)
+    public function user_rename_item(RenameItemRequest $request, $id)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::rename_item($request, $unique_id);
+            return Demo::rename_item($request, $id);
         }
 
         // Check permission to rename item for authenticated editor
@@ -105,7 +105,7 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Get file|folder item
-            $item = get_item($request->type, $unique_id, Auth::id());
+            $item = get_item($request->type, $id);
 
             // Check access to requested directory
             if ($request->type === 'folder') {
@@ -118,11 +118,11 @@ class EditItemsController extends Controller
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('folder_icon')) {
             
-            Editor::set_folder_icon($request->folder_icon, $unique_id);
+            Editor::set_folder_icon($request->folder_icon, $id);
         }
 
         // Rename Item
-        return Editor::rename_item($request, $unique_id);
+        return Editor::rename_item($request, $id);
     }
 
     /**

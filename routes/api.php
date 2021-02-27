@@ -88,10 +88,10 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 });
 
 // User master,editor routes
-Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Edit items
-    Route::patch('/rename-item/{unique_id}', [EditItemsController::class, 'user_rename_item']);
+    Route::patch('/rename/{id}', [EditItemsController::class, 'user_rename_item']);
     Route::post('/create-folder', [EditItemsController::class, 'user_create_folder']);
     Route::post('/remove-item', [EditItemsController::class, 'user_delete_item']);
     Route::post('/zip', [EditItemsController::class, 'user_zip_multiple_files']);

@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Folder;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class FolderTest extends TestCase
@@ -25,14 +25,57 @@ class FolderTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
     public function it_create_new_folder()
     {
+        $user = User::factory(User::class)
+            ->create();
 
+        Sanctum::actingAs($user);
+
+        // TODO: pridat do api skupiny
+        $this->postJson('/api/create-folder', [
+            'name'      => 'New Folder',
+            'parent_id' => null,
+        ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => 'New Folder',
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'name' => 'New Folder'
+        ]);
     }
 
+    /**
+     * @test
+     */
     public function it_rename_folder()
     {
+        $folder = Folder::factory(Folder::class)
+            ->create();
 
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        // TODO: pridat do api skupiny
+        $this->patchJson("/api/rename/{$folder->id}", [
+            'name' => 'Renamed Folder',
+            'type' => 'folder',
+        ])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name' => 'Renamed Folder',
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'name' => 'Renamed Folder'
+        ]);
     }
 
     public function it_set_folder_emoji()

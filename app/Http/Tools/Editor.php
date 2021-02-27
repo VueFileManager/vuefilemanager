@@ -3,12 +3,12 @@
 namespace App\Http\Tools;
 
 use App;
-use App\Share;
-use App\File;
-use App\Folder;
+use App\Models\Folder;
+use App\Models\Share;
+use App\File as UserFile;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\User;
-use App\Zip;
+use App\Models\User;
+use App\Models\Zip;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Carbon\Carbon;
@@ -222,15 +222,15 @@ class Editor
     public static function create_folder($request, $shared = null)
     {
         // Get variables
-        $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+        //$user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+        $user_scope = is_null($shared) ? 'master' : 'editor';
+
         $name = $request->has('name') ? $request->input('name') : 'New Folder';
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-        $unique_id = get_unique_id();
 
         // Create folder
         $folder = Folder::create([
             'parent_id'  => $request->parent_id,
-            'unique_id'  => $unique_id,
             'user_scope' => $user_scope,
             'user_id'    => $user_id,
             'type'       => 'folder',
@@ -308,7 +308,7 @@ class Editor
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
 
                 // Get children files
-                $files = File::onlyTrashed()
+                $files = UserFile::onlyTrashed()
                     ->where('user_id', $user->id)
                     ->whereIn('folder_id', Arr::flatten([$unique_id, $child_folders]))
                     ->get();
@@ -412,7 +412,7 @@ class Editor
             } else {
 
                 // Move file under new folder
-                $item = File::where('user_id', $user_id)
+                $item = UserFile::where('user_id', $user_id)
                     ->where('unique_id', $unique_id)
                     ->firstOrFail();
 
@@ -523,7 +523,7 @@ class Editor
             }
 
             // Return new file
-            return File::create($options);
+            return UserFile::create($options);
         }
     }
 

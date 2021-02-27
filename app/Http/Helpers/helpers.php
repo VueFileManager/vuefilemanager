@@ -191,25 +191,12 @@ function is_demo($user_id)
  * Get folder or file item
  *
  * @param $type
- * @param $unique_id
- * @param $user_id
+ * @param $id
  * @return \Illuminate\Database\Eloquent\Builder|Model
  */
-function get_item($type, $unique_id, $user_id)
+function get_item($type, $id)
 {
-
-    if ($type === 'folder') {
-
-        // Return folder item
-        return Folder::where('unique_id', $unique_id)
-            ->where('user_id', $user_id)
-            ->firstOrFail();
-    }
-
-    // Return file item
-    return File::where('unique_id', $unique_id)
-        ->where('user_id', $user_id)
-        ->firstOrFail();
+    return ('App\\Models\\' . ucfirst($type))::find($id);
 }
 
 /**
