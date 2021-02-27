@@ -29,11 +29,11 @@ class Editor
     /**
      * Store folder icon
      *
-     * @param $folder_icon
+     * @param $icon
      * @param $unique_id
      * @param $shared
      */
-    public static function set_folder_icon($folder_icon, $unique_id, $shared = null)
+    public static function set_folder_icon($icon, $unique_id, $shared = null)
     {
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
@@ -43,21 +43,21 @@ class Editor
             ->first();
 
         // Set default folder icon
-        if ($folder_icon === 'default') {
+        if ($icon === 'default') {
             $folder->icon_emoji = null;
             $folder->icon_color = null;
         }
 
         // If request have emoji set folder icon emoji
-        if (isset($folder_icon['emoji'])) {
-            $folder->icon_emoji = $folder_icon['emoji'];
+        if (isset($icon['emoji'])) {
+            $folder->icon_emoji = $icon['emoji'];
             $folder->icon_color = null;
         }
 
         // If request have color set folder icon color
-        if (isset($folder_icon['color'])) {
+        if (isset($icon['color'])) {
             $folder->icon_emoji = null;
-            $folder->icon_color = $folder_icon['color'];
+            $folder->icon_color = $icon['color'];
         }
 
         // Save changes
@@ -235,6 +235,8 @@ class Editor
             'user_id'    => $user_id,
             'type'       => 'folder',
             'name'       => $name,
+            'icon_color' => isset($request->icon['color']) ? $request->icon['color'] : null,
+            'icon_emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
         ]);
 
         // Return new folder

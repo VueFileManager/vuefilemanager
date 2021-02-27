@@ -114,8 +114,8 @@
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !multiSelectContextMenu">
-                <Option @click.native="addToFavourites" v-if="item && !hasFile" :title=" isInFavourites
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !multiSelectContextMenu && item && !hasFile">
+                <Option @click.native="addToFavourites" :title=" isInFavourites
                                                                                     ? $t('context_menu.remove_from_favourites')
                                                                                     : $t('context_menu.add_to_favourites')" icon="favourites"/>
             </OptionGroup>

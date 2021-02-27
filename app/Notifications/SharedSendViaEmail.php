@@ -46,7 +46,8 @@ class SharedSendViaEmail extends Notification
             ->subject(__('vuefilemanager.shared_link_email_subject' , ['user' => $this->user->name]))
             ->greeting(__('vuefilemanager.shared_link_email_greeting'))
             ->line(__('vuefilemanager.shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__('vuefilemanager.shared_link_email_link'), url('/shared', ['token' => $this->token]));
+            ->action(__('vuefilemanager.shared_link_email_link'), url('/shared', ['token' => $this->token]))
+            ->salutation(__('vuefilemanager.shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'VueFileManager']));
     }
 
     /**

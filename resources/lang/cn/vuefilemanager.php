@@ -12,6 +12,7 @@ return [
     'shared_link_email_greeting' => 'Hello!',
     'shared_link_email_user'     => ':user (:email) send you a link to shared files.',
     'shared_link_email_link'     => 'Open your files',
+    'shared_link_email_salutation'  => 'Regards, :app_name',
 
     // Reset password email
     'reset_password_greeting' => 'Hello!',

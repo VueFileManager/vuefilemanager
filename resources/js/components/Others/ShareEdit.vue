@@ -333,6 +333,7 @@
 
                 if (args.sentToEmail)
                     this.sendToRecipientsMenu = true
+                    this.isEmailSended = false
 
                 this.canChangePassword = args.item.shared.protected
             })

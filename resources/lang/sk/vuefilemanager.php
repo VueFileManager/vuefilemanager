@@ -12,6 +12,7 @@ return [
     'shared_link_email_greeting' => 'Ahoj!',
     'shared_link_email_user'     => ':user (:email) vám posiela odkaz pre zdieľané súbory.',
     'shared_link_email_link'     => 'Vaše súbory',
+    'shared_link_email_salutation'  => 'S pozdravom, :app_name',
 
     // Reset password email
     'reset_password_greeting' => 'Ahoj!',

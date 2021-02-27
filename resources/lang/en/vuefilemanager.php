@@ -8,10 +8,11 @@ return [
     'home'                    => 'Home',
 
     //Shared link email message
-    'shared_link_email_subject'  => '🙋 :user share some files with you. Look at it!',
-    'shared_link_email_greeting' => 'Hello!',
-    'shared_link_email_user'     => ':user (:email) send you a link to shared files.',
-    'shared_link_email_link'     => 'Open your files',
+    'shared_link_email_subject'     => '🙋 :user share some files with you. Look at it!',
+    'shared_link_email_greeting'    => 'Hello!',
+    'shared_link_email_user'        => ':user (:email) send you a link to shared files.',
+    'shared_link_email_link'        => 'Open your files',
+    'shared_link_email_salutation'  => 'Regards, :app_name',
 
     // Reset password email
     'reset_password_greeting' => 'Hello!',

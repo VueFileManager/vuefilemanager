@@ -33,6 +33,9 @@
 
                 if (this.name === name)
                     this.isVisibleWrapper = true
+
+                if( (this.name !== name))
+                    this.isVisibleWrapper = false
             })
 
             // Open called popup
