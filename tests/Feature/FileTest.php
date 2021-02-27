@@ -182,10 +182,8 @@ class FileTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        $file_1 = File::factory(File::class)
-            ->create();
-
-        $file_2 = File::factory(File::class)
+        $files = File::factory(File::class)
+            ->count(2)
             ->create();
 
         Sanctum::actingAs($user);
@@ -193,30 +191,85 @@ class FileTest extends TestCase
         $this->postJson("/api/remove", [
             'items' => [
                 [
-                    'id'           => $file_1->id,
+                    'id'           => $files[0]->id,
                     'type'         => 'file',
                     'force_delete' => false,
                 ],
                 [
-                    'id'           => $file_2->id,
+                    'id'           => $files[1]->id,
                     'type'         => 'file',
                     'force_delete' => false,
                 ],
             ],
         ])->assertStatus(204);
 
-        $this->assertSoftDeleted('files', [
-            'id' => $file_1->id,
-        ]);
-
-        $this->assertSoftDeleted('files', [
-            'id' => $file_2->id,
-        ]);
+        $files
+            ->each(function ($file) {
+                $this->assertSoftDeleted('files', [
+                    'id' => $file->id,
+                ]);
+            });
     }
 
+    /**
+     * @test
+     */
     public function it_delete_multiple_files_hardly()
     {
+        Storage::fake('local');
 
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        collect([0, 1])
+            ->each(function ($index) {
+
+                $file = UploadedFile::fake()
+                    ->create("fake-file-$index.pdf", 1200, 'application/pdf');
+
+                $this->postJson('/api/upload', [
+                    'file'      => $file,
+                    'folder_id' => null,
+                    'is_last'   => true,
+                ])->assertStatus(201);
+            });
+
+        $file_ids = File::all()->pluck('id');
+
+        $this->postJson("/api/remove", [
+            'items' => [
+                [
+                    'id'           => $file_ids->first(),
+                    'type'         => 'file',
+                    'force_delete' => true,
+                ],
+                [
+                    'id'           => $file_ids->last(),
+                    'type'         => 'file',
+                    'force_delete' => true,
+                ],
+            ],
+        ])->assertStatus(204);
+
+        $file_ids
+            ->each(function ($id) {
+                $this->assertDatabaseMissing('files', [
+                    'id' => $id,
+                ]);
+            });
+
+        collect([0, 1])
+            ->each(function ($index) use ($user) {
+
+                Storage::disk('local')
+                    ->assertMissing(
+                        "files/$user->id/fake-file-$index.pdf"
+                    );
+            });
     }
 
     public function it_zip_and_download_multiple_files()

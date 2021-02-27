@@ -320,7 +320,7 @@ class Editor
         if ($item['type'] === 'file') {
 
             // Get file
-            $item = UserFile::withTrashed()
+            $file = UserFile::withTrashed()
                 ->find($id);
 
             // Get folder shared record
@@ -337,20 +337,24 @@ class Editor
             if ($item['force_delete']) {
 
                 // Delete file
-                Storage::delete('/files/' . $item->basename);
+                Storage::delete("/files/$file->user_id/$file->basename");
 
                 // Delete thumbnail if exist
-                if ($item->thumbnail) Storage::delete('/files/' . $item->getRawOriginal('thumbnail'));
+                if ($file->thumbnail) {
+                    Storage::delete(
+                        "/files/$file->user_id/{$file->getRawOriginal('thumbnail')}"
+                    );
+                }
 
                 // Delete file permanently
-                $item->forceDelete();
+                $file->forceDelete();
             }
 
             // Soft delete file
             if (!$item['force_delete']) {
 
                 // Soft delete file
-                $item->delete();
+                $file->delete();
             }
         }
     }
