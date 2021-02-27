@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\FileFunctions;
 
-use App\Folder;
 use App\Http\Tools\Demo;
+use App\Models\Folder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -19,33 +19,25 @@ class FavouriteController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate request
-        $validator = Validator::make($request->input('folders'), [
-            '*.unique_id' => 'required|integer',
-        ]);
+        // todo: pridat validator ako AddToFavouritesRequest
 
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        foreach ($request->input('folders') as $id) {
 
-        foreach($request->input('folders') as $item) {
+            // Get user & folder
+            $user = Auth::user();
 
-        // Get user & folder
-        $user = Auth::user();
-        $folder = Folder::where('unique_id', $item['unique_id'])->first();
+            if (is_demo($user->id)) {
+                return Demo::favourites($user);
+            }
 
-        if (is_demo($user->id)) {
-            return Demo::favourites($user);
+            // Add folder to user favourites
+            $user
+                ->favourite_folders()
+                ->syncWithoutDetaching($id);
         }
 
-        // Check ownership
-        if ($folder->user_id !== $user->id) abort(403);
-
-        // Add folder to user favourites
-        $user->favourite_folders()->syncWithoutDetaching($item['unique_id']);
-
-        }
         // Return updated favourites
-        return $user->favourite_folders;
+        return response($user->favourite_folders, 204);
     }
 
     /**

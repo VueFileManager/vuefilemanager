@@ -25,9 +25,9 @@ class MoveItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'to_unique_id'          => 'required|integer',
-            'items[*].type'         => 'required|string',
-            'items[*].unique_id'    => 'required|integer',
+            'to_id'         => 'required|uuid',
+            'items[*].type' => 'required|string',
+            'items[*].id'   => 'required|uuid',
         ];
     }
 }

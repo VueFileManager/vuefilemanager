@@ -243,7 +243,7 @@ class User extends Authenticatable
      */
     public function favourite_folders()
     {
-        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_unique_id', 'id', 'unique_id')->with('shared:token,id,item_id,permission,protected,expire_in');
+        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')->with('shared:token,id,item_id,permission,protected,expire_in');
     }
 
     /**

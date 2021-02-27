@@ -116,7 +116,7 @@ class EditItemsController extends Controller
         }
 
         // If request have a change folder icon values set the folder icon
-        if ($request->type === 'folder' && $request->filled('emoji')) {
+        if ($request->type === 'folder' && ($request->filled('emoji') || $request->filled('color'))) {
             Editor::set_folder_icon($request, $id);
         }
 
@@ -499,10 +499,11 @@ class EditItemsController extends Controller
             return Demo::response_204();
         }
 
-        $to_unique_id = $request->input('to_unique_id');
+        $to_id = $request->input('to_id');
 
         // Check permission to upload for authenticated editor
         if ($request->user()->tokenCan('editor')) {
+
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
 
@@ -510,11 +511,11 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-            Guardian::check_item_access($to_unique_id, $shared);
+            Guardian::check_item_access($to_id, $shared);
         }
 
         // Move item
-        Editor::move($request, $to_unique_id);
+        Editor::move($request, $to_id);
 
         return response('Done!', 204);
     }

@@ -386,38 +386,28 @@ class Editor
      * Move folder or file to new location
      *
      * @param $request
-     * @param $unique_id
-     * @param null $shared
+     * @param $to_id
      */
-    public static function move($request, $to_unique_id, $shared = null)
+    public static function move($request, $to_id)
     {
-        // Get user id
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-
         foreach ($request->input('items') as $item) {
-            $unique_id = $item['unique_id'];
 
+            // Move folder
             if ($item['type'] === 'folder') {
 
-                // Move folder
-                $item = Folder::where('user_id', $user_id)
-                    ->where('unique_id', $unique_id)
-                    ->firstOrFail();
+                Folder::find($item['id'])
+                    ->update([
+                        'parent_id' => $to_id
+                    ]);
 
-                $item->update([
-                    'parent_id' => $to_unique_id
-                ]);
+            }
 
-            } else {
-
-                // Move file under new folder
-                $item = UserFile::where('user_id', $user_id)
-                    ->where('unique_id', $unique_id)
-                    ->firstOrFail();
-
-                $item->update([
-                    'folder_id' => $to_unique_id
-                ]);
+            // Move file
+            if ($item['type'] === 'file') {
+                UserFile::find($item['id'])
+                    ->update([
+                        'folder_id' => $to_id
+                    ]);
             }
         }
     }

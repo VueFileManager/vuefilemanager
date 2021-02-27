@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
+// TODO: pridat foldre do api skupiny
+
 class FolderTest extends TestCase
 {
     use DatabaseMigrations;
@@ -35,7 +37,6 @@ class FolderTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        // TODO: pridat do api skupiny
         $this->postJson('/api/create-folder', [
             'name'      => 'New Folder',
             'parent_id' => null,
@@ -63,7 +64,6 @@ class FolderTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        // TODO: pridat do api skupiny
         $this->patchJson("/api/rename/{$folder->id}", [
             'name' => 'Renamed Folder',
             'type' => 'folder',
@@ -91,44 +91,115 @@ class FolderTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        // TODO: pridat do api skupiny
+        $emoji_fragment = [
+            'category' => 'Smileys & Emotion (face-smiling)',
+            'char'     => '😁',
+            'name'     => 'beaming face with smiling eyes',
+        ];
+
         $this->patchJson("/api/rename/{$folder->id}", [
             'name'  => 'Renamed Folder',
             'type'  => 'folder',
-            'emoji' => [
-                'category' => 'Smileys & Emotion (face-smiling)',
-                'char'     => '😁',
-                'name'     => 'beaming face with smiling eyes',
-            ]
+            'emoji' => $emoji_fragment
         ])
             ->assertStatus(200)
             ->assertJsonFragment([
-                'name' => 'Renamed Folder',
-                'emoji' => [
-                    'category' => 'Smileys & Emotion (face-smiling)',
-                    'char'     => '😁',
-                    'name'     => 'beaming face with smiling eyes',
-                ]
+                'name'  => 'Renamed Folder',
+                'emoji' => $emoji_fragment
             ]);
 
-        $this->assertDatabaseMissing('folders', [
-            'emoji' => null
+        $this->assertDatabaseHas('folders', [
+            'color' => null,
+            'emoji' => json_encode($emoji_fragment)
         ]);
     }
 
+    /**
+     * @test
+     */
     public function it_set_folder_color()
     {
+        $folder = Folder::factory(Folder::class)
+            ->create();
 
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->patchJson("/api/rename/{$folder->id}", [
+            'name'  => 'Folder Name',
+            'type'  => 'folder',
+            'color' => '#AD6FFE'
+        ])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name'  => 'Folder Name',
+                'emoji' => null,
+                'color' => '#AD6FFE',
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'color' => '#AD6FFE',
+            'emoji' => null,
+        ]);
     }
 
+    /**
+     * @test
+     */
     public function it_move_folder_to_another_folder()
     {
+        $root = Folder::factory(Folder::class)
+            ->create();
+
+        $children = Folder::factory(Folder::class)
+            ->create();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson("/api/move", [
+            'to_id' => $root->id,
+            'items' => [
+                [
+                    'type' => 'folder',
+                    'id'   => $children->id,
+                ]
+            ],
+        ])->assertStatus(204);
+
+        $this->assertEquals(
+            $root->id, Folder::find($children->id)->parent_id
+        );
 
     }
 
-    public function it_add_to_favourites_folder()
+    /**
+     * @test
+     */
+    public function it_add_folder_to_favourites()
     {
+        $folder = Folder::factory(Folder::class)
+            ->create();
 
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson("/api/folders/favourites", [
+            'folders' => [
+                $folder->id
+            ],
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('favourite_folder', [
+            'user_id'   => $user->id,
+            'folder_id' => $folder->id,
+        ]);
     }
 
     public function it_zip_and_download_folder_with_content_within()
