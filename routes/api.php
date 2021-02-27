@@ -93,7 +93,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Edit items
     Route::patch('/rename/{id}', [EditItemsController::class, 'user_rename_item']);
     Route::post('/create-folder', [EditItemsController::class, 'user_create_folder']);
-    Route::post('/remove-item', [EditItemsController::class, 'user_delete_item']);
+    Route::post('/remove', [EditItemsController::class, 'user_delete_item']);
     Route::post('/zip', [EditItemsController::class, 'user_zip_multiple_files']);
     Route::get('/zip-folder/{unique_id}', [EditItemsController::class, 'user_zip_folder']);
     Route::post('/upload', [EditItemsController::class, 'user_upload']);

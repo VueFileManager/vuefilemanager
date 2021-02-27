@@ -188,8 +188,7 @@ class EditItemsController extends Controller
             return Demo::response_204();
         }
 
-        foreach ($request->input('data') as $file) {
-            $unique_id = $file['unique_id'];
+        foreach ($request->input('items') as $file) {
 
             // Check permission to delete item for authenticated editor 
             if ($request->user()->tokenCan('editor')) {
@@ -204,18 +203,18 @@ class EditItemsController extends Controller
                 $shared = get_shared($request->cookie('shared_token'));
 
                 // Get file|folder item
-                $item = get_item($file['type'], $unique_id, Auth::id());
+                $item = get_item($file['type'], $file['id']);
 
                 // Check access to requested directory
                 if ($file['type'] === 'folder') {
-                    Guardian::check_item_access($item->unique_id, $shared);
+                    Guardian::check_item_access($item->id, $shared);
                 } else {
                     Guardian::check_item_access($item->folder_id, $shared);
                 }
             }
 
             // Delete item
-            Editor::delete_item($file, $unique_id);
+            Editor::delete_item($file, $file['id']);
         }
 
         return response(null, 204);

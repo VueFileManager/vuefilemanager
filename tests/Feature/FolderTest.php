@@ -174,7 +174,6 @@ class FolderTest extends TestCase
         $this->assertEquals(
             $root->id, Folder::find($children->id)->parent_id
         );
-
     }
 
     /**
@@ -202,19 +201,55 @@ class FolderTest extends TestCase
         ]);
     }
 
-    public function it_zip_and_download_folder_with_content_within()
+    /**
+     * @test
+     */
+    public function it_delete_multiple_folder_softly()
     {
+        $user = User::factory(User::class)
+            ->create();
 
-    }
+        $folder_1 = Folder::factory(Folder::class)
+            ->create();
 
-    public function it_delete_single_folder()
-    {
+        $folder_2 = Folder::factory(Folder::class)
+            ->create();
 
-    }
+        $user->favourite_folders()->attach($folder_1->id);
+        $user->favourite_folders()->attach($folder_2->id);
 
-    public function it_delete_multiple_folder()
-    {
+        Sanctum::actingAs($user);
 
+        $this->postJson("/api/remove", [
+            'items' => [
+                [
+                    'id'           => $folder_1->id,
+                    'type'         => 'folder',
+                    'force_delete' => false,
+                ],
+                [
+                    'id'           => $folder_2->id,
+                    'type'         => 'folder',
+                    'force_delete' => false,
+                ],
+            ],
+        ])->assertStatus(204);
+
+        $this->assertSoftDeleted('folders', [
+            'id' => $folder_1->id,
+        ]);
+
+        $this->assertSoftDeleted('folders', [
+            'id' => $folder_2->id,
+        ]);
+
+        $this->assertDatabaseMissing('favourite_folder', [
+            'folder_id' => $folder_1->id,
+        ]);
+
+        $this->assertDatabaseMissing('favourite_folder', [
+            'folder_id' => $folder_2->id,
+        ]);
     }
 
     public function it_delete_folder_softly()
@@ -233,6 +268,11 @@ class FolderTest extends TestCase
     }
 
     public function it_delete_folder_with_their_content_within_hardly()
+    {
+
+    }
+
+    public function it_zip_and_download_folder_with_content_within()
     {
 
     }

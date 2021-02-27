@@ -12,6 +12,7 @@ use App\Models\Zip;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -269,30 +270,24 @@ class Editor
     /**
      * Delete file or folder
      *
-     * @param $request
-     * @param $unique_id
+     * @param $item
+     * @param $id
      * @param null $shared
      * @throws \Exception
      */
-    public static function delete_item($file, $unique_id, $shared = null)
+    public static function delete_item($item, $id, $shared = null)
     {
-        // Get user id
-        $user = is_null($shared) ? Auth::user() : User::findOrFail($shared->user_id);
-
         // Delete folder
-        if ($file['type'] === 'folder') {
+        if ($item['type'] === 'folder') {
 
             // Get folder
             $folder = Folder::withTrashed()
-                ->with(['folders'])
-                ->where('user_id', $user->id)
-                ->where('unique_id', $unique_id)
-                ->first();
+                ->with('folders')
+                ->find($id);
 
             // Get folder shared record
-            $shared = Share::where('user_id', $user->id)
-                ->where('type', '=', 'folder')
-                ->where('item_id', $unique_id)
+            $shared = Share::where('type', 'folder')
+                ->where('item_id', $id)
                 ->first();
 
             // Delete folder shared record
@@ -300,8 +295,20 @@ class Editor
                 $shared->delete();
             }
 
+            // Soft delete items
+            if (! $item['force_delete']) {
+
+                // Remove folder from user favourites
+                DB::table('favourite_folder')
+                    ->where('folder_id', $folder->id)
+                    ->delete();
+
+                // Soft delete folder record
+                $folder->delete();
+            }
+
             // Force delete children files
-            if ($file['force_delete']) {
+            if ($item['force_delete']) {
 
                 // Get children folder ids
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
@@ -328,20 +335,10 @@ class Editor
                 // Delete folder record
                 $folder->forceDelete();
             }
-
-            // Soft delete items
-            if (!$file['force_delete']) {
-
-                // Remove folder from user favourites
-                $user->favourite_folders()->detach($unique_id);
-
-                // Soft delete folder record
-                $folder->delete();
-            }
         }
 
         // Delete item
-        if ($file['type'] !== 'folder') {
+        if ($item['type'] !== 'folder') {
 
             // Get file
             $item = File::withTrashed()
