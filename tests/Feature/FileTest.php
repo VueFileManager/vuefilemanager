@@ -5,13 +5,22 @@ namespace Tests\Feature;
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
+use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
+use Storage;
 use Tests\TestCase;
 
 class FileTest extends TestCase
 {
     use DatabaseMigrations;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setup = app()->make(SetupService::class);
+    }
 
     /**
      * @test
@@ -26,9 +35,44 @@ class FileTest extends TestCase
         ]);
     }
 
-    public function it_upload_new_file()
+    /**
+     * @test
+     */
+    public function it_upload_image_file_and_create_thumbnail()
     {
+        Storage::fake('local');
 
+        $this->setup->create_directories();
+
+        $file = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/upload', [
+            'file'      => $file,
+            'folder_id' => null,
+            'is_last'   => true,
+        ])->assertStatus(201);
+
+        Storage::disk('local')->assertMissing(
+            "chunks/fake-image.jpg"
+        );
+
+        Storage::disk('local')->assertExists(
+            "files/$user->id/fake-image.jpg"
+        );
+
+        Storage::disk('local')->assertExists(
+            "files/$user->id/thumbnail-fake-image.jpg"
+        );
+
+        $this->assertDatabaseHas('traffic', [
+            'user_id' => $user->id,
+        ]);
     }
 
     /**

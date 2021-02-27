@@ -404,7 +404,7 @@ class Editor
         $temp_filename = $file->getClientOriginalName();
 
         // File Path
-        $file_path = config('filesystems.disks.local.root') . '/chunks/' . $temp_filename;
+        $file_path = Storage::disk('local')->path('chunks/' . $temp_filename);
 
         // Generate file
         File::append($file_path, $file->get());
@@ -424,24 +424,25 @@ class Editor
             $metadata = get_image_meta_data($file);
 
             $disk_local = Storage::disk('local');
-            $unique_id = get_unique_id();
 
             // Get user data
-            $user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+            //$user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
+            $user_scope = is_null($shared) ? 'master' : 'editor';
             $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
             // File Info
             $file_size = $disk_local->size('chunks/' . $temp_filename);
+
             $file_mimetype = $disk_local->mimeType('chunks/' . $temp_filename);
 
             // Check if user has enough space to upload file
             self::check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name);
+            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
 
             // Move finished file from chunk to file-manager directory
-            $disk_local->move('chunks/' . $temp_filename, 'files/' . $disk_file_name);
+            $disk_local->move('chunks/' . $temp_filename, "files/$user_id/$disk_file_name");
 
             // Move files to external storage
             if (!is_storage_driver(['local'])) {
@@ -457,10 +458,9 @@ class Editor
             $options = [
                 'mimetype'   => get_file_type_from_mimetype($file_mimetype),
                 'type'       => get_file_type($file_mimetype),
-                'folder_id'  => $request->parent_id,
+                'folder_id'  => $request->folder_id,
                 'metadata'   => $metadata,
                 'name'       => $user_file_name,
-                'unique_id'  => $unique_id,
                 'basename'   => $disk_file_name,
                 'user_scope' => $user_scope,
                 'thumbnail'  => $thumbnail,
@@ -469,17 +469,8 @@ class Editor
             ];
 
             // Store user upload size
-            if ($request->user()) {
-
-                // If upload a loged user
-                $request->user()->record_upload($file_size);
-
-            } else {
-
-                // If upload guest
-                User::find($shared->user_id)->record_upload($file_size);
-
-            }
+            User::find($user_id)
+                ->record_upload($file_size);
 
             // Return new file
             return UserFile::create($options);
@@ -586,10 +577,11 @@ class Editor
      *
      * @param string $file_path
      * @param string $filename
+     * @param string $user_id
      * @param $file
      * @return string|null
      */
-    private static function get_image_thumbnail(string $file_path, string $filename)
+    private static function get_image_thumbnail(string $file_path, string $filename, string $user_id)
     {
         $local_disk = Storage::disk('local');
 
@@ -600,7 +592,7 @@ class Editor
             $thumbnail = 'thumbnail-' . $filename;
 
             // Create intervention image
-            $image = Image::make(config('filesystems.disks.local.root') . '/' . $file_path)->orientate();
+            $image = Image::make($local_disk->path($file_path))->orientate();
 
             // Resize image
             $image->resize(512, null, function ($constraint) {
@@ -608,7 +600,7 @@ class Editor
             })->stream();
 
             // Store thumbnail to disk
-            $local_disk->put('files/' . $thumbnail, $image);
+            $local_disk->put("files/$user_id/$thumbnail", $image);
         }
 
         // Return thumbnail as svg file

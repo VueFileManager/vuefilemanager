@@ -22,6 +22,8 @@ class SetupServiceTest extends TestCase
      */
     public function it_create_system_folders()
     {
+        Storage::fake('local');
+
         $this->setup->create_directories();
 
         collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip'])

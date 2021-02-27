@@ -1,10 +1,10 @@
 <?php
 
-use App\File;
-use App\Folder;
-use App\User;
-use App\Setting;
-use App\Share;
+use App\Models\File;
+use App\Models\Folder;
+use App\Models\Setting;
+use App\Models\User;
+use App\Models\Share;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -220,29 +220,7 @@ function get_shared($token)
  */
 function is_editor($shared)
 {
-
     return $shared->permission === 'editor';
-}
-
-/**
- * Get unique id
- *
- * @return int
- */
-function get_unique_id(): int
-{
-    // Get files and folders
-    $folders = Folder::withTrashed()->get();
-    $files = File::withTrashed()->get();
-
-    // Get last ids
-    $folders_unique = $folders->isEmpty() ? 0 : $folders->last()->unique_id;
-    $files_unique = $files->isEmpty() ? 0 : $files->last()->unique_id;
-
-    // Count new unique id
-    $unique_id = $folders_unique > $files_unique ? $folders_unique + 1 : $files_unique + 1;
-
-    return $unique_id;
 }
 
 /**
@@ -384,7 +362,7 @@ function get_storage_fill_percentage($used, $capacity)
  */
 function user_storage_percentage($id, $additionals = null)
 {
-    $user = \App\User::findOrFail($id);
+    $user = User::findOrFail($id);
 
     $used = $user->used_capacity;
 
