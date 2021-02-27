@@ -58,16 +58,56 @@ class FileTest extends TestCase
             'is_last'   => true,
         ])->assertStatus(201);
 
-        Storage::disk('local')->assertMissing(
+        $disk = Storage::disk('local');
+
+        $disk->assertMissing(
             "chunks/fake-image.jpg"
         );
 
-        Storage::disk('local')->assertExists(
+        $disk->assertExists(
             "files/$user->id/fake-image.jpg"
         );
 
-        Storage::disk('local')->assertExists(
+        $disk->assertExists(
             "files/$user->id/thumbnail-fake-image.jpg"
+        );
+
+        $this->assertDatabaseHas('traffic', [
+            'user_id' => $user->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_upload_new_file()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 1200, 'application/pdf');
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/upload', [
+            'file'      => $file,
+            'folder_id' => null,
+            'is_last'   => true,
+        ])->assertStatus(201);
+
+        $disk = Storage::disk('local');
+
+        $disk->assertMissing(
+            "chunks/fake-file.pdf"
+        );
+
+        $disk->assertExists(
+            "files/$user->id/fake-file.pdf"
         );
 
         $this->assertDatabaseHas('traffic', [
