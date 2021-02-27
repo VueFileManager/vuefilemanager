@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Favourites
     Route::group(['prefix' => 'folders'], function () {
-        Route::delete('/favourites/{unique_id}', [FavouriteController::class, 'destroy']);
+        Route::delete('/favourites/{id}', [FavouriteController::class, 'destroy']);
         Route::post('/favourites', [FavouriteController::class, 'store']);
     });
 

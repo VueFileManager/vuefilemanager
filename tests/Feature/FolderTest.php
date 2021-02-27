@@ -204,6 +204,32 @@ class FolderTest extends TestCase
     /**
      * @test
      */
+    public function it_remove_folder_from_favourites()
+    {
+        $folder = Folder::factory(Folder::class)
+            ->create();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $user
+            ->favourite_folders()
+            ->attach($folder->id);
+
+        $this->deleteJson("/api/folders/favourites/$folder->id")
+            ->assertStatus(204);
+
+        $this->assertDatabaseMissing('favourite_folder', [
+            'user_id'   => $user->id,
+            'folder_id' => $folder->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_delete_multiple_folder_softly()
     {
         $user = User::factory(User::class)
@@ -252,14 +278,44 @@ class FolderTest extends TestCase
         ]);
     }
 
-    public function it_delete_folder_softly()
+    /**
+     * @test
+     */
+    public function it_delete_multiple_folder_hardly()
     {
+        $user = User::factory(User::class)
+            ->create();
 
-    }
+        $folder_1 = Folder::factory(Folder::class)
+            ->create();
 
-    public function it_delete_folder_hardly()
-    {
+        $folder_2 = Folder::factory(Folder::class)
+            ->create();
 
+        Sanctum::actingAs($user);
+
+        $this->postJson("/api/remove", [
+            'items' => [
+                [
+                    'id'           => $folder_1->id,
+                    'type'         => 'folder',
+                    'force_delete' => true,
+                ],
+                [
+                    'id'           => $folder_2->id,
+                    'type'         => 'folder',
+                    'force_delete' => true,
+                ],
+            ],
+        ])->assertStatus(204);
+
+        $this->assertDatabaseMissing('folders', [
+            'id' => $folder_1->id,
+        ]);
+
+        $this->assertDatabaseMissing('folders', [
+            'id' => $folder_2->id,
+        ]);
     }
 
     public function it_delete_folder_with_their_content_within_softly()

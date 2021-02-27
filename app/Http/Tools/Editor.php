@@ -5,7 +5,7 @@ namespace App\Http\Tools;
 use App;
 use App\Models\Folder;
 use App\Models\Share;
-use App\File as UserFile;
+use App\Models\File as UserFile;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Models\User;
 use App\Models\Zip;
@@ -295,13 +295,13 @@ class Editor
                 $shared->delete();
             }
 
+            // Remove folder from user favourites
+            DB::table('favourite_folder')
+                ->where('folder_id', $folder->id)
+                ->delete();
+
             // Soft delete items
             if (! $item['force_delete']) {
-
-                // Remove folder from user favourites
-                DB::table('favourite_folder')
-                    ->where('folder_id', $folder->id)
-                    ->delete();
 
                 // Soft delete folder record
                 $folder->delete();
@@ -311,12 +311,11 @@ class Editor
             if ($item['force_delete']) {
 
                 // Get children folder ids
-                $child_folders = filter_folders_ids($folder->trashed_folders, 'unique_id');
+                $child_folders = filter_folders_ids($folder->trashed_folders, 'id');
 
                 // Get children files
                 $files = UserFile::onlyTrashed()
-                    ->where('user_id', $user->id)
-                    ->whereIn('folder_id', Arr::flatten([$unique_id, $child_folders]))
+                    ->whereIn('folder_id', Arr::flatten([$id, $child_folders]))
                     ->get();
 
                 // Remove all children files

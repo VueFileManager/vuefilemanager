@@ -43,10 +43,10 @@ class FavouriteController extends Controller
     /**
      * Remove folder from user favourites
      *
-     * @param $unique_id
+     * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function destroy($unique_id)
+    public function destroy($id)
     {
         // Get user
         $user = Auth::user();
@@ -56,9 +56,9 @@ class FavouriteController extends Controller
         }
 
         // Remove folder from user favourites
-        $user->favourite_folders()->detach($unique_id);
+        $user->favourite_folders()->detach($id);
 
         // Return updated favourites
-        return $user->favourite_folders;
+        return response($user->favourite_folders, 204);
     }
 }
