@@ -236,4 +236,6 @@ class ShareTest extends TestCase
             'item_id' => $folder->id
         ]);
     }
+
+    // TODO: napisat testy pre FileSharingController
 }
