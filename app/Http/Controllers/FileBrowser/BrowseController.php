@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\FileBrowser;
 
 use App\Http\Requests\FileBrowser\SearchRequest;
-use App\User;
-use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
-use App\Folder;
-use App\File;
-use App\Share;
+use App\Models\Folder;
+use App\Models\File;
+use App\Models\Share;
 
 class BrowseController extends Controller
 {
@@ -71,13 +70,13 @@ class BrowseController extends Controller
             ->pluck('item_id');
 
         // Get folders and files
-        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
+        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $folder_ids)
             ->sortable()
             ->get();
 
-        $files = File::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
+        $files = File::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('user_id', $user_id)
             ->whereIn('unique_id', $file_ids)
             ->sortable()
@@ -92,11 +91,12 @@ class BrowseController extends Controller
      *
      * @return mixed
      */
-    public function latest() {
+    public function latest()
+    {
 
         // Get User
-        $user = User::with(['latest_uploads' => function($query) {
-            $query->sortable(['created_at' => 'desc']); 
+        $user = User::with(['latest_uploads' => function ($query) {
+            $query->sortable(['created_at' => 'desc']);
         }])
             ->where('id', Auth::id())
             ->first();
@@ -109,7 +109,8 @@ class BrowseController extends Controller
      *
      * @return mixed
      */
-    public function participant_uploads() {
+    public function participant_uploads()
+    {
 
         // Get User
         $uploads = File::with(['parent'])
@@ -125,29 +126,24 @@ class BrowseController extends Controller
      * Get directory with files
      *
      * @param Request $request
-     * @param $unique_id
+     * @param $id
      * @return Collection
      */
-    public function folder(Request $request, $unique_id)
+    public function folder(Request $request, $id)
     {
-        // Get user
-        $user_id = Auth::id();
-
         // Get folder trash items
         if ($request->query('trash')) {
 
             // Get folders and files
             $folders = Folder::onlyTrashed()
                 ->with('parent')
-                ->where('user_id', $user_id)
-                ->where('parent_id', $unique_id)
+                ->where('parent_id', $id)
                 ->sortable()
                 ->get();
 
             $files = File::onlyTrashed()
                 ->with('parent')
-                ->where('user_id', $user_id)
-                ->where('folder_id', $unique_id)
+                ->where('folder_id', $id)
                 ->sortable()
                 ->get();
 
@@ -156,20 +152,19 @@ class BrowseController extends Controller
         }
 
         // Get folders and files
-        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
-            ->where('user_id', $user_id)
-            ->where('parent_id', $unique_id)
+        $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('parent_id', $id)
             ->sortable()
             ->get();
 
-        $files = File::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
-            ->where('user_id', $user_id)
-            ->where('folder_id', $unique_id)
+        $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('folder_id', $id)
             ->sortable()
             ->get();
 
         // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
+        return collect([$folders, $files])
+            ->collapse();
     }
 
     /**
@@ -177,20 +172,18 @@ class BrowseController extends Controller
      *
      * @return array
      */
-    public function navigation_tree() {
-
-        $folders = Folder::with('folders:id,parent_id,unique_id,name')
-            ->where('parent_id', 0)
-            ->where('user_id', Auth::id())
+    public function navigation_tree()
+    {
+        $folders = Folder::with('folders:id,parent_id,id,name')
+            ->where('parent_id', null)
             ->sortable()
-            ->get(['id', 'parent_id', 'unique_id', 'name']);
+            ->get(['id', 'parent_id', 'id', 'name']);
 
         return [
             [
-                'unique_id' => 0,
                 'name'      => __('vuefilemanager.home'),
                 'location'  => 'base',
-                'folders'  => $folders,
+                'folders'   => $folders,
             ]
         ];
     }

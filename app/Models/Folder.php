@@ -19,7 +19,9 @@ class Folder extends Model
     ];
 
     protected $appends = [
-        'items', 'trashed_items'
+        'items',
+        'trashed_items',
+        'type'
     ];
 
     protected $casts = [
@@ -39,6 +41,11 @@ class Folder extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    public function getTypeAttribute()
+    {
+        return 'folder';
+    }
 
     /**
      * Index folder
@@ -100,7 +107,7 @@ class Folder extends Model
      */
     public function getDeletedAtAttribute()
     {
-        if (! $this->attributes['deleted_at']) return null;
+        if (!$this->attributes['deleted_at']) return null;
 
         return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __('vuefilemanager.time'));
     }
@@ -112,12 +119,12 @@ class Folder extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(Folder::class, 'parent_id', 'unique_id');
+        return $this->belongsTo(Folder::class, 'parent_id', 'id');
     }
 
     public function folderIds()
     {
-        return $this->children()->with('folderIds')->select(['unique_id', 'parent_id']);
+        return $this->children()->with('folderIds')->select(['id', 'parent_id']);
     }
 
     /**
@@ -127,7 +134,7 @@ class Folder extends Model
      */
     public function files()
     {
-        return $this->hasMany(File::class, 'folder_id', 'unique_id');
+        return $this->hasMany(File::class, 'folder_id', 'id');
     }
 
     /**
@@ -138,7 +145,7 @@ class Folder extends Model
     public function trashed_files()
     {
 
-        return $this->hasMany(File::class, 'folder_id', 'unique_id')->withTrashed();
+        return $this->hasMany(File::class, 'folder_id', 'id')->withTrashed();
     }
 
     /**
@@ -158,7 +165,7 @@ class Folder extends Model
      */
     public function trashed_folders()
     {
-        return $this->children()->with('trashed_folders')->withTrashed()->select(['parent_id', 'unique_id', 'name']);
+        return $this->children()->with('trashed_folders')->withTrashed()->select(['parent_id', 'id', 'name']);
     }
 
     /**
@@ -168,7 +175,7 @@ class Folder extends Model
      */
     public function children()
     {
-        return $this->hasMany(Folder::class, 'parent_id', 'unique_id');
+        return $this->hasMany(Folder::class, 'parent_id', 'id');
     }
 
     /**
@@ -178,7 +185,7 @@ class Folder extends Model
      */
     public function trashed_children()
     {
-        return $this->hasMany(Folder::class, 'parent_id', 'unique_id')->withTrashed();
+        return $this->hasMany(Folder::class, 'parent_id', 'id')->withTrashed();
     }
 
     /**
@@ -202,19 +209,19 @@ class Folder extends Model
 
         static::deleting(function ($item) {
 
-            if ( $item->isForceDeleting() ) {
+            if ($item->isForceDeleting()) {
 
-                $item->trashed_children()->each(function($folder) {
+                $item->trashed_children()->each(function ($folder) {
                     $folder->forceDelete();
                 });
 
             } else {
 
-                $item->children()->each(function($folder) {
+                $item->children()->each(function ($folder) {
                     $folder->delete();
                 });
 
-                $item->files()->each(function($file) {
+                $item->files()->each(function ($file) {
                     $file->delete();
                 });
             }
@@ -223,12 +230,12 @@ class Folder extends Model
         static::restoring(function ($item) {
 
             // Restore children folders
-            $item->trashed_children()->each(function($folder) {
+            $item->trashed_children()->each(function ($folder) {
                 $folder->restore();
             });
 
             // Restore children files
-            $item->trashed_files()->each(function($files) {
+            $item->trashed_files()->each(function ($files) {
                 $files->restore();
             });
         });

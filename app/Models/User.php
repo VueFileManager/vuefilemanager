@@ -137,7 +137,7 @@ class User extends Authenticatable
      */
     public function getFolderTreeAttribute()
     {
-        return File::with(['folders.shared', 'shared:token,id,item_id,permission,protected,expire_in'])
+        return File::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('parent_id', 0)
             ->where('user_id', $this->id)
             ->sortable()
@@ -244,7 +244,7 @@ class User extends Authenticatable
     public function favourite_folders()
     {
         return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')
-            ->with('shared:token,id,item_id,permission,protected,expire_in');
+            ->with('shared:token,id,item_id,permission,is_protected,expire_in');
     }
 
     /**

@@ -27,11 +27,11 @@ class FileTest extends TestCase
      */
     public function it_test_file_factory()
     {
-        $folder = File::factory(File::class)
+        $file = File::factory(File::class)
             ->create();
 
         $this->assertDatabaseHas('files', [
-            'id' => $folder->id
+            'id' => $file->id
         ]);
     }
 

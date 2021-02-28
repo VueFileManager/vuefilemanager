@@ -172,7 +172,7 @@ class File extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(Folder::class, 'folder_id', 'unique_id');
+        return $this->belongsTo(Folder::class, 'folder_id', 'id');
     }
 
     /**
@@ -180,7 +180,7 @@ class File extends Model
      */
     public function folder()
     {
-        return $this->hasOne(Folder::class, 'unique_id', 'folder_id');
+        return $this->hasOne(Folder::class, 'id', 'folder_id');
     }
 
     /**
@@ -188,7 +188,7 @@ class File extends Model
      */
     public function shared()
     {
-        return $this->hasOne(Share::class, 'item_id', 'unique_id');
+        return $this->hasOne(Share::class, 'item_id', 'id');
     }
 
     /**

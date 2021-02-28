@@ -24,7 +24,7 @@ class FolderFactory extends Factory
         return [
             'id'         => $this->faker->uuid,
             'user_id'    => $this->faker->uuid,
-            'name'       => $this->faker->name,
+            'name'       => $this->faker->word,
             'user_scope' => $this->faker->randomElement(
                 ['master', 'editor', 'visitor']
             ),

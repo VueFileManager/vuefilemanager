@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Content;
-use App\File;
-use App\Folder;
+use App\Models\Content;
+use App\Models\File;
+use App\Models\Folder;
 use App\Http\Requests\PublicPages\SendMessageRequest;
 use App\Http\Resources\PageResource;
 use App\Http\Tools\Demo;
 use App\Mail\SendSupportForm;
-use App\Page;
-use App\Setting;
-use App\User;
+use App\Models\Setting;
+use App\Models\Page;
+use App\Models\User;
 use Artisan;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Http\Request;
