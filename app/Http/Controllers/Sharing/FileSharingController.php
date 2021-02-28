@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
 use App\Http\Tools\Guardian;
-use App\Setting;
-use http\Env\Response;
+use App\Models\Share;
+use App\Models\Setting;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -15,10 +15,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Folder;
-use App\File;
-use App\User;
-use App\Share;
+use App\Models\Folder;
+use App\Models\File;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class FileSharingController extends Controller
@@ -43,14 +42,14 @@ class FileSharingController extends Controller
         Cookie::queue('shared_access_token', '', -1);
 
         // Set cookies
-        if ((int) $shared->protected) {
+        if ((int) $shared->is_protected) {
 
             // Set shared token
             Cookie::queue('shared_token', $token, 43200);
         }
 
         // Check if shared is image file and then show it
-        if ($shared->type === 'file' && ! (int) $shared->protected) {
+        if ($shared->type === 'file' && ! (int) $shared->is_protected) {
 
             $image = File::where('user_id', $shared->user_id)
                 ->where('type', 'image')

@@ -70,10 +70,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Share
     Route::group(['prefix' => 'share'], function () {
-        Route::post('/{token}/send-email', [ShareController::class, 'shared_send_via_email']);
-        Route::post('/cancel', [ShareController::class, 'destroy']);
+        Route::post('/{token}/email', [ShareController::class, 'send_to_emails_recipients']);
+        Route::delete('/revoke', [ShareController::class, 'destroy']);
         Route::patch('/{token}', [ShareController::class, 'update']);
-        Route::post('/', [ShareController::class, 'store']);
+        Route::post('/{id}', [ShareController::class, 'store']);
     });
 });
 

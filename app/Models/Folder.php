@@ -188,7 +188,7 @@ class Folder extends Model
      */
     public function shared()
     {
-        return $this->hasOne(Share::class, 'item_id', 'unique_id');
+        return $this->hasOne(Share::class, 'item_id', 'id');
     }
 
     // Delete all folder children

@@ -16,8 +16,8 @@ class CreateSharesTable extends Migration
         Schema::create('shares', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
-            $table->string('token', 16)->unique();
             $table->uuid('item_id');
+            $table->string('token', 16)->unique();
             $table->enum('type', ['file', 'folder']);
             $table->enum('permission', ['visitor', 'editor'])->nullable();
             $table->boolean('is_protected')->default(0);
