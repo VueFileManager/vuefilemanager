@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/participants', [BrowseController::class, 'participant_uploads']);
         Route::get('/navigation', [BrowseController::class, 'navigation_tree']);
         Route::get('/folders/{id}', [BrowseController::class, 'folder']);
-        Route::get('/sharing', [BrowseController::class, 'shared']);
+        Route::get('/shared', [BrowseController::class, 'shared']);
         Route::get('/latest', [BrowseController::class, 'latest']);
         Route::get('/search', [BrowseController::class, 'search']);
         Route::get('/trash', [BrowseController::class, 'trash']);

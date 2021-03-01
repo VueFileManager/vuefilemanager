@@ -43,7 +43,7 @@ class BrowseController extends Controller
             ->with(['parent'])
             ->where('user_id', $user_id)
             ->whereNull('folder_id')
-            ->whereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'unique_id'))))
+            ->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))))
             ->sortable()
             ->get();
 
@@ -73,13 +73,13 @@ class BrowseController extends Controller
         // Get folders and files
         $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('user_id', $user_id)
-            ->whereIn('unique_id', $folder_ids)
+            ->whereIn('id', $folder_ids)
             ->sortable()
             ->get();
 
         $files = File::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('user_id', $user_id)
-            ->whereIn('unique_id', $file_ids)
+            ->whereIn('id', $file_ids)
             ->sortable()
             ->get();
 

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Share;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -355,11 +356,6 @@ class BrowseTest extends TestCase
         File::factory(File::class)
             ->create([
                 'folder_id'  => $folder->id,
-                'name'       => 'Document 1',
-                'basename'   => 'document-1.pdf',
-                "mimetype"   => "application/pdf",
-                "user_scope" => "master",
-                "type"       => "file",
                 'user_id'    => $user->id,
                 'deleted_at' => Carbon::now(),
             ]);
@@ -404,6 +400,46 @@ class BrowseTest extends TestCase
             ]);
     }
 
+    /**
+     * @test
+     */
+    public function it_get_shared_items()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        collect([$folder, $file])
+            ->each(function ($item) use ($user) {
+                Share::factory(Share::class)
+                    ->create([
+                        "type"    => $item->type === 'folder' ? 'folder' : 'file',
+                        "item_id" => $item->id,
+                        'user_id' => $user->id,
+                    ]);
+            });
+
+        collect([$folder, $file])
+            ->each(function ($item) use ($user) {
+                $this->getJson("/api/browse/shared")
+                    ->assertStatus(200)
+                    ->assertJsonFragment([
+                        'id' => $item->id
+                    ]);
+            });
+    }
+
 
     public function it_get_searched_file()
     {
@@ -411,11 +447,6 @@ class BrowseTest extends TestCase
     }
 
     public function it_get_searched_folder()
-    {
-
-    }
-
-    public function it_get_shared_files()
     {
 
     }
