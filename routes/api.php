@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Trash
     Route::group(['prefix' => 'trash'], function () {
         Route::post('/restore-items', [TrashController::class, 'restore']);
-        Route::delete('/empty-trash', [TrashController::class, 'clear']);
+        Route::delete('/dump', [TrashController::class, 'clear']);
     });
 
     // Favourites

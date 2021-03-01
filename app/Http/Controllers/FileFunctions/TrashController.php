@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Folder;
-use App\File;
+use App\Models\Folder;
+use App\Models\File;
 
 class TrashController extends Controller
 {
@@ -39,10 +39,12 @@ class TrashController extends Controller
         foreach ($files as $file) {
 
             // Delete file
-            Storage::delete('/file-manager/' . $file->basename);
+            Storage::delete("/files/$user_id/{$file->basename}");
 
             // Delete thumbnail if exist
-            if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+            if ($file->thumbnail) {
+                Storage::delete("/files/$user_id/{$file->getRawOriginal('thumbnail')}");
+            }
 
             // Delete file permanently
             $file->forceDelete();
