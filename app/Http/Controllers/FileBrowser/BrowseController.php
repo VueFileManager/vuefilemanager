@@ -29,12 +29,12 @@ class BrowseController extends Controller
         $folders_trashed = Folder::onlyTrashed()
             ->with(['trashed_folders', 'parent'])
             ->where('user_id', $user_id)
-            ->get(['parent_id', 'unique_id', 'name']);
+            ->get(['parent_id', 'id', 'name']);
 
         $folders = Folder::onlyTrashed()
             ->with(['parent'])
             ->where('user_id', $user_id)
-            ->whereIn('unique_id', filter_folders_ids($folders_trashed))
+            ->whereIn('id', filter_folders_ids($folders_trashed))
             ->sortable()
             ->get();
 
@@ -42,6 +42,7 @@ class BrowseController extends Controller
         $files_trashed = File::onlyTrashed()
             ->with(['parent'])
             ->where('user_id', $user_id)
+            ->whereNull('folder_id')
             ->whereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'unique_id'))))
             ->sortable()
             ->get();

@@ -418,11 +418,11 @@ function appeared_once($arr)
  * @param $folders
  * @return array
  */
-function filter_folders_ids($folders, $by_column = 'unique_id')
+function filter_folders_ids($folders, $by_column = 'id')
 {
-    $folder_unique_ids = recursiveFind($folders->toArray(), $by_column);
+    $folder_ids = recursiveFind($folders->toArray(), $by_column);
 
-    return appeared_once($folder_unique_ids);
+    return appeared_once($folder_ids);
 }
 
 /**

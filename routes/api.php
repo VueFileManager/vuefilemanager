@@ -53,13 +53,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/sharing', [BrowseController::class, 'shared']);
         Route::get('/latest', [BrowseController::class, 'latest']);
         Route::get('/search', [BrowseController::class, 'search']);
+        Route::get('/trash', [BrowseController::class, 'trash']);
     });
 
     // Trash
     Route::group(['prefix' => 'trash'], function () {
         Route::post('/restore-items', [TrashController::class, 'restore']);
         Route::delete('/empty-trash', [TrashController::class, 'clear']);
-        Route::get('/', [BrowseController::class, 'trash']);
     });
 
     // Favourites

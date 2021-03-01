@@ -57,7 +57,7 @@ class BrowseTest extends TestCase
 
         $this->getJson("/api/browse/navigation")
             ->assertStatus(200)
-            ->assertJson([
+            ->assertExactJson([
                 [
                     "name"     => "Home",
                     "location" => "base",
@@ -149,7 +149,7 @@ class BrowseTest extends TestCase
 
         $this->getJson("/api/browse/folders/$root->id")
             ->assertStatus(200)
-            ->assertJson([
+            ->assertExactJson([
                 [
                     "id"            => $folder->id,
                     "user_id"       => $user->id,
@@ -245,7 +245,7 @@ class BrowseTest extends TestCase
 
         $this->getJson("/api/browse/latest")
             ->assertStatus(200)
-            ->assertJson([
+            ->assertExactJson([
                 [
                     "id"         => $file_2->id,
                     "user_id"    => $user->id,
@@ -297,6 +297,95 @@ class BrowseTest extends TestCase
             ]);
     }
 
+    public function it_get_participant_uploads()
+    {
+        
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_trash_root()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'parent_id'  => null,
+                'name'       => 'root',
+                'user_id'    => $user->id,
+                'deleted_at' => Carbon::now(),
+                "user_scope" => "master",
+            ]);
+
+        $file = File::factory(File::class)
+            ->create([
+                'folder_id'  => null,
+                'name'       => 'Document',
+                'basename'   => 'document.pdf',
+                "mimetype"   => "application/pdf",
+                "user_scope" => "master",
+                "type"       => "file",
+                'user_id'    => $user->id,
+                'deleted_at' => Carbon::now(),
+            ]);
+
+        File::factory(File::class)
+            ->create([
+                'folder_id'  => $folder->id,
+                'name'       => 'Document 1',
+                'basename'   => 'document-1.pdf',
+                "mimetype"   => "application/pdf",
+                "user_scope" => "master",
+                "type"       => "file",
+                'user_id'    => $user->id,
+                'deleted_at' => Carbon::now(),
+            ]);
+
+        $this->getJson("/api/browse/trash")
+            ->assertStatus(200)
+            ->assertExactJson([
+                [
+                    "id"            => $folder->id,
+                    "user_id"       => $user->id,
+                    "parent_id"     => null,
+                    "name"          => "root",
+                    "color"         => null,
+                    "emoji"         => null,
+                    "user_scope"    => "master",
+                    "deleted_at"    => $folder->deleted_at,
+                    "created_at"    => $folder->created_at,
+                    "updated_at"    => $folder->updated_at->toJson(),
+                    "items"         => 0,
+                    "trashed_items" => 1,
+                    "type"          => "folder",
+                    "parent"        => null,
+                ],
+                [
+                    "id"         => $file->id,
+                    "user_id"    => $user->id,
+                    "folder_id"  => null,
+                    "thumbnail"  => null,
+                    "name"       => "Document",
+                    "basename"   => "document.pdf",
+                    "mimetype"   => "application/pdf",
+                    "filesize"   => $file->filesize,
+                    "type"       => "file",
+                    "metadata"   => null,
+                    "user_scope" => "master",
+                    "deleted_at" => $file->deleted_at,
+                    "created_at" => $file->created_at,
+                    "updated_at" => $file->updated_at->toJson(),
+                    "file_url"   => "http://localhost/file/document.pdf",
+                    "parent"     => null
+                ],
+            ]);
+    }
+
+
     public function it_get_searched_file()
     {
 
@@ -307,17 +396,7 @@ class BrowseTest extends TestCase
 
     }
 
-    public function it_get_trash()
-    {
-
-    }
-
     public function it_get_shared_files()
-    {
-
-    }
-
-    public function it_get_participant_uploads()
     {
 
     }
