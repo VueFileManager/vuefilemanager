@@ -7,13 +7,14 @@ use App\Models\Folder;
 use App\Models\Share;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class BrowseTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, Queueable;
 
     /**
      * @test
@@ -440,14 +441,49 @@ class BrowseTest extends TestCase
             });
     }
 
-
+    /**
+     * @test
+     */
     public function it_get_searched_file()
     {
+        $user = User::factory(User::class)
+            ->create();
 
+        Sanctum::actingAs($user);
+
+        $file = File::factory(File::class)
+            ->create([
+                'name'       => 'Document',
+                'user_id'    => $user->id,
+            ]);
+
+        $this->getJson("/api/browse/search?query=doc")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $file->id
+            ]);
     }
 
+    /**
+     * @test
+     */
     public function it_get_searched_folder()
     {
+        $user = User::factory(User::class)
+            ->create();
 
+        Sanctum::actingAs($user);
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'name'       => 'Documents',
+                'user_id'    => $user->id,
+            ]);
+
+        $this->getJson("/api/browse/search?query=doc")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $folder->id
+            ]);
     }
 }
