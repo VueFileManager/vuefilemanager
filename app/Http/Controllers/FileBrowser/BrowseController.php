@@ -93,15 +93,13 @@ class BrowseController extends Controller
      */
     public function latest()
     {
-
-        // Get User
         $user = User::with(['latest_uploads' => function ($query) {
             $query->sortable(['created_at' => 'desc']);
         }])
             ->where('id', Auth::id())
             ->first();
 
-        return $user->latest_uploads->makeHidden(['user_id', 'basename']);
+        return $user->latest_uploads;
     }
 
     /**

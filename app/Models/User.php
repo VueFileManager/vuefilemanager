@@ -254,7 +254,7 @@ class User extends Authenticatable
      */
     public function latest_uploads()
     {
-        return $this->hasMany(File::class)->with(['parent'])->take(40);
+        return $this->hasMany(File::class)->with(['parent:id,name'])->take(40);
     }
 
     /**

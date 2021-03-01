@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -200,17 +201,108 @@ class BrowseTest extends TestCase
             ]);
     }
 
+    /**
+     * @test
+     */
+    public function it_get_recent_files()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'name'    => 'root',
+                'user_id' => $user->id,
+            ]);
+
+        $file_1 = File::factory(File::class)
+            ->create([
+                'folder_id'  => $root->id,
+                'name'       => 'Document 1',
+                'basename'   => 'document-1.pdf',
+                "mimetype"   => "application/pdf",
+                "user_scope" => "master",
+                "type"       => "file",
+                'user_id'    => $user->id,
+                'created_at' => Carbon::now(),
+            ]);
+
+        $this->travel(5)->minutes();
+
+        $file_2 = File::factory(File::class)
+            ->create([
+                'folder_id'  => $root->id,
+                'name'       => 'Document 2',
+                'basename'   => 'document-2.pdf',
+                "mimetype"   => "application/pdf",
+                "user_scope" => "master",
+                "type"       => "file",
+                'user_id'    => $user->id,
+                'created_at' => Carbon::now(),
+            ]);
+
+        $this->getJson("/api/browse/latest")
+            ->assertStatus(200)
+            ->assertJson([
+                [
+                    "id"         => $file_2->id,
+                    "user_id"    => $user->id,
+                    "folder_id"  => $root->id,
+                    "thumbnail"  => null,
+                    "name"       => "Document 2",
+                    "basename"   => "document-2.pdf",
+                    "mimetype"   => "application/pdf",
+                    "filesize"   => $file_2->filesize,
+                    "type"       => "file",
+                    "metadata"   => null,
+                    "user_scope" => "master",
+                    "deleted_at" => null,
+                    "created_at" => $file_2->created_at,
+                    "updated_at" => $file_2->updated_at->toJson(),
+                    "file_url"   => "http://localhost/file/document-2.pdf",
+                    "parent"     => [
+                        "id"            => $root->id,
+                        "name"          => "root",
+                        "items"         => 2,
+                        "trashed_items" => 2,
+                        "type"          => "folder",
+                    ],
+                ],
+                [
+                    "id"         => $file_1->id,
+                    "user_id"    => $user->id,
+                    "folder_id"  => $root->id,
+                    "thumbnail"  => null,
+                    "name"       => "Document 1",
+                    "basename"   => "document-1.pdf",
+                    "mimetype"   => "application/pdf",
+                    "filesize"   => $file_1->filesize,
+                    "type"       => "file",
+                    "metadata"   => null,
+                    "user_scope" => "master",
+                    "deleted_at" => null,
+                    "created_at" => $file_1->created_at,
+                    "updated_at" => $file_1->updated_at->toJson(),
+                    "file_url"   => "http://localhost/file/document-1.pdf",
+                    "parent"     => [
+                        "id"            => $root->id,
+                        "name"          => "root",
+                        "items"         => 2,
+                        "trashed_items" => 2,
+                        "type"          => "folder",
+                    ],
+                ],
+            ]);
+    }
+
     public function it_get_searched_file()
     {
 
     }
 
     public function it_get_searched_folder()
-    {
-
-    }
-
-    public function it_get_recent_files()
     {
 
     }
