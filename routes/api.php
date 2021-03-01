@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Browse
     Route::group(['prefix' => 'browse'], function () {
-        Route::get('/participant-uploads', [BrowseController::class, 'participant_uploads']);
+        Route::get('/participants', [BrowseController::class, 'participant_uploads']);
         Route::get('/navigation', [BrowseController::class, 'navigation_tree']);
         Route::get('/folders/{id}', [BrowseController::class, 'folder']);
         Route::get('/sharing', [BrowseController::class, 'shared']);

@@ -297,9 +297,28 @@ class BrowseTest extends TestCase
             ]);
     }
 
+    /**
+     * @test
+     */
     public function it_get_participant_uploads()
     {
-        
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $file = File::factory(File::class)
+            ->create([
+                "user_scope" => "editor",
+                "type"       => "file",
+                'user_id'    => $user->id,
+            ]);
+
+        $this->getJson("/api/browse/participants")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $file->id
+            ]);
     }
 
     /**
