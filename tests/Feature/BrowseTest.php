@@ -6,8 +6,6 @@ use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -118,34 +116,88 @@ class BrowseTest extends TestCase
      */
     public function it_get_folder_content()
     {
-        $root = Folder::factory(Folder::class)
-            ->create();
-
-        $folder = Folder::factory(Folder::class)
-            ->create([
-                'parent_id' => $root->id
-            ]);
-
-        $file = File::factory(File::class)
-            ->create([
-                'folder_id' => $root->id
-            ]);
-
         $user = User::factory(User::class)
             ->create();
 
         Sanctum::actingAs($user);
 
-        $response = $this->getJson("/api/browse/folders/$root->id")
-            ->assertStatus(200);
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'name'    => 'root',
+                'user_id' => $user->id,
+            ]);
 
-        collect([$folder, $file])
-            ->each(function ($item) use ($response) {
-                $response->assertJsonFragment([
-                    'id'   => $item->id,
-                    'type' => $item->type,
-                ]);
-            });
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'parent_id'  => $root->id,
+                'name'       => 'Documents',
+                "user_scope" => "master",
+                'user_id'    => $user->id,
+            ]);
+
+        $file = File::factory(File::class)
+            ->create([
+                'folder_id'  => $root->id,
+                'name'       => 'Document',
+                'basename'   => 'document.pdf',
+                "mimetype"   => "application/pdf",
+                "user_scope" => "master",
+                "type"       => "file",
+                'user_id'    => $user->id,
+            ]);
+
+        $this->getJson("/api/browse/folders/$root->id")
+            ->assertStatus(200)
+            ->assertJson([
+                [
+                    "id"            => $folder->id,
+                    "user_id"       => $user->id,
+                    "parent_id"     => $root->id,
+                    "name"          => "Documents",
+                    "color"         => null,
+                    "emoji"         => null,
+                    "user_scope"    => "master",
+                    "deleted_at"    => null,
+                    "created_at"    => $folder->created_at,
+                    "updated_at"    => $folder->updated_at->toJson(),
+                    "items"         => 0,
+                    "trashed_items" => 0,
+                    "type"          => "folder",
+                    "parent"        => [
+                        "id"            => $root->id,
+                        "name"          => "root",
+                        "items"         => 2,
+                        "trashed_items" => 2,
+                        "type"          => "folder",
+                    ],
+                    "shared"        => null,
+                ],
+                [
+                    "id"         => $file->id,
+                    "user_id"    => $user->id,
+                    "folder_id"  => $root->id,
+                    "thumbnail"  => null,
+                    "name"       => "Document",
+                    "basename"   => "document.pdf",
+                    "mimetype"   => "application/pdf",
+                    "filesize"   => $file->filesize,
+                    "type"       => "file",
+                    "metadata"   => null,
+                    "user_scope" => "master",
+                    "deleted_at" => null,
+                    "created_at" => $file->created_at,
+                    "updated_at" => $file->updated_at->toJson(),
+                    "file_url"   => "http://localhost/file/document.pdf",
+                    "parent"     => [
+                        "id"            => $root->id,
+                        "name"          => "root",
+                        "items"         => 2,
+                        "trashed_items" => 2,
+                        "type"          => "folder",
+                    ],
+                    "shared"     => null,
+                ]
+            ]);
     }
 
     public function it_get_searched_file()
