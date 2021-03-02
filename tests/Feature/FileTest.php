@@ -257,14 +257,11 @@ class FileTest extends TestCase
         ])->assertStatus(204);
 
         $file_ids
-            ->each(function ($id) {
+            ->each(function ($id, $index) use ($user) {
+
                 $this->assertDatabaseMissing('files', [
                     'id' => $id,
                 ]);
-            });
-
-        collect([0, 1])
-            ->each(function ($index) use ($user) {
 
                 Storage::disk('local')
                     ->assertMissing(
@@ -302,7 +299,7 @@ class FileTest extends TestCase
 
         $file_ids = File::all()->pluck('id');
 
-        $this->postJson("/api/zip", [
+        $this->postJson("/api/zip/files", [
             'items' => $file_ids,
         ])->assertStatus(201);
 

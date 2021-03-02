@@ -94,10 +94,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('/rename/{id}', [EditItemsController::class, 'user_rename_item']);
     Route::post('/create-folder', [EditItemsController::class, 'user_create_folder']);
     Route::post('/remove', [EditItemsController::class, 'user_delete_item']);
-    Route::post('/zip', [EditItemsController::class, 'user_zip_multiple_files']);
-    Route::get('/zip-folder/{unique_id}', [EditItemsController::class, 'user_zip_folder']);
     Route::post('/upload', [EditItemsController::class, 'user_upload']);
     Route::post('/move', [EditItemsController::class, 'user_move']);
+
+    Route::group(['prefix' => 'zip'], function () {
+        Route::post('/files', [EditItemsController::class, 'user_zip_multiple_files']);
+        Route::get('/folder/{unique_id}', [EditItemsController::class, 'user_zip_folder']);
+    });
 
     //Get Emojis List
     Route::get('/emojis-list', [AppFunctionsController::class, 'get_emojis_list']);

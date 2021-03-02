@@ -66,16 +66,16 @@ class Editor
     /**
      * Zip requested folder
      *
-     * @param $unique_id
+     * @param $id
      * @param $shared
      * @return mixed
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function zip_folder($unique_id, $shared = null)
+    public static function zip_folder($id, $shared = null)
     {
         // Get folder
         $requested_folder = Folder::with(['folders.files', 'files'])
-            ->where('unique_id', $unique_id)
+            ->where('id', $id)
             ->where('user_id', Auth::id() ?? $shared->user_id)
             ->with('folders')
             ->first();
@@ -85,31 +85,34 @@ class Editor
         // Local storage instance
         $disk_local = Storage::disk('local');
 
-        // Move file to local storage
+        // Move file to local storage from external storage service
         if (!is_storage_driver('local')) {
-
-            foreach ($files as $file) {
+            $files->each(function ($file) use ($disk_local) {
                 try {
-                    $disk_local->put('temp/' . $file['basename'], Storage::get('files/' . $file['basename']));
+                    $disk_local->put("temp/$file->basename", Storage::get("files/$file->user_id/$file->basename"));
                 } catch (FileNotFoundException $e) {
                     throw new HttpException(404, 'File not found');
                 }
-            }
+            });
         }
 
         // Get zip path
         $zip_name = Str::random(16) . '-' . Str::slug($requested_folder->name) . '.zip';
-        $zip_path = 'zip/' . $zip_name;
 
         // Create zip
-        $zip = Madzipper::make(storage_path() . '/app/' . $zip_path);
+        $zip = Madzipper::make($disk_local->path("zip/$zip_name"));
 
         // Get files folder on local storage drive
-        $files_folder = is_storage_driver('local') ? 'file-manager' : 'temp';
+        $directory = is_storage_driver('local') ? 'files' : 'temp';
 
         // Add files to zip
         foreach ($files as $file) {
-            $zip->folder($file['folder_path'])->addString($file['name'], File::get(storage_path() . '/app/' . $files_folder . '/' . $file['basename']));
+            $zip
+                ->folder($file['folder_path'])
+                ->addString(
+                    $file['name'],
+                    File::get($disk_local->path("/$directory/$requested_folder->user_id/{$file['basename']}"))
+                );
         }
 
         // Close zip
@@ -224,18 +227,18 @@ class Editor
      * Rename item name
      *
      * @param RenameItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @param null $shared
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      * @throws \Exception
      */
-    public static function rename_item($request, $unique_id, $shared = null)
+    public static function rename_item($request, $id, $shared = null)
     {
         // Get user id
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
         // Get item
-        $item = get_item($request->type, $unique_id, $user_id);
+        $item = get_item($request->type, $id, $user_id);
 
         // Rename item
         $item->update([
@@ -280,7 +283,7 @@ class Editor
                 ->delete();
 
             // Soft delete items
-            if (! $item['force_delete']) {
+            if (!$item['force_delete']) {
 
                 // Soft delete folder record
                 $folder->delete();

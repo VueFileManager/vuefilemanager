@@ -333,7 +333,7 @@ class EditItemsController extends Controller
      * @param $id
      * @return string
      */
-    public function user_zip_folder(Request $request,$id)
+    public function user_zip_folder(Request $request, $id)
     {
         // Get user id
         $user_id = Auth::id();
@@ -365,7 +365,7 @@ class EditItemsController extends Controller
         return response([
             'url'  => route('zip', $zip->id),
             'name' => $zip->basename,
-        ], 200);
+        ], 201);
     }
 
     /**
