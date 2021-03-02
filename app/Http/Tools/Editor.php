@@ -302,10 +302,14 @@ class Editor
                 foreach ($files as $file) {
 
                     // Delete file
-                    Storage::delete('/files/' . $file->basename);
+                    Storage::delete("/files/$file->user_id/$file->basename");
 
                     // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::delete('/files/' . $file->getRawOriginal('thumbnail'));
+                    if ($file->thumbnail) {
+                        Storage::delete(
+                            "/files/$file->user_id/{$file->getRawOriginal('thumbnail')}"
+                        );
+                    }
 
                     // Delete file permanently
                     $file->forceDelete();
