@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\File;
+use App\Models\Share;
 use App\Models\Zip;
 use App\Services\SchedulerService;
 use App\Services\SetupService;
@@ -26,6 +27,24 @@ class SchedulerTest extends TestCase
     /**
      * @test
      */
+    public function it_delete_expired_shared_links()
+    {
+        $share = Share::factory(Share::class)
+            ->create([
+                'expire_in' => 24,
+                'created_at' => Carbon::now()->subDay(),
+            ]);
+
+        $this->scheduler->delete_expired_shared_links();
+
+        $this->assertDatabaseMissing('shares', [
+            'id' => $share->id
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_delete_zips_older_than_one_day()
     {
         Storage::fake('local');
@@ -38,7 +57,7 @@ class SchedulerTest extends TestCase
         Storage::putFileAs('zip', $file, 'EHWKcuvKzA4Gv29v-archive.zip');
 
         $zip = Zip::factory(Zip::class)->create([
-            'basename' => 'EHWKcuvKzA4Gv29v-archive.zip',
+            'basename'   => 'EHWKcuvKzA4Gv29v-archive.zip',
             'created_at' => Carbon::now()->subDay(),
         ]);
 
