@@ -8,7 +8,9 @@ class LanguageString extends Model
 {
     public $timestamps = false;
 
-    // public $incrementing = false;
+    public $primaryKey = null;
+
+    public $incrementing = false;
 
     protected $fillable = ['value', 'language_id' ,'key', 'lang'];
     
