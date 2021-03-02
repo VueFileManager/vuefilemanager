@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
 use App\Services\SetupService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
@@ -20,6 +21,49 @@ class TrashTest extends TestCase
     {
         parent::__construct();
         $this->setup = app()->make(SetupService::class);
+    }
+
+    /**
+     * @test
+     */
+    public function it_restore_items_from_trash()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $attributes = [
+            'user_id'    => $user->id,
+            'deleted_at' => Carbon::now(),
+        ];
+
+        $folder = Folder::factory(Folder::class)
+            ->create($attributes);
+
+        $file = File::factory(File::class)
+            ->create($attributes);
+
+        $this->postJson("/api/trash/restore", [
+            'items' => [
+                [
+                    'id'   => $file->id,
+                    'type' => 'file',
+                ],
+                [
+                    'id'   => $folder->id,
+                    'type' => 'folder',
+                ],
+            ],
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('files', [
+            'deleted_at' => null
+        ]);
+
+        $this->assertDatabaseHas('folders', [
+            'deleted_at' => null
+        ]);
     }
 
     /**

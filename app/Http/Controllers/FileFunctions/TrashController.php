@@ -58,15 +58,16 @@ class TrashController extends Controller
      * Restore item from trash
      *
      * @param Request $request
-     * @param $unique_id
+     * @param $id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
     public function restore(Request $request)
     {
         // Validate request
-        $validator = Validator::make($request->input('data'), [
-            '*.type'      => 'required|string',
-            '*.unique_id' => 'integer',
+        // TODO: zrefaktorovat validator do requestu
+        $validator = Validator::make($request->input('items'), [
+            '*.type' => 'required|string',
+            '*.id'   => 'string',
         ]);
 
         // Return error
@@ -79,20 +80,20 @@ class TrashController extends Controller
             return Demo::response_204();
         }
 
-        foreach($request->input('data') as $restore_item) {
-    
+        foreach ($request->input('items') as $restore) {
+
             // Get folder
-            if ($restore_item['type'] === 'folder') {
+            if ($restore['type'] === 'folder') {
 
                 // Get folder
                 $item = Folder::onlyTrashed()
                     ->where('user_id', $user_id)
-                    ->where('unique_id', $restore_item['unique_id'])
+                    ->where('id', $restore['id'])
                     ->first();
 
                 // Restore item to home directory
                 if ($request->has('to_home') && $request->to_home) {
-                    $item->parent_id = 0;
+                    $item->parent_id = null;
                     $item->save();
                 }
             } else {
@@ -100,12 +101,12 @@ class TrashController extends Controller
                 // Get item
                 $item = File::onlyTrashed()
                     ->where('user_id', $user_id)
-                    ->where('unique_id', $restore_item['unique_id'])
+                    ->where('id', $restore['id'])
                     ->first();
 
                 // Restore item to home directory
                 if ($request->has('to_home') && $request->to_home) {
-                    $item->folder_id = 0;
+                    $item->folder_id = null;
                     $item->save();
                 }
             }
