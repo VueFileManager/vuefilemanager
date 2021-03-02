@@ -146,29 +146,29 @@ class Editor
 
         // Move file to local storage from external storage service
         if (!is_storage_driver('local')) {
-
-            foreach ($files as $file) {
+            $files->each(function ($file) use ($disk_local) {
                 try {
-                    $disk_local->put('temp/' . $file['basename'], Storage::get('files/' . $file['basename']));
+                    $disk_local->put("temp/$file->basename", Storage::get("files/$file->user_id/$file->basename"));
                 } catch (FileNotFoundException $e) {
                     throw new HttpException(404, 'File not found');
                 }
-            }
+            });
         }
 
         // Get zip path
         $zip_name = Str::random(16) . '.zip';
-        $zip_path = 'zip/' . $zip_name;
 
         // Create zip
-        $zip = Madzipper::make(storage_path() . '/app/' . $zip_path);
+        $zip = Madzipper::make($disk_local->path("zip/$zip_name"));
 
         // Get files folder on local storage drive
-        $files_directory = is_storage_driver('local') ? 'files' : 'temp';
+        $directory = is_storage_driver('local') ? 'files' : 'temp';
 
         // Add files to zip
-        $files->each(function ($file) use ($zip, $files_directory) {
-            $zip->addString($file['name'] . '.' . $file['mimetype'], File::get(storage_path() . '/app/' . $files_directory . '/' . $file['basename']));
+        $files->each(function ($file) use ($zip, $directory, $disk_local) {
+            $zip->addString(
+                "$file->name.$file->mimetype",
+                File::get($disk_local->path("/$directory/$file->user_id/$file->basename")));
         });
 
         // Close zip
@@ -176,9 +176,8 @@ class Editor
 
         // Delete temporary files
         if (!is_storage_driver('local')) {
-
             $files->each(function ($file) use ($disk_local) {
-                $disk_local->delete('temp/' . $file['basename']);
+                $disk_local->delete("temp/$file->basename");
             });
         }
 

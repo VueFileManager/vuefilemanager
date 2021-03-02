@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Tools\Guardian;
 use App\Http\Tools\Editor;
-use App\Folder;
-use App\File;
+use App\Models\Folder;
+use App\Models\File;
 use Exception;
 
 
@@ -109,7 +109,7 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             if ($request->type === 'folder') {
-                Guardian::check_item_access($item->unique_id, $shared);
+                Guardian::check_item_access($item->id, $shared);
             } else {
                 Guardian::check_item_access($item->folder_id, $shared);
             }
@@ -128,30 +128,30 @@ class EditItemsController extends Controller
      * Rename item for guest user with edit permission
      *
      * @param RenameItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @param $token
      * @return mixed
      * @throws Exception
      */
-    public function guest_rename_item(RenameItemRequest $request, $unique_id, $token)
+    public function guest_rename_item(RenameItemRequest $request, $id, $token)
     {
         // Get shared record
         $shared = get_shared($token);
 
         // Demo preview
         if (is_demo($shared->user_id)) {
-            return Demo::rename_item($request, $unique_id);
+            return Demo::rename_item($request, $id);
         }
 
         // Check shared permission
         if (!is_editor($shared)) abort(403);
 
         // Get file|folder item
-        $item = get_item($request->type, $unique_id, $shared->user_id);
+        $item = get_item($request->type, $id, $shared->user_id);
 
         // Check access to requested item
         if ($request->type === 'folder') {
-            Guardian::check_item_access($item->unique_id, $shared);
+            Guardian::check_item_access($item->id, $shared);
         } else {
             Guardian::check_item_access($item->folder_id, $shared);
         }
@@ -159,11 +159,11 @@ class EditItemsController extends Controller
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('icon')) {
 
-            Editor::set_folder_icon($request->icon, $unique_id, $shared);
+            Editor::set_folder_icon($request->icon, $id, $shared);
         }
 
         // Rename item
-        $item = Editor::rename_item($request, $unique_id, $shared);
+        $item = Editor::rename_item($request, $id, $shared);
 
         // Set public url
         if ($item->type !== 'folder') {
@@ -177,7 +177,7 @@ class EditItemsController extends Controller
      * Delete item for authenticated master|editor user
      *
      * @param DeleteItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws Exception
      */
@@ -224,7 +224,7 @@ class EditItemsController extends Controller
      * Delete item for guest user with edit permission
      *
      * @param DeleteItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @param $token
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws Exception
@@ -243,20 +243,20 @@ class EditItemsController extends Controller
         if (!is_editor($shared)) abort(403);
 
         foreach ($request->input('data') as $file) {
-            $unique_id = $file['unique_id'];
+            $id = $file['id'];
 
             // Get file|folder item
-            $item = get_item($file['type'], $unique_id, $shared->user_id);
+            $item = get_item($file['type'], $id, $shared->user_id);
 
             // Check access to requested item
             if ($file['type'] === 'folder') {
-                Guardian::check_item_access($item->unique_id, $shared);
+                Guardian::check_item_access($item->id, $shared);
             } else {
                 Guardian::check_item_access($item->folder_id, $shared);
             }
 
             // Delete item
-            Editor::delete_item($file, $unique_id, $shared);
+            Editor::delete_item($file, $id, $shared);
         }
         // Return response
         return response(null, 204);
@@ -330,10 +330,10 @@ class EditItemsController extends Controller
 /**
      * User download folder via zip
      *
-     * @param $unique_id
+     * @param $id
      * @return string
      */
-    public function user_zip_folder(Request $request,$unique_id)
+    public function user_zip_folder(Request $request,$id)
     {
         // Get user id
         $user_id = Auth::id();
@@ -348,18 +348,18 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-            Guardian::check_item_access($unique_id, $shared);
+            Guardian::check_item_access($id, $shared);
         }
 
         // Get folder
         $folder = Folder::whereUserId($user_id)
-            ->where('unique_id', $unique_id);
+            ->where('id', $id);
 
         if (! $folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = Editor::zip_folder($unique_id);
+        $zip = Editor::zip_folder($id);
 
         // Get file
         return response([
@@ -372,28 +372,28 @@ class EditItemsController extends Controller
      * Guest download folder via zip
      *
      * @param Request $request
-     * @param $unique_id
+     * @param $id
      * @param $token
      * @return string
      */
-    public function guest_zip_folder($unique_id, $token)
+    public function guest_zip_folder($id, $token)
     {
         // Get shared record
         $shared = get_shared($token);
 
         // Check access to requested folder
-        Guardian::check_item_access($unique_id, $shared);
+        Guardian::check_item_access($id, $shared);
 
         // Get folder
         $folder = Folder::whereUserId($shared->user_id)
-            ->where('unique_id', $unique_id);
+            ->where('id', $id);
             
 
         if (! $folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = Editor::zip_folder($unique_id, $shared);
+        $zip = Editor::zip_folder($id, $shared);
 
         // Get file
         return response([
@@ -423,7 +423,7 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             $file_parent_folders = File::whereUserId(Auth::id())
-                ->whereIn('unique_id', $request->input('files'))
+                ->whereIn('id', $request->input('files'))
                 ->get()
                 ->pluck('folder_id')
                 ->toArray();
@@ -434,7 +434,7 @@ class EditItemsController extends Controller
 
         // Get requested files
         $files = File::whereUserId(Auth::id())
-            ->whereIn('unique_id', $request->input('files'))
+            ->whereIn('id', $request->input('items'))
             ->get();
 
         $zip = Editor::zip_files($files);
@@ -443,7 +443,7 @@ class EditItemsController extends Controller
         return response([
             'url'  => route('zip', $zip->id),
             'name' => $zip->basename,
-        ], 200);
+        ], 201);
     }
 
     /**
@@ -459,7 +459,7 @@ class EditItemsController extends Controller
         $shared = get_shared($token);
 
         $file_parent_folders = File::whereUserId($shared->user_id)
-            ->whereIn('unique_id', $request->input('files'))
+            ->whereIn('id', $request->input('files'))
             ->get()
             ->pluck('folder_id')
             ->toArray();
@@ -469,7 +469,7 @@ class EditItemsController extends Controller
 
         // Get requested files
         $files = File::whereUserId($shared->user_id)
-            ->whereIn('unique_id', $request->input('files'))
+            ->whereIn('id', $request->input('files'))
             ->get();
 
         $zip = Editor::zip_files($files, $shared);
@@ -488,7 +488,7 @@ class EditItemsController extends Controller
      * Move item for authenticated master|editor user
      *
      * @param MoveItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
     public function user_move(MoveItemRequest $request)
@@ -523,7 +523,7 @@ class EditItemsController extends Controller
      * Move item for guest user with edit permission
      *
      * @param MoveItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @param $token
      * @return ResponseFactory|\Illuminate\Http\Response
      */
@@ -533,7 +533,7 @@ class EditItemsController extends Controller
         $shared = get_shared($token);
 
         //Unique id of Folder where move
-        $to_unique_id = $request->input('to_unique_id');
+        $to_id = $request->input('to_id');
 
         // Demo preview
         if (is_demo(Auth::id())) {
@@ -545,26 +545,26 @@ class EditItemsController extends Controller
 
         foreach ($request->input('items') as $item) {
 
-            $unique_id = $item['unique_id'];
-            $moving_unique_id = $unique_id;
+            $id = $item['id'];
+            $moving_id = $id;
 
 
             if ($item['type'] !== 'folder') {
-                $file = File::where('unique_id', $unique_id)
+                $file = File::where('id', $id)
                     ->where('user_id', $shared->user_id)
                     ->firstOrFail();
 
-                $moving_unique_id = $file->folder_id;
+                $moving_id = $file->folder_id;
             }
 
             // Check access to requested item
             Guardian::check_item_access([
-                $to_unique_id, $moving_unique_id
+                $to_id, $moving_id
             ], $shared);
         }
 
         // Move item
-        Editor::move($request, $to_unique_id, $shared);
+        Editor::move($request, $to_id, $shared);
 
         return response('Done!', 204);
     }

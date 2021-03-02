@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
+use App\Models\Zip;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
@@ -272,8 +273,46 @@ class FileTest extends TestCase
             });
     }
 
-    public function it_zip_and_download_multiple_files()
+    /**
+     * @test
+     */
+    public function it_zip_multiple_files_and_download_it()
     {
+        Storage::fake('local');
 
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        collect([0, 1])
+            ->each(function ($index) {
+
+                $file = UploadedFile::fake()
+                    ->create("fake-file-$index.pdf", 1200, 'application/pdf');
+
+                $this->postJson('/api/upload', [
+                    'file'      => $file,
+                    'folder_id' => null,
+                    'is_last'   => true,
+                ])->assertStatus(201);
+            });
+
+        $file_ids = File::all()->pluck('id');
+
+        $this->postJson("/api/zip", [
+            'items' => $file_ids,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('zips', [
+            'user_id' => $user->id
+        ]);
+
+        Storage::disk('local')
+            ->assertExists(
+                'zip/' . Zip::first()->basename
+            );
     }
 }
