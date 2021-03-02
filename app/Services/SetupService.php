@@ -13,23 +13,15 @@ class SetupService
      */
     public function create_directories()
     {
-        $system_directories = [
-            'avatars',
-            'chunks',
-            'system',
-            'files',
-            'temp',
-            'zip',
-        ];
+        collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip',])
+            ->each(function ($directory) {
 
-        foreach ($system_directories as $directory) {
+                // Create directory for local driver
+                Storage::disk('local')
+                    ->makeDirectory($directory);
 
-            // Create directory for local driver
-            Storage::disk('local')
-                ->makeDirectory($directory);
-
-            // Create directory for external driver
-            Storage::makeDirectory($directory);
-        }
+                // Create directory for external driver
+                Storage::makeDirectory($directory);
+            });
     }
 }
