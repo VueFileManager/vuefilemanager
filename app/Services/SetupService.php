@@ -13,7 +13,7 @@ class SetupService
      */
     public function create_directories()
     {
-        collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip',])
+        collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip'])
             ->each(function ($directory) {
 
                 // Create directory for local driver

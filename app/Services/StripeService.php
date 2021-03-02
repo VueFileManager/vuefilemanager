@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-use App\User;
+use App\Models\User;
 use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Folder;
+use App\Models\Folder;
 use App\Http\Tools\Editor;
 use App\Http\Tools\Guardian;
-use App\Share;
-use App\User;
-use App\Zip;
+use App\Models\Share;
+use App\Models\User;
+use App\Models\Zip;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use App\File;
+use App\Models\File as UserFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Exceptions\HttpResponseException;

@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\File;
-use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Sanctum\Sanctum;
@@ -70,23 +68,6 @@ class UserTest extends TestCase
         $this->postJson('/login', [
             'email'    => $user->email,
             'password' => 'secret',
-        ])->assertStatus(200);
-    }
-
-    /**
-     * @test
-     */
-    public function it_change_user_password_in_profile_settings()
-    {
-        $user = User::factory(User::class)
-            ->create();
-
-        Sanctum::actingAs($user);
-
-        $this->putJson('/user/password', [
-            'current_password'      => 'secret',
-            'password'              => 'VerySecretPassword',
-            'password_confirmation' => 'VerySecretPassword',
         ])->assertStatus(200);
     }
 
