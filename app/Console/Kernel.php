@@ -3,9 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\SetupDevEnvironment;
-use App\Share;
-use App\Zip;
-use Carbon\Carbon;
+use App\Services\SchedulerService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,12 +26,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            $this->delete_expired_shared_links();
+        $scheduler = app()->make(SchedulerService::class);
+
+        $schedule->call(function () use ($scheduler) {
+            $scheduler->delete_expired_shared_links();
         })->everyMinute();
 
-        $schedule->call(function () {
-            $this->delete_old_zips();
+        $schedule->call(function () use ($scheduler) {
+            $scheduler->delete_old_zips();
         })->everySixHours();
 
         // Run queue jobs every minute
@@ -52,43 +52,5 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
-    }
-
-    /**
-     * Delete old zips
-     */
-    protected function delete_old_zips(): void
-    {
-        // Get all zips
-        $zips = Zip::where('created_at', '<=', Carbon::now()->subDay()->toDateTimeString())->get();
-
-        $zips->each(function ($zip) {
-
-            // Delete zip file
-            \Storage::disk('local')->delete('zip/' . $zip->basename);
-
-            // Delete zip record
-            $zip->delete();
-        });
-    }
-
-    /**
-     * Get and delete expired shared links
-     */
-    protected function delete_expired_shared_links(): void
-    {
-        // Get all shares with expiration time
-        $shares = Share::whereNotNull('expire_in')->get();
-
-        $shares->each(function ($share) {
-
-            // Get dates
-            $created_at = Carbon::parse($share->created_at);
-
-            // If time was over, then delete share record
-            if ($created_at->diffInHours(Carbon::now()) >= $share->expire_in) {
-                $share->delete();
-            }
-        });
     }
 }
