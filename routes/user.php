@@ -17,7 +17,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/subscription', [SubscriptionController::class, 'show']);
     Route::get('/invoices', [AccountController::class, 'invoices']);
     Route::get('/storage', [AccountController::class, 'storage']);
-    Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/', [AccountController::class, 'user']);
 
     // Payment cards

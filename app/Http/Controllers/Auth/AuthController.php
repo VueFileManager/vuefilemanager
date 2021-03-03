@@ -102,30 +102,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout user entity
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        // Demo preview
-        if (is_demo(Auth::id())) {
-            return response('Logout successfull', 204)
-                ->cookie('access_token', '', -1);
-        }
-
-        // Get user tokens and remove it
-        auth()->user()->tokens()->each(function ($token) {
-
-            // Remove tokens
-            $token->delete();
-        });
-
-        return response('Logout successful', 204)
-            ->cookie('access_token', '', -1);
-    }
-
-    /**
      * Make login request for get access token
      *
      * @param Request $request

@@ -70,4 +70,18 @@ class AuthTest extends TestCase
             'password' => 'secret',
         ])->assertStatus(200);
     }
+
+    /**
+     * @test
+     */
+    public function it_logout_user()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/logout')
+            ->assertStatus(204);
+    }
 }
