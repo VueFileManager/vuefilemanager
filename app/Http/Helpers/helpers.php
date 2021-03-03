@@ -227,16 +227,12 @@ function is_editor($shared)
  * Store user avatar to storage
  *
  * @param $image
- * @param $path
  * @return string
  */
-function store_avatar($image, $path)
+function store_avatar($image)
 {
-    // Get directory
-    $path = check_directory($path);
-
     // Store avatar
-    $image_path = Str::random(8) . '-' . $image->getClientOriginalName();
+    $image_path = Str::random(16) . '-' . $image->getClientOriginalName();
 
     // Create intervention image
     $img = Image::make($image->getRealPath());
@@ -245,32 +241,28 @@ function store_avatar($image, $path)
     $img->fit('150', '150')->stream();
 
     // Store thumbnail to disk
-    Storage::put($path . '/' . $image_path, $img);
+    Storage::put("avatars/$image_path", $img);
 
     // Return path to image
-    return $path . '/' . $image_path;
+    return "avatars/$image_path";
 }
 
 /**
  * Store system image
  *
  * @param $image
- * @param $path
  * @return string
  */
-function store_system_image($image, $path)
+function store_system_image($image)
 {
-    // Get directory
-    $path = check_directory($path);
-
     // Store avatar
     $image_path = Str::random(8) . '-' . str_replace(' ', '', $image->getClientOriginalName());
 
     // Store image to disk
-    Storage::putFileAs($path, $image, $image_path);
+    Storage::putFileAs('system', $image, $image_path);
 
     // Return path to image
-    return $path . '/' . $image_path;
+    return `system/$image_path`;
 }
 
 /**

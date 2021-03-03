@@ -8,7 +8,7 @@ use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class AuthTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -69,25 +69,5 @@ class UserTest extends TestCase
             'email'    => $user->email,
             'password' => 'secret',
         ])->assertStatus(200);
-    }
-
-    /**
-     * @test
-     */
-    public function it_update_user_settings()
-    {
-        $user = User::factory(User::class)
-            ->create();
-
-        Sanctum::actingAs($user);
-
-        $this->patchJson('/api/user/relationships/settings', [
-            'name'  => 'address',
-            'value' => 'Jantar',
-        ])->assertStatus(204);
-
-        $this->assertDatabaseHas('user_settings', [
-            'address' => 'Jantar',
-        ]);
     }
 }

@@ -49,54 +49,11 @@ class AccountController extends Controller
      *
      * @return InvoiceCollection
      */
-    public function invoices() {
+    public function invoices()
+    {
         return new InvoiceCollection(
             Auth::user()->invoices()
         );
-    }
-
-    /**
-     * Update user profile
-     *
-     * @param Request $request
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function update_profile(Request $request)
-    {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'avatar' => 'file',
-            'name'   => 'string',
-            'value'  => 'string',
-        ]);
-
-        // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
-
-        // Get user
-        $user = Auth::user();
-
-        // Check if is demo
-        if (is_demo($user->id)) {
-            return Demo::response_204();
-        }
-
-        // Update data
-        if ($request->hasFile('avatar')) {
-
-            // Update avatar
-            $avatar = store_avatar($request->file('avatar'), 'avatars');
-
-            // Update data
-            $user->update(['avatar' => $avatar]);
-
-        } else {
-
-            // Update text data
-            $user->update(make_single_input($request));
-        }
-
-        return response('Saved!', 204);
     }
 
     /**
@@ -108,7 +65,9 @@ class AccountController extends Controller
     public function update_user_settings(Request $request)
     {
         // Validate request
+        // TODO: pridat validator do requestu
         $validator = Validator::make($request->all(), [
+            'avatar' => 'sometimes|file',
             'name'   => 'string',
             'value'  => 'string',
         ]);
@@ -124,7 +83,17 @@ class AccountController extends Controller
             return Demo::response_204();
         }
 
-        // Update text data
+        // Update avatar
+        if ($request->hasFile('avatar')) {
+            $user
+                ->settings()
+                ->update([
+                    'avatar' => store_avatar($request->file('avatar'))
+                ]);
+
+            return response('Saved!', 204);
+        }
+
         $user
             ->settings()
             ->update(

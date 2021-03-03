@@ -14,7 +14,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Account
     Route::patch('/relationships/settings', [AccountController::class, 'update_user_settings']);
     Route::post('/password', [AccountController::class, 'change_password']);
-    Route::patch('/profile', [AccountController::class, 'update_profile']);
     Route::get('/subscription', [SubscriptionController::class, 'show']);
     Route::get('/invoices', [AccountController::class, 'invoices']);
     Route::get('/storage', [AccountController::class, 'storage']);

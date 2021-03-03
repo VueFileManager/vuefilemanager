@@ -16,6 +16,7 @@ class CreateUserSettingsTable extends Migration
         Schema::create('user_settings', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->integer('storage_capacity')->default(5);
+            $table->string('avatar')->nullable();
             $table->text('name')->nullable();
             $table->text('address')->nullable();
             $table->text('state')->nullable();
