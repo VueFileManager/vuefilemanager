@@ -18,6 +18,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        // TODO: zrefaktorovat
         return [
             'data'          => [
                 'id'         => (string)$this->id,
@@ -27,9 +28,7 @@ class UserResource extends JsonResource
                     'subscription'         => $this->subscribed('main'),
                     'incomplete_payment'   => $this->hasIncompletePayment('main') ? route('cashier.payment', $this->subscription('main')->latestPayment()->id) : null,
                     'stripe_customer'      => is_null($this->stripe_id) ? false : true,
-                    'name'                 => $this->name,
                     'email'                => env('APP_DEMO') ? obfuscate_email($this->email) : $this->email,
-                    'avatar'               => $this->avatar,
                     'role'                 => $this->role,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
                     'created_at'           => $this->created_at,
@@ -39,16 +38,18 @@ class UserResource extends JsonResource
             'relationships' => [
                 'settings'   => [
                     'data' => [
-                        'id'         => (string)$this->settings->id,
+                        'id'         => $this->settings->user_id,
                         'type'       => 'settings',
                         'attributes' => [
-                            'billing_name'         => $this->settings->billing_name,
-                            'billing_address'      => $this->settings->billing_address,
-                            'billing_state'        => $this->settings->billing_state,
-                            'billing_city'         => $this->settings->billing_city,
-                            'billing_postal_code'  => $this->settings->billing_postal_code,
-                            'billing_country'      => $this->settings->billing_country,
-                            'billing_phone_number' => $this->settings->billing_phone_number,
+                            'avatar'               => $this->settings->avatar,
+                            'billing_name'         => $this->settings->name,
+                            'billing_address'      => $this->settings->address,
+                            'billing_state'        => $this->settings->state,
+                            'billing_city'         => $this->settings->city,
+                            'billing_postal_code'  => $this->settings->postal_code,
+                            'billing_country'      => $this->settings->country,
+                            'billing_phone_number' => $this->settings->phone_number,
+                            'timezone'             => $this->settings->timezone
                         ]
                     ]
                 ],
@@ -76,15 +77,6 @@ class UserResource extends JsonResource
                             'folders' => $this->folder_tree
                         ],
                     ],
-                ],
-                'timezone'  => [
-                    'data' => [
-                        'id'        => '1',
-                        'type'      => 'timezone',
-                        'attributes' => [
-                            'timezone'  =>$this->settings->timezone
-                        ],
-                    ]
                 ],
             ]
         ];
