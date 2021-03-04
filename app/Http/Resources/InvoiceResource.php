@@ -15,7 +15,7 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = User::where('stripe_id', $this->customer)
+        $user = User::whereStripeId($this->customer)
             ->first();
 
         return [

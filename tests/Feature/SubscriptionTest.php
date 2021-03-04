@@ -3,13 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Models\UserSettings;
-use App\Services\StripeService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Laravel\Cashier\Subscription;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -274,6 +269,28 @@ class SubscriptionTest extends TestCase
                         "ends_at"            => format_date(Carbon::now()->addMonth(), '%d. %B. %Y'),
                     ]
                 ]
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_user_invoices_from_admin()
+    {
+        $user = User::factory(User::class)
+            ->create($this->user);
+
+        Sanctum::actingAs($user);
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->getJson("/api/admin/users/$user->id/invoices")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'customer' => $this->user['stripe_id']
             ]);
     }
 }

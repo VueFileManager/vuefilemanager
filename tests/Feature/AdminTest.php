@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\File;
 use App\Models\Setting;
 use App\Models\User;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -120,6 +121,24 @@ class AdminTest extends TestCase
             ->assertJsonFragment([
                 'id' => $user->id,
             ]);
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_get_non_existed_user_subscription()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->getJson("/api/admin/users/$user->id/subscription")
+            ->assertStatus(404);
     }
 
     /**
