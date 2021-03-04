@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\File;
-use App\Folder;
+use App\Models\File;
+use App\Models\Folder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChangeRoleRequest;
 use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
@@ -14,18 +14,14 @@ use App\Http\Resources\UsersCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Resources\UserSubscription;
-use App\Http\Tools\Demo;
 use App\Services\StripeService;
-use App\Share;
-use App\User;
-use App\UserSettings;
+use App\Models\Share;
+use App\Models\User;
+use App\Models\UserSettings;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Storage;
 
 class UserController extends Controller
@@ -68,10 +64,10 @@ class UserController extends Controller
      */
     public function invoices($id)
     {
-        $user = User::find($id);
-
         return new InvoiceCollection(
-            $this->stripe->getUserInvoices($user)
+            $this->stripe->getUserInvoices(
+                User::find($id)
+            )
         );
     }
 
@@ -102,7 +98,8 @@ class UserController extends Controller
     public function users()
     {
         return new UsersCollection(
-            User::sortable(['created_at', 'DESC'])->paginate('20')
+            User::sortable(['created_at', 'DESC'])
+                ->paginate(20)
         );
     }
 
