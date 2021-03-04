@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\UserSettings;
 use App\Services\StripeService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -57,7 +58,7 @@ class SubscriptionTest extends TestCase
             'billing_city'         => 'Christianfort',
             'billing_country'      => 'SK',
             'billing_name'         => 'Heidi Romaguera PhD',
-            'billing_phone_number' => '',
+            'billing_phone_number' => '+421',
             'billing_postal_code'  => '59445',
             'billing_state'        => 'SK',
         ];
@@ -138,7 +139,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function it_resume_subscription()
     {
@@ -164,5 +165,45 @@ class SubscriptionTest extends TestCase
         $this->assertDatabaseHas('subscriptions', [
             'ends_at' => null
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_user_subscription()
+    {
+        $user = User::factory(User::class)
+            ->create($this->user);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/user/subscription/upgrade', [
+            'billing' => $this->billing,
+            'plan'    => $this->plan,
+            'payment' => [
+                'type' => 'stripe',
+            ],
+        ])->assertStatus(204);
+
+        $this->getJson('/api/user/subscription')
+            ->assertStatus(200)
+            ->assertExactJson([
+                "data" => [
+                    "id"         => "business-pack",
+                    "type"       => "subscription",
+                    "attributes" => [
+                        "incomplete"         => false,
+                        "active"             => true,
+                        "canceled"           => false,
+                        "name"               => "Business Packs",
+                        "capacity"           => 1000,
+                        "capacity_formatted" => "1TB",
+                        "slug"               => "business-pack",
+                        "canceled_at"        => format_date(Carbon::now(), '%d. %B. %Y'),
+                        "created_at"         => format_date(Carbon::now(), '%d. %B. %Y'),
+                        "ends_at"            => format_date(Carbon::now()->addMonth(), '%d. %B. %Y'),
+                    ]
+                ]
+            ]);
     }
 }

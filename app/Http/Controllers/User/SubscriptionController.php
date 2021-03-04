@@ -47,25 +47,25 @@ class SubscriptionController extends Controller
     /**
      * Get user subscription detail
      *
-     * @return array
+     * @return void
      */
     public function show()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         if (!$user->subscription('main')) {
             return abort(204, 'User don\'t have any subscription');
         }
 
-        $slug_user_subscription = 'subscription-user-' . $user->id;
+        $slug = 'subscription-user-' . $user->id;
 
-        if (Cache::has($slug_user_subscription)) {
-            return Cache::get($slug_user_subscription);
+        if (Cache::has($slug)) {
+            return Cache::get($slug);
         }
 
-        return Cache::rememberForever($slug_user_subscription, function () {
+        return Cache::rememberForever($slug, function () use ($user) {
             return new UserSubscription(
-                Auth::user()
+                $user
             );
         });
     }
