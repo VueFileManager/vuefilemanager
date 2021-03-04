@@ -18,44 +18,28 @@ class User extends Authenticatable
 {
     use Notifiable, Billable, Sortable, HasFactory, HasApiTokens;
 
-    protected $guarded = ['id', 'role'];
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password', 'avatar',
+    protected $guarded = [
+        'id',
+        'role'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    protected $fillable = [
+        'email', 'password',
+    ];
+
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     protected $appends = [
-        'used_capacity', 'storage'
+        'used_capacity',
+        'storage'
     ];
 
-    /**
-     * Sortable columns
-     *
-     * @var string[]
-     */
     public $sortable = [
         'id',
         'name',
@@ -142,26 +126,6 @@ class User extends Authenticatable
             ->where('user_id', $this->id)
             ->sortable()
             ->get();
-    }
-
-    /**
-     * Format avatar to full url
-     *
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
-     */
-    public function getAvatarAttribute()
-    {
-        // Get avatar from external storage
-        if ($this->attributes['avatar'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
-            return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
-        }
-
-        // Get avatar from local storage
-        if ($this->attributes['avatar']) {
-            return url('/' . $this->attributes['avatar']);
-        }
-
-        return url('/assets/images/' . 'default-avatar.png');
     }
 
     /**

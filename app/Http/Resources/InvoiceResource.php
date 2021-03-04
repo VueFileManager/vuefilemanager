@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvoiceResource extends JsonResource
@@ -15,29 +15,8 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = User::where('stripe_id', $this->customer)->first();
-        $invoice_items = [];
-        $invoice_subscriptions = [];
-
-        // Format bag
-        foreach ($this->invoiceItems() as $item) {
-            array_push($invoice_items, [
-                'amount'      => $item->total(),
-                'description' => $item->description,
-                'currency'    => $item->currency,
-                'type'        => $item->type,
-            ]);
-        }
-
-        // Format bag
-        foreach ($this->subscriptions() as $item) {
-            array_push($invoice_subscriptions, [
-                'amount'      => $item->total(),
-                'description' => $item->description,
-                'currency'    => $item->currency,
-                'type'        => $item->type,
-            ]);
-        }
+        $user = User::where('stripe_id', $this->customer)
+            ->first();
 
         return [
             'data' => [
@@ -50,31 +29,69 @@ class InvoiceResource extends JsonResource
                     'created_at_formatted'  => format_date($this->date(), '%d. %B. %Y'),
                     'created_at'            => $this->created,
                     'order'                 => $this->number,
-                    'user_id'               => $user ? $user->id : null,
+                    'user_id'               => $user->id ?? null,
                     'client'                => [
                         'billing_address'      => $this->customer_address,
                         'billing_name'         => $this->customer_name,
                         'billing_phone_number' => $this->customer_phone,
                     ],
                     'seller'                => null,
-                    'invoice_items'         => $invoice_items,
-                    'invoice_subscriptions' => $invoice_subscriptions,
-                ]
-            ],
-            $this->mergeWhen($user, [
-                'relationships' => [
-                    'user' => [
-                        'data' => [
-                            'id'         => (string)$user->id,
-                            'type'       => 'user',
-                            'attributes' => [
-                                'name'   => $user->name,
-                                'avatar' => $user->avatar,
+                    'invoice_items'         => $this->get_invoice_items(),
+                    'invoice_subscriptions' => $this->get_invoice_subscriptions(),
+                ],
+                $this->mergeWhen($user, [
+                    'relationships' => [
+                        'user' => [
+                            'data' => [
+                                'id'         => $user->id,
+                                'type'       => 'user',
+                                'attributes' => [
+                                    'name'   => $user->settings->name,
+                                    'avatar' => $user->settings->avatar,
+                                ]
                             ]
                         ]
                     ]
-                ]
-            ]),
+                ]),
+            ],
         ];
+    }
+
+    /**
+     * @return array
+     */
+    private function get_invoice_subscriptions(): array
+    {
+        $array = [];
+
+        foreach ($this->subscriptions() as $item) {
+            array_push($array, [
+                'amount'      => $item->total(),
+                'description' => $item->description,
+                'currency'    => $item->currency,
+                'type'        => $item->type,
+            ]);
+        }
+
+        return $array;
+    }
+
+    /**
+     * @return array
+     */
+    private function get_invoice_items(): array
+    {
+        $array = [];
+
+        foreach ($this->invoiceItems() as $item) {
+            array_push($array, [
+                'amount'      => $item->total(),
+                'description' => $item->description,
+                'currency'    => $item->currency,
+                'type'        => $item->type,
+            ]);
+        }
+
+        return $array;
     }
 }

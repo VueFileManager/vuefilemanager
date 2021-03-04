@@ -14,17 +14,11 @@ class UserSubscription extends JsonResource
      */
     public function toArray($request)
     {
-        $stripe = resolve('App\Services\StripeService');
+        $active_subscription = $this->subscription('main')
+            ->asStripeSubscription();
 
-        $active_subscription = $this->subscription('main')->asStripeSubscription();
-
-        // Get subscription details
-        $subscription = $stripe->getPlan($this->subscription('main')->stripe_plan);
-
-        // Retrieve the timestamp from Stripe
-        $current_period_end = $active_subscription["current_period_end"];
-        $current_period_start = $active_subscription["current_period_start"];
-        $canceled_at = $active_subscription["canceled_at"];
+        $subscription = resolve('App\Services\StripeService')
+            ->getPlan($this->subscription('main')->stripe_plan);
 
         return [
             'data' => [
@@ -38,9 +32,9 @@ class UserSubscription extends JsonResource
                     'capacity'           => (int)$subscription['product']['metadata']['capacity'],
                     'capacity_formatted' => format_gigabytes($subscription['product']['metadata']['capacity']),
                     'slug'               => $subscription['plan']['id'],
-                    'canceled_at'        => format_date($canceled_at, '%d. %B. %Y'),
-                    'created_at'         => format_date($current_period_start, '%d. %B. %Y'),
-                    'ends_at'            => format_date($current_period_end, '%d. %B. %Y'),
+                    'canceled_at'        => format_date($active_subscription["canceled_at"], '%d. %B. %Y'),
+                    'created_at'         => format_date($active_subscription["current_period_start"], '%d. %B. %Y'),
+                    'ends_at'            => format_date($active_subscription["current_period_end"], '%d. %B. %Y'),
                 ]
             ]
         ];

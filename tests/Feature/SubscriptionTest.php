@@ -168,9 +168,9 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
-    public function it_get_user_subscription()
+    public function it_get_user_subscription_details()
     {
         $user = User::factory(User::class)
             ->create($this->user);
@@ -204,6 +204,31 @@ class SubscriptionTest extends TestCase
                         "ends_at"            => format_date(Carbon::now()->addMonth(), '%d. %B. %Y'),
                     ]
                 ]
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_user_invoices()
+    {
+        $user = User::factory(User::class)
+            ->create($this->user);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/user/subscription/upgrade', [
+            'billing' => $this->billing,
+            'plan'    => $this->plan,
+            'payment' => [
+                'type' => 'stripe',
+            ],
+        ])->assertStatus(204);
+
+        $this->getJson('/api/user/invoices')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'customer' => $this->user['stripe_id']
             ]);
     }
 }
