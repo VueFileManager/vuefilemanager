@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\File;
+use App\Models\File;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsersCollection;
 use App\Services\StripeService;
-use App\Setting;
-use App\User;
+use App\Models\User;
 use ByteUnits\Metric;
-use Illuminate\Http\Request;
+use DB;
 use Laravel\Cashier\Subscription;
 
 class DashboardController extends Controller
@@ -29,26 +28,21 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Get total users
-        $total_users = User::all()->count();
-
-        // Get total used space
-        $total_used_space = File::all()->map(function ($item) {
-            return (int)$item->getRawOriginal('filesize');
-        })->sum();
-
         // Get total premium users
-        $total_premium_users = Subscription::where('stripe_status', 'active')->get()->count();
+        $premium_users = Subscription::whereStripeStatus('active')
+            ->count();
 
-        // Get License
-        $license = Setting::where('name', 'license')->first();
+        // Get total storage usage
+        $storage_usage = Metric::bytes(
+            DB::table('files')->sum('filesize')
+        )->format();
 
         return [
-            'license'             => $license ? $license->value : null,
+            'license'             => get_setting('license'),
             'app_version'         => config('vuefilemanager.version'),
-            'total_users'         => $total_users,
-            'total_used_space'    => Metric::bytes($total_used_space)->format(),
-            'total_premium_users' => $total_premium_users,
+            'total_users'         => User::count(),
+            'total_used_space'    => $storage_usage,
+            'total_premium_users' => $premium_users,
         ];
     }
 
@@ -57,10 +51,11 @@ class DashboardController extends Controller
      *
      * @return UsersCollection
      */
-    public function new_registrations()
+    public function newbies()
     {
         return new UsersCollection(
-            User::sortable(['created_at' => 'desc'])->paginate(10)
+            User::sortable(['created_at' => 'desc'])
+                ->paginate(10)
         );
     }
 }

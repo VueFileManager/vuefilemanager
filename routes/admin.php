@@ -10,7 +10,7 @@ use App\Http\Controllers\SettingController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
-    Route::get('/new-users', [DashboardController::class, 'new_registrations']);
+    Route::get('/newbies', [DashboardController::class, 'newbies']);
     Route::get('/', [DashboardController::class, 'index']);
 });
 

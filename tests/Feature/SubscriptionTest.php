@@ -208,7 +208,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function it_get_user_invoices()
     {
