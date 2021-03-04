@@ -136,7 +136,7 @@ class AdminTest extends TestCase
                     ->create([
                         'user_id'  => $user->id,
                         'type'     => $mimetype,
-                        'mimetype'     => $mimetype,
+                        'mimetype' => $mimetype,
                         'filesize' => 1000000,
                     ]);
             });

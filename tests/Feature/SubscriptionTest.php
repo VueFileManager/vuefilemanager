@@ -231,4 +231,49 @@ class SubscriptionTest extends TestCase
                 'customer' => $this->user['stripe_id']
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function it_get_user_subscription_from_admin()
+    {
+        $user = User::factory(User::class)
+            ->create($this->user);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/user/subscription/upgrade', [
+            'billing' => $this->billing,
+            'plan'    => $this->plan,
+            'payment' => [
+                'type' => 'stripe',
+            ],
+        ])->assertStatus(204);
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->getJson("/api/admin/users/$user->id/subscription")
+            ->assertStatus(200)
+            ->assertExactJson([
+                "data" => [
+                    "id"         => "business-pack",
+                    "type"       => "subscription",
+                    "attributes" => [
+                        "incomplete"         => false,
+                        "active"             => true,
+                        "canceled"           => false,
+                        "name"               => "Business Packs",
+                        "capacity"           => 1000,
+                        "capacity_formatted" => "1TB",
+                        "slug"               => "business-pack",
+                        "canceled_at"        => format_date(Carbon::now(), '%d. %B. %Y'),
+                        "created_at"         => format_date(Carbon::now(), '%d. %B. %Y'),
+                        "ends_at"            => format_date(Carbon::now()->addMonth(), '%d. %B. %Y'),
+                    ]
+                ]
+            ]);
+    }
 }

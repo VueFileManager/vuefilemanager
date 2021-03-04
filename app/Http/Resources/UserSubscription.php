@@ -17,6 +17,7 @@ class UserSubscription extends JsonResource
         $active_subscription = $this->subscription('main')
             ->asStripeSubscription();
 
+        // TODO: vybrat z cache
         $subscription = resolve('App\Services\StripeService')
             ->getPlan($this->subscription('main')->stripe_plan);
 
