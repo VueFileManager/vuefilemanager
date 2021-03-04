@@ -16,7 +16,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 // Users
 Route::group(['prefix' => 'users'], function () {
-    Route::post('/{id}/send-password-email', [UserController::class, 'send_password_reset_email']);
+    Route::post('/{id}/reset-password', [UserController::class, 'reset_password']);
     Route::patch('/{id}/capacity', [UserController::class, 'change_storage_capacity']);
     Route::get('/{id}/subscription', [UserController::class, 'subscription']);
     Route::delete('/{id}/delete', [UserController::class, 'delete_user']);

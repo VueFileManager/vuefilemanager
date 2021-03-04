@@ -18,7 +18,9 @@ use App\Services\StripeService;
 use App\Models\Share;
 use App\Models\User;
 use App\Models\UserSettings;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -75,18 +77,18 @@ class UserController extends Controller
      * Get user subscription details
      *
      * @param $id
-     * @return UserSubscription
+     * @return UserSubscription|Application|ResponseFactory|Response
      */
     public function subscription($id)
     {
         $user = User::find($id);
 
         if (! $user->stripeId() || ! $user->subscription('main')) {
-            return response('User doesn\'t have any subscription.', 404);
+            return response("User doesn't have any subscription.", 404);
         }
 
         return new UserSubscription(
-            User::find($id)
+            $user
         );
     }
 
@@ -146,9 +148,9 @@ class UserController extends Controller
      * Send user password reset link
      *
      * @param $id
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
-    public function send_password_reset_email($id)
+    public function reset_password($id)
     {
         $user = User::findOrFail($id);
 
@@ -158,7 +160,8 @@ class UserController extends Controller
         }
 
         // Get password token
-        $token = Password::getRepository()->create($user);
+        $token = Password::getRepository()
+            ->create($user);
 
         // Send user email
         $user->sendPasswordResetNotification($token);
@@ -202,7 +205,7 @@ class UserController extends Controller
      *
      * @param DeleteUserRequest $request
      * @param $id
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      * @throws \Exception
      */
     public function delete_user(DeleteUserRequest $request, $id)

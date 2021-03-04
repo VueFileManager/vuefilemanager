@@ -5,13 +5,11 @@ namespace Tests\Feature;
 use App\Models\File;
 use App\Models\Setting;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Notifications\ResetPassword;
 use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Notification;
 use Laravel\Sanctum\Sanctum;
-use Stripe\Subscription;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -200,5 +198,26 @@ class AdminTest extends TestCase
                     ]
                 ]
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_send_reset_password_for_user()
+    {
+        Notification::fake();
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->postJson("/api/admin/users/$user->id/reset-password")
+            ->assertStatus(204);
+
+        Notification::assertTimesSent(1, ResetPassword::class);
     }
 }
