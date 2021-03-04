@@ -82,7 +82,7 @@ class UserController extends Controller
      */
     public function subscription(User $user)
     {
-        if (! $user->stripeId() || ! $user->subscription('main')) {
+        if (!$user->stripeId() || !$user->subscription('main')) {
             return response("User doesn't have any subscription.", 404);
         }
 
@@ -174,57 +174,53 @@ class UserController extends Controller
      * Create new user by admin
      *
      * @param CreateUserByAdmin $request
-     * @return UserResource
+     * @return UserResource|Application|ResponseFactory|Response
      */
     public function create_user(CreateUserByAdmin $request)
     {
         // Store avatar
         if ($request->hasFile('avatar')) {
-            $avatar = store_avatar($request->file('avatar'), 'avatars');
+            $avatar = store_avatar($request->file('avatar'));
         }
 
         // Create user
         $user = User::forceCreate([
-            'avatar'   => $request->hasFile('avatar') ? $avatar : null,
-            'name'     => $request->name,
             'role'     => $request->role,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         // Create settings
-        UserSettings::forceCreate([
-            'user_id'          => $user->id,
-            'storage_capacity' => $request->storage_capacity,
-        ]);
+        $user
+            ->settings()
+            ->create([
+                'name'             => $request->name,
+                'avatar'           => $avatar ?? null,
+                'storage_capacity' => $request->storage_capacity,
+            ]);
 
-        return new UserResource($user);
+        return response(new UserResource($user), 201);
     }
 
     /**
      * Delete user with all user data
      *
      * @param DeleteUserRequest $request
-     * @param $id
+     * @param User $user
      * @return ResponseFactory|Response
-     * @throws \Exception
      */
-    public function delete_user(DeleteUserRequest $request, $id)
+    public function delete_user(DeleteUserRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-
-        if ($user->subscribed('main')) {
-            abort(202, 'You can\'t delete this account while user have active subscription.');
-        }
-
-        // Demo preview
         if (env('APP_DEMO')) {
             return response('Done!', 204);
         }
 
-        // Check for self deleted account
+        if ($user->subscribed('main')) {
+            abort(202, "You can\'t delete this account while user have active subscription.");
+        }
+
         if ($user->id === Auth::id()) {
-            abort(406, 'You can\'t delete your account');
+            abort(406, "You can\'t delete your account");
         }
 
         // Validate user name

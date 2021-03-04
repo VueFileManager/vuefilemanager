@@ -8,8 +8,10 @@ use App\Models\User;
 use App\Notifications\ResetPassword;
 use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\UploadedFile;
 use Notification;
 use Laravel\Sanctum\Sanctum;
+use Storage;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -120,7 +122,6 @@ class AdminTest extends TestCase
                 'id' => $user->id,
             ]);
     }
-
 
     /**
      * @test
@@ -266,5 +267,42 @@ class AdminTest extends TestCase
         ])->assertStatus(200);
 
         $this->assertTrue(User::find($user->id)->role === 'admin');
+    }
+
+    /**
+     * @test
+     */
+    public function it_create_new_user_with_avatar()
+    {
+        Storage::fake('local');
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->postJson("/api/admin/users/create", [
+            'name'                  => 'John Doe',
+            'role'                  => 'user',
+            'email'                 => 'john@doe.com',
+            'password'              => 'VerySecretPassword',
+            'storage_capacity'      => 15,
+            'password_confirmation' => 'VerySecretPassword',
+            'avatar'                => $avatar,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'john@doe.com'
+        ]);
+
+        $this->assertDatabaseHas('user_settings', [
+            'name' => 'John Doe'
+        ]);
+
+        Storage::disk('local')
+            ->assertExists(User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar'));
     }
 }
