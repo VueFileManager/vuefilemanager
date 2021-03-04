@@ -228,7 +228,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function it_get_user_subscription_from_admin()
     {
@@ -273,7 +273,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function it_get_user_invoices_from_admin()
     {

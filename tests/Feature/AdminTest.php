@@ -220,4 +220,51 @@ class AdminTest extends TestCase
 
         Notification::assertTimesSent(1, ResetPassword::class);
     }
+
+    /**
+     * @test
+     */
+    public function it_change_user_storage_capacity()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->patchJson("/api/admin/users/$user->id/capacity", [
+            'attributes' => [
+                'storage_capacity' => 10
+            ]
+        ])->assertStatus(200);
+
+        $this->assertDatabaseHas('user_settings', [
+            'user_id'          => $user->id,
+            'storage_capacity' => 10,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_change_user_role()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->patchJson("/api/admin/users/$user->id/role", [
+            'attributes' => [
+                'role' => 'admin'
+            ]
+        ])->assertStatus(200);
+
+        $this->assertTrue(User::find($user->id)->role === 'admin');
+    }
 }

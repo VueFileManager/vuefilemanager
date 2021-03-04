@@ -83,7 +83,7 @@ class UserAccountTest extends TestCase
         ])->assertStatus(204);
 
         Storage::disk('local')
-            ->assertExists($user->settings->avatar);
+            ->assertExists($user->settings->getRawOriginal('avatar'));
     }
 
     /**

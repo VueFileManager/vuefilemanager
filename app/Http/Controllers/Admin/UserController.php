@@ -36,39 +36,40 @@ class UserController extends Controller
     /**
      * Get user details
      *
-     * @param $id
+     * @param User $user
      * @return UserResource
      */
-    public function details($id)
+    public function details(User $user)
     {
         return new UserResource(
-            User::findOrFail($id)
+            $user
         );
     }
 
     /**
      * Get user storage details
      *
-     * @param $id
+     * @param User $user
      * @return UserStorageResource
      */
-    public function storage($id)
+    public function storage(User $user)
     {
         return new UserStorageResource(
-            User::findOrFail($id)
+            $user
         );
     }
 
     /**
      * Get user storage details
      *
+     * @param User $user
      * @return InvoiceCollection
      */
-    public function invoices($id)
+    public function invoices(User $user)
     {
         return new InvoiceCollection(
             $this->stripe->getUserInvoices(
-                User::find($id)
+                $user
             )
         );
     }
@@ -76,13 +77,11 @@ class UserController extends Controller
     /**
      * Get user subscription details
      *
-     * @param $id
+     * @param User $user
      * @return UserSubscription|Application|ResponseFactory|Response
      */
-    public function subscription($id)
+    public function subscription(User $user)
     {
-        $user = User::find($id);
-
         if (! $user->stripeId() || ! $user->subscription('main')) {
             return response("User doesn't have any subscription.", 404);
         }
@@ -109,15 +108,13 @@ class UserController extends Controller
      * Change user role
      *
      * @param ChangeRoleRequest $request
-     * @param $id
+     * @param User $user
      * @return UserResource
      */
-    public function change_role(ChangeRoleRequest $request, $id)
+    public function change_role(ChangeRoleRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         // Demo preview
-        if (env('APP_DEMO') && $id == 1) {
+        if (env('APP_DEMO') && $user->id == 1) {
             return new UserResource($user);
         }
 
@@ -125,35 +122,39 @@ class UserController extends Controller
         $user->role = $request->input('attributes.role');
         $user->save();
 
-        return new UserResource($user);
+        return new UserResource(
+            $user
+        );
     }
 
     /**
      * Change user storage capacity
      *
      * @param ChangeStorageCapacityRequest $request
-     * @param $id
+     * @param User $user
      * @return UserStorageResource
      */
-    public function change_storage_capacity(ChangeStorageCapacityRequest $request, $id)
+    public function change_storage_capacity(ChangeStorageCapacityRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
+        $user
+            ->settings()
+            ->update(
+                $request->input('attributes')
+            );
 
-        $user->settings()->update($request->input('attributes'));
-
-        return new UserStorageResource($user);
+        return new UserStorageResource(
+            $user
+        );
     }
 
     /**
      * Send user password reset link
      *
-     * @param $id
+     * @param User $user
      * @return ResponseFactory|Response
      */
-    public function reset_password($id)
+    public function reset_password(User $user)
     {
-        $user = User::findOrFail($id);
-
         // Demo preview
         if (env('APP_DEMO')) {
             return response('Done!', 204);

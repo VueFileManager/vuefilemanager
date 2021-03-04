@@ -16,15 +16,15 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 // Users
 Route::group(['prefix' => 'users'], function () {
-    Route::post('/{id}/reset-password', [UserController::class, 'reset_password']);
-    Route::patch('/{id}/capacity', [UserController::class, 'change_storage_capacity']);
-    Route::get('/{id}/subscription', [UserController::class, 'subscription']);
-    Route::delete('/{id}/delete', [UserController::class, 'delete_user']);
-    Route::patch('/{id}/role', [UserController::class, 'change_role']);
-    Route::get('/{id}/invoices', [UserController::class, 'invoices']);
-    Route::get('/{id}/storage', [UserController::class, 'storage']);
+    Route::patch('/{user}/capacity', [UserController::class, 'change_storage_capacity']);
+    Route::post('/{user}/reset-password', [UserController::class, 'reset_password']);
+    Route::get('/{user}/subscription', [UserController::class, 'subscription']);
+    Route::delete('/{user}/delete', [UserController::class, 'delete_user']);
+    Route::patch('/{user}/role', [UserController::class, 'change_role']);
+    Route::get('/{user}/invoices', [UserController::class, 'invoices']);
+    Route::get('/{user}/storage', [UserController::class, 'storage']);
+    Route::get('/{user}/detail', [UserController::class, 'details']);
     Route::post('/create', [UserController::class, 'create_user']);
-    Route::get('/{id}/detail', [UserController::class, 'details']);
     Route::get('/', [UserController::class, 'users']);
 });
 
