@@ -139,7 +139,7 @@ class SubscriptionController extends Controller
      */
     public function resume()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Check if is demo
         if (is_demo($user->id)) {
