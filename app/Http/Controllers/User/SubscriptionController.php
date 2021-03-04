@@ -7,6 +7,7 @@ use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
 use App\Http\Resources\UserSubscription;
 use App\Http\Tools\Demo;
 use App\Invoice;
+use App\Models\User;
 use App\Services\StripeService;
 use Auth;
 use Cartalyst\Stripe\Exception\CardErrorException;
@@ -14,6 +15,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Exceptions\IncompletePayment;
+use Laravel\Cashier\Subscription;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SubscriptionController extends Controller
@@ -34,11 +36,12 @@ class SubscriptionController extends Controller
      *
      * @return \Stripe\SetupIntent
      */
-    public function stripe_setup_intent()
+    public function setup_intent()
     {
-        $user = Auth::user();
-
-        return $this->stripe->getSetupIntent($user);
+        return $this->stripe
+            ->getSetupIntent(
+                Auth::user()
+            );
     }
 
     /**
@@ -50,7 +53,7 @@ class SubscriptionController extends Controller
     {
         $user = Auth::user();
 
-        if (! $user->subscription('main')) {
+        if (!$user->subscription('main')) {
             return abort(204, 'User don\'t have any subscription');
         }
 
@@ -113,7 +116,7 @@ class SubscriptionController extends Controller
      */
     public function cancel()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Check if is demo
         if (is_demo($user->id)) {

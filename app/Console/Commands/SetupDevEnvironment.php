@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Page;
+use App\Models\Page;
 use App\Services\SetupService;
-use App\Setting;
-use App\User;
+use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Faker;
@@ -66,7 +66,6 @@ class SetupDevEnvironment extends Command
     {
         $user = User::forceCreate([
             'role'     => 'admin',
-            'name'     => 'John Doe',
             'email'    => 'john@doe.com',
             'password' => Hash::make('secret'),
         ]);

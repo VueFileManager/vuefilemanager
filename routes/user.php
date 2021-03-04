@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Subscription
     Route::group(['prefix' => 'subscription'], function () {
-        Route::get('/setup-intent', [SubscriptionController::class, 'stripe_setup_intent']);
+        Route::get('/setup-intent', [SubscriptionController::class, 'setup_intent']);
         Route::post('/upgrade', [SubscriptionController::class, 'upgrade']);
         Route::post('/cancel', [SubscriptionController::class, 'cancel']);
         Route::post('/resume', [SubscriptionController::class, 'resume']);

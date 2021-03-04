@@ -21,5 +21,12 @@ class Page extends Model
         'visibility',
     ];
 
+    public $fillable = [
+        'slug',
+        'title',
+        'visibility',
+        'content',
+    ];
+
     public $timestamps = false;
 }

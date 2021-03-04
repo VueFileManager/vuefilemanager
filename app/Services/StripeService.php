@@ -4,7 +4,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Exceptions\IncompletePayment;
@@ -20,18 +19,6 @@ class StripeService
     public function __construct()
     {
         $this->stripe = Stripe::make(config('cashier.secret'), '2020-03-02');
-    }
-
-    /**
-     * Get Stripe account details
-     *
-     * @return mixed
-     */
-    public function getAccountDetails()
-    {
-        $account = $this->stripe->account()->details();
-
-        return $account;
     }
 
     /**
@@ -55,9 +42,9 @@ class StripeService
      */
     public function getTaxRates()
     {
-        $tax_rates = $this->stripe->taxRates()->all();
-
-        return $tax_rates['data'];
+        return $this->stripe
+            ->taxRates()
+            ->all()['data'];
     }
 
     /**
@@ -171,14 +158,14 @@ class StripeService
     public function updateCustomerDetails($user)
     {
         $user->updateStripeCustomer([
-            'name'    => $user->settings->billing_name,
-            'phone'   => $user->settings->billing_phone_number,
+            'name'    => $user->settings->name,
+            'phone'   => $user->settings->phone_number,
             'address' => [
-                'line1'       => $user->settings->billing_address,
-                'city'        => $user->settings->billing_city,
-                'country'     => $user->settings->billing_country,
-                'postal_code' => $user->settings->billing_postal_code,
-                'state'       => $user->settings->billing_state,
+                'line1'       => $user->settings->address,
+                'city'        => $user->settings->city,
+                'country'     => $user->settings->country,
+                'postal_code' => $user->settings->postal_code,
+                'state'       => $user->settings->state,
             ]
         ]);
     }

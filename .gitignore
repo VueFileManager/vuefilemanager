@@ -10,6 +10,7 @@
 .idea
 .env
 .env.backup
+.env.testing
 .phpunit.result.cache
 .phpstorm.meta.php
 .vscode/

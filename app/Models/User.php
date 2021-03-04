@@ -173,13 +173,13 @@ class User extends Authenticatable
     public function setBilling($billing)
     {
         $this->settings()->update([
-            'billing_address'      => $billing['billing_address'],
-            'billing_city'         => $billing['billing_city'],
-            'billing_country'      => $billing['billing_country'],
-            'billing_name'         => $billing['billing_name'],
-            'billing_phone_number' => $billing['billing_phone_number'],
-            'billing_postal_code'  => $billing['billing_postal_code'],
-            'billing_state'        => $billing['billing_state'],
+            'address'      => $billing['billing_address'],
+            'city'         => $billing['billing_city'],
+            'country'      => $billing['billing_country'],
+            'name'         => $billing['billing_name'],
+            'phone_number' => $billing['billing_phone_number'],
+            'postal_code'  => $billing['billing_postal_code'],
+            'state'        => $billing['billing_state'],
         ]);
 
         return $this->settings;

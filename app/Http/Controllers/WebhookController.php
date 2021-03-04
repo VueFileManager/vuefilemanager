@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\StripeService;
-use App\Setting;
-use App\User;
-use Illuminate\Http\Request;
+use App\Models\Setting;
+use App\Models\User;
 
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
@@ -33,13 +32,19 @@ class WebhookController extends CashierController
         }
 
         // Get user
-        $user = User::where('stripe_id', $payload['data']['object']['customer'])->firstOrFail();
+        $user = User::where('stripe_id', $payload['data']['object']['customer'])
+            ->firstOrFail();
 
         // Get default storage capacity
-        $default_storage = Setting::where('name', 'storage_default')->first();
+        $default_storage = Setting::where('name', 'storage_default')
+            ->first();
 
         // Update storage capacity
-        $user->settings()->update(['storage_capacity' => $default_storage->value]);
+        $user
+            ->settings()
+            ->update([
+                'storage_capacity' => $default_storage->value
+            ]);
 
         return $this->successMethod();
     }
@@ -53,15 +58,18 @@ class WebhookController extends CashierController
     public function handleInvoicePaymentSucceeded($payload)
     {
         // Get user
-        $user = User::where('stripe_id', $payload['data']['object']['customer'])->firstOrFail();
+        $user = User::where('stripe_id', $payload['data']['object']['customer'])
+            ->firstOrFail();
 
         // Get requested plan
         $plan = $this->stripe->getPlan($user->subscription('main')->stripe_plan);
 
         // Update user storage limit
-        $user->settings()->update([
-            'storage_capacity' => $plan['product']['metadata']['capacity']
-        ]);
+        $user
+            ->settings()
+            ->update([
+                'storage_capacity' => $plan['product']['metadata']['capacity']
+            ]);
 
         return $this->successMethod();
     }
