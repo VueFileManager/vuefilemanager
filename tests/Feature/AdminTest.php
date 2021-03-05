@@ -3,9 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\File;
+use App\Models\Folder;
 use App\Models\Setting;
+use App\Models\Share;
 use App\Models\User;
+use App\Models\Zip;
 use App\Notifications\ResetPassword;
+use App\Services\SetupService;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
@@ -17,6 +22,12 @@ use Tests\TestCase;
 class AdminTest extends TestCase
 {
     use DatabaseMigrations;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setup = app()->make(SetupService::class);
+    }
 
     /**
      * @test
@@ -303,6 +314,125 @@ class AdminTest extends TestCase
         ]);
 
         Storage::disk('local')
-            ->assertExists(User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar'));
+            ->assertExists(
+                User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar')
+            );
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_user_with_all_data()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        // Create and login user
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        // Create folders
+        $folders = Folder::factory(Folder::class)
+            ->count(2)
+            ->create(['user_id' => $user->id]);
+
+        // Create favourite folders
+        $folders->each(function ($folder) use ($user) {
+            $user->favouriteFolders()->attach($folder->id);
+        });
+
+        // Create zips
+        Zip::factory(Zip::class)
+            ->count(2)
+            ->create(['user_id' => $user->id]);
+
+        // Create shares
+        Share::factory(Share::class)
+            ->count(2)
+            ->create(['user_id' => $user->id]);
+
+        // Upload files
+        collect([0, 1])
+            ->each(function ($index) {
+
+                $file = UploadedFile::fake()
+                    ->create("fake-file-$index.pdf", 1200, 'application/pdf');
+
+                $this->postJson('/api/upload', [
+                    'file'      => $file,
+                    'folder_id' => null,
+                    'is_last'   => true,
+                ])->assertStatus(201);
+            });
+
+        $file_ids = File::all()
+            ->pluck('id');
+
+        // Upload avatar
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->patchJson('/api/user/relationships/settings', [
+            'avatar' => $avatar,
+        ])->assertStatus(204);
+
+        $user = User::whereRole('user')
+            ->first();
+
+        // Create and login admin
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        // Delete user
+        $this->deleteJson("/api/admin/users/$user->id/delete", [
+            'name' => $user->settings->name
+        ])
+            ->assertStatus(204);
+
+        $this->assertDatabaseMissing('user_settings', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseMissing('folders', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseMissing('shares', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseMissing('favourite_folder', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseMissing('files', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseMissing('zips', [
+            'user_id' => $user->id,
+        ]);
+
+        $file_ids
+            ->each(function ($id, $index) use ($user) {
+
+                Storage::disk('local')
+                    ->assertMissing(
+                        "files/$user->id/fake-file-$index.pdf"
+                    );
+
+                Storage::disk('local')
+                    ->assertMissing(
+                        "files/fake-file-$index.pdf"
+                    );
+            });
+
+        Storage::disk('local')
+            ->assertMissing($user->settings->getRawOriginal('avatar'));
     }
 }

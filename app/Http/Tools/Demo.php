@@ -144,6 +144,6 @@ class Demo
     public static function favourites($user)
     {
 
-        return $user->favourite_folders->makeHidden(['pivot']);
+        return $user->favouriteFolders->makeHidden(['pivot']);
     }
 }

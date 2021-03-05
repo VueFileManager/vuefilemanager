@@ -32,12 +32,12 @@ class FavouriteController extends Controller
 
             // Add folder to user favourites
             $user
-                ->favourite_folders()
+                ->favouriteFolders()
                 ->syncWithoutDetaching($id);
         }
 
         // Return updated favourites
-        return response($user->favourite_folders, 204);
+        return response($user->favouriteFolders, 204);
     }
 
     /**
@@ -56,9 +56,9 @@ class FavouriteController extends Controller
         }
 
         // Remove folder from user favourites
-        $user->favourite_folders()->detach($id);
+        $user->favouriteFolders()->detach($id);
 
         // Return updated favourites
-        return response($user->favourite_folders, 204);
+        return response($user->favouriteFolders, 204);
     }
 }

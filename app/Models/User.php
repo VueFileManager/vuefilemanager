@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword;
+use App\Services\HelperService;
+use App\Services\StripeService;
 use ByteUnits\Metric;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -59,10 +62,8 @@ class User extends Authenticatable
      */
     public function taxRates()
     {
-        $stripe = resolve('App\Services\StripeService');
-
         // Get tax rates
-        $rates = collect($stripe->getTaxRates());
+        $rates = collect(resolve(StripeService::class)->getTaxRates());
 
         // Find tax rate
         $user_tax_rate = $rates->first(function ($item) {
@@ -205,7 +206,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function favourite_folders()
+    public function favouriteFolders()
     {
         return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')
             ->with('shared:token,id,item_id,permission,is_protected,expire_in');
@@ -258,12 +259,16 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            // Store uuid into model
-            $model->id = Str::uuid();
+        static::creating(function ($user) {
+            $user->id = Str::uuid();
 
-            // Create user directory
-            Storage::makeDirectory("files/$model->id");
+            // Create user directory for his files
+            Storage::makeDirectory("files/$user->id");
+        });
+
+        static::deleted(function ($user) {
+            resolve(HelperService::class)
+                ->erase_user_data($user);
         });
     }
 }

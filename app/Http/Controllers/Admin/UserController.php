@@ -208,6 +208,7 @@ class UserController extends Controller
      * @param DeleteUserRequest $request
      * @param User $user
      * @return ResponseFactory|Response
+     * @throws \Exception
      */
     public function delete_user(DeleteUserRequest $request, User $user)
     {
@@ -223,47 +224,10 @@ class UserController extends Controller
             abort(406, "You can\'t delete your account");
         }
 
-        // Validate user name
-        if ($user->name !== $request->input('data.name')) abort(403);
-
-        $shares = Share::where('user_id', $user->id)->get();
-
-        $files = File::withTrashed()
-            ->where('user_id', $user->id)
-            ->get();
-        $folders = Folder::withTrashed()
-            ->where('user_id', $user->id)
-            ->get();
-
-        // Remove all files and thumbnails
-        $files->each(function ($file) {
-
-            // Delete file
-            Storage::delete('/file-manager/' . $file->basename);
-
-            // Delete thumbnail if exist
-            if (!is_null($file->thumbnail)) {
-                Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
-            }
-
-            // Delete file permanently
-            $file->forceDelete();
-        });
-
-        // Remove avatar
-        if ($user->avatar) {
-            Storage::delete('/avatars/' . $user->avatar);
+        if ($user->settings->name !== $request->name) {
+            abort(403, "The name you typed is wrong!");
         }
 
-        // Remove folders & shares
-        $folders->each->forceDelete();
-        $shares->each->forceDelete();
-
-        // Remove favourites
-        $user->settings->delete();
-        $user->favourite_folders()->sync([]);
-
-        // Delete user
         $user->delete();
 
         return response('Done!', 204);

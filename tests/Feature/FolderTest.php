@@ -195,7 +195,7 @@ class FolderTest extends TestCase
         Sanctum::actingAs($user);
 
         $user
-            ->favourite_folders()
+            ->favouriteFolders()
             ->attach($folder->id);
 
         $this->deleteJson("/api/folders/favourites/$folder->id")
@@ -252,8 +252,8 @@ class FolderTest extends TestCase
         $folder_2 = Folder::factory(Folder::class)
             ->create();
 
-        $user->favourite_folders()->attach($folder_1->id);
-        $user->favourite_folders()->attach($folder_2->id);
+        $user->favouriteFolders()->attach($folder_1->id);
+        $user->favouriteFolders()->attach($folder_2->id);
 
         Sanctum::actingAs($user);
 

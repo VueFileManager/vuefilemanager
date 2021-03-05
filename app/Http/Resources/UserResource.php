@@ -65,7 +65,7 @@ class UserResource extends JsonResource
                         'id'         => '1',
                         'type'       => 'folders_favourite',
                         'attributes' => [
-                            'folders' => $this->favourite_folders->makeHidden(['pivot'])
+                            'folders' => $this->favouriteFolders->makeHidden(['pivot'])
                         ],
                     ],
                 ],
