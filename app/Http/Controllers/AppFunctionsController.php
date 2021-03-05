@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Models\Content;
 use App\Models\File;
 use App\Models\Folder;
@@ -237,25 +238,16 @@ class AppFunctionsController extends Controller
      */
     public function flush_cache()
     {
-        // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
 
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('config:cache');
-    }
-    
-    /**
-     * Get Emojis List from the server
-     *
-     * @return $emojisList
-     */
-    public function get_emojis_list()
-    {
-        $emojisList = json_decode(file_get_contents(public_path('assets/emojis.json'), true));
+        if (! app()->runningUnitTests()) {
+            Artisan::call('cache:clear');
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
+        }
 
-        return collect([$emojisList]);
+        return response('Done', 204);
     }
 }

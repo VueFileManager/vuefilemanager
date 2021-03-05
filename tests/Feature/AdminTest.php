@@ -532,4 +532,13 @@ class AdminTest extends TestCase
             get_setting('app_logo')
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_flush_cache()
+    {
+        $this->getJson('/api/admin/settings/flush-cache')
+            ->assertStatus(204);
+    }
 }

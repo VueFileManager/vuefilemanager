@@ -971,7 +971,7 @@ const actions = {
 	getEmojisList: ({commit}) => {
 		return new Promise((resolve, reject) => {
 
-			axios.get('/api/emojis-list')
+			axios.get('/assets/emojis.json')
 				.then((response) => {
 					commit('LOAD_EMOJIS_LIST', response.data[0])
 

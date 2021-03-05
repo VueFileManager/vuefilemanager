@@ -101,7 +101,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/files', [EditItemsController::class, 'user_zip_multiple_files']);
         Route::get('/folder/{unique_id}', [EditItemsController::class, 'user_zip_folder']);
     });
-
-    //Get Emojis List
-    Route::get('/emojis-list', [AppFunctionsController::class, 'get_emojis_list']);
 });
