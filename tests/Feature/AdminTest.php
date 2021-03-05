@@ -4,14 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\File;
 use App\Models\Folder;
-use App\Models\Page;
 use App\Models\Setting;
 use App\Models\Share;
 use App\Models\User;
 use App\Models\Zip;
 use App\Notifications\ResetPassword;
 use App\Services\SetupService;
-use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
@@ -488,6 +486,21 @@ class AdminTest extends TestCase
     /**
      * @test
      */
+    public function it_get_settings()
+    {
+        $this->setup->seed_default_settings('Extended');
+
+        $this->getJson('/api/admin/settings?column=section_features|section_feature_boxes')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'section_features'      => '1',
+                'section_feature_boxes' => '1',
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_update_settings()
     {
         $this->setup->seed_default_settings('Extended');
@@ -540,5 +553,48 @@ class AdminTest extends TestCase
     {
         $this->getJson('/api/admin/settings/flush-cache')
             ->assertStatus(204);
+    }
+
+    /**
+     * @test
+     */
+    public function it_set_stripe()
+    {
+        $this->postJson('/api/admin/settings/stripe', [
+            'currency'      => 'EUR',
+            'key'           => '123456789',
+            'secret'        => '123456789',
+            'webhookSecret' => '123456789',
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('settings', [
+            'name'  => 'stripe_currency',
+            'value' => 'EUR',
+        ]);
+
+        $this->assertDatabaseHas('settings', [
+            'name'  => 'payments_configured',
+            'value' => 1,
+        ]);
+
+        $this->assertDatabaseHas('settings', [
+            'name'  => 'payments_active',
+            'value' => 1,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_set_email()
+    {
+        $this->postJson('/api/admin/settings/email', [
+            'driver'     => 'smtp',
+            'host'       => 'smtp.email.com',
+            'port'       => 25,
+            'username'   => 'john@doe.com',
+            'password'   => 'secret',
+            'encryption' => 'tls',
+        ])->assertStatus(204);
     }
 }

@@ -95,19 +95,19 @@ return [
         'extended' => [
             [
                 'name'  => 'section_features',
-                'value' => '1',
+                'value' => 1,
             ],
             [
                 'name'  => 'section_feature_boxes',
-                'value' => '1',
+                'value' => 1,
             ],
             [
                 'name'  => 'section_pricing_content',
-                'value' => '1',
+                'value' => 1,
             ],
             [
                 'name'  => 'section_get_started',
-                'value' => '1',
+                'value' => 1,
             ],
             [
                 'name'  => 'header_title',

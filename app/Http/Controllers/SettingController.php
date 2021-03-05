@@ -76,23 +76,26 @@ class SettingController extends Controller
      */
     public function set_email(Request $request)
     {
-        // Check if is demo
+        // TODO: pridat validator do requestu
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
 
-        setEnvironmentValue([
-            'MAIL_DRIVER'     => $request->input('driver'),
-            'MAIL_HOST'       => $request->input('host'),
-            'MAIL_PORT'       => $request->input('port'),
-            'MAIL_USERNAME'   => $request->input('username'),
-            'MAIL_PASSWORD'   => $request->input('password'),
-            'MAIL_ENCRYPTION' => $request->input('encryption'),
-        ]);
+        if (!app()->runningUnitTests()) {
 
-        // Clear config cache
-        Artisan::call('config:clear');
-        Artisan::call('config:cache');
+            setEnvironmentValue([
+                'MAIL_DRIVER'     => $request->input('driver'),
+                'MAIL_HOST'       => $request->input('host'),
+                'MAIL_PORT'       => $request->input('port'),
+                'MAIL_USERNAME'   => $request->input('username'),
+                'MAIL_PASSWORD'   => $request->input('password'),
+                'MAIL_ENCRYPTION' => $request->input('encryption'),
+            ]);
+
+            // Clear config cache
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
+        }
 
         return response('Done', 204);
     }
@@ -104,24 +107,27 @@ class SettingController extends Controller
      */
     public function set_stripe(Request $request)
     {
-        // Get stripe status
-        $is_stripe = get_setting('payments_configured');
-
-        // Check setup status
-        if ($is_stripe) abort(401, 'Gone');
-
-        // Create stripe instance
-        $stripe = Stripe::make($request->secret, '2020-03-02');
+        // TODO: pridat validator do requestu
+        // Check payment setup status
+        if (get_setting('payments_configured')) {
+            abort(401, 'Gone');
+        }
 
         // Try to get stripe account details
         try {
-            $stripe->account()->details();
+            if (!app()->runningUnitTests()) {
+
+                Stripe::make($request->secret, '2020-03-02')
+                    ->account()
+                    ->details();
+            }
         } catch (UnauthorizedException $e) {
+
             throw new HttpException(401, $e->getMessage());
         }
 
         // Get options
-        $settings = collect([
+        collect([
             [
                 'name'  => 'stripe_currency',
                 'value' => $request->currency,
@@ -134,24 +140,29 @@ class SettingController extends Controller
                 'name'  => 'payments_active',
                 'value' => 1,
             ],
-        ]);
-
-        // Store options
-        $settings->each(function ($col) {
-            Setting::updateOrCreate(['name' => $col['name']], $col);
+        ])->each(function ($col) {
+            Setting::forceCreate([
+                'name'  => $col['name'],
+                'value' => $col['value'],
+            ]);
         });
 
-        // Set stripe credentials to .env
-        setEnvironmentValue([
-            'CASHIER_CURRENCY'      => $request->currency,
-            'STRIPE_KEY'            => $request->key,
-            'STRIPE_SECRET'         => $request->secret,
-            'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
-        ]);
+        if (!app()->runningUnitTests()) {
 
-        // Clear cache
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('config:cache');
+            // Set stripe credentials to .env
+            setEnvironmentValue([
+                'CASHIER_CURRENCY'      => $request->currency,
+                'STRIPE_KEY'            => $request->key,
+                'STRIPE_SECRET'         => $request->secret,
+                'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
+            ]);
+
+            // Clear cache
+            Artisan::call('cache:clear');
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
+        }
+
+        return response('Done', 204);
     }
 }
