@@ -497,6 +497,7 @@ class SetupWizardController extends Controller
         ]);
 
         $this->setup->seed_default_pages();
+        $this->setup->seed_default_settings();
     }
 
     /**
