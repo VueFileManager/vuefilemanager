@@ -9,7 +9,13 @@ class Setting extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'value',
+    ];
+
     public $timestamps = false;
 
-    protected $guarded = ['id'];
+    protected $primaryKey = 'name';
+
+    protected $keyType = 'string';
 }

@@ -21,8 +21,7 @@ class PagesController extends Controller
     public function index()
     {
         return new PageCollection(
-            Page::sortable()
-                ->paginate(10)
+            Page::sortable()->paginate(10)
         );
     }
 
@@ -34,9 +33,7 @@ class PagesController extends Controller
      */
     public function show(Page $page)
     {
-        return new PageResource(
-            $page
-        );
+        return new PageResource($page);
     }
 
     /**
@@ -52,7 +49,9 @@ class PagesController extends Controller
             return Demo::response_204();
         }
 
-        $page->update(make_single_input($request));
+        $page->update(
+            make_single_input($request)
+        );
 
         return response(new PageResource($page), 204);
     }

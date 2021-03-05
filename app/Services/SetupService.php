@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Services;
 
-
 use App\Models\Page;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 
 class SetupService
@@ -29,11 +28,24 @@ class SetupService
     /**
      * Store default pages content like Terms of Service, Privacy Policy and Cookie Policy into database
      */
-    public function seed_pages()
+    public function seed_default_pages()
     {
         collect(config('content.pages'))
             ->each(function ($page) {
                 Page::updateOrCreate($page);
+            });
+    }
+
+    /**
+     * Store default VueFileManager settings into database
+     *
+     * @param $license
+     */
+    public function seed_default_settings($license)
+    {
+        collect(config('content.content.' . strtolower($license)))
+            ->each(function ($content) {
+                Setting::forceCreate($content);
             });
     }
 }

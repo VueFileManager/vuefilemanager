@@ -42,7 +42,7 @@ class AdminTest extends TestCase
             ->count(2)
             ->create(['filesize' => 1000000]);
 
-        Setting::create([
+        Setting::forceCreate([
             'name'  => 'license',
             'value' => 'Regular'
         ]);
@@ -442,7 +442,7 @@ class AdminTest extends TestCase
      */
     public function it_get_all_pages()
     {
-        $this->setup->seed_pages();
+        $this->setup->seed_default_pages();
 
         collect(['terms-of-service', 'privacy-policy', 'cookie-policy'])
             ->each(function ($slug) {
@@ -459,7 +459,7 @@ class AdminTest extends TestCase
      */
     public function it_get_page()
     {
-        $this->setup->seed_pages();
+        $this->setup->seed_default_pages();
 
         $this->getJson('/api/admin/pages/terms-of-service')
             ->assertStatus(200)
@@ -473,7 +473,7 @@ class AdminTest extends TestCase
      */
     public function it_update_page()
     {
-        $this->setup->seed_pages();
+        $this->setup->seed_default_pages();
 
         $this->patchJson('/api/admin/pages/terms-of-service', [
             'name'  => 'title',
@@ -483,5 +483,53 @@ class AdminTest extends TestCase
         $this->assertDatabaseHas('pages', [
             'title' => 'New Title'
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_settings()
+    {
+        $this->setup->seed_default_settings('Extended');
+
+        $this->patchJson('/api/admin/settings', [
+            'name'  => 'header_title',
+            'value' => 'New Header Title'
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('settings', [
+            'value' => 'New Header Title'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_settings_image()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        Setting::forceCreate([
+            'name'  => 'app_logo',
+            'value' => null,
+        ]);
+
+        $logo = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->patchJson('/api/admin/settings', [
+            'name'     => 'app_logo',
+            'app_logo' => $logo
+        ])->assertStatus(204);
+
+        $this->assertDatabaseMissing('settings', [
+            'app_logo' => null
+        ]);
+
+        Storage::assertExists(
+            get_setting('app_logo')
+        );
     }
 }

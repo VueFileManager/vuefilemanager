@@ -336,17 +336,17 @@ class SetupWizardController extends Controller
 
         // Store Logo
         if ($request->hasFile('logo')) {
-            $logo = store_system_image($request->file('logo'), 'system');
+            $logo = store_system_image($request->file('logo'));
         }
 
         // Store Logo horizontal
         if ($request->hasFile('logo_horizontal')) {
-            $logo_horizontal = store_system_image($request->file('logo_horizontal'), 'system');
+            $logo_horizontal = store_system_image($request->file('logo_horizontal'));
         }
 
         // Store favicon
         if ($request->hasFile('favicon')) {
-            $favicon = store_system_image($request->file('favicon'), 'system');
+            $favicon = store_system_image($request->file('favicon'));
         }
 
         // Get options
@@ -467,13 +467,6 @@ class SetupWizardController extends Controller
             'value' => $request->purchase_code,
         ]);
 
-        // Create legal pages and index content
-        $content = $request->license === 'Extended' ? collect(config('content.content_extended')) : collect(config('content.content_regular'));
-
-        $content->each(function ($content) {
-            Setting::updateOrCreate($content);
-        });
-
         // Retrieve access token
         $response = Route::dispatch(self::make_login_request($request));
 
@@ -503,7 +496,7 @@ class SetupWizardController extends Controller
             '--force' => true
         ]);
 
-        $this->setup->seed_pages();
+        $this->setup->seed_default_pages();
     }
 
     /**

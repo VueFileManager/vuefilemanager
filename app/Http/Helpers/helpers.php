@@ -35,9 +35,7 @@ function obfuscate_email($email)
  */
 function get_setting($setting)
 {
-    $row = Setting::where('name', $setting)->first();
-
-    return $row ? $row->value : null;
+    return Setting::find($setting)->value ?? null;
 }
 
 /**
@@ -256,13 +254,13 @@ function store_avatar($image)
 function store_system_image($image)
 {
     // Store avatar
-    $image_path = Str::random(8) . '-' . str_replace(' ', '', $image->getClientOriginalName());
+    $filename = Str::random(8) . '-' . str_replace(' ', '', $image->getClientOriginalName());
 
     // Store image to disk
-    Storage::putFileAs('system', $image, $image_path);
+    Storage::putFileAs('system', $image, $filename);
 
     // Return path to image
-    return `system/$image_path`;
+    return "system/$filename";
 }
 
 /**

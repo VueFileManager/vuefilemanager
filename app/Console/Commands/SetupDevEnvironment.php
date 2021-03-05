@@ -97,11 +97,6 @@ class SetupDevEnvironment extends Command
             ->each(function ($content) {
                 Setting::updateOrCreate($content);
             });
-
-        collect(config('content.pages'))
-            ->each(function ($page) {
-                Page::updateOrCreate($page);
-            });
     }
 
     /**
@@ -189,6 +184,8 @@ class SetupDevEnvironment extends Command
         $this->call('migrate:fresh', [
             '--force' => true
         ]);
+
+        $this->setup->seed_default_pages();
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Tools\Demo;
-use App\Setting;
+use App\Models\Setting;
 use Artisan;
 use Stripe;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
@@ -40,7 +40,6 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
-        // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
@@ -48,21 +47,23 @@ class SettingController extends Controller
         // Store image if exist
         if ($request->hasFile($request->name)) {
 
-            // Store image
-            $image_path = store_system_image($request->file($request->name), 'system');
-
             // Find and update image path
-            Setting::updateOrCreate(['name' => $request->name], [
-                'value' => $image_path
+            Setting::updateOrCreate([
+                'name' => $request->name
+            ], [
+                'value' => store_system_image(
+                    $request->file($request->name)
+                )
             ]);
 
             return response('Done', 204);
         }
 
         // Find and update variable
-        Setting::updateOrCreate(['name' => $request->name], [
-            'value' => $request->value
-        ]);
+        Setting::updateOrCreate(
+            ['name' => $request->name],
+            ['value' => $request->value]
+        );
 
         return response('Done', 204);
     }
