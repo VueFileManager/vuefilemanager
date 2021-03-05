@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\General\SetupWizardController;
 
+// TODO: testy
 Route::post('/purchase-code', [SetupWizardController::class, 'verify_purchase_code']);
 Route::post('/database', [SetupWizardController::class, 'setup_database']);
 Route::post('/stripe-credentials', [SetupWizardController::class, 'store_stripe_credentials']);

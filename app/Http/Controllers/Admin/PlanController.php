@@ -8,9 +8,9 @@ use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersCollection;
 use App\Http\Tools\Demo;
-use App\Plan;
+use App\Models\Plan;
 use App\Services\StripeService;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Subscription;
@@ -69,11 +69,10 @@ class PlanController extends Controller
      * Create new plan
      *
      * @param Request $request
-     * @return PlanResource
+     * @return PlanResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Check if is demo
         if (env('APP_DEMO')) {
 
             if (Cache::has('plan-starter-pack')) {
@@ -94,7 +93,7 @@ class PlanController extends Controller
         // Clear cached plans
         cache_forget_many(['plans', 'pricing']);
 
-        return $plan;
+        return response($plan, 201);
     }
 
     /**
@@ -106,7 +105,6 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
@@ -128,7 +126,6 @@ class PlanController extends Controller
      */
     public function delete($id)
     {
-        // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
@@ -150,7 +147,8 @@ class PlanController extends Controller
      */
     public function subscribers($id)
     {
-        $subscribers = Subscription::where('stripe_plan', $id)->pluck('user_id');
+        $subscribers = Subscription::where('stripe_plan', $id)
+            ->pluck('user_id');
 
         return new UsersCollection(
             User::sortable()->findMany($subscribers)

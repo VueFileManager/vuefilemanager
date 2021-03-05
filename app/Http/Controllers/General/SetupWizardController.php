@@ -10,12 +10,11 @@ use App\Http\Requests\SetupWizard\StoreEnvironmentSetupRequest;
 use App\Http\Requests\SetupWizard\StoreStripeBillingRequest;
 use App\Http\Requests\SetupWizard\StoreStripeCredentialsRequest;
 use App\Http\Requests\SetupWizard\StoreStripePlansRequest;
-use App\Page;
 use App\Services\SetupService;
 use App\Services\StripeService;
-use App\Setting;
-use App\User;
-use App\UserSettings;
+use App\Models\Setting;
+use App\Models\User;
+use App\Models\UserSettings;
 use Artisan;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Doctrine\DBAL\Driver\PDOException;
@@ -105,7 +104,7 @@ class SetupWizardController extends Controller
         $this->set_up_application();
 
         // Store setup wizard progress
-        Setting::create([
+        Setting::forceCreate([
             'name'  => 'setup_wizard_database',
             'value' => 1,
         ]);
@@ -135,7 +134,7 @@ class SetupWizardController extends Controller
         }
 
         // Get options
-        $settings = collect([
+        collect([
             [
                 'name'  => 'stripe_currency',
                 'value' => $request->currency,
@@ -148,11 +147,11 @@ class SetupWizardController extends Controller
                 'name'  => 'payments_active',
                 'value' => 1,
             ],
-        ]);
-
-        // Store options
-        $settings->each(function ($col) {
-            Setting::updateOrCreate(['name' => $col['name']], $col);
+        ])->each(function ($col) {
+            Setting::forceCreate([
+                'name'  => $col['name'],
+                'value' => $col['value'],
+            ]);
         });
 
         // Set stripe credentials to .env
@@ -181,7 +180,7 @@ class SetupWizardController extends Controller
         if ($this->get_setup_status()) abort(410, 'Gone');
 
         // Get options
-        $settings = collect([
+        collect([
             [
                 'name'  => 'billing_phone_number',
                 'value' => $request->billing_phone_number,
@@ -214,11 +213,11 @@ class SetupWizardController extends Controller
                 'name'  => 'billing_name',
                 'value' => $request->billing_name,
             ],
-        ]);
-
-        // Store options
-        $settings->each(function ($col) {
-            Setting::updateOrCreate(['name' => $col['name']], $col);
+        ])->each(function ($col) {
+            Setting::forceCreate([
+                'name'  => $col['name'],
+                'value' => $col['value'],
+            ]);
         });
 
         // Clear cache
@@ -350,7 +349,7 @@ class SetupWizardController extends Controller
         }
 
         // Get options
-        $settings = collect([
+        collect([
             [
                 'name'  => 'app_title',
                 'value' => $request->title,
@@ -391,11 +390,11 @@ class SetupWizardController extends Controller
                 'name'  => 'storage_default',
                 'value' => $request->defaultStorage ? $request->defaultStorage : 5,
             ],
-        ]);
-
-        // Store options
-        $settings->each(function ($col) {
-            Setting::updateOrCreate(['name' => $col['name']], $col);
+        ])->each(function ($col) {
+            Setting::forceCreate([
+                'name'  => $col['name'],
+                'value' => $col['value'],
+            ]);
         });
 
         setEnvironmentValue([
@@ -428,7 +427,7 @@ class SetupWizardController extends Controller
 
         // Store avatar
         if ($request->hasFile('avatar')) {
-            $avatar = store_avatar($request->file('avatar'), 'avatars');
+            $avatar = store_avatar($request->file('avatar'));
         }
 
         // Create user
@@ -440,32 +439,32 @@ class SetupWizardController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Get default storage capacity
-        $storage_capacity = Setting::where('name', 'storage_default')->first();
+        $user
+            ->settings()
+            ->create([
+                'user_id'          => $user->id,
+                'storage_capacity' => get_setting('storage_default'),
+            ]);
 
-        // Create settings
-        UserSettings::forceCreate([
-            'user_id'          => $user->id,
-            'storage_capacity' => $storage_capacity->value,
-        ]);
-
-        // Store setup wizard progress
-        Setting::updateOrCreate([
-            'name'  => 'setup_wizard_success',
-            'value' => 1,
-        ]);
-
-        // Store License
-        Setting::updateOrCreate([
-            'name'  => 'license',
-            'value' => $request->license,
-        ]);
-
-        // Store Purchase Code
-        Setting::updateOrCreate([
-            'name'  => 'purchase_code',
-            'value' => $request->purchase_code,
-        ]);
+        collect([
+            [
+                'name'  => 'setup_wizard_success',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'license',
+                'value' => $request->license,
+            ],
+            [
+                'name'  => 'purchase_code',
+                'value' => $request->purchase_code,
+            ]
+        ])->each(function ($col) {
+            Setting::forceCreate([
+                'name'  => $col['name'],
+                'value' => $col['value'],
+            ]);
+        });
 
         // Retrieve access token
         $response = Route::dispatch(self::make_login_request($request));
@@ -532,7 +531,7 @@ class SetupWizardController extends Controller
             DB::getPdo();
 
             // Get setup_wizard status
-            return Schema::hasTable('settings') ? Setting::where('name', 'setup_wizard_success')->first() : false;
+            return Schema::hasTable('settings') ? get_setting('setup_wizard_success') : false;
 
         } catch (PDOException $e) {
 

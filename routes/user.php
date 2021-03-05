@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\PaymentMethodsController;
 use App\Http\Controllers\User\SubscriptionController;
 
+// TODO: testy
 Route::post('/check', [AuthController::class, 'check_account']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -20,6 +21,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/', [AccountController::class, 'user']);
 
     // Payment cards
+    // TODO: testy
     Route::delete('/payment-cards/{id}', [PaymentMethodsController::class, 'delete']);
     Route::patch('/payment-cards/{id}', [PaymentMethodsController::class, 'update']);
     Route::post('/payment-cards', [PaymentMethodsController::class, 'store']);

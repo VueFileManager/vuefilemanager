@@ -9,10 +9,12 @@ use App\Http\Controllers\WebhookController;
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
 // App public files
+// TODO: testy
 Route::get('/avatars/{avatar}', [FileAccessController::class, 'get_avatar'])->name('avatar');
 Route::get('/system/{image}', [FileAccessController::class, 'get_system_image']);
 
 // Get public thumbnails and files
+// TODO: testy
 Route::get('/thumbnail/{name}/public/{token}', [FileAccessController::class, 'get_thumbnail_public']);
 Route::get('/file/{name}/public/{token}', [FileAccessController::class, 'get_file_public']);
 Route::get('/zip/{id}/public/{token}', [FileAccessController::class, 'get_zip_public'])->name('zip_public');

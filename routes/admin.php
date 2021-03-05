@@ -29,6 +29,7 @@ Route::group(['prefix' => 'users'], function () {
 });
 
 // Plans
+// TODO: testy
 Route::group(['prefix' => 'plans'], function () {
     Route::get('/{id}/subscribers', [PlanController::class, 'subscribers']);
     Route::patch('/{id}/update', [PlanController::class, 'update']);
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'pages'], function () {
 });
 
 // Invoices
+// TODO: testy
 Route::group(['prefix' => 'invoices'], function () {
     Route::get('/{token}', [InvoiceController::class, 'show']);
     Route::get('/', [InvoiceController::class, 'index']);
