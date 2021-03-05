@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Models\Page;
 use Illuminate\Support\Facades\Storage;
 
 class SetupService
@@ -22,6 +23,17 @@ class SetupService
 
                 // Create directory for external driver
                 Storage::makeDirectory($directory);
+            });
+    }
+
+    /**
+     * Store default pages content like Terms of Service, Privacy Policy and Cookie Policy into database
+     */
+    public function seed_pages()
+    {
+        collect(config('content.pages'))
+            ->each(function ($page) {
+                Page::updateOrCreate($page);
             });
     }
 }

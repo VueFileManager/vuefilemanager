@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Page;
 use App\Models\Setting;
 use App\Models\Share;
 use App\Models\User;
@@ -434,5 +435,53 @@ class AdminTest extends TestCase
 
         Storage::disk('local')
             ->assertMissing($user->settings->getRawOriginal('avatar'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_all_pages()
+    {
+        $this->setup->seed_pages();
+
+        collect(['terms-of-service', 'privacy-policy', 'cookie-policy'])
+            ->each(function ($slug) {
+                $this->getJson('/api/admin/pages')
+                    ->assertStatus(200)
+                    ->assertJsonFragment([
+                        'slug' => $slug
+                    ]);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_page()
+    {
+        $this->setup->seed_pages();
+
+        $this->getJson('/api/admin/pages/terms-of-service')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'slug' => 'terms-of-service'
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_page()
+    {
+        $this->setup->seed_pages();
+
+        $this->patchJson('/api/admin/pages/terms-of-service', [
+            'name'  => 'title',
+            'value' => 'New Title'
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('pages', [
+            'title' => 'New Title'
+        ]);
     }
 }

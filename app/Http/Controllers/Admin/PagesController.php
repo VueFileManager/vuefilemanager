@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PageCollection;
 use App\Http\Resources\PageResource;
 use App\Http\Tools\Demo;
-use App\Page;
+use App\Models\Page;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PagesController extends Controller
 {
@@ -19,20 +21,21 @@ class PagesController extends Controller
     public function index()
     {
         return new PageCollection(
-            Page::sortable()->paginate(10)
+            Page::sortable()
+                ->paginate(10)
         );
     }
 
     /**
      * Get page resource
      *
-     * @param $slug
+     * @param $page
      * @return PageResource
      */
-    public function show($slug)
+    public function show(Page $page)
     {
         return new PageResource(
-            Page::where('slug', $slug)->first()
+            $page
         );
     }
 
@@ -40,22 +43,17 @@ class PagesController extends Controller
      * Update page content
      *
      * @param Request $request
-     * @param $slug
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @param Page $page
+     * @return ResponseFactory|Response
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request, Page $page)
     {
-        // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
 
-        // Get page
-        $page = Page::where('slug', $slug)->first();
-
-        // Update page
         $page->update(make_single_input($request));
 
-        return response('Done', 204);
+        return response(new PageResource($page), 204);
     }
 }

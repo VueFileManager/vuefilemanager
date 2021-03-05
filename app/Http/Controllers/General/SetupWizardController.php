@@ -11,6 +11,7 @@ use App\Http\Requests\SetupWizard\StoreStripeBillingRequest;
 use App\Http\Requests\SetupWizard\StoreStripeCredentialsRequest;
 use App\Http\Requests\SetupWizard\StoreStripePlansRequest;
 use App\Page;
+use App\Services\SetupService;
 use App\Services\StripeService;
 use App\Setting;
 use App\User;
@@ -34,9 +35,10 @@ class SetupWizardController extends Controller
     /**
      * Inject Stripe Service
      */
-    public function __construct(StripeService $stripe)
+    public function __construct()
     {
-        $this->stripe = $stripe;
+        $this->stripe = resolve(StripeService::class);
+        $this->setup = resolve(SetupService::class);
     }
 
     /**
@@ -466,15 +468,10 @@ class SetupWizardController extends Controller
         ]);
 
         // Create legal pages and index content
-        $pages = collect(config('content.pages'));
         $content = $request->license === 'Extended' ? collect(config('content.content_extended')) : collect(config('content.content_regular'));
 
         $content->each(function ($content) {
             Setting::updateOrCreate($content);
-        });
-
-        $pages->each(function ($page) {
-            Page::updateOrCreate($page);
         });
 
         // Retrieve access token
@@ -506,31 +503,7 @@ class SetupWizardController extends Controller
             '--force' => true
         ]);
 
-        // Create Passport Keys
-        Artisan::call('passport:keys', [
-            '--force' => true
-        ]);
-
-        // Create Password grant client
-        Artisan::call('passport:client', [
-            '--password' => true,
-            '--name'     => 'vuefilemanager',
-        ]);
-
-        // Create Personal access client
-        Artisan::call('passport:client', [
-            '--personal' => true,
-            '--name'     => 'shared',
-        ]);
-
-        // Get generated client
-        $client = \DB::table('oauth_clients')->where('name', '=', 'vuefilemanager')->first();
-
-        // Set passport client to .env
-        setEnvironmentValue([
-            'PASSPORT_CLIENT_ID'     => $client->id,
-            'PASSPORT_CLIENT_SECRET' => $client->secret,
-        ]);
+        $this->setup->seed_pages();
     }
 
     /**

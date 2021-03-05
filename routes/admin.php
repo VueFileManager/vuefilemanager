@@ -40,8 +40,8 @@ Route::group(['prefix' => 'plans'], function () {
 
 // Pages
 Route::group(['prefix' => 'pages'], function () {
-    Route::patch('/{slug}', [PagesController::class, 'update']);
-    Route::get('/{slug}', [PagesController::class, 'show']);
+    Route::patch('/{page}', [PagesController::class, 'update']);
+    Route::get('/{page}', [PagesController::class, 'show']);
     Route::get('/', [PagesController::class, 'index']);
 });
 

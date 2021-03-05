@@ -28,5 +28,9 @@ class Page extends Model
         'content',
     ];
 
+    protected $primaryKey = 'slug';
+
+    protected $keyType = 'string';
+
     public $timestamps = false;
 }

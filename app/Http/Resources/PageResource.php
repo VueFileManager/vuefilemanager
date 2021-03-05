@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PageResource extends JsonResource
@@ -16,7 +17,7 @@ class PageResource extends JsonResource
     {
         return [
             'data' => [
-                'id'         => $this->id,
+                'id'         => $this->slug,
                 'type'       => 'pages',
                 'attributes' => [
                     'visibility'        => $this->visibility,
