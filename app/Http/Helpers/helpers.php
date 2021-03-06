@@ -224,11 +224,18 @@ function is_editor($shared)
 /**
  * Store user avatar to storage
  *
- * @param $image
+ * @param $request
+ * @param $name
  * @return string
  */
-function store_avatar($image)
+function store_avatar($request, $name)
 {
+    if (! $request->hasFile($name)) {
+        return null;
+    }
+
+    $image = $request->file($name);
+
     // Store avatar
     $image_path = Str::random(16) . '-' . $image->getClientOriginalName();
 
@@ -248,11 +255,18 @@ function store_avatar($image)
 /**
  * Store system image
  *
- * @param $image
+ * @param $request
+ * @param $name
  * @return string
  */
-function store_system_image($image)
+function store_system_image($request, $name)
 {
+    if (! $request->hasFile($name)) {
+        return null;
+    }
+
+    $image = $request->file($name);
+
     // Store avatar
     $filename = Str::random(8) . '-' . str_replace(' ', '', $image->getClientOriginalName());
 

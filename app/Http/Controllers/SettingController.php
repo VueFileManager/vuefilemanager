@@ -51,9 +51,7 @@ class SettingController extends Controller
             Setting::updateOrCreate([
                 'name' => $request->name
             ], [
-                'value' => store_system_image(
-                    $request->file($request->name)
-                )
+                'value' => store_system_image($request, $request->name)
             ]);
 
             return response('Done', 204);

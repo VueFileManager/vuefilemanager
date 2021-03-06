@@ -20,6 +20,7 @@ use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -38,6 +39,8 @@ class SetupWizardController extends Controller
     {
         $this->stripe = resolve(StripeService::class);
         $this->setup = resolve(SetupService::class);
+
+        $this->check_setup_status();
     }
 
     /**
@@ -48,14 +51,11 @@ class SetupWizardController extends Controller
      */
     public function verify_purchase_code(Request $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
-
         // Verify purchase code
         $response = Http::get('https://verify.vuefilemanager.com/api/verify-code/' . $request->purchaseCode);
 
         if ($response->successful()) {
-            return $response;
+            return response($response, 204);
         }
 
         return response('Purchase code is invalid.', 400);
@@ -69,39 +69,43 @@ class SetupWizardController extends Controller
      */
     public function setup_database(StoreDatabaseCredentialsRequest $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if (!app()->runningUnitTests()) {
 
-        try {
-            // Set temporary database connection
-            config(['database.connections.test.driver' => $request->connection]);
-            config(['database.connections.test.host' => $request->host]);
-            config(['database.connections.test.port' => $request->port]);
-            config(['database.connections.test.database' => $request->name]);
-            config(['database.connections.test.username' => $request->username]);
-            config(['database.connections.test.password' => $request->password]);
+            try {
+                // Set temporary database connection
+                config(['database.connections.test.driver' => $request->connection]);
+                config(['database.connections.test.host' => $request->host]);
+                config(['database.connections.test.port' => $request->port]);
+                config(['database.connections.test.database' => $request->name]);
+                config(['database.connections.test.username' => $request->username]);
+                config(['database.connections.test.password' => $request->password]);
 
-            // Test connection
-            \DB::connection('test')->getPdo();
+                // Test connection
+                \DB::connection('test')->getPdo();
 
-        } catch (PDOException $e) {
-            throw new HttpException(500, $e->getMessage());
+            } catch (PDOException $e) {
+                throw new HttpException(500, $e->getMessage());
+            }
+
+            setEnvironmentValue([
+                'DB_CONNECTION' => $request->connection,
+                'DB_HOST'       => $request->host,
+                'DB_PORT'       => $request->port,
+                'DB_DATABASE'   => $request->name,
+                'DB_USERNAME'   => $request->username,
+                'DB_PASSWORD'   => $request->password,
+            ]);
+
+            Artisan::call('config:cache');
+
+            Artisan::call('key:generate', [
+                '--force' => true
+            ]);
+
+            Artisan::call('migrate:fresh', [
+                '--force' => true
+            ]);
         }
-
-        setEnvironmentValue([
-            'DB_CONNECTION' => $request->connection,
-            'DB_HOST'       => $request->host,
-            'DB_PORT'       => $request->port,
-            'DB_DATABASE'   => $request->name,
-            'DB_USERNAME'   => $request->username,
-            'DB_PASSWORD'   => $request->password,
-        ]);
-
-        // Clear cache
-        Artisan::call('config:cache');
-
-        // Set up application
-        $this->set_up_application();
 
         // Store setup wizard progress
         Setting::forceCreate([
@@ -109,7 +113,7 @@ class SetupWizardController extends Controller
             'value' => 1,
         ]);
 
-        return response('Done', 200);
+        return response('Done', 204);
     }
 
     /**
@@ -120,20 +124,21 @@ class SetupWizardController extends Controller
      */
     public function store_stripe_credentials(StoreStripeCredentialsRequest $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if (!app()->runningUnitTests()) {
 
-        // Create stripe instance
-        $stripe = Stripe::make($request->secret, '2020-03-02');
+            // Create stripe instance
+            $stripe = Stripe::make($request->secret, '2020-03-02');
 
-        // Try to get stripe account details
-        try {
-            $stripe->account()->details();
-        } catch (UnauthorizedException $e) {
-            throw new HttpException(401, $e->getMessage());
+            try {
+                // Try to get stripe account details
+                $stripe->account()->details();
+
+            } catch (UnauthorizedException $e) {
+                throw new HttpException(401, $e->getMessage());
+            }
         }
 
-        // Get options
+        // Set settings
         collect([
             [
                 'name'  => 'stripe_currency',
@@ -154,18 +159,21 @@ class SetupWizardController extends Controller
             ]);
         });
 
-        // Set stripe credentials to .env
-        setEnvironmentValue([
-            'CASHIER_CURRENCY'      => $request->currency,
-            'STRIPE_KEY'            => $request->key,
-            'STRIPE_SECRET'         => $request->secret,
-            'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
-        ]);
+        if (!app()->runningUnitTests()) {
 
-        // Clear cache
-        Artisan::call('config:cache');
+            // Set stripe credentials to .env
+            setEnvironmentValue([
+                'CASHIER_CURRENCY'      => $request->currency,
+                'STRIPE_KEY'            => $request->key,
+                'STRIPE_SECRET'         => $request->secret,
+                'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
+            ]);
 
-        return response('Done', 200);
+            // Clear cache
+            Artisan::call('config:cache');
+        }
+
+        return response('Done', 204);
     }
 
     /**
@@ -176,9 +184,6 @@ class SetupWizardController extends Controller
      */
     public function store_stripe_billings(StoreStripeBillingRequest $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
-
         // Get options
         collect([
             [
@@ -220,10 +225,11 @@ class SetupWizardController extends Controller
             ]);
         });
 
-        // Clear cache
-        Artisan::call('config:cache');
+        if (!app()->runningUnitTests()) {
+            Artisan::call('config:cache');
+        }
 
-        return response('Done', 200);
+        return response('Done', 204);
     }
 
     /**
@@ -233,9 +239,6 @@ class SetupWizardController extends Controller
      */
     public function store_stripe_plans(StoreStripePlansRequest $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
-
         foreach ($request->input('plans') as $plan) {
             $this->stripe->createPlan($plan);
         }
@@ -249,78 +252,66 @@ class SetupWizardController extends Controller
      */
     public function store_environment_setup(StoreEnvironmentSetupRequest $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if (!app()->runningUnitTests()) {
 
-        $storage_driver = $request->input('storage.driver');
+            $drivers = [
+                'local'     => [
+                    'FILESYSTEM_DRIVER' => 'local',
+                ],
+                's3'        => [
+                    'FILESYSTEM_DRIVER'     => $request->storage['driver'] ?? null,
+                    'AWS_ACCESS_KEY_ID'     => $request->storage['key'] ?? null,
+                    'AWS_SECRET_ACCESS_KEY' => $request->storage['secret'] ?? null,
+                    'AWS_DEFAULT_REGION'    => $request->storage['region'] ?? null,
+                    'AWS_BUCKET'            => $request->storage['bucket'] ?? null,
+                ],
+                'spaces'    => [
+                    'FILESYSTEM_DRIVER'  => $request->storage['driver'] ?? null,
+                    'DO_SPACES_KEY'      => $request->storage['key'] ?? null,
+                    'DO_SPACES_SECRET'   => $request->storage['secret'] ?? null,
+                    'DO_SPACES_ENDPOINT' => $request->storage['endpoint'] ?? null,
+                    'DO_SPACES_REGION'   => $request->storage['region'] ?? null,
+                    'DO_SPACES_BUCKET'   => $request->storage['bucket'] ?? null,
+                ],
+                'wasabi'    => [
+                    'FILESYSTEM_DRIVER' => $request->storage['driver'] ?? null,
+                    'WASABI_KEY'        => $request->storage['key'] ?? null,
+                    'WASABI_SECRET'     => $request->storage['secret'] ?? null,
+                    'WASABI_ENDPOINT'   => $request->storage['endpoint'] ?? null,
+                    'WASABI_REGION'     => $request->storage['region'] ?? null,
+                    'WASABI_BUCKET'     => $request->storage['bucket'] ?? null,
+                ],
+                'backblaze' => [
+                    'FILESYSTEM_DRIVER'  => $request->storage['driver'] ?? null,
+                    'BACKBLAZE_KEY'      => $request->storage['key'] ?? null,
+                    'BACKBLAZE_SECRET'   => $request->storage['secret'] ?? null,
+                    'BACKBLAZE_ENDPOINT' => $request->storage['endpoint'] ?? null,
+                    'BACKBLAZE_REGION'   => $request->storage['region'] ?? null,
+                    'BACKBLAZE_BUCKET'   => $request->storage['bucket'] ?? null,
+                ],
+            ];
 
-        if ($storage_driver === 'local') {
+            // Storage credentials for storage
+            setEnvironmentValue(
+                $drivers[$request->storage['driver']]
+            );
 
+            // Store credentials for mail
+            // TODO: add options for mailgun
             setEnvironmentValue([
-                'FILESYSTEM_DRIVER' => 'local',
+                'MAIL_DRIVER'     => $request->input('mail.driver'),
+                'MAIL_HOST'       => $request->input('mail.host'),
+                'MAIL_PORT'       => $request->input('mail.port'),
+                'MAIL_USERNAME'   => $request->input('mail.username'),
+                'MAIL_PASSWORD'   => $request->input('mail.password'),
+                'MAIL_ENCRYPTION' => $request->input('mail.encryption'),
             ]);
+
+            Artisan::call('config:cache');
         }
 
-        if ($storage_driver === 's3') {
 
-            setEnvironmentValue([
-                'FILESYSTEM_DRIVER'     => $request->input('storage.driver'),
-                'AWS_ACCESS_KEY_ID'     => $request->input('storage.key'),
-                'AWS_SECRET_ACCESS_KEY' => $request->input('storage.secret'),
-                'AWS_DEFAULT_REGION'    => $request->input('storage.region'),
-                'AWS_BUCKET'            => $request->input('storage.bucket'),
-            ]);
-        }
-
-        if ($storage_driver === 'spaces') {
-
-            setEnvironmentValue([
-                'FILESYSTEM_DRIVER'  => $request->input('storage.driver'),
-                'DO_SPACES_KEY'      => $request->input('storage.key'),
-                'DO_SPACES_SECRET'   => $request->input('storage.secret'),
-                'DO_SPACES_ENDPOINT' => $request->input('storage.endpoint'),
-                'DO_SPACES_REGION'   => $request->input('storage.region'),
-                'DO_SPACES_BUCKET'   => $request->input('storage.bucket'),
-            ]);
-        }
-
-        if ($storage_driver === 'wasabi') {
-
-            setEnvironmentValue([
-                'FILESYSTEM_DRIVER' => $request->input('storage.driver'),
-                'WASABI_KEY'        => $request->input('storage.key'),
-                'WASABI_SECRET'     => $request->input('storage.secret'),
-                'WASABI_ENDPOINT'   => $request->input('storage.endpoint'),
-                'WASABI_REGION'     => $request->input('storage.region'),
-                'WASABI_BUCKET'     => $request->input('storage.bucket'),
-            ]);
-        }
-
-        if ($storage_driver === 'backblaze') {
-
-            setEnvironmentValue([
-                'FILESYSTEM_DRIVER'  => $request->input('storage.driver'),
-                'BACKBLAZE_KEY'      => $request->input('storage.key'),
-                'BACKBLAZE_SECRET'   => $request->input('storage.secret'),
-                'BACKBLAZE_ENDPOINT' => $request->input('storage.endpoint'),
-                'BACKBLAZE_REGION'   => $request->input('storage.region'),
-                'BACKBLAZE_BUCKET'   => $request->input('storage.bucket'),
-            ]);
-        }
-
-        setEnvironmentValue([
-            'MAIL_DRIVER'     => $request->input('mail.driver'),
-            'MAIL_HOST'       => $request->input('mail.host'),
-            'MAIL_PORT'       => $request->input('mail.port'),
-            'MAIL_USERNAME'   => $request->input('mail.username'),
-            'MAIL_PASSWORD'   => $request->input('mail.password'),
-            'MAIL_ENCRYPTION' => $request->input('mail.encryption'),
-        ]);
-
-        // Clear cache
-        Artisan::call('config:cache');
-
-        return response('Done', 200);
+        return response('Done', 204);
     }
 
     /**
@@ -330,24 +321,6 @@ class SetupWizardController extends Controller
      */
     public function store_app_settings(StoreAppSetupRequest $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
-
-        // Store Logo
-        if ($request->hasFile('logo')) {
-            $logo = store_system_image($request->file('logo'));
-        }
-
-        // Store Logo horizontal
-        if ($request->hasFile('logo_horizontal')) {
-            $logo_horizontal = store_system_image($request->file('logo_horizontal'));
-        }
-
-        // Store favicon
-        if ($request->hasFile('favicon')) {
-            $favicon = store_system_image($request->file('favicon'));
-        }
-
         // Get options
         collect([
             [
@@ -360,15 +333,15 @@ class SetupWizardController extends Controller
             ],
             [
                 'name'  => 'app_logo',
-                'value' => $request->hasFile('logo') ? $logo : null,
+                'value' => store_system_image($request, 'logo'),
             ],
             [
                 'name'  => 'app_logo_horizontal',
-                'value' => $request->hasFile('logo_horizontal') ? $logo_horizontal : null,
+                'value' => store_system_image($request, 'logo_horizontal'),
             ],
             [
                 'name'  => 'app_favicon',
-                'value' => $request->hasFile('favicon') ? $favicon : null,
+                'value' => store_system_image($request, 'favicon'),
             ],
             [
                 'name'  => 'google_analytics',
@@ -388,7 +361,7 @@ class SetupWizardController extends Controller
             ],
             [
                 'name'  => 'storage_default',
-                'value' => $request->defaultStorage ? $request->defaultStorage : 5,
+                'value' => $request->defaultStorage ?? 5,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
@@ -397,11 +370,13 @@ class SetupWizardController extends Controller
             ]);
         });
 
-        setEnvironmentValue([
-            'APP_NAME'     => Str::camel($request->title),
-        ]);
+        if (!app()->runningUnitTests()) {
+            setEnvironmentValue([
+                'APP_NAME' => Str::camel($request->title),
+            ]);
+        }
 
-        return response('Done', 200);
+        return response('Done', 204);
     }
 
     /**
@@ -412,10 +387,8 @@ class SetupWizardController extends Controller
      */
     public function create_admin_account(Request $request)
     {
-        // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
-
         // Validate request
+        // TODO: validator do requestu
         $request->validate([
             'email'         => 'required|string|email|unique:users',
             'password'      => 'required|string|min:6|confirmed',
@@ -425,15 +398,8 @@ class SetupWizardController extends Controller
             'avatar'        => 'sometimes|file',
         ]);
 
-        // Store avatar
-        if ($request->hasFile('avatar')) {
-            $avatar = store_avatar($request->file('avatar'));
-        }
-
         // Create user
         $user = User::forceCreate([
-            'avatar'   => $request->hasFile('avatar') ? $avatar : null,
-            'name'     => $request->name,
             'role'     => 'admin',
             'email'    => $request->email,
             'password' => Hash::make($request->password),
@@ -442,8 +408,9 @@ class SetupWizardController extends Controller
         $user
             ->settings()
             ->create([
-                'user_id'          => $user->id,
                 'storage_capacity' => get_setting('storage_default'),
+                'avatar'           => store_avatar($request, 'avatar'),
+                'name'             => $request->name,
             ]);
 
         collect([
@@ -466,72 +433,36 @@ class SetupWizardController extends Controller
             ]);
         });
 
-        // Retrieve access token
-        $response = Route::dispatch(self::make_login_request($request));
+        // Set up application
+        $this->setup->seed_default_pages();
+        $this->setup->seed_default_settings($request->license);
 
-        // Send access token to user if request is successful
-        if ($response->isSuccessful()) {
+        // Login account
+        if (Auth::attempt($request->only(['email', 'password']))) {
 
-            $data = json_decode($response->content(), true);
+            $request->session()->regenerate();
 
-            return response('Admin was created', 200)->cookie('access_token', $data['access_token'], 43200);
+            return response('Registration was successful', 204);
         }
 
-        return $response;
-    }
-
-    /**
-     * Migrate database and generate necessary things
-     */
-    private function set_up_application()
-    {
-        // Generate app key
-        Artisan::call('key:generate', [
-            '--force' => true
-        ]);
-
-        // Migrate database
-        Artisan::call('migrate:fresh', [
-            '--force' => true
-        ]);
-
-        $this->setup->seed_default_pages();
-        $this->setup->seed_default_settings();
-    }
-
-    /**
-     * Make login request for get access token
-     *
-     * @param Request $request
-     * @return Request
-     */
-    private static function make_login_request($request)
-    {
-        $request->request->add([
-            'grant_type'    => 'password',
-            'client_id'     => config('services.passport.client_id'),
-            'client_secret' => config('services.passport.client_secret'),
-            'username'      => $request->email,
-            'password'      => $request->password,
-            'scope'         => 'master',
-        ]);
-
-        return Request::create(url('/oauth/token'), 'POST', $request->all());
+        return response('Something went wrong', 500);
     }
 
     /**
      * Get setup wizard status
      *
-     * @return |null
+     * @return false |null
      */
-    private function get_setup_status()
+    private function check_setup_status()
     {
         try {
             // Check database connections
             DB::getPdo();
 
             // Get setup_wizard status
-            return Schema::hasTable('settings') ? get_setting('setup_wizard_success') : false;
+            if (Schema::hasTable('settings') && get_setting('setup_wizard_success')) {
+                abort(410, 'Gone');
+            }
 
         } catch (PDOException $e) {
 

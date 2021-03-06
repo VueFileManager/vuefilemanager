@@ -3,10 +3,12 @@
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\AppFunctionsController;
 use App\Http\Controllers\FileAccessController;
+use App\Http\Controllers\General\SetupWizardController;
 use App\Http\Controllers\Sharing\FileSharingController;
 use App\Http\Controllers\WebhookController;
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);
 
 // App public files
 // TODO: testy

@@ -180,7 +180,7 @@ class UserController extends Controller
     {
         // Store avatar
         if ($request->hasFile('avatar')) {
-            $avatar = store_avatar($request->file('avatar'));
+            $avatar = store_avatar($request, 'avatar');
         }
 
         // Create user

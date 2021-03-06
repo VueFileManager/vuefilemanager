@@ -88,7 +88,7 @@ class AccountController extends Controller
             $user
                 ->settings()
                 ->update([
-                    'avatar' => store_avatar($request->file('avatar'))
+                    'avatar' => store_avatar($request, 'avatar')
                 ]);
 
             return response('Saved!', 204);
