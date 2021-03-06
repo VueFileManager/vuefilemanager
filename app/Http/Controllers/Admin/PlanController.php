@@ -29,7 +29,7 @@ class PlanController extends Controller
     /**
      * Get all plans
      *
-     * @return PlanCollection
+     * @return PlanCollection|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function index()
     {
@@ -42,14 +42,14 @@ class PlanController extends Controller
             });
         }
 
-        return new PlanCollection($plans);
+        return response(new PlanCollection($plans), 200);
     }
 
     /**
      * Get plan record
      *
      * @param $id
-     * @return PlanResource
+     * @return PlanResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -62,7 +62,7 @@ class PlanController extends Controller
             });
         }
 
-        return new PlanResource($plan);
+        return response(new PlanResource($plan), 200);
     }
 
     /**
@@ -73,6 +73,7 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
+        // TODO: inline request
         if (env('APP_DEMO')) {
 
             if (Cache::has('plan-starter-pack')) {
@@ -115,7 +116,7 @@ class PlanController extends Controller
         // Clear cached plans
         cache_forget_many(['plans', 'pricing', 'plan-' . $id]);
 
-        return response('Saved!', 204);
+        return response('Saved!', 201);
     }
 
     /**

@@ -61,7 +61,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_get_setup_intent()
     {
@@ -82,7 +82,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_upgrade_plan()
     {
@@ -109,7 +109,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_cancel_subscription()
     {
@@ -135,7 +135,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_resume_subscription()
     {
@@ -164,7 +164,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_get_user_subscription_details()
     {
@@ -204,7 +204,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_get_user_invoices()
     {
@@ -229,7 +229,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_get_user_subscription_from_admin()
     {
@@ -274,7 +274,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_get_user_invoices_from_admin()
     {
@@ -296,7 +296,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     *
+     * 
      */
     public function it_store_stripe_plans_via_setup_wizard()
     {
@@ -306,7 +306,7 @@ class SubscriptionTest extends TestCase
                     'type'       => 'plan',
                     'attributes' => [
                         'name'        => 'test-plan-' . Str::random(16),
-                        'price'       => (string) rand(1, 99),
+                        'price'       => (string)rand(1, 99),
                         'description' => 'Some random description',
                         'capacity'    => rand(1, 999),
                     ],
@@ -315,12 +315,159 @@ class SubscriptionTest extends TestCase
                     'type'       => 'plan',
                     'attributes' => [
                         'name'        => 'test-plan-' . Str::random(16),
-                        'price'       => (string) rand(1, 99),
+                        'price'       => (string)rand(1, 99),
                         'description' => 'Some random description',
                         'capacity'    => rand(1, 999),
                     ],
                 ],
             ]
         ])->assertStatus(204);
+    }
+
+    /**
+     * 
+     */
+    public function it_get_all_plans_from_admin()
+    {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->getJson('/api/admin/plans')
+            ->assertStatus(200);
+    }
+
+    /**
+     * 
+     */
+    public function it_get_single_plan_from_admin()
+    {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->getJson('/api/admin/plans/' . $this->plan['data']['id'])
+            ->assertStatus(200);
+    }
+
+    /**
+     * 
+     */
+    public function it_create_single_plan_from_admin()
+    {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $plan_name = 'test-plan-' . Str::random(16);
+
+        $this->postJson('/api/admin/plans', [
+            'type'       => 'plan',
+            'attributes' => [
+                'name'        => $plan_name,
+                'price'       => (string)rand(1, 99),
+                'description' => 'Some random description',
+                'capacity'    => rand(1, 999),
+            ],
+        ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => $plan_name
+            ]);
+    }
+
+    /**
+     * 
+     */
+    public function it_delete_single_plan()
+    {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $plan_name = 'test-plan-' . Str::random(16);
+
+        $this->postJson('/api/admin/plans', [
+            'type'       => 'plan',
+            'attributes' => [
+                'name'        => $plan_name,
+                'price'       => (string)rand(1, 99),
+                'description' => 'Some random description',
+                'capacity'    => rand(1, 999),
+            ],
+        ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => $plan_name
+            ]);
+
+        $this->deleteJson("/api/admin/plans/" . strtolower($plan_name))
+            ->assertStatus(204);
+    }
+
+    /**
+     * 
+     */
+    public function it_update_single_plan_from_admin()
+    {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $plan_name = 'test-plan-' . Str::random(16);
+
+        $this->postJson('/api/admin/plans', [
+            'type'       => 'plan',
+            'attributes' => [
+                'name'        => $plan_name,
+                'price'       => (string)rand(1, 99),
+                'description' => 'Some random description',
+                'capacity'    => rand(1, 999),
+            ],
+        ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => $plan_name
+            ]);
+
+        $this->patchJson("/api/admin/plans/" . strtolower($plan_name), [
+            'name'  => 'description',
+            'value' => 'updated description'
+        ])->assertStatus(201);
+    }
+
+    /**
+     *
+     */
+    public function it_get_subscribers_from_plan_from_admin()
+    {
+        $user = User::factory(User::class)
+            ->create($this->user);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/user/subscription/upgrade', [
+            'billing' => $this->billing,
+            'plan'    => $this->plan,
+            'payment' => [
+                'type' => 'stripe',
+            ],
+        ])->assertStatus(204);
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $this->getJson('/api/admin/plans/' . $this->plan['data']['id'] . '/subscribers')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $user->id
+            ]);
     }
 }

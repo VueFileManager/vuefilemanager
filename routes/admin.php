@@ -29,13 +29,12 @@ Route::group(['prefix' => 'users'], function () {
 });
 
 // Plans
-// TODO: testy
 Route::group(['prefix' => 'plans'], function () {
     Route::get('/{id}/subscribers', [PlanController::class, 'subscribers']);
-    Route::patch('/{id}/update', [PlanController::class, 'update']);
     Route::delete('/{id}', [PlanController::class, 'delete']);
-    Route::post('/store', [PlanController::class, 'store']);
+    Route::patch('/{id}', [PlanController::class, 'update']);
     Route::get('/{id}', [PlanController::class, 'show']);
+    Route::post('/', [PlanController::class, 'store']);
     Route::get('/', [PlanController::class, 'index']);
 });
 
