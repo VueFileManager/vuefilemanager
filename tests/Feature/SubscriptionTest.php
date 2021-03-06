@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -292,5 +293,34 @@ class SubscriptionTest extends TestCase
             ->assertJsonFragment([
                 'customer' => $this->user['stripe_id']
             ]);
+    }
+
+    /**
+     *
+     */
+    public function it_store_stripe_plans_via_setup_wizard()
+    {
+        $this->postJson('/api/setup/stripe-plans', [
+            'plans' => [
+                [
+                    'type'       => 'plan',
+                    'attributes' => [
+                        'name'        => 'test-plan-' . Str::random(16),
+                        'price'       => (string) rand(1, 99),
+                        'description' => 'Some random description',
+                        'capacity'    => rand(1, 999),
+                    ],
+                ],
+                [
+                    'type'       => 'plan',
+                    'attributes' => [
+                        'name'        => 'test-plan-' . Str::random(16),
+                        'price'       => (string) rand(1, 99),
+                        'description' => 'Some random description',
+                        'capacity'    => rand(1, 999),
+                    ],
+                ],
+            ]
+        ])->assertStatus(204);
     }
 }

@@ -14,7 +14,6 @@ use App\Services\SetupService;
 use App\Services\StripeService;
 use App\Models\Setting;
 use App\Models\User;
-use App\Models\UserSettings;
 use Artisan;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Doctrine\DBAL\Driver\PDOException;
@@ -24,7 +23,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Schema;
 use Stripe;
@@ -236,12 +234,15 @@ class SetupWizardController extends Controller
      * Create Stripe subscription plan
      *
      * @param StoreStripePlansRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|ResponseFactory|\Illuminate\Http\Response
      */
     public function store_stripe_plans(StoreStripePlansRequest $request)
     {
-        foreach ($request->input('plans') as $plan) {
+        foreach ($request->plans as $plan) {
             $this->stripe->createPlan($plan);
         }
+
+        return response('Done', 204);
     }
 
     /**
@@ -299,12 +300,12 @@ class SetupWizardController extends Controller
             // Store credentials for mail
             // TODO: add options for mailgun
             setEnvironmentValue([
-                'MAIL_DRIVER'     => $request->input('mail.driver'),
-                'MAIL_HOST'       => $request->input('mail.host'),
-                'MAIL_PORT'       => $request->input('mail.port'),
-                'MAIL_USERNAME'   => $request->input('mail.username'),
-                'MAIL_PASSWORD'   => $request->input('mail.password'),
-                'MAIL_ENCRYPTION' => $request->input('mail.encryption'),
+                'MAIL_DRIVER'     => $request->mail['driver'],
+                'MAIL_HOST'       => $request->mail['host'],
+                'MAIL_PORT'       => $request->mail['port'],
+                'MAIL_USERNAME'   => $request->mail['username'],
+                'MAIL_PASSWORD'   => $request->mail['password'],
+                'MAIL_ENCRYPTION' => $request->mail['encryption'],
             ]);
 
             Artisan::call('config:cache');
@@ -451,7 +452,7 @@ class SetupWizardController extends Controller
     /**
      * Get setup wizard status
      *
-     * @return false |null
+     * @return false | null
      */
     private function check_setup_status()
     {

@@ -15,6 +15,14 @@ class SetupWizardTest extends TestCase
     use DatabaseMigrations;
 
     /**
+     * CAVEAT:
+     *
+     * The route '/api/setup/stripe-plans' which is part of setup wizard is moved to
+     * SubscriptionTest.php to group all live API test. For more info how to test
+     * subscription integration in VueFileManager platform visit https://laravel.com/docs/8.x/billing#testing
+     */
+
+    /**
      * @test
      */
     public function it_verify_purchase_code_successfully()
