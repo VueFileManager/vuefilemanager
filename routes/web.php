@@ -10,8 +10,7 @@ use App\Http\Controllers\WebhookController;
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);
 
-// App public files
-// TODO: testy
+// Get avatars and system images
 Route::get('/avatars/{avatar}', [FileAccessController::class, 'get_avatar'])->name('avatar');
 Route::get('/system/{image}', [FileAccessController::class, 'get_system_image']);
 

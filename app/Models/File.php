@@ -137,7 +137,7 @@ class File extends Model
                 'ResponseContentDisposition' => 'attachment; filename=' . $file_pretty_name,
             ];
 
-            return Storage::temporaryUrl('file-manager/' . $this->attributes['basename'], now()->addDay(), $header);
+            return Storage::temporaryUrl('files/' . $this->attributes['basename'], now()->addDay(), $header);
         }
 
         // Get thumbnail from local storage

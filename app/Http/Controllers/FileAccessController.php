@@ -6,7 +6,6 @@ use App\Models\Folder;
 use App\Http\Tools\Editor;
 use App\Http\Tools\Guardian;
 use App\Models\Share;
-use App\Models\User;
 use App\Models\Zip;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -70,29 +69,29 @@ class FileAccessController extends Controller
      */
     public function get_file(Request $request, $filename)
     {
-        // Get user id
-        $user_id = Auth::id();
-
         // Get file record
-        $file = File::withTrashed()
-            ->where('user_id', $user_id)
+        $file = UserFile::withTrashed()
+            ->where('user_id', Auth::id())
             ->where('basename', $filename)
             ->firstOrFail();
 
         // Check user permission
-        if (!$request->user()->tokenCan('master')) {
+        /*if (!$request->user()->tokenCan('master')) {
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to file
             $this->check_file_access($shared, $file);
-        }
+        }*/
+
 
         // Store user download size
-        $request->user()->record_download((int)$file->getRawOriginal('filesize'));
+        $request->user()->record_download(
+            (int) $file->getRawOriginal('filesize')
+        );
 
-        return $this->download_file($file);
+        return $this->download_file($file, Auth::id());
     }
 
     /**
@@ -254,28 +253,32 @@ class FileAccessController extends Controller
      * Call and download file
      *
      * @param $file
+     * @param $user_id
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function download_file($file)
+    private function download_file($file, $user_id)
     {
-        $file_pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
-
         // Get file path
-        $path = '/file-manager/' . $file->basename;
+        $path = "files/$user_id/$file->basename";
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
+
+        // Get pretty name
+        $pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
 
         $headers = [
             "Accept-Ranges"       => "bytes",
             "Content-Type"        => Storage::mimeType($path),
             "Content-Length"      => Storage::size($path),
             "Content-Range"       => "bytes 0-600/" . Storage::size($path),
-            "Content-Disposition" => "attachment; filename=" . $file_pretty_name,
+            "Content-Disposition" => "attachment; filename=$pretty_name",
         ];
 
-        return response()->download(config('filesystems.disks.local.root') . '/file-manager/' . $file->basename, $file_pretty_name, $headers);
+        return response()
+            ->download(Storage::path($path), $pretty_name, $headers);
     }
 
     /**
@@ -286,7 +289,7 @@ class FileAccessController extends Controller
     private function thumbnail_file($file)
     {
         // Get file path
-        $path = '/file-manager/' . $file->getRawOriginal('thumbnail');
+        $path = '/files/' . $file->getRawOriginal('thumbnail');
 
         // Check if file exist
         if (!Storage::exists($path)) abort(404);
