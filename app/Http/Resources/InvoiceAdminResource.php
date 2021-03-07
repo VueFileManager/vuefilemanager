@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Laravel\Cashier\Cashier;
 
@@ -16,7 +16,8 @@ class InvoiceAdminResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = User::where('stripe_id', $this['customer'])->first();
+        $user = User::where('stripe_id', $this['customer'])
+            ->first();
 
         return [
             'data' => [
@@ -29,7 +30,7 @@ class InvoiceAdminResource extends JsonResource
                     'created_at_formatted' => format_date($this['created']),
                     'created_at'           => $this['created'],
                     'order'                => $this['number'],
-                    'user_id'              => $user ? $user->id : null,
+                    'user_id'              => $user->id ?? null,
                     'client'               => [
                         'billing_address'      => $this['customer_address'],
                         'billing_name'         => $this['customer_name'],
@@ -42,24 +43,24 @@ class InvoiceAdminResource extends JsonResource
                         'description' => $this['lines']['data'][0]['description'],
                     ],
                     'seller'               => null,
-                ]
-            ],
-            $this->mergeWhen($user, function () use ($user) {
-                return [
-                    'relationships' => [
-                        'user' => [
-                            'data' => [
-                                'id'         => (string)$user->id,
-                                'type'       => 'user',
-                                'attributes' => [
-                                    'name'            => $user->name,
-                                    'avatar'          => $user->avatar,
+                ],
+                $this->mergeWhen($user, function () use ($user) {
+                    return [
+                        'relationships' => [
+                            'user' => [
+                                'data' => [
+                                    'id'         => $user->id,
+                                    'type'       => 'user',
+                                    'attributes' => [
+                                        'name'   => $user->name,
+                                        'avatar' => $user->avatar,
+                                    ]
                                 ]
                             ]
                         ]
-                    ]
-                ];
-            }),
+                    ];
+                }),
+            ],
         ];
     }
 }

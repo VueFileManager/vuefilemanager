@@ -333,7 +333,10 @@ class StripeService
      */
     public function deletePlan($slug)
     {
-        $this->stripe->plans()->delete($slug);
+        $this
+            ->stripe
+            ->plans()
+            ->delete($slug);
     }
 
     /**
@@ -344,20 +347,22 @@ class StripeService
      */
     public function getUserInvoices($user)
     {
-        return $user->invoices();
+        return $user
+            ->invoices();
     }
 
     /**
      * Get user invoice by id
      *
+     * @param $customer
      * @param $id
      * @return \Laravel\Cashier\Invoice|null
      */
     public function getUserInvoice($customer, $id)
     {
-        $user = User::where('stripe_id', $customer)->firstOrFail();
-
-        return $user->findInvoice($id);
+        return User::whereStripeId($customer)
+            ->firstOrFail()
+            ->findInvoice($id);
     }
 
     /**
@@ -367,8 +372,11 @@ class StripeService
      */
     public function getInvoices()
     {
-        return $this->stripe->invoices()->all([
-            'limit' => 20
-        ]);
+        return $this
+            ->stripe
+            ->invoices()
+            ->all([
+                'limit' => 20
+            ]);
     }
 }

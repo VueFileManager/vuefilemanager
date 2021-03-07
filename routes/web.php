@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
 });
 
 // Get user invoice
-Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show']);
 });
 

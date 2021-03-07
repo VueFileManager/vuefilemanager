@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InvoiceAdminCollection;
 use App\Http\Resources\InvoiceResource;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Services\StripeService;
-use App\Setting;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -37,7 +37,7 @@ class InvoiceController extends Controller
      *
      * @param $customer
      * @param $token
-     * @return InvoiceResource
+     * @return InvoiceResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show($customer, $token)
     {

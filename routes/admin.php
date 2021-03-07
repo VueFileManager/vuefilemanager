@@ -46,11 +46,7 @@ Route::group(['prefix' => 'pages'], function () {
 });
 
 // Invoices
-// TODO: testy
-Route::group(['prefix' => 'invoices'], function () {
-    Route::get('/{token}', [InvoiceController::class, 'show']);
-    Route::get('/', [InvoiceController::class, 'index']);
-});
+Route::get('/invoices', [InvoiceController::class, 'index']);
 
 // Settings
 Route::group(['prefix' => 'settings'], function () {
