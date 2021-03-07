@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\File;
 use App\Models\User;
+use App\Models\Zip;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Services\SetupService;
 use Illuminate\Http\UploadedFile;
@@ -89,31 +91,14 @@ class FileAccessTest extends TestCase
             ->assertOk();
     }
 
+
     /**
      * @test
      */
     public function guest_try_to_get_private_user_file()
     {
-        Storage::fake('local');
-
-        $this->setup->create_directories();
-
-        $user = User::factory(User::class)
-            ->create();
-
-        $file = UploadedFile::fake()
-            ->create(Str::random() . '-fake-file.pdf', 1200, 'application/pdf');
-
-        Storage::putFileAs("files/$user->id", $file, $file->name);
-
-        File::factory(File::class)
-            ->create([
-                'basename' => $file->name,
-                'name'     => 'fake-file.pdf',
-            ]);
-
-        $this->get("file/$file->name")
-            ->assertStatus(302);
+        $this->get("file/fake-file.pdf")
+            ->assertRedirect();
     }
 
     /**
@@ -143,5 +128,69 @@ class FileAccessTest extends TestCase
 
         $this->get("file/$file->name")
             ->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_private_user_zip()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $file = UploadedFile::fake()
+            ->create('archive.zip', 2000, 'application/zip');
+
+        Storage::putFileAs('zip', $file, 'EHWKcuvKzA4Gv29v-archive.zip');
+
+        $zip = Zip::factory(Zip::class)->create([
+            'basename' => 'EHWKcuvKzA4Gv29v-archive.zip',
+            'user_id'  => $user->id,
+        ]);
+
+        $this->get("zip/$zip->id")
+            ->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function logged_user_try_to_get_another_private_user_zip()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $file = UploadedFile::fake()
+            ->create('archive.zip', 2000, 'application/zip');
+
+        Storage::putFileAs('zip', $file, 'EHWKcuvKzA4Gv29v-archive.zip');
+
+        $zip = Zip::factory(Zip::class)->create([
+            'basename' => 'EHWKcuvKzA4Gv29v-archive.zip',
+        ]);
+
+        $this->get("zip/$zip->id")
+            ->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
+    public function guest_try_to_get_private_user_zip()
+    {
+        $this->get("zip/EHWKcuvKzA4Gv29v-archive.zip")
+            ->assertRedirect();
     }
 }

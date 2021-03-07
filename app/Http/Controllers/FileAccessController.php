@@ -102,21 +102,19 @@ class FileAccessController extends Controller
      */
     public function get_zip($id)
     {
-        $zip = Zip::where('id', $id)
+        $zip = Zip::whereId($id)
             ->where('user_id', Auth::id())
-            ->first();
+            ->firstOrFail();
 
-        $zip_path = 'zip/' . $zip->basename;
+        $disk = Storage::disk('local');
 
-        $header = [
+        return $disk->download("zip/$zip->basename", $zip->basename, [
             "Content-Type"        => 'application/zip',
-            "Content-Length"      => Storage::disk('local')->size($zip_path),
+            "Content-Length"      => $disk->size("zip/$zip->basename"),
             "Accept-Ranges"       => "bytes",
-            "Content-Range"       => "bytes 0-600/" . Storage::disk('local')->size($zip_path),
-            "Content-Disposition" => "attachment; filename=" . $zip->basename,
-        ];
-
-        return Storage::disk('local')->download($zip_path, $zip->basename, $header);
+            "Content-Range"       => "bytes 0-600/" . $disk->size("zip/$zip->basename"),
+            "Content-Disposition" => "attachment; filename=$zip->basename",
+        ]);
     }
 
     /**
