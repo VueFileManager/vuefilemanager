@@ -88,7 +88,7 @@ class FileAccessController extends Controller
 
         // Store user download size
         $request->user()->record_download(
-            (int) $file->getRawOriginal('filesize')
+            (int)$file->getRawOriginal('filesize')
         );
 
         return $this->download_file($file, Auth::id());
@@ -186,17 +186,17 @@ class FileAccessController extends Controller
     public function get_thumbnail(Request $request, $filename)
     {
         // Get file record
-        $file = File::withTrashed()
-            ->where('user_id', $request->user()->id)
-            ->where('thumbnail', $filename)
+        $file = UserFile::withTrashed()
+            ->whereUserId(Auth::id())
+            ->whereThumbnail($filename)
             ->firstOrFail();
 
         // Check user permission
-        if (!$request->user()->tokenCan('master')) {
+        /*if (!$request->user()->tokenCan('master')) {
             $this->check_file_access($request, $file);
-        }
+        }*/
 
-        return $this->thumbnail_file($file);
+        return $this->thumbnail_file($file, Auth::id());
     }
 
     /**
@@ -267,27 +267,25 @@ class FileAccessController extends Controller
         // Get pretty name
         $pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
 
-        $headers = [
-            "Accept-Ranges"       => "bytes",
-            "Content-Type"        => Storage::mimeType($path),
-            "Content-Length"      => Storage::size($path),
-            "Content-Range"       => "bytes 0-600/" . Storage::size($path),
-            "Content-Disposition" => "attachment; filename=$pretty_name",
-        ];
-
         return response()
-            ->download(Storage::path($path), $pretty_name, $headers);
+            ->download(Storage::path($path), $pretty_name, [
+                "Accept-Ranges"       => "bytes",
+                "Content-Type"        => Storage::mimeType($path),
+                "Content-Length"      => Storage::size($path),
+                "Content-Range"       => "bytes 0-600/" . Storage::size($path),
+                "Content-Disposition" => "attachment; filename=$pretty_name",
+            ]);
     }
 
     /**
      * @param $file
+     * @param $user_id
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function thumbnail_file($file)
+    private function thumbnail_file($file, $user_id)
     {
         // Get file path
-        $path = '/files/' . $file->getRawOriginal('thumbnail');
+        $path = "/files/$user_id/{$file->getRawOriginal('thumbnail')}";
 
         // Check if file exist
         if (!Storage::exists($path)) abort(404);

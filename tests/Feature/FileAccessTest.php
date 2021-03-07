@@ -73,43 +73,6 @@ class FileAccessTest extends TestCase
 
         $this->setup->create_directories();
 
-        $file = UploadedFile::fake()
-            ->create(Str::random() . '-fake-file.pdf', 1200, 'application/pdf');
-
-        $user = User::factory(User::class)
-            ->create();
-
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/upload', [
-            'file'      => $file,
-            'folder_id' => null,
-            'is_last'   => true,
-        ])->assertStatus(201);
-
-        $this->get("file/$file->name")
-            ->assertOk();
-    }
-
-
-    /**
-     * @test
-     */
-    public function guest_try_to_get_private_user_file()
-    {
-        $this->get("file/fake-file.pdf")
-            ->assertRedirect();
-    }
-
-    /**
-     * @test
-     */
-    public function logged_user_try_to_get_another_private_user_file()
-    {
-        Storage::fake('local');
-
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
 
@@ -120,6 +83,7 @@ class FileAccessTest extends TestCase
 
         File::factory(File::class)
             ->create([
+                'user_id'  => $user->id,
                 'basename' => $file->name,
                 'name'     => 'fake-file.pdf',
             ]);
@@ -127,7 +91,37 @@ class FileAccessTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->get("file/$file->name")
-            ->assertNotFound();
+            ->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_private_user_image_thumbnail()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        $thumbnail = UploadedFile::fake()
+            ->image(Str::random() . '-fake-thumbnail.jpg');
+
+        Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
+
+        File::factory(File::class)
+            ->create([
+                'user_id'   => $user->id,
+                'thumbnail' => $thumbnail->name,
+                'name'      => 'fake-thumbnail.jpg',
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $this->get("thumbnail/$thumbnail->name")
+            ->assertStatus(200);
     }
 
     /**
@@ -161,6 +155,68 @@ class FileAccessTest extends TestCase
     /**
      * @test
      */
+    public function logged_user_try_to_get_another_private_user_image_thumbnail()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $users = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $thumbnail = UploadedFile::fake()
+            ->image(Str::random() . '-fake-thumbnail.jpg');
+
+        Storage::putFileAs("files/{$users[0]->id}", $thumbnail, $thumbnail->name);
+
+        File::factory(File::class)
+            ->create([
+                'user_id'   => $users[0]->id,
+                'thumbnail' => $thumbnail->name,
+                'name'      => 'fake-thumbnail.jpg',
+            ]);
+
+        Sanctum::actingAs($users[1]);
+
+        $this->get("thumbnail/$thumbnail->name")
+            ->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
+    public function logged_user_try_to_get_another_private_user_file()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $users = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $file = UploadedFile::fake()
+            ->create(Str::random() . '-fake-file.pdf', 1200, 'application/pdf');
+
+        Storage::putFileAs("files/{$users[0]->id}", $file, $file->name);
+
+        File::factory(File::class)
+            ->create([
+                'user_id'  => $users[0]->id,
+                'basename' => $file->name,
+                'name'     => 'fake-file.pdf',
+            ]);
+
+        Sanctum::actingAs($users[1]);
+
+        $this->get("file/$file->name")
+            ->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
     public function logged_user_try_to_get_another_private_user_zip()
     {
         Storage::fake('local');
@@ -188,9 +244,27 @@ class FileAccessTest extends TestCase
     /**
      * @test
      */
+    public function guest_try_to_get_private_user_file()
+    {
+        $this->get("file/fake-file.pdf")
+            ->assertRedirect();
+    }
+
+    /**
+     * @test
+     */
     public function guest_try_to_get_private_user_zip()
     {
         $this->get("zip/EHWKcuvKzA4Gv29v-archive.zip")
+            ->assertRedirect();
+    }
+
+    /**
+     * @test
+     */
+    public function guest_try_to_get_private_user_image_thumbnail()
+    {
+        $this->get("thumbnail/fake-thumbnail.jpg")
             ->assertRedirect();
     }
 }
