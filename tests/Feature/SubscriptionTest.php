@@ -61,7 +61,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_setup_intent()
     {
@@ -82,7 +82,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_upgrade_plan()
     {
@@ -109,7 +109,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_cancel_subscription()
     {
@@ -135,7 +135,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_resume_subscription()
     {
@@ -164,7 +164,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_user_subscription_details()
     {
@@ -204,7 +204,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_user_invoices()
     {
@@ -229,7 +229,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_user_subscription_from_admin()
     {
@@ -274,7 +274,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_user_invoices_from_admin()
     {
@@ -296,7 +296,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_store_stripe_plans_via_setup_wizard()
     {
@@ -325,7 +325,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_all_plans_from_admin()
     {
@@ -339,7 +339,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_get_single_plan_from_admin()
     {
@@ -353,7 +353,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_create_single_plan_from_admin()
     {
@@ -380,7 +380,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_delete_single_plan()
     {
@@ -410,7 +410,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * 
+     *
      */
     public function it_update_single_plan_from_admin()
     {

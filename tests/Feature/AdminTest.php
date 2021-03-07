@@ -442,6 +442,11 @@ class AdminTest extends TestCase
     {
         $this->setup->seed_default_pages();
 
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         collect(['terms-of-service', 'privacy-policy', 'cookie-policy'])
             ->each(function ($slug) {
                 $this->getJson('/api/admin/pages')
@@ -459,6 +464,11 @@ class AdminTest extends TestCase
     {
         $this->setup->seed_default_pages();
 
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         $this->getJson('/api/admin/pages/terms-of-service')
             ->assertStatus(200)
             ->assertJsonFragment([
@@ -472,6 +482,11 @@ class AdminTest extends TestCase
     public function it_update_page()
     {
         $this->setup->seed_default_pages();
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
 
         $this->patchJson('/api/admin/pages/terms-of-service', [
             'name'  => 'title',
@@ -490,6 +505,11 @@ class AdminTest extends TestCase
     {
         $this->setup->seed_default_settings('Extended');
 
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         $this->getJson('/api/admin/settings?column=section_features|section_feature_boxes')
             ->assertStatus(200)
             ->assertJsonFragment([
@@ -504,6 +524,11 @@ class AdminTest extends TestCase
     public function it_update_settings()
     {
         $this->setup->seed_default_settings('Extended');
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
 
         $this->patchJson('/api/admin/settings', [
             'name'  => 'header_title',
@@ -532,6 +557,11 @@ class AdminTest extends TestCase
         $logo = UploadedFile::fake()
             ->image('fake-image.jpg');
 
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         $this->patchJson('/api/admin/settings', [
             'name'     => 'app_logo',
             'app_logo' => $logo
@@ -551,6 +581,11 @@ class AdminTest extends TestCase
      */
     public function it_flush_cache()
     {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         $this->getJson('/api/admin/settings/flush-cache')
             ->assertStatus(204);
     }
@@ -560,6 +595,11 @@ class AdminTest extends TestCase
      */
     public function it_set_stripe()
     {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         $this->postJson('/api/admin/settings/stripe', [
             'currency'      => 'EUR',
             'key'           => '123456789',
@@ -588,6 +628,11 @@ class AdminTest extends TestCase
      */
     public function it_set_email()
     {
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
         $this->postJson('/api/admin/settings/email', [
             'driver'     => 'smtp',
             'host'       => 'smtp.email.com',
