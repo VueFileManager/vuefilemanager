@@ -33,14 +33,13 @@ class FileAccessController extends Controller
      */
     public function get_avatar($basename)
     {
-        // Get file path
-        $path = '/avatars/' . $basename;
-
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists("/avatars/$basename")) {
+            abort(404);
+        }
 
         // Return avatar
-        return Storage::download($path, $basename);
+        return Storage::download("/avatars/$basename", $basename);
     }
 
     /**
@@ -52,14 +51,13 @@ class FileAccessController extends Controller
      */
     public function get_system_image($basename)
     {
-        // Get file path
-        $path = '/system/' . $basename;
-
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists("/system/$basename")) {
+            abort(404);
+        }
 
         // Return avatar
-        return Storage::download($path, $basename);
+        return Storage::download("/system/$basename", $basename);
     }
 
     /**

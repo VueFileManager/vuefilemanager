@@ -22,7 +22,7 @@ Route::get('/file/{name}/public/{token}', [FileAccessController::class, 'get_fil
 Route::get('/zip/{id}/public/{token}', [FileAccessController::class, 'get_zip_public'])->name('zip_public');
 
 // User master,editor,visitor access to image thumbnails and file downloads
-Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor,visitor']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/thumbnail/{name}', [FileAccessController::class, 'get_thumbnail'])->name('thumbnail');
     Route::get('/file/{name}', [FileAccessController::class, 'get_file'])->name('file');
     Route::get('/zip/{id}', [FileAccessController::class, 'get_zip'])->name('zip');
