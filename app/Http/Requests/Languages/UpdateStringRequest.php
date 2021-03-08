@@ -24,10 +24,8 @@ class UpdateStringRequest extends FormRequest
     public function rules()
     {
         return [
-            'locale'            => 'required|string',
-            'language'          => 'required|array',
-            'language.*.key'   => 'required|string',
-            'language.*.value' => 'required|string'
+            'name'       => 'required|string',
+            'value'     => 'required|string'
         ];
     }
 }

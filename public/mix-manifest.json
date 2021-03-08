@@ -13,7 +13,7 @@
     "/chunks/app-billings.js": "/chunks/app-billings.js?id=aac5bd51067578358164",
     "/chunks/app-email.js": "/chunks/app-email.js?id=9d1631b19f6492b8cae4",
     "/chunks/app-index.js": "/chunks/app-index.js?id=2dcbe307133d780b6472",
-    "/chunks/app-language.js": "/chunks/app-language.js?id=6a19e4970a78281f045f",
+    "/chunks/app-language.js": "/chunks/app-language.js?id=9203f328c3fc4f8bf0f4",
     "/chunks/app-others.js": "/chunks/app-others.js?id=44efcfb317747ff3b508",
     "/chunks/app-payments.js": "/chunks/app-payments.js?id=187ecc16f9f7fbc4ccac",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=b6b0eba13665133c0a19",
@@ -75,5 +75,16 @@
     "/chunks/user-password.js": "/chunks/user-password.js?id=ac51d17a4aa7ae50bc88",
     "/chunks/user-storage.js": "/chunks/user-storage.js?id=5cfec8a8f8a8aef24ef2",
     "/chunks/user-subscription.js": "/chunks/user-subscription.js?id=10b3a108059d62d206c8",
-    "/chunks/users.js": "/chunks/users.js?id=6e68cb068f69fba3199c"
+    "/chunks/users.js": "/chunks/users.js?id=6e68cb068f69fba3199c",
+    "/chunks/app-language.75a8d0f493b84cc978b0.hot-update.js": "/chunks/app-language.75a8d0f493b84cc978b0.hot-update.js",
+    "/chunks/app-language.11f2328701d7d1eca870.hot-update.js": "/chunks/app-language.11f2328701d7d1eca870.hot-update.js",
+    "/chunks/app-language.777221bd2497f08011d9.hot-update.js": "/chunks/app-language.777221bd2497f08011d9.hot-update.js",
+    "/chunks/app-language.bc81b9e7ca698d87c551.hot-update.js": "/chunks/app-language.bc81b9e7ca698d87c551.hot-update.js",
+    "/chunks/app-language.a4ed495733086633616b.hot-update.js": "/chunks/app-language.a4ed495733086633616b.hot-update.js",
+    "/chunks/app-language.621d2d3bfd5b566ca6fd.hot-update.js": "/chunks/app-language.621d2d3bfd5b566ca6fd.hot-update.js",
+    "/chunks/app-language.d798bdfce2bf9e140bac.hot-update.js": "/chunks/app-language.d798bdfce2bf9e140bac.hot-update.js",
+    "/chunks/app-language.24a27e086d82daca8ee6.hot-update.js": "/chunks/app-language.24a27e086d82daca8ee6.hot-update.js",
+    "/chunks/app-language.51bb5abc36798fbf4971.hot-update.js": "/chunks/app-language.51bb5abc36798fbf4971.hot-update.js",
+    "/chunks/app-language.c1e9e509fd5d55e2364a.hot-update.js": "/chunks/app-language.c1e9e509fd5d55e2364a.hot-update.js",
+    "/chunks/app-language.089db7aa0e313057463e.hot-update.js": "/chunks/app-language.089db7aa0e313057463e.hot-update.js"
 }

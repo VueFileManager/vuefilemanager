@@ -28,6 +28,9 @@
             <!--Create folder in mobile version-->
             <CreateFolder/>
 
+            <!-- Create language popup -->
+            <CreateLanguage/>
+
             <!--Move item setup-->
             <MoveItem/>
 
@@ -71,6 +74,7 @@ import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
 import FileFullPreview from '@/components/FilesView/FileFullPreview'
 import MobileNavigation from '@/components/Others/MobileNavigation'
 import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
+import CreateLanguage from '@/components/Others/CreateLanguage'
 import CreateFolder from '@/components/Others/CreateFolder'
 import MobileMenu from '@/components/FilesView/MobileMenu'
 import ShareCreate from '@/components/Others/ShareCreate'
@@ -95,6 +99,7 @@ export default {
         CookieDisclaimer,
         FileFullPreview,
         ProcessingPopup,
+        CreateLanguage,
         ToastrWrapper,
         CreateFolder,
         ShareCreate,

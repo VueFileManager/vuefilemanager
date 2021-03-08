@@ -10,10 +10,6 @@ const defaultState = {
 	homeDirectory: undefined,
 	requestedPlan: undefined,
 	emojis: undefined,
-	languages: {
-		allLanguages: undefined,
-		strings: undefined,
-	},
 	sorting: {
 		sort: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).sort : 'DESC',
 		field: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).field : 'created_at',
@@ -970,7 +966,7 @@ const defaultState = {
 			value: "12.0",
 			label: "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
 		 }
-	]
+	],			
 }
 const actions = {
 	getEmojisList: ({commit}) => {
@@ -987,36 +983,6 @@ const actions = {
 				})
 		})
 
-	},
-
-	getLanguages: ({commit, state}) => {
-
-		return new Promise((resolve, reject) => {
-
-			axios
-				.get('/api/language/get')
-				.then((response) => {
-					commit('LOAD_LANGUAGES', response.data)
-				})
-				.catch(() => Vue.prototype.$isSomethingWrong())
-				.finally(() => {
-					resolve(true)
-				})
-			})
-	},
-	getLanguageStrings: ({ commit }, language) => {
-		return new Promise((resolve, reject) => {
-
-			axios
-				.get(`/api/language/${language.locale}/strings`)
-				.then(response => {
-					commit('LOAD_LANGUAGE_STRINGS', response.data)
-				})
-				.catch(() => Vue.prototype.$isSomethingWrong())
-				.finally(() => {
-					resolve(true)
-				})
-		})
 	},
 	changePreviewType: ({commit, state}, preview) => {
 		
@@ -1044,12 +1010,6 @@ const actions = {
 const mutations = {
 	LOAD_EMOJIS_LIST(state, data) {
 		state.emojis = data
-	},
-	LOAD_LANGUAGE_STRINGS (state, data) {
-		state.languages.strings = data
-	},
-	LOAD_LANGUAGES(state, data) {
-		state.languages.allLanguages = data
 	},
 	UPDATE_SORTING(state) {
 		state.sorting.field = JSON.parse(localStorage.getItem('sorting')).field
@@ -1092,8 +1052,7 @@ const getters = {
 	requestedPlan: state => state.requestedPlan,
 	currencyList: state => state.currencyList,
 	countries: state => state.countries,
-	timezones: state=> state.timezones,
-	languages: state => state.languages,
+	timezones: state => state.timezones,
 	api: state => state.config.api,
 	config: state => state.config,
 	emojis: state => state.emojis,

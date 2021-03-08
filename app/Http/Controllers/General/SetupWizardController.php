@@ -15,6 +15,7 @@ use App\Services\StripeService;
 use App\Setting;
 use App\User;
 use App\UserSettings;
+use App\Language;
 use Artisan;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Doctrine\DBAL\Driver\PDOException;
@@ -476,6 +477,29 @@ class SetupWizardController extends Controller
         $pages->each(function ($page) {
             Page::updateOrCreate($page);
         });
+
+        // Create languages & strings
+        $language = Language::updateOrCreate([
+            'name'   => 'English',
+            'locale' => 'en'
+        ]);
+
+        $license = get_setting('license') === 'Extended' ? 'extended' : 'regular';
+
+        $language_strings = collect(config('language_strings.' . $license));
+
+        $strings = $language_strings->map(function ($value , $key) use($language) {
+
+           return [
+                'language_id' => $language->id,
+                'key'         => $key,
+                'lang'        => $language->locale,
+                'value'       => $value
+            ];
+
+        })->toArray();
+
+        DB::table('language_strings')->insert($strings);
 
         // Retrieve access token
         $response = Route::dispatch(self::make_login_request($request));

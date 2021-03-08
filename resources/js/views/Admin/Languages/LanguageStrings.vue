@@ -1,5 +1,5 @@
 <template>
-    <div class="language-strings-wrapper">
+    <div v-if="strings" class="language-strings-wrapper">
         <div class="search-bar-wrapper">
             <div class="search-bar">
                 <div class="icon" >
@@ -9,7 +9,8 @@
                     <x-icon class="pointer" size="19"></x-icon>
                 </div> -->
                 <input
-                    
+                        v-model="searchInput"
+                        @input="searchStrings"
                         class="query"
                         type="text"
                         name="query"
@@ -18,57 +19,50 @@
             </div>
         </div>
         <div class="form block-form">
-            <div>
-                <FormLabel class="mt-70" icon="settings">Language Settings</FormLabel>
-                <div class="block-wrapper">
-                    <div class="input-wrapper">
-                        <div class="inline-wrapper">
-                            <div class="switch-label">
-                                <label class="input-label">
-                                    Set as Default Language:
-                                </label>
-                            </div>
-                            <SwitchInput
-                                
-                                    class="switch"
-                            />
+
+            <FormLabel class="mt-70" icon="settings">Language Settings</FormLabel>
+            <div class="block-wrapper">
+                <div class="input-wrapper">
+                    <div class="inline-wrapper">
+                        <div class="switch-label">
+                            <label class="input-label">
+                                Set as Default Language:
+                            </label>
                         </div>
+                        <SwitchInput
+                            class="switch"
+                        />
                     </div>
-                </div>
-
-                <div class="block-wrapper">
-                    <label> Language Name:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Language Name" rules="required" v-slot="{ errors }">
-                        <input type="text"
-                               :class="{'is-error': errors[0]}"
-                        />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-
-                <div class="block-wrapper">
-                   <label> Language Slug:</label>
-                   <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Language Slug" rules="required" v-slot="{ errors }">
-                        <input type="text"
-                               :class="{'is-error': errors[0]}"
-                        />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
                 </div>
             </div>
 
-            <div>
-                <FormLabel class="mt-70">Language Strings</FormLabel>
-                <div class="block-wrapper" v-for="(string, index) in languages.strings.language_strings" :key="string.id">
-                    <label> {{string.value}}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
-                        <input type="text"
-                                @input="updateString(string.value)"
-                                v-model="languages.strings.language_strings[index].value"
-                               :class="{'is-error': errors[0]}"
-                        />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
+            <div v-if="language.name" class="block-wrapper">
+                <label> Language Name:</label>
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Language Name" rules="required" v-slot="{ errors }">
+                    <input type="text"
+                            v-model="language.name"
+                            @input="updateName"
+                            :class="{'is-error': errors[0]}"
+                    />
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+            </div>
+
+            <FormLabel class="mt-70">Language Strings</FormLabel>
+            <div class="block-wrapper">
+                <Spinner v-if="!loadedStrings"/>
+                <div v-if="loadedStrings" >
+                    <div  class="block-wrapper" v-for="(string,index) in filteredStrings" :key="index">
+                        <label> {{string.value}}:</label>
+                        <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
+                            <input type="text"
+                                    :class="{'is-error': errors[0]}"
+                                    @input="updateString(string.key)"
+                                    v-model="strings[getIndex(string.key)].value"
+                            />
+                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,24 +75,88 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-va
 import SwitchInput from '@/components/Others/Forms/SwitchInput'
 import FormLabel from '@/components/Others/Forms/FormLabel'
 import { SearchIcon, XIcon } from 'vue-feather-icons'
-import { mapGetters } from 'vuex'
+import Spinner from '@/components/FilesView/Spinner'
+import { events } from '@/bus'
+import lodash from 'lodash'
+
 
 export default {
     name: 'LanguageStrings',
+    props: [ 'languageStrings' ],
     components: {
         ValidationProvider, 
         ValidationObserver,
         SwitchInput,
-        FormLabel,
         SearchIcon,
+        FormLabel,
+        Spinner,
         XIcon,
     },
-    computed: {
-       ...mapGetters(['languages'])
+    data () {
+        return {
+            defaultStrings: [],
+            filteredStrings: [],
+            loadedStrings: false,
+            strings: undefined,
+            language: undefined,
+            searchInput: '',
+        }
     },
     methods: {
-        updateString (value) {
-            console.log(value)
+        getIndex(key){
+            if(this.strings)
+               return _.findIndex(this.strings, function(string) { return string.key === key })
+        },
+        updateName() {
+            this.$updateText(`/languages/${this.language.id}`, 'name', this.language.name)
+
+            events.$emit('language-name:update', this.language)
+        },
+         updateString (key) {
+
+             if(! this.strings[this.getIndex(key)].value) return
+
+             this.$updateText(
+                `/languages/${this.languageStrings.translated_strings.id}/string`, `${key}`, this.strings[this.getIndex(key)].value,
+            )
+        },
+        searchStrings() {
+
+            this.loadedStrings = false
+
+            this.filteredStrings = []
+
+            this.filterStrings()
+
+        },
+        filterStrings: _.debounce(function ()  {
+
+            this.filteredStrings = this.defaultStrings.filter(string => string.value.toLowerCase().includes( this.searchInput.toLowerCase() ))
+
+            this.loadedStrings = true
+
+        }, 200)
+    },
+    mounted () {
+
+        if(this.languageStrings.translated_strings) {
+
+            this.strings = this.languageStrings.translated_strings.language_strings
+
+            // Make from JSON object array of objects
+            for (const [key, value] of Object.entries(this.languageStrings.default_strings)) {
+                this.defaultStrings.push({
+                    'key': key,
+                    'value': value,
+                })
+            }
+
+            this.filterStrings()
+
+            this.language = {
+                'id': this.languageStrings.translated_strings.id,
+                'name':  this.languageStrings.translated_strings.name
+            }
         }
     }
 }
@@ -113,8 +171,15 @@ export default {
 
 .language-strings-wrapper {
     width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
+
+    .block-form{
+        min-width: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
 
 .search-bar-wrapper {
