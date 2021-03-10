@@ -314,10 +314,12 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (is_visitor($shared)) {
+            abort(403);
+        }
 
         // Check access to requested directory
-        Guardian::check_item_access($request->parent_id, $shared);
+        Guardian::check_item_access($request->folder_id, $shared);
 
         // Return new uploaded file
         $new_file = Editor::upload($request, $shared);

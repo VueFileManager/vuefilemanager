@@ -463,8 +463,12 @@ class Editor
                 self::move_to_external_storage($disk_file_name, $thumbnail);
             }
 
-            // Store file
-            $options = [
+            // Store user upload size
+            User::find($user_id)
+                ->record_upload($file_size);
+
+            // Return new file
+            return UserFile::create([
                 'mimetype'   => get_file_type_from_mimetype($file_mimetype),
                 'type'       => get_file_type($file_mimetype),
                 'folder_id'  => $request->folder_id,
@@ -475,14 +479,7 @@ class Editor
                 'thumbnail'  => $thumbnail,
                 'filesize'   => $file_size,
                 'user_id'    => $user_id,
-            ];
-
-            // Store user upload size
-            User::find($user_id)
-                ->record_upload($file_size);
-
-            // Return new file
-            return UserFile::create($options);
+            ]);
         }
     }
 
@@ -632,15 +629,16 @@ class Editor
     {
         // Get user storage percentage and get storage_limitation setting
         $user_storage_used = user_storage_percentage($user_id, $file_size);
-        $storage_limitation = get_setting('storage_limitation');
 
         // Check if user can upload
-        if ($storage_limitation && $user_storage_used >= 100) {
+        if (get_setting('storage_limitation') && $user_storage_used >= 100) {
 
             // Delete file
-            Storage::disk('local')->delete('chunks/' . $temp_filename);
+            Storage::disk('local')
+                ->delete("chunks/$temp_filename");
 
             // Abort uploading
+            // TODO: test pre exceed storage limit
             abort(423, 'You exceed your storage limit!');
         }
     }

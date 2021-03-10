@@ -28,7 +28,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_rename_shared_file()
+    public function editor_rename_shared_file()
     {
         $user = User::factory(User::class)
             ->create();
@@ -69,7 +69,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_rename_shared_folder()
+    public function editor_rename_shared_folder()
     {
         $user = User::factory(User::class)
             ->create();
@@ -111,7 +111,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_create_new_folder_in_shared_folder()
+    public function editor_create_new_folder_in_shared_folder()
     {
         $folder = Folder::factory(Folder::class)
             ->create();
@@ -144,7 +144,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_delete_multiple_files_in_shared_folder()
+    public function editor_delete_multiple_files_in_shared_folder()
     {
         $folder = Folder::factory(Folder::class)
             ->create();
@@ -185,6 +185,56 @@ class ShareEditorTest extends TestCase
                     'id' => $file->id,
                 ]);
             });
+    }
+
+    /**
+     * @test
+     */
+    public function editor_upload_file_into_shared_folder()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+                'user_scope' => 'master',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder->id,
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 1000, 'application/pdf');
+
+        $this->postJson("/api/editor/upload/public/$share->token", [
+            'file'      => $file,
+            'folder_id' => $folder->id,
+            'is_last'   => true,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('traffic', [
+            'user_id'  => $user->id,
+        ]);
+
+        $this->assertDatabaseHas('files', [
+            'user_scope' => 'editor',
+        ]);
+
+        Storage::disk('local')
+            ->assertExists(
+                "files/$user->id/fake-file.pdf"
+            );
     }
 
     /**
