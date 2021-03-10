@@ -34,11 +34,11 @@ class FileSharingController extends Controller
         $shared = Share::whereToken($token)
             ->first();
 
-        if (! $shared) {
+        if (!$shared) {
             return response()
                 ->view('index', [
-                    'settings' => null,
-                    'legal' => null,
+                    'settings'     => null,
+                    'legal'        => null,
                     'installation' => null,
                 ], 404);
         }
@@ -47,14 +47,14 @@ class FileSharingController extends Controller
         Cookie::queue('shared_access_token', '', -1);
 
         // Set cookies
-        if ((int) $shared->is_protected) {
+        if ((int)$shared->is_protected) {
 
             // Set shared token
             Cookie::queue('shared_token', $token, 43200);
         }
 
         // Check if shared is image file and then show it
-        if ($shared->type === 'file' && ! (int) $shared->is_protected) {
+        if ($shared->type === 'file' && !(int)$shared->is_protected) {
 
             $image = File::where('user_id', $shared->user_id)
                 ->where('type', 'image')
@@ -64,7 +64,7 @@ class FileSharingController extends Controller
             if ($image) {
 
                 // Store user download size
-                User::find($shared->user_id)->record_download((int) $image->getRawOriginal('filesize'));
+                User::find($shared->user_id)->record_download((int)$image->getRawOriginal('filesize'));
 
                 return $this->show_image($image);
             }
@@ -173,7 +173,7 @@ class FileSharingController extends Controller
         $shared = get_shared($token);
 
         // Abort if folder is protected
-        if ((int) $shared->is_protected) {
+        if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -205,7 +205,7 @@ class FileSharingController extends Controller
             ->firstOrFail();
 
         // Abort if file is protected
-        if ((int) $shared->is_protected) {
+        if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -278,25 +278,24 @@ class FileSharingController extends Controller
     public function get_public_navigation_tree($token)
     {
         // Get sharing record
-        $shared = Share::where('token', $token)->firstOrFail();
+        $shared = get_shared($token);
 
         // Check if user can get directory
         Guardian::check_item_access($shared->item_id, $shared);
 
         // Get folders
-        $folders = Folder::with('folders:id,parent_id,unique_id,name')
+        $folders = Folder::with('folders:id,parent_id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
             ->sortable()
-            ->get(['id', 'parent_id', 'unique_id', 'name']);
+            ->get(['id', 'parent_id', 'id', 'name']);
 
-        // Return folder tree
         return [
             [
-                'unique_id' => $shared->item_id,
-                'name'      => __('vuefilemanager.home'),
-                'location'  => 'public',
-                'folders'   => $folders,
+                'id'       => $shared->item_id,
+                'name'     => __('vuefilemanager.home'),
+                'location' => 'public',
+                'folders'  => $folders,
             ]
         ];
     }
@@ -357,7 +356,7 @@ class FileSharingController extends Controller
         $shared = get_shared($token);
 
         // Abort if folder is protected
-        if ((int) $shared->is_protected) {
+        if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 

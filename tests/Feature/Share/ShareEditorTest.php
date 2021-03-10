@@ -596,4 +596,93 @@ class ShareEditorTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function guest_get_navigator_tree()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $folder_level_1 = Folder::factory(Folder::class)
+            ->create([
+                'name'       => 'level 1',
+                'user_scope' => 'master',
+                'user_id'    => $user->id,
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder_level_1->id,
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $folder_level_2 = Folder::factory(Folder::class)
+            ->create([
+                'name'       => 'level 2',
+                'parent_id'  => $folder_level_1->id,
+                'user_scope' => 'master',
+                'user_id'    => $user->id,
+            ]);
+
+        $folder_level_3 = Folder::factory(Folder::class)
+            ->create([
+                'name'       => 'level 3',
+                'parent_id'  => $folder_level_2->id,
+                'user_scope' => 'master',
+                'user_id'    => $user->id,
+            ]);
+
+        $folder_level_2_sibling = Folder::factory(Folder::class)
+            ->create([
+                'name'       => 'level 2 Sibling',
+                'parent_id'  => $folder_level_1->id,
+                'user_scope' => 'master',
+                'user_id'    => $user->id,
+            ]);
+
+        $this->getJson("/api/browse/navigation/public/$share->token")
+            ->assertStatus(200)
+            ->assertExactJson([
+                [
+                    'id'       => $share->item_id,
+                    "name"     => "Home",
+                    "location" => "public",
+                    "folders"  => [
+                        [
+                            "id"            => $folder_level_2->id,
+                            "parent_id"     => $folder_level_1->id,
+                            "name"          => "level 2",
+                            "items"         => 1,
+                            "trashed_items" => 1,
+                            "type"          => "folder",
+                            "folders"       => [
+                                [
+                                    "id"            => $folder_level_3->id,
+                                    "parent_id"     => $folder_level_2->id,
+                                    "name"          => "level 3",
+                                    "items"         => 0,
+                                    "trashed_items" => 0,
+                                    "type"          => "folder",
+                                    "folders"       => [],
+                                ],
+                            ],
+                        ],
+                        [
+                            "id"            => $folder_level_2_sibling->id,
+                            "parent_id"     => $folder_level_1->id,
+                            "name"          => "level 2 Sibling",
+                            "items"         => 0,
+                            "trashed_items" => 0,
+                            "type"          => "folder",
+                            "folders"       => []
+                        ]
+                    ]
+                ]
+            ]);
+    }
 }
