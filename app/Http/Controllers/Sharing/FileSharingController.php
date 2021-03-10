@@ -143,19 +143,19 @@ class FileSharingController extends Controller
      * Browse private folders
      *
      * @param Request $request
-     * @param $unique_id
+     * @param $id
      * @return Collection
      */
-    public function get_private_folders(Request $request, $unique_id)
+    public function get_private_folders(Request $request, $id)
     {
         // Get sharing record
         $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
         // Check if user can get directory
-        Guardian::check_item_access($unique_id, $shared);
+        Guardian::check_item_access($id, $shared);
 
         // Get files and folders
-        list($folders, $files) = $this->get_items($unique_id, $shared);
+        list($folders, $files) = $this->get_items($id, $shared);
 
         // Collect folders and files to single array
         return collect([$folders, $files])->collapse();
@@ -164,24 +164,24 @@ class FileSharingController extends Controller
     /**
      * Browse public folders
      *
-     * @param $unique_id
+     * @param $id
+     * @param $token
      * @return Collection
      */
-    public function get_public_folders($unique_id, $token)
+    public function get_public_folders($id, $token)
     {
-        // Get sharing record
-        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
+        $shared = get_shared($token);
 
         // Abort if folder is protected
-        if ((int) $shared->protected) {
+        if ((int) $shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
         // Check if user can get directory
-        Guardian::check_item_access($unique_id, $shared);
+        Guardian::check_item_access($id, $shared);
 
         // Get files and folders
-        list($folders, $files) = $this->get_items($unique_id, $shared);
+        list($folders, $files) = $this->get_items($id, $shared);
 
         // Set thumbnail links for public files
         $files->map(function ($item) use ($token) {
@@ -357,7 +357,7 @@ class FileSharingController extends Controller
         $shared = get_shared($token);
 
         // Abort if folder is protected
-        if ((int) $shared->protected) {
+        if ((int) $shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -402,19 +402,19 @@ class FileSharingController extends Controller
     /**
      * Get folders and files
      *
-     * @param $unique_id
+     * @param $id
      * @param $shared
      * @return array
      */
-    private function get_items($unique_id, $shared): array
+    private function get_items($id, $shared): array
     {
         $folders = Folder::where('user_id', $shared->user_id)
-            ->where('parent_id', $unique_id)
+            ->where('parent_id', $id)
             ->sortable()
             ->get();
 
         $files = File::where('user_id', $shared->user_id)
-            ->where('folder_id', $unique_id)
+            ->where('folder_id', $id)
             ->sortable()
             ->get();
 

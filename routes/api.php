@@ -74,8 +74,8 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Edit items
-    Route::patch('/rename/{id}', [EditItemsController::class, 'user_rename_item']);
     Route::post('/create-folder', [EditItemsController::class, 'user_create_folder']);
+    Route::patch('/rename/{id}', [EditItemsController::class, 'user_rename_item']);
     Route::post('/remove', [EditItemsController::class, 'user_delete_item']);
     Route::post('/upload', [EditItemsController::class, 'user_upload']);
     Route::post('/move', [EditItemsController::class, 'user_move']);
