@@ -201,7 +201,7 @@ class ShareEditorTest extends TestCase
 
         $folder = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id,
+                'user_id'    => $user->id,
                 'user_scope' => 'master',
             ]);
 
@@ -224,7 +224,7 @@ class ShareEditorTest extends TestCase
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('files', [
@@ -240,7 +240,107 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_zip_shared_multiple_files()
+    public function editor_move_file_to_another_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id
+            ]);
+
+        $children = Folder::factory(Folder::class)
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $root->id,
+            ]);
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id'   => $user->id,
+                'folder_id' => $root->id
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $root->id,
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $this->postJson("/api/editor/move/public/$share->token", [
+            'to_id' => $children->id,
+            'items' => [
+                [
+                    'type' => 'file',
+                    'id'   => $file->id,
+                ]
+            ],
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('files', [
+            'id'        => $file->id,
+            'folder_id' => $children->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function editor_move_folder_to_another_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id
+            ]);
+
+        $brother = Folder::factory(Folder::class)
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $root->id,
+            ]);
+
+        $sister = Folder::factory(Folder::class)
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $root->id,
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $root->id,
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $this->postJson("/api/editor/move/public/$share->token", [
+            'to_id' => $brother->id,
+            'items' => [
+                [
+                    'type' => 'folder',
+                    'id'   => $sister->id,
+                ]
+            ],
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('folders', [
+            'id'        => $sister->id,
+            'parent_id' => $brother->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_zip_shared_multiple_files()
     {
         Storage::fake('local');
 
@@ -295,7 +395,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_try_zip_non_shared_file_with_already_shared_multiple_files()
+    public function guest_try_zip_non_shared_file_with_already_shared_multiple_files()
     {
         $user = User::factory(User::class)
             ->create();
@@ -332,7 +432,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_zip_shared_folder()
+    public function guest_zip_shared_folder()
     {
         Storage::fake('local');
 
@@ -392,7 +492,7 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_try_zip_non_shared_folder()
+    public function guest_try_zip_non_shared_folder()
     {
         Storage::fake('local');
 

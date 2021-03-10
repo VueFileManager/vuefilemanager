@@ -330,8 +330,8 @@ class EditItemsController extends Controller
         return $new_file;
     }
 
-    
-/**
+
+    /**
      * User download folder via zip
      *
      * @param $id
@@ -341,7 +341,7 @@ class EditItemsController extends Controller
     {
         // Get user id
         $user_id = Auth::id();
-        
+
         // Check permission to download for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 
@@ -359,7 +359,7 @@ class EditItemsController extends Controller
         $folder = Folder::whereUserId($user_id)
             ->where('id', $id);
 
-        if (! $folder->exists()) {
+        if (!$folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
@@ -391,8 +391,8 @@ class EditItemsController extends Controller
         // Get folder
         $folder = Folder::whereUserId($shared->user_id)
             ->where('id', $id);
-            
-        if (! $folder->exists()) {
+
+        if (!$folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
@@ -535,39 +535,38 @@ class EditItemsController extends Controller
         // Get shared record
         $shared = get_shared($token);
 
-        //Unique id of Folder where move
-        $to_id = $request->input('to_id');
-
         // Demo preview
         if (is_demo(Auth::id())) {
             return Demo::response_204();
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (is_visitor($shared)) {
+            abort(403);
+        }
 
-        foreach ($request->input('items') as $item) {
+        foreach ($request->items as $item) {
 
-            $id = $item['id'];
-            $moving_id = $id;
+            if ($item['type'] === 'folder') {
 
+                Guardian::check_item_access([
+                    $request->to_id, $item['id']
+                ], $shared);
+            }
 
             if ($item['type'] !== 'folder') {
-                $file = File::where('id', $id)
+
+                $file = File::where('id', $item['id'])
                     ->where('user_id', $shared->user_id)
                     ->firstOrFail();
 
-                $moving_id = $file->folder_id;
+                Guardian::check_item_access([
+                    $request->to_id, $file->folder_id
+                ], $shared);
             }
-
-            // Check access to requested item
-            Guardian::check_item_access([
-                $to_id, $moving_id
-            ], $shared);
         }
 
-        // Move item
-        Editor::move($request, $to_id, $shared);
+        Editor::move($request, $request->to_id);
 
         return response('Done!', 204);
     }

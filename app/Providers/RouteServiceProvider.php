@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        $this->mapShareRoutes();
+
         $this->mapAdminApiRoutes();
 
         $this->mapSetupWizardApiRoutes();
@@ -96,6 +98,14 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapShareRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/share.php'));
     }
 
     protected function mapAdminApiRoutes()
