@@ -373,7 +373,7 @@ class Editor
      */
     public static function move($request, $to_id)
     {
-        foreach ($request->input('items') as $item) {
+        foreach ($request->items as $item) {
 
             // Move folder
             if ($item['type'] === 'folder') {
@@ -382,7 +382,6 @@ class Editor
                     ->update([
                         'parent_id' => $to_id
                     ]);
-
             }
 
             // Move file

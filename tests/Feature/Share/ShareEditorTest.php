@@ -102,6 +102,52 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
+    public function it_delete_multiple_files_in_shared_folder()
+    {
+        $folder = Folder::factory(Folder::class)
+            ->create();
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder->id,
+                'user_id'      => $folder->user_id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $files = File::factory(File::class)
+            ->count(2)
+            ->create([
+                'folder_id' => $folder->id
+            ]);
+
+        $this->postJson("/api/editor/remove/public/$share->token", [
+            'items' => [
+                [
+                    'id'           => $files[0]->id,
+                    'type'         => 'file',
+                    'force_delete' => false,
+                ],
+                [
+                    'id'           => $files[1]->id,
+                    'type'         => 'file',
+                    'force_delete' => false,
+                ],
+            ],
+        ])->assertStatus(204);
+
+        $files
+            ->each(function ($file) {
+                $this->assertSoftDeleted('files', [
+                    'id' => $file->id,
+                ]);
+            });
+    }
+
+    /**
+     * @test
+     */
     public function it_zip_shared_multiple_files()
     {
         Storage::fake('local');

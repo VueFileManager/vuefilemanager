@@ -241,13 +241,14 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (is_visitor($shared)) {
+            abort(403);
+        }
 
-        foreach ($request->input('data') as $file) {
-            $id = $file['id'];
+        foreach ($request->items as $file) {
 
             // Get file|folder item
-            $item = get_item($file['type'], $id, $shared->user_id);
+            $item = get_item($file['type'], $file['id']);
 
             // Check access to requested item
             if ($file['type'] === 'folder') {
@@ -257,10 +258,10 @@ class EditItemsController extends Controller
             }
 
             // Delete item
-            Editor::delete_item($file, $id, $shared);
+            Editor::delete_item($file, $file['id'], $shared);
         }
         // Return response
-        return response(null, 204);
+        return response('Done', 204);
     }
 
     /**
