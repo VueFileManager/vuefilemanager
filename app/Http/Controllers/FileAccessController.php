@@ -147,7 +147,7 @@ class FileAccessController extends Controller
         $shared = get_shared($token);
 
         // Abort if shared is protected
-        if ((int) $shared->is_protected) {
+        if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -160,9 +160,10 @@ class FileAccessController extends Controller
         $this->check_file_access($shared, $file);
 
         // Store user download size
-        User::find($shared->user_id)
+        $shared
+            ->user
             ->record_download(
-                (int) $file->getRawOriginal('filesize')
+                (int)$file->getRawOriginal('filesize')
             );
 
         return $this->download_file($file, $shared->user_id);
@@ -211,14 +212,21 @@ class FileAccessController extends Controller
         }
 
         // Get file record
-        $file = File::where('user_id', $shared->user_id)
+        $file = UserFile::where('user_id', $shared->user_id)
             ->where('thumbnail', $filename)
             ->firstOrFail();
 
         // Check file access
         $this->check_file_access($shared, $file);
 
-        return $this->thumbnail_file($file);
+        // Store user download size
+        $shared
+            ->user
+            ->record_download(
+                (int)$file->getRawOriginal('filesize')
+            );
+
+        return $this->thumbnail_file($file, $shared->user_id);
     }
 
     /**

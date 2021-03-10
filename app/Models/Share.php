@@ -29,6 +29,11 @@ class Share extends Model
         return url('/shared', ['token' => $this->attributes['token']]);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
     /**
      * Model events
      */

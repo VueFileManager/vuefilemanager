@@ -78,6 +78,48 @@ class ShareContentAccessTest extends TestCase
     /**
      * @test
      */
+    public function it_get_public_thumbnail()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        $thumbnail = UploadedFile::fake()
+            ->image(Str::random() . '-fake-thumbnail.jpg');
+
+        Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id'   => $user->id,
+                'thumbnail' => $thumbnail->name,
+                'name'      => 'fake-thumbnail.jpg',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $user->id,
+                'type'         => 'file',
+                'is_protected' => false,
+            ]);
+
+        // Get shared file
+        $this->get("/thumbnail/$thumbnail->name/public/$share->token")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('traffic', [
+            'user_id'  => $user->id,
+            'download' => null,
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_try_to_get_protected_file_record()
     {
         $share = Share::factory(Share::class)
