@@ -390,6 +390,10 @@ class SetupWizardController extends Controller
                 'name'  => 'storage_default',
                 'value' => $request->defaultStorage ? $request->defaultStorage : 5,
             ],
+            [
+                'name'  => 'language',
+                'value' => 'en'
+            ]
         ]);
 
         // Store options
@@ -490,7 +494,7 @@ class SetupWizardController extends Controller
 
         $strings = $language_strings->map(function ($value , $key) use($language) {
 
-           return [
+            return [
                 'language_id' => $language->id,
                 'key'         => $key,
                 'lang'        => $language->locale,

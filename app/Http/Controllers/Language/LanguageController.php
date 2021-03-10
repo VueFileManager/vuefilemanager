@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Language;
 
+use App\Setting;
 use App\Language;
 use App\LanguageString;
+
+
 use App\Http\Tools\Demo;
-
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -31,22 +32,23 @@ class LanguageController extends Controller
      * Get all language strings
      *
      * @param Language $language
-     * @return string
+     * @return Collection
      */
     public function get_language_strings(Language $language)
     {
-       
-        // $lang = Language::whereId($language->id);
+        $language_setting = Setting::whereName('language')->first()->value;
 
-        $strings = $language->with('languageStrings')->first();
+        $lang = Language::whereId($language->id);
 
-        // dd($strings);
+        $strings = $lang->with('languageStrings')->first();
+
+        // dd($language);
 
         $license = get_setting('license') === 'Extended' ? 'extended' : 'regular';
 
         $default_strings = collect(config('language_strings.' . $license));
 
-       return collect(['translated_strings' => $strings, 'default_strings' => $default_strings]);
+        return collect(['language_setting' => $language_setting, 'translated_strings' => $strings, 'default_strings' => $default_strings]);
     }
 
     /**

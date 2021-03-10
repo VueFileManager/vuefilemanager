@@ -966,7 +966,7 @@ const defaultState = {
 			value: "12.0",
 			label: "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
 		 }
-	],			
+	]
 }
 const actions = {
 	getEmojisList: ({commit}) => {

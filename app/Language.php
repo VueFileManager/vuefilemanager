@@ -39,7 +39,7 @@ class Language extends Model
             $language_strings = collect(config('language_strings.' . $license));
 
     
-           $strings = $language_strings->map(function ($value , $key) use($language) {
+            $strings = $language_strings->map(function ($value , $key) use($language) {
     
                return [
                     'language_id' => $language->id,

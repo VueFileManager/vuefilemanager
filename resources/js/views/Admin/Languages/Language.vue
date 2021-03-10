@@ -8,7 +8,7 @@
                 <div v-if="loadedLanguages" class="side-content">
                     <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
 
-                    <div class="languages-wrapper">
+                    <div class="languages-wrapper page-tab from-fixed-width">
                         <div class="language-label-wrapper">
                             <label class="language-label">Languages</label>
                         </div>
@@ -22,12 +22,9 @@
                         </div>
                     </div>
 
-                    <ButtonBase 
-                        @click.native="createLanguage"
-                        class="button-add-language">
-                        <plus-icon class="icon" size="14"/>
+                    <MobileActionButton @click.native="createLanguage" icon="plus" class="button-add-language">
                         Add Language
-                    </ButtonBase>        
+                    </MobileActionButton>
                 </div>
 
                 <Spinner v-if="! loadedStrings"/>
@@ -41,6 +38,7 @@
 import LanguageStrings from '@/views/Admin/Languages/LanguageStrings'
 import MobileHeader from '@/components/Mobile/MobileHeader'
 import ButtonBase from '@/components/FilesView/ButtonBase'
+import MobileActionButton from '@/components/FilesView/MobileActionButton'
 import PageHeader from '@/components/Others/PageHeader'
 import Spinner from '@/components/FilesView/Spinner'
 import { PlusIcon, XIcon } from 'vue-feather-icons'
@@ -50,6 +48,7 @@ import { events } from '@/bus'
 export default {
     name: 'Language',
     components: {
+        MobileActionButton,
         LanguageStrings,
         MobileHeader,
         ButtonBase,
@@ -228,15 +227,15 @@ export default {
     }
 }
 
- @media only screen and (max-width: 1024px) {
-        .side-content {
-            flex: 0 0 205px;
-        }
-    }
+//  @media only screen and (max-width: 1024px) {
+//         .side-content {
+//             flex: 0 0 205px;
+//         }
+//     }
 
-    @media only screen and (max-width: 690px) {
-        .side-content {
-            display: none;
-        }
-    }
+//     @media only screen and (max-width: 690px) {
+//         .side-content {
+//             display: none;
+//         }
+//     }
 </style>

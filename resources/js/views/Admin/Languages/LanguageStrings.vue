@@ -2,24 +2,24 @@
     <div v-if="strings" class="language-strings-wrapper">
         <div class="search-bar-wrapper">
             <div class="search-bar">
-                <div class="icon" >
+                <div v-if="!searchInput" class="icon" >
                     <search-icon size="19"></search-icon>
                 </div>
-                <!-- <div class="icon">
+                <div @click="resetInput" v-if="searchInput" class="icon">
                     <x-icon class="pointer" size="19"></x-icon>
-                </div> -->
+                </div>
                 <input
-                        v-model="searchInput"
-                        @input="searchStrings"
-                        class="query"
-                        type="text"
-                        name="query"
-                        :placeholder="$t('inputs.placeholder_search_files')"
+                    v-model="searchInput"
+                    @input="searchStrings"
+                    class="query"
+                    type="text"
+                    name="searchInput"
+                    placeholder="Search Language Strings"
                 />
             </div>
         </div>
-        <div class="form block-form">
 
+        <div class="form block-form">
             <FormLabel class="mt-70" icon="settings">Language Settings</FormLabel>
             <div class="block-wrapper">
                 <div class="input-wrapper">
@@ -30,7 +30,10 @@
                             </label>
                         </div>
                         <SwitchInput
+                            @input="updateLanguageSetting"
                             class="switch"
+                            :class="{'disable-switch': languageSettingHandle }"
+                            :state="languageSettingHandle"
                         />
                     </div>
                 </div>
@@ -39,7 +42,7 @@
             <div v-if="language.name" class="block-wrapper">
                 <label> Language Name:</label>
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Language Name" rules="required" v-slot="{ errors }">
-                    <input type="text"
+                    <input  type="text"
                             v-model="language.name"
                             @input="updateName"
                             :class="{'is-error': errors[0]}"
@@ -55,7 +58,7 @@
                     <div  class="block-wrapper" v-for="(string,index) in filteredStrings" :key="index">
                         <label> {{string.value}}:</label>
                         <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
-                            <input type="text"
+                            <input  type="text"
                                     :class="{'is-error': errors[0]}"
                                     @input="updateString(string.key)"
                                     v-model="strings[getIndex(string.key)].value"
@@ -92,6 +95,11 @@ export default {
         Spinner,
         XIcon,
     },
+    computed: {
+        languageSettingHandle() {
+            return this.language.locale == this.languageSetting ? true : false
+        }
+    },
     data () {
         return {
             defaultStrings: [],
@@ -100,20 +108,36 @@ export default {
             strings: undefined,
             language: undefined,
             searchInput: '',
+            languageSetting: undefined
         }
     },
     methods: {
+        updateLanguageSetting() {
+        
+            this.$updateText('/settings', 'language', this.language.locale)
+
+            this.languageSetting = this.language.locale
+        },
+        resetInput(){
+
+            this.searchInput = ''
+
+            this.searchStrings()
+        },
         getIndex(key){
+
             if(this.strings)
                return _.findIndex(this.strings, function(string) { return string.key === key })
         },
         updateName() {
+
             this.$updateText(`/languages/${this.language.id}`, 'name', this.language.name)
 
             events.$emit('language-name:update', this.language)
         },
-         updateString (key) {
+        updateString (key) {
 
+             // Return if the input is empty
              if(! this.strings[this.getIndex(key)].value) return
 
              this.$updateText(
@@ -151,12 +175,15 @@ export default {
                 })
             }
 
-            this.filterStrings()
-
             this.language = {
                 'id': this.languageStrings.translated_strings.id,
-                'name':  this.languageStrings.translated_strings.name
+                'name': this.languageStrings.translated_strings.name,
+                'locale': this.languageStrings.translated_strings.locale,
             }
+
+            this.languageSetting = this.languageStrings.language_setting
+
+            this.filterStrings()
         }
     }
 }
@@ -168,15 +195,22 @@ export default {
 @import '@assets/vue-file-manager/_mixins';
 @import '@assets/vue-file-manager/_forms';
 
+.disable-switch {
+   cursor: not-allowed;
+   
+   /deep/.text-right {
+       pointer-events: none;
+   }
+}
 
 .language-strings-wrapper {
-    width: 100%;
+    width: 700px;
     height: 100%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
 
     .block-form{
-        min-width: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
     }
