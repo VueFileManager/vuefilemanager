@@ -144,10 +144,12 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (is_visitor($shared)) {
+            abort(403);
+        }
 
         // Get file|folder item
-        $item = get_item($request->type, $id, $shared->user_id);
+        $item = get_item($request->type, $id);
 
         // Check access to requested item
         if ($request->type === 'folder') {
@@ -158,8 +160,7 @@ class EditItemsController extends Controller
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('icon')) {
-
-            Editor::set_folder_icon($request->icon, $id, $shared);
+            Editor::set_folder_icon($request, $id);
         }
 
         // Rename item

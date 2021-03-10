@@ -221,6 +221,17 @@ function is_editor($shared)
 }
 
 /**
+ * Check if shared permission is visitor
+ *
+ * @param $shared
+ * @return bool
+ */
+function is_visitor($shared)
+{
+    return $shared->permission === 'visitor';
+}
+
+/**
  * Store user avatar to storage
  *
  * @param $request
@@ -419,6 +430,7 @@ function appeared_once($arr)
 
 /**
  * @param $folders
+ * @param string $by_column
  * @return array
  */
 function filter_folders_ids($folders, $by_column = 'id')

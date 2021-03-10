@@ -12,13 +12,18 @@ use App\Http\Controllers\General\PricingController;
 use App\Http\Controllers\Sharing\FileSharingController;
 
 // Edit Functions
-Route::patch('/rename-item/{unique_id}/public/{token}', [EditItemsController::class, 'guest_rename_item']);
-Route::get('/zip-folder/{id}/public/{token}', [EditItemsController::class, 'guest_zip_folder']);
-Route::post('/create-folder/public/{token}', [EditItemsController::class, 'guest_create_folder']);
-Route::post('/remove-item/public/{token}', [EditItemsController::class, 'guest_delete_item']);
-Route::post('/zip/public/{token}', [EditItemsController::class, 'guest_zip_multiple_files']);
-Route::post('/upload/public/{token}', [EditItemsController::class, 'guest_upload']);
-Route::post('/move/public/{token}', [EditItemsController::class, 'guest_move']);
+Route::group(['prefix' => 'editor'], function () {
+    Route::patch('/rename/{id}/public/{token}', [EditItemsController::class, 'guest_rename_item']);
+    Route::post('/create-folder/public/{token}', [EditItemsController::class, 'guest_create_folder']);
+    Route::post('/remove/public/{token}', [EditItemsController::class, 'guest_delete_item']);
+    Route::post('/upload/public/{token}', [EditItemsController::class, 'guest_upload']);
+    Route::post('/move/public/{token}', [EditItemsController::class, 'guest_move']);
+});
+
+Route::group(['prefix' => 'zip'], function () {
+    Route::get('/folder/{id}/public/{token}', [EditItemsController::class, 'guest_zip_folder']);
+    Route::post('/files/public/{token}', [EditItemsController::class, 'guest_zip_multiple_files']);
+});
 
 // Sharing page browsing
 Route::get('/folders/{unique_id}/public/{token}', [FileSharingController::class, 'get_public_folders']);
