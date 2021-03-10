@@ -69,6 +69,48 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
+    public function it_rename_shared_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id
+            ]);
+
+        $children = Folder::factory(Folder::class)
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $root->id
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $root->id,
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $this->patchJson("/api/editor/rename/{$children->id}/public/$share->token", [
+            'name' => 'Renamed Folder',
+            'type' => 'folder',
+        ])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name' => 'Renamed Folder',
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'name' => 'Renamed Folder'
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_create_new_folder_in_shared_folder()
     {
         $folder = Folder::factory(Folder::class)
