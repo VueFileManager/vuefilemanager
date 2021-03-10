@@ -16,6 +16,11 @@ class Zip extends Model
 
     protected $keyType = 'string';
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
     /**
      * Model events
      */

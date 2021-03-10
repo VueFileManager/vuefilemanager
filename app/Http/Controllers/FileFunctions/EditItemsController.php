@@ -459,7 +459,7 @@ class EditItemsController extends Controller
         $shared = get_shared($token);
 
         $file_parent_folders = File::whereUserId($shared->user_id)
-            ->whereIn('id', $request->input('files'))
+            ->whereIn('id', $request->items)
             ->get()
             ->pluck('folder_id')
             ->toArray();
@@ -469,7 +469,7 @@ class EditItemsController extends Controller
 
         // Get requested files
         $files = File::whereUserId($shared->user_id)
-            ->whereIn('id', $request->input('files'))
+            ->whereIn('id', $request->items)
             ->get();
 
         $zip = Editor::zip_files($files, $shared);
@@ -481,7 +481,7 @@ class EditItemsController extends Controller
                 'token' => $shared->token,
             ]),
             'name' => $zip->basename,
-        ], 200);
+        ], 201);
     }
 
     /**

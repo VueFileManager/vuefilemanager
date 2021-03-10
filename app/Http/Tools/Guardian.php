@@ -3,7 +3,7 @@
 namespace App\Http\Tools;
 
 use App;
-use App\Folder;
+use App\Models\Folder;
 use Illuminate\Support\Arr;
 
 
