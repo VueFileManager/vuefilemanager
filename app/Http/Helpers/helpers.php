@@ -205,8 +205,7 @@ function get_item($type, $id)
  */
 function get_shared($token)
 {
-
-    return Share::where(DB::raw('BINARY `token`'), $token)
+    return Share::whereToken($token)
         ->firstOrFail();
 }
 

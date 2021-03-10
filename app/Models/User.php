@@ -257,7 +257,7 @@ class User extends Authenticatable
      */
     protected static function boot()
     {
-        parent::booted();
+        parent::boot();
 
         static::creating(function ($user) {
             $user->id = Str::uuid();

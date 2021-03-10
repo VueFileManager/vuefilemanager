@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\CheckAccountRequest;
-use App\Setting;
-use App\User;
-use App\UserSettings;
+use App\Models\Setting;
+use App\Models\User;
+use App\Models\UserSettings;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

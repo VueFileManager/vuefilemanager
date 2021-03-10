@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\File;
-use App\Folder;
+use App\Models\File;
+use App\Models\Folder;
 use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\StorageDetailResource;
 use App\Http\Resources\UserResource;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use ByteUnits\Metric;
-use App\User;
+use App\Models\User;
 
 class AccountController extends Controller
 {

@@ -28,7 +28,7 @@ class ShareController extends Controller
     public function show($token)
     {
         // Get record
-        $shared = Share::where(DB::raw('BINARY `token`'), $token)
+        $shared = Share::whereToken($token)
             ->firstOrFail();
 
         return new ShareResource($shared);

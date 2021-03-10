@@ -3,11 +3,11 @@
 namespace App\Http\Tools;
 
 use App;
-use App\Share;
-use App\File;
-use App\Folder;
+use App\Models\Share;
+use App\Models\File;
+use App\Models\Folder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\User;
+use App\Models\User;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Contracts\Routing\ResponseFactory;

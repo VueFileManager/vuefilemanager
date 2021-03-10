@@ -2,24 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Folder;
-use App\Http\Tools\Editor;
 use App\Http\Tools\Guardian;
-use App\Models\Share;
+use App\Models\User;
 use App\Models\Zip;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\File as UserFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Madnest\Madzipper\Facades\Madzipper;
-use Response;
-use League\Flysystem\FileNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FileAccessController extends Controller
 {
@@ -157,12 +147,12 @@ class FileAccessController extends Controller
         $shared = get_shared($token);
 
         // Abort if shared is protected
-        if ((int)$shared->protected) {
+        if ((int) $shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
         // Get file record
-        $file = File::where('user_id', $shared->user_id)
+        $file = UserFile::where('user_id', $shared->user_id)
             ->where('basename', $filename)
             ->firstOrFail();
 
@@ -170,9 +160,12 @@ class FileAccessController extends Controller
         $this->check_file_access($shared, $file);
 
         // Store user download size
-        User::find($shared->user_id)->record_download((int)$file->getRawOriginal('filesize'));
+        User::find($shared->user_id)
+            ->record_download(
+                (int) $file->getRawOriginal('filesize')
+            );
 
-        return $this->download_file($file);
+        return $this->download_file($file, $shared->user_id);
     }
 
     /**
@@ -243,7 +236,7 @@ class FileAccessController extends Controller
 
         // Check by single file permission
         if ($shared->type === 'file') {
-            if ($shared->item_id !== $file->unique_id) abort(403);
+            if ($shared->item_id !== $file->id) abort(403);
         }
     }
 

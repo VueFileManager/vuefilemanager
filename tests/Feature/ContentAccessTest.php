@@ -15,7 +15,7 @@ use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
 
-class FileAccessTest extends TestCase
+class ContentAccessTest extends TestCase
 {
     use DatabaseMigrations;
 

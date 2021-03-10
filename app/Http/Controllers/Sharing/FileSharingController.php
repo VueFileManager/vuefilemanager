@@ -26,16 +26,21 @@ class FileSharingController extends Controller
     /**
      * Show page index and delete access_token & shared_token cookie
      *
-     * @return Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function index($token)
     {
         // Get shared token
-        $shared = Share::where(\DB::raw('BINARY `token`'), $token)
+        $shared = Share::whereToken($token)
             ->first();
 
         if (! $shared) {
-            return view("index");
+            return response()
+                ->view('index', [
+                    'settings' => null,
+                    'legal' => null,
+                    'installation' => null,
+                ], 404);
         }
 
         // Delete old access_token if exist
@@ -196,16 +201,17 @@ class FileSharingController extends Controller
     public function file_public($token)
     {
         // Get sharing record
-        $shared = Share::where(DB::raw('BINARY `token`'), $token)->firstOrFail();
+        $shared = Share::whereToken($token)
+            ->firstOrFail();
 
         // Abort if file is protected
-        if ((int) $shared->protected) {
+        if ((int) $shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
         // Get file
         $file = File::where('user_id', $shared->user_id)
-            ->where('unique_id', $shared->item_id)
+            ->where('id', $shared->item_id)
             ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
 
         // Set urls

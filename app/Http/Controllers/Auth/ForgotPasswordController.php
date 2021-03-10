@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\TestMail;
 use App\Notifications\ResetPassword;
 use App\Notifications\ResetUserPasswordNotification;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
