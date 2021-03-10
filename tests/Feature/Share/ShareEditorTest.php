@@ -69,6 +69,39 @@ class ShareEditorTest extends TestCase
     /**
      * @test
      */
+    public function it_create_new_folder_in_shared_folder()
+    {
+        $folder = Folder::factory(Folder::class)
+            ->create();
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder->id,
+                'user_id'      => $folder->user_id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $this->postJson("/api/editor/create-folder/public/$share->token", [
+            'name'      => 'Awesome New Folder',
+            'parent_id' => $folder->id,
+        ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => 'Awesome New Folder',
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'name'       => 'Awesome New Folder',
+            'parent_id'  => $folder->id,
+            'user_scope' => 'editor',
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_zip_shared_multiple_files()
     {
         Storage::fake('local');
