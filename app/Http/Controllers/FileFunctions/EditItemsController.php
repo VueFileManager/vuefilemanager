@@ -388,7 +388,6 @@ class EditItemsController extends Controller
         $folder = Folder::whereUserId($shared->user_id)
             ->where('id', $id);
             
-
         if (! $folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');
         }
@@ -402,7 +401,7 @@ class EditItemsController extends Controller
                 'token' => $shared->token,
             ]),
             'name' => $zip->basename,
-        ], 200);
+        ], 201);
     }
 
     /**

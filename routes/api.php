@@ -13,7 +13,7 @@ use App\Http\Controllers\Sharing\FileSharingController;
 
 // Edit Functions
 Route::patch('/rename-item/{unique_id}/public/{token}', [EditItemsController::class, 'guest_rename_item']);
-Route::get('/zip-folder/{unique_id}/public/{token}', [EditItemsController::class, 'guest_zip_folder']);
+Route::get('/zip-folder/{id}/public/{token}', [EditItemsController::class, 'guest_zip_folder']);
 Route::post('/create-folder/public/{token}', [EditItemsController::class, 'guest_create_folder']);
 Route::post('/remove-item/public/{token}', [EditItemsController::class, 'guest_delete_item']);
 Route::post('/zip/public/{token}', [EditItemsController::class, 'guest_zip_multiple_files']);
