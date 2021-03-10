@@ -6,7 +6,6 @@ use App\Http\Controllers\FileAccessController;
 Route::get('/avatars/{avatar}', [FileAccessController::class, 'get_avatar'])->name('avatar');
 Route::get('/system/{image}', [FileAccessController::class, 'get_system_image']);
 
-// TODO: testy
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/public/{token}', [FileAccessController::class, 'get_thumbnail_public']);
 Route::get('/file/{name}/public/{token}', [FileAccessController::class, 'get_file_public']);

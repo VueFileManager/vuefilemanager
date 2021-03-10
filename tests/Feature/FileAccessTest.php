@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\File;
+use App\Models\Folder;
 use App\Models\User;
 use App\Models\Zip;
 use Carbon\Carbon;
@@ -266,5 +267,17 @@ class FileAccessTest extends TestCase
     {
         $this->get("thumbnail/fake-thumbnail.jpg")
             ->assertRedirect();
+    }
+
+    /**
+     * @test
+     */
+    public function guest_try_to_get_private_user_folder()
+    {
+        $folder = Folder::factory(Folder::class)
+            ->create();
+
+        $this->getJson("/api/browse/folders/$folder->id")
+            ->assertStatus(401);
     }
 }
