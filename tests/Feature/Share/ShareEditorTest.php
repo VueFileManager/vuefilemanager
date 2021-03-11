@@ -736,12 +736,39 @@ class ShareEditorTest extends TestCase
 
         File::factory(File::class)
             ->create([
-                'name'      => 'Document',
-                'user_id'   => $folder->user_id,
+                'name'    => 'Document',
+                'user_id' => $folder->user_id,
             ]);
 
         $this->getJson("/api/browse/search/public/$share->token?query=doc")
             ->assertStatus(200)
             ->assertJsonFragment([]);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_get_file_detail()
+    {
+        $file = File::factory(File::class)
+            ->create([
+                'name' => 'Document',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $file->user_id,
+                'type'         => 'file',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+
+        $this->getJson("/api/browse/files/$share->token/public")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name' => 'Document'
+            ]);
     }
 }
