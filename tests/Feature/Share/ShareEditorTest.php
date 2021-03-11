@@ -685,4 +685,63 @@ class ShareEditorTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function guest_search_file()
+    {
+        $folder = Folder::factory(Folder::class)
+            ->create();
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder->id,
+                'user_id'      => $folder->user_id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        $file = File::factory(File::class)
+            ->create([
+                'name'      => 'Document',
+                'folder_id' => $folder->id,
+                'user_id'   => $folder->user_id,
+            ]);
+
+        $this->getJson("/api/browse/search/public/$share->token?query=doc")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $file->id
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_try_search_non_shared_user_file()
+    {
+        $folder = Folder::factory(Folder::class)
+            ->create();
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder->id,
+                'user_id'      => $folder->user_id,
+                'type'         => 'folder',
+                'is_protected' => false,
+                'permission'   => 'editor',
+            ]);
+
+        File::factory(File::class)
+            ->create([
+                'name'      => 'Document',
+                'user_id'   => $folder->user_id,
+            ]);
+
+        $this->getJson("/api/browse/search/public/$share->token?query=doc")
+            ->assertStatus(200)
+            ->assertJsonFragment([]);
+    }
 }

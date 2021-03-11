@@ -247,7 +247,7 @@ class ShareTest extends TestCase
                 'is_protected' => 0,
             ]);
 
-        $this->get("/api/shared/$share->token")
+        $this->get("/api/browse/shared/$share->token")
             ->assertStatus(200)
             ->assertExactJson([
                 'data' => [
@@ -273,7 +273,7 @@ class ShareTest extends TestCase
      */
     public function it_get_deleted_shared_record()
     {
-        $this->get("/api/shared/19ZMPNiass4ZqWwQ")
+        $this->get("/api/browse/shared/19ZMPNiass4ZqWwQ")
             ->assertNotFound();
     }
 

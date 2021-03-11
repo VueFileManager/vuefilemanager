@@ -57,7 +57,7 @@ class ShareContentAccessTest extends TestCase
             ]);
 
         // Get share record
-        $this->get("/api/files/$share->token/public")
+        $this->get("/api/browse/files/$share->token/public")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'basename' => $document->name
@@ -85,7 +85,7 @@ class ShareContentAccessTest extends TestCase
             ]);
 
         // Get share record
-        $this->get("/api/files/$share->token/public")
+        $this->get("/api/browse/files/$share->token/public")
             ->assertStatus(403);
     }
 
