@@ -21,8 +21,8 @@ Route::group(['prefix' => 'zip'], function () {
 
 // Browse share content
 Route::group(['prefix' => 'browse'], function () {
-    Route::get('/folders/{id}/public/{token}', [FileSharingController::class, 'get_public_folders']);
     Route::get('/navigation/public/{token}', [FileSharingController::class, 'get_public_navigation_tree']);
+    Route::get('/folders/{id}/public/{token}', [FileSharingController::class, 'get_public_folders']);
     Route::post('/shared/authenticate/{token}', [FileSharingController::class, 'authenticate']);
     Route::get('/search/public/{token}', [FileSharingController::class, 'search_public']);
     Route::get('/files/{token}/public', [FileSharingController::class, 'file_public']);

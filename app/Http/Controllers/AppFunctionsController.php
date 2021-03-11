@@ -60,45 +60,28 @@ class AppFunctionsController extends Controller
             // Try to connect to database
             \DB::getPdo();
 
-            // Check settings table
-            $settings_table = Schema::hasTable('settings');
-            $users_table = Schema::hasTable('users');
+            // Get setup status
+            $setup_status = $this->get_setup_status();
 
-            // If settings table don't exist, then run migrations
-            if ($users_table && !$settings_table) {
-                Artisan::call('migrate', [
-                    '--force' => true
-                ]);
-            }
-
-            // Get settings
-            $upgraded = Setting::where('name', 'latest_upgrade')->first();
-
-            // Get connection string
-            if ($upgraded && $upgraded->value !== '1.7') {
-                $connection = 'quiet-update';
-            } else if (!$upgraded) {
-                $connection = 'quiet-update';
-            } else {
-                $connection = $this->get_setup_status();
-            }
+            // Get app pages
+            $pages = Page::all();
 
             // Get all settings
-            $settings = Setting::all();
-
-            // Get legal pages
-            $legal = Page::whereIn('slug', ['terms-of-service', 'privacy-policy', 'cookie-policy'])
-                ->get(['visibility', 'title', 'slug']);
+            $settings = json_decode(
+                Setting::all()
+                    ->pluck('value', 'name')
+                    ->toJson()
+            );
 
         } catch (PDOException $e) {
-            $connection = 'setup-database';
-            $settings = null;
+
+            $setup_status = 'setup-database';
         }
 
         return view("index")
-            ->with('settings', $settings ? json_decode($settings->pluck('value', 'name')->toJson()) : null)
-            ->with('legal', isset($legal) ? $legal : null)
-            ->with('installation', $connection);
+            ->with('settings', $settings ?? null)
+            ->with('legal', $pages ?? null)
+            ->with('installation', $setup_status);
     }
 
     /**
@@ -172,9 +155,7 @@ class AppFunctionsController extends Controller
     {
         $setup_success = get_setting('setup_wizard_success');
 
-        $connection = boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
-
-        return $connection;
+        return boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
     }
 
     /**
