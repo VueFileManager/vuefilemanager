@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Http\Mail\SendContactMessage;
 use App\Models\Content;
 use App\Models\File;
 use App\Models\Folder;
-use App\Http\Requests\PublicPages\SendMessageRequest;
+use App\Http\Requests\PublicPages\SendContactMessageRequest;
 use App\Http\Resources\PageResource;
 use App\Http\Tools\Demo;
-use App\Mail\SendSupportForm;
 use App\Models\Setting;
 use App\Models\Page;
 use App\Models\User;
@@ -157,18 +157,18 @@ class AppFunctionsController extends Controller
     /**
      * Send contact message from pages
      *
-     * @param SendMessageRequest $request
+     * @param SendContactMessageRequest $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function contact_form(SendMessageRequest $request)
+    public function contact_form(SendContactMessageRequest $request)
     {
-        // Get receiver email
-        $receiver = Setting::where('name', 'contact_email')->first();
+        Mail::to(
+            get_setting('contact_email')
+        )->send(
+            new SendContactMessage($request->all())
+        );
 
-        // Send message
-        Mail::to($receiver->value)->send(new SendSupportForm($request->all()));
-
-        return response('Done', 200);
+        return response('Done', 201);
     }
 
     /**

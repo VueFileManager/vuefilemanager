@@ -2,10 +2,15 @@
 
 namespace Tests\Feature\App;
 
+use App\Http\Mail\SendContactMessage;
+use App\Models\Setting;
+use App\Notifications\SharedSendViaEmail;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
+use Mail;
 use Tests\TestCase;
 
 class AppTest extends TestCase
@@ -29,5 +34,26 @@ class AppTest extends TestCase
 
         $this->get('/')
             ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_send_contact_form()
+    {
+        Mail::fake();
+
+        Setting::create([
+            'name' => 'contact_email',
+            'value' => 'jane@doe.com',
+        ]);
+
+        $this->postJson('/api/contact', [
+            'email'   => 'john@doe.com',
+            'message' => 'Whaats is up!',
+        ])
+            ->assertStatus(201);
+
+        Mail::assertSent( SendContactMessage::class);
     }
 }

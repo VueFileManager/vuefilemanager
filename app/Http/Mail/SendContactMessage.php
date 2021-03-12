@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendSupportForm extends Mailable
+class SendContactMessage extends Mailable
 {
     use Queueable, SerializesModels;
     private $request;
@@ -29,9 +29,7 @@ class SendSupportForm extends Mailable
      */
     public function build()
     {
-        $from = config('mail.from')['address'];
-
-        return $this->from($from)
+        return $this->from(config('mail.from')['address'])
             ->replyTo($this->request['email'])
             ->subject('New Contact Message from ' . $this->request['email'])
             ->view('mails.contact-message')
