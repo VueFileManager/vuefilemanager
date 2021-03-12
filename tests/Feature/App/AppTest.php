@@ -39,12 +39,26 @@ class AppTest extends TestCase
     /**
      * @test
      */
+    public function it_get_legal_page()
+    {
+        $this->setup->seed_default_pages();
+
+        $this->getJson('/api/page/terms-of-service')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'title' => 'Terms of Service',
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_send_contact_form()
     {
         Mail::fake();
 
         Setting::create([
-            'name' => 'contact_email',
+            'name'  => 'contact_email',
             'value' => 'jane@doe.com',
         ]);
 
@@ -54,6 +68,6 @@ class AppTest extends TestCase
         ])
             ->assertStatus(201);
 
-        Mail::assertSent( SendContactMessage::class);
+        Mail::assertSent(SendContactMessage::class);
     }
 }

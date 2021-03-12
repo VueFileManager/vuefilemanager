@@ -174,14 +174,12 @@ class AppFunctionsController extends Controller
     /**
      * Get single page content
      *
-     * @param $slug
+     * @param Page $page
      * @return PageResource
      */
-    public function get_page($slug)
+    public function get_page(Page $page)
     {
-        return new PageResource(
-            Page::where('slug', $slug)->first()
-        );
+        return new PageResource($page);
     }
 
     /**
