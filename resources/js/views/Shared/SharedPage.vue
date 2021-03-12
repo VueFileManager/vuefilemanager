@@ -60,9 +60,9 @@
         </div>
 
         <!--Single file page-->
-        <div v-if="sharedDetail.type === 'file' && isPageFiles" id="single-file">
+        <div v-if="sharedDetail && sharedDetail.type === 'file' && isPageFiles" id="single-file">
             <div class="single-file-wrapper">
-                <FileItemGrid v-if="sharedFile" :data="sharedFile" :context-menu="false"/>
+                <FileItemGrid v-if="sharedFile" :item="sharedFile" :context-menu="false"/>
 
                 <ButtonBase @click.native="download" class="download-button" button-style="theme">
                     {{ $t('page_shared.download_file') }}
@@ -71,7 +71,7 @@
         </div>
 
         <!--Multiple items view page-->
-        <div v-if="sharedDetail.type === 'folder' && isPageFiles"
+        <div v-if="sharedDetail && sharedDetail.type === 'folder' && isPageFiles"
              @contextmenu.prevent.capture="contextMenu($event, undefined)"
              id="viewport">
 
