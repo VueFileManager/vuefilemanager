@@ -51,6 +51,18 @@ function get_settings_in_json()
 }
 
 /**
+ * Check if setup wizard was passed
+ *
+ * @return string
+ */
+function get_setup_status()
+{
+    $setup_success = get_setting('setup_wizard_success');
+
+    return boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
+}
+
+/**
  * Create paragraph from text
  *
  * @param $str

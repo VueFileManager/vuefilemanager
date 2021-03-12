@@ -26,27 +26,10 @@ class AppFunctionsController extends Controller
      *
      * @var array
      */
-    private $whitelist = [
-        'section_features',
-        'footer_content',
-        'get_started_description',
-        'get_started_title',
-        'pricing_description',
-        'pricing_title',
-        'feature_description_3',
-        'feature_title_3',
-        'feature_description_2',
-        'feature_title_2',
-        'feature_description_1',
-        'feature_title_1',
-        'features_description',
-        'features_title',
-        'header_description',
-        'header_title',
-        'section_get_started',
-        'section_pricing_content',
-        'section_feature_boxes',
-        'allow_homepage',
+    private $blacklist = [
+        'contact_email',
+        'purchase_code',
+        'license',
     ];
 
     /**
@@ -61,7 +44,7 @@ class AppFunctionsController extends Controller
             \DB::getPdo();
 
             // Get setup status
-            $setup_status = $this->get_setup_status();
+            $setup_status = get_setup_status();
 
             // Get app pages
             $pages = Page::all();
@@ -109,7 +92,7 @@ class AppFunctionsController extends Controller
             }
 
             $metadata = [
-                'is_protected' => $shared->protected,
+                'is_protected' => $shared->is_protected,
                 'url'          => url('/shared', ['token' => $token]),
                 'user'         => $user->name,
                 'name'         => $file->name,
@@ -128,11 +111,11 @@ class AppFunctionsController extends Controller
 
             $metadata = [
                 'is_protected' => $shared->protected,
-                'url'       => url('/shared', ['token' => $token]),
-                'user'      => $user->name,
-                'name'      => $folder->name,
-                'size'      => $folder->items,
-                'thumbnail' => null,
+                'url'          => url('/shared', ['token' => $token]),
+                'user'         => $user->name,
+                'name'         => $folder->name,
+                'size'         => $folder->items,
+                'thumbnail'    => null,
             ];
         }
 
@@ -140,18 +123,6 @@ class AppFunctionsController extends Controller
         return view("og-view")
             ->with('settings', $settings)
             ->with('metadata', $metadata);
-    }
-
-    /**
-     * Check if setup wizard was passed
-     *
-     * @return string
-     */
-    private function get_setup_status(): string
-    {
-        $setup_success = get_setting('setup_wizard_success');
-
-        return boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
     }
 
     /**
@@ -188,24 +159,27 @@ class AppFunctionsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function get_settings(Request $request)
+    public function get_setting_columns(Request $request)
     {
-        $column = $request->get('column');
+        if (strpos($request->column, '|') !== false) {
 
-        if (strpos($column, '|') !== false) {
+            $columns = collect(explode('|', $request->column))
+                ->each(function ($column) {
+                    if (in_array($column, $this->blacklist)) {
+                        abort(401);
+                    }
+                });
 
-            $columns = collect(explode('|', $column));
-
-            $columns->each(function ($column) {
-                if (!in_array($column, $this->whitelist)) abort(401);
-            });
-
-            return Setting::whereIn('name', $columns)->pluck('value', 'name');
+            return Setting::whereIn('name', $columns)
+                ->pluck('value', 'name');
         }
 
-        if (!in_array($column, $this->whitelist)) abort(401);
+        if (in_array($request->column, $this->blacklist)) {
+            abort(401);
+        }
 
-        return Setting::where('name', $column)->pluck('value', 'name');
+        return Setting::where('name', $request->column)
+            ->pluck('value', 'name');
     }
 
     /**
@@ -217,7 +191,7 @@ class AppFunctionsController extends Controller
             return Demo::response_204();
         }
 
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             Artisan::call('cache:clear');
             Artisan::call('config:clear');
             Artisan::call('config:cache');
