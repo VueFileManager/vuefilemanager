@@ -39,6 +39,18 @@ function get_setting($setting)
 }
 
 /**
+ * Get all app settings and return them as json
+ */
+function get_settings_in_json()
+{
+    return json_decode(
+        Setting::all()
+            ->pluck('value', 'name')
+            ->toJson()
+    );
+}
+
+/**
  * Create paragraph from text
  *
  * @param $str

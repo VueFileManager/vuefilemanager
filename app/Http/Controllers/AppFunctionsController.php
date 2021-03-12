@@ -67,11 +67,7 @@ class AppFunctionsController extends Controller
             $pages = Page::all();
 
             // Get all settings
-            $settings = json_decode(
-                Setting::all()
-                    ->pluck('value', 'name')
-                    ->toJson()
-            );
+            $settings = get_settings_in_json();
 
         } catch (PDOException $e) {
 
@@ -92,7 +88,7 @@ class AppFunctionsController extends Controller
     public function og_site($token)
     {
         // Get all settings
-        $settings = Setting::all();
+        $settings = get_settings_in_json();
 
         // Get shared token
         $shared = get_shared($token);
@@ -105,7 +101,7 @@ class AppFunctionsController extends Controller
 
             // Get file record
             $file = File::where('user_id', $shared->user_id)
-                ->where('unique_id', $shared->item_id)
+                ->where('id', $shared->item_id)
                 ->first();
 
             if ($file->thumbnail) {
@@ -142,7 +138,7 @@ class AppFunctionsController extends Controller
 
         // Return view
         return view("og-view")
-            ->with('settings', json_decode($settings->pluck('value', 'name')->toJson()))
+            ->with('settings', $settings)
             ->with('metadata', $metadata);
     }
 
