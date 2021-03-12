@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\External;
 
 use App\Models\User;
 use Carbon\Carbon;
