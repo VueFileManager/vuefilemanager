@@ -38,11 +38,9 @@ class Language extends Model
 
             $language_strings = collect(config('language_strings.' . $license));
 
-    
             $strings = $language_strings->map(function ($value , $key) use($language) {
     
                return [
-                    'language_id' => $language->id,
                     'key'         => $key,
                     'lang'        => $language->locale,
                     'value'       => $value
@@ -57,6 +55,6 @@ class Language extends Model
 
     public function languageStrings()
     {
-        return $this->hasMany('App\LanguageString', 'language_id', 'id');
+        return $this->hasMany('App\LanguageString', 'lang', 'locale');
     }
 }

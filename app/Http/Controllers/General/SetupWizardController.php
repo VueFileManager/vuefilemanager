@@ -495,7 +495,6 @@ class SetupWizardController extends Controller
         $strings = $language_strings->map(function ($value , $key) use($language) {
 
             return [
-                'language_id' => $language->id,
                 'key'         => $key,
                 'lang'        => $language->locale,
                 'value'       => $value

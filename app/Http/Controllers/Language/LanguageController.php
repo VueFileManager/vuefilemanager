@@ -23,7 +23,7 @@ class LanguageController extends Controller
      * 
      * @return string
      */
-    public function get_languages ()
+    public function get_languages()
     {
         return Language::all();
     }
@@ -48,7 +48,11 @@ class LanguageController extends Controller
 
         $default_strings = collect(config('language_strings.' . $license));
 
-        return collect(['language_setting' => $language_setting, 'translated_strings' => $strings, 'default_strings' => $default_strings]);
+        return [
+            'language_setting'   => $language_setting,
+            'translated_strings' => $strings,
+            'default_strings'    => $default_strings
+        ];
     }
 
     /**
@@ -57,14 +61,14 @@ class LanguageController extends Controller
      * @param CreateLanguageRequest $request
      * @return string
      */
-    public function create_language(CreateLanguageRequest $request) 
+    public function create_language(CreateLanguageRequest $request)
     {
         // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
 
-         // Create languages & strings
+        // Create languages & strings
         $language = Language::create([
             'name'      => $request->name,
             'locale'    => $request->locale
@@ -74,7 +78,7 @@ class LanguageController extends Controller
         return $language;
     }
 
-     /**
+    /**
      * Update language
      *
      * @param UpdateLanguageRequest $request
@@ -102,21 +106,20 @@ class LanguageController extends Controller
      * @param Language $language
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function update_string(UpdateStringRequest $request,Language $language)
+    public function update_string(UpdateStringRequest $request, Language $language)
     {
         // Check if is demo
         if (env('APP_DEMO')) {
             return Demo::response_204();
         }
 
-        LanguageString::whereLanguageIdAndKey($language->id, $request->name)
+        LanguageString::whereLangAndKey($language->locale, $request->name)
             ->update([
-                'language_id' => $language->id,
                 'key'         => $request->name,
                 'lang'        => $language->locale,
                 'value'       => $request->value
             ]);
-        
+
         return response('Done', 204);
     }
 
@@ -134,7 +137,7 @@ class LanguageController extends Controller
         }
 
         $language->delete();
-        
+
         return response('Done', 204);
     }
 }

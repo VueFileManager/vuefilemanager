@@ -12,7 +12,7 @@ class LanguageString extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['value', 'language_id' ,'key', 'lang'];
+    protected $fillable = ['value' ,'key', 'lang'];
     
 
 }

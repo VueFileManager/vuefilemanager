@@ -211,6 +211,7 @@ export default {
                     color: $text;
                     font-weight: 700;
                     @include font-size(13);
+                    cursor: pointer;
                 }
                 .icon {
                     display: none;
