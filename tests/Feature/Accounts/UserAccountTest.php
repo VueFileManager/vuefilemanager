@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Accounts;
 
 use App\Models\User;
 use App\Services\SetupService;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Setup;
 
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
