@@ -16,6 +16,7 @@ use App\Models\User;
 use Artisan;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Schema;
 
@@ -70,59 +71,30 @@ class AppFunctionsController extends Controller
      */
     public function og_site($token)
     {
-        // Get all settings
-        $settings = get_settings_in_json();
-
-        // Get shared token
         $shared = get_shared($token);
 
-        // Get user
-        $user = User::findOrFail($shared->user_id);
+        // Get file/folder record
+        $item = ('App\\Models\\' . ucfirst($shared->type))
+            ::where('user_id', $shared->user->id)
+            ->where('id', $shared->item_id)
+            ->first();
 
-        // Handle single file
-        if ($shared->type === 'file') {
+        if ($item->thumbnail) {
+            $item->setPublicUrl($token);
+        }
 
-            // Get file record
-            $file = File::where('user_id', $shared->user_id)
-                ->where('id', $shared->item_id)
-                ->first();
-
-            if ($file->thumbnail) {
-                $file->setPublicUrl($token);
-            }
-
-            $metadata = [
+        return view("vuefilemanager.crawler.og-view")
+            ->with('settings', get_settings_in_json())
+            ->with('metadata', [
+                'url'          => url('/shared', ['token' => $token]),
                 'is_protected' => $shared->is_protected,
-                'url'          => url('/shared', ['token' => $token]),
-                'user'         => $user->name,
-                'name'         => $file->name,
-                'size'         => $file->filesize,
-                'thumbnail'    => $file->thumbnail ? $file->thumbnail : null,
-            ];
-        }
-
-        // Handle single file
-        if ($shared->type === 'folder') {
-
-            // Get file record
-            $folder = Folder::where('user_id', $shared->user_id)
-                ->where('unique_id', $shared->item_id)
-                ->first();
-
-            $metadata = [
-                'is_protected' => $shared->protected,
-                'url'          => url('/shared', ['token' => $token]),
-                'user'         => $user->name,
-                'name'         => $folder->name,
-                'size'         => $folder->items,
-                'thumbnail'    => null,
-            ];
-        }
-
-        // Return view
-        return view("og-view")
-            ->with('settings', $settings)
-            ->with('metadata', $metadata);
+                'user'         => $shared->user->settings->name,
+                'name'         => $item->name,
+                'size'         => $shared->type === 'folder'
+                    ? $item->items
+                    : $item->filesize,
+                'thumbnail'    => $item->thumbnail ?? null,
+            ]);
     }
 
     /**

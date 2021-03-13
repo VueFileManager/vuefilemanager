@@ -3,7 +3,11 @@
 namespace Tests\Feature\App;
 
 use App\Http\Mail\SendContactMessage;
+use App\Models\File;
+use App\Models\Folder;
 use App\Models\Setting;
+use App\Models\Share;
+use App\Models\User;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Mail;
@@ -30,6 +34,93 @@ class AppTest extends TestCase
 
         $this->get('/')
             ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_og_page_for_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+                'name' => 'Folder Title',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $folder->id,
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+            ]);
+
+        $this
+            ->get("/api/og-site/$share->token")
+            ->assertStatus(200)
+            ->assertSee('Folder Title');
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_og_page_for_image()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id' => $user->id,
+                'name' => 'Fake Image',
+                'thumbnail' => 'fake-image-thumbnail.jpg',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $user->id,
+                'type'         => 'file',
+                'is_protected' => false,
+            ]);
+
+        $this
+            ->get("/api/og-site/$share->token")
+            ->assertStatus(200)
+            ->assertSee('Fake Image')
+            ->assertSee('fake-image-thumbnail.jpg');
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_og_page_for_protected_file()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id' => $user->id,
+                'name' => 'Fake Image',
+                'thumbnail' => 'fake-image-thumbnail.jpg',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $user->id,
+                'type'         => 'file',
+                'is_protected' => true,
+            ]);
+
+        $this
+            ->get("/api/og-site/$share->token")
+            ->assertStatus(200)
+            ->assertSee('This link is protected by password');
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppFunctionsController;
 use App\Http\Controllers\FileFunctions\EditItemsController;
 use App\Http\Controllers\FileFunctions\ShareController;
 use App\Http\Controllers\Sharing\FileSharingController;
@@ -28,3 +29,5 @@ Route::group(['prefix' => 'browse'], function () {
     Route::get('/files/{token}/public', [FileSharingController::class, 'file_public']);
     Route::get('/shared/{token}', [ShareController::class, 'show']);
 });
+
+Route::get('/og-site/{token}', [AppFunctionsController::class, 'og_site']);

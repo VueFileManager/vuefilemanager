@@ -94,7 +94,7 @@ class ShareController extends Controller
         // Update sharing record
         $shared->update([
             'permission' => $request->permission,
-            'protected'  => $request->protected,
+            'is_protected'  => $request->protected,
             'expire_in'  => $request->expiration,
             'password'   => $request->password ? Hash::make($request->password) : $shared->password,
         ]);
@@ -149,7 +149,9 @@ class ShareController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad email input');
+        if ($validator->fails()) {
+            abort(400, 'Bad email input');
+        }
 
         // Send shared link via email
         if ($request->has('emails')) {
