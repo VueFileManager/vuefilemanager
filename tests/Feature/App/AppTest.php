@@ -32,8 +32,26 @@ class AppTest extends TestCase
 
         $this->setup->seed_default_settings('Extended');
 
+        Setting::create([
+            'name'  => 'setup_wizard_success',
+            'value' => 'setup-done',
+        ]);
+
         $this->get('/')
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertSee('setup-done')
+            ->assertSee('VueFileManager');
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_index_page_without_setup()
+    {
+        $this->get('/')
+            ->assertStatus(200)
+            ->assertSee('setup-disclaimer')
+            ->assertSee('VueFileManager');
     }
 
     /**

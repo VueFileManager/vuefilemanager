@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\Http\Mail\SendContactMessage;
 use App\Models\Content;
-use App\Models\File;
-use App\Models\Folder;
 use App\Http\Requests\PublicPages\SendContactMessageRequest;
 use App\Http\Resources\PageResource;
 use App\Http\Tools\Demo;
 use App\Models\Setting;
 use App\Models\Page;
-use App\Models\User;
 use Artisan;
 use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
-use Schema;
 
 class AppFunctionsController extends Controller
 {
@@ -101,7 +97,7 @@ class AppFunctionsController extends Controller
      * Send contact message from pages
      *
      * @param SendContactMessageRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function contact_form(SendContactMessageRequest $request)
     {

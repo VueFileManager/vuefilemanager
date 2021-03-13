@@ -273,10 +273,6 @@
                     })
             },
         },
-        created() {
-            if (this.config.latest_upgrade === '1.7')
-                this.$router.push({name: 'SignIn'})
-        }
     }
 </script>
 
