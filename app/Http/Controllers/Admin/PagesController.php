@@ -21,12 +21,13 @@ class PagesController extends Controller
     public function index()
     {
         return new PageCollection(
-            Page::sortable()->paginate(10)
+            Page::sortable()
+                ->paginate(10)
         );
     }
 
     /**
-     * Get page resource
+     * Get single page resource
      *
      * @param $page
      * @return PageResource

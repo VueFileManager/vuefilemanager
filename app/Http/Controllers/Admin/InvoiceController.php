@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class InvoiceController extends Controller
 {
     /**
-     * PlanController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {
@@ -33,7 +33,7 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Get single invoice by $token
+     * Get single invoice by invoice $token
      *
      * @param $customer
      * @param $token
@@ -41,12 +41,8 @@ class InvoiceController extends Controller
      */
     public function show($customer, $token)
     {
-        $settings = json_decode(Setting::all()->pluck('value', 'name')->toJson());
-
-        $invoice = $this->stripe->getUserInvoice($customer, $token);
-
         return view('vuefilemanager.invoice')
-            ->with('settings', $settings)
-            ->with('invoice', $invoice);
+            ->with('settings', get_settings_in_json())
+            ->with('invoice', $this->stripe->getUserInvoice($customer, $token));
     }
 }

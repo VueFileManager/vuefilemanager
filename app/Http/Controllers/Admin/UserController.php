@@ -68,9 +68,9 @@ class UserController extends Controller
     public function invoices(User $user)
     {
         return new InvoiceCollection(
-            $this->stripe->getUserInvoices(
-                $user
-            )
+            $this
+                ->stripe
+                ->getUserInvoices($user)
         );
     }
 
@@ -114,7 +114,7 @@ class UserController extends Controller
     public function change_role(ChangeRoleRequest $request, User $user)
     {
         // Demo preview
-        if (env('APP_DEMO') && $user->id == 1) {
+        if (env('APP_DEMO') && $user->email === 'howdy@hi5ve.digial') {
             return new UserResource($user);
         }
 
@@ -178,11 +178,6 @@ class UserController extends Controller
      */
     public function create_user(CreateUserByAdmin $request)
     {
-        // Store avatar
-        if ($request->hasFile('avatar')) {
-            $avatar = store_avatar($request, 'avatar');
-        }
-
         // Create user
         $user = User::forceCreate([
             'role'     => $request->role,
@@ -195,7 +190,7 @@ class UserController extends Controller
             ->settings()
             ->create([
                 'name'             => $request->name,
-                'avatar'           => $avatar ?? null,
+                'avatar'           => store_avatar($request, 'avatar'),
                 'storage_capacity' => $request->storage_capacity,
             ]);
 

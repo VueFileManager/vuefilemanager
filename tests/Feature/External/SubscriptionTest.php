@@ -473,7 +473,7 @@ class SubscriptionTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function it_get_all_plans_for_index_page()
     {

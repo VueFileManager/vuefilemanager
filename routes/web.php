@@ -2,18 +2,15 @@
 
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\AppFunctionsController;
-use App\Http\Controllers\FileAccessController;
-use App\Http\Controllers\General\SetupWizardController;
+use App\Http\Controllers\Setup\SetupWizardController;
 use App\Http\Controllers\Sharing\FileSharingController;
-use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\Subscription\StripeWebhookController;
 
-Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);
 
-// Get user invoice
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show']);
-});
+// Get user invoice from stripe service
+Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {
@@ -22,4 +19,5 @@ if (Crawler::isCrawler()) {
     Route::get('/shared/{token}', [FileSharingController::class, 'index']);
 }
 
+// Show index.blade
 Route::get('/{any?}', [AppFunctionsController::class, 'index'])->where('any', '.*');

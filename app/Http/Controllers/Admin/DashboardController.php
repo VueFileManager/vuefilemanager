@@ -14,7 +14,7 @@ use Laravel\Cashier\Subscription;
 class DashboardController extends Controller
 {
     /**
-     * DashboardController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AppFunctionsController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Admin\SettingController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
@@ -50,7 +50,7 @@ Route::get('/invoices', [InvoiceController::class, 'index']);
 
 // Settings
 Route::group(['prefix' => 'settings'], function () {
-    Route::get('/flush-cache', [AppFunctionsController::class, 'flush_cache']);
+    Route::get('/flush-cache', [SettingController::class, 'flush_cache']);
     Route::post('/stripe', [SettingController::class, 'set_stripe']);
     Route::post('/email', [SettingController::class, 'set_email']);
     Route::patch('/', [SettingController::class, 'update']);

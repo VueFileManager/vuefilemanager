@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\Setup;
 
 use App\Http\Controllers\Controller;
-use App\Page;
-use App\Setting;
 use Artisan;
 use Illuminate\Http\Request;
 use Schema;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Subscription;
 
 use App\Services\StripeService;
 use App\Models\Setting;
@@ -8,11 +8,11 @@ use App\Models\User;
 
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
-class WebhookController extends CashierController
+class StripeWebhookController extends CashierController
 {
-    public function __construct(StripeService $stripe)
+    public function __construct()
     {
-        $this->stripe = $stripe;
+        $this->stripe = resolve(StripeService::class);
     }
 
     /**
@@ -32,18 +32,14 @@ class WebhookController extends CashierController
         }
 
         // Get user
-        $user = User::where('stripe_id', $payload['data']['object']['customer'])
+        $user = User::whereStripeId($payload['data']['object']['customer'])
             ->firstOrFail();
-
-        // Get default storage capacity
-        $default_storage = Setting::where('name', 'storage_default')
-            ->first();
 
         // Update storage capacity
         $user
             ->settings()
             ->update([
-                'storage_capacity' => $default_storage->value
+                'storage_capacity' => get_setting('storage_default')
             ]);
 
         return $this->successMethod();
@@ -58,7 +54,7 @@ class WebhookController extends CashierController
     public function handleInvoicePaymentSucceeded($payload)
     {
         // Get user
-        $user = User::where('stripe_id', $payload['data']['object']['customer'])
+        $user = User::whereStripeId($payload['data']['object']['customer'])
             ->firstOrFail();
 
         // Get requested plan

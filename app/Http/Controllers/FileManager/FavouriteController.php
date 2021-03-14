@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FileFunctions;
+namespace App\Http\Controllers\FileManager;
 
 use App\Http\Tools\Demo;
 use App\Models\Folder;
@@ -21,7 +21,7 @@ class FavouriteController extends Controller
     {
         // todo: pridat validator ako AddToFavouritesRequest
 
-        foreach ($request->input('folders') as $id) {
+        foreach ($request->folders as $id) {
 
             // Get user & folder
             $user = Auth::user();

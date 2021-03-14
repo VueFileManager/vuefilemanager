@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FileFunctions;
+namespace App\Http\Controllers\FileManager;
 
 use App\Http\Requests\FileFunctions\CreateFolderRequest;
 use App\Http\Requests\FileFunctions\DeleteItemRequest;

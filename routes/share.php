@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AppFunctionsController;
-use App\Http\Controllers\FileFunctions\EditItemsController;
-use App\Http\Controllers\FileFunctions\ShareController;
+use App\Http\Controllers\FileManager\EditItemsController;
+use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\Sharing\FileSharingController;
 
 // Editor functions

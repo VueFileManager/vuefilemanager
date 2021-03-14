@@ -11,7 +11,10 @@ use App\Http\Tools\Demo;
 use App\Models\Plan;
 use App\Services\StripeService;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Subscription;
 use Rinvex\Subscriptions\Models\PlanFeature;
@@ -19,7 +22,7 @@ use Rinvex\Subscriptions\Models\PlanFeature;
 class PlanController extends Controller
 {
     /**
-     * PlanController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {
@@ -29,7 +32,7 @@ class PlanController extends Controller
     /**
      * Get all plans
      *
-     * @return PlanCollection|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return PlanCollection|Application|ResponseFactory|Response
      */
     public function index()
     {
@@ -49,7 +52,7 @@ class PlanController extends Controller
      * Get plan record
      *
      * @param $id
-     * @return PlanResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return PlanResource|Application|ResponseFactory|Response
      */
     public function show($id)
     {
@@ -69,7 +72,7 @@ class PlanController extends Controller
      * Create new plan
      *
      * @param Request $request
-     * @return PlanResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return PlanResource|Application|ResponseFactory|Response
      */
     public function store(Request $request)
     {
@@ -102,7 +105,7 @@ class PlanController extends Controller
      *
      * @param Request $request
      * @param $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function update(Request $request, $id)
     {
@@ -123,7 +126,7 @@ class PlanController extends Controller
      * Delete plan
      *
      * @param $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function delete($id)
     {
@@ -148,11 +151,12 @@ class PlanController extends Controller
      */
     public function subscribers($id)
     {
-        $subscribers = Subscription::where('stripe_plan', $id)
+        $subscribers = Subscription::whereStripePlan($id)
             ->pluck('user_id');
 
         return new UsersCollection(
-            User::sortable()->findMany($subscribers)
+            User::sortable()
+                ->findMany($subscribers)
         );
     }
 }

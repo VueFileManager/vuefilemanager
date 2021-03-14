@@ -18,7 +18,7 @@ class AuthController extends Controller
     /**
      * Check if user account exist
      *
-     * @param Request $request
+     * @param CheckAccountRequest $request
      * @return mixed
      */
     public function check_account(CheckAccountRequest $request)

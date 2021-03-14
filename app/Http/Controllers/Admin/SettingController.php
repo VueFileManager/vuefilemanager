@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Tools\Demo;
 use App\Models\Setting;
 use Artisan;
@@ -20,16 +21,16 @@ class SettingController extends Controller
      */
     public function show(Request $request)
     {
-        $column = $request->get('column');
+        if (strpos($request->column, '|') !== false) {
 
-        if (strpos($column, '|') !== false) {
+            $columns = explode('|', $request->column);
 
-            $columns = explode('|', $column);
-
-            return Setting::whereIn('name', $columns)->pluck('value', 'name');
+            return Setting::whereIn('name', $columns)
+                ->pluck('value', 'name');
         }
 
-        return Setting::where('name', $column)->pluck('value', 'name');
+        return Setting::where('name', $request->column)
+            ->pluck('value', 'name');
     }
 
     /**
@@ -82,12 +83,12 @@ class SettingController extends Controller
         if (!app()->runningUnitTests()) {
 
             setEnvironmentValue([
-                'MAIL_DRIVER'     => $request->input('driver'),
-                'MAIL_HOST'       => $request->input('host'),
-                'MAIL_PORT'       => $request->input('port'),
-                'MAIL_USERNAME'   => $request->input('username'),
-                'MAIL_PASSWORD'   => $request->input('password'),
-                'MAIL_ENCRYPTION' => $request->input('encryption'),
+                'MAIL_DRIVER'     => $request->driver,
+                'MAIL_HOST'       => $request->host,
+                'MAIL_PORT'       => $request->port,
+                'MAIL_USERNAME'   => $request->username,
+                'MAIL_PASSWORD'   => $request->password,
+                'MAIL_ENCRYPTION' => $request->encryption,
             ]);
 
             // Clear config cache
@@ -156,6 +157,24 @@ class SettingController extends Controller
             ]);
 
             // Clear cache
+            Artisan::call('cache:clear');
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
+        }
+
+        return response('Done', 204);
+    }
+
+    /**
+     * Clear application cache
+     */
+    public function flush_cache()
+    {
+        if (env('APP_DEMO')) {
+            return Demo::response_204();
+        }
+
+        if (!app()->runningUnitTests()) {
             Artisan::call('cache:clear');
             Artisan::call('config:clear');
             Artisan::call('config:cache');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FileFunctions;
+namespace App\Http\Controllers\FileManager;
 
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -15,50 +15,9 @@ use App\Models\File;
 class TrashController extends Controller
 {
     /**
-     * Empty user trash
-     *
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function clear()
-    {
-        // Get user id
-        $user_id = Auth::id();
-
-        if (is_demo($user_id)) {
-            return Demo::response_204();
-        }
-
-        // Get files and folders
-        $folders = Folder::onlyTrashed()->where('user_id', $user_id)->get();
-        $files = File::onlyTrashed()->where('user_id', $user_id)->get();
-
-        // Force delete folder
-        $folders->each->forceDelete();
-
-        // Force delete files
-        foreach ($files as $file) {
-
-            // Delete file
-            Storage::delete("/files/$user_id/{$file->basename}");
-
-            // Delete thumbnail if exist
-            if ($file->thumbnail) {
-                Storage::delete("/files/$user_id/{$file->getRawOriginal('thumbnail')}");
-            }
-
-            // Delete file permanently
-            $file->forceDelete();
-        }
-
-        // Return response
-        return response('Done!', 204);
-    }
-
-    /**
      * Restore item from trash
      *
      * @param Request $request
-     * @param $id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
     public function restore(Request $request)
@@ -113,6 +72,46 @@ class TrashController extends Controller
 
             // Restore Item
             $item->restore();
+        }
+
+        // Return response
+        return response('Done!', 204);
+    }
+
+    /**
+     * Empty user trash
+     *
+     * @return ResponseFactory|\Illuminate\Http\Response
+     */
+    public function dump()
+    {
+        // Get user id
+        $user_id = Auth::id();
+
+        if (is_demo($user_id)) {
+            return Demo::response_204();
+        }
+
+        // Get files and folders
+        $folders = Folder::onlyTrashed()->where('user_id', $user_id)->get();
+        $files = File::onlyTrashed()->where('user_id', $user_id)->get();
+
+        // Force delete folder
+        $folders->each->forceDelete();
+
+        // Force delete files
+        foreach ($files as $file) {
+
+            // Delete file
+            Storage::delete("/files/$user_id/{$file->basename}");
+
+            // Delete thumbnail if exist
+            if ($file->thumbnail) {
+                Storage::delete("/files/$user_id/{$file->getRawOriginal('thumbnail')}");
+            }
+
+            // Delete file permanently
+            $file->forceDelete();
         }
 
         // Return response

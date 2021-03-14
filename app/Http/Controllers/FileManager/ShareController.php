@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FileFunctions;
+namespace App\Http\Controllers\FileManager;
 
 use App\Http\Requests\Share\CreateShareRequest;
 use App\Http\Requests\Share\UpdateShareRequest;
@@ -93,10 +93,10 @@ class ShareController extends Controller
 
         // Update sharing record
         $shared->update([
-            'permission' => $request->permission,
-            'is_protected'  => $request->protected,
-            'expire_in'  => $request->expiration,
-            'password'   => $request->password ? Hash::make($request->password) : $shared->password,
+            'permission'   => $request->permission,
+            'is_protected' => $request->protected,
+            'expire_in'    => $request->expiration,
+            'password'     => $request->password ? Hash::make($request->password) : $shared->password,
         ]);
 
         // Return shared record
@@ -112,7 +112,7 @@ class ShareController extends Controller
      */
     public function destroy(Request $request)
     {
-        foreach ($request->input('tokens') as $token) {
+        foreach ($request->tokens as $token) {
 
             // Get sharing record
             Share::where('token', $token)

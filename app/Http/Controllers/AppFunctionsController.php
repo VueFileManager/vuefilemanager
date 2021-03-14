@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Mail\SendContactMessage;
-use App\Models\Content;
+use App\Http\Resources\PricingCollection;
 use App\Http\Requests\PublicPages\SendContactMessageRequest;
 use App\Http\Resources\PageResource;
-use App\Http\Tools\Demo;
 use App\Models\Setting;
 use App\Models\Page;
-use Artisan;
+use App\Services\StripeService;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class AppFunctionsController extends Controller
@@ -28,6 +28,11 @@ class AppFunctionsController extends Controller
         'purchase_code',
         'license',
     ];
+
+    public function __construct(StripeService $stripe)
+    {
+        $this->stripe = $stripe;
+    }
 
     /**
      * Show index page
@@ -151,20 +156,31 @@ class AppFunctionsController extends Controller
     }
 
     /**
-     * Clear application cache
+     * Get all active storage plans
+     *
+     * @return PricingCollection
      */
-    public function flush_cache()
+    public function get_storage_plans()
     {
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
+        if (Cache::has('pricing')) {
+
+            // Get pricing from cache
+            $pricing = Cache::get('pricing');
+        } else {
+
+            // Store pricing to cache
+            $pricing = Cache::rememberForever('pricing', function () {
+                return $this->stripe->getActivePlans();
+            });
         }
 
-        if (!app()->runningUnitTests()) {
-            Artisan::call('cache:clear');
-            Artisan::call('config:clear');
-            Artisan::call('config:cache');
-        }
+        // Format pricing to collection
+        $collection = new PricingCollection($pricing);
 
-        return response('Done', 204);
+        // Sort and return pricing
+        return $collection
+            ->sortBy('product.metadata.capacity')
+            ->values()
+            ->all();
     }
 }

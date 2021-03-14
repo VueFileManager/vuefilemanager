@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FileBrowser;
+namespace App\Http\Controllers\FileManager;
 
 use App\Http\Requests\FileBrowser\SearchRequest;
 use App\Models\User;

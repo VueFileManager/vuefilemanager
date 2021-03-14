@@ -3,19 +3,18 @@
 use App\Http\Controllers\AppFunctionsController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\FileBrowser\BrowseController;
-use App\Http\Controllers\FileFunctions\EditItemsController;
-use App\Http\Controllers\FileFunctions\FavouriteController;
-use App\Http\Controllers\FileFunctions\ShareController;
-use App\Http\Controllers\FileFunctions\TrashController;
-use App\Http\Controllers\General\PricingController;
+use App\Http\Controllers\FileManager\BrowseController;
+use App\Http\Controllers\FileManager\EditItemsController;
+use App\Http\Controllers\FileManager\FavouriteController;
+use App\Http\Controllers\FileManager\ShareController;
+use App\Http\Controllers\FileManager\TrashController;
 use App\Http\Controllers\Sharing\FileSharingController;
 
 // Pages
 Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);
 Route::post('/contact', [AppFunctionsController::class, 'contact_form']);
 Route::get('/page/{page}', [AppFunctionsController::class, 'get_page']);
-Route::get('/pricing', [PricingController::class, 'index']);
+Route::get('/pricing', [AppFunctionsController::class, 'get_storage_plans']);
 
 // Password reset
 Route::group(['prefix' => 'password'], function () {
@@ -40,7 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Trash
     Route::group(['prefix' => 'trash'], function () {
         Route::post('/restore', [TrashController::class, 'restore']);
-        Route::delete('/dump', [TrashController::class, 'clear']);
+        Route::delete('/dump', [TrashController::class, 'dump']);
     });
 
     // Favourites
@@ -62,6 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {
 
     // Browse folders & files
+    // TODO: tests for private shared content
     Route::get('/folders/{unique_id}/private', [FileSharingController::class, 'get_private_folders']);
     Route::get('/navigation/private', [FileSharingController::class, 'get_private_navigation_tree']);
     Route::get('/search/private', [FileSharingController::class, 'search_private']);

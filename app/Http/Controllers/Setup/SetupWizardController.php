@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\Setup;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SetupWizard\CreateAdminRequest;
