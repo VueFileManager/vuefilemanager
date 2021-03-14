@@ -118,6 +118,6 @@ class SharedFileAccessContentController extends Controller
                 (int)$file->getRawOriginal('filesize')
             );
 
-        return $this->helper->thumbnail_file($file, $shared->user_id);
+        return $this->helper->download_thumbnail_file($file, $shared->user_id);
     }
 }

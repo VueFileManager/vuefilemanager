@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AppFunctionsController;
+use App\Http\Controllers\App\AppFunctionsController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\FileManager\BrowseController;
@@ -72,14 +72,14 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Edit items
-    Route::post('/create-folder', [EditItemsController::class, 'user_create_folder']);
-    Route::patch('/rename/{id}', [EditItemsController::class, 'user_rename_item']);
-    Route::post('/remove', [EditItemsController::class, 'user_delete_item']);
-    Route::post('/upload', [EditItemsController::class, 'user_upload']);
-    Route::post('/move', [EditItemsController::class, 'user_move']);
+    Route::post('/create-folder', [EditItemsController::class, 'create_folder']);
+    Route::patch('/rename/{id}', [EditItemsController::class, 'rename_item']);
+    Route::post('/remove', [EditItemsController::class, 'delete_item']);
+    Route::post('/upload', [EditItemsController::class, 'upload']);
+    Route::post('/move', [EditItemsController::class, 'move']);
 
     Route::group(['prefix' => 'zip'], function () {
-        Route::post('/files', [EditItemsController::class, 'user_zip_multiple_files']);
-        Route::get('/folder/{unique_id}', [EditItemsController::class, 'user_zip_folder']);
+        Route::post('/files', [EditItemsController::class, 'zip_multiple_files']);
+        Route::get('/folder/{unique_id}', [EditItemsController::class, 'zip_folder']);
     });
 });

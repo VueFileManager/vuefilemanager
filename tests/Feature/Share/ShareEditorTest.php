@@ -56,7 +56,7 @@ class ShareEditorTest extends TestCase
             'name' => 'Renamed Item',
             'type' => 'file',
         ])
-            ->assertStatus(200)
+            ->assertStatus(201)
             ->assertJsonFragment([
                 'name' => 'Renamed Item',
             ]);
@@ -98,7 +98,7 @@ class ShareEditorTest extends TestCase
             'name' => 'Renamed Folder',
             'type' => 'folder',
         ])
-            ->assertStatus(200)
+            ->assertStatus(201)
             ->assertJsonFragment([
                 'name' => 'Renamed Folder',
             ]);

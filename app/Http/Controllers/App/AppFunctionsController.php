@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\App;
 
+use App\Http\Controllers\Controller;
 use App\Http\Mail\SendContactMessage;
 use App\Http\Resources\PricingCollection;
 use App\Http\Requests\PublicPages\SendContactMessageRequest;

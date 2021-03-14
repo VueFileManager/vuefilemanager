@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\FileManager;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Models\Zip;
 use App\Services\HelperService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\File as UserFile;
 use Illuminate\Support\Facades\Storage;

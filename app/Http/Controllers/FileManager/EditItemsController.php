@@ -38,7 +38,7 @@ class EditItemsController extends Controller
      * @return array
      * @throws Exception
      */
-    public function user_create_folder(CreateFolderRequest $request)
+    public function create_folder(CreateFolderRequest $request)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
@@ -63,33 +63,6 @@ class EditItemsController extends Controller
     }
 
     /**
-     * Create new folder for guest user with edit permission
-     *
-     * @param CreateFolderRequest $request
-     * @param $token
-     * @return array
-     * @throws Exception
-     */
-    public function guest_create_folder(CreateFolderRequest $request, $token)
-    {
-        // Get shared record
-        $shared = get_shared($token);
-
-        if (is_demo($shared->user_id)) {
-            return Demo::create_folder($request);
-        }
-
-        // Check shared permission
-        if (!is_editor($shared)) abort(403);
-
-        // Check access to requested directory
-        $this->helper->check_item_access($request->parent_id, $shared);
-
-        // Create folder
-        return $this->filemanager->create_folder($request, $shared);
-    }
-
-    /**
      * Rename item for authenticated master|editor user
      *
      * @param RenameItemRequest $request
@@ -97,7 +70,7 @@ class EditItemsController extends Controller
      * @return mixed
      * @throws Exception
      */
-    public function user_rename_item(RenameItemRequest $request, $id)
+    public function rename_item(RenameItemRequest $request, $id)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
@@ -134,56 +107,6 @@ class EditItemsController extends Controller
     }
 
     /**
-     * Rename item for guest user with edit permission
-     *
-     * @param RenameItemRequest $request
-     * @param $id
-     * @param $token
-     * @return mixed
-     * @throws Exception
-     */
-    public function guest_rename_item(RenameItemRequest $request, $id, $token)
-    {
-        // Get shared record
-        $shared = get_shared($token);
-
-        // Demo preview
-        if (is_demo($shared->user_id)) {
-            return Demo::rename_item($request, $id);
-        }
-
-        // Check shared permission
-        if (is_visitor($shared)) {
-            abort(403);
-        }
-
-        // Get file|folder item
-        $item = get_item($request->type, $id);
-
-        // Check access to requested item
-        if ($request->type === 'folder') {
-            $this->helper->check_item_access($item->id, $shared);
-        } else {
-            $this->helper->check_item_access($item->folder_id, $shared);
-        }
-
-        // If request have a change folder icon values set the folder icon
-        if ($request->type === 'folder' && $request->filled('icon')) {
-            $this->filemanager->set_folder_icon($request, $id);
-        }
-
-        // Rename item
-        $item = $this->filemanager->rename_item($request, $id, $shared);
-
-        // Set public url
-        if ($item->type !== 'folder') {
-            $item->setPublicUrl($token);
-        }
-
-        return $item;
-    }
-
-    /**
      * Delete item for authenticated master|editor user
      *
      * @param DeleteItemRequest $request
@@ -191,7 +114,7 @@ class EditItemsController extends Controller
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws Exception
      */
-    public function user_delete_item(DeleteItemRequest $request)
+    public function delete_item(DeleteItemRequest $request)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
@@ -231,56 +154,13 @@ class EditItemsController extends Controller
     }
 
     /**
-     * Delete item for guest user with edit permission
-     *
-     * @param DeleteItemRequest $request
-     * @param $id
-     * @param $token
-     * @return ResponseFactory|\Illuminate\Http\Response
-     * @throws Exception
-     */
-    public function guest_delete_item(DeleteItemRequest $request, $token)
-    {
-        // Get shared record
-        $shared = get_shared($token);
-
-        // Demo preview
-        if (is_demo($shared->user_id)) {
-            return Demo::response_204();
-        }
-
-        // Check shared permission
-        if (is_visitor($shared)) {
-            abort(403);
-        }
-
-        foreach ($request->items as $file) {
-
-            // Get file|folder item
-            $item = get_item($file['type'], $file['id']);
-
-            // Check access to requested item
-            if ($file['type'] === 'folder') {
-                $this->helper->check_item_access($item->id, $shared);
-            } else {
-                $this->helper->check_item_access($item->folder_id, $shared);
-            }
-
-            // Delete item
-            $this->filemanager->delete_item($file, $file['id'], $shared);
-        }
-        // Return response
-        return response('Done', 204);
-    }
-
-    /**
      * Upload file for authenticated master|editor user
      *
      * @param UploadRequest $request
      * @return File|Model
      * @throws Exception
      */
-    public function user_upload(UploadRequest $request)
+    public function upload(UploadRequest $request)
     {
         // Demo preview
         if (is_demo(Auth::id())) {
@@ -305,40 +185,39 @@ class EditItemsController extends Controller
     }
 
     /**
-     * Delete file for guest user with edit permission
+     * Move item for authenticated master|editor user
      *
-     * @param UploadRequest $request
-     * @param $token
-     * @return File|Model
-     * @throws Exception
+     * @param MoveItemRequest $request
+     * @param $id
+     * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function guest_upload(UploadRequest $request, $token)
+    public function move(MoveItemRequest $request)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         // Demo preview
-        if (is_demo($shared->user_id)) {
-            return Demo::upload($request);
+        if (is_demo(Auth::id())) {
+            return Demo::response_204();
         }
 
-        // Check shared permission
-        if (is_visitor($shared)) {
-            abort(403);
+        $to_id = $request->input('to_id');
+
+        // Check permission to upload for authenticated editor
+        if ($request->user()->tokenCan('editor')) {
+
+            // check if shared_token cookie exist
+            if (!$request->hasCookie('shared_token')) abort('401');
+
+            // Get shared token
+            $shared = get_shared($request->cookie('shared_token'));
+
+            // Check access to requested directory
+            $this->helper->check_item_access($to_id, $shared);
         }
 
-        // Check access to requested directory
-        $this->helper->check_item_access($request->folder_id, $shared);
+        // Move item
+        $this->filemanager->move($request, $to_id);
 
-        // Return new uploaded file
-        $new_file = $this->filemanager->upload($request, $shared);
-
-        // Set public access url
-        $new_file->setPublicUrl($token);
-
-        return $new_file;
+        return response('Done!', 204);
     }
-
 
     /**
      * User download folder via zip
@@ -346,7 +225,7 @@ class EditItemsController extends Controller
      * @param $id
      * @return string
      */
-    public function user_zip_folder(Request $request, $id)
+    public function zip_folder(Request $request, $id)
     {
         // Get user id
         $user_id = Auth::id();
@@ -382,48 +261,12 @@ class EditItemsController extends Controller
     }
 
     /**
-     * Guest download folder via zip
-     *
-     * @param Request $request
-     * @param $id
-     * @param $token
-     * @return string
-     */
-    public function guest_zip_folder($id, $token)
-    {
-        // Get shared record
-        $shared = get_shared($token);
-
-        // Check access to requested folder
-        $this->helper->check_item_access($id, $shared);
-
-        // Get folder
-        $folder = Folder::whereUserId($shared->user_id)
-            ->where('id', $id);
-
-        if (!$folder->exists()) {
-            abort(404, 'Requested folder doesn\'t exists.');
-        }
-
-        $zip = $this->filemanager->zip_folder($id, $shared);
-
-        // Get file
-        return response([
-            'url'  => route('zip_public', [
-                'id'    => $zip->id,
-                'token' => $shared->token,
-            ]),
-            'name' => $zip->basename,
-        ], 201);
-    }
-
-    /**
      * User download multiple files via zip
      *
      * @param Request $request
      * @return string
      */
-    public function user_zip_multiple_files(Request $request)
+    public function zip_multiple_files(Request $request)
     {
         // Check permission to upload for authenticated editor
         if ($request->user()->tokenCan('editor')) {
@@ -456,127 +299,5 @@ class EditItemsController extends Controller
             'url'  => route('zip', $zip->id),
             'name' => $zip->basename,
         ], 201);
-    }
-
-    /**
-     * Guest download multiple files via zip
-     *
-     * @param Request $request
-     * @param $token
-     * @return string
-     */
-    public function guest_zip_multiple_files(Request $request, $token)
-    {
-        // Get shared record
-        $shared = get_shared($token);
-
-        $file_parent_folders = File::whereUserId($shared->user_id)
-            ->whereIn('id', $request->items)
-            ->get()
-            ->pluck('folder_id')
-            ->toArray();
-
-        // Check access to requested directory
-        $this->helper->check_item_access($file_parent_folders, $shared);
-
-        // Get requested files
-        $files = File::whereUserId($shared->user_id)
-            ->whereIn('id', $request->items)
-            ->get();
-
-        $zip = $this->filemanager->zip_files($files, $shared);
-
-        // Get file
-        return response([
-            'url'  => route('zip_public', [
-                'id'    => $zip->id,
-                'token' => $shared->token,
-            ]),
-            'name' => $zip->basename,
-        ], 201);
-    }
-
-    /**
-     * Move item for authenticated master|editor user
-     *
-     * @param MoveItemRequest $request
-     * @param $id
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function user_move(MoveItemRequest $request)
-    {
-        // Demo preview
-        if (is_demo(Auth::id())) {
-            return Demo::response_204();
-        }
-
-        $to_id = $request->input('to_id');
-
-        // Check permission to upload for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
-
-            // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
-
-            // Get shared token
-            $shared = get_shared($request->cookie('shared_token'));
-
-            // Check access to requested directory
-            $this->helper->check_item_access($to_id, $shared);
-        }
-
-        // Move item
-        $this->filemanager->move($request, $to_id);
-
-        return response('Done!', 204);
-    }
-
-    /**
-     * Move item for guest user with edit permission
-     *
-     * @param MoveItemRequest $request
-     * @param $id
-     * @param $token
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function guest_move(MoveItemRequest $request, $token)
-    {
-        // Get shared record
-        $shared = get_shared($token);
-
-        // Demo preview
-        if (is_demo(Auth::id())) {
-            return Demo::response_204();
-        }
-
-        // Check shared permission
-        if (is_visitor($shared)) {
-            abort(403);
-        }
-
-        foreach ($request->items as $item) {
-
-            if ($item['type'] === 'folder') {
-
-                $this->helper->check_item_access([
-                    $request->to_id, $item['id']
-                ], $shared);
-            }
-
-            if ($item['type'] !== 'folder') {
-
-                $file = File::where('id', $item['id'])
-                    ->where('user_id', $shared->user_id)
-                    ->firstOrFail();
-
-                $this->helper->check_item_access([
-                    $request->to_id, $file->folder_id
-                ], $shared);
-            }
-        }
-
-        $this->filemanager->move($request, $request->to_id);
-
-        return response('Done!', 204);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\InvoiceController;
-use App\Http\Controllers\AppFunctionsController;
-use App\Http\Controllers\Setup\SetupWizardController;
+use App\Http\Controllers\App\SetupWizardController;
+use App\Http\Controllers\App\AppFunctionsController;
 use App\Http\Controllers\Sharing\FileSharingController;
 use App\Http\Controllers\Subscription\StripeWebhookController;
 
