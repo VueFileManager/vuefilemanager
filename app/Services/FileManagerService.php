@@ -28,42 +28,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class FileManagerService
 {
     /**
-     * Store folder icon
-     *
-     * @param $request
-     * @param $id
-     */
-    public static function set_folder_icon($request, $id)
-    {
-        // Get folder
-        $folder = Folder::find($id);
-
-        // Set default folder icon
-        if ($request->emoji === 'default') {
-            $folder->update([
-                'emoji' => null,
-                'color' => null,
-            ]);
-        }
-
-        // Set emoji
-        if ($request->filled('emoji')) {
-            $folder->update([
-                'emoji' => $request->emoji,
-                'color' => null,
-            ]);
-        }
-
-        // Set color
-        if ($request->filled('color')) {
-            $folder->update([
-                'emoji' => null,
-                'color' => $request->color,
-            ]);
-        }
-    }
-
-    /**
      * Zip requested folder
      *
      * @param $id
@@ -476,6 +440,42 @@ class FileManagerService
                 'thumbnail'  => $thumbnail,
                 'filesize'   => $file_size,
                 'user_id'    => $user_id,
+            ]);
+        }
+    }
+
+    /**
+     * Store folder icon
+     *
+     * @param $request
+     * @param $id
+     */
+    public static function set_folder_icon($request, $id)
+    {
+        // Get folder
+        $folder = Folder::find($id);
+
+        // Set default folder icon
+        if ($request->emoji === 'default') {
+            $folder->update([
+                'emoji' => null,
+                'color' => null,
+            ]);
+        }
+
+        // Set emoji
+        if ($request->filled('emoji')) {
+            $folder->update([
+                'emoji' => $request->emoji,
+                'color' => null,
+            ]);
+        }
+
+        // Set color
+        if ($request->filled('color')) {
+            $folder->update([
+                'emoji' => null,
+                'color' => $request->color,
             ]);
         }
     }

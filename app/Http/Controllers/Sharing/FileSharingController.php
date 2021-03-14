@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Sharing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
-use App\Http\Tools\Guardian;
 use App\Models\Share;
 use App\Models\Setting;
-use Illuminate\Contracts\View\Factory;
+use App\Services\HelperService;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +21,12 @@ use Illuminate\Support\Facades\Storage;
 
 class FileSharingController extends Controller
 {
+    private $helper;
+
+    public function __construct()
+    {
+        $this->helper = resolve(HelperService::class);
+    }
 
     /**
      * Show page index and delete access_token & shared_token cookie
@@ -152,7 +157,7 @@ class FileSharingController extends Controller
         $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
 
         // Check if user can get directory
-        Guardian::check_item_access($id, $shared);
+        $this->helper->check_item_access($id, $shared);
 
         // Get files and folders
         list($folders, $files) = $this->get_items($id, $shared);
@@ -178,7 +183,7 @@ class FileSharingController extends Controller
         }
 
         // Check if user can get directory
-        Guardian::check_item_access($id, $shared);
+        $this->helper->check_item_access($id, $shared);
 
         // Get files and folders
         list($folders, $files) = $this->get_items($id, $shared);
@@ -250,7 +255,7 @@ class FileSharingController extends Controller
         $shared = get_shared($request->cookie('shared_token'));
 
         // Check if user can get directory
-        Guardian::check_item_access($shared->item_id, $shared);
+        $this->helper->check_item_access($shared->item_id, $shared);
 
         // Get folders
         $folders = Folder::with('folders:id,parent_id,unique_id,name')
@@ -281,7 +286,7 @@ class FileSharingController extends Controller
         $shared = get_shared($token);
 
         // Check if user can get directory
-        Guardian::check_item_access($shared->item_id, $shared);
+        $this->helper->check_item_access($shared->item_id, $shared);
 
         // Get folders
         $folders = Folder::with('folders:id,parent_id,name')

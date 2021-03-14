@@ -8,13 +8,13 @@ use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Http\Requests\FileFunctions\MoveItemRequest;
 use App\Http\Requests\FileFunctions\UploadRequest;
 use App\Http\Tools\Demo;
+use App\Services\FileManagerService;
+use App\Services\HelperService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Http\Tools\Guardian;
-use App\Http\Tools\FileManagerService;
 use App\Models\Folder;
 use App\Models\File;
 use Exception;
@@ -22,6 +22,15 @@ use Exception;
 
 class EditItemsController extends Controller
 {
+    private $filemanager;
+    private $helper;
+
+    public function __construct()
+    {
+        $this->filemanager = resolve(FileManagerService::class);
+        $this->helper = resolve(HelperService::class);
+    }
+
     /**
      * Create new folder for authenticated master|editor user
      *
@@ -46,11 +55,11 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-            Guardian::check_item_access($request->parent_id, $shared);
+            $this->helper->check_item_access($request->parent_id, $shared);
         }
 
         // Create new folder
-        return FileManagerService::create_folder($request);
+        return $this->filemanager->create_folder($request);
     }
 
     /**
@@ -74,10 +83,10 @@ class EditItemsController extends Controller
         if (!is_editor($shared)) abort(403);
 
         // Check access to requested directory
-        Guardian::check_item_access($request->parent_id, $shared);
+        $this->helper->check_item_access($request->parent_id, $shared);
 
         // Create folder
-        return FileManagerService::create_folder($request, $shared);
+        return $this->filemanager->create_folder($request, $shared);
     }
 
     /**
@@ -109,19 +118,19 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             if ($request->type === 'folder') {
-                Guardian::check_item_access($item->id, $shared);
+                $this->helper->check_item_access($item->id, $shared);
             } else {
-                Guardian::check_item_access($item->folder_id, $shared);
+                $this->helper->check_item_access($item->folder_id, $shared);
             }
         }
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && ($request->filled('emoji') || $request->filled('color'))) {
-            FileManagerService::set_folder_icon($request, $id);
+            $this->filemanager->set_folder_icon($request, $id);
         }
 
         // Rename Item
-        return FileManagerService::rename_item($request, $id);
+        return $this->filemanager->rename_item($request, $id);
     }
 
     /**
@@ -153,18 +162,18 @@ class EditItemsController extends Controller
 
         // Check access to requested item
         if ($request->type === 'folder') {
-            Guardian::check_item_access($item->id, $shared);
+            $this->helper->check_item_access($item->id, $shared);
         } else {
-            Guardian::check_item_access($item->folder_id, $shared);
+            $this->helper->check_item_access($item->folder_id, $shared);
         }
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('icon')) {
-            FileManagerService::set_folder_icon($request, $id);
+            $this->filemanager->set_folder_icon($request, $id);
         }
 
         // Rename item
-        $item = FileManagerService::rename_item($request, $id, $shared);
+        $item = $this->filemanager->rename_item($request, $id, $shared);
 
         // Set public url
         if ($item->type !== 'folder') {
@@ -208,14 +217,14 @@ class EditItemsController extends Controller
 
                 // Check access to requested directory
                 if ($item['type'] === 'folder') {
-                    Guardian::check_item_access($item->id, $shared);
+                    $this->helper->check_item_access($item->id, $shared);
                 } else {
-                    Guardian::check_item_access($item->folder_id, $shared);
+                    $this->helper->check_item_access($item->folder_id, $shared);
                 }
             }
 
             // Delete item
-            FileManagerService::delete_item($item, $item['id']);
+            $this->filemanager->delete_item($item, $item['id']);
         }
 
         return response(null, 204);
@@ -252,13 +261,13 @@ class EditItemsController extends Controller
 
             // Check access to requested item
             if ($file['type'] === 'folder') {
-                Guardian::check_item_access($item->id, $shared);
+                $this->helper->check_item_access($item->id, $shared);
             } else {
-                Guardian::check_item_access($item->folder_id, $shared);
+                $this->helper->check_item_access($item->folder_id, $shared);
             }
 
             // Delete item
-            FileManagerService::delete_item($file, $file['id'], $shared);
+            $this->filemanager->delete_item($file, $file['id'], $shared);
         }
         // Return response
         return response('Done', 204);
@@ -288,11 +297,11 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-            Guardian::check_item_access($request->parent_id, $shared);
+            $this->helper->check_item_access($request->parent_id, $shared);
         }
 
         // Return new uploaded file
-        return FileManagerService::upload($request);
+        return $this->filemanager->upload($request);
     }
 
     /**
@@ -319,10 +328,10 @@ class EditItemsController extends Controller
         }
 
         // Check access to requested directory
-        Guardian::check_item_access($request->folder_id, $shared);
+        $this->helper->check_item_access($request->folder_id, $shared);
 
         // Return new uploaded file
-        $new_file = FileManagerService::upload($request, $shared);
+        $new_file = $this->filemanager->upload($request, $shared);
 
         // Set public access url
         $new_file->setPublicUrl($token);
@@ -352,7 +361,7 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-            Guardian::check_item_access($id, $shared);
+            $this->helper->check_item_access($id, $shared);
         }
 
         // Get folder
@@ -363,7 +372,7 @@ class EditItemsController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = FileManagerService::zip_folder($id);
+        $zip = $this->filemanager->zip_folder($id);
 
         // Get file
         return response([
@@ -386,7 +395,7 @@ class EditItemsController extends Controller
         $shared = get_shared($token);
 
         // Check access to requested folder
-        Guardian::check_item_access($id, $shared);
+        $this->helper->check_item_access($id, $shared);
 
         // Get folder
         $folder = Folder::whereUserId($shared->user_id)
@@ -396,7 +405,7 @@ class EditItemsController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = FileManagerService::zip_folder($id, $shared);
+        $zip = $this->filemanager->zip_folder($id, $shared);
 
         // Get file
         return response([
@@ -432,7 +441,7 @@ class EditItemsController extends Controller
                 ->toArray();
 
             // Check access to requested directory
-            Guardian::check_item_access($file_parent_folders, $shared);
+            $this->helper->check_item_access($file_parent_folders, $shared);
         }
 
         // Get requested files
@@ -440,7 +449,7 @@ class EditItemsController extends Controller
             ->whereIn('id', $request->input('items'))
             ->get();
 
-        $zip = FileManagerService::zip_files($files);
+        $zip = $this->filemanager->zip_files($files);
 
         // Get file
         return response([
@@ -468,14 +477,14 @@ class EditItemsController extends Controller
             ->toArray();
 
         // Check access to requested directory
-        Guardian::check_item_access($file_parent_folders, $shared);
+        $this->helper->check_item_access($file_parent_folders, $shared);
 
         // Get requested files
         $files = File::whereUserId($shared->user_id)
             ->whereIn('id', $request->items)
             ->get();
 
-        $zip = FileManagerService::zip_files($files, $shared);
+        $zip = $this->filemanager->zip_files($files, $shared);
 
         // Get file
         return response([
@@ -513,11 +522,11 @@ class EditItemsController extends Controller
             $shared = get_shared($request->cookie('shared_token'));
 
             // Check access to requested directory
-            Guardian::check_item_access($to_id, $shared);
+            $this->helper->check_item_access($to_id, $shared);
         }
 
         // Move item
-        FileManagerService::move($request, $to_id);
+        $this->filemanager->move($request, $to_id);
 
         return response('Done!', 204);
     }
@@ -549,7 +558,7 @@ class EditItemsController extends Controller
 
             if ($item['type'] === 'folder') {
 
-                Guardian::check_item_access([
+                $this->helper->check_item_access([
                     $request->to_id, $item['id']
                 ], $shared);
             }
@@ -560,13 +569,13 @@ class EditItemsController extends Controller
                     ->where('user_id', $shared->user_id)
                     ->firstOrFail();
 
-                Guardian::check_item_access([
+                $this->helper->check_item_access([
                     $request->to_id, $file->folder_id
                 ], $shared);
             }
         }
 
-        FileManagerService::move($request, $request->to_id);
+        $this->filemanager->move($request, $request->to_id);
 
         return response('Done!', 204);
     }

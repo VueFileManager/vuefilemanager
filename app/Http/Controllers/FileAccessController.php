@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Tools\Guardian;
 use App\Models\User;
 use App\Models\Zip;
+use App\Services\HelperService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Storage;
 
 class FileAccessController extends Controller
 {
+    private $helper;
+
+    public function __construct()
+    {
+        $this->helper = resolve(HelperService::class);
+    }
+
     /**
      * Get avatar
      *
@@ -250,7 +257,7 @@ class FileAccessController extends Controller
     {
         // Check by parent folder permission
         if ($shared->type === 'folder') {
-            Guardian::check_item_access($file->folder_id, $shared);
+            $this->helper->check_item_access($file->folder_id, $shared);
         }
 
         // Check by single file permission
