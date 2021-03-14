@@ -41,7 +41,7 @@ class PricingResource extends JsonResource
     {
         $stripe = resolve('App\Services\StripeService');
 
-        $rates_puplic = [];
+        $rates_public = [];
 
         // Get tax rates
         $rates = $stripe->getTaxRates();
@@ -54,7 +54,7 @@ class PricingResource extends JsonResource
             // Calculate tax
             $tax = $this['plan']['amount'] * ($rate['percentage'] / 100);
 
-            array_push($rates_puplic, [
+            array_push($rates_public, [
                 'id'                   => $rate['id'],
                 'active'               => $rate['active'],
                 'jurisdiction'         => $rate['jurisdiction'],
@@ -63,6 +63,6 @@ class PricingResource extends JsonResource
             ]);
         }
 
-        return $rates_puplic;
+        return $rates_public;
     }
 }

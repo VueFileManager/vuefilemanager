@@ -473,6 +473,17 @@ class SubscriptionTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_get_all_plans_for_index_page()
+    {
+        $response = $this->getJson('/api/pricing')
+            ->assertStatus(200);
+
+        dd(json_decode($response->content(), true));
+    }
+
+    /**
      *
      */
     public function it_get_single_plan_from_admin()

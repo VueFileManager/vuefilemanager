@@ -17,7 +17,7 @@ Route::post('/contact', [AppFunctionsController::class, 'contact_form']);
 Route::get('/page/{page}', [AppFunctionsController::class, 'get_page']);
 Route::get('/pricing', [PricingController::class, 'index']);
 
-// Password
+// Password reset
 Route::group(['prefix' => 'password'], function () {
     Route::post('/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/reset', [ResetPasswordController::class, 'reset']);

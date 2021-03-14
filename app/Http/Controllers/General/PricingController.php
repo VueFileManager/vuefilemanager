@@ -41,7 +41,8 @@ class PricingController extends Controller
         $collection = new PricingCollection($pricing);
 
         // Sort and return pricing
-        return $collection->sortBy('product.metadata.capacity')
+        return $collection
+            ->sortBy('product.metadata.capacity')
             ->values()
             ->all();
     }
