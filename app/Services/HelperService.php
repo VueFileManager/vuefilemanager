@@ -63,4 +63,29 @@ class HelperService
                 abort(403);
         }
     }
+
+    /**
+     * Check if user has enough space to upload file
+     *
+     * @param $user_id
+     * @param int $file_size
+     * @param $temp_filename
+     */
+    public function check_user_storage_capacity($user_id, int $file_size, $temp_filename): void
+    {
+        // Get user storage percentage and get storage_limitation setting
+        $user_storage_used = user_storage_percentage($user_id, $file_size);
+
+        // Check if user can upload
+        if (get_setting('storage_limitation') && $user_storage_used >= 100) {
+
+            // Delete file
+            Storage::disk('local')
+                ->delete("chunks/$temp_filename");
+
+            // Abort uploading
+            // TODO: test pre exceed storage limit
+            abort(423, 'You exceed your storage limit!');
+        }
+    }
 }

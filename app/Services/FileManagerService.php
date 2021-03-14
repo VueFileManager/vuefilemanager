@@ -27,6 +27,13 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FileManagerService
 {
+    private $helper;
+
+    public function __construct()
+    {
+        $this->helper = resolve(HelperService::class);
+    }
+
     /**
      * Zip requested folder
      *
@@ -35,7 +42,7 @@ class FileManagerService
      * @return mixed
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function zip_folder($id, $shared = null)
+    public function zip_folder($id, $shared = null)
     {
         // Get folder
         $requested_folder = Folder::with(['folders.files', 'files'])
@@ -106,7 +113,7 @@ class FileManagerService
      * @return mixed
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function zip_files($files, $shared = null)
+    public function zip_files($files, $shared = null)
     {
         // Local storage instance
         $disk_local = Storage::disk('local');
@@ -163,7 +170,7 @@ class FileManagerService
      * @param null $shared
      * @return Folder|\Illuminate\Database\Eloquent\Model
      */
-    public static function create_folder($request, $shared = null)
+    public function create_folder($request, $shared = null)
     {
         // Get variables
         //$user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
@@ -196,7 +203,7 @@ class FileManagerService
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      * @throws \Exception
      */
-    public static function rename_item($request, $id, $shared = null)
+    public function rename_item($request, $id, $shared = null)
     {
         // Get user id
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
@@ -221,7 +228,7 @@ class FileManagerService
      * @param null $shared
      * @throws \Exception
      */
-    public static function delete_item($item, $id, $shared = null)
+    public function delete_item($item, $id, $shared = null)
     {
         // Delete folder
         if ($item['type'] === 'folder') {
@@ -335,7 +342,7 @@ class FileManagerService
      * @param $request
      * @param $to_id
      */
-    public static function move($request, $to_id)
+    public function move($request, $to_id)
     {
         foreach ($request->items as $item) {
 
@@ -366,7 +373,7 @@ class FileManagerService
      * @return File|\Illuminate\Database\Eloquent\Model
      * @throws \Exception
      */
-    public static function upload($request, $shared = null)
+    public function upload($request, $shared = null)
     {
         // Get parent_id from request
         $file = $request->file('file');
@@ -409,7 +416,7 @@ class FileManagerService
             $file_mimetype = $disk_local->mimeType('chunks/' . $temp_filename);
 
             // Check if user has enough space to upload file
-            self::check_user_storage_capacity($user_id, $file_size, $temp_filename);
+            $this->helper->check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
             $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
@@ -450,7 +457,7 @@ class FileManagerService
      * @param $request
      * @param $id
      */
-    public static function set_folder_icon($request, $id)
+    public function set_folder_icon($request, $id)
     {
         // Get folder
         $folder = Folder::find($id);
@@ -486,7 +493,7 @@ class FileManagerService
      * @param string $filename
      * @param string|null $thumbnail
      */
-    private static function move_to_external_storage(string $filename, ?string $thumbnail): void
+    private function move_to_external_storage(string $filename, ?string $thumbnail): void
     {
         $disk_local = Storage::disk('local');
 
@@ -554,7 +561,7 @@ class FileManagerService
      * @param $file
      * @return string|null
      */
-    private static function get_image_thumbnail(string $file_path, string $filename, string $user_id)
+    private function get_image_thumbnail(string $file_path, string $filename, string $user_id)
     {
         $local_disk = Storage::disk('local');
 
@@ -583,30 +590,5 @@ class FileManagerService
         }
 
         return $thumbnail ?? null;
-    }
-
-    /**
-     * Check if user has enough space to upload file
-     *
-     * @param $user_id
-     * @param int $file_size
-     * @param $temp_filename
-     */
-    private static function check_user_storage_capacity($user_id, int $file_size, $temp_filename): void
-    {
-        // Get user storage percentage and get storage_limitation setting
-        $user_storage_used = user_storage_percentage($user_id, $file_size);
-
-        // Check if user can upload
-        if (get_setting('storage_limitation') && $user_storage_used >= 100) {
-
-            // Delete file
-            Storage::disk('local')
-                ->delete("chunks/$temp_filename");
-
-            // Abort uploading
-            // TODO: test pre exceed storage limit
-            abort(423, 'You exceed your storage limit!');
-        }
     }
 }
