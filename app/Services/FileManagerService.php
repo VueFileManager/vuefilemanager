@@ -419,7 +419,7 @@ class FileManagerService
             $this->helper->check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = self::get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
+            $thumbnail = $this->helper->get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move('chunks/' . $temp_filename, "files/$user_id/$disk_file_name");
@@ -485,45 +485,5 @@ class FileManagerService
                 'color' => $request->color,
             ]);
         }
-    }
-
-    /**
-     * Create thumbnail for images
-     *
-     * @param string $file_path
-     * @param string $filename
-     * @param string $user_id
-     * @param $file
-     * @return string|null
-     */
-    private function get_image_thumbnail(string $file_path, string $filename, string $user_id)
-    {
-        $local_disk = Storage::disk('local');
-
-        // Create thumbnail from image
-        if (in_array($local_disk->mimeType($file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
-
-            // Get thumbnail name
-            $thumbnail = 'thumbnail-' . $filename;
-
-            // Create intervention image
-            $image = Image::make($local_disk->path($file_path))->orientate();
-
-            // Resize image
-            $image->resize(512, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->stream();
-
-            // Store thumbnail to disk
-            $local_disk->put("files/$user_id/$thumbnail", $image);
-        }
-
-        // Return thumbnail as svg file
-        if ($local_disk->mimeType($file_path) === 'image/svg+xml') {
-
-            $thumbnail = $filename;
-        }
-
-        return $thumbnail ?? null;
     }
 }

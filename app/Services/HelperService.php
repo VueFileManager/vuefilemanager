@@ -9,6 +9,7 @@ use DB;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class HelperService
@@ -99,7 +100,7 @@ class HelperService
      * @param string $filename
      * @param string|null $thumbnail
      */
-    function move_to_external_storage(string $filename, ?string $thumbnail): void
+    function move_to_external_storage($filename, $thumbnail = null): void
     {
         $disk_local = Storage::disk('local');
 
@@ -156,5 +157,45 @@ class HelperService
             // Delete file after upload
             $disk_local->delete('files/' . $file);
         }
+    }
+
+    /**
+     * Create image thumbnail from gif, jpeg, jpg, png, webp or svg
+     *
+     * @param string $file_path
+     * @param string $filename
+     * @param string $user_id
+     * @return string|null
+     */
+    function get_image_thumbnail($file_path, $filename, $user_id)
+    {
+        $local_disk = Storage::disk('local');
+
+        // Create thumbnail from image
+        if (in_array($local_disk->mimeType($file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
+
+            // Get thumbnail name
+            $thumbnail = "thumbnail-$filename";
+
+            // Create intervention image
+            $image = Image::make($local_disk->path($file_path))
+                ->orientate();
+
+            // Resize image
+            $image->resize(512, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream();
+
+            // Store thumbnail to disk
+            $local_disk->put("files/$user_id/$thumbnail", $image);
+        }
+
+        // Return thumbnail as svg file
+        if ($local_disk->mimeType($file_path) === 'image/svg+xml') {
+
+            $thumbnail = $filename;
+        }
+
+        return $thumbnail ?? null;
     }
 }
