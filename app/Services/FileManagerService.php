@@ -428,7 +428,7 @@ class FileManagerService
             if (!is_storage_driver(['local'])) {
 
                 // Move file to external storage service
-                self::move_to_external_storage($disk_file_name, $thumbnail);
+                $this->helper->move_to_external_storage($disk_file_name, $thumbnail);
             }
 
             // Store user upload size
@@ -484,71 +484,6 @@ class FileManagerService
                 'emoji' => null,
                 'color' => $request->color,
             ]);
-        }
-    }
-
-    /**
-     * Move file to external storage if is set
-     *
-     * @param string $filename
-     * @param string|null $thumbnail
-     */
-    private function move_to_external_storage(string $filename, ?string $thumbnail): void
-    {
-        $disk_local = Storage::disk('local');
-
-        foreach ([$filename, $thumbnail] as $file) {
-
-            // Check if file exist
-            if (!$file) continue;
-
-            // Get file size
-            $filesize = $disk_local->size('files/' . $file);
-
-            // If file is bigger than 5.2MB then run multipart upload
-            if ($filesize > 5242880) {
-
-                // Get driver
-                $driver = \Storage::getDriver();
-
-                // Get adapter
-                $adapter = $driver->getAdapter();
-
-                // Get client
-                $client = $adapter->getClient();
-
-                // Prepare the upload parameters.
-                // TODO: replace local files with temp folder
-                $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/files/' . $file, [
-                    'bucket' => $adapter->getBucket(),
-                    'key'    => 'files/' . $file
-                ]);
-
-                try {
-
-                    // Upload content
-                    $uploader->upload();
-
-                } catch (MultipartUploadException $e) {
-
-                    // Write error log
-                    Log::error($e->getMessage());
-
-                    // Delete file after error
-                    $disk_local->delete('files/' . $file);
-
-                    throw new HttpException(409, $e->getMessage());
-                }
-
-            } else {
-
-                // Stream file object to s3
-                // TODO: replace local files with temp folder
-                Storage::putFileAs('files', config('filesystems.disks.local.root') . '/files/' . $file, $file, 'private');
-            }
-
-            // Delete file after upload
-            $disk_local->delete('files/' . $file);
         }
     }
 
