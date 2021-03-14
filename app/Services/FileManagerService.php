@@ -413,7 +413,7 @@ class FileManagerService
             $this->helper->check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = $this->helper->get_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
+            $thumbnail = $this->helper->create_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move('chunks/' . $temp_filename, "files/$user_id/$disk_file_name");
@@ -422,7 +422,7 @@ class FileManagerService
             if (!is_storage_driver(['local'])) {
 
                 // Move file to external storage service
-                $this->helper->move_to_external_storage($disk_file_name, $thumbnail);
+                $this->helper->move_file_to_external_storage($disk_file_name, $thumbnail);
             }
 
             // Store user upload size

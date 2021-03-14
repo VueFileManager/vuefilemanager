@@ -158,11 +158,10 @@ class FileSharingController extends Controller
         // Check if user can get directory
         $this->helper->check_item_access($id, $shared);
 
-        // Get files and folders
-        list($folders, $files) = $this->get_items($id, $shared);
-
         // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
+        return collect(
+            $this->helper->get_items_under_shared_by_folder_id($id, $shared)
+        )->collapse();
     }
 
     /**

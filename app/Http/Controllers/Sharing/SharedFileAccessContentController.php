@@ -73,7 +73,7 @@ class SharedFileAccessContentController extends Controller
             ->firstOrFail();
 
         // Check file access
-        $this->helper->check_file_access($shared, $file);
+        $this->helper->check_guest_access_to_shared_items($shared, $file);
 
         // Store user download size
         $shared
@@ -109,7 +109,7 @@ class SharedFileAccessContentController extends Controller
             ->firstOrFail();
 
         // Check file access
-        $this->helper->check_file_access($shared, $file);
+        $this->helper->check_guest_access_to_shared_items($shared, $file);
 
         // Store user download size
         $shared

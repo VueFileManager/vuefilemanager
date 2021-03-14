@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\File;
 use App\Models\Folder;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
@@ -75,7 +76,7 @@ class HelperService
      * @param $shared
      * @param $file
      */
-    public function check_file_access($shared, $file): void
+    public function check_guest_access_to_shared_items($shared, $file): void
     {
         // Check by parent folder permission
         if ($shared->type === 'folder') {
@@ -121,7 +122,7 @@ class HelperService
      * @param string $filename
      * @param string|null $thumbnail
      */
-    function move_to_external_storage($filename, $thumbnail = null): void
+    function move_file_to_external_storage($filename, $thumbnail = null): void
     {
         $disk_local = Storage::disk('local');
 
@@ -188,7 +189,7 @@ class HelperService
      * @param string $user_id
      * @return string|null
      */
-    function get_image_thumbnail($file_path, $filename, $user_id)
+    function create_image_thumbnail($file_path, $filename, $user_id)
     {
         $local_disk = Storage::disk('local');
 
@@ -251,6 +252,8 @@ class HelperService
     }
 
     /**
+     * Get image thumbnail for browser
+     *
      * @param $file
      * @param $user_id
      * @return mixed
@@ -265,5 +268,27 @@ class HelperService
 
         // Return image thumbnail
         return Storage::download($path, $file->getRawOriginal('thumbnail'));
+    }
+
+    /**
+     * Get all folders and files under the share record
+     *
+     * @param $id
+     * @param $shared
+     * @return array
+     */
+    function get_items_under_shared_by_folder_id($id, $shared): array
+    {
+        $folders = Folder::where('user_id', $shared->user_id)
+            ->where('parent_id', $id)
+            ->sortable()
+            ->get();
+
+        $files = File::where('user_id', $shared->user_id)
+            ->where('folder_id', $id)
+            ->sortable()
+            ->get();
+
+        return [$folders, $files];
     }
 }

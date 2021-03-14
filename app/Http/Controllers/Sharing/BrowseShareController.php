@@ -20,28 +20,6 @@ class BrowseShareController extends Controller
     }
 
     /**
-     * Get folders and files
-     *
-     * @param $id
-     * @param $shared
-     * @return array
-     */
-    private function get_items($id, $shared): array
-    {
-        $folders = Folder::where('user_id', $shared->user_id)
-            ->where('parent_id', $id)
-            ->sortable()
-            ->get();
-
-        $files = File::where('user_id', $shared->user_id)
-            ->where('folder_id', $id)
-            ->sortable()
-            ->get();
-
-        return [$folders, $files];
-    }
-
-    /**
      * Search public files
      *
      * @param Request $request
@@ -146,11 +124,11 @@ class BrowseShareController extends Controller
         $this->helper->check_item_access($id, $shared);
 
         // Get files and folders
-        list($folders, $files) = $this->get_items($id, $shared);
+        list($folders, $files) = $this->helper->get_items_under_shared_by_folder_id($id, $shared);
 
         // Set thumbnail links for public files
-        $files->map(function ($item) use ($token) {
-            $item->setPublicUrl($token);
+        $files->map(function ($file) use ($token) {
+            $file->setPublicUrl($token);
         });
 
         // Collect folders and files to single array
