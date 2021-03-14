@@ -2,7 +2,9 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Setting;
 use App\Models\User;
+use App\Models\UserSettings;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,14 +17,22 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Validate and create a newly registered user.
      *
-     * @param  array  $input
+     * @param array $input
      * @return \App\Models\User
      */
     public function create(array $input)
     {
+        $settings = Setting::whereIn('name', ['storage_default', 'registration'])
+            ->pluck('value', 'name');
+
+        // Check if account registration is enabled
+        if (!intval($settings['registration'])) {
+            abort(401);
+        }
+
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => [
                 'required',
                 'string',
                 'email',
@@ -33,13 +43,20 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         $user = User::create([
-            'email' => $input['email'],
+            'email'    => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
 
-        $user->settings()->create([
-            'name' => $input['name']
-        ]);
+        UserSettings::unguard();
+
+        $user
+            ->settings()
+            ->create([
+                'name'             => $input['name'],
+                'storage_capacity' => $settings['storage_default'],
+            ]);
+
+        UserSettings::reguard();
 
         return $user;
     }

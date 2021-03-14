@@ -5,7 +5,6 @@ use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\PaymentMethodsController;
 use App\Http\Controllers\User\SubscriptionController;
 
-// TODO: testy
 Route::post('/check', [AuthController::class, 'check_account']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

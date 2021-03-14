@@ -12,11 +12,9 @@ use App\Http\Controllers\General\PricingController;
 use App\Http\Controllers\Sharing\FileSharingController;
 
 // Pages
+Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);
 Route::post('/contact', [AppFunctionsController::class, 'contact_form']);
 Route::get('/page/{page}', [AppFunctionsController::class, 'get_page']);
-Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);
-
-// Stripe
 Route::get('/pricing', [PricingController::class, 'index']);
 
 // Password
