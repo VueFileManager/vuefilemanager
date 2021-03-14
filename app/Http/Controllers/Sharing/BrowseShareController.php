@@ -20,6 +20,37 @@ class BrowseShareController extends Controller
     }
 
     /**
+     * Browse public folders
+     *
+     * @param $id
+     * @param $token
+     * @return Collection
+     */
+    public function get_public_folders($id, $token)
+    {
+        $shared = get_shared($token);
+
+        // Abort if folder is protected
+        if ((int)$shared->is_protected) {
+            abort(403, "Sorry, you don't have permission");
+        }
+
+        // Check if user can get directory
+        $this->helper->check_item_access($id, $shared);
+
+        // Get files and folders
+        list($folders, $files) = $this->helper->get_items_under_shared_by_folder_id($id, $shared);
+
+        // Set thumbnail links for public files
+        $files->map(function ($file) use ($token) {
+            $file->setPublicUrl($token);
+        });
+
+        // Collect folders and files to single array
+        return collect([$folders, $files])->collapse();
+    }
+
+    /**
      * Search public files
      *
      * @param Request $request
@@ -77,11 +108,11 @@ class BrowseShareController extends Controller
     /**
      * Get navigation tree
      *
+     * @param $token
      * @return array
      */
     public function get_public_navigation_tree($token)
     {
-        // Get sharing record
         $shared = get_shared($token);
 
         // Check if user can get directory
@@ -102,36 +133,5 @@ class BrowseShareController extends Controller
                 'folders'  => $folders,
             ]
         ];
-    }
-
-    /**
-     * Browse public folders
-     *
-     * @param $id
-     * @param $token
-     * @return Collection
-     */
-    public function get_public_folders($id, $token)
-    {
-        $shared = get_shared($token);
-
-        // Abort if folder is protected
-        if ((int)$shared->is_protected) {
-            abort(403, "Sorry, you don't have permission");
-        }
-
-        // Check if user can get directory
-        $this->helper->check_item_access($id, $shared);
-
-        // Get files and folders
-        list($folders, $files) = $this->helper->get_items_under_shared_by_folder_id($id, $shared);
-
-        // Set thumbnail links for public files
-        $files->map(function ($file) use ($token) {
-            $file->setPublicUrl($token);
-        });
-
-        // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
     }
 }

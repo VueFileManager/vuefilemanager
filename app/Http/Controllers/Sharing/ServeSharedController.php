@@ -9,7 +9,6 @@ use App\Models\Share;
 use App\Models\Setting;
 use App\Services\HelperService;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ use App\Models\File;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
-class FileSharingController extends Controller
+class ServeSharedController extends Controller
 {
     private $helper;
 

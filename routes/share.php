@@ -4,7 +4,7 @@ use App\Http\Controllers\App\AppFunctionsController;
 use App\Http\Controllers\Sharing\BrowseShareController;
 use App\Http\Controllers\Sharing\EditShareItemsController;
 use App\Http\Controllers\FileManager\ShareController;
-use App\Http\Controllers\Sharing\FileSharingController;
+use App\Http\Controllers\Sharing\ServeSharedController;
 
 // Editor functions
 Route::group(['prefix' => 'editor'], function () {
@@ -27,8 +27,8 @@ Route::group(['prefix' => 'browse'], function () {
     Route::get('/folders/{id}/public/{token}', [BrowseShareController::class, 'get_public_folders']);
     Route::get('/search/public/{token}', [BrowseShareController::class, 'search_public']);
 
-    Route::post('/shared/authenticate/{token}', [FileSharingController::class, 'authenticate']);
-    Route::get('/files/{token}/public', [FileSharingController::class, 'file_public']);
+    Route::post('/shared/authenticate/{token}', [ServeSharedController::class, 'authenticate']);
+    Route::get('/files/{token}/public', [ServeSharedController::class, 'file_public']);
     Route::get('/shared/{token}', [ShareController::class, 'show']);
 });
 

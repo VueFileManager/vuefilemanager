@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\App\SetupWizardController;
 use App\Http\Controllers\App\AppFunctionsController;
-use App\Http\Controllers\Sharing\FileSharingController;
+use App\Http\Controllers\Sharing\ServeSharedController;
 use App\Http\Controllers\Subscription\StripeWebhookController;
 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
@@ -16,7 +16,7 @@ Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->m
 if (Crawler::isCrawler()) {
     Route::get('/shared/{token}', [AppFunctionsController::class, 'og_site']);
 } else {
-    Route::get('/shared/{token}', [FileSharingController::class, 'index']);
+    Route::get('/shared/{token}', [ServeSharedController::class, 'index']);
 }
 
 // Show index.blade

@@ -8,7 +8,7 @@ use App\Http\Controllers\FileManager\EditItemsController;
 use App\Http\Controllers\FileManager\FavouriteController;
 use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\FileManager\TrashController;
-use App\Http\Controllers\Sharing\FileSharingController;
+use App\Http\Controllers\Sharing\ServeSharedController;
 
 // Pages
 Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);
@@ -62,10 +62,10 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 
     // Browse folders & files
     // TODO: tests for private shared content
-    Route::get('/folders/{unique_id}/private', [FileSharingController::class, 'get_private_folders']);
-    Route::get('/navigation/private', [FileSharingController::class, 'get_private_navigation_tree']);
-    Route::get('/search/private', [FileSharingController::class, 'search_private']);
-    Route::get('/files/private', [FileSharingController::class, 'file_private']);
+    Route::get('/folders/{unique_id}/private', [ServeSharedController::class, 'get_private_folders']);
+    Route::get('/navigation/private', [ServeSharedController::class, 'get_private_navigation_tree']);
+    Route::get('/search/private', [ServeSharedController::class, 'search_private']);
+    Route::get('/files/private', [ServeSharedController::class, 'file_private']);
 });
 
 // User master,editor routes

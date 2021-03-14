@@ -9,7 +9,7 @@ use App\Services\HelperService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class SharedFileAccessContentController extends Controller
+class FileSharedAccessController extends Controller
 {
     private $helper;
 

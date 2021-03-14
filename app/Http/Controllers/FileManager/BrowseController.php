@@ -14,113 +14,6 @@ use App\Models\Share;
 
 class BrowseController extends Controller
 {
-
-    /**
-     * Get trashed files
-     *
-     * @return Collection
-     */
-    public function trash()
-    {
-        // Get user id
-        $user_id = Auth::id();
-
-        // Get folders and files
-        $folders_trashed = Folder::onlyTrashed()
-            ->with(['trashed_folders', 'parent'])
-            ->where('user_id', $user_id)
-            ->get(['parent_id', 'id', 'name']);
-
-        $folders = Folder::onlyTrashed()
-            ->with(['parent'])
-            ->where('user_id', $user_id)
-            ->whereIn('id', filter_folders_ids($folders_trashed))
-            ->sortable()
-            ->get();
-
-        // Get files trashed
-        $files_trashed = File::onlyTrashed()
-            ->with(['parent'])
-            ->where('user_id', $user_id)
-            ->whereNull('folder_id')
-            ->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))))
-            ->sortable()
-            ->get();
-
-        // Collect folders and files to single array
-        return collect([$folders, $files_trashed])->collapse();
-    }
-
-    /**
-     * Get user shared items
-     *
-     * @return Collection
-     */
-    public function shared()
-    {
-        // Get user
-        $user_id = Auth::id();
-
-        // Get shared folders and files
-        $folder_ids = Share::where('user_id', $user_id)
-            ->where('type', 'folder')
-            ->pluck('item_id');
-
-        $file_ids = Share::where('user_id', $user_id)
-            ->where('type', '!=', 'folder')
-            ->pluck('item_id');
-
-        // Get folders and files
-        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('user_id', $user_id)
-            ->whereIn('id', $folder_ids)
-            ->sortable()
-            ->get();
-
-        $files = File::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('user_id', $user_id)
-            ->whereIn('id', $file_ids)
-            ->sortable()
-            ->get();
-
-        // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
-    }
-
-    /**
-     * Get latest user uploads
-     *
-     * @return mixed
-     */
-    public function latest()
-    {
-        $user = User::with(['latest_uploads' => function ($query) {
-            $query->sortable(['created_at' => 'desc']);
-        }])
-            ->where('id', Auth::id())
-            ->first();
-
-        return $user->latest_uploads;
-    }
-
-    /**
-     * Get participant uploads
-     *
-     * @return mixed
-     */
-    public function participant_uploads()
-    {
-
-        // Get User
-        $uploads = File::with(['parent'])
-            ->where('user_id', Auth::id())
-            ->whereUserScope('editor')
-            ->sortable()
-            ->get();
-
-        return $uploads;
-    }
-
     /**
      * Get directory with files
      *
@@ -167,6 +60,108 @@ class BrowseController extends Controller
     }
 
     /**
+     * Get latest user uploads
+     *
+     * @return mixed
+     */
+    public function latest()
+    {
+        $user = User::with(['latest_uploads' => function ($query) {
+            $query->sortable(['created_at' => 'desc']);
+        }])
+            ->where('id', Auth::id())
+            ->first();
+
+        return $user->latest_uploads;
+    }
+
+    /**
+     * Get trashed files
+     *
+     * @return Collection
+     */
+    public function trash()
+    {
+        $user_id = Auth::id();
+
+        // Get folders and files
+        $folders_trashed = Folder::onlyTrashed()
+            ->with(['trashed_folders', 'parent'])
+            ->where('user_id', $user_id)
+            ->get(['parent_id', 'id', 'name']);
+
+        $folders = Folder::onlyTrashed()
+            ->with(['parent'])
+            ->where('user_id', $user_id)
+            ->whereIn('id', filter_folders_ids($folders_trashed))
+            ->sortable()
+            ->get();
+
+        // Get files trashed
+        $files_trashed = File::onlyTrashed()
+            ->with(['parent'])
+            ->where('user_id', $user_id)
+            ->whereNull('folder_id')
+            ->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))))
+            ->sortable()
+            ->get();
+
+        // Collect folders and files to single array
+        return collect([$folders, $files_trashed])
+            ->collapse();
+    }
+
+    /**
+     * Get user shared items
+     *
+     * @return Collection
+     */
+    public function shared()
+    {
+        $user_id = Auth::id();
+
+        // Get shared folders and files
+        $folder_ids = Share::where('user_id', $user_id)
+            ->where('type', 'folder')
+            ->pluck('item_id');
+
+        $file_ids = Share::where('user_id', $user_id)
+            ->where('type', '!=', 'folder')
+            ->pluck('item_id');
+
+        // Get folders and files
+        $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('user_id', $user_id)
+            ->whereIn('id', $folder_ids)
+            ->sortable()
+            ->get();
+
+        $files = File::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('user_id', $user_id)
+            ->whereIn('id', $file_ids)
+            ->sortable()
+            ->get();
+
+        // Collect folders and files to single array
+        return collect([$folders, $files])
+            ->collapse();
+    }
+
+    /**
+     * Get participant uploads
+     *
+     * @return mixed
+     */
+    public function participant_uploads()
+    {
+        return File::with(['parent'])
+            ->where('user_id', Auth::id())
+            ->whereUserScope('editor')
+            ->sortable()
+            ->get();
+    }
+
+    /**
      * Get user folder tree
      *
      * @return array
@@ -190,24 +185,26 @@ class BrowseController extends Controller
     /**
      * Search files
      *
-     * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param SearchRequest $request
+     * @return Collection
      */
     public function search(SearchRequest $request)
     {
-        // Get user
         $user_id = Auth::id();
+
         $query = remove_accents($request->input('query'));
 
         // Search files id db
         $searched_files = File::search($query)
             ->where('user_id', $user_id)
             ->get();
+
         $searched_folders = Folder::search($query)
             ->where('user_id', $user_id)
             ->get();
 
         // Collect folders and files to single array
-        return collect([$searched_folders, $searched_files])->collapse();
+        return collect([$searched_folders, $searched_files])
+            ->collapse();
     }
 }
