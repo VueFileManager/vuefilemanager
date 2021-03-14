@@ -4,8 +4,11 @@ namespace Tests\Feature\Accounts;
 
 use App\Models\Setting;
 use App\Models\User;
+use App\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\Sanctum;
+use Notification;
 use Storage;
 use Tests\TestCase;
 
@@ -124,5 +127,46 @@ class AuthTest extends TestCase
 
         $this->postJson('/logout')
             ->assertStatus(204);
+    }
+
+    /**
+     * @test
+     */
+    public function it_send_reset_link_to_email()
+    {
+        Notification::fake();
+
+        $user = User::factory(User::class)
+            ->create(['email' => 'john@doe.com']);
+
+        $this->postJson('/api/password/email', [
+            'email' => $user->email,
+        ])->assertStatus(200);
+
+        Notification::assertTimesSent(1, ResetPassword::class);
+    }
+
+    /**
+     * @test
+     */
+    public function it_reset_user_password()
+    {
+        $user = User::factory(User::class)
+            ->create(['email' => 'john@doe.com']);
+
+        // Get password token
+        $token = Password::getRepository()
+            ->create($user);
+
+        $this->postJson('/api/password/reset', [
+            'token'                 => $token,
+            'email'                 => $user->email,
+            'password'              => 'VeryStrongPassword',
+            'password_confirmation' => 'VeryStrongPassword',
+        ])->assertStatus(200);
+
+        $this->assertDatabaseMissing('password_resets', [
+            'email' => $user->email,
+        ]);
     }
 }
