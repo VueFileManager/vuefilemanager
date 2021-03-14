@@ -70,6 +70,27 @@ class HelperService
     }
 
     /**
+     * Check user file access
+     *
+     * @param $shared
+     * @param $file
+     */
+    public function check_file_access($shared, $file): void
+    {
+        // Check by parent folder permission
+        if ($shared->type === 'folder') {
+            $this->check_item_access($file->folder_id, $shared);
+        }
+
+        // Check by single file permission
+        if ($shared->type === 'file') {
+            if ($shared->item_id !== $file->id) {
+                abort(403);
+            }
+        }
+    }
+
+    /**
      * Check if user has enough space to upload file
      *
      * @param $user_id
@@ -197,5 +218,52 @@ class HelperService
         }
 
         return $thumbnail ?? null;
+    }
+
+    /**
+     * Call and download file
+     *
+     * @param $file
+     * @param $user_id
+     * @return mixed
+     */
+    function download_file($file, $user_id)
+    {
+        // Get file path
+        $path = "files/$user_id/$file->basename";
+
+        // Check if file exist
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
+
+        // Get pretty name
+        $pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
+
+        return response()
+            ->download(Storage::path($path), $pretty_name, [
+                "Accept-Ranges"       => "bytes",
+                "Content-Type"        => Storage::mimeType($path),
+                "Content-Length"      => Storage::size($path),
+                "Content-Range"       => "bytes 0-600/" . Storage::size($path),
+                "Content-Disposition" => "attachment; filename=$pretty_name",
+            ]);
+    }
+
+    /**
+     * @param $file
+     * @param $user_id
+     * @return mixed
+     */
+    function download_thumbnail_file($file, $user_id)
+    {
+        // Get file path
+        $path = "/files/$user_id/{$file->getRawOriginal('thumbnail')}";
+
+        // Check if file exist
+        if (!Storage::exists($path)) abort(404);
+
+        // Return image thumbnail
+        return Storage::download($path, $file->getRawOriginal('thumbnail'));
     }
 }

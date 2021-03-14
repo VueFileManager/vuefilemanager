@@ -2,24 +2,18 @@
 
 namespace App\Services;
 
-use App;
 use App\Models\Folder;
 use App\Models\Share;
 use App\Models\File as UserFile;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Models\User;
 use App\Models\Zip;
-use Aws\Exception\MultipartUploadException;
-use Aws\S3\MultipartUploader;
-use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as Image;
 use League\Flysystem\FileNotFoundException;
 use Madnest\Madzipper\Facades\Madzipper;
 use Symfony\Component\HttpKernel\Exception\HttpException;
