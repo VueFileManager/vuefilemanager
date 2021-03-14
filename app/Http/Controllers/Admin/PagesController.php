@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PageCollection;
 use App\Http\Resources\PageResource;
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use App\Models\Page;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -13,6 +13,11 @@ use Illuminate\Http\Response;
 
 class PagesController extends Controller
 {
+    public function __construct()
+    {
+        $this->demo = resolve(DemoService::class);
+    }
+
     /**
      * Get all pages
      *
@@ -47,7 +52,7 @@ class PagesController extends Controller
     public function update(Request $request, Page $page)
     {
         if (env('APP_DEMO')) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         $page->update(

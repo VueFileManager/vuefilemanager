@@ -7,7 +7,7 @@ use App\Http\Resources\PlanCollection;
 use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersCollection;
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use App\Models\Plan;
 use App\Services\StripeService;
 use App\Models\User;
@@ -27,6 +27,7 @@ class PlanController extends Controller
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
+        $this->demo = resolve(DemoService::class);
     }
 
     /**
@@ -110,7 +111,7 @@ class PlanController extends Controller
     public function update(Request $request, $id)
     {
         if (env('APP_DEMO')) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Update plan
@@ -131,7 +132,7 @@ class PlanController extends Controller
     public function delete($id)
     {
         if (env('APP_DEMO')) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Delete plan

@@ -7,7 +7,7 @@ use App\Http\Requests\Payments\RegisterNewPaymentMethodRequest;
 use App\Http\Resources\PaymentCardCollection;
 use App\Http\Resources\PaymentCardResource;
 use App\Http\Resources\PaymentDefaultCardResource;
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use App\Services\StripeService;
 use Auth;
 use Illuminate\Http\Request;
@@ -16,12 +16,11 @@ use Laravel\Cashier\PaymentMethod;
 
 class PaymentMethodsController extends Controller
 {
-    /**
-     * PaymentMethodsController constructor.
-     */
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
+        $this->demo = resolve(DemoService::class);
     }
 
     /**
@@ -99,7 +98,7 @@ class PaymentMethodsController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Update DefaultPayment Method
@@ -149,7 +148,7 @@ class PaymentMethodsController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Get payment method

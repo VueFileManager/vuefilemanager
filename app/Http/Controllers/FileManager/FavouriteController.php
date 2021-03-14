@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\FileManager;
 
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
 {
+    /**
+     * FavouriteController constructor.
+     */
+    public function __construct()
+    {
+        $this->demo = resolve(DemoService::class);
+    }
+
     /**
      * Add folder to user favourites
      *
@@ -27,7 +35,7 @@ class FavouriteController extends Controller
             $user = Auth::user();
 
             if (is_demo($user->id)) {
-                return Demo::favourites($user);
+                return $this->demo->favourites($user);
             }
 
             // Add folder to user favourites
@@ -52,7 +60,7 @@ class FavouriteController extends Controller
         $user = Auth::user();
 
         if (is_demo($user->id)) {
-            return Demo::favourites($user);
+            return $this->demo->favourites($user);
         }
 
         // Remove folder from user favourites

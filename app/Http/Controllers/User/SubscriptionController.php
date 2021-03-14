@@ -5,18 +5,12 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
 use App\Http\Resources\UserSubscription;
-use App\Http\Tools\Demo;
-use App\Invoice;
+use App\Services\DemoService;
 use App\Models\User;
 use App\Services\StripeService;
 use Auth;
-use Cartalyst\Stripe\Exception\CardErrorException;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Laravel\Cashier\Exceptions\IncompletePayment;
-use Laravel\Cashier\Subscription;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SubscriptionController extends Controller
 {
@@ -29,6 +23,7 @@ class SubscriptionController extends Controller
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
+        $this->demo = DemoService::class;
     }
 
     /**
@@ -83,7 +78,7 @@ class SubscriptionController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_204();
         }
 
         // Forget user subscription
@@ -120,7 +115,7 @@ class SubscriptionController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_204();
         }
 
         // Cancel subscription
@@ -143,7 +138,7 @@ class SubscriptionController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_204();
         }
 
         // Resume subscription

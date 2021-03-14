@@ -7,7 +7,7 @@ use App\Http\Requests\FileFunctions\DeleteItemRequest;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Http\Requests\FileFunctions\MoveItemRequest;
 use App\Http\Requests\FileFunctions\UploadRequest;
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use App\Services\FileManagerService;
 use App\Services\HelperService;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -29,6 +29,7 @@ class EditItemsController extends Controller
     {
         $this->filemanager = resolve(FileManagerService::class);
         $this->helper = resolve(HelperService::class);
+        $this->demo = resolve(DemoService::class);
     }
 
     /**
@@ -42,7 +43,7 @@ class EditItemsController extends Controller
     {
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::create_folder($request);
+            return $this->demo->create_folder($request);
         }
 
         // Check permission to create folder for authenticated editor
@@ -74,7 +75,7 @@ class EditItemsController extends Controller
     {
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::rename_item($request, $id);
+            return $this->demo->rename_item($request, $id);
         }
 
         // Check permission to rename item for authenticated editor
@@ -118,7 +119,7 @@ class EditItemsController extends Controller
     {
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         foreach ($request->input('items') as $item) {
@@ -164,7 +165,7 @@ class EditItemsController extends Controller
     {
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::upload($request);
+            return $this->demo->upload($request);
         }
 
         // Check permission to upload for authenticated editor
@@ -195,7 +196,7 @@ class EditItemsController extends Controller
     {
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         $to_id = $request->input('to_id');

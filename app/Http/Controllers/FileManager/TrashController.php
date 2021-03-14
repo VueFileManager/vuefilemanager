@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\FileManager;
 
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +14,14 @@ use App\Models\File;
 
 class TrashController extends Controller
 {
+    /**
+     * TrashController constructor.
+     */
+    public function __construct()
+    {
+        $this->demo = resolve(DemoService::class);
+    }
+
     /**
      * Restore item from trash
      *
@@ -36,7 +44,7 @@ class TrashController extends Controller
         $user_id = Auth::id();
 
         if (is_demo($user_id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         foreach ($request->input('items') as $restore) {
@@ -89,7 +97,7 @@ class TrashController extends Controller
         $user_id = Auth::id();
 
         if (is_demo($user_id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Get files and folders

@@ -8,9 +8,9 @@ use App\Http\Requests\FileFunctions\DeleteItemRequest;
 use App\Http\Requests\FileFunctions\MoveItemRequest;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Http\Requests\FileFunctions\UploadRequest;
-use App\Http\Tools\Demo;
 use App\Models\File;
 use App\Models\Folder;
+use App\Services\DemoService;
 use App\Services\FileManagerService;
 use App\Services\HelperService;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -27,6 +27,7 @@ class EditShareItemsController extends Controller
     {
         $this->filemanager = resolve(FileManagerService::class);
         $this->helper = resolve(HelperService::class);
+        $this->demo = resolve(DemoService::class);
     }
     /**
      * Create new folder for guest user with edit permission
@@ -41,7 +42,7 @@ class EditShareItemsController extends Controller
         $shared = get_shared($token);
 
         if (is_demo($shared->user_id)) {
-            return Demo::create_folder($request);
+            return $this->demo->create_folder($request);
         }
 
         // Check shared permission
@@ -74,7 +75,7 @@ class EditShareItemsController extends Controller
 
         // Demo preview
         if (is_demo($shared->user_id)) {
-            return Demo::rename_item($request, $id);
+            return $this->demo->rename_item($request, $id);
         }
 
         // Check shared permission
@@ -124,7 +125,7 @@ class EditShareItemsController extends Controller
 
         // Demo preview
         if (is_demo($shared->user_id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Check shared permission
@@ -166,7 +167,7 @@ class EditShareItemsController extends Controller
 
         // Demo preview
         if (is_demo($shared->user_id)) {
-            return Demo::upload($request);
+            return $this->demo->upload($request);
         }
 
         // Check shared permission
@@ -201,7 +202,7 @@ class EditShareItemsController extends Controller
 
         // Demo preview
         if (is_demo(Auth::id())) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Check shared permission

@@ -8,7 +8,7 @@ use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\StorageDetailResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -20,6 +20,14 @@ use App\Models\User;
 
 class AccountController extends Controller
 {
+    /**
+     * AccountController constructor.
+     */
+    public function __construct()
+    {
+        $this->demo = resolve(DemoService::class);
+    }
+
     /**
      * Get all user data to frontend
      *
@@ -80,7 +88,7 @@ class AccountController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Update avatar
@@ -120,7 +128,7 @@ class AccountController extends Controller
         $user = Auth::user();
 
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Change and store new password

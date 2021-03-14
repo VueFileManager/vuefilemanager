@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Tools\Demo;
+use App\Services\DemoService;
 use App\Models\Setting;
 use Artisan;
 use Stripe;
@@ -13,6 +13,14 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SettingController extends Controller
 {
+    /**
+     * SettingController constructor.
+     */
+    public function __construct()
+    {
+        $this->demo = resolve(DemoService::class);
+    }
+
     /**
      * Get table content
      *
@@ -42,7 +50,7 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         if (env('APP_DEMO')) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         // Store image if exist
@@ -77,7 +85,7 @@ class SettingController extends Controller
     {
         // TODO: pridat validator do requestu
         if (env('APP_DEMO')) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         if (!app()->runningUnitTests()) {
@@ -171,7 +179,7 @@ class SettingController extends Controller
     public function flush_cache()
     {
         if (env('APP_DEMO')) {
-            return Demo::response_204();
+            return $this->demo->response_with_no_content();
         }
 
         if (!app()->runningUnitTests()) {

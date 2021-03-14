@@ -173,8 +173,7 @@ class FileManagerService
         $name = $request->has('name') ? $request->input('name') : 'New Folder';
         $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
 
-        // Create folder
-        $folder = Folder::create([
+        return Folder::create([
             'parent_id'  => $request->parent_id,
             'user_scope' => $user_scope,
             'user_id'    => $user_id,
@@ -182,10 +181,7 @@ class FileManagerService
             'name'       => $name,
             'icon_color' => isset($request->icon['color']) ? $request->icon['color'] : null,
             'icon_emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
-        ]);
-
-        // Return new folder
-        return $folder;
+        ]);;
     }
 
     /**

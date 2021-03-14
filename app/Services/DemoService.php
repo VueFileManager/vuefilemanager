@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Tools;
+namespace App\Services;
 
 use App;
 use App\Models\Share;
@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
 
-class Demo
+class DemoService
 {
     /**
      * Create new directory
@@ -27,7 +27,7 @@ class Demo
      * @return array
      * @throws \Exception
      */
-    public static function create_folder($request)
+    function create_folder($request)
     {
         // Get variables
         $user_scope = $request->user() ? $request->user()->token()->scopes[0] : 'editor';
@@ -56,7 +56,7 @@ class Demo
      * @param $unique_id
      * @return mixed
      */
-    public static function rename_item($request, $unique_id)
+    function rename_item($request, $unique_id)
     {
         // Get item
         if ($request->type === 'folder') {
@@ -96,7 +96,7 @@ class Demo
      * @return array
      * @throws \Exception
      */
-    public static function upload($request)
+    function upload($request)
     {
         // Get user data
         $user_scope = $request->user() ? $request->user()->token()->scopes[0] : 'editor';
@@ -130,9 +130,8 @@ class Demo
      *
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public static function response_204()
+    function response_with_no_content()
     {
-
         return response('Done!', 204);
     }
 
@@ -141,9 +140,8 @@ class Demo
      *
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public static function favourites($user)
+    function favourites($user)
     {
-
         return $user->favouriteFolders->makeHidden(['pivot']);
     }
 }
