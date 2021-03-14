@@ -17,7 +17,7 @@ class CreateSharesTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('item_id');
-            $table->string('token', 16)->unique();
+            $table->string('token', 16)->unique()->index();
             $table->enum('type', ['file', 'folder']);
             $table->enum('permission', ['visitor', 'editor'])->nullable();
             $table->boolean('is_protected')->default(0);

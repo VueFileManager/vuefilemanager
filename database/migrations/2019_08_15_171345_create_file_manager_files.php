@@ -14,15 +14,15 @@ class CreateFileManagerFiles extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('user_id');
+            $table->uuid('id')->primary()->index();
+            $table->uuid('user_id')->index();
             $table->uuid('folder_id')->nullable();
 
             $table->text('thumbnail')->nullable();
             $table->text('name');
             $table->text('basename');
 
-            $table->text('mimetype')->nullable();
+            $table->text('mimetype')->nullable()->index();
             $table->text('filesize');
 
             $table->text('type')->nullable();

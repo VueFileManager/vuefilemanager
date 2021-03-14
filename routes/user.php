@@ -6,8 +6,6 @@ use App\Http\Controllers\User\PaymentMethodsController;
 use App\Http\Controllers\User\SubscriptionController;
 
 Route::post('/check', [AuthController::class, 'check_account']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
