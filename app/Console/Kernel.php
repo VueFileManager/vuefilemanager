@@ -34,6 +34,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () use ($scheduler) {
             $scheduler->delete_old_zips();
+
+            if (!is_storage_driver(['local'])) {
+                $scheduler->delete_failed_files();
+            }
         })->everySixHours();
 
         // Run queue jobs every minute

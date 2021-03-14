@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Tools;
+namespace App\Services;
 
 use App;
 use App\Models\Folder;
@@ -25,7 +25,7 @@ use Madnest\Madzipper\Facades\Madzipper;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
-class Editor
+class FileManagerService
 {
     /**
      * Store folder icon
@@ -456,9 +456,6 @@ class Editor
             // Move files to external storage
             if (!is_storage_driver(['local'])) {
 
-                // Clear failed uploads if exists
-                self::clear_failed_files();
-
                 // Move file to external storage service
                 self::move_to_external_storage($disk_file_name, $thumbnail);
             }
@@ -481,38 +478,6 @@ class Editor
                 'user_id'    => $user_id,
             ]);
         }
-    }
-
-    /**
-     * Clear failed files
-     */
-    private static function clear_failed_files()
-    {
-        $local_disk = Storage::disk('local');
-
-        // Get all files from storage
-        $files = collect([
-            $local_disk->allFiles('files'),
-            $local_disk->allFiles('chunks')
-        ])->collapse();
-
-        $files->each(function ($file) use ($local_disk) {
-
-            // Get the file's last modification time.
-            $last_modified = $local_disk->lastModified($file);
-
-            // Get diffInHours
-            $diff = Carbon::parse($last_modified)->diffInHours(Carbon::now());
-
-            // Delete if file is in local storage more than 24 hours
-            if ($diff > 24) {
-
-                Log::info('Failed file or chunk ' . $file . ' deleted.');
-
-                // Delete file from local storage
-                $local_disk->delete($file);
-            }
-        });
     }
 
     /**
@@ -546,6 +511,7 @@ class Editor
                 $client = $adapter->getClient();
 
                 // Prepare the upload parameters.
+                // TODO: replace local files with temp folder
                 $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/files/' . $file, [
                     'bucket' => $adapter->getBucket(),
                     'key'    => 'files/' . $file
@@ -570,6 +536,7 @@ class Editor
             } else {
 
                 // Stream file object to s3
+                // TODO: replace local files with temp folder
                 Storage::putFileAs('files', config('filesystems.disks.local.root') . '/files/' . $file, $file, 'private');
             }
 

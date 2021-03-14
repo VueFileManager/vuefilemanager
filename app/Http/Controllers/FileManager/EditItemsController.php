@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Tools\Guardian;
-use App\Http\Tools\Editor;
+use App\Http\Tools\FileManagerService;
 use App\Models\Folder;
 use App\Models\File;
 use Exception;
@@ -50,7 +50,7 @@ class EditItemsController extends Controller
         }
 
         // Create new folder
-        return Editor::create_folder($request);
+        return FileManagerService::create_folder($request);
     }
 
     /**
@@ -77,7 +77,7 @@ class EditItemsController extends Controller
         Guardian::check_item_access($request->parent_id, $shared);
 
         // Create folder
-        return Editor::create_folder($request, $shared);
+        return FileManagerService::create_folder($request, $shared);
     }
 
     /**
@@ -117,11 +117,11 @@ class EditItemsController extends Controller
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && ($request->filled('emoji') || $request->filled('color'))) {
-            Editor::set_folder_icon($request, $id);
+            FileManagerService::set_folder_icon($request, $id);
         }
 
         // Rename Item
-        return Editor::rename_item($request, $id);
+        return FileManagerService::rename_item($request, $id);
     }
 
     /**
@@ -160,11 +160,11 @@ class EditItemsController extends Controller
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('icon')) {
-            Editor::set_folder_icon($request, $id);
+            FileManagerService::set_folder_icon($request, $id);
         }
 
         // Rename item
-        $item = Editor::rename_item($request, $id, $shared);
+        $item = FileManagerService::rename_item($request, $id, $shared);
 
         // Set public url
         if ($item->type !== 'folder') {
@@ -215,7 +215,7 @@ class EditItemsController extends Controller
             }
 
             // Delete item
-            Editor::delete_item($item, $item['id']);
+            FileManagerService::delete_item($item, $item['id']);
         }
 
         return response(null, 204);
@@ -258,7 +258,7 @@ class EditItemsController extends Controller
             }
 
             // Delete item
-            Editor::delete_item($file, $file['id'], $shared);
+            FileManagerService::delete_item($file, $file['id'], $shared);
         }
         // Return response
         return response('Done', 204);
@@ -292,7 +292,7 @@ class EditItemsController extends Controller
         }
 
         // Return new uploaded file
-        return Editor::upload($request);
+        return FileManagerService::upload($request);
     }
 
     /**
@@ -322,7 +322,7 @@ class EditItemsController extends Controller
         Guardian::check_item_access($request->folder_id, $shared);
 
         // Return new uploaded file
-        $new_file = Editor::upload($request, $shared);
+        $new_file = FileManagerService::upload($request, $shared);
 
         // Set public access url
         $new_file->setPublicUrl($token);
@@ -363,7 +363,7 @@ class EditItemsController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = Editor::zip_folder($id);
+        $zip = FileManagerService::zip_folder($id);
 
         // Get file
         return response([
@@ -396,7 +396,7 @@ class EditItemsController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = Editor::zip_folder($id, $shared);
+        $zip = FileManagerService::zip_folder($id, $shared);
 
         // Get file
         return response([
@@ -440,7 +440,7 @@ class EditItemsController extends Controller
             ->whereIn('id', $request->input('items'))
             ->get();
 
-        $zip = Editor::zip_files($files);
+        $zip = FileManagerService::zip_files($files);
 
         // Get file
         return response([
@@ -475,7 +475,7 @@ class EditItemsController extends Controller
             ->whereIn('id', $request->items)
             ->get();
 
-        $zip = Editor::zip_files($files, $shared);
+        $zip = FileManagerService::zip_files($files, $shared);
 
         // Get file
         return response([
@@ -517,7 +517,7 @@ class EditItemsController extends Controller
         }
 
         // Move item
-        Editor::move($request, $to_id);
+        FileManagerService::move($request, $to_id);
 
         return response('Done!', 204);
     }
@@ -566,7 +566,7 @@ class EditItemsController extends Controller
             }
         }
 
-        Editor::move($request, $request->to_id);
+        FileManagerService::move($request, $request->to_id);
 
         return response('Done!', 204);
     }

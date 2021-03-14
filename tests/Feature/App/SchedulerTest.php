@@ -70,4 +70,33 @@ class SchedulerTest extends TestCase
         Storage::disk('local')
             ->assertMissing('zip/EHWKcuvKzA4Gv29v-archive.zip');
     }
+
+    /**
+     * @test
+     */
+    public function it_delete_failed_files_older_than_one_day()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $this->travel(-26)->hours();
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.zip', 2000, 'application/zip');
+
+        collect(['chunks'])
+            ->each(function ($folder) use ($file){
+                Storage::putFileAs($folder, $file, 'fake-file.zip');
+            });
+
+        $this->scheduler->delete_failed_files();
+
+        collect(['chunks'])
+            ->each(function ($folder) {
+                Storage::disk('local')
+                    ->assertMissing("$folder/fake-file.zip");
+            });
+
+    }
 }
