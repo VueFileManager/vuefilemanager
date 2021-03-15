@@ -34,8 +34,8 @@ const actions = {
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         let url = payload.folder.location === 'trash'
-            ? '/folders/' + payload.folder.unique_id + getters.sorting.URI + '&trash=true'
-            : '/folders/' + payload.folder.unique_id + getters.sorting.URI
+            ? '/browse/folders/' + payload.folder.id + getters.sorting.URI + '&trash=true'
+            : '/browse/folders/' + payload.folder.id + getters.sorting.URI
 
         axios
             .get(getters.api + url)

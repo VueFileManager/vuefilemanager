@@ -85,6 +85,8 @@ class SetupWizardController extends Controller
                 throw new HttpException(500, $e->getMessage());
             }
 
+            // TODO: add SANCTUM_STATEFUL_DOMAINS parameter
+
             setEnvironmentValue([
                 'DB_CONNECTION' => $request->connection,
                 'DB_HOST'       => $request->host,

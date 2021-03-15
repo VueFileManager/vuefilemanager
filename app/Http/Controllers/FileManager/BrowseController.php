@@ -23,19 +23,21 @@ class BrowseController extends Controller
      */
     public function folder(Request $request, $id)
     {
+        $root_id = $id === 'undefined' ? null : $id;
+
         // Get folder trash items
         if ($request->query('trash')) {
 
             // Get folders and files
             $folders = Folder::onlyTrashed()
                 ->with('parent')
-                ->where('parent_id', $id)
+                ->where('parent_id', $root_id)
                 ->sortable()
                 ->get();
 
             $files = File::onlyTrashed()
                 ->with('parent')
-                ->where('folder_id', $id)
+                ->where('folder_id', $root_id)
                 ->sortable()
                 ->get();
 
@@ -45,12 +47,12 @@ class BrowseController extends Controller
 
         // Get folders and files
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', $id)
+            ->where('parent_id', $root_id)
             ->sortable()
             ->get();
 
         $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('folder_id', $id)
+            ->where('folder_id', $root_id)
             ->sortable()
             ->get();
 

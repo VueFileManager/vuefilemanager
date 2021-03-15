@@ -43,7 +43,7 @@
                 <span class="empty-note navigator" v-if="tree.length == 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
-                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in tree" :key="items.unique_id"/>
+                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in tree" :key="items.id"/>
             </ContentGroup>
 
             <!--Favourites-->
@@ -55,7 +55,7 @@
                             {{ $t('sidebar.favourites_empty') }}
                         </span>
 
-                        <a @click.stop="openFolder(folder)" class="menu-list-item" :class="{'is-current': (folder && currentFolder) && (currentFolder.unique_id === folder.unique_id)}" v-for="(folder, i) in favourites" :key="i">
+                        <a @click.stop="openFolder(folder)" class="menu-list-item" :class="{'is-current': (folder && currentFolder) && (currentFolder.id === folder.id)}" v-for="folder in favourites" :key="folder.id">
                             <div>
                                 <folder-icon size="17" class="folder-icon"></folder-icon>
                                 <span class="label">{{ folder.name }}</span>
@@ -107,13 +107,13 @@ export default {
     computed: {
         ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'fileInfoDetail']),
         favourites() {
-            return this.user.relationships.favourites.data.attributes.folders
+            return this.user.data.relationships.favourites.data.attributes.folders
         },
         tree() {
-            return this.user.relationships.tree.data.attributes.folders
+            return this.user.data.attributes.folders
         },
         storage() {
-            return this.$store.getters.user.relationships.storage.data.attributes
+            return this.$store.getters.user.data.attributes.storage
         }
     },
     data() {
@@ -154,7 +154,7 @@ export default {
             if (this.draggedItem && this.draggedItem.type !== 'folder') return
 
             // Check if folder exist in favourites
-            if (this.favourites.find(folder => folder.unique_id == this.draggedItem.unique_id)) return
+            if (this.favourites.find(folder => folder.id == this.draggedItem.id)) return
 
             // Prevent to move folders to self
             if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(item => item.type !== 'folder')) return

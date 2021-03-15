@@ -7,7 +7,6 @@ use App\Services\HelperService;
 use App\Services\StripeService;
 use ByteUnits\Metric;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -122,8 +121,8 @@ class User extends Authenticatable
      */
     public function getFolderTreeAttribute()
     {
-        return File::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', 0)
+        return Folder::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('parent_id', null)
             ->where('user_id', $this->id)
             ->sortable()
             ->get();

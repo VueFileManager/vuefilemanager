@@ -86,10 +86,7 @@ export default {
             if (!this.$store.getters.user) return true
 
             // Check if user has storage
-            return (
-                this.$store.getters.user.relationships.storage.data.attributes.used <=
-                100
-            )
+            return this.$store.getters.user.data.attributes.storage.used <= 100
         },
         directoryName() {
             return this.currentFolder

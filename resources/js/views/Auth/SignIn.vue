@@ -14,12 +14,12 @@
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
-                           :class="{'is-error': errors[0]}"/>
+                           :class="{'is-error': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <AuthButton icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading"
-                            :disabled="isLoading"/>
+                            :disabled="isLoading" />
             </ValidationObserver>
 
             <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }}
@@ -44,12 +44,12 @@
                                     v-slot="{ errors }">
                     <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')"
                            type="password"
-                           :class="{'is-error': errors[0]}"/>
+                           :class="{'is-error': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading"
-                            :disabled="isLoading"/>
+                            :disabled="isLoading" />
             </ValidationObserver>
 
             <span class="additional-link">{{ $t('page_sign_in.password_reset_text') }}
@@ -166,7 +166,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/user/login', {
+                    .post('/login', {
                         email: this.loginEmail,
                         password: this.loginPassword,
                     })
@@ -209,6 +209,11 @@
         created() {
             this.$scrollTop()
             this.$store.commit('PROCESSING_POPUP', undefined)
+
+            if (this.config.isDemo) {
+                this.loginEmail = 'howdy@hi5ve.digital'
+                this.loginPassword = 'vuefilemanager'
+            }
         }
     }
 </script>
