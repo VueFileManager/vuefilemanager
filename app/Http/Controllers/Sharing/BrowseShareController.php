@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sharing;
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Share;
 use App\Services\HelperService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -23,13 +24,11 @@ class BrowseShareController extends Controller
      * Browse public folders
      *
      * @param $id
-     * @param $token
+     * @param Share $shared
      * @return Collection
      */
-    public function get_public_folders($id, $token)
+    public function get_public_folders($id, Share $shared)
     {
-        $shared = get_shared($token);
-
         // Abort if folder is protected
         if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
@@ -42,26 +41,24 @@ class BrowseShareController extends Controller
         list($folders, $files) = $this->helper->get_items_under_shared_by_folder_id($id, $shared);
 
         // Set thumbnail links for public files
-        $files->map(function ($file) use ($token) {
-            $file->setPublicUrl($token);
+        $files->map(function ($file) use ($shared) {
+            $file->setPublicUrl($shared->token);
         });
 
         // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
+        return collect([$folders, $files])
+            ->collapse();
     }
 
     /**
      * Search public files
      *
      * @param Request $request
-     * @param $token
+     * @param Share $shared
      * @return Collection
      */
-    public function search_public(Request $request, $token)
+    public function search_public(Request $request, Share $shared)
     {
-        // Get shared
-        $shared = get_shared($token);
-
         // Abort if folder is protected
         if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
@@ -85,10 +82,10 @@ class BrowseShareController extends Controller
         $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Filter files
-        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids, $token) {
+        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids, $shared) {
 
             // Set public urls
-            $file->setPublicUrl($token);
+            $file->setPublicUrl($shared->token);
 
             // check if item is in accessible folders
             return in_array($file->folder_id, $accessible_folder_ids);
@@ -98,7 +95,7 @@ class BrowseShareController extends Controller
         $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
 
             // check if item is in accessible folders
-            return in_array($folder->unique_id, $accessible_folder_ids);
+            return in_array($folder->id, $accessible_folder_ids);
         });
 
         // Collect folders and files to single array
@@ -108,13 +105,11 @@ class BrowseShareController extends Controller
     /**
      * Get navigation tree
      *
-     * @param $token
+     * @param Share $shared
      * @return array
      */
-    public function get_public_navigation_tree($token)
+    public function get_public_navigation_tree(Share $shared)
     {
-        $shared = get_shared($token);
-
         // Check if user can get directory
         $this->helper->check_item_access($shared->item_id, $shared);
 

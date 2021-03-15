@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sharing;
 
 use App\Http\Controllers\Controller;
 use App\Models\File as UserFile;
+use App\Models\Share;
 use App\Models\Zip;
 use App\Services\HelperService;
 use Illuminate\Http\Request;
@@ -53,15 +54,11 @@ class FileSharedAccessController extends Controller
      * Get file public
      *
      * @param $filename
-     * @param $token
+     * @param Share $shared
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function get_file_public($filename, $token)
+    public function get_file_public($filename, Share $shared)
     {
-        // Get sharing record
-        $shared = get_shared($token);
-
         // Abort if shared is protected
         if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
@@ -89,15 +86,11 @@ class FileSharedAccessController extends Controller
      * Get public image thumbnail
      *
      * @param $filename
-     * @param $token
+     * @param Share $shared
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function get_thumbnail_public($filename, $token)
+    public function get_thumbnail_public($filename, Share $shared)
     {
-        // Get sharing record
-        $shared = get_shared($token);
-
         // Abort if thumbnail is protected
         if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");

@@ -30,13 +30,11 @@ class ServeSharedController extends Controller
     /**
      * Show page index and delete access_token & shared_token cookie
      *
+     * @param Share $shared
      * @return \Illuminate\Http\Response
      */
-    public function index($token)
+    public function index(Share $shared)
     {
-        // Get shared token
-        $shared = get_shared($token);
-
         if (!$shared) {
             return response()
                 ->view('index', [
@@ -53,7 +51,7 @@ class ServeSharedController extends Controller
         if ((int)$shared->is_protected) {
 
             // Set shared token
-            Cookie::queue('shared_token', $token, 43200);
+            Cookie::queue('shared_token', $shared->token, 43200);
         }
 
         // Check if shared is image file and then show it
@@ -74,11 +72,11 @@ class ServeSharedController extends Controller
         }
 
         // Get all settings
-        $settings = Setting::all();
+        $settings = get_settings_in_json();
 
         // Return page index
         return view("index")
-            ->with('settings', $settings ? json_decode($settings->pluck('value', 'name')->toJson()) : null);
+            ->with('settings', $settings ?? null);
     }
 
     /**
@@ -113,14 +111,11 @@ class ServeSharedController extends Controller
      * Check Password for protected item
      *
      * @param AuthenticateShareRequest $request
-     * @param $token
+     * @param Share $shared
      * @return array
      */
-    public function authenticate(AuthenticateShareRequest $request, $token)
+    public function authenticate(AuthenticateShareRequest $request, Share $shared)
     {
-        // Get sharing record
-        $shared = get_shared($token);
-
         // Check password
         if (!Hash::check($request->password, $shared->password)) {
 
@@ -166,14 +161,11 @@ class ServeSharedController extends Controller
     /**
      * Get shared public file record
      *
-     * @param $token
+     * @param Share $shared
      * @return mixed
      */
-    public function file_public($token)
+    public function file_public(Share $shared)
     {
-        // Get sharing record
-        $shared = get_shared($token);
-
         // Abort if file is protected
         if ((int)$shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
@@ -185,7 +177,7 @@ class ServeSharedController extends Controller
             ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
 
         // Set urls
-        $file->setPublicUrl($token);
+        $file->setPublicUrl($shared->token);
 
         // Return record
         return $file;
@@ -194,13 +186,13 @@ class ServeSharedController extends Controller
     /**
      * Get shared private file record
      *
-     * @param $token
      * @return mixed
      */
     public function file_private(Request $request)
     {
         // Get sharing record
-        $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
+        $shared = Share::where('token', $request->cookie('shared_token'))
+            ->firstOrFail();
 
         // Return record
         return File::where('user_id', $shared->user_id)
@@ -256,6 +248,7 @@ class ServeSharedController extends Controller
         $searched_files = File::search($request->input('query'))
             ->where('user_id', $shared->user_id)
             ->get();
+
         $searched_folders = Folder::search($request->input('query'))
             ->where('user_id', $shared->user_id)
             ->get();

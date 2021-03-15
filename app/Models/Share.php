@@ -19,6 +19,8 @@ class Share extends Model
 
     protected $keyType = 'string';
 
+    protected $primaryKey = 'token';
+
     /**
      * Generate share link
      *

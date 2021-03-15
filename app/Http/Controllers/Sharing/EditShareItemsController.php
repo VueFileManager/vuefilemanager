@@ -10,6 +10,7 @@ use App\Http\Requests\FileFunctions\RenameItemRequest;
 use App\Http\Requests\FileFunctions\UploadRequest;
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Share;
 use App\Services\DemoService;
 use App\Services\FileManagerService;
 use App\Services\HelperService;
@@ -29,18 +30,17 @@ class EditShareItemsController extends Controller
         $this->helper = resolve(HelperService::class);
         $this->demo = resolve(DemoService::class);
     }
+
     /**
      * Create new folder for guest user with edit permission
      *
      * @param CreateFolderRequest $request
-     * @param $token
+     * @param Share $shared
      * @return array|\Illuminate\Contracts\Foundation\Application|ResponseFactory|\Illuminate\Http\Response
-     * @throws Exception
+     * @throws \Exception
      */
-    public function create_folder(CreateFolderRequest $request, $token)
+    public function create_folder(CreateFolderRequest $request, Share $shared)
     {
-        $shared = get_shared($token);
-
         if (is_demo($shared->user_id)) {
             return $this->demo->create_folder($request);
         }
@@ -64,15 +64,12 @@ class EditShareItemsController extends Controller
      *
      * @param RenameItemRequest $request
      * @param $id
-     * @param $token
+     * @param Share $shared
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
-    public function rename_item(RenameItemRequest $request, $id, $token)
+    public function rename_item(RenameItemRequest $request, $id, Share $shared)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         // Demo preview
         if (is_demo($shared->user_id)) {
             return $this->demo->rename_item($request, $id);
@@ -103,7 +100,7 @@ class EditShareItemsController extends Controller
 
         // Set public url
         if ($item->type !== 'folder') {
-            $item->setPublicUrl($token);
+            $item->setPublicUrl($shared->token);
         }
 
         return response($item, 201);
@@ -113,16 +110,12 @@ class EditShareItemsController extends Controller
      * Delete item for guest user with edit permission
      *
      * @param DeleteItemRequest $request
-     * @param $id
-     * @param $token
+     * @param Share $shared
      * @return ResponseFactory|\Illuminate\Http\Response
-     * @throws Exception
+     * @throws \Exception
      */
-    public function delete_item(DeleteItemRequest $request, $token)
+    public function delete_item(DeleteItemRequest $request, Share $shared)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         // Demo preview
         if (is_demo($shared->user_id)) {
             return $this->demo->response_with_no_content();
@@ -156,15 +149,12 @@ class EditShareItemsController extends Controller
      * Delete file for guest user with edit permission
      *
      * @param UploadRequest $request
-     * @param $token
+     * @param Share $shared
      * @return File|\Illuminate\Contracts\Foundation\Application|ResponseFactory|Model|\Illuminate\Http\Response
-     * @throws Exception
+     * @throws \Exception
      */
-    public function upload(UploadRequest $request, $token)
+    public function upload(UploadRequest $request, Share $shared)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         // Demo preview
         if (is_demo($shared->user_id)) {
             return $this->demo->upload($request);
@@ -182,7 +172,7 @@ class EditShareItemsController extends Controller
         $new_file = $this->filemanager->upload($request, $shared);
 
         // Set public access url
-        $new_file->setPublicUrl($token);
+        $new_file->setPublicUrl($shared->token);
 
         return response($new_file, 201);
     }
@@ -191,15 +181,11 @@ class EditShareItemsController extends Controller
      * Move item for guest user with edit permission
      *
      * @param MoveItemRequest $request
-     * @param $id
-     * @param $token
+     * @param Share $shared
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function move(MoveItemRequest $request, $token)
+    public function move(MoveItemRequest $request, Share $shared)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         // Demo preview
         if (is_demo(Auth::id())) {
             return $this->demo->response_with_no_content();
@@ -239,16 +225,13 @@ class EditShareItemsController extends Controller
     /**
      * Guest download folder via zip
      *
-     * @param Request $request
      * @param $id
-     * @param $token
+     * @param Share $shared
      * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function zip_folder($id, $token)
+    public function zip_folder($id, Share $shared)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         // Check access to requested folder
         $this->helper->check_item_access($id, $shared);
 
@@ -276,14 +259,12 @@ class EditShareItemsController extends Controller
      * Guest download multiple files via zip
      *
      * @param Request $request
-     * @param $token
+     * @param Share $shared
      * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function zip_multiple_files(Request $request, $token)
+    public function zip_multiple_files(Request $request, Share $shared)
     {
-        // Get shared record
-        $shared = get_shared($token);
-
         $file_parent_folders = File::whereUserId($shared->user_id)
             ->whereIn('id', $request->items)
             ->get()

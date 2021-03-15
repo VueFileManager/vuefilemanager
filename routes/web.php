@@ -14,9 +14,9 @@ Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->m
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {
-    Route::get('/shared/{token}', [AppFunctionsController::class, 'og_site']);
+    Route::get('/shared/{shared}', [AppFunctionsController::class, 'og_site']);
 } else {
-    Route::get('/shared/{token}', [ServeSharedController::class, 'index']);
+    Route::get('/shared/{shared}', [ServeSharedController::class, 'index']);
 }
 
 // Show index.blade

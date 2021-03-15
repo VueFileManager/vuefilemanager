@@ -9,6 +9,7 @@ use App\Http\Requests\PublicPages\SendContactMessageRequest;
 use App\Http\Resources\PageResource;
 use App\Models\Setting;
 use App\Models\Page;
+use App\Models\Share;
 use App\Services\StripeService;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -69,12 +70,11 @@ class AppFunctionsController extends Controller
     /**
      * Get og site for web crawlers
      *
-     * @param $token
+     * @param Share $shared
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function og_site($token)
+    public function og_site(Share $shared)
     {
-        $shared = get_shared($token);
-
         // Get file/folder record
         $item = ('App\\Models\\' . ucfirst($shared->type))
             ::where('user_id', $shared->user->id)
@@ -82,13 +82,13 @@ class AppFunctionsController extends Controller
             ->first();
 
         if ($item->thumbnail) {
-            $item->setPublicUrl($token);
+            $item->setPublicUrl($shared->token);
         }
 
         return view("vuefilemanager.crawler.og-view")
             ->with('settings', get_settings_in_json())
             ->with('metadata', [
-                'url'          => url('/shared', ['token' => $token]),
+                'url'          => url('/shared', ['token' => $shared->token]),
                 'is_protected' => $shared->is_protected,
                 'user'         => $shared->user->settings->name,
                 'name'         => $item->name,
