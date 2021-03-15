@@ -17,8 +17,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/storage', [AccountController::class, 'storage']);
     Route::get('/', [AccountController::class, 'user']);
 
-    // Payment cards
-    // TODO: tests
+    // Payment cards TODO: tests
     Route::delete('/payment-cards/{id}', [PaymentMethodsController::class, 'delete']);
     Route::patch('/payment-cards/{id}', [PaymentMethodsController::class, 'update']);
     Route::post('/payment-cards', [PaymentMethodsController::class, 'store']);

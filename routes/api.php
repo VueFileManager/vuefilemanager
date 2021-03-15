@@ -8,7 +8,6 @@ use App\Http\Controllers\FileManager\EditItemsController;
 use App\Http\Controllers\FileManager\FavouriteController;
 use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\FileManager\TrashController;
-use App\Http\Controllers\Sharing\ServeSharedController;
 
 // Pages
 Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);
@@ -57,21 +56,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 });
 
-// Protected sharing routes for authenticated user
-Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {
-
-    // Browse folders & files
-    // TODO: tests for private shared content
-    Route::get('/folders/{unique_id}/private', [ServeSharedController::class, 'get_private_folders']);
-    Route::get('/navigation/private', [ServeSharedController::class, 'get_private_navigation_tree']);
-    Route::get('/search/private', [ServeSharedController::class, 'search_private']);
-    Route::get('/files/private', [ServeSharedController::class, 'file_private']);
-});
-
 // User master,editor routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    // Edit items
     Route::post('/create-folder', [EditItemsController::class, 'create_folder']);
     Route::patch('/rename/{id}', [EditItemsController::class, 'rename_item']);
     Route::post('/remove', [EditItemsController::class, 'delete_item']);
