@@ -43,8 +43,9 @@ class Share extends Model
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+        static::creating(function ($shared) {
+            $shared->id = (string)Str::uuid();
+            $shared->token = Str::random(16);
         });
     }
 }

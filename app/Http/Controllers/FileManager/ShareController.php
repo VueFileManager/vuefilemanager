@@ -43,15 +43,8 @@ class ShareController extends Controller
      */
     public function store(CreateShareRequest $request, $id)
     {
-        // TODO: poriesit binarny string
-        do {
-            // Generate unique token
-            $token = Str::random(16);
-
-        } while (Share::where('token', $token)->exists());
-
         // Create shared options
-        $options = [
+        $shared = Share::create([
             'password'     => $request->has('password') ? Hash::make($request->password) : null,
             'type'         => $request->type === 'folder' ? 'folder' : 'file',
             'is_protected' => $request->isPassword,
@@ -59,8 +52,7 @@ class ShareController extends Controller
             'item_id'      => $id,
             'expire_in'    => $request->expiration ?? null,
             'user_id'      => Auth::id(),
-            'token'        => $token,
-        ];
+        ]);
 
         // Send shared link via email
         if ($request->has('emails')) {
@@ -68,13 +60,13 @@ class ShareController extends Controller
             foreach ($request->emails as $email) {
 
                 Notification::route('mail', $email)->notify(
-                    new SharedSendViaEmail($token)
+                    new SharedSendViaEmail($shared->token)
                 );
             }
         }
 
         // Return created shared record
-        return new ShareResource(Share::create($options));
+        return new ShareResource($shared);
     }
 
     /**

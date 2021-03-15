@@ -22,7 +22,7 @@ class CreateFileManagerFiles extends Migration
             $table->text('name');
             $table->text('basename');
 
-            $table->text('mimetype')->nullable()->index();
+            $table->text('mimetype')->nullable();
             $table->text('filesize');
 
             $table->text('type')->nullable();
