@@ -52,7 +52,7 @@
                 this.isSendingRequest = true
 
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/reset-password',
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/reset-password',
                         {}
                     )
                     .then(() => {

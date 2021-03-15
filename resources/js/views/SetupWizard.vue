@@ -11,7 +11,7 @@
             ...mapGetters(['config']),
         },
         mounted() {
-            if (this.config.installation === 'setup-done' || this.config.installation === 'quiet-update')
+            if (this.config.installation === 'setup-done')
                 this.$router.push({name: 'SignIn'})
         }
     }

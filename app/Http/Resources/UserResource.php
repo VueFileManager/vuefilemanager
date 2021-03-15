@@ -42,15 +42,15 @@ class UserResource extends JsonResource
                             'id'         => $this->id,
                             'type'       => 'settings',
                             'attributes' => [
-                                'avatar'               => $this->settings->avatar,
-                                'billing_name'         => $this->settings->name,
-                                'billing_address'      => $this->settings->address,
-                                'billing_state'        => $this->settings->state,
-                                'billing_city'         => $this->settings->city,
-                                'billing_postal_code'  => $this->settings->postal_code,
-                                'billing_country'      => $this->settings->country,
-                                'billing_phone_number' => $this->settings->phone_number,
-                                'timezone'             => $this->settings->timezone
+                                'avatar'       => $this->settings->avatar,
+                                'name'         => $this->settings->name,
+                                'address'      => $this->settings->address,
+                                'state'        => $this->settings->state,
+                                'city'         => $this->settings->city,
+                                'postal_code'  => $this->settings->postal_code,
+                                'country'      => $this->settings->country,
+                                'phone_number' => $this->settings->phone_number,
+                                'timezone'     => $this->settings->timezone
                             ]
                         ]
                     ],

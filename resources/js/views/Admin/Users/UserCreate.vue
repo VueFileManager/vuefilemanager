@@ -162,7 +162,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/users/create', formData, {
+                    .post('/api/admin/users/create', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                         }

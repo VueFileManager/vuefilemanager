@@ -132,7 +132,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/plans', {
+                    .post('/api/admin/plans', {
                         attributes: this.plan
                     })
                     .then(response => {

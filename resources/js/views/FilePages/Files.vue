@@ -67,7 +67,6 @@
             </ContentGroup>
         </ContentSidebar>
 
-
         <ContentFileView/>
     </section>
 </template>

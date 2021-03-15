@@ -2,6 +2,7 @@ import i18n from '@/i18n/index'
 import router from '@/router'
 import {events} from '@/bus'
 import axios from 'axios'
+import Vue from "vue";
 
 const defaultState = {
     permissionOptions: [
@@ -38,8 +39,8 @@ const actions = {
         payload.folder.location = 'public'
 
         let route = getters.sharedDetail.protected
-            ? '/api/folders/' + payload.folder.unique_id + '/private'
-            : '/api/folders/' + payload.folder.unique_id + '/public/' + router.currentRoute.params.token
+            ? '/api/browse/folders/' + payload.folder.id + '/private'
+            : '/api/browse/folders/' + payload.folder.id + '/public/' + router.currentRoute.params.token
 
         return new Promise((resolve, reject) => {
             axios
@@ -90,11 +91,11 @@ const actions = {
 
                         // Remove item from file browser
                         if ( getters.currentFolder , getters.currentFolder.location === 'shared' ) {
-                            commit('REMOVE_ITEM', item.unique_id)
+                            commit('REMOVE_ITEM', item.id)
                         }
 
                         // Flush shared data
-                        commit('FLUSH_SHARED', item.unique_id)
+                        commit('FLUSH_SHARED', item.id)
 
                         commit('CLEAR_FILEINFO_DETAIL')
                     })
@@ -102,7 +103,7 @@ const actions = {
 
                 })
                 .catch((error) => {
-                    isSomethingWrong()
+                    Vue.prototype.$isSomethingWrong()
 
                     reject(error)
                 })

@@ -9,7 +9,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.appearance.title') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text"
+                        <input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -18,7 +18,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.appearance.description') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'app_description', app.description)" v-model="app.description"
+                        <input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description"
                                :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -29,14 +29,14 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.appearance.logo') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
-                        <ImageInput @input="$updateImage('/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.appearance.logo_horizontal') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo Horizontal" v-slot="{ errors }">
-                        <ImageInput @input="$updateImage('/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)"
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)"
                                     v-model="app.logo_horizontal" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.appearance.favicon') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-                        <ImageInput @input="$updateImage('/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
             </div>
@@ -89,7 +89,7 @@
             }
         },
         mounted() {
-            axios.get('/api/settings', {
+            axios.get('/api/admin/settings', {
                 params: {
                     column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal'
                 }

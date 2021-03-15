@@ -48,11 +48,13 @@ class BrowseController extends Controller
         // Get folders and files
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('parent_id', $root_id)
+            ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 
         $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('folder_id', $root_id)
+            ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 
@@ -172,6 +174,7 @@ class BrowseController extends Controller
     {
         $folders = Folder::with('folders:id,parent_id,id,name')
             ->where('parent_id', null)
+            ->where('user_id', Auth::id())
             ->sortable()
             ->get(['id', 'parent_id', 'id', 'name']);
 

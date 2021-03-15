@@ -70,7 +70,7 @@
                 this.isSendingRequest = true
 
                 axios
-                    .post(this.$store.getters.api + '/plans/' + this.$route.params.id,
+                    .post(this.$store.getters.api + '/admin/plans/' + this.$route.params.id,
                         {
                             data: {
                                 name: this.planName

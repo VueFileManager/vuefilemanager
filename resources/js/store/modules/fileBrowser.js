@@ -72,7 +72,7 @@ const actions = {
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
             name: i18n.t('sidebar.latest'),
-            unique_id: undefined,
+            id: undefined,
             location: 'latest',
         })
 
@@ -92,7 +92,7 @@ const actions = {
         let currentFolder = {
             name: i18n.t('sidebar.my_shared'),
             location: 'shared',
-            unique_id: undefined,
+            id: undefined,
         }
 
         commit('STORE_CURRENT_FOLDER', currentFolder)
@@ -113,7 +113,7 @@ const actions = {
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
             name: i18n.t('sidebar.participant_uploads'),
-            unique_id: undefined,
+            id: undefined,
             location: 'participant_uploads',
         })
 
@@ -132,7 +132,7 @@ const actions = {
 
         let trash = {
             name: i18n.t('locations.trash'),
-            unique_id: undefined,
+            id: undefined,
             location: 'trash-root',
         }
 
@@ -213,9 +213,9 @@ const mutations = {
     FLUSH_FOLDER_HISTORY(state) {
         state.browseHistory = []
     },
-    FLUSH_SHARED(state, unique_id) {
+    FLUSH_SHARED(state, id) {
         state.data.find(item => {
-            if (item.unique_id == unique_id) item.shared = undefined
+            if (item.id === id) item.shared = undefined
         })
     },
     STORE_PREVIOUS_FOLDER(state, folder) {
@@ -226,13 +226,13 @@ const mutations = {
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
         // Rename filename in file info detail
-        if (state.fileInfoDetail && state.fileInfoDetail.unique_id == updatedFile.unique_id) {
+        if (state.fileInfoDetail && state.fileInfoDetail.id === updatedFile.id) {
             state.fileInfoDetail = updatedFile
         }
 
         // Rename item name in data view
         state.data.find(item => {
-            if (item.unique_id == updatedFile.unique_id) {
+            if (item.id === updatedFile.id) {
                 item.name = updatedFile.name
                 item.icon_color = updatedFile.icon_color ? updatedFile.icon_color : null
                 item.icon_emoji = updatedFile.icon_emoji ? updatedFile.icon_emoji : null
@@ -240,7 +240,7 @@ const mutations = {
         })
     },
     REMOVE_ITEM_FILEINFO_DETAIL(state,item) {
-      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.unique_id !== item.unique_id)
+      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.id !== item.id)
     },
     CLEAR_FILEINFO_DETAIL(state) {
         state.fileInfoDetail = []
@@ -250,7 +250,7 @@ const mutations = {
         state.fileInfoDetail.push(item)
     },
     GET_FILEINFO_DETAIL(state, item) {
-        let checkData = state.data.find(el => el.unique_id == item.unique_id)
+        let checkData = state.data.find(el => el.id === item.id)
         if(state.fileInfoDetail.includes(checkData)) return
 
         state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
@@ -263,7 +263,7 @@ const mutations = {
     },
     UPDATE_SHARED_ITEM(state, data) {
         state.data.find(item => {
-            if (item.unique_id == data.item_id) item.shared = data
+            if (item.id === data.item_id) item.shared = data
         })
     },
     ADD_NEW_FOLDER(state, folder) {
@@ -272,12 +272,12 @@ const mutations = {
     ADD_NEW_ITEMS(state, items) {
         state.data = state.data.concat(items)
     },
-    REMOVE_ITEM(state, unique_id) {
-        state.data = state.data.filter(el => el.unique_id !== unique_id)
+    REMOVE_ITEM(state, id) {
+        state.data = state.data.filter(el => el.id !== id)
     },
-    INCREASE_FOLDER_ITEM(state, unique_id) {
+    INCREASE_FOLDER_ITEM(state, id) {
         state.data.map(el => {
-            if (el.unique_id && el.unique_id == unique_id) el.items++
+            if (el.id && el.id === id) el.items++
         })
     },
     STORE_CURRENT_FOLDER(state, folder) {

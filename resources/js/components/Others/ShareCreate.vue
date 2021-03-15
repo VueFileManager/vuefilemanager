@@ -157,7 +157,7 @@ export default {
                 password: undefined,
                 permission: undefined,
                 type: undefined,
-                unique_id: undefined,
+                id: undefined,
                 emails: undefined
             },
             pickedItem: undefined,
@@ -231,7 +231,7 @@ export default {
             this.pickedItem = args.item
 
             this.shareOptions.type = args.item.type
-            this.shareOptions.unique_id = args.item.unique_id
+            this.shareOptions.id = args.item.id
         })
 
         // Close popup
@@ -245,7 +245,7 @@ export default {
                     isPassword: false,
                     expiration: undefined,
                     type: undefined,
-                    unique_id: undefined,
+                    id: undefined,
                     emails: undefined
                 }
                 this.isGeneratedShared = false

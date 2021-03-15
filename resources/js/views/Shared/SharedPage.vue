@@ -96,7 +96,7 @@
                         <span class="empty-note navigator" v-if="navigationTree.length == 0">
                             {{ $t('sidebar.folders_empty') }}
                         </span>
-                        <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.unique_id"/>
+                        <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.id"/>
                     </ContentGroup>
                 </ContentSidebar>
 
@@ -256,7 +256,7 @@
                 if (this.sharedDetail.type === 'folder') {
 
                     this.homeDirectory = {
-                        unique_id: this.sharedDetail.item_id,
+                        id: this.sharedDetail.item_id,
                         name: this.$t('locations.home'),
                         location: 'public',
                     }

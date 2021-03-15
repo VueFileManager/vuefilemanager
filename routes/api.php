@@ -67,6 +67,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'zip'], function () {
         Route::post('/files', [EditItemsController::class, 'zip_multiple_files']);
-        Route::get('/folder/{unique_id}', [EditItemsController::class, 'zip_folder']);
+        Route::get('/folder/{id}', [EditItemsController::class, 'zip_folder']);
     });
 });

@@ -96,7 +96,7 @@
 
                 // Send request to get user reset link
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/capacity', {
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/capacity', {
                         attributes: {
                             storage_capacity: this.capacity
                         },
@@ -139,7 +139,7 @@
                     })
             },
             getStorageDetails() {
-                axios.get('/api/users/' + this.$route.params.id + '/storage')
+                axios.get('/api/admin/users/' + this.$route.params.id + '/storage')
                     .then(response => {
                         this.storage = response.data.data
                         this.isLoading = false

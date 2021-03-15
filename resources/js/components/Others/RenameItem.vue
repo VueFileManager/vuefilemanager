@@ -96,7 +96,7 @@ export default {
             if (this.pickedItem.name && this.pickedItem.name !== '') {
 
                 let item = {
-                    unique_id: this.pickedItem.unique_id,
+                    id: this.pickedItem.id,
                     type: this.pickedItem.type,
                     name: this.pickedItem.name,
                     icon: this.setFolderIcon ? this.setFolderIcon : null

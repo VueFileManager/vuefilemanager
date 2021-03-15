@@ -8,7 +8,7 @@
             <!-- If is emoji selected -->
             <div class="select-input" v-if="selectedEmoji && selectedEmoji !== 'default'">
                 <div @click.stop="resetEmoji" class="select-input-icon-wrapper">
-                    <x-icon size="14" class="select-input-icon"/>
+                    <x-icon size="14" class="select-input-icon" />
                 </div>
                 <Emoji class="emoji-preview" :emoji="selectedEmoji" location="emoji-picker-preview" />
                 <span>{{ selectedEmoji.name }}</span>
@@ -19,7 +19,7 @@
                 <span> {{ $t('popup_rename.set_emoji_input_placeholder') }}</span>
             </div>
 
-            <chevron-down-icon class="row-icon" size="19"/>
+            <chevron-down-icon class="row-icon" size="19" />
         </div>
 
         <!-- Emojis List -->
@@ -27,7 +27,7 @@
             <div v-if="selectOpen">
                 <!-- Spinner -->
                 <div v-if="!loadedList" class="emoji-wrapper">
-                    <Spinner/>
+                    <Spinner />
                 </div>
 
                 <!-- List -->
@@ -64,7 +64,7 @@
                                 </li>
                             </ul>
                             <span class="not-found" v-if="filteredEmojis.length === 0 && filteredEmojisLoaded"> {{ $t('popup_rename.emoji_list_not_found') }}</span>
-                            <Spinner v-if=" ! filteredEmojisLoaded "/>
+                            <Spinner v-if=" ! filteredEmojisLoaded " />
                         </div>
                     </div>
                 </div>
@@ -74,17 +74,17 @@
 </template>
 
 <script>
-import { ChevronDownIcon, XIcon } from 'vue-feather-icons'
+import {ChevronDownIcon, XIcon} from 'vue-feather-icons'
 import Spinner from '@/components/FilesView/Spinner'
 import Emoji from '@/components/Others/Emoji'
-import { mapGetters } from 'vuex'
-import { groupBy } from 'lodash'
-import { events } from '@/bus'
+import {mapGetters} from 'vuex'
+import {groupBy} from 'lodash'
+import {events} from '@/bus'
 
 
 export default {
     name: 'EmojiPicker',
-    props: [ 'pickedEmoji' ],
+    props: ['pickedEmoji'],
     components: {
         ChevronDownIcon,
         Spinner,
@@ -92,9 +92,9 @@ export default {
         XIcon,
     },
     computed: {
-        ...mapGetters([ 'emojis' ]),
+        ...mapGetters(['emojis']),
     },
-    data () {
+    data() {
         return {
             selectedEmoji: this.pickedEmoji,
             searchInput: '',
@@ -109,7 +109,7 @@ export default {
         allEmoji() {
             return groupBy(this.emojis.emojisList, 'group')
         },
-        checkGroupInView: _.debounce( function() {
+        checkGroupInView: _.debounce(function () {
 
             this.emojis.emojisGroups.forEach(group => {
 
@@ -127,7 +127,7 @@ export default {
 
             let group = document.getElementById(`group-${name}`)
 
-            group.scrollIntoView({ behavior: 'smooth' })
+            group.scrollIntoView({behavior: 'smooth'})
 
             this.groupInView = name
         },
@@ -139,12 +139,12 @@ export default {
 
             this.filteredEmojis = [],
 
-            this.filterEmojis()
+                this.filterEmojis()
 
         },
-        filterEmojis: _.debounce(function() {
+        filterEmojis: _.debounce(function () {
 
-            this.filteredEmojis = this.emojis.emojisList.filter(emoji => emoji.name.includes( this.searchInput.toLowerCase() ))
+            this.filteredEmojis = this.emojis.emojisList.filter(emoji => emoji.name.includes(this.searchInput.toLowerCase()))
 
             this.filteredEmojisLoaded = true
 
@@ -156,14 +156,16 @@ export default {
             this.selectOpen = !this.selectOpen
 
             // Load emojis from server just if not loaded already
-            if (this.selectOpen && ! this.emojis) {
-                this.$store.dispatch('getEmojisList').then((loaded) => {
-                    this.loadedList = loaded
-                })
+            if (this.selectOpen && !this.emojis) {
+
+                axios.get('/assets/emojis.json')
+                    .then(response => {
+                        this.$store.commit('LOAD_EMOJIS_LIST', response.data[0])
+                    })
             }
 
             // Simulate loading for the emojisList processing
-            if(this.emojis) {
+            if (this.emojis) {
                 setTimeout(() => {
                     this.loadedList = true
                 }, 20);
@@ -189,7 +191,7 @@ export default {
             this.$emit('input', 'default')
         }
     },
-     mounted() {
+    mounted() {
 
         this.selectOpen = false
 

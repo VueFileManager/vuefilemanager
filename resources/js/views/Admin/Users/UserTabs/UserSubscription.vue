@@ -82,7 +82,7 @@
             }
         },
         created() {
-            axios.get('/api/users/' + this.$route.params.id + '/subscription')
+            axios.get('/api/admin/users/' + this.$route.params.id + '/subscription')
                 .then(response => {
                     this.subscription = response.data.data
                     this.isLoading = false

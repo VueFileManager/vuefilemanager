@@ -67,10 +67,10 @@ const actions = {
         items.forEach((data) => {
             if(data.type === 'folder' ) {
 
-                if(context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)) return
+                if(context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)) return
 
                 addFavourites.push({
-                    'unique_id': data.unique_id
+                    id: data.id
                 })
             }
         })
@@ -84,7 +84,7 @@ const actions = {
         
         // Check is favorites already don't include some of pushed folders
         items.map(data => {
-            if(!context.getters.user.relationships.favourites.data.attributes.folders.find(folder => folder.unique_id === data.unique_id)){
+            if(!context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)){
                 pushToFavorites.push(data)
             }
         })
@@ -106,7 +106,7 @@ const actions = {
         commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(getters.api + '/folders/favourites/' + folder.unique_id, {
+            .post(getters.api + '/folders/favourites/' + folder.id, {
                 _method: 'delete'
             })
             .catch(() => {
@@ -128,25 +128,27 @@ const mutations = {
     },
     ADD_TO_FAVOURITES(state, folder) {
         folder.forEach(item => { 
-        state.user.relationships.favourites.data.attributes.folders.push({
-            unique_id: item.unique_id,
+        state.user.data.relationships.favourites.data.attributes.folders.push({
+            id: item.id,
             name: item.name,
             type: item.type,
         })
     })
     },
     UPDATE_NAME(state, name) {
-        state.user.data.attributes.name = name
+        state.user.data.relationships.settings.data.attributes.name = name
     },
     UPDATE_AVATAR(state, avatar) {
-        state.user.data.attributes.avatar = avatar
+        state.user.data.relationships.settings.data.attributes.avatar = avatar
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.user.relationships.favourites.data.attributes.folders = state.user.relationships.favourites.data.attributes.folders.filter(folder => folder.unique_id !== item.unique_id)
+        state.user.data.relationships.favourites.data.attributes.folders = state.user.data.relationships.favourites.data.attributes.folders.filter(folder => folder.id !== item.id)
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
-        state.user.relationships.favourites.data.attributes.folders.find(folder => {
-            if (folder.unique_id == data.unique_id) folder.name = data.name
+        state.user.data.relationships.favourites.data.attributes.folders.find(folder => {
+            if (folder.id === data.id) {
+                folder.name = data.name
+            }
         })
     }
 }

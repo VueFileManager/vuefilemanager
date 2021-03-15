@@ -14,7 +14,7 @@
                             <div class="switch-label">
                                 <label class="input-label">{{ $t('admin_settings.payments.allow_payments') }}:</label>
                             </div>
-                            <SwitchInput @input="$updateText('/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
+                            <SwitchInput @input="$updateText('/admin/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
 
                 // Send request to get verify account
                 axios
-                    .post('/api/settings/stripe', this.stripeCredentials)
+                    .post('/api/admin/settings/stripe', this.stripeCredentials)
                     .then(() => {
 
                         // Store Stripe Public
@@ -192,7 +192,7 @@
             },
         },
         mounted() {
-            axios.get('/api/settings', {
+            axios.get('/api/admin/settings', {
                 params: {
                     column: 'payments_active|payments_configured'
                 }

@@ -486,15 +486,6 @@ const routesUser = [
 ]
 const routesMaintenance = [
     {
-        name: 'Upgrade',
-        path: '/upgrade',
-        component: () =>
-            import(/* webpackChunkName: "chunks/upgrade" */ './views/Upgrade'),
-        meta: {
-            requiresAuth: false
-        },
-    },
-    {
         name: 'SetupWizard',
         path: '/install',
         component: () =>

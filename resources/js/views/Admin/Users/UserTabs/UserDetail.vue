@@ -48,7 +48,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('page_registration.label_name') }}</label>
                     <div class="input-wrapper">
-                        <input :value="user.data.attributes.name"
+                        <input :value="user.data.relationships.settings.data.attributes.name"
                                :placeholder="$t('page_registration.placeholder_name')"
                                type="text"
                                disabled
@@ -66,7 +66,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_name"
+                        <input :value="user.data.relationships.settings.data.attributes.name"
                                type="text"
                                disabled
                         />
@@ -75,7 +75,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_address"
+                        <input :value="user.data.relationships.settings.data.attributes.address"
                                type="text"
                                disabled
                         />
@@ -84,7 +84,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_country"
+                        <input :value="user.data.relationships.settings.data.attributes.country"
                                type="text"
                                disabled
                         />
@@ -94,7 +94,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
-                            <input :value="user.relationships.settings.data.attributes.billing_city"
+                            <input :value="user.data.relationships.settings.data.attributes.city"
                                    type="text"
                                    disabled
                             />
@@ -103,7 +103,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
-                            <input :value="user.relationships.settings.data.attributes.billing_postal_code"
+                            <input :value="user.data.relationships.settings.data.attributes.postal_code"
                                    type="text"
                                    disabled
                             />
@@ -113,7 +113,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_state"
+                        <input :value="user.data.relationships.settings.data.attributes.state"
                                type="text"
                                disabled
                         />
@@ -122,7 +122,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_phone_number"
+                        <input :value="user.data.relationships.settings.data.attributes.phone_number"
                                type="text"
                                disabled
                         />
@@ -188,7 +188,7 @@
 
                 // Send request to get user reset link
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/role', {
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/role', {
                         attributes: {
                             role: this.userRole,
                         },

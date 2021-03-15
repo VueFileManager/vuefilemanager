@@ -26,8 +26,8 @@ const actions = {
 
 		// Get route
 		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/zip-folder/' + folder.unique_id + '/public/' + router.currentRoute.params.token
-			: '/api/zip-folder/' + folder.unique_id
+			? '/api/zip-folder/' + folder.id + '/public/' + router.currentRoute.params.token
+			: '/api/zip-folder/' + folder.id
 
 		axios.get(route)
 			.then(response => {
@@ -44,8 +44,8 @@ const actions = {
 	downloadFiles: ({ commit, getters }) => {
 		let files = []
 
-		// get unique_ids of selected files
-		getters.fileInfoDetail.forEach(file => files.push(file.unique_id))
+		// get ids of selected files
+		getters.fileInfoDetail.forEach(file => files.push(file.id))
 
 		// Get route
 		let route = getters.sharedDetail && !getters.sharedDetail.protected
@@ -81,7 +81,7 @@ const actions = {
 
 		items.forEach(data => itemsToMove.push({
 			'force_delete': data.deleted_at ? true : false,
-			'unique_id': data.unique_id,
+			'id': data.id,
 			'type': data.type
 		}))
 
@@ -97,13 +97,13 @@ const actions = {
 		axios
 			.post(route, {
 				_method: 'post',
-				to_unique_id: to_item.unique_id,
+				to_id: to_item.id,
 				items: itemsToMove
 			})
 			.then(() => {
 				itemsToMove.forEach(item => {
-					commit('REMOVE_ITEM', item.unique_id)
-					commit('INCREASE_FOLDER_ITEM', to_item.unique_id)
+					commit('REMOVE_ITEM', item.id)
+					commit('INCREASE_FOLDER_ITEM', to_item.id)
 
 					if (item.type === 'folder')
 						dispatch('getAppData')
@@ -122,7 +122,7 @@ const actions = {
 
 		axios
 			.post(route, {
-				parent_id: getters.currentFolder.unique_id,
+				parent_id: getters.currentFolder.id,
 				name: folder.name,
 				icon: folder.icon
 			})
@@ -133,7 +133,7 @@ const actions = {
 
 				//Set focus on new folder name
 				setTimeout(() => {
-					events.$emit('newFolder:focus', response.data.unique_id)
+					events.$emit('newFolder:focus', response.data.id)
 				}, 10)
 
 				if (getters.currentFolder.location !== 'public')
@@ -152,8 +152,8 @@ const actions = {
 
 		// Get route
 		let route = getters.sharedDetail && !getters.sharedDetail.protected
-			? '/api/rename-item/' + data.unique_id + '/public/' + router.currentRoute.params.token
-			: '/api/rename-item/' + data.unique_id
+			? '/api/rename-item/' + data.id + '/public/' + router.currentRoute.params.token
+			: '/api/rename-item/' + data.id
 
 		axios
 			.post(route, {
@@ -209,7 +209,7 @@ const actions = {
 					commit('SHIFT_FROM_FILE_QUEUE')
 
 					// Check if user is in uploading folder, if yes, than show new file
-					if (response.data.folder_id == getters.currentFolder.unique_id) {
+					if (response.data.folder_id == getters.currentFolder.id) {
 
 						// Add uploaded item into view
 						commit('ADD_NEW_ITEMS', response.data)
@@ -284,8 +284,8 @@ const actions = {
 			restoreToHome = true
 
 		items.forEach(data => itemToRestore.push({
-			'type': data.type,
-			'unique_id': data.unique_id
+			type: data.type,
+			id: data.id
 		}))
 
 		// Remove file preview
@@ -298,7 +298,7 @@ const actions = {
 			})
 			.then(
 				// Remove file
-				items.forEach(data => commit('REMOVE_ITEM', data.unique_id))
+				items.forEach(data => commit('REMOVE_ITEM', data.id))
 			)
 			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
@@ -313,13 +313,13 @@ const actions = {
 
 		items.forEach(data => {
 			itemsToDelete.push({
-				'force_delete': data.deleted_at ? true : false,
-				'type': data.type,
-				'unique_id': data.unique_id
+				force_delete: data.deleted_at ? true : false,
+				type: data.type,
+				id: data.id
 			})
 
 			// Remove file
-			commit('REMOVE_ITEM', data.unique_id)
+			commit('REMOVE_ITEM', data.id)
 
 			// Remove item from sidebar
 			if (getters.permission === 'master') {
@@ -329,7 +329,7 @@ const actions = {
 			}
 
 			// Remove file
-			commit('REMOVE_ITEM', data.unique_id)
+			commit('REMOVE_ITEM', data.id)
 
 			// Remove item from sidebar
 			if (getters.permission === 'master') {
@@ -361,7 +361,7 @@ const actions = {
 					// If is folder, update app data
 					if (data.type === 'folder') {
 
-						if (data.unique_id === getters.currentFolder.unique_id) {
+						if (data.id === getters.currentFolder.id) {
 
 							if (getters.currentFolder.location === 'public') {
 								dispatch('browseShared', [{ folder: last(getters.browseHistory), back: true, init: false }])

@@ -85,7 +85,7 @@ const Helpers = {
 			// Push items to file queue
 			[...files].map(item => {
 				this.$store.commit('ADD_FILES_TO_QUEUE', {
-					parent_id: store.getters.currentFolder.unique_id,
+					parent_id: store.getters.currentFolder.id,
 					file: item,
 				})
 			});

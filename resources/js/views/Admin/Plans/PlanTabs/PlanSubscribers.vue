@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup>
-            <DatatableWrapper @init="isLoading = false" :api="'/api/plans/' + this.$route.params.id + '/subscribers'" :paginator="false" :columns="columns" :data="subscribers" class="table">
+            <DatatableWrapper @init="isLoading = false" :api="'/api/admin/plans/' + this.$route.params.id + '/subscribers'" :paginator="false" :columns="columns" :data="subscribers" class="table">
 
                 <!--Table data content-->
                 <template slot-scope="{ row }">

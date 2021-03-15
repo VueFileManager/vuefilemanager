@@ -8,12 +8,12 @@
                 <!--User thumbnail-->
                 <div class="user-thumbnail">
                     <div class="avatar">
-                        <img :src="user.data.attributes.avatar" :alt="user.data.attributes.name">
+                        <img :src="user.data.relationships.settings.data.attributes.avatar" :alt="user.data.relationships.settings.data.attributes.name">
                         <!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
                     </div>
                     <div class="info">
                         <b class="name">
-                            {{ user.data.attributes.name }}
+                            {{ user.data.relationships.settings.data.attributes.name }}
                             <ColorLabel color="purple">
                                 {{ user.data.attributes.role }}
                             </ColorLabel>
@@ -69,7 +69,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.attributes.name !== admin.name"
+                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.relationships.settings.data.attributes.name !== admin.name"
                                  class="menu-list-item link">
                         <div class="icon">
                             <trash2-icon size="17"></trash2-icon>
@@ -104,9 +104,9 @@
     export default {
         name: 'Profile',
         components: {
+            StorageItemDetail,
             CreditCardIcon,
             HardDriveIcon,
-            StorageItemDetail,
             SectionTitle,
             FileTextIcon,
             MobileHeader,
@@ -118,10 +118,10 @@
             Spinner,
         },
         computed: {
+            ...mapGetters(['config']),
             admin() {
                 return this.$store.getters.user ? this.$store.getters.user.data.attributes : undefined
             },
-            ...mapGetters(['config']),
         },
         data() {
             return {
@@ -131,7 +131,7 @@
         },
         methods: {
             fetchUser() {
-                axios.get('/api/users/' + this.$route.params.id + '/detail')
+                axios.get('/api/admin/users/' + this.$route.params.id + '/detail')
                     .then(response => {
                         this.user = response.data
                         this.isLoading = false

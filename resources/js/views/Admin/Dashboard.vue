@@ -128,11 +128,11 @@
         },
         methods: {
             changeStatus(val, id) {
-                this.$updateText('/plans/' + id + '/update', 'is_active', val)
+                this.$updateText('/admin/plans/' + id + '/update', 'is_active', val)
             }
         },
         created() {
-            axios.get('/api/dashboard')
+            axios.get('/api/admin/dashboard')
                 .then(response => {
                     this.data = response.data
                 })

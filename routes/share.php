@@ -35,7 +35,7 @@ Route::group(['prefix' => 'browse'], function () {
 // Private sharing secured by password
 // TODO: tests
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor']], function () {
-    Route::get('/folders/{unique_id}/private', [ServeSharedController::class, 'get_private_folders']);
+    Route::get('/folders/{id}/private', [ServeSharedController::class, 'get_private_folders']);
     Route::get('/navigation/private', [ServeSharedController::class, 'get_private_navigation_tree']);
     Route::get('/search/private', [ServeSharedController::class, 'search_private']);
     Route::get('/files/private', [ServeSharedController::class, 'file_private']);

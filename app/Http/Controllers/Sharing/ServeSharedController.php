@@ -59,7 +59,7 @@ class ServeSharedController extends Controller
 
             $image = File::where('user_id', $shared->user_id)
                 ->where('type', 'image')
-                ->where('unique_id', $shared->item_id)
+                ->where('id', $shared->item_id)
                 ->first();
 
             if ($image) {
@@ -196,7 +196,7 @@ class ServeSharedController extends Controller
 
         // Return record
         return File::where('user_id', $shared->user_id)
-            ->where('unique_id', $shared->item_id)
+            ->where('id', $shared->item_id)
             ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
     }
 
@@ -215,16 +215,16 @@ class ServeSharedController extends Controller
         $this->helper->check_item_access($shared->item_id, $shared);
 
         // Get folders
-        $folders = Folder::with('folders:id,parent_id,unique_id,name')
+        $folders = Folder::with('folders:id,parent_id,id,name')
             ->where('parent_id', $shared->item_id)
             ->where('user_id', $shared->user_id)
             ->sortable()
-            ->get(['id', 'parent_id', 'unique_id', 'name']);
+            ->get(['id', 'parent_id', 'id', 'name']);
 
         // Return folder tree
         return [
             [
-                'unique_id' => $shared->item_id,
+                'id' => $shared->item_id,
                 'name'      => __('vuefilemanager.home'),
                 'location'  => 'public',
                 'folders'   => $folders,
@@ -254,7 +254,7 @@ class ServeSharedController extends Controller
             ->get();
 
         // Get all children content
-        $foldersIds = Folder::with('folders:id,parent_id,unique_id,name')
+        $foldersIds = Folder::with('folders:id,parent_id,id,name')
             ->where('user_id', $shared->user_id)
             ->where('parent_id', $shared->item_id)
             ->get();
@@ -269,7 +269,7 @@ class ServeSharedController extends Controller
 
         // Filter folders to only accessible folders
         $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
-            return in_array($folder->unique_id, $accessible_folder_ids);
+            return in_array($folder->id, $accessible_folder_ids);
         });
 
         // Collect folders and files to single array

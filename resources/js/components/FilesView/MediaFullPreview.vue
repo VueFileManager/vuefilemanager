@@ -91,7 +91,7 @@ export default {
 		},
 		choseActiveFile() {
 			this.sliderFile.forEach((element, index) => {
-				if (element.unique_id == this.fileInfoDetail[0].unique_id) {
+				if (element.id == this.fileInfoDetail[0].id) {
 					this.currentIndex = index
 				}
 			})

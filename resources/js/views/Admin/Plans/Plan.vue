@@ -75,7 +75,7 @@
             }
         },
         created() {
-            axios.get('/api/plans/' + this.$route.params.id)
+            axios.get('/api/admin/plans/' + this.$route.params.id)
                 .then(response => {
                     this.plan = response.data.data
                     this.isLoading = false

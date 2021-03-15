@@ -18,14 +18,14 @@
                 </div>
 
                 <!--Datatable-->
-                <DatatableWrapper @init="isLoading = false" api="/api/users" :paginator="true" :columns="columns" class="table table-users">
+                <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
                             <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <DatatableCellImage
-                                            :image="row.data.attributes.avatar"
-                                            :title="row.data.attributes.name"
+                                            :image="row.data.relationships.settings.data.attributes.avatar"
+                                            :title="row.data.relationships.settings.data.attributes.name"
                                             :description="row.data.attributes.email"
                                     />
                                 </router-link>
@@ -45,12 +45,12 @@
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.relationships.storage.data.attributes.used_formatted }}
+                                    {{ row.data.attributes.storage.used_formatted }}
                                 </span>
                             </td>
                             <td v-if="config.storageLimit">
                                 <span class="cell-item">
-                                    {{ row.relationships.storage.data.attributes.capacity_formatted }}
+                                    {{ row.data.attributes.storage.capacity_formatted }}
                                 </span>
                             </td>
                             <td>
@@ -61,10 +61,10 @@
                             <td>
                                 <div class="action-icons">
                                     <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                        <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
+                                        <Edit2Icon size="15" class="icon icon-edit" />
                                     </router-link>
                                     <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
-                                        <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
+                                        <Trash2Icon size="15" class="icon icon-trash" />
                                     </router-link>
                                 </div>
                             </td>

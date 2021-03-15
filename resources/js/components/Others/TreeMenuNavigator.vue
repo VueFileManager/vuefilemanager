@@ -16,7 +16,7 @@
             </div>
 
             <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders"
-                               :key="item.unique_id"/>
+                               :key="item.id"/>
         </div>
     </transition>
 </template>
@@ -46,11 +46,11 @@
 
                     this.draggedItem.forEach(item => {
                         //Disable the parent of the folder
-                        if(item.type === "folder" && this.nodes.unique_id === item.parent_id){
+                        if(item.type === "folder" && this.nodes.id === item.parent_id){
                             disableFolder = true
                         }
                         //Disable the self folder with all children
-                        if (this.nodes.unique_id === item.unique_id && item.type === 'folder') {
+                        if (this.nodes.id === item.id && item.type === 'folder') {
                             disableFolder = true
                             this.disableChildren = true
                         }
@@ -141,7 +141,7 @@
             events.$on('show-folder', node => {
                 this.isSelected = false
 
-                if (this.nodes.unique_id == node.unique_id)
+                if (this.nodes.id == node.id)
                     this.isSelected = true
             })
         }

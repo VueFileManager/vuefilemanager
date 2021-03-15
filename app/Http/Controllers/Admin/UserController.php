@@ -185,7 +185,8 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Create settings
+        UserSettings::unguard();
+
         $user
             ->settings()
             ->create([
@@ -193,6 +194,8 @@ class UserController extends Controller
                 'avatar'           => store_avatar($request, 'avatar'),
                 'storage_capacity' => $request->storage_capacity,
             ]);
+
+        UserSettings::reguard();
 
         return response(new UserResource($user), 201);
     }

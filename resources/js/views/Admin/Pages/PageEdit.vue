@@ -26,7 +26,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('admin_pages.form.title') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                            <input @input="$updateText('/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
+                            <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
                                    :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
@@ -43,7 +43,7 @@
                         <label>{{ $t('admin_pages.form.content') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
                             <textarea
-                                    @input="$updateText('/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
+                                    @input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
                                     v-model="page.data.attributes.content"
                                     :placeholder="$t('admin_pages.form.content_plac')"
                                     :class="{'is-error': errors[0]}"
@@ -96,11 +96,11 @@
         },
         methods: {
             changeStatus(val) {
-                this.$updateText('/pages/' + this.$route.params.slug , 'visibility', val)
+                this.$updateText('/admin/pages/' + this.$route.params.slug , 'visibility', val)
             }
         },
         created() {
-            axios.get('/api/pages/' + this.$route.params.slug)
+            axios.get('/api/admin/pages/' + this.$route.params.slug)
                 .then(response => {
                     this.page = response.data
                     this.isLoading = false

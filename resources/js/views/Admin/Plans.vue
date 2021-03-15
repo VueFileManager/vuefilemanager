@@ -19,7 +19,7 @@
 
                     </div>
                 </div>
-                <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/plans" :paginator="false" :columns="columns" class="table table-users">
+                <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/admin/plans" :paginator="false" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
                             <td style="max-width: 80px">
@@ -177,7 +177,7 @@
         },
         methods: {
             changeStatus(val, id) {
-                this.$updateText('/plans/' + id, 'is_active', val)
+                this.$updateText('/admin/plans/' + id, 'is_active', val)
             }
         },
         created() {

@@ -1,7 +1,7 @@
 import i18n from '@/i18n/index'
 
 const defaultState = {
-	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') == 'true' || true,
+	fileInfoPanelVisible: localStorage.getItem('file_info_visibility') === 'true' || false,
 	FilePreviewType: localStorage.getItem('preview_type') || 'list',
 	config: undefined,
 	index: undefined,
@@ -968,21 +968,6 @@ const defaultState = {
 	]
 }
 const actions = {
-	getEmojisList: ({commit}) => {
-		return new Promise((resolve, reject) => {
-
-			axios.get('/assets/emojis.json')
-				.then((response) => {
-					commit('LOAD_EMOJIS_LIST', response.data[0])
-
-				})
-				.catch(() => Vue.prototype.$isSomethingWrong())
-				.finally(() => {
-					resolve(true)
-				})
-		})
-
-	},
 	changePreviewType: ({commit, state}, preview) => {
 		
 		// Get preview type

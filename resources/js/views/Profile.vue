@@ -78,12 +78,12 @@
                             <div class="avatar">
                                 <UserImageInput
                                         v-model="avatar"
-                                        :avatar="user.data.attributes.avatar"
+                                        :avatar="user.data.relationships.settings.data.attributes.avatar"
                                 />
                             </div>
                             <div class="info">
                                 <b class="name">
-                                    {{ user.data.attributes.name }}
+                                    {{ user.data.relationships.settings.data.attributes.name }}
                                     <ColorLabel v-if="config.isSaaS" :color="subscriptionColor">
                                         {{ subscriptionStatus }}
                                     </ColorLabel>
@@ -175,7 +175,7 @@
                 return this.config.isSaaS && this.config.app_payments_active
             },
             canShowUpgradeWarning() {
-                return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
+                return this.config.storageLimit && this.user.data.attributes.used > 95
             },
             canShowIncompletePayment() {
                 return this.user.data.attributes.incomplete_payment

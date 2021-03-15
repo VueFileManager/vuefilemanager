@@ -158,7 +158,7 @@ export default {
             rootDirectory: {
                 name: this.$t('locations.home'),
                 location: 'base',
-                unique_id: 0
+                id: undefined
             }
         })
 
