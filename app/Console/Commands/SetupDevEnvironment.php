@@ -184,6 +184,7 @@ class SetupDevEnvironment extends Command
             ->create([
                 'type'         => 'folder',
                 'item_id'      => $shared_folder->id,
+                'user_id'      => $user->id,
                 'permission'   => 'editor',
                 'is_protected' => false,
                 'password'     => null,
@@ -318,6 +319,7 @@ class SetupDevEnvironment extends Command
             ->create([
                 'type'         => 'folder',
                 'item_id'      => $documents->id,
+                'user_id'      => $user->id,
                 'permission'   => 'editor',
                 'is_protected' => false,
                 'password'     => null,
@@ -722,7 +724,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'app_favicon',
-                'value' => null,
+                'value' => 'system/favicon.png',
             ],
             [
                 'name'  => 'google_analytics',
@@ -764,7 +766,7 @@ class SetupDevEnvironment extends Command
         });
 
         // Get system images
-        collect(['logo.svg', 'logo-horizontal.svg'])
+        collect(['logo.svg', 'logo-horizontal.svg', 'favicon.png'])
             ->each(function ($file) {
                 \File::copy(storage_path("demo/app/$file"), storage_path("app/system/$file"));
             });

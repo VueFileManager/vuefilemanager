@@ -105,8 +105,10 @@ class BrowseController extends Controller
         $files_trashed = File::onlyTrashed()
             ->with(['parent'])
             ->where('user_id', $user_id)
-            ->whereNull('folder_id')
-            ->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))))
+            ->where(function($query) use ($folders_trashed) {
+                $query->whereNull('folder_id');
+                $query->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))));
+            })
             ->sortable()
             ->get();
 

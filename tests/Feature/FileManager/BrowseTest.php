@@ -338,8 +338,8 @@ class BrowseTest extends TestCase
                 'parent_id'  => null,
                 'name'       => 'root',
                 'user_id'    => $user->id,
-                'deleted_at' => Carbon::now(),
                 "user_scope" => "master",
+                'deleted_at' => Carbon::now(),
             ]);
 
         $file = File::factory(File::class)
