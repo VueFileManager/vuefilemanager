@@ -23,6 +23,30 @@ const Helpers = {
                 })
         }, 150)
 
+        Vue.prototype.$loadLanguage = function (language) {
+           
+            // return new Promise((resolve, reject) => {
+                let locale = language ? language : this.$store.getters.config.language
+                axios.get(`/api/languages/${locale}/strings_i18n`)
+                    .then((response) => {
+            
+                        let lang = response.data.language_strings
+                    
+                        let obj = {}
+                    
+                        lang.map(element => {
+                            obj[element.key] = element.value
+                        })
+
+                        i18n.setLocaleMessage(locale, obj)
+                        i18n.locale = locale
+
+                        // resolve(true)
+                       
+                    })
+            // })
+        }
+
         Vue.prototype.$updateImage = function (route, name, image) {
 
             // Create form

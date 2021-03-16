@@ -117,6 +117,8 @@ export default {
             this.$updateText('/settings', 'language', this.language.locale)
 
             this.languageSetting = this.language.locale
+
+            this.$loadLanguage(this.language.locale)
         },
         resetInput(){
 

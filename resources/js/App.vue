@@ -83,6 +83,7 @@ import RenameItem from '@/components/Others/RenameItem'
 import ShareEdit from '@/components/Others/ShareEdit'
 import MoveItem from '@/components/Others/MoveItem'
 import Vignette from '@/components/Others/Vignette'
+import Helpers from "./helpers";
 import DragUI from '@/components/FilesView/DragUI'
 import MenuBar from '@/components/Sidebar/MenuBar'
 import Alert from '@/components/FilesView/Alert'
@@ -146,7 +147,7 @@ export default {
     },
     data() {
         return {
-            isScaledDown: false
+            isScaledDown: false,
         }
     },
     methods: {
@@ -179,6 +180,8 @@ export default {
             this.$router.push({ name: 'InstallationDisclaimer' })
     },
     mounted() {
+
+        this.$loadLanguage()
 
         this.$checkOS()
 

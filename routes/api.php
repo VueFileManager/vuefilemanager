@@ -172,6 +172,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/flush-cache', 'AppFunctionsController@flush_cache');
 
     Route::group(['prefix' => 'languages'], function () {
+        Route::get('/{language}/strings_i18n', 'Language\LanguageController@get_language_strings_i18n');
         Route::get('/{language}/strings', 'Language\LanguageController@get_language_strings');
         Route::patch('/{language}/string', 'Language\LanguageController@update_string');
         Route::delete('/{language}', 'Language\LanguageController@delete_language');

@@ -40,6 +40,8 @@
 
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
 
+            language: '{{ isset($settings->language) ? $settings->language : en }}',
+
             app_name: '{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}',
             app_description: '{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : 'Your self-hosted storage cloud software powered by Laravel and Vue' }}',
             app_footer: '{!! isset($settings->footer_content) && $settings->footer_content ? $settings->footer_content : null !!}',

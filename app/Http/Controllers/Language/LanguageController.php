@@ -28,6 +28,14 @@ class LanguageController extends Controller
         return Language::all();
     }
 
+    public function get_language_strings_i18n($language)
+    {
+        $lang = Language::whereLocale($language);
+
+        return $lang->with('languageStrings')->first();
+
+    }
+
     /**
      * Get all language strings
      *
