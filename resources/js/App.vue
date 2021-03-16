@@ -110,7 +110,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isLogged', 'isGuest', 'config', 'fileQueue'
+            'config', 'fileQueue'
         ]),
         isGuestLayout() {
             return (includes([
@@ -122,7 +122,7 @@ export default {
                     'CreateNewPassword',
                     'EnvironmentSetup',
                     'VerifyByPassword',
-                    'SaaSLandingPage',
+                    'Homepage',
                     'BillingsDetail',
                     'NotFoundShared',
                     'AdminAccount',

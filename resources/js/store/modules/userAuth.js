@@ -1,11 +1,8 @@
 import axios from 'axios'
-import {events} from '@/bus'
-import i18n from '@/i18n/index.js'
 import router from '@/router'
 import Vue from 'vue'
 
 const defaultState = {
-    authorized: undefined,
     permission: 'master', // master | editor | visitor
     user: undefined,
 }
@@ -48,7 +45,7 @@ const actions = {
         }, 300)
 
         axios
-            .get(getters.api + '/user/logout')
+            .post('/logout')
             .then(() => {
                 clearTimeout(popup)
                 commit('DESTROY_DATA')
@@ -123,7 +120,6 @@ const mutations = {
         state.permission = role
     },
     DESTROY_DATA(state) {
-        state.authorized = false
         state.app = undefined
     },
     ADD_TO_FAVOURITES(state, folder) {
@@ -155,8 +151,6 @@ const mutations = {
 
 const getters = {
     permission: state => state.permission,
-    isGuest: state => !state.authorized,
-    isLogged: state => state.authorized,
     user: state => state.user,
 }
 

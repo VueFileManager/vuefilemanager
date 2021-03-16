@@ -3,26 +3,29 @@
         <PageTitle
             :title="index.header_title"
             :description="index.header_description"
-        ></PageTitle>
+        />
 
-        <!--User registration button-->
-        <router-link v-if="config.userRegistration" class="sign-up-button" :to="{name: 'SignUp'}">
-            <AuthButton class="button" icon="chevron-right" :text="$t('page_index.sign_up_button')" />
-        </router-link>
+        <div v-if="! config.isAuthenticated">
 
-        <!--User login button-->
-        <router-link v-if="! config.userRegistration" class="sign-up-button" :to="{name: 'SignIn'}">
-            <AuthButton class="button" icon="chevron-right" :text="$t('page_index.menu.log_in')" />
-        </router-link>
+            <!--User registration button-->
+            <router-link v-if="config.userRegistration" class="sign-up-button" :to="{name: 'SignUp'}">
+                <AuthButton class="button" icon="chevron-right" :text="$t('page_index.sign_up_button')" />
+            </router-link>
 
-        <div class="features" v-if="config.isSaaS">
-            <div class="feature">
-                <credit-card-icon size="19" class="feature-icon"></credit-card-icon>
-                <b class="feature-title">{{ $t('page_index.sign_feature_1') }}</b>
-            </div>
-            <div class="feature">
-                <hard-drive-icon size="19" class="feature-icon"></hard-drive-icon>
-                <b class="feature-title">{{ $t('page_index.sign_feature_2', {defaultSpace: config.storageDefaultSpaceFormatted}) }}</b>
+            <!--User login button-->
+            <router-link v-if="! config.userRegistration" class="sign-up-button" :to="{name: 'SignIn'}">
+                <AuthButton class="button" icon="chevron-right" :text="$t('page_index.menu.log_in')" />
+            </router-link>
+
+            <div class="features" v-if="config.isSaaS">
+                <div class="feature">
+                    <credit-card-icon size="19" class="feature-icon"></credit-card-icon>
+                    <b class="feature-title">{{ $t('page_index.sign_feature_1') }}</b>
+                </div>
+                <div class="feature">
+                    <hard-drive-icon size="19" class="feature-icon"></hard-drive-icon>
+                    <b class="feature-title">{{ $t('page_index.sign_feature_2', {defaultSpace: config.storageDefaultSpaceFormatted}) }}</b>
+                </div>
             </div>
         </div>
     </header>

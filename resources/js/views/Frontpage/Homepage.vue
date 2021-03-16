@@ -41,7 +41,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'SaaSLandingPage',
+        name: 'Homepage',
         components: {
             HeroScreenshot,
             PricingTables,

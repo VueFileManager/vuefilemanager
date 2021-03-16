@@ -1,6 +1,6 @@
 <template>
     <nav class="main-navigation">
-        <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
+        <router-link :to="{name: 'Homepage'}" tag="div" class="logo">
             <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name">
             <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
@@ -17,7 +17,7 @@
                     </router-link>
                 </li>
             </ul>
-            <ul class="navigation-links">
+            <ul v-if="! config.isAuthenticated" class="navigation-links">
                 <li>
                     <router-link :to="{name: 'SignIn'}">
                         {{ $t('page_index.menu.log_in') }}
@@ -26,6 +26,13 @@
                 <li v-if="config.userRegistration">
                     <router-link class="cta-button" :to="{name: 'SignUp'}">
                         {{ $t('page_index.menu.sign_in') }}
+                    </router-link>
+                </li>
+            </ul>
+            <ul v-if="config.isAuthenticated" class="navigation-links">
+                <li v-if="config.userRegistration">
+                    <router-link class="cta-button" :to="{name: 'Files'}">
+                        Go to Files <!--todo: preklad-->
                     </router-link>
                 </li>
             </ul>
@@ -77,7 +84,7 @@
 
     .navigation-links {
         display: inline-block;
-        margin-left: 50px;
+        margin-left: 25px;
 
         &:first-child {
             margin-left: 0;

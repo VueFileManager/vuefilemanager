@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import i18n from '@/i18n/index'
+import store from './store/index'
 
 import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
 import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
+import {mapGetters} from "vuex";
 
 Vue.use(Router)
 
@@ -589,10 +591,10 @@ const routesMaintenance = [
 ]
 const routesIndex = [
     {
-        name: 'SaaSLandingPage',
+        name: 'Homepage',
         path: '/',
         component: () =>
-            import(/* webpackChunkName: "chunks/landing-page" */ './views/Index/SaaSLandingPage'),
+            import(/* webpackChunkName: "chunks/homepage" */ './views/Frontpage/Homepage'),
         meta: {
             requiresAuth: false
         },
@@ -601,7 +603,7 @@ const routesIndex = [
         name: 'DynamicPage',
         path: '/page/:slug',
         component: () =>
-            import(/* webpackChunkName: "chunks/dynamic-page" */ './views/Index/DynamicPage'),
+            import(/* webpackChunkName: "chunks/dynamic-page" */ './views/Frontpage/DynamicPage'),
         meta: {
             requiresAuth: false
         },
@@ -610,7 +612,7 @@ const routesIndex = [
         name: 'ContactUs',
         path: '/contact-us',
         component: () =>
-            import(/* webpackChunkName: "chunks/contact-us" */ './views/Index/ContactUs'),
+            import(/* webpackChunkName: "chunks/contact-us" */ './views/Frontpage/ContactUs'),
         meta: {
             requiresAuth: false
         },
@@ -642,8 +644,11 @@ router.beforeEach((to, from, next) => {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
 
-        //if ( ! store.getters.isLogged) {
-        if (false) {
+        let isAuthenticated = store.getters.config
+            ? store.getters.config.isAuthenticated
+            : config.isAuthenticated;
+
+        if ( ! isAuthenticated) {
             next({
                 name: 'SignIn',
                 query: {redirect: to.fullPath}
