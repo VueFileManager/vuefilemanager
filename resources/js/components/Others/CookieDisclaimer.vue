@@ -45,6 +45,7 @@
 
     .cookie-wrapper {
         @include widget-card;
+        background: white;
         position: fixed;
         bottom: 0;
         left: 115px;
