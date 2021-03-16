@@ -23,7 +23,7 @@ const actions = {
         })
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.protected
+        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
             ? '/api/zip/folder/' + folder.id + '/public/' + router.currentRoute.params.token
             : '/api/zip/folder/' + folder.id
 
@@ -46,7 +46,7 @@ const actions = {
         getters.fileInfoDetail.forEach(file => files.push(file.id))
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.protected
+        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
             ? '/api/zip/files/public/' + router.currentRoute.params.token
             : '/api/zip/files'
 
@@ -56,7 +56,7 @@ const actions = {
         })
 
         axios.post(route, {
-            files: files
+            items: files
         })
             .then(response => {
                 Vue.prototype.$downloadFile(response.data.url, response.data.name)
@@ -87,13 +87,15 @@ const actions = {
             commit('CLEAR_FILEINFO_DETAIL')
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.protected
+        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
             ? '/api/editor/move/public/' + router.currentRoute.params.token
             : '/api/move'
 
+        console.log(to_item);
+
         axios
             .post(route, {
-                to_id: to_item.id,
+                to_id: to_item.id ? to_item.id : null,
                 items: itemsToMove
             })
             .then(() => {
@@ -112,7 +114,7 @@ const actions = {
     createFolder: ({commit, getters, dispatch}, folder) => {
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.protected
+        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
             ? '/api/editor/create-folder/public/' + router.currentRoute.params.token
             : '/api/create-folder'
 
@@ -147,7 +149,7 @@ const actions = {
             commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.protected
+        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
             ? '/api/editor/rename/' + data.id + '/public/' + router.currentRoute.params.token
             : '/api/rename/' + data.id
 
@@ -170,7 +172,7 @@ const actions = {
         return new Promise((resolve, reject) => {
 
             // Get route
-            let route = getters.sharedDetail && !getters.sharedDetail.protected
+            let route = getters.sharedDetail && !getters.sharedDetail.is_protected
                 ? '/api/editor/upload/public/' + router.currentRoute.params.token
                 : '/api/upload'
 
@@ -339,7 +341,7 @@ const actions = {
         }
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.protected
+        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
             ? '/api/editor/remove/public/' + router.currentRoute.params.token
             : '/api/remove'
 

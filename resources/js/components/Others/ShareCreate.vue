@@ -1,13 +1,13 @@
 <template>
     <PopupWrapper name="share-create">
         <!--Title-->
-        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" icon="share"/>
+        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" icon="share" />
 
         <!--Content-->
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
+            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" />
 
             <!-- Infobox for successfull sended email -->
             <InfoBox v-if="isGeneratedShared && sharedViaEmail" class="info-box-wrapper">
@@ -20,12 +20,12 @@
                 <TabWrapper>
 
                     <!-- Share via link -->
-                    <TabOption :selected="true" :title="$t('shared_form.share_by_link')" icon="link"/>
+                    <TabOption :selected="true" :title="$t('shared_form.share_by_link')" icon="link" />
 
                     <!-- Share via Email -->
                     <TabOption :title="$t('shared_form.share_by_email')" icon="email">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
+                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
                         </ValidationProvider>
                     </TabOption>
 
@@ -34,7 +34,7 @@
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
+                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -42,7 +42,7 @@
                 <div class="input-wrapper">
                     <div class="inline-wrapper">
                         <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0"/>
+                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0" />
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                     <!--Set expiration-->
                     <div class="input-wrapper">
                         <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" class="box"/>
+                        <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" class="box" />
                     </div>
                 </div>
 
@@ -69,7 +69,7 @@
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
                     <label class="input-label">{{ this.sharedViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
-                    <CopyInput size="small" :item="pickedItem"/>
+                    <CopyInput size="small" :item="pickedItem" />
                 </div>
             </div>
         </PopupContent>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import SelectBoxInput from '@/components/Others/Forms/SelectBoxInput'
 import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
 import PopupActions from '@/components/Others/Popup/PopupActions'
@@ -101,10 +101,10 @@ import TabWrapper from '@/components/Others/TabWrapper'
 import TabOption from '@/components/Others/TabOption'
 import ButtonBase from '@/components/FilesView/ButtonBase'
 import InfoBox from '@/components/Others/Forms/InfoBox'
-import { LinkIcon, MailIcon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import {LinkIcon, MailIcon} from 'vue-feather-icons'
+import {required} from 'vee-validate/dist/rules'
+import {mapGetters} from 'vuex'
+import {events} from '@/bus'
 import axios from 'axios'
 
 export default {
@@ -192,7 +192,9 @@ export default {
 
             // Send request to get share link
             axios
-                .post('/api/share', this.shareOptions)
+                .post(`/api/share/${this.shareOptions.id}`,
+                    this.shareOptions
+                )
                 .then(response => {
 
                     // Show infobox and reset emails container

@@ -154,9 +154,9 @@ const actions = {
         // Get route
         let route = undefined
 
-        if (getters.sharedDetail && getters.sharedDetail.protected)
+        if (getters.sharedDetail && getters.sharedDetail.is_protected)
             route = '/api/browse/search/private'
-        else if (getters.sharedDetail && !getters.sharedDetail.protected)
+        else if (getters.sharedDetail && !getters.sharedDetail.is_protected)
             route = '/api/browse/search/public/' + router.currentRoute.params.token
         else
             route = '/api/browse/search'
@@ -177,9 +177,9 @@ const actions = {
             // Get route
             let route = undefined
 
-            if (getters.sharedDetail && getters.sharedDetail.protected)
+            if (getters.sharedDetail && getters.sharedDetail.is_protected)
                 route = '/api/browse/navigation/private'
-            else if (getters.sharedDetail && !getters.sharedDetail.protected)
+            else if (getters.sharedDetail && !getters.sharedDetail.is_protected)
                 route = '/api/browse/navigation/public/' + router.currentRoute.params.token
             else
                 route = '/api/browse/navigation'

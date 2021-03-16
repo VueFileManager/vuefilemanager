@@ -29,7 +29,7 @@ Route::group(['prefix' => 'browse'], function () {
 
     Route::post('/shared/authenticate/{shared}', [ServeSharedController::class, 'authenticate']);
     Route::get('/files/{shared}/public', [ServeSharedController::class, 'file_public']);
-    Route::get('/shared/{token}', [ShareController::class, 'show']);
+    Route::get('/shared/{shared}', [ShareController::class, 'show']);
 });
 
 // Private sharing secured by password

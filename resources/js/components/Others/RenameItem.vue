@@ -100,10 +100,10 @@ export default {
                     name: this.pickedItem.name,
                 }
 
-                if (this.folderIcon.emoji)
+                if (this.folderIcon && this.folderIcon.emoji)
                     item['emoji'] = this.folderIcon.emoji
 
-                if (this.folderIcon.color)
+                if (this.folderIcon && this.folderIcon.color)
                     item['color'] = this.folderIcon.color
 
                 // Rename item request

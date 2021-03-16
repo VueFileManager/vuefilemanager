@@ -38,7 +38,7 @@ const actions = {
 
         payload.folder.location = 'public'
 
-        let route = getters.sharedDetail.protected
+        let route = getters.sharedDetail.is_protected
             ? '/api/browse/folders/' + payload.folder.id + '/private'
             : '/api/browse/folders/' + payload.folder.id + '/public/' + router.currentRoute.params.token
 
@@ -82,6 +82,7 @@ const actions = {
 
             axios
                 .post('/api/share/revoke', {
+                    _method: 'delete',
                     tokens: tokens
                 })
                 .then(() => {
@@ -110,7 +111,7 @@ const actions = {
     },
     getSingleFile: ({commit, state}) => {
 
-        let route = state.sharedDetail.protected
+        let route = state.sharedDetail.is_protected
             ? '/api/browse/files/private'
             : '/api/browse/files/' + router.currentRoute.params.token + '/public'
 

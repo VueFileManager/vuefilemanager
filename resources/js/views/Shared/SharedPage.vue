@@ -294,7 +294,7 @@
                     this.isPageLoading = false
 
                     // Show password page
-                    if (response.data.data.attributes.protected) {
+                    if (response.data.data.attributes.is_protected) {
                         this.currentPage = 'page-password'
                     } else {
                         this.currentPage = 'page-files'

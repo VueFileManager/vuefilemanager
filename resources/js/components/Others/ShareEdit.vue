@@ -43,7 +43,9 @@
                         <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
                         <SwitchInput v-model="shareOptions.isProtected" :state="shareOptions.isProtected" class="switch"/>
                     </div>
-                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">{{ $t('popup_share_edit.change_pass') }}</ActionButton>
+                    <ActionButton v-if="(pickedItem.shared.is_protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
+                        {{ $t('popup_share_edit.change_pass') }}
+                    </ActionButton>
                 </div>
 
                 <!--Set password-->
@@ -62,7 +64,9 @@
                     </div>
                 </div>
 
-                <ActionButton @click.native="moreOptions" :icon="isMoreOptions || shareOptions.expiration ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
+                <ActionButton @click.native="moreOptions" :icon="isMoreOptions || shareOptions.expiration ? 'x' : 'pencil-alt'">
+                    {{ moreOptionsTitle }}
+                </ActionButton>
 
             </ValidationObserver>
 
@@ -235,7 +239,6 @@
                     this.isDeleting = true
 
                     // Send delete request
-
                     await this.$store.dispatch('shareCancel' , this.pickedItem)
                         .then((response) => {
 
@@ -323,7 +326,7 @@
                 this.shareOptions = {
                     token: args.item.shared.token,
                     expiration: args.item.shared.expire_in,
-                    isProtected: args.item.shared.protected,
+                    isProtected: args.item.shared.is_protected,
                     permission: args.item.shared.permission,
                     password: undefined,
                 }
@@ -335,7 +338,7 @@
                     this.sendToRecipientsMenu = true
                     this.isEmailSended = false
 
-                this.canChangePassword = args.item.shared.protected
+                this.canChangePassword = args.item.shared.is_protected
             })
 
             // Close popup

@@ -218,7 +218,9 @@ function is_demo($user_id)
  */
 function get_item($type, $id)
 {
-    return ('App\\Models\\' . ucfirst($type))::find($id);
+    $model = strtolower($type) === 'folder' ? 'Folder' : 'File';
+
+    return ("App\\Models\\$model")::find($id);
 }
 
 /**
@@ -756,6 +758,7 @@ function get_files_for_zip($folders, $files, $path = [])
         $files->push([
             'name'        => $file->name,
             'basename'    => $file->basename,
+            'mimetype'    => $file->mimetype,
             'folder_path' => implode('/', $path),
         ]);
     });

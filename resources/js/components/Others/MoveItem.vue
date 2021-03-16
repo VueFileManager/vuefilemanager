@@ -11,12 +11,12 @@
 
             <!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
-                <ThumbnailItem v-if="fileInfoDetail.length < 2 || noSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
+                <ThumbnailItem v-if="fileInfoDetail.length < 2 || isSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
 
                 <MultiSelected class="multiple-selected"
                                :title="$t('file_detail.selected_multiple')"
                                :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
-                               v-if="fileInfoDetail.length > 1 && !noSelectedItem" />
+                               v-if="fileInfoDetail.length > 1 && !isSelectedItem" />
                     
                 <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
             </div>
@@ -74,7 +74,7 @@
                 selectedFolder: undefined,
                 pickedItem: undefined,
                 isLoadingTree: true,
-                noSelectedItem: false
+                isSelectedItem: false
             }
         },
         methods: {
@@ -82,17 +82,20 @@
                 // Prevent empty submit
                 if (!this.selectedFolder) return
 
-                //Prevent to move items to the same parent 
+                // Prevent to move items to the same parent
                 if (this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.id)) return
 
-                // Move item 
-                if (!this.noSelectedItem) {
-                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, noSelectedItem: null})
+                // Move item
+                if (!this.isSelectedItem) {
+                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: null})
                 }
 
-                if (this.noSelectedItem) {
-                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, noSelectedItem: this.pickedItem})
+                if (this.isSelectedItem) {
+                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: this.pickedItem})
                 }
+
+                console.log('to item:', this.selectedFolder);
+                console.log('isSelectedItem:', this.pickedItem);
 
                 // Close popup
                 events.$emit('popup:close')
@@ -130,12 +133,12 @@
                 // Store picked item
                 if (!this.fileInfoDetail.includes(args.item[0])) {
                     this.pickedItem = args.item[0]
-                    this.noSelectedItem = true
+                    this.isSelectedItem = true
                 }
 
                 if (this.fileInfoDetail.includes(args.item[0])) {
                     this.pickedItem = this.fileInfoDetail[0]
-                    this.noSelectedItem = false
+                    this.isSelectedItem = false
                 }
             })
 

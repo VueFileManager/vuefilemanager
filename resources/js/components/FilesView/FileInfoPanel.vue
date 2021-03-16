@@ -119,7 +119,7 @@
                 }
             },
             isLocked() {
-                return this.fileInfoDetail[0].shared.protected
+                return this.fileInfoDetail[0].shared.is_protected
             }
         },
         methods: {

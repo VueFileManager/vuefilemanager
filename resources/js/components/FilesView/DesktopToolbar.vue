@@ -184,7 +184,7 @@ export default {
                 this.$store.dispatch('deleteItem')
         },
         createFolder() {
-            this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))
+            this.$store.dispatch('createFolder', {name: this.$t('popup_create_folder.folder_default_name')})
         },
         moveItem() {
             if (this.fileInfoDetail.length > 0)

@@ -75,7 +75,7 @@ class FileManagerService
             $zip
                 ->folder($file['folder_path'])
                 ->addString(
-                    $file['name'],
+                    "{$file['name']}.{$file['mimetype']}",
                     File::get($disk_local->path("/$directory/$requested_folder->user_id/{$file['basename']}"))
                 );
         }

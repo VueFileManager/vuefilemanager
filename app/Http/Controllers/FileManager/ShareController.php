@@ -23,15 +23,14 @@ class ShareController extends Controller
     /**
      * Get shared record
      *
+     * @param Share $shared
      * @return ShareResource
      */
-    public function show($token)
+    public function show(Share $shared)
     {
-        // Get record
-        $shared = Share::whereToken($token)
-            ->firstOrFail();
-
-        return new ShareResource($shared);
+        return new ShareResource(
+            $shared
+        );
     }
 
     /**
@@ -98,9 +97,8 @@ class ShareController extends Controller
     /**
      * Delete sharing item
      *
-     * @param $token
+     * @param Request $request
      * @return ResponseFactory|\Illuminate\Http\Response
-     * @throws \Exception
      */
     public function destroy(Request $request)
     {
@@ -122,7 +120,6 @@ class ShareController extends Controller
             }
         }
 
-        // Done
         return response('Done!', 204);
     }
 
