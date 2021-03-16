@@ -179,8 +179,8 @@ class FileManagerService
             'user_id'    => $user_id,
             'type'       => 'folder',
             'name'       => $name,
-            'icon_color' => isset($request->icon['color']) ? $request->icon['color'] : null,
-            'icon_emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
+            'color'      => $request->color ?? null,
+            'emoji'      => $request->emoji ?? null,
         ]);;
     }
 
@@ -284,7 +284,7 @@ class FileManagerService
         }
 
         // Delete item
-        if ($item['type'] === 'file') {
+        if ($item['type'] !== 'folder') {
 
             // Get file
             $file = UserFile::withTrashed()
@@ -346,7 +346,7 @@ class FileManagerService
             }
 
             // Move file
-            if ($item['type'] === 'file') {
+            if ($item['type'] !== 'folder') {
                 UserFile::find($item['id'])
                     ->update([
                         'folder_id' => $to_id

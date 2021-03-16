@@ -25,13 +25,14 @@
         <!-- Emojis List -->
         <transition name="slide-in">
             <div v-if="selectOpen">
+
                 <!-- Spinner -->
-                <div v-if="!loadedList" class="emoji-wrapper">
+                <div v-if="!isLoadedEmojis" class="emoji-wrapper">
                     <Spinner />
                 </div>
 
                 <!-- List -->
-                <div v-if="loadedList && emojis" class="emoji-wrapper">
+                <div v-if="isLoadedEmojis && emojis" class="emoji-wrapper">
 
                     <!-- Search input -->
                     <input @click.stop @input="searchEmojis" v-model="searchInput" class="emoji-input" :placeholder="$t('popup_rename.search_emoji_input_placeholder')">
@@ -100,7 +101,7 @@ export default {
             searchInput: '',
             filteredEmojis: [],
             selectOpen: false,
-            loadedList: false,
+            isLoadedEmojis: false,
             filteredEmojisLoaded: true,
             groupInView: 'Smileys & Emotion',
         }
@@ -150,8 +151,7 @@ export default {
 
         }, 800),
         openList() {
-
-            this.loadedList = false
+            this.isLoadedEmojis = false
 
             this.selectOpen = !this.selectOpen
 
@@ -160,14 +160,15 @@ export default {
 
                 axios.get('/assets/emojis.json')
                     .then(response => {
-                        this.$store.commit('LOAD_EMOJIS_LIST', response.data[0])
+                        this.$store.commit('LOAD_EMOJIS_LIST', response.data)
                     })
+                .finally(() => this.isLoadedEmojis = true)
             }
 
             // Simulate loading for the emojisList processing
             if (this.emojis) {
                 setTimeout(() => {
-                    this.loadedList = true
+                    this.isLoadedEmojis = true
                 }, 20);
             }
 
@@ -199,7 +200,7 @@ export default {
 
             this.selectOpen = false
 
-            this.loadedList = false
+            this.isLoadedEmojis = false
         })
     }
 }

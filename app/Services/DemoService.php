@@ -35,15 +35,14 @@ class DemoService
 
         return [
             'user_id'    => 1,
-            'id'         => random_int(1000, 9999),
+            'id'         => Str::uuid(),
             'parent_id'  => random_int(1000, 9999),
             'name'       => $name,
             'type'       => 'folder',
-            'unique_id'  => random_int(1000, 9999),
             'user_scope' => $user_scope,
             'items'      => '0',
-            'icon_color' => isset($request->icon['color']) ? $request->icon['color'] : null,
-            'icon_emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
+            'color' => isset($request->icon['color']) ? $request->icon['color'] : null,
+            'emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
             'updated_at' => Carbon::now()->format('j M Y \a\t H:i'),
             'created_at' => Carbon::now()->format('j M Y \a\t H:i'),
         ];
@@ -53,38 +52,38 @@ class DemoService
      * Rename item name
      *
      * @param RenameItemRequest $request
-     * @param $unique_id
+     * @param $id
      * @return mixed
      */
-    function rename_item($request, $unique_id)
+    function rename_item($request, $id)
     {
         // Get item
         if ($request->type === 'folder') {
 
-            $item = Folder::where('unique_id', $unique_id)
+            $item = Folder::where('id', $id)
                 ->where('user_id', 1)
                 ->first();
 
         } else {
 
-            $item = File::where('unique_id', $unique_id)
+            $item = File::where('id', $id)
                 ->where('user_id', 1)
                 ->first();
         }
 
         if ($item) {
             $item->name = $request->name;
-            $item->icon_emoji = $request->icon['emoji'] ?? null;
-            $item->icon_color = $request->icon['color'] ?? null;
+            $item->emoji = $request->icon['emoji'] ?? null;
+            $item->color = $request->icon['color'] ?? null;
 
             return $item;
 
         } else {
 
             return [
-                'unique_id'  => $request->unique_id,
-                'name'       => $request->name,
-                'type'       => $request->type,
+                'id'   => $request->id,
+                'name' => $request->name,
+                'type' => $request->type,
             ];
         }
     }
@@ -109,8 +108,7 @@ class DemoService
         $filetype = get_file_type($file->getMimeType());
 
         return [
-            'id'         => random_int(1000, 9999),
-            'unique_id'  => random_int(1000, 9999),
+            'id'         => Str::uuid(),
             'folder_id'  => $request->parent_id,
             'thumbnail'  => 'data:' . $request->file('file')->getMimeType() . ';base64, ' . base64_encode(file_get_contents($request->file('file'))),
             'name'       => $file->getClientOriginalName(),

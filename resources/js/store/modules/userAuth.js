@@ -21,7 +21,7 @@ const actions = {
 
                     // Redirect user if is logged
                     if (router.currentRoute.name === 'SignIn')
-                        router.push({ name: 'Files' })
+                        router.push({name: 'Files'})
 
                     commit('RETRIEVE_USER', response.data)
 
@@ -61,13 +61,13 @@ const actions = {
         let items = [folder]
 
         // If dont coming single folder get folders to add to favourites from fileInfoDetail
-        if(!folder)
+        if (!folder)
             items = context.getters.fileInfoDetail
 
         items.forEach((data) => {
-            if(data.type === 'folder' ) {
+            if (data.type === 'folder') {
 
-                if(context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)) return
+                if (context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)) return
 
                 addFavourites.push({
                     id: data.id
@@ -76,24 +76,24 @@ const actions = {
         })
 
         // If dont coming single folder clear the selected folders in fileInfoDetail
-        if(!folder) {
+        if (!folder) {
             context.commit('CLEAR_FILEINFO_DETAIL')
         }
 
         let pushToFavorites = []
-        
+
         // Check is favorites already don't include some of pushed folders
         items.map(data => {
-            if(!context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)){
+            if (!context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)) {
                 pushToFavorites.push(data)
             }
         })
-        
+
         // Add to storage
         context.commit('ADD_TO_FAVOURITES', pushToFavorites)
 
         axios
-            .post(context.getters.api + '/browse/folders/favourites', {
+            .post(context.getters.api + '/folders/favourites', {
                 folders: addFavourites
             })
             .catch(() => {
@@ -127,13 +127,13 @@ const mutations = {
         state.app = undefined
     },
     ADD_TO_FAVOURITES(state, folder) {
-        folder.forEach(item => { 
-        state.user.data.relationships.favourites.data.attributes.folders.push({
-            id: item.id,
-            name: item.name,
-            type: item.type,
+        folder.forEach(item => {
+            state.user.data.relationships.favourites.data.attributes.folders.push({
+                id: item.id,
+                name: item.name,
+                type: item.type,
+            })
         })
-    })
     },
     UPDATE_NAME(state, name) {
         state.user.data.relationships.settings.data.attributes.name = name
@@ -155,7 +155,7 @@ const mutations = {
 
 const getters = {
     permission: state => state.permission,
-    isGuest: state => ! state.authorized,
+    isGuest: state => !state.authorized,
     isLogged: state => state.authorized,
     user: state => state.user,
 }

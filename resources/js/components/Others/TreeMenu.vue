@@ -1,6 +1,6 @@
 <template>
     <!--Folder Icon-->
-    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.unique_id === nodes.unique_id || !disableId} ">
+    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.id === nodes.id || !disableId} ">
 
         <div class="folder-item" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
             <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
@@ -9,7 +9,7 @@
             <span class="label">{{ nodes.name }}</span>
         </div>
 
-        <TreeMenu :disabled-by-id="disabledById" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.unique_id" />
+        <TreeMenu :disabled-by-id="disabledById" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
     </div>
 </template>
 
@@ -39,7 +39,7 @@
                 let canBeShow = true
                 if(this.fileInfoDetail.includes(this.disabledById)){
                     this.fileInfoDetail.map(item => {
-                        if(item.unique_id === this.nodes.unique_id) {
+                        if(item.id === this.nodes.id) {
                             canBeShow = false
                         }
                     })
@@ -73,7 +73,7 @@
             events.$on('pick-folder', node => {
                 this.isSelected = false
 
-                if (this.nodes.unique_id == node.unique_id)
+                if (this.nodes.id === node.id)
                     this.isSelected = true
             })
 
@@ -81,7 +81,7 @@
             events.$on('show-folder-item', node => {
                 this.isSelected = false
 
-                if (this.nodes.unique_id == node.unique_id)
+                if (this.nodes.id === node.id)
                     this.isSelected = true
             })
         }

@@ -1,13 +1,13 @@
 <template>
     <PopupWrapper name="rename-item">
         <!--Title-->
-        <PopupHeader :title="$t('popup_rename.title', {item: itemTypeTitle})" icon="edit"/>
+        <PopupHeader :title="$t('popup_rename.title', {item: itemTypeTitle})" icon="edit" />
 
         <!--Content-->
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" :setFolderIcon="setFolderIcon"/>
+            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" :setFolderIcon="folderIcon" />
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
@@ -18,33 +18,32 @@
                     <div class="input">
                         <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
                         <div @click="pickedItem.name = ''" class="close-icon-wrapper">
-                            <x-icon class="close-icon" size="14"/>
+                            <x-icon class="close-icon" size="14" />
                         </div>
                     </div>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem"/>
+                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" />
 
                 <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
-
             </ValidationObserver>
-
-
         </PopupContent>
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="popup-button" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }}
+            <ButtonBase class="popup-button" @click.native="$closePopup()" button-style="secondary">
+                {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
-            <ButtonBase class="popup-button" @click.native="changeName" button-style="theme">{{ $t('popup_share_edit.save') }}
+            <ButtonBase class="popup-button" @click.native="changeName" button-style="theme">
+                {{ $t('popup_share_edit.save') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
 import PopupActions from '@/components/Others/Popup/PopupActions'
 import PopupContent from '@/components/Others/Popup/PopupContent'
@@ -53,9 +52,9 @@ import SetFolderIcon from '@/components/Others/SetFolderIcon'
 import ThumbnailItem from '@/components/Others/ThumbnailItem'
 import ActionButton from '@/components/Others/ActionButton'
 import ButtonBase from '@/components/FilesView/ButtonBase'
-import { XIcon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
-import { events } from '@/bus'
+import {XIcon} from 'vue-feather-icons'
+import {required} from 'vee-validate/dist/rules'
+import {events} from '@/bus'
 
 export default {
     name: 'RenameItem',
@@ -85,7 +84,7 @@ export default {
         return {
             pickedItem: undefined,
             isMoreOptions: false,
-            setFolderIcon: undefined
+            folderIcon: undefined
         }
     },
     methods: {
@@ -99,8 +98,13 @@ export default {
                     id: this.pickedItem.id,
                     type: this.pickedItem.type,
                     name: this.pickedItem.name,
-                    icon: this.setFolderIcon ? this.setFolderIcon : null
                 }
+
+                if (this.folderIcon.emoji)
+                    item['emoji'] = this.folderIcon.emoji
+
+                if (this.folderIcon.color)
+                    item['color'] = this.folderIcon.color
 
                 // Rename item request
                 this.$store.dispatch('renameItem', item)
@@ -119,20 +123,20 @@ export default {
 
             if (args.name !== 'rename-item') return
 
-            if (! this.$isMobile()) {
+            if (!this.$isMobile()) {
                 this.$nextTick(() => this.$refs.input.focus())
             }
 
             this.isMoreOptions = false
 
-            this.setFolderIcon = undefined
+            this.folderIcon = undefined
 
             // Store picked item
             this.pickedItem = args.item
         })
 
         events.$on('setFolderIcon', (icon) => {
-            this.setFolderIcon = icon
+            this.folderIcon = icon
         })
     }
 }

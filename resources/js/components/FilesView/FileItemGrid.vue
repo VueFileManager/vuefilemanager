@@ -88,16 +88,16 @@ export default {
         folderEmojiOrColor() {
 
             // If folder have set some color
-            if (this.item.icon_color) {
+            if (this.item.color) {
                 this.$nextTick(() => {
-                    this.$refs[`folder${this.item.id}`].firstElementChild.style.fill = this.item.icon_color
+                    this.$refs[`folder${this.item.id}`].firstElementChild.style.fill = this.item.color
                 })
                 return false
             }
 
             // If folder have set some emoji
-            if (this.item.icon_emoji)
-                return this.item.icon_emoji
+            if (this.item.emoji)
+                return this.item.emoji
 
         },
         isClicked() {

@@ -99,70 +99,56 @@ class UserAccountTest extends TestCase
         $this->getJson('/api/user')
             ->assertStatus(200)
             ->assertExactJson([
-                "data"          => [
-                    "id"         => (string) $user->id,
-                    "type"       => "user",
-                    "attributes" => [
+                "data" => [
+                    "id"            => (string)$user->id,
+                    "type"          => "user",
+                    "attributes"    => [
                         "storage_capacity"     => "5",
                         "subscription"         => false,
                         "incomplete_payment"   => null,
                         "stripe_customer"      => false,
                         "email"                => $user->email,
                         "role"                 => $user->role,
+                        "folders"              => [],
+                        "storage"              => [
+                            "used"               => 0,
+                            "used_formatted"     => "0.00%",
+                            "capacity"           => "5",
+                            "capacity_formatted" => "5GB",
+                        ],
                         "created_at_formatted" => format_date($user->created_at, '%d. %B. %Y'),
                         "created_at"           => $user->created_at->toJson(),
                         "updated_at"           => $user->updated_at->toJson(),
+                    ],
+                    "relationships" => [
+                        "settings"   => [
+                            "data" => [
+                                "id"         => (string)$user->id,
+                                "type"       => "settings",
+                                "attributes" => [
+                                    'avatar'               => $user->settings->avatar,
+                                    'name'         => $user->settings->name,
+                                    'address'      => $user->settings->address,
+                                    'state'        => $user->settings->state,
+                                    'city'         => $user->settings->city,
+                                    'postal_code'  => $user->settings->postal_code,
+                                    'country'      => $user->settings->country,
+                                    'phone_number' => $user->settings->phone_number,
+                                    'timezone'             => $user->settings->timezone
+                                ]
+                            ]
+                        ],
+                        "favourites" => [
+                            "data" => [
+                                "id"         => (string)$user->id,
+                                "type"       => "favourite_folders",
+                                "attributes" => [
+                                    "folders" => []
+                                ]
+                            ]
+                        ],
                     ]
                 ],
-                "relationships" => [
-                    "settings"   => [
-                        "data" => [
-                            "id"         => (string) $user->id,
-                            "type"       => "settings",
-                            "attributes" => [
-                                'avatar'               => $user->settings->avatar,
-                                'billing_name'         => $user->settings->name,
-                                'billing_address'      => $user->settings->address,
-                                'billing_state'        => $user->settings->state,
-                                'billing_city'         => $user->settings->city,
-                                'billing_postal_code'  => $user->settings->postal_code,
-                                'billing_country'      => $user->settings->country,
-                                'billing_phone_number' => $user->settings->phone_number,
-                                'timezone'             => $user->settings->timezone
-                            ]
-                        ]
-                    ],
-                    "storage"    => [
-                        "data" => [
-                            "id"         => "1",
-                            "type"       => "storage",
-                            "attributes" => [
-                                "used"               => 0,
-                                "used_formatted"     => "0.00%",
-                                "capacity"           => "5",
-                                "capacity_formatted" => "5GB",
-                            ]
-                        ]
-                    ],
-                    "favourites" => [
-                        "data" => [
-                            "id"         => "1",
-                            "type"       => "folders_favourite",
-                            "attributes" => [
-                                "folders" => []
-                            ]
-                        ]
-                    ],
-                    "tree"       => [
-                        "data" => [
-                            "id"         => "1",
-                            "type"       => "folders_tree",
-                            "attributes" => [
-                                "folders" => [],
-                            ]
-                        ]
-                    ],
-                ]
             ]);
     }
 }

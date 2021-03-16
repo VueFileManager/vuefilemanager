@@ -73,7 +73,7 @@ class BrowseShareController extends Controller
             ->get();
 
         // Get all children content
-        $foldersIds = Folder::with('folders:id,parent_id,unique_id,name')
+        $foldersIds = Folder::with('folders:id,parent_id,id,name')
             ->where('user_id', $shared->user_id)
             ->where('parent_id', $shared->item_id)
             ->get();

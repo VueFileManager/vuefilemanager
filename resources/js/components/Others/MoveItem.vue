@@ -7,33 +7,33 @@
         <PopupContent type="height-limited" v-if="pickedItem">
 
             <!--Show Spinner when loading folders-->
-            <Spinner v-if="isLoadingTree"/>
+            <Spinner v-if="isLoadingTree" />
 
             <!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
-                <ThumbnailItem v-if="fileInfoDetail.length < 2 || noSelectedItem" class="item-thumbnail" :item="pickedItem" info="location"/>
+                <ThumbnailItem v-if="fileInfoDetail.length < 2 || noSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
 
-                <MultiSelected  class="multiple-selected" 
-                                :title="$t('file_detail.selected_multiple')" 
-                                :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
-                                v-if="fileInfoDetail.length > 1 && !noSelectedItem"/> 
+                <MultiSelected class="multiple-selected"
+                               :title="$t('file_detail.selected_multiple')"
+                               :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
+                               v-if="fileInfoDetail.length > 1 && !noSelectedItem" />
                     
-                <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.unique_id"/>
+                <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
             </div>
         </PopupContent>
 
         <!--Actions-->
         <PopupActions>
             <ButtonBase
-                    class="popup-button"
-                    @click.native="$closePopup()"
-                    button-style="secondary"
+                class="popup-button"
+                @click.native="$closePopup()"
+                button-style="secondary"
             >{{ $t('popup_move_item.cancel') }}
             </ButtonBase>
             <ButtonBase
-                    class="popup-button"
-                    @click.native="moveItem"
-                    :button-style="selectedFolder ? 'theme' : 'secondary'"
+                class="popup-button"
+                @click.native="moveItem"
+                :button-style="selectedFolder ? 'theme' : 'secondary'"
             >{{ $t('popup_move_item.submit') }}
             </ButtonBase>
         </PopupActions>
@@ -80,25 +80,25 @@
         methods: {
             moveItem() {
                 // Prevent empty submit
-                if (! this.selectedFolder) return
+                if (!this.selectedFolder) return
 
                 //Prevent to move items to the same parent 
-                if(this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.unique_id)) return
+                if (this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.id)) return
 
                 // Move item 
-                if(!this.noSelectedItem){
-                    this.$store.dispatch('moveItem', {to_item:this.selectedFolder ,noSelectedItem: null})
+                if (!this.noSelectedItem) {
+                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, noSelectedItem: null})
                 }
 
-                if(this.noSelectedItem){
-                    this.$store.dispatch('moveItem', {to_item:this.selectedFolder ,noSelectedItem:this.pickedItem})
+                if (this.noSelectedItem) {
+                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, noSelectedItem: this.pickedItem})
                 }
-                
+
                 // Close popup
                 events.$emit('popup:close')
 
                 // If is mobile, close the selecting mod after done the move action
-                if(this.$isMobile())
+                if (this.$isMobile())
                     events.$emit('mobileSelecting:stop')
             },
         },
@@ -107,7 +107,7 @@
             // Select folder in tree
             events.$on('pick-folder', folder => {
 
-                if (folder.unique_id === this.pickedItem.unique_id) {
+                if (folder.id === this.pickedItem.id) {
                     this.selectedFolder = undefined
                 } else {
                     this.selectedFolder = folder
@@ -118,6 +118,7 @@
             events.$on('popup:open', args => {
 
                 if (args.name !== 'move') return
+
                 // Show tree spinner
                 this.isLoadingTree = true
 
@@ -127,11 +128,12 @@
                 })
 
                 // Store picked item
-                if(!this.fileInfoDetail.includes(args.item[0])){
+                if (!this.fileInfoDetail.includes(args.item[0])) {
                     this.pickedItem = args.item[0]
                     this.noSelectedItem = true
                 }
-                if(this.fileInfoDetail.includes(args.item[0])){
+
+                if (this.fileInfoDetail.includes(args.item[0])) {
                     this.pickedItem = this.fileInfoDetail[0]
                     this.noSelectedItem = false
                 }
@@ -153,37 +155,42 @@
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
 
-    .item-thumbnail {
-        margin-bottom: 20px;
-    }
-    .multiple-selected { 
-        padding: 0 20px;;
-        margin-bottom: 20px;
-        /deep/.text{
-            .title {
-                color: $text;
-            }
-            .count {
-                color: $text-muted;
-            }
+.item-thumbnail {
+    margin-bottom: 20px;
+}
+
+.multiple-selected {
+    padding: 0 20px;;
+    margin-bottom: 20px;
+
+    /deep/ .text {
+        .title {
+            color: $text;
         }
-        /deep/.icon-wrapper {
-            .icon { 
-                stroke: $theme;
-            }
+
+        .count {
+            color: $text-muted;
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    /deep/ .icon-wrapper {
+        .icon {
+            stroke: $theme;
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
     .multiple-selected {
-        /deep/.text {
+        /deep/ .text {
             .title {
                 color: $dark_mode_text_primary;
             }
+
             .count {
                 color: $dark_mode_text_secondary;
             }
-        }      
+        }
     }
 }
 </style>

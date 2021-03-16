@@ -88,7 +88,6 @@ const actions = {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
 
-
         let currentFolder = {
             name: i18n.t('sidebar.my_shared'),
             location: 'shared',
@@ -98,7 +97,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
-            .get(getters.api + '/browse/shared-all' + getters.sorting.URI)
+            .get(getters.api + '/browse/shared' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
@@ -118,7 +117,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/browse/participant-uploads' + getters.sorting.URI)
+            .get(getters.api + '/browse/participants' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
 
@@ -139,7 +138,7 @@ const actions = {
         commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/trash' + getters.sorting.URI)
+            .get(getters.api + '/browse/trash' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', trash)
@@ -156,9 +155,9 @@ const actions = {
         let route = undefined
 
         if (getters.sharedDetail && getters.sharedDetail.protected)
-            route = '/api/search/private'
+            route = '/api/browse/search/private'
         else if (getters.sharedDetail && !getters.sharedDetail.protected)
-            route = '/api/search/public/' + router.currentRoute.params.token
+            route = '/api/browse/search/public/' + router.currentRoute.params.token
         else
             route = '/api/browse/search'
 
@@ -179,9 +178,9 @@ const actions = {
             let route = undefined
 
             if (getters.sharedDetail && getters.sharedDetail.protected)
-                route = '/api/navigation/private'
+                route = '/api/browse/navigation/private'
             else if (getters.sharedDetail && !getters.sharedDetail.protected)
-                route = '/api/navigation/public/' + router.currentRoute.params.token
+                route = '/api/browse/navigation/public/' + router.currentRoute.params.token
             else
                 route = '/api/browse/navigation'
 
@@ -234,8 +233,8 @@ const mutations = {
         state.data.find(item => {
             if (item.id === updatedFile.id) {
                 item.name = updatedFile.name
-                item.icon_color = updatedFile.icon_color ? updatedFile.icon_color : null
-                item.icon_emoji = updatedFile.icon_emoji ? updatedFile.icon_emoji : null
+                item.color = updatedFile.color ? updatedFile.color : null
+                item.emoji = updatedFile.emoji ? updatedFile.emoji : null
             }
         })
     },

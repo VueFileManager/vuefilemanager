@@ -81,8 +81,7 @@ const actions = {
             })
 
             axios
-                .post('/api/share/cancel', {
-                    _method: 'post',
+                .post('/api/share/revoke', {
                     tokens: tokens
                 })
                 .then(() => {
@@ -90,7 +89,7 @@ const actions = {
                     items.forEach(item => {
 
                         // Remove item from file browser
-                        if ( getters.currentFolder , getters.currentFolder.location === 'shared' ) {
+                        if ( getters.currentFolder && getters.currentFolder.location === 'shared' ) {
                             commit('REMOVE_ITEM', item.id)
                         }
 
@@ -112,8 +111,8 @@ const actions = {
     getSingleFile: ({commit, state}) => {
 
         let route = state.sharedDetail.protected
-            ? '/api/files/private'
-            : '/api/files/' + router.currentRoute.params.token + '/public'
+            ? '/api/browse/files/private'
+            : '/api/browse/files/' + router.currentRoute.params.token + '/public'
 
         axios.get(route)
             .then(response => {

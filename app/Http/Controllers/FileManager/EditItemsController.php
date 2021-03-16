@@ -47,7 +47,7 @@ class EditItemsController extends Controller
         }
 
         // Check permission to create folder for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        /*if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -57,7 +57,7 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             $this->helper->check_item_access($request->parent_id, $shared);
-        }
+        }*/
 
         // Create new folder
         return $this->filemanager->create_folder($request);
@@ -79,7 +79,7 @@ class EditItemsController extends Controller
         }
 
         // Check permission to rename item for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        /*if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -96,7 +96,7 @@ class EditItemsController extends Controller
             } else {
                 $this->helper->check_item_access($item->folder_id, $shared);
             }
-        }
+        }*/
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && ($request->filled('emoji') || $request->filled('color'))) {
@@ -125,7 +125,7 @@ class EditItemsController extends Controller
         foreach ($request->input('items') as $item) {
 
             // Check permission to delete item for authenticated editor 
-            if ($request->user()->tokenCan('editor')) {
+            /*if ($request->user()->tokenCan('editor')) {
 
                 // Prevent force delete for non-master users
                 if ($item['force_delete']) abort('401');
@@ -145,7 +145,7 @@ class EditItemsController extends Controller
                 } else {
                     $this->helper->check_item_access($item->folder_id, $shared);
                 }
-            }
+            }*/
 
             // Delete item
             $this->filemanager->delete_item($item, $item['id']);
@@ -169,7 +169,7 @@ class EditItemsController extends Controller
         }
 
         // Check permission to upload for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        /*if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -179,7 +179,7 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             $this->helper->check_item_access($request->parent_id, $shared);
-        }
+        }*/
 
         // Return new uploaded file
         return $this->filemanager->upload($request);
@@ -202,7 +202,7 @@ class EditItemsController extends Controller
         $to_id = $request->input('to_id');
 
         // Check permission to upload for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        /*if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -212,7 +212,7 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             $this->helper->check_item_access($to_id, $shared);
-        }
+        }*/
 
         // Move item
         $this->filemanager->move($request, $to_id);
@@ -232,7 +232,7 @@ class EditItemsController extends Controller
         $user_id = Auth::id();
 
         // Check permission to download for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        /*if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -242,7 +242,7 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             $this->helper->check_item_access($id, $shared);
-        }
+        }*/
 
         // Get folder
         $folder = Folder::whereUserId($user_id)
@@ -270,7 +270,7 @@ class EditItemsController extends Controller
     public function zip_multiple_files(Request $request)
     {
         // Check permission to upload for authenticated editor
-        if ($request->user()->tokenCan('editor')) {
+        /*if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
             if (!$request->hasCookie('shared_token')) abort('401');
@@ -286,7 +286,7 @@ class EditItemsController extends Controller
 
             // Check access to requested directory
             $this->helper->check_item_access($file_parent_folders, $shared);
-        }
+        }*/
 
         // Get requested files
         $files = File::whereUserId(Auth::id())

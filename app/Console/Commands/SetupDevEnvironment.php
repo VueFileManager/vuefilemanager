@@ -117,6 +117,14 @@ class SetupDevEnvironment extends Command
                 'user_id'    => $user->id,
                 'user_scope' => 'master',
                 'name'       => 'Shared Folder',
+                'emoji'      => [
+                    "codes"    => "1F680",
+                    "char"     => "\ud83d\ude80",
+                    "name"     => "rocket",
+                    "category" => "Travel & Places (transport-air)",
+                    "group"    => "Travel & Places",
+                    "subgroup" => "transport-air"
+                ],
             ]);
 
         Share::factory(Share::class)
@@ -143,6 +151,14 @@ class SetupDevEnvironment extends Command
                 'user_id'    => $user->id,
                 'user_scope' => 'master',
                 'name'       => 'Random Pics',
+                'emoji'      => [
+                    'codes'    => '1F4F7',
+                    'char'     => '📷',
+                    'name'     => 'camera',
+                    'category' => 'Objects (light & video)',
+                    'group'    => 'Objects',
+                    'subgroup' => 'light & video',
+                ],
             ]);
 
         $nature = Folder::factory(Folder::class)
@@ -151,6 +167,14 @@ class SetupDevEnvironment extends Command
                 'parent_id'  => $random_pics->id,
                 'user_scope' => 'master',
                 'name'       => "Nature",
+                'emoji'      => [
+                    'codes'    => '26F0',
+                    'char'     => '⛰',
+                    'name'     => 'mountain',
+                    'category' => 'Travel & Places (place-geographic)',
+                    'group'    => 'Travel & Places',
+                    'subgroup' => 'place-geographic',
+                ],
             ]);
 
         $apartments = Folder::factory(Folder::class)
@@ -159,6 +183,14 @@ class SetupDevEnvironment extends Command
                 'parent_id'  => $random_pics->id,
                 'user_scope' => 'master',
                 'name'       => "Apartments",
+                'emoji'      => [
+                    'codes'    => '1F3E0',
+                    'char'     => '🏠',
+                    'name'     => 'house',
+                    'category' => 'Travel & Places (place-building)',
+                    'group'    => 'Travel & Places',
+                    'subgroup' => 'place-building',
+                ],
             ]);
 
         // 3.

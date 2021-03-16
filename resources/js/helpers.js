@@ -85,7 +85,7 @@ const Helpers = {
 			// Push items to file queue
 			[...files].map(item => {
 				this.$store.commit('ADD_FILES_TO_QUEUE', {
-					parent_id: store.getters.currentFolder.id,
+					folder_id: store.getters.currentFolder.id,
 					file: item,
 				})
 			});
@@ -106,7 +106,7 @@ const Helpers = {
 			// Push items to file queue
             [...event.dataTransfer.items].map(item => {
 				this.$store.commit('ADD_FILES_TO_QUEUE', {
-					parent_id: parent_id,
+                    folder_id: parent_id,
 					file: item.getAsFile(),
 				})
 			});

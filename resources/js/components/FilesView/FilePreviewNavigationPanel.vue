@@ -48,7 +48,7 @@ export default {
 		showingImageIndex() {
 			let activeIndex = ''
 			this.filteredFiles.filter((element, index) => {
-				if (element.unique_id == this.fileInfoDetail[0].unique_id) {
+				if (element.id === this.fileInfoDetail[0].id) {
 					activeIndex = index + 1
 				}
 			})

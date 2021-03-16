@@ -289,7 +289,7 @@ export default {
         })
 
         // Change item name
-        events.$on('change:name', (item) => {
+        events.$on('change:name', item => {
             if (this.item.id === item.id) this.itemName = item.name
         })
     }
