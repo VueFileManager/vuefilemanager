@@ -79,6 +79,11 @@ class SetupDevEnvironment extends Command
         $this->info('Clearing application cache...');
         $this->clear_cache();
 
+        $this->info('Dispatching jobs...');
+        $this->call('queue:work', [
+            '--stop-when-empty' => true,
+        ]);
+
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
     }
 
