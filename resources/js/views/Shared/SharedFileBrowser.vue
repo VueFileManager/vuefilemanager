@@ -1,6 +1,6 @@
 <template>
     <div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="viewport">
-        <ContentSidebar v-if="navigationTree.length >= 1">
+        <ContentSidebar v-if="navigationTree && navigationTree.length >= 1">
 
             <!--Locations-->
             <ContentGroup :title="$t('sidebar.locations_title')">

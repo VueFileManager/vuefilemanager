@@ -41,7 +41,7 @@ class EditShareItemsController extends Controller
      */
     public function create_folder(CreateFolderRequest $request, Share $shared)
     {
-        if (is_demo($shared->user_id)) {
+        if (is_demo_account($shared->user->email)) {
             return $this->demo->create_folder($request);
         }
 
@@ -70,8 +70,7 @@ class EditShareItemsController extends Controller
      */
     public function rename_item(RenameItemRequest $request, $id, Share $shared)
     {
-        // Demo preview
-        if (is_demo($shared->user_id)) {
+        if (is_demo_account($shared->user->email)) {
             return $this->demo->rename_item($request, $id);
         }
 
@@ -116,8 +115,7 @@ class EditShareItemsController extends Controller
      */
     public function delete_item(DeleteItemRequest $request, Share $shared)
     {
-        // Demo preview
-        if (is_demo($shared->user_id)) {
+        if (is_demo_account($shared->user->email)) {
             return $this->demo->response_with_no_content();
         }
 
@@ -155,8 +153,7 @@ class EditShareItemsController extends Controller
      */
     public function upload(UploadRequest $request, Share $shared)
     {
-        // Demo preview
-        if (is_demo($shared->user_id)) {
+        if (is_demo_account($shared->user->email)) {
             return $this->demo->upload($request);
         }
 
@@ -186,8 +183,7 @@ class EditShareItemsController extends Controller
      */
     public function move(MoveItemRequest $request, Share $shared)
     {
-        // Demo preview
-        if (is_demo(Auth::id())) {
+        if (is_demo_account($shared->user->email)) {
             return $this->demo->response_with_no_content();
         }
 

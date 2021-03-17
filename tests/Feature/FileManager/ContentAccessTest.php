@@ -212,7 +212,7 @@ class ContentAccessTest extends TestCase
         Sanctum::actingAs($users[1]);
 
         $this->get("file/$file->name")
-            ->assertNotFound();
+            ->assertStatus(404);
     }
 
     /**

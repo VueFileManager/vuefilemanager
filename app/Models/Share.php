@@ -21,6 +21,10 @@ class Share extends Model
 
     protected $primaryKey = 'token';
 
+    protected $casts = [
+        'is_protected' => 'boolean'
+    ];
+
     /**
      * Generate share link
      *

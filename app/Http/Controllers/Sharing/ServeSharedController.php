@@ -35,76 +35,63 @@ class ServeSharedController extends Controller
      */
     public function index(Share $shared)
     {
-        if (!$shared) {
-            return response()
-                ->view('index', [
-                    'settings'     => null,
-                    'legal'        => null,
-                    'installation' => null,
-                ], 404);
-        }
-
         // Delete old access_token if exist
         Cookie::queue('shared_access_token', '', -1);
 
         // Set cookies
-        if ((int)$shared->is_protected) {
+        if ($shared->is_protected) {
 
             // Set shared token
             Cookie::queue('shared_token', $shared->token, 43200);
         }
 
         // Check if shared is image file and then show it
-        if ($shared->type === 'file' && !(int)$shared->is_protected) {
+        if ($shared->type === 'file' && !$shared->is_protected) {
 
-            $image = File::where('user_id', $shared->user_id)
-                ->where('type', 'image')
-                ->where('id', $shared->item_id)
-                ->first();
+            $image = File::whereUserId($shared->user_id)
+                ->whereType('image')
+                ->whereId($shared->item_id)
+                ->firstOrFail();
 
-            if ($image) {
+            // Store user download size
+            $shared
+                ->user
+                ->record_download(
+                    (int)$image->getRawOriginal('filesize')
+                );
 
-                // Store user download size
-                User::find($shared->user_id)->record_download((int)$image->getRawOriginal('filesize'));
-
-                return $this->show_image($image);
-            }
+            return $this->show_image($image, $shared->user_id);
         }
 
-        // Get all settings
-        $settings = get_settings_in_json();
 
-        // Return page index
         return view("index")
-            ->with('settings', $settings ?? null);
+            ->with('settings', get_settings_in_json() ?? null);
     }
 
     /**
      * Get image from storage and show it
      *
      * @param $file
+     * @param $user_id
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
-    private function show_image($file)
+    private function show_image($file, $user_id)
     {
         // Format pretty filename
         $file_pretty_name = $file->name . '.' . $file->mimetype;
 
         // Get file path
-        $path = '/files/' . $file->basename;
+        $path = "/files/$user_id/$file->basename";
 
         // Check if file exist
         if (!Storage::exists($path)) abort(404);
 
-        $header = [
+        return Storage::response($path, $file_pretty_name, [
             "Content-Type"   => Storage::mimeType($path),
             "Content-Length" => Storage::size($path),
             "Accept-Ranges"  => "bytes",
             "Content-Range"  => "bytes 0-600/" . Storage::size($path),
-        ];
-
-        // Get file
-        return Storage::response($path, $file_pretty_name, $header);
+        ]);
     }
 
     /**
@@ -167,7 +154,7 @@ class ServeSharedController extends Controller
     public function file_public(Share $shared)
     {
         // Abort if file is protected
-        if ((int)$shared->is_protected) {
+        if ($shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -224,10 +211,10 @@ class ServeSharedController extends Controller
         // Return folder tree
         return [
             [
-                'id' => $shared->item_id,
-                'name'      => __('vuefilemanager.home'),
-                'location'  => 'public',
-                'folders'   => $folders,
+                'id'       => $shared->item_id,
+                'name'     => __('vuefilemanager.home'),
+                'location' => 'public',
+                'folders'  => $folders,
             ]
         ];
     }

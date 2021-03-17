@@ -37,6 +37,11 @@ class AppTest extends TestCase
             'value' => 'setup-done',
         ]);
 
+        Setting::create([
+            'name'  => 'license',
+            'value' => 'Extended',
+        ]);
+
         $this->get('/')
             ->assertStatus(200)
             ->assertSee('setup-done')

@@ -24,6 +24,10 @@ mix.js('resources/js/main.js', 'public/js')
         },
         output: {
             chunkFilename: '[name].js?id=[chunkhash]',
+        },
+        devtool: 'inline-source-map',
+        devServer: {
+            clientLogLevel: 'none'
         }
     })
     /*.options({

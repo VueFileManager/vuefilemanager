@@ -92,6 +92,45 @@ class ShareContentAccessTest extends TestCase
     /**
      * @test
      */
+    public function it_get_shared_image()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        $user = User::factory(User::class)
+            ->create();
+
+        $thumbnail = UploadedFile::fake()
+            ->image(Str::random() . '-fake-image.jpg');
+
+        Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id'   => $user->id,
+                'thumbnail' => $thumbnail->name,
+                'basename'  => $thumbnail->name,
+                'name'      => 'fake-thumbnail.jpg',
+                'type'      => 'image',
+                'mimetype'  => 'jpg',
+            ]);
+
+        $share = Share::factory(Share::class)
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $user->id,
+                'type'         => 'file',
+                'is_protected' => false,
+            ]);
+
+        $this->get("/shared/$share->token")
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
     public function it_download_public_thumbnail()
     {
         Storage::fake('local');

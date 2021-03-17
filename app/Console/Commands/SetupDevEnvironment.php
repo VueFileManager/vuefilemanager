@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Faker;
+use Illuminate\Support\Str;
 
 class SetupDevEnvironment extends Command
 {
@@ -75,6 +76,7 @@ class SetupDevEnvironment extends Command
 
         $this->info('Creating default admin content...');
         $this->create_admin_default_content();
+        $this->create_share_records();
 
         $this->info('Clearing application cache...');
         $this->clear_cache();
@@ -374,20 +376,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user) {
 
+                $basename = Str::random(12) . '-' . $file['basename'];
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/{$file['basename']}"));
+                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => null,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
-                    'basename'   => $file['basename'],
+                    'basename'   => $basename,
                     'type'       => 'file',
                     'user_scope' => 'master',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -416,20 +420,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $documents) {
 
+                $basename = Str::random(12) . '-' . $file['basename'];
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/{$file['basename']}"));
+                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => $documents->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
-                    'basename'   => $file['basename'],
+                    'basename'   => $basename,
                     'type'       => 'file',
                     'user_scope' => 'master',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -448,20 +454,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $shared_folder) {
 
+                $basename = Str::random(12) . '-' . $file['basename'];
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/{$file['basename']}"));
+                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => $shared_folder->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
-                    'basename'   => $file['basename'],
+                    'basename'   => $basename,
                     'type'       => 'file',
                     'user_scope' => 'master',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -505,20 +513,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $peters_files) {
 
+                $basename = Str::random(12) . '-' . $file['basename'];
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/{$file['basename']}"));
+                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => $peters_files->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
-                    'basename'   => $file['basename'],
+                    'basename'   => $basename,
                     'type'       => 'file',
                     'user_scope' => 'editor',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -531,20 +541,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $videohive) {
 
+                $basename = Str::random(12) . '-' . $file;
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/video/$file"), storage_path("app/files/$user->id/$file"));
+                \File::copy(storage_path("demo/video/$file"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => $videohive->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
-                    'basename'   => $file,
+                    'basename'   => $basename,
                     'type'       => 'video',
                     'user_scope' => 'master',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -554,20 +566,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $video) {
 
+                $basename = Str::random(12) . '-' . $file;
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/video/$file"), storage_path("app/files/$user->id/$file"));
+                \File::copy(storage_path("demo/video/$file"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => $video->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
-                    'basename'   => $file,
+                    'basename'   => $basename,
                     'type'       => 'video',
                     'user_scope' => 'master',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -577,20 +591,22 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $audio) {
 
+                $basename = Str::random(12) . '-' . $file;
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/audio/$file"), storage_path("app/files/$user->id/$file"));
+                \File::copy(storage_path("demo/audio/$file"), storage_path("app/files/$user->id/$basename"));
 
                 // Create file record
                 File::create([
                     'folder_id'  => $audio->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
-                    'basename'   => $file,
+                    'basename'   => $basename,
                     'type'       => 'audio',
                     'user_scope' => 'master',
                     'mimetype'   => 'mp3',
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -611,8 +627,10 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $apartments) {
 
+                $basename = Str::random(12) . '-' . $file;
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/images/memes/$file"), storage_path("app/files/$user->id/$file"));
+                \File::copy(storage_path("demo/images/memes/$file"), storage_path("app/files/$user->id/$basename"));
 
                 $this->info("Creating thumbnail for image: $file");
 
@@ -621,13 +639,13 @@ class SetupDevEnvironment extends Command
                     'folder_id'  => null,
                     'user_id'    => $user->id,
                     'name'       => $file,
-                    'basename'   => $file,
+                    'basename'   => $basename,
                     'type'       => 'image',
                     'user_scope' => 'master',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$file", $file, $user->id),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -643,8 +661,10 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $apartments) {
 
+                $basename = Str::random(12) . '-' . $file;
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/images/apartments/$file"), storage_path("app/files/$user->id/$file"));
+                \File::copy(storage_path("demo/images/apartments/$file"), storage_path("app/files/$user->id/$basename"));
 
                 $this->info("Creating thumbnail for image: $file");
 
@@ -653,13 +673,13 @@ class SetupDevEnvironment extends Command
                     'folder_id'  => $apartments->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
-                    'basename'   => $file,
+                    'basename'   => $basename,
                     'type'       => 'image',
                     'user_scope' => 'master',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$file", $file, $user->id),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -679,8 +699,10 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($user, $nature) {
 
+                $basename = Str::random(12) . '-' . $file;
+
                 // Copy file into app storage
-                \File::copy(storage_path("demo/images/nature/$file"), storage_path("app/files/$user->id/$file"));
+                \File::copy(storage_path("demo/images/nature/$file"), storage_path("app/files/$user->id/$basename"));
 
                 $this->info("Creating thumbnail for image: $file");
 
@@ -689,15 +711,55 @@ class SetupDevEnvironment extends Command
                     'folder_id'  => $nature->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
-                    'basename'   => $file,
+                    'basename'   => $basename,
                     'type'       => 'image',
                     'user_scope' => 'master',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$file", $file, $user->id),
-                    'created_at'   => Carbon::now()->subMinutes(rand(1, 5)),
+                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
+                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
                 ]);
             });
+    }
+
+    private function create_share_records(): void
+    {
+        $user = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $images = File::whereType('image')
+            ->whereFolderId(null)
+            ->take(3)
+            ->pluck('id');
+
+        $images->each(function ($id) use ($user) {
+            Share::create([
+                'user_id'      => $user->id,
+                'item_id'      => $id,
+                'type'         => 'file',
+                'is_protected' => false,
+                'permission'   => 'editor',
+                'password'     => null,
+                'expire_in'    => null,
+            ]);
+        });
+
+        $files = File::whereType('file')
+            ->whereFolderId(null)
+            ->take(2)
+            ->pluck('id');
+
+        $files->each(function ($id) use ($user) {
+            Share::create([
+                'user_id'      => $user->id,
+                'item_id'      => $id,
+                'type'         => 'file',
+                'is_protected' => false,
+                'permission'   => 'editor',
+                'password'     => null,
+                'expire_in'    => null,
+            ]);
+        });
     }
 
     /**

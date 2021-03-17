@@ -30,7 +30,7 @@ class BrowseShareController extends Controller
     public function get_public_folders($id, Share $shared)
     {
         // Abort if folder is protected
-        if ((int)$shared->is_protected) {
+        if ($shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -60,7 +60,7 @@ class BrowseShareController extends Controller
     public function search_public(Request $request, Share $shared)
     {
         // Abort if folder is protected
-        if ((int)$shared->is_protected) {
+        if ($shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 

@@ -60,7 +60,7 @@ class FileSharedAccessController extends Controller
     public function get_file_public($filename, Share $shared)
     {
         // Abort if shared is protected
-        if ((int)$shared->is_protected) {
+        if ($shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 
@@ -92,7 +92,7 @@ class FileSharedAccessController extends Controller
     public function get_thumbnail_public($filename, Share $shared)
     {
         // Abort if thumbnail is protected
-        if ((int)$shared->is_protected) {
+        if ($shared->is_protected) {
             abort(403, "Sorry, you don't have permission");
         }
 

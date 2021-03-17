@@ -255,7 +255,7 @@ class ShareTest extends TestCase
                     'type'       => 'shares',
                     'attributes' => [
                         'permission'   => $share->permission,
-                        'is_protected' => '0',
+                        'is_protected' => false,
                         'item_id'      => $share->item_id,
                         'expire_in'    => $share->expire_in,
                         'token'        => $share->token,
@@ -284,7 +284,7 @@ class ShareTest extends TestCase
     {
         $share = Share::factory(Share::class)
             ->create([
-                'type'         => 'file',
+                'type'         => 'folder',
                 'is_protected' => false,
             ]);
 

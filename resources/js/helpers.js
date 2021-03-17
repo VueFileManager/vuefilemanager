@@ -147,7 +147,7 @@ const Helpers = {
 
                 // Set form data
                 formData.set('file', chunk, filename);
-                formData.set('parent_id', item.parent_id)
+                formData.set('folder_id', item.folder_id)
                 formData.set('is_last', isLast);
 
                 // Upload chunks
