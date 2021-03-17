@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
+@import '@assets/vuefilemanager/_variables';
 
 .file-full-preview-wrapper {
 	width: 100%;

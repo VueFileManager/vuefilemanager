@@ -1,8 +1,8 @@
 <template>
-    <nav class="menu-bar" v-if="user">
+    <nav class="menu-bar">
 
         <!--Navigation Icons-->
-        <div class="icon-navigation menu">
+        <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">
                 <UserAvatar />
@@ -114,8 +114,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .menu-bar {
         background: $light_background;

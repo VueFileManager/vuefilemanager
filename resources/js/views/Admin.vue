@@ -1,6 +1,9 @@
 <template>
     <section id="viewport">
 
+        <!--Navigation Sidebar-->
+        <MenuBar />
+
         <ContentSidebar>
 
             <!--Admin-->
@@ -72,6 +75,7 @@
     import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon } from 'vue-feather-icons'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
+    import MenuBar from '@/components/Sidebar/MenuBar'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -80,15 +84,16 @@
             ...mapGetters(['config']),
         },
         components: {
-            MonitorIcon,
-            BoxIcon,
-            DatabaseIcon,
+            ContentSidebar,
             CreditCardIcon,
             FileTextIcon,
-            SettingsIcon,
-            ContentSidebar,
             ContentGroup,
+            DatabaseIcon,
+            SettingsIcon,
+            MonitorIcon,
             UsersIcon,
+            MenuBar,
+            BoxIcon,
         },
     }
 </script>

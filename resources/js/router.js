@@ -367,124 +367,132 @@ const routesAuth = [
 ]
 const routesUser = [
     {
-        name: 'Files',
-        path: '/files',
+        path: '/platform',
+        name: 'Platform',
         component: () =>
-            import(/* webpackChunkName: "chunks/files" */ './views/FilePages/Files'),
-        meta: {
-            requiresAuth: true
-        },
-    },
-    {
-        name: 'SharedFiles',
-        path: '/shared-files',
-        component: () =>
-            import(/* webpackChunkName: "chunks/shared-files" */ './views/FilePages/SharedFiles'),
-        meta: {
-            requiresAuth: true
-        },
-    },
-    {
-        name: 'Settings',
-        path: '/settings',
-        component: () =>
-            import(/* webpackChunkName: "chunks/settings" */ './views/Profile'),
-        meta: {
-            requiresAuth: true
-        },
+            import(/* webpackChunkName: "chunks/platform" */ './views/Platform'),
         children: [
             {
-                name: 'Profile',
-                path: 'profile',
+                name: 'Files',
+                path: '/platform/files',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/profile" */ './views/User/Settings'),
+                    import(/* webpackChunkName: "chunks/files" */ './views/FilePages/Files'),
                 meta: {
-                    requiresAuth: true,
-                    title: i18n.t('routes_title.profile')
+                    requiresAuth: true
                 },
             },
             {
-                name: 'Password',
-                path: '/settings/password',
+                name: 'SharedFiles',
+                path: '/platform/shared-files',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/settings-password" */ './views/User/Password'),
+                    import(/* webpackChunkName: "chunks/shared-files" */ './views/FilePages/SharedFiles'),
                 meta: {
-                    requiresAuth: true,
-                    title: i18n.t('routes_title.settings_password')
+                    requiresAuth: true
                 },
             },
             {
-                name: 'Storage',
-                path: '/settings/storage',
+                name: 'Settings',
+                path: '/platform/settings',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/settings-storage" */ './views/User/Storage'),
+                    import(/* webpackChunkName: "chunks/settings" */ './views/Profile'),
+                meta: {
+                    requiresAuth: true
+                },
+                children: [
+                    {
+                        name: 'Profile',
+                        path: '/platform/profile',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/profile" */ './views/User/Settings'),
+                        meta: {
+                            requiresAuth: true,
+                            title: i18n.t('routes_title.profile')
+                        },
+                    },
+                    {
+                        name: 'Password',
+                        path: '/platform/settings/password',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-password" */ './views/User/Password'),
+                        meta: {
+                            requiresAuth: true,
+                            title: i18n.t('routes_title.settings_password')
+                        },
+                    },
+                    {
+                        name: 'Storage',
+                        path: '/platform/settings/storage',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-storage" */ './views/User/Storage'),
+                        meta: {
+                            requiresAuth: true,
+                            title: i18n.t('routes_title.settings_storage')
+                        },
+                    },
+                    {
+                        name: 'Invoice',
+                        path: '/platform/settings/invoices',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-invoices" */ './views/User/Invoices'),
+                        meta: {
+                            requiresAuth: true,
+                            title: i18n.t('routes_title.invoices')
+                        },
+                    },
+                    {
+                        name: 'Subscription',
+                        path: '/platform/settings/subscription',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-subscription" */ './views/User/Subscription'),
+                        meta: {
+                            requiresAuth: true,
+                            title: i18n.t('routes_title.subscription')
+                        },
+                    },
+                    {
+                        name: 'PaymentMethods',
+                        path: '/platform/settings/payment-methods',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-payment-methods" */ './views/User/PaymentMethods'),
+                        meta: {
+                            requiresAuth: true,
+                            title: i18n.t('routes_title.payment_methods')
+                        },
+                    },
+                    {
+                        name: 'CreatePaymentMethod',
+                        path: '/platform/settings/create-payment-method',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-create-payment-methods" */ './views/User/CreatePaymentMethod'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Create Payment Method'
+                        },
+                    },
+                ]
+            },
+            {
+                name: 'UpgradePlan',
+                path: '/platform/upgrade/plan',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/upgrade-plan" */ './views/Upgrade/UpgradePlan'),
                 meta: {
                     requiresAuth: true,
-                    title: i18n.t('routes_title.settings_storage')
+                    title: i18n.t('routes_title.upgrade_plan')
                 },
             },
             {
-                name: 'Invoice',
-                path: '/settings/invoices',
+                name: 'UpgradeBilling',
+                path: '/platform/upgrade/billing',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/settings-invoices" */ './views/User/Invoices'),
+                    import(/* webpackChunkName: "chunks/upgrade-billing" */ './views/Upgrade/UpgradeBilling'),
                 meta: {
                     requiresAuth: true,
-                    title: i18n.t('routes_title.invoices')
-                },
-            },
-            {
-                name: 'Subscription',
-                path: '/settings/subscription',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/settings-subscription" */ './views/User/Subscription'),
-                meta: {
-                    requiresAuth: true,
-                    title: i18n.t('routes_title.subscription')
-                },
-            },
-            {
-                name: 'PaymentMethods',
-                path: '/settings/payment-methods',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/settings-payment-methods" */ './views/User/PaymentMethods'),
-                meta: {
-                    requiresAuth: true,
-                    title: i18n.t('routes_title.payment_methods')
-                },
-            },
-            {
-                name: 'CreatePaymentMethod',
-                path: '/settings/create-payment-method',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/settings-create-payment-methods" */ './views/User/CreatePaymentMethod'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'Create Payment Method'
+                    title: i18n.t('routes_title.upgrade_billing')
                 },
             },
         ]
-    },
-    {
-        name: 'UpgradePlan',
-        path: '/upgrade/plan',
-        component: () =>
-            import(/* webpackChunkName: "chunks/upgrade-plan" */ './views/Upgrade/UpgradePlan'),
-        meta: {
-            requiresAuth: true,
-            title: i18n.t('routes_title.upgrade_plan')
-        },
-    },
-    {
-        name: 'UpgradeBilling',
-        path: '/upgrade/billing',
-        component: () =>
-            import(/* webpackChunkName: "chunks/upgrade-billing" */ './views/Upgrade/UpgradeBilling'),
-        meta: {
-            requiresAuth: true,
-            title: i18n.t('routes_title.upgrade_billing')
-        },
-    },
+    }
 ]
 const routesMaintenance = [
     {

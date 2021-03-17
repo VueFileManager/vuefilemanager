@@ -110,9 +110,9 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_auth-form';
-    @import '@assets/vue-file-manager/_auth';
-    @import '@assets/vue-file-manager/_setup_wizard';
+    @import '@assets/vuefilemanager/_auth-form';
+    @import '@assets/vuefilemanager/_auth';
+    @import '@assets/vuefilemanager/_setup_wizard';
 
     .additional-link {
 

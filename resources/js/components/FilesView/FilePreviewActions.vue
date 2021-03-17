@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
+@import '@assets/vuefilemanager/_variables';
 .prev,
 .next {
 	cursor: pointer;

@@ -207,8 +207,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vue-file-manager/_inapp-forms.scss";
-@import '@assets/vue-file-manager/_forms';
+@import "@assets/vuefilemanager/_inapp-forms.scss";
+@import '@assets/vuefilemanager/_forms';
 
 .select-emoji-wrapper {
     margin-bottom: 20px;
