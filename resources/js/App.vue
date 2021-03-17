@@ -4,7 +4,7 @@
         <!--System alerts-->
         <Alert/>
 
-        <div id="application-wrapper" v-if="! isGuestLayout">
+        <div id="application-wrapper" v-if="config.isAuthenticated">
 
             <!-- Full File Preview -->
             <FileFullPreview/>
@@ -153,7 +153,6 @@ export default {
 
         // Store config to vuex
         this.$store.commit('INIT', {
-            authCookie: this.$root.$data.config.hasAuthCookie,
             config: this.$root.$data.config,
             rootDirectory: {
                 name: this.$t('locations.home'),

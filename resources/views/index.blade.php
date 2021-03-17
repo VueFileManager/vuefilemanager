@@ -58,10 +58,9 @@
             uploadLimitFormatted: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
             chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
 
-            hasAuthCookie: {{ Cookie::has('token') ? 1 : 0 }},
             isAuthenticated: {{ auth()->check() ? 1 : 0 }},
-            isSaaS: {{ isset($settings->license) && $settings->license === 'Extended' ? 1 : 0 }},
-            isDemo: {{ env('APP_DEMO') ? 1 : 0 }},
+            isSaaS: {{ $settings->license === 'Extended' ? 1 : 0 }},
+            isDemo: {{ config('vuefilemanager.is_demo') ? 1 : 0 }},
 
             legal: {!! $legal ?? 'undefined' !!},
 

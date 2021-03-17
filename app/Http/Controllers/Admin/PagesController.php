@@ -51,7 +51,7 @@ class PagesController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return $this->demo->response_with_no_content();
         }
 

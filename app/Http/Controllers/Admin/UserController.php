@@ -114,7 +114,7 @@ class UserController extends Controller
     public function change_role(ChangeRoleRequest $request, User $user)
     {
         // Demo preview
-        if (env('APP_DEMO') && $user->email === 'howdy@hi5ve.digial') {
+        if (is_demo_account('howdy@hi5ve.digial')) {
             return new UserResource($user);
         }
 
@@ -156,7 +156,7 @@ class UserController extends Controller
     public function reset_password(User $user)
     {
         // Demo preview
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return response('Done!', 204);
         }
 
@@ -210,7 +210,7 @@ class UserController extends Controller
      */
     public function delete_user(DeleteUserRequest $request, User $user)
     {
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return response('Done!', 204);
         }
 

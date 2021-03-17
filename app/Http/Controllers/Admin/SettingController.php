@@ -49,7 +49,7 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return $this->demo->response_with_no_content();
         }
 
@@ -84,7 +84,7 @@ class SettingController extends Controller
     public function set_email(Request $request)
     {
         // TODO: pridat validator do requestu
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return $this->demo->response_with_no_content();
         }
 
@@ -178,7 +178,7 @@ class SettingController extends Controller
      */
     public function flush_cache()
     {
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return $this->demo->response_with_no_content();
         }
 

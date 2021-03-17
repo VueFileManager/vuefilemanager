@@ -5,7 +5,6 @@ const defaultState = {
     FilePreviewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
     index: undefined,
-    authorized: undefined,
     homeDirectory: undefined,
     requestedPlan: undefined,
     emojis: undefined,
@@ -1002,7 +1001,6 @@ const mutations = {
     },
     INIT(state, data) {
         state.config = data.config
-        state.authorized = data.authCookie
         state.homeDirectory = data.rootDirectory
     },
     SET_SAAS(state, data) {
@@ -1016,8 +1014,8 @@ const mutations = {
 
         localStorage.setItem('file_info_visibility', isVisible)
     },
-    SET_AUTHORIZED(state, data) {
-        state.authorized = data
+    SET_AUTHORIZED(state, value) {
+        state.config.isAuthenticated = value
     },
     SET_INDEX_CONTENT(state, data) {
         state.index = data

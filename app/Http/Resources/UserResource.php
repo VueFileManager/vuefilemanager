@@ -28,7 +28,7 @@ class UserResource extends JsonResource
                     'subscription'         => $this->subscribed('main'),
                     'incomplete_payment'   => $this->hasIncompletePayment('main') ? route('cashier.payment', $this->subscription('main')->latestPayment()->id) : null,
                     'stripe_customer'      => is_null($this->stripe_id) ? false : true,
-                    'email'                => env('APP_DEMO') ? obfuscate_email($this->email) : $this->email,
+                    'email'                => is_demo() ? obfuscate_email($this->email) : $this->email,
                     'role'                 => $this->role,
                     'folders'              => $this->folder_tree,
                     'storage'              => $this->storage,

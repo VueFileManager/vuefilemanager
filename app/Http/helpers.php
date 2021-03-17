@@ -202,11 +202,22 @@ function get_version()
 /**
  * Check if is demo
  *
+ * @return boolean
+ */
+function is_demo()
+{
+    return config('vuefilemanager.is_demo');
+}
+
+/**
+ * Check if is demo
+ *
+ * @param $email
  * @return mixed
  */
-function is_demo($user_id)
+function is_demo_account($email)
 {
-    return env('APP_DEMO', false) && $user_id === 1;
+    return config('vuefilemanager.is_demo') && $email === 'howdy@hi5ve.digital';
 }
 
 /**

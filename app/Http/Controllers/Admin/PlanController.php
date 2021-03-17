@@ -78,7 +78,7 @@ class PlanController extends Controller
     public function store(Request $request)
     {
         // TODO: inline request
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
 
             if (Cache::has('plan-starter-pack')) {
                 $plan = Cache::get('plan-starter-pack');
@@ -110,7 +110,7 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return $this->demo->response_with_no_content();
         }
 
@@ -131,7 +131,7 @@ class PlanController extends Controller
      */
     public function delete($id)
     {
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return $this->demo->response_with_no_content();
         }
 
