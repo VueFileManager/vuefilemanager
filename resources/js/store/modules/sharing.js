@@ -66,7 +66,7 @@ const actions = {
                 })
         })
     },
-    shareCancel: ({commit, getters} , singleItem) => {
+    shareCancel: ({commit, getters}, singleItem) => {
         return new Promise((resolve, reject) => {
 
             let tokens = []
@@ -119,6 +119,26 @@ const actions = {
             .then(response => {
                 commit('STORE_SHARED_FILE', response.data)
             })
+    },
+    getShareDetail: ({commit, state}, token) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`/api/browse/shared/${token}`)
+                .then(response => {
+                    resolve(response)
+
+                    // Commit shared item options
+                    commit('SET_SHARED_DETAIL', response.data.data.attributes)
+                    commit('SET_PERMISSION', response.data.data.attributes.permission)
+                })
+                .catch(error => {
+                    reject(error)
+
+                    if (error.response.status == 404) {
+                        router.push({name: 'NotFound'})
+                    }
+                })
+        })
     },
 }
 const mutations = {

@@ -5,7 +5,6 @@ import store from './store/index'
 
 import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
 import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
-import {mapGetters} from "vuex";
 
 Vue.use(Router)
 
@@ -309,22 +308,42 @@ const routesAdmin = [
 ]
 const routesShared = [
     {
-        name: 'SharedPage',
+        name: 'Shared',
         path: '/shared/:token',
         component: () =>
-            import(/* webpackChunkName: "chunks/shared-page" */ './views/Shared/SharedPage'),
+            import(/* webpackChunkName: "chunks/shared" */ './views/Shared'),
         meta: {
             requiresAuth: false
         },
-    },
-    {
-        name: 'NotFoundShared',
-        path: '/shared-not-found',
-        component: () =>
-            import(/* webpackChunkName: "chunks/not-found-shared" */ './views/Shared/NotFoundShared'),
-        meta: {
-            requiresAuth: false
-        },
+        children: [
+            {
+                name: 'SharedFileBrowser',
+                path: '/shared/:token/files',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/shared/file-browser" */ './views/Shared/SharedFileBrowser'),
+                meta: {
+                    requiresAuth: false
+                },
+            },
+            {
+                name: 'SharedSingleFile',
+                path: '/shared/:token/file',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/shared/single-file" */ './views/Shared/SharedSingleFile'),
+                meta: {
+                    requiresAuth: false
+                },
+            },
+            {
+                name: 'SharedAuthentication',
+                path: '/shared/:token/authenticate',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/shared/authenticate" */ './views/Shared/SharedAuthentication'),
+                meta: {
+                    requiresAuth: false
+                },
+            },
+        ]
     },
 ]
 const routesAuth = [
@@ -621,6 +640,15 @@ const routesIndex = [
         path: '/contact-us',
         component: () =>
             import(/* webpackChunkName: "chunks/contact-us" */ './views/Frontpage/ContactUs'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
+        name: 'NotFound',
+        path: '/not-found',
+        component: () =>
+            import(/* webpackChunkName: "chunks/not-found-shared" */ './views/NotFound'),
         meta: {
             requiresAuth: false
         },

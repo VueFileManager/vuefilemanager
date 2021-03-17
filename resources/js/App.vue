@@ -1,5 +1,5 @@
 <template>
-    <div id="vuefilemanager" v-cloak @click="unClick">
+    <div id="vuefilemanager" @click="unClick" v-cloak>
         <Alert />
 
         <router-view />

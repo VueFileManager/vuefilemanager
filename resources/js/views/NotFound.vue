@@ -28,7 +28,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'NotFoundShared',
+        name: 'NotFound',
         components: {
             AuthContentWrapper,
             ValidationProvider,
