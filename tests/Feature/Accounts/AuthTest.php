@@ -113,8 +113,6 @@ class AuthTest extends TestCase
             'email'    => $user->email,
             'password' => 'secret',
         ])->assertStatus(200);
-
-        dd($user->tokenCan('test'));
     }
 
     /**

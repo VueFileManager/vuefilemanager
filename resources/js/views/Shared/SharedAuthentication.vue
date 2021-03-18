@@ -59,12 +59,11 @@
 
                 // Send request to get verify account
                 axios
-                    .post('/api/browse/shared/authenticate/' + this.$route.params.token, {
+                    .post('/api/browse/authenticate/' + this.$route.params.token, {
                         password: this.password
                     }).then(() => {
 
                         // todo: Redirect to file browser page
-
                     })
                     .catch(error => {
 

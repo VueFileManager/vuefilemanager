@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use Storage;
 use Tests\TestCase;
 
-class ShareContentAccessTest extends TestCase
+class PublicShareContentAccessTest extends TestCase
 {
     use DatabaseMigrations;
 

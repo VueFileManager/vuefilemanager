@@ -113,13 +113,18 @@ class ShareEditorTest extends TestCase
      */
     public function editor_create_new_folder_in_shared_folder()
     {
-        $folder = Folder::factory(Folder::class)
+        $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $share = Share::factory(Share::class)
             ->create([
                 'item_id'      => $folder->id,
-                'user_id'      => $folder->user_id,
+                'user_id'      => $user->id,
                 'type'         => 'folder',
                 'is_protected' => false,
                 'permission'   => 'editor',
@@ -146,13 +151,18 @@ class ShareEditorTest extends TestCase
      */
     public function editor_delete_multiple_files_in_shared_folder()
     {
-        $folder = Folder::factory(Folder::class)
+        $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $share = Share::factory(Share::class)
             ->create([
                 'item_id'      => $folder->id,
-                'user_id'      => $folder->user_id,
+                'user_id'      => $user->id,
                 'type'         => 'folder',
                 'is_protected' => false,
                 'permission'   => 'editor',

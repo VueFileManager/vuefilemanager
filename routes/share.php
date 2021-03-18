@@ -27,7 +27,7 @@ Route::group(['prefix' => 'browse'], function () {
     Route::get('/folders/{id}/public/{shared}', [BrowseShareController::class, 'get_public_folders']);
     Route::get('/search/public/{shared}', [BrowseShareController::class, 'search_public']);
 
-    Route::post('/shared/authenticate/{shared}', [ServeSharedController::class, 'authenticate']);
+    Route::post('/authenticate/{shared}', [ServeSharedController::class, 'authenticate']);
     Route::get('/files/{shared}/public', [ServeSharedController::class, 'file_public']);
     Route::get('/shared/{shared}', [ShareController::class, 'show']);
 });

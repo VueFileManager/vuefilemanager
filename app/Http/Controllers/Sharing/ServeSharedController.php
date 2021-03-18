@@ -35,14 +35,9 @@ class ServeSharedController extends Controller
      */
     public function index(Share $shared)
     {
-        // Delete old access_token if exist
-        Cookie::queue('shared_access_token', '', -1);
-
-        // Set cookies
+        // Delete share_session if exist
         if ($shared->is_protected) {
-
-            // Set shared token
-            Cookie::queue('shared_token', $shared->token, 43200);
+            cookie()->queue('share_session', '', -1);
         }
 
         // Check if shared is image file and then show it
@@ -63,9 +58,30 @@ class ServeSharedController extends Controller
             return $this->show_image($image, $shared->user_id);
         }
 
-
         return view("index")
             ->with('settings', get_settings_in_json() ?? null);
+    }
+
+    /**
+     * Check Password for protected item
+     *
+     * @param AuthenticateShareRequest $request
+     * @param Share $shared
+     * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function authenticate(AuthenticateShareRequest $request, Share $shared)
+    {
+        // Check password
+        if (!Hash::check($request->password, $shared->password)) {
+            abort(401, __('vuefilemanager.incorrect_password'));
+        }
+
+        // Return authorize token with shared options
+        return response(new ShareResource($shared), 200)
+            ->cookie('share_session', json_encode([
+                'token' => $shared->token,
+                'authenticated' => true,
+            ]), 43200);
     }
 
     /**
@@ -95,57 +111,6 @@ class ServeSharedController extends Controller
     }
 
     /**
-     * Check Password for protected item
-     *
-     * @param AuthenticateShareRequest $request
-     * @param Share $shared
-     * @return array
-     */
-    public function authenticate(AuthenticateShareRequest $request, Share $shared)
-    {
-        // Check password
-        if (!Hash::check($request->password, $shared->password)) {
-
-            abort(401, __('vuefilemanager.incorrect_password'));
-        }
-
-        // Get owner of shared content
-        $user = User::find($shared->user_id);
-
-        // Define scope
-        $scope = !is_null($shared->permission) ? $shared->permission : 'visitor';
-
-        // Generate token for visitor/editor
-        $access_token = $user->createToken('shared_access_token', [$scope])->accessToken;
-
-        // Return authorize token with shared options
-        return response(new ShareResource($shared), 200)
-            ->cookie('shared_token', $shared->token, 43200)
-            ->cookie('shared_access_token', $access_token, 43200);
-    }
-
-    /**
-     * Browse private folders
-     *
-     * @param Request $request
-     * @param $id
-     * @return Collection
-     */
-    public function get_private_folders(Request $request, $id)
-    {
-        // Get sharing record
-        $shared = Share::where('token', $request->cookie('shared_token'))->firstOrFail();
-
-        // Check if user can get directory
-        $this->helper->check_item_access($id, $shared);
-
-        // Collect folders and files to single array
-        return collect(
-            $this->helper->get_items_under_shared_by_folder_id($id, $shared)
-        )->collapse();
-    }
-
-    /**
      * Get shared public file record
      *
      * @param Share $shared
@@ -168,98 +133,5 @@ class ServeSharedController extends Controller
 
         // Return record
         return $file;
-    }
-
-    /**
-     * Get shared private file record
-     *
-     * @return mixed
-     */
-    public function file_private(Request $request)
-    {
-        // Get sharing record
-        $shared = Share::where('token', $request->cookie('shared_token'))
-            ->firstOrFail();
-
-        // Return record
-        return File::where('user_id', $shared->user_id)
-            ->where('id', $shared->item_id)
-            ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
-    }
-
-    /**
-     * Get navigation tree
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function get_private_navigation_tree(Request $request)
-    {
-        // Get sharing record
-        $shared = get_shared($request->cookie('shared_token'));
-
-        // Check if user can get directory
-        $this->helper->check_item_access($shared->item_id, $shared);
-
-        // Get folders
-        $folders = Folder::with('folders:id,parent_id,id,name')
-            ->where('parent_id', $shared->item_id)
-            ->where('user_id', $shared->user_id)
-            ->sortable()
-            ->get(['id', 'parent_id', 'id', 'name']);
-
-        // Return folder tree
-        return [
-            [
-                'id'       => $shared->item_id,
-                'name'     => __('vuefilemanager.home'),
-                'location' => 'public',
-                'folders'  => $folders,
-            ]
-        ];
-    }
-
-    /**
-     * Search private files
-     *
-     * @param Request $request
-     * @param $token
-     * @return Collection
-     */
-    public function search_private(Request $request)
-    {
-        // Get shared
-        $shared = get_shared($request->cookie('shared_token'));
-
-        // Search files id db
-        $searched_files = File::search($request->input('query'))
-            ->where('user_id', $shared->user_id)
-            ->get();
-
-        $searched_folders = Folder::search($request->input('query'))
-            ->where('user_id', $shared->user_id)
-            ->get();
-
-        // Get all children content
-        $foldersIds = Folder::with('folders:id,parent_id,id,name')
-            ->where('user_id', $shared->user_id)
-            ->where('parent_id', $shared->item_id)
-            ->get();
-
-        // Get accessible folders
-        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
-
-        // Filter files to only accessible files
-        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids) {
-            return in_array($file->folder_id, $accessible_folder_ids);
-        });
-
-        // Filter folders to only accessible folders
-        $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
-            return in_array($folder->id, $accessible_folder_ids);
-        });
-
-        // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
     }
 }

@@ -477,10 +477,8 @@ class SubscriptionTest extends TestCase
      */
     public function it_get_all_plans_for_index_page()
     {
-        $response = $this->getJson('/api/pricing')
+        $this->getJson('/api/pricing')
             ->assertStatus(200);
-
-        dd(json_decode($response->content(), true));
     }
 
     /**
