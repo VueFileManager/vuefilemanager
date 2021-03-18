@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Language;
+namespace App\Http\Controllers\Admin;
 
 use App\Setting;
 use App\Language;

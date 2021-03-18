@@ -19,7 +19,8 @@
             </div>
         </div>
 
-        <div class="form block-form">
+        <Spinner v-if="!loadedStrings"/>
+        <div v-if="loadedStrings" class="form block-form">
             <FormLabel class="mt-70" icon="settings">Language Settings</FormLabel>
             <div class="block-wrapper">
                 <div class="input-wrapper">
@@ -53,8 +54,8 @@
 
             <FormLabel class="mt-70">Language Strings</FormLabel>
             <div class="block-wrapper">
-                <Spinner v-if="!loadedStrings"/>
-                <div v-if="loadedStrings" >
+                <Spinner v-if="!loadSearch"/>
+                <div v-if="loadSearch">
                     <div  class="block-wrapper" v-for="(string,index) in filteredStrings" :key="index">
                         <label> {{string.value}}:</label>
                         <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
@@ -85,7 +86,7 @@ import lodash from 'lodash'
 
 export default {
     name: 'LanguageStrings',
-    props: [ 'languageStrings' ],
+    props: [ 'languageStrings', 'loadedStrings'],
     components: {
         ValidationProvider, 
         ValidationObserver,
@@ -98,17 +99,23 @@ export default {
     computed: {
         languageSettingHandle() {
             return this.language.locale == this.languageSetting ? true : false
-        }
+        },
     },
     data () {
         return {
             defaultStrings: [],
             filteredStrings: [],
-            loadedStrings: false,
+            loadSearch: false,
             strings: undefined,
             language: undefined,
             searchInput: '',
             languageSetting: undefined
+        }
+    },
+    watch: {
+        loadedStrings () {
+            if(this.loadedStrings)
+                this.loadData()
         }
     },
     methods: {
@@ -148,7 +155,7 @@ export default {
         },
         searchStrings() {
 
-            this.loadedStrings = false
+            this.loadSearch = false
 
             this.filteredStrings = []
 
@@ -159,35 +166,35 @@ export default {
 
             this.filteredStrings = this.defaultStrings.filter(string => string.value.toLowerCase().includes( this.searchInput.toLowerCase() ))
 
-            this.loadedStrings = true
+            this.loadSearch = true
 
-        }, 200)
-    },
-    mounted () {
+        }, 200),
+        loadData() {
 
-        if(this.languageStrings.translated_strings) {
+            if(this.languageStrings.translated_strings) {
 
-            this.strings = this.languageStrings.translated_strings.language_strings
+                this.strings = this.languageStrings.translated_strings.language_strings
 
-            // Make from JSON object array of objects
-            for (const [key, value] of Object.entries(this.languageStrings.default_strings)) {
-                this.defaultStrings.push({
-                    'key': key,
-                    'value': value,
-                })
+                // Make from JSON object array of objects
+                for (const [key, value] of Object.entries(this.languageStrings.default_strings)) {
+                    this.defaultStrings.push({
+                        'key': key,
+                        'value': value,
+                    })
+                }
+
+                this.language = {
+                    'id': this.languageStrings.translated_strings.id,
+                    'name': this.languageStrings.translated_strings.name,
+                    'locale': this.languageStrings.translated_strings.locale,
+                }
+
+                this.languageSetting = this.languageStrings.language_setting
+
+                this.filterStrings()
             }
-
-            this.language = {
-                'id': this.languageStrings.translated_strings.id,
-                'name': this.languageStrings.translated_strings.name,
-                'locale': this.languageStrings.translated_strings.locale,
-            }
-
-            this.languageSetting = this.languageStrings.language_setting
-
-            this.filterStrings()
         }
-    }
+    },
 }
 </script>
 
@@ -206,7 +213,7 @@ export default {
 }
 
 .language-strings-wrapper {
-    width: 700px;
+    width: 100%;
     height: 100%;
     margin: 0 auto;
     display: flex;

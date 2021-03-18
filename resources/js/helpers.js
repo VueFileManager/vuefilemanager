@@ -27,7 +27,7 @@ const Helpers = {
            
             // return new Promise((resolve, reject) => {
                 let locale = language ? language : this.$store.getters.config.language
-                axios.get(`/api/languages/${locale}/strings_i18n`)
+                axios.get(`/api/language/${locale}`)
                     .then((response) => {
             
                         let lang = response.data.language_strings

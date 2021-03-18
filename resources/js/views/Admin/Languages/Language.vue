@@ -27,8 +27,8 @@
                     </MobileActionButton>
                 </div>
 
-                <Spinner v-if="! loadedStrings"/>
-                <LanguageStrings v-if="loadedStrings" :language-strings="languagesStrings" />
+                <!-- <Spinner v-if="! loadedStrings"/> -->
+                <LanguageStrings :loaded-strings="loadedStrings" :language-strings="languagesStrings" />
             </div>
         </div>
     </div>

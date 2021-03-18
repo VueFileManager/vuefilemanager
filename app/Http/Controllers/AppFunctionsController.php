@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Content;
-use App\FileManagerFile;
-use App\FileManagerFolder;
-use App\Http\Requests\PublicPages\SendMessageRequest;
-use App\Http\Resources\PageResource;
-use App\Http\Tools\Demo;
-use App\Mail\SendSupportForm;
-use App\Page;
-use App\Setting;
-use App\User;
-use Artisan;
-use Doctrine\DBAL\Driver\PDOException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Schema;
+use Artisan;
+use App\Page;
+use App\User;
+use App\Content;
+use App\Setting;
+use App\Language;
+use App\FileManagerFile;
+use App\Http\Tools\Demo;
+use App\FileManagerFolder;
+use Illuminate\Http\Request;
+use App\Mail\SendSupportForm;
+use App\Http\Resources\PageResource;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
+use Doctrine\DBAL\Driver\PDOException;
+use App\Http\Requests\PublicPages\SendMessageRequest;
 
 class AppFunctionsController extends Controller
 {
@@ -258,4 +260,27 @@ class AppFunctionsController extends Controller
 
         return collect([$emojisList]);
     }
+
+    /**
+     * Get translation for app
+     * 
+     * @return string
+     */
+    
+    public function get_translate($lang)
+    {
+        $lang = Language::whereLocale($lang);
+        
+        if (Cache::has('language_strings')) {
+            return Cache::get('language_strings');
+        }
+
+        return Cache::rememberForever('language_strings', function () use ($lang) {
+            return $lang->with('languageStrings')->first();
+        });
+        
+        // return $lang->with('languageStrings')->first();
+
+    }
+
 }
