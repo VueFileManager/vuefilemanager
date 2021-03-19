@@ -5,6 +5,7 @@ namespace App;
 use App\LanguageString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
@@ -29,7 +30,13 @@ class Language extends Model
         });
 
         static::deleting(function ($language) {
-            $language->languageStrings()->delete();
+            DB::table('language_strings')
+                ->where('lang', $language->locale)
+                ->delete();
+        });
+
+        static::updated(function() {
+            Cache::forget('language_strings');
         });
 
         static::created(function ($language) {
@@ -48,7 +55,8 @@ class Language extends Model
     
             })->toArray();
     
-            DB::table('language_strings')->insert($strings);
+            DB::table('language_strings')
+                ->insert($strings);
 
         });
     }

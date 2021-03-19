@@ -5,6 +5,8 @@ use App\FileManagerFolder;
 use App\User;
 use App\Setting;
 use App\Share;
+use App\Language;
+use App\LanguageString;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -801,4 +803,30 @@ function set_time_by_user_timezone($time)
 
     return Carbon::parse($time);
     
+}
+
+function _t($key)
+{
+    if (Cache::has('language_strings')) {
+        
+        //Check if cash has string 
+        $strings = Cache::get('language_strings')
+                    ->languageStrings
+                    ->toArray();
+
+        // Find the string by key
+        foreach($strings as $string) {
+            if($string['key'] === $key) {
+               return $string['value'];
+            }
+        }
+    }
+
+    $language = Language::whereLocale(get_setting('language'))
+                    ->first();
+
+    // If cash dont have string return string from database
+    return LanguageString::whereLangAndKey($language->locale, $key)
+            ->first()
+            ->value;
 }

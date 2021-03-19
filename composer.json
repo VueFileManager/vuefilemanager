@@ -34,8 +34,7 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^8.5",
-        "supliu/laravel-query-monitor": "^1.0"
+        "phpunit/phpunit": "^8.5"
     },
     "config": {
         "optimize-autoloader": true,
