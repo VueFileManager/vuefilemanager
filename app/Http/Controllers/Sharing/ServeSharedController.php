@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sharing;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Share\AuthenticateShareRequest;
+use App\Http\Resources\FileResource;
 use App\Http\Resources\ShareResource;
 use App\Models\Share;
 use App\Models\Setting;
@@ -118,20 +119,17 @@ class ServeSharedController extends Controller
      */
     public function file_public(Share $shared)
     {
-        // Abort if file is protected
-        if ($shared->is_protected) {
-            abort(403, "Sorry, you don't have permission");
-        }
+        // Check ability to access protected share files
+        $this->helper->check_protected_share_record($shared);
 
         // Get file
         $file = File::where('user_id', $shared->user_id)
             ->where('id', $shared->item_id)
-            ->firstOrFail(['name', 'basename', 'thumbnail', 'type', 'filesize', 'mimetype']);
+            ->firstOrFail();
 
-        // Set urls
+        // Set access urls
         $file->setPublicUrl($shared->token);
 
-        // Return record
-        return $file;
+        return response(new FileResource($file), 200);
     }
 }

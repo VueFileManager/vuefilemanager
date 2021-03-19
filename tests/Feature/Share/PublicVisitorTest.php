@@ -15,7 +15,7 @@ use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
 
-class ShareEditorTest extends TestCase
+class PrivateVisitorTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -775,7 +775,7 @@ class ShareEditorTest extends TestCase
             ]);
 
 
-        $this->getJson("/api/browse/files/$share->token/public")
+        $this->getJson("/api/browse/file/$share->token/public")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name' => 'Document'

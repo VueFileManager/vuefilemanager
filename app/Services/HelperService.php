@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Share;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -290,5 +292,35 @@ class HelperService
             ->get();
 
         return [$folders, $files];
+    }
+
+    /**
+     * @param Share $shared
+     */
+    function check_protected_share_record(Share $shared): void
+    {
+        if ($shared->is_protected) {
+
+            $abort_message = "Sorry, you don't have permission";
+
+            if (!request()->hasCookie('share_session')) {
+                abort(403, $abort_message);
+            }
+
+            // Get shared session
+            $share_session = json_decode(
+                request()->cookie('share_session')
+            );
+
+            // Check if is requested same share record
+            if ($share_session->token !== $shared->token) {
+                abort(403, $abort_message);
+            }
+
+            // Check if share record was authenticated previously via ServeSharedController@authenticate
+            if (!$share_session->authenticated) {
+                abort(403, $abort_message);
+            }
+        }
     }
 }

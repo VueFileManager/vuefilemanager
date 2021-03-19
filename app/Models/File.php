@@ -94,9 +94,9 @@ class File extends Model
     public function getThumbnailAttribute()
     {
         // Get thumbnail from external storage
-        if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
+        if ($this->attributes['thumbnail'] && ! is_storage_driver(['local'])) {
 
-            return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addHour());
+            return Storage::temporaryUrl('files/' . $this->attributes['thumbnail'], now()->addHour());
         }
 
         // Get thumbnail from local storage
@@ -106,7 +106,7 @@ class File extends Model
             $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
 
             if ($this->public_access) {
-                return $route . '/public/' . $this->public_access;
+                return "$route/$this->public_access";
             }
 
             return $route;
@@ -123,7 +123,7 @@ class File extends Model
     public function getFileUrlAttribute()
     {
         // Get file from external storage
-        if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
+        if (! is_storage_driver(['local'])) {
 
             $file_pretty_name = is_storage_driver('backblaze')
                 ? Str::snake(mb_strtolower($this->attributes['name']))
@@ -144,7 +144,7 @@ class File extends Model
         $route = route('file', ['name' => $this->attributes['basename']]);
 
         if ($this->public_access) {
-            return $route . '/public/' . $this->public_access;
+            return "$route/$this->public_access";
         }
 
         return $route;
@@ -198,8 +198,8 @@ class File extends Model
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+        static::creating(function ($file) {
+            $file->id = (string)Str::uuid();
         });
     }
 }

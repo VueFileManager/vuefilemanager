@@ -38,13 +38,9 @@ const actions = {
 
         payload.folder.location = 'public'
 
-        let route = getters.sharedDetail.is_protected
-            ? '/api/browse/folders/' + payload.folder.id + '/private'
-            : '/api/browse/folders/' + payload.folder.id + '/public/' + router.currentRoute.params.token
-
         return new Promise((resolve, reject) => {
             axios
-                .get(route + getters.sorting.URI)
+                .get(`/api/browse/folders/${payload.folder.id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
                     commit('LOADING_STATE', {loading: false, data: response.data})
                     commit('STORE_CURRENT_FOLDER', payload.folder)
@@ -63,6 +59,32 @@ const actions = {
                     })
 
                     reject(error)
+                })
+        })
+    },
+    getSingleFile: ({commit}) => {
+
+        axios.get(`/api/browse/file/${router.currentRoute.params.token}`)
+            .then(response => {
+                commit('STORE_SHARED_FILE', response.data)
+            })
+    },
+    getShareDetail: ({commit, state}, token) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`/api/browse/share/${token}`)
+                .then(response => {
+                    resolve(response)
+
+                    // Commit shared item options
+                    commit('SET_SHARED_DETAIL', response.data.data.attributes)
+                    commit('SET_PERMISSION', response.data.data.attributes.permission)
+                })
+                .catch(error => {
+                    reject(error)
+
+                    if (error.response.status == 404)
+                        router.push({name: 'NotFound'})
                 })
         })
     },
@@ -106,37 +128,6 @@ const actions = {
                     Vue.prototype.$isSomethingWrong()
 
                     reject(error)
-                })
-        })
-    },
-    getSingleFile: ({commit, state}) => {
-
-        let route = state.sharedDetail.is_protected
-            ? '/api/browse/files/private'
-            : '/api/browse/files/' + router.currentRoute.params.token + '/public'
-
-        axios.get(route)
-            .then(response => {
-                commit('STORE_SHARED_FILE', response.data)
-            })
-    },
-    getShareDetail: ({commit, state}, token) => {
-        return new Promise((resolve, reject) => {
-            axios
-                .get(`/api/browse/shared/${token}`)
-                .then(response => {
-                    resolve(response)
-
-                    // Commit shared item options
-                    commit('SET_SHARED_DETAIL', response.data.data.attributes)
-                    commit('SET_PERMISSION', response.data.data.attributes.permission)
-                })
-                .catch(error => {
-                    reject(error)
-
-                    if (error.response.status == 404) {
-                        router.push({name: 'NotFound'})
-                    }
                 })
         })
     },

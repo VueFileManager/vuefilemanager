@@ -35,7 +35,7 @@ const actions = {
             )
         })
     },
-    logOut: ({getters, commit}) => {
+    logOut: ({commit}) => {
 
         let popup = setTimeout(() => {
             commit('PROCESSING_POPUP', {

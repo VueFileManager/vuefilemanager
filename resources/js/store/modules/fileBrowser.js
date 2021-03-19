@@ -154,12 +154,16 @@ const actions = {
         // Get route
         let route = undefined
 
-        if (getters.sharedDetail && getters.sharedDetail.is_protected)
-            route = '/api/browse/search/private'
-        else if (getters.sharedDetail && !getters.sharedDetail.is_protected)
-            route = '/api/browse/search/public/' + router.currentRoute.params.token
-        else
+        if (getters.sharedDetail) {
+            let permission = getters.sharedDetail.is_protected
+                ? 'private'
+                : 'public'
+
+            route = `/api/browse/search/${permission}/${router.currentRoute.params.token}`
+
+        } else {
             route = '/api/browse/search'
+        }
 
         axios
             .get(route, {
@@ -177,12 +181,11 @@ const actions = {
             // Get route
             let route = undefined
 
-            if (getters.sharedDetail && getters.sharedDetail.is_protected)
-                route = '/api/browse/navigation/private'
-            else if (getters.sharedDetail && !getters.sharedDetail.is_protected)
-                route = '/api/browse/navigation/public/' + router.currentRoute.params.token
-            else
+            if (getters.sharedDetail) {
+                route = `/api/browse/navigation/${router.currentRoute.params.token}`
+            } else {
                 route = '/api/browse/navigation'
+            }
 
             axios
                 .get(route + getters.sorting.URI)

@@ -25,8 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
-
         $get_time_locale = App::getLocale() . '_' . mb_strtoupper(App::getLocale());
 
         // Set locale for carbon dates

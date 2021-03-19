@@ -42,7 +42,7 @@
         },
         data() {
             return {
-                password: undefined,
+                password: 'secret',
                 isLoading: false,
             }
         },
@@ -61,9 +61,18 @@
                 axios
                     .post('/api/browse/authenticate/' + this.$route.params.token, {
                         password: this.password
-                    }).then(() => {
+                    })
+                    .then(response => {
 
-                        // todo: Redirect to file browser page
+                        // Show file browser
+                        if (response.data.data.attributes.type === 'folder' && this.$router.currentRoute.name !== 'SharedFileBrowser') {
+                            this.$router.push({name: 'SharedFileBrowser'})
+                        }
+
+                        // Show single file
+                        if (response.data.data.attributes.type !== 'folder' && this.$router.currentRoute.name !== 'SharedSingleFile') {
+                            this.$router.push({name: 'SharedSingleFile'})
+                        }
                     })
                     .catch(error => {
 

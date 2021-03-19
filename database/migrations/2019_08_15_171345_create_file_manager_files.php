@@ -27,6 +27,8 @@ class CreateFileManagerFiles extends Migration
 
             $table->text('type')->nullable();
             $table->longText('metadata')->nullable();
+
+            // TODO: upravit user scope
             $table->enum('user_scope', ['master', 'editor', 'visitor'])->default('master');
 
             $table->softDeletes();

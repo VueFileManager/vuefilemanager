@@ -66,7 +66,7 @@
     "/chunks/setup-wizard.js": "/chunks/setup-wizard.js?id=c6b88005b133268ed88f",
     "/chunks/shared.js": "/chunks/shared.js?id=2c38f535d52e0e448846",
     "/chunks/shared-files.js": "/chunks/shared-files.js?id=e6f7de2910d85a2dd3e4",
-    "/chunks/shared/authenticate.js": "/chunks/shared/authenticate.js?id=9024f3b0b3bed191fe8d",
+    "/chunks/shared/authenticate.js": "/chunks/shared/authenticate.js?id=f6155ac74f9bb460cf65",
     "/chunks/shared/file-browser.js": "/chunks/shared/file-browser.js?id=3127fab4cfd3d5f00a72",
     "/chunks/shared/single-file.js": "/chunks/shared/single-file.js?id=298e41c1c453bf1fde9b",
     "/chunks/sign-in.js": "/chunks/sign-in.js?id=af61663f3e69eae3e5ee",
@@ -88,5 +88,13 @@
     "/chunks/users.js": "/chunks/users.js?id=9085e0306eafce8f9fce",
     "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~68e3c6cf.js": "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~68e3c6cf.js?id=b490efdc8470a6c2f625",
     "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~a4a4a595.js": "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~a4a4a595.js?id=be99c10088b00578891b",
-    "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js?id=66afa0e341251a68c3d3"
+    "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js?id=66afa0e341251a68c3d3",
+    "/js/main.723fdf599ac2ecb35271.hot-update.js": "/js/main.723fdf599ac2ecb35271.hot-update.js",
+    "/js/main.4a8fc01e2ff5a4e6ad28.hot-update.js": "/js/main.4a8fc01e2ff5a4e6ad28.hot-update.js",
+    "/js/main.83e4a1fba24fb3ed581d.hot-update.js": "/js/main.83e4a1fba24fb3ed581d.hot-update.js",
+    "/js/main.4cd1727b0d5ad436dba4.hot-update.js": "/js/main.4cd1727b0d5ad436dba4.hot-update.js",
+    "/js/main.7e6541d1cbf9901a3e5a.hot-update.js": "/js/main.7e6541d1cbf9901a3e5a.hot-update.js",
+    "/js/main.51418924870a080afea3.hot-update.js": "/js/main.51418924870a080afea3.hot-update.js",
+    "/js/main.869d3fad73dd6fe243f9.hot-update.js": "/js/main.869d3fad73dd6fe243f9.hot-update.js",
+    "/js/main.d7f2bec845fc64b7d5e4.hot-update.js": "/js/main.d7f2bec845fc64b7d5e4.hot-update.js"
 }

@@ -8,7 +8,7 @@ use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class PrivateShareContentAccessTest extends TestCase
+class PrivateFilesAccessTest extends TestCase
 {
     use DatabaseMigrations;
 

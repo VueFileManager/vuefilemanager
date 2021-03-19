@@ -54,15 +54,14 @@ class FileSharedAccessController extends Controller
      * Get file public
      *
      * @param $filename
+     * @param $permission
      * @param Share $shared
      * @return mixed
      */
-    public function get_file_public($filename, Share $shared)
+    public function get_file_public($filename, $permission, Share $shared)
     {
-        // Abort if shared is protected
-        if ($shared->is_protected) {
-            abort(403, "Sorry, you don't have permission");
-        }
+        // Check ability to access protected share files
+        $this->helper->check_protected_share_record($shared, $permission);
 
         // Get file record
         $file = UserFile::where('user_id', $shared->user_id)
@@ -86,15 +85,14 @@ class FileSharedAccessController extends Controller
      * Get public image thumbnail
      *
      * @param $filename
+     * @param $permission
      * @param Share $shared
      * @return mixed
      */
-    public function get_thumbnail_public($filename, Share $shared)
+    public function get_thumbnail_public($filename, $permission, Share $shared)
     {
-        // Abort if thumbnail is protected
-        if ($shared->is_protected) {
-            abort(403, "Sorry, you don't have permission");
-        }
+        // Check ability to access protected share files
+        $this->helper->check_protected_share_record($shared, $permission);
 
         // Get file record
         $file = UserFile::where('user_id', $shared->user_id)

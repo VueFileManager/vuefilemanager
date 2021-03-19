@@ -22,10 +22,9 @@ const actions = {
             message: i18n.t('popup_zipping.message')
         })
 
-        // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-            ? '/api/zip/folder/' + folder.id + '/public/' + router.currentRoute.params.token
-            : '/api/zip/folder/' + folder.id
+        let route = getters.sharedDetail
+            ? `/api/zip/folder/${folder.id}/${router.currentRoute.params.token}`
+            : `/api/zip/folder/${folder.id}`
 
         axios.get(route)
             .then(response => {
@@ -37,7 +36,6 @@ const actions = {
             .finally(() => {
                 commit('PROCESSING_POPUP', undefined)
             })
-
     },
     downloadFiles: ({commit, getters}) => {
         let files = []
@@ -46,8 +44,8 @@ const actions = {
         getters.fileInfoDetail.forEach(file => files.push(file.id))
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-            ? '/api/zip/files/public/' + router.currentRoute.params.token
+        let route = getters.sharedDetail
+            ? `/api/zip/files/${router.currentRoute.params.token}`
             : '/api/zip/files'
 
         commit('PROCESSING_POPUP', {
@@ -87,8 +85,8 @@ const actions = {
             commit('CLEAR_FILEINFO_DETAIL')
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-            ? '/api/editor/move/public/' + router.currentRoute.params.token
+        let route = getters.sharedDetail
+            ? `/api/editor/move/${router.currentRoute.params.token}`
             : '/api/move'
 
         console.log(to_item);
@@ -114,8 +112,8 @@ const actions = {
     createFolder: ({commit, getters, dispatch}, folder) => {
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-            ? '/api/editor/create-folder/public/' + router.currentRoute.params.token
+        let route = getters.sharedDetail
+            ? `/api/editor/create-folder/${router.currentRoute.params.token}`
             : '/api/create-folder'
 
         axios
@@ -149,9 +147,9 @@ const actions = {
             commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-            ? '/api/editor/rename/' + data.id + '/public/' + router.currentRoute.params.token
-            : '/api/rename/' + data.id
+        let route = getters.sharedDetail
+            ? `/api/editor/rename/${data.id}/${router.currentRoute.params.token}`
+            : `/api/rename/${data.id}`
 
         axios
             .post(route, {
@@ -172,8 +170,8 @@ const actions = {
         return new Promise((resolve, reject) => {
 
             // Get route
-            let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-                ? '/api/editor/upload/public/' + router.currentRoute.params.token
+            let route = getters.sharedDetail
+                ? `/api/editor/upload/${router.currentRoute.params.token}`
                 : '/api/upload'
 
             // Create cancel token for axios cancellation
@@ -341,8 +339,8 @@ const actions = {
         }
 
         // Get route
-        let route = getters.sharedDetail && !getters.sharedDetail.is_protected
-            ? '/api/editor/remove/public/' + router.currentRoute.params.token
+        let route = getters.sharedDetail
+            ? `/api/editor/remove/${router.currentRoute.params.token}`
             : '/api/remove'
 
         axios

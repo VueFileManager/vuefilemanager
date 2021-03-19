@@ -27,12 +27,10 @@ class BrowseShareController extends Controller
      * @param Share $shared
      * @return Collection
      */
-    public function get_public_folders($id, Share $shared)
+    public function browse_folder($id, Share $shared)
     {
-        // Abort if folder is protected
-        if ($shared->is_protected) {
-            abort(403, "Sorry, you don't have permission");
-        }
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
 
         // Check if user can get directory
         $this->helper->check_item_access($id, $shared);
@@ -57,12 +55,10 @@ class BrowseShareController extends Controller
      * @param Share $shared
      * @return Collection
      */
-    public function search_public(Request $request, Share $shared)
+    public function search(Request $request, Share $shared)
     {
-        // Abort if folder is protected
-        if ($shared->is_protected) {
-            abort(403, "Sorry, you don't have permission");
-        }
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
 
         // Search files id db
         $searched_files = File::search($request->input('query'))
@@ -108,8 +104,11 @@ class BrowseShareController extends Controller
      * @param Share $shared
      * @return array
      */
-    public function get_public_navigation_tree(Share $shared)
+    public function navigation_tree(Share $shared)
     {
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
+
         // Check if user can get directory
         $this->helper->check_item_access($shared->item_id, $shared);
 
