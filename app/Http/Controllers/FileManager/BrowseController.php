@@ -199,7 +199,7 @@ class BrowseController extends Controller
     {
         $user_id = Auth::id();
 
-        $query = remove_accents($request->query);
+        $query = remove_accents($request->input('query'));
 
         // Search files id db
         $searched_files = File::search($query)

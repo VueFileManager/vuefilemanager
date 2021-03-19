@@ -10,6 +10,9 @@ use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
+/**
+ * @method static whereUserId(int|string|null $id)
+ */
 class Folder extends Model
 {
     use Searchable, SoftDeletes, Sortable, HasFactory;

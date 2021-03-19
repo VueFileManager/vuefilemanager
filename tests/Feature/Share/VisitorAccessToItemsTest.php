@@ -27,14 +27,14 @@ class VisitorAccessToItemsTest extends TestCase
     /**
      * @test
      */
-    public function it_get_public_file_record_and_download_file_within()
+    public function it_download_file()
     {
         Storage::fake('local');
 
         $this->setup->create_directories();
 
-        collect(['private', 'public'])
-            ->each(function ($permission) {
+        collect([true, false])
+            ->each(function ($is_protected) {
 
                 $user = User::factory(User::class)
                     ->create();
@@ -49,7 +49,7 @@ class VisitorAccessToItemsTest extends TestCase
                         'filesize' => $document->getSize(),
                         'user_id'  => $user->id,
                         'basename' => $document->name,
-                        'name'     => 'fake-file.pdf',
+                        'name'     => $document->name,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -57,46 +57,31 @@ class VisitorAccessToItemsTest extends TestCase
                         'item_id'      => $file->id,
                         'user_id'      => $user->id,
                         'type'         => 'file',
-                        'is_protected' => $permission === 'private',
-                        'password'     => \Hash::make('secret'),
+                        'is_protected' => $is_protected,
                     ]);
 
-                if ($permission === 'private') {
+                if ($is_protected) {
 
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
                     ])];
 
-                    $this->disableCookieEncryption();
-                    $this->defaultCookies = $cookie;
-
-                    $this->get("/api/browse/file/$share->token/private")
-                        ->assertStatus(200)
-                        ->assertJsonFragment([
-                            'basename' => $document->name
-                        ]);
-
-                    $this->get("/file/$document->name/private/$share->token")
+                    $this->withCookies($cookie)
+                        ->get("/file/$document->name/$share->token")
                         ->assertStatus(200);
                 }
 
-                if ($permission === 'public') {
-
-                    $this->get("/api/browse/file/$share->token/public")
-                        ->assertStatus(200)
-                        ->assertJsonFragment([
-                            'basename' => $document->name
-                        ]);
+                if (!$is_protected) {
 
                     // Get shared file
-                    $this->get("/file/$document->name/public/$share->token")
+                    $this->get("/file/$document->name/$share->token")
                         ->assertStatus(200);
                 }
 
-                /*$this->assertDatabaseHas('traffic', [
+                $this->assertDatabaseHas('traffic', [
                     'user_id' => $user->id,
-                ]);*/
+                ]);
             });
     }
 
@@ -112,7 +97,7 @@ class VisitorAccessToItemsTest extends TestCase
             ]);
 
         // Get share record
-        $this->get("/api/browse/file/$share->token/public")
+        $this->get("/api/browse/file/$share->token")
             ->assertStatus(403);
     }
 
@@ -125,34 +110,54 @@ class VisitorAccessToItemsTest extends TestCase
 
         $this->setup->create_directories();
 
-        $user = User::factory(User::class)
-            ->create();
+        collect([true, false])
+            ->each(function ($is_protected) {
 
-        $thumbnail = UploadedFile::fake()
-            ->image(Str::random() . '-fake-image.jpg');
+                $user = User::factory(User::class)
+                    ->create();
 
-        Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
+                $thumbnail = UploadedFile::fake()
+                    ->image(Str::random() . '-fake-image.jpg');
 
-        $file = File::factory(File::class)
-            ->create([
-                'user_id'   => $user->id,
-                'thumbnail' => $thumbnail->name,
-                'basename'  => $thumbnail->name,
-                'name'      => 'fake-thumbnail.jpg',
-                'type'      => 'image',
-                'mimetype'  => 'jpg',
-            ]);
+                Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
 
-        $share = Share::factory(Share::class)
-            ->create([
-                'item_id'      => $file->id,
-                'user_id'      => $user->id,
-                'type'         => 'file',
-                'is_protected' => false,
-            ]);
+                $file = File::factory(File::class)
+                    ->create([
+                        'user_id'   => $user->id,
+                        'thumbnail' => $thumbnail->name,
+                        'basename'  => $thumbnail->name,
+                        'name'      => 'fake-thumbnail.jpg',
+                        'type'      => 'image',
+                        'mimetype'  => 'jpg',
+                    ]);
 
-        $this->get("/share/$share->token")
-            ->assertStatus(200);
+                $share = Share::factory(Share::class)
+                    ->create([
+                        'item_id'      => $file->id,
+                        'user_id'      => $user->id,
+                        'type'         => 'file',
+                        'is_protected' => $is_protected,
+                    ]);
+
+                if ($is_protected) {
+
+                    $cookie = [
+                        'share_session' => json_encode([
+                            'token'         => $share->token,
+                            'authenticated' => true,
+                        ])
+                    ];
+
+                    $this->withCookies($cookie)
+                        ->get("/share/$share->token")
+                        ->assertStatus(200);
+                }
+
+                if (!$is_protected) {
+                    $this->get("/share/$share->token")
+                        ->assertStatus(200);
+                }
+            });
     }
 
     /**
@@ -164,8 +169,8 @@ class VisitorAccessToItemsTest extends TestCase
 
         $this->setup->create_directories();
 
-        collect(['private', 'public'])
-            ->each(function ($permission) {
+        collect([true, false])
+            ->each(function ($is_protected) {
 
                 $user = User::factory(User::class)
                     ->create();
@@ -187,22 +192,26 @@ class VisitorAccessToItemsTest extends TestCase
                         'item_id'      => $file->id,
                         'user_id'      => $user->id,
                         'type'         => 'file',
-                        'is_protected' => $permission === 'private',
-                        'password'     => \Hash::make('secret'),
+                        'is_protected' => $is_protected,
                     ]);
 
                 // Get thumbnail file
-                if ($permission === 'private') {
-                    $this->withCookie('share_session', json_encode([
-                        'token'         => $share->token,
-                        'authenticated' => true,
-                    ]))
-                        ->get("/thumbnail/$thumbnail->name/private/$share->token")
+                if ($is_protected) {
+
+                    $cookie = [
+                        'share_session' => json_encode([
+                            'token'         => $share->token,
+                            'authenticated' => true,
+                        ])
+                    ];
+
+                    $this->withCookies($cookie)
+                        ->get("/thumbnail/$thumbnail->name/$share->token")
                         ->assertStatus(200);
                 }
 
-                if ($permission === 'public') {
-                    $this->get("/thumbnail/$thumbnail->name/public/$share->token")
+                if (!$is_protected) {
+                    $this->get("/thumbnail/$thumbnail->name/$share->token")
                         ->assertStatus(200);
                 }
 
@@ -222,33 +231,53 @@ class VisitorAccessToItemsTest extends TestCase
 
         $this->setup->create_directories();
 
-        $user = User::factory(User::class)
-            ->create();
+        collect([true, false])
+            ->each(function ($is_protected) {
 
-        $share = Share::factory(Share::class)
-            ->create([
-                'user_id'      => $user->id,
-                'type'         => 'folder',
-                'is_protected' => false,
-            ]);
+                $user = User::factory(User::class)
+                    ->create();
 
-        $zip = Zip::factory(Zip::class)->create([
-            'basename'     => 'EHWKcuvKzA4Gv29v-archive.zip',
-            'user_id'      => $user->id,
-            'shared_token' => $share->token,
-        ]);
+                $share = Share::factory(Share::class)
+                    ->create([
+                        'user_id'      => $user->id,
+                        'type'         => 'folder',
+                        'is_protected' => $is_protected,
+                    ]);
 
-        $file = UploadedFile::fake()
-            ->create($zip->basename, 1000, 'application/zip');
+                $zip = Zip::factory(Zip::class)->create([
+                    'basename'     => 'EHWKcuvKzA4Gv29v-archive.zip',
+                    'user_id'      => $user->id,
+                    'shared_token' => $share->token,
+                ]);
 
-        Storage::putFileAs("zip", $file, $file->name);
+                $file = UploadedFile::fake()
+                    ->create($zip->basename, 1000, 'application/zip');
 
-        $this->get("/zip/$zip->id/public/$share->token")
-            ->assertStatus(200);
+                Storage::putFileAs("zip", $file, $file->name);
 
-        $this->assertDatabaseMissing('traffic', [
-            'user_id'  => $user->id,
-            'download' => null,
-        ]);
+                if ($is_protected) {
+
+                    $cookie = [
+                        'share_session' => json_encode([
+                            'token'         => $share->token,
+                            'authenticated' => true,
+                        ])
+                    ];
+
+                    $this->withCookies($cookie)
+                        ->get("/zip/$zip->id/$share->token")
+                        ->assertStatus(200);
+                }
+
+                if (!$is_protected) {
+                    $this->get("/zip/$zip->id/$share->token")
+                        ->assertStatus(200);
+                }
+
+                $this->assertDatabaseMissing('traffic', [
+                    'user_id'  => $user->id,
+                    'download' => null,
+                ]);
+            });
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EditShareItemsController extends Controller
+class ManipulateShareItemsController extends Controller
 {
     private $filemanager;
     private $helper;
@@ -44,6 +44,9 @@ class EditShareItemsController extends Controller
         if (is_demo_account($shared->user->email)) {
             return $this->demo->create_folder($request);
         }
+
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -74,6 +77,9 @@ class EditShareItemsController extends Controller
             return $this->demo->rename_item($request, $id);
         }
 
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
+
         // Check shared permission
         if (is_visitor($shared)) {
             abort(403);
@@ -91,7 +97,7 @@ class EditShareItemsController extends Controller
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('icon')) {
-            $this->filemanager->set_folder_icon($request, $id);
+            $this->filemanager->edit_folder_properties($request, $id);
         }
 
         // Rename item
@@ -118,6 +124,9 @@ class EditShareItemsController extends Controller
         if (is_demo_account($shared->user->email)) {
             return $this->demo->response_with_no_content();
         }
+
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -157,6 +166,9 @@ class EditShareItemsController extends Controller
             return $this->demo->upload($request);
         }
 
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
+
         // Check shared permission
         if (is_visitor($shared)) {
             abort(403);
@@ -186,6 +198,9 @@ class EditShareItemsController extends Controller
         if (is_demo_account($shared->user->email)) {
             return $this->demo->response_with_no_content();
         }
+
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {

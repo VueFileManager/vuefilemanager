@@ -61,6 +61,7 @@ class BrowseShareController extends Controller
 
     /**
      * Check Password for protected item
+     *
      * @param AuthenticateShareRequest $request
      * @param Share $shared
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -84,7 +85,7 @@ class BrowseShareController extends Controller
     }
 
     /**
-     * Browse public folders
+     * Browse shared folder
      *
      * @param $id
      * @param Share $shared
@@ -112,7 +113,7 @@ class BrowseShareController extends Controller
     }
 
     /**
-     * Search public files
+     * Search shared files
      *
      * @param Request $request
      * @param Share $shared
@@ -167,7 +168,7 @@ class BrowseShareController extends Controller
     }
 
     /**
-     * Get navigation tree
+     * Get navigation tree of shared folder
      *
      * @param Share $shared
      * @return array
@@ -198,7 +199,7 @@ class BrowseShareController extends Controller
     }
 
     /**
-     * Get shared public file record
+     * Get shared file record
      *
      * @param Share $shared
      * @return mixed

@@ -447,7 +447,7 @@ class FileManagerService
      * @param $request
      * @param $id
      */
-    public function set_folder_icon($request, $id)
+    public function edit_folder_properties($request, $id)
     {
         // Get folder
         $folder = Folder::find($id);
