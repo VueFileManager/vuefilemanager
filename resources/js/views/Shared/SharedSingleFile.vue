@@ -1,7 +1,7 @@
 <template>
     <div id="single-file">
         <div class="single-file-wrapper">
-            <FileItemGrid v-if="sharedFile" :item="sharedFile" :context-menu="false"/>
+            <FileItemGrid v-if="sharedFile" :item="sharedFile.data.attributes" :context-menu="false"/>
 
             <ButtonBase @click.native="download" class="download-button" button-style="theme">
                 {{ $t('page_shared.download_file') }}
@@ -29,7 +29,7 @@
         },
         methods: {
             download() {
-                this.$downloadFile(this.sharedFile.file_url, this.sharedFile.name + '.' + this.sharedFile.mimetype)
+                this.$downloadFile(this.sharedFile.data.attributes.file_url, this.sharedFile.data.attributes.name + '.' + this.sharedFile.data.attributes.mimetype)
             },
         },
         mounted() {
