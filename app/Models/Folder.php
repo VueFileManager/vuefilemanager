@@ -31,6 +31,10 @@ class Folder extends Model
         'emoji' => 'array',
     ];
 
+    protected $hidden = [
+        'author_id'
+    ];
+
     /**
      * Sortable columns
      *

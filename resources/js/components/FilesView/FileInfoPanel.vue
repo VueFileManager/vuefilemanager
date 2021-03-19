@@ -27,7 +27,7 @@
                           :content="fileInfoDetail[0].filesize">
             </ListInfoItem>
 
-            <ListInfoItem v-if="$checkPermission(['master']) && fileInfoDetail[0].user_scope !== 'master'"
+            <ListInfoItem v-if="$checkPermission(['master']) && fileInfoDetail[0].author !== 'user'"
                           :title="$t('file_detail.author')"
                           :content="$t('file_detail.author_participant')">
             </ListInfoItem>

@@ -162,7 +162,7 @@ class BrowseController extends Controller
     {
         return File::with(['parent'])
             ->where('user_id', Auth::id())
-            ->whereUserScope('editor')
+            ->whereAuthor('visitor')
             ->sortable()
             ->get();
     }

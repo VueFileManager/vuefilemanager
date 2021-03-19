@@ -34,6 +34,10 @@ class File extends Model
         'metadata' => 'array',
     ];
 
+    protected $hidden = [
+        'author_id'
+    ];
+
     /**
      * Sortable columns
      *

@@ -35,8 +35,8 @@
     "/chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser.js?id=7525a5201f806293a60a",
     "/chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~chunks/sha~8510f6c9.js": "/chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~chunks/sha~8510f6c9.js?id=3e43db9b38c83dd03a3b",
     "/chunks/files~chunks/settings-subscription~chunks/shared-files~chunks/shared/file-browser~chunks/user~9058a49f.js": "/chunks/files~chunks/settings-subscription~chunks/shared-files~chunks/shared/file-browser~chunks/user~9058a49f.js?id=68e8dbc0e27e1906a855",
-    "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js?id=263e85f5dcb402029ca3",
-    "/chunks/files~chunks/shared-files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser~chunks/shared/single-file.js?id=90193de08263e128d31a",
+    "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js?id=aacbc63eccff01afeada",
+    "/chunks/files~chunks/shared-files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser~chunks/shared/single-file.js?id=18ff204697459dad268d",
     "/chunks/files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared/file-browser.js?id=3b49ff66accb15109d71",
     "/chunks/forgotten-password.js": "/chunks/forgotten-password.js?id=7f6474e743f5e147705a",
     "/chunks/homepage.js": "/chunks/homepage.js?id=0851a272cec4302a3247",
@@ -88,16 +88,5 @@
     "/chunks/users.js": "/chunks/users.js?id=9085e0306eafce8f9fce",
     "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~68e3c6cf.js": "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~68e3c6cf.js?id=b490efdc8470a6c2f625",
     "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~a4a4a595.js": "/vendors~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-i~a4a4a595.js?id=be99c10088b00578891b",
-    "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js?id=66afa0e341251a68c3d3",
-    "/js/main.723fdf599ac2ecb35271.hot-update.js": "/js/main.723fdf599ac2ecb35271.hot-update.js",
-    "/js/main.4a8fc01e2ff5a4e6ad28.hot-update.js": "/js/main.4a8fc01e2ff5a4e6ad28.hot-update.js",
-    "/js/main.83e4a1fba24fb3ed581d.hot-update.js": "/js/main.83e4a1fba24fb3ed581d.hot-update.js",
-    "/js/main.4cd1727b0d5ad436dba4.hot-update.js": "/js/main.4cd1727b0d5ad436dba4.hot-update.js",
-    "/js/main.7e6541d1cbf9901a3e5a.hot-update.js": "/js/main.7e6541d1cbf9901a3e5a.hot-update.js",
-    "/js/main.51418924870a080afea3.hot-update.js": "/js/main.51418924870a080afea3.hot-update.js",
-    "/js/main.869d3fad73dd6fe243f9.hot-update.js": "/js/main.869d3fad73dd6fe243f9.hot-update.js",
-    "/js/main.d7f2bec845fc64b7d5e4.hot-update.js": "/js/main.d7f2bec845fc64b7d5e4.hot-update.js",
-    "/js/main.c788f898c265d85a0089.hot-update.js": "/js/main.c788f898c265d85a0089.hot-update.js",
-    "/chunks/shared/single-file.8964da50e977b3d7d554.hot-update.js": "/chunks/shared/single-file.8964da50e977b3d7d554.hot-update.js",
-    "/chunks/shared/single-file.c59a56c2ba7f3c2998b8.hot-update.js": "/chunks/shared/single-file.c59a56c2ba7f3c2998b8.hot-update.js"
+    "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/file-browser~ch~52c14f2e.js?id=66afa0e341251a68c3d3"
 }

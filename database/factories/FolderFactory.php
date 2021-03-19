@@ -25,8 +25,8 @@ class FolderFactory extends Factory
             'id'         => $this->faker->uuid,
             'user_id'    => $this->faker->uuid,
             'name'       => $this->faker->word,
-            'user_scope' => $this->faker->randomElement(
-                ['master', 'editor', 'visitor']
+            'author' => $this->faker->randomElement(
+                ['user', 'member', 'visitor']
             ),
             'created_at' => $this->faker->dateTimeBetween(
                 $startDate = '-36 months', $endDate = 'now', $timezone = null

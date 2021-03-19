@@ -21,8 +21,9 @@ class CreateFileManagerFolders extends Migration
             $table->string('color')->nullable();
             $table->longText('emoji')->nullable();
 
-            // TODO: upravit user scope
-            $table->enum('user_scope', ['master', 'editor', 'visitor'])->default('master');
+            $table->enum('author', ['user', 'member', 'visitor'])->default('user');
+            $table->uuid('author_id')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });

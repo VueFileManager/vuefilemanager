@@ -224,9 +224,9 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 $this->assertDatabaseHas('folders', [
-                    'name'       => 'Awesome New Folder',
-                    'parent_id'  => $folder->id,
-                    'user_scope' => 'editor',
+                    'name'      => 'Awesome New Folder',
+                    'parent_id' => $folder->id,
+                    'author'    => 'visitor',
                 ]);
             });
     }
@@ -326,8 +326,8 @@ class VisitorManipulatingTest extends TestCase
 
                 $folder = Folder::factory(Folder::class)
                     ->create([
-                        'user_id'    => $user->id,
-                        'user_scope' => 'master',
+                        'user_id' => $user->id,
+                        'author'  => 'user',
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -374,7 +374,7 @@ class VisitorManipulatingTest extends TestCase
                 ]);
 
                 $this->assertDatabaseHas('files', [
-                    'user_scope' => 'editor',
+                    'author' => 'visitor',
                 ]);
 
                 Storage::disk('local')

@@ -29,20 +29,16 @@ class DemoService
      */
     function create_folder($request)
     {
-        // Get variables
-        $user_scope = $request->user() ? $request->user()->token()->scopes[0] : 'editor';
-        $name = $request->has('name') ? $request->input('name') : 'New Folder';
-
         return [
             'user_id'    => 1,
             'id'         => Str::uuid(),
             'parent_id'  => random_int(1000, 9999),
-            'name'       => $name,
+            'name'       => $request->name,
             'type'       => 'folder',
-            'user_scope' => $user_scope,
+            'author'     => $request->user() ? 'user' : 'visitor',
             'items'      => '0',
-            'color' => isset($request->icon['color']) ? $request->icon['color'] : null,
-            'emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
+            'color'      => isset($request->icon['color']) ? $request->icon['color'] : null,
+            'emoji'      => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
             'updated_at' => Carbon::now()->format('j M Y \a\t H:i'),
             'created_at' => Carbon::now()->format('j M Y \a\t H:i'),
         ];
@@ -97,9 +93,6 @@ class DemoService
      */
     function upload($request)
     {
-        // Get user data
-        $user_scope = $request->user() ? $request->user()->token()->scopes[0] : 'editor';
-
         // File
         $file = $request->file('file');
         $filename = Str::random() . '-' . str_replace(' ', '', $file->getClientOriginalName());
@@ -117,7 +110,7 @@ class DemoService
             'filesize'   => Metric::bytes($filesize)->format(),
             'type'       => $filetype,
             'file_url'   => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
-            'user_scope' => $user_scope,
+            'author'     => $request->user() ? 'user' : 'visitor',
             'created_at' => Carbon::now()->format('j M Y \a\t H:i'),
             'updated_at' => Carbon::now()->format('j M Y \a\t H:i'),
         ];

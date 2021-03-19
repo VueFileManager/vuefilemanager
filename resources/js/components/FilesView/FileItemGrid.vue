@@ -44,7 +44,7 @@
                     </div>
 
                     <!--Participant owner Icon-->
-                    <div v-if="$checkPermission('master') && item.user_scope !== 'master'" class="item-shared">
+                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
                         <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
                     </div>
 

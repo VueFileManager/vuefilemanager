@@ -174,7 +174,7 @@ class SetupDevEnvironment extends Command
         $shared_folder = Folder::factory(Folder::class)
             ->create([
                 'user_id'    => $user->id,
-                'user_scope' => 'master',
+                'author'     => 'user',
                 'name'       => 'Shared Folder',
                 'emoji'      => [
                     "codes"    => "1F680",
@@ -200,17 +200,17 @@ class SetupDevEnvironment extends Command
 
         $peters_files = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $shared_folder->id,
-                'user_scope' => 'editor',
-                'name'       => "Peter's Files",
+                'user_id'   => $user->id,
+                'parent_id' => $shared_folder->id,
+                'author'    => 'visitor',
+                'name'      => "Peter's Files",
             ]);
 
         // 2.
         $random_pics = Folder::factory(Folder::class)
             ->create([
                 'user_id'    => $user->id,
-                'user_scope' => 'master',
+                'author'     => 'user',
                 'name'       => 'Random Pics',
                 'emoji'      => [
                     'codes'    => '1F4F7',
@@ -225,11 +225,11 @@ class SetupDevEnvironment extends Command
 
         $nature = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $random_pics->id,
-                'user_scope' => 'master',
-                'name'       => "Nature",
-                'emoji'      => [
+                'user_id'   => $user->id,
+                'parent_id' => $random_pics->id,
+                'author'    => 'user',
+                'name'      => "Nature",
+                'emoji'     => [
                     'codes'    => '26F0',
                     'char'     => '⛰',
                     'name'     => 'mountain',
@@ -241,11 +241,11 @@ class SetupDevEnvironment extends Command
 
         $apartments = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $random_pics->id,
-                'user_scope' => 'master',
-                'name'       => "Apartments",
-                'emoji'      => [
+                'user_id'   => $user->id,
+                'parent_id' => $random_pics->id,
+                'author'    => 'user',
+                'name'      => "Apartments",
+                'emoji'     => [
                     'codes'    => '1F3E0',
                     'char'     => '🏠',
                     'name'     => 'house',
@@ -259,65 +259,65 @@ class SetupDevEnvironment extends Command
         $playable_media = Folder::factory(Folder::class)
             ->create([
                 'user_id'    => $user->id,
-                'user_scope' => 'master',
+                'author'     => 'user',
                 'name'       => 'Playable Media',
                 'created_at' => Carbon::now()->subMinutes(2),
             ]);
 
         $video = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $playable_media->id,
-                'user_scope' => 'master',
-                'name'       => "Video",
+                'user_id'   => $user->id,
+                'parent_id' => $playable_media->id,
+                'author'    => 'user',
+                'name'      => "Video",
             ]);
 
         $audio = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $playable_media->id,
-                'user_scope' => 'master',
-                'name'       => "Audio",
+                'user_id'   => $user->id,
+                'parent_id' => $playable_media->id,
+                'author'    => 'user',
+                'name'      => "Audio",
             ]);
 
         // 4.
         $multi_level = Folder::factory(Folder::class)
             ->create([
                 'user_id'    => $user->id,
-                'user_scope' => 'master',
+                'author'     => 'user',
                 'name'       => 'Multi Level Folder',
                 'created_at' => Carbon::now()->subMinutes(3),
             ]);
 
         $first_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $multi_level->id,
-                'user_scope' => 'master',
-                'name'       => "First Level",
+                'user_id'   => $user->id,
+                'parent_id' => $multi_level->id,
+                'author'    => 'user',
+                'name'      => "First Level",
             ]);
 
         $second_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $first_level->id,
-                'user_scope' => 'master',
-                'name'       => "Second Level",
+                'user_id'   => $user->id,
+                'parent_id' => $first_level->id,
+                'author'    => 'user',
+                'name'      => "Second Level",
             ]);
 
         $third_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'parent_id'  => $second_level->id,
-                'user_scope' => 'master',
-                'name'       => "Third Level",
+                'user_id'   => $user->id,
+                'parent_id' => $second_level->id,
+                'author'    => 'user',
+                'name'      => "Third Level",
             ]);
 
         // 5.
         $documents = Folder::factory(Folder::class)
             ->create([
                 'user_id'    => $user->id,
-                'user_scope' => 'master',
+                'author'     => 'user',
                 'name'       => 'Documents',
                 'created_at' => Carbon::now()->subMinutes(4),
             ]);
@@ -337,7 +337,7 @@ class SetupDevEnvironment extends Command
         $videohive = Folder::factory(Folder::class)
             ->create([
                 'user_id'    => $user->id,
-                'user_scope' => 'master',
+                'author'     => 'user',
                 'name'       => 'Videohive by MakingCG',
                 'created_at' => Carbon::now()->subMinutes(5),
             ]);
@@ -388,7 +388,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -432,7 +432,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -466,7 +466,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -525,7 +525,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'user_scope' => 'editor',
+                    'author'     => 'visitor',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -553,7 +553,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'video',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -578,7 +578,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'video',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -603,7 +603,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'audio',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => 'mp3',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
@@ -641,7 +641,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'image',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
@@ -675,7 +675,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'image',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
@@ -713,7 +713,7 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'image',
-                    'user_scope' => 'master',
+                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),

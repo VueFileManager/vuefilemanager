@@ -32,24 +32,12 @@ class FileFactory extends Factory
             'type'       => $this->faker->randomElement(
                 ['image', 'file', 'video', 'audio']
             ),
-            'user_scope' => $this->faker->randomElement(
-                ['master', 'editor', 'visitor']
+            'author'     => $this->faker->randomElement(
+                ['user', 'member', 'visitor']
             ),
             'created_at' => $this->faker->dateTimeBetween(
                 $startDate = '-36 months', $endDate = 'now', $timezone = null
             ),
         ];
-    }
-
-    /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    public function configure()
-    {
-        return $this->afterCreating(function (File $file) {
-            // TODO: add fake files
-        });
     }
 }

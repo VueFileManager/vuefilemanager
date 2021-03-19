@@ -166,21 +166,13 @@ class FileManagerService
      */
     public function create_folder($request, $shared = null)
     {
-        // Get variables
-        //$user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
-        $user_scope = is_null($shared) ? 'master' : 'editor';
-
-        $name = $request->has('name') ? $request->input('name') : 'New Folder';
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
-
         return Folder::create([
-            'parent_id'  => $request->parent_id,
-            'user_scope' => $user_scope,
-            'user_id'    => $user_id,
-            'type'       => 'folder',
-            'name'       => $name,
-            'color'      => $request->color ?? null,
-            'emoji'      => $request->emoji ?? null,
+            'parent_id' => $request->parent_id,
+            'author'    => $shared ? 'visitor' : 'user',
+            'user_id'   => $shared ? $shared->user_id : Auth::id(),
+            'name'      => $request->name,
+            'color'     => $request->color ?? null,
+            'emoji'     => $request->emoji ?? null,
         ]);;
     }
 
@@ -196,7 +188,7 @@ class FileManagerService
     public function rename_item($request, $id, $shared = null)
     {
         // Get user id
-        $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+        $user_id = $shared ? $shared->user_id : Auth::id();
 
         // Get item
         $item = get_item($request->type, $id, $user_id);
@@ -396,9 +388,7 @@ class FileManagerService
             $disk_local = Storage::disk('local');
 
             // Get user data
-            //$user_scope = is_null($shared) ? $request->user()->token()->scopes[0] : 'editor';
-            $user_scope = is_null($shared) ? 'master' : 'editor';
-            $user_id = is_null($shared) ? Auth::id() : $shared->user_id;
+            $user_id = $shared ? $shared->user_id : Auth::id();
 
             // File Info
             $file_size = $disk_local->size('chunks/' . $temp_filename);
@@ -427,16 +417,16 @@ class FileManagerService
 
             // Return new file
             return UserFile::create([
-                'mimetype'   => get_file_type_from_mimetype($file_mimetype),
-                'type'       => get_file_type($file_mimetype),
-                'folder_id'  => $request->folder_id,
-                'metadata'   => $metadata,
-                'name'       => $user_file_name,
-                'basename'   => $disk_file_name,
-                'user_scope' => $user_scope,
-                'thumbnail'  => $thumbnail,
-                'filesize'   => $file_size,
-                'user_id'    => $user_id,
+                'mimetype'  => get_file_type_from_mimetype($file_mimetype),
+                'type'      => get_file_type($file_mimetype),
+                'folder_id' => $request->folder_id,
+                'metadata'  => $metadata,
+                'name'      => $user_file_name,
+                'basename'  => $disk_file_name,
+                'author'    => $shared ? 'visitor' : 'user',
+                'thumbnail' => $thumbnail,
+                'filesize'  => $file_size,
+                'user_id'   => $user_id,
             ]);
         }
     }

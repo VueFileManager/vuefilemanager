@@ -28,33 +28,33 @@ class BrowseTest extends TestCase
 
         $folder_level_1 = Folder::factory(Folder::class)
             ->create([
-                'name'       => 'level 1',
-                'user_scope' => 'master',
-                'user_id'    => $user->id,
+                'name'    => 'level 1',
+                'author'  => 'user',
+                'user_id' => $user->id,
             ]);
 
         $folder_level_2 = Folder::factory(Folder::class)
             ->create([
-                'name'       => 'level 2',
-                'parent_id'  => $folder_level_1->id,
-                'user_scope' => 'master',
-                'user_id'    => $user->id,
+                'name'      => 'level 2',
+                'parent_id' => $folder_level_1->id,
+                'author'    => 'user',
+                'user_id'   => $user->id,
             ]);
 
         $folder_level_3 = Folder::factory(Folder::class)
             ->create([
-                'name'       => 'level 3',
-                'parent_id'  => $folder_level_2->id,
-                'user_scope' => 'master',
-                'user_id'    => $user->id,
+                'name'      => 'level 3',
+                'parent_id' => $folder_level_2->id,
+                'author'    => 'user',
+                'user_id'   => $user->id,
             ]);
 
         $folder_level_2_sibling = Folder::factory(Folder::class)
             ->create([
-                'name'       => 'level 2 Sibling',
-                'parent_id'  => $folder_level_1->id,
-                'user_scope' => 'master',
-                'user_id'    => $user->id,
+                'name'      => 'level 2 Sibling',
+                'parent_id' => $folder_level_1->id,
+                'author'    => 'user',
+                'user_id'   => $user->id,
             ]);
 
         $this->getJson("/api/browse/navigation")
@@ -87,7 +87,7 @@ class BrowseTest extends TestCase
                                             "name"          => "level 3",
                                             "color"         => null,
                                             "emoji"         => null,
-                                            "user_scope"    => "master",
+                                            "author"        => "user",
                                             "deleted_at"    => null,
                                             "created_at"    => $folder_level_3->created_at,
                                             "updated_at"    => $folder_level_3->updated_at->toJson(),
@@ -132,21 +132,21 @@ class BrowseTest extends TestCase
 
         $folder = Folder::factory(Folder::class)
             ->create([
-                'parent_id'  => $root->id,
-                'name'       => 'Documents',
-                "user_scope" => "master",
-                'user_id'    => $user->id,
+                'parent_id' => $root->id,
+                'name'      => 'Documents',
+                "author"    => "user",
+                'user_id'   => $user->id,
             ]);
 
         $file = File::factory(File::class)
             ->create([
-                'folder_id'  => $root->id,
-                'name'       => 'Document',
-                'basename'   => 'document.pdf',
-                "mimetype"   => "application/pdf",
-                "user_scope" => "master",
-                "type"       => "file",
-                'user_id'    => $user->id,
+                'folder_id' => $root->id,
+                'name'      => 'Document',
+                'basename'  => 'document.pdf',
+                "mimetype"  => "application/pdf",
+                "author"    => "user",
+                "type"      => "file",
+                'user_id'   => $user->id,
             ]);
 
         $this->getJson("/api/browse/folders/$root->id")
@@ -159,7 +159,7 @@ class BrowseTest extends TestCase
                     "name"          => "Documents",
                     "color"         => null,
                     "emoji"         => null,
-                    "user_scope"    => "master",
+                    "author"        => "user",
                     "deleted_at"    => null,
                     "created_at"    => $folder->created_at,
                     "updated_at"    => $folder->updated_at->toJson(),
@@ -186,7 +186,7 @@ class BrowseTest extends TestCase
                     "filesize"   => $file->filesize,
                     "type"       => "file",
                     "metadata"   => null,
-                    "user_scope" => "master",
+                    "author"     => "user",
                     "deleted_at" => null,
                     "created_at" => $file->created_at,
                     "updated_at" => $file->updated_at->toJson(),
@@ -225,7 +225,7 @@ class BrowseTest extends TestCase
                 'name'       => 'Document 1',
                 'basename'   => 'document-1.pdf',
                 "mimetype"   => "application/pdf",
-                "user_scope" => "master",
+                "author"     => "user",
                 "type"       => "file",
                 'user_id'    => $user->id,
                 'created_at' => Carbon::now(),
@@ -239,7 +239,7 @@ class BrowseTest extends TestCase
                 'name'       => 'Document 2',
                 'basename'   => 'document-2.pdf',
                 "mimetype"   => "application/pdf",
-                "user_scope" => "master",
+                "author"     => "user",
                 "type"       => "file",
                 'user_id'    => $user->id,
                 'created_at' => Carbon::now(),
@@ -259,7 +259,7 @@ class BrowseTest extends TestCase
                     "filesize"   => $file_2->filesize,
                     "type"       => "file",
                     "metadata"   => null,
-                    "user_scope" => "master",
+                    "author"     => "user",
                     "deleted_at" => null,
                     "created_at" => $file_2->created_at,
                     "updated_at" => $file_2->updated_at->toJson(),
@@ -283,7 +283,7 @@ class BrowseTest extends TestCase
                     "filesize"   => $file_1->filesize,
                     "type"       => "file",
                     "metadata"   => null,
-                    "user_scope" => "master",
+                    "author"     => "user",
                     "deleted_at" => null,
                     "created_at" => $file_1->created_at,
                     "updated_at" => $file_1->updated_at->toJson(),
@@ -311,9 +311,9 @@ class BrowseTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                "user_scope" => "editor",
-                "type"       => "file",
-                'user_id'    => $user->id,
+                "author"  => "visitor",
+                "type"    => "file",
+                'user_id' => $user->id,
             ]);
 
         $this->getJson("/api/browse/participants")
@@ -338,7 +338,7 @@ class BrowseTest extends TestCase
                 'parent_id'  => null,
                 'name'       => 'root',
                 'user_id'    => $user->id,
-                "user_scope" => "master",
+                "author"     => "user",
                 'deleted_at' => Carbon::now(),
             ]);
 
@@ -348,7 +348,7 @@ class BrowseTest extends TestCase
                 'name'       => 'Document',
                 'basename'   => 'document.pdf',
                 "mimetype"   => "application/pdf",
-                "user_scope" => "master",
+                "author"     => "user",
                 "type"       => "file",
                 'user_id'    => $user->id,
                 'deleted_at' => Carbon::now(),
@@ -371,7 +371,7 @@ class BrowseTest extends TestCase
                     "name"          => "root",
                     "color"         => null,
                     "emoji"         => null,
-                    "user_scope"    => "master",
+                    "author"        => "user",
                     "deleted_at"    => $folder->deleted_at,
                     "created_at"    => $folder->created_at,
                     "updated_at"    => $folder->updated_at->toJson(),
@@ -391,7 +391,7 @@ class BrowseTest extends TestCase
                     "filesize"   => $file->filesize,
                     "type"       => "file",
                     "metadata"   => null,
-                    "user_scope" => "master",
+                    "author"     => "user",
                     "deleted_at" => $file->deleted_at,
                     "created_at" => $file->created_at,
                     "updated_at" => $file->updated_at->toJson(),
@@ -453,8 +453,8 @@ class BrowseTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'name'       => 'Document',
-                'user_id'    => $user->id,
+                'name'    => 'Document',
+                'user_id' => $user->id,
             ]);
 
         $this->getJson("/api/browse/search?query=doc")
@@ -476,8 +476,8 @@ class BrowseTest extends TestCase
 
         $folder = Folder::factory(Folder::class)
             ->create([
-                'name'       => 'Documents',
-                'user_id'    => $user->id,
+                'name'    => 'Documents',
+                'user_id' => $user->id,
             ]);
 
         $this->getJson("/api/browse/search?query=doc")

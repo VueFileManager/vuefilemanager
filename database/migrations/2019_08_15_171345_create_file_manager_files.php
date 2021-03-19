@@ -20,7 +20,7 @@ class CreateFileManagerFiles extends Migration
 
             $table->text('thumbnail')->nullable();
             $table->text('name');
-            $table->text('basename');
+            $table->string('basename')->index();
 
             $table->text('mimetype')->nullable();
             $table->text('filesize');
@@ -28,8 +28,8 @@ class CreateFileManagerFiles extends Migration
             $table->text('type')->nullable();
             $table->longText('metadata')->nullable();
 
-            // TODO: upravit user scope
-            $table->enum('user_scope', ['master', 'editor', 'visitor'])->default('master');
+            $table->enum('author', ['user', 'member', 'visitor'])->default('user');
+            $table->uuid('author_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
