@@ -171,6 +171,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
     Route::get('/settings', 'SettingController@show');
     Route::get('/flush-cache', 'AppFunctionsController@flush_cache');
 
+    // Language
     Route::group(['prefix' => 'languages'], function () {
         Route::get('/{language}/strings', 'Admin\LanguageController@get_language_strings');
         Route::patch('/{language}/string', 'Admin\LanguageController@update_string');
@@ -179,9 +180,6 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
         Route::post('/', 'Admin\LanguageController@create_language');
         Route::get('/', 'Admin\LanguageController@get_languages');
     });
-
-    // Language
-    
 });
 
 // Protected sharing routes for authenticated user
@@ -206,9 +204,9 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::post('/upload', 'FileFunctions\EditItemsController@user_upload');
     Route::post('/move', 'FileFunctions\EditItemsController@user_move');
 
-    //Get translate
-    Route::get('/language/{lang}', 'AppFunctionsController@get_translate');
-
     //Get Emojis List
     Route::get('/emojis-list', 'AppFunctionsController@get_emojis_list');
 });
+
+//Get translate
+Route::get('/language/{lang}', 'AppFunctionsController@get_translate');

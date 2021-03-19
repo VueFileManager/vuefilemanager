@@ -279,8 +279,6 @@ class AppFunctionsController extends Controller
             return $lang->with('languageStrings')->first();
         });
         
-        // return $lang->with('languageStrings')->first();
-
     }
 
 }

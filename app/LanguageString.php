@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class LanguageString extends Model
@@ -14,5 +15,14 @@ class LanguageString extends Model
 
     protected $fillable = ['value' ,'key', 'lang'];
     
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function() {
+            dd('test');
+            // Cache::forget('language_strings');
+        });
+    }
 
 }
