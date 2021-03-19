@@ -228,6 +228,9 @@ class EditShareItemsController extends Controller
      */
     public function zip_folder($id, Share $shared)
     {
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
+
         // Check access to requested folder
         $this->helper->check_item_access($id, $shared);
 
@@ -261,6 +264,9 @@ class EditShareItemsController extends Controller
      */
     public function zip_multiple_files(Request $request, Share $shared)
     {
+        // Check ability to access protected share record
+        $this->helper->check_protected_share_record($shared);
+
         $file_parent_folders = File::whereUserId($shared->user_id)
             ->whereIn('id', $request->items)
             ->get()

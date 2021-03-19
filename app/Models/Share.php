@@ -32,7 +32,7 @@ class Share extends Model
      */
     public function getLinkAttribute()
     {
-        return url('/shared', ['token' => $this->attributes['token']]);
+        return url('/share', ['token' => $this->attributes['token']]);
     }
 
     public function user()

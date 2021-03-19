@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use Storage;
 use Tests\TestCase;
 
-class PublicFilesAccessTest extends TestCase
+class VisitorAccessToItemsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -151,7 +151,7 @@ class PublicFilesAccessTest extends TestCase
                 'is_protected' => false,
             ]);
 
-        $this->get("/shared/$share->token")
+        $this->get("/share/$share->token")
             ->assertStatus(200);
     }
 

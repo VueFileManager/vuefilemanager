@@ -12,6 +12,10 @@ use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
+/**
+ * @method static whereUserId($user_id)
+ * @method static whereId($id)
+ */
 class File extends Model
 {
     use Searchable, SoftDeletes, Sortable, HasFactory;

@@ -309,7 +309,7 @@ const routesAdmin = [
 const routesShared = [
     {
         name: 'Shared',
-        path: '/shared/:token',
+        path: '/share/:token',
         component: () =>
             import(/* webpackChunkName: "chunks/shared" */ './views/Shared'),
         meta: {
@@ -318,7 +318,7 @@ const routesShared = [
         children: [
             {
                 name: 'SharedFileBrowser',
-                path: '/shared/:token/files',
+                path: '/share/:token/files',
                 component: () =>
                     import(/* webpackChunkName: "chunks/shared/file-browser" */ './views/Shared/SharedFileBrowser'),
                 meta: {
@@ -327,7 +327,7 @@ const routesShared = [
             },
             {
                 name: 'SharedSingleFile',
-                path: '/shared/:token/file',
+                path: '/share/:token/file',
                 component: () =>
                     import(/* webpackChunkName: "chunks/shared/single-file" */ './views/Shared/SharedSingleFile'),
                 meta: {
@@ -336,7 +336,7 @@ const routesShared = [
             },
             {
                 name: 'SharedAuthentication',
-                path: '/shared/:token/authenticate',
+                path: '/share/:token/authenticate',
                 component: () =>
                     import(/* webpackChunkName: "chunks/shared/authenticate" */ './views/Shared/SharedAuthentication'),
                 meta: {

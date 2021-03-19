@@ -317,7 +317,7 @@ class HelperService
                 abort(403, $abort_message);
             }
 
-            // Check if share record was authenticated previously via ServeSharedController@authenticate
+            // Check if share record was authenticated previously via ShareController@authenticate
             if (!$share_session->authenticated) {
                 abort(403, $abort_message);
             }

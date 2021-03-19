@@ -433,7 +433,7 @@ class BrowseTest extends TestCase
 
         collect([$folder, $file])
             ->each(function ($item) use ($user) {
-                $this->getJson("/api/browse/shared")
+                $this->getJson("/api/browse/share")
                     ->assertStatus(200)
                     ->assertJsonFragment([
                         'id' => $item->id

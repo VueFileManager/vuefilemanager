@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ShareTest extends TestCase
+class UserShareTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -149,7 +149,7 @@ class ShareTest extends TestCase
     /**
      * @test
      */
-    public function it_share_folder_for_multiple_email()
+    public function it_share_folder_and_send_link_for_multiple_email()
     {
         Notification::fake();
 
@@ -210,7 +210,7 @@ class ShareTest extends TestCase
      *
      * TODO: pridat test na zmazanie zip
      */
-    public function it_revoke_single_sharing()
+    public function it_revoke_single_share_record()
     {
         $folder = Folder::factory(Folder::class)
             ->create();
@@ -235,70 +235,5 @@ class ShareTest extends TestCase
         $this->assertDatabaseMissing('shares', [
             'item_id' => $folder->id
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_shared_record()
-    {
-        $share = Share::factory(Share::class)
-            ->create([
-                'is_protected' => 0,
-            ]);
-
-        $this->get("/api/browse/shared/$share->token")
-            ->assertStatus(200)
-            ->assertExactJson([
-                'data' => [
-                    'id'         => $share->id,
-                    'type'       => 'shares',
-                    'attributes' => [
-                        'permission'   => $share->permission,
-                        'is_protected' => false,
-                        'item_id'      => $share->item_id,
-                        'expire_in'    => $share->expire_in,
-                        'token'        => $share->token,
-                        'link'         => $share->link,
-                        'type'         => $share->type,
-                        'created_at'   => $share->created_at->toJson(),
-                        'updated_at'   => $share->updated_at->toJson(),
-                    ],
-                ]
-            ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_deleted_shared_record()
-    {
-        $this->get("/api/browse/shared/19ZMPNiass4ZqWwQ")
-            ->assertNotFound();
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_shared_page()
-    {
-        $share = Share::factory(Share::class)
-            ->create([
-                'type'         => 'folder',
-                'is_protected' => false,
-            ]);
-
-        $this->get("/shared/$share->token")
-            ->assertViewIs('index')
-            ->assertStatus(200);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_deleted_shared_page()
-    {
-        $this->get('/shared/19ZMPNiass4ZqWwQ')
-            ->assertNotFound();
     }
 }

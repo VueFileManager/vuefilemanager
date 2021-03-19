@@ -88,7 +88,7 @@ class AppFunctionsController extends Controller
         return view("vuefilemanager.crawler.og-view")
             ->with('settings', get_settings_in_json())
             ->with('metadata', [
-                'url'          => url('/shared', ['token' => $shared->token]),
+                'url'          => url('/share', ['token' => $shared->token]),
                 'is_protected' => $shared->is_protected,
                 'user'         => $shared->user->settings->name,
                 'name'         => $item->name,
