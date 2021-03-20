@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Mail;
+use ScssPhp\ScssPhp\Compiler;
 use Tests\TestCase;
 
 class AppTest extends TestCase
@@ -70,7 +71,7 @@ class AppTest extends TestCase
         $folder = Folder::factory(Folder::class)
             ->create([
                 'user_id' => $user->id,
-                'name' => 'Folder Title',
+                'name'    => 'Folder Title',
             ]);
 
         $share = Share::factory(Share::class)
@@ -97,8 +98,8 @@ class AppTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'user_id' => $user->id,
-                'name' => 'Fake Image',
+                'user_id'   => $user->id,
+                'name'      => 'Fake Image',
                 'thumbnail' => 'fake-image-thumbnail.jpg',
             ]);
 
@@ -127,8 +128,8 @@ class AppTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'user_id' => $user->id,
-                'name' => 'Fake Image',
+                'user_id'   => $user->id,
+                'name'      => 'Fake Image',
                 'thumbnail' => 'fake-image-thumbnail.jpg',
             ]);
 

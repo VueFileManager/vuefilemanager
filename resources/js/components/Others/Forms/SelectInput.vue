@@ -18,7 +18,7 @@
                 <span class="option-value placehoder">{{ placeholder }}</span>
             </div>
 
-            <chevron-down-icon size="19" class="chevron"></chevron-down-icon>
+            <chevron-down-icon size="19" class="chevron" />
         </div>
 
         <!--Options-->
@@ -117,7 +117,9 @@
     }
 
     .input-area {
-        border: 1px solid transparent;
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparent;
         justify-content: space-between;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
         //background: $light_mode_input_background;
@@ -135,8 +137,7 @@
         }
 
         &.is-active {
-            border-color: $theme;
-            box-shadow: 0 0 7px rgba($theme, 0.3);
+            //box-shadow: 0 0 7px rgba($theme, 0.3);
 
             .chevron {
                 @include transform(rotate(180deg));

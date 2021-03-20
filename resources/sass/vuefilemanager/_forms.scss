@@ -122,7 +122,7 @@ input[type="email"] {
 
   &.is-error {
     border-color: $danger;
-    box-shadow: 0 1px 5px rgba($danger, 0.3);
+    //box-shadow: 0 1px 5px rgba($danger, 0.3);
   }
 
   &::placeholder {
@@ -131,8 +131,7 @@ input[type="email"] {
   }
 
   &:focus {
-    border-color: $theme;
-    box-shadow: 0 1px 5px rgba($theme, 0.3);
+    //box-shadow: 0 1px 5px rgba($theme, 0.3);
   }
 
   &[disabled] {
@@ -148,10 +147,8 @@ input[type="email"] {
   @include font-size(16);
   margin-top: 50px;
   display: block;
-  color: $text;
 
   b, a {
-    color: $theme;
     cursor: pointer;
 
     &:hover {

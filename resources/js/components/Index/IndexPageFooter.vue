@@ -11,14 +11,14 @@
                 </a>
             </li>-->
             <li>
-                <router-link :to="{name: 'ContactUs'}">
+                <router-link :to="{name: 'ContactUs'}" class="hover-text-theme">
                     {{ $t('page_index.menu.contact_us') }}
                 </router-link>
             </li>
         </ul>
         <ul class="navigation-links">
             <li v-if="legal.visibility" v-for="(legal, index) in config.legal" :key="index">
-                <router-link :to="{name: 'DynamicPage', params: {slug: legal.slug }}">
+                <router-link :to="{name: 'DynamicPage', params: {slug: legal.slug }}" class="hover-text-theme">
                     {{ legal.title }}
                 </router-link>
             </li>
@@ -75,10 +75,6 @@
                 font-weight: 700;
                 @include font-size(17);
                 @include transition(150ms);
-
-                &:hover {
-                    color: $theme;
-                }
             }
         }
     }
@@ -90,7 +86,6 @@
         padding-bottom: 20px;
 
         /deep/ a {
-            color: $theme;
             font-weight: 700;
         }
     }

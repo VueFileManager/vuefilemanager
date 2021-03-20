@@ -12,26 +12,26 @@
             <ContentGroup :title="$t('sidebar.locations_title')">
                 <div class="menu-list-wrapper vertical">
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['base'])}" @click="goHome">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <home-icon size="17"></home-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('sidebar.home') }}
                         </div>
                     </a>
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['latest'])}" @click="getLatest">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <upload-cloud-icon size="17"></upload-cloud-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('sidebar.latest') }}
                         </div>
                     </a>
-                    <a class="menu-list-item link trash" :class="{'is-active-trash': $isThisLocation(['trash', 'trash-root'])}" @click="getTrash">
-                        <div class="icon">
+                    <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['trash', 'trash-root'])}" @click="getTrash">
+                        <div class="icon text-theme">
                             <trash2-icon size="17"></trash2-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('locations.trash') }}
                         </div>
                     </a>
@@ -56,9 +56,9 @@
                         </span>
 
                         <a @click.stop="openFolder(folder)" class="menu-list-item" :class="{'is-current': (folder && currentFolder) && (currentFolder.id === folder.id)}" v-for="folder in favourites" :key="folder.id">
-                            <div>
-                                <folder-icon size="17" class="folder-icon"></folder-icon>
-                                <span class="label">{{ folder.name }}</span>
+                            <div class="text-theme">
+                                <folder-icon size="17" class="folder-icon text-theme"></folder-icon>
+                                <span class="label text-theme">{{ folder.name }}</span>
                             </div>
                             <x-icon size="17" @click.stop="removeFavourite(folder)" class="delete-icon"></x-icon>
                         </a>

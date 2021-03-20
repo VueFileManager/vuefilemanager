@@ -1,6 +1,6 @@
 <template>
     <li class="list-info-item">
-        <b>{{ title }}</b>
+        <b class="text-theme">{{ title }}</b>
         <span v-if="content">{{ content }}</span>
         <slot></slot>
     </li>
@@ -33,7 +33,6 @@
         b {
             display: block;
             @include font-size(13);
-            color: $theme;
             margin-bottom: 2px;
         }
 

@@ -9,60 +9,60 @@
                 <!--Page Tab links-->
                 <div class="menu-list-wrapper horizontal">
                     <router-link replace :to="{name: 'AppOthers'}"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                                 class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <settings-icon size="17"></settings-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_settings.tabs.others') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'AppAppearance'}"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
                             <eye-icon size="17"></eye-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_settings.tabs.appearance') }}
                         </div>
                     </router-link>
 
                     <router-link v-if="config.isSaaS" replace :to="{name: 'AppBillings'}"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_settings.tabs.billings') }}
                         </div>
                     </router-link>
 
                     <router-link v-if="config.isSaaS" replace :to="{name: 'AppPayments'}"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_settings.tabs.payments') }}
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'AppIndex'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'AppIndex'}" class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
                             <home-icon size="17"></home-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             Homepage
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'AppEmail'}"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
                             <mail-icon size="17"></mail-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_settings.tabs.email') }}
                         </div>
                     </router-link>

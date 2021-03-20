@@ -83,7 +83,6 @@
         }
 
         &.active {
-            background: $theme;
 
             .switch-button {
                 left: 25px;

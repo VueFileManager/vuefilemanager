@@ -15,7 +15,7 @@
                 </div>
                 <div class="file-info">
                     <span ref="name" class="name">{{ fileInfoDetail[0].name }}</span>
-                    <span class="mimetype" v-if="fileInfoDetail[0].mimetype">.{{ fileInfoDetail[0].mimetype }}</span>
+                    <span class="mimetype text-theme" v-if="fileInfoDetail[0].mimetype">.{{ fileInfoDetail[0].mimetype }}</span>
                 </div>
             </div>
         </div>
@@ -180,7 +180,6 @@
             .mimetype {
                 @include font-size(12);
                 font-weight: 600;
-                color: $theme;
                 display: block;
             }
         }

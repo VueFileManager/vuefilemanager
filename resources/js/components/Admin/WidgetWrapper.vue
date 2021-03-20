@@ -3,9 +3,9 @@
         <div class="widget-content">
             <div class="headline">
                 <div class="icon">
-                    <users-icon v-if="icon === 'users'" size="19"></users-icon>
-                    <star-icon v-if="icon === 'star'" size="19"></star-icon>
-                    <hard-drive-icon v-if="icon === 'hard-drive'" size="19"></hard-drive-icon>
+                    <users-icon v-if="icon === 'users'" size="19" class="text-theme"></users-icon>
+                    <star-icon v-if="icon === 'star'" size="19" class="text-theme"></star-icon>
+                    <hard-drive-icon v-if="icon === 'hard-drive'" size="19" class="text-theme"></hard-drive-icon>
                 </div>
                 <b class="title">{{ title }}</b>
             </div>
@@ -44,7 +44,7 @@
             margin-right: 10px;
 
             path, circle, line, polygon {
-                stroke: $theme;
+                color: inherit;
             }
         }
     }

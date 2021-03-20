@@ -47,18 +47,6 @@
             transform: scale(0.95);
         }
 
-        &.theme {
-            background: rgba($theme, .1);
-
-            .content {
-                color: $theme;
-            }
-
-            polyline, path {
-                stroke: $theme;
-            }
-        }
-
         &.theme-solid {
             background: $theme;
 

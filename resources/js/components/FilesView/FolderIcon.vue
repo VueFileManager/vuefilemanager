@@ -84,12 +84,6 @@
     }
 }
 
-.default-color {
-    path {
-        fill: $theme !important;
-    }
-}
-
 .folder-icon {
 
     path {

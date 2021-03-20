@@ -227,20 +227,6 @@ export default {
     /deep/ .label {
         color: $text !important;
     }
-
-    /deep/ .preview-sorting {
-        path, line, polyline, rect, circle {
-            stroke: $text !important;
-        }
-    }
-
-    &:hover {
-        /deep/ .preview-sorting {
-            path, line, polyline, rect, circle {
-                stroke: $theme !important;
-            }
-        }
-    }
 }
 
 .toolbar-wrapper {
@@ -348,22 +334,9 @@ export default {
         margin-left: 5px;
 
         &.active {
-            /deep/ svg {
-                line,
-                circle,
-                rect {
-                    stroke: $theme;
-                }
-            }
 
             &.preview-sorting {
                 background: $light_background;
-
-                /deep/ .preview-sorting {
-                    path, line, polyline, rect, circle {
-                        stroke: $theme !important;
-                    }
-                }
             }
         }
 

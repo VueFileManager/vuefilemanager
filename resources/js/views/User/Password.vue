@@ -9,6 +9,7 @@
                                         rules="required" v-slot="{ errors }">
                         <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
                                type="password"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -19,6 +20,7 @@
                                         rules="required" v-slot="{ errors }">
                         <input v-model="newPasswordConfirmation"
                                :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>

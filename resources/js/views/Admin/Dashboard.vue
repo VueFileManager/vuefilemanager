@@ -22,11 +22,11 @@
                             {{ data.license }}
                         </ColorLabel>
                     </a>
-                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer">
+                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer bg-theme-100">
                         <div class="icon">
-                            <credit-card-icon size="15"></credit-card-icon>
+                            <credit-card-icon size="15" class="text-theme"></credit-card-icon>
                         </div>
-                        <span class="content">
+                        <span class="content text-theme">
                             {{ $t('admin_page_dashboard.backer_button') }}
                         </span>
                     </a>
@@ -177,7 +177,6 @@
     }
 
     .became-backer {
-        background: rgba($theme, 0.1);
         display: inline-block;
         padding: 5px 10px;
         border-radius: 6px;
@@ -194,12 +193,11 @@
             line-height: 0;
 
             rect, line {
-                stroke: $theme;
+                color: inherit;
             }
         }
 
         .content {
-            color: $theme;
             font-weight: 700;
             @include font-size(14);
         }

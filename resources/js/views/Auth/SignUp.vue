@@ -17,6 +17,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="register.email" :placeholder="$t('page_registration.placeholder_email')" type="email"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -27,6 +28,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="register.name" :placeholder="$t('page_registration.placeholder_name')" type="text"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -37,6 +39,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Your New Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password" :placeholder="$t('page_registration.placeholder_pass')" type="password"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -47,6 +50,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password_confirmation" :placeholder="$t('page_registration.placeholder_confirm_pass')"
+                               class="focus-border-theme"
                                type="password" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -54,15 +58,15 @@
 
                 <div>
                     <i18n path="page_registration.agreement" tag="p" class="legal-agreement">
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">{{ termsOfService.title }}</router-link>
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">{{ privacyPolicy.title }}</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank" class="text-theme">{{ termsOfService.title }}</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank" class="text-theme">{{ privacyPolicy.title }}</router-link>
                     </i18n>
                     <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
 
             <span class="additional-link">{{ $t('page_registration.have_an_account') }}
-                <router-link :to="{name: 'SignIn'}">
+                <router-link :to="{name: 'SignIn'}" class="text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -201,9 +205,5 @@
         font-weight: 700;
         line-height: 1.6;
         margin: 0 auto;
-
-        a {
-            color: $theme;
-        }
     }
 </style>

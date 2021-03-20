@@ -2,7 +2,7 @@
     <transition name="folder">
         <div class="folder-item-wrapper" >
 
-            <div class="folder-item" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
+            <div class="folder-item text-theme" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
                                     :style="indent" @click="getFolder"
                                     @dragover.prevent="dragEnter"
                                     @dragleave="dragLeave"
@@ -11,7 +11,7 @@
              >
                 <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow"
                                     :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
-                <folder-icon size="17" class="icon"></folder-icon>
+                <folder-icon size="17" class="icon text-theme"></folder-icon>
                 <span class="label">{{ nodes.name }}</span>
             </div>
 
@@ -217,12 +217,12 @@
 
             .icon {
                 path, line, polyline, rect, circle {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
 
             .label {
-                color: $theme;
+                color: inherit;
             }
         }
     }

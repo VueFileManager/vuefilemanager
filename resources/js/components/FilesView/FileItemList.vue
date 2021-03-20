@@ -21,7 +21,7 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">
+                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
                     {{ item.mimetype | limitCharacters }}
                 </span>
 
@@ -32,7 +32,7 @@
                 <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
                  <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder" />
+                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder svg-color-theme" />
             </div>
 
             <!--Name-->
@@ -44,12 +44,12 @@
                 <div class="item-info">
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && item.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon"></link-icon>
+                        <link-icon size="12" class="shared-icon text-theme"></link-icon>
                     </div>
 
                     <!--Participant owner Icon-->
                     <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
+                        <user-plus-icon size="12" class="shared-icon text-theme"></user-plus-icon>
                     </div>
 
                     <!--Filesize and timestamp-->
@@ -401,7 +401,7 @@ export default {
                 path,
                 circle,
                 line {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
         }
@@ -481,7 +481,6 @@ export default {
             text-align: center;
             left: 0;
             right: 0;
-            color: $theme;
             font-weight: 600;
             user-select: none;
             max-width: 50px;

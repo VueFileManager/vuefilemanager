@@ -7,28 +7,28 @@
             <ContentGroup title="Menu" class="navigator">
                 <div class="menu-list-wrapper vertical">
                     <router-link replace :to="{name: 'Profile'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <user-icon size="17"></user-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.profile') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'Storage'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.storage') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'Password'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <lock-icon size="17"></lock-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.password') }}
                         </div>
                     </router-link>
@@ -37,28 +37,28 @@
             <ContentGroup title="Subscription" class="navigator" v-if="canShowSubscriptionSettings">
                 <div class="menu-list-wrapper vertical">
                     <router-link replace :to="{name: 'Subscription'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <cloud-icon size="17"></cloud-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.subscription') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'PaymentMethods'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.payment_cards') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.invoices') }}
                         </div>
                     </router-link>

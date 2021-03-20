@@ -20,6 +20,7 @@
                                v-model="userInfo.name"
                                :placeholder="$t('page_registration.placeholder_name')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
@@ -52,6 +53,7 @@
                                v-model="billingInfo.name"
                                :placeholder="$t('user_settings.name_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
@@ -62,6 +64,7 @@
                                v-model="billingInfo.address"
                                :placeholder="$t('user_settings.address_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
@@ -73,6 +76,7 @@
                                    v-model="billingInfo.city"
                                    :placeholder="$t('user_settings.city_plac')"
                                    type="text"
+                                   class="focus-border-theme"
                             />
                         </div>
                     </div>
@@ -83,6 +87,7 @@
                                    v-model="billingInfo.postal_code"
                                    :placeholder="$t('user_settings.postal_code_plac')"
                                    type="text"
+                                   class="focus-border-theme"
                             />
                         </div>
                     </div>
@@ -94,7 +99,8 @@
                                      v-model="billingInfo.country"
                                      :default="billingInfo.country"
                                      :options="countries"
-                                     :placeholder="$t('user_settings.country_plac')"/>
+                                     :placeholder="$t('user_settings.country_plac')"
+                        />
                     </div>
                 </div>
                 <div class="block-wrapper">
@@ -104,6 +110,7 @@
                                v-model="billingInfo.state"
                                :placeholder="$t('user_settings.state_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                         <small class="input-help">
                             State, county, province, or region.
@@ -117,6 +124,7 @@
                                v-model="billingInfo.phone_number"
                                :placeholder="$t('user_settings.phone_number_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>

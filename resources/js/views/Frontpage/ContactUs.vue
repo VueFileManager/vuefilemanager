@@ -22,6 +22,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="contact.email" :placeholder="$t('page_contact_us.form.email_plac')" type="email"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -31,7 +32,10 @@
                     <label>{{ $t('page_contact_us.form.message') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Message" rules="required"
                                         v-slot="{ errors }">
-                        <textarea v-model="contact.message" :placeholder="$t('page_contact_us.form.message_plac')" rows="6" :class="{'is-error': errors[0]}"></textarea>
+                        <textarea v-model="contact.message" :placeholder="$t('page_contact_us.form.message_plac')" rows="6"
+                                  class="focus-border-theme"
+                                  :class="{'is-error': errors[0]}"
+                        ></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

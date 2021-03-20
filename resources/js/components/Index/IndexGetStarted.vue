@@ -8,12 +8,12 @@
                 :description="index.get_started_description"
         ></PageTitle>
 
-        <router-link tag="button" class="get-started-button" :to="{name: 'SignUp'}">
+        <router-link tag="button" class="get-started-button bg-theme-800 hover-bg-theme shadow-theme" :to="{name: 'SignUp'}">
             <span class="content">{{ $t('page_index.get_started_button') }}</span>
             <chevron-right-icon size="22"></chevron-right-icon>
         </router-link>
 
-        <cloud-icon size="790" class="cloud-bg"></cloud-icon>
+        <cloud-icon size="790" class="cloud-bg svg-color-theme" />
 
         <div class="icons">
             <hard-drive-icon size="42" class="icon"></hard-drive-icon>
@@ -274,10 +274,10 @@
         top: 70px;
         right: 60px;
         transform: scale(-1, 1) rotate(13deg);
+        opacity: 0.1;
 
         path {
             stroke: none;
-            fill: rgba($theme, 0.05);
         }
     }
 
@@ -288,25 +288,18 @@
     .get-started-button {
         display: flex;
         align-items: center;
-        background: none;
         outline: none;
         border: none;
         margin-left: auto;
         margin-right: auto;
         cursor: pointer;
-        background: rgba($theme, 0.8);
         padding: 20px 36px;
         border-radius: 6px;
-        box-shadow: 0 5px 10px 2px rgba($theme, 0.34);
+        //box-shadow: 0 5px 10px 2px rgba($theme, 0.34);
         margin-bottom: 395px;
         @include transition(150ms);
         position: relative;
         z-index: 1;
-
-        &:hover {
-            box-shadow: 0 7px 16px 2px rgba($theme, 0.4);
-            background: rgba($theme, 1);
-        }
 
         .content {
             @include font-size(19);

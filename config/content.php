@@ -37,7 +37,7 @@ return [
             ],
             [
                 'name'  => 'header_title',
-                'value' => 'Simple <span style="color: #41B883">&</span> Powerful Personal Cloud Storage',
+                'value' => 'Simple <span class="text-theme">&</span> Powerful Personal Cloud Storage',
             ],
             [
                 'name'  => 'header_description',
@@ -45,7 +45,7 @@ return [
             ],
             [
                 'name'  => 'features_title',
-                'value' => 'The Fastest Growing <span style="color: #41B883">File Manager</span> on the CodeCanyon Market',
+                'value' => 'The Fastest Growing <span class="text-theme">File Manager</span> on the CodeCanyon Market',
             ],
             [
                 'name'  => 'features_description',
@@ -77,7 +77,7 @@ return [
             ],
             [
                 'name'  => 'get_started_title',
-                'value' => 'Ready to Get <span style="color: #41B883">Started</span><br> With Us?',
+                'value' => 'Ready to Get <span class="text-theme">Started</span><br> With Us?',
             ],
             [
                 'name'  => 'get_started_description',
@@ -111,7 +111,7 @@ return [
             ],
             [
                 'name'  => 'header_title',
-                'value' => 'Simple <span style="color: #41B883">&</span> Powerful Personal Cloud Storage',
+                'value' => 'Simple <span class="text-theme">&</span> Powerful Personal Cloud Storage',
             ],
             [
                 'name'  => 'header_description',
@@ -119,7 +119,7 @@ return [
             ],
             [
                 'name'  => 'features_title',
-                'value' => 'The Fastest Growing <span style="color: #41B883">File Manager</span> on the CodeCanyon Market',
+                'value' => 'The Fastest Growing <span class="text-theme">File Manager</span> on the CodeCanyon Market',
             ],
             [
                 'name'  => 'features_description',
@@ -151,7 +151,7 @@ return [
             ],
             [
                 'name'  => 'pricing_title',
-                'value' => 'Pick the <span style="color: #41B883;">Best Plan</span> For Your Needs',
+                'value' => 'Pick the <span class="text-theme">Best Plan</span> For Your Needs',
             ],
             [
                 'name'  => 'pricing_description',
@@ -159,7 +159,7 @@ return [
             ],
             [
                 'name'  => 'get_started_title',
-                'value' => 'Ready to Get <span style="color: #41B883">Started</span><br> With Us?',
+                'value' => 'Ready to Get <span class="text-theme">Started</span><br> With Us?',
             ],
             [
                 'name'  => 'get_started_description',
@@ -167,7 +167,7 @@ return [
             ],
             [
                 'name'  => 'footer_content',
-                'value' => '© 2021 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
+                'value' => '© 2021 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank" class="text-theme">Hi5Ve.Digital</a>',
             ],
         ]
     ],

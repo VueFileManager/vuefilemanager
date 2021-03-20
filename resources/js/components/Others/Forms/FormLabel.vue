@@ -1,6 +1,6 @@
 <template>
     <div class="form-label">
-        <edit-2-icon size="22" class="icon"></edit-2-icon>
+        <edit-2-icon size="22" class="icon text-theme" />
         <b class="label">
             <slot></slot>
         </b>
@@ -31,7 +31,7 @@
             margin-right: 10px;
 
             path {
-                stroke: $theme;
+                color: inherit;
             }
         }
 

@@ -14,6 +14,7 @@
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
+                           class="focus-border-theme"
                            :class="{'is-error': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -22,8 +23,9 @@
                             :disabled="isLoading" />
             </ValidationObserver>
 
-            <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }}
-                <router-link :to="{name: 'SignUp'}">
+            <span v-if="config.userRegistration" class="additional-link">
+                {{ $t('page_login.registration_text') }}
+                <router-link class="text-theme" :to="{name: 'SignUp'}">
                     {{ $t('page_login.registration_button') }}
                 </router-link>
             </span>
@@ -44,6 +46,7 @@
                                     v-slot="{ errors }">
                     <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')"
                            type="password"
+                           class="focus-border-theme"
                            :class="{'is-error': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -53,7 +56,7 @@
             </ValidationObserver>
 
             <span class="additional-link">{{ $t('page_sign_in.password_reset_text') }}
-                <router-link :to="{name: 'ForgottenPassword'}">
+                <router-link :to="{name: 'ForgottenPassword'}" class="text-theme">
                     {{ $t('page_sign_in.password_reset_button') }}
                 </router-link>
             </span>
@@ -211,8 +214,8 @@
             this.$store.commit('PROCESSING_POPUP', undefined)
 
             //if (this.config.isDemo) {
-                this.loginEmail = 'howdy@hi5ve.digital'
-                this.loginPassword = 'vuefilemanager'
+            this.loginEmail = 'howdy@hi5ve.digital'
+            this.loginPassword = 'vuefilemanager'
             //}
         }
     }

@@ -12,32 +12,32 @@
                     </a>
                 </li>-->
                 <li>
-                    <router-link :to="{name: 'ContactUs'}">
+                    <router-link :to="{name: 'ContactUs'}" class="hover-text-theme">
                         {{ $t('page_index.menu.contact_us') }}
                     </router-link>
                 </li>
             </ul>
             <ul v-if="! config.isAuthenticated" class="navigation-links">
                 <li>
-                    <router-link :to="{name: 'SignIn'}">
+                    <router-link :to="{name: 'SignIn'}" class="hover-text-theme">
                         {{ $t('page_index.menu.log_in') }}
                     </router-link>
                 </li>
                 <li v-if="config.userRegistration">
-                    <router-link class="cta-button" :to="{name: 'SignUp'}">
+                    <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'SignUp'}">
                         {{ $t('page_index.menu.sign_in') }}
                     </router-link>
                 </li>
             </ul>
             <ul v-if="config.isAuthenticated" class="navigation-links">
                 <li v-if="config.userRegistration">
-                    <router-link class="cta-button" :to="{name: 'Files'}">
+                    <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'Files'}">
                         Go to Files <!--todo: preklad-->
                     </router-link>
                 </li>
             </ul>
         </div>
-        <router-link class="cta-button log-in" :to="{name: 'SignIn'}">
+        <router-link class="cta-button log-in text-theme bg-theme-100" :to="{name: 'SignIn'}">
             {{ $t('page_index.menu.log_in') }}
         </router-link>
     </nav>
@@ -98,19 +98,13 @@
                 font-weight: 700;
                 @include font-size(17);
                 @include transition(150ms);
-
-                &:hover {
-                    color: $theme;
-                }
             }
         }
     }
 
     .cta-button {
-        background: rgba($theme, 0.1);
         border-radius: 6px;
         padding: 8px 23px;
-        color: $theme;
         @include font-size(17);
         font-weight: 700;
 

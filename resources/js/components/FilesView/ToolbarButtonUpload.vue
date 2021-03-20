@@ -1,6 +1,6 @@
 <template>
-    <label label="file" class="button file-input">
-        <upload-cloud-icon size="17"></upload-cloud-icon>
+    <label label="file" class="button hover-text-theme file-input">
+        <upload-cloud-icon size="17" />
         <input
                 @change="emmitFiles"
                 v-show="false"
@@ -47,12 +47,24 @@
         outline: none;
         border: none;
 
+        svg {
+            color: inherit;
+
+            path, line, polyline, rect, circle {
+                color: inherit;
+            }
+        }
+
         &:hover {
             background: $light_background;
 
-            path, line, polyline, rect, circle {
+            path,
+            line,
+            polyline,
+            rect,
+            circle {
                 @include transition(150ms);
-                stroke: $theme;
+                color: inherit;
             }
         }
     }
