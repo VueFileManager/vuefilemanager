@@ -625,6 +625,17 @@ const routesIndex = [
         },
     },
 ]
+const routesOthers = [
+    {
+        name: 'NotFound',
+        path: '*',
+        component: () =>
+            import(/* webpackChunkName: "chunks/not-found-shared" */ './views/Shared/NotFoundShared'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+]
 
 const router = new Router({
     mode: 'history',
@@ -635,6 +646,7 @@ const router = new Router({
         ...routesIndex,
         ...routesAuth,
         ...routesUser,
+        ...routesOthers,
     ],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {

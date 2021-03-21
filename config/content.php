@@ -168,5 +168,9 @@ return [
             'name'  => 'footer_content',
             'value' => '© 2021 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
         ],
+        [
+            'name'  => 'allow_homepage',
+            'value' => 1,
+        ],
     ],
 ];

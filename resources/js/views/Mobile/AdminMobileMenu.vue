@@ -13,9 +13,8 @@
                     <b class="mobile-menu-label">{{ $t('global.admin') }}</b>
                     <MenuItemList :navigation="AdminNavigation" />
 
-                    <!--SaaS menu-->
-                    <b class="mobile-menu-label">{{ $t('global.saas') }}</b>
-                    <MenuItemList :navigation="SassNavigation" />
+                    <b v-if="config.isSaaS" class="mobile-menu-label">{{ $t('global.saas') }}</b>
+                    <MenuItemList v-if="config.isSaaS" :navigation="SassNavigation" />
                 </nav>
             </div>
         </div>
@@ -32,6 +31,9 @@
         components: {
             MenuItemList,
             MobileHeader,
+        },
+        computed: {
+            ...mapGetters(['config']),
         },
         data() {
             return {
@@ -54,6 +56,12 @@
                         routeName: 'AppOthers',
                         isVisible: true,
                     },
+                    {
+                        icon: 'monitor',
+                        title: this.$t('admin_menu.pages'),
+                        routeName: 'Pages',
+                        isVisible: true,
+                    },
                 ],
                 SassNavigation: [
                     {
@@ -66,12 +74,6 @@
                         icon: 'file-text',
                         title: this.$t('admin_menu.invoices'),
                         routeName: 'Invoices',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'monitor',
-                        title: this.$t('admin_menu.pages'),
-                        routeName: 'Pages',
                         isVisible: true,
                     },
                 ]
