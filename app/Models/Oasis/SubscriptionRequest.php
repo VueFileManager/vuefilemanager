@@ -3,6 +3,7 @@
 namespace App\Models\Oasis;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ class SubscriptionRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'requested_plan'
+        'requested_plan', 'creator'
     ];
 
     public $incrementing = false;
@@ -30,6 +31,7 @@ class SubscriptionRequest extends Model
 
         static::creating(function ($order) {
             $order->id = (string)Str::uuid();
+            $order->creator = Auth::user()->email ?? $order->creator;
         });
     }
 }

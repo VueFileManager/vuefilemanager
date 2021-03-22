@@ -61,6 +61,7 @@ class OasisSubscriptionTest extends TestCase
             ->subscriptionRequest()
             ->create([
                 'requested_plan' => 'virtualni-sanon-basic',
+                'creator'        => 'john@doe.com',
             ]);
 
         $this->getJson("/api/oasis/subscription-request/{$user->subscriptionRequest->id}")
@@ -83,6 +84,7 @@ class OasisSubscriptionTest extends TestCase
             ->subscriptionRequest()
             ->create([
                 'requested_plan' => 'virtualni-sanon-basic',
+                'creator'        => 'john@doe.com',
             ]);
 
         // Register payment method

@@ -89,6 +89,7 @@ class OasisAdminTest extends TestCase
         $this->assertDatabaseHas('subscription_requests', [
             'requested_plan' => 'virtualni-sanon-basic',
             'status'         => 'requested',
+            'creator'        => $admin->email,
         ]);
 
         $this->assertDatabaseHas('users', [
