@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;
@@ -241,10 +242,20 @@ class StripeService
      */
     public function getPlan($id)
     {
-        $plan = $this->stripe->plans()->find($id);
-        $product = $this->stripe->products()->find($plan['product']);
+        if (Cache::has("plan-$id")) {
+            return Cache::get("plan-$id");
+        }
 
-        return compact('plan', 'product');
+        return Cache::rememberForever("plan-$id", function () use ($id) {
+
+            $plan = $this->stripe->plans()->find($id);
+            $product = $this->stripe->products()->find($plan['product']);
+
+            return [
+                'plan' => $plan,
+                'product' => $product,
+            ];
+        });
     }
 
     /**
