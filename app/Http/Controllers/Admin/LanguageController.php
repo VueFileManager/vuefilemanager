@@ -121,7 +121,6 @@ class LanguageController extends Controller
                 'value'       => $request->value
             ]);
 
-        
         Cache::forget('language_strings-' . $language->locale);
 
         return response('Done', 204);

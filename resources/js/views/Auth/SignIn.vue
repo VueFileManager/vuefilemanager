@@ -7,7 +7,7 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_login.title') }}</h1>
-            <h2>{{ $t('page_login.subtitle') }}</h2>
+            <h2>{{ $t('page_login.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
@@ -35,7 +35,7 @@
             <div class="user" v-if="checkedAccount">
                 <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
                 <h1>{{ $t('page_sign_in.title', {name: checkedAccount.name}) }}</h1>
-                <h2>{{ $t('page_sign_in.subtitle') }}</h2>
+                <h2>{{ $t('page_sign_in.subtitle') }}:</h2>
             </div>
 
             <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form"

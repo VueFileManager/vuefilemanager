@@ -1,6 +1,6 @@
 <template>
     <!-- Serach bar -->
-    <div v-if="strings" class="language-strings-wrapper">
+    <div v-if="strings" class="language-strings-wrapper form-block form">
         <div class="search-bar-wrapper">
             <div class="search-bar">
                 <div v-if="!searchInput" class="icon" >
@@ -15,7 +15,7 @@
                     class="query"
                     type="text"
                     name="searchInput"
-                    placeholder="Search Language Strings"
+                    placeholder="Search Language Strings..."
                 />
             </div>
         </div>
@@ -58,7 +58,9 @@
 
             <!-- Strings -->
             <FormLabel class="mt-70">Language Strings</FormLabel>
-            <Spinner v-if="!loadSearch || filteredStrings.length === 0"/>
+
+            <Spinner class="spinner" v-if="!loadSearch || filteredStrings.length === 0 && !searchInput"/>
+
             <div v-if="loadSearch && filteredStrings.length > 0">
                 <div class="block-wrapper string" v-for="(string,index) in filteredStrings" :key="index">
                     <label> {{string.value}}:</label>
@@ -72,6 +74,12 @@
                     </ValidationProvider>
                 </div>
             </div>
+
+             <!-- Not Fount -->
+            <div class="not-found-wrapper" v-if="loadSearch && filteredStrings.length === 0 && searchInput">
+                <span class="not-found">Not Found</span>
+            </div>
+
         </div>
        
     </div>
@@ -118,6 +126,8 @@ export default {
     watch: {
         activeLanguage () {
             this.getLanguageStrings(this.activeLanguage)
+
+            this.searchInput = ''
         }
     },
     methods: {
@@ -215,6 +225,24 @@ export default {
 @import '@assets/vue-file-manager/_mixins';
 @import '@assets/vue-file-manager/_forms';
 
+.spinner {
+    top: 60% !important;
+}
+
+.not-found-wrapper {
+    display: flex;
+    margin-top: 20%;
+
+    .not-found {
+        margin: auto;
+        font-weight: 700;
+        padding: 10px;
+        border-radius: 8px;
+        background: $light_background;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+    }
+}
+
 .string:last-child {
     margin-bottom: 32px !important;
 }
@@ -236,6 +264,7 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .block-form{
         overflow-y: scroll;
@@ -258,7 +287,7 @@ export default {
         border-radius: 8px;
         outline: 0;
         padding: 9px 20px 9px 43px;
-        font-weight: 400;
+        font-weight: 700;
         @include font-size(16);
         width: 100%;
         height: 50px;
@@ -268,9 +297,9 @@ export default {
         -webkit-appearance: none;
 
         &::placeholder {
-            color: $text-muted;
+            color: $light_text;
             @include font-size(14);
-            font-weight: 500;
+            font-weight: 700;
         }
 
         &:focus {
@@ -296,7 +325,7 @@ export default {
 
             circle,
             line {
-                color: $text-muted;
+                color: $light_text;
             }
 
         .pointer {
@@ -324,7 +353,6 @@ export default {
             padding: 9px 20px 9px 30px;
 
             &:focus {
-                border: 1px solid transparent;
                 box-shadow: none;
             }
         }
@@ -339,16 +367,23 @@ export default {
 @media (prefers-color-scheme: dark) {
     .search-bar {
         input {
-            border-color: transparent;
-            color: $dark_mode_text_primary;
+            background: $dark_mode_background ;
 
             &::placeholder {
                 color: $dark_mode_text_secondary;
             }
         }
 
-        .icon svg path {
-            fill: $dark_mode_text_secondary;
+        .icon {
+            circle,
+            line {
+                color: $dark_mode_text_secondary !important;
+            }
+        }
+    }
+    .not-found-wrapper {
+        .not-found {
+            background: $dark_mode_foreground !important;
         }
     }
 }

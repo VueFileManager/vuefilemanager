@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,4 +24,15 @@ class Setting extends Model
     public $timestamps = false;
 
     protected $guarded = ['id'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::updated(function($setting) {
+            if($setting->name === 'language') {
+                Cache::forget('default_language');
+            }
+        });
+    }
 }

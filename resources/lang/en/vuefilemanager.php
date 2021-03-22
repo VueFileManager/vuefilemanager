@@ -1,66 +1,66 @@
 <?php
 
 return [
-    'app_description'         => 'Your self-hosted storage cloud software powered by Laravel and Vue',
-    'user_not_fount'          => _t('user_not_fount'),
-    'incorrect_password'      => 'Sorry, your password is incorrect.',
-    'time'                    => '%d. %B. %Y at %H:%M',
-    'home'                    => 'Home',
+    'app_description'         => __t('app_description'),
+    'user_not_fount'          => __t('user_not_fount'),
+    'incorrect_password'      => __t('incorrect_password'),
+    'time'                    => __t('time'),
+    'home'                    => __t('home'),
 
     //Shared link email message
-    'shared_link_email_subject'     => _t('shared_link_email_subject'),
-    'shared_link_email_greeting'    => _t('shared_link_email_greeting'),
-    'shared_link_email_user'        => _t('shared_link_email_user'),
-    'shared_link_email_link'        => _t('shared_link_email_link'),
-    'shared_link_email_salutation'  => _t('shared_link_email_salutation'),
+    'shared_link_email_subject'     => __t('shared_link_email_subject'),
+    'shared_link_email_greeting'    => __t('shared_link_email_greeting'),
+    'shared_link_email_user'        => __t('shared_link_email_user'),
+    'shared_link_email_link'        => __t('shared_link_email_link'),
+    'shared_link_email_salutation'  => __t('shared_link_email_salutation'),
 
     // Reset password email
-    'reset_password_greeting' => 'Hello!',
-    'reset_password_subject'  => 'Reset password for your account on ',
-    'reset_password_line_1'   => 'You are receiving this email because we received a password reset request for your account.',
-    'reset_password_line_2'   => 'If you did not request a password reset, no further action is required.',
-    'reset_password_action'   => 'Reset Password',
+    'reset_password_greeting' => __t('reset_password_greeting'),
+    'reset_password_subject'  => __t('reset_password_subject'),
+    'reset_password_line_1'   => __t('reset_password_line_1'),
+    'reset_password_line_2'   => __t('reset_password_line_2'),
+    'reset_password_action'   => __t('reset_password_action'),
 
-    'salutation'   => 'Regards',
+    'salutation'   => __t('salutation'),
 
     // Invoice
-    'print_button' => 'Print Document',
+    'print_button' => __t('print_button'),
 
-    'vat'          => 'VAT',
-    'vat_included' => 'incl.',
-    'subtotal'     => 'Subtotal',
+    'vat'          => __t('vat'),
+    'vat_included' => __t('vat_included'),
+    'subtotal'     => __t('subtotal'),
 
-    'tax_exempted'        => 'Tax is exempted',
-    'tax_be_paid_reverse' => 'Tax to be paid on reverse charge basis',
+    'tax_exempted'        => __t('tax_exempted'),
+    'tax_be_paid_reverse' => __t('tax_be_paid_reverse'),
 
-    'invoice_title'  => 'Invoice',
-    'date'           => 'Date',
-    'product'        => 'Product',
-    'subscription'   => 'Subscription',
-    'invoice_number' => 'Invoice Number',
+    'invoice_title'  => __t('invoice_title'),
+    'date'           => __t('date'),
+    'product'        => __t('product'),
+    'subscription'   => __t('subscription'),
+    'invoice_number' => __t('invoice_number'),
 
-    'seller' => 'Seller',
-    'client' => 'Client',
+    'seller' => __t('seller'),
+    'client' => __t('client'),
 
-    'seller_vat'   => 'VAT number',
-    'seller_name'  => 'Name',
-    'seller_phone' => 'Phone',
+    'seller_vat'   => __t('seller_vat'),
+    'seller_name'  => __t('seller_name'),
+    'seller_phone' => __t('seller_phone'),
 
-    'name'        => 'Name',
-    'phone'       => 'Phone',
-    'address'     => 'Address',
-    'city'        => 'City',
-    'state'       => 'State',
-    'postal_code' => 'Postal code',
-    'country'     => 'Country',
+    'name'        => __t('name'),
+    'phone'       => __t('phone'),
+    'address'     => __t('address'),
+    'city'        => __t('city'),
+    'state'       => __t('state'),
+    'postal_code' => __t('postal_code'),
+    'country'     => __t('country'),
 
-    'col_description' => 'Description',
-    'col_date'        => 'Date',
-    'col_amount'      => 'Amount',
+    'col_description' => __t('col_description'),
+    'col_date'        => __t('col_date'),
+    'col_amount'      => __t('col_amount'),
 
-    'total' => 'Total',
+    'total' => __t('total'),
 
     // OG Page
-    'user_sending' => ':name is sending you this file',
-    'protected_file' => 'This link is protected by password',
+    'user_sending' => __t('user_sending'),
+    'protected_file' => __t('protected_file'),
 ];

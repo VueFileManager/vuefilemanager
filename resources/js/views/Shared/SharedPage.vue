@@ -45,7 +45,7 @@
                 <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
                 <h1>{{ $t('page_shared.title') }}</h1>
-                <h2>{{ $t('page_shared.subtitle') }}</h2>
+                <h2>{{ $t('page_shared.subtitle') }}:</h2>
 
                 <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
 

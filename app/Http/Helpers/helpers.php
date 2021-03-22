@@ -805,22 +805,53 @@ function set_time_by_user_timezone($time)
     
 }
 
-function _t($key)
+function __t($key, $values = null)
 {
-    $locale = get_setting('language');
-               
-    //Check if cash has string 
+    // Check if is in cache save default_language
+    if (Cache::has('default_language')) {
+
+        $locale = Cache::get('default_language');
+    } else {
+
+        $locale = Cache::rememberForever('default_language', function () {
+            return get_setting('language');
+        });     
+    }
+    
+    // Check if cash has string 
     if (Cache::has('language_strings-' . $locale)) {
         
         $strings = Cache::get('language_strings-' . $locale)
                     ->languageStrings;
                     
         // Find the string by key
-       return $strings->firstWhere('key', $key)->value;
+       $string = $strings->firstWhere('key', $key)->value;
     }    
 
     // If cash dont have string return string from database
-    return LanguageString::whereLangAndKey($locale, $key)
+    $string = LanguageString::whereLangAndKey($locale, $key)
             ->first()
             ->value;
+
+    if($values) {
+       return adjust_value($string, $values);
+    }
+ 
+    return $string;
+}
+
+function adjust_value($string, $values) 
+{
+    $search = [];
+    $replace = [];
+    
+    if($values) {
+        foreach($values as $key => $variable) {
+            array_push($search, ':' . $key);
+            array_push($replace, $variable);
+        }
+    }
+ 
+    return str_ireplace($search, $replace, $string);
+
 }

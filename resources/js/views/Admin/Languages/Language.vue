@@ -182,7 +182,7 @@ export default {
             margin-bottom: 5px;
 
             .language-label {
-                color: $text-muted;
+                color: $light_text;
                 font-weight: 700;
                 @include font-size(12);
                 margin-top: 20px;
@@ -203,7 +203,7 @@ export default {
                     }
 
                     .name {
-                        color: $theme;
+                        color: $theme !important;
                     }
                 }
 
@@ -239,4 +239,16 @@ export default {
 //             display: none;
 //         }
 //     }
+
+ @media (prefers-color-scheme: dark) {
+    
+    .language{
+        .name {
+            color: $dark_mode_text_primary !important;
+        }
+    }
+    .language-label {
+        color: $dark_mode_text_secondary !important;
+    }
+}
 </style>
