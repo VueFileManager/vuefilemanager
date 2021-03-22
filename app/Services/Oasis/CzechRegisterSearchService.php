@@ -23,7 +23,7 @@
  * echo ''.print_r($out, 1).'';
  */
 
-namespace App\Services;
+namespace App\Services\Oasis;
 
 class CzechRegisterSearchService
 {
