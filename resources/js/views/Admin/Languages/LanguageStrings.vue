@@ -1,4 +1,5 @@
 <template>
+    <!-- Serach bar -->
     <div v-if="strings" class="language-strings-wrapper">
         <div class="search-bar-wrapper">
             <div class="search-bar">
@@ -20,6 +21,8 @@
         </div>
 
         <Spinner v-if="!loadedStrings"/>
+
+        <!-- Set Language as default switch -->
         <div v-if="loadedStrings" class="form block-form">
             <FormLabel class="mt-70" icon="settings">Language Settings</FormLabel>
             <div class="block-wrapper">
@@ -40,7 +43,8 @@
                 </div>
             </div>
 
-            <div v-if="language.name" class="block-wrapper">
+            <!-- Language name -->
+            <div class="block-wrapper">
                 <label> Language Name:</label>
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Language Name" rules="required" v-slot="{ errors }">
                     <input  type="text"
@@ -52,21 +56,20 @@
                 </ValidationProvider>
             </div>
 
+            <!-- Strings -->
             <FormLabel class="mt-70">Language Strings</FormLabel>
-            <div class="block-wrapper">
-                <Spinner v-if="!loadSearch"/>
-                <div v-if="loadSearch">
-                    <div  class="block-wrapper" v-for="(string,index) in filteredStrings" :key="index">
-                        <label> {{string.value}}:</label>
-                        <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
-                            <input  type="text"
-                                    :class="{'is-error': errors[0]}"
-                                    @input="updateString(string.key)"
-                                    v-model="strings[getIndex(string.key)].value"
-                            />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
+            <Spinner v-if="!loadSearch || filteredStrings.length === 0"/>
+            <div v-if="loadSearch && filteredStrings.length > 0">
+                <div class="block-wrapper string" v-for="(string,index) in filteredStrings" :key="index">
+                    <label> {{string.value}}:</label>
+                    <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
+                        <input  type="text"
+                                :class="{'is-error': errors[0]}"
+                                @input="updateString(string.key)"
+                                v-model="strings[getIndex(string.key)].value"
+                        />
+                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                    </ValidationProvider>
                 </div>
             </div>
         </div>
@@ -86,7 +89,7 @@ import lodash from 'lodash'
 
 export default {
     name: 'LanguageStrings',
-    props: [ 'languageStrings', 'loadedStrings'],
+    props: [ 'activeLanguage', 'setLanguage' ],
     components: {
         ValidationProvider, 
         ValidationObserver,
@@ -98,7 +101,7 @@ export default {
     },
     computed: {
         languageSettingHandle() {
-            return this.language.locale == this.languageSetting ? true : false
+            return this.language.locale == this.setLanguage ? true : false
         },
     },
     data () {
@@ -106,16 +109,15 @@ export default {
             defaultStrings: [],
             filteredStrings: [],
             loadSearch: false,
+            loadedStrings: false,
             strings: undefined,
             language: undefined,
             searchInput: '',
-            languageSetting: undefined
         }
     },
     watch: {
-        loadedStrings () {
-            if(this.loadedStrings)
-                this.loadData()
+        activeLanguage () {
+            this.getLanguageStrings(this.activeLanguage)
         }
     },
     methods: {
@@ -123,7 +125,7 @@ export default {
         
             this.$updateText('/settings', 'language', this.language.locale)
 
-            this.languageSetting = this.language.locale
+            events.$emit('language:set-as-default', this.language.locale) 
 
             this.$loadLanguage(this.language.locale)
         },
@@ -150,7 +152,7 @@ export default {
              if(! this.strings[this.getIndex(key)].value) return
 
              this.$updateText(
-                `/languages/${this.languageStrings.translated_strings.id}/string`, `${key}`, this.strings[this.getIndex(key)].value,
+                `/languages/${this.language.id}/string`, `${key}`, this.strings[this.getIndex(key)].value,
             )
         },
         searchStrings() {
@@ -169,30 +171,39 @@ export default {
             this.loadSearch = true
 
         }, 200),
-        loadData() {
+        getLanguageStrings (language) {
 
-            if(this.languageStrings.translated_strings) {
+            this.loadedStrings = false
+            
+            this.defaultStrings = []
+            this.filteredStrings= []
 
-                this.strings = this.languageStrings.translated_strings.language_strings
+            axios
+				.get(`/api/languages/${language.id}/strings`)
+				.then(response => {
 
-                // Make from JSON object array of objects
-                for (const [key, value] of Object.entries(this.languageStrings.default_strings)) {
-                    this.defaultStrings.push({
-                        'key': key,
-                        'value': value,
-                    })
-                }
+					this.strings = response.data.translated_strings.language_strings
+                    
+                    this.language = {
+                        'id': response.data.translated_strings.id,
+                        'name': response.data.translated_strings.name,
+                        'locale': response.data.translated_strings.locale,
+                    }
 
-                this.language = {
-                    'id': this.languageStrings.translated_strings.id,
-                    'name': this.languageStrings.translated_strings.name,
-                    'locale': this.languageStrings.translated_strings.locale,
-                }
+                    //  Make from JSON object array of objects
+                    for (const [key, value] of Object.entries(response.data.default_strings)) {
+                        this.defaultStrings.push({
+                            'key': key,
+                            'value': value,
+                        })
+                    }
 
-                this.languageSetting = this.languageStrings.language_setting
-
-                this.filterStrings()
-            }
+                    this.filterStrings()                    
+				})
+				.catch(() => Vue.prototype.$isSomethingWrong())
+				.finally(() => {
+					this.loadedStrings = true
+				})
         }
     },
 }
@@ -204,6 +215,13 @@ export default {
 @import '@assets/vue-file-manager/_mixins';
 @import '@assets/vue-file-manager/_forms';
 
+.string:last-child {
+    margin-bottom: 32px !important;
+}
+
+.block-form {
+    padding: 1px;
+}
 .disable-switch {
    cursor: not-allowed;
    

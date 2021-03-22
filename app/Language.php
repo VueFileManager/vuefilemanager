@@ -33,10 +33,12 @@ class Language extends Model
             DB::table('language_strings')
                 ->where('lang', $language->locale)
                 ->delete();
+
+            Cache::forget('language_strings-' . $language->locale );
         });
 
-        static::updated(function() {
-            Cache::forget('language_strings');
+        static::updated(function($language) {
+            Cache::forget('language_strings-' . $language->locale );
         });
 
         static::created(function ($language) {

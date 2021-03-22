@@ -269,16 +269,16 @@ class AppFunctionsController extends Controller
     
     public function get_translate($lang)
     {
-        $lang = Language::whereLocale($lang);
+        $language = Language::whereLocale($lang);
+
+        $key = 'language_strings-' . $lang;
         
-        if (Cache::has('language_strings')) {
-            return Cache::get('language_strings');
+        if (Cache::has($key)) {
+            return Cache::get($key);
         }
 
-        return Cache::rememberForever('language_strings', function () use ($lang) {
-            return $lang->with('languageStrings')->first();
-        });
-        
+        return Cache::rememberForever($key, function () use ($language) {
+            return $language->with('languageStrings')->first();
+        });     
     }
-
 }

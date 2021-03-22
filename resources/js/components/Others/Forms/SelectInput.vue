@@ -10,7 +10,7 @@
                     <user-icon v-if="selected.icon === 'user'" size="14"></user-icon>
                     <edit2-icon v-if="selected.icon === 'user-edit'" size="14"></edit2-icon>
                 </div>
-                <span class="option-value">{{ selected.label }}</span>
+                <span class="option-value">{{ $t(`${selected.label}`) }}</span>
             </div>
 
             <!--If is empty-->
@@ -29,7 +29,7 @@
                         <user-icon v-if="option.icon === 'user'" size="14"></user-icon>
                         <edit2-icon v-if="option.icon === 'user-edit'" size="14"></edit2-icon>
                     </div>
-                    <span class="option-value">{{ option.label }}</span>
+                    <span class="option-value">{{ $t(`${option.label}`) }}</span>
                 </li>
             </ul>
         </transition>

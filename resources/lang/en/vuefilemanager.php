@@ -2,17 +2,17 @@
 
 return [
     'app_description'         => 'Your self-hosted storage cloud software powered by Laravel and Vue',
-    'user_not_fount'          => 'We can\'t find a user with that e-mail address.',
+    'user_not_fount'          => _t('user_not_fount'),
     'incorrect_password'      => 'Sorry, your password is incorrect.',
     'time'                    => '%d. %B. %Y at %H:%M',
     'home'                    => 'Home',
 
     //Shared link email message
-    'shared_link_email_subject'     => '🙋 :user share some files with you. Look at it!',
-    'shared_link_email_greeting'    => 'Hello!',
-    'shared_link_email_user'        => ':user (:email) send you a link to shared files.',
-    'shared_link_email_link'        => 'Open your files',
-    'shared_link_email_salutation'  => 'Regards, :app_name',
+    'shared_link_email_subject'     => _t('shared_link_email_subject'),
+    'shared_link_email_greeting'    => _t('shared_link_email_greeting'),
+    'shared_link_email_user'        => _t('shared_link_email_user'),
+    'shared_link_email_link'        => _t('shared_link_email_link'),
+    'shared_link_email_salutation'  => _t('shared_link_email_salutation'),
 
     // Reset password email
     'reset_password_greeting' => 'Hello!',

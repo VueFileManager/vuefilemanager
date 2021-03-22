@@ -12,11 +12,17 @@
                         <div class="language-label-wrapper">
                             <label class="language-label">Languages</label>
                         </div>
+
+                        <!-- Languages -->
                         <div  class="all-language-wrapper">
-                            <div @click="getLanguageStrings(language)" v-for="language in languages" :key="language.id">
+                            <div @click="openLanguage(language)" v-for="language in languages" :key="language.id">
                                 <div class="language" >
-                                    <label class="name" :class="{'active' :active === language.locale}">{{language.name}}</label>
-                                    <x-icon v-if="language.locale !== 'en'" @click.stop="deleteLanguageConfirm(language)" class="icon" size="17"/>
+                                    <label class="name" :class="{'active' :activeLanguage.locale === language.locale}">
+                                        {{language.name}}
+                                    </label>
+                                    <x-icon v-if="language.locale !== 'en' && language.locale !== setLanguage" 
+                                            @click.stop="deleteLanguageConfirm(language)" 
+                                            class="icon" size="17"/>
                                 </div>
                             </div>
                         </div>
@@ -27,8 +33,9 @@
                     </MobileActionButton>
                 </div>
 
-                <!-- <Spinner v-if="! loadedStrings"/> -->
-                <LanguageStrings :loaded-strings="loadedStrings" :language-strings="languagesStrings" />
+                <!-- Strings -->
+                <LanguageStrings :active-language="activeLanguage" :set-language="setLanguage" />
+
             </div>
         </div>
     </div>
@@ -59,11 +66,11 @@ export default {
     },
     data () {
         return {
-            active: undefined,
-            languages:undefined,
+            activeLanguage: undefined,
             languagesStrings:undefined,
+            setLanguage: undefined,
+            languages:undefined,
             loadedLanguages: false,
-            loadedStrings:false
         }
     },
     methods: {
@@ -89,30 +96,19 @@ export default {
             axios
 				.get('/api/languages')
 				.then((response) => {
-                    this.languages = response.data
-                    this.active = response.data[0].locale
+                    this.languages = response.data.languages
+
+                    this.activeLanguage = response.data.languages[0]
+
+                    this.setLanguage = response.data.set_language
 				})
 				.catch(() => Vue.prototype.$isSomethingWrong())
 				.finally(() => {
 					this.loadedLanguages = true
-                    this.getLanguageStrings(this.languages[0])
 				})
         },
-        getLanguageStrings (language) {
-
-            this.active = language.locale
-
-            this.loadedStrings = false
-
-            axios
-				.get(`/api/languages/${language.id}/strings`)
-				.then(response => {
-					this.languagesStrings = response.data
-				})
-				.catch(() => Vue.prototype.$isSomethingWrong())
-				.finally(() => {
-					this.loadedStrings = true
-				})
+        openLanguage(language) {
+            this.activeLanguage = language
         }
     },
     mounted () {
@@ -131,6 +127,10 @@ export default {
             let index = _.findIndex(this.languages, function(item) { return item.id === language.id })
             
             this.languages[index].name = language.name
+        })
+
+        events.$on('language:set-as-default', (locale) => {
+            this.setLanguage = locale
         })
     },
     destroyed () {

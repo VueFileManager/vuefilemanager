@@ -25,7 +25,7 @@ const Helpers = {
 
         Vue.prototype.$loadLanguage = function (language) {
            
-            // return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 let locale = language ? language : this.$store.getters.config.language
                 axios.get(`/api/language/${locale}`)
                     .then((response) => {
@@ -39,12 +39,11 @@ const Helpers = {
                         })
 
                         i18n.setLocaleMessage(locale, obj)
-                        i18n.locale = locale
-
-                        // resolve(true)
-                       
+                        i18n.locale = locale        
+                        
+                        resolve(true)
                     })
-            // })
+            })
         }
 
         Vue.prototype.$updateImage = function (route, name, image) {

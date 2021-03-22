@@ -807,26 +807,20 @@ function set_time_by_user_timezone($time)
 
 function _t($key)
 {
-    if (Cache::has('language_strings')) {
+    $locale = get_setting('language');
+               
+    //Check if cash has string 
+    if (Cache::has('language_strings-' . $locale)) {
         
-        //Check if cash has string 
-        $strings = Cache::get('language_strings')
-                    ->languageStrings
-                    ->toArray();
-
+        $strings = Cache::get('language_strings-' . $locale)
+                    ->languageStrings;
+                    
         // Find the string by key
-        foreach($strings as $string) {
-            if($string['key'] === $key) {
-               return $string['value'];
-            }
-        }
-    }
-
-    $language = Language::whereLocale(get_setting('language'))
-                    ->first();
+       return $strings->firstWhere('key', $key)->value;
+    }    
 
     // If cash dont have string return string from database
-    return LanguageString::whereLangAndKey($language->locale, $key)
+    return LanguageString::whereLangAndKey($locale, $key)
             ->first()
             ->value;
 }

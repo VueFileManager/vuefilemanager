@@ -4,7 +4,7 @@
         <!--System alerts-->
         <Alert/>
 
-        <div id="application-wrapper" v-if="! isGuestLayout">
+        <div id="application-wrapper" v-show="loadedLanguage" v-if="! isGuestLayout">
 
             <!-- Full File Preview -->
             <FileFullPreview/>
@@ -148,6 +148,7 @@ export default {
     data() {
         return {
             isScaledDown: false,
+            loadedLanguage: false,
         }
     },
     methods: {
@@ -181,7 +182,9 @@ export default {
     },
     mounted() {
 
-        this.$loadLanguage()
+        this.$loadLanguage().then((loaded) => {
+            this.loadedLanguage = loaded
+        })
 
         this.$checkOS()
 

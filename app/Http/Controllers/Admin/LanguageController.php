@@ -11,6 +11,7 @@ use App\Http\Tools\Demo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Languages\UpdateStringRequest;
 use App\Http\Requests\Languages\CreateLanguageRequest;
 use App\Http\Requests\Languages\UpdateLanguageRequest;
@@ -19,33 +20,26 @@ class LanguageController extends Controller
 {
 
     /**
-     * Get all languages
+     * Get all languages for admin translate
      * 
-     * @return string
+     * @return Collection
      */
     public function get_languages()
     {
-        return Language::all();
-    }
-
-    public function get_language_strings_i18n($language)
-    {
-        $lang = Language::whereLocale($language);
-
-        return $lang->with('languageStrings')->first();
-
+        return [
+           'languages'    => Language::all(),
+           'set_language' => Setting::whereName('language')->first()->value
+        ];
     }
 
     /**
-     * Get all language strings
+     * Get all language strings for admin translate
      *
      * @param Language $language
      * @return Collection
      */
     public function get_language_strings(Language $language)
     {
-        $language_setting = Setting::whereName('language')->first()->value;
-
         $lang = Language::whereId($language->id);
 
         $strings = $lang->with('languageStrings')->first();
@@ -57,7 +51,6 @@ class LanguageController extends Controller
         $default_strings = collect(config('language_strings.' . $license));
 
         return [
-            'language_setting'   => $language_setting,
             'translated_strings' => $strings,
             'default_strings'    => $default_strings
         ];
@@ -108,7 +101,7 @@ class LanguageController extends Controller
     }
 
     /**
-     * Update strings for language
+     * Update string for language
      *
      * @param UpdateStringRequest $request
      * @param Language $language
@@ -127,6 +120,9 @@ class LanguageController extends Controller
                 'lang'        => $language->locale,
                 'value'       => $request->value
             ]);
+
+        
+        Cache::forget('language_strings-' . $language->locale);
 
         return response('Done', 204);
     }
