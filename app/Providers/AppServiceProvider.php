@@ -29,5 +29,21 @@ class AppServiceProvider extends ServiceProvider
 
         // Set locale for carbon dates
         setlocale(LC_TIME, $get_time_locale);
+
+        // Get all migrations with all directories
+        $this->loadMigrationsFrom(
+            $this->get_migration_paths()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function get_migration_paths(): array
+    {
+        $mainPath = database_path('migrations');
+        $directories = glob($mainPath . '/*', GLOB_ONLYDIR);
+
+        return array_merge([$mainPath], $directories);
     }
 }
