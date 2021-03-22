@@ -11,7 +11,7 @@
                     <router-link replace :to="{name: 'AppOthers'}"
                                  class="menu-list-item link border-bottom-theme">
                         <div class="icon text-theme">
-                            <settings-icon size="17"></settings-icon>
+                            <settings-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_settings.tabs.others') }}
@@ -21,7 +21,7 @@
                     <router-link replace :to="{name: 'AppAppearance'}"
                                  class="menu-list-item link link border-bottom-theme">
                         <div class="icon text-theme">
-                            <eye-icon size="17"></eye-icon>
+                            <eye-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_settings.tabs.appearance') }}
@@ -31,7 +31,7 @@
                     <router-link v-if="config.isSaaS" replace :to="{name: 'AppBillings'}"
                                  class="menu-list-item link link border-bottom-theme">
                         <div class="icon text-theme">
-                            <file-text-icon size="17"></file-text-icon>
+                            <file-text-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_settings.tabs.billings') }}
@@ -41,7 +41,7 @@
                     <router-link v-if="config.isSaaS" replace :to="{name: 'AppPayments'}"
                                  class="menu-list-item link link border-bottom-theme">
                         <div class="icon text-theme">
-                            <credit-card-icon size="17"></credit-card-icon>
+                            <credit-card-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_settings.tabs.payments') }}
@@ -50,7 +50,7 @@
 
                     <router-link replace :to="{name: 'AppIndex'}" class="menu-list-item link link border-bottom-theme">
                         <div class="icon text-theme">
-                            <home-icon size="17"></home-icon>
+                            <home-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             Homepage
@@ -60,7 +60,7 @@
                     <router-link replace :to="{name: 'AppEmail'}"
                                  class="menu-list-item link link border-bottom-theme">
                         <div class="icon text-theme">
-                            <mail-icon size="17"></mail-icon>
+                            <mail-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_settings.tabs.email') }}

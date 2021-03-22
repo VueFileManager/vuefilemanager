@@ -12,6 +12,7 @@
                         <input v-model="userName"
                                :placeholder="$t('admin_page_user.placeholder_delete_user')"
                                type="text"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"
                         />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"

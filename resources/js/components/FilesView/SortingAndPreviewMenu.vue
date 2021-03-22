@@ -1,6 +1,15 @@
 <template>
     <div class="menu-options" id="menu-list">
-        <ul class="menu-option-group">
+        <OptionGroup class="menu-option-group">
+            <Option v-if="isList" @click="changePreview('grid')" :title="$t('preview_sorting.grid_view')" icon="grid" />
+            <Option v-if="isGrid" @click="changePreview('list')" :title="$t('preview_sorting.list_view')" icon="list" />
+        </OptionGroup>
+        <OptionGroup class="menu-option-group">
+            <Option @click.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
+            <Option @click.stop="sort('name')" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
+        </OptionGroup>
+
+        <ul v-if="false" class="menu-option-group">
             <li v-if="isList" class="menu-option" @click="changePreview('grid')">
                 <div class="icon">
                     <grid-icon size="17"/>
@@ -18,7 +27,7 @@
                 </div>
             </li>
         </ul>
-        <ul class="menu-option-group">
+        <ul v-if="false" class="menu-option-group">
             <li class="menu-option" @click.stop="sort('created_at')">
                 <div class="icon">
                     <calendar-icon size="17"/>
@@ -47,6 +56,8 @@
 
 <script>
 
+import OptionGroup from '@/components/FilesView/OptionGroup'
+import Option from '@/components/FilesView/Option'
 import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import { mapGetters } from 'vuex'
@@ -55,6 +66,8 @@ import { events } from '@/bus'
 export default {
     name: 'SortingAndPreviewMenu',
     components: {
+        OptionGroup,
+        Option,
         CalendarIcon,
         AlphabetIcon,
         ArrowUpIcon,

@@ -22,7 +22,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('page_registration.label_email') }}</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" rules="required" v-slot="{ errors }">
-                                <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('page_registration.label_name') }}</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="user name" rules="required" v-slot="{ errors }">
-                                <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -41,7 +41,7 @@
                             <div class="block-wrapper">
                                 <label>{{ $t('page_registration.label_pass') }}</label>
                                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password" rules="required" v-slot="{ errors }">
-                                    <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" :class="{'is-error': errors[0]}"/>
+                                    <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
@@ -49,7 +49,7 @@
                             <div class="block-wrapper">
                                 <label>{{ $t('page_registration.label_confirm_pass') }}</label>
                                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password confirm" rules="required" v-slot="{ errors }">
-                                    <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" :class="{'is-error': errors[0]}"/>
+                                    <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
@@ -72,7 +72,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_user.label_change_capacity') }}</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="storage capacity" rules="required" v-slot="{ errors }">
-                                <input v-model="user.storage_capacity" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.storage_capacity" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>

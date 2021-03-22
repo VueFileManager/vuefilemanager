@@ -16,7 +16,7 @@
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_rename.label') }}:</label>
                     <div class="input">
-                        <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
+                        <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme" :placeholder="$t('popup_rename.placeholder')">
                         <div @click="pickedItem.name = ''" class="close-icon-wrapper">
                             <x-icon class="close-icon" size="14" />
                         </div>
@@ -26,7 +26,9 @@
 
                 <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" />
 
-                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
+                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
+                    {{ moreOptionsTitle }}
+                </ActionButton>
             </ValidationObserver>
         </PopupContent>
 

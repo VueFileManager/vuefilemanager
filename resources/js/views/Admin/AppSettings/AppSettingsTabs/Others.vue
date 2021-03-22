@@ -35,6 +35,7 @@
                                :placeholder="$t('admin_settings.others.default_storage_plac')"
                                type="number"
                                :class="{'is-error': errors[0]}"
+                               class="focus-border-theme"
                         />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -65,7 +66,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email"
                                         rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/admin/settings', 'contact_email', app.contactMail)" v-model="app.contactMail"
-                               :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" :class="{'is-error': errors[0]}"/>
+                               :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -75,7 +76,7 @@
                                         v-slot="{ errors }">
                         <input @input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics)" v-model="app.googleAnalytics"
                                :placeholder="$t('admin_settings.others.google_analytics_plac')"
-                               type="text" :class="{'is-error': errors[0]}"/>
+                               type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -83,7 +84,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.mimetypes_blacklist') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mimetypes Blacklist" v-slot="{ errors }">
-                        <textarea rows="2" @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <textarea rows="2" @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help" v-html="$t('admin_settings.others.mimetypes_blacklist_help')"></small>
@@ -92,7 +93,7 @@
                  <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.upload_limit') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Upload Limit" v-slot="{ errors }">
-                        <input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help" v-html="$t('admin_settings.others.upload_limit_help')"></small>

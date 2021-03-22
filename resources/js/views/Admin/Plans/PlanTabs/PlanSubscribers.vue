@@ -23,10 +23,10 @@
                         <td>
                             <div class="action-icons">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                    <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
+                                    <edit-2-icon size="15" class="icon icon-edit" />
                                 </router-link>
                                 <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
-                                    <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
+                                    <trash2-icon size="15" class="icon icon-trash" />
                                 </router-link>
                             </div>
                         </td>

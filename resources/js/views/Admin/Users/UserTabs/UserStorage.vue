@@ -17,6 +17,7 @@
                                type="number"
                                min="1"
                                max="999999999"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"
                         />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">

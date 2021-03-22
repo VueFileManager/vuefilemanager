@@ -24,57 +24,57 @@
 
                 <!--Page Tab links-->
                 <div class="menu-list-wrapper horizontal">
-                    <router-link replace :to="{name: 'UserDetail'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserDetail'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <user-icon size="17"></user-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.detail') }}
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserStorage'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserStorage'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.storage') }}
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserSubscription'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserSubscription'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.subscription') }}
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserInvoices'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserInvoices'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.invoices') }}
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserPassword'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserPassword'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <lock-icon size="17"></lock-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.password') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.relationships.settings.data.attributes.name !== admin.name"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                                 class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <trash2-icon size="17"></trash2-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.delete') }}
                         </div>
                     </router-link>

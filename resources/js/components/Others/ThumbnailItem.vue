@@ -14,7 +14,7 @@
             <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!--Else show only folder icon-->
-            <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder" />
+            <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder svg-color-theme" />
         </div>
 
         <!--Name-->

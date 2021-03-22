@@ -27,7 +27,7 @@
                         <label>{{ $t('admin_pages.form.title') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
                             <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
-                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -47,6 +47,7 @@
                                     v-model="page.data.attributes.content"
                                     :placeholder="$t('admin_pages.form.content_plac')"
                                     :class="{'is-error': errors[0]}"
+                                    class="focus-border-theme"
                                     rows="18"
                             ></textarea>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>

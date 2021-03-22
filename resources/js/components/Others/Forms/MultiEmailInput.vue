@@ -1,10 +1,10 @@
 <template>
     <div class="wrapper">
         <label class="input-label">{{ label }}:</label>
-        <div class="input-wrapper" :class="{'is-error' : isError}" @click="$refs.input.focus()">
+        <div class="input-wrapper focus-within-border-theme" :class="{'is-error' : isError}" @click="$refs.input.focus()">
             <div class="email-list">
-                <div class="email-tag" :class="{'mb-offset': getCharactersLength > 45}" v-for="(email, i) in emails" :key="i">
-                    <span>{{ email }}</span>
+                <div class="email-tag bg-theme-100" :class="{'mb-offset': getCharactersLength > 45}" v-for="(email, i) in emails" :key="i">
+                    <span class="text-theme">{{ email }}</span>
                     <x-icon @click="removeEmail(email)" class="icon" size="14"/>
                 </div>
                 <input @keydown.delete=removeLastEmail($event) @keyup="handleEmail()" v-model="email" :size="inputSize" class="email-input" :placeholder="placeHolder" autocomplete="new-password" ref="input"/>
@@ -123,8 +123,8 @@ export default {
     }
 
     &:focus-within {
-        border: 1px solid $theme;
-        box-shadow: 0 1px 5px rgba($theme, 0.3);
+        //border: 1px solid $theme;
+        //box-shadow: 0 1px 5px rgba($theme, 0.3);
     }
 
     .email-list {
@@ -140,7 +140,6 @@ export default {
         white-space: nowrap;
         display: flex;
         padding: 5px 10px;
-        background: rgba($theme, .1);
         border-radius: 8px;
         margin-right: 5px;
         align-items: center;
@@ -151,7 +150,6 @@ export default {
         }
 
         span {
-            color: $theme;
             font-weight: 700;
             @include font-size(14);
         }

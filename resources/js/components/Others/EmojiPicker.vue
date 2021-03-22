@@ -3,7 +3,7 @@
         <label class="main-label">{{ $t('popup_rename.select_emoji_label') }}:</label>
 
         <!-- Selected Emoji input -->
-        <div @click.stop="openList" class="select-input-wrapper" :class="{'active-menu' : selectOpen}">
+        <div @click.stop="openList" class="select-input-wrapper focus-border-theme" :class="{'active-menu' : selectOpen}">
 
             <!-- If is emoji selected -->
             <div class="select-input" v-if="selectedEmoji && selectedEmoji !== 'default'">
@@ -266,7 +266,6 @@ export default {
     .emoji-input {
         width: 100%;
         border-radius: 8px;
-        padding: 4px;
         margin-bottom: 20px;
         background: $light_background;
         border: none;
@@ -354,8 +353,7 @@ export default {
     }
 
     &.active-menu {
-        border-color: $theme;
-        box-shadow: 0 0 7px rgba($theme, 0.3);
+        //box-shadow: 0 0 7px rgba($theme, 0.3);
 
         .row-icon {
             transform: rotate(180deg);

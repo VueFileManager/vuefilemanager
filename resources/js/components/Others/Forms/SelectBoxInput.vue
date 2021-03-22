@@ -1,11 +1,11 @@
 <template>
     <div class="select-box">
-        <div class="box-item"
-             :class="{'selected': item.value === input}"
+        <div class="box-item active-bg-theme-100 active-border-theme"
+             :class="{'active': item.value === input}"
              @click="getSelectedValue(item)"
              v-for="(item, i) in data" :key="i"
         >
-            <span class="box-value">{{ item.label }}</span>
+            <span class="box-value active-text-theme">{{ item.label }}</span>
         </div>
     </div>
 </template>
@@ -66,15 +66,6 @@
 
             .box-value {
                 @include font-size(15);
-            }
-
-            &.selected {
-                background: rgba($theme, .1);
-                border-color: $theme;
-
-                .box-value {
-                    color: $theme;
-                }
             }
         }
     }

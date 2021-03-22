@@ -10,7 +10,7 @@
                     <label>{{ $t('admin_settings.appearance.title') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text"
-                               :class="{'is-error': errors[0]}"/>
+                               :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -19,7 +19,7 @@
                     <label>{{ $t('admin_settings.appearance.description') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
                         <input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description"
-                               :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                               :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

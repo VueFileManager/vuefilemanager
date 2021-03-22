@@ -1,7 +1,7 @@
 <template>
     <div class="dropzone" :class="{ 'is-error': error }">
         <div v-if="imagePreview" @click="resetImage" class="reset-image">
-            <x-icon size="14" class="close-icon"></x-icon>
+            <x-icon size="14" class="close-icon text-theme" />
         </div>
 
         <input
@@ -18,7 +18,7 @@
         />
 
         <div class="dropzone-message" v-show="! isData">
-            <image-icon size="28" class="icon-upload"></image-icon>
+            <image-icon size="28" class="icon-upload text-theme"></image-icon>
             <span class="dropzone-title">
                 {{ $t('input_image.title') }}
             </span>
@@ -146,7 +146,7 @@
 
             .icon-upload {
                 rect, circle, polyline {
-                    stroke: $theme
+                    color: inherit
                 }
             }
 
@@ -195,7 +195,7 @@
 
                 .icon-upload {
                     path, polyline, line {
-                        stroke: $theme;
+                        color: inherit;
                     }
                 }
 

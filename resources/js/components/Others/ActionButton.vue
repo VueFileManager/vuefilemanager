@@ -1,7 +1,7 @@
 <template>
     <div class="action-button">
-        <x-icon size="12" class="icon" v-if="icon === 'x'"></x-icon>
-        <edit-2-icon size="12" class="icon" v-if="icon === 'pencil-alt'"></edit-2-icon>
+        <x-icon size="12" class="icon text-theme" v-if="icon === 'x'" />
+        <edit-2-icon size="12" class="icon text-theme" v-if="icon === 'pencil-alt'" />
         <span class="label">
             <slot></slot>
         </span>
@@ -40,7 +40,7 @@
             margin-right: 2px;
 
             path, circle, line {
-                stroke: $theme;
+                color: inherit;
             }
         }
     }

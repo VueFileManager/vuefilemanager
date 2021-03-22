@@ -1,20 +1,23 @@
 <template>
-    <li class="menu-option" :class="[icon === 'trash' ? 'danger' : '']">
-        <div class="icon">
-            <trash-2-icon v-if="icon === 'trash'" size="17"></trash-2-icon>
-            <life-buoy-icon v-if="icon === 'restore'" size="17"></life-buoy-icon>
-            <trash-icon v-if="icon === 'empty-trash'" size="17"></trash-icon>
-            <eye-icon v-if="icon ==='detail'" size="17"></eye-icon>
-            <download-cloud-icon v-if="icon === 'download'" size="17"></download-cloud-icon>
-            <edit2-icon v-if="icon === 'rename'" size="17"></edit2-icon>
-            <corner-down-right-icon v-if="icon === 'move-item'" size="17"></corner-down-right-icon>
-            <link-icon v-if="icon === 'share'" size="17"></link-icon>
-            <star-icon v-if="icon === 'favourites'" size="17"></star-icon>
-            <folder-plus-icon v-if="icon === 'create-folder'" size="17"></folder-plus-icon>
-            <smile-icon v-if="icon === 'no-options'" size="17"></smile-icon>
-            <paperclip-icon v-if="icon === 'zip-folder'" size="17"></paperclip-icon> 
+    <li class="menu-option group">
+        <div class="icon group-hover-text-theme">
+            <calendar-icon v-if="icon === 'calendar'" size="17" class="group-hover-text-theme"/>
+            <grid-icon v-if="icon === 'grid'" size="17" class="group-hover-text-theme"/>
+            <list-icon v-if="icon === 'list'" size="17" class="group-hover-text-theme"/>
+            <trash-2-icon v-if="icon === 'trash'" size="17" class="group-hover-text-theme"/>
+            <life-buoy-icon v-if="icon === 'restore'" size="17" class="group-hover-text-theme"/>
+            <trash-icon v-if="icon === 'empty-trash'" size="17" class="group-hover-text-theme"/>
+            <eye-icon v-if="icon ==='detail'" size="17" class="group-hover-text-theme"/>
+            <download-cloud-icon v-if="icon === 'download'" size="17" class="group-hover-text-theme"/>
+            <edit2-icon v-if="icon === 'rename'" size="17" class="group-hover-text-theme"/>
+            <corner-down-right-icon v-if="icon === 'move-item'" size="17" class="group-hover-text-theme"/>
+            <link-icon v-if="icon === 'share'" size="17" class="group-hover-text-theme"/>
+            <star-icon v-if="icon === 'favourites'" size="17" class="group-hover-text-theme"/>
+            <folder-plus-icon v-if="icon === 'create-folder'" size="17" class="group-hover-text-theme"/>
+            <smile-icon v-if="icon === 'no-options'" size="17" class="group-hover-text-theme"/>
+            <paperclip-icon v-if="icon === 'zip-folder'" size="17" class="group-hover-text-theme"/>
         </div>
-        <div class="text-label">
+        <div class="text-label group-hover-text-theme">
             {{ title }}
         </div>
     </li>
@@ -60,22 +63,6 @@ import {
 @import "@assets/vuefilemanager/_variables";
 @import "@assets/vuefilemanager/_mixins";
 
-.danger {
-    .text-label {
-        color: $danger !important;
-    }
-    .icon {
-        path,
-        line,
-        polyline,
-        rect,
-        circle,
-        polygon {
-            stroke: $danger !important;
-        }
-    }
-}
-
 .menu-option {
     white-space: nowrap;
     font-weight: 700;
@@ -90,6 +77,15 @@ import {
     .icon {
         margin-right: 20px;
         line-height: 0;
+
+        path,
+        line,
+        polyline,
+        rect,
+        circle,
+        polygon {
+            color: inherit;
+        }
     }
 
     .text-label {
@@ -98,19 +94,6 @@ import {
 
     &:hover {
         background: $light_background;
-
-        .text-label {
-            color: $theme;
-        }
-
-        path,
-        line,
-        polyline,
-        rect,
-        circle,
-        polygon {
-            stroke: $theme;
-        }
     }
 }
 @media (prefers-color-scheme: dark) {

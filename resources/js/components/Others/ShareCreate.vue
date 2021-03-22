@@ -9,7 +9,7 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" />
 
-            <!-- Infobox for successfull sended email -->
+            <!-- Infobox for successful send email -->
             <InfoBox v-if="isGeneratedShared && sharedViaEmail" class="info-box-wrapper">
                 <p v-html="$t('shared_form.email_successfully_send_message')"></p>
             </InfoBox>
@@ -31,7 +31,7 @@
 
                 </TabWrapper>
 
-                <!--Permision Select-->
+                <!--Permission Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
                     <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]" />
@@ -48,7 +48,7 @@
 
                 <!--Set password-->
                 <ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
+                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -62,7 +62,9 @@
                     </div>
                 </div>
 
-                <ActionButton @click.native="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
+                <ActionButton @click.native="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
+                    {{ moreOptionsTitle }}
+                </ActionButton>
             </ValidationObserver>
 
             <!--Copy generated link-->
@@ -76,9 +78,11 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase v-if="! isGeneratedShared" class="popup-button" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }}
+            <ButtonBase v-if="! isGeneratedShared" class="popup-button" @click.native="$closePopup()" button-style="secondary">
+                {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
-            <ButtonBase class="popup-button" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">{{ submitButtonText }}
+            <ButtonBase class="popup-button" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">
+                {{ submitButtonText }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

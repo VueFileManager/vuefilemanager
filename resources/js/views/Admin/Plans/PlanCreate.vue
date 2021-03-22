@@ -16,7 +16,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_plans.form.name') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                                <input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                                <input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -25,7 +25,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_plans.form.description') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Description" v-slot="{ errors }">
-                                <textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'is-error': errors[0]}"></textarea>
+                                <textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'is-error': errors[0]}" class="focus-border-theme"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -40,7 +40,7 @@
                             <label>{{ $t('admin_page_plans.form.price') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Plan price" rules="required" v-slot="{ errors }">
                                 <input v-model="plan.price" :placeholder="$t('admin_page_plans.form.price_plac')" type="number" step="0.01" min="1" max="999999999999"
-                                       :class="{'is-error': errors[0]}"/>
+                                       :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -50,7 +50,7 @@
                             <label>{{ $t('admin_page_plans.form.storage') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage capacity" rules="required" v-slot="{ errors }">
                                 <input v-model="plan.capacity" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999"
-                                       :class="{'is-error': errors[0]}"/>
+                                       :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                             <small class="input-help">

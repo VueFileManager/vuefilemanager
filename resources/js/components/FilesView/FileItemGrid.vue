@@ -26,7 +26,7 @@
                 <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name" />
 
                 <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" location="file-item-grid" class="folder" />
+                <FolderIcon v-if="isFolder" :item="item" location="file-item-grid" class="folder svg-color-theme" />
             </div>
 
             <!--Name-->
@@ -40,12 +40,12 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && item.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon"></link-icon>
+                        <link-icon size="12" class="shared-icon text-theme" />
                     </div>
 
                     <!--Participant owner Icon-->
                     <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
+                        <user-plus-icon size="12" class="shared-icon text-theme" />
                     </div>
 
                     <!--Filesize-->

@@ -13,7 +13,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.email.driver') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.email.host') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.email.port') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.email.username') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -45,7 +45,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.email.password') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

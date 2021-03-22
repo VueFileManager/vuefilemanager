@@ -1,14 +1,14 @@
 <template>
     <div class="search-bar">
         <div class="icon" v-if="!isQuery">
-            <search-icon size="19"></search-icon>
+            <search-icon size="19" />
         </div>
         <div class="icon" v-if="isQuery" @click="resetQuery">
-            <x-icon class="pointer" size="19"></x-icon>
+            <x-icon class="pointer" size="19" />
         </div>
         <input
                 v-model="query"
-                class="query"
+                class="query focus-border-theme"
                 type="text"
                 name="query"
                 :placeholder="$t('inputs.placeholder_search_files')"
@@ -99,8 +99,7 @@
             }
 
             &:focus {
-                border: 1px solid $theme;
-                box-shadow: 0 0 7px rgba($theme, 0.3);
+                //box-shadow: 0 0 7px rgba($theme, 0.3);
             }
 
             &:focus + .icon {

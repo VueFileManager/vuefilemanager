@@ -15,8 +15,7 @@
                 <span class="label">{{ nodes.name }}</span>
             </div>
 
-            <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders"
-                               :key="item.id"/>
+            <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id"/>
         </div>
     </transition>
 </template>

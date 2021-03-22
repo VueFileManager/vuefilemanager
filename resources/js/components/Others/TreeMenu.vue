@@ -2,10 +2,10 @@
     <!--Folder Icon-->
     <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.id === nodes.id || !disableId} ">
 
-        <div class="folder-item" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
+        <div class="folder-item text-theme" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
             <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
-            <hard-drive-icon v-if="nodes.location === 'base'" size="17" class="icon"></hard-drive-icon>
-            <folder-icon v-if="nodes.location !== 'base'" size="17" class="icon"></folder-icon>
+            <hard-drive-icon v-if="nodes.location === 'base'" size="17" class="icon text-theme"></hard-drive-icon>
+            <folder-icon v-if="nodes.location !== 'base'" size="17" class="icon text-theme"></folder-icon>
             <span class="label">{{ nodes.name }}</span>
         </div>
 
@@ -150,12 +150,12 @@
 
             .icon {
                 path, line, polyline, rect, circle {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
 
             .label {
-                color: $theme;
+                color: inherit;
             }
         }
     }

@@ -49,7 +49,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.payments.stripe_pub_key') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Publishable Key" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.payments.stripe_sec_key') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret Key" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="block-wrapper">
                     <label>Webhook Secret:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook Secret" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

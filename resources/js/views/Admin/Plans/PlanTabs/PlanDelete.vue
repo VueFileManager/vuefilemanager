@@ -11,7 +11,7 @@
                 <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Plan name" :rules="'required|is:' + plan.attributes.name">
                     <label>{{ $t('admin_page_user.label_delete_user', {user: plan.attributes.name}) }}:</label>
                     <div class="single-line-form">
-                        <input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
                             {{ $t('admin_page_plans.delete_plan_button') }}
                         </ButtonBase>
