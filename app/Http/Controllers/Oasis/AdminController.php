@@ -8,7 +8,10 @@ use App\Models\User;
 use App\Notifications\Oasis\PaymentRequiredNotification;
 use App\Services\Oasis\CzechRegisterSearchService;
 use Hash;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Notification;
 
@@ -17,7 +20,7 @@ class AdminController extends Controller
     /**
      * Get company details from czech company register
      *
-     * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return array|Application|ResponseFactory|Response
      */
     public function get_company_details()
     {
@@ -38,7 +41,7 @@ class AdminController extends Controller
      * Register new client and send email with payment details
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
     public function register_new_client(Request $request)
     {
