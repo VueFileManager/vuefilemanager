@@ -40,6 +40,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapOasisRoutes();
+
         $this->mapApiRoutes();
 
         $this->mapShareRoutes();
@@ -98,6 +100,14 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapOasisRoutes()
+    {
+        Route::prefix('api/oasis')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/oasis.php'));
     }
 
     protected function mapShareRoutes()
