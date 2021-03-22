@@ -15,9 +15,7 @@ class AddItemsToUserSettingsTable extends Migration
     {
         Schema::table('user_settings', function (Blueprint $table) {
             $table->boolean('payment_activation')->after('storage_capacity')->default(0);
-
             $table->string('ico')->after('phone_number')->nullable();
-            $table->string('requested_plan')->nullable();
         });
     }
 

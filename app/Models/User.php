@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\ResetPassword;
 use App\Services\HelperService;
 use App\Services\StripeService;
+use App\Traits\Oasis;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use Notifiable, Billable, Sortable, HasFactory, HasApiTokens;
+
+    use Oasis;
 
     protected $guarded = [
         'id',

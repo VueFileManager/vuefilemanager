@@ -86,6 +86,11 @@ class OasisAdminTest extends TestCase
             'plan'         => 'virtualni-sanon-basic',
         ])->assertStatus(201);
 
+        $this->assertDatabaseHas('subscription_requests', [
+            'requested_plan' => 'virtualni-sanon-basic',
+            'status'         => 'requested',
+        ]);
+
         $this->assertDatabaseHas('users', [
             'email' => 'john@doe.com',
         ]);
@@ -93,7 +98,6 @@ class OasisAdminTest extends TestCase
         $this->assertDatabaseHas('user_settings', [
             'ico'                => '08995281',
             'payment_activation' => 0,
-            'requested_plan'     => 'virtualni-sanon-basic',
         ]);
 
         $newbie = User::whereEmail('john@doe.com')

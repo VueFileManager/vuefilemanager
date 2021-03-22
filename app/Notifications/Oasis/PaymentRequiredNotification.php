@@ -14,11 +14,11 @@ class PaymentRequiredNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $order
      */
-    public function __construct()
+    public function __construct($order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -40,10 +40,13 @@ class PaymentRequiredNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = url("/platba/{$this->order['id']}");
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('🏝 Platobne instrukcie pre zakupenie balicka a aktivaciu Vasho konta')
+                    ->line('🏝 Platobne instrukcie pre zakupenie balicka a aktivaciu Vasho konta')
+                    ->action('Prejst na platbu', $url)
+                    ->line('Dakujeme za zaujem o nase sluzby!');
     }
 
     /**

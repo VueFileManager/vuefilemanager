@@ -34,13 +34,21 @@ class AdminController extends Controller
         return response($result[0], 200);
     }
 
+    /**
+     * Register new client and send email with payment details
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function register_new_client(Request $request)
     {
+        // Create user
         $newbie = User::create([
             'email'    => $request->email,
             'password' => Hash::make(Str::random()),
         ]);
 
+        // Store user settings
         $newbie
             ->settings()
             ->create([
@@ -53,10 +61,19 @@ class AdminController extends Controller
                 'country'        => $request->country,
                 'phone_number'   => $request->phone_number,
                 'timezone'       => '1.0',
+            ]);
+
+        // Store subscription request
+        $newbie
+            ->subscriptionRequest()
+            ->create([
                 'requested_plan' => $request->plan,
             ]);
 
-        $newbie->notify(new PaymentRequiredNotification());
+        // Send notification with payment details
+        $newbie->notify(new PaymentRequiredNotification(
+            $newbie->subscriptionRequest
+        ));
 
         return response(
             new UserResource($newbie), 201
