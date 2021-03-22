@@ -16,6 +16,7 @@ class CreateSubscriptionRequestsTable extends Migration
         Schema::create('subscription_requests', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
             $table->uuid('user_id')->index();
+            $table->string('creator');
             $table->string('requested_plan');
             $table->enum('status', ['requested', 'payed', 'cancelled'])->default('requested');
             $table->timestamps();

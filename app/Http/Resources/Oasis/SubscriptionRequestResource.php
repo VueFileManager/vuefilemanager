@@ -43,26 +43,10 @@ class SubscriptionRequestResource extends JsonResource
                         ]
                     ],
                     'plan' => new PlanResource(
-                        $this->get_plan($this->requested_plan)
+                        resolve(StripeService::class)->getPlan($this->requested_plan)
                     ),
                 ]
             ],
         ];
-    }
-
-    /**
-     * @param $slug
-     * @return mixed
-     */
-    private function get_plan($slug)
-    {
-        if (Cache::has("plan-$slug")) {
-            return Cache::get("plan-$slug");
-        }
-
-        return Cache::rememberForever("plan-$slug", function () use ($slug) {
-            return resolve(StripeService::class)
-                ->getPlan($slug);
-        });
     }
 }
