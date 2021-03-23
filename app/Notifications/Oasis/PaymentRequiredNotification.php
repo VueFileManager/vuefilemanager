@@ -51,10 +51,10 @@ class PaymentRequiredNotification extends Notification
         return (new MailMessage)
             ->subject('🏝 Potvrzeni Objednavky - OasisDrive')
             ->greeting('Dobry den')
-            ->line('🏝 dekujeme za Vasi objednavku. Potvrzenim objednavky se Vas ucet automaticky zaktivuje a vytvori se Vam digitalni prostor pro Vase dulezite dokumenty.')
+            ->line('Dekujeme za Vasi objednavku. Potvrzenim objednavky se Vas ucet automaticky zaktivuje a vytvori se Vam digitalni prostor pro Vase dulezite dokumenty.')
             ->line("Datovy tarif: Standard: $storage - $price")
             ->action('Prejst na platbu', $url)
-            ->line('Dekujeme, Vas tym OasisDrive');
+            ->salutation('Dekujeme, Vas tym OasisDrive');
     }
 
     /**

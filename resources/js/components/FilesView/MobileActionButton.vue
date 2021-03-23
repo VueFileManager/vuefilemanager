@@ -11,6 +11,7 @@
             <check-square-icon v-if="icon === 'check-square'" size="15" class="icon"></check-square-icon>
             <x-square-icon v-if="icon === 'x-square'" size="15" class="icon"></x-square-icon>
             <check-icon v-if="icon === 'check'" size="15" class="icon"></check-icon>
+            <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon"></dollar-sign-icon>
             <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon preview-sorting"></sorting-and-preview-icon>
             <span class="label">
                 <slot></slot>
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-    import { CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import { DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
     import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
 
     export default {
@@ -31,6 +32,7 @@
         components: {
             SortingAndPreviewIcon,
             CheckSquareIcon,
+            DollarSignIcon,
             CreditCardIcon,
             FolderPlusIcon,
             UserPlusIcon,

@@ -8,6 +8,40 @@ import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
 
 Vue.use(Router)
 
+const routesOasis = [
+    {
+        name: 'Admin',
+        path: '/admin',
+        component: () =>
+            import(/* webpackChunkName: "chunks/admin" */ './views/Admin'),
+        meta: {
+            requiresAuth: true,
+            title: 'Admin'
+        },
+        children: [
+            {
+                name: 'Users',
+                path: '/admin/users',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/users" */ './Oasis/Admin/Users'),
+                meta: {
+                    requiresAuth: true,
+                    title: i18n.t('routes_title.users_list')
+                },
+            },
+            {
+                name: 'CreateSubscriptionRequest',
+                path: '/admin/user/order',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/user-create" */ './Oasis/Admin/CreateSubscriptionRequest'),
+                meta: {
+                    requiresAuth: true,
+                    title: i18n.t('routes_title.user_create')
+                },
+            },
+        ]
+    },
+]
 const routesAdmin = [
     {
         name: 'Admin',
@@ -658,6 +692,7 @@ const routesIndex = [
 const router = new Router({
     mode: 'history',
     routes: [
+        ...routesOasis,
         ...routesMaintenance,
         ...routesShared,
         ...routesAdmin,
