@@ -53,7 +53,7 @@ class OasisSubscriptionTest extends TestCase
                 'creator'        => 'john@doe.com',
             ]);
 
-        $this->getJson("/api/oasis/subscription-request/{$user->subscriptionRequest->id}")
+        $this->getJson("/api/oasis/subscribe/{$user->subscriptionRequest->id}")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id'             => $user->subscriptionRequest->id,
@@ -138,6 +138,32 @@ class OasisSubscriptionTest extends TestCase
         $this->assertDatabaseMissing('users', [
             'stripe_id'  => null,
             'card_brand' => null,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_set_password_after_successful_payment()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $user
+            ->subscriptionRequest()
+            ->create([
+                'requested_plan' => 'virtualni-sanon-basic',
+                'creator'        => 'john@doe.com',
+                'status'         => 'payed',
+            ]);
+
+        $this->post("/oasis/subscribe/{$user->subscriptionRequest->id}/set-password", [
+            'password'              => 'vuefilemanager',
+            'password_confirmation' => 'vuefilemanager',
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('subscription_requests', [
+            'status' => 'logged'
         ]);
     }
 }

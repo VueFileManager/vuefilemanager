@@ -1,6 +1,6 @@
 <template>
     <div id="single-page">
-        <div v-show="! isLoading" id="page-content" class="large-width center-page">
+        <div v-show="! isLoadingPage" id="page-content" class="large-width center-page">
 
             <div class="content-page auth-form">
                 <div class="plan-title">
@@ -40,7 +40,7 @@
                 </ValidationObserver>
             </div>
         </div>
-        <div id="loader" v-if="isLoading">
+        <div id="loader" v-if="isLoadingPage">
             <Spinner></Spinner>
         </div>
     </div>
@@ -95,10 +95,11 @@
             return {
                 requested: undefined,
                 isSubmitted: false,
-                isLoading: true,
+                isLoading: false,
+                isLoadingPage: true,
                 isError: false,
-                password: undefined,
-                password_confirmation: undefined,
+                password: 'vuefilemanager',
+                password_confirmation: 'vuefilemanager',
             }
         },
         methods: {
@@ -114,8 +115,14 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/oasis/register', this.register)
+                    .post(`/oasis/subscribe/${this.$route.params.id}/set-password`, {
+                        password: this.password,
+                        password_confirmation: this.password_confirmation,
+                    })
                     .then(() => {
+
+                        // Set login state
+                        this.$store.commit('SET_AUTHORIZED', true)
 
                         // Go to files page
                         this.$router.push({name: 'Files'})
@@ -138,15 +145,19 @@
             },
         },
         mounted() {
-            axios.get(`/api/oasis/subscription-request/${this.$route.params.id}`)
+            axios.get(`/api/oasis/subscribe/${this.$route.params.id}`)
                 .then(response => {
                     this.requested = response.data
+
+                    if (response.data.data.attributes.status === 'logged') {
+                        this.$router.push({name: 'SignIn'})
+                    }
                 })
                 .catch(() => {
                     this.$isSomethingWrong()
                 })
                 .finally(() => {
-                    this.isLoading = false
+                    this.isLoadingPage = false
                 })
         }
     }

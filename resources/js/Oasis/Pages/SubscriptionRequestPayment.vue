@@ -273,7 +273,7 @@
                     this.$isSomethingWrong()
                 })
 
-            axios.get(`/api/oasis/subscription-request/${this.$route.params.id}`)
+            axios.get(`/api/oasis/subscribe/${this.$route.params.id}`)
                 .then(response => {
                     this.requestedPlan = response.data
 

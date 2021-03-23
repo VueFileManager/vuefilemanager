@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Oasis;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Http\Resources\Oasis\SubscriptionRequestResource;
 use App\Http\Resources\PlanResource;
 use App\Models\Oasis\SubscriptionRequest;
 use App\Services\StripeService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 class SubscriptionController extends Controller
 {
@@ -21,7 +27,7 @@ class SubscriptionController extends Controller
      * Get subscription request details
      *
      * @param SubscriptionRequest $order
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
     public function get_subscription_request(SubscriptionRequest $order)
     {
@@ -34,7 +40,7 @@ class SubscriptionController extends Controller
      * Get setup intent to register credit card
      *
      * @param SubscriptionRequest $order
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
     public function get_setup_intent(SubscriptionRequest $order)
     {
@@ -50,7 +56,7 @@ class SubscriptionController extends Controller
      *
      * @param Request $request
      * @param SubscriptionRequest $order
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
     public function subscribe(Request $request, SubscriptionRequest $order)
     {
@@ -81,8 +87,33 @@ class SubscriptionController extends Controller
         return response('Done!', 204);
     }
 
-    public function set_password(Request $request)
+    /**
+     * Set user password
+     *
+     * @param UpdateUserPasswordRequest $request
+     * @param SubscriptionRequest $order
+     * @return Application|ResponseFactory|Response
+     */
+    public function set_password(UpdateUserPasswordRequest $request, SubscriptionRequest $order)
     {
-        return $request->all();
+        // Check unauthorized action
+        if ($order->status !== 'payed') {
+            abort(401, "Sorry, you don't have permission.");
+        }
+
+        // Set user password
+        $order->user->password = Hash::make($request->password);
+        $order->user->save();
+
+        // Update status
+        $order->update([
+            'status' => 'logged'
+        ]);
+
+        // Log in user
+        Auth::login($order->user);
+        $request->session()->regenerate();
+
+        return response('Password was set.', 204);
     }
 }

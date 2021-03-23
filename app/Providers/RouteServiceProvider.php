@@ -102,14 +102,6 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/api.php'));
     }
 
-    protected function mapOasisRoutes()
-    {
-        Route::prefix('api/oasis')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/oasis.php'));
-    }
-
     protected function mapShareRoutes()
     {
         Route::prefix('api')
@@ -140,5 +132,12 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/setup.php'));
+    }
+
+    // Oasis
+    protected function mapOasisRoutes()
+    {
+        Route::namespace($this->namespace)
+            ->group(base_path('routes/oasis.php'));
     }
 }

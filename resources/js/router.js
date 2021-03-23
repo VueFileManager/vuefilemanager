@@ -15,7 +15,7 @@ const routesOasis = [
         component: () =>
             import(/* webpackChunkName: "chunks/oasis/platba" */ './Oasis/Pages/SubscriptionRequestPayment'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: 'Platba'
         },
     },
@@ -25,7 +25,7 @@ const routesOasis = [
         component: () =>
             import(/* webpackChunkName: "chunks/oasis/platba" */ './Oasis/Pages/CreatePasswordAfterPayment'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: 'Vytvorit Heslo'
         },
     },
