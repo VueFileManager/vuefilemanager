@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\StripeService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Laravel\Cashier\Cashier;
 
@@ -26,43 +27,9 @@ class PricingResource extends JsonResource
                     'capacity_formatted' => format_gigabytes($this['product']['metadata']['capacity']),
                     'capacity'           => (int)$this['product']['metadata']['capacity'],
                     'currency'           => config('cashier.currency'),
-                    'tax_rates'          => $this->get_tax_rates(),
+                    'tax_rates'          => resolve(StripeService::class)->get_tax_rates($this['plan']['amount'])
                 ]
             ]
         ];
-    }
-
-    /**
-     * Get plan tax rates
-     *
-     * @return array
-     */
-    private function get_tax_rates(): array
-    {
-        $stripe = resolve('App\Services\StripeService');
-
-        $rates_public = [];
-
-        // Get tax rates
-        $rates = $stripe->getTaxRates();
-
-        foreach ($rates as $rate) {
-
-            // Continue when is not active
-            if (!$rate['active']) continue;
-
-            // Calculate tax
-            $tax = $this['plan']['amount'] * ($rate['percentage'] / 100);
-
-            array_push($rates_public, [
-                'id'                   => $rate['id'],
-                'active'               => $rate['active'],
-                'jurisdiction'         => $rate['jurisdiction'],
-                'percentage'           => $rate['percentage'],
-                'plan_price_formatted' => Cashier::formatAmount(round($this['plan']['amount'] + $tax)),
-            ]);
-        }
-
-        return $rates_public;
     }
 }

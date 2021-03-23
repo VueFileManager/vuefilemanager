@@ -73,7 +73,7 @@
   animation: spinner 5s linear infinite;
 
   circle, path {
-    stroke: $theme;
+    color: inherit;
   }
 }
 

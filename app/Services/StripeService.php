@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;
 use Stripe;
@@ -46,6 +47,36 @@ class StripeService
         return $this->stripe
             ->taxRates()
             ->all()['data'];
+    }
+
+    /**
+     * Get plan tax rates
+     *
+     * @param $amount
+     * @return array
+     */
+    public function get_tax_rates($amount): array
+    {
+        $rates_public = [];
+
+        foreach ($this->getTaxRates() as $rate) {
+
+            // Continue when is not active
+            if (!$rate['active']) continue;
+
+            // Calculate tax
+            $tax = $amount * ($rate['percentage'] / 100);
+
+            array_push($rates_public, [
+                'id'                   => $rate['id'],
+                'active'               => $rate['active'],
+                'jurisdiction'         => $rate['jurisdiction'],
+                'percentage'           => $rate['percentage'],
+                'plan_price_formatted' => Cashier::formatAmount(round($amount + $tax)),
+            ]);
+        }
+
+        return $rates_public;
     }
 
     /**
