@@ -7,16 +7,16 @@
     <meta name="fragment" content="!">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="{{ __('vuefilemanager.user_sending', ['name' => $metadata['user']]) }}">
+    <meta name="description" content="{{ __t('user_sending', ['name' => $metadata['user']]) }}">
 
     {{--OG Public items--}}
     <meta property="og:url" content="{{ $metadata['url'] }}">
-    <meta property="og:description" content="{{ __('vuefilemanager.user_sending', ['name' => $metadata['user']]) }}">
+    <meta property="og:description" content="{{ __t('user_sending', ['name' => $metadata['user']]) }}">
 
     {{--Show protected og metadata--}}
     @if($metadata['is_protected'])
-        <meta property="og:title" content="{{ __('vuefilemanager.protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}">
-        <title>{{ __('vuefilemanager.protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}</title>
+        <meta property="og:title" content="{{ __t('protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}">
+        <title>{{ __t('protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}</title>
     @endif
 
     {{--Show public og metadata--}}

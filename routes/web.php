@@ -11,6 +11,9 @@
 |
 */
 
+//Translation language
+Route::get('/language/{lang}', 'AppFunctionsController@get_translate');
+
 // Stripe WebHook
 Route::post('/stripe/webhook', 'WebhookController@handleWebhook');
 

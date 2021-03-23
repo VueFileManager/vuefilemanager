@@ -117,7 +117,7 @@ class FileSharingController extends Controller
         // Check password
         if (!Hash::check($request->password, $shared->password)) {
 
-            abort(401, __('vuefilemanager.incorrect_password'));
+            abort(401, __t('incorrect_password'));
         }
 
         // Get owner of shared content
@@ -258,7 +258,7 @@ class FileSharingController extends Controller
         return [
             [
                 'unique_id' => $shared->item_id,
-                'name'      => __('vuefilemanager.home'),
+                'name'      => __t('home'),
                 'location'  => 'public',
                 'folders'   => $folders,
             ]
@@ -289,7 +289,7 @@ class FileSharingController extends Controller
         return [
             [
                 'unique_id' => $shared->item_id,
-                'name'      => __('vuefilemanager.home'),
+                'name'      => __t('home'),
                 'location'  => 'public',
                 'folders'   => $folders,
             ]

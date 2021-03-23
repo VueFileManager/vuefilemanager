@@ -208,5 +208,3 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/emojis-list', 'AppFunctionsController@get_emojis_list');
 });
 
-//Get translate
-Route::get('/language/{lang}', 'AppFunctionsController@get_translate');

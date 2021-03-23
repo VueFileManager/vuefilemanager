@@ -13,7 +13,7 @@ use App\FileManagerFile;
 use App\Http\Tools\Demo;
 use App\FileManagerFolder;
 use Illuminate\Http\Request;
-use App\Mail\SendSupportForm;
+use App\Http\Mail\SendSupportForm;
 use App\Http\Resources\PageResource;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;

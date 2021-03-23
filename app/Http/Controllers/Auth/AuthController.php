@@ -33,7 +33,7 @@ class AuthController extends Controller
         ];
 
         // Abort with 404, user not found
-        return abort('404', __('vuefilemanager.user_not_fount'));
+        return abort('404', __t('user_not_fount'));
     }
 
     /**

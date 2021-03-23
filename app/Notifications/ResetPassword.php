@@ -44,12 +44,12 @@ class ResetPassword extends Notification
         $app_name = get_setting('app_title') ?? 'VueFileManager';
 
         return (new MailMessage)
-            ->subject(__('vuefilemanager.reset_password_subject') .  $app_name)
-            ->greeting(__('vuefilemanager.reset_password_greeting'))
-            ->line(__('vuefilemanager.reset_password_line_1'))
-            ->action(__('vuefilemanager.reset_password_action'), $reset_url)
-            ->line(__('vuefilemanager.reset_password_line_2'))
-            ->salutation(__('vuefilemanager.salutation') . ', ' .  $app_name);
+            ->subject(__t('reset_password_subject') .  $app_name)
+            ->greeting(__t('reset_password_greeting'))
+            ->line(__t('reset_password_line_1'))
+            ->action(__t('reset_password_action'), $reset_url)
+            ->line(__t('reset_password_line_2'))
+            ->salutation(__t('salutation') . ', ' .  $app_name);
     }
 
     /**
