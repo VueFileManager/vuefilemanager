@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Notifications\Oasis\PaymentRequiredNotification;
 use App\Services\Oasis\CzechRegisterSearchService;
+use App\Services\StripeService;
 use Hash;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -55,15 +56,15 @@ class AdminController extends Controller
         $newbie
             ->settings()
             ->create([
-                'ico'            => $request->ico,
-                'name'           => $request->name,
-                'address'        => $request->address,
-                'state'          => $request->state,
-                'city'           => $request->city,
-                'postal_code'    => $request->postal_code,
-                'country'        => $request->country,
-                'phone_number'   => $request->phone_number,
-                'timezone'       => '1.0',
+                'ico'          => $request->ico,
+                'name'         => $request->name,
+                'address'      => $request->address,
+                'state'        => $request->state,
+                'city'         => $request->city,
+                'postal_code'  => $request->postal_code,
+                'country'      => $request->country,
+                'phone_number' => $request->phone_number,
+                'timezone'     => '1.0',
             ]);
 
         // Store subscription request
@@ -73,9 +74,13 @@ class AdminController extends Controller
                 'requested_plan' => $request->plan,
             ]);
 
+        $plan = resolve(StripeService::class)
+            ->getPlan($request->plan);
+
         // Send notification with payment details
         $newbie->notify(new PaymentRequiredNotification(
-            $newbie->subscriptionRequest
+            $newbie->subscriptionRequest,
+            $plan
         ));
 
         return response(
