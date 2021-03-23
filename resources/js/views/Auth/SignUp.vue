@@ -146,17 +146,6 @@
                     })
                     .catch(error => {
 
-                        if (error.response.status == 401) {
-
-                            if (error.response.data.error === 'invalid_client') {
-                                events.$emit('alert:open', {
-                                    emoji: '🤔',
-                                    title: this.$t('popup_passport_error.title'),
-                                    message: this.$t('popup_passport_error.message')
-                                })
-                            }
-                        }
-
                         if (error.response.status == 500) {
 
                             events.$emit('alert:open', {

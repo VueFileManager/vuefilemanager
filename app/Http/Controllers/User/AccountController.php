@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Models\File;
 use App\Models\Folder;
 use App\Http\Resources\InvoiceCollection;
@@ -117,13 +118,8 @@ class AccountController extends Controller
      * @param Request $request
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function change_password(Request $request)
+    public function change_password(UpdateUserPasswordRequest $request)
     {
-        // Validate request
-        $request->validate([
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
-
         // Get user
         $user = Auth::user();
 
