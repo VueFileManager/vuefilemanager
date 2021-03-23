@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Oasis;
 
 use App\Http\Resources\PlanResource;
+use App\Http\Resources\PricingResource;
 use App\Services\StripeService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Cache;
@@ -42,7 +43,7 @@ class SubscriptionRequestResource extends JsonResource
                             ]
                         ]
                     ],
-                    'plan' => new PlanResource(
+                    'plan' => new PricingResource(
                         resolve(StripeService::class)->getPlan($this->requested_plan)
                     ),
                 ]

@@ -10,6 +10,16 @@ Vue.use(Router)
 
 const routesOasis = [
     {
+        name: 'SubscriptionRequestPayment',
+        path: '/platba/:id',
+        component: () =>
+            import(/* webpackChunkName: "chunks/oasis/platba" */ './Oasis/Pages/SubscriptionRequestPayment'),
+        meta: {
+            requiresAuth: true,
+            title: 'Platba'
+        },
+    },
+    {
         name: 'Admin',
         path: '/admin',
         component: () =>
