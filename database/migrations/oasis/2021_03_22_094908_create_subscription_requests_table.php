@@ -18,7 +18,7 @@ class CreateSubscriptionRequestsTable extends Migration
             $table->uuid('user_id')->index();
             $table->string('creator');
             $table->string('requested_plan');
-            $table->enum('status', ['requested', 'payed', 'cancelled'])->default('requested');
+            $table->enum('status', ['requested', 'payed', 'logged', 'cancelled'])->default('requested');
             $table->timestamps();
         });
     }

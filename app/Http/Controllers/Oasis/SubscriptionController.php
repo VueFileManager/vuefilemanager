@@ -80,4 +80,9 @@ class SubscriptionController extends Controller
 
         return response('Done!', 204);
     }
+
+    public function set_password(Request $request)
+    {
+        return $request->all();
+    }
 }

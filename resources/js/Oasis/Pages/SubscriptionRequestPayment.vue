@@ -12,7 +12,6 @@
                 </div>
 
                 <div class="order">
-
                     <div class="steps">
                         <div class="payment-card">
                             <FormLabel>{{ $t('page_upgrade_account.section_card') }}</FormLabel>
@@ -161,7 +160,7 @@
                 errorMessage: undefined,
                 clientSecret: undefined,
                 isSubmitted: false,
-                complete: false,
+                isPayed: false,
                 isLoading: true,
                 isError: false,
                 stripeOptions: {
@@ -221,7 +220,7 @@
                     message: this.$t('toaster.account_upgraded'),
                 })
 
-                // TODO: perform next action
+                this.$router.push({name: 'CreatePasswordAfterPayment'})
             },
             errorOrder(error) {
 
@@ -277,6 +276,14 @@
             axios.get(`/api/oasis/subscription-request/${this.$route.params.id}`)
                 .then(response => {
                     this.requestedPlan = response.data
+
+                    if (response.data.data.attributes.status === 'payed') {
+                        this.$router.push({name: 'CreatePasswordAfterPayment'})
+                    }
+
+                    if (response.data.data.attributes.status === 'logged') {
+                        this.$router.push({name: 'Files'})
+                    }
                 })
                 .catch(() => {
                     this.$isSomethingWrong()
@@ -487,6 +494,7 @@
     .order {
         display: flex;
         margin-bottom: 30px;
+        margin-top: 60px;
 
         .steps {
             flex: 0 0 65%;
@@ -505,7 +513,7 @@
     .plan-title {
         text-align: center;
         max-width: 600px;
-        margin: 0 auto 80px;
+        margin: 0 auto;
 
         path, line, polyline, rect, circle {
             color: $theme;

@@ -20,6 +20,16 @@ const routesOasis = [
         },
     },
     {
+        name: 'CreatePasswordAfterPayment',
+        path: '/vytvorit-heslo/:id',
+        component: () =>
+            import(/* webpackChunkName: "chunks/oasis/platba" */ './Oasis/Pages/CreatePasswordAfterPayment'),
+        meta: {
+            requiresAuth: true,
+            title: 'Vytvorit Heslo'
+        },
+    },
+    {
         name: 'Admin',
         path: '/admin',
         component: () =>

@@ -11,4 +11,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin'], function () 
 
 Route::get('/subscription-request/{order}', [SubscriptionController::class, 'get_subscription_request']);
 Route::get('/subscribe/{order}/setup-intent', [SubscriptionController::class, 'get_setup_intent']);
+Route::post('/subscribe/{order}/set-password', [SubscriptionController::class, 'set_password']);
 Route::post('/subscribe/{order}', [SubscriptionController::class, 'subscribe']);
