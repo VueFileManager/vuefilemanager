@@ -4,9 +4,11 @@
 
             <div class="content-page">
                 <div class="plan-title">
-                    <credit-card-icon size="42" class="title-icon text-theme" />
-                    <h1>{{ $t('page_upgrade_account.title') }}</h1>
-                    <h2>{{ $t('page_upgrade_account.desription') }}</h2>
+                    <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
+                    <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+
+                    <h1>Oasis Drive</h1>
+                    <h2>Zaplacenim objednavky se Vas ucet automaticky zaktivuje a vytvori se Vam digitalni prostor pro Vase dulezite dokumenty.</h2>
                 </div>
 
                 <div class="order">
@@ -16,69 +18,28 @@
                             <FormLabel>{{ $t('page_upgrade_account.section_card') }}</FormLabel>
 
                             <!-- Pay by new credit card -->
-                            <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
+                            <div class="register-card form block-form">
                                 <InfoBox v-if="config.isDemo">
                                     <p>For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555 5555 5555 4444</b> as a card number, <b>11/22</b>
                                         as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
                                 </InfoBox>
 
-                                <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }"></div>
 
-                                <div class="card-error-message" v-if="isError">
-                                    <span>{{ errorMessage }}</span>
-                                </div>
-                            </div>
+                                <div class="block-wrapper">
+                                    <label>Platebni karta:</label>
+                                    <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }"></div>
 
-                            <!--User registered payment card-->
-                            <div class="registered-cards" v-if="defaultPaymentMethod && ! payByNewCard">
-
-                                <div class="credit-card" :class="{'is-error': isError}">
-                                    <div class="card-number">
-                                        <img class="credit-card-icon"
-                                             :src="$getCreditCardBrand(defaultPaymentMethod.data.attributes.brand)"
-                                             :alt="defaultPaymentMethod.data.attributes.brand">
-                                        <div class="credit-card-numbers">
-                                            •••• {{ defaultPaymentMethod.data.attributes.last4 }}
-                                        </div>
-                                        <ColorLabel color="purple">{{ $t('global.default') }}</ColorLabel>
-                                    </div>
-                                    <div class="expiration-date">
-                                        <span>{{ defaultPaymentMethod.data.attributes.exp_month }} / {{ defaultPaymentMethod.data.attributes.exp_year }}</span>
+                                    <div class="card-error-message" v-if="isError">
+                                        <span>{{ errorMessage }}</span>
                                     </div>
                                 </div>
 
-                                <!--Change payment-->
-                                <div class="change-payment" v-if="! isError">
-                                    <span>
-                                        {{ $t('page_upgrade_account.change_payment.you_can') }}
-                                    </span>
-
-                                    <router-link v-if="PaymentMethods.data.length > 0" :to="{name: 'PaymentMethods'}">
-                                        {{ $t('page_upgrade_account.change_payment.change_payment') }}
-                                    </router-link>
-
-                                    <span v-if="PaymentMethods.data.length > 0">
-                                        {{ $t('global.or') }}
-                                    </span>
-
-                                    <a @click="payByNewCardForm">
-                                        {{ $t('page_upgrade_account.change_payment.pay_by_new_card') }}
-                                    </a>
-                                </div>
-
-                                <!--Card error-->
-                                <div class="card-error-message" v-if="isError">
-                                    <span>{{ errorMessage }}</span>
-                                    <span @click="payByNewCardForm" class="link">
-                                        {{ $t('page_upgrade_account.errors.pay_by_another_card') }}
-                                    </span>
-                                    <span>
-                                        {{ $t('global.or') }}
-                                    </span>
-                                    <router-link :to="{name: 'PaymentMethods'}" class="link">
-                                        {{ $t('page_upgrade_account.change_payment.change_payment') }}
-                                    </router-link>
-                                </div>
+                                <InfoBox>
+                                    <ListInfo class="billing">
+                                        <ListInfoItem class="billing-item" title="Spolecnost" content="CMPortal, s.r.o." />
+                                        <ListInfoItem class="billing-item" title="Adresa" content="Korytná 47/3, Praha 10000, Česká Republika" />
+                                    </ListInfo>
+                                </InfoBox>
                             </div>
                         </div>
                     </div>
@@ -162,12 +123,16 @@
     import {mapGetters} from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
+    import ListInfoItem from '@/components/Others/ListInfoItem'
+    import ListInfo from '@/components/Others/ListInfo'
 
     let [stripe, card] = [undefined, undefined];
 
     export default {
         name: 'SubscriptionRequestPayment',
         components: {
+            ListInfoItem,
+            ListInfo,
             ValidationProvider,
             ValidationObserver,
             PlanPricingTables,
@@ -192,42 +157,63 @@
         },
         data() {
             return {
+                requestedPlan: undefined,
+                errorMessage: undefined,
+                clientSecret: undefined,
+                isSubmitted: false,
                 complete: false,
+                isLoading: true,
+                isError: false,
                 stripeOptions: {
                     hidePostalCode: false
                 },
-                isLoading: true,
-                isSubmitted: false,
-                PaymentMethods: undefined,
-                defaultPaymentMethod: undefined,
-
-                errorMessage: undefined,
-                isError: false,
-
-                payByNewCard: false,
-
-                clientSecret: undefined,
-
-                requestedPlan: undefined
             }
         },
         methods: {
-            initStripe() {
-                stripe = Stripe(this.config.stripe_public_key)
-
-                let elements = stripe.elements();
-
-                card = elements.create('card');
-
-                card.mount(this.$refs.stripeCard);
-            },
-            payByNewCardForm() {
-                this.payByNewCard = true
+            async submitOrder() {
+                // Remove error
                 this.isError = false
+
+                // Start loading
+                this.isSubmitted = true
+
+                const {setupIntent, error} = await stripe.confirmCardSetup(this.clientSecret, {
+                    payment_method: {
+                        card: card,
+                    }
+                })
+
+                if (error) {
+
+                    // Set error on
+                    this.isError = true
+
+                    // End button spinner
+                    this.isSubmitted = false
+
+                    // Show error message
+                    this.errorMessage = error.message
+
+                } else {
+
+                    axios
+                        .post(`/api/oasis/subscribe/${this.$route.params.id}`, {
+                            plan: this.requestedPlan,
+                            payment: {
+                                type: 'stripe',
+                                meta: {
+                                    pm: setupIntent.payment_method,
+                                }
+                            }
+                        })
+                        .then(() => this.successOrder())
+                        .catch((error) => this.errorOrder(error))
+                        .finally(() => {
+                            this.isSubmitted = false
+                        })
+                }
             },
             successOrder() {
-                // Update user data
-                this.$store.dispatch('getAppData')
 
                 // Show toaster
                 events.$emit('toaster', {
@@ -235,8 +221,7 @@
                     message: this.$t('toaster.account_upgraded'),
                 })
 
-                // Go to User page
-                this.$router.push({name: 'Subscription'})
+                // TODO: perform next action
             },
             errorOrder(error) {
 
@@ -262,90 +247,32 @@
                     })
                 }
             },
-            async submitOrder() {
+            initStripe() {
+                stripe = Stripe(this.config.stripe_public_key)
 
-                // Validate fields
-                const isValid = await this.$refs.order.validate();
+                let elements = stripe.elements();
 
-                if (!isValid) return;
+                card = elements.create('card');
 
-                // Remove error
-                this.isError = false
-
-                // Start loading
-                this.isSubmitted = true
-
-                // If user don't have credit card, register new
-                if (!this.defaultPaymentMethod || this.payByNewCard) {
-
-                    const {setupIntent, error} = await stripe.confirmCardSetup(this.clientSecret, {
-                        payment_method: {
-                            card: card,
-                        }
-                    })
-
-                    if (error) {
-
-                        // Set error on
-                        this.isError = true
-
-                        // End button spinner
-                        this.isSubmitted = false
-
-                        // Show error message
-                        this.errorMessage = error.message
-
-                    } else {
-
-                        axios
-                            .post('/api/subscription/upgrade', {
-                                billing: this.billing,
-                                plan: this.requestedPlan,
-                                payment: {
-                                    type: 'stripe',
-                                    meta: {
-                                        pm: setupIntent.payment_method,
-                                    }
-                                }
-                            })
-                            .then(() => this.successOrder())
-                            .catch((error) => this.errorOrder(error))
-                            .finally(() => {
-                                this.isSubmitted = false
-                            })
-                    }
-                }
-
-                // if user has credit card
-                if (this.defaultPaymentMethod && !this.payByNewCard) {
-
-                    axios
-                        .post('/api/subscription/upgrade', {
-                            billing: this.billing,
-                            plan: this.requestedPlan,
-                            payment: {
-                                type: 'stripe',
-                            }
-                        })
-                        .then(() => this.successOrder())
-                        .catch((error) => this.errorOrder(error))
-                        .finally(() => {
-                            this.isSubmitted = false
-                        })
-                }
+                card.mount(this.$refs.stripeCard);
             },
         },
-        mounted: function () {
-            this.initStripe()
-        },
-        created() {
+        mounted() {
+            let StripeElementsScript = document.createElement('script')
+
+            StripeElementsScript.setAttribute('src', 'https://js.stripe.com/v3/')
+            document.head.appendChild(StripeElementsScript)
 
             // Get setup intent for stripe
-            axios.get('/api/subscription/setup-intent')
+            axios.get(`/api/oasis/subscribe/${this.$route.params.id}/setup-intent`)
                 .then(response => {
                     this.clientSecret = response.data.client_secret
+
+                    this.initStripe()
                 })
-                .catch(() => this.$isSomethingWrong())
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
 
             axios.get(`/api/oasis/subscription-request/${this.$route.params.id}`)
                 .then(response => {
@@ -355,9 +282,8 @@
                     this.$isSomethingWrong()
                 })
                 .finally(() => {
-                        this.isLoading = false
-                    }
-                )
+                    this.isLoading = false
+                })
         }
     }
 </script>
@@ -366,6 +292,18 @@
     @import '@assets/vuefilemanager/_variables';
     @import '@assets/vuefilemanager/_mixins';
     @import '@assets/vuefilemanager/_forms';
+
+    .billing {
+        margin-top: 0 !important;
+
+        .billing-item {
+            margin-right: 30px;
+
+            &:last-child {
+                padding-bottom: 0;
+            }
+        }
+    }
 
     .change-payment {
         padding-top: 10px;

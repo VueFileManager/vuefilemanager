@@ -31,6 +31,21 @@ class SubscriptionController extends Controller
     }
 
     /**
+     * Get setup intent to register credit card
+     *
+     * @param SubscriptionRequest $order
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function get_setup_intent(SubscriptionRequest $order)
+    {
+        // Create stripe customer if not exist
+        $order->user->createOrGetStripeCustomer();
+
+        // Return setup intent
+        return response($order->user->createSetupIntent(), 201);
+    }
+
+    /**
      * Subscribe user
      *
      * @param Request $request
@@ -43,8 +58,7 @@ class SubscriptionController extends Controller
         $order->user
             ->newSubscription('main', $order->requested_plan)
             ->create(
-                $this->stripe
-                    ->getOrSetDefaultPaymentMethod($request, $order->user)
+                $this->stripe->getOrSetDefaultPaymentMethod($request, $order->user)
             );
 
         // Get requested plan

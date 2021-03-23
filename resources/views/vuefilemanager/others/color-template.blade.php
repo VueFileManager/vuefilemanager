@@ -62,6 +62,7 @@
         .input-area.is-active {border-color: #FF8200 !important}
 
         {{-- ButtonBase --}}
+        .button-base.theme-solid {background: #FF8200}
         .button-base.theme {background: #FF820010}
         .button-base.theme .content {color: #FF8200}
         .button-base.theme polyline,

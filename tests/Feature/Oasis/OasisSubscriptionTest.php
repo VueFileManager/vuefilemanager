@@ -36,17 +36,6 @@ class OasisSubscriptionTest extends TestCase
                 ],
             ],
         ];
-
-        // Define test billing to subscribe
-        $this->billing = [
-            'billing_address'      => '2794 Alfreda Mount Suite 467 East Crystalberg',
-            'billing_city'         => 'Christianfort',
-            'billing_country'      => 'SK',
-            'billing_name'         => 'Heidi Romaguera PhD',
-            'billing_phone_number' => '+421',
-            'billing_postal_code'  => '59445',
-            'billing_state'        => 'SK',
-        ];
     }
 
     /**
@@ -70,6 +59,25 @@ class OasisSubscriptionTest extends TestCase
                 'id'             => $user->subscriptionRequest->id,
                 'requested_plan' => 'virtualni-sanon-basic',
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_setup_intent()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $user
+            ->subscriptionRequest()
+            ->create([
+                'requested_plan' => 'virtualni-sanon-basic',
+                'creator'        => 'john@doe.com',
+            ]);
+
+        $this->getJson("/api/oasis/subscribe/{$user->subscriptionRequest->id}/setup-intent")
+            ->assertStatus(201);
     }
 
     /**
@@ -105,9 +113,9 @@ class OasisSubscriptionTest extends TestCase
         $user->createOrGetStripeCustomer();
 
         $this->postJson("/api/oasis/subscribe/{$user->subscriptionRequest->id}", [
-            'billing' => $this->billing,
             'plan'    => $this->plan,
             'payment' => [
+                'type' => 'stripe',
                 'meta' => [
                     'pm' => $paymentMethod['id']
                 ],
@@ -116,6 +124,10 @@ class OasisSubscriptionTest extends TestCase
 
         $this->assertDatabaseHas('subscriptions', [
             'stripe_status' => 'active'
+        ]);
+
+        $this->assertDatabaseHas('subscription_requests', [
+            'status' => 'payed'
         ]);
 
         $this->assertDatabaseHas('user_settings', [

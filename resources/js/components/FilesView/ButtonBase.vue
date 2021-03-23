@@ -48,14 +48,13 @@
         }
 
         &.theme-solid {
-            background: $theme;
 
             .content {
                 color: white;
             }
 
             polyline, path {
-                stroke: white;
+                color: inherit;
             }
         }
 

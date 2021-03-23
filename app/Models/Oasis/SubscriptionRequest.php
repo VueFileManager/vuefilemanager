@@ -13,7 +13,7 @@ class SubscriptionRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'requested_plan', 'creator'
+        'requested_plan', 'creator', 'status'
     ];
 
     public $incrementing = false;
