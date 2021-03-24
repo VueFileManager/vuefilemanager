@@ -2,10 +2,14 @@
 
 namespace Tests\Feature\Oasis;
 
+use App\Models\Oasis\SubscriptionRequest;
 use App\Models\User;
+use App\Notifications\Oasis\ReminderForPaymentRequiredNotification;
+use App\Services\Oasis\OasisService;
+use Carbon\Carbon;
 use Cartalyst\Stripe\Stripe;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laravel\Cashier\Subscription;
+use Notification;
 use Tests\TestCase;
 
 class OasisSubscriptionTest extends TestCase
@@ -165,5 +169,34 @@ class OasisSubscriptionTest extends TestCase
         $this->assertDatabaseHas('subscription_requests', [
             'status' => 'logged'
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_send_email_reminder_to_activate_new_order()
+    {
+        Notification::fake();
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        SubscriptionRequest::unguard();
+
+        $user
+            ->subscriptionRequest()
+            ->create([
+                'requested_plan' => 'virtualni-sanon-basic',
+                'creator'        => 'john@doe.com',
+                'status'         => 'requested',
+                'created_at'     => Carbon::now()->subHours(8),
+            ]);
+
+        resolve(OasisService::class)
+            ->order_reminder();
+
+        Notification::assertSentTo(
+            $user, ReminderForPaymentRequiredNotification::class
+        );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\SetupDevEnvironment;
+use App\Services\Oasis\OasisService;
 use App\Services\SchedulerService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -26,11 +27,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $scheduler = app()->make(SchedulerService::class);
+        $scheduler = resolve(SchedulerService::class);
 
         $schedule->call(function () use ($scheduler) {
             $scheduler->delete_expired_shared_links();
-        })->everyMinute();
+        })->everyTenMinutes();
 
         $schedule->call(function () use ($scheduler) {
             $scheduler->delete_old_zips();
@@ -40,8 +41,13 @@ class Kernel extends ConsoleKernel
             }
         })->everySixHours();
 
+        // Oasis Drive
+        $schedule->call(function () {
+            resolve(OasisService::class)->order_reminder();
+        })->hourly();
+
         // Run queue jobs every minute
-        $schedule->command('queue:work --tries=3')
+        $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
     }
