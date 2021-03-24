@@ -132,7 +132,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/user/register', this.register)
+                    .post('/register', this.register)
                     .then(() => {
 
                         // End loading
