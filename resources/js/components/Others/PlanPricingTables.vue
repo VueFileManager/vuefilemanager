@@ -39,6 +39,9 @@
             HardDriveIcon,
             ButtonBase,
         },
+        props: [
+            'customRoute'
+        ],
         data() {
             return {
                 plans: undefined,
@@ -50,7 +53,10 @@
         methods: {
             selectPlan(plan) {
                 this.$emit('selected-plan', plan)
-                this.$router.push({name: 'UpgradeBilling'})
+
+                let route = this.customRoute ? this.customRoute : 'UpgradeBilling'
+
+                this.$router.push({name: route})
             }
         },
         created() {
