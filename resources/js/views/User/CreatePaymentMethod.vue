@@ -161,7 +161,7 @@
             document.head.appendChild(StripeElementsScript)
 
             // Get setup intent for stripe
-            axios.get('/api/subscription/setup-intent')
+            axios.get('/api/user/subscription/setup-intent')
                 .then(response => {
                     this.clientSecret = response.data.client_secret
 

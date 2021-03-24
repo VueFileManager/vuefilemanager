@@ -71,7 +71,7 @@ class SubscriptionTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->getJson('/api/user/subscription/setup-intent')
-            ->assertStatus(200)
+            ->assertStatus(201)
             ->assertJsonFragment([
                 "object" => "setup_intent"
             ]);

@@ -70,7 +70,7 @@ class StripeService
             array_push($rates_public, [
                 'id'                   => $rate['id'],
                 'active'               => $rate['active'],
-                'jurisdiction'         => $rate['jurisdiction'],
+                'country'              => $rate['country'],
                 'percentage'           => $rate['percentage'],
                 'plan_price_formatted' => Cashier::formatAmount(round($amount + $tax)),
             ]);
@@ -283,7 +283,7 @@ class StripeService
             $product = $this->stripe->products()->find($plan['product']);
 
             return [
-                'plan' => $plan,
+                'plan'    => $plan,
                 'product' => $product,
             ];
         });

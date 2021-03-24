@@ -824,6 +824,38 @@ class SetupDevEnvironment extends Command
             [
                 'name'  => 'purchase_code',
                 'value' => '26b889eb-3602-4bf2-beb3-3sc378fcf484',
+            ],
+            [
+                'name'  => 'billing_address',
+                'value' => 'Palo Alto 20',
+            ],
+            [
+                'name'  => 'billing_city',
+                'value' => 'Palo Alto',
+            ],
+            [
+                'name'  => 'billing_country',
+                'value' => 'US',
+            ],
+            [
+                'name'  => 'billing_name',
+                'value' => 'VueFileManager Inc.',
+            ],
+            [
+                'name'  => 'billing_phone_number',
+                'value' => '312343141243214',
+            ],
+            [
+                'name'  => 'billing_postal_code',
+                'value' => '43213',
+            ],
+            [
+                'name'  => 'billing_state',
+                'value' => 'California',
+            ],
+            [
+                'name'  => 'billing_vat_number',
+                'value' => '41241241234',
             ]
         ])->each(function ($col) {
             Setting::forceCreate([

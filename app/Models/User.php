@@ -67,7 +67,7 @@ class User extends Authenticatable
 
         // Find tax rate
         $user_tax_rate = $rates->first(function ($item) {
-            return $item['jurisdiction'] === $this->settings->billing_country && $item['active'];
+            return $item['country'] === $this->settings->country && $item['active'];
         });
 
         return $user_tax_rate ? [$user_tax_rate['id']] : [];
