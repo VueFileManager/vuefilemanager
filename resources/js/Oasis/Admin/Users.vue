@@ -49,13 +49,19 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="cell-item">
+                                <span v-if="row.data.attributes.storage.capacity !== 0" class="cell-item">
                                     {{ row.data.attributes.storage.used_formatted }}
+                                </span>
+                                <span v-if="row.data.attributes.storage.capacity == 0" class="cell-item">
+                                    -
                                 </span>
                             </td>
                             <td v-if="config.storageLimit">
-                                <span class="cell-item">
+                                <span v-if="row.data.attributes.storage.capacity !== 0" class="cell-item">
                                     {{ row.data.attributes.storage.capacity_formatted }}
+                                </span>
+                                <span v-if="row.data.attributes.storage.capacity == 0" class="cell-item">
+                                    -
                                 </span>
                             </td>
                             <td>

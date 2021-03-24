@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Oasis;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Models\UserSettings;
 use App\Notifications\Oasis\PaymentRequiredNotification;
 use App\Services\Oasis\CzechRegisterSearchService;
 use App\Services\StripeService;
@@ -52,19 +53,22 @@ class AdminController extends Controller
             'password' => Hash::make(Str::random()),
         ]);
 
+        UserSettings::unguard();
+
         // Store user settings
         $newbie
             ->settings()
             ->create([
-                'ico'          => $request->ico,
-                'name'         => $request->name,
-                'address'      => $request->address,
-                'state'        => $request->state,
-                'city'         => $request->city,
-                'postal_code'  => $request->postal_code,
-                'country'      => $request->country,
-                'phone_number' => $request->phone_number,
-                'timezone'     => '1.0',
+                'storage_capacity' => 0,
+                'ico'              => $request->ico,
+                'name'             => $request->name,
+                'address'          => $request->address,
+                'state'            => $request->state,
+                'city'             => $request->city,
+                'postal_code'      => $request->postal_code,
+                'country'          => $request->country,
+                'phone_number'     => $request->phone_number,
+                'timezone'         => '1.0',
             ]);
 
         // Store subscription request

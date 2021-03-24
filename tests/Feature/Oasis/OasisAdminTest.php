@@ -99,6 +99,7 @@ class OasisAdminTest extends TestCase
         $this->assertDatabaseHas('user_settings', [
             'ico'                => '08995281',
             'payment_activation' => 0,
+            'storage_capacity'   => 0,
         ]);
 
         $newbie = User::whereEmail('john@doe.com')
