@@ -140,7 +140,7 @@
                         if (error.response.status == 404) {
 
                             this.$refs.log_in.setErrors({
-                                'E-Mail': [error.response.data.message]
+                                'E-Mail': [error.response.data]
                             });
                         }
 
