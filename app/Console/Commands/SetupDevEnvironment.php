@@ -806,6 +806,10 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
+                'name'  => 'app_payments_active',
+                'value' => 1,
+            ],
+            [
                 'name'  => 'storage_limitation',
                 'value' => 1,
             ],

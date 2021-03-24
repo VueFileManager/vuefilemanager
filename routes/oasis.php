@@ -8,12 +8,13 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
     // Admin
     Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin'], function () {
         Route::get('/company-details', [AdminController::class, 'get_company_details']);
-        Route::post('/users/create', [AdminController::class, 'register_new_client']);
+        Route::post('/users/create-order', [AdminController::class, 'create_order']);
+        Route::post('/users/create-user', [AdminController::class, 'create_user']);
     });
 
     // Subscription
     Route::group(['prefix' => 'subscribe'], function () {
-        Route::post('/{order}', [SubscriptionController::class, 'subscribe']);
+        Route::post('/{order?}', [SubscriptionController::class, 'subscribe']);
         Route::get('/{order}', [SubscriptionController::class, 'get_subscription_request']);
         Route::get('/{order}/setup-intent', [SubscriptionController::class, 'get_setup_intent']);
     });

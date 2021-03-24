@@ -212,7 +212,7 @@
                 this.isLoading = true
 
                 axios
-                    .post('/api/oasis/admin/users/create', this.user)
+                    .post('/api/oasis/admin/users/create-order', this.user)
                     .then(response => {
 
                         // Show toaster

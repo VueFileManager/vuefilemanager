@@ -60,24 +60,43 @@ class SubscriptionController extends Controller
      */
     public function subscribe(Request $request, SubscriptionRequest $order)
     {
-        // Create subscription
-        $order->user
-            ->newSubscription('main', $order->requested_plan)
-            ->create(
-                $this->stripe->getOrSetDefaultPaymentMethod($request, $order->user)
-            );
+        // Make subscription from subscription request
+        if ($order->exists) {
 
-        // Get requested plan
-        $plan = $this->stripe
-            ->getPlan($order->requested_plan);
+            // Create subscription
+            $order->user
+                ->newSubscription('main', $order->requested_plan)
+                ->create(
+                    $this->stripe->getOrSetDefaultPaymentMethod($request, $order->user)
+                );
 
-        // Update Subscription request
-        $order->update([
-            'status' => 'payed'
-        ]);
+            // Update Subscription request
+            $order->update(['status' => 'payed']);
+
+            $user = $order->user;
+        }
+
+        // Make subscription after user sign up and pay for the plan
+        if (!$order->exists) {
+            $user = Auth::user();
+
+            // Set user billing
+            $user->setBilling($request->billing);
+
+            // Update stripe customer billing info
+            $this->stripe->updateCustomerDetails($user);
+
+            // Make subscription
+            $this->stripe->createOrReplaceSubscription($request, $user);
+        }
+
+        // Get plan
+        $plan = $this->stripe->getPlan(
+            $order->requested_plan ?? $request->input('plan.data.id')
+        );
 
         // Update user storage limit
-        $order->user
+        $user
             ->settings()
             ->update([
                 'storage_capacity'   => $plan['product']['metadata']['capacity'],

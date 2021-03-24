@@ -16,9 +16,9 @@ const actions = {
                 .then((response) => {
                     resolve(response)
 
-                    // Redirect user if is logged
-                    if (router.currentRoute.name === 'SignIn')
-                        router.push({name: 'Files'})
+                    // Oasis redirection to setup plan process after sign in
+                    if (response.data.data.attributes.role === 'user' && ! response.data.data.relationships.settings.data.attributes.payment_activation)
+                        router.push({name: 'SetUpPlan'})
 
                     commit('RETRIEVE_USER', response.data)
 
@@ -29,7 +29,6 @@ const actions = {
                     if ([401, 403].includes(error.response.status)) {
 
                         commit('SET_AUTHORIZED', false)
-                        //router.push({name: 'SignIn'})
                     }
                 }
             )

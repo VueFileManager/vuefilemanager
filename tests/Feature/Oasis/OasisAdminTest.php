@@ -5,9 +5,11 @@ namespace Tests\Feature\Oasis;
 use App\Models\User;
 use App\Notifications\Oasis\PaymentRequiredNotification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Notification;
+use Storage;
 use Tests\TestCase;
 
 class OasisAdminTest extends TestCase
@@ -64,7 +66,7 @@ class OasisAdminTest extends TestCase
     /**
      * @test
      */
-    public function it_register_new_client_from_admin_panel()
+    public function it_create_client_order()
     {
         Notification::fake();
 
@@ -73,7 +75,7 @@ class OasisAdminTest extends TestCase
 
         Sanctum::actingAs($admin);
 
-        $this->postJson('/api/oasis/admin/users/create', [
+        $this->postJson('/api/oasis/admin/users/create-order', [
             'ico'          => '08995281',
             'name'         => 'GDPR Cloud Solution, s.r.o.',
             'email'        => 'john@doe.com',
@@ -106,5 +108,45 @@ class OasisAdminTest extends TestCase
             ->first();
 
         Notification::assertSentTo($newbie, PaymentRequiredNotification::class);
+    }
+
+    /**
+     * @test
+     */
+    public function it_create_new_user_with_avatar()
+    {
+        Storage::fake('local');
+
+        $admin = User::factory(User::class)
+            ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
+
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->postJson("/api/oasis/admin/users/create-user", [
+            'name'                  => 'John Doe',
+            'role'                  => 'user',
+            'email'                 => 'john@doe.com',
+            'password'              => 'VerySecretPassword',
+            'storage_capacity'      => 15,
+            'password_confirmation' => 'VerySecretPassword',
+            'avatar'                => $avatar,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'john@doe.com'
+        ]);
+
+        $this->assertDatabaseHas('user_settings', [
+            'name'               => 'John Doe',
+            'payment_activation' => 1,
+        ]);
+
+        Storage::disk('local')
+            ->assertExists(
+                User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar')
+            );
     }
 }

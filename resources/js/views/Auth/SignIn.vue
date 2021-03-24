@@ -193,17 +193,6 @@
                             });
                         }
 
-                        if (error.response.status == 401) {
-
-                            if (error.response.data.error === 'invalid_client') {
-                                events.$emit('alert:open', {
-                                    emoji: '🤔',
-                                    title: this.$t('popup_passport_error.title'),
-                                    message: this.$t('popup_passport_error.message')
-                                })
-                            }
-                        }
-
                         // End loading
                         this.isLoading = false
                     })
@@ -214,8 +203,8 @@
             this.$store.commit('PROCESSING_POPUP', undefined)
 
             //if (this.config.isDemo) {
-            this.loginEmail = 'howdy@hi5ve.digital'
-            this.loginPassword = 'vuefilemanager'
+                this.loginEmail = 'howdy@hi5ve.digital'
+                this.loginPassword = 'vuefilemanager'
             //}
         }
     }

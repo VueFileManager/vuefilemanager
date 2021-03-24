@@ -9,6 +9,7 @@ use App\Services\Oasis\OasisService;
 use Carbon\Carbon;
 use Cartalyst\Stripe\Stripe;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Sanctum\Sanctum;
 use Notification;
 use Tests\TestCase;
 
@@ -87,7 +88,7 @@ class OasisSubscriptionTest extends TestCase
     /**
      * @test
      */
-    public function it_subscribe_user_and_pay_for_it()
+    public function it_subscribe_user_from_subscription_request()
     {
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -132,6 +133,67 @@ class OasisSubscriptionTest extends TestCase
 
         $this->assertDatabaseHas('subscription_requests', [
             'status' => 'payed'
+        ]);
+
+        $this->assertDatabaseHas('user_settings', [
+            'storage_capacity'   => 50,
+            'payment_activation' => 1,
+        ]);
+
+        $this->assertDatabaseMissing('users', [
+            'stripe_id'  => null,
+            'card_brand' => null,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_subscribe_user_after_signup()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        // Register payment method
+        $stripe = Stripe::make(config('cashier.secret'), '2020-03-02');
+
+        // Create test payment method
+        $paymentMethod = $stripe->paymentMethods()->create([
+            'type' => 'card',
+            'card' => [
+                'number'    => '4242424242424242',
+                'exp_month' => 11,
+                'exp_year'  => 2022,
+                'cvc'       => '123'
+            ],
+        ]);
+
+        // Create stripe customer
+        $user->createOrGetStripeCustomer();
+
+        $this->postJson("/api/oasis/subscribe", [
+            'plan'    => $this->plan,
+            'billing' => [
+                'billing_address'      => '2794 Alfreda Mount Suite 467 East Crystalberg',
+                'billing_city'         => 'Christianfort',
+                'billing_country'      => 'SK',
+                'billing_name'         => 'Heidi Romaguera PhD',
+                'billing_phone_number' => '+421',
+                'billing_postal_code'  => '59445',
+                'billing_state'        => 'SK',
+            ],
+            'payment' => [
+                'type' => 'stripe',
+                'meta' => [
+                    'pm' => $paymentMethod['id']
+                ],
+            ],
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('subscriptions', [
+            'stripe_status' => 'active'
         ]);
 
         $this->assertDatabaseHas('user_settings', [

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Oasis;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CreateUserByAdmin;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\UserSettings;
@@ -45,7 +46,7 @@ class AdminController extends Controller
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
-    public function register_new_client(Request $request)
+    public function create_order(Request $request)
     {
         // Create user
         $newbie = User::create([
@@ -90,5 +91,34 @@ class AdminController extends Controller
         return response(
             new UserResource($newbie), 201
         );
+    }
+
+    /**
+     * Create new user by admin
+     *
+     * @param CreateUserByAdmin $request
+     * @return UserResource|Application|ResponseFactory|Response
+     */
+    public function create_user(CreateUserByAdmin $request)
+    {
+        // Create user
+        $user = User::forceCreate([
+            'role'     => $request->role,
+            'email'    => $request->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+        ]);
+
+        UserSettings::unguard();
+
+        $user
+            ->settings()
+            ->create([
+                'name'               => $request->name,
+                'avatar'             => store_avatar($request, 'avatar'),
+                'storage_capacity'   => $request->storage_capacity,
+                'payment_activation' => 1,
+            ]);
+
+        return response(new UserResource($user), 201);
     }
 }

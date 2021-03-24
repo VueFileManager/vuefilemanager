@@ -42,15 +42,18 @@ class UserResource extends JsonResource
                             'id'         => $this->id,
                             'type'       => 'settings',
                             'attributes' => [
-                                'avatar'       => $this->settings->avatar,
-                                'name'         => $this->settings->name,
-                                'address'      => $this->settings->address,
-                                'state'        => $this->settings->state,
-                                'city'         => $this->settings->city,
-                                'postal_code'  => $this->settings->postal_code,
-                                'country'      => $this->settings->country,
-                                'phone_number' => $this->settings->phone_number,
-                                'timezone'     => $this->settings->timezone
+                                'avatar'             => $this->settings->avatar,
+                                'name'               => $this->settings->name,
+                                'address'            => $this->settings->address,
+                                'state'              => $this->settings->state,
+                                'city'               => $this->settings->city,
+                                'postal_code'        => $this->settings->postal_code,
+                                'country'            => $this->settings->country,
+                                'phone_number'       => $this->settings->phone_number,
+                                'timezone'           => $this->settings->timezone,
+
+                                // OasisDrive
+                                'payment_activation' => $this->settings->payment_activation
                             ]
                         ]
                     ],

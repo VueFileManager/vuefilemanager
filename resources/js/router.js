@@ -10,6 +10,35 @@ Vue.use(Router)
 
 const routesOasis = [
     {
+        name: 'SignUp',
+        path: '/sign-up',
+        component: () =>
+            import(/* webpackChunkName: "chunks/sign-up" */ './Oasis/Auth/SignUp'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
+        name: 'SetUpPlan',
+        path: '/nastavte-plan',
+        component: () =>
+            import(/* webpackChunkName: "chunks/upgrade-plan" */ './Oasis/Onboarding/SelectPlan'),
+        meta: {
+            requiresAuth: true,
+            title: i18n.t('routes_title.upgrade_plan')
+        },
+    },
+    {
+        name: 'FinishPayment',
+        path: '/dokoncete-objednavku',
+        component: () =>
+            import(/* webpackChunkName: "chunks/upgrade-billing" */ './Oasis/Onboarding/PayForPlan'),
+        meta: {
+            requiresAuth: true,
+            title: i18n.t('routes_title.upgrade_billing')
+        },
+    },
+    {
         name: 'SubscriptionRequestPayment',
         path: '/platba/:id',
         component: () =>
@@ -53,7 +82,7 @@ const routesOasis = [
                 name: 'CreateSubscriptionRequest',
                 path: '/admin/user/order',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/user-create" */ './Oasis/Admin/CreateSubscriptionRequest'),
+                    import(/* webpackChunkName: "chunks/user-create" */ './Oasis/Admin/UserCreateOrder'),
                 meta: {
                     requiresAuth: true,
                     title: i18n.t('routes_title.user_create')
