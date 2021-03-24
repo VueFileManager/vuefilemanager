@@ -400,7 +400,11 @@ function get_storage_fill_percentage($used, $capacity)
     $total = intval(Metric::gigabytes($capacity)->numberOfBytes());
 
     // Count progress
-    $progress = ($used * 100) / $total;
+    if ($total == 0) {
+        $progress = 100;
+    } else {
+        $progress = ($used * 100) / $total;
+    }
 
     // Return in 2 decimal
     return number_format((float)$progress, 2, '.', '');
@@ -409,6 +413,8 @@ function get_storage_fill_percentage($used, $capacity)
 /**
  * Get user capacity fill by percentage
  *
+ * @param $id
+ * @param null $additionals
  * @return string
  */
 function user_storage_percentage($id, $additionals = null)
