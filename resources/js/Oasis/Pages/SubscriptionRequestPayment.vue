@@ -60,7 +60,7 @@
                             </div>
                             <div class="row" v-if="taxRates">
                                 <div class="cell">
-                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ taxRates.jurisdiction }} {{ taxRates.percentage }}%)</b>
+                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ taxRates.country }} {{ taxRates.percentage }}%)</b>
                                 </div>
                                 <div class="cell">
                                     <b>{{ taxRates.plan_price_formatted }}</b>
@@ -150,7 +150,7 @@
             ...mapGetters(['config', 'countries']),
             taxRates() {
                 return this.requestedPlan.data.relationships.plan.data.attributes.tax_rates.find(taxRate => {
-                    return taxRate.jurisdiction === this.requestedPlan.data.relationships.user.data.attributes.country
+                    return taxRate.country === this.requestedPlan.data.relationships.user.data.attributes.country
                 })
             }
         },
@@ -205,8 +205,12 @@
                                 }
                             }
                         })
-                        .then(() => this.successOrder())
-                        .catch((error) => this.errorOrder(error))
+                        .then(() => {
+                            this.successOrder()
+                        })
+                        .catch((error) => {
+                            this.errorOrder(error)
+                        })
                         .finally(() => {
                             this.isSubmitted = false
                         })

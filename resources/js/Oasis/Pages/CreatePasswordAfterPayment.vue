@@ -98,8 +98,8 @@
                 isLoading: false,
                 isLoadingPage: true,
                 isError: false,
-                password: 'vuefilemanager',
-                password_confirmation: 'vuefilemanager',
+                password: '',
+                password_confirmation: '',
             }
         },
         methods: {

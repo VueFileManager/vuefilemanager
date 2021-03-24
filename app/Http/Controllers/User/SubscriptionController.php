@@ -9,34 +9,33 @@ use App\Services\DemoService;
 use App\Models\User;
 use App\Services\StripeService;
 use Auth;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Stripe\SetupIntent;
 
 class SubscriptionController extends Controller
 {
     private $stripe;
+    private $demo;
 
-    /**
-     * SubscriptionController constructor.
-     * @param $payment
-     */
-    public function __construct(StripeService $stripe)
+    public function __construct()
     {
-        $this->stripe = $stripe;
+        $this->stripe = resolve(StripeService::class);
         $this->demo = DemoService::class;
     }
 
     /**
      * Generate setup intent
      *
-     * @return \Stripe\SetupIntent
+     * @return Application|ResponseFactory|Response|SetupIntent
      */
     public function setup_intent()
     {
-        return $this->stripe
-            ->getSetupIntent(
-                Auth::user()
-            );
+        return response(
+            $this->stripe->getSetupIntent(Auth::user()), 201
+        );
     }
 
     /**
@@ -69,7 +68,7 @@ class SubscriptionController extends Controller
      * Upgrade account to subscription
      *
      * @param StoreUpgradeAccountRequest $request
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function upgrade(StoreUpgradeAccountRequest $request)
     {
@@ -107,7 +106,7 @@ class SubscriptionController extends Controller
     /**
      * Cancel Subscription
      *
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function cancel()
     {
@@ -130,7 +129,7 @@ class SubscriptionController extends Controller
     /**
      * Resume Subscription
      *
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function resume()
     {

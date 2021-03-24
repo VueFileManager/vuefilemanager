@@ -232,7 +232,7 @@
                 @foreach ($invoice->taxes() as $tax)
                     <tr>
                         <td colspan="2" style="text-align: right;">
-                            {{ $tax->display_name }} {{ $tax->jurisdiction ? ' - '.$tax->jurisdiction : '' }}
+                            {{ $tax->display_name }} {{ $tax->country ? ' - '.$tax->country : '' }}
                             ({{ $tax->percentage }}%{{ $tax->isInclusive() ? ' incl.' : '' }})
                         </td>
                         <td>{{ $tax->amount() }}</td>
@@ -335,7 +335,7 @@
                     @foreach ($invoice->taxes() as $tax)
                         <tr>
                             <td colspan="3" style="text-align: right;">
-                                {{ $tax->display_name }} {{ $tax->jurisdiction ? ' - '.$tax->jurisdiction : '' }}
+                                {{ $tax->display_name }} {{ $tax->country ? ' - '.$tax->country : '' }}
                                 ({{ $tax->percentage }}%{{ $tax->isInclusive() ? ' ' . __('vuefilemanager.vat_included') : '' }})
                             </td>
                             <td>{{ $tax->amount() }}</td>
