@@ -26,11 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $scheduler = app()->make(SchedulerService::class);
+        $scheduler = resolve(SchedulerService::class);
 
         $schedule->call(function () use ($scheduler) {
             $scheduler->delete_expired_shared_links();
-        })->everyMinute();
+        })->everyTenMinutes();
 
         $schedule->call(function () use ($scheduler) {
             $scheduler->delete_old_zips();
@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         })->everySixHours();
 
         // Run queue jobs every minute
-        $schedule->command('queue:work --tries=3')
+        $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
     }
