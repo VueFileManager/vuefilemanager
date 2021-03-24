@@ -45,16 +45,20 @@ class PaymentRequiredNotification extends Notification
     {
         $url = url("/platba/{$this->order['id']}");
 
+        $name = $this->plan['product']['name'];
         $price = Cashier::formatAmount($this->plan['plan']['amount']);
         $storage = format_gigabytes($this->plan['product']['metadata']['capacity']);
 
         return (new MailMessage)
             ->subject('🏝 Potvrzeni Objednavky - OasisDrive')
-            ->greeting('Dobry den')
-            ->line('Dekujeme za Vasi objednavku. Potvrzenim objednavky se Vas ucet automaticky zaktivuje a vytvori se Vam digitalni prostor pro Vase dulezite dokumenty.')
-            ->line("Datovy tarif: Standard: $storage - $price")
-            ->action('Prejst na platbu', $url)
-            ->salutation('Dekujeme, Vas tym OasisDrive');
+            ->greeting('Vážený zákazníku,')
+            ->line('Právě jste si úspěšně vytvořil registraci bezpečnostní datové služby OasisDrive.')
+            ->line("Vámi vybraný tarif: $name - $storage za $price")
+            ->action('Pro aktivaci klikněte zde', $url)
+            ->line('Odkaz je platný 24 hodin.')
+            ->line('Po dokončení registrace v odkazu Vám bude služba automaticky aktivována a lze ji ihned využívat.')
+            ->line('S pozdravem a přáním hezkého dne')
+            ->salutation('Tým Oasis Drive');
     }
 
     /**
