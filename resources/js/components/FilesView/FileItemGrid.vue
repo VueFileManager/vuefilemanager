@@ -15,7 +15,7 @@
                 </div>
 
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">
+                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
                     {{ item.mimetype }}
                 </span>
 
@@ -394,7 +394,7 @@ export default {
                 vertical-align: middle;
 
                 path, circle, line {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
         }
@@ -438,7 +438,6 @@ export default {
         padding: 15px 0;
 
         &.is-dragenter {
-            border: 2px dashed $theme;
             border-radius: 8px;
         }
 
@@ -489,7 +488,6 @@ export default {
             text-align: center;
             left: 0;
             right: 0;
-            color: $theme;
             @include font-size(12);
             font-weight: 600;
             user-select: none;

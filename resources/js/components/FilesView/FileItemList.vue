@@ -509,7 +509,6 @@ export default {
         padding: 7px;
 
         &.is-dragenter {
-            border: 2px dashed $theme;
             border-radius: 8px;
         }
 

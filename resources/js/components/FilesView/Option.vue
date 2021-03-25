@@ -16,6 +16,7 @@
             <folder-plus-icon v-if="icon === 'create-folder'" size="17" class="group-hover-text-theme"/>
             <smile-icon v-if="icon === 'no-options'" size="17" class="group-hover-text-theme"/>
             <paperclip-icon v-if="icon === 'zip-folder'" size="17" class="group-hover-text-theme"/>
+            <alphabet-icon v-if="icon === 'alphabet'" size="17" class="group-hover-text-theme"/>
         </div>
         <div class="text-label group-hover-text-theme">
             {{ title }}
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
     CornerDownRightIcon,
     DownloadCloudIcon,
@@ -36,7 +38,10 @@ import {
     StarIcon,
     LinkIcon,
     EyeIcon,
-    SmileIcon
+    SmileIcon,
+    GridIcon,
+    ListIcon,
+    CalendarIcon,
 } from 'vue-feather-icons'
 
     export default {
@@ -48,6 +53,7 @@ import {
             FolderPlusIcon,
             PaperclipIcon,
             LifeBuoyIcon,
+            AlphabetIcon,
             Trash2Icon,
             SmileIcon,
             Edit2Icon,
@@ -55,6 +61,9 @@ import {
             LinkIcon,
             StarIcon,
             EyeIcon,
+            GridIcon,
+            ListIcon,
+            CalendarIcon,
         }
     }
 </script>

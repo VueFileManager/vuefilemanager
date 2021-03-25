@@ -16,7 +16,7 @@
                     <label>{{ $t('admin_page_user.select_role') }}:</label>
                     <div class="single-line-form">
                         <SelectInput v-model="userRole" :options="roles"
-                                     :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                                     :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
                                     button-style="theme" class="submit-button">
                             {{ $t('admin_page_user.save_role') }}
@@ -199,8 +199,6 @@
                         // Reset errors
                         this.$refs.changeRole.reset()
 
-                        this.isSendingRequest = false
-
                         this.$emit('reload-user')
 
                         events.$emit('toaster', {
@@ -209,16 +207,16 @@
                         })
                     })
                     .catch(() => {
-
-                        this.isSendingRequest = false
-
                         events.$emit('alert:open', {
                             title: this.$t('popup_error.title'),
                             message: this.$t('popup_error.message'),
                         })
                     })
+                    .finally(() => {
+                        this.isSendingRequest = false
+                    })
             }
-        }
+        },
     }
 </script>
 

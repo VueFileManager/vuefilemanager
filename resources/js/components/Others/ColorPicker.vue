@@ -12,16 +12,21 @@
 
 <script>
 import { CheckIcon } from 'vue-feather-icons'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'ColorPicker',
     props: [ 'pickedColor' ],
     components: { CheckIcon },
+    computed: {
+        ...mapGetters([
+            'config'
+        ])
+    },
     data () {
         return {
             selectedColor: this.pickedColor,
             colors: [
-                '#41B883',
                 '#FE6F6F',
                 '#FE6F91',
                 '#FE6FC0',
@@ -53,6 +58,9 @@ export default {
 
             this.$emit('input', value)
         }
+    },
+    created() {
+        this.colors.push(this.config.app_color)
     }
 }
 </script>

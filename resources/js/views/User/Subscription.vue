@@ -128,7 +128,7 @@
 
                 // Send delete request
                 axios
-                    .post('/api/subscription/cancel')
+                    .post('/api/user/subscription/cancel')
                     .then(() => {
 
                         // Update user data
@@ -172,7 +172,7 @@
 
                 // Send delete request
                 axios
-                    .post('/api/subscription/resume')
+                    .post('/api/user/subscription/resume')
                     .then(() => {
 
                         // Update user data

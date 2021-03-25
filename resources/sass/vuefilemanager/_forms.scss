@@ -103,6 +103,14 @@ textarea {
   width: 100%;
 }
 
+input[type="color"] {
+  width: 38px;
+  height: 40px;
+  border: none;
+  outline: none;
+  background: none;
+}
+
 textarea,
 input[type="password"],
 input[type="text"],

@@ -1,6 +1,7 @@
 <template>
     <div id="vuefilemanager" @click="unClick" v-cloak>
         <Alert />
+        <ToastrWrapper />
 
         <router-view />
 
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
 import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
 import Vignette from '@/components/Others/Vignette'
 import Alert from '@/components/FilesView/Alert'
@@ -19,6 +21,7 @@ export default {
     name: 'app',
     components: {
         CookieDisclaimer,
+        ToastrWrapper,
         Vignette,
         Alert
     },

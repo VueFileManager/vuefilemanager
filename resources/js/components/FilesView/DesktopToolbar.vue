@@ -7,14 +7,12 @@
                     <chevron-left-icon size="17" :class="{ 'is-active': browseHistory.length > 1 }" class="icon-back"></chevron-left-icon>
 
                     <span class="back-directory-title">
-            {{ directoryName }}
-          </span>
+                        {{ directoryName }}
+                    </span>
 
-                    <span @click.stop="folderActions" v-if="
-              browseHistory.length > 1 && $isThisLocation(['base', 'public'])
-            " class="folder-options" id="folder-actions">
-            <more-horizontal-icon size="14" class="icon-more"></more-horizontal-icon>
-          </span>
+                    <span @click.stop="folderActions" v-if="browseHistory.length > 1 && $isThisLocation(['base', 'public'])" class="folder-options group" id="folder-actions">
+                        <more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
+                    </span>
                 </div>
             </div>
 
@@ -287,7 +285,7 @@ export default {
             background: $light_background;
 
             svg circle {
-                stroke: $theme;
+                color: inherit;
             }
         }
 

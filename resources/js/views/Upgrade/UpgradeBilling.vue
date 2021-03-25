@@ -4,7 +4,7 @@
             <MobileHeader :title="$router.currentRoute.meta.title" />
             <div class="content-page">
                 <div class="plan-title">
-                    <credit-card-icon size="42" class="title-icon"></credit-card-icon>
+                    <credit-card-icon size="42" class="title-icon text-theme" />
                     <h1>{{ $t('page_upgrade_account.title') }}</h1>
                     <h2>{{ $t('page_upgrade_account.desription') }}</h2>
                 </div>
@@ -95,6 +95,7 @@
                                                    :placeholder="$t('user_settings.name_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -109,6 +110,7 @@
                                                    :placeholder="$t('user_settings.address_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -124,6 +126,7 @@
                                                        :placeholder="$t('user_settings.city_plac')"
                                                        type="text"
                                                        :class="{'is-error': errors[0]}"
+                                                       class="focus-border-theme"
                                                 />
                                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                             </ValidationProvider>
@@ -138,6 +141,7 @@
                                                        :placeholder="$t('user_settings.postal_code_plac')"
                                                        type="text"
                                                        :class="{'is-error': errors[0]}"
+                                                       class="focus-border-theme"
                                                 />
                                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                             </ValidationProvider>
@@ -167,6 +171,7 @@
                                                    :placeholder="$t('user_settings.state_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <small class="input-help">
                                                 State, county, province, or region.
@@ -184,6 +189,7 @@
                                                    :placeholder="$t('user_settings.phone_number_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -708,7 +714,7 @@
         margin: 0 auto 80px;
 
         path, line, polyline, rect, circle {
-            color: $theme;
+            color: inherit;
         }
 
         h1 {

@@ -53,7 +53,7 @@
                 <!--Empty page-->
                 <template v-slot:empty-page>
                     <InfoBox>
-                        <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}">Add new payment method.</router-link> </p>
+                        <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}" class="text-theme">Add new payment method.</router-link> </p>
                     </InfoBox>
                 </template>
             </DatatableWrapper>

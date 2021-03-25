@@ -806,7 +806,7 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'app_payments_active',
+                'name'  => 'payments_active',
                 'value' => 1,
             ],
             [

@@ -4,7 +4,7 @@
             <div class="plan-wrapper">
                 <header class="plan-header">
                     <div class="icon">
-                        <hard-drive-icon size="26"></hard-drive-icon>
+                        <hard-drive-icon class="text-theme" size="26" />
                     </div>
                     <h1 class="title">{{ plan.data.attributes.name }}</h1>
                     <h2 class="description">{{ plan.data.attributes.description }}</h2>
@@ -14,7 +14,7 @@
                     <span class="storage-description">{{ $t('page_pricing_tables.storage_capacity') }}</span>
                 </section>
                 <footer class="plan-footer">
-                    <b class="price">
+                    <b class="price text-theme">
                         {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
                         <small v-if="plan.data.attributes.tax_rates.length > 0" class="vat-disclaimer">{{ $t('page_pricing_tables.vat_excluded') }}</small>
                     </b>
@@ -97,7 +97,7 @@
 
             .icon {
                 path, line, polyline, rect, circle {
-                    color: $theme;
+                    color: inherit;
                 }
             }
 
@@ -136,7 +136,6 @@
             }
 
             .price {
-                color: $theme;
                 @include font-size(18);
                 display: block;
                 margin-bottom: 20px;

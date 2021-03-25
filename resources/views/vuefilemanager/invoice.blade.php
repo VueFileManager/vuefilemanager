@@ -17,18 +17,20 @@
             vertical-align: top;
         }
     </style>
+
+    @include('vuefilemanager.others.color-template')
 </head>
 <body>
 <div id="toolbar-wrapper">
-    <button class="button" onclick="window.print();">
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    <button class="button group hover-bg-theme-100" onclick="window.print();">
+        <svg class="icon group-hover-text-theme" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer">
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
             <rect x="6" y="14" width="12" height="8"></rect>
         </svg>
-        <span class="label">@lang('vuefilemanager.print_button')</span>
+        <span class="label group-hover-text-theme">@lang('vuefilemanager.print_button')</span>
     </button>
 </div>
 <div id="invoice-wrapper">
@@ -42,7 +44,7 @@
             @endif
         </div>
         <div class="title">
-            <h1>@lang('vuefilemanager.invoice_title')</h1>
+            <h1 class="text-theme">@lang('vuefilemanager.invoice_title')</h1>
         </div>
     </header>
     <section class="invoice-subject">
@@ -71,7 +73,7 @@
     </section>
     <div class="invoice-partners">
         <div class="partner">
-            <h2 class="partner-title">@lang('vuefilemanager.seller'):</h2>
+            <h2 class="partner-title text-theme">@lang('vuefilemanager.seller'):</h2>
             <ul class="list">
                 @isset($settings->billing_vat_number)
                     <li class="list-item">
@@ -132,7 +134,7 @@
             </ul>
         </div>
         <div class="partner">
-            <h2 class="partner-title">@lang('vuefilemanager.client'):</h2>
+            <h2 class="partner-title text-theme">@lang('vuefilemanager.client'):</h2>
             <ul class="list">
 
                 @isset($invoice->customer_name)
@@ -246,12 +248,12 @@
         <table width="100%" class="table" border="0">
             <thead class="table-header">
             <tr>
-                <td>@lang('vuefilemanager.col_description')</td>
-                <td>@lang('vuefilemanager.col_date')</td>
+                <td class="text-theme">@lang('vuefilemanager.col_description')</td>
+                <td class="text-theme">@lang('vuefilemanager.col_date')</td>
                 @if ($invoice->hasTax())
-                    <td align="right">@lang('vuefilemanager.vat')</td>
+                    <td class="text-theme" align="right">@lang('vuefilemanager.vat')</td>
                 @endif
-                <td>@lang('vuefilemanager.col_amount')</td>
+                <td class="text-theme">@lang('vuefilemanager.col_amount')</td>
             </tr>
             </thead>
 

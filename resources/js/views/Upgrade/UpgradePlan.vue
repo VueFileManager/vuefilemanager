@@ -6,7 +6,7 @@
 
                 <!--Page Title-->
                 <div class="plan-title">
-                    <cloud-icon size="42" class="title-icon"></cloud-icon>
+                    <cloud-icon size="42" class="title-icon text-theme" />
                     <h1>{{ $t('page_pricing_tables.title') }}</h1>
                     <h2>{{ $t('page_pricing_tables.description') }}</h2>
                 </div>
@@ -75,7 +75,7 @@
         margin: 0 auto 80px;
 
         path, line, polyline, rect, circle {
-            color: $theme;
+            color: inherit;
         }
 
         h1 {
