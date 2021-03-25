@@ -18,7 +18,7 @@
                     <div class="input">
                         <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme" :placeholder="$t('popup_rename.placeholder')">
                         <div @click="pickedItem.name = ''" class="close-icon-wrapper">
-                            <x-icon class="close-icon" size="14" />
+                            <x-icon class="close-icon hover-text-theme" size="14" />
                         </div>
                     </div>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -168,14 +168,14 @@ export default {
         &:hover {
             .close-icon {
                 line {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
         }
 
         .close-icon {
             line {
-                stroke: rgba($text-muted, 0.3);
+                color: rgba($text-muted, 0.3);
             }
         }
     }
@@ -191,14 +191,14 @@ export default {
 
             .close-icon {
                 line {
-                    stroke: $theme !important;
+                    color: inherit !important;
                 }
             }
         }
 
         .close-icon {
             line {
-                stroke: rgba($dark_mode_text_primary, 0.3) !important;
+                color: rgba($dark_mode_text_primary, 0.3) !important;
             }
         }
     }

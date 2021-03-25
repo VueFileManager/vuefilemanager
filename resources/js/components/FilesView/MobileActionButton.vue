@@ -1,18 +1,18 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
-            <credit-card-icon v-if="icon === 'credit-card'" size="15" class="icon"></credit-card-icon>
-            <folder-plus-icon v-if="icon === 'folder-plus'" size="15" class="icon"></folder-plus-icon>
-            <list-icon v-if="icon === 'th-list'" size="15" class="icon"></list-icon>
-            <trash-icon v-if="icon === 'trash'" size="15" class="icon"></trash-icon>
-            <grid-icon v-if="icon === 'th'" size="15" class="icon"></grid-icon>
-            <user-plus-icon v-if="icon === 'user-plus'" size="15" class="icon"></user-plus-icon>
-            <plus-icon v-if="icon === 'plus'" size="15" class="icon"></plus-icon>
-            <check-square-icon v-if="icon === 'check-square'" size="15" class="icon"></check-square-icon>
-            <x-square-icon v-if="icon === 'x-square'" size="15" class="icon"></x-square-icon>
-            <check-icon v-if="icon === 'check'" size="15" class="icon"></check-icon>
-            <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon"></dollar-sign-icon>
-            <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon preview-sorting"></sorting-and-preview-icon>
+            <credit-card-icon v-if="icon === 'credit-card'" size="15" class="icon dark-text-theme" />
+            <folder-plus-icon v-if="icon === 'folder-plus'" size="15" class="icon dark-text-theme" />
+            <list-icon v-if="icon === 'th-list'" size="15" class="icon dark-text-theme" />
+            <trash-icon v-if="icon === 'trash'" size="15" class="icon dark-text-theme" />
+            <grid-icon v-if="icon === 'th'" size="15" class="icon dark-text-theme" />
+            <user-plus-icon v-if="icon === 'user-plus'" size="15" class="icon dark-text-theme" />
+            <plus-icon v-if="icon === 'plus'" size="15" class="icon dark-text-theme" />
+            <check-square-icon v-if="icon === 'check-square'" size="15" class="icon dark-text-theme" />
+            <x-square-icon v-if="icon === 'x-square'" size="15" class="icon dark-text-theme" />
+            <check-icon v-if="icon === 'check'" size="15" class="icon dark-text-theme" />
+            <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon dark-text-theme" />
+            <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon preview-sorting" />
             <span class="label">
                 <slot></slot>
             </span>
@@ -103,7 +103,7 @@
             background: $dark_mode_foreground;
 
             path, line, polyline, rect, circle {
-                stroke: $theme;
+                color: inherit;
             }
 
             .label {

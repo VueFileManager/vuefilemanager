@@ -1,7 +1,7 @@
 <template>
     <div class="user-meta" v-if="user">
-        <b class="name">{{ user.data.attributes.name }}</b>
-        <span class="email">{{ user.data.attributes.email }}</span>
+        <b class="name">{{ user.data.relationships.settings.data.attributes.name }}</b>
+        <span class="email text-theme">{{ user.data.attributes.email }}</span>
     </div>
 </template>
 
@@ -32,7 +32,6 @@
         .email {
             display: block;
             @include font-size(12);
-            color: $theme;
             font-weight: 600;
         }
     }

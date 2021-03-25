@@ -5,7 +5,7 @@
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text">{{ item.mimetype }}</span>
+            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text text-theme">{{ item.mimetype }}</span>
 
             <!--Folder thumbnail-->
             <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
@@ -138,7 +138,6 @@
                 text-align: center;
                 left: 0;
                 right: 0;
-                color: $theme;
                 font-weight: 600;
                 user-select: none;
                 max-width: 20px;
@@ -191,6 +190,16 @@
                 .item-length,
                 .subtitle {
                     color: $dark_mode_text_secondary;
+                }
+            }
+        }
+
+        .popup-wrapper {
+            .file-item {
+                .icon-item .file-icon {
+                    path {
+                        fill: lighten($dark_mode_foreground, 3%);
+                    }
                 }
             }
         }

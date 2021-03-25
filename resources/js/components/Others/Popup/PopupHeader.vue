@@ -7,7 +7,7 @@
         </div>
         <div class="label">
             <h1 class="title">{{ title }}</h1>
-            <x-icon @click="closePopup" size="22" class="close-icon" />
+            <x-icon @click="closePopup" size="22" class="close-icon hover-text-theme" />
         </div>
     </div>
 </template>
@@ -80,7 +80,7 @@
                     background: $light_background;
 
                     line {
-                        stroke: $theme;
+                        color: inherit;
                     }
                 }
 

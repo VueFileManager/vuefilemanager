@@ -429,18 +429,6 @@ export default {
 
     .table {
 
-        .table-header {
-
-            tr {
-                td, th {
-
-                    span {
-                        color: $theme;
-                    }
-                }
-            }
-        }
-
         .table-body {
             tr, th {
                 &:hover {

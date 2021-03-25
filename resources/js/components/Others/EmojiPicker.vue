@@ -437,7 +437,7 @@ export default {
 @media (prefers-color-scheme: dark) {
 
     .emoji-wrapper {
-        background: $dark_mode_background;
+        background: lighten($dark_mode_foreground, 2%);
 
         .emoji-input {
             background: $dark_mode_foreground;
@@ -469,7 +469,7 @@ export default {
     }
 
     .select-input-wrapper {
-        background: $dark_mode_foreground;
+        background: lighten($dark_mode_foreground, 3%);
 
         .not-selected {
             span {

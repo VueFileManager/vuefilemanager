@@ -94,5 +94,11 @@
         .switch {
             background: $dark_mode_foreground;
         }
+
+        .popup-wrapper {
+            .switch {
+                background: lighten($dark_mode_foreground, 3%);
+            }
+        }
     }
 </style>

@@ -59,14 +59,14 @@
             </div>
 
             <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! multiSelectMode && canShowMobileOptions">
-                <FontAwesomeIcon icon="ellipsis-h" class="icon-action"></FontAwesomeIcon>
+                <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme"/>
             </span>
         </div>
     </div>
 </template>
 
 <script>
-import {LinkIcon, UserPlusIcon, CheckIcon} from 'vue-feather-icons'
+import {LinkIcon, UserPlusIcon, CheckIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
@@ -76,6 +76,7 @@ export default {
     name: 'FileItemGrid',
     props: ['item'],
     components: {
+        MoreHorizontalIcon,
         UserPlusIcon,
         CheckIcon,
         LinkIcon,
@@ -349,8 +350,8 @@ export default {
         @include font-size(12);
     }
 
-    path {
-        fill: $theme;
+    circle {
+        color: inherit;
     }
 }
 

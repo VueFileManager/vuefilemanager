@@ -373,7 +373,7 @@
         .icon {
 
           path, line, polyline, rect, circle, ellipse {
-            stroke: $dark_mode_text_primary;
+            color: $dark_mode_text_primary;
           }
         }
       }
@@ -385,21 +385,16 @@
       .icon {
 
         path, line, polyline, rect, circle, ellipse {
-          stroke: $dark_mode_text_primary;
+          color: $dark_mode_text_primary;
         }
       }
 
       &:hover {
-        background: rgba($theme, .1);
-
-        .label {
-          color: $theme;
-        }
 
         .icon {
 
           path, line, polyline, rect, circle, ellipse {
-            stroke: $theme;
+            color: inherit;
           }
         }
       }

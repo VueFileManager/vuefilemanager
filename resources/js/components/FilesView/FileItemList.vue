@@ -64,7 +64,7 @@
             <transition name="slide-from-right">
                 <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
                     <span @click.stop="showItemActions" class="show-actions">
-                        <FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
+                        <MoreVerticalIcon size="16" class="icon-action text-theme" />
                     </span>
                 </div>
             </transition>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
+import { LinkIcon, UserPlusIcon, CheckIcon, MoreVerticalIcon } from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
@@ -83,6 +83,7 @@ export default {
     name: 'FileItemList',
     props: ['item'],
     components: {
+        MoreVerticalIcon,
         UserPlusIcon,
         LinkIcon,
         FolderIcon,
@@ -367,8 +368,8 @@ export default {
             .icon-action {
                 @include font-size(14);
 
-                path {
-                    fill: $theme;
+                circle {
+                    color: inherit;
                 }
             }
         }
@@ -579,10 +580,6 @@ export default {
             &:hover,
             &.is-clicked {
                 background: $dark_mode_foreground;
-
-                .item-name .name {
-                    color: $theme;
-                }
 
                 .file-icon {
                     path {
