@@ -41,9 +41,6 @@
         <!--Navigation Sidebar-->
         <MenuBar />
 
-        <!--Toastr-->
-        <ToastrWrapper />
-
         <!--File page-->
         <keep-alive :include="['Admin', 'Users']">
             <router-view :class="{'is-scaled-down': isScaledDown}" />
@@ -54,7 +51,6 @@
 <script>
 import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
 import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
-import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
 import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
 import FileFullPreview from '@/components/FilesView/FileFullPreview'
 import MobileNavigation from '@/components/Others/MobileNavigation'
@@ -79,7 +75,6 @@ export default {
         MobileNavigation,
         FileFullPreview,
         ProcessingPopup,
-        ToastrWrapper,
         CreateFolder,
         ShareCreate,
         MobileMenu,

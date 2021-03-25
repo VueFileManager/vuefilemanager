@@ -1,6 +1,6 @@
 <template>
 	<div class="progress-bar">
-		<span :style="{ width: progress + '%' }"></span>
+		<span class="bg-theme" :style="{ width: progress + '%' }"></span>
 	</div>
 </template>
 
@@ -23,7 +23,6 @@ export default {
 		border-radius: 10px;
 
 		span {
-			background: $theme;
 			display: block;
 			height: 100%;
 			border-radius: 10px;

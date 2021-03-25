@@ -26,6 +26,21 @@
 
                 <FormLabel class="mt-70">{{ $t('admin_settings.appearance.section_appearance') }}</FormLabel>
 
+                <!--TODO: add language-->
+                <div class="block-wrapper">
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
+                        <div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">Color Theme:</label>
+                                <small class="input-help">Your color change will be visible after app refresh.</small>
+                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            </div>
+                            <input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"
+                                   :class="{'is-error': errors[0]}" class="focus-border-theme"/>
+                        </div>
+                    </ValidationProvider>
+                </div>
+
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.appearance.logo') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
@@ -91,7 +106,7 @@
         mounted() {
             axios.get('/api/admin/settings', {
                 params: {
-                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal'
+                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal|app_color'
                 }
             })
                 .then(response => {
@@ -100,6 +115,7 @@
                         description: response.data.app_description,
                         favicon: response.data.app_favicon,
                         title: response.data.app_title,
+                        color: response.data.app_color,
                         logo: response.data.app_logo,
                     }
                 })

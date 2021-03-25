@@ -69,7 +69,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.relationships.settings.data.attributes.name !== admin.name"
+                    <router-link replace :to="{name: 'UserDelete'}" v-if="admin && user.data.relationships.settings.data.attributes.name !== admin.data.relationships.settings.data.attributes.name"
                                  class="menu-list-item link border-bottom-theme">
                         <div class="icon text-theme">
                             <trash2-icon size="17"></trash2-icon>
@@ -120,7 +120,7 @@
         computed: {
             ...mapGetters(['config']),
             admin() {
-                return this.$store.getters.user ? this.$store.getters.user.data.attributes : undefined
+                return this.$store.getters.user ? this.$store.getters.user : undefined
             },
         },
         data() {

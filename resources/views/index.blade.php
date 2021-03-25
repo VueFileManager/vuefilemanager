@@ -42,6 +42,7 @@
             api: '{{ url('/api') }}',
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
 
+            app_color: '{{ $settings->app_color }}',
             app_logo: '{{ $settings->app_logo ?? null }}',
             app_footer: '{!! $settings->footer_content ?? null !!}',
             app_name: '{{ $settings->app_title ?? 'VueFileManager' }}',

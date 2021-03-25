@@ -4,7 +4,7 @@
             <div class="plan-wrapper">
                 <header class="plan-header">
                     <div class="icon">
-                        <hard-drive-icon class="text-theme" size="26"></hard-drive-icon>
+                        <hard-drive-icon class="text-theme" size="26" />
                     </div>
                     <h1 class="title">{{ plan.data.attributes.name }}</h1>
                     <h2 class="description">{{ plan.data.attributes.description }}</h2>

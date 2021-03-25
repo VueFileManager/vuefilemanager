@@ -42,23 +42,19 @@
 
             /deep/ a {
                 font-size: 15px;
-                color: $theme;
             }
 
             /deep/ b {
                 font-size: 15px;
                 font-weight: 700;
-                color: $theme;
             }
         }
 
         b {
             font-weight: 700;
-            color: $theme;
         }
 
         a {
-            color: $theme;
             font-weight: 700;
             @include font-size(15);
             line-height: 1.6;

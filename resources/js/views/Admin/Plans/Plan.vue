@@ -9,31 +9,31 @@
                 <!--Page Tab links-->
                 <div class="menu-list-wrapper horizontal">
                     <router-link replace :to="{name: 'PlanSettings', params: {id: plan.id}}"
-                                 class="menu-list-item link">
-                        <div class="icon">
-                            <settings-icon size="17"></settings-icon>
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
+                            <settings-icon size="17" />
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_plans.tabs.settings') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'PlanSubscribers', params: {id: plan.id}}"
-                                 class="menu-list-item link">
-                        <div class="icon">
-                            <users-icon size="17"></users-icon>
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
+                            <users-icon size="17" />
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_plans.tabs.subscribers') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'PlanDelete', params: {id: plan.id}}"
-                                 class="menu-list-item link">
-                        <div class="icon">
-                            <trash2-icon size="17"></trash2-icon>
+                                 class="menu-list-item link link border-bottom-theme">
+                        <div class="icon text-theme">
+                            <trash2-icon size="17" />
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_plans.tabs.delete') }}
                         </div>
                     </router-link>

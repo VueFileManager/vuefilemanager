@@ -157,9 +157,8 @@
     }
 
     .is-dragenter {
-			border: 2px dashed $theme !important;
-			border-radius: 8px;
-		}
+        border-radius: 8px;
+    }
 
     .folder-item {
         display: block;

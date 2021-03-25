@@ -5,7 +5,7 @@
 
                 <!--Is processing-->
 				<span v-if="isProcessingFile">
-                    <refresh-cw-icon size="12" class="sync-alt"></refresh-cw-icon>
+                    <refresh-cw-icon size="12" class="sync-alt text-theme" />
                     {{ $t('uploading.processing_file') }}
                 </span>
 
@@ -17,7 +17,7 @@
             <div class="progress-wrapper">
                 <ProgressBar :progress="uploadingProgress" />
                 <span @click="cancelUpload" :title="$t('uploading.cancel')" class="cancel-icon">
-                    <x-icon size="16" @click="cancelUpload"></x-icon>
+                    <x-icon size="16" @click="cancelUpload" class="hover-text-theme"></x-icon>
                 </span>
             </div>
         </div>
@@ -63,7 +63,7 @@
         margin-right: 5px;
 
         polyline, path {
-            stroke: $theme;
+            color: inherit;
         }
     }
 
@@ -103,7 +103,7 @@
                 &:hover {
 
                     line {
-                        stroke: $theme;
+                        color: inherit;
                     }
                 }
             }

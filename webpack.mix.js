@@ -15,6 +15,9 @@ mix.js('resources/js/main.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css/app.css', {
         implementation: require('node-sass')
     })
+    /*.sass('public/sass/invoice.scss', 'public/css/invoice.css', {
+        implementation: require('node-sass')
+    })*/
     .webpackConfig({
         resolve: {
             alias: {

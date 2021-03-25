@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup>
-            <DatatableWrapper @init="isLoading = false" :api="'/api/admin/plans/' + this.$route.params.id + '/subscribers'" :paginator="false" :columns="columns" :data="subscribers" class="table">
+            <DatatableWrapper @init="isLoading = false" :api="`/api/admin/plans/${this.$route.params.id}/subscribers`" :paginator="false" :columns="columns" :data="subscribers" class="table">
 
                 <!--Table data content-->
                 <template slot-scope="{ row }">
@@ -10,14 +10,14 @@
                             <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                 <DatatableCellImage
                                         image-size="small"
-                                        :image="row.data.attributes.avatar"
-                                        :title="row.data.attributes.name"
+                                        :image="row.data.relationships.settings.data.attributes.avatar"
+                                        :title="row.data.relationships.settings.data.attributes.name"
                                 />
                             </router-link>
                         </td>
                         <td>
                             <span class="cell-item">
-                                {{ row.relationships.storage.data.attributes.used }}%
+                                {{ row.data.attributes.storage.used }}%
                             </span>
                         </td>
                         <td>

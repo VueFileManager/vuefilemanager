@@ -48,11 +48,6 @@
             transform: scale(0.95);
         }
 
-        &.theme {
-            color: $theme;
-            background: rgba($theme, .1);
-        }
-
         &.secondary {
             color: $text;
             background: $light_background;
