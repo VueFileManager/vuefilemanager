@@ -214,18 +214,5 @@
                 }
             }
         }
-
-        .sharelink {
-
-            .lock-icon {
-
-                &:hover {
-
-                    path, rect {
-                        stroke: $theme;
-                    }
-                }
-            }
-        }
     }
 </style>

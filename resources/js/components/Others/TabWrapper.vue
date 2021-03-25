@@ -108,11 +108,17 @@
             border-color: transparent;
 
             .tab.active {
-                background: rgba($theme, 0.1);
+                background: lighten($dark_mode_foreground, 7%);
 
                 .tab-title {
-                    color: $theme;
+                    color: $dark_mode_text_primary;
                 }
+            }
+        }
+
+        .popup-wrapper {
+            .tab-wrapper {
+                background: lighten($dark_mode_foreground, 2%);
             }
         }
     }

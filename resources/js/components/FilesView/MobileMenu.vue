@@ -315,11 +315,11 @@ export default {
     computed: {
         ...mapGetters(['fileInfoDetail', 'user']),
         favourites() {
-            return this.user.relationships.favourites.data.attributes.folders
+            return this.user.data.relationships.favourites.data.attributes.folders
         },
         isInFavourites() {
             return this.favourites.find(
-                (el) => el.unique_id == this.fileInfoDetail[0].unique_id
+                (el) => el.id == this.fileInfoDetail[0].id
             )
         },
         isFile() {
@@ -369,7 +369,7 @@ export default {
             if (
                 this.favourites &&
                 !this.favourites.find(
-                    (el) => el.unique_id == this.fileInfoDetail[0].unique_id
+                    (el) => el.id == this.fileInfoDetail[0].id
                 )
             ) {
                 this.$store.dispatch('addToFavourites', this.fileInfoDetail[0])

@@ -82,12 +82,6 @@ export default {
                 color: $dark_mode_text_secondary;
             }
         }
-
-        .icon-wrapper {
-            .icon {
-                stroke: $theme;
-            }
-        }
     }
 }
 </style>

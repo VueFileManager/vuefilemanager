@@ -47,6 +47,7 @@
                                 <input v-model="user.address"
                                        :placeholder="$t('user_settings.address_plac')"
                                        type="text"
+                                       class="focus-border-theme"
                                        :class="{'is-error': errors[0]}"
                                 />
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -60,6 +61,7 @@
                                     <input v-model="user.city"
                                            :placeholder="$t('user_settings.city_plac')"
                                            type="text"
+                                           class="focus-border-theme"
                                            :class="{'is-error': errors[0]}"
                                     />
                                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -72,6 +74,7 @@
                                     <input v-model="user.postal_code"
                                            :placeholder="$t('user_settings.postal_code_plac')"
                                            type="text"
+                                           class="focus-border-theme"
                                            :class="{'is-error': errors[0]}"
                                     />
                                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -97,6 +100,7 @@
                                 <input v-model="user.state"
                                        :placeholder="$t('user_settings.state_plac')"
                                        type="text"
+                                       class="focus-border-theme"
                                        :class="{'is-error': errors[0]}"
                                 />
                                 <small class="input-help">
@@ -112,6 +116,7 @@
                                 <input v-model="user.phone_number"
                                        :placeholder="$t('user_settings.phone_number_plac')"
                                        type="text"
+                                       class="focus-border-theme"
                                        :class="{'is-error': errors[0]}"
                                 />
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>

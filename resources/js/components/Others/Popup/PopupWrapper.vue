@@ -141,7 +141,7 @@
 
     @media (prefers-color-scheme: dark) {
         .popup-wrapper {
-            background: $dark_mode_background;
+            background: $dark_mode_foreground;
             box-shadow: $dark_mode_popup_shadow;
         }
     }

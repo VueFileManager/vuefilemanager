@@ -295,4 +295,15 @@ input[type="email"] {
       -webkit-text-fill-color: rgba($dark_mode_text_secondary, 0.8);
     }
   }
+
+  .popup-wrapper {
+
+    textarea,
+    input[type="password"],
+    input[type="text"],
+    input[type="number"],
+    input[type="email"] {
+      background: lighten($dark_mode_foreground, 3%);
+    }
+  }
 }

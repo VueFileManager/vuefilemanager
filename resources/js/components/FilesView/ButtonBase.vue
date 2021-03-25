@@ -120,8 +120,14 @@
                 }
 
                 polyline, path {
-                    stroke: $theme;
+                    color: inherit;
                 }
+            }
+        }
+
+        .popup-wrapper {
+            .button-base.secondary {
+                background: lighten($dark_mode_foreground, 3%);
             }
         }
     }

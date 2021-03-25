@@ -169,7 +169,7 @@
 
     @media (prefers-color-scheme: dark) {
         .popup-wrapper {
-            background: $dark_mode_background;
+            background: $dark_mode_foreground;
         }
         .popup-content {
             .title {

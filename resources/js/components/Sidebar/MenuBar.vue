@@ -248,10 +248,6 @@
                 &:hover {
                     background: $dark_mode_background;
                 }
-
-                path, line, polyline, rect, circle {
-                    stroke: $dark_mode_text_primary;
-                }
             }
         }
 

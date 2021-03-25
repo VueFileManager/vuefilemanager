@@ -31,7 +31,7 @@
 
     @media (prefers-color-scheme: dark) {
         .text-label {
-            color: $theme;
+            opacity: 0.35;
         }
     }
 </style>

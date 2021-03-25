@@ -187,11 +187,11 @@
         .input-area {
             background: $dark_mode_foreground;
             border-color: $dark_mode_foreground;
+        }
 
-            .option-icon {
-                path {
-                    fill: $theme
-                }
+        .popup-wrapper {
+            .input-area {
+                background: lighten($dark_mode_foreground, 3%);
             }
         }
 
@@ -202,16 +202,12 @@
                 border-bottom: none;
 
                 &:hover {
-                    background: rgba($theme, .1);
-
-                    .option-value {
-                        color: $theme;
-                    }
+                    background: lighten($dark_mode_foreground, 5%);
 
                     .option-icon {
 
                         path, circle {
-                            stroke: $theme;
+                            color: inherit;
                         }
                     }
                 }

@@ -175,7 +175,7 @@
                 return this.config.isSaaS && this.config.app_payments_active
             },
             canShowUpgradeWarning() {
-                return this.config.storageLimit && this.user.data.attributes.used > 95
+                return this.config.storageLimit && this.user.data.attributes.storage.used > 95
             },
             canShowIncompletePayment() {
                 return this.user.data.attributes.incomplete_payment

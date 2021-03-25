@@ -159,22 +159,11 @@ export default {
         line,
         path,
         polygon {
-            stroke: $dark_mode_text_primary !important;
+            color: inherit !important;
         }
 
         .icon-item {
             border-color: #333333;
-
-            &:hover {
-                background: rgba($theme, 0.1);
-
-                line,
-                polyline,
-                path,
-                polygon {
-                    stroke: $theme !important;
-                }
-            }
         }
 
 

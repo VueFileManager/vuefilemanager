@@ -82,4 +82,8 @@
         .folder-item.is-dragenter {border-color: {{ $settings->app_color }} !important;}
         .favourites.is-dragenter .menu-list {border-color: {{ $settings->app_color }} !important;}
 
+        {{-- Dark mode --}}
+        @media (prefers-color-scheme: dark) {
+            .dark-text-theme {color: {{ $settings->app_color }}}
+        }
     </style>

@@ -168,28 +168,6 @@
             .label {
                 color: $dark_mode_text_primary;
             }
-
-            &:hover {
-                background: rgba($theme, .1);
-            }
-
-            &.is-selected {
-                background: rgba($theme, .1);
-            }
-        }
-
-        &.is-selected {
-            background: rgba($theme, .1);
-        }
-    }
-
-    @media (prefers-color-scheme: dark) and (max-width: 690px) {
-        .folder-item {
-
-            &:hover,
-            &.is-selected {
-                background: rgba($theme, .1);
-            }
         }
     }
 

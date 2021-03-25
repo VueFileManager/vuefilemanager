@@ -106,16 +106,12 @@ import {
     }
 }
 @media (prefers-color-scheme: dark) {
-    .danger {
-        &:hover {
-            background: rgba($danger, 0.1) !important;
-        }
-    }
+
     .menu-option {
         color: $dark_mode_text_primary;
 
         &:hover {
-            background: rgba($theme, 0.1);
+            background: lighten($dark_mode_foreground, 2%);
         }
     } 
 }
