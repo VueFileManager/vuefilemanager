@@ -1,6 +1,6 @@
 <template>
     <!-- Serach bar -->
-    <div v-if="strings" class="language-strings-wrapper form-block form">
+    <div v-if="strings" class="language-strings-wrapper form">
         <div class="search-bar-wrapper">
             <div class="search-bar">
                 <div v-if="!searchInput" class="icon" >
@@ -58,8 +58,9 @@
 
             <!-- Strings -->
             <FormLabel class="mt-70">Language Strings</FormLabel>
-
-            <Spinner class="spinner" v-if="!loadSearch || filteredStrings.length === 0 && !searchInput"/>
+            <div v-if="!loadSearch || filteredStrings.length === 0 && !searchInput" class="spinner-wrapper">
+                <Spinner class="spinner" />
+            </div>
 
             <div v-if="loadSearch && filteredStrings.length > 0">
                 <div class="block-wrapper string" v-for="(string,index) in filteredStrings" :key="index">
@@ -225,8 +226,12 @@ export default {
 @import '@assets/vue-file-manager/_mixins';
 @import '@assets/vue-file-manager/_forms';
 
-.spinner {
-    top: 60% !important;
+.spinner-wrapper {
+    position: relative;
+    height: 50%;
+    .spinner {
+        top: 60% !important;
+    }
 }
 
 .not-found-wrapper {
@@ -249,6 +254,7 @@ export default {
 
 .block-form {
     padding: 1px;
+    height: 100%;
 }
 .disable-switch {
    cursor: not-allowed;
@@ -344,23 +350,23 @@ export default {
 
 @media only screen and (max-width: 690px) {
 
-    .search-bar {
+    // .search-bar {
 
-        input {
-            min-width: initial;
-            width: 100%;
-            max-width: initial;
-            padding: 9px 20px 9px 30px;
+    //     input {
+    //         min-width: initial;
+    //         width: 100%;
+    //         max-width: initial;
+    //         padding: 9px 20px 9px 30px;
 
-            &:focus {
-                box-shadow: none;
-            }
-        }
+    //         &:focus {
+    //             box-shadow: none;
+    //         }
+    //     }
 
-        .icon {
-            padding: 11px 15px 11px 0;
-        }
-    }
+    //     .icon {
+    //         padding: 11px 15px 11px 0;
+    //     }
+    // }
 
 }
 

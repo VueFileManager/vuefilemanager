@@ -7,6 +7,8 @@ use App\Page;
 use App\Setting;
 use Artisan;
 use Illuminate\Http\Request;
+use App\Language;
+use Illuminate\Support\Facades\DB;
 use Schema;
 
 class UpgradeAppController extends Controller
@@ -39,6 +41,40 @@ class UpgradeAppController extends Controller
      */
     public function upgrade()
     {
+        if(! Schema::hasTable('langauges') && ! Schema::hasTable('language_strings') ) {
+
+        /*
+         * Create language & language_strings tables
+         *
+         * @since v1.8.2
+        */
+
+            $this->upgrade_database();
+
+            // Create languages & strings
+            $language = Language::updateOrCreate([
+                'name'   => 'English',
+                'locale' => 'en'
+            ]);
+
+            $license = get_setting('license') === 'Extended' ? 'extended' : 'regular';
+
+            $language_strings = collect(config('language_strings.' . $license));
+
+            $strings = $language_strings->map(function ($value , $key) use($language) {
+
+                return [
+                    'key'         => $key,
+                    'lang'        => $language->locale,
+                    'value'       => $value
+                ];
+
+            })->toArray();
+
+            DB::table('language_strings')->insert($strings);
+        }
+
+
         /*
          * Upgrade user_settings & file_manager_folders table
          *

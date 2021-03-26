@@ -14,7 +14,7 @@
                         </div>
 
                         <!-- Languages -->
-                        <div  class="all-language-wrapper">
+                        <div class="all-language-wrapper">
                             <div @click="openLanguage(language)" v-for="language in languages" :key="language.id">
                                 <div class="language" >
                                     <label class="name" :class="{'active' :activeLanguage.locale === language.locale}">
@@ -228,21 +228,29 @@ export default {
     }
 }
 
-//  @media only screen and (max-width: 1024px) {
-//         .side-content {
-//             flex: 0 0 205px;
-//         }
-//     }
+ @media only screen and (max-width: 1024px) {
+         .wrapper {
+            flex-direction: column;
+            .side-content{
+                margin-bottom: 70px;
+            }
+            .languages-wrapper {
+                margin-top: 0px;
+            }
+        }
+    }
 
-//     @media only screen and (max-width: 690px) {
-//         .side-content {
-//             display: none;
-//         }
-//     }
+    @media only screen and (max-width: 690px) {
+        .side-content{
+            margin-bottom: 35px !important;
+            flex: none;
+        }
+    }
 
  @media (prefers-color-scheme: dark) {
     
     .language{
+
         .name {
             color: $dark_mode_text_primary !important;
         }
