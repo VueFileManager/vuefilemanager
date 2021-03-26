@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Oasis;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateUserByAdmin;
+use App\Http\Requests\Oasis\CreateOrderRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\UserSettings;
@@ -43,10 +44,10 @@ class AdminController extends Controller
     /**
      * Register new client and send email with payment details
      *
-     * @param Request $request
+     * @param CreateOrderRequest $request
      * @return Application|ResponseFactory|Response
      */
-    public function create_order(Request $request)
+    public function create_order(CreateOrderRequest $request)
     {
         // Create user
         $newbie = User::create([
@@ -61,14 +62,14 @@ class AdminController extends Controller
             ->settings()
             ->create([
                 'storage_capacity' => 0,
-                'ico'              => $request->ico,
+                'ico'              => $request->ico ?? null,
                 'name'             => $request->name,
                 'address'          => $request->address,
                 'state'            => $request->state,
                 'city'             => $request->city,
                 'postal_code'      => $request->postal_code,
                 'country'          => $request->country,
-                'phone_number'     => $request->phone_number,
+                'phone_number'     => $request->phone_number ?? null,
                 'timezone'         => '1.0',
             ]);
 

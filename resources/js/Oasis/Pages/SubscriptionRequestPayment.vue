@@ -18,7 +18,7 @@
 
                             <!-- Pay by new credit card -->
                             <div class="register-card form block-form">
-                                <InfoBox v-if="config.isDemo">
+                                <InfoBox v-if="config.isDemo || config.isDev">
                                     <p>For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555 5555 5555 4444</b> as a card number, <b>11/22</b>
                                         as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
                                 </InfoBox>
@@ -33,10 +33,11 @@
                                     </div>
                                 </div>
 
-                                <InfoBox>
+                                <InfoBox v-if="requestedPlan">
                                     <ListInfo class="billing">
-                                        <ListInfoItem class="billing-item" title="Spolecnost" content="CMPortal, s.r.o." />
-                                        <ListInfoItem class="billing-item" title="Adresa" content="Korytná 47/3, Praha 10000, Česká Republika" />
+                                        <ListInfoItem class="billing-item" title="Spolecnost" :content="requestedPlan.data.relationships.user.data.attributes.name" />
+                                        <ListInfoItem v-if="requestedPlan.data.relationships.user.data.attributes.ico" class="billing-item" title="ICO" :content="requestedPlan.data.relationships.user.data.attributes.ico" />
+                                        <ListInfoItem class="billing-item" title="Adresa" :content="address" />
                                     </ListInfo>
                                 </InfoBox>
                             </div>
@@ -152,6 +153,9 @@
                 return this.requestedPlan.data.relationships.plan.data.attributes.tax_rates.find(taxRate => {
                     return taxRate.country === this.requestedPlan.data.relationships.user.data.attributes.country
                 })
+            },
+            address() {
+                return this.requestedPlan.data.relationships.user.data.attributes.address + ', ' + this.requestedPlan.data.relationships.user.data.attributes.postal_code + ', ' + this.requestedPlan.data.relationships.user.data.attributes.city
             }
         },
         data() {

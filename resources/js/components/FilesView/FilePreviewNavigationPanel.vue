@@ -1,13 +1,13 @@
 <template>
 	<div class="navigation-panel" v-if="fileInfoDetail[0]">
 		<div class="name-wrapper">
-			<x-icon @click="closeFullPreview" size="22" class="icon-close"></x-icon>
+			<x-icon @click="closeFullPreview" size="22" class="icon-close hover-text-theme" />
 			<div class="name-count-wrapper">
 				<p class="title">{{ fileInfoDetail[0].name }}</p>				
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + filteredFiles.length }}) </span>
 			</div>
-			<span id="fast-preview-menu" class="fast-menu-icon" @click.stop="menuOpen" v-if="$checkPermission(['master', 'editor', 'visitor'])">
-				<more-horizontal-icon class="more-icon" size="14"> </more-horizontal-icon>
+			<span id="fast-preview-menu" class="fast-menu-icon group" @click.stop="menuOpen" v-if="$checkPermission(['master', 'editor', 'visitor'])">
+				<more-horizontal-icon class="more-icon group-hover-text-theme" size="14" />
 			</span>
 		</div>
 
@@ -162,14 +162,13 @@ export default {
 		border-radius: 6px;
 		vertical-align: middle;
 		cursor: pointer;
-		color: $text;
 		@include transition(150ms);
 
 		&:hover {
 			background: $light_background;
 
 			line {
-				stroke: $theme;
+				color: inherit;
 			}
 		}
 	}
@@ -191,7 +190,7 @@ export default {
 			background: $light_background;
 
 			svg circle {
-				stroke: $theme;
+				color: inherit;
 			}
 		}
 		.more-icon {

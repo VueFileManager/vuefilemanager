@@ -40,6 +40,7 @@ class SubscriptionRequestResource extends JsonResource
                                 'postal_code'  => $this->user->settings->postal_code,
                                 'country'      => $this->user->settings->country,
                                 'phone_number' => $this->user->settings->phone_number,
+                                'ico'          => $this->user->settings->ico,
                             ]
                         ]
                     ],

@@ -19,10 +19,24 @@
                             </ValidationProvider>
                         </div>
 
+                        <div class="block-wrapper">
+                            <label>Plan:</label>
+                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" rules="required" name="Plan" v-slot="{ errors }">
+                                <SelectInput v-model="user.plan"
+                                             :default="user.country"
+                                             :options="plans"
+                                             placeholder="Vyberte plan"
+                                             :isError="errors[0]" />
+                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+
+                        <FormLabel class="mt-70">{{ $t('user_settings.title_billing') }}</FormLabel>
+
                         <!--Name-->
                         <div class="block-wrapper">
-                            <label>ICO:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ICO" rules="required" v-slot="{ errors }">
+                            <label>ICO (volitelne):</label>
+                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ICO" v-slot="{ errors }">
                                 <input v-model="user.ico" placeholder="Type ICO" type="text" class="focus-border-theme" :class="{'is-error': errors[0]}" />
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                 <small v-if="fullDetails" class="input-help">
@@ -111,26 +125,14 @@
                         </div>
 
                         <div class="block-wrapper">
-                            <label>{{ $t('user_settings.phone_number') }}:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" rules="required" name="Phone Number" v-slot="{ errors }">
+                            <label>{{ $t('user_settings.phone_number') }} (volitelne):</label>
+                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Phone Number" v-slot="{ errors }">
                                 <input v-model="user.phone_number"
                                        :placeholder="$t('user_settings.phone_number_plac')"
                                        type="text"
                                        class="focus-border-theme"
                                        :class="{'is-error': errors[0]}"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
-
-                        <div class="block-wrapper">
-                            <label>Plan:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" rules="required" name="Plan" v-slot="{ errors }">
-                                <SelectInput v-model="user.plan"
-                                             :default="user.country"
-                                             :options="plans"
-                                             placeholder="Vyberte plan"
-                                             :isError="errors[0]" />
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -237,8 +239,11 @@
                             if (error.response.data.errors['email']) {
 
                                 this.$refs.createUser.setErrors({
-                                    'email': error.response.data.errors['email']
+                                    'Email': error.response.data.errors['email']
                                 });
+
+                                // Scroll top
+                                document.getElementById('single-page').scrollTop = 0
                             }
                         } else {
 

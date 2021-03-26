@@ -88,6 +88,16 @@ const routesOasis = [
                     title: i18n.t('routes_title.user_create')
                 },
             },
+            {
+                name: 'UserCreate',
+                path: '/admin/user/create',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/user-create" */ './Oasis/Admin/UserCreate'),
+                meta: {
+                    requiresAuth: true,
+                    title: i18n.t('routes_title.user_create')
+                },
+            },
         ]
     },
 ]
