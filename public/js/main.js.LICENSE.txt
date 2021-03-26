@@ -17,12 +17,6 @@
  */
 
 /**
-  * vee-validate v3.3.9
-  * (c) 2020 Abdelrahman Awad
-  * @license MIT
-  */
-
-/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
