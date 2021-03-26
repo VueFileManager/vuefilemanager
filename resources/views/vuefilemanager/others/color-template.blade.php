@@ -65,6 +65,12 @@
 
         {{-- ButtonBase --}}
         .button-base.theme-solid {background: {{ $settings->app_color }}}
+        .button-base.theme-solid polyline,
+        .button-base.theme-solid path {
+            color: white;
+        }
+
+
         .button-base.theme {background: {{ $settings->app_color }}10}
         .button-base.theme {color: {{ $settings->app_color }}}
         .button-base.theme .content {color: {{ $settings->app_color }}}
@@ -81,6 +87,9 @@
         .file-item.is-dragenter {border-color: {{ $settings->app_color }} !important;}
         .folder-item.is-dragenter {border-color: {{ $settings->app_color }} !important;}
         .favourites.is-dragenter .menu-list {border-color: {{ $settings->app_color }} !important;}
+
+        {{-- Stripe --}}
+        .StripeElement--focus {border-color: {{ $settings->app_color }} !important;}
 
         {{-- Dark mode --}}
         @media (prefers-color-scheme: dark) {

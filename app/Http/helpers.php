@@ -588,7 +588,7 @@ function get_image_meta_data($file)
  */
 function is_dev()
 {
-    return env('APP_ENV') === 'local' ? true : false;
+    return env('APP_ENV') === 'local' ? 1 : 0;
 }
 
 /**

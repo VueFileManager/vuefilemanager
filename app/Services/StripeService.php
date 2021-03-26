@@ -198,6 +198,9 @@ class StripeService
                 'country'     => $user->settings->country,
                 'postal_code' => $user->settings->postal_code,
                 'state'       => $user->settings->state,
+            ],
+            'preferred_locales' => [
+                $user->settings->country, 'en'
             ]
         ]);
     }

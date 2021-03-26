@@ -25,7 +25,7 @@
 
     {{--Icons--}}
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('assets/images/app-icon.png') }}">
-    <link rel="icon" href="{{ $settings->app_favicon ?? asset('favicon.png') }}?v={{ get_version() }}">
+    <link rel="icon" href="{{ $settings->app_favicon ? url($settings->app_favicon) : asset('favicon.png') }}?v={{ get_version() }}">
 
     {{--Format Detection--}}
     <meta name="format-detection" content="telephone=no">
@@ -64,6 +64,8 @@
 
             isAuthenticated: {{ auth()->check() ? 1 : 0 }},
             isSaaS: {{ $settings && $settings->license === 'Extended' ? 1 : 0 }},
+
+            isDev: {{ is_dev() ? 1 : 0 }},
             isDemo: {{ config('vuefilemanager.is_demo') ? 1 : 0 }},
 
             legal: {!! $legal ?? 'undefined' !!},
