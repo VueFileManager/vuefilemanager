@@ -50,6 +50,22 @@
                     </ValidationProvider>
                 </div>
 
+                <div class="block-wrapper">
+                    <label>OG Image (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput v-model="app.og_image" :error="errors[0]"/>
+                        <small class="input-help">Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627</small>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>App Touch Icon (optional):</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput v-model="app.touch_icon" :error="errors[0]"/>
+                        <small class="input-help">If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156</small>
+                    </ValidationProvider>
+                </div>
+
                 <FormLabel class="mt-70">Others Information</FormLabel>
 
                 <div class="block-wrapper">
@@ -158,6 +174,8 @@
                     logo: undefined,
                     logo_horizontal: undefined,
                     favicon: undefined,
+                    og_image: undefined,
+                    touch_icon: undefined,
                     contactMail: '',
                     googleAnalytics: '',
                     defaultStorage: '5',
@@ -198,6 +216,12 @@
 
                 if (this.app.logo_horizontal)
                     formData.append('logo_horizontal', this.app.logo_horizontal)
+
+                if (this.app.og_image)
+                    formData.append('og_image', this.app.og_image)
+
+                if (this.app.touch_icon)
+                    formData.append('touch_icon', this.app.touch_icon)
 
                 if (this.app.favicon)
                     formData.append('favicon', this.app.favicon)

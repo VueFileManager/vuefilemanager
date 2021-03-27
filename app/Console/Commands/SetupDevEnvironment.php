@@ -794,6 +794,14 @@ class SetupDevEnvironment extends Command
                 'value' => 'system/favicon.png',
             ],
             [
+                'name'  => 'app_og_image',
+                'value' => 'system/og-image.jpg',
+            ],
+            [
+                'name'  => 'app_touch_icon',
+                'value' => 'system/touch-icon.png',
+            ],
+            [
                 'name'  => 'google_analytics',
                 'value' => '',
             ],
@@ -869,7 +877,7 @@ class SetupDevEnvironment extends Command
         });
 
         // Get system images
-        collect(['logo.svg', 'logo-horizontal.svg', 'favicon.png'])
+        collect(['logo.svg', 'logo-horizontal.svg', 'favicon.png', 'og-image.jpg', 'touch-icon.png'])
             ->each(function ($file) {
                 \File::copy(storage_path("demo/app/$file"), storage_path("app/system/$file"));
             });

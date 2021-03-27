@@ -62,6 +62,24 @@
                         <ImageInput @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
                     </ValidationProvider>
                 </div>
+
+                <!--TODO: add language-->
+                <div class="block-wrapper">
+                    <label>OG Image:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" :error="errors[0]"/>
+                        <small class="input-help">Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627</small>
+                    </ValidationProvider>
+                </div>
+
+                <!--TODO: add language-->
+                <div class="block-wrapper">
+                    <label>App Touch Icon:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" :error="errors[0]"/>
+                        <small class="input-help">If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156</small>
+                    </ValidationProvider>
+                </div>
             </div>
         </PageTabGroup>
     </PageTab>
@@ -106,7 +124,7 @@
         mounted() {
             axios.get('/api/admin/settings', {
                 params: {
-                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal|app_color'
+                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal|app_color|app_og_image|app_touch_icon'
                 }
             })
                 .then(response => {
@@ -117,6 +135,8 @@
                         title: response.data.app_title,
                         color: response.data.app_color,
                         logo: response.data.app_logo,
+                        og_image: response.data.app_og_image,
+                        touch_icon: response.data.app_touch_icon,
                     }
                 })
                 .finally(() => {

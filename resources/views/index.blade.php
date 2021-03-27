@@ -16,7 +16,7 @@
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:title" content="{{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __('vuefilemanager.app_description') }}">
     <meta property="og:description" content="{{ $settings->app_description ?? __('vuefilemanager.app_description') }}">
-    <meta property="og:image" content="{{ asset('assets/images/vuefilemanager-og-image.jpg') }}">
+    <meta property="og:image" content="{{ $settings->app_og_image ? url($settings->app_og_image) : '' }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,7 +24,7 @@
     <meta name="apple-mobile-web-app-title" content="{{ $settings->app_title ?? 'VueFileManager' }}">
 
     {{--Icons--}}
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('assets/images/app-icon.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ $settings->app_touch_icon ? url($settings->app_touch_icon) : '' }}">
     <link rel="icon" href="{{ $settings->app_favicon ? url($settings->app_favicon) : asset('favicon.png') }}?v={{ get_version() }}">
 
     {{--Format Detection--}}

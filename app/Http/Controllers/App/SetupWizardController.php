@@ -347,6 +347,14 @@ class SetupWizardController extends Controller
                 'value' => store_system_image($request, 'favicon'),
             ],
             [
+                'name'  => 'app_og_image',
+                'value' => store_system_image($request, 'og_image'),
+            ],
+            [
+                'name'  => 'app_touch_icon',
+                'value' => store_system_image($request, 'touch_icon'),
+            ],
+            [
                 'name'  => 'google_analytics',
                 'value' => $request->googleAnalytics,
             ],
