@@ -1,7 +1,7 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
-            <upload-cloud-icon class="icon" size="15"></upload-cloud-icon>
+            <upload-cloud-icon class="icon dark-text-theme" size="15" />
             <label label="file" class="label button file-input button-base">
                 <slot></slot>
                 <input
@@ -69,7 +69,7 @@
             background: $dark_mode_foreground;
 
             path, line, polyline, rect, circle {
-                stroke: $theme;
+                color: inherit;
             }
 
             .label {

@@ -395,16 +395,5 @@ export default {
             background: $dark_mode_foreground !important;
         }
     }
-    .preview-sorting {
-        /deep/ .label {
-            color: $text !important;
-        }
-
-        /deep/ .preview-sorting {
-            path, line, polyline, rect, circle {
-                stroke: $dark_mode_text_primary !important;
-            }
-        }
-    }
 }
 </style>

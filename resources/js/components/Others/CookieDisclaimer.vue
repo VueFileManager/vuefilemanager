@@ -72,7 +72,7 @@
 
             a {
                 font-size: 12px;
-                color: $theme;
+                text-decoration: underline;
             }
         }
     }
