@@ -56,3 +56,13 @@ Route::group(['prefix' => 'settings'], function () {
     Route::patch('/', [SettingController::class, 'update']);
     Route::get('/', [SettingController::class, 'show']);
 });
+
+// Language
+Route::group(['prefix' => 'languages'], function () {
+    Route::get('/{language}/strings', 'Admin\LanguageController@get_language_strings');
+    Route::patch('/{language}/string', 'Admin\LanguageController@update_string');
+    Route::delete('/{language}', 'Admin\LanguageController@delete_language');
+    Route::patch('/{language}', 'Admin\LanguageController@update_language');
+    Route::post('/', 'Admin\LanguageController@create_language');
+    Route::get('/', 'Admin\LanguageController@get_languages');
+});
