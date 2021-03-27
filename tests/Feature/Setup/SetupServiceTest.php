@@ -2,14 +2,17 @@
 
 namespace Tests\Feature\Setup;
 
+use App\Models\Language;
+use App\Models\LanguageString;
+use App\Models\Setting;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Storage;
 use Tests\TestCase;
 
 class SetupServiceTest extends TestCase
 {
+    use DatabaseMigrations;
 
     public function __construct()
     {
@@ -30,5 +33,32 @@ class SetupServiceTest extends TestCase
             ->each(function ($directory) {
                 Storage::disk('local')->assertExists($directory);
             });
+    }
+
+    /**
+     * @test
+     */
+    public function it_seed_default_language()
+    {
+        Setting::create([
+            'name'  => 'license',
+            'value' => 'Extended',
+        ]);
+
+        Language::create([
+            'name'   => 'English',
+            'locale' => 'en'
+        ]);
+
+        $this->assertDatabaseHas('languages', [
+            'name'   => 'English',
+            'locale' => 'en',
+        ]);
+
+        $this->assertDatabaseHas('language_strings', [
+            'key'   => 'actions.close',
+            'value' => 'Close',
+            'lang'  => 'en',
+        ]);
     }
 }

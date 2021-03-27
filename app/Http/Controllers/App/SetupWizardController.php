@@ -447,6 +447,7 @@ class SetupWizardController extends Controller
         // Set up application
         $this->setup->seed_default_pages();
         $this->setup->seed_default_settings($request->license);
+        $this->setup->seed_default_language();
 
         // Login account
         if (Auth::attempt($request->only(['email', 'password']))) {

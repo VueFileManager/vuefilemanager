@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Language;
 use App\Models\Page;
 use App\Models\Setting;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Helper\Helper;
 
 class SetupService
 {
@@ -47,5 +50,23 @@ class SetupService
             ->each(function ($content) {
                 Setting::forceCreate($content);
             });
+    }
+
+    /**
+     * Store default VueFileManager settings into database
+     *
+     * @param $license
+     */
+    public function seed_default_language()
+    {
+        Language::create([
+            'name'   => 'English',
+            'locale' => 'en'
+        ]);
+
+        Setting::create([
+            'name'  => 'language',
+            'value' => 'en',
+        ]);
     }
 }

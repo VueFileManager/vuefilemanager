@@ -191,7 +191,7 @@ class BrowseShareController extends Controller
         return [
             [
                 'id'       => $shared->item_id,
-                'name'     => __('vuefilemanager.home'),
+                'name'     => __t('home'),
                 'location' => 'public',
                 'folders'  => $folders,
             ]

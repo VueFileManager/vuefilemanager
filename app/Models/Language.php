@@ -2,24 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\LanguageString;
+use App\Services\HelperService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
-
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id'
+    ];
 
     protected $keyType = 'string';
 
     protected $primaryKey = 'id';
 
-    public $incrementing = false ;
+    public $incrementing = false;
 
-    public $timestamps = false;
+    public function languageStrings()
+    {
+        return $this->hasMany(LanguageString::class, 'lang', 'locale');
+    }
 
     protected static function boot()
     {
@@ -27,45 +30,23 @@ class Language extends Model
 
         static::creating(function ($language) {
             $language->id = Str::uuid();
+
+            resolve(HelperService::class)
+                ->create_default_language_strings(
+                    get_setting('license') ?? 'extended', $language->locale
+                );
+        });
+
+        static::updating(function ($language) {
+            cache()->forget("language-strings-$language->locale");
         });
 
         static::deleting(function ($language) {
             DB::table('language_strings')
-                ->where('lang', $language->locale)
+                ->whereLang($language->locale)
                 ->delete();
-                
-            Cache::forget('language_strings-' . $language->locale );
+
+            cache()->forget("language-strings-$language->locale");
         });
-
-        static::updated(function($language) {
-            Cache::forget('language_strings-' . $language->locale );
-
-        });
-
-        static::created(function ($language) {
-
-            $license = get_setting('license') === 'Extended' ? 'extended' : 'regular';
-
-            $language_strings = collect(config('language_strings.' . $license));
-
-            $strings = $language_strings->map(function ($value , $key) use($language) {
-    
-               return [
-                    'key'         => $key,
-                    'lang'        => $language->locale,
-                    'value'       => $value
-                ];
-    
-            })->toArray();
-    
-            DB::table('language_strings')
-                ->insert($strings);
-
-        });
-    }
-
-    public function languageStrings()
-    {
-        return $this->hasMany('App\LanguageString', 'lang', 'locale');
     }
 }

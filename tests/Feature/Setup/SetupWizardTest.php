@@ -265,6 +265,17 @@ class SetupWizardTest extends TestCase
             'value' => '8624194e-3156-4cd0-944e-3440fcecdacb',
         ]);
 
+        $this->assertDatabaseHas('languages', [
+            'name'   => 'English',
+            'locale' => 'en',
+        ]);
+
+        $this->assertDatabaseHas('language_strings', [
+            'key'   => 'actions.close',
+            'value' => 'Close',
+            'lang'  => 'en',
+        ]);
+
         $avatar = User::first()
             ->settings
             ->getRawOriginal('avatar');

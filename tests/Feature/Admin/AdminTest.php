@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Accounts;
+namespace Tests\Feature\Admin;
 
 use App\Models\File;
 use App\Models\Folder;

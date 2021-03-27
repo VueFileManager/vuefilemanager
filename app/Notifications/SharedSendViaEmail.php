@@ -43,7 +43,7 @@ class SharedSendViaEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__t('shared_link_email_subject' , ['user' => $this->user->name]))
+            ->subject(__t('shared_link_email_subject', ['user' => $this->user->name]))
             ->greeting(__t('shared_link_email_greeting'))
             ->line(__t('shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
             ->action(__t('shared_link_email_link'), url('/shared', ['token' => $this->token]))

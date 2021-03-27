@@ -67,6 +67,7 @@ class SetupDevEnvironment extends Command
         $this->store_default_settings();
         $this->setup->seed_default_pages();
         $this->setup->seed_default_settings('Extended');
+        $this->setup->seed_default_language();
 
         $this->info('Creating default admin...');
         $this->create_admin();

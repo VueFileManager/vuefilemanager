@@ -2,58 +2,50 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Setting;
-use App\Language;
-use App\LanguageString;
-
-
-use App\Http\Tools\Demo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Resources\LanguageCollection;
+use App\Http\Resources\LanguageResource;
+use App\Models\Language;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use App\Services\DemoService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use App\Http\Requests\Languages\UpdateStringRequest;
 use App\Http\Requests\Languages\CreateLanguageRequest;
 use App\Http\Requests\Languages\UpdateLanguageRequest;
 
 class LanguageController extends Controller
 {
+    protected $demo;
+
+    public function __construct()
+    {
+        $this->demo = resolve(DemoService::class);
+    }
 
     /**
      * Get all languages for admin translate
-     * 
-     * @return Collection
+     *
+     * @return array|Application|ResponseFactory|Response
      */
     public function get_languages()
     {
-        return [
-           'languages'    => Language::all(),
-           'set_language' => Setting::whereName('language')->first()->value
-        ];
+        return response(
+            new LanguageCollection(Language::all()), 200
+        );
     }
 
     /**
      * Get all language strings for admin translate
      *
      * @param Language $language
-     * @return Collection
      */
     public function get_language_strings(Language $language)
     {
-        $lang = Language::whereId($language->id);
-
-        $strings = $lang->with('languageStrings')->first();
-
-        // dd($language);
-
-        $license = get_setting('license') === 'Extended' ? 'extended' : 'regular';
-
-        $default_strings = collect(config('language_strings.' . $license));
-
-        return [
-            'translated_strings' => $strings,
-            'default_strings'    => $default_strings
-        ];
+        return response([
+            'current' => $language->languageStrings,
+            'default' => get_default_language_strings()
+        ], 200);
     }
 
     /**
@@ -64,19 +56,18 @@ class LanguageController extends Controller
      */
     public function create_language(CreateLanguageRequest $request)
     {
-        // Check if is demo
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
+        if (is_demo()) {
+            return $this->demo->response_with_no_content();
         }
 
-        // Create languages & strings
         $language = Language::create([
-            'name'      => $request->name,
-            'locale'    => $request->locale
+            'name'   => $request->input('name'),
+            'locale' => $request->input('locale')
         ]);
 
-        // Return created language
-        return $language;
+        return response(
+            new LanguageResource($language), 201
+        );
     }
 
     /**
@@ -84,20 +75,18 @@ class LanguageController extends Controller
      *
      * @param UpdateLanguageRequest $request
      * @param Language $language
-     * @return $language
      */
     public function update_language(UpdateLanguageRequest $request, Language $language)
     {
-        // Check if is demo
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
+        if (is_demo()) {
+            return $this->demo->response_with_no_content();
         }
 
-        // Update language
         $language->update(make_single_input($request));
 
-        // Return updated language
-        return $language;
+        return response(
+            new LanguageResource($language), 201
+        );
     }
 
     /**
@@ -105,23 +94,22 @@ class LanguageController extends Controller
      *
      * @param UpdateStringRequest $request
      * @param Language $language
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
     public function update_string(UpdateStringRequest $request, Language $language)
     {
-        // Check if is demo
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
+        if (is_demo()) {
+            return $this->demo->response_with_no_content();
         }
 
-        LanguageString::whereLangAndKey($language->locale, $request->name)
+        $language
+            ->languageStrings()
+            ->where('key', $request->name)
             ->update([
-                'key'         => $request->name,
-                'lang'        => $language->locale,
-                'value'       => $request->value
+                'value' => $request->value
             ]);
 
-        Cache::forget('language_strings-' . $language->locale);
+        cache()->forget("language-strings-{$language->locale}");
 
         return response('Done', 204);
     }
@@ -130,13 +118,16 @@ class LanguageController extends Controller
      * Delete the language with all children strings
      *
      * @param Language $language
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function delete_language(Language $language)
     {
-        // Check if is demo
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
+        if (is_demo()) {
+            return $this->demo->response_with_no_content();
+        }
+
+        if ($language->locale === 'en') {
+            abort(401, "Sorry, you can't delete default language.");
         }
 
         $language->delete();

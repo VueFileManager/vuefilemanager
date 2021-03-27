@@ -59,15 +59,15 @@ class HelperService
         $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Check user access
-        if ( is_array($requested_id) ) {
+        if (is_array($requested_id)) {
             foreach ($requested_id as $id) {
                 if (!in_array($id, $accessible_folder_ids))
                     abort(403);
             }
         }
 
-        if (! is_array($requested_id)) {
-            if (! in_array($requested_id, $accessible_folder_ids))
+        if (!is_array($requested_id)) {
+            if (!in_array($requested_id, $accessible_folder_ids))
                 abort(403);
         }
     }
@@ -322,5 +322,24 @@ class HelperService
                 abort(403, $abort_message);
             }
         }
+    }
+
+    /**
+     * @param $license
+     * @param $locale
+     */
+    function create_default_language_strings($license, $locale)
+    {
+        $strings = collect(config('language_strings.' . strtolower($license)))
+            ->map(function ($value, $key) use ($locale) {
+
+                return [
+                    'lang'  => $locale,
+                    'value' => $value,
+                    'key'   => $key,
+                ];
+            })->toArray();
+
+        DB::table('language_strings')->insert($strings);
     }
 }

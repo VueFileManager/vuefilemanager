@@ -41,7 +41,7 @@
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
-            language: '{{ isset($settings->language) ? $settings->language : en }}',
+            language: {{ $settings->language ?? 'en' }},
 
             app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
             app_logo: '{{ $settings->app_logo ?? null }}',
