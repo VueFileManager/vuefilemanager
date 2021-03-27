@@ -5,6 +5,8 @@ use App\Models\Folder;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Share;
+use App\Models\Language;
+use App\Models\LanguageString;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -810,4 +812,55 @@ function set_time_by_user_timezone($time)
 
     return Carbon::parse($time);
     
+}
+
+function __t($key, $values = null)
+{
+    // Check if is in cache save default_language
+    if (Cache::has('default_language')) {
+
+        $locale = Cache::get('default_language');
+    } else {
+
+        $locale = Cache::rememberForever('default_language', function () {
+            return get_setting('language');
+        });
+    }
+
+    // Check if cash has string
+    if (Cache::has('language_strings-' . $locale)) {
+
+        $strings = Cache::get('language_strings-' . $locale)
+                    ->languageStrings;
+
+        // Find the string by key
+       $string = $strings->firstWhere('key', $key)->value;
+    }
+
+    // If cash dont have string return string from database
+    $string = LanguageString::whereLangAndKey($locale, $key)
+            ->first()
+            ->value;
+
+    if($values) {
+       return adjust_value($string, $values);
+    }
+
+    return $string;
+}
+
+function adjust_value($string, $values)
+{
+    $search = [];
+    $replace = [];
+
+    if($values) {
+        foreach($values as $key => $variable) {
+            array_push($search, ':' . $key);
+            array_push($replace, $variable);
+        }
+    }
+
+    return str_ireplace($search, $replace, $string);
+
 }

@@ -63,6 +63,13 @@
                         routeName: 'Pages',
                         isVisible: true,
                     },
+                    {
+                        icon: 'language',
+                        title: this.$t('admin_menu.language'),
+                        routeName: 'Language',
+                        isVisible: true,
+
+                    }
                 ],
                 SassNavigation: [
                     {

@@ -17,6 +17,7 @@
                 <cloud-icon v-if="link.icon === 'cloud'" size="17"></cloud-icon>
                 <monitor-icon v-if="link.icon === 'monitor'" size="17"></monitor-icon>
                 <box-icon v-if="link.icon === 'box'" size="17"></box-icon>
+                <globe-icon v-if="link.icon === 'language'" size="17"></globe-icon>
             </div>
             <b class="menu-link">
                 <span>{{ link.title }}</span>
@@ -39,6 +40,7 @@
         Trash2Icon,
         CloudIcon,
         PowerIcon,
+        GlobeIcon,
         ShareIcon,
         UsersIcon,
         UserIcon,
@@ -61,6 +63,7 @@
             Trash2Icon,
             CloudIcon,
             PowerIcon,
+            GlobeIcon,
             UsersIcon,
             ShareIcon,
             LockIcon,

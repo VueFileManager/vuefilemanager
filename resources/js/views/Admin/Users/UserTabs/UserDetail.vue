@@ -34,7 +34,7 @@
 
                 <!--Email-->
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.attributes.email"
                                :placeholder="$t('page_registration.placeholder_email')"
@@ -46,7 +46,7 @@
 
                 <!--Name-->
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.name"
                                :placeholder="$t('page_registration.placeholder_name')"

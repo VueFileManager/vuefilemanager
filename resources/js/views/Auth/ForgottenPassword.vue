@@ -7,7 +7,7 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_forgotten_password.title') }}</h1>
-            <h2>{{ $t('page_forgotten_password.subtitle') }}</h2>
+            <h2>{{ $t('page_forgotten_password.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="forgottenPassword" ref="forgotten_password" v-slot="{ invalid }"
                                 tag="form" class="form inline-form">

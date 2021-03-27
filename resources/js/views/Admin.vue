@@ -41,6 +41,14 @@
                             {{ $t('admin_menu.pages') }}
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Language'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <globe-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('admin_menu.language') }}
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
 
@@ -72,7 +80,7 @@
 </template>
 
 <script>
-    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon } from 'vue-feather-icons'
+    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import MenuBar from '@/components/Sidebar/MenuBar'
@@ -94,6 +102,7 @@
             UsersIcon,
             MenuBar,
             BoxIcon,
+            GlobeIcon
         },
     }
 </script>

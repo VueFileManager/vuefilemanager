@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <title>@lang('vuefilemanager.invoice_title')</title>
+    <title>{{ __t('invoice_title') }}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet">
@@ -30,7 +30,7 @@
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
             <rect x="6" y="14" width="12" height="8"></rect>
         </svg>
-        <span class="label group-hover-text-theme">@lang('vuefilemanager.print_button')</span>
+        <span class="label group-hover-text-theme">{{ __t('print_button') }}</span>
     </button>
 </div>
 <div id="invoice-wrapper">
@@ -44,28 +44,28 @@
             @endif
         </div>
         <div class="title">
-            <h1 class="text-theme">@lang('vuefilemanager.invoice_title')</h1>
+            <h1 class="text-theme">{{ __t('invoice_title') }}</h1>
         </div>
     </header>
     <section class="invoice-subject">
         <ul class="list">
             <li class="list-item">
-                <b>@lang('vuefilemanager.date'):</b>
+                <b>{{ __t('date') }}:</b>
                 <span>{{ format_date($invoice->date()) }}</span>
             </li>
             <li class="list-item">
-                <b>@lang('vuefilemanager.product'):</b>
-                <span>@lang('vuefilemanager.subscription')</span>
+                <b>{{ __t('product') }}:</b>
+                <span>{{ __t('subscription') }}</span>
             </li>
             <li class="list-item">
-                <b>@lang('vuefilemanager.invoice_number'):</b>
+                <b>{{ __t('invoice_number') }}:</b>
                 <span>{{ $invoice->number }}</span>
             </li>
 
             <!-- Extra / VAT Information -->
             @if (isset($vat))
                 <li class="list-item">
-                    <b>@lang('vuefilemanager.vat'):</b>
+                    <b>{{ __t('vat') }}:</b>
                     <span>{{ $vat }}</span>
                 </li>
             @endif
@@ -73,25 +73,25 @@
     </section>
     <div class="invoice-partners">
         <div class="partner">
-            <h2 class="partner-title text-theme">@lang('vuefilemanager.seller'):</h2>
+            <h2 class="partner-title text-theme">{{ __t('seller') }}:</h2>
             <ul class="list">
                 @isset($settings->billing_vat_number)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.seller_vat'):</b>
+                        <b>{{ __t('seller_vat') }}:</b>
                         <span>{{ $settings->billing_vat_number }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_name)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.seller_name'):</b>
+                        <b>{{ __t('seller_name') }}:</b>
                         <span>{{ $settings->billing_name }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_phone_number)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.seller_phone'):</b>
+                        <b>{{ __t('seller_phone') }}:</b>
                         <span>{{ $settings->billing_phone_number }}</span>
                     </li>
                 @endisset
@@ -99,54 +99,54 @@
             <ul class="list">
                 @isset($settings->billing_address)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.address'):</b>
+                        <b>{{ __t('address') }}:</b>
                         <span>{{ $settings->billing_address }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_city)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.city'):</b>
+                        <b>{{ __t('city') }}:</b>
                         <span>{{ $settings->billing_city }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_state)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.state'):</b>
+                        <b>{{ __t('state') }}:</b>
                         <span>{{ $settings->billing_state }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_postal_code)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.postal_code'):</b>
+                        <b>{{ __t('postal_code') }}:</b>
                         <span>{{ $settings->billing_postal_code }}</span>
                     </li>
                 @endisset
 
                 @isset($settings->billing_country)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.country'):</b>
+                        <b>{{ __t('country') }}:</b>
                         <span>{{ $settings->billing_country }}</span>
                     </li>
                 @endisset
             </ul>
         </div>
         <div class="partner">
-            <h2 class="partner-title text-theme">@lang('vuefilemanager.client'):</h2>
+            <h2 class="partner-title text-theme">{{ __t('client') }}:</h2>
             <ul class="list">
 
                 @isset($invoice->customer_name)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.name'):</b>
+                        <b>{{ __t('name') }}:</b>
                         <span>{{ $invoice->customer_name }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_phone)
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.phone'):</b>
+                        <b>{{ __t('phone') }}:</b>
                         <span>{{ $invoice->customer_phone }}</span>
                     </li>
                 @endisset
@@ -154,35 +154,35 @@
             <ul class="list">
                 @isset($invoice->customer_address['line1'])
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.address'):</b>
+                        <b>{{ __t('address') }}:</b>
                         <span>{{ $invoice->customer_address['line1'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['city'])
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.city'):</b>
+                        <b>{{ __t('city') }}:</b>
                         <span>{{ $invoice->customer_address['city'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['state'])
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.state'):</b>
+                        <b>{{ __t('state') }}:</b>
                         <span>{{ $invoice->customer_address['state'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['postal_code'])
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.postal_code'):</b>
+                        <b>{{ __t('postal_code') }}:</b>
                         <span>{{ $invoice->customer_address['postal_code'] }}</span>
                     </li>
                 @endisset
 
                 @isset($invoice->customer_address['country'])
                     <li class="list-item">
-                        <b>@lang('vuefilemanager.country'):</b>
+                        <b>{{ __t('country') }}:</b>
                         <span>{{ $invoice->customer_address['country'] }}</span>
                     </li>
                 @endisset
@@ -248,12 +248,12 @@
         <table width="100%" class="table" border="0">
             <thead class="table-header">
             <tr>
-                <td class="text-theme">@lang('vuefilemanager.col_description')</td>
-                <td class="text-theme">@lang('vuefilemanager.col_date')</td>
+                <td class="text-theme">{{ __t('col_description') }}</td>
+                <td class="text-theme">{{ __t('col_date') }}</td>
                 @if ($invoice->hasTax())
-                    <td class="text-theme" align="right">@lang('vuefilemanager.vat')</td>
+                    <td class="text-theme" align="right">{{ __t('vat')}}</td>
                 @endif
-                <td class="text-theme">@lang('vuefilemanager.col_amount')</td>
+                <td class="text-theme">{{ __t('col_amount') }}</td>
             </tr>
             </thead>
 
@@ -287,7 +287,7 @@
                 <!-- Display The Subscriptions -->
                 @foreach ($invoice->subscriptions() as $subscription)
                     <tr class="row">
-                        <td>@lang('vuefilemanager.subscription') ({{ $subscription->quantity }})</td>
+                        <td>{{ __t('subscription') }} ({{ $subscription->quantity }})</td>
                         <td>
                             {{ $subscription->startDateAsCarbon()->formatLocalized('%B %e, %Y') }} -
                             {{ $subscription->endDateAsCarbon()->formatLocalized('%B %e, %Y') }}
@@ -296,7 +296,7 @@
                         @if ($invoice->hasTax())
                             <td>
                                 @if ($inclusiveTaxPercentage = $subscription->inclusiveTaxPercentage())
-                                    {{ $inclusiveTaxPercentage }}% @lang('vuefilemanager.vat_included')
+                                    {{ $inclusiveTaxPercentage }}% {{ __t('vat_included') }}
                                 @endif
 
                                 @if ($subscription->hasBothInclusiveAndExclusiveTax())
@@ -316,7 +316,7 @@
                 <!-- Display The Subtotal -->
                 @if ($invoice->hasDiscount() || $invoice->hasTax() || $invoice->hasStartingBalance())
                     <tr>
-                        <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">@lang('vuefilemanager.subtotal')</td>
+                        <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">{{ __t('subtotal')}}</td>
                         <td>{{ $invoice->subtotal() }}</td>
                     </tr>
                 @endif
@@ -326,9 +326,9 @@
                     <tr>
                         <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">
                             @if ($invoice->isTaxExempt())
-                                @lang('vuefilemanager.tax_exempted')
+                                {{ __t('tax_exempted')}}
                             @else
-                                @lang('vuefilemanager.tax_be_paid_reverse')
+                                {{ __t('tax_be_paid_reverse') }}
                             @endif
                         </td>
                         <td></td>
@@ -338,7 +338,7 @@
                         <tr>
                             <td colspan="3" style="text-align: right;">
                                 {{ $tax->display_name }} {{ $tax->country ? ' - '.$tax->country : '' }}
-                                ({{ $tax->percentage }}%{{ $tax->isInclusive() ? ' ' . __('vuefilemanager.vat_included') : '' }})
+                                ({{ $tax->percentage }}%{{ $tax->isInclusive() ? ' ' . __t('vat_included') : '' }})
                             </td>
                             <td>{{ $tax->amount() }}</td>
                         </tr>
@@ -348,7 +348,7 @@
                 <!-- Display The Final Total -->
                 <tr>
                     <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" style="text-align: right;">
-                        <strong>@lang('vuefilemanager.total')</strong>
+                        <strong>{{ __t('total') }}</strong>
                     </td>
                     <td>
                         <strong>{{ $invoice->total() }}</strong>
@@ -359,7 +359,7 @@
         </table>
     </div>
     <div class="invoice-summary">
-        <b>@lang('vuefilemanager.total') {{ $invoice->total() }}</b>
+        <b>{{ __t('total') }} {{ $invoice->total() }}</b>
     </div>
 </div>
 </body>

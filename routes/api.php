@@ -54,6 +54,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::patch('/{token}', [ShareController::class, 'update']);
         Route::post('/{id}', [ShareController::class, 'store']);
     });
+
+    // Language
+    Route::group(['prefix' => 'languages'], function () {
+        Route::get('/{language}/strings', 'Admin\LanguageController@get_language_strings');
+        Route::patch('/{language}/string', 'Admin\LanguageController@update_string');
+        Route::delete('/{language}', 'Admin\LanguageController@delete_language');
+        Route::patch('/{language}', 'Admin\LanguageController@update_language');
+        Route::post('/', 'Admin\LanguageController@create_language');
+        Route::get('/', 'Admin\LanguageController@get_languages');
+    });
 });
 
 // User master,editor routes

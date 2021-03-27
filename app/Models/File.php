@@ -69,7 +69,7 @@ class File extends Model
      */
     public function getCreatedAtAttribute()
     {
-        return format_date(set_time_by_user_timezone($this->attributes['created_at']), __('vuefilemanager.time'));
+        return format_date(set_time_by_user_timezone($this->attributes['created_at']), __t('time'));
     }
 
     /**
@@ -81,7 +81,7 @@ class File extends Model
     {
         if (!$this->attributes['deleted_at']) return null;
 
-        return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __('vuefilemanager.time'));
+        return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'));
     }
 
     /**

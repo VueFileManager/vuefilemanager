@@ -7,13 +7,13 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_registration.title') }}</h1>
-            <h2>{{ $t('page_registration.subtitle') }}</h2>
+            <h2>{{ $t('page_registration.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="signUp" ref="sign_up" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="register.email" :placeholder="$t('page_registration.placeholder_email')" type="email"
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="register.name" :placeholder="$t('page_registration.placeholder_name')" type="text"
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_pass') }}</label>
+                    <label>{{ $t('page_registration.label_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Your New Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password" :placeholder="$t('page_registration.placeholder_pass')" type="password"
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_confirm_pass') }}</label>
+                    <label>{{ $t('page_registration.label_confirm_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password_confirmation" :placeholder="$t('page_registration.placeholder_confirm_pass')"
