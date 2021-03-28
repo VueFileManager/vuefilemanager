@@ -104,7 +104,7 @@
                     return option.value === this.fileInfoDetail[0].shared.permission
                 })
 
-                return title ? title.label : this.$t('shared.can_download')
+                return title ? this.$t(title.label) : this.$t('shared.can_download')
             },
             sharedIcon() {
                 switch (this.fileInfoDetail[0].shared.permission) {

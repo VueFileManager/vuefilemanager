@@ -15,7 +15,7 @@
                 <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role" rules="required">
                     <label>{{ $t('admin_page_user.select_role') }}:</label>
                     <div class="single-line-form">
-                        <SelectInput v-model="userRole" :options="roles"
+                        <SelectInput v-model="userRole" :options="$translateSelectOptions(roles)"
                                      :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
                                     button-style="theme" class="submit-button">

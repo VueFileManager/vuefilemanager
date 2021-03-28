@@ -7,6 +7,7 @@ use App\Http\Mail\SendContactMessage;
 use App\Http\Resources\PricingCollection;
 use App\Http\Requests\PublicPages\SendContactMessageRequest;
 use App\Http\Resources\PageResource;
+use App\Models\Language;
 use App\Models\Setting;
 use App\Models\Page;
 use App\Models\Share;
@@ -183,5 +184,25 @@ class AppFunctionsController extends Controller
             ->sortBy('product.metadata.capacity')
             ->values()
             ->all();
+    }
+
+    /**
+     * Get language translations for frontend app
+     *
+     * @param $lang
+     * @return array
+     */
+    public function get_translations($lang)
+    {
+        $translations = Cache::rememberForever("language-strings-$lang", function () use ($lang) {
+
+            return Language::whereLocale($lang)
+                ->firstOrFail()
+                ->languageStrings;
+        });
+
+        return $translations->map(function ($string) {
+            return [$string->key => $string->value];
+        })->collapse();
     }
 }

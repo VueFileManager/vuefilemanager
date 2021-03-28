@@ -208,6 +208,20 @@ class LanguageEditorTest extends TestCase
     /**
      * @test
      */
+    public function it_get_language_translations_for_frontend()
+    {
+        $this->setup->seed_default_language();
+
+        $this->getJson("/translations/en")
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                "actions.close" => "Close",
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_get_translated_string_from_t_helper_function()
     {
         $this->setup->seed_default_language();

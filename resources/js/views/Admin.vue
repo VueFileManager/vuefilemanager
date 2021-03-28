@@ -46,7 +46,7 @@
                             <globe-icon size="17" />
                         </div>
                         <div class="label text-theme">
-                            {{ $t('admin_menu.language') }}
+                            {{ $t('admin_menu.languages') }}
                         </div>
                     </router-link>
                 </div>

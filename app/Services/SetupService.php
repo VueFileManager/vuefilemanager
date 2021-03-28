@@ -5,9 +5,7 @@ namespace App\Services;
 use App\Models\Language;
 use App\Models\Page;
 use App\Models\Setting;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Helper\Helper;
 
 class SetupService
 {

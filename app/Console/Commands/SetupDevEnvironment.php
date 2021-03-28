@@ -24,6 +24,7 @@ class SetupDevEnvironment extends Command
      * @var string
      */
     protected $signature = 'setup:dev';
+    protected $license = 'Regular';
 
     /**
      * The console command description.
@@ -66,7 +67,7 @@ class SetupDevEnvironment extends Command
         $this->info('Storing default settings and content...');
         $this->store_default_settings();
         $this->setup->seed_default_pages();
-        $this->setup->seed_default_settings('Extended');
+        $this->setup->seed_default_settings($this->license);
         $this->setup->seed_default_language();
 
         $this->info('Creating default admin...');
@@ -832,7 +833,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => 'Extended',
+                'value' => $this->license,
             ],
             [
                 'name'  => 'purchase_code',

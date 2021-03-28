@@ -3,7 +3,7 @@
         <Alert />
         <ToastrWrapper />
 
-        <router-view />
+        <router-view v-if="isLoadedTranslations" />
 
         <CookieDisclaimer />
         <Vignette />
@@ -25,6 +25,11 @@ export default {
         Vignette,
         Alert
     },
+    data() {
+        return {
+            isLoadedTranslations: false
+        }
+    },
     methods: {
         unClick() {
             events.$emit('unClick')
@@ -32,15 +37,21 @@ export default {
     },
     beforeMount() {
 
-        // Store config to vuex
-        this.$store.commit('INIT', {
-            config: this.$root.$data.config,
-            rootDirectory: {
-                name: this.$t('locations.home'),
-                location: 'base',
-                id: undefined
-            }
-        })
+        // Get language translations
+        this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.language)
+            .then(response => {
+                this.isLoadedTranslations = true
+
+                // Store config to vuex
+                this.$store.commit('INIT', {
+                    config: this.$root.$data.config,
+                    rootDirectory: {
+                        name: this.$t('locations.home'),
+                        location: 'base',
+                        id: undefined
+                    }
+                })
+            })
 
         // Get installation state
         let installation = this.$root.$data.config.installation

@@ -110,7 +110,7 @@ export default {
     },
     computed: {
         languageSettingHandle() {
-            return this.language.locale == this.setLanguage ? true : false
+            return this.language.locale === this.setLanguage
         },
     },
     data () {
@@ -222,9 +222,9 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
-@import '@assets/vue-file-manager/_forms';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
+@import '@assets/vuefilemanager/_forms';
 
 .spinner-wrapper {
     position: relative;

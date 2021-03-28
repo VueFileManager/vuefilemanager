@@ -1,6 +1,6 @@
 import i18n from '@/i18n/index'
 import store from './store/index'
-import {debounce, includes} from "lodash";
+import {debounce, includes, isArray} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
 import router from '@/router'
@@ -22,29 +22,6 @@ const Helpers = {
                     })
                 })
         }, 150)
-
-        Vue.prototype.$loadLanguage = function (language) {
-           
-            return new Promise((resolve, reject) => {
-                let locale = language ? language : this.$store.getters.config.language
-                axios.get(`/language/${locale}`)
-                    .then((response) => {
-            
-                        let lang = response.data.language_strings
-                    
-                        let obj = {}
-                    
-                        lang.map(element => {
-                            obj[element.key] = element.value
-                        })
-
-                        i18n.setLocaleMessage(locale, obj)
-                        i18n.locale = locale        
-                        
-                        resolve(true)
-                    })
-            })
-        }
 
         Vue.prototype.$updateImage = function (route, name, image) {
 
@@ -75,6 +52,24 @@ const Helpers = {
             if (container) {
                 container.scrollTop = 0
             }
+        }
+
+        Vue.prototype.$translateSelectOptions = function (options) {
+            return options.map(role => {
+                let key, values;
+
+                if (isArray(role.label)) {
+                    [key, values] = role.label
+                }
+
+                return {
+                    label: isArray(role.label)
+                        ? i18n.t(key, values)
+                        : i18n.t(role.label),
+                    value: role.value,
+                    icon: role.icon ? role.icon : '',
+                }
+            })
         }
 
         Vue.prototype.$getImage = function (source) {

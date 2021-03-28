@@ -1,8 +1,8 @@
 require("./bootstrap");
 import Vue from "vue";
+import i18n from "./i18n/index.js";
 import VueRouter from "vue-router";
 import router from "./router";
-import i18n from "./i18n/index.js";
 import App from "./App.vue";
 import store from "./store";
 import {events} from "./bus";

@@ -1,12 +1,12 @@
 <template>
     <div id="single-page">
         <div id="page-content">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)" />
             
             <div class="wrapper">
-                <Spinner v-if="! loadedLanguages"/>
-                <div v-if="loadedLanguages" class="side-content">
-                    <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+                <Spinner v-if="! isLoadedLanguages" />
+                <div v-if="isLoadedLanguages" class="side-content">
+                    <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)" />
 
                     <div class="languages-wrapper page-tab from-fixed-width">
                         <div class="language-label-wrapper">
@@ -16,13 +16,13 @@
                         <!-- Languages -->
                         <div class="all-language-wrapper">
                             <div @click="openLanguage(language)" v-for="language in languages" :key="language.id">
-                                <div class="language" >
+                                <div class="language">
                                     <label class="name" :class="{'active' :activeLanguage.locale === language.locale}">
-                                        {{language.name}}
+                                        {{ language.name }}
                                     </label>
-                                    <x-icon v-if="language.locale !== 'en' && language.locale !== setLanguage" 
-                                            @click.stop="deleteLanguageConfirm(language)" 
-                                            class="icon" size="17"/>
+                                    <x-icon v-if="language.locale !== 'en' && language.locale !== current_language"
+                                            @click.stop="deleteLanguageConfirm(language)"
+                                            class="icon" size="17" />
                                 </div>
                             </div>
                         </div>
@@ -34,8 +34,7 @@
                 </div>
 
                 <!-- Strings -->
-                <LanguageStrings :active-language="activeLanguage" :set-language="setLanguage" />
-
+                <!--<LanguageStrings :active-language="activeLanguage" :set-language="current_language" />-->
             </div>
         </div>
     </div>
@@ -48,9 +47,8 @@ import ButtonBase from '@/components/FilesView/ButtonBase'
 import MobileActionButton from '@/components/FilesView/MobileActionButton'
 import PageHeader from '@/components/Others/PageHeader'
 import Spinner from '@/components/FilesView/Spinner'
-import { PlusIcon, XIcon } from 'vue-feather-icons'
-import { events } from '@/bus'
-
+import {PlusIcon, XIcon} from 'vue-feather-icons'
+import {events} from '@/bus'
 
 export default {
     name: 'Language',
@@ -64,54 +62,56 @@ export default {
         Spinner,
         XIcon
     },
-    data () {
+    data() {
         return {
+            languages: undefined,
+
             activeLanguage: undefined,
-            languagesStrings:undefined,
-            setLanguage: undefined,
-            languages:undefined,
-            loadedLanguages: false,
+            languagesStrings: undefined,
+            current_language: undefined,
+            isLoadedLanguages: false,
         }
     },
     methods: {
         deleteLanguageConfirm(language) {
-              events.$emit('confirm:open', {
-                    title: `Delete ${language.name} language?`,
-                    message: 'Your language will be permanently deleted.',
-                    buttonColor: 'danger-solid',
-                    action: language
-                })
+            events.$emit('confirm:open', {
+                title: `Delete ${language.name} language?`,
+                message: 'Your language will be permanently deleted.',
+                buttonColor: 'danger-solid',
+                action: language
+            })
         },
         deleteLanguage(language) {
-            axios.delete(`/api/languages/${language.id}`)
-                .then(() => { this.getLanguages() })
+            axios.delete(`/api/admin/languages/${language.id}`)
+                .then(() => {
+                    this.getLanguages()
+                })
         },
         createLanguage() {
-             events.$emit('popup:open', {name: 'create-language'})
+            events.$emit('popup:open', {name: 'create-language'})
         },
         getLanguages() {
-
-            this.loadedStrings = false
-
             axios
-				.get('/api/languages')
-				.then((response) => {
-                    this.languages = response.data.languages
+                .get('/api/admin/languages')
+                .then(response => {
+                    this.languages = response.data.data
 
                     this.activeLanguage = response.data.languages[0]
 
-                    this.setLanguage = response.data.set_language
-				})
-				.catch(() => Vue.prototype.$isSomethingWrong())
-				.finally(() => {
-					this.loadedLanguages = true
-				})
+                    this.current_language = response.data.meta.current_language
+                })
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
+                .finally(() => {
+                    this.isLoadedLanguages = true
+                })
         },
         openLanguage(language) {
             this.activeLanguage = language
         }
     },
-    mounted () {
+    mounted() {
         this.getLanguages()
 
         events.$on('add-language', () => {
@@ -124,24 +124,26 @@ export default {
 
         events.$on('language-name:update', (language) => {
 
-            let index = _.findIndex(this.languages, function(item) { return item.id === language.id })
-            
+            let index = _.findIndex(this.languages, function (item) {
+                return item.id === language.id
+            })
+
             this.languages[index].name = language.name
         })
 
         events.$on('language:set-as-default', (locale) => {
-            this.setLanguage = locale
+            this.current_language = locale
         })
     },
-    destroyed () {
+    destroyed() {
         events.$off('action:confirmed')
     },
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 #single-page {
     height: 100%;
@@ -156,14 +158,14 @@ export default {
     height: 100%;
 }
 
-.side-content{
+.side-content {
     flex: 0 0 225px;
 
     .button-add-language {
         margin-top: 30px;
 
 
-        /deep/.content {
+        /deep/ .content {
             display: flex;
             align-items: center;
             @include font-size(14);
@@ -188,9 +190,9 @@ export default {
                 margin-top: 20px;
             }
         }
-       
+
         .all-language-wrapper {
-            
+
             .language {
                 display: flex;
                 align-items: center;
@@ -213,43 +215,47 @@ export default {
                     @include font-size(13);
                     cursor: pointer;
                 }
+
                 .icon {
                     display: none;
                     margin-left: auto;
                     cursor: pointer;
                 }
+
                 .active {
                     color: $theme !important;
                 }
-               
+
             }
-            
+
         }
     }
 }
 
- @media only screen and (max-width: 1024px) {
-         .wrapper {
-            flex-direction: column;
-            .side-content{
-                margin-bottom: 70px;
-            }
-            .languages-wrapper {
-                margin-top: 0px;
-            }
+@media only screen and (max-width: 1024px) {
+    .wrapper {
+        flex-direction: column;
+
+        .side-content {
+            margin-bottom: 70px;
+        }
+
+        .languages-wrapper {
+            margin-top: 0px;
         }
     }
+}
 
-    @media only screen and (max-width: 690px) {
-        .side-content{
-            margin-bottom: 35px !important;
-            flex: none;
-        }
+@media only screen and (max-width: 690px) {
+    .side-content {
+        margin-bottom: 35px !important;
+        flex: none;
     }
+}
 
- @media (prefers-color-scheme: dark) {
-    
-    .language{
+@media (prefers-color-scheme: dark) {
+
+    .language {
 
         .name {
             color: $dark_mode_text_primary !important;

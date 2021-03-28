@@ -3,8 +3,8 @@
 
         <!--Page Content-->
         <div id="page-content" v-show="! isLoading && config.stripe_public_key">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page" v-if="config.stripe_public_key">
                 <DatatableWrapper @data="invoices = $event" @init="isLoading = false" api="/api/admin/invoices" :paginator="false" :columns="columns" class="table">

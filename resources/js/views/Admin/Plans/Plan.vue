@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
 

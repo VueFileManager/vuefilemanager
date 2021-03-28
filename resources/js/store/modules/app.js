@@ -1,4 +1,6 @@
 import i18n from '@/i18n/index'
+import axios from "axios";
+import Vue from "vue";
 
 const defaultState = {
     fileInfoPanelVisible: localStorage.getItem('file_info_visibility') === 'true' || false,
@@ -14,11 +16,11 @@ const defaultState = {
     },
     roles: [
         {
-            label: i18n.t('roles.admin'),
+            label: 'roles.admin',
             value: 'admin',
         },
         {
-            label: i18n.t('roles.user'),
+            label: 'roles.user',
             value: 'user',
         },
     ],
@@ -269,31 +271,31 @@ const defaultState = {
     ],
     expirationList: [
         {
-            label: i18n.t('shared_form.expiration_hour', {value: 1}),
+            label: ['shared_form.expiration_hour', {value: 1}],
             value: 1,
         },
         {
-            label: i18n.t('shared_form.expiration_hour', {value: 2}),
+            label: ['shared_form.expiration_hour', {value: 2}],
             value: 2,
         },
         {
-            label: i18n.t('shared_form.expiration_hour', {value: 6}),
+            label: ['shared_form.expiration_hour', {value: 6}],
             value: 6,
         },
         {
-            label: i18n.t('shared_form.expiration_hour', {value: 12}),
+            label: ['shared_form.expiration_hour', {value: 12}],
             value: 12,
         },
         {
-            label: i18n.t('shared_form.expiration_day', {value: 1}),
+            label: ['shared_form.expiration_day', {value: 1}],
             value: 24,
         },
         {
-            label: i18n.t('shared_form.expiration_day', {value: 2}),
+            label: ['shared_form.expiration_day', {value: 2}],
             value: 48,
         },
         {
-            label: i18n.t('shared_form.expiration_day', {value: 7}),
+            label: ['shared_form.expiration_day', {value: 7}],
             value: 168,
         },
     ],
@@ -988,6 +990,19 @@ const actions = {
         } else {
             context.commit('FILE_INFO_TOGGLE', visibility)
         }
+    },
+    getLanguageTranslations: ({commit, state}, lang) => {
+        return new Promise((resolve, reject) => {
+
+            axios.get(`/translations/${lang}`)
+                .then(response => {
+
+                    i18n.setLocaleMessage(lang, response.data)
+                    i18n.locale = lang
+
+                    resolve(response)
+                })
+        })
     },
 }
 

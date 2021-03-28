@@ -28,7 +28,7 @@ class AuthController extends Controller
             ->first();
 
         if (! $user) {
-            return response(__('vuefilemanager.user_not_fount'), 404);
+            return response(__t('user_not_fount'), 404);
         }
 
         return [

@@ -3,7 +3,7 @@
         <div id="page-content">
 
             <!--Header-->
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <!--Content-->
             <div class="content-page">
