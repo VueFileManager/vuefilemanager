@@ -4,15 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\File;
 use App\Models\Folder;
-use App\Models\Page;
 use App\Models\Share;
 use App\Services\HelperService;
 use App\Services\SetupService;
 use App\Models\Setting;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
 use Faker;
 use Illuminate\Support\Str;
 
@@ -99,7 +96,7 @@ class SetupDevEnvironment extends Command
         $user = User::forceCreate([
             'role'     => 'admin',
             'email'    => 'howdy@hi5ve.digital',
-            'password' => Hash::make('vuefilemanager'),
+            'password' => bcrypt('vuefilemanager'),
         ]);
 
         $user
@@ -140,7 +137,7 @@ class SetupDevEnvironment extends Command
             $newbie = User::forceCreate([
                 'role'     => 'user',
                 'email'    => $this->faker->email,
-                'password' => Hash::make('vuefilemanager'),
+                'password' => bcrypt('vuefilemanager'),
             ]);
 
             $newbie
@@ -186,7 +183,7 @@ class SetupDevEnvironment extends Command
                     "group"    => "Travel & Places",
                     "subgroup" => "transport-air"
                 ],
-                'created_at' => Carbon::now(),
+                'created_at' => now(),
             ]);
 
         Share::factory(Share::class)
@@ -222,7 +219,7 @@ class SetupDevEnvironment extends Command
                     'group'    => 'Objects',
                     'subgroup' => 'light & video',
                 ],
-                'created_at' => Carbon::now()->subMinutes(1),
+                'created_at' => now()->subMinutes(1),
             ]);
 
         $nature = Folder::factory(Folder::class)
@@ -263,7 +260,7 @@ class SetupDevEnvironment extends Command
                 'user_id'    => $user->id,
                 'author'     => 'user',
                 'name'       => 'Playable Media',
-                'created_at' => Carbon::now()->subMinutes(2),
+                'created_at' => now()->subMinutes(2),
             ]);
 
         $video = Folder::factory(Folder::class)
@@ -288,7 +285,7 @@ class SetupDevEnvironment extends Command
                 'user_id'    => $user->id,
                 'author'     => 'user',
                 'name'       => 'Multi Level Folder',
-                'created_at' => Carbon::now()->subMinutes(3),
+                'created_at' => now()->subMinutes(3),
             ]);
 
         $first_level = Folder::factory(Folder::class)
@@ -321,7 +318,7 @@ class SetupDevEnvironment extends Command
                 'user_id'    => $user->id,
                 'author'     => 'user',
                 'name'       => 'Documents',
-                'created_at' => Carbon::now()->subMinutes(4),
+                'created_at' => now()->subMinutes(4),
             ]);
 
         Share::factory(Share::class)
@@ -341,7 +338,7 @@ class SetupDevEnvironment extends Command
                 'user_id'    => $user->id,
                 'author'     => 'user',
                 'name'       => 'Videohive by MakingCG',
-                'created_at' => Carbon::now()->subMinutes(5),
+                'created_at' => now()->subMinutes(5),
             ]);
 
         $user
@@ -393,7 +390,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -437,7 +434,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -471,7 +468,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -530,7 +527,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'visitor',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -558,7 +555,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -583,7 +580,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -608,7 +605,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => 'mp3',
                     'filesize'   => rand(1000000, 4000000),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -647,7 +644,7 @@ class SetupDevEnvironment extends Command
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -681,7 +678,7 @@ class SetupDevEnvironment extends Command
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -719,7 +716,7 @@ class SetupDevEnvironment extends Command
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
-                    'created_at' => Carbon::now()->subMinutes(rand(1, 5)),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
     }

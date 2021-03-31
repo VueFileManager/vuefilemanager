@@ -32,7 +32,7 @@ class SchedulerTest extends TestCase
         $share = Share::factory(Share::class)
             ->create([
                 'expire_in' => 24,
-                'created_at' => Carbon::now()->subDay(),
+                'created_at' => now()->subDay(),
             ]);
 
         $this->scheduler->delete_expired_shared_links();
@@ -58,7 +58,7 @@ class SchedulerTest extends TestCase
 
         $zip = Zip::factory(Zip::class)->create([
             'basename'   => 'EHWKcuvKzA4Gv29v-archive.zip',
-            'created_at' => Carbon::now()->subDay(),
+            'created_at' => now()->subDay(),
         ]);
 
         $this->scheduler->delete_old_zips();

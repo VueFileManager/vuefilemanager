@@ -97,9 +97,7 @@ class PaymentMethodsController extends Controller
         $user = Auth::user();
 
         // Check if is demo
-        if (is_demo($user->id)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         // Update DefaultPayment Method
         $user->updateDefaultPaymentMethod($id);
@@ -147,9 +145,7 @@ class PaymentMethodsController extends Controller
         $user = Auth::user();
 
         // Check if is demo
-        if (is_demo($user->id)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         // Get payment method
         $paymentMethod = $user->findPaymentMethod($id);

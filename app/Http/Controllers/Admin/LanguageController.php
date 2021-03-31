@@ -56,9 +56,7 @@ class LanguageController extends Controller
      */
     public function create_language(CreateLanguageRequest $request)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         $language = Language::create([
             'name'   => $request->input('name'),
@@ -78,9 +76,7 @@ class LanguageController extends Controller
      */
     public function update_language(UpdateLanguageRequest $request, Language $language)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         $language->update(make_single_input($request));
 
@@ -98,9 +94,7 @@ class LanguageController extends Controller
      */
     public function update_string(UpdateStringRequest $request, Language $language)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         $language
             ->languageStrings()
@@ -122,9 +116,7 @@ class LanguageController extends Controller
      */
     public function delete_language(Language $language)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         if ($language->locale === 'en') {
             abort(401, "Sorry, you can't delete default language.");

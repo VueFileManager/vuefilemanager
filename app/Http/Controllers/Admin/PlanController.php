@@ -110,9 +110,7 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         // Update plan
         $this->stripe->updatePlan($request, $id);
@@ -131,9 +129,7 @@ class PlanController extends Controller
      */
     public function delete($id)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         // Delete plan
         $this->stripe->deletePlan($id);

@@ -121,9 +121,8 @@ class ManipulateShareItemsController extends Controller
      */
     public function delete_item(DeleteItemRequest $request, Share $shared)
     {
-        if (is_demo_account($shared->user->email)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account($shared->user->email), 204, 'Done.');
+
 
         // Check ability to access protected share record
         $this->helper->check_protected_share_record($shared);
@@ -195,9 +194,7 @@ class ManipulateShareItemsController extends Controller
      */
     public function move(MoveItemRequest $request, Share $shared)
     {
-        if (is_demo_account($shared->user->email)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account($shared->user->email), 204, 'Done.');
 
         // Check ability to access protected share record
         $this->helper->check_protected_share_record($shared);

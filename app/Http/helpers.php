@@ -151,7 +151,7 @@ function get_invoice_number()
     $invoices = \App\Invoice::all();
 
     if ($invoices->isEmpty()) {
-        return Carbon::now()->year . '001';
+        return now()->year . '001';
     } else {
         return (int)$invoices->last()->order + 1;
     }
@@ -589,11 +589,10 @@ function get_image_meta_data($file)
  */
 function get_default_language_strings()
 {
-    $license = get_setting('license') ?? 'extended';
-
-    return collect(
-        config('language_strings.' . strtolower($license))
-    );
+    return collect([
+        config("language-strings.extended"),
+        config("language-strings.regular")
+    ])->collapse();
 }
 
 /**

@@ -5,7 +5,6 @@ namespace App\Actions\Fortify;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserSettings;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -44,7 +43,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $user = User::create([
             'email'    => $input['email'],
-            'password' => Hash::make($input['password']),
+            'password' => bcrypt($input['password']),
         ]);
 
         UserSettings::unguard();

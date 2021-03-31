@@ -82,9 +82,7 @@ class EditItemsController extends Controller
      */
     public function delete_item(DeleteItemRequest $request)
     {
-        if (is_demo_account('howdy@hi5ve.digital')) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         foreach ($request->input('items') as $item) {
             $this->filemanager->delete_item($item, $item['id']);
@@ -117,9 +115,7 @@ class EditItemsController extends Controller
      */
     public function move(MoveItemRequest $request)
     {
-        if (is_demo_account('howdy@hi5ve.digital')) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         $this->filemanager->move($request, $request->to_id);
 

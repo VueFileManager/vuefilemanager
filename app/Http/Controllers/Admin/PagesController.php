@@ -51,9 +51,7 @@ class PagesController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo(), 204, 'Done.');
 
         $page->update(
             make_single_input($request)

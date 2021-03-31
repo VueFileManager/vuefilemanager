@@ -12,10 +12,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
 use Validator;
 
 class ShareController extends Controller
@@ -44,7 +41,7 @@ class ShareController extends Controller
     {
         // Create shared options
         $shared = Share::create([
-            'password'     => $request->has('password') ? Hash::make($request->password) : null,
+            'password'     => $request->has('password') ? bcrypt($request->password) : null,
             'type'         => $request->type === 'folder' ? 'folder' : 'file',
             'is_protected' => $request->isPassword,
             'permission'   => $request->permission ?? null,
@@ -87,7 +84,7 @@ class ShareController extends Controller
             'permission'   => $request->permission,
             'is_protected' => $request->protected,
             'expire_in'    => $request->expiration,
-            'password'     => $request->password ? Hash::make($request->password) : $shared->password,
+            'password'     => $request->password ? bcrypt($request->password) : $shared->password,
         ]);
 
         // Return shared record

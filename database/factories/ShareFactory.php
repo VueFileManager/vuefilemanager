@@ -30,7 +30,7 @@ class ShareFactory extends Factory
             'type'         => $this->faker->randomElement(['file', 'folder']),
             'permission'   => $this->faker->randomElement(['visitor', 'editor']),
             'is_protected' => $this->faker->boolean(20),
-            'password'     => \Hash::make('secret'),
+            'password'     => bcrypt('secret'),
             'expire_in'    => $this->faker->randomElement([1, 6, 12, 24]),
         ];
     }

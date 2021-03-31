@@ -39,8 +39,8 @@ class DemoService
             'items'      => '0',
             'color'      => isset($request->icon['color']) ? $request->icon['color'] : null,
             'emoji'      => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
-            'updated_at' => Carbon::now()->format('j M Y \a\t H:i'),
-            'created_at' => Carbon::now()->format('j M Y \a\t H:i'),
+            'updated_at' => now()->format('j M Y \a\t H:i'),
+            'created_at' => now()->format('j M Y \a\t H:i'),
         ];
     }
 
@@ -111,24 +111,15 @@ class DemoService
             'type'       => $filetype,
             'file_url'   => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
             'author'     => $request->user() ? 'user' : 'visitor',
-            'created_at' => Carbon::now()->format('j M Y \a\t H:i'),
-            'updated_at' => Carbon::now()->format('j M Y \a\t H:i'),
+            'created_at' => now()->format('j M Y \a\t H:i'),
+            'updated_at' => now()->format('j M Y \a\t H:i'),
         ];
     }
 
     /**
      * Return 204 status
      *
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    function response_with_no_content()
-    {
-        return response('Done!', 204);
-    }
-
-    /**
-     * Return 204 status
-     *
+     * @param $user
      * @return ResponseFactory|\Illuminate\Http\Response
      */
     function favourites($user)
