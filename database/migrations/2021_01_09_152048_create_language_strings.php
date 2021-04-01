@@ -13,7 +13,7 @@ class CreateLanguageStrings extends Migration
      */
     public function up()
     {
-        Schema::create('language_strings', function (Blueprint $table) {
+        Schema::create('language_translations', function (Blueprint $table) {
             $table->string('key');
             $table->longText('value');
             $table->string('lang');
@@ -27,6 +27,6 @@ class CreateLanguageStrings extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('language_strings');
+        Schema::dropIfExists('language_translations');
     }
 }

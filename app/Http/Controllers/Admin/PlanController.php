@@ -110,6 +110,7 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         // Update plan
@@ -129,6 +130,7 @@ class PlanController extends Controller
      */
     public function delete($id)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         // Delete plan

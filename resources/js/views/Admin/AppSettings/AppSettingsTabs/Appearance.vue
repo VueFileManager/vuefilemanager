@@ -26,13 +26,12 @@
 
                 <FormLabel class="mt-70">{{ $t('admin_settings.appearance.section_appearance') }}</FormLabel>
 
-                <!--TODO: add language-->
                 <div class="block-wrapper">
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
                         <div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">Color Theme:</label>
-                                <small class="input-help">Your color change will be visible after app refresh.</small>
+                                <label class="input-label">{{ $t('color_theme') }}:</label>
+                                <small class="input-help">{{ $t('color_theme_description') }}</small>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </div>
                             <input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"
@@ -63,21 +62,19 @@
                     </ValidationProvider>
                 </div>
 
-                <!--TODO: add language-->
                 <div class="block-wrapper">
-                    <label>OG Image:</label>
+                    <label>{{ $t('og_image') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
                         <ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" :error="errors[0]"/>
-                        <small class="input-help">Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627</small>
+                        <small class="input-help">{{ $t('og_image_description') }}</small>
                     </ValidationProvider>
                 </div>
 
-                <!--TODO: add language-->
                 <div class="block-wrapper">
-                    <label>App Touch Icon:</label>
+                    <label>{{ $t('app_touch_icon') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
                         <ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" :error="errors[0]"/>
-                        <small class="input-help">If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156</small>
+                        <small class="input-help">{{ $t('app_touch_icon_description') }}</small>
                     </ValidationProvider>
                 </div>
             </div>

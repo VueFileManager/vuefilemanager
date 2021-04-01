@@ -21,7 +21,7 @@ class LanguageResource extends JsonResource
                 'attributes' => [
                     'name'        => $this->name,
                     'locale'      => $this->locale,
-                    'translations' => map_language_translations($this->languageStrings),
+                    'translations' => map_language_translations($this->languageTranslations),
                     'updated_at'  => $this->updated_at,
                     'created_at'  => $this->created_at,
                 ]

@@ -270,7 +270,7 @@ class SetupWizardTest extends TestCase
             'locale' => 'en',
         ]);
 
-        $this->assertDatabaseHas('language_strings', [
+        $this->assertDatabaseHas('language_translations', [
             'key'   => 'actions.close',
             'value' => 'Close',
             'lang'  => 'en',

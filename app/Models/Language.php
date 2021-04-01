@@ -29,9 +29,9 @@ class Language extends Model
 
     public $incrementing = false;
 
-    public function languageStrings()
+    public function languageTranslations()
     {
-        return $this->hasMany(LanguageString::class, 'lang', 'locale');
+        return $this->hasMany(LanguageTranslation::class, 'lang', 'locale');
     }
 
     protected static function boot()
@@ -42,21 +42,21 @@ class Language extends Model
             $language->id = Str::uuid();
 
             resolve(HelperService::class)
-                ->create_default_language_strings(
+                ->create_default_language_translations(
                     get_setting('license') ?? 'extended', $language->locale
                 );
         });
 
         static::updating(function ($language) {
-            cache()->forget("language-strings-$language->locale");
+            cache()->forget("language-translations-$language->locale");
         });
 
         static::deleting(function ($language) {
-            DB::table('language_strings')
+            DB::table('language_translations')
                 ->whereLang($language->locale)
                 ->delete();
 
-            cache()->forget("language-strings-$language->locale");
+            cache()->forget("language-translations-$language->locale");
         });
     }
 }

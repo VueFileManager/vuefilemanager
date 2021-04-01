@@ -6,7 +6,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Share;
 use App\Models\Language;
-use App\Models\LanguageString;
+use App\Models\LanguageTranslation;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -599,11 +599,12 @@ function get_image_meta_data($file)
 /**
  * @return Collection
  */
-function get_default_language_strings()
+function get_default_language_translations()
 {
     return collect([
-        config("language-strings.extended"),
-        config("language-strings.regular")
+        config("language-translations.extended"),
+        config("language-translations.regular"),
+        config("custom-language-translations")
     ])->collapse();
 }
 
@@ -614,7 +615,7 @@ function get_default_language_strings()
  */
 function is_dev()
 {
-    return env('APP_ENV') === 'local' ? 1 : 0;
+    return env('APP_ENV') === 'local';
 }
 
 /**
@@ -853,8 +854,8 @@ function __t($key, $values = null)
         return get_setting('language') ?? 'en';
     });
 
-    $strings = cache()->rememberForever("language-strings-$locale", function () use ($locale) {
-        return Language::whereLocale($locale)->first()->languageStrings ?? get_default_language_strings();
+    $strings = cache()->rememberForever("language-translations-$locale", function () use ($locale) {
+        return Language::whereLocale($locale)->first()->languageTranslations ?? get_default_language_translations();
     });
 
     // Find the string by key

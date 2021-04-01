@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LanguageString extends Model
+class LanguageTranslation extends Model
 {
     public $timestamps = false;
 

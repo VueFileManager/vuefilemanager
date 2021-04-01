@@ -3,7 +3,7 @@
 namespace Tests\Feature\Setup;
 
 use App\Models\Language;
-use App\Models\LanguageString;
+use App\Models\LanguageTranslation;
 use App\Models\Setting;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -55,7 +55,7 @@ class SetupServiceTest extends TestCase
             'locale' => 'en',
         ]);
 
-        $this->assertDatabaseHas('language_strings', [
+        $this->assertDatabaseHas('language_translations', [
             'key'   => 'actions.close',
             'value' => 'Close',
             'lang'  => 'en',

@@ -9,10 +9,10 @@
         <input
             v-model="query"
             @input="$emit('input', query)"
-            class="query"
+            class="query focus-border-theme"
             type="text"
             name="searchInput"
-            placeholder="Search Language Strings..."
+            :placeholder="$t('search_translations')"
         />
     </div>
 </template>
@@ -34,7 +34,6 @@ export default {
     methods: {
         clearInput() {
             this.query = undefined
-
             this.$emit('reset-query')
         },
     },
@@ -74,13 +73,13 @@ export default {
         }
 
         &:focus {
-            border: 1px solid $theme;
-            box-shadow: 0 0 7px rgba($theme, 0.3);
+            border-width: 1px;
+            border-style: solid;
         }
 
         &:focus + .icon {
             path {
-                fill: $theme;
+                color: inherit;
             }
         }
     }
@@ -101,6 +100,14 @@ export default {
 
         .pointer {
             cursor: pointer;
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .search-bar {
+        input {
+            background: $dark_mode_foreground;
         }
     }
 }

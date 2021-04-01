@@ -52,7 +52,7 @@ class LanguageEditorTest extends TestCase
             'locale' => 'sk',
         ]);
 
-        $this->assertDatabaseHas('language_strings', [
+        $this->assertDatabaseHas('language_translations', [
             'key'   => 'actions.close',
             'value' => 'Close',
             'lang'  => 'sk',
@@ -111,7 +111,7 @@ class LanguageEditorTest extends TestCase
             'locale' => 'sk',
         ]);
 
-        $this->assertDatabaseMissing('language_strings', [
+        $this->assertDatabaseMissing('language_translations', [
             'key'   => 'actions.close',
             'value' => 'Close',
             'lang'  => 'sk',
@@ -151,8 +151,8 @@ class LanguageEditorTest extends TestCase
         $this->getJson('/api/admin/languages')
             ->assertStatus(200)
             ->assertJsonFragment([
-                "name"             => "English",
-                "current_language" => "en",
+                "locale"        => "en",
+                "actions.close" => "Close",
             ]);
     }
 
@@ -175,7 +175,7 @@ class LanguageEditorTest extends TestCase
             'value' => 'Close It, now!',
         ]);
 
-        $this->assertDatabaseHas('language_strings', [
+        $this->assertDatabaseHas('language_translations', [
             'key'   => 'actions.close',
             'value' => 'Close It, now!',
             'lang'  => 'en',
@@ -185,7 +185,7 @@ class LanguageEditorTest extends TestCase
     /**
      * @test
      */
-    public function it_get_language_strings_by_selected_language_id()
+    public function it_get_language_with_strings_by_selected_language_id()
     {
         $this->setup->seed_default_language();
 
@@ -196,12 +196,11 @@ class LanguageEditorTest extends TestCase
 
         $language = Language::first();
 
-        $this->getJson("/api/admin/languages/$language->id/strings")
+        $this->getJson("/api/admin/languages/$language->id")
             ->assertStatus(200)
             ->assertJsonFragment([
-                "key"   => "actions.close",
-                "value" => "Close",
-                "lang"  => "en",
+                "actions.close" => "Close",
+                "locale"        => "en",
             ]);
     }
 
@@ -222,12 +221,26 @@ class LanguageEditorTest extends TestCase
     /**
      * @test
      */
+    public function it_get_custom_translations_from_file_config()
+    {
+        $this->setup->seed_default_language();
+
+        $this->assertDatabaseHas('language_translations', [
+            'key'   => 'custom',
+            'value' => 'translation',
+            'lang'  => 'en',
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_get_translated_string_from_t_helper_function()
     {
         $this->setup->seed_default_language();
 
         Language::first()
-            ->languageStrings()
+            ->languageTranslations()
             ->forceCreate([
                 "key"   => "test",
                 "value" => "Hi, my name is :name :surname",

@@ -49,6 +49,7 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         // Store image if exist
@@ -82,6 +83,7 @@ class SettingController extends Controller
     public function set_email(Request $request)
     {
         // TODO: pridat validator do requestu
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         if (!app()->runningUnitTests()) {
@@ -174,6 +176,7 @@ class SettingController extends Controller
      */
     public function flush_cache()
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         if (!app()->runningUnitTests()) {

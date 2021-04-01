@@ -2,8 +2,7 @@
     <PopupWrapper name="create-language">
         
         <!--Title-->
-        <!--TODO: jazyk-->
-        <PopupHeader title="Create Language" icon="edit" />
+        <PopupHeader :title="$t('create_language')" icon="edit" />
 
         <!--Content-->
         <PopupContent>
@@ -12,14 +11,14 @@
             <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Locale" rules="required" v-slot="{ errors }">
-                    <label class="input-label">Select Locale:</label>
-                    <SelectInput v-model="form.locale" :options="locals" placeholder="Select Language Locale" :isError="errors[0]" />
+                    <label class="input-label">{{ $t('select_locale') }}:</label>
+                    <SelectInput v-model="form.locale" :options="locales" :placeholder="$t('select_language_locale')" :isError="errors[0]" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">Type Name:</label>
-                    <input v-model="form.name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" placeholder="Type Language Name">
+                    <label class="input-label">{{ $t('locale_name') }}:</label>
+                    <input v-model="form.name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" :placeholder="$t('type_language_name')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
@@ -32,7 +31,7 @@
                 @click.native="$closePopup()"
                 button-style="secondary"
             >
-                Cancel
+                {{ $t('global.cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="popup-button"
@@ -41,7 +40,7 @@
                 :loading="isLoading"
                 :disabled="isLoading"
             >
-                Create Language
+                {{ $t('create_language') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -79,7 +78,7 @@ export default {
                 locale: undefined,
             },
             isLoading: false,
-            locals: [
+            locales: [
                 {
                     value: "ab",
                     label: "Abkhaz"
@@ -851,10 +850,6 @@ export default {
                     })
             }
         },
-    },
-    mounted() {
-        this.name = undefined,
-            this.locale = undefined
     }
 }
 </script>

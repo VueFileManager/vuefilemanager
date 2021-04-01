@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content">
-            <MobileHeader title="Languages" />
-            <PageHeader title="Languages" />
+            <MobileHeader :title="$t('routes_title.language')" />
+            <PageHeader :title="$t('routes_title.language')" />
 
             <div v-if="languages" class="content-page">
 
@@ -12,14 +12,14 @@
                     <div class="sticky top-65">
                         <div class="languages-wrapper page-tab from-fixed-width">
                             <div class="language-label-wrapper">
-                                <label class="language-label">Languages</label>
+                                <label class="language-label">{{ $t('languages') }}</label>
                             </div>
 
                             <!-- Languages -->
                             <div class="all-language-wrapper">
-                                <div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" class="language">
+                                <div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" class="language group">
                                     <label class="name" :class="{'active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}">
-                                        {{ language.data.attributes.name }}
+                                        <span class="active-text-theme group-hover-text-theme">{{ language.data.attributes.name }}</span>
                                     </label>
                                     <x-icon
                                         v-if="language.data.attributes.locale !== 'en'"
@@ -32,7 +32,7 @@
                         </div>
 
                         <MobileActionButton @click.native="createLanguage" icon="plus" class="button-add-language">
-                            Add Language
+                            {{ $t('add_language') }}
                         </MobileActionButton>
                     </div>
                 </div>
@@ -40,36 +40,16 @@
                 <!--Content-->
                 <div class="form block-form content">
 
-                    <div v-if="! selectedLanguage">
-                        <Spinner />
-                    </div>
+                    <Spinner v-if="! selectedLanguage" />
 
                     <div v-if="selectedLanguage">
                         <FormLabel icon="settings">
-                            Language Settings
+                            {{ $t('language_settings') }}
                         </FormLabel>
-
-                        <!--Set default language-->
-                        <div class="block-wrapper">
-                            <div class="input-wrapper">
-                                <div class="inline-wrapper">
-                                    <div class="switch-label">
-                                        <label class="input-label">
-                                            Set as Default Language:
-                                        </label>
-                                    </div>
-                                    <SwitchInput
-                                        @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'language', selectedLanguage.data.attributes.locale)"
-                                        class="switch"
-                                        :class="{'disable-switch': selectedLanguage.data.attributes.locale !==  }"
-                                    />
-                                </div>
-                            </div>
-                        </div>
 
                         <!--Language name-->
                         <div class="block-wrapper">
-                            <label>Language Name:</label>
+                            <label>{{ $t('language_name') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
                                 <input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name"
                                        :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -77,18 +57,45 @@
                             </ValidationProvider>
                         </div>
 
+                        <!--Set default language-->
+                        <div class="block-wrapper">
+                            <div class="input-wrapper">
+                                <div class="inline-wrapper">
+                                    <div class="switch-label">
+                                        <label class="input-label">
+                                            {{ $t('set_as_default_language') }}:
+                                        </label>
+                                        <small class="input-help">
+                                            If this language is set as default, app will appear in this language for all users.
+                                        </small>
+                                    </div>
+                                    <SwitchInput
+                                        @input="setDefaultLanguage"
+                                        class="switch"
+                                        :class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
+                                        :state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
                         <!--Translations-->
                         <FormLabel class="mt-70">
-                            Edit Translations
+                            {{ $t('edit_translations') }}
                         </FormLabel>
+
+                        <InfoBox class="info-box">
+                            <p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
+                        </InfoBox>
 
                         <!--Inline Search-->
                         <div class="block-wrapper sticky top-50 search-bar-wrapper">
                             <SearchInput v-model="query" @reset-query="query = ''" />
                         </div>
 
+                        <!--Translation-->
                         <div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
-                            <label> {{ defaultTranslations[key] }}:</label>
+                            <label> {{ referenceTranslations[key] }}:</label>
                             <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
                                 <input type="text"
                                        :class="{'is-error': errors[0]}"
@@ -116,6 +123,7 @@
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import InfoBox from '@/components/Others/Forms/InfoBox'
     import PageHeader from '@/components/Others/PageHeader'
     import Spinner from '@/components/FilesView/Spinner'
     import {PlusIcon, XIcon} from 'vue-feather-icons'
@@ -135,40 +143,48 @@
             PageHeader,
             FormLabel,
             PlusIcon,
+            InfoBox,
             Spinner,
             XIcon
         },
         data() {
             return {
-                defaultTranslations: undefined,
+                searchedTranslationResults: undefined,
+                referenceTranslations: undefined,
+
+                defaultLanguageLocale: undefined,
                 selectedLanguage: undefined,
-                occurrences: undefined,
                 languages: undefined,
                 query: '',
             }
         },
         watch: {
             query: debounce(function (val) {
-                this.occurrences = omitBy(this.selectedLanguage.data.attributes.translations, (string, key) => {
+                this.searchedTranslationResults = omitBy(this.selectedLanguage.data.attributes.translations, string => {
                     return !string.toLowerCase().includes(val.toLowerCase())
                 })
             }, 300),
         },
         computed: {
             translationList() {
-                return this.occurrences && this.query !== ''
-                    ? this.occurrences
+                return this.searchedTranslationResults && this.query !== ''
+                    ? this.searchedTranslationResults
                     : this.selectedLanguage.data.attributes.translations
             }
         },
         methods: {
+            setDefaultLanguage() {
+                this.$updateText('/admin/settings', 'language', this.selectedLanguage.data.attributes.locale)
+                this.defaultLanguageLocale = this.selectedLanguage.data.attributes.locale
+            },
             getLanguages() {
                 axios
                     .get('/api/admin/languages')
                     .then(response => {
                         this.languages = response.data.data
-                        this.defaultTranslations = response.data.meta.default_translations
+                        this.referenceTranslations = response.data.meta.reference_translations
                         this.selectedLanguage = response.data.meta.current_language
+                        this.defaultLanguageLocale = response.data.meta.current_language.data.attributes.locale
                     })
                     .catch(() => {
                         this.$isSomethingWrong()
@@ -243,6 +259,18 @@
     }
 }
 
+.disable-switch {
+    cursor: not-allowed;
+
+    /deep/ .text-right {
+        pointer-events: none;
+    }
+}
+
+.info-box {
+    margin-bottom: 12px;
+}
+
 .side-content {
     flex: 0 0 225px;
 
@@ -275,10 +303,6 @@
                     .icon {
                         display: block;
                     }
-
-                    .name {
-                        color: $theme !important;
-                    }
                 }
 
                 .name {
@@ -292,10 +316,6 @@
                     display: none;
                     margin-left: auto;
                     cursor: pointer;
-                }
-
-                .active {
-                    color: $theme !important;
                 }
 
             }
@@ -326,6 +346,10 @@
 }
 
 @media (prefers-color-scheme: dark) {
+
+    .search-bar-wrapper {
+        background: $dark_mode_background;
+    }
 
     .language {
 

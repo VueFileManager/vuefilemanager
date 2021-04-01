@@ -65,7 +65,7 @@
                     },
                     {
                         icon: 'language',
-                        title: this.$t('admin_menu.language'),
+                        title: this.$t('languages'),
                         routeName: 'Language',
                         isVisible: true,
 

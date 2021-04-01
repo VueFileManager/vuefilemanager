@@ -328,16 +328,18 @@ class HelperService
      * @param $license
      * @param $locale
      */
-    function create_default_language_strings($license, $locale)
+    function create_default_language_translations($license, $locale)
     {
         $translations = [
             'extended' => collect([
-                config("language-strings.extended"),
-                config("language-strings.regular")
+                config("language-translations.extended"),
+                config("language-translations.regular"),
+                config("custom-language-translations")
             ])->collapse(),
-            'regular'  => collect(
-                config("language-strings.regular")
-            ),
+            'regular'  => collect([
+                config("language-translations.regular"),
+                config("custom-language-translations")
+            ])->collapse(),
         ];
 
         $translations = $translations[strtolower($license)]
@@ -349,7 +351,7 @@ class HelperService
                 ];
             })->toArray();
 
-        DB::table('language_strings')
+        DB::table('language_translations')
             ->insert($translations);
     }
 }

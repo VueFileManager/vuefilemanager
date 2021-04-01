@@ -164,17 +164,10 @@ class AppFunctionsController extends Controller
      */
     public function get_storage_plans()
     {
-        if (Cache::has('pricing')) {
-
-            // Get pricing from cache
-            $pricing = Cache::get('pricing');
-        } else {
-
-            // Store pricing to cache
-            $pricing = Cache::rememberForever('pricing', function () {
-                return $this->stripe->getActivePlans();
-            });
-        }
+        // Get pricing from cache
+        $pricing = Cache::rememberForever('pricing', function () {
+            return $this->stripe->getActivePlans();
+        });
 
         // Format pricing to collection
         $collection = new PricingCollection($pricing);
@@ -194,11 +187,10 @@ class AppFunctionsController extends Controller
      */
     public function get_translations($lang)
     {
-        $translations = Cache::rememberForever("language-strings-$lang", function () use ($lang) {
-
+        $translations = Cache::rememberForever("language-translations-$lang", function () use ($lang) {
             return Language::whereLocale($lang)
                 ->firstOrFail()
-                ->languageStrings;
+                ->languageTranslations;
         });
 
         return map_language_translations($translations);

@@ -51,6 +51,7 @@ class PagesController extends Controller
      */
     public function update(Request $request, Page $page)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         $page->update(

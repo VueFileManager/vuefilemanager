@@ -292,7 +292,6 @@ const routesAdmin = [
                     import(/* webpackChunkName: "chunks/app-language" */ './views/Admin/Languages/Language'),
                     meta: {
                         requiresAuth: true,
-                        title: 'routes_title.language'
                     },
             }
         ]

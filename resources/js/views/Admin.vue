@@ -1,6 +1,9 @@
 <template>
     <section id="viewport">
 
+        <!--Mobile Navigation-->
+        <MobileNavigation />
+
         <!--Confirm Popup-->
         <Confirm />
 
@@ -87,6 +90,7 @@
 
 <script>
     import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
+    import MobileNavigation from '@/components/Others/MobileNavigation'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import CreateLanguage from '@/components/Others/CreateLanguage'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
@@ -100,6 +104,7 @@
             ...mapGetters(['config']),
         },
         components: {
+            MobileNavigation,
             CreateLanguage,
             ContentSidebar,
             CreditCardIcon,

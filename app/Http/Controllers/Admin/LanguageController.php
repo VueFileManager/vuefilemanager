@@ -6,7 +6,7 @@ use App\Http\Resources\LanguageCollection;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
 use App\Http\Controllers\Controller;
-use App\Services\DemoService;
+use App\Models\Setting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
@@ -16,13 +16,6 @@ use App\Http\Requests\Languages\UpdateLanguageRequest;
 
 class LanguageController extends Controller
 {
-    protected $demo;
-
-    public function __construct()
-    {
-        $this->demo = resolve(DemoService::class);
-    }
-
     /**
      * Get all languages for admin translate
      *
@@ -42,7 +35,9 @@ class LanguageController extends Controller
      */
     public function get_language(Language $language)
     {
-        return response(new LanguageResource($language), 200);
+        return response(
+            new LanguageResource($language), 200
+        );
     }
 
     /**
@@ -53,6 +48,7 @@ class LanguageController extends Controller
      */
     public function create_language(CreateLanguageRequest $request)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         $language = Language::create([
@@ -73,6 +69,7 @@ class LanguageController extends Controller
      */
     public function update_language(UpdateLanguageRequest $request, Language $language)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         $language->update(make_single_input($request));
@@ -91,18 +88,21 @@ class LanguageController extends Controller
      */
     public function update_string(UpdateStringRequest $request, Language $language)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         $language
-            ->languageStrings()
+            ->languageTranslations()
             ->where('key', $request->name)
             ->update([
                 'value' => $request->value
             ]);
 
-        cache()->forget("language-strings-{$language->locale}");
+        cache()->forget("language-translations-{$language->locale}");
 
-        return response('Done', 204);
+        return response(
+            'Done', 204
+        );
     }
 
     /**
@@ -113,14 +113,24 @@ class LanguageController extends Controller
      */
     public function delete_language(Language $language)
     {
+        // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         if ($language->locale === 'en') {
             abort(401, "Sorry, you can't delete default language.");
         }
 
+        // If user try to delete language used as default,
+        // then set en language as default
+        if ($language->locale === get_setting('language')) {
+            Setting::whereName('language')->first()
+                ->update(['value' => 'en']);
+        }
+
         $language->delete();
 
-        return response('Done', 204);
+        return response(
+            'Done', 204
+        );
     }
 }

@@ -21,7 +21,7 @@ class SetupDevEnvironment extends Command
      * @var string
      */
     protected $signature = 'setup:dev';
-    protected $license = 'Regular';
+    protected $license = 'Extended';
 
     /**
      * The console command description.

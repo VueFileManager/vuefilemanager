@@ -17,15 +17,15 @@ class LanguageCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $current_language = Language::with('languageStrings')
+        $current_language = Language::with('languageTranslations')
             ->whereLocale(get_setting('language') ?? 'en')
             ->first();
 
         return [
             'data' => $this->collection,
             'meta' => [
-                'current_language'     => new LanguageResource($current_language),
-                'default_translations' => get_default_language_strings()
+                'current_language'       => new LanguageResource($current_language),
+                'reference_translations' => get_default_language_translations()
             ],
         ];
     }

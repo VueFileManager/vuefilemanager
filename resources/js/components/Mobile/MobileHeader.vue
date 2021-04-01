@@ -11,7 +11,7 @@
 
         <!--More Actions-->
         <div @click="showMobileNavigation" class="mobile-menu">
-            <menu-icon size="17" class="icon"></menu-icon>
+            <menu-icon size="17" class="icon" />
         </div>
     </header>
 </template>
