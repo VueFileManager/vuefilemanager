@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Language;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class LanguageCollection extends ResourceCollection
@@ -16,10 +17,15 @@ class LanguageCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+        $current_language = Language::with('languageStrings')
+            ->whereLocale(get_setting('language') ?? 'en')
+            ->first();
+
         return [
             'data' => $this->collection,
             'meta' => [
-                'current_language' => get_setting('language') ?? 'en',
+                'current_language'     => new LanguageResource($current_language),
+                'default_translations' => get_default_language_strings()
             ],
         ];
     }

@@ -201,8 +201,6 @@ class AppFunctionsController extends Controller
                 ->languageStrings;
         });
 
-        return $translations->map(function ($string) {
-            return [$string->key => $string->value];
-        })->collapse();
+        return map_language_translations($translations);
     }
 }

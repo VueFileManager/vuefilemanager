@@ -526,6 +526,18 @@ function get_file_type($file_mimetype)
     }
 }
 
+/**
+ * It map language translations as language key and language value
+ *
+ * @param $translations
+ * @return mixed
+ */
+function map_language_translations($translations)
+{
+    return $translations->map(function ($string) {
+        return [$string->key => $string->value];
+    })->collapse();
+}
 
 /**
  * Get file type from mimetype

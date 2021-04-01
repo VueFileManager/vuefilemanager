@@ -2,46 +2,46 @@
     <PopupWrapper name="create-language">
         
         <!--Title-->
-        <PopupHeader :title="'Create Language'" icon="edit" />
+        <!--TODO: jazyk-->
+        <PopupHeader title="Create Language" icon="edit" />
 
         <!--Content-->
         <PopupContent>
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
-                <!--Set password-->
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">Type Name:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" placeholder="Type Language Name">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
-
-                 <!--Set password-->
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Locale" rules="required" v-slot="{ errors }">
                     <label class="input-label">Select Locale:</label>
-                    <SelectInput v-model="locale" :options="allLocals" placeholder="Select Language Locale" :isError="errors[0]"/>
+                    <SelectInput v-model="form.locale" :options="locals" placeholder="Select Language Locale" :isError="errors[0]" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
-                
+
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Name" rules="required" v-slot="{ errors }">
+                    <label class="input-label">Type Name:</label>
+                    <input v-model="form.name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" placeholder="Type Language Name">
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
             </ValidationObserver>
         </PopupContent>
 
         <!--Actions-->
         <PopupActions>
             <ButtonBase
-                    class="popup-button"
-                    @click.native="$closePopup()"
-                    button-style="secondary"
-            >Cancel
+                class="popup-button"
+                @click.native="$closePopup()"
+                button-style="secondary"
+            >
+                Cancel
             </ButtonBase>
             <ButtonBase
-                    class="popup-button"
-                    @click.native="createLanguage"
-                    button-style="theme"
-                    :loading="isLoading" 
-                    :disabled="isLoading"
-            >Create Language
+                class="popup-button"
+                @click.native="createLanguage"
+                button-style="theme"
+                :loading="isLoading"
+                :disabled="isLoading"
+            >
+                Create Language
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -74,10 +74,12 @@ export default {
     },
     data() {
         return {
-            name: undefined,
-            locale: undefined,
+            form: {
+                name: undefined,
+                locale: undefined,
+            },
             isLoading: false,
-            allLocals: [
+            locals: [
                 {
                     value: "ab",
                     label: "Abkhaz"
@@ -823,43 +825,43 @@ export default {
     },
     methods: {
         async createLanguage() {
-           
+
             // Validate fields
             const isValid = await this.$refs.createForm.validate();
 
             if (isValid) {
-                 this.isLoading = true
+                this.isLoading = true
 
-                axios.post('/api/languages', {
-                    name: this.name,
-                    locale: this.locale
-                })
-                .then((response) => {
+                axios.post('/api/admin/languages', this.form)
+                    .then(response => {
+                        events.$emit('reload:languages', response.data)
+                    })
+                    .catch(() => {
+                        this.$isSomethingWrong()
+                    })
+                    .finally(() => {
 
-                    events.$emit('add-language', response.data)
-                    
-                })
-				.catch(() => Vue.prototype.$isSomethingWrong())
-				.finally(() => {
+                        this.form = {
+                            name: undefined,
+                            locale: undefined,
+                        }
 
-                    this.name = undefined
-                    this.locale = undefined
-					this.isLoading = false
-                    this.$closePopup()
-				})
+                        this.isLoading = false
+                        this.$closePopup()
+                    })
             }
         },
     },
-    mounted () {
+    mounted() {
         this.name = undefined,
-        this.locale = undefined
+            this.locale = undefined
     }
 }
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/vue-file-manager/_inapp-forms.scss";
-    @import '@assets/vue-file-manager/_forms';
+    @import "@assets/vuefilemanager/_inapp-forms.scss";
+    @import '@assets/vuefilemanager/_forms';
 
     .item-thumbnail {
         margin-bottom: 20px;

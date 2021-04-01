@@ -60,7 +60,7 @@ Route::group(['prefix' => 'settings'], function () {
 
 // Language
 Route::group(['prefix' => 'languages'], function () {
-    Route::get('/{language}/strings', [LanguageController::class, 'get_language_strings']);
+    Route::get('/{language}', [LanguageController::class, 'get_language']);
     Route::patch('/{language}/strings', [LanguageController::class, 'update_string']);
     Route::delete('/{language}', [LanguageController::class, 'delete_language']);
     Route::patch('/{language}', [LanguageController::class, 'update_language']);

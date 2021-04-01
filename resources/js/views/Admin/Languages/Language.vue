@@ -1,161 +1,246 @@
 <template>
     <div id="single-page">
         <div id="page-content">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)" />
-            
-            <div class="wrapper">
-                <Spinner v-if="! isLoadedLanguages" />
-                <div v-if="isLoadedLanguages" class="side-content">
-                    <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)" />
+            <MobileHeader title="Languages" />
+            <PageHeader title="Languages" />
 
-                    <div class="languages-wrapper page-tab from-fixed-width">
-                        <div class="language-label-wrapper">
-                            <label class="language-label">Languages</label>
-                        </div>
+            <div v-if="languages" class="content-page">
 
-                        <!-- Languages -->
-                        <div class="all-language-wrapper">
-                            <div @click="openLanguage(language)" v-for="language in languages" :key="language.id">
-                                <div class="language">
-                                    <label class="name" :class="{'active' :activeLanguage.locale === language.locale}">
-                                        {{ language.name }}
+                <!--Sidebar-->
+                <div class="side-content">
+
+                    <div class="sticky top-65">
+                        <div class="languages-wrapper page-tab from-fixed-width">
+                            <div class="language-label-wrapper">
+                                <label class="language-label">Languages</label>
+                            </div>
+
+                            <!-- Languages -->
+                            <div class="all-language-wrapper">
+                                <div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" class="language">
+                                    <label class="name" :class="{'active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}">
+                                        {{ language.data.attributes.name }}
                                     </label>
-                                    <x-icon v-if="language.locale !== 'en' && language.locale !== current_language"
-                                            @click.stop="deleteLanguageConfirm(language)"
-                                            class="icon" size="17" />
+                                    <x-icon
+                                        v-if="language.data.attributes.locale !== 'en'"
+                                        @click.stop="deleteLanguage(language)"
+                                        class="icon"
+                                        size="17"
+                                    />
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <MobileActionButton @click.native="createLanguage" icon="plus" class="button-add-language">
-                        Add Language
-                    </MobileActionButton>
+                        <MobileActionButton @click.native="createLanguage" icon="plus" class="button-add-language">
+                            Add Language
+                        </MobileActionButton>
+                    </div>
                 </div>
 
-                <!-- Strings -->
-                <!--<LanguageStrings :active-language="activeLanguage" :set-language="current_language" />-->
+                <!--Content-->
+                <div class="form block-form content">
+
+                    <div v-if="! selectedLanguage">
+                        <Spinner />
+                    </div>
+
+                    <div v-if="selectedLanguage">
+                        <FormLabel icon="settings">
+                            Language Settings
+                        </FormLabel>
+
+                        <!--Set default language-->
+                        <div class="block-wrapper">
+                            <div class="input-wrapper">
+                                <div class="inline-wrapper">
+                                    <div class="switch-label">
+                                        <label class="input-label">
+                                            Set as Default Language:
+                                        </label>
+                                    </div>
+                                    <SwitchInput
+                                        @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'language', selectedLanguage.data.attributes.locale)"
+                                        class="switch"
+                                        :class="{'disable-switch': selectedLanguage.data.attributes.locale !==  }"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Language name-->
+                        <div class="block-wrapper">
+                            <label>Language Name:</label>
+                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
+                                <input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name"
+                                       :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+
+                        <!--Translations-->
+                        <FormLabel class="mt-70">
+                            Edit Translations
+                        </FormLabel>
+
+                        <!--Inline Search-->
+                        <div class="block-wrapper sticky top-50 search-bar-wrapper">
+                            <SearchInput v-model="query" @reset-query="query = ''" />
+                        </div>
+
+                        <div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
+                            <label> {{ defaultTranslations[key] }}:</label>
+                            <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
+                                <input type="text"
+                                       :class="{'is-error': errors[0]}"
+                                       class="focus-border-theme"
+                                       @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                       v-model="selectedLanguage.data.attributes.translations[key]"
+                                />
+                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <Spinner v-if="! languages" />
         </div>
     </div>
 </template>
 
 <script>
-import LanguageStrings from '@/views/Admin/Languages/LanguageStrings'
-import MobileHeader from '@/components/Mobile/MobileHeader'
-import ButtonBase from '@/components/FilesView/ButtonBase'
-import MobileActionButton from '@/components/FilesView/MobileActionButton'
-import PageHeader from '@/components/Others/PageHeader'
-import Spinner from '@/components/FilesView/Spinner'
-import {PlusIcon, XIcon} from 'vue-feather-icons'
-import {events} from '@/bus'
+    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import MobileActionButton from '@/components/FilesView/MobileActionButton'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
+    import SearchInput from '@/components/Others/Forms/SearchInput'
+    import FormLabel from '@/components/Others/Forms/FormLabel'
+    import MobileHeader from '@/components/Mobile/MobileHeader'
+    import ButtonBase from '@/components/FilesView/ButtonBase'
+    import PageHeader from '@/components/Others/PageHeader'
+    import Spinner from '@/components/FilesView/Spinner'
+    import {PlusIcon, XIcon} from 'vue-feather-icons'
+    import {debounce, omitBy} from 'lodash'
+    import {events} from '@/bus'
 
-export default {
-    name: 'Language',
-    components: {
-        MobileActionButton,
-        LanguageStrings,
-        MobileHeader,
-        ButtonBase,
-        PageHeader,
-        PlusIcon,
-        Spinner,
-        XIcon
-    },
-    data() {
-        return {
-            languages: undefined,
-
-            activeLanguage: undefined,
-            languagesStrings: undefined,
-            current_language: undefined,
-            isLoadedLanguages: false,
-        }
-    },
-    methods: {
-        deleteLanguageConfirm(language) {
-            events.$emit('confirm:open', {
-                title: `Delete ${language.name} language?`,
-                message: 'Your language will be permanently deleted.',
-                buttonColor: 'danger-solid',
-                action: language
-            })
+    export default {
+        name: 'Language',
+        components: {
+            ValidationProvider,
+            ValidationObserver,
+            MobileActionButton,
+            MobileHeader,
+            SearchInput,
+            SwitchInput,
+            ButtonBase,
+            PageHeader,
+            FormLabel,
+            PlusIcon,
+            Spinner,
+            XIcon
         },
-        deleteLanguage(language) {
-            axios.delete(`/api/admin/languages/${language.id}`)
-                .then(() => {
-                    this.getLanguages()
-                })
+        data() {
+            return {
+                defaultTranslations: undefined,
+                selectedLanguage: undefined,
+                occurrences: undefined,
+                languages: undefined,
+                query: '',
+            }
         },
-        createLanguage() {
-            events.$emit('popup:open', {name: 'create-language'})
+        watch: {
+            query: debounce(function (val) {
+                this.occurrences = omitBy(this.selectedLanguage.data.attributes.translations, (string, key) => {
+                    return !string.toLowerCase().includes(val.toLowerCase())
+                })
+            }, 300),
         },
-        getLanguages() {
-            axios
-                .get('/api/admin/languages')
-                .then(response => {
-                    this.languages = response.data.data
-
-                    this.activeLanguage = response.data.languages[0]
-
-                    this.current_language = response.data.meta.current_language
-                })
-                .catch(() => {
-                    this.$isSomethingWrong()
-                })
-                .finally(() => {
-                    this.isLoadedLanguages = true
-                })
+        computed: {
+            translationList() {
+                return this.occurrences && this.query !== ''
+                    ? this.occurrences
+                    : this.selectedLanguage.data.attributes.translations
+            }
         },
-        openLanguage(language) {
-            this.activeLanguage = language
-        }
-    },
-    mounted() {
-        this.getLanguages()
+        methods: {
+            getLanguages() {
+                axios
+                    .get('/api/admin/languages')
+                    .then(response => {
+                        this.languages = response.data.data
+                        this.defaultTranslations = response.data.meta.default_translations
+                        this.selectedLanguage = response.data.meta.current_language
+                    })
+                    .catch(() => {
+                        this.$isSomethingWrong()
+                    })
+            },
+            getLanguage(language) {
+                this.selectedLanguage = undefined
 
-        events.$on('add-language', () => {
+                axios
+                    .get(`/api/admin/languages/${language.data.id}`)
+                    .then(response => {
+                        this.selectedLanguage = response.data
+                    })
+                    .catch(() => {
+                        this.$isSomethingWrong()
+                    })
+            },
+            deleteLanguage(language) {
+                events.$emit('confirm:open', {
+                    title: `Delete "${language.data.attributes.name}" language?`,
+                    message: 'Your language will be permanently deleted.',
+                    buttonColor: 'danger-solid',
+                    action: {
+                        id: language.data.id,
+                        operation: 'delete-language'
+                    }
+                })
+            },
+            createLanguage() {
+                events.$emit('popup:open', {name: 'create-language'})
+            },
+        },
+        mounted() {
             this.getLanguages()
-        })
 
-        events.$on('action:confirmed', language => {
-            this.deleteLanguage(language)
-        })
+            events.$on('reload:languages', () => this.getLanguages())
 
-        events.$on('language-name:update', (language) => {
+            events.$on('action:confirmed', data => {
 
-            let index = _.findIndex(this.languages, function (item) {
-                return item.id === language.id
+                if (data.operation === 'delete-language')
+                    axios.delete(`/api/admin/languages/${data.id}`)
+                        .then(() => this.getLanguages())
+                        .catch(() => this.$isSomethingWrong())
             })
-
-            this.languages[index].name = language.name
-        })
-
-        events.$on('language:set-as-default', (locale) => {
-            this.current_language = locale
-        })
-    },
-    destroyed() {
-        events.$off('action:confirmed')
-    },
-}
+        },
+        destroyed() {
+            events.$off('action:confirmed')
+        },
+    }
 </script>
 
 <style lang="scss" scoped>
 @import '@assets/vuefilemanager/_variables';
 @import '@assets/vuefilemanager/_mixins';
+@import '@assets/vuefilemanager/_forms';
+@import '@assets/vuefilemanager/_vuewind';
 
-#single-page {
-    height: 100%;
-
-    #page-content {
-        height: 100%;
-    }
+.search-bar-wrapper {
+    background: white;
+    padding: 10px 10px 0 10px;
+    margin: 0 -10px;
 }
 
-.wrapper {
+.content-page {
     display: flex;
-    height: 100%;
+    max-width: 1000px;
+    margin: 20px auto 0;
+
+    .content {
+        width: 100%;
+        position: relative;
+    }
 }
 
 .side-content {
@@ -163,22 +248,9 @@ export default {
 
     .button-add-language {
         margin-top: 30px;
-
-
-        /deep/ .content {
-            display: flex;
-            align-items: center;
-            @include font-size(14);
-            font-weight: 700;
-
-            .icon {
-                margin-right: 10px;
-            }
-        }
     }
 
     .languages-wrapper {
-        margin-top: 70px;
 
         .language-label-wrapper {
             margin-bottom: 5px;
@@ -261,6 +333,7 @@ export default {
             color: $dark_mode_text_primary !important;
         }
     }
+
     .language-label {
         color: $dark_mode_text_secondary !important;
     }

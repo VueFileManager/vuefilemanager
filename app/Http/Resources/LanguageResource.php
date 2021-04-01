@@ -19,10 +19,11 @@ class LanguageResource extends JsonResource
                 'id'         => $this->id,
                 'type'       => 'languages',
                 'attributes' => [
-                    'name'       => $this->name,
-                    'locale'     => $this->locale,
-                    'updated_at' => $this->updated_at,
-                    'created_at' => $this->created_at,
+                    'name'        => $this->name,
+                    'locale'      => $this->locale,
+                    'translations' => map_language_translations($this->languageStrings),
+                    'updated_at'  => $this->updated_at,
+                    'created_at'  => $this->created_at,
                 ]
             ],
         ];

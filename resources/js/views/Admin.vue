@@ -1,8 +1,14 @@
 <template>
     <section id="viewport">
 
+        <!--Confirm Popup-->
+        <Confirm />
+
+        <!-- Create language popup -->
+        <CreateLanguage/>
+
         <!--Navigation Sidebar-->
-        <MenuBar />
+        <MenuBar/>
 
         <ContentSidebar>
 
@@ -82,7 +88,9 @@
 <script>
     import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
+    import CreateLanguage from '@/components/Others/CreateLanguage'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
+    import Confirm from '@/components/Others/Popup/Confirm'
     import MenuBar from '@/components/Sidebar/MenuBar'
     import { mapGetters } from 'vuex'
 
@@ -92,6 +100,7 @@
             ...mapGetters(['config']),
         },
         components: {
+            CreateLanguage,
             ContentSidebar,
             CreditCardIcon,
             FileTextIcon,
@@ -100,9 +109,10 @@
             SettingsIcon,
             MonitorIcon,
             UsersIcon,
+            GlobeIcon,
+            Confirm,
             MenuBar,
             BoxIcon,
-            GlobeIcon
         },
     }
 </script>

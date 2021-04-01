@@ -6,9 +6,19 @@ use App\Services\HelperService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
+/**
+ * @method static whereLocale(string $param)
+ */
 class Language extends Model
 {
+    use Sortable;
+
+    public $sortable = [
+        'created_at',
+    ];
+
     protected $guarded = [
         'id'
     ];

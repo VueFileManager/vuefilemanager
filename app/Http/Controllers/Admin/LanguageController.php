@@ -31,7 +31,7 @@ class LanguageController extends Controller
     public function get_languages()
     {
         return response(
-            new LanguageCollection(Language::all()), 200
+            new LanguageCollection(Language::sortable(['created_at', 'DESC'])->get()), 200
         );
     }
 
@@ -40,12 +40,9 @@ class LanguageController extends Controller
      *
      * @param Language $language
      */
-    public function get_language_strings(Language $language)
+    public function get_language(Language $language)
     {
-        return response([
-            'current' => $language->languageStrings,
-            'default' => get_default_language_strings()
-        ], 200);
+        return response(new LanguageResource($language), 200);
     }
 
     /**
