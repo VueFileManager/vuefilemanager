@@ -16,7 +16,7 @@
             </div>
         </div>
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>

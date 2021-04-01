@@ -7,8 +7,8 @@
                     <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
                     <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
-                    <h1>Oasis Drive</h1>
-                    <h2>Zaplacenim objednavky se Vas ucet automaticky zaktivuje a vytvori se Vam digitalni prostor pro Vase dulezite dokumenty.</h2>
+                    <h1>{{ config.app_name }}</h1>
+                    <h2>{{ $t('pay_order_description') }}</h2>
                 </div>
 
                 <div class="order">
@@ -19,13 +19,13 @@
                             <!-- Pay by new credit card -->
                             <div class="register-card form block-form">
                                 <InfoBox v-if="config.isDemo || config.isDev">
-                                    <p>For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555 5555 5555 4444</b> as a card number, <b>11/22</b>
-                                        as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
+                                    <p>For test your payment please use <b class="text-theme">4242 4242 4242 4242</b> or <b class="text-theme">5555 5555 5555 4444</b> as a card number, <b class="text-theme">11/22</b>
+                                        as the expiration date and <b class="text-theme">123</b> as CVC number and ZIP <b class="text-theme">12345</b>.</p>
                                 </InfoBox>
 
 
                                 <div class="block-wrapper">
-                                    <label>Platebni karta:</label>
+                                    <label>{{ $t('payment_page.payment_gateway') }}:</label>
                                     <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }"></div>
 
                                     <div class="card-error-message" v-if="isError">
@@ -35,9 +35,9 @@
 
                                 <InfoBox v-if="requestedPlan">
                                     <ListInfo class="billing">
-                                        <ListInfoItem class="billing-item" title="Spolecnost" :content="requestedPlan.data.relationships.user.data.attributes.name" />
-                                        <ListInfoItem v-if="requestedPlan.data.relationships.user.data.attributes.ico" class="billing-item" title="ICO" :content="requestedPlan.data.relationships.user.data.attributes.ico" />
-                                        <ListInfoItem class="billing-item" title="Adresa" :content="address" />
+                                        <ListInfoItem class="billing-item" :title="$t('payment_page.company')" :content="requestedPlan.data.relationships.user.data.attributes.name" />
+                                        <ListInfoItem v-if="requestedPlan.data.relationships.user.data.attributes.ico" class="billing-item" :title="$t('payment_page.ico')" :content="requestedPlan.data.relationships.user.data.attributes.ico" />
+                                        <ListInfoItem class="billing-item" :title="$t('payment_page.address')" :content="address" />
                                     </ListInfo>
                                 </InfoBox>
                             </div>
@@ -102,7 +102,7 @@
             </div>
         </div>
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner/>
         </div>
     </div>
 </template>

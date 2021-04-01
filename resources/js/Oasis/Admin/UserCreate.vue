@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content" class="small-width">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
                 <ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form" class="form block-form">
@@ -63,7 +63,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_user.select_role') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="permission" rules="required" v-slot="{ errors }">
-                                <SelectInput v-model="user.role" :options="roles" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                                <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>

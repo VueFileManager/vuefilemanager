@@ -7,8 +7,8 @@
                     <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
                     <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
-                    <h1>Oasis Drive</h1>
-                    <h2>Dakujeme, platba bola uspesne zaznamenana. V poslednom kroku si prosim vytvorte heslo pre Vas ucet.</h2>
+                    <h1>{{ config.app_name }}</h1>
+                    <h2>{{ $t('successful_payment_with_password_creation') }}</h2>
                 </div>
 
                 <ValidationObserver @submit.prevent="signUp" ref="setPassword" v-slot="{ invalid }" tag="form"
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div id="loader" v-if="isLoadingPage">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>

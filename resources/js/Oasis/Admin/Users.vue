@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
 
@@ -11,12 +11,12 @@
                     <div class="buttons">
                         <router-link :to="{name: 'CreateSubscriptionRequest'}">
                             <MobileActionButton icon="dollar-sign">
-                                Vytvorit objednavku
+                                {{ $t('oasis.create_order') }}
                             </MobileActionButton>
                         </router-link>
                         <router-link :to="{name: 'UserCreate'}">
                             <MobileActionButton icon="user-plus">
-                                Vytvorit Uzivatela
+                                {{ $t('oasis.create_user') }}
                             </MobileActionButton>
                         </router-link>
                     </div>
@@ -85,7 +85,7 @@
             </div>
         </div>
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner/>
         </div>
     </div>
 </template>
