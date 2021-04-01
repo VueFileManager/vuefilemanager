@@ -32,6 +32,7 @@
         components: {
             SortingAndPreviewIcon,
             CheckSquareIcon,
+            DollarSignIcon,
             CreditCardIcon,
             FolderPlusIcon,
             UserPlusIcon,

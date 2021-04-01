@@ -7,8 +7,8 @@
                 <!-- Register new credit card -->
                 <div class="register-card">
                     <InfoBox v-if="config.isDemo || config.isDev">
-                        <p>For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555 5555 5555 4444</b> as a card number, <b>11/22</b>
-                            as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
+                        <p>For test your payment please use <b class="text-theme">4242 4242 4242 4242</b> or <b class="text-theme">5555 5555 5555 4444</b> as a card number, <b class="text-theme">11/22</b>
+                            as the expiration date and <b class="text-theme">123</b> as CVC number and ZIP <b class="text-theme">12345</b>.</p>
                     </InfoBox>
 
                     <div class="block-wrapper">
