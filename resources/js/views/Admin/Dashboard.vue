@@ -1,7 +1,7 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && data">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="dashboard-headline">
                 <div class="logo">
@@ -10,7 +10,7 @@
                     </a>
                 </div>
                 <div class="metadata">
-                    <a href="https://vuefilemanager.com/changelog" target="_blank" class="meta">
+                    <a href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d" target="_blank" class="meta">
                         <span class="meta-title">{{ $t('admin_page_dashboard.version') }}:</span>
                         <ColorLabel color="purple">
                             {{ data.app_version }}

@@ -4,7 +4,7 @@
             <div class="form block-form">
                 <FormLabel>{{ $t('user_settings.title_account') }}</FormLabel>
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <div class="input-wrapper">
                         <input :value="userInfo.email"
                                :placeholder="$t('page_registration.placeholder_email')"
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="changeUserName"
                                v-model="userInfo.name"

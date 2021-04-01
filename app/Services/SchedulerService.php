@@ -17,7 +17,7 @@ class SchedulerService
      */
     public function delete_old_zips(): void
     {
-        Zip::where('created_at', '<=', Carbon::now()->subDay()->toDateTimeString())
+        Zip::where('created_at', '<=', now()->subDay()->toDateTimeString())
             ->get()
             ->each(function ($zip) {
 
@@ -42,7 +42,7 @@ class SchedulerService
                 $created_at = Carbon::parse($share->created_at);
 
                 // If time was over, then delete share record
-                if ($created_at->diffInHours(Carbon::now()) >= $share->expire_in) {
+                if ($created_at->diffInHours(now()) >= $share->expire_in) {
                     $share->delete();
                 }
             });
@@ -69,7 +69,7 @@ class SchedulerService
 
             // Get diffInHours
             $diff = Carbon::parse($last_modified)
-                ->diffInHours(Carbon::now());
+                ->diffInHours(now());
 
             // Delete if file is in local storage more than 24 hours
             if ($diff >= 24) {

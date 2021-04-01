@@ -68,7 +68,7 @@
 
         <div id="single-page" v-if="user">
             <div id="page-content" class="medium-width" v-if="! isLoading">
-                <MobileHeader :title="$router.currentRoute.meta.title"/>
+                <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
                 <div class="content-page">
 

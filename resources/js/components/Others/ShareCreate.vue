@@ -34,7 +34,7 @@
                 <!--Permission Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]" />
+                    <SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -58,7 +58,7 @@
                     <!--Set expiration-->
                     <div class="input-wrapper">
                         <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" class="box" />
+                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" class="box" />
                     </div>
                 </div>
 

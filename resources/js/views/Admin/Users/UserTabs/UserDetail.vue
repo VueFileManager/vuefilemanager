@@ -15,7 +15,7 @@
                 <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role" rules="required">
                     <label>{{ $t('admin_page_user.select_role') }}:</label>
                     <div class="single-line-form">
-                        <SelectInput v-model="userRole" :options="roles"
+                        <SelectInput v-model="userRole" :options="$translateSelectOptions(roles)"
                                      :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
                                     button-style="theme" class="submit-button">
@@ -34,7 +34,7 @@
 
                 <!--Email-->
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.attributes.email"
                                :placeholder="$t('page_registration.placeholder_email')"
@@ -46,7 +46,7 @@
 
                 <!--Name-->
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.name"
                                :placeholder="$t('page_registration.placeholder_name')"

@@ -26,13 +26,12 @@
 
                 <FormLabel class="mt-70">{{ $t('admin_settings.appearance.section_appearance') }}</FormLabel>
 
-                <!--TODO: add language-->
                 <div class="block-wrapper">
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
                         <div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">Color Theme:</label>
-                                <small class="input-help">Your color change will be visible after app refresh.</small>
+                                <label class="input-label">{{ $t('color_theme') }}:</label>
+                                <small class="input-help">{{ $t('color_theme_description') }}</small>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </div>
                             <input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"
@@ -60,6 +59,22 @@
                     <label>{{ $t('admin_settings.appearance.favicon') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
                         <ImageInput @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>{{ $t('og_image') }}:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" :error="errors[0]"/>
+                        <small class="input-help">{{ $t('og_image_description') }}</small>
+                    </ValidationProvider>
+                </div>
+
+                <div class="block-wrapper">
+                    <label>{{ $t('app_touch_icon') }}:</label>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+                        <ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" :error="errors[0]"/>
+                        <small class="input-help">{{ $t('app_touch_icon_description') }}</small>
                     </ValidationProvider>
                 </div>
             </div>
@@ -106,7 +121,7 @@
         mounted() {
             axios.get('/api/admin/settings', {
                 params: {
-                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal|app_color'
+                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal|app_color|app_og_image|app_touch_icon'
                 }
             })
                 .then(response => {
@@ -117,6 +132,8 @@
                         title: response.data.app_title,
                         color: response.data.app_color,
                         logo: response.data.app_logo,
+                        og_image: response.data.app_og_image,
+                        touch_icon: response.data.app_touch_icon,
                     }
                 })
                 .finally(() => {

@@ -43,9 +43,7 @@ class TrashController extends Controller
         // Get user id
         $user_id = Auth::id();
 
-        if (is_demo($user_id)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         foreach ($request->input('items') as $restore) {
 
@@ -96,9 +94,7 @@ class TrashController extends Controller
         // Get user id
         $user_id = Auth::id();
 
-        if (is_demo($user_id)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         // Get files and folders
         $folders = Folder::onlyTrashed()->where('user_id', $user_id)->get();

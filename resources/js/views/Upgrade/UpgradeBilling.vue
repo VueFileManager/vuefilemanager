@@ -1,7 +1,7 @@
 <template>
     <div id="single-page">
         <div id="page-content" class="large-width center-page" v-show="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title" />
+            <MobileHeader :title="$t($router.currentRoute.meta.title)" />
             <div class="content-page">
                 <div class="plan-title">
                     <credit-card-icon size="42" class="title-icon text-theme" />

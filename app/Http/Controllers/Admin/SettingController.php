@@ -49,9 +49,8 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        // Abort in demo mode
+        abort_if(is_demo(), 204, 'Done.');
 
         // Store image if exist
         if ($request->hasFile($request->name)) {
@@ -84,9 +83,8 @@ class SettingController extends Controller
     public function set_email(Request $request)
     {
         // TODO: pridat validator do requestu
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        // Abort in demo mode
+        abort_if(is_demo(), 204, 'Done.');
 
         if (!app()->runningUnitTests()) {
 
@@ -178,9 +176,8 @@ class SettingController extends Controller
      */
     public function flush_cache()
     {
-        if (is_demo()) {
-            return $this->demo->response_with_no_content();
-        }
+        // Abort in demo mode
+        abort_if(is_demo(), 204, 'Done.');
 
         if (!app()->runningUnitTests()) {
             Artisan::call('cache:clear');

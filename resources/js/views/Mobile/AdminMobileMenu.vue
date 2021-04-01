@@ -3,7 +3,7 @@
         <div id="page-content">
 
             <!--Header-->
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <!--Content-->
             <div class="content-page">
@@ -63,6 +63,13 @@
                         routeName: 'Pages',
                         isVisible: true,
                     },
+                    {
+                        icon: 'language',
+                        title: this.$t('languages'),
+                        routeName: 'Language',
+                        isVisible: true,
+
+                    }
                 ],
                 SassNavigation: [
                     {

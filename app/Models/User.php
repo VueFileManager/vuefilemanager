@@ -171,7 +171,7 @@ class User extends Authenticatable
      */
     public function record_upload($file_size)
     {
-        $now = Carbon::now();
+        $now = now();
 
         $record = Traffic::whereYear('created_at', '=', $now->year)
             ->whereMonth('created_at', '=', $now->month)
@@ -191,7 +191,7 @@ class User extends Authenticatable
      */
     public function record_download($file_size)
     {
-        $now = Carbon::now();
+        $now = now();
 
         $record = Traffic::whereYear('created_at', '=', $now->year)
             ->whereMonth('created_at', '=', $now->month)

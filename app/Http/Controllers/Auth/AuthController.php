@@ -3,14 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\CheckAccountRequest;
-use App\Models\Setting;
 use App\Models\User;
-use App\Models\UserSettings;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 
 class AuthController extends Controller
 {
@@ -28,7 +22,7 @@ class AuthController extends Controller
             ->first();
 
         if (! $user) {
-            return response(__('vuefilemanager.user_not_fount'), 404);
+            return response(__t('user_not_fount'), 404);
         }
 
         return [

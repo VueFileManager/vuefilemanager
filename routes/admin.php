@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
@@ -55,4 +56,14 @@ Route::group(['prefix' => 'settings'], function () {
     Route::post('/email', [SettingController::class, 'set_email']);
     Route::patch('/', [SettingController::class, 'update']);
     Route::get('/', [SettingController::class, 'show']);
+});
+
+// Language
+Route::group(['prefix' => 'languages'], function () {
+    Route::get('/{language}', [LanguageController::class, 'get_language']);
+    Route::patch('/{language}/strings', [LanguageController::class, 'update_string']);
+    Route::delete('/{language}', [LanguageController::class, 'delete_language']);
+    Route::patch('/{language}', [LanguageController::class, 'update_language']);
+    Route::post('/', [LanguageController::class, 'create_language']);
+    Route::get('/', [LanguageController::class, 'get_languages']);
 });

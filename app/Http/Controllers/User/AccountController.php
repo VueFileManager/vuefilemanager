@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Requests\User\UpdateUserPasswordRequest;
-use App\Models\File;
-use App\Models\Folder;
 use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\StorageDetailResource;
 use App\Http\Resources\UserResource;
@@ -14,10 +12,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use ByteUnits\Metric;
-use App\Models\User;
 
 class AccountController extends Controller
 {
@@ -88,9 +83,7 @@ class AccountController extends Controller
         $user = Auth::user();
 
         // Check if is demo
-        if (is_demo($user->id)) {
-            return $this->demo->response_with_no_content();
-        }
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         // Update avatar
         if ($request->hasFile('avatar')) {
@@ -123,12 +116,11 @@ class AccountController extends Controller
         // Get user
         $user = Auth::user();
 
-        if (is_demo($user->id)) {
-            return $this->demo->response_with_no_content();
-        }
+        // Check if is demo
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         // Change and store new password
-        $user->password = Hash::make($request->input('password'));
+        $user->password = bcrypt($request->input('password'));
         $user->save();
 
         return response('Changed!', 204);

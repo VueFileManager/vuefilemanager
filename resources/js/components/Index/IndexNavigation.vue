@@ -32,7 +32,7 @@
             <ul v-if="config.isAuthenticated" class="navigation-links">
                 <li v-if="config.userRegistration">
                     <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'Files'}">
-                        Go to Files <!--todo: preklad-->
+                        {{ $t('go_to_files') }}
                     </router-link>
                 </li>
             </ul>

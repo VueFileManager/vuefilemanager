@@ -43,11 +43,11 @@ class SharedSendViaEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('vuefilemanager.shared_link_email_subject' , ['user' => $this->user->name]))
-            ->greeting(__('vuefilemanager.shared_link_email_greeting'))
-            ->line(__('vuefilemanager.shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__('vuefilemanager.shared_link_email_link'), url('/shared', ['token' => $this->token]))
-            ->salutation(__('vuefilemanager.shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'VueFileManager']));
+            ->subject(__t('shared_link_email_subject', ['user' => $this->user->name]))
+            ->greeting(__t('shared_link_email_greeting'))
+            ->line(__t('shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
+            ->action(__t('shared_link_email_link'), url('/shared', ['token' => $this->token]))
+            ->salutation(__t('shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'VueFileManager']));
     }
 
     /**

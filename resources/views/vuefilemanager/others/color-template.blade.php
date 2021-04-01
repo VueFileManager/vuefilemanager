@@ -1,98 +1,102 @@
 <style>
 
+        @php
+            $color = $settings->app_color ?? '#00BC7E';
+        @endphp
+
         {{-- Group options --}}
-        .group:hover .group-hover-text-theme {color: {{ $settings->app_color }} !important;}
+        .group:hover .group-hover-text-theme {color: {{ $color }} !important;}
 
 
         {{-- Single option --}}
-        .svg-color-theme {fill: {{ $settings->app_color }}}
+        .svg-color-theme {fill: {{ $color }}}
 
-        .svg-stroke-theme {stroke: {{ $settings->app_color }}}
-        .hover-svg-stroke-theme:hover {stroke: {{ $settings->app_color }}}
+        .svg-stroke-theme {stroke: {{ $color }}}
+        .hover-svg-stroke-theme:hover {stroke: {{ $color }}}
 
-        .hover-svg-stroke-theme:hover rect {stroke: {{ $settings->app_color }}}
-        .hover-svg-stroke-theme:hover line {stroke: {{ $settings->app_color }}}
+        .hover-svg-stroke-theme:hover rect {stroke: {{ $color }}}
+        .hover-svg-stroke-theme:hover line {stroke: {{ $color }}}
 
-        .bg-theme {background: {{ $settings->app_color }}}
-        .bg-theme-50 {background: {{ $settings->app_color }}05}
-        .bg-theme-100 {background: {{ $settings->app_color }}10}
-        .bg-theme-800 {background: {{ $settings->app_color }}80}
-        .hover-bg-theme:hover {background: {{ $settings->app_color }}}
-        .hover-bg-theme-100:hover {background: {{ $settings->app_color }}10 !important;}
+        .bg-theme {background: {{ $color }}}
+        .bg-theme-50 {background: {{ $color }}05}
+        .bg-theme-100 {background: {{ $color }}10}
+        .bg-theme-800 {background: {{ $color }}80}
+        .hover-bg-theme:hover {background: {{ $color }}}
+        .hover-bg-theme-100:hover {background: {{ $color }}10 !important;}
 
-        .text-theme {color: {{ $settings->app_color }}}
-        .hover-text-theme:hover {color: {{ $settings->app_color }}}
+        .text-theme {color: {{ $color }}}
+        .hover-text-theme:hover {color: {{ $color }}}
 
-        .shadow-theme {box-shadow: 0 7px 16px 2px {{ $settings->app_color }}40}
+        .shadow-theme {box-shadow: 0 7px 16px 2px {{ $color }}40}
 
-        .border-theme {border-color: {{ $settings->app_color }}}
-        .border-top-theme {border-top-color: {{ $settings->app_color }} !important;}
-        .border-left-theme {border-left-color: {{ $settings->app_color }} !important;}
-        .hover-border-theme:hover {border-color: {{ $settings->app_color }}}
+        .border-theme {border-color: {{ $color }}}
+        .border-top-theme {border-top-color: {{ $color }} !important;}
+        .border-left-theme {border-left-color: {{ $color }} !important;}
+        .hover-border-theme:hover {border-color: {{ $color }}}
 
-        .focus-within-border-theme:focus-within {border-color: {{ $settings->app_color }} !important;}
+        .focus-within-border-theme:focus-within {border-color: {{ $color }} !important;}
 
-        .focus-border-theme:focus {border-color: {{ $settings->app_color }}}
-        .focus-border-theme:focus[type='email'] {border-color: {{ $settings->app_color }}}
-        .focus-border-theme:focus[type='text'] {border-color: {{ $settings->app_color }}}
-        .focus-border-theme:focus[type='password'] {border-color: {{ $settings->app_color }}}
-        .focus-border-theme:focus[type='number'] {border-color: {{ $settings->app_color }}}
+        .focus-border-theme:focus {border-color: {{ $color }}}
+        .focus-border-theme:focus[type='email'] {border-color: {{ $color }}}
+        .focus-border-theme:focus[type='text'] {border-color: {{ $color }}}
+        .focus-border-theme:focus[type='password'] {border-color: {{ $color }}}
+        .focus-border-theme:focus[type='number'] {border-color: {{ $color }}}
 
         {{-- Global Active Class --}}
-        .active.active-bg-theme-100 {background: {{ $settings->app_color }}10 !important;}
-        .active.active-border-theme {border-color: {{ $settings->app_color }} !important;}
-        .active .active-text-theme {color: {{ $settings->app_color }}}
+        .active.active-bg-theme-100 {background: {{ $color }}10 !important;}
+        .active.active-border-theme {border-color: {{ $color }} !important;}
+        .active .active-text-theme {color: {{ $color }}}
 
         {{-- Emoji Picker --}}
-        .active-menu.focus-border-theme {border-color: {{ $settings->app_color }} !important;}
+        .active-menu.focus-border-theme {border-color: {{ $color }} !important;}
 
         {{-- Menubar --}}
-        .router-link-active.home .button-icon {background: {{ $settings->app_color }}10}
+        .router-link-active.home .button-icon {background: {{ $color }}10}
 
         {{-- Content Panel --}}
-        .router-link-active .text-theme {color: {{ $settings->app_color }} !important}
-        .router-link-active .text-theme svg {color: {{ $settings->app_color }} !important}
-        .router-link-active.border-bottom-theme {border-bottom-color: {{ $settings->app_color }} !important;}
+        .router-link-active .text-theme {color: {{ $color }} !important}
+        .router-link-active .text-theme svg {color: {{ $color }} !important}
+        .router-link-active.border-bottom-theme {border-bottom-color: {{ $color }} !important;}
 
-        .is-active .text-theme {color: {{ $settings->app_color }} !important}
-        .is-active .text-theme svg {color: {{ $settings->app_color }} !important}
+        .is-active .text-theme {color: {{ $color }} !important}
+        .is-active .text-theme svg {color: {{ $color }} !important}
 
-        .menu-list-item.link:hover {color: {{ $settings->app_color }}}
-        .menu-list-item.link:hover .text-theme svg {color: {{ $settings->app_color }}}
+        .menu-list-item.link:hover {color: {{ $color }}}
+        .menu-list-item.link:hover .text-theme svg {color: {{ $color }}}
 
         {{-- Select Input --}}
-        .input-area.is-active {border-color: {{ $settings->app_color }} !important}
+        .input-area.is-active {border-color: {{ $color }} !important}
 
         {{-- ButtonBase --}}
-        .button-base.theme-solid {background: {{ $settings->app_color }}}
+        .button-base.theme-solid {background: {{ $color }}}
         .button-base.theme-solid polyline,
         .button-base.theme-solid path {
             color: white;
         }
 
 
-        .button-base.theme {background: {{ $settings->app_color }}10}
-        .button-base.theme {color: {{ $settings->app_color }}}
-        .button-base.theme .content {color: {{ $settings->app_color }}}
+        .button-base.theme {background: {{ $color }}10}
+        .button-base.theme {color: {{ $color }}}
+        .button-base.theme .content {color: {{ $color }}}
 
         .button-base.theme polyline,
         .button-base.theme path {
-            color: {{ $settings->app_color }}
+            color: {{ $color }}
         }
 
-        .switch.active {background: {{ $settings->app_color }} !important;}
+        .switch.active {background: {{ $color }} !important;}
 
 
         {{-- Dragged borders --}}
-        .file-item.is-dragenter {border-color: {{ $settings->app_color }} !important;}
-        .folder-item.is-dragenter {border-color: {{ $settings->app_color }} !important;}
-        .favourites.is-dragenter .menu-list {border-color: {{ $settings->app_color }} !important;}
+        .file-item.is-dragenter {border-color: {{ $color }} !important;}
+        .folder-item.is-dragenter {border-color: {{ $color }} !important;}
+        .favourites.is-dragenter .menu-list {border-color: {{ $color }} !important;}
 
         {{-- Stripe --}}
-        .StripeElement--focus {border-color: {{ $settings->app_color }} !important;}
+        .StripeElement--focus {border-color: {{ $color }} !important;}
 
         {{-- Dark mode --}}
         @media (prefers-color-scheme: dark) {
-            .dark-text-theme {color: {{ $settings->app_color }}}
+            .dark-text-theme {color: {{ $color }}}
         }
     </style>

@@ -81,7 +81,7 @@ class BrowseShareController extends Controller
                 ->cookie('share_session', $cookie, 43200);
         }
 
-        abort(401, __('vuefilemanager.incorrect_password'));
+        abort(401, __t('incorrect_password'));
     }
 
     /**
@@ -191,7 +191,7 @@ class BrowseShareController extends Controller
         return [
             [
                 'id'       => $shared->item_id,
-                'name'     => __('vuefilemanager.home'),
+                'name'     => __t('home'),
                 'location' => 'public',
                 'folders'  => $folders,
             ]

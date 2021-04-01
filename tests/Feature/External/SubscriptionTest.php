@@ -195,9 +195,9 @@ class SubscriptionTest extends TestCase
                         "capacity"           => 1000,
                         "capacity_formatted" => "1TB",
                         "slug"               => "business-pack",
-                        "canceled_at"        => format_date(Carbon::now(), '%d. %B. %Y'),
-                        "created_at"         => format_date(Carbon::now(), '%d. %B. %Y'),
-                        "ends_at"            => format_date(Carbon::now()->addMonth(), '%d. %B. %Y'),
+                        "canceled_at"        => format_date(now(), '%d. %B. %Y'),
+                        "created_at"         => format_date(now(), '%d. %B. %Y'),
+                        "ends_at"            => format_date(now()->addMonth(), '%d. %B. %Y'),
                     ]
                 ]
             ]);
@@ -265,9 +265,9 @@ class SubscriptionTest extends TestCase
                         "capacity"           => 1000,
                         "capacity_formatted" => "1TB",
                         "slug"               => "business-pack",
-                        "canceled_at"        => format_date(Carbon::now(), '%d. %B. %Y'),
-                        "created_at"         => format_date(Carbon::now(), '%d. %B. %Y'),
-                        "ends_at"            => format_date(Carbon::now()->addMonth(), '%d. %B. %Y'),
+                        "canceled_at"        => format_date(now(), '%d. %B. %Y'),
+                        "created_at"         => format_date(now(), '%d. %B. %Y'),
+                        "ends_at"            => format_date(now()->addMonth(), '%d. %B. %Y'),
                     ]
                 ]
             ]);

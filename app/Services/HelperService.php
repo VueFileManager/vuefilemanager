@@ -59,15 +59,15 @@ class HelperService
         $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Check user access
-        if ( is_array($requested_id) ) {
+        if (is_array($requested_id)) {
             foreach ($requested_id as $id) {
                 if (!in_array($id, $accessible_folder_ids))
                     abort(403);
             }
         }
 
-        if (! is_array($requested_id)) {
-            if (! in_array($requested_id, $accessible_folder_ids))
+        if (!is_array($requested_id)) {
+            if (!in_array($requested_id, $accessible_folder_ids))
                 abort(403);
         }
     }
@@ -322,5 +322,36 @@ class HelperService
                 abort(403, $abort_message);
             }
         }
+    }
+
+    /**
+     * @param $license
+     * @param $locale
+     */
+    function create_default_language_translations($license, $locale)
+    {
+        $translations = [
+            'extended' => collect([
+                config("language-translations.extended"),
+                config("language-translations.regular"),
+                config("custom-language-translations")
+            ])->collapse(),
+            'regular'  => collect([
+                config("language-translations.regular"),
+                config("custom-language-translations")
+            ])->collapse(),
+        ];
+
+        $translations = $translations[strtolower($license)]
+            ->map(function ($value, $key) use ($locale) {
+                return [
+                    'lang'  => $locale,
+                    'value' => $value,
+                    'key'   => $key,
+                ];
+            })->toArray();
+
+        DB::table('language_translations')
+            ->insert($translations);
     }
 }

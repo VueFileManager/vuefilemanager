@@ -35,7 +35,7 @@ class TrashTest extends TestCase
 
         $attributes = [
             'user_id'    => $user->id,
-            'deleted_at' => Carbon::now(),
+            'deleted_at' => now(),
         ];
 
         $folder = Folder::factory(Folder::class)

@@ -7,6 +7,7 @@ use App\Http\Mail\SendContactMessage;
 use App\Http\Resources\PricingCollection;
 use App\Http\Requests\PublicPages\SendContactMessageRequest;
 use App\Http\Resources\PageResource;
+use App\Models\Language;
 use App\Models\Setting;
 use App\Models\Page;
 use App\Models\Share;
@@ -163,17 +164,10 @@ class AppFunctionsController extends Controller
      */
     public function get_storage_plans()
     {
-        if (Cache::has('pricing')) {
-
-            // Get pricing from cache
-            $pricing = Cache::get('pricing');
-        } else {
-
-            // Store pricing to cache
-            $pricing = Cache::rememberForever('pricing', function () {
-                return $this->stripe->getActivePlans();
-            });
-        }
+        // Get pricing from cache
+        $pricing = Cache::rememberForever('pricing', function () {
+            return $this->stripe->getActivePlans();
+        });
 
         // Format pricing to collection
         $collection = new PricingCollection($pricing);
@@ -183,5 +177,22 @@ class AppFunctionsController extends Controller
             ->sortBy('product.metadata.capacity')
             ->values()
             ->all();
+    }
+
+    /**
+     * Get language translations for frontend app
+     *
+     * @param $lang
+     * @return array
+     */
+    public function get_translations($lang)
+    {
+        $translations = Cache::rememberForever("language-translations-$lang", function () use ($lang) {
+            return Language::whereLocale($lang)
+                ->firstOrFail()
+                ->languageTranslations;
+        });
+
+        return map_language_translations($translations);
     }
 }

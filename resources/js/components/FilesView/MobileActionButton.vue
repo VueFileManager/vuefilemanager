@@ -12,7 +12,7 @@
             <x-square-icon v-if="icon === 'x-square'" size="15" class="icon dark-text-theme" />
             <check-icon v-if="icon === 'check'" size="15" class="icon dark-text-theme" />
             <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon dark-text-theme" />
-            <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon preview-sorting" />
+            <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon dark-text-theme preview-sorting" />
             <span class="label">
                 <slot></slot>
             </span>
@@ -32,7 +32,6 @@
         components: {
             SortingAndPreviewIcon,
             CheckSquareIcon,
-            DollarSignIcon,
             CreditCardIcon,
             FolderPlusIcon,
             UserPlusIcon,
@@ -83,20 +82,6 @@
         &:active {
             @include transform(scale(0.95));
         }
-
-        /*&:hover {
-            background: rgba($theme, 0.1);
-
-            .icon {
-                path, line, polyline, rect, circle {
-                    stroke: $theme;
-                }
-            }
-
-            .label {
-                color: $theme;
-            }
-        }*/
     }
 
     @media (prefers-color-scheme: dark) {

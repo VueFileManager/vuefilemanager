@@ -9,6 +9,8 @@ use App\Http\Controllers\Subscription\StripeWebhookController;
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);
 
+Route::get('/translations/{lang}', [AppFunctionsController::class, 'get_translations']);
+
 // Get user invoice from stripe service
 Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
 

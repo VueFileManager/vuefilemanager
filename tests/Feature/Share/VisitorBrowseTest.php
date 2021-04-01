@@ -104,7 +104,7 @@ class VisitorBrowseTest extends TestCase
                 'user_id'      => $file->user_id,
                 'type'         => 'file',
                 'is_protected' => true,
-                'password'     => Hash::make('secret'),
+                'password'     => bcrypt('secret'),
             ]);
 
         $this->postJson("/api/browse/authenticate/$share->token", [
@@ -131,7 +131,7 @@ class VisitorBrowseTest extends TestCase
                 'user_id'      => $file->user_id,
                 'type'         => 'file',
                 'is_protected' => true,
-                'password'     => Hash::make('secret'),
+                'password'     => bcrypt('secret'),
             ]);
 
         $this->postJson("/api/browse/authenticate/$share->token", [
@@ -545,7 +545,7 @@ class VisitorBrowseTest extends TestCase
                         'type'         => 'folder',
                         'permission'   => 'editor',
                         'is_protected' => $is_protected,
-                        'password'     => Hash::make('secret'),
+                        'password'     => bcrypt('secret'),
                     ]);
 
                 $folder_level_2 = Folder::factory(Folder::class)
@@ -654,7 +654,7 @@ class VisitorBrowseTest extends TestCase
                         'type'         => 'folder',
                         'permission'   => 'editor',
                         'is_protected' => $is_protected,
-                        'password'     => Hash::make('secret'),
+                        'password'     => bcrypt('secret'),
                     ]);
 
                 $file = File::factory(File::class)
@@ -711,7 +711,7 @@ class VisitorBrowseTest extends TestCase
                         'type'         => 'folder',
                         'permission'   => 'editor',
                         'is_protected' => $is_protected,
-                        'password'     => Hash::make('secret'),
+                        'password'     => bcrypt('secret'),
                     ]);
 
                 File::factory(File::class)
@@ -765,7 +765,7 @@ class VisitorBrowseTest extends TestCase
                         'type'         => 'file',
                         'permission'   => 'editor',
                         'is_protected' => $is_protected,
-                        'password'     => Hash::make('secret'),
+                        'password'     => bcrypt('secret'),
                     ]);
 
                 // Check shared item protected by password

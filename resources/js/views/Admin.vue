@@ -1,8 +1,17 @@
 <template>
     <section id="viewport">
 
+        <!--Mobile Navigation-->
+        <MobileNavigation />
+
+        <!--Confirm Popup-->
+        <Confirm />
+
+        <!-- Create language popup -->
+        <CreateLanguage/>
+
         <!--Navigation Sidebar-->
-        <MenuBar />
+        <MenuBar/>
 
         <ContentSidebar>
 
@@ -41,6 +50,14 @@
                             {{ $t('admin_menu.pages') }}
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Language'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <globe-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('admin_menu.languages') }}
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
 
@@ -72,9 +89,12 @@
 </template>
 
 <script>
-    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon } from 'vue-feather-icons'
+    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
+    import MobileNavigation from '@/components/Others/MobileNavigation'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
+    import CreateLanguage from '@/components/Others/CreateLanguage'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
+    import Confirm from '@/components/Others/Popup/Confirm'
     import MenuBar from '@/components/Sidebar/MenuBar'
     import { mapGetters } from 'vuex'
 
@@ -84,6 +104,8 @@
             ...mapGetters(['config']),
         },
         components: {
+            MobileNavigation,
+            CreateLanguage,
             ContentSidebar,
             CreditCardIcon,
             FileTextIcon,
@@ -92,6 +114,8 @@
             SettingsIcon,
             MonitorIcon,
             UsersIcon,
+            GlobeIcon,
+            Confirm,
             MenuBar,
             BoxIcon,
         },

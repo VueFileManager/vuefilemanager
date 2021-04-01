@@ -22,7 +22,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Storage;
 
@@ -182,7 +181,7 @@ class UserController extends Controller
         $user = User::forceCreate([
             'role'     => $request->role,
             'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
         UserSettings::unguard();

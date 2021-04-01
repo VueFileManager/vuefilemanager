@@ -182,7 +182,7 @@ class BrowseController extends Controller
 
         return [
             [
-                'name'      => __('vuefilemanager.home'),
+                'name'      => __t('home'),
                 'location'  => 'base',
                 'folders'   => $folders,
             ]

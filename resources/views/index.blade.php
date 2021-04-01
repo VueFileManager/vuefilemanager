@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="description" content="{{ $settings->app_description ?? __('vuefilemanager.app_description') }}">
+    <meta name="description" content="{{ $settings->app_description ?? __t('app_description') }}">
 
-    <title>{{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __('vuefilemanager.app_description') }}</title>
+    <title>{{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __t('app_description') }}</title>
 
     {{--StyleSheet--}}
     {{--<link href="{{ asset('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">--}}
@@ -14,9 +14,9 @@
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __('vuefilemanager.app_description') }}">
-    <meta property="og:description" content="{{ $settings->app_description ?? __('vuefilemanager.app_description') }}">
-    <meta property="og:image" content="{{ asset('assets/images/vuefilemanager-og-image.jpg') }}">
+    <meta property="og:title" content="{{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __t('app_description') }}">
+    <meta property="og:description" content="{{ $settings->app_description ?? __t('app_description') }}">
+    <meta property="og:image" content="{{ isset($settings->app_og_image) ? url($settings->app_og_image) : '' }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,8 +24,8 @@
     <meta name="apple-mobile-web-app-title" content="{{ $settings->app_title ?? 'VueFileManager' }}">
 
     {{--Icons--}}
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('assets/images/app-icon.png') }}">
-    <link rel="icon" href="{{ $settings->app_favicon ? url($settings->app_favicon) : asset('favicon.png') }}?v={{ get_version() }}">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ isset($settings->app_touch_icon) ? url($settings->app_touch_icon) : '' }}">
+    <link rel="icon" href="{{ isset($settings->app_favicon) ? url($settings->app_favicon) : asset('favicon.png') }}?v={{ get_version() }}">
 
     {{--Format Detection--}}
     <meta name="format-detection" content="telephone=no">
@@ -41,13 +41,14 @@
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
             locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
+            language: '{{ $settings->language ?? 'en' }}',
 
-            app_color: '{{ $settings->app_color }}',
+            app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
             app_logo: '{{ $settings->app_logo ?? null }}',
             app_footer: '{!! $settings->footer_content ?? null !!}',
             app_name: '{{ $settings->app_title ?? 'VueFileManager' }}',
             app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
-            app_description: '{{ $settings->app_description ?? __('vuefilemanager.app_description') }}',
+            app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
             stripe_public_key: '{{ config('cashier.key') ?? null }}',
             app_payments_active: {{ $settings->payments_active ?? 0 }},

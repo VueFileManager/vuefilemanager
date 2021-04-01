@@ -363,9 +363,10 @@ export default {
 
         .show-actions {
             cursor: pointer;
-            padding: 12px 6px 12px;
+            padding: 12px 0 12px 6px;
 
             .icon-action {
+                margin-top: 9px;
                 @include font-size(14);
 
                 circle {

@@ -6,9 +6,9 @@
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
             </MobileActionButton>
-             <MobileMultiSelectButton @click.native="enableMultiSelectMode">
+             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}
-            </MobileMultiSelectButton>
+            </MobileActionButton>
              <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
                 {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
@@ -23,9 +23,9 @@
                 <MobileActionButtonUpload :class="{'is-inactive' : multiSelectMode}">
                     {{ $t('context_menu.upload') }}
                 </MobileActionButtonUpload>
-                <MobileMultiSelectButton @click.native="enableMultiSelectMode">
+                <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                     {{ $t('context_menu.select') }}
-                </MobileMultiSelectButton>
+                </MobileActionButton>
                 <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
                     {{$t('preview_sorting.preview_sorting_button')}}
                 </MobileActionButton>
@@ -49,9 +49,9 @@
 
         <!--ContextMenu for Base location with VISITOR permission-->
         <div v-if="baseLocationVisitorMenu && ! multiSelectMode" class="mobile-actions">
-             <MobileMultiSelectButton @click.native="enableMultiSelectMode">
+             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                {{ $t('context_menu.select') }}
-            </MobileMultiSelectButton>
+            </MobileActionButton>
              <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
                 {{$t('preview_sorting.preview_sorting_button')}}
             </MobileActionButton>
@@ -64,7 +64,6 @@
 
 <script>
     import MobileActionButtonUpload from '@/components/FilesView/MobileActionButtonUpload'
-    import MobileMultiSelectButton from '@/components/FilesView/MobileMultiSelectButton'
     import MobileActionButton from '@/components/FilesView/MobileActionButton'
     import UploadProgress from '@/components/FilesView/UploadProgress'
     import {mapGetters} from 'vuex'
@@ -74,7 +73,6 @@
         name: 'MobileActions',
         components: {
             MobileActionButtonUpload,
-            MobileMultiSelectButton,
             MobileActionButton,
             UploadProgress,
         },
@@ -157,18 +155,6 @@
         position: absolute;
     }
 
-    .preview-sorting { 
-        background: $light_background !important;
-        /deep/ .label {
-            color: $text !important;
-        }
-        /deep/ .preview-sorting {
-              path, line, polyline, rect, circle {
-                    stroke: $text !important;
-                }
-        }
-    }
-
     #mobile-actions-wrapper {
         display: none;
         background: white;
@@ -201,17 +187,6 @@
     @media (prefers-color-scheme: dark) {
         #mobile-actions-wrapper {
             background: $dark_mode_background;
-        }
-        .preview-sorting { 
-            background: $dark_mode_foreground !important;
-            /deep/ .label {
-                color: $dark_mode_text_primary !important;
-            }
-            /deep/ .preview-sorting {
-                path, line, polyline, rect, circle {
-                        stroke: $theme !important;
-                    }
-            }
         }
     }
 </style>

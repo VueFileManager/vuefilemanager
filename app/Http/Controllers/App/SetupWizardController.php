@@ -21,7 +21,6 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Schema;
@@ -347,6 +346,14 @@ class SetupWizardController extends Controller
                 'value' => store_system_image($request, 'favicon'),
             ],
             [
+                'name'  => 'app_og_image',
+                'value' => store_system_image($request, 'og_image'),
+            ],
+            [
+                'name'  => 'app_touch_icon',
+                'value' => store_system_image($request, 'touch_icon'),
+            ],
+            [
                 'name'  => 'google_analytics',
                 'value' => $request->googleAnalytics,
             ],
@@ -405,7 +412,7 @@ class SetupWizardController extends Controller
         $user = User::forceCreate([
             'role'     => 'admin',
             'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
         $user
@@ -439,6 +446,7 @@ class SetupWizardController extends Controller
         // Set up application
         $this->setup->seed_default_pages();
         $this->setup->seed_default_settings($request->license);
+        $this->setup->seed_default_language();
 
         // Login account
         if (Auth::attempt($request->only(['email', 'password']))) {

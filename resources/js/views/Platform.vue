@@ -45,7 +45,7 @@
         <keep-alive :include="['Admin', 'Users']">
             <router-view :class="{'is-scaled-down': isScaledDown}" />
         </keep-alive>
-        </div>
+    </div>
 </template>
 
 <script>

@@ -228,7 +228,7 @@ class BrowseTest extends TestCase
                 "author"     => "user",
                 "type"       => "file",
                 'user_id'    => $user->id,
-                'created_at' => Carbon::now(),
+                'created_at' => now(),
             ]);
 
         $this->travel(5)->minutes();
@@ -242,7 +242,7 @@ class BrowseTest extends TestCase
                 "author"     => "user",
                 "type"       => "file",
                 'user_id'    => $user->id,
-                'created_at' => Carbon::now(),
+                'created_at' => now(),
             ]);
 
         $this->getJson("/api/browse/latest")
@@ -339,7 +339,7 @@ class BrowseTest extends TestCase
                 'name'       => 'root',
                 'user_id'    => $user->id,
                 "author"     => "user",
-                'deleted_at' => Carbon::now(),
+                'deleted_at' => now(),
             ]);
 
         $file = File::factory(File::class)
@@ -351,14 +351,14 @@ class BrowseTest extends TestCase
                 "author"     => "user",
                 "type"       => "file",
                 'user_id'    => $user->id,
-                'deleted_at' => Carbon::now(),
+                'deleted_at' => now(),
             ]);
 
         File::factory(File::class)
             ->create([
                 'folder_id'  => $folder->id,
                 'user_id'    => $user->id,
-                'deleted_at' => Carbon::now(),
+                'deleted_at' => now(),
             ]);
 
         $this->getJson("/api/browse/trash")
