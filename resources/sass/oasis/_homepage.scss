@@ -1,0 +1,184 @@
+@import '@assets/vuefilemanager/_mixins';
+@import '@assets/oasis/_variables';
+
+.container {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.oasis-header {
+  padding-top: 45px;
+  background: linear-gradient(180deg, rgba(149, 189, 230, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+.oasis-features {
+  background: $theme-bg-dark;
+
+  .title-wrapper {
+    margin-bottom: 90px;
+  }
+
+  .main-title {
+    color: white;
+  }
+
+  .sub-title-sm {
+    color: $text-dark-subtitle;
+  }
+
+  .features-box {
+    margin-bottom: -175px;
+  }
+
+  .cta {
+    top: 240px;
+    position: relative;
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+
+  .log-in, .logo {
+    width: 235px;
+  }
+
+  .links {
+    display: block;
+
+    li {
+      display: inline-block;
+
+      a {
+        @include font-size(17);
+        padding: 9px 30px;
+        color: $text-primary;
+        font-weight: 800;
+        @include transition;
+        border-radius: 25px;
+
+        &:hover {
+          background: white;
+          box-shadow: 0 6px 20px -10px rgba($theme, 0.35);
+        }
+      }
+    }
+  }
+
+  .logo img {
+    width: 100%;
+  }
+
+  .log-in {
+    text-align: right;
+  }
+}
+
+.header {
+  display: block;
+  text-align: center;
+
+  .log-in {
+    display: block;
+
+    a {
+      @include transition(150ms);
+      font-weight: 700;
+      text-decoration: underline;
+
+      &:hover {
+        color: $theme;
+      }
+    }
+  }
+}
+
+.features-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px;
+
+  .box {
+    background: $theme-bg-light;
+    box-shadow: 0 22px 34px -20px #232142;
+    border-radius: 12px;
+    text-align: center;
+    padding: 45px 25px;
+    display: block;
+
+    .box-title {
+      color: white;
+      margin-top: 30px;
+      margin-bottom: 25px;
+      @include font-size(32);
+    }
+
+    .box-description {
+      color: $text-dark-secondary;
+      @include font-size(19);
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .box-more-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      .icon {
+        margin-left: 5px;
+
+        polyline {
+          color: $theme;
+          @include transition(150ms);
+        }
+      }
+
+      span {
+        @include font-size(17);
+        color: $theme;
+        font-weight: 700;
+        @include transition(150ms);
+      }
+
+      &:hover {
+        span, polyline {
+          color: lighten($theme, 10%);
+        }
+      }
+    }
+
+    &:nth-child(1) {
+
+      .box-icon {
+        rect, path {
+          color: $theme;
+        }
+      }
+    }
+
+    &:nth-child(2) {
+
+      .box-icon {
+        line, polyline, path {
+          color: $cyan;
+        }
+      }
+    }
+
+    &:nth-child(3) {
+
+      .box-icon {
+        path {
+          color: $pink;
+        }
+      }
+    }
+  }
+}

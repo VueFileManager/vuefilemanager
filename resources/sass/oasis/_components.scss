@@ -1,0 +1,65 @@
+@import '@assets/vuefilemanager/_mixins';
+@import '@assets/oasis/_variables';
+
+.text-center {
+  text-align: center;
+}
+
+.main-title {
+  @include font-size(62);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.sub-title {
+  @include font-size(25);
+  font-weight: 600;
+}
+
+.sub-title-sm {
+  @include font-size(23);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.theme-button {
+  display: inline-block;
+  @include font-size(22);
+  background: $gradient-theme;
+  border-radius: 50px;
+  color: white;
+  padding: 18px 42px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px -12px #800DF2;
+  @include transition(150ms);
+
+  &:hover {
+    @include transform(scale(1.03));
+  }
+
+  &:active {
+    @include transform(scale(0.97));
+  }
+}
+
+.base-button {
+  padding: 16px 30px;
+  box-shadow: 0 8px 24px -12px #800DF250;
+  border-radius: 50px;
+  @include font-size(17);
+  @include transition(150ms);
+  background: white;
+  display: inline-block;
+  font-weight: 800;
+  color: $theme;
+
+  &:hover {
+    background: $theme;
+    color: white;
+  }
+
+  &:active {
+    @include transform(scale(0.97));
+  }
+}
