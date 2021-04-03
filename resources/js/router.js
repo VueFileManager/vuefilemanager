@@ -10,10 +10,19 @@ Vue.use(Router)
 
 const routesOasis = [
     {
+        name: 'Homepage',
+        path: '/',
+        component: () =>
+            import(/* webpackChunkName: "chunks/oasis/homepage" */ './Oasis/Homepage/Homepage'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
         name: 'SignUp',
         path: '/sign-up',
         component: () =>
-            import(/* webpackChunkName: "chunks/sign-up" */ './Oasis/Auth/SignUp'),
+            import(/* webpackChunkName: "chunks/oasis/sign-up" */ './Oasis/Auth/SignUp'),
         meta: {
             requiresAuth: false
         },
@@ -22,7 +31,7 @@ const routesOasis = [
         name: 'SetUpPlan',
         path: '/nastavte-plan',
         component: () =>
-            import(/* webpackChunkName: "chunks/upgrade-plan" */ './Oasis/Onboarding/SelectPlan'),
+            import(/* webpackChunkName: "chunks/oasis/upgrade-plan" */ './Oasis/Onboarding/SelectPlan'),
         meta: {
             requiresAuth: true,
             title: i18n.t('routes_title.upgrade_plan')
@@ -32,7 +41,7 @@ const routesOasis = [
         name: 'FinishPayment',
         path: '/dokoncete-objednavku',
         component: () =>
-            import(/* webpackChunkName: "chunks/upgrade-billing" */ './Oasis/Onboarding/PayForPlan'),
+            import(/* webpackChunkName: "chunks/oasis/upgrade-billing" */ './Oasis/Onboarding/PayForPlan'),
         meta: {
             requiresAuth: true,
             title: i18n.t('routes_title.upgrade_billing')
@@ -62,7 +71,7 @@ const routesOasis = [
         name: 'Admin',
         path: '/admin',
         component: () =>
-            import(/* webpackChunkName: "chunks/admin" */ './views/Admin'),
+            import(/* webpackChunkName: "chunks/oasis/admin" */ './views/Admin'),
         meta: {
             requiresAuth: true,
             title: 'Admin'
@@ -72,7 +81,7 @@ const routesOasis = [
                 name: 'Users',
                 path: '/admin/users',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/users" */ './Oasis/Admin/Users'),
+                    import(/* webpackChunkName: "chunks/oasis/users" */ './Oasis/Admin/Users'),
                 meta: {
                     requiresAuth: true,
                     title: i18n.t('routes_title.users_list')
@@ -82,7 +91,7 @@ const routesOasis = [
                 name: 'CreateSubscriptionRequest',
                 path: '/admin/user/order',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/user-create" */ './Oasis/Admin/UserCreateOrder'),
+                    import(/* webpackChunkName: "chunks/oasis/user-create" */ './Oasis/Admin/UserCreateOrder'),
                 meta: {
                     requiresAuth: true,
                     title: i18n.t('routes_title.user_create')
@@ -92,7 +101,7 @@ const routesOasis = [
                 name: 'UserCreate',
                 path: '/admin/user/create',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/user-create" */ './Oasis/Admin/UserCreate'),
+                    import(/* webpackChunkName: "chunks/oasis/user-create" */ './Oasis/Admin/UserCreate'),
                 meta: {
                     requiresAuth: true,
                     title: i18n.t('routes_title.user_create')
