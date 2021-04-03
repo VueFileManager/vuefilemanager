@@ -7,8 +7,15 @@
   margin-right: auto;
 }
 
+.oasis-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 .oasis-header {
-  padding-top: 45px;
+  padding-top: 100px;
   background: linear-gradient(180deg, rgba(149, 189, 230, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
 }
 
@@ -37,12 +44,26 @@
   }
 }
 
+.oasis-pricing {
+  margin-top: 290px;
+
+  .title-wrapper {
+    margin-bottom: 60px;
+  }
+
+  .theme-button {
+    @include font-size(18);
+  }
+}
+
 .navigation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
+  padding: 10px 0;
+
+  .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
 
   .log-in, .logo {
     width: 235px;
@@ -179,6 +200,79 @@
           color: $pink;
         }
       }
+    }
+  }
+}
+
+.pricing-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 1325px;
+
+  .box {
+    background: white;
+    box-shadow: 0 5px 333px -22px #1B253935;
+    border-radius: 12px;
+    display: block;
+    padding: 45px 40px 20px;
+    z-index: 1;
+
+    &:nth-child(2) {
+      z-index: 2;
+      padding: 55px 40px 20px;
+      background: $theme-bg-light;
+      margin-top: -40px;
+      margin-bottom: -40px;
+
+      .pricing-name, .pricing-data {
+        color: white;
+      }
+
+      .pricing-description {
+        color: $text-dark-secondary;
+      }
+
+      .pricing-data {
+        margin-top: 30px;
+      }
+
+      .pricing-vat {
+        color: $text-dark-subtitle;
+      }
+    }
+
+    .pricing-icon {
+      margin-bottom: 40px;
+
+      path {
+        color: $theme;
+      }
+    }
+
+    .pricing-data {
+      @include font-size(50);
+      font-weight: 900;
+    }
+
+    .pricing-name {
+      @include font-size(24);
+      font-weight: 800;
+      margin-bottom: 30px;
+      display: block;
+    }
+
+    .pricing-description {
+      @include font-size(19);
+      margin-bottom: 35px;
+    }
+
+    .pricing-vat {
+      @include font-size(12);
+      color: $text-secondary;
+      display: block;
+      font-weight: 300;
+      opacity: 0.45;
+      margin-top: 15px;
     }
   }
 }

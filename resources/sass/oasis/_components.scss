@@ -15,12 +15,14 @@
 .sub-title {
   @include font-size(25);
   font-weight: 600;
+  color: $text-secondary;
 }
 
 .sub-title-sm {
   @include font-size(23);
   font-weight: 600;
   line-height: 1.6;
+  color: $text-secondary;
 }
 
 .theme-button {

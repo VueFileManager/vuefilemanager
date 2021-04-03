@@ -1,20 +1,26 @@
 <template>
     <div id="page">
-        <OasisHeader v-if="false"/>
+        <OasisNavigation v-if="true"/>
+        <OasisHeader v-if="true"/>
         <OasisFeatures v-if="true"/>
+        <OasisPricing v-if="true"/>
     </div>
 </template>
 
 <script>
-    import OasisHeader from '@/Oasis/Homepage/Components/OasisHeader'
+    import OasisNavigation from '@/Oasis/Homepage/Components/OasisNavigation'
     import OasisFeatures from '@/Oasis/Homepage/Components/OasisFeatures'
+    import OasisPricing from '@/Oasis/Homepage/Components/OasisPricing'
+    import OasisHeader from '@/Oasis/Homepage/Components/OasisHeader'
     import { mapGetters } from 'vuex'
     import axios from 'axios'
 
     export default {
         name: 'Homepage',
         components: {
+            OasisNavigation,
             OasisFeatures,
+            OasisPricing,
             OasisHeader,
         },
         computed: {
