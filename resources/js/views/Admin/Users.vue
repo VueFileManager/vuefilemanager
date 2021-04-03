@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
 
@@ -18,14 +18,14 @@
                 </div>
 
                 <!--Datatable-->
-                <DatatableWrapper @init="isLoading = false" api="/api/users" :paginator="true" :columns="columns" class="table table-users">
+                <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
                             <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <DatatableCellImage
-                                            :image="row.data.attributes.avatar"
-                                            :title="row.data.attributes.name"
+                                            :image="row.data.relationships.settings.data.attributes.avatar"
+                                            :title="row.data.relationships.settings.data.attributes.name"
                                             :description="row.data.attributes.email"
                                     />
                                 </router-link>
@@ -44,13 +44,19 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="cell-item">
-                                    {{ row.relationships.storage.data.attributes.used_formatted }}
+                                <span v-if="row.data.attributes.storage.capacity !== 0" class="cell-item">
+                                    {{ row.data.attributes.storage.used_formatted }}
+                                </span>
+                                <span v-if="row.data.attributes.storage.capacity == 0" class="cell-item">
+                                    -
                                 </span>
                             </td>
                             <td v-if="config.storageLimit">
-                                <span class="cell-item">
-                                    {{ row.relationships.storage.data.attributes.capacity_formatted }}
+                                <span v-if="row.data.attributes.storage.capacity !== 0" class="cell-item">
+                                    {{ row.data.attributes.storage.capacity_formatted }}
+                                </span>
+                                <span v-if="row.data.attributes.storage.capacity == 0" class="cell-item">
+                                    -
                                 </span>
                             </td>
                             <td>
@@ -61,10 +67,10 @@
                             <td>
                                 <div class="action-icons">
                                     <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                        <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
+                                        <Edit2Icon size="15" class="icon icon-edit" />
                                     </router-link>
                                     <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
-                                        <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
+                                        <Trash2Icon size="15" class="icon icon-trash" />
                                     </router-link>
                                 </div>
                             </td>
@@ -174,8 +180,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .table-tools {
         background: white;

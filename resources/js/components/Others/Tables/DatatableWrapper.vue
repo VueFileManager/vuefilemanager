@@ -10,7 +10,7 @@
                     :class="{ 'sortable': column.sortable }"
                     v-if="! column.hidden"
                 >
-                    <span>{{ column.label }}</span>
+                    <span class="text-theme">{{ column.label }}</span>
 
                     <chevron-up-icon v-if="column.sortable" :class="{ 'arrow-down': filter.sort === 'ASC' }" size="14" class="filter-arrow"></chevron-up-icon>
                 </th>
@@ -222,8 +222,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 .datatable {
     height: 100%;
@@ -272,7 +272,6 @@ export default {
                 text-align: left;
 
                 span {
-                    color: $theme;
                     font-weight: 700;
                     @include font-size(12);
                     white-space: nowrap;
@@ -311,7 +310,6 @@ export default {
 
         span {
             font-size: 13px;
-            color: $text-muted;
             font-weight: bold;
         }
     }
@@ -430,18 +428,6 @@ export default {
 @media (prefers-color-scheme: dark) {
 
     .table {
-
-        .table-header {
-
-            tr {
-                td, th {
-
-                    span {
-                        color: $theme;
-                    }
-                }
-            }
-        }
 
         .table-body {
             tr, th {

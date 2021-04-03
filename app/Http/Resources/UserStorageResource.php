@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\FileManagerFile;
+use App\Models\File;
 use ByteUnits\Metric;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,31 +21,31 @@ class UserStorageResource extends JsonResource
         ];
 
         // Get all images
-        $images = FileManagerFile::where('user_id', $this->id)
+        $images = File::where('user_id', $this->id)
             ->where('type', 'image')->get()->map(function ($item) {
                 return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all audios
-        $audios = FileManagerFile::where('user_id', $this->id)
+        $audios = File::where('user_id', $this->id)
             ->where('type', 'audio')->get()->map(function ($item) {
                 return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all videos
-        $videos = FileManagerFile::where('user_id', $this->id)
+        $videos = File::where('user_id', $this->id)
             ->where('type', 'video')->get()->map(function ($item) {
                 return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all documents
-        $documents = FileManagerFile::where('user_id', $this->id)
+        $documents = File::where('user_id', $this->id)
             ->whereIn('mimetype', $document_mimetypes)->get()->map(function ($item) {
                 return (int)$item->getRawOriginal('filesize');
             })->sum();
 
         // Get all other files
-        $others = FileManagerFile::where('user_id', $this->id)
+        $others = File::where('user_id', $this->id)
             ->whereNotIn('mimetype', $document_mimetypes)
             ->whereNotIn('type', ['audio', 'video', 'image'])
             ->get()->map(function ($item) {

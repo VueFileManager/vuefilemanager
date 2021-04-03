@@ -29,8 +29,8 @@ import { events } from '@/bus'
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
+@import "@assets/vuefilemanager/_variables";
+@import "@assets/vuefilemanager/_mixins";
 
 .sorting-preview {
     min-width: 250px;
@@ -46,38 +46,12 @@ import { events } from '@/bus'
     &.showed {
         display: block;
     }
-
-    /deep/.menu-option {
-
-        &:hover {
-            background: $light_background;
-
-            .text-label {
-                color: $theme;
-            }
-
-            path,
-            /deep/ line,
-            /deep/ polyline,
-            rect,
-            circle,
-            polygon {
-                stroke: $theme !important;
-            }
-        }
-    }
 }
 
 
 @media (prefers-color-scheme: dark) {
     .sorting-preview {
         background: $dark_mode_foreground;
-
-         /deep/ .menu-option {
-         &:hover {
-                background: rgba($theme, 0.1);
-            }
-        }
     }
    
 }

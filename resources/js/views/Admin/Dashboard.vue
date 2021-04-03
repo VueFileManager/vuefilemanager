@@ -1,7 +1,7 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && data">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="dashboard-headline">
                 <div class="logo">
@@ -10,7 +10,7 @@
                     </a>
                 </div>
                 <div class="metadata">
-                    <a href="https://vuefilemanager.com/changelog" target="_blank" class="meta">
+                    <a href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d" target="_blank" class="meta">
                         <span class="meta-title">{{ $t('admin_page_dashboard.version') }}:</span>
                         <ColorLabel color="purple">
                             {{ data.app_version }}
@@ -22,11 +22,11 @@
                             {{ data.license }}
                         </ColorLabel>
                     </a>
-                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer">
+                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer bg-theme-100">
                         <div class="icon">
-                            <credit-card-icon size="15"></credit-card-icon>
+                            <credit-card-icon size="15" class="text-theme"></credit-card-icon>
                         </div>
-                        <span class="content">
+                        <span class="content text-theme">
                             {{ $t('admin_page_dashboard.backer_button') }}
                         </span>
                     </a>
@@ -128,11 +128,11 @@
         },
         methods: {
             changeStatus(val, id) {
-                this.$updateText('/plans/' + id + '/update', 'is_active', val)
+                this.$updateText('/admin/plans/' + id + '/update', 'is_active', val)
             }
         },
         created() {
-            axios.get('/api/dashboard')
+            axios.get('/api/admin/dashboard')
                 .then(response => {
                     this.data = response.data
                 })
@@ -144,8 +144,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .dashboard-notice {
         margin-bottom: 20px;
@@ -177,7 +177,6 @@
     }
 
     .became-backer {
-        background: rgba($theme, 0.1);
         display: inline-block;
         padding: 5px 10px;
         border-radius: 6px;
@@ -194,12 +193,11 @@
             line-height: 0;
 
             rect, line {
-                stroke: $theme;
+                color: inherit;
             }
         }
 
         .content {
-            color: $theme;
             font-weight: 700;
             @include font-size(14);
         }

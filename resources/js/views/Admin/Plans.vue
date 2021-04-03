@@ -3,8 +3,8 @@
 
         <!--Stripe plans-->
         <div id="page-content" v-show="stripeConfiguredWithPlans">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page" v-if="config.stripe_public_key">
                 <div class="table-tools">
@@ -19,7 +19,7 @@
 
                     </div>
                 </div>
-                <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/plans" :paginator="false" :columns="columns" class="table table-users">
+                <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/admin/plans" :paginator="false" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
                             <td style="max-width: 80px">
@@ -177,7 +177,7 @@
         },
         methods: {
             changeStatus(val, id) {
-                this.$updateText('/plans/' + id + '/update', 'is_active', val)
+                this.$updateText('/admin/plans/' + id, 'is_active', val)
             }
         },
         created() {
@@ -188,8 +188,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .table-tools {
         background: white;

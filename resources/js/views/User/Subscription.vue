@@ -128,7 +128,7 @@
 
                 // Send delete request
                 axios
-                    .post('/api/subscription/cancel')
+                    .post('/api/user/subscription/cancel')
                     .then(() => {
 
                         // Update user data
@@ -172,7 +172,7 @@
 
                 // Send delete request
                 axios
-                    .post('/api/subscription/resume')
+                    .post('/api/user/subscription/resume')
                     .then(() => {
 
                         // Update user data
@@ -226,8 +226,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .plan-action {
         margin-top: 10px;

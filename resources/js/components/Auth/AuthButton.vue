@@ -1,12 +1,12 @@
 <template>
-    <button class="button outline">
+    <button class="button outline hover-text-theme hover-border-theme">
         <span class="text-label">{{ text }}</span>
 
         <span v-if="loading" class="icon">
-			<FontAwesomeIcon icon="sync-alt" class="sync-alt"/>
+			<FontAwesomeIcon icon="sync-alt" class="sync-alt svg-color-theme"/>
 		</span>
         <span v-if="! loading && icon" class="icon">
-			<FontAwesomeIcon :icon="icon"/>
+			<FontAwesomeIcon :icon="icon" class="svg-color-theme"/>
 		</span>
     </button>
 </template>
@@ -28,8 +28,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .button {
         cursor: pointer;
@@ -74,15 +74,15 @@
             .icon {
 
                 path {
-                    fill: $theme;
+                    fill: inherit;
                 }
             }
 
             &:hover {
-                border-color: $theme;
+                border-color: inherit;
 
                 .text-label {
-                    color: $theme;
+                    color: inherit;
                 }
             }
         }

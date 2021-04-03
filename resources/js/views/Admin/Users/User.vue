@@ -1,19 +1,19 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)"/>
             <div class="content-page">
 
                 <!--User thumbnail-->
                 <div class="user-thumbnail">
                     <div class="avatar">
-                        <img :src="user.data.attributes.avatar" :alt="user.data.attributes.name">
+                        <img :src="user.data.relationships.settings.data.attributes.avatar" :alt="user.data.relationships.settings.data.attributes.name">
                         <!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
                     </div>
                     <div class="info">
                         <b class="name">
-                            {{ user.data.attributes.name }}
+                            {{ user.data.relationships.settings.data.attributes.name }}
                             <ColorLabel color="purple">
                                 {{ user.data.attributes.role }}
                             </ColorLabel>
@@ -24,57 +24,57 @@
 
                 <!--Page Tab links-->
                 <div class="menu-list-wrapper horizontal">
-                    <router-link replace :to="{name: 'UserDetail'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserDetail'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <user-icon size="17"></user-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.detail') }}
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserStorage'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserStorage'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.storage') }}
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserSubscription'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserSubscription'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.subscription') }}
                         </div>
                     </router-link>
 
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserInvoices'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserInvoices'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.invoices') }}
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserPassword'}" class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserPassword'}" class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <lock-icon size="17"></lock-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.password') }}
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="user.data.attributes.name !== admin.name"
-                                 class="menu-list-item link">
-                        <div class="icon">
+                    <router-link replace :to="{name: 'UserDelete'}" v-if="admin && user.data.relationships.settings.data.attributes.name !== admin.data.relationships.settings.data.attributes.name"
+                                 class="menu-list-item link border-bottom-theme">
+                        <div class="icon text-theme">
                             <trash2-icon size="17"></trash2-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('admin_page_user.tabs.delete') }}
                         </div>
                     </router-link>
@@ -104,9 +104,9 @@
     export default {
         name: 'Profile',
         components: {
+            StorageItemDetail,
             CreditCardIcon,
             HardDriveIcon,
-            StorageItemDetail,
             SectionTitle,
             FileTextIcon,
             MobileHeader,
@@ -118,10 +118,10 @@
             Spinner,
         },
         computed: {
-            admin() {
-                return this.$store.getters.user ? this.$store.getters.user.data.attributes : undefined
-            },
             ...mapGetters(['config']),
+            admin() {
+                return this.$store.getters.user ? this.$store.getters.user : undefined
+            },
         },
         data() {
             return {
@@ -131,7 +131,7 @@
         },
         methods: {
             fetchUser() {
-                axios.get('/api/users/' + this.$route.params.id + '/detail')
+                axios.get('/api/admin/users/' + this.$route.params.id + '/detail')
                     .then(response => {
                         this.user = response.data
                         this.isLoading = false
@@ -145,8 +145,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .user-thumbnail {
         display: flex;

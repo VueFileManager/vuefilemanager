@@ -36,8 +36,8 @@
 </script>
 
 <style lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     #files-view {
         font-family: 'Nunito', sans-serif;

@@ -13,14 +13,16 @@ class CreateFileManagerFolders extends Migration
      */
     public function up()
     {
-        Schema::create('file_manager_folders', function (Blueprint $table) {
+        Schema::create('folders', function (Blueprint $table) {
+            $table->uuid('id')->primary()->index();
+            $table->uuid('user_id')->index();
+            $table->uuid('parent_id')->nullable();
+            $table->text('name');
+            $table->string('color')->nullable();
+            $table->longText('emoji')->nullable();
 
-            $table->bigIncrements('id');
-            $table->integer('unique_id');
-            $table->integer('parent_id')->default(0);
-
-            $table->text('name')->nullable();
-            $table->text('type')->nullable();
+            $table->enum('author', ['user', 'member', 'visitor'])->default('user');
+            $table->uuid('author_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

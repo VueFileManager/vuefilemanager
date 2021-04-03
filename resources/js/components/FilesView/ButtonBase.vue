@@ -1,7 +1,7 @@
 <template>
     <button class="button-base" :class="buttonStyle" type="button">
         <div v-if="loading" class="icon">
-            <refresh-cw-icon size="16" class="sync-alt"></refresh-cw-icon>
+            <refresh-cw-icon size="16" class="sync-alt" />
 		</div>
         <div class="content">
             <slot v-if="! loading"></slot>
@@ -22,8 +22,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .button-base {
         @include font-size(15);
@@ -47,27 +47,10 @@
             transform: scale(0.95);
         }
 
-        &.theme {
-            background: rgba($theme, .1);
-
-            .content {
-                color: $theme;
-            }
-
-            polyline, path {
-                stroke: $theme;
-            }
-        }
-
         &.theme-solid {
-            background: $theme;
 
             .content {
                 color: white;
-            }
-
-            polyline, path {
-                stroke: white;
             }
         }
 
@@ -133,8 +116,14 @@
                 }
 
                 polyline, path {
-                    stroke: $theme;
+                    color: inherit;
                 }
+            }
+        }
+
+        .popup-wrapper {
+            .button-base.secondary {
+                background: lighten($dark_mode_foreground, 3%);
             }
         }
     }

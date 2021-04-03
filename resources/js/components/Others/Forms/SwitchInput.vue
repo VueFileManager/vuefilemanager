@@ -39,8 +39,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .input-wrapper {
         display: flex;
@@ -83,7 +83,6 @@
         }
 
         &.active {
-            background: $theme;
 
             .switch-button {
                 left: 25px;
@@ -94,6 +93,12 @@
     @media (prefers-color-scheme: dark) {
         .switch {
             background: $dark_mode_foreground;
+        }
+
+        .popup-wrapper {
+            .switch {
+                background: lighten($dark_mode_foreground, 3%);
+            }
         }
     }
 </style>

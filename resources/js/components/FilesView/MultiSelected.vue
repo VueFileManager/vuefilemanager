@@ -1,55 +1,59 @@
 <template>
     <div class="wrapper">
         <div class="icon-wrapper">   
-            <CheckSquareIcon class="icon" size="21"/>
+            <CheckSquareIcon class="icon text-theme" size="21" />
         </div>
-        
-        <div class="text" >
-            <span class="title">{{title }}</span>
-            <span class="count">{{subtitle }}</span>
+        <div class="text">
+            <span class="title">{{ title }}</span>
+            <span class="count">{{ subtitle }}</span>
         </div>
     </div>
 </template>
 
 <script>
-import {CheckSquareIcon} from "vue-feather-icons";
-import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {CheckSquareIcon} from "vue-feather-icons"
 
-
-    export default {
-        name:'MultiSelected',
-        props: [ 'title' , 'subtitle' ],
-        components: {CheckSquareIcon},
-    }
+export default {
+    name: 'MultiSelected',
+    props: [
+        'title',
+        'subtitle'
+    ],
+    components: {
+        CheckSquareIcon
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 .wrapper {
     display: flex;
     justify-content: center;
-    .text{
+
+    .text {
         padding-left: 10px;
         width: 100%;
         word-break: break-all;
 
         .title {
-           @include font-size(14);
+            @include font-size(14);
             font-weight: 700;
             line-height: 1.4;
             display: block;
             color: $text;
         }
+
         .count {
-             @include font-size(12);
+            @include font-size(12);
             font-weight: 600;
-            color: $theme;
+            color: $text-muted;
             display: block;
         }
     }
+
     .icon-wrapper {
         display: inline-flex;
         align-items: center;
@@ -60,8 +64,9 @@ import {events} from '@/bus'
         white-space: nowrap;
         outline: none;
         border: none;
-        .icon { 
-           stroke: $text;
+
+        polyline, path {
+            color: inherit;
         }
     }
 }
@@ -72,15 +77,11 @@ import {events} from '@/bus'
             .title {
                 color: $dark_mode_text_primary;
             }
+
             .count {
                 color: $dark_mode_text_secondary;
             }
-        }    
-        .icon-wrapper {
-            .icon { 
-                stroke: $theme;
-            }   
-        }  
+        }
     }
 }
 </style>

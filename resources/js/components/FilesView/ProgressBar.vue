@@ -1,6 +1,6 @@
 <template>
 	<div class="progress-bar">
-		<span :style="{ width: progress + '%' }"></span>
+		<span class="bg-theme" :style="{ width: progress + '%' }"></span>
 	</div>
 </template>
 
@@ -12,8 +12,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	@import '@assets/vue-file-manager/_variables';
-	@import '@assets/vue-file-manager/_mixins';
+	@import '@assets/vuefilemanager/_variables';
+	@import '@assets/vuefilemanager/_mixins';
 
 	.progress-bar {
 		width: 100%;
@@ -23,7 +23,6 @@ export default {
 		border-radius: 10px;
 
 		span {
-			background: $theme;
 			display: block;
 			height: 100%;
 			border-radius: 10px;

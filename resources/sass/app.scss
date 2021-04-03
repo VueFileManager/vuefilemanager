@@ -1,6 +1,6 @@
 // Fonts
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 #viewport {
   display: flex;
@@ -113,10 +113,6 @@
       &:first-child {
         margin-left: 0;
       }
-
-      &.router-link-exact-active {
-        border-bottom: 2px solid $theme;
-      }
     }
   }
 
@@ -130,34 +126,18 @@
       display: flex;
       align-items: center;
 
-      &.trash {
-
-        &.is-active-trash,
-        &:hover {
-          svg {
-            path, line, polyline, rect, circle, ellipse {
-              stroke: $danger;
-            }
-          }
-
-          .label {
-            color: $danger;
-          }
-        }
-      }
-
       &.is-active,
       &.router-link-exact-active,
       &:hover {
 
         svg {
           path, line, polyline, rect, circle, ellipse {
-            stroke: $theme;
+            color: inherit;
           }
         }
 
         .label {
-          color: $theme;
+          color: inherit;
         }
       }
 
@@ -166,7 +146,7 @@
         line-height: 0;
 
         path, line, polyline, rect, circle, ellipse {
-          stroke: $text;
+          color: inherit;
         }
       }
 
@@ -217,7 +197,6 @@
   &.favourites {
 
     &.is-dragenter .menu-list {
-      border: 2px dashed $theme;
       border-radius: 8px;
     }
 
@@ -246,12 +225,12 @@
 
           .folder-icon {
             path, line, polyline, rect, circle, ellipse {
-              stroke: $theme;
+              color: inherit;
             }
           }
 
           .label {
-            color: $theme;
+            color: inherit;
           }
         }
       }
@@ -394,7 +373,7 @@
         .icon {
 
           path, line, polyline, rect, circle, ellipse {
-            stroke: $dark_mode_text_primary;
+            color: $dark_mode_text_primary;
           }
         }
       }
@@ -406,21 +385,16 @@
       .icon {
 
         path, line, polyline, rect, circle, ellipse {
-          stroke: $dark_mode_text_primary;
+          color: $dark_mode_text_primary;
         }
       }
 
       &:hover {
-        background: rgba($theme, .1);
-
-        .label {
-          color: $theme;
-        }
 
         .icon {
 
           path, line, polyline, rect, circle, ellipse {
-            stroke: $theme;
+            color: inherit;
           }
         }
       }
@@ -459,21 +433,22 @@
     width: 18px;
     height: 18px;
     cursor: pointer;
-
   }
 
   ::-webkit-scrollbar-thumb {
-      border: 6px solid white;
+      border: 6px solid transparent;
       background: #7f7f7f;
       border-radius: 25px;
+      background-clip: padding-box ;
   }
 }
 
 @media (prefers-color-scheme: dark) { 
   .windows {
     ::-webkit-scrollbar-thumb {
-      border: 6px solid $dark_mode_background;
+      border: 6px solid transparent;
       background: $dark_mode_foreground !important;
+      background-clip: padding-box !important ;
     }
   }
 }

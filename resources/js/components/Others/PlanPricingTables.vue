@@ -4,7 +4,7 @@
             <div class="plan-wrapper">
                 <header class="plan-header">
                     <div class="icon">
-                        <hard-drive-icon size="26"></hard-drive-icon>
+                        <hard-drive-icon class="text-theme" size="26" />
                     </div>
                     <h1 class="title">{{ plan.data.attributes.name }}</h1>
                     <h2 class="description">{{ plan.data.attributes.description }}</h2>
@@ -14,7 +14,7 @@
                     <span class="storage-description">{{ $t('page_pricing_tables.storage_capacity') }}</span>
                 </section>
                 <footer class="plan-footer">
-                    <b class="price">
+                    <b class="price text-theme">
                         {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
                         <small v-if="plan.data.attributes.tax_rates.length > 0" class="vat-disclaimer">{{ $t('page_pricing_tables.vat_excluded') }}</small>
                     </b>
@@ -39,6 +39,9 @@
             HardDriveIcon,
             ButtonBase,
         },
+        props: [
+            'customRoute'
+        ],
         data() {
             return {
                 plans: undefined,
@@ -50,11 +53,14 @@
         methods: {
             selectPlan(plan) {
                 this.$emit('selected-plan', plan)
-                this.$router.push({name: 'UpgradeBilling'})
+
+                let route = this.customRoute ? this.customRoute : 'UpgradeBilling'
+
+                this.$router.push({name: route})
             }
         },
         created() {
-            axios.get('/api/public/pricing')
+            axios.get('/api/pricing')
                 .then(response => {
                     this.plans = response.data.filter(plan => {
                         return plan.data.attributes.capacity > this.user.data.attributes.storage_capacity
@@ -66,8 +72,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .plan {
         text-align: center;
@@ -91,7 +97,7 @@
 
             .icon {
                 path, line, polyline, rect, circle {
-                    color: $theme;
+                    color: inherit;
                 }
             }
 
@@ -130,7 +136,6 @@
             }
 
             .price {
-                color: $theme;
                 @include font-size(18);
                 display: block;
                 margin-bottom: 20px;

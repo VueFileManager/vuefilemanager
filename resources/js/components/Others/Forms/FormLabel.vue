@@ -1,6 +1,7 @@
 <template>
     <div class="form-label">
-        <edit-2-icon size="22" class="icon"></edit-2-icon>
+        <edit-2-icon v-if="!icon" size="22" class="icon text-theme" />
+        <settings-icon v-if="icon === 'settings'" size="22" class="icon text-theme" />
         <b class="label">
             <slot></slot>
         </b>
@@ -8,19 +9,21 @@
 </template>
 
 <script>
-    import { Edit2Icon } from 'vue-feather-icons'
+    import { Edit2Icon, SettingsIcon } from 'vue-feather-icons'
 
     export default {
         name: 'FormLabel',
+        props: ['icon'],
         components: {
-            Edit2Icon
+            Edit2Icon,
+            SettingsIcon
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .form-label {
         display: flex;
@@ -30,8 +33,8 @@
         .icon {
             margin-right: 10px;
 
-            path {
-                stroke: $theme;
+            path, circle {
+                color: inherit;
             }
         }
 

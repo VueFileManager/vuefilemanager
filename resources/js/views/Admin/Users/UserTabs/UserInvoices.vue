@@ -3,7 +3,7 @@
         <PageTabGroup>
             <DatatableWrapper
                 @init="isLoading = false"
-                :api="'/api/users/' + this.$route.params.id + '/invoices'"
+                :api="'/api/admin/users/' + this.$route.params.id + '/invoices'"
                 :paginator="false"
                 :columns="columns"
                 class="table"
@@ -107,9 +107,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

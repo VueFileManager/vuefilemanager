@@ -34,8 +34,8 @@ const actions = {
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         let url = payload.folder.location === 'trash'
-            ? '/folders/' + payload.folder.unique_id + getters.sorting.URI + '&trash=true'
-            : '/folders/' + payload.folder.unique_id + getters.sorting.URI
+            ? '/browse/folders/' + payload.folder.id + getters.sorting.URI + '&trash=true'
+            : '/browse/folders/' + payload.folder.id + getters.sorting.URI
 
         axios
             .get(getters.api + url)
@@ -72,12 +72,12 @@ const actions = {
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
             name: i18n.t('sidebar.latest'),
-            unique_id: undefined,
+            id: undefined,
             location: 'latest',
         })
 
         axios
-            .get(getters.api + '/latest' )
+            .get(getters.api + '/browse/latest' )
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -88,17 +88,16 @@ const actions = {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
 
-
         let currentFolder = {
             name: i18n.t('sidebar.my_shared'),
             location: 'shared',
-            unique_id: undefined,
+            id: undefined,
         }
 
         commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
-            .get(getters.api + '/shared-all' + getters.sorting.URI)
+            .get(getters.api + '/browse/share' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', currentFolder)
@@ -113,12 +112,12 @@ const actions = {
         commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
         commit('STORE_CURRENT_FOLDER', {
             name: i18n.t('sidebar.participant_uploads'),
-            unique_id: undefined,
+            id: undefined,
             location: 'participant_uploads',
         })
 
         axios
-            .get(getters.api + '/participant-uploads' + getters.sorting.URI)
+            .get(getters.api + '/browse/participants' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
 
@@ -132,14 +131,14 @@ const actions = {
 
         let trash = {
             name: i18n.t('locations.trash'),
-            unique_id: undefined,
+            id: undefined,
             location: 'trash-root',
         }
 
         commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/trash' + getters.sorting.URI)
+            .get(getters.api + '/browse/trash' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_PREVIOUS_FOLDER', trash)
@@ -155,12 +154,16 @@ const actions = {
         // Get route
         let route = undefined
 
-        if (getters.sharedDetail && getters.sharedDetail.protected)
-            route = '/api/search/private'
-        else if (getters.sharedDetail && !getters.sharedDetail.protected)
-            route = '/api/search/public/' + router.currentRoute.params.token
-        else
-            route = '/api/search'
+        if (getters.sharedDetail) {
+            let permission = getters.sharedDetail.is_protected
+                ? 'private'
+                : 'public'
+
+            route = `/api/browse/search/${permission}/${router.currentRoute.params.token}`
+
+        } else {
+            route = '/api/browse/search'
+        }
 
         axios
             .get(route, {
@@ -178,12 +181,11 @@ const actions = {
             // Get route
             let route = undefined
 
-            if (getters.sharedDetail && getters.sharedDetail.protected)
-                route = '/api/navigation/private'
-            else if (getters.sharedDetail && !getters.sharedDetail.protected)
-                route = '/api/navigation/public/' + router.currentRoute.params.token
-            else
-                route = '/api/navigation'
+            if (getters.sharedDetail) {
+                route = `/api/browse/navigation/${router.currentRoute.params.token}`
+            } else {
+                route = '/api/browse/navigation'
+            }
 
             axios
                 .get(route + getters.sorting.URI)
@@ -213,9 +215,9 @@ const mutations = {
     FLUSH_FOLDER_HISTORY(state) {
         state.browseHistory = []
     },
-    FLUSH_SHARED(state, unique_id) {
+    FLUSH_SHARED(state, id) {
         state.data.find(item => {
-            if (item.unique_id == unique_id) item.shared = undefined
+            if (item.id === id) item.shared = undefined
         })
     },
     STORE_PREVIOUS_FOLDER(state, folder) {
@@ -226,21 +228,21 @@ const mutations = {
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
         // Rename filename in file info detail
-        if (state.fileInfoDetail && state.fileInfoDetail.unique_id == updatedFile.unique_id) {
+        if (state.fileInfoDetail && state.fileInfoDetail.id === updatedFile.id) {
             state.fileInfoDetail = updatedFile
         }
 
         // Rename item name in data view
         state.data.find(item => {
-            if (item.unique_id == updatedFile.unique_id) {
+            if (item.id === updatedFile.id) {
                 item.name = updatedFile.name
-                item.icon_color = updatedFile.icon_color ? updatedFile.icon_color : null
-                item.icon_emoji = updatedFile.icon_emoji ? updatedFile.icon_emoji : null
+                item.color = updatedFile.color ? updatedFile.color : null
+                item.emoji = updatedFile.emoji ? updatedFile.emoji : null
             }
         })
     },
     REMOVE_ITEM_FILEINFO_DETAIL(state,item) {
-      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.unique_id !== item.unique_id)
+      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.id !== item.id)
     },
     CLEAR_FILEINFO_DETAIL(state) {
         state.fileInfoDetail = []
@@ -250,7 +252,7 @@ const mutations = {
         state.fileInfoDetail.push(item)
     },
     GET_FILEINFO_DETAIL(state, item) {
-        let checkData = state.data.find(el => el.unique_id == item.unique_id)
+        let checkData = state.data.find(el => el.id === item.id)
         if(state.fileInfoDetail.includes(checkData)) return
 
         state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
@@ -263,7 +265,7 @@ const mutations = {
     },
     UPDATE_SHARED_ITEM(state, data) {
         state.data.find(item => {
-            if (item.unique_id == data.item_id) item.shared = data
+            if (item.id === data.item_id) item.shared = data
         })
     },
     ADD_NEW_FOLDER(state, folder) {
@@ -272,12 +274,12 @@ const mutations = {
     ADD_NEW_ITEMS(state, items) {
         state.data = state.data.concat(items)
     },
-    REMOVE_ITEM(state, unique_id) {
-        state.data = state.data.filter(el => el.unique_id !== unique_id)
+    REMOVE_ITEM(state, id) {
+        state.data = state.data.filter(el => el.id !== id)
     },
-    INCREASE_FOLDER_ITEM(state, unique_id) {
+    INCREASE_FOLDER_ITEM(state, id) {
         state.data.map(el => {
-            if (el.unique_id && el.unique_id == unique_id) el.items++
+            if (el.id && el.id === id) el.items++
         })
     },
     STORE_CURRENT_FOLDER(state, folder) {

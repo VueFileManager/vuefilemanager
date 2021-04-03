@@ -33,6 +33,9 @@
 
                 if (this.name === name)
                     this.isVisibleWrapper = true
+
+                if( (this.name !== name))
+                    this.isVisibleWrapper = false
             })
 
             // Open called popup
@@ -49,8 +52,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .popup {
         position: absolute;
@@ -138,7 +141,7 @@
 
     @media (prefers-color-scheme: dark) {
         .popup-wrapper {
-            background: $dark_mode_background;
+            background: $dark_mode_foreground;
             box-shadow: $dark_mode_popup_shadow;
         }
     }

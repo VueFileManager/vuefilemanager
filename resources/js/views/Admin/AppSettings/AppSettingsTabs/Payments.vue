@@ -14,7 +14,7 @@
                             <div class="switch-label">
                                 <label class="input-label">{{ $t('admin_settings.payments.allow_payments') }}:</label>
                             </div>
-                            <SwitchInput @input="$updateText('/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
+                            <SwitchInput @input="$updateText('/admin/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.payments.stripe_pub_key') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Publishable Key" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.payments.stripe_sec_key') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret Key" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="block-wrapper">
                     <label>Webhook Secret:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook Secret" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -165,7 +165,7 @@
 
                 // Send request to get verify account
                 axios
-                    .post('/api/settings/stripe', this.stripeCredentials)
+                    .post('/api/admin/settings/stripe', this.stripeCredentials)
                     .then(() => {
 
                         // Store Stripe Public
@@ -192,7 +192,7 @@
             },
         },
         mounted() {
-            axios.get('/api/settings', {
+            axios.get('/api/admin/settings', {
                 params: {
                     column: 'payments_active|payments_configured'
                 }
@@ -210,9 +210,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

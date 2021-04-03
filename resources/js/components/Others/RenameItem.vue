@@ -1,13 +1,13 @@
 <template>
     <PopupWrapper name="rename-item">
         <!--Title-->
-        <PopupHeader :title="$t('popup_rename.title', {item: itemTypeTitle})" icon="edit"/>
+        <PopupHeader :title="$t('popup_rename.title', {item: itemTypeTitle})" icon="edit" />
 
         <!--Content-->
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" :setFolderIcon="setFolderIcon"/>
+            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" :setFolderIcon="folderIcon" />
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
@@ -16,35 +16,36 @@
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_rename.label') }}:</label>
                     <div class="input">
-                        <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" :placeholder="$t('popup_rename.placeholder')">
+                        <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme" :placeholder="$t('popup_rename.placeholder')">
                         <div @click="pickedItem.name = ''" class="close-icon-wrapper">
-                            <x-icon class="close-icon" size="14"/>
+                            <x-icon class="close-icon hover-text-theme" size="14" />
                         </div>
                     </div>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" :unique_id="pickedItem.unique_id" />
+                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" />
 
-                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
-
+                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
+                    {{ moreOptionsTitle }}
+                </ActionButton>
             </ValidationObserver>
-
-
         </PopupContent>
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="popup-button" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }}
+            <ButtonBase class="popup-button" @click.native="$closePopup()" button-style="secondary">
+                {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
-            <ButtonBase class="popup-button" @click.native="changeName" button-style="theme">{{ $t('popup_share_edit.save') }}
+            <ButtonBase class="popup-button" @click.native="changeName" button-style="theme">
+                {{ $t('popup_share_edit.save') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
 import PopupActions from '@/components/Others/Popup/PopupActions'
 import PopupContent from '@/components/Others/Popup/PopupContent'
@@ -53,10 +54,9 @@ import SetFolderIcon from '@/components/Others/SetFolderIcon'
 import ThumbnailItem from '@/components/Others/ThumbnailItem'
 import ActionButton from '@/components/Others/ActionButton'
 import ButtonBase from '@/components/FilesView/ButtonBase'
-import { XIcon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
-import { events } from '@/bus'
-import axios from 'axios'
+import {XIcon} from 'vue-feather-icons'
+import {required} from 'vee-validate/dist/rules'
+import {events} from '@/bus'
 
 export default {
     name: 'RenameItem',
@@ -86,7 +86,7 @@ export default {
         return {
             pickedItem: undefined,
             isMoreOptions: false,
-            setFolderIcon: undefined
+            folderIcon: undefined
         }
     },
     methods: {
@@ -97,11 +97,16 @@ export default {
             if (this.pickedItem.name && this.pickedItem.name !== '') {
 
                 let item = {
-                    unique_id: this.pickedItem.unique_id,
+                    id: this.pickedItem.id,
                     type: this.pickedItem.type,
                     name: this.pickedItem.name,
-                    folder_icon: this.setFolderIcon ? this.setFolderIcon : null
                 }
+
+                if (this.folderIcon && this.folderIcon.emoji)
+                    item['emoji'] = this.folderIcon.emoji
+
+                if (this.folderIcon && this.folderIcon.color)
+                    item['color'] = this.folderIcon.color
 
                 // Rename item request
                 this.$store.dispatch('renameItem', item)
@@ -120,28 +125,28 @@ export default {
 
             if (args.name !== 'rename-item') return
 
-            if (! this.$isMobile()) {
+            if (!this.$isMobile()) {
                 this.$nextTick(() => this.$refs.input.focus())
             }
 
             this.isMoreOptions = false
 
-            this.setFolderIcon = undefined
+            this.folderIcon = undefined
 
             // Store picked item
             this.pickedItem = args.item
         })
 
         events.$on('setFolderIcon', (icon) => {
-            this.setFolderIcon = icon.value
+            this.folderIcon = icon
         })
     }
 }
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vue-file-manager/_inapp-forms.scss";
-@import '@assets/vue-file-manager/_forms';
+@import "@assets/vuefilemanager/_inapp-forms.scss";
+@import '@assets/vuefilemanager/_forms';
 
 .input {
     position: relative;
@@ -163,14 +168,14 @@ export default {
         &:hover {
             .close-icon {
                 line {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
         }
 
         .close-icon {
             line {
-                stroke: rgba($text-muted, 0.3);
+                color: rgba($text-muted, 0.3);
             }
         }
     }
@@ -186,14 +191,14 @@ export default {
 
             .close-icon {
                 line {
-                    stroke: $theme !important;
+                    color: inherit !important;
                 }
             }
         }
 
         .close-icon {
             line {
-                stroke: rgba($dark_mode_text_primary, 0.3) !important;
+                color: rgba($dark_mode_text_primary, 0.3) !important;
             }
         }
     }

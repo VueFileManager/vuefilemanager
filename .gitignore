@@ -1,4 +1,3 @@
-/app/Console/Commands/SetupDevelopmentEnvironment.php
 /node_modules
 /public/hot
 /public/storage
@@ -10,6 +9,7 @@
 .idea
 .env
 .env.backup
+.env.testing
 .phpunit.result.cache
 .phpstorm.meta.php
 .vscode/

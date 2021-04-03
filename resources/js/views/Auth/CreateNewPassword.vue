@@ -7,13 +7,13 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_create_password.title') }}</h1>
-            <h2>{{ $t('page_create_password.subtitle') }}</h2>
+            <h2>{{ $t('page_create_password.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }"
                                 tag="form" class="form block-form create-new-password">
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_email') }}</label>
+                    <label>{{ $t('page_create_password.label_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="recoverPassword.email" :placeholder="$t('page_login.placeholder_email')" type="email"
@@ -175,6 +175,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_auth-form';
-    @import '@assets/vue-file-manager/_auth';
+    @import '@assets/vuefilemanager/_auth-form';
+    @import '@assets/vuefilemanager/_auth';
 </style>

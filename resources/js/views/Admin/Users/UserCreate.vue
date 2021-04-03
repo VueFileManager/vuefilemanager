@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content" class="small-width">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :can-back="true" :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
                 <ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form" class="form block-form">
@@ -20,18 +20,18 @@
 
                         <!--Email-->
                         <div class="block-wrapper">
-                            <label>{{ $t('page_registration.label_email') }}</label>
+                            <label>{{ $t('page_registration.label_email') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" rules="required" v-slot="{ errors }">
-                                <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
                         <!--Name-->
                         <div class="block-wrapper">
-                            <label>{{ $t('page_registration.label_name') }}</label>
+                            <label>{{ $t('page_registration.label_name') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="user name" rules="required" v-slot="{ errors }">
-                                <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -39,17 +39,17 @@
                         <!--Password-->
                         <div class="wrapper-inline">
                             <div class="block-wrapper">
-                                <label>{{ $t('page_registration.label_pass') }}</label>
+                                <label>{{ $t('page_registration.label_pass') }}:</label>
                                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password" rules="required" v-slot="{ errors }">
-                                    <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" :class="{'is-error': errors[0]}"/>
+                                    <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
 
                             <div class="block-wrapper">
-                                <label>{{ $t('page_registration.label_confirm_pass') }}</label>
+                                <label>{{ $t('page_registration.label_confirm_pass') }}:</label>
                                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password confirm" rules="required" v-slot="{ errors }">
-                                    <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" :class="{'is-error': errors[0]}"/>
+                                    <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
@@ -63,7 +63,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_user.select_role') }}:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="permission" rules="required" v-slot="{ errors }">
-                                <SelectInput v-model="user.role" :options="roles" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                                <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -72,7 +72,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_user.label_change_capacity') }}</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="storage capacity" rules="required" v-slot="{ errors }">
-                                <input v-model="user.storage_capacity" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.storage_capacity" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -162,7 +162,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/users/create', formData, {
+                    .post('/api/admin/users/create', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                         }
@@ -226,7 +226,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 </style>

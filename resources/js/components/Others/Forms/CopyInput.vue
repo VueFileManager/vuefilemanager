@@ -2,12 +2,12 @@
     <div class="inline-wrapper icon-append copy-input" :class="size" @click="copyUrl">
         <input ref="sel" :value="item.shared.link" id="link-input" type="text" class="input-text" readonly>
         <div class="multi-icon">
-            <div class="icon-item">
-                <link-icon v-if="! isCopiedLink" size="14"></link-icon>
-                <check-icon v-if="isCopiedLink" size="14"></check-icon>
+            <div class="icon-item group hover-bg-theme-100">
+                <link-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
+                <check-icon v-if="isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
             </div>
-            <div class="icon-item" @click.stop.prevent="menuForEmail">
-                <send-icon size="14"></send-icon>
+            <div class="icon-item group hover-bg-theme-100" @click.stop.prevent="menuForEmail">
+                <send-icon size="14" class="group-hover-text-theme hover-text-theme" />
             </div>
         </div>
     </div>
@@ -63,10 +63,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
-@import "@assets/vue-file-manager/_inapp-forms.scss";
-@import "@assets/vue-file-manager/_forms.scss";
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
+@import "@assets/vuefilemanager/_inapp-forms.scss";
+@import "@assets/vuefilemanager/_forms.scss";
 
 .multi-icon {
     display: flex;
@@ -78,7 +78,7 @@ export default {
     line,
     path,
     polygon {
-        stroke: $text !important;
+        color: $text;
     }
 
     .icon-item {
@@ -89,13 +89,12 @@ export default {
         cursor: pointer;
 
         &:hover {
-            background: $text;
 
             line,
             polyline,
             path,
             polygon {
-                stroke: white !important;
+                color: inherit;
             }
         }
 
@@ -160,22 +159,11 @@ export default {
         line,
         path,
         polygon {
-            stroke: $dark_mode_text_primary !important;
+            color: inherit !important;
         }
 
         .icon-item {
             border-color: #333333;
-
-            &:hover {
-                background: rgba($theme, 0.1);
-
-                line,
-                polyline,
-                path,
-                polygon {
-                    stroke: $theme !important;
-                }
-            }
         }
 
 

@@ -1,7 +1,7 @@
 <template>
     <div class="user-meta" v-if="user">
-        <b class="name">{{ user.data.attributes.name }}</b>
-        <span class="email">{{ user.data.attributes.email }}</span>
+        <b class="name">{{ user.data.relationships.settings.data.attributes.name }}</b>
+        <span class="email text-theme">{{ user.data.attributes.email }}</span>
     </div>
 </template>
 
@@ -18,8 +18,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .user-meta {
         padding-left: 20px;
@@ -32,7 +32,6 @@
         .email {
             display: block;
             @include font-size(12);
-            color: $theme;
             font-weight: 600;
         }
     }

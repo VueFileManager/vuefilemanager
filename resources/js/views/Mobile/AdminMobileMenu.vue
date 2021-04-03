@@ -3,7 +3,7 @@
         <div id="page-content">
 
             <!--Header-->
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <!--Content-->
             <div class="content-page">
@@ -13,6 +13,7 @@
                     <b class="mobile-menu-label">{{ $t('global.admin') }}</b>
                     <MenuItemList :navigation="AdminNavigation" />
 
+                    <!--SaaS menu-->
                     <b v-if="config.isSaaS" class="mobile-menu-label">{{ $t('global.saas') }}</b>
                     <MenuItemList v-if="config.isSaaS" :navigation="SassNavigation" />
                 </nav>
@@ -62,6 +63,13 @@
                         routeName: 'Pages',
                         isVisible: true,
                     },
+                    {
+                        icon: 'language',
+                        title: this.$t('languages'),
+                        routeName: 'Language',
+                        isVisible: true,
+
+                    }
                 ],
                 SassNavigation: [
                     {
@@ -83,8 +91,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .mobile-navigation {
         width: 100%;

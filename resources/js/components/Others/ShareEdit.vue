@@ -33,7 +33,7 @@
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="permissionOptions" :default="shareOptions.permission" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
+                    <SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :default="shareOptions.permission" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -43,12 +43,14 @@
                         <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
                         <SwitchInput v-model="shareOptions.isProtected" :state="shareOptions.isProtected" class="switch"/>
                     </div>
-                    <ActionButton v-if="(pickedItem.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">{{ $t('popup_share_edit.change_pass') }}</ActionButton>
+                    <ActionButton v-if="(pickedItem.shared.is_protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
+                        {{ $t('popup_share_edit.change_pass') }}
+                    </ActionButton>
                 </div>
 
                 <!--Set password-->
                 <ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
+                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
@@ -58,11 +60,13 @@
                     <!--Set expiration-->
                     <div class="input-wrapper">
                         <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="expirationList" :value="shareOptions.expiration" class="box"/>
+                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" :value="shareOptions.expiration" class="box"/>
                     </div>
                 </div>
 
-                <ActionButton @click.native="moreOptions" :icon="isMoreOptions || shareOptions.expiration ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
+                <ActionButton @click.native="moreOptions" :icon="isMoreOptions || shareOptions.expiration ? 'x' : 'pencil-alt'">
+                    {{ moreOptionsTitle }}
+                </ActionButton>
 
             </ValidationObserver>
 
@@ -235,7 +239,6 @@
                     this.isDeleting = true
 
                     // Send delete request
-
                     await this.$store.dispatch('shareCancel' , this.pickedItem)
                         .then((response) => {
 
@@ -323,7 +326,7 @@
                 this.shareOptions = {
                     token: args.item.shared.token,
                     expiration: args.item.shared.expire_in,
-                    isProtected: args.item.shared.protected,
+                    isProtected: args.item.shared.is_protected,
                     permission: args.item.shared.permission,
                     password: undefined,
                 }
@@ -333,8 +336,9 @@
 
                 if (args.sentToEmail)
                     this.sendToRecipientsMenu = true
+                    this.isEmailSended = false
 
-                this.canChangePassword = args.item.shared.protected
+                this.canChangePassword = args.item.shared.is_protected
             })
 
             // Close popup
@@ -355,8 +359,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/vue-file-manager/_inapp-forms.scss";
-    @import '@assets/vue-file-manager/_forms';
+    @import "@assets/vuefilemanager/_inapp-forms.scss";
+    @import '@assets/vuefilemanager/_forms';
 
     .input-wrapper {
 

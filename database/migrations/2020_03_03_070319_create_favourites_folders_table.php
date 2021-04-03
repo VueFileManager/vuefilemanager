@@ -14,8 +14,8 @@ class CreateFavouritesFoldersTable extends Migration
     public function up()
     {
         Schema::create('favourite_folder', function (Blueprint $table) {
-            $table->bigInteger('user_id');
-            $table->bigInteger('folder_unique_id');
+            $table->uuid('user_id');
+            $table->uuid('folder_id');
         });
     }
 

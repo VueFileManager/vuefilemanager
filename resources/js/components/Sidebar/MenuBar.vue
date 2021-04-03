@@ -1,16 +1,16 @@
 <template>
-    <nav class="menu-bar" v-if="user">
+    <nav class="menu-bar">
 
         <!--Navigation Icons-->
-        <div class="icon-navigation menu">
+        <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">
                 <UserAvatar />
             </router-link>
 
             <router-link :to="{name: 'Files'}" :title="$t('locations.home')" class="icon-navigation-item home">
-                <div class="button-icon">
-                    <hard-drive-icon size="19"></hard-drive-icon>
+                <div class="button-icon text-theme">
+                    <hard-drive-icon size="19" class="text-theme"></hard-drive-icon>
                 </div>
             </router-link>
 
@@ -114,8 +114,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .menu-bar {
         background: $light_background;
@@ -160,7 +160,6 @@
 
             path, line, polyline, rect, circle {
                 @include transition(150ms);
-                stroke: black;
             }
         }
 
@@ -169,10 +168,9 @@
 
             &.home {
                 .button-icon {
-                    background: rgba($theme, 0.1);
 
                     path, line, polyline, rect, circle {
-                        stroke: $theme;
+                        color: inherit;
                     }
                 }
             }
@@ -249,10 +247,6 @@
             .button-icon {
                 &:hover {
                     background: $dark_mode_background;
-                }
-
-                path, line, polyline, rect, circle {
-                    stroke: $dark_mode_text_primary;
                 }
             }
         }

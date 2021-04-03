@@ -2,16 +2,17 @@ import i18n from '@/i18n/index'
 import router from '@/router'
 import {events} from '@/bus'
 import axios from 'axios'
+import Vue from "vue";
 
 const defaultState = {
     permissionOptions: [
         {
-            label: i18n.t('shared.editor'),
+            label: 'shared.editor',
             value: 'editor',
             icon: 'user-edit',
         },
         {
-            label: i18n.t('shared.visitor'),
+            label: 'shared.visitor',
             value: 'visitor',
             icon: 'user',
         },
@@ -37,13 +38,9 @@ const actions = {
 
         payload.folder.location = 'public'
 
-        let route = getters.sharedDetail.protected
-            ? '/api/folders/' + payload.folder.unique_id + '/private'
-            : '/api/folders/' + payload.folder.unique_id + '/public/' + router.currentRoute.params.token
-
         return new Promise((resolve, reject) => {
             axios
-                .get(route + getters.sorting.URI)
+                .get(`/api/browse/folders/${payload.folder.id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
                     commit('LOADING_STATE', {loading: false, data: response.data})
                     commit('STORE_CURRENT_FOLDER', payload.folder)
@@ -65,7 +62,33 @@ const actions = {
                 })
         })
     },
-    shareCancel: ({commit, getters} , singleItem) => {
+    getSingleFile: ({commit}) => {
+
+        axios.get(`/api/browse/file/${router.currentRoute.params.token}`)
+            .then(response => {
+                commit('STORE_SHARED_FILE', response.data)
+            })
+    },
+    getShareDetail: ({commit, state}, token) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`/api/browse/share/${token}`)
+                .then(response => {
+                    resolve(response)
+
+                    // Commit shared item options
+                    commit('SET_SHARED_DETAIL', response.data.data.attributes)
+                    commit('SET_PERMISSION', response.data.data.attributes.permission)
+                })
+                .catch(error => {
+                    reject(error)
+
+                    if (error.response.status == 404)
+                        router.push({name: 'NotFound'})
+                })
+        })
+    },
+    shareCancel: ({commit, getters}, singleItem) => {
         return new Promise((resolve, reject) => {
 
             let tokens = []
@@ -80,8 +103,8 @@ const actions = {
             })
 
             axios
-                .post('/api/share/cancel', {
-                    _method: 'post',
+                .post('/api/share/revoke', {
+                    _method: 'delete',
                     tokens: tokens
                 })
                 .then(() => {
@@ -89,12 +112,12 @@ const actions = {
                     items.forEach(item => {
 
                         // Remove item from file browser
-                        if ( getters.currentFolder , getters.currentFolder.location === 'shared' ) {
-                            commit('REMOVE_ITEM', item.unique_id)
+                        if ( getters.currentFolder && getters.currentFolder.location === 'shared' ) {
+                            commit('REMOVE_ITEM', item.id)
                         }
 
                         // Flush shared data
-                        commit('FLUSH_SHARED', item.unique_id)
+                        commit('FLUSH_SHARED', item.id)
 
                         commit('CLEAR_FILEINFO_DETAIL')
                     })
@@ -102,22 +125,11 @@ const actions = {
 
                 })
                 .catch((error) => {
-                    isSomethingWrong()
+                    Vue.prototype.$isSomethingWrong()
 
                     reject(error)
                 })
         })
-    },
-    getSingleFile: ({commit, state}) => {
-
-        let route = state.sharedDetail.protected
-            ? '/api/files/private'
-            : '/api/files/' + router.currentRoute.params.token + '/public'
-
-        axios.get(route)
-            .then(response => {
-                commit('STORE_SHARED_FILE', response.data)
-            })
     },
 }
 const mutations = {

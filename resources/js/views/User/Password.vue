@@ -9,6 +9,7 @@
                                         rules="required" v-slot="{ errors }">
                         <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
                                type="password"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -19,6 +20,7 @@
                                         rules="required" v-slot="{ errors }">
                         <input v-model="newPasswordConfirmation"
                                :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -116,9 +118,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

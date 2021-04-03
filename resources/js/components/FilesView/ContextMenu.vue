@@ -4,16 +4,16 @@
         <!-- File Preview -->
         <div class="menu-options" id="menu-list" v-if="showFromPreview">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
+                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
                 <Option @click.native="shareItem" v-if="$checkPermission('master')" :title="item.shared
                             ? $t('context_menu.share_edit')
-                            : $t('context_menu.share')" icon="share"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" class="menu-option"/>
+                            : $t('context_menu.share')" icon="share" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" class="menu-option" />
             </OptionGroup>
 
             <OptionGroup>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
 
@@ -21,26 +21,26 @@
         <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
 
             <!-- Single options -->
-            <OptionGroup v-if="multiSelectContextMenu">
-                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore"/>
-                <Option @click.native="deleteItem" v-if="item" :title="$t('context_menu.delete')" icon="trash"/>
-                <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash"/>
+            <OptionGroup v-if="isMultiSelectContextMenu">
+                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+                <Option @click.native="deleteItem" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!multiSelectContextMenu">
-                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
-                <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash"/>
+            <OptionGroup v-if="!isMultiSelectContextMenu">
+                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
-                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
 
@@ -48,38 +48,38 @@
         <div v-if="$isThisLocation(['shared']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
 
             <!-- Single options -->
-            <OptionGroup class="menu-option-group" v-if="item && isFolder && multiSelectContextMenu">
-                <Option @click.native="addToFavourites" :title=" isInFavourites
+            <OptionGroup class="menu-option-group" v-if="item && isFolder && isMultiSelectContextMenu">
+                <Option @click.native="addToFavourites" :title="isInFavourites
                         ? $t('context_menu.remove_from_favourites')
-                        : $t('context_menu.add_to_favourites')" icon="favourites"/>
+                        : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
-                <Option @click.native="shareItem" :title=" item.shared ? $t('context_menu.share_edit'): $t('context_menu.share')" icon="share"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="shareItem" :title=" item.shared ? $t('context_menu.share_edit'): $t('context_menu.share')" icon="share" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup class="menu-option-group" v-if="item && !hasFile && !multiSelectContextMenu">
-                <Option @click.native="addToFavourites" :title=" isInFavourites
+            <OptionGroup class="menu-option-group" v-if="item && !hasFile && !isMultiSelectContextMenu">
+                <Option @click.native="addToFavourites" :title="isInFavourites
                                 ? $t('context_menu.remove_from_favourites')
-                                : $t('context_menu.add_to_favourites')" icon="favourites"/>
+                                : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !multiSelectContextMenu">
-                <Option @click.native="shareCancel" :title="$t('context_menu.share_cancel')" icon="share"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu">
+                <Option @click.native="shareCancel" :title="$t('context_menu.share_cancel')" icon="share" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
-                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
 
@@ -87,46 +87,46 @@
         <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
             
             <!-- No Files options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && multiSelectContextMenu && !item">
-                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && isMultiSelectContextMenu && !item">
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
             </OptionGroup>
 
             <!-- Single options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && multiSelectContextMenu && isFolder">
-                <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites"/>
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && isMultiSelectContextMenu && isFolder">
+                <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
 
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
-                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
                 <Option @click.native="shareItem" :title="item.shared
                                                             ? $t('context_menu.share_edit')
-                                                            : $t('context_menu.share')" icon="share"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+                                                            : $t('context_menu.share')" icon="share" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
 
-            <OptionGroup v-if="item && multiSelectContextMenu ">
-                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu ">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !multiSelectContextMenu">
-                <Option @click.native="addToFavourites" v-if="item && !hasFile" :title=" isInFavourites
+            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !isMultiSelectContextMenu && item && !hasFile">
+                <Option @click.native="addToFavourites" :title=" isInFavourites
                                                                                     ? $t('context_menu.remove_from_favourites')
-                                                                                    : $t('context_menu.add_to_favourites')" icon="favourites"/>
+                                                                                    : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !multiSelectContextMenu">
-                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu">
+                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
-                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
 
@@ -134,33 +134,33 @@
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
 
             <!-- No Files options -->
-            <OptionGroup v-if="multiSelectContextMenu && !item">
-                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder"/>
+            <OptionGroup v-if="isMultiSelectContextMenu && !item">
+                <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
             </OptionGroup>
 
             <!-- Single options -->
 
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="renameItem" :title=" $t('context_menu.rename')" icon="rename"/>
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="renameItem" :title=" $t('context_menu.rename')" icon="rename" />
+                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
             </OptionGroup>
 
             <!-- Multi options -->
 
-            <OptionGroup v-if="item && !multiSelectContextMenu">
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item"/>
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu">
+                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !multiSelectContextMenu && !hasFolder">
-                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download"/>
+            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
 
@@ -168,16 +168,16 @@
         <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview" id="menu-list" class="menu-options">
 
             <!-- Single options -->
-            <OptionGroup v-if="item && multiSelectContextMenu">
-                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail"/>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download"/>
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder"/>
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!multiSelectContextMenu && item ">
-                <Option @click.native="downloadItem" v-if="!hasFolder" :title="$t('context_menu.download')" icon="download"/>
-                <Option v-if="hasFolder" :title="$t('context_menu.no_options')" icon="no-options" class="no-options"/>
+            <OptionGroup v-if="!isMultiSelectContextMenu && item ">
+                <Option @click.native="downloadItem" v-if="!hasFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option v-if="hasFolder" :title="$t('context_menu.no_options')" icon="no-options" class="no-options" />
             </OptionGroup>
 
         </div>
@@ -187,8 +187,8 @@
 <script>
 import OptionGroup from '@/components/FilesView/OptionGroup'
 import Option from '@/components/FilesView/Option'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import {mapGetters} from 'vuex'
+import {events} from '@/bus'
 
 export default {
     name: 'ContextMenu',
@@ -199,20 +199,12 @@ export default {
     computed: {
         ...mapGetters(['user', 'fileInfoDetail']),
         hasFolder() {
-
-            // Check if selected items includes some folder
-            if (this.fileInfoDetail.find(item => item.type === 'folder'))
-                return true
-
+            return this.fileInfoDetail.find(item => item.type === 'folder')
         },
         hasFile() {
-
-            // Check if selected items includes some files
-            if (this.fileInfoDetail.find(item => item.type !== 'folder'))
-                return true
-
+            return this.fileInfoDetail.find(item => item.type !== 'folder')
         },
-        multiSelectContextMenu() {
+        isMultiSelectContextMenu() {
 
             // If is context Menu open on multi selected items open just options for the multi selected items
             if (this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.item))
@@ -221,10 +213,9 @@ export default {
             // If is context Menu open for the non selected item open options for the single item
             if (this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item))
                 return true
-
         },
         favourites() {
-            return this.user.relationships.favourites.data.attributes.folders
+            return this.user.data.relationships.favourites.data.attributes.folders
         },
         isFolder() {
             return this.item && this.item.type === 'folder'
@@ -241,7 +232,7 @@ export default {
             return this.item && this.item.type === 'image'
         },
         isInFavourites() {
-            return this.favourites.find((el) => el.unique_id == this.item.unique_id)
+            return this.favourites.find((el) => el.id === this.item.id)
         }
     },
     data() {
@@ -253,10 +244,9 @@ export default {
             positionY: 0
         }
     },
-
     methods: {
-        downloadFolder(){
-            this.$store.dispatch('downloadFolder' , this.item)
+        downloadFolder() {
+            this.$store.dispatch('downloadFolder', this.item)
         },
         emptyTrash() {
             this.$store.dispatch('emptyTrash')
@@ -264,36 +254,36 @@ export default {
         restoreItem() {
 
             // If is item not in selected items restore just this single item
-            if(!this.fileInfoDetail.includes(this.item))
+            if (!this.fileInfoDetail.includes(this.item))
                 this.$store.dispatch('restoreItem', this.item)
 
             // If is item in selected items restore all items from fileInfoDetail
-            if(this.fileInfoDetail.includes(this.item))
+            if (this.fileInfoDetail.includes(this.item))
                 this.$store.dispatch('restoreItem', null)
         },
         shareCancel() {
             this.$store.dispatch('shareCancel')
         },
         renameItem() {
-            events.$emit('popup:open', { name: 'rename-item', item: this.item })
+            events.$emit('popup:open', {name: 'rename-item', item: this.item})
         },
         moveItem() {
-            events.$emit('popup:open', { name: 'move', item: [this.item] })
+            events.$emit('popup:open', {name: 'move', item: [this.item]})
         },
         shareItem() {
             if (this.item.shared) {
                 // Open edit share popup
-                events.$emit('popup:open', { name: 'share-edit', item: this.item })
+                events.$emit('popup:open', {name: 'share-edit', item: this.item})
             } else {
                 // Open create share popup
-                events.$emit('popup:open', { name: 'share-create', item: this.item })
+                events.$emit('popup:open', {name: 'share-create', item: this.item})
             }
         },
         addToFavourites() {
             // Check if folder is in favourites and then add/remove from favourites
             if (
                 this.favourites &&
-                !this.favourites.find(el => el.unique_id == this.item.unique_id)
+                !this.favourites.find(el => el.id === this.item.id)
             ) {
                 // Add to favourite folder that is not selected
                 if (!this.fileInfoDetail.includes(this.item)) {
@@ -419,9 +409,7 @@ export default {
             this.isVisible = false
             this.showFromPreview = false
             this.item = undefined
-
         })
-
 
         events.$on('contextMenu:show', (event, item) => {
             // Store item
@@ -445,8 +433,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
+@import "@assets/vuefilemanager/_variables";
+@import "@assets/vuefilemanager/_mixins";
 
 .no-options {
     /deep/ .text-label {

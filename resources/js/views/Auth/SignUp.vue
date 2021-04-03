@@ -7,46 +7,50 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_registration.title') }}</h1>
-            <h2>{{ $t('page_registration.subtitle') }}</h2>
+            <h2>{{ $t('page_registration.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="signUp" ref="sign_up" v-slot="{ invalid }" tag="form"
                                 class="form block-form">
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="register.email" :placeholder="$t('page_registration.placeholder_email')" type="email"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="register.name" :placeholder="$t('page_registration.placeholder_name')" type="text"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_pass') }}</label>
+                    <label>{{ $t('page_registration.label_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Your New Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password" :placeholder="$t('page_registration.placeholder_pass')" type="password"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_confirm_pass') }}</label>
+                    <label>{{ $t('page_registration.label_confirm_pass') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password_confirmation" :placeholder="$t('page_registration.placeholder_confirm_pass')"
+                               class="focus-border-theme"
                                type="password" :class="{'is-error': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -54,15 +58,15 @@
 
                 <div>
                     <i18n path="page_registration.agreement" tag="p" class="legal-agreement">
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank">{{ termsOfService.title }}</router-link>
-                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank">{{ privacyPolicy.title }}</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank" class="text-theme">{{ termsOfService.title }}</router-link>
+                        <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank" class="text-theme">{{ privacyPolicy.title }}</router-link>
                     </i18n>
                     <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
 
             <span class="additional-link">{{ $t('page_registration.have_an_account') }}
-                <router-link :to="{name: 'SignIn'}">
+                <router-link :to="{name: 'SignIn'}" class="text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -128,7 +132,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/user/register', this.register)
+                    .post('/register', this.register)
                     .then(() => {
 
                         // End loading
@@ -141,17 +145,6 @@
                         this.$router.push({name: 'Files'})
                     })
                     .catch(error => {
-
-                        if (error.response.status == 401) {
-
-                            if (error.response.data.error === 'invalid_client') {
-                                events.$emit('alert:open', {
-                                    emoji: '🤔',
-                                    title: this.$t('popup_passport_error.title'),
-                                    message: this.$t('popup_passport_error.message')
-                                })
-                            }
-                        }
 
                         if (error.response.status == 500) {
 
@@ -191,8 +184,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_auth-form';
-    @import '@assets/vue-file-manager/_auth';
+    @import '@assets/vuefilemanager/_auth-form';
+    @import '@assets/vuefilemanager/_auth';
 
     .legal-agreement {
         @include font-size(16);
@@ -201,9 +194,5 @@
         font-weight: 700;
         line-height: 1.6;
         margin: 0 auto;
-
-        a {
-            color: $theme;
-        }
     }
 </style>

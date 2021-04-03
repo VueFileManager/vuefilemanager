@@ -4,13 +4,15 @@
             <div class="tab" :class="{ active: tab.isActive }" @click="selectTab(tab)" v-for="(tab, i) in tabs" :key="i">
 
                 <!--Icon-->
-                <mail-icon v-if="tab.icon === 'email'" class="tab-icon" size="17"/>
-                <link-icon v-if="tab.icon === 'link'" class="tab-icon" size="17"/>
-                <smile-icon v-if="tab.icon === 'emoji'" class="tab-icon" size="17"/>
-                <folder-icon v-if="tab.icon === 'folder'" class="tab-icon" size="17"/>
+                <mail-icon v-if="tab.icon === 'email'" class="tab-icon text-theme" size="17"/>
+                <link-icon v-if="tab.icon === 'link'" class="tab-icon text-theme" size="17"/>
+                <smile-icon v-if="tab.icon === 'emoji'" class="tab-icon text-theme" size="17"/>
+                <folder-icon v-if="tab.icon === 'folder'" class="tab-icon text-theme" size="17"/>
 
                 <!--Title-->
-                <b class="tab-title">{{tab.title}}</b>
+                <b class="tab-title">
+                    {{tab.title}}
+                </b>
             </div>
         </div>
         <slot></slot>
@@ -52,8 +54,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/vue-file-manager/_inapp-forms.scss";
-    @import '@assets/vue-file-manager/_forms';
+    @import "@assets/vuefilemanager/_inapp-forms.scss";
+    @import '@assets/vuefilemanager/_forms';
 
     .tab-wrapper {
         display: flex;
@@ -94,7 +96,7 @@
             circle,
             line,
             polyline {
-                stroke: $theme !important;
+                color: inherit !important;
             }
         }
     }
@@ -106,11 +108,17 @@
             border-color: transparent;
 
             .tab.active {
-                background: rgba($theme, 0.1);
+                background: lighten($dark_mode_foreground, 7%);
 
                 .tab-title {
-                    color: $theme;
+                    color: $dark_mode_text_primary;
                 }
+            }
+        }
+
+        .popup-wrapper {
+            .tab-wrapper {
+                background: lighten($dark_mode_foreground, 2%);
             }
         }
     }

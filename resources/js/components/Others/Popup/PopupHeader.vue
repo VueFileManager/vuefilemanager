@@ -1,14 +1,13 @@
 <template>
     <div class="popup-header">
         <div class="icon">
-            <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon"></corner-down-right-icon>
-            <share-icon v-if="icon === 'share'" size="17" class="title-icon"></share-icon>
-            <!-- <link-icon v-if="icon === 'share'" size="17" class="title-icon"></link-icon> -->
-            <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon"></edit2-icon>
+            <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon text-theme" />
+            <share-icon v-if="icon === 'share'" size="17" class="title-icon text-theme" />
+            <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon text-theme" />
         </div>
         <div class="label">
             <h1 class="title">{{ title }}</h1>
-            <x-icon @click="closePopup" size="22" class="close-icon"></x-icon>
+            <x-icon @click="closePopup" size="22" class="close-icon hover-text-theme" />
         </div>
     </div>
 </template>
@@ -38,8 +37,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .popup-header {
         padding: 20px;
@@ -51,7 +50,7 @@
             line-height: 0;
 
             path, line, polyline, rect, circle {
-                stroke: $theme;
+                color: inherit;
             }
         }
 
@@ -81,7 +80,7 @@
                     background: $light_background;
 
                     line {
-                        stroke: $theme;
+                        color: inherit;
                     }
                 }
 

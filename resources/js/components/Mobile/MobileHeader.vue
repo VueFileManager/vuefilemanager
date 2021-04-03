@@ -11,7 +11,7 @@
 
         <!--More Actions-->
         <div @click="showMobileNavigation" class="mobile-menu">
-            <menu-icon size="17" class="icon"></menu-icon>
+            <menu-icon size="17" class="icon" />
         </div>
     </header>
 </template>
@@ -45,8 +45,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .mobile-header {
         padding: 10px 0;

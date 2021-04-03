@@ -7,13 +7,14 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_forgotten_password.title') }}</h1>
-            <h2>{{ $t('page_forgotten_password.subtitle') }}</h2>
+            <h2>{{ $t('page_forgotten_password.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="forgottenPassword" ref="forgotten_password" v-slot="{ invalid }"
                                 tag="form" class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="recoverEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
+                           class="focus-border-theme"
                            :class="{'is-error': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -22,7 +23,7 @@
             </ValidationObserver>
 
             <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
-                <router-link :to="{name: 'SignIn'}">
+                <router-link :to="{name: 'SignIn'}" class="text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -37,7 +38,7 @@
             <h2>{{ $t('page_forgotten_password.pass_sennded_subtitle') }}</h2>
 
             <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
-                <router-link :to="{name: 'SignIn'}">
+                <router-link :to="{name: 'SignIn'}" class="text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -126,6 +127,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_auth-form';
-    @import '@assets/vue-file-manager/_auth';
+    @import '@assets/vuefilemanager/_auth-form';
+    @import '@assets/vuefilemanager/_auth';
 </style>

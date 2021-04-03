@@ -54,7 +54,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_mixins';
 
     .content-group {
         margin-bottom: 30px;

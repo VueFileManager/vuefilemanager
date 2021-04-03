@@ -1,10 +1,10 @@
 <template>
     <div id="single-page">
         <div id="page-content" class="large-width center-page" v-show="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)" />
             <div class="content-page">
                 <div class="plan-title">
-                    <credit-card-icon size="42" class="title-icon"></credit-card-icon>
+                    <credit-card-icon size="42" class="title-icon text-theme" />
                     <h1>{{ $t('page_upgrade_account.title') }}</h1>
                     <h2>{{ $t('page_upgrade_account.desription') }}</h2>
                 </div>
@@ -16,9 +16,9 @@
 
                             <!-- Pay by new credit card -->
                             <div class="register-card" v-show="! defaultPaymentMethod || payByNewCard">
-                                <InfoBox v-if="config.isDemo">
-                                    <p>For test your payment please use <b>4242 4242 4242 4242</b> or <b>5555 5555 5555 4444</b> as a card number, <b>11/22</b>
-                                        as the expiration date and <b>123</b> as CVC number and ZIP <b>12345</b>.</p>
+                                <InfoBox v-if="config.isDemo || config.isDev">
+                                    <p>For test your payment please use <b class="text-theme">4242 4242 4242 4242</b> or <b class="text-theme">5555 5555 5555 4444</b> as a card number, <b class="text-theme">11/22</b>
+                                        as the expiration date and <b class="text-theme">123</b> as CVC number and ZIP <b class="text-theme">12345</b>.</p>
                                 </InfoBox>
 
                                 <div ref="stripeCard" class="stripe-card" :class="{'is-error': isError }"></div>
@@ -91,10 +91,11 @@
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_name" v-slot="{ errors }">
-                                            <input v-model="billing.billing_name"
+                                            <input v-model="billing.name"
                                                    :placeholder="$t('user_settings.name_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -105,10 +106,11 @@
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_address" v-slot="{ errors }">
-                                            <input v-model="billing.billing_address"
+                                            <input v-model="billing.address"
                                                    :placeholder="$t('user_settings.address_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -120,10 +122,11 @@
                                             <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                                 rules="required" name="billing_city"
                                                                 v-slot="{ errors }">
-                                                <input v-model="billing.billing_city"
+                                                <input v-model="billing.city"
                                                        :placeholder="$t('user_settings.city_plac')"
                                                        type="text"
                                                        :class="{'is-error': errors[0]}"
+                                                       class="focus-border-theme"
                                                 />
                                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                             </ValidationProvider>
@@ -134,10 +137,11 @@
                                             <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                                 rules="required" name="billing_postal_code"
                                                                 v-slot="{ errors }">
-                                                <input v-model="billing.billing_postal_code"
+                                                <input v-model="billing.postal_code"
                                                        :placeholder="$t('user_settings.postal_code_plac')"
                                                        type="text"
                                                        :class="{'is-error': errors[0]}"
+                                                       class="focus-border-theme"
                                                 />
                                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                             </ValidationProvider>
@@ -149,8 +153,8 @@
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_country" v-slot="{ errors }">
-                                            <SelectInput v-model="billing.billing_country"
-                                                         :default="billing.billing_country"
+                                            <SelectInput v-model="billing.country"
+                                                         :default="billing.country"
                                                          :options="countries"
                                                          :placeholder="$t('user_settings.country_plac')"
                                                          :isError="errors[0]" />
@@ -163,10 +167,11 @@
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_state" v-slot="{ errors }">
-                                            <input v-model="billing.billing_state"
+                                            <input v-model="billing.state"
                                                    :placeholder="$t('user_settings.state_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <small class="input-help">
                                                 State, county, province, or region.
@@ -180,10 +185,11 @@
                                         <ValidationProvider tag="div" mode="passive" class="input-wrapper"
                                                             rules="required"
                                                             name="billing_phone_number" v-slot="{ errors }">
-                                            <input v-model="billing.billing_phone_number"
+                                            <input v-model="billing.phone_number"
                                                    :placeholder="$t('user_settings.phone_number_plac')"
                                                    type="text"
                                                    :class="{'is-error': errors[0]}"
+                                                   class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -206,7 +212,7 @@
                             </div>
                             <div class="row" v-if="taxRates">
                                 <div class="cell">
-                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ taxRates.jurisdiction }} {{ taxRates.percentage }}%)</b>
+                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ taxRates.country }} {{ taxRates.percentage }}%)</b>
                                 </div>
                                 <div class="cell">
                                     <b>{{ taxRates.plan_price_formatted }}</b>
@@ -291,11 +297,11 @@
         computed: {
             ...mapGetters(['requestedPlan', 'config', 'countries']),
             billing() {
-                return this.$store.getters.user.relationships.settings.data.attributes
+                return this.$store.getters.user.data.relationships.settings.data.attributes
             },
             taxRates() {
                 return this.requestedPlan.data.attributes.tax_rates.find(taxRate => {
-                   return taxRate.jurisdiction === this.billing.billing_country
+                    return taxRate.country === this.billing.country
                 })
             }
         },
@@ -405,8 +411,16 @@
                     } else {
 
                         axios
-                            .post('/api/subscription/upgrade', {
-                                billing: this.billing,
+                            .post('/api/user/subscription/upgrade', {
+                                billing: {
+                                    billing_address: this.billing.address,
+                                    billing_city: this.billing.city,
+                                    billing_country: this.billing.country,
+                                    billing_name: this.billing.name,
+                                    billing_phone_number: this.billing.phone_number,
+                                    billing_postal_code: this.billing.postal_code,
+                                    billing_state: this.billing.state,
+                                },
                                 plan: this.requestedPlan,
                                 payment: {
                                     type: 'stripe',
@@ -415,8 +429,12 @@
                                     }
                                 }
                             })
-                            .then(() => this.successOrder())
-                            .catch((error) => this.errorOrder(error))
+                            .then(() => {
+                                this.successOrder()
+                            })
+                            .catch((error) => {
+                                this.errorOrder(error)
+                            })
                             .finally(() => {
                                 this.isSubmitted = false
                             })
@@ -427,15 +445,27 @@
                 if (this.defaultPaymentMethod && !this.payByNewCard) {
 
                     axios
-                        .post('/api/subscription/upgrade', {
-                            billing: this.billing,
+                        .post('/api/user/subscription/upgrade', {
+                            billing: {
+                                billing_address: this.billing.address,
+                                billing_city: this.billing.city,
+                                billing_country: this.billing.country,
+                                billing_name: this.billing.name,
+                                billing_phone_number: this.billing.phone_number,
+                                billing_postal_code: this.billing.postal_code,
+                                billing_state: this.billing.state,
+                            },
                             plan: this.requestedPlan,
                             payment: {
                                 type: 'stripe',
                             }
                         })
-                        .then(() => this.successOrder())
-                        .catch((error) => this.errorOrder(error))
+                        .then(() => {
+                            this.successOrder()
+                        })
+                        .catch((error) => {
+                            this.errorOrder(error)
+                        })
                         .finally(() => {
                             this.isSubmitted = false
                         })
@@ -452,11 +482,13 @@
         created() {
 
             // Get setup intent for stripe
-            axios.get('/api/stripe/setup-intent')
+            axios.get('/api/user/subscription/setup-intent')
                 .then(response => {
                     this.clientSecret = response.data.client_secret
                 })
-                .catch(() => this.$isSomethingWrong())
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
 
             axios.get('/api/user/payments')
                 .then(response => {
@@ -464,19 +496,20 @@
                     this.defaultPaymentMethod = response.data.default
                     this.PaymentMethods = response.data.others
                 })
-                .catch(() => this.$isSomethingWrong())
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
                 .finally(() => {
-                        this.isLoading = false
-                    }
-                )
+                    this.isLoading = false
+                })
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .change-payment {
         padding-top: 10px;
@@ -681,7 +714,7 @@
         margin: 0 auto 80px;
 
         path, line, polyline, rect, circle {
-            color: $theme;
+            color: inherit;
         }
 
         h1 {

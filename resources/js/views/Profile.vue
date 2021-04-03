@@ -7,28 +7,28 @@
             <ContentGroup title="Menu" class="navigator">
                 <div class="menu-list-wrapper vertical">
                     <router-link replace :to="{name: 'Profile'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <user-icon size="17"></user-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.profile') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'Storage'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <hard-drive-icon size="17"></hard-drive-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.storage') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'Password'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <lock-icon size="17"></lock-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.password') }}
                         </div>
                     </router-link>
@@ -37,28 +37,28 @@
             <ContentGroup title="Subscription" class="navigator" v-if="canShowSubscriptionSettings">
                 <div class="menu-list-wrapper vertical">
                     <router-link replace :to="{name: 'Subscription'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <cloud-icon size="17"></cloud-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.subscription') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'PaymentMethods'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <credit-card-icon size="17"></credit-card-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.payment_cards') }}
                         </div>
                     </router-link>
 
                     <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
-                        <div class="icon">
+                        <div class="icon text-theme">
                             <file-text-icon size="17"></file-text-icon>
                         </div>
-                        <div class="label">
+                        <div class="label text-theme">
                             {{ $t('menu.invoices') }}
                         </div>
                     </router-link>
@@ -68,7 +68,7 @@
 
         <div id="single-page" v-if="user">
             <div id="page-content" class="medium-width" v-if="! isLoading">
-                <MobileHeader :title="$router.currentRoute.meta.title"/>
+                <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
                 <div class="content-page">
 
@@ -78,12 +78,12 @@
                             <div class="avatar">
                                 <UserImageInput
                                         v-model="avatar"
-                                        :avatar="user.data.attributes.avatar"
+                                        :avatar="user.data.relationships.settings.data.attributes.avatar"
                                 />
                             </div>
                             <div class="info">
                                 <b class="name">
-                                    {{ user.data.attributes.name }}
+                                    {{ user.data.relationships.settings.data.attributes.name }}
                                     <ColorLabel v-if="config.isSaaS" :color="subscriptionColor">
                                         {{ subscriptionStatus }}
                                     </ColorLabel>
@@ -175,7 +175,7 @@
                 return this.config.isSaaS && this.config.app_payments_active
             },
             canShowUpgradeWarning() {
-                return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
+                return this.config.storageLimit && this.user.data.attributes.storage.used > 95
             },
             canShowIncompletePayment() {
                 return this.user.data.attributes.incomplete_payment
@@ -191,8 +191,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .page-detail-headline {
         display: flex;

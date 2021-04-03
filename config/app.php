@@ -164,8 +164,8 @@ return [
 
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
         Madnest\Madzipper\MadzipperServiceProvider::class,
+        App\Providers\FortifyServiceProvider::class,
 
         /*
          * Package Service Providers...

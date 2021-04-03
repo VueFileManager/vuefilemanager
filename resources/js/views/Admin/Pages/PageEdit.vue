@@ -1,8 +1,8 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && page">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
                 <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
@@ -26,8 +26,8 @@
                     <div class="block-wrapper">
                         <label>{{ $t('admin_pages.form.title') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                            <input @input="$updateText('/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
-                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                            <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
+                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -43,10 +43,11 @@
                         <label>{{ $t('admin_pages.form.content') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
                             <textarea
-                                    @input="$updateText('/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
+                                    @input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
                                     v-model="page.data.attributes.content"
                                     :placeholder="$t('admin_pages.form.content_plac')"
                                     :class="{'is-error': errors[0]}"
+                                    class="focus-border-theme"
                                     rows="18"
                             ></textarea>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -96,11 +97,11 @@
         },
         methods: {
             changeStatus(val) {
-                this.$updateText('/pages/' + this.$route.params.slug , 'visibility', val)
+                this.$updateText('/admin/pages/' + this.$route.params.slug , 'visibility', val)
             }
         },
         created() {
-            axios.get('/api/pages/' + this.$route.params.slug)
+            axios.get('/api/admin/pages/' + this.$route.params.slug)
                 .then(response => {
                     this.page = response.data
                     this.isLoading = false
@@ -110,7 +111,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 </style>

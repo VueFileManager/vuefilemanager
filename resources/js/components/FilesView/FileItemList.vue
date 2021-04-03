@@ -21,7 +21,7 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">
+                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
                     {{ item.mimetype | limitCharacters }}
                 </span>
 
@@ -32,24 +32,24 @@
                 <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
                  <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder" />
+                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder svg-color-theme" />
             </div>
 
             <!--Name-->
             <div class="item-name">
-                <b :ref="this.item.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.item.id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
                 <div class="item-info">
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && item.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon"></link-icon>
+                        <link-icon size="12" class="shared-icon text-theme"></link-icon>
                     </div>
 
                     <!--Participant owner Icon-->
-                    <div v-if="$checkPermission('master') && item.user_scope !== 'master'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
+                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
+                        <user-plus-icon size="12" class="shared-icon text-theme"></user-plus-icon>
                     </div>
 
                     <!--Filesize and timestamp-->
@@ -64,7 +64,7 @@
             <transition name="slide-from-right">
                 <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
                     <span @click.stop="showItemActions" class="show-actions">
-                        <FontAwesomeIcon icon="ellipsis-v" class="icon-action"></FontAwesomeIcon>
+                        <MoreVerticalIcon size="16" class="icon-action text-theme" />
                     </span>
                 </div>
             </transition>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
+import { LinkIcon, UserPlusIcon, CheckIcon, MoreVerticalIcon } from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
@@ -83,6 +83,7 @@ export default {
     name: 'FileItemList',
     props: ['item'],
     components: {
+        MoreVerticalIcon,
         UserPlusIcon,
         LinkIcon,
         FolderIcon,
@@ -91,7 +92,7 @@ export default {
     computed: {
         ...mapGetters(['FilePreviewType', 'fileInfoDetail', 'data']),
         isClicked() {
-            return this.fileInfoDetail.some(element => element.unique_id == this.item.unique_id)
+            return this.fileInfoDetail.some(element => element.id === this.item.id)
         },
         isFolder() {
             return this.item.type === 'folder'
@@ -175,7 +176,7 @@ export default {
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
                     // Click + Ctrl
 
-                    if (this.fileInfoDetail.some(item => item.unique_id === this.item.unique_id)) {
+                    if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
                         this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                     } else {
                         this.$store.commit('GET_FILEINFO_DETAIL', this.item)
@@ -209,6 +210,7 @@ export default {
             }
 
             if (!this.mobileMultiSelect && this.$isMobile()) {
+
                 // Open in mobile version on first click
                 if (this.$isMobile() && this.isFolder) {
                     // Go to folder
@@ -228,17 +230,12 @@ export default {
             }
 
             if (this.mobileMultiSelect && this.$isMobile()) {
-                if (this.fileInfoDetail.some(item => item.unique_id === this.item.unique_id)) {
+                if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
                     this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                 } else {
                     this.$store.commit('GET_FILEINFO_DETAIL', this.item)
                 }
             }
-
-            // Get target classname
-            let itemClass = e.target.className
-
-            if (['name', 'icon', 'file-link', 'file-icon-text'].includes(itemClass)) return
         },
         goToItem() {
             if (this.isImage || this.isVideo || this.isAudio) {
@@ -249,7 +246,7 @@ export default {
 
             } else if (this.isFolder) {
 
-                //Clear selected items after open another folder
+                // Clear selected items after open another folder
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
 
                 if (this.$isThisLocation('public')) {
@@ -264,7 +261,7 @@ export default {
             if (e.target.innerText.trim() === '') return
 
             this.$store.dispatch('renameItem', {
-                unique_id: this.item.unique_id,
+                id: this.item.id,
                 type: this.item.type,
                 name: e.target.innerText
             })
@@ -274,10 +271,10 @@ export default {
 
         this.itemName = this.item.name
 
-        events.$on('newFolder:focus', (unique_id) => {
+        events.$on('newFolder:focus', (id) => {
 
-            if(this.item.unique_id == unique_id && !this.$isMobile()) {
-                this.$refs[unique_id].focus()
+            if(this.item.id === id && !this.$isMobile()) {
+                this.$refs[id].focus()
                 document.execCommand('selectAll')
             }
         })
@@ -293,16 +290,16 @@ export default {
         })
 
         // Change item name
-        events.$on('change:name', (item) => {
-            if (this.item.unique_id == item.unique_id) this.itemName = item.name
+        events.$on('change:name', item => {
+            if (this.item.id === item.id) this.itemName = item.name
         })
     }
 }
 </script>
 
 <style scoped lang="scss">
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 
 .slide-from-left-move {
@@ -366,13 +363,14 @@ export default {
 
         .show-actions {
             cursor: pointer;
-            padding: 12px 6px 12px;
+            padding: 12px 0 12px 6px;
 
             .icon-action {
+                margin-top: 9px;
                 @include font-size(14);
 
-                path {
-                    fill: $theme;
+                circle {
+                    color: inherit;
                 }
             }
         }
@@ -405,7 +403,7 @@ export default {
                 path,
                 circle,
                 line {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
         }
@@ -485,7 +483,6 @@ export default {
             text-align: center;
             left: 0;
             right: 0;
-            color: $theme;
             font-weight: 600;
             user-select: none;
             max-width: 50px;
@@ -514,7 +511,6 @@ export default {
         padding: 7px;
 
         &.is-dragenter {
-            border: 2px dashed $theme;
             border-radius: 8px;
         }
 
@@ -585,10 +581,6 @@ export default {
             &:hover,
             &.is-clicked {
                 background: $dark_mode_foreground;
-
-                .item-name .name {
-                    color: $theme;
-                }
 
                 .file-icon {
                     path {

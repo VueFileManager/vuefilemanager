@@ -7,23 +7,25 @@
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_login.title') }}</h1>
-            <h2>{{ $t('page_login.subtitle') }}</h2>
+            <h2>{{ $t('page_login.subtitle') }}:</h2>
 
             <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
-                           :class="{'is-error': errors[0]}"/>
+                           class="focus-border-theme"
+                           :class="{'is-error': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <AuthButton icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading"
-                            :disabled="isLoading"/>
+                            :disabled="isLoading" />
             </ValidationObserver>
 
-            <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }}
-                <router-link :to="{name: 'SignUp'}">
+            <span v-if="config.userRegistration" class="additional-link">
+                {{ $t('page_login.registration_text') }}
+                <router-link class="text-theme" :to="{name: 'SignUp'}">
                     {{ $t('page_login.registration_button') }}
                 </router-link>
             </span>
@@ -35,7 +37,7 @@
             <div class="user" v-if="checkedAccount">
                 <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
                 <h1>{{ $t('page_sign_in.title', {name: checkedAccount.name}) }}</h1>
-                <h2>{{ $t('page_sign_in.subtitle') }}</h2>
+                <h2>{{ $t('page_sign_in.subtitle') }}:</h2>
             </div>
 
             <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form"
@@ -44,16 +46,17 @@
                                     v-slot="{ errors }">
                     <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')"
                            type="password"
-                           :class="{'is-error': errors[0]}"/>
+                           class="focus-border-theme"
+                           :class="{'is-error': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading"
-                            :disabled="isLoading"/>
+                            :disabled="isLoading" />
             </ValidationObserver>
 
             <span class="additional-link">{{ $t('page_sign_in.password_reset_text') }}
-                <router-link :to="{name: 'ForgottenPassword'}">
+                <router-link :to="{name: 'ForgottenPassword'}" class="text-theme">
                     {{ $t('page_sign_in.password_reset_button') }}
                 </router-link>
             </span>
@@ -137,7 +140,7 @@
                         if (error.response.status == 404) {
 
                             this.$refs.log_in.setErrors({
-                                'E-Mail': [error.response.data.message]
+                                'E-Mail': [error.response.data]
                             });
                         }
 
@@ -166,7 +169,7 @@
 
                 // Send request to get user token
                 axios
-                    .post('/api/user/login', {
+                    .post('/login', {
                         email: this.loginEmail,
                         password: this.loginPassword,
                     })
@@ -190,17 +193,6 @@
                             });
                         }
 
-                        if (error.response.status == 401) {
-
-                            if (error.response.data.error === 'invalid_client') {
-                                events.$emit('alert:open', {
-                                    emoji: '🤔',
-                                    title: this.$t('popup_passport_error.title'),
-                                    message: this.$t('popup_passport_error.message')
-                                })
-                            }
-                        }
-
                         // End loading
                         this.isLoading = false
                     })
@@ -209,11 +201,16 @@
         created() {
             this.$scrollTop()
             this.$store.commit('PROCESSING_POPUP', undefined)
+
+            //if (this.config.isDemo) {
+            this.loginEmail = 'howdy@hi5ve.digital'
+            this.loginPassword = 'vuefilemanager'
+            //}
         }
     }
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_auth-form';
-    @import '@assets/vue-file-manager/_auth';
+    @import '@assets/vuefilemanager/_auth-form';
+    @import '@assets/vuefilemanager/_auth';
 </style>

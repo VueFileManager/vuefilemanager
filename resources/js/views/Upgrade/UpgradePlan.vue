@@ -1,12 +1,12 @@
 <template>
     <div id="single-page">
         <div id="page-content" class="large-width center-page" v-show="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
             <div class="content-page">
 
                 <!--Page Title-->
                 <div class="plan-title">
-                    <cloud-icon size="42" class="title-icon"></cloud-icon>
+                    <cloud-icon size="42" class="title-icon text-theme" />
                     <h1>{{ $t('page_pricing_tables.title') }}</h1>
                     <h2>{{ $t('page_pricing_tables.description') }}</h2>
                 </div>
@@ -65,9 +65,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .plan-title {
         text-align: center;
@@ -75,7 +75,7 @@
         margin: 0 auto 80px;
 
         path, line, polyline, rect, circle {
-            color: $theme;
+            color: inherit;
         }
 
         h1 {

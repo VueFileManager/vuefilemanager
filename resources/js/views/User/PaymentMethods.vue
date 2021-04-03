@@ -53,7 +53,7 @@
                 <!--Empty page-->
                 <template v-slot:empty-page>
                     <InfoBox>
-                        <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}">Add new payment method.</router-link> </p>
+                        <p>{{ $t('user_payments.empty') }} <router-link v-if="user.data.attributes.stripe_customer" :to="{name: 'CreatePaymentMethod'}" class="text-theme">Add new payment method.</router-link> </p>
                     </InfoBox>
                 </template>
             </DatatableWrapper>
@@ -237,9 +237,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .is-deleting {
         opacity: 0.35;

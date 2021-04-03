@@ -20,9 +20,9 @@
     export default {
         name: 'FolderIcon',
         props: [
-            'item',
             'folderIcon',
-            'location'
+            'location',
+            'item',
         ],
         components: {
             Emoji
@@ -37,7 +37,7 @@
                     return this.folderIcon.emoji ? this.folderIcon.emoji : false
 
                 // Return emoji if is already set
-                return this.item.icon_emoji ? this.item.icon_emoji : false
+                return this.item.emoji ? this.item.emoji : false
             },
             color() {
                 // Return color if is changed from rename popup
@@ -45,15 +45,15 @@
                     return this.folderIcon.color ? this.folderIcon.color : false
 
                 // Return color if is already set
-                return this.item.icon_color ? this.item.icon_color : false
+                return this.item.color ? this.item.color : false
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 // Locations
 .file-item-list {
@@ -81,12 +81,6 @@
     &.is-apple .emoji-icon {
         font-size: 22px;
         line-height: 1.1;
-    }
-}
-
-.default-color {
-    path {
-        fill: $theme !important;
     }
 }
 

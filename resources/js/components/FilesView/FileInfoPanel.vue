@@ -15,7 +15,7 @@
                 </div>
                 <div class="file-info">
                     <span ref="name" class="name">{{ fileInfoDetail[0].name }}</span>
-                    <span class="mimetype" v-if="fileInfoDetail[0].mimetype">.{{ fileInfoDetail[0].mimetype }}</span>
+                    <span class="mimetype text-theme" v-if="fileInfoDetail[0].mimetype">.{{ fileInfoDetail[0].mimetype }}</span>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
                           :content="fileInfoDetail[0].filesize">
             </ListInfoItem>
 
-            <ListInfoItem v-if="$checkPermission(['master']) && fileInfoDetail[0].user_scope !== 'master'"
+            <ListInfoItem v-if="$checkPermission(['master']) && fileInfoDetail[0].author !== 'user'"
                           :title="$t('file_detail.author')"
                           :content="$t('file_detail.author_participant')">
             </ListInfoItem>
@@ -104,7 +104,7 @@
                     return option.value === this.fileInfoDetail[0].shared.permission
                 })
 
-                return title ? title.label : this.$t('shared.can_download')
+                return title ? this.$t(title.label) : this.$t('shared.can_download')
             },
             sharedIcon() {
                 switch (this.fileInfoDetail[0].shared.permission) {
@@ -119,7 +119,7 @@
                 }
             },
             isLocked() {
-                return this.fileInfoDetail[0].shared.protected
+                return this.fileInfoDetail[0].shared.is_protected
             }
         },
         methods: {
@@ -136,8 +136,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .file-info-content {
         padding-bottom: 20px;
@@ -180,7 +180,6 @@
             .mimetype {
                 @include font-size(12);
                 font-weight: 600;
-                color: $theme;
                 display: block;
             }
         }
@@ -212,19 +211,6 @@
 
                 .name {
                     color: $dark_mode_text_primary;
-                }
-            }
-        }
-
-        .sharelink {
-
-            .lock-icon {
-
-                &:hover {
-
-                    path, rect {
-                        stroke: $theme;
-                    }
                 }
             }
         }

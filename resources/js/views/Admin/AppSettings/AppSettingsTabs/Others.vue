@@ -17,7 +17,7 @@
                                 <small class="input-help" v-html="$t('admin_settings.others.storage_limit_help')"></small>
                             </div>
                             <SwitchInput
-                                    @input="$updateText('/settings', 'storage_limitation', app.storageLimitation)"
+                                    @input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
                                     v-model="app.storageLimitation"
                                     class="switch"
                                     :state="app.storageLimitation"
@@ -28,13 +28,14 @@
                 <div class="block-wrapper" v-if="app.storageLimitation">
                     <label>{{ $t('admin_settings.others.default_storage') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Default Storage Space" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'storage_default', app.defaultStorage)"
+                        <input @input="$updateText('/admin/settings', 'storage_default', app.defaultStorage)"
                                v-model="app.defaultStorage"
                                min="1"
                                max="999999999"
                                :placeholder="$t('admin_settings.others.default_storage_plac')"
                                type="number"
                                :class="{'is-error': errors[0]}"
+                               class="focus-border-theme"
                         />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -48,7 +49,7 @@
                                 </label>
                                 <small class="input-help" v-html="$t('admin_settings.others.allow_registration_help')"></small>
                             </div>
-                            <SwitchInput @input="$updateText('/settings', 'registration', app.userRegistration)"
+                            <SwitchInput @input="$updateText('/admin/settings', 'registration', app.userRegistration)"
                                          v-model="app.userRegistration"
                                          class="switch"
                                          :state="app.userRegistration"
@@ -64,8 +65,8 @@
                     <label>{{ $t('admin_settings.others.contact_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email"
                                         rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'contact_email', app.contactMail)" v-model="app.contactMail"
-                               :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/admin/settings', 'contact_email', app.contactMail)" v-model="app.contactMail"
+                               :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -73,9 +74,9 @@
                     <label>{{ $t('admin_settings.others.google_analytics') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Google Analytics Code"
                                         v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'google_analytics', app.googleAnalytics)" v-model="app.googleAnalytics"
+                        <input @input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics)" v-model="app.googleAnalytics"
                                :placeholder="$t('admin_settings.others.google_analytics_plac')"
-                               type="text" :class="{'is-error': errors[0]}"/>
+                               type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -83,7 +84,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.mimetypes_blacklist') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mimetypes Blacklist" v-slot="{ errors }">
-                        <textarea rows="2" @input="$updateText('/settings', 'mimetypes_blacklist', app.mimetypesBlacklist)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <textarea rows="2" @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help" v-html="$t('admin_settings.others.mimetypes_blacklist_help')"></small>
@@ -92,7 +93,7 @@
                  <div class="block-wrapper">
                     <label>{{ $t('admin_settings.others.upload_limit') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Upload Limit" v-slot="{ errors }">
-                        <input @input="$updateText('/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help" v-html="$t('admin_settings.others.upload_limit_help')"></small>
@@ -157,7 +158,7 @@
 
                 this.isFlushingCache = true
 
-                axios.get('/api/flush-cache')
+                axios.get('/api/admin/settings/flush-cache')
                     .then(() => {
                         events.$emit('toaster', {
                             type: 'success',
@@ -170,7 +171,7 @@
             }
         },
         mounted() {
-            axios.get('/api/settings', {
+            axios.get('/api/admin/settings', {
                 params: {
                     column: 'contact_email|google_analytics|storage_default|registration|storage_limitation|mimetypes_blacklist|upload_limit'
                 }
@@ -193,9 +194,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

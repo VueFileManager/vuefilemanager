@@ -15,6 +15,9 @@ mix.js('resources/js/main.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css/app.css', {
         implementation: require('node-sass')
     })
+    /*.sass('public/sass/invoice.scss', 'public/css/invoice.css', {
+        implementation: require('node-sass')
+    })*/
     .webpackConfig({
         resolve: {
             alias: {
@@ -24,6 +27,10 @@ mix.js('resources/js/main.js', 'public/js')
         },
         output: {
             chunkFilename: '[name].js?id=[chunkhash]',
+        },
+        devtool: 'inline-source-map',
+        devServer: {
+            clientLogLevel: 'none'
         }
     })
     /*.options({

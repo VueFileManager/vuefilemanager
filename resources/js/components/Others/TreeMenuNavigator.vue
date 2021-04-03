@@ -2,7 +2,7 @@
     <transition name="folder">
         <div class="folder-item-wrapper" >
 
-            <div class="folder-item" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
+            <div class="folder-item text-theme" :class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
                                     :style="indent" @click="getFolder"
                                     @dragover.prevent="dragEnter"
                                     @dragleave="dragLeave"
@@ -11,12 +11,11 @@
              >
                 <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow"
                                     :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
-                <folder-icon size="17" class="icon"></folder-icon>
+                <folder-icon size="17" class="icon text-theme"></folder-icon>
                 <span class="label">{{ nodes.name }}</span>
             </div>
 
-            <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders"
-                               :key="item.unique_id"/>
+            <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id"/>
         </div>
     </transition>
 </template>
@@ -46,11 +45,11 @@
 
                     this.draggedItem.forEach(item => {
                         //Disable the parent of the folder
-                        if(item.type === "folder" && this.nodes.unique_id === item.parent_id){
+                        if(item.type === "folder" && this.nodes.id === item.parent_id){
                             disableFolder = true
                         }
                         //Disable the self folder with all children
-                        if (this.nodes.unique_id === item.unique_id && item.type === 'folder') {
+                        if (this.nodes.id === item.id && item.type === 'folder') {
                             disableFolder = true
                             this.disableChildren = true
                         }
@@ -141,7 +140,7 @@
             events.$on('show-folder', node => {
                 this.isSelected = false
 
-                if (this.nodes.unique_id == node.unique_id)
+                if (this.nodes.id == node.id)
                     this.isSelected = true
             })
         }
@@ -149,8 +148,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .is-inactive {
         opacity: 0.5;
@@ -158,9 +157,8 @@
     }
 
     .is-dragenter {
-			border: 2px dashed $theme !important;
-			border-radius: 8px;
-		}
+        border-radius: 8px;
+    }
 
     .folder-item {
         display: block;
@@ -217,12 +215,12 @@
 
             .icon {
                 path, line, polyline, rect, circle {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
 
             .label {
-                color: $theme;
+                color: inherit;
             }
         }
     }
@@ -241,28 +239,6 @@
 
             .label {
                 color: $dark_mode_text_primary;
-            }
-
-            &:hover {
-                background: rgba($theme, .1);
-            }
-
-            &.is-selected {
-                background: rgba($theme, .1);
-            }
-        }
-
-        &.is-selected {
-            background: rgba($theme, .1);
-        }
-    }
-
-    @media (prefers-color-scheme: dark) and (max-width: 690px) {
-        .folder-item {
-
-            &:hover,
-            &.is-selected {
-                background: rgba($theme, .1);
             }
         }
     }

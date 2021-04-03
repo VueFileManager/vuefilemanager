@@ -1,26 +1,31 @@
 <template>
-    <li class="menu-option" :class="[icon === 'trash' ? 'danger' : '']">
-        <div class="icon">
-            <trash-2-icon v-if="icon === 'trash'" size="17"></trash-2-icon>
-            <life-buoy-icon v-if="icon === 'restore'" size="17"></life-buoy-icon>
-            <trash-icon v-if="icon === 'empty-trash'" size="17"></trash-icon>
-            <eye-icon v-if="icon ==='detail'" size="17"></eye-icon>
-            <download-cloud-icon v-if="icon === 'download'" size="17"></download-cloud-icon>
-            <edit2-icon v-if="icon === 'rename'" size="17"></edit2-icon>
-            <corner-down-right-icon v-if="icon === 'move-item'" size="17"></corner-down-right-icon>
-            <link-icon v-if="icon === 'share'" size="17"></link-icon>
-            <star-icon v-if="icon === 'favourites'" size="17"></star-icon>
-            <folder-plus-icon v-if="icon === 'create-folder'" size="17"></folder-plus-icon>
-            <smile-icon v-if="icon === 'no-options'" size="17"></smile-icon>
-            <paperclip-icon v-if="icon === 'zip-folder'" size="17"></paperclip-icon> 
+    <li class="menu-option group">
+        <div class="icon group-hover-text-theme">
+            <calendar-icon v-if="icon === 'calendar'" size="17" class="group-hover-text-theme"/>
+            <grid-icon v-if="icon === 'grid'" size="17" class="group-hover-text-theme"/>
+            <list-icon v-if="icon === 'list'" size="17" class="group-hover-text-theme"/>
+            <trash-2-icon v-if="icon === 'trash'" size="17" class="group-hover-text-theme"/>
+            <life-buoy-icon v-if="icon === 'restore'" size="17" class="group-hover-text-theme"/>
+            <trash-icon v-if="icon === 'empty-trash'" size="17" class="group-hover-text-theme"/>
+            <eye-icon v-if="icon ==='detail'" size="17" class="group-hover-text-theme"/>
+            <download-cloud-icon v-if="icon === 'download'" size="17" class="group-hover-text-theme"/>
+            <edit2-icon v-if="icon === 'rename'" size="17" class="group-hover-text-theme"/>
+            <corner-down-right-icon v-if="icon === 'move-item'" size="17" class="group-hover-text-theme"/>
+            <link-icon v-if="icon === 'share'" size="17" class="group-hover-text-theme"/>
+            <star-icon v-if="icon === 'favourites'" size="17" class="group-hover-text-theme"/>
+            <folder-plus-icon v-if="icon === 'create-folder'" size="17" class="group-hover-text-theme"/>
+            <smile-icon v-if="icon === 'no-options'" size="17" class="group-hover-text-theme"/>
+            <paperclip-icon v-if="icon === 'zip-folder'" size="17" class="group-hover-text-theme"/>
+            <alphabet-icon v-if="icon === 'alphabet'" size="17" class="group-hover-text-theme"/>
         </div>
-        <div class="text-label">
+        <div class="text-label group-hover-text-theme">
             {{ title }}
         </div>
     </li>
 </template>
 
 <script>
+import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
     CornerDownRightIcon,
     DownloadCloudIcon,
@@ -33,7 +38,10 @@ import {
     StarIcon,
     LinkIcon,
     EyeIcon,
-    SmileIcon
+    SmileIcon,
+    GridIcon,
+    ListIcon,
+    CalendarIcon,
 } from 'vue-feather-icons'
 
     export default {
@@ -45,6 +53,7 @@ import {
             FolderPlusIcon,
             PaperclipIcon,
             LifeBuoyIcon,
+            AlphabetIcon,
             Trash2Icon,
             SmileIcon,
             Edit2Icon,
@@ -52,29 +61,16 @@ import {
             LinkIcon,
             StarIcon,
             EyeIcon,
+            GridIcon,
+            ListIcon,
+            CalendarIcon,
         }
     }
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
-
-.danger {
-    .text-label {
-        color: $danger !important;
-    }
-    .icon {
-        path,
-        line,
-        polyline,
-        rect,
-        circle,
-        polygon {
-            stroke: $danger !important;
-        }
-    }
-}
+@import "@assets/vuefilemanager/_variables";
+@import "@assets/vuefilemanager/_mixins";
 
 .menu-option {
     white-space: nowrap;
@@ -90,6 +86,15 @@ import {
     .icon {
         margin-right: 20px;
         line-height: 0;
+
+        path,
+        line,
+        polyline,
+        rect,
+        circle,
+        polygon {
+            color: inherit;
+        }
     }
 
     .text-label {
@@ -98,32 +103,15 @@ import {
 
     &:hover {
         background: $light_background;
-
-        .text-label {
-            color: $theme;
-        }
-
-        path,
-        line,
-        polyline,
-        rect,
-        circle,
-        polygon {
-            stroke: $theme;
-        }
     }
 }
 @media (prefers-color-scheme: dark) {
-    .danger {
-        &:hover {
-            background: rgba($danger, 0.1) !important;
-        }
-    }
+
     .menu-option {
         color: $dark_mode_text_primary;
 
         &:hover {
-            background: rgba($theme, 0.1);
+            background: lighten($dark_mode_foreground, 2%);
         }
     } 
 }

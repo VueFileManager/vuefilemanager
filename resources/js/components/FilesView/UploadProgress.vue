@@ -5,7 +5,7 @@
 
                 <!--Is processing-->
 				<span v-if="isProcessingFile">
-                    <refresh-cw-icon size="12" class="sync-alt"></refresh-cw-icon>
+                    <refresh-cw-icon size="12" class="sync-alt text-theme" />
                     {{ $t('uploading.processing_file') }}
                 </span>
 
@@ -17,7 +17,7 @@
             <div class="progress-wrapper">
                 <ProgressBar :progress="uploadingProgress" />
                 <span @click="cancelUpload" :title="$t('uploading.cancel')" class="cancel-icon">
-                    <x-icon size="16" @click="cancelUpload"></x-icon>
+                    <x-icon size="16" @click="cancelUpload" class="hover-text-theme"></x-icon>
                 </span>
             </div>
         </div>
@@ -55,15 +55,15 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .sync-alt {
         animation: spin 1s linear infinite;
         margin-right: 5px;
 
         polyline, path {
-            stroke: $theme;
+            color: inherit;
         }
     }
 
@@ -103,7 +103,7 @@
                 &:hover {
 
                     line {
-                        stroke: $theme;
+                        color: inherit;
                     }
                 }
             }

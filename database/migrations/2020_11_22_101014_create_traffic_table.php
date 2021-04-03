@@ -14,8 +14,8 @@ class CreateTrafficTable extends Migration
     public function up()
     {
         Schema::create('traffic', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->uuid('id');
+            $table->uuid('user_id')->index();
             $table->bigInteger('upload')->default(0);
             $table->bigInteger('download')->default(0);
             $table->timestamps();

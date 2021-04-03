@@ -68,15 +68,13 @@ export default {
         events.$on('drop', () => {
             this.isVisible = false
         })
-
-
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 #multi-select-ui {
     max-width: 300px;
@@ -88,43 +86,11 @@ export default {
     border-radius: 8px;
     box-shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
     background: white;
-
-    /deep/ .text {
-        .title {
-            color: $text;
-        }
-
-        .count {
-            color: $text-muted;
-        }
-    }
-
-    /deep/ .icon-wrapper {
-        .icon {
-            stroke: $theme;
-        }
-    }
 }
 
 @media (prefers-color-scheme: dark) {
     #multi-select-ui {
         background: $dark_mode_foreground;
-
-        /deep/ .text {
-            .title {
-                color: $dark_mode_text_primary;
-            }
-
-            .count {
-                color: $dark_mode_text_secondary;
-            }
-        }
-
-        /deep/ .icon-wrapper {
-            .icon {
-                stroke: $theme;
-            }
-        }
     }
 }
 

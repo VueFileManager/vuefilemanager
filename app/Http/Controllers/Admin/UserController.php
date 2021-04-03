@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\FileManagerFile;
-use App\FileManagerFolder;
+use App\Models\File;
+use App\Models\Folder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChangeRoleRequest;
 use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
@@ -14,18 +14,15 @@ use App\Http\Resources\UsersCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Resources\UserSubscription;
-use App\Http\Tools\Demo;
 use App\Services\StripeService;
-use App\Share;
-use App\User;
-use App\UserSettings;
+use App\Models\Share;
+use App\Models\User;
+use App\Models\UserSettings;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Storage;
 
 class UserController extends Controller
@@ -38,59 +35,58 @@ class UserController extends Controller
     /**
      * Get user details
      *
-     * @param $id
+     * @param User $user
      * @return UserResource
      */
-    public function details($id)
+    public function details(User $user)
     {
         return new UserResource(
-            User::findOrFail($id)
+            $user
         );
     }
 
     /**
      * Get user storage details
      *
-     * @param $id
+     * @param User $user
      * @return UserStorageResource
      */
-    public function storage($id)
+    public function storage(User $user)
     {
         return new UserStorageResource(
-            User::findOrFail($id)
+            $user
         );
     }
 
     /**
      * Get user storage details
      *
+     * @param User $user
      * @return InvoiceCollection
      */
-    public function invoices($id)
+    public function invoices(User $user)
     {
-        $user = User::find($id);
-
         return new InvoiceCollection(
-            $this->stripe->getUserInvoices($user)
+            $this
+                ->stripe
+                ->getUserInvoices($user)
         );
     }
 
     /**
      * Get user subscription details
      *
-     * @param $id
-     * @return UserSubscription
+     * @param User $user
+     * @return UserSubscription|Application|ResponseFactory|Response
      */
-    public function subscription($id)
+    public function subscription(User $user)
     {
-        $user = User::find($id);
-
-        if (! $user->stripeId() || ! $user->subscription('main')) {
-            return response('User doesn\'t have any subscription.', 404);
+        if (!$user->stripeId() || !$user->subscription('main')) {
+            return response("User doesn't have any subscription.", 404);
         }
 
         return new UserSubscription(
-            User::find($id)
+            $user
         );
     }
 
@@ -102,7 +98,8 @@ class UserController extends Controller
     public function users()
     {
         return new UsersCollection(
-            User::sortable(['created_at', 'DESC'])->paginate('20')
+            User::sortable(['created_at', 'DESC'])
+                ->paginate(20)
         );
     }
 
@@ -110,15 +107,13 @@ class UserController extends Controller
      * Change user role
      *
      * @param ChangeRoleRequest $request
-     * @param $id
+     * @param User $user
      * @return UserResource
      */
-    public function change_role(ChangeRoleRequest $request, $id)
+    public function change_role(ChangeRoleRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         // Demo preview
-        if (env('APP_DEMO') && $id == 1) {
+        if (is_demo_account('howdy@hi5ve.digial')) {
             return new UserResource($user);
         }
 
@@ -126,42 +121,47 @@ class UserController extends Controller
         $user->role = $request->input('attributes.role');
         $user->save();
 
-        return new UserResource($user);
+        return new UserResource(
+            $user
+        );
     }
 
     /**
      * Change user storage capacity
      *
      * @param ChangeStorageCapacityRequest $request
-     * @param $id
+     * @param User $user
      * @return UserStorageResource
      */
-    public function change_storage_capacity(ChangeStorageCapacityRequest $request, $id)
+    public function change_storage_capacity(ChangeStorageCapacityRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
+        $user
+            ->settings()
+            ->update(
+                $request->input('attributes')
+            );
 
-        $user->settings()->update($request->input('attributes'));
-
-        return new UserStorageResource($user);
+        return new UserStorageResource(
+            $user
+        );
     }
 
     /**
      * Send user password reset link
      *
-     * @param $id
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @param User $user
+     * @return ResponseFactory|Response
      */
-    public function send_password_reset_email($id)
+    public function reset_password(User $user)
     {
-        $user = User::findOrFail($id);
-
         // Demo preview
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return response('Done!', 204);
         }
 
         // Get password token
-        $token = Password::getRepository()->create($user);
+        $token = Password::getRepository()
+            ->create($user);
 
         // Send user email
         $user->sendPasswordResetNotification($token);
@@ -173,100 +173,58 @@ class UserController extends Controller
      * Create new user by admin
      *
      * @param CreateUserByAdmin $request
-     * @return UserResource
+     * @return UserResource|Application|ResponseFactory|Response
      */
     public function create_user(CreateUserByAdmin $request)
     {
-        // Store avatar
-        if ($request->hasFile('avatar')) {
-            $avatar = store_avatar($request->file('avatar'), 'avatars');
-        }
-
         // Create user
         $user = User::forceCreate([
-            'avatar'   => $request->hasFile('avatar') ? $avatar : null,
-            'name'     => $request->name,
             'role'     => $request->role,
             'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
-        // Create settings
-        UserSettings::forceCreate([
-            'user_id'          => $user->id,
-            'storage_capacity' => $request->storage_capacity,
-        ]);
+        UserSettings::unguard();
 
-        return new UserResource($user);
+        $user
+            ->settings()
+            ->create([
+                'name'             => $request->name,
+                'avatar'           => store_avatar($request, 'avatar'),
+                'storage_capacity' => $request->storage_capacity,
+            ]);
+
+        UserSettings::reguard();
+
+        return response(new UserResource($user), 201);
     }
 
     /**
      * Delete user with all user data
      *
      * @param DeleteUserRequest $request
-     * @param $id
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @param User $user
+     * @return ResponseFactory|Response
      * @throws \Exception
      */
-    public function delete_user(DeleteUserRequest $request, $id)
+    public function delete_user(DeleteUserRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-
-        if ($user->subscribed('main')) {
-            abort(202, 'You can\'t delete this account while user have active subscription.');
-        }
-
-        // Demo preview
-        if (env('APP_DEMO')) {
+        if (is_demo()) {
             return response('Done!', 204);
         }
 
-        // Check for self deleted account
+        if ($user->subscribed('main')) {
+            abort(202, "You can\'t delete this account while user have active subscription.");
+        }
+
         if ($user->id === Auth::id()) {
-            abort(406, 'You can\'t delete your account');
+            abort(406, "You can\'t delete your account");
         }
 
-        // Validate user name
-        if ($user->name !== $request->input('data.name')) abort(403);
-
-        $shares = Share::where('user_id', $user->id)->get();
-
-        $files = FileManagerFile::withTrashed()
-            ->where('user_id', $user->id)
-            ->get();
-        $folders = FileManagerFolder::withTrashed()
-            ->where('user_id', $user->id)
-            ->get();
-
-        // Remove all files and thumbnails
-        $files->each(function ($file) {
-
-            // Delete file
-            Storage::delete('/file-manager/' . $file->basename);
-
-            // Delete thumbnail if exist
-            if (!is_null($file->thumbnail)) {
-                Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
-            }
-
-            // Delete file permanently
-            $file->forceDelete();
-        });
-
-        // Remove avatar
-        if ($user->avatar) {
-            Storage::delete('/avatars/' . $user->avatar);
+        if ($user->settings->name !== $request->name) {
+            abort(403, "The name you typed is wrong!");
         }
 
-        // Remove folders & shares
-        $folders->each->forceDelete();
-        $shares->each->forceDelete();
-
-        // Remove favourites
-        $user->settings->delete();
-        $user->favourite_folders()->sync([]);
-
-        // Delete user
         $user->delete();
 
         return response('Done!', 204);

@@ -1,6 +1,6 @@
 <template>
     <nav class="main-navigation">
-        <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
+        <router-link :to="{name: 'Homepage'}" tag="div" class="logo">
             <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name">
             <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
@@ -12,25 +12,32 @@
                     </a>
                 </li>-->
                 <li>
-                    <router-link :to="{name: 'ContactUs'}">
+                    <router-link :to="{name: 'ContactUs'}" class="hover-text-theme">
                         {{ $t('page_index.menu.contact_us') }}
                     </router-link>
                 </li>
             </ul>
-            <ul class="navigation-links">
+            <ul v-if="! config.isAuthenticated" class="navigation-links">
                 <li>
-                    <router-link :to="{name: 'SignIn'}">
+                    <router-link :to="{name: 'SignIn'}" class="hover-text-theme">
                         {{ $t('page_index.menu.log_in') }}
                     </router-link>
                 </li>
                 <li v-if="config.userRegistration">
-                    <router-link class="cta-button" :to="{name: 'SignUp'}">
+                    <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'SignUp'}">
                         {{ $t('page_index.menu.sign_in') }}
                     </router-link>
                 </li>
             </ul>
+            <ul v-if="config.isAuthenticated" class="navigation-links">
+                <li v-if="config.userRegistration">
+                    <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'Files'}">
+                        {{ $t('go_to_files') }}
+                    </router-link>
+                </li>
+            </ul>
         </div>
-        <router-link class="cta-button log-in" :to="{name: 'SignIn'}">
+        <router-link class="cta-button log-in text-theme bg-theme-100" :to="{name: 'SignIn'}">
             {{ $t('page_index.menu.log_in') }}
         </router-link>
     </nav>
@@ -48,9 +55,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_landing-page';
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_landing-page';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .main-navigation {
         justify-content: space-between;
@@ -77,7 +84,7 @@
 
     .navigation-links {
         display: inline-block;
-        margin-left: 50px;
+        margin-left: 25px;
 
         &:first-child {
             margin-left: 0;
@@ -91,19 +98,13 @@
                 font-weight: 700;
                 @include font-size(17);
                 @include transition(150ms);
-
-                &:hover {
-                    color: $theme;
-                }
             }
         }
     }
 
     .cta-button {
-        background: rgba($theme, 0.1);
         border-radius: 6px;
         padding: 8px 23px;
-        color: $theme;
         @include font-size(17);
         font-weight: 700;
 

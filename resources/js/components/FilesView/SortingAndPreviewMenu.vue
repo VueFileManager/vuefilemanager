@@ -1,52 +1,24 @@
 <template>
     <div class="menu-options" id="menu-list">
-        <ul class="menu-option-group">
-            <li v-if="isList" class="menu-option" @click="changePreview('grid')">
-                <div class="icon">
-                    <grid-icon size="17"/>
-                </div>
-                <div class="text-label">
-                    {{ $t('preview_sorting.grid_view') }}
-                </div>
-            </li>
-            <li v-if="isGrid" class="menu-option" @click="changePreview('list')">
-                <div class="icon">
-                    <list-icon size="17"/>
-                </div>
-                <div class="text-label">
-                    {{ $t('preview_sorting.list_view') }}
-                </div>
-            </li>
-        </ul>
-        <ul class="menu-option-group">
-            <li class="menu-option" @click.stop="sort('created_at')">
-                <div class="icon">
-                    <calendar-icon size="17"/>
-                </div>
-                <div class="text-label">
-                    {{ $t('preview_sorting.sort_date') }}
-                </div>
-                <div class="show-icon">
-                    <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-                </div>
-            </li>
-            <li class="menu-option" @click.stop="sort('name')">
-                <div class="icon">
-                    <alphabet-icon size="17" class="alphabet-icon"/>
-                </div>
-                <div class="text-label">
-                    {{ $t('preview_sorting.sort_alphabet') }}
-                </div>
-                <div class="show-icon">
-                    <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-                </div>
-            </li>
-        </ul>
+        <OptionGroup class="menu-option-group">
+            <Option v-if="isList" @click.native="changePreview('grid')" :title="$t('preview_sorting.grid_view')" icon="grid" />
+            <Option v-if="isGrid" @click.native="changePreview('list')" :title="$t('preview_sorting.list_view')" icon="list" />
+        </OptionGroup>
+        <OptionGroup class="menu-option-group">
+            <Option @click.native.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
+            <Option @click.native.stop="sort('name')" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
+        </OptionGroup>
+
+        <!-- TODO: implementovat sipky
+        <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
+        <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>-->
     </div>
 </template>
 
 <script>
 
+import OptionGroup from '@/components/FilesView/OptionGroup'
+import Option from '@/components/FilesView/Option'
 import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import { mapGetters } from 'vuex'
@@ -55,6 +27,8 @@ import { events } from '@/bus'
 export default {
     name: 'SortingAndPreviewMenu',
     components: {
+        OptionGroup,
+        Option,
         CalendarIcon,
         AlphabetIcon,
         ArrowUpIcon,
@@ -116,13 +90,12 @@ export default {
         this.filter.sort = sorting ? sorting.sort : 'DESC'
         this.filter.field = sorting ? sorting.field : 'created_at'
     }
-
 }
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
+@import "@assets/vuefilemanager/_variables";
+@import "@assets/vuefilemanager/_mixins";
 
 .show-icon {
     margin-left: auto;
@@ -139,14 +112,6 @@ export default {
     .icon {
         margin-right: 20px;
         line-height: 0;
-
-        .alphabet-icon {
-            /deep/ line,
-            /deep/ polyline {
-                stroke: $text;
-            }
-        }
-
     }
 
     .text-label {
@@ -209,15 +174,6 @@ export default {
 
         .menu-option {
             color: $dark_mode_text_primary;
-
-            .icon {
-                .alphabet-icon {
-                    /deep/ line,
-                    /deep/ polyline {
-                        stroke: $dark_mode_text_primary;
-                    }
-                }
-            }
         }
     }
 }

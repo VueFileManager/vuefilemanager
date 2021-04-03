@@ -5,7 +5,7 @@
         </div>
         <router-link :to="{name: linkRoute}" class="footer-link">
             <span class="content">{{ linkName }}</span>
-            <chevron-right-icon size="16"></chevron-right-icon>
+            <chevron-right-icon size="16" class="text-theme"></chevron-right-icon>
         </router-link>
     </WidgetWrapper>
 </template>
@@ -28,8 +28,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .widget-value {
         margin-top: 10px;
@@ -46,7 +46,7 @@
         align-items: center;
 
         polyline {
-            stroke: $theme;
+            color: inherit;
         }
 
         .content {

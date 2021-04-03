@@ -52,7 +52,7 @@
                 this.isSendingRequest = true
 
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/send-password-email',
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/reset-password',
                         {}
                     )
                     .then(() => {
@@ -78,9 +78,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

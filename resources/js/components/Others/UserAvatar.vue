@@ -1,7 +1,7 @@
 <template>
     <div class="user-avatar" :class="size">
         <span v-if="isIncompletePayment || isNearlyFullStorageCapacity" class="notification"></span>
-        <img :src="user.data.attributes.avatar" :alt="user.data.attributes.name">
+        <img :src="user.data.relationships.settings.data.attributes.avatar" :alt="user.data.relationships.settings.data.attributes.name">
     </div>
 </template>
 
@@ -19,15 +19,15 @@
                 return this.user.data.attributes.incomplete_payment
             },
             isNearlyFullStorageCapacity() {
-                return this.config.storageLimit && this.user.relationships.storage.data.attributes.used > 95
+                return this.config.storageLimit && this.user.data.attributes.storage.used > 95
             }
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .user-avatar {
         line-height: 0;

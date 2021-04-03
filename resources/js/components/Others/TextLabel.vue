@@ -11,8 +11,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .text-label {
         padding-left: 25px;
@@ -31,7 +31,7 @@
 
     @media (prefers-color-scheme: dark) {
         .text-label {
-            color: $theme;
+            opacity: 0.35;
         }
     }
 </style>

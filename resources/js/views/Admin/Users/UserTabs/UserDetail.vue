@@ -15,8 +15,8 @@
                 <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role" rules="required">
                     <label>{{ $t('admin_page_user.select_role') }}:</label>
                     <div class="single-line-form">
-                        <SelectInput v-model="userRole" :options="roles"
-                                     :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                        <SelectInput v-model="userRole" :options="$translateSelectOptions(roles)"
+                                     :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
                                     button-style="theme" class="submit-button">
                             {{ $t('admin_page_user.save_role') }}
@@ -34,7 +34,7 @@
 
                 <!--Email-->
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.attributes.email"
                                :placeholder="$t('page_registration.placeholder_email')"
@@ -46,9 +46,9 @@
 
                 <!--Name-->
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.data.attributes.name"
+                        <input :value="user.data.relationships.settings.data.attributes.name"
                                :placeholder="$t('page_registration.placeholder_name')"
                                type="text"
                                disabled
@@ -66,7 +66,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_name"
+                        <input :value="user.data.relationships.settings.data.attributes.name"
                                type="text"
                                disabled
                         />
@@ -75,7 +75,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_address"
+                        <input :value="user.data.relationships.settings.data.attributes.address"
                                type="text"
                                disabled
                         />
@@ -84,7 +84,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_country"
+                        <input :value="user.data.relationships.settings.data.attributes.country"
                                type="text"
                                disabled
                         />
@@ -94,7 +94,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
-                            <input :value="user.relationships.settings.data.attributes.billing_city"
+                            <input :value="user.data.relationships.settings.data.attributes.city"
                                    type="text"
                                    disabled
                             />
@@ -103,7 +103,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
-                            <input :value="user.relationships.settings.data.attributes.billing_postal_code"
+                            <input :value="user.data.relationships.settings.data.attributes.postal_code"
                                    type="text"
                                    disabled
                             />
@@ -113,7 +113,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_state"
+                        <input :value="user.data.relationships.settings.data.attributes.state"
                                type="text"
                                disabled
                         />
@@ -122,7 +122,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
-                        <input :value="user.relationships.settings.data.attributes.billing_phone_number"
+                        <input :value="user.data.relationships.settings.data.attributes.phone_number"
                                type="text"
                                disabled
                         />
@@ -188,7 +188,7 @@
 
                 // Send request to get user reset link
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/role', {
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/role', {
                         attributes: {
                             role: this.userRole,
                         },
@@ -199,8 +199,6 @@
                         // Reset errors
                         this.$refs.changeRole.reset()
 
-                        this.isSendingRequest = false
-
                         this.$emit('reload-user')
 
                         events.$emit('toaster', {
@@ -209,23 +207,23 @@
                         })
                     })
                     .catch(() => {
-
-                        this.isSendingRequest = false
-
                         events.$emit('alert:open', {
                             title: this.$t('popup_error.title'),
                             message: this.$t('popup_error.message'),
                         })
                     })
+                    .finally(() => {
+                        this.isSendingRequest = false
+                    })
             }
-        }
+        },
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

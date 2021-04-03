@@ -11,7 +11,7 @@
                 <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Plan name" :rules="'required|is:' + plan.attributes.name">
                     <label>{{ $t('admin_page_user.label_delete_user', {user: plan.attributes.name}) }}:</label>
                     <div class="single-line-form">
-                        <input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
                             {{ $t('admin_page_plans.delete_plan_button') }}
                         </ButtonBase>
@@ -70,7 +70,7 @@
                 this.isSendingRequest = true
 
                 axios
-                    .post(this.$store.getters.api + '/plans/' + this.$route.params.id,
+                    .post(this.$store.getters.api + '/admin/plans/' + this.$route.params.id,
                         {
                             data: {
                                 name: this.planName
@@ -105,9 +105,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

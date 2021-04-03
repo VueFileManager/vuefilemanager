@@ -17,6 +17,7 @@
                                type="number"
                                min="1"
                                max="999999999"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"
                         />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
@@ -96,7 +97,7 @@
 
                 // Send request to get user reset link
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/capacity', {
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/capacity', {
                         attributes: {
                             storage_capacity: this.capacity
                         },
@@ -139,7 +140,7 @@
                     })
             },
             getStorageDetails() {
-                axios.get('/api/users/' + this.$route.params.id + '/storage')
+                axios.get('/api/admin/users/' + this.$route.params.id + '/storage')
                     .then(response => {
                         this.storage = response.data.data
                         this.isLoading = false
@@ -153,9 +154,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

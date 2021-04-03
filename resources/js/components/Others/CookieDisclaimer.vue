@@ -40,11 +40,12 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .cookie-wrapper {
         @include widget-card;
+        background: white;
         position: fixed;
         bottom: 0;
         left: 115px;
@@ -71,7 +72,7 @@
 
             a {
                 font-size: 12px;
-                color: $theme;
+                text-decoration: underline;
             }
         }
     }

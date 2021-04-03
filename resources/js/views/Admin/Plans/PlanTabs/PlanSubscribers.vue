@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <PageTabGroup>
-            <DatatableWrapper @init="isLoading = false" :api="'/api/plans/' + this.$route.params.id + '/subscribers'" :paginator="false" :columns="columns" :data="subscribers" class="table">
+            <DatatableWrapper @init="isLoading = false" :api="`/api/admin/plans/${this.$route.params.id}/subscribers`" :paginator="false" :columns="columns" :data="subscribers" class="table">
 
                 <!--Table data content-->
                 <template slot-scope="{ row }">
@@ -10,23 +10,23 @@
                             <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                 <DatatableCellImage
                                         image-size="small"
-                                        :image="row.data.attributes.avatar"
-                                        :title="row.data.attributes.name"
+                                        :image="row.data.relationships.settings.data.attributes.avatar"
+                                        :title="row.data.relationships.settings.data.attributes.name"
                                 />
                             </router-link>
                         </td>
                         <td>
                             <span class="cell-item">
-                                {{ row.relationships.storage.data.attributes.used }}%
+                                {{ row.data.attributes.storage.used }}%
                             </span>
                         </td>
                         <td>
                             <div class="action-icons">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                    <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
+                                    <edit-2-icon size="15" class="icon icon-edit" />
                                 </router-link>
                                 <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
-                                    <trash2-icon size="15" class="icon icon-trash"></trash2-icon>
+                                    <trash2-icon size="15" class="icon icon-trash" />
                                 </router-link>
                             </div>
                         </td>
@@ -91,9 +91,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

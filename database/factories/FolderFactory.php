@@ -1,17 +1,36 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\FileManagerFolder;
-use Faker\Generator as Faker;
+use App\Models\Folder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(FileManagerFolder::class, function (Faker $faker) {
-    return [
-        'id'        => $faker->randomDigit,
-        'unique_id' => $faker->randomDigit,
-        'user_id'   => 1,
-        'parent_id' => 0,
-        'name'      => $faker->sentence,
-        'type'      => 'folder',
-    ];
-});
+class FolderFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Folder::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'id'         => $this->faker->uuid,
+            'user_id'    => $this->faker->uuid,
+            'name'       => $this->faker->word,
+            'author' => $this->faker->randomElement(
+                ['user', 'member', 'visitor']
+            ),
+            'created_at' => $this->faker->dateTimeBetween(
+                $startDate = '-36 months', $endDate = 'now', $timezone = null
+            ),
+        ];
+    }
+}

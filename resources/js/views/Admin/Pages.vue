@@ -1,11 +1,11 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-show="! isLoading">
-            <MobileHeader :title="$router.currentRoute.meta.title"/>
-            <PageHeader :title="$router.currentRoute.meta.title"/>
+            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="content-page">
-                <DatatableWrapper @init="isLoading = false" api="/api/pages" :paginator="false" :columns="columns" class="table table-users">
+                <DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
                             <td class="name" style="min-width: 200px">
@@ -26,7 +26,7 @@
                             <td>
                                 <div class="action-icons">
                                     <router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
-                                        <edit-2-icon size="15" class="icon icon-edit"></edit-2-icon>
+                                        <Edit2Icon size="15" class="icon icon-edit" />
                                     </router-link>
                                 </div>
                             </td>
@@ -100,15 +100,15 @@
         },
         methods: {
             changeStatus(val, slug) {
-                this.$updateText('/pages/' + slug, 'visibility', val)
+                this.$updateText('/admin/pages/' + slug, 'visibility', val)
             }
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .table-tools {
         background: white;

@@ -4,7 +4,7 @@
             <div class="form block-form">
                 <FormLabel>{{ $t('user_settings.title_account') }}</FormLabel>
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}</label>
+                    <label>{{ $t('page_registration.label_email') }}:</label>
                     <div class="input-wrapper">
                         <input :value="userInfo.email"
                                :placeholder="$t('page_registration.placeholder_email')"
@@ -14,12 +14,13 @@
                     </div>
                 </div>
                 <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}</label>
+                    <label>{{ $t('page_registration.label_name') }}:</label>
                     <div class="input-wrapper">
                         <input @keyup="changeUserName"
                                v-model="userInfo.name"
                                :placeholder="$t('page_registration.placeholder_name')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
@@ -32,9 +33,9 @@
                 <div class="block-wrapper">
                     <label>GMT:</label>
                     <div class="input-wrapper">
-                        <SelectInput @input="$updateText('/user/relationships/settings', 'timezone', userTimezone)"
-                                    v-model="userTimezone"
-                                    :default="userTimezone"
+                        <SelectInput @input="$updateText('/user/relationships/settings', 'timezone', userInfo.timezone)"
+                                    v-model="userInfo.timezone"
+                                    :default="userInfo.timezone"
                                     :options="timezones"
                                     :placeholder="$t('user_settings.timezone_plac')"/>
                     </div>
@@ -48,20 +49,22 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'billing_name', billingInfo.billing_name)"
-                               v-model="billingInfo.billing_name"
+                        <input @keyup="$updateText('/user/relationships/settings', 'name', billingInfo.name)"
+                               v-model="billingInfo.name"
                                :placeholder="$t('user_settings.name_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'billing_address', billingInfo.billing_address)"
-                               v-model="billingInfo.billing_address"
+                        <input @keyup="$updateText('/user/relationships/settings', 'address', billingInfo.address)"
+                               v-model="billingInfo.address"
                                :placeholder="$t('user_settings.address_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
@@ -69,20 +72,22 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
-                            <input @keyup="$updateText('/user/relationships/settings', 'billing_city', billingInfo.billing_city)"
-                                   v-model="billingInfo.billing_city"
+                            <input @keyup="$updateText('/user/relationships/settings', 'city', billingInfo.city)"
+                                   v-model="billingInfo.city"
                                    :placeholder="$t('user_settings.city_plac')"
                                    type="text"
+                                   class="focus-border-theme"
                             />
                         </div>
                     </div>
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
-                            <input @keyup="$updateText('/user/relationships/settings', 'billing_postal_code', billingInfo.billing_postal_code)"
-                                   v-model="billingInfo.billing_postal_code"
+                            <input @keyup="$updateText('/user/relationships/settings', 'postal_code', billingInfo.postal_code)"
+                                   v-model="billingInfo.postal_code"
                                    :placeholder="$t('user_settings.postal_code_plac')"
                                    type="text"
+                                   class="focus-border-theme"
                             />
                         </div>
                     </div>
@@ -90,20 +95,22 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
-                        <SelectInput @input="$updateText('/user/relationships/settings', 'billing_country', billingInfo.billing_country)"
-                                     v-model="billingInfo.billing_country"
-                                     :default="billingInfo.billing_country"
+                        <SelectInput @input="$updateText('/user/relationships/settings', 'country', billingInfo.country)"
+                                     v-model="billingInfo.country"
+                                     :default="billingInfo.country"
                                      :options="countries"
-                                     :placeholder="$t('user_settings.country_plac')"/>
+                                     :placeholder="$t('user_settings.country_plac')"
+                        />
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'billing_state', billingInfo.billing_state)"
-                               v-model="billingInfo.billing_state"
+                        <input @keyup="$updateText('/user/relationships/settings', 'state', billingInfo.state)"
+                               v-model="billingInfo.state"
                                :placeholder="$t('user_settings.state_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                         <small class="input-help">
                             State, county, province, or region.
@@ -113,10 +120,11 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'billing_phone_number', billingInfo.billing_phone_number)"
-                               v-model="billingInfo.billing_phone_number"
+                        <input @keyup="$updateText('/user/relationships/settings', 'phone_number', billingInfo.phone_number)"
+                               v-model="billingInfo.phone_number"
                                :placeholder="$t('user_settings.phone_number_plac')"
                                type="text"
+                               class="focus-border-theme"
                         />
                     </div>
                 </div>
@@ -164,7 +172,6 @@
             return {
                 userInfo: undefined,
                 billingInfo: undefined,
-                userTimezone: undefined,
                 isLoading: false,
             }
         },
@@ -176,30 +183,29 @@
         },
         created() {
 
-            this.userTimezone = this.user.relationships.timezone.data.attributes.timezone
-
             this.userInfo = {
-                name: this.user.data.attributes.name,
+                timezone: this.user.data.relationships.settings.data.attributes.timezone,
+                name: this.user.data.relationships.settings.data.attributes.name,
                 email: this.user.data.attributes.email
             }
 
             this.billingInfo = {
-                billing_name: this.user.relationships.settings.data.attributes.billing_name,
-                billing_address: this.user.relationships.settings.data.attributes.billing_address,
-                billing_state: this.user.relationships.settings.data.attributes.billing_state,
-                billing_city: this.user.relationships.settings.data.attributes.billing_city,
-                billing_postal_code: this.user.relationships.settings.data.attributes.billing_postal_code,
-                billing_country: this.user.relationships.settings.data.attributes.billing_country,
-                billing_phone_number: this.user.relationships.settings.data.attributes.billing_phone_number,
+                name: this.user.data.relationships.settings.data.attributes.name,
+                address: this.user.data.relationships.settings.data.attributes.address,
+                state: this.user.data.relationships.settings.data.attributes.state,
+                city: this.user.data.relationships.settings.data.attributes.city,
+                postal_code: this.user.data.relationships.settings.data.attributes.postal_code,
+                country: this.user.data.relationships.settings.data.attributes.country,
+                phone_number: this.user.data.relationships.settings.data.attributes.phone_number,
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

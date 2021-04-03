@@ -14,14 +14,15 @@ class CreateSharesTable extends Migration
     public function up()
     {
         Schema::create('shares', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->string('token', 16)->unique();
-            $table->bigInteger('item_id');
-            $table->enum('type', ['file', 'files', 'folder']);
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
+            $table->uuid('item_id');
+            $table->string('token', 16)->unique()->index();
+            $table->enum('type', ['file', 'folder']);
             $table->enum('permission', ['visitor', 'editor'])->nullable();
-            $table->boolean('protected');
+            $table->boolean('is_protected')->default(0);
             $table->string('password')->nullable();
+            $table->integer('expire_in')->nullable();
             $table->timestamps();
         });
     }

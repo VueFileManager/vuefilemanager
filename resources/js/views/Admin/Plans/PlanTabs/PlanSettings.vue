@@ -23,7 +23,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_page_plans.form.name') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/admin/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_page_plans.form.description') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Description" v-slot="{ errors }">
-                        <textarea @input="$updateText('/plans/' + $route.params.id + '/update', 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'is-error': errors[0]}"></textarea>
+                        <textarea @input="$updateText('/admin/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'is-error': errors[0]}" class="focus-border-theme"></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -41,7 +41,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('admin_page_plans.form.storage') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage capacity" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/plans/' + $route.params.id + '/update', 'capacity', plan.attributes.capacity)" v-model="plan.attributes.capacity" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" :class="{'is-error': errors[0]}"/>
+                        <input @input="$updateText('/admin/plans/' + $route.params.id, 'capacity', plan.attributes.capacity)" v-model="plan.attributes.capacity" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <small class="input-help">
@@ -97,16 +97,16 @@
         },
         methods: {
             changeStatus(val) {
-                this.$updateText('/plans/' + this.$route.params.id + '/update', 'is_active', val)
+                this.$updateText('/admin/plans/' + this.$route.params.id, 'is_active', val)
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

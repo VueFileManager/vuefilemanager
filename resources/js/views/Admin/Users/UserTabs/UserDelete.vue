@@ -6,12 +6,13 @@
                 <p>{{ $t('user_box_delete.description') }}</p>
             </InfoBox>
             <ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form" class="form block-form">
-                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="User name" :rules="'required|is:' + user.data.attributes.name">
-                    <label>{{ $t('admin_page_user.label_delete_user', {user: user.data.attributes.name}) }}:</label>
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="User name" :rules="'required|is:' + user.data.relationships.settings.data.attributes.name">
+                    <label>{{ $t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name}) }}:</label>
                     <div class="single-line-form">
                         <input v-model="userName"
                                :placeholder="$t('admin_page_user.placeholder_delete_user')"
                                type="text"
+                               class="focus-border-theme"
                                :class="{'is-error': errors[0]}"
                         />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
@@ -73,11 +74,9 @@
                 this.isSendingRequest = true
 
                 axios
-                    .post(this.$store.getters.api + '/users/' + this.$route.params.id + '/delete',
+                    .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/delete',
                         {
-                            data: {
-                                name: this.userName
-                            },
+                            name: this.userName,
                             _method: 'delete'
                         }
                     )
@@ -117,9 +116,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
-    @import '@assets/vue-file-manager/_forms';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
+    @import '@assets/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

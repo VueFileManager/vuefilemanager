@@ -82,7 +82,7 @@
             }
         },
         created() {
-            axios.get('/api/users/' + this.$route.params.id + '/subscription')
+            axios.get('/api/admin/users/' + this.$route.params.id + '/subscription')
                 .then(response => {
                     this.subscription = response.data.data
                     this.isLoading = false
@@ -96,8 +96,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .cancel-plan {
         margin-top: 10px;

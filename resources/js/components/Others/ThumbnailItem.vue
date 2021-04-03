@@ -5,7 +5,7 @@
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text">{{ item.mimetype }}</span>
+            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text text-theme">{{ item.mimetype }}</span>
 
             <!--Folder thumbnail-->
             <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
@@ -14,7 +14,7 @@
             <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
 
             <!--Else show only folder icon-->
-            <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder" />
+            <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder svg-color-theme" />
         </div>
 
         <!--Name-->
@@ -66,8 +66,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .file-item {
         display: flex;
@@ -138,7 +138,6 @@
                 text-align: center;
                 left: 0;
                 right: 0;
-                color: $theme;
                 font-weight: 600;
                 user-select: none;
                 max-width: 20px;
@@ -191,6 +190,16 @@
                 .item-length,
                 .subtitle {
                     color: $dark_mode_text_secondary;
+                }
+            }
+        }
+
+        .popup-wrapper {
+            .file-item {
+                .icon-item .file-icon {
+                    path {
+                        fill: lighten($dark_mode_foreground, 3%);
+                    }
                 }
             }
         }

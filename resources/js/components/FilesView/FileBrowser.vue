@@ -8,10 +8,10 @@
          tabindex="-1"
     >
         <div
-                class="files-container"
-                ref="fileContainer"
-                :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() , 'mobile-multi-select' : mobileMultiSelect}"
-                @click.self="filesContainerClick"
+            class="files-container"
+            ref="fileContainer"
+            :class="{'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale() , 'mobile-multi-select' : mobileMultiSelect}"
+            @click.self="filesContainerClick"
         >
             <!--MobileToolbar-->
             <MobileToolbar />
@@ -25,20 +25,20 @@
             <!--Item previews list-->
             <div v-if="isList" class="file-list-wrapper">
                 <transition-group
-                        name="file"
-                        tag="section"
-                        class="file-list"
-                        :class="FilePreviewType"
+                    name="file"
+                    tag="section"
+                    class="file-list"
+                    :class="FilePreviewType"
                 >
                     <FileItemList
-                            @dragstart="dragStart(item)"
-                            @drop.stop.native.prevent="dragFinish(item, $event)"
-                            @contextmenu.native.prevent="contextMenu($event, item)"
-                            :item="item"
-                            v-for="item in data"
-                            :key="item.unique_id"
-                            class="file-item"
-                            :class="draggedItems.includes(item) ? 'dragged' : '' "                      
+                        @dragstart="dragStart(item)"
+                        @drop.stop.native.prevent="dragFinish(item, $event)"
+                        @contextmenu.native.prevent="contextMenu($event, item)"
+                        :item="item"
+                        v-for="item in data"
+                        :key="item.id"
+                        class="file-item"
+                        :class="draggedItems.includes(item) ? 'dragged' : '' "
                     />
                 </transition-group>
             </div>
@@ -46,47 +46,47 @@
             <!--Item previews grid-->
             <div v-if="isGrid" class="file-grid-wrapper">
                 <transition-group
-                        name="file"
-                        tag="section"
-                        class="file-list"
-                        :class="FilePreviewType"
+                    name="file"
+                    tag="section"
+                    class="file-list"
+                    :class="FilePreviewType"
                 >
                     <FileItemGrid
-                            @dragstart="dragStart(item)"
-                            @drop.native.prevent="dragFinish(item, $event)"
-                            @contextmenu.native.prevent="contextMenu($event, item)"
-                            :item="item"
-                            v-for="item in data"
-                            :key="item.unique_id"
-                            class="file-item"
-                            :class="draggedItems.includes(item) ? 'dragged' : '' "
+                        @dragstart="dragStart(item)"
+                        @drop.native.prevent="dragFinish(item, $event)"
+                        @contextmenu.native.prevent="contextMenu($event, item)"
+                        :item="item"
+                        v-for="item in data"
+                        :key="item.id"
+                        class="file-item"
+                        :class="draggedItems.includes(item) ? 'dragged' : '' "
                     />
                 </transition-group>
             </div>
 
             <!--Show empty page if folder is empty-->
-            <EmptyPage v-if="! isSearching"/>
+            <EmptyPage v-if="! isSearching" />
 
             <!--Show empty page if no search results-->
             <EmptyMessage
-                    v-if="isSearching && isEmpty"
-                    :message="$t('messages.nothing_was_found')"
-                    icon="eye-slash"
+                v-if="isSearching && isEmpty"
+                :message="$t('messages.nothing_was_found')"
+                icon="eye-slash"
             />
         </div>
 
         <!--File Info Panel-->
         <div v-if="! $isMinimalScale()" class="file-info-container" :class="{ 'is-fileinfo-visible': fileInfoVisible }">
             <!--File info panel-->
-            <FileInfoPanel v-if="fileInfoDetail.length === 1"/>
+            <FileInfoPanel v-if="fileInfoDetail.length === 1" />
 
-            <MultiSelected  v-if="fileInfoDetail.length > 1"
-                            :title="$t('file_detail.selected_multiple')" 
-                            :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"            
+            <MultiSelected v-if="fileInfoDetail.length > 1"
+                           :title="$t('file_detail.selected_multiple')"
+                           :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
             />
 
             <!--If file info panel empty show message-->
-            <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off"/>
+            <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off" />
         </div>
     </div>
 </template>
@@ -140,11 +140,11 @@
             draggedItems() {
                 //Set opacity for dragged items
 
-                if(!this.fileInfoDetail.includes(this.draggingId)){
+                if (!this.fileInfoDetail.includes(this.draggingId)) {
                     return [this.draggingId]
                 }
 
-                if(this.fileInfoDetail.includes(this.draggingId)) {
+                if (this.fileInfoDetail.includes(this.draggingId)) {
                     return this.fileInfoDetail
                 }
             }
@@ -158,13 +158,13 @@
         },
         methods: {
             deleteItems() {
-                if(this.fileInfoDetail.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
+                if (this.fileInfoDetail.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
                     this.$store.dispatch('deleteItem')
                 }
             },
             dropUpload(event) {
                 // Upload external file
-                this.$uploadExternalFiles(event, this.currentFolder.unique_id)
+                this.$uploadExternalFiles(event, this.currentFolder.id)
 
                 this.isDragging = false
             },
@@ -191,29 +191,27 @@
                     if (data.type !== 'folder' || this.draggingId === data) return
 
                     //Prevent move selected folder to folder if in beteewn selected folders
-                    if(this.fileInfoDetail.find(item => item === data && this.fileInfoDetail.length > 1)) return 
+                    if (this.fileInfoDetail.find(item => item === data && this.fileInfoDetail.length > 1)) return
 
                     // Move folder to new parent
 
-                     //Move item if is not included in selected items
-                    if(!this.fileInfoDetail.includes(this.draggingId)){
-                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem:this.draggingId})
+                    //Move item if is not included in selected items
+                    if (!this.fileInfoDetail.includes(this.draggingId)) {
+                        this.$store.dispatch('moveItem', {to_item: data, noSelectedItem: this.draggingId})
                     }
 
                     //Move selected items to folder
-                    if(this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)){
-                        this.$store.dispatch('moveItem', {to_item:data ,noSelectedItem: null})
+                    if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)) {
+                        this.$store.dispatch('moveItem', {to_item: data, noSelectedItem: null})
                     }
-                   
-                   
 
                 } else {
 
-                    // Get unique_id of current folder
-                    const unique_id = data.type !== 'folder' ? this.currentFolder.unique_id : data.unique_id
+                    // Get id of current folder
+                    const id = data.type !== 'folder' ? this.currentFolder.id : data.id
 
                     // Upload external file
-                    this.$uploadExternalFiles(event, unique_id)
+                    this.$uploadExternalFiles(event, id)
                 }
 
                 this.isDragging = false
@@ -222,52 +220,55 @@
                 events.$emit('contextMenu:show', event, item)
             },
             filesContainerClick() {
-                
-                // Deselect itms clicked by outside
+
+                // Deselect items clicked by outside
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
             }
         },
         created() {
-            events.$on('mobileSelecting:start' , () => {
-            this.mobileMultiSelect =true
+            events.$on('mobileSelecting:start', () => {
+                this.mobileMultiSelect = true
             })
 
-            events.$on('mobileSelecting:stop' , () => {
-            this.mobileMultiSelect = false
+            events.$on('mobileSelecting:stop', () => {
+                this.mobileMultiSelect = false
             })
 
             events.$on('drop', () => {
                 this.isDragging = false
+
                 setTimeout(() => {
                     this.draggingId = undefined
-                }, 10);
+                }, 10)
             })
 
-            events.$on('fileItem:deselect', () =>
+            events.$on('fileItem:deselect', () => {
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
-            )
+            })
 
             events.$on('scrollTop', () => {
+
                 // Scroll top
                 var container = document.getElementsByClassName(
                     'files-container'
                 )[0]
 
-                if (container) container.scrollTop = 0
+                if (container)
+                    container.scrollTop = 0
             })
         }
     }
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     .file-list {
         .dragged {
-        /deep/.is-dragenter {
-            border: 2px solid transparent;
-        }
+            /deep/ .is-dragenter {
+                border: 2px solid transparent;
+            }
         }
     }
 
@@ -279,7 +280,7 @@
         position: fixed;
         pointer-events: none;
         z-index: 100;
-        
+
     }
 
     .mobile-multi-select {
@@ -433,7 +434,7 @@
         .mobile-search {
             margin-bottom: 0;
         }
-        
+
         .file-info-container {
             display: none;
         }

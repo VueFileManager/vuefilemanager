@@ -1,0 +1,116 @@
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
+
+.auth-logo-text {
+  @include font-size(22);
+  font-weight: 800;
+  margin-bottom: 40px;
+  display: block;
+}
+
+.auth-form {
+  text-align: center;
+  max-width: 600px;
+  padding: 25px 20px;
+  display: table-cell;
+  vertical-align: middle;
+
+  input {
+    min-width: 310px;
+  }
+
+  .additional-link {
+
+    a {
+      font-weight: 700;
+      text-decoration: none;
+    }
+  }
+
+  .user-avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);
+  }
+
+  .logo {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    @include font-size(34);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    color: $text;
+  }
+
+  h2 {
+    @include font-size(23);
+    font-weight: 500;
+    margin-bottom: 50px;
+    color: $text;
+  }
+
+  .block-form {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (min-width: 690px) and (max-width: 960px) {
+
+  .auth-form {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+
+  .auth-form {
+    width: 100%;
+
+    h1 {
+      @include font-size(30);
+    }
+
+    h2 {
+      @include font-size(21);
+    }
+  }
+}
+
+@media only screen and (max-width: 490px) {
+
+  .auth-form {
+    h1 {
+      @include font-size(22);
+    }
+
+    h2 {
+      @include font-size(18);
+    }
+
+    input {
+      min-width: initial;
+    }
+
+    .additional-link {
+      @include font-size(15);
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .auth-form {
+
+    h1, h2, .additional-link {
+      color: $dark_mode_text_primary;
+    }
+  }
+}

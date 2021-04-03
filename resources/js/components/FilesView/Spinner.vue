@@ -1,6 +1,6 @@
 <template>
     <div id="loading-bar-spinner" class="spinner">
-        <div class="spinner-icon"></div>
+        <div class="spinner-icon border-top-theme border-left-theme"></div>
     </div>
 </template>
 
@@ -11,8 +11,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+    @import '@assets/vuefilemanager/_variables';
+    @import '@assets/vuefilemanager/_mixins';
 
     #loading-bar-spinner.spinner {
         left: 50%;
@@ -28,8 +28,8 @@
         width: 40px;
         height: 40px;
         border: solid 4px transparent;
-        border-top-color: $theme !important;
-        border-left-color: $theme !important;
+        //border-top-color: $theme !important;
+        //border-left-color: $theme !important;
         border-radius: 50%;
     }
 

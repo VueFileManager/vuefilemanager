@@ -10,29 +10,29 @@
                 <!-- MultiSelecting for the mobile version -->
                 <div :class="{'check-select-folder' : this.item.type === 'folder', 'check-select' : this.item.type !== 'folder'}" v-if="multiSelectMode">
                     <div class="select-box" :class="{'select-box-active' : isClicked } ">
-                        <CheckIcon v-if="isClicked" class="icon" size="17"/>
+                        <CheckIcon v-if="isClicked" class="icon" size="17" />
                     </div>
                 </div>
 
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">
+                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
                     {{ item.mimetype }}
                 </span>
 
                 <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file"/>
+                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file" />
 
                 <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
+                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name" />
 
-                 <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" location="file-item-grid" class="folder"/>
+                <!--Else show only folder icon-->
+                <FolderIcon v-if="isFolder" :item="item" location="file-item-grid" class="folder svg-color-theme" />
             </div>
 
             <!--Name-->
             <div class="item-name">
                 <!--Name-->
-                <b :ref="this.item.unique_id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
+                <b :ref="this.item.id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
@@ -40,12 +40,12 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && item.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon"></link-icon>
+                        <link-icon size="12" class="shared-icon text-theme" />
                     </div>
 
                     <!--Participant owner Icon-->
-                    <div v-if="$checkPermission('master') && item.user_scope !== 'master'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
+                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
+                        <user-plus-icon size="12" class="shared-icon text-theme" />
                     </div>
 
                     <!--Filesize-->
@@ -59,23 +59,24 @@
             </div>
 
             <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! multiSelectMode && canShowMobileOptions">
-                <FontAwesomeIcon icon="ellipsis-h" class="icon-action"></FontAwesomeIcon>
+                <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme"/>
             </span>
         </div>
     </div>
 </template>
 
 <script>
-import { LinkIcon, UserPlusIcon, CheckIcon } from 'vue-feather-icons'
+import {LinkIcon, UserPlusIcon, CheckIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
-import { debounce } from 'lodash'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import {debounce} from 'lodash'
+import {mapGetters} from 'vuex'
+import {events} from '@/bus'
 
 export default {
     name: 'FileItemGrid',
     props: ['item'],
     components: {
+        MoreHorizontalIcon,
         UserPlusIcon,
         CheckIcon,
         LinkIcon,
@@ -85,23 +86,23 @@ export default {
         ...mapGetters([
             'FilePreviewType', 'sharedDetail', 'fileInfoDetail', 'data'
         ]),
-         folderEmojiOrColor(){
+        folderEmojiOrColor() {
 
-             // If folder have set some color
-            if(this.item.icon_color) {
-                 this.$nextTick(() => {
-                    this.$refs[`folder${this.item.unique_id}`].firstElementChild.style.fill = `${this.item.icon_color}`
+            // If folder have set some color
+            if (this.item.color) {
+                this.$nextTick(() => {
+                    this.$refs[`folder${this.item.id}`].firstElementChild.style.fill = this.item.color
                 })
                 return false
             }
-               
+
             // If folder have set some emoji
-            if(this.item.icon_emoji)
-                return this.item.icon_emoji
+            if (this.item.emoji)
+                return this.item.emoji
 
         },
         isClicked() {
-            return this.fileInfoDetail.some(element => element.unique_id == this.item.unique_id)
+            return this.fileInfoDetail.some(element => element.id === this.item.id)
         },
         isFolder() {
             return this.item.type === 'folder'
@@ -177,10 +178,10 @@ export default {
 
                 // After click deselect new folder rename input
                 document.getSelection().removeAllRanges();
-                
+
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {
                     // Click + Ctrl
-                    if (this.fileInfoDetail.some(item => item.unique_id === this.item.unique_id)) {
+                    if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
                         this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                     } else {
                         this.$store.commit('GET_FILEINFO_DETAIL', this.item)
@@ -218,9 +219,9 @@ export default {
                 if (this.$isMobile() && this.isFolder) {
                     // Go to folder
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
+                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
+                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
                     }
                 }
 
@@ -233,21 +234,12 @@ export default {
             }
 
             if (this.multiSelectMode && this.$isMobile()) {
-                if (this.fileInfoDetail.some(item => item.unique_id === this.item.unique_id)) {
+                if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
                     this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                 } else {
                     this.$store.commit('GET_FILEINFO_DETAIL', this.item)
                 }
             }
-            // Get target classname
-            let itemClass = e.target.className
-
-            if (
-                ['name', 'icon', 'file-link', 'file-icon-text'].includes(
-                    itemClass
-                )
-            )
-                return
         },
         goToItem() {
             if (this.isImage || this.isVideo || this.isAudio) {
@@ -262,19 +254,19 @@ export default {
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
 
                 if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
+                    this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                 } else {
-                    this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
+                    this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
                 }
             }
         },
-        renameItem: debounce(function(e) {
+        renameItem: debounce(function (e) {
 
             // Prevent submit empty string
             if (e.target.innerText.trim() === '') return
 
             this.$store.dispatch('renameItem', {
-                unique_id: this.item.unique_id,
+                id: this.item.id,
                 type: this.item.type,
                 name: e.target.innerText
             })
@@ -283,10 +275,10 @@ export default {
     created() {
         this.itemName = this.item.name
 
-         events.$on('newFolder:focus', (unique_id) => {
+        events.$on('newFolder:focus', (id) => {
 
-            if(this.item.unique_id == unique_id && !this.$isMobile()) {
-                this.$refs[unique_id].focus()
+            if (this.item.id === id && !this.$isMobile()) {
+                this.$refs[id].focus()
                 document.execCommand('selectAll')
             }
         })
@@ -302,15 +294,15 @@ export default {
         })
         // Change item name
         events.$on('change:name', (item) => {
-            if (this.item.unique_id == item.unique_id) this.itemName = item.name
+            if (this.item.id === item.id) this.itemName = item.name
         })
     }
 }
 </script>
 
 <style scoped lang="scss">
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import '@assets/vuefilemanager/_variables';
+@import '@assets/vuefilemanager/_mixins';
 
 .check-select {
     margin-right: 10px;
@@ -358,8 +350,8 @@ export default {
         @include font-size(12);
     }
 
-    path {
-        fill: $theme;
+    circle {
+        color: inherit;
     }
 }
 
@@ -403,7 +395,7 @@ export default {
                 vertical-align: middle;
 
                 path, circle, line {
-                    stroke: $theme;
+                    color: inherit;
                 }
             }
         }
@@ -447,7 +439,6 @@ export default {
         padding: 15px 0;
 
         &.is-dragenter {
-            border: 2px dashed $theme;
             border-radius: 8px;
         }
 
@@ -498,7 +489,6 @@ export default {
             text-align: center;
             left: 0;
             right: 0;
-            color: $theme;
             @include font-size(12);
             font-weight: 600;
             user-select: none;
@@ -559,7 +549,7 @@ export default {
             .file-icon-text {
                 @include font-size(12);
             }
-            
+
 
             .folder {
                 width: 75px;
@@ -569,7 +559,7 @@ export default {
 
                 /deep/ .folder-icon {
                     @include font-size(75)
-                }                
+                }
             }
 
             .image {

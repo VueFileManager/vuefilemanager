@@ -5,64 +5,61 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
 use App\Http\Resources\UserSubscription;
-use App\Http\Tools\Demo;
-use App\Invoice;
+use App\Services\DemoService;
+use App\Models\User;
 use App\Services\StripeService;
 use Auth;
-use Cartalyst\Stripe\Exception\CardErrorException;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use Laravel\Cashier\Exceptions\IncompletePayment;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Stripe\SetupIntent;
 
 class SubscriptionController extends Controller
 {
     private $stripe;
+    private $demo;
 
-    /**
-     * SubscriptionController constructor.
-     * @param $payment
-     */
-    public function __construct(StripeService $stripe)
+    public function __construct()
     {
-        $this->stripe = $stripe;
+        $this->stripe = resolve(StripeService::class);
+        $this->demo = DemoService::class;
     }
 
     /**
      * Generate setup intent
      *
-     * @return \Stripe\SetupIntent
+     * @return Application|ResponseFactory|Response|SetupIntent
      */
-    public function stripe_setup_intent()
+    public function setup_intent()
     {
-        $user = Auth::user();
-
-        return $this->stripe->getSetupIntent($user);
+        return response(
+            $this->stripe->getSetupIntent(Auth::user()), 201
+        );
     }
 
     /**
      * Get user subscription detail
      *
-     * @return array
+     * @return void
      */
     public function show()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
-        if (! $user->subscription('main')) {
+        if (!$user->subscription('main')) {
             return abort(204, 'User don\'t have any subscription');
         }
 
-        $slug_user_subscription = 'subscription-user-' . $user->id;
+        $slug = 'subscription-user-' . $user->id;
 
-        if (Cache::has($slug_user_subscription)) {
-            return Cache::get($slug_user_subscription);
+        if (Cache::has($slug)) {
+            return Cache::get($slug);
         }
 
-        return Cache::rememberForever($slug_user_subscription, function () {
+        return Cache::rememberForever($slug, function () use ($user) {
             return new UserSubscription(
-                Auth::user()
+                $user
             );
         });
     }
@@ -71,7 +68,7 @@ class SubscriptionController extends Controller
      * Upgrade account to subscription
      *
      * @param StoreUpgradeAccountRequest $request
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function upgrade(StoreUpgradeAccountRequest $request)
     {
@@ -80,7 +77,7 @@ class SubscriptionController extends Controller
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_204();
         }
 
         // Forget user subscription
@@ -109,15 +106,15 @@ class SubscriptionController extends Controller
     /**
      * Cancel Subscription
      *
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function cancel()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_204();
         }
 
         // Cancel subscription
@@ -132,15 +129,15 @@ class SubscriptionController extends Controller
     /**
      * Resume Subscription
      *
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function resume()
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Check if is demo
         if (is_demo($user->id)) {
-            return Demo::response_204();
+            return $this->demo->response_204();
         }
 
         // Resume subscription

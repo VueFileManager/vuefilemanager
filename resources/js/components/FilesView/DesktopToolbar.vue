@@ -7,14 +7,12 @@
                     <chevron-left-icon size="17" :class="{ 'is-active': browseHistory.length > 1 }" class="icon-back"></chevron-left-icon>
 
                     <span class="back-directory-title">
-            {{ directoryName }}
-          </span>
+                        {{ directoryName }}
+                    </span>
 
-                    <span @click.stop="folderActions" v-if="
-              browseHistory.length > 1 && $isThisLocation(['base', 'public'])
-            " class="folder-options" id="folder-actions">
-            <more-horizontal-icon size="14" class="icon-more"></more-horizontal-icon>
-          </span>
+                    <span @click.stop="folderActions" v-if="browseHistory.length > 1 && $isThisLocation(['base', 'public'])" class="folder-options group" id="folder-actions">
+                        <more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
+                    </span>
                 </div>
             </div>
 
@@ -86,10 +84,7 @@ export default {
             if (!this.$store.getters.user) return true
 
             // Check if user has storage
-            return (
-                this.$store.getters.user.relationships.storage.data.attributes.used <=
-                100
-            )
+            return this.$store.getters.user.data.attributes.storage.used <= 100
         },
         directoryName() {
             return this.currentFolder
@@ -187,7 +182,7 @@ export default {
                 this.$store.dispatch('deleteItem')
         },
         createFolder() {
-            this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))
+            this.$store.dispatch('createFolder', {name: this.$t('popup_create_folder.folder_default_name')})
         },
         moveItem() {
             if (this.fileInfoDetail.length > 0)
@@ -223,26 +218,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vue-file-manager/_variables";
-@import "@assets/vue-file-manager/_mixins";
+@import "@assets/vuefilemanager/_variables";
+@import "@assets/vuefilemanager/_mixins";
 
 .preview-sorting {
     /deep/ .label {
         color: $text !important;
-    }
-
-    /deep/ .preview-sorting {
-        path, line, polyline, rect, circle {
-            stroke: $text !important;
-        }
-    }
-
-    &:hover {
-        /deep/ .preview-sorting {
-            path, line, polyline, rect, circle {
-                stroke: $theme !important;
-            }
-        }
     }
 }
 
@@ -304,7 +285,7 @@ export default {
             background: $light_background;
 
             svg circle {
-                stroke: $theme;
+                color: inherit;
             }
         }
 
@@ -351,22 +332,9 @@ export default {
         margin-left: 5px;
 
         &.active {
-            /deep/ svg {
-                line,
-                circle,
-                rect {
-                    stroke: $theme;
-                }
-            }
 
             &.preview-sorting {
                 background: $light_background;
-
-                /deep/ .preview-sorting {
-                    path, line, polyline, rect, circle {
-                        stroke: $theme !important;
-                    }
-                }
             }
         }
 
@@ -425,17 +393,6 @@ export default {
     .active {
         &.preview-sorting {
             background: $dark_mode_foreground !important;
-        }
-    }
-    .preview-sorting {
-        /deep/ .label {
-            color: $text !important;
-        }
-
-        /deep/ .preview-sorting {
-            path, line, polyline, rect, circle {
-                stroke: $dark_mode_text_primary !important;
-            }
         }
     }
 }

@@ -3,10 +3,11 @@
 
 namespace App\Services;
 
-use App\User;
-use Artisan;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;
 use Stripe;
@@ -20,18 +21,6 @@ class StripeService
     public function __construct()
     {
         $this->stripe = Stripe::make(config('cashier.secret'), '2020-03-02');
-    }
-
-    /**
-     * Get Stripe account details
-     *
-     * @return mixed
-     */
-    public function getAccountDetails()
-    {
-        $account = $this->stripe->account()->details();
-
-        return $account;
     }
 
     /**
@@ -55,9 +44,39 @@ class StripeService
      */
     public function getTaxRates()
     {
-        $tax_rates = $this->stripe->taxRates()->all();
+        return $this->stripe
+            ->taxRates()
+            ->all()['data'];
+    }
 
-        return $tax_rates['data'];
+    /**
+     * Get plan tax rates
+     *
+     * @param $amount
+     * @return array
+     */
+    public function get_tax_rates($amount): array
+    {
+        $rates_public = [];
+
+        foreach ($this->getTaxRates() as $rate) {
+
+            // Continue when is not active
+            if (!$rate['active']) continue;
+
+            // Calculate tax
+            $tax = $amount * ($rate['percentage'] / 100);
+
+            array_push($rates_public, [
+                'id'                   => $rate['id'],
+                'active'               => $rate['active'],
+                'country'              => $rate['country'],
+                'percentage'           => $rate['percentage'],
+                'plan_price_formatted' => Cashier::formatAmount(round($amount + $tax)),
+            ]);
+        }
+
+        return $rates_public;
     }
 
     /**
@@ -171,14 +190,17 @@ class StripeService
     public function updateCustomerDetails($user)
     {
         $user->updateStripeCustomer([
-            'name'    => $user->settings->billing_name,
-            'phone'   => $user->settings->billing_phone_number,
+            'name'    => $user->settings->name,
+            'phone'   => $user->settings->phone_number,
             'address' => [
-                'line1'       => $user->settings->billing_address,
-                'city'        => $user->settings->billing_city,
-                'country'     => $user->settings->billing_country,
-                'postal_code' => $user->settings->billing_postal_code,
-                'state'       => $user->settings->billing_state,
+                'line1'       => $user->settings->address,
+                'city'        => $user->settings->city,
+                'country'     => $user->settings->country,
+                'postal_code' => $user->settings->postal_code,
+                'state'       => $user->settings->state,
+            ],
+            'preferred_locales' => [
+                $user->settings->country, 'en'
             ]
         ]);
     }
@@ -254,10 +276,20 @@ class StripeService
      */
     public function getPlan($id)
     {
-        $plan = $this->stripe->plans()->find($id);
-        $product = $this->stripe->products()->find($plan['product']);
+        if (Cache::has("plan-$id")) {
+            return Cache::get("plan-$id");
+        }
 
-        return compact('plan', 'product');
+        return Cache::rememberForever("plan-$id", function () use ($id) {
+
+            $plan = $this->stripe->plans()->find($id);
+            $product = $this->stripe->products()->find($plan['product']);
+
+            return [
+                'plan'    => $plan,
+                'product' => $product,
+            ];
+        });
     }
 
     /**
@@ -346,7 +378,10 @@ class StripeService
      */
     public function deletePlan($slug)
     {
-        $this->stripe->plans()->delete($slug);
+        $this
+            ->stripe
+            ->plans()
+            ->delete($slug);
     }
 
     /**
@@ -357,20 +392,22 @@ class StripeService
      */
     public function getUserInvoices($user)
     {
-        return $user->invoices();
+        return $user
+            ->invoices();
     }
 
     /**
      * Get user invoice by id
      *
+     * @param $customer
      * @param $id
      * @return \Laravel\Cashier\Invoice|null
      */
     public function getUserInvoice($customer, $id)
     {
-        $user = User::where('stripe_id', $customer)->firstOrFail();
-
-        return $user->findInvoice($id);
+        return User::whereStripeId($customer)
+            ->firstOrFail()
+            ->findInvoice($id);
     }
 
     /**
@@ -380,8 +417,11 @@ class StripeService
      */
     public function getInvoices()
     {
-        return $this->stripe->invoices()->all([
-            'limit' => 20
-        ]);
+        return $this
+            ->stripe
+            ->invoices()
+            ->all([
+                'limit' => 20
+            ]);
     }
 }
