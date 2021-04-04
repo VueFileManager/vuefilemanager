@@ -4,7 +4,8 @@
         <OasisHeader v-if="false"/>
         <OasisFeatures v-if="false"/>
         <OasisPricing v-if="false"/>
-        <OasisAboutUs v-if="true"/>
+        <OasisAboutUs v-if="false"/>
+        <OasisFooter v-if="true"/>
     </div>
 </template>
 
@@ -14,6 +15,7 @@
     import OasisPricing from '@/Oasis/Homepage/Components/OasisPricing'
     import OasisAboutUs from '@/Oasis/Homepage/Components/OasisAboutUs'
     import OasisHeader from '@/Oasis/Homepage/Components/OasisHeader'
+    import OasisFooter from '@/Oasis/Homepage/Components/OasisFooter'
     import { mapGetters } from 'vuex'
     import axios from 'axios'
 
@@ -25,6 +27,7 @@
             OasisPricing,
             OasisAboutUs,
             OasisHeader,
+            OasisFooter,
         },
         computed: {
             ...mapGetters([

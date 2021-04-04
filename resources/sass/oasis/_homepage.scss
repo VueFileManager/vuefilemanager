@@ -60,6 +60,34 @@
 
 }
 
+.oasis-footer {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+
+  .logo {
+    width: 235px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .links {
+    display: inline-block;
+
+    .highlighted {
+      color: $theme;
+    }
+
+    &:last-child {
+      margin-left: 25px;
+    }
+  }
+}
+
 .navigation {
   padding: 10px 0;
 
@@ -71,28 +99,6 @@
 
   .log-in, .logo {
     width: 235px;
-  }
-
-  .links {
-    display: block;
-
-    li {
-      display: inline-block;
-
-      a {
-        @include font-size(17);
-        padding: 9px 30px;
-        color: $text-primary;
-        font-weight: 800;
-        @include transition;
-        border-radius: 25px;
-
-        &:hover {
-          background: white;
-          box-shadow: 0 6px 20px -10px rgba($theme, 0.35);
-        }
-      }
-    }
   }
 
   .logo img {
@@ -307,6 +313,28 @@
       @include font-size(24);
       color: $text-primary;
       font-weight: 800;
+    }
+  }
+}
+
+.links {
+  display: block;
+
+  li {
+    display: inline-block;
+
+    a {
+      @include font-size(17);
+      padding: 9px 30px;
+      color: $text-primary;
+      font-weight: 800;
+      @include transition;
+      border-radius: 25px;
+
+      &:hover {
+        background: white;
+        box-shadow: 0 6px 20px -10px rgba($theme, 0.35);
+      }
     }
   }
 }

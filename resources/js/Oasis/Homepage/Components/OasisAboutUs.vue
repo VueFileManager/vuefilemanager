@@ -24,7 +24,7 @@
     import {CheckIcon} from 'vue-feather-icons'
 
     export default {
-        name: 'OasisPricing',
+        name: 'OasisAboutUs',
         components: {
             CheckIcon,
         },
