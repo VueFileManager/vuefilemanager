@@ -56,6 +56,10 @@
   }
 }
 
+.oasis-about-us {
+
+}
+
 .navigation {
   padding: 10px 0;
 
@@ -273,6 +277,36 @@
       font-weight: 300;
       opacity: 0.45;
       margin-top: 15px;
+    }
+  }
+}
+
+.info-list {
+  margin: 70px 0;
+
+  .info-list-item {
+    display: flex;
+    align-items: start;
+    margin-bottom: 35px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .icon {
+      margin-top: 5px;
+      margin-right: 15px;
+
+      polyline {
+        color: $pink;
+      }
+    }
+
+    .description {
+      max-width: 620px;
+      @include font-size(24);
+      color: $text-primary;
+      font-weight: 800;
     }
   }
 }
