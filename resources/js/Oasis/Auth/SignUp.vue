@@ -112,10 +112,10 @@
             return {
                 isLoading: false,
                 register: {
-                    name: 'Peter',
-                    email: 'john@doe.com',
-                    password: 'vuefilemanager',
-                    password_confirmation: 'vuefilemanager',
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
                 },
             }
         },

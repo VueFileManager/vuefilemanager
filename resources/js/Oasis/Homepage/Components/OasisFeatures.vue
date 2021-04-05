@@ -263,6 +263,11 @@
     }
 
     @media only screen and (max-width: 960px) {
+
+        .oasis-features .main-title-sm {
+            max-width: 440px;
+        }
+
         .features-box {
 
             .box {

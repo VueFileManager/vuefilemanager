@@ -231,6 +231,11 @@
     }
 
     @media only screen and (max-width: 960px) {
+
+        .oasis-about-us .content-wrapper {
+            margin-bottom: -220px;
+        }
+
         .info-list {
             margin: 65px 0;
 
@@ -240,12 +245,40 @@
                 margin-bottom: 40px;
 
                 .description {
-                    max-width: 700px;
+                    max-width: 540px;
                     @include font-size(19);
                     color: $text-primary;
                     font-weight: 800;
                     line-height: 1.5;
                 }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 760px) {
+        .oasis-about-us {
+            padding-top: 30px;
+
+            .content-wrapper {
+                margin-bottom: -70px;
+            }
+        }
+
+        .info-list {
+            margin: 35px 0;
+        }
+
+        .clouds .cloud {
+
+            &:nth-child(3),
+            &:nth-child(4) {
+                display: none;
+            }
+
+            &:nth-child(2) {
+                left: 3%;
+                top: 86%;
+                @include transform(scale(0.35));
             }
         }
     }

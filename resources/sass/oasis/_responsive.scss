@@ -33,43 +33,51 @@
 @media only screen and (max-width: 960px) {
 
   .container {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 50px !important;
+    padding-right: 50px !important;
   }
 
-  .main-title {
-    @include font-size(38);
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
+  @media only screen and (max-width: 760px) {
 
-  .main-title-sm {
-    @include font-size(32);
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
+    .container {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
 
-  .sub-title {
-    @include font-size(20);
-    font-weight: 600;
-  }
+    .main-title {
+      @include font-size(38);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
 
-  .sub-title-sm {
-    @include font-size(18);
-    font-weight: 600;
-    line-height: 1.6;
-  }
+    .main-title-sm {
+      @include font-size(32);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
 
-  .theme-button {
-    @include font-size(19);
-  }
+    .sub-title {
+      @include font-size(20);
+      font-weight: 600;
+    }
 
-  .base-button {
-    @include font-size(15);
-  }
+    .sub-title-sm {
+      @include font-size(18);
+      font-weight: 600;
+      line-height: 1.6;
+    }
 
-  .info-title {
-    @include font-size(21);
-    margin-bottom: 12px;
+    .theme-button {
+      @include font-size(19);
+    }
+
+    .base-button {
+      @include font-size(15);
+    }
+
+    .info-title {
+      @include font-size(21);
+      margin-bottom: 12px;
+    }
   }
 }

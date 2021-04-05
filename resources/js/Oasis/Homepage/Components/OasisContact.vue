@@ -221,18 +221,6 @@
     }
 
     @media only screen and (max-width: 960px) {
-        .oasis-contact {
-
-            .info-container {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .info-grid {
-                gap: 0;
-                grid-template-columns: 1fr;
-            }
-        }
 
         .info-wrapper {
 
@@ -245,9 +233,39 @@
         .contact-form {
             padding-bottom: 40px;
 
+            .block-wrapper {
+                max-width: 100%;
+            }
+
             button {
                 width: 100%;
             }
         }
+    }
+
+    @media only screen and (max-width: 760px) {
+
+        .oasis-contact {
+            padding-top: 60px;
+            padding-bottom: 10px;
+
+            .info-container {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .info-grid {
+                gap: 0;
+                grid-template-columns: 1fr;
+            }
+
+            .title-wrapper {
+                margin-bottom: 45px;
+            }
+        }
+    }
+
+    .contact-form {
+        padding-top: 20px;
     }
 </style>

@@ -210,4 +210,90 @@
             margin-bottom: 60px;
         }
     }
+
+    @media only screen and (max-width: 960px) {
+        .header {
+            margin-bottom: 100px;
+        }
+
+        .oasis-header {
+            padding-top: 200px;
+
+            .main-title {
+                max-width: 590px;
+            }
+        }
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                top: 11%;
+                left: -1%;
+                @include transform(scale(-0.6, 0.6));
+            }
+
+            &:nth-child(2) {
+                @include transform(scale(-0.4, 0.4));
+                top: 30%;
+                left: -24%;
+            }
+
+            &:nth-child(3) {
+                @include transform(scale(0.6));
+                top: 43%;
+                left: -5%;
+            }
+
+            &:nth-child(4) {
+                right: -26%;
+            }
+
+            &:nth-child(5) {
+                @include transform(scale(-0.7, 0.7));
+                top: 38%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 760px) {
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                top: 12%;
+                left: -36%;
+                @include transform(scale(-0.4, 0.4));
+            }
+
+            &:nth-child(2) {
+                @include transform(scale(-0.4, 0.4));
+                top: 65%;
+                left: -48%;
+            }
+
+            &:nth-child(3) {
+                @include transform(scale(0.5));
+                top: 48%;
+                left: -35%;
+            }
+
+            &:nth-child(4) {
+                right: -35%;
+                top: 15%;
+            }
+
+            &:nth-child(5) {
+                top: 44%;
+                right: -58%;
+            }
+        }
+
+        .oasis-header .main-title {
+            max-width: 500px;
+        }
+
+        .header {
+            margin-bottom: 120px;
+        }
+    }
 </style>

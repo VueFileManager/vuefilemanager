@@ -17,8 +17,10 @@
             </h4>
         </div>
 
-        <div class="container">
+        <div class="container" style="overflow: hidden">
             <img src="/oasis/trees.svg" alt="oasis-trees" class="trees">
+        </div>
+        <div class="container">
 
             <ul class="pricing-box">
                 <li v-for="(plan, i) in pricing" :key="i" class="box">
@@ -352,13 +354,43 @@
         }
     }
 
-
     @media only screen and (max-width: 960px) {
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                left: 1%;
+                top: 4%;
+                @include transform(scale(0.6))
+            }
+
+            &:nth-child(2) {
+                left: 2%;
+                top: 25%;
+            }
+
+            &:nth-child(3) {
+                right: -12%;
+                top: 2%;
+                @include transform(scale(-0.9, 0.9))
+            }
+
+            &:nth-child(4) {
+                right: -3%;
+                top: 26%;
+                @include transform(scale(0.5))
+            }
+        }
+
         .pricing-box {
             grid-template-columns: 1fr;
             gap: 25px;
 
             .box {
+                width: 100%;
+                max-width: 520px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
 
                 &:nth-child(2) {
                     padding: 38px 40px 35px;
@@ -373,6 +405,58 @@
                         margin-bottom: 50px;
                     }
                 }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 760px) {
+
+        .oasis-pricing {
+
+            .title-wrapper {
+                margin-bottom: -70px;
+            }
+        }
+
+        .trees {
+            margin-bottom: -130px;
+            margin-left: 0;
+            transform: scale(0.5) translatex(-110px);
+        }
+
+        .pricing-box .box {
+
+            .pricing-data {
+                @include font-size(36);
+                margin-bottom: 0;
+            }
+
+            .pricing-description {
+                margin-bottom: 35px;
+            }
+        }
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                left: -10%;
+            }
+
+            &:nth-child(2) {
+                left: -18%;
+                top: 18%;
+                @include transform(scale(-0.5, 0.5))
+            }
+
+            &:nth-child(3) {
+                right: -22%;
+                top: 1%;
+            }
+
+            &:nth-child(4) {
+                right: 1%;
+                top: 24%;
+                @include transform(scale(0.4))
             }
         }
     }
