@@ -18,10 +18,11 @@
 
     .clouds {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        overflow: hidden;
         bottom: 0;
+        right: 0;
+        left: 0;
+        top: 0;
     }
 
 </style>

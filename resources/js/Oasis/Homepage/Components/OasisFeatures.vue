@@ -24,7 +24,7 @@
                 </p>
                 <div class="box-more-info">
                     <span>Více Informací</span>
-                    <chevron-right-icon size="18" class="icon"/>
+                    <chevron-right-icon size="18" class="icon" />
                 </div>
             </li>
         </ul>
@@ -44,7 +44,7 @@
         CloudIcon,
         LockIcon,
     } from 'vue-feather-icons'
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     import axios from 'axios'
 
     export default {
@@ -112,7 +112,6 @@
             max-width: 690px;
             margin-left: auto;
             margin-right: auto;
-            margin-bottom: 40px;
         }
 
         .sub-title-sm {
@@ -128,7 +127,7 @@
             top: 300px;
             position: relative;
         }
-        
+
         .wave-background {
             transform: translateY(100%);
             position: absolute;
@@ -179,7 +178,8 @@
                     margin-left: 5px;
 
                     polyline {
-                        color: $theme;
+                        stroke: $theme;
+                        stroke-width: 1.2;
                         @include transition(150ms);
                     }
                 }
@@ -193,7 +193,8 @@
 
                 &:hover {
                     span, polyline {
-                        color: lighten($theme, 10%);
+                        stroke: lighten($theme, 10%);
+                        stroke-width: 1.2;
                     }
                 }
             }
@@ -202,7 +203,8 @@
 
                 .box-icon {
                     rect, path {
-                        color: $theme;
+                        stroke: $theme;
+                        stroke-width: 1.2;
                     }
                 }
             }
@@ -211,7 +213,8 @@
 
                 .box-icon {
                     line, polyline, path {
-                        color: $cyan;
+                        stroke: $cyan;
+                        stroke-width: 1.2;
                     }
                 }
             }
@@ -220,17 +223,47 @@
 
                 .box-icon {
                     path {
-                        color: $pink;
+                        stroke: $pink;
+                        stroke-width: 1.2;
                     }
                 }
             }
         }
     }
 
+    @media only screen and (max-width: 1370px) {
+        .features-box {
+            gap: 30px;
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+
+        .oasis-features {
+            padding-top: 60px;
+
+            .title-wrapper {
+                margin-bottom: 65px;
+            }
+
+            .main-title-sm {
+                max-width: 600px;
+            }
+
+            .cta {
+                top: 280px;
+            }
+        }
+
+        .features-box {
+            max-width: 700px;
+            margin: 0 auto;
+            grid-template-columns: 1fr;
+        }
+    }
+
     @media only screen and (max-width: 960px) {
         .features-box {
-            grid-template-columns: 1fr;
-            gap: 30px;
 
             .box {
 

@@ -118,4 +118,96 @@
         margin-top: -100px;
         margin-bottom: -10px;
     }
+
+    @media only screen and (max-width: 1690px) {
+        .header {
+            margin-bottom: 40px;
+        }
+    }
+
+    @media only screen and (max-width: 1370px) {
+        .oasis-header {
+            padding-top: 210px;
+        }
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                top: 9%;
+                left: 10%;
+            }
+
+            &:nth-child(2) {
+                @include transform(scale(-0.8, 0.8));
+                top: 17%;
+                left: -11%;
+            }
+
+            &:nth-child(3) {
+                @include transform(scale(0.8));
+                top: 34%;
+                left: 3%;
+            }
+
+            &:nth-child(4) {
+                top: 11%;
+                right: 7%;
+            }
+
+            &:nth-child(5) {
+                @include transform(scale(-1.15, 1.15));
+                top: 32%;
+                right: -6%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                top: 10%;
+                left: 6%;
+                @include transform(scale(-0.8, 0.8));
+            }
+
+            &:nth-child(2) {
+                @include transform(scale(-0.6, 0.6));
+                top: 21%;
+                left: -18%;
+            }
+
+            &:nth-child(3) {
+                @include transform(scale(0.6));
+                top: 41%;
+                left: 0%;
+            }
+
+            &:nth-child(4) {
+                @include transform(scale(0.6));
+                top: 13%;
+                right: -6%;
+            }
+
+            &:nth-child(5) {
+                @include transform(scale(-0.9, 0.9));
+                top: 32%;
+                right: -16%;
+            }
+        }
+
+        .oasis-header {
+            padding-top: 160px;
+
+            .main-title {
+                max-width: 690px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .header {
+            margin-bottom: 60px;
+        }
+    }
 </style>

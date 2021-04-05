@@ -129,7 +129,8 @@
                 margin-right: 15px;
 
                 polyline {
-                    color: $pink;
+                    stroke: $pink;
+                    stroke-width: 2;
                 }
             }
 
@@ -139,6 +140,92 @@
                 color: $text-primary;
                 font-weight: 800;
                 line-height: 1.5;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1750px) {
+        .oasis-about-us {
+
+            .content-wrapper {
+                margin-bottom: -610px;
+                padding-top: 50px;
+                padding-left: 15%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1490px) {
+        .oasis-about-us {
+
+            .content-wrapper {
+                margin-bottom: -440px;
+                padding-top: 50px;
+                padding-left: 15%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1370px) {
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                left: 5%;
+            }
+
+            &:nth-child(2) {
+                left: 20%;
+                top: 83%;
+            }
+
+            &:nth-child(3) {
+                right: 1%;
+                top: 9%;
+            }
+
+            &:nth-child(4) {
+                right: 20%;
+                top: 18%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+        .oasis-about-us {
+            padding-top: 120px;
+
+            .content-wrapper {
+                margin-bottom: -310px;
+                padding-top: 50px;
+                padding-left: 0;
+            }
+        }
+
+        .info-list .info-list-item .description {
+            @include font-size(21);
+            max-width: 600px;
+        }
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                display: none;
+            }
+
+            &:nth-child(2) {
+                left: 23%;
+                top: 81%;
+            }
+
+            &:nth-child(3) {
+                right: -6%;
+                top: 42%;
+            }
+
+            &:nth-child(4) {
+                right: 17%;
+                top: 56%;
+                @include transform(scale(-0.5, 0.5));
             }
         }
     }

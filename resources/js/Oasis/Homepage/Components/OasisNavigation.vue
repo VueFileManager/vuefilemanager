@@ -65,7 +65,7 @@
                 var el = document.getElementById('vuefilemanager')
 
                 const section = document.getElementById(anchor),
-                    position = section.offsetTop - 100;
+                    position = section.offsetTop;
 
                 el.scrollTo({top: position, behavior: 'smooth'});
             }
@@ -129,6 +129,12 @@
 
         .log-in {
             text-align: right;
+        }
+    }
+
+    @media only screen and (max-width: 1370px) {
+        .navigation {
+            margin-top: 5px;
         }
     }
 

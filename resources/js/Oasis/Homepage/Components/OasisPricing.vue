@@ -226,7 +226,8 @@
                 margin-bottom: 45px;
 
                 path {
-                    color: $theme;
+                    stroke: $theme;
+                    stroke-width: 2;
                 }
             }
 
@@ -258,6 +259,99 @@
             }
         }
     }
+
+    @media only screen and (max-width: 1370px) {
+
+        .oasis-pricing .title-wrapper {
+            margin-bottom: 60px;
+        }
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                opacity: 0.2;
+                left: 5%;
+                top: 10%;
+                @include transform(scale(1))
+            }
+
+            &:nth-child(2) {
+                left: 23%;
+                top: 36%;
+            }
+
+            &:nth-child(3) {
+                opacity: 0.30;
+                right: 2%;
+                top: 4%;
+                @include transform(scale(-1.35, 1.35))
+            }
+
+            &:nth-child(4) {
+                opacity: 0.2;
+                right: 8%;
+                top: 31%;
+                @include transform(scale(0.9))
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+
+        .clouds .cloud {
+
+            &:nth-child(1) {
+                left: -8%;
+                top: 6%;
+                @include transform(scale(0.8))
+            }
+
+            &:nth-child(2) {
+                left: 21%;
+                top: 32%;
+            }
+
+            &:nth-child(3) {
+                right: 6%;
+                top: 3%;
+                @include transform(scale(-1.1, 1.1))
+            }
+
+            &:nth-child(4) {
+                right: 0%;
+                top: 37%;
+                @include transform(scale(0.7))
+            }
+        }
+
+        .oasis-pricing {
+            .title-wrapper {
+                padding-top: 150px;
+                margin-bottom: 0;
+            }
+        }
+
+        .trees {
+            margin-bottom: -110px;
+            margin-left: 150px;
+            transform: scale(0.75);
+        }
+
+        .pricing-box .box {
+            padding: 25px 35px;
+
+            &:nth-child(2) {
+                padding: 40px 25px 20px;
+                margin-top: -25px;
+                margin-bottom: -25px;
+
+                .pricing-description {
+                    margin-bottom: 50px;
+                }
+            }
+        }
+    }
+
 
     @media only screen and (max-width: 960px) {
         .pricing-box {

@@ -201,6 +201,25 @@
         }
     }
 
+    @media only screen and (max-width: 1024px) {
+
+        .oasis-contact {
+            padding-bottom: 80px;
+
+            .info-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-form .block-wrapper {
+            max-width: 50%;
+        }
+
+        .info-wrapper {
+            padding-bottom: 25px;
+        }
+    }
+
     @media only screen and (max-width: 960px) {
         .oasis-contact {
 
@@ -216,7 +235,6 @@
         }
 
         .info-wrapper {
-            padding-bottom: 30px;
 
             .info-description {
                 @include font-size(18);

@@ -1,4 +1,4 @@
-@media only screen and (min-width: 1440px) {
+@media only screen and (min-width: 1750px) {
   .container {
     width: 1750px;
   }
@@ -6,11 +6,28 @@
 
 @media only screen and (max-width: 1024px) {
 
-    .container {
-      width: 100%;
-      padding-left: 25px;
-      padding-right: 25px;
-    }
+  .container {
+    width: 100%;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .main-title {
+    @include font-size(52);
+  }
+
+  .sub-title {
+    @include font-size(23);
+  }
+
+  .main-title-sm {
+    @include font-size(44);
+  }
+
+  .sub-title-sm {
+    @include font-size(21);
+    max-width: 850px;
+  }
 }
 
 @media only screen and (max-width: 960px) {

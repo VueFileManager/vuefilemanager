@@ -18,8 +18,6 @@
     import OasisContact from '@/Oasis/Homepage/Components/OasisContact'
     import OasisHeader from '@/Oasis/Homepage/Components/OasisHeader'
     import OasisFooter from '@/Oasis/Homepage/Components/OasisFooter'
-    import { mapGetters } from 'vuex'
-    import axios from 'axios'
 
     export default {
         name: 'Homepage',
@@ -32,22 +30,6 @@
             OasisHeader,
             OasisFooter,
         },
-        computed: {
-            ...mapGetters([
-                'config'
-            ]),
-        },
-        data() {
-            return {
-
-            }
-        },
-        mounted() {
-
-        },
-        created() {
-            //this.$scrollTop()
-        }
     }
 </script>
 

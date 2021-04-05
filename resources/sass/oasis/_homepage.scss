@@ -2,7 +2,9 @@
 @import '@assets/oasis/_variables';
 
 .container {
-  width: 960px;
+  width: 100%;
+  padding-left: 35px;
+  padding-right: 35px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -100,7 +102,8 @@
       margin-right: 10px;
 
       line, path, polyline {
-        color: $cyan;
+        stroke: $cyan;
+        stroke-width: 1.5;
       }
     }
   }
