@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="473px" height="103px" viewBox="0 0 473 103" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>oasis-cloud-white</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Web" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="landing-page" transform="translate(-172.000000, -443.000000)" fill="#FFFFFF">
+            <g id="Header" transform="translate(-195.000000, 150.000000)">
+                <g id="Clouds">
+                    <path d="M566.450388,293 C608.427819,293 643.434177,322.494189 651.405579,361.65566 C661.65664,353.188967 674.859714,348.093164 689.267202,348.093164 C707.419303,348.093164 723.659557,356.182073 734.49808,368.911227 C745.690834,363.258674 758.371339,360.070724 771.805328,360.070724 C800.216493,360.070724 825.257558,374.329412 840.000202,396.000297 L366.99978,395.999833 C384.894994,373.055863 412.982418,358.274186 444.563552,358.274186 C457.389653,358.274186 469.639491,360.71232 480.864343,365.145165 C487.406972,324.260292 523.234431,293 566.450388,293 Z" id="oasis-cloud-white" transform="translate(603.500000, 344.500000) scale(-1, 1) translate(-603.500000, -344.500000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

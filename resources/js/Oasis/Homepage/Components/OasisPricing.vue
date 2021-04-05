@@ -1,6 +1,13 @@
 <template>
     <div id="cenik" class="oasis-pricing text-center">
 
+        <Clouds class="clouds">
+            <Cloud type="colored" class="cloud" />
+            <Cloud type="colored" class="cloud" />
+            <Cloud type="colored" class="cloud" />
+            <Cloud type="colored" class="cloud" />
+        </Clouds>
+
         <div class="title-wrapper container">
             <h3 class="main-title-sm">
                 Kolik stoji OasisDrive?
@@ -42,6 +49,8 @@
     import {
         FolderIcon,
     } from 'vue-feather-icons'
+    import Clouds from '@/Oasis/Homepage/Components/Clouds'
+    import Cloud from '@/Oasis/Homepage/Components/Cloud'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -49,6 +58,8 @@
         name: 'OasisPricing',
         components: {
             FolderIcon,
+            Clouds,
+            Cloud,
         },
         computed: {
             ...mapGetters([
@@ -116,8 +127,59 @@
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
 
+    .clouds .cloud {
+
+        &:nth-child(1) {
+            opacity: 0.2;
+            left: 4%;
+            top: 15%;
+            @include transform(scale(1.1))
+        }
+
+        &:nth-child(2) {
+            opacity: 0.15;
+            left: 18%;
+            top: 41%;
+            @include transform(scale(-0.7, 0.7))
+        }
+
+        &:nth-child(3) {
+            opacity: 0.30;
+            right: 9%;
+            top: 6%;
+            @include transform(scale(-1.55, 1.55))
+        }
+
+        &:nth-child(4) {
+            opacity: 0.25;
+            right: 16%;
+            top: 32%;
+            @include transform(scale(1))
+        }
+    }
+
+    .oasis-pricing {
+        margin-top: 290px;
+        position: relative;
+
+        .main-title-sm,
+        .sub-title-sm {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .title-wrapper {
+            padding-top: 220px;
+            margin-bottom: 110px;
+        }
+
+        .theme-button {
+            @include font-size(18);
+        }
+    }
+
     .trees {
-        margin-bottom: -90px;
+        margin-bottom: -95px;
         margin-left: 250px;
     }
 
@@ -137,7 +199,7 @@
 
             &:nth-child(2) {
                 z-index: 2;
-                padding: 55px 40px 20px;
+                padding: 65px 40px 20px;
                 background: $theme-bg-light;
                 margin-top: -40px;
                 margin-bottom: -40px;
@@ -148,11 +210,11 @@
 
                 .pricing-description {
                     color: $text-dark-secondary;
-                    margin-bottom: 70px;
+                    margin-bottom: 80px;
                 }
 
                 .pricing-data {
-                    margin-top: 30px;
+                    margin-top: 10px;
                 }
 
                 .pricing-vat {

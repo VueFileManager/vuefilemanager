@@ -1,5 +1,13 @@
 <template>
     <div class="oasis-header">
+        <Clouds class="clouds">
+            <Cloud type="white" class="cloud" />
+            <Cloud type="white" class="cloud" />
+            <Cloud type="white" class="cloud" />
+            <Cloud type="white" class="cloud" />
+            <Cloud type="white" class="cloud" />
+        </Clouds>
+
         <header class="header container">
             <h1 class="main-title">
                 Jednoduchý a Bezpečný Cloud vo Vrecku
@@ -28,12 +36,15 @@
 </template>
 
 <script>
+    import Clouds from '@/Oasis/Homepage/Components/Clouds'
+    import Cloud from '@/Oasis/Homepage/Components/Cloud'
     import { mapGetters } from 'vuex'
 
     export default {
         name: 'Header',
         components: {
-
+            Clouds,
+            Cloud,
         },
         computed: {
             ...mapGetters([
@@ -53,18 +64,52 @@
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
 
+    .clouds .cloud {
+
+        &:nth-child(1) {
+            @include transform(scale(-0.4, 0.4));
+            top: 12%;
+            left: 16%;
+        }
+
+        &:nth-child(2) {
+            @include transform(scale(-0.8, 0.8));
+            top: 17%;
+            left: -11%;
+        }
+
+        &:nth-child(3) {
+            @include transform(scale(1));
+            top: 32%;
+            left: 8%;
+        }
+
+        &:nth-child(4) {
+            @include transform(scale(0.55));
+            top: 9%;
+            right: 21%;
+        }
+
+        &:nth-child(5) {
+            @include transform(scale(-1.35, 1.35));
+            top: 20%;
+            right: -2%;
+        }
+    }
+
     .oasis-header {
+        position: relative;
         margin-top: -110px;
         padding-top: 250px;
         background: linear-gradient(180deg, rgba(149, 189, 230, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
 
         .main-title {
             max-width: 820px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
         }
 
         .sub-title {
-            margin-bottom: 50px;
+            margin-bottom: 47px;
         }
     }
 

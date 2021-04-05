@@ -136,7 +136,7 @@
     .oasis-contact {
         background: $theme-bg-dark;
         padding-top: 90px;
-        padding-bottom: 90px;
+        padding-bottom: 160px;
 
         .title-wrapper {
             margin-bottom: 65px;

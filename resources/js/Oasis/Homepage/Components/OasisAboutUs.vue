@@ -1,5 +1,11 @@
 <template>
     <div id="o-nas" class="oasis-about-us">
+        <Clouds class="clouds">
+            <Cloud type="colored" class="cloud" />
+            <Cloud type="colored" class="cloud" />
+            <Cloud type="colored" class="cloud" />
+            <Cloud type="colored" class="cloud" />
+        </Clouds>
         <div class="container">
             <div class="content-wrapper">
                 <div class="title-wrapper">
@@ -27,12 +33,16 @@
 </template>
 
 <script>
+    import Clouds from '@/Oasis/Homepage/Components/Clouds'
+    import Cloud from '@/Oasis/Homepage/Components/Cloud'
     import {CheckIcon} from 'vue-feather-icons'
 
     export default {
         name: 'OasisAboutUs',
         components: {
             CheckIcon,
+            Clouds,
+            Cloud,
         },
         data() {
             return {
@@ -52,21 +62,53 @@
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
 
-    .content-wrapper {
-        margin-bottom: -860px;
-        padding-left: 22%;
-    }
+    .clouds .cloud {
 
-    .hero {
-        width: 100%;
-        margin-bottom: -10px;
+        &:nth-child(1) {
+            opacity: 0.45;
+            left: 14%;
+            top: 13%;
+        }
+
+        &:nth-child(2) {
+            opacity: 0.1;
+            left: 2%;
+            top: 49%;
+            @include transform(scale(0.5));
+        }
+
+        &:nth-child(3) {
+            opacity: 0.15;
+            right: -2%;
+            top: 10%;
+            @include transform(scale(0.55));
+        }
+
+        &:nth-child(4) {
+            opacity: 0.10;
+            right: 16%;
+            top: 23%;
+            @include transform(scale(-0.6, 0.6));
+        }
     }
 
     .oasis-about-us {
-        padding-top: 150px;
+        padding-top: 255px;
+        position: relative;
 
         .sub-title-sm {
             max-width: 890px;
+        }
+
+        .content-wrapper {
+            margin-bottom: -910px;
+            padding-top: 50px;
+            padding-left: 22%;
+        }
+
+        .hero {
+            width: 100%;
+            margin-bottom: -10px;
         }
     }
 

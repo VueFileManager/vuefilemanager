@@ -8,24 +8,6 @@
   position: relative;
 }
 
-.oasis-pricing {
-  margin-top: 290px;
-
-  .main-title-sm,
-  .sub-title-sm {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .title-wrapper {
-    margin-bottom: 60px;
-  }
-
-  .theme-button {
-    @include font-size(18);
-  }
-}
-
 .oasis-footer {
   background: white;
   display: flex;

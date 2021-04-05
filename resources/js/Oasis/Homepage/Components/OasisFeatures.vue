@@ -100,7 +100,7 @@
 
     .oasis-features {
         background: $theme-bg-dark;
-        padding-top: 85px;
+        padding-top: 90px;
         position: relative;
 
         .title-wrapper {
@@ -110,7 +110,9 @@
         .main-title-sm {
             color: white;
             max-width: 690px;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 40px;
         }
 
         .sub-title-sm {
