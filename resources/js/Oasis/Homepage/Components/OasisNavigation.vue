@@ -98,6 +98,40 @@
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
 
+    .oasis-navigation {
+        position: sticky;
+        top: 0;
+    }
+
+    .navigation {
+        padding: 5px 0;
+        z-index: 10;
+        @include transition(150ms);
+        margin-top: 35px;
+
+        &.white {
+            background: white;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .log-in, .logo {
+            width: 235px;
+        }
+
+        .logo img {
+            width: 100%;
+        }
+
+        .log-in {
+            text-align: right;
+        }
+    }
+
     @media only screen and (max-width: 960px) {
         .oasis-navigation.navigation {
             margin-top: 10px;

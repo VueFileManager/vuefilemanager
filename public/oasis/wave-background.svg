@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2047px" height="58px" viewBox="0 0 2047 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>wave-background</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Web" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="landing-page" transform="translate(0.000000, -2055.000000)" fill="#312E5C">
+            <g id="Header" transform="translate(-195.000000, 150.000000)">
+                <path d="M195,1905 L2242,1905 L2242,1942 C2164.59972,1926.38522 2032.37113,1919.71856 1845.31424,1922 C1564.72891,1925.42217 807.838493,1959.50775 602.189062,1962 C465.089441,1963.6615 329.359754,1956.99483 195,1942 L195,1905 Z" id="wave-background"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -22,6 +22,8 @@
                 </span>
             </div>
         </header>
+
+        <img src="/oasis/header-image.svg" alt="OasisDrive" class="hero">
     </div>
 </template>
 
@@ -50,4 +52,25 @@
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    .oasis-header {
+        margin-top: -110px;
+        padding-top: 250px;
+        background: linear-gradient(180deg, rgba(149, 189, 230, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
+
+        .main-title {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .sub-title {
+            margin-bottom: 50px;
+        }
+    }
+
+    .hero {
+        width: 100%;
+        margin-top: -100px;
+        margin-bottom: -10px;
+    }
 </style>

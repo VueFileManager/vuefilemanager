@@ -10,27 +10,31 @@
             </h4>
         </div>
 
-        <ul class="pricing-box container">
-            <li v-for="(plan, i) in pricing" :key="i" class="box">
-                <folder-icon size="34" class="pricing-icon" />
+        <div class="container">
+            <img src="/oasis/trees.svg" alt="oasis-trees" class="trees">
 
-                <h5 class="pricing-data">
-                    {{ plan.data.attributes.capacity_formatted }}
-                </h5>
-                <b class="pricing-name">
-                    {{ plan.data.attributes.name }}
-                </b>
-                <p class="pricing-description">
-                    {{ plan.data.attributes.description }}
-                </p>
-                <router-link :to="{name: 'SignUp'}" :class="{'base-button': i == 1,'theme-button': i !== 1, }">
-                    {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
-                </router-link>
-                <small v-if="plan.data.attributes.tax_rates.length > 0" class="pricing-vat">
-                    {{ $t('page_pricing_tables.vat_excluded') }}
-                </small>
-            </li>
-        </ul>
+            <ul class="pricing-box">
+                <li v-for="(plan, i) in pricing" :key="i" class="box">
+                    <folder-icon size="34" class="pricing-icon" />
+
+                    <h5 class="pricing-data">
+                        {{ plan.data.attributes.capacity_formatted }}
+                    </h5>
+                    <b class="pricing-name">
+                        {{ plan.data.attributes.name }}
+                    </b>
+                    <p class="pricing-description">
+                        {{ plan.data.attributes.description }}
+                    </p>
+                    <router-link :to="{name: 'SignUp'}" :class="{'base-button': i == 1,'theme-button': i !== 1, }">
+                        {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
+                    </router-link>
+                    <small v-if="plan.data.attributes.tax_rates.length > 0" class="pricing-vat">
+                        {{ $t('page_pricing_tables.vat_excluded') }}
+                    </small>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -111,6 +115,87 @@
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    .trees {
+        margin-bottom: -90px;
+        margin-left: 250px;
+    }
+
+    .pricing-box {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        max-width: 1325px;
+        margin: 0 auto;
+
+        .box {
+            background: white;
+            box-shadow: 0 5px 333px -22px #1B253935;
+            border-radius: 12px;
+            display: block;
+            padding: 38px 40px 35px;
+            z-index: 1;
+
+            &:nth-child(2) {
+                z-index: 2;
+                padding: 55px 40px 20px;
+                background: $theme-bg-light;
+                margin-top: -40px;
+                margin-bottom: -40px;
+
+                .pricing-name, .pricing-data {
+                    color: white;
+                }
+
+                .pricing-description {
+                    color: $text-dark-secondary;
+                    margin-bottom: 70px;
+                }
+
+                .pricing-data {
+                    margin-top: 30px;
+                }
+
+                .pricing-vat {
+                    color: $text-dark-subtitle;
+                }
+            }
+
+            .pricing-icon {
+                margin-bottom: 45px;
+
+                path {
+                    color: $theme;
+                }
+            }
+
+            .pricing-data {
+                @include font-size(50);
+                font-weight: 900;
+                margin-bottom: 10px;
+            }
+
+            .pricing-name {
+                @include font-size(24);
+                font-weight: 800;
+                margin-bottom: 30px;
+                display: block;
+            }
+
+            .pricing-description {
+                @include font-size(19);
+                margin-bottom: 50px;
+            }
+
+            .pricing-vat {
+                @include font-size(12);
+                color: $text-secondary;
+                display: block;
+                font-weight: 300;
+                opacity: 0.45;
+                margin-top: 15px;
+            }
+        }
+    }
 
     @media only screen and (max-width: 960px) {
         .pricing-box {

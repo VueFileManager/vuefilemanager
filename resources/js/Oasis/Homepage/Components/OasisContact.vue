@@ -1,6 +1,6 @@
 <template>
     <div id="kontakt-a-podpora" class="oasis-contact">
-        <div class="container">
+        <div class="container content-position">
             <div class="title-wrapper">
                 <h3 class="main-title-sm">
                     Kontakt a Podpora
@@ -69,7 +69,6 @@
                     </button>
                 </ValidationObserver>
             </div>
-
         </div>
     </div>
 </template>
@@ -133,6 +132,74 @@
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    .oasis-contact {
+        background: $theme-bg-dark;
+        padding-top: 90px;
+        padding-bottom: 90px;
+
+        .title-wrapper {
+            margin-bottom: 65px;
+        }
+
+        .main-title-sm {
+            color: white;
+        }
+
+        .sub-title-sm {
+            color: $text-dark-subtitle;
+            max-width: 750px;
+        }
+
+        .info-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-grid {
+            gap: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .contact-form {
+        width: 100%;
+
+        .block-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .error-message {
+            color: $pink;
+            margin-top: 5px;
+            display: block;
+        }
+
+        input, textarea {
+            background: $theme-bg-light;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 13px 20px;
+            appearance: none;
+            outline: 0;
+            color: $text-dark-secondary;
+            @include font-size(16);
+            font-weight: 600;
+            width: 100%;
+
+            &.is-error {
+                border-color: $pink;
+            }
+
+            &::placeholder {
+                color: $text-dark-subtitle;
+                @include font-size(16);
+                font-weight: 600;
+            }
+        }
+    }
 
     @media only screen and (max-width: 960px) {
         .oasis-contact {
