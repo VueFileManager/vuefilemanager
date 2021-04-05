@@ -6,16 +6,9 @@
         </router-link>
         <nav>
             <ul class="links">
-                <li v-for="(item, i) in navigation" :key="i">
-                    <a :href="`#${item.href}`">
-                        {{ item.title }}
-                    </a>
-                </li>
-            </ul>
-            <ul class="links">
-                <li v-for="(item, i) in routes" :key="i">
-                    <router-link :to="{name: item.route}" :class="{'highlighted': item.route === 'SignUp'}">
-                        {{ item.title }}
+                <li v-if="legal.visibility" v-for="(legal, index) in config.legal" :key="index">
+                    <router-link :to="{name: 'DynamicPage', params: {slug: legal.slug }}">
+                        {{ legal.title }}
                     </router-link>
                 </li>
             </ul>
@@ -37,38 +30,6 @@
                 'config'
             ]),
         },
-        data() {
-            return {
-                navigation: [
-                    {
-                        title: 'O Nás',
-                        href: 'o-nas',
-                    },
-                    /*{
-                        title: 'Kariéra',
-                        href: 'kariera',
-                    },*/
-                    {
-                        title: 'Ceník',
-                        href: 'cenik',
-                    },
-                    {
-                        title: 'Podpora',
-                        href: 'podpora',
-                    },
-                ],
-                routes: [
-                    {
-                        title: 'Prihlásit se',
-                        route: 'SignIn',
-                    },
-                    {
-                        title: 'Zaregistrovat se',
-                        route: 'SignUp',
-                    },
-                ],
-            }
-        },
     }
 </script>
 
@@ -76,4 +37,30 @@
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    @media only screen and (max-width: 960px) {
+        .oasis-footer.container {
+            display: block;
+            text-align: center;
+            padding: 10px 0;
+
+            .logo {
+                margin: 0 auto;
+                display: block;
+            }
+
+            .links {
+                display: block;
+
+                li {
+                    display: block;
+
+                    a {
+                        display: block;
+                        padding: 10px;
+                    }
+                }
+            }
+        }
+    }
 </style>

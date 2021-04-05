@@ -670,7 +670,7 @@ return [
         'locale_name'                                      => 'Language Name',
         'select_language_locale'                           => 'Select Language Locale',
         'type_language_name'                               => 'Type Language Name',
-        'go_to_files'                                      => 'Go to Files',
+        'go_to_files'                                      => 'Browse Files',
         'color_theme'                                      => 'Color Theme',
         'color_theme_description'                          => 'Your color change will be visible after app refresh.',
         'og_image'                                         => 'OG Image',

@@ -19,6 +19,15 @@ const routesOasis = [
         },
     },
     {
+        name: 'DynamicPage',
+        path: '/page/:slug',
+        component: () =>
+            import(/* webpackChunkName: "chunks/dynamic-page" */ './Oasis/Homepage/DynamicPage'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
         name: 'SignUp',
         path: '/sign-up',
         component: () =>

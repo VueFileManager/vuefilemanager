@@ -2,16 +2,16 @@
     <div class="landing-page">
 
         <!--Navigation-->
-        <Navigation class="page-wrapper small"/>
+        <Navigation class="page-wrapper small" />
 
         <!--Page content-->
         <div class="page-wrapper small">
 
             <!--Headline-->
             <PageTitle
-                    class="headline"
-                    :title="$t('page_contact_us.title')"
-                    :description="$t('page_contact_us.description')"
+                class="headline"
+                :title="$t('page_contact_us.title')"
+                :description="$t('page_contact_us.description')"
             ></PageTitle>
 
             <ValidationObserver v-if="! isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form"
@@ -23,7 +23,7 @@
                                         v-slot="{ errors }">
                         <input v-model="contact.email" :placeholder="$t('page_contact_us.form.email_plac')" type="email"
                                class="focus-border-theme"
-                               :class="{'is-error': errors[0]}"/>
+                               :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -45,7 +45,7 @@
                 </InfoBox>
 
                 <div>
-                    <AuthButton class="submit-button" icon="chevron-right" :text="$t('page_contact_us.form.submit_button')" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton class="submit-button" icon="chevron-right" :text="$t('page_contact_us.form.submit_button')" :loading="isLoading" :disabled="isLoading" />
                 </div>
             </ValidationObserver>
             <InfoBox v-if="isSuccess">
@@ -54,7 +54,7 @@
         </div>
 
         <!--Footer-->
-        <PageFooter/>
+        <PageFooter />
     </div>
 </template>
 

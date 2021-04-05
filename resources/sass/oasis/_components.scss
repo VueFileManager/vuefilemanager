@@ -9,7 +9,17 @@
   @include font-size(62);
   font-weight: 900;
   line-height: 1.1;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.main-title-sm {
+  @include font-size(52);
+  font-weight: 900;
+  line-height: 1.1;
+  max-width: 1150px;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
 }
 
 .sub-title {
@@ -23,6 +33,7 @@
   font-weight: 600;
   line-height: 1.6;
   color: $text-secondary;
+  max-width: 1150px;
 }
 
 .theme-button {
@@ -55,6 +66,10 @@
   display: inline-block;
   font-weight: 800;
   color: $theme;
+  appearance: none;
+  outline: 0;
+  border: none;
+  cursor: pointer;
 
   &:hover {
     background: $theme;
@@ -64,4 +79,12 @@
   &:active {
     @include transform(scale(0.97));
   }
+}
+
+.info-title {
+  @include font-size(24);
+  color: white;
+  font-weight: 800;
+  margin-bottom: 17px;
+  display: block;
 }

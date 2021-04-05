@@ -7,12 +7,20 @@
             <h2 class="sub-title">
                 Virtuální šanon, vždy s tebou.
             </h2>
-            <router-link :to="{name: 'SignUp'}" class="theme-button">
-                Zaregistrujte se
-            </router-link>
-            <span class="log-in">
-                alebo <router-link :to="{name: 'SignIn'}">prihláste se</router-link>
-            </span>
+
+            <div v-if="config.isAuthenticated">
+                <router-link :to="{name: 'Files'}" class="theme-button">
+                    {{ $t('go_to_files') }}
+                </router-link>
+            </div>
+            <div v-if="! config.isAuthenticated">
+                <router-link :to="{name: 'SignUp'}" class="theme-button">
+                    Zaregistrujte se
+                </router-link>
+                <span class="log-in">
+                    alebo <router-link :to="{name: 'SignIn'}">prihláste se</router-link>
+                </span>
+            </div>
         </header>
     </div>
 </template>

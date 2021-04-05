@@ -8,15 +8,23 @@
 }
 
 .oasis-navigation {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
 }
 
 .oasis-header {
-  padding-top: 100px;
+  margin-top: -110px;
+  padding-top: 250px;
   background: linear-gradient(180deg, rgba(149, 189, 230, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
+
+  .main-title {
+    max-width: 890px;
+    margin: 0 auto;
+  }
+
+  .sub-title {
+    margin-bottom: 50px;
+  }
 }
 
 .oasis-features {
@@ -26,11 +34,14 @@
     margin-bottom: 90px;
   }
 
-  .main-title {
+  .main-title-sm {
     color: white;
+    max-width: 690px;
+    margin: 0 auto;
   }
 
   .sub-title-sm {
+    margin: 0 auto;
     color: $text-dark-subtitle;
   }
 
@@ -39,13 +50,19 @@
   }
 
   .cta {
-    top: 240px;
+    top: 245px;
     position: relative;
   }
 }
 
 .oasis-pricing {
   margin-top: 290px;
+
+  .main-title-sm,
+  .sub-title-sm {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   .title-wrapper {
     margin-bottom: 60px;
@@ -58,6 +75,38 @@
 
 .oasis-about-us {
 
+  .sub-title-sm {
+    max-width: 890px;
+  }
+}
+
+.oasis-contact {
+  background: $theme-bg-dark;
+
+  .title-wrapper {
+    margin-bottom: 65px;
+  }
+
+  .main-title-sm {
+    color: white;
+  }
+
+  .sub-title-sm {
+    color: $text-dark-subtitle;
+    max-width: 750px;
+  }
+
+  .info-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .info-grid {
+    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .oasis-footer {
@@ -77,19 +126,19 @@
 
   .links {
     display: inline-block;
-
-    .highlighted {
-      color: $theme;
-    }
-
-    &:last-child {
-      margin-left: 25px;
-    }
   }
 }
 
 .navigation {
-  padding: 10px 0;
+  padding: 5px 0;
+  z-index: 10;
+  @include transition(150ms);
+  backdrop-filter: blur(18px);
+  margin-top: 35px;
+
+  &.white {
+    background: rgba(white, 0.95);
+  }
 
   .container {
       display: flex;
@@ -116,6 +165,7 @@
 
   .log-in {
     display: block;
+    margin-top: 12px;
 
     a {
       @include transition(150ms);
@@ -139,12 +189,12 @@
     box-shadow: 0 22px 34px -20px #232142;
     border-radius: 12px;
     text-align: center;
-    padding: 45px 25px;
+    padding: 40px 25px 45px;
     display: block;
 
     .box-title {
       color: white;
-      margin-top: 30px;
+      margin-top: 22px;
       margin-bottom: 25px;
       @include font-size(32);
     }
@@ -152,7 +202,7 @@
     .box-description {
       color: $text-dark-secondary;
       @include font-size(19);
-      line-height: 1.6;
+      line-height: 1.55;
       margin-bottom: 25px;
     }
 
@@ -224,7 +274,7 @@
     box-shadow: 0 5px 333px -22px #1B253935;
     border-radius: 12px;
     display: block;
-    padding: 45px 40px 20px;
+    padding: 38px 40px 35px;
     z-index: 1;
 
     &:nth-child(2) {
@@ -240,6 +290,7 @@
 
       .pricing-description {
         color: $text-dark-secondary;
+        margin-bottom: 70px;
       }
 
       .pricing-data {
@@ -252,7 +303,7 @@
     }
 
     .pricing-icon {
-      margin-bottom: 40px;
+      margin-bottom: 45px;
 
       path {
         color: $theme;
@@ -262,6 +313,7 @@
     .pricing-data {
       @include font-size(50);
       font-weight: 900;
+      margin-bottom: 10px;
     }
 
     .pricing-name {
@@ -273,7 +325,7 @@
 
     .pricing-description {
       @include font-size(19);
-      margin-bottom: 35px;
+      margin-bottom: 50px;
     }
 
     .pricing-vat {
@@ -288,12 +340,12 @@
 }
 
 .info-list {
-  margin: 70px 0;
+  margin: 65px 0;
 
   .info-list-item {
     display: flex;
     align-items: start;
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 
     &:last-child {
       margin-bottom: 0;
@@ -309,10 +361,11 @@
     }
 
     .description {
-      max-width: 620px;
+      max-width: 700px;
       @include font-size(24);
       color: $text-primary;
       font-weight: 800;
+      line-height: 1.5;
     }
   }
 }
@@ -324,6 +377,7 @@
     display: inline-block;
 
     a {
+      cursor: pointer;
       @include font-size(17);
       padding: 9px 30px;
       color: $text-primary;
@@ -331,10 +385,91 @@
       @include transition;
       border-radius: 25px;
 
-      &:hover {
+      &:hover, &.router-link-active {
         background: white;
         box-shadow: 0 6px 20px -10px rgba($theme, 0.35);
       }
+    }
+  }
+}
+
+.info-wrapper {
+  padding-bottom: 45px;
+
+  .info-group {
+    margin-bottom: 30px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .info-icon {
+    display: flex;
+    align-items: center;
+
+    .info-description {
+      margin-bottom: 0;
+      text-decoration: underline;
+      @include transition;
+
+      &:hover {
+        color: $cyan;
+      }
+    }
+
+    svg {
+      margin-right: 10px;
+
+      line, path, polyline {
+        color: $cyan;
+      }
+    }
+  }
+
+  .info-description {
+    @include font-size(20);
+    color: $text-dark-secondary;
+    font-weight: 500;
+    margin-bottom: 7px;
+    max-width: 320px;
+    line-height: 1.6;
+  }
+}
+
+.contact-form {
+  width: 100%;
+
+  .block-wrapper {
+    margin-bottom: 30px;
+  }
+
+  .error-message {
+    color: $pink;
+    margin-top: 5px;
+    display: block;
+  }
+
+  input, textarea {
+    background: $theme-bg-light;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 13px 20px;
+    appearance: none;
+    outline: 0;
+    color: $text-dark-secondary;
+    @include font-size(16);
+    font-weight: 600;
+    width: 100%;
+
+    &.is-error {
+      border-color: $pink;
+    }
+
+    &::placeholder {
+      color: $text-dark-subtitle;
+      @include font-size(16);
+      font-weight: 600;
     }
   }
 }

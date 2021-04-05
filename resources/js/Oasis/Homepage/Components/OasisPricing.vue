@@ -1,8 +1,8 @@
 <template>
-    <div class="oasis-pricing text-center">
+    <div id="cenik" class="oasis-pricing text-center">
 
         <div class="title-wrapper container">
-            <h3 class="main-title">
+            <h3 class="main-title-sm">
                 Kolik stoji OasisDrive?
             </h3>
             <h4 class="sub-title-sm">
@@ -111,4 +111,28 @@
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    @media only screen and (max-width: 960px) {
+        .pricing-box {
+            grid-template-columns: 1fr;
+            gap: 25px;
+
+            .box {
+
+                &:nth-child(2) {
+                    padding: 38px 40px 35px;
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+
+                    .pricing-data {
+                        margin-top: 0;
+                    }
+
+                    .pricing-description {
+                        margin-bottom: 50px;
+                    }
+                }
+            }
+        }
+    }
 </style>

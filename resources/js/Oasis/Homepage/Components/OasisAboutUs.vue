@@ -1,7 +1,7 @@
 <template>
-    <div class="oasis-about-us container">
+    <div id="o-nas" class="oasis-about-us container">
         <div class="title-wrapper container">
-            <h3 class="main-title">
+            <h3 class="main-title-sm">
                 Kto Jsme?
             </h3>
             <h4 class="sub-title-sm">
@@ -10,7 +10,7 @@
         </div>
         <ul class="info-list">
             <li v-for="(item, i) in infoList" :key="i" class="info-list-item">
-                <check-icon size="26" class="icon" />
+                <check-icon size="30" class="icon" />
                 <p class="description">{{ item }}</p>
             </li>
         </ul>
@@ -45,4 +45,24 @@
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    @media only screen and (max-width: 960px) {
+        .info-list {
+            margin: 65px 0;
+
+            .info-list-item {
+                display: flex;
+                align-items: start;
+                margin-bottom: 40px;
+
+                .description {
+                    max-width: 700px;
+                    @include font-size(19);
+                    color: $text-primary;
+                    font-weight: 800;
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
 </style>
