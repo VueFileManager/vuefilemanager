@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\HelperService;
+use App\Services\LanguageService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +41,7 @@ class Language extends Model
         static::creating(function ($language) {
             $language->id = Str::uuid();
 
-            resolve(HelperService::class)
+            resolve(LanguageService::class)
                 ->create_default_language_translations(
                     get_setting('license') ?? 'extended', $language->locale
                 );
