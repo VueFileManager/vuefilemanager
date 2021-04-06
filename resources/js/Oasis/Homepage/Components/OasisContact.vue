@@ -127,7 +127,7 @@
             }
         },
         created() {
-            axios.get('/api/admin/settings?column=billing_name|billing_country|billing_city|billing_address|billing_phone_number|billing_postal_code|billing_state|billing_vat_number|contact_email')
+            axios.get('/api/content?column=billing_name|billing_country|billing_city|billing_address|billing_phone_number|billing_postal_code|billing_state|billing_vat_number|contact_email')
                 .then(response => {
                     this.data = response.data
                 })

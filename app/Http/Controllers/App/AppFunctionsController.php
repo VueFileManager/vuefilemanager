@@ -27,7 +27,6 @@ class AppFunctionsController extends Controller
      * @var array
      */
     private $blacklist = [
-        'contact_email',
         'purchase_code',
         'license',
     ];
