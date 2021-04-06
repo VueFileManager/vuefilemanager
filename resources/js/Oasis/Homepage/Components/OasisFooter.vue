@@ -63,4 +63,14 @@
             }
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+
+        .oasis-footer.container {
+
+            .links li a {
+                color: $dark-mode-text;
+            }
+        }
+    }
 </style>

@@ -33,8 +33,15 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@assets/oasis/_components';
     @import '@assets/oasis/_homepage';
     @import '@assets/oasis/_responsive';
+
+    @media (prefers-color-scheme: dark) {
+
+        #page {
+            background: darken($theme-bg-dark, 10%);
+        }
+    }
 </style>

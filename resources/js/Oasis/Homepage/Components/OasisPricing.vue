@@ -460,4 +460,27 @@
             }
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+
+        .oasis-pricing {
+            .main-title-sm {
+                color: white;
+            }
+        }
+
+        .pricing-box {
+
+            .box {
+                background: darken($theme-bg-dark, 5%);
+
+                .pricing-data,
+                .pricing-name,
+                .pricing-description,
+                .pricing-vat {
+                    color: white;
+                }
+            }
+        }
+    }
 </style>

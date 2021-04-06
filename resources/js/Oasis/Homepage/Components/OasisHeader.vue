@@ -296,4 +296,19 @@
             margin-bottom: 120px;
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+
+        .oasis-header {
+            background: darken($theme-bg-dark, 10%);
+
+            .main-title {
+                color: white;
+            }
+        }
+
+        .cloud {
+            opacity: 0.03;
+        }
+    }
 </style>

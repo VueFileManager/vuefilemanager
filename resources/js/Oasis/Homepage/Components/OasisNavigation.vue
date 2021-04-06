@@ -151,4 +151,19 @@
             display: none;
         }
     }
+
+
+    @media (prefers-color-scheme: dark) {
+        .navigation {
+
+            .links li a {
+                color: $dark-mode-text;
+            }
+
+            &.white {
+                background: rgba(darken($theme-bg-dark, 10%), 0.9);
+                backdrop-filter: blur(18px);
+            }
+        }
+    }
 </style>

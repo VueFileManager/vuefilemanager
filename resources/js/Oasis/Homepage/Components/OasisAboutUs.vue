@@ -282,4 +282,13 @@
             }
         }
     }
+
+    @media (prefers-color-scheme: dark) {
+        .info-list .info-list-item {
+
+            .description {
+                color: $dark-mode-text;
+            }
+        }
+    }
 </style>
