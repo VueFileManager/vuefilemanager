@@ -28,7 +28,7 @@ mix.js('resources/js/main.js', 'public/js')
         output: {
             chunkFilename: '[name].js?id=[chunkhash]',
         },
-        devtool: 'inline-source-map',
+        //devtool: 'inline-source-map',
         devServer: {
             clientLogLevel: 'none'
         }
@@ -38,7 +38,7 @@ mix.js('resources/js/main.js', 'public/js')
             host: '192.168.1.198',
             port: '8080'
         },
-    }*/
+    })*/
     .disableNotifications();
 
 if (mix.inProduction()) {
