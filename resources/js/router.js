@@ -668,7 +668,7 @@ const routesOthers = [
         name: 'NotFound',
         path: '*',
         component: () =>
-            import(/* webpackChunkName: "chunks/not-found-shared" */ './views/Shared/NotFoundShared'),
+            import(/* webpackChunkName: "chunks/not-found" */ './views/NotFound'),
         meta: {
             requiresAuth: false
         },
