@@ -120,66 +120,60 @@ class HelperService
     /**
      * Move file to external storage if is set
      *
-     * @param string $filename
-     * @param string|null $thumbnail
+     * @param string $file
+     * @param string $user_id
      */
-    function move_file_to_external_storage($filename, $thumbnail = null): void
+    function move_file_to_external_storage($file, $user_id): void
     {
         $disk_local = Storage::disk('local');
 
-        foreach ([$filename, $thumbnail] as $file) {
+        // Get file size
+        $filesize = $disk_local->size("files/$user_id/$file");
 
-            // Check if file exist
-            if (!$file) continue;
+        // If file is bigger than 5.2MB then run multipart upload
+        if ($filesize > 5242880) {
 
-            // Get file size
-            $filesize = $disk_local->size('files/' . $file);
+            // Get driver
+            $driver = \Storage::getDriver();
 
-            // If file is bigger than 5.2MB then run multipart upload
-            if ($filesize > 5242880) {
+            // Get adapter
+            $adapter = $driver->getAdapter();
 
-                // Get driver
-                $driver = \Storage::getDriver();
+            // Get client
+            $client = $adapter->getClient();
 
-                // Get adapter
-                $adapter = $driver->getAdapter();
+            // Prepare the upload parameters.
+            // TODO: replace local files with temp folder
+            $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . "/files/$user_id/$file", [
+                'bucket' => $adapter->getBucket(),
+                'key'    => "/files/$user_id/$file"
+            ]);
 
-                // Get client
-                $client = $adapter->getClient();
+            try {
 
-                // Prepare the upload parameters.
-                // TODO: replace local files with temp folder
-                $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . '/files/' . $file, [
-                    'bucket' => $adapter->getBucket(),
-                    'key'    => 'files/' . $file
-                ]);
+                // Upload content
+                $uploader->upload();
 
-                try {
+            } catch (MultipartUploadException $e) {
 
-                    // Upload content
-                    $uploader->upload();
+                // Write error log
+                Log::error($e->getMessage());
 
-                } catch (MultipartUploadException $e) {
+                // Delete file after error
+                $disk_local->delete("/files/$user_id/$file");
 
-                    // Write error log
-                    Log::error($e->getMessage());
-
-                    // Delete file after error
-                    $disk_local->delete('files/' . $file);
-
-                    throw new HttpException(409, $e->getMessage());
-                }
-
-            } else {
-
-                // Stream file object to s3
-                // TODO: replace local files with temp folder
-                Storage::putFileAs('files', config('filesystems.disks.local.root') . '/files/' . $file, $file, 'private');
+                throw new HttpException(409, $e->getMessage());
             }
 
-            // Delete file after upload
-            $disk_local->delete('files/' . $file);
+        } else {
+
+            // Stream file object to s3
+            // TODO: replace local files with temp folder
+            Storage::putFileAs("files/$user_id", config('filesystems.disks.local.root') . "/files/$user_id/$file", $file, "private");
         }
+
+        // Delete file after upload
+        $disk_local->delete("/files/$user_id/$file");
     }
 
     /**
@@ -192,16 +186,14 @@ class HelperService
      */
     function create_image_thumbnail($file_path, $filename, $user_id)
     {
-        $local_disk = Storage::disk('local');
-
         // Create thumbnail from image
-        if (in_array($local_disk->mimeType($file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
+        if (in_array(Storage::disk('local')->mimeType($file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
 
             // Get thumbnail name
             $thumbnail = "thumbnail-$filename";
 
             // Create intervention image
-            $image = Image::make($local_disk->path($file_path))
+            $image = Image::make(Storage::disk('local')->path($file_path))
                 ->orientate();
 
             // Resize image
@@ -210,11 +202,11 @@ class HelperService
             })->stream();
 
             // Store thumbnail to disk
-            $local_disk->put("files/$user_id/$thumbnail", $image);
+            Storage::put("files/$user_id/$thumbnail", $image);
         }
 
         // Return thumbnail as svg file
-        if ($local_disk->mimeType($file_path) === 'image/svg+xml') {
+        if (Storage::disk('local')->mimeType($file_path) === 'image/svg+xml') {
 
             $thumbnail = $filename;
         }

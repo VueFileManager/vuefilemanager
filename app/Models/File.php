@@ -104,7 +104,7 @@ class File extends Model
         // Get thumbnail from external storage
         if ($this->attributes['thumbnail'] && ! is_storage_driver(['local'])) {
 
-            return Storage::temporaryUrl('files/' . $this->attributes['thumbnail'], now()->addHour());
+            return Storage::temporaryUrl("files/$this->user_id/{$this->attributes['thumbnail']}", now()->addHour());
         }
 
         // Get thumbnail from local storage
@@ -145,7 +145,7 @@ class File extends Model
                 'ResponseContentDisposition' => 'attachment; filename=' . $file_pretty_name,
             ];
 
-            return Storage::temporaryUrl('files/' . $this->attributes['basename'], now()->addDay(), $header);
+            return Storage::temporaryUrl("files/$this->user_id/{$this->attributes['basename']}", now()->addDay(), $header);
         }
 
         // Get thumbnail from local storage

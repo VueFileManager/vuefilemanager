@@ -22,7 +22,7 @@ class UserSettings extends Model
     public function getAvatarAttribute()
     {
         // Get avatar from external storage
-        if ($this->attributes['avatar'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze'])) {
+        if ($this->attributes['avatar'] && ! is_storage_driver('local')) {
             return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
         }
 
@@ -31,6 +31,6 @@ class UserSettings extends Model
             return url('/' . $this->attributes['avatar']);
         }
 
-        return url('/assets/images/' . 'default-avatar.png');
+        return url('/assets/images/default-avatar.png');
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Faker;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SetupDevEnvironment extends Command
@@ -114,7 +115,7 @@ class SetupDevEnvironment extends Command
                 'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
 
-        \File::copy(storage_path("demo/avatars/avatar-01.png"), storage_path("app/avatars/avatar-01.png"));
+        Storage::putFileAs("avatars", storage_path("demo/avatars/avatar-01.png"), 'avatar-01.png', "private");
 
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
@@ -155,7 +156,7 @@ class SetupDevEnvironment extends Command
                     'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
                 ]);
 
-            \File::copy(storage_path("demo/avatars/{$user['avatar']}"), storage_path("app/avatars/{$user['avatar']}"));
+            Storage::putFileAs("avatars", storage_path("demo/avatars/{$user['avatar']}"), $user['avatar'], "private");
 
             $this->info("Generated user with email: $newbie->email and Password: vuefilemanager");
         });
@@ -378,7 +379,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file['basename'];
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -422,7 +423,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file['basename'];
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -456,7 +457,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file['basename'];
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -515,7 +516,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file['basename'];
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/documents/{$file['basename']}"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -543,7 +544,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/video/$file"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/video/$file"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -568,7 +569,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/video/$file"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/video/$file"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -593,7 +594,7 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/audio/$file"), storage_path("app/files/$user->id/$basename"));
+                Storage::putFileAs("files/$user->id", storage_path("demo/audio/$file"), $basename, "private");
 
                 // Create file record
                 File::create([
@@ -629,9 +630,8 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/images/memes/$file"), storage_path("app/files/$user->id/$basename"));
-
-                $this->info("Creating thumbnail for image: $file");
+                Storage::putFileAs("files/$user->id", storage_path("demo/images/memes/$file"), $basename, "private");
+                Storage::putFileAs("files/$user->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", "private");
 
                 // Create file record
                 File::create([
@@ -643,7 +643,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
+                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -663,9 +663,8 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/images/apartments/$file"), storage_path("app/files/$user->id/$basename"));
-
-                $this->info("Creating thumbnail for image: $file");
+                Storage::putFileAs("files/$user->id", storage_path("demo/images/apartments/$file"), $basename, "private");
+                Storage::putFileAs("files/$user->id", storage_path("demo/images/apartments/thumbnail-$file"), "thumbnail-$basename", "private");
 
                 // Create file record
                 File::create([
@@ -677,7 +676,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
+                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -701,9 +700,8 @@ class SetupDevEnvironment extends Command
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                \File::copy(storage_path("demo/images/nature/$file"), storage_path("app/files/$user->id/$basename"));
-
-                $this->info("Creating thumbnail for image: $file");
+                Storage::putFileAs("files/$user->id", storage_path("demo/images/nature/$file"), $basename, "private");
+                Storage::putFileAs("files/$user->id", storage_path("demo/images/nature/thumbnail-$file"), "thumbnail-$basename", "private");
 
                 // Create file record
                 File::create([
@@ -715,7 +713,7 @@ class SetupDevEnvironment extends Command
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => $this->helper->create_image_thumbnail("files/$user->id/$basename", $file, $user->id),
+                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -878,7 +876,7 @@ class SetupDevEnvironment extends Command
         // Get system images
         collect(['logo.svg', 'logo-horizontal.svg', 'favicon.png', 'og-image.jpg', 'touch-icon.png'])
             ->each(function ($file) {
-                \File::copy(storage_path("demo/app/$file"), storage_path("app/system/$file"));
+                Storage::putFileAs("system", storage_path("demo/app/$file"), $file, "private");
             });
 
     }
