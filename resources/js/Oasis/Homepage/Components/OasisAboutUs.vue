@@ -117,7 +117,7 @@
 
         .info-list-item {
             display: flex;
-            align-items: start;
+            align-items: flex-start;
             margin-bottom: 40px;
 
             &:last-child {
@@ -241,7 +241,7 @@
 
             .info-list-item {
                 display: flex;
-                align-items: start;
+                align-items: flex-start;
                 margin-bottom: 40px;
 
                 .description {

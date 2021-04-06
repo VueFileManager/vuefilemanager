@@ -5,12 +5,6 @@
  */
 
 /*!
- * vue-i18n v8.21.0 
- * (c) 2020 kazuya kawaguchi
- * Released under the MIT License.
- */
-
-/*!
  * vuex v3.5.1
  * (c) 2020 Evan You
  * @license MIT
