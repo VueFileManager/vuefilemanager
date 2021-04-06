@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\App;
 
+use App\Models\LanguageTranslation;
 use App\Models\User;
 use DB;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -58,7 +59,7 @@ class AppUpgradeTest extends TestCase
                             'lang'  => $locale
                         ], [
                             'key'   => 'activation.stripe.description',
-                            'value' => 'To charge your users, please set up your Stripe account credentials.',
+                            'value' => 'This is original test description',
                             'lang'  => $locale
                         ]
                     ]);
@@ -73,6 +74,18 @@ class AppUpgradeTest extends TestCase
                 $this->assertDatabaseHas('language_translations', [
                     'key'   => 'activation.stripe.title',
                     'value' => 'Your Stripe account is not set',
+                    'lang'  => $locale,
+                ]);
+
+                $this->assertDatabaseHas('language_translations', [
+                    'key'   => 'activation.stripe.description',
+                    'value' => 'This is original test description',
+                    'lang'  => $locale,
+                ]);
+
+                $this->assertDatabaseMissing('language_translations', [
+                    'key'   => 'activation.stripe.description',
+                    'value' => 'To charge your users, please set up your Stripe account credentials.',
                     'lang'  => $locale,
                 ]);
             });

@@ -71,7 +71,7 @@ class LanguageService
 
         // Find new translations in default translations
         $newbies = $default_translations[$license]
-            ->diff(map_language_translations($translations));
+            ->diffKeys(map_language_translations($translations));
 
         // Store new translations for every language
         $locales->each(function ($locale) use ($newbies) {
