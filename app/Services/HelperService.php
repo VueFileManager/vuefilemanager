@@ -8,7 +8,6 @@ use App\Models\Share;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -322,36 +321,5 @@ class HelperService
                 abort(403, $abort_message);
             }
         }
-    }
-
-    /**
-     * @param $license
-     * @param $locale
-     */
-    function create_default_language_translations($license, $locale)
-    {
-        $translations = [
-            'extended' => collect([
-                config("language-translations.extended"),
-                config("language-translations.regular"),
-                config("custom-language-translations")
-            ])->collapse(),
-            'regular'  => collect([
-                config("language-translations.regular"),
-                config("custom-language-translations")
-            ])->collapse(),
-        ];
-
-        $translations = $translations[strtolower($license)]
-            ->map(function ($value, $key) use ($locale) {
-                return [
-                    'lang'  => $locale,
-                    'value' => $value,
-                    'key'   => $key,
-                ];
-            })->toArray();
-
-        DB::table('language_translations')
-            ->insert($translations);
     }
 }
