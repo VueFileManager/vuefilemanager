@@ -10,10 +10,10 @@
             <div class="content-wrapper">
                 <div class="title-wrapper">
                     <h3 class="main-title-sm">
-                        Kto Jsme?
+                        {{ $t('homepage_about_us_title') }}
                     </h3>
                     <h4 class="sub-title-sm">
-                        Jsme česká společnost, která pro fyzické a právnické osoby (živnostníky a firmy) poskytuje cloudové uložiště dle evropské směrnice (GDPR) a následného zákona o zpracování osobních údajů (zákon 110/2019 sb.).
+                        {{ $t('homepage_about_us_description') }}
                     </h4>
                 </div>
                 <ul class="info-list">
@@ -23,7 +23,7 @@
                     </li>
                 </ul>
                 <router-link :to="{name: 'SignUp'}" class="base-button theme-color">
-                    Vyzkouset OasisDrive
+                    {{ $t('try_drive') }}
                 </router-link>
             </div>
         </div>
@@ -47,10 +47,10 @@
         data() {
             return {
                 infoList: [
-                    'Zakládáme si na kvalitě a nejlepší možné bezpečnosti pro uchovávání a zpracování dat a dokumentů.',
-                    'Spolupracujeme rovněž se specialisty v oboru práva a IT.',
-                    'Důležitá je pro nás uživatelská jednoduchost, stoprocentní funkčnost a přehlednost.',
-                    'Bezpečnost uložení dat tak, jak nařizuje směrnice EU (GDPR) a zákon o zpracování osobních údajů.',
+                    this.$t('homepage_about_us_line_1'),
+                    this.$t('homepage_about_us_line_2'),
+                    this.$t('homepage_about_us_line_3'),
+                    this.$t('homepage_about_us_line_4'),
                 ]
             }
         },

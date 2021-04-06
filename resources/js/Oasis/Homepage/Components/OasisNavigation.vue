@@ -21,7 +21,7 @@
             </div>
             <div v-if="! config.isAuthenticated" class="log-in">
                 <router-link :to="{name: 'SignIn'}" class="base-button theme-color">
-                    Prihlásit se
+                    {{ $t('page_index.menu.log_in') }}
                 </router-link>
             </div>
         </div>
@@ -46,15 +46,15 @@
                 isWhite: false,
                 navigation: [
                     {
-                        title: 'Ceník',
+                        title: this.$t('navigation.price'),
                         href: 'cenik',
                     },
                     {
-                        title: 'O Nás',
+                        title: this.$t('navigation.about-us'),
                         href: 'o-nas',
                     },
                     {
-                        title: 'Kontakt a Podpora',
+                        title: this.$t('navigation.contact-and-support'),
                         href: 'kontakt-a-podpora',
                     },
                 ],

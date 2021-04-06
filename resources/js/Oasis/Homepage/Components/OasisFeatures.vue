@@ -3,10 +3,10 @@
 
         <div class="title-wrapper container">
             <h3 class="main-title-sm">
-                Proč je OasisDrive Výnimočný?
+                {{ $t('homepage_feature_title') }}
             </h3>
             <h4 class="sub-title-sm">
-                Cloudové uložiště je v podstatě virtuální šanon, kam uživatelé ukládají svá data, ke kterým se mohou přihlásit odkudkoli v nezávislosti na zařízení. OasisDrive umožňuje bezpečně chránit Vaše firemní data.
+                {{ $t('homepage_feature_description') }}
             </h4>
         </div>
 
@@ -22,15 +22,15 @@
                 <p class="box-description">
                     {{ feature.excerp }}
                 </p>
-                <div class="box-more-info">
-                    <span>Více Informací</span>
+                <!--<div class="box-more-info">
+                    <span>{{ $t('more_info') }}</span>
                     <chevron-right-icon size="18" class="icon" />
-                </div>
+                </div>-->
             </li>
         </ul>
 
         <router-link :to="{name: 'SignUp'}" class="base-button theme-color cta">
-            Vyzkouset OasisDrive
+            {{ $t('try_drive') }}
         </router-link>
 
         <img src="/oasis/wave-background.svg" alt="oasis wave background" class="wave-background">
@@ -65,31 +65,25 @@
                 features: [
                     {
                         icon: 'lock',
-                        title: 'Bezpecnost na prvnim miste',
-                        excerp: 'Naše cloudové uložiště umožňuje bezpečně chránit Vaše firemní data. kdy využíváme několik vysoce zabezpečených serverů po Evropské unii a vícenásobným šifrováním souborů (tzv. kryptováním). ',
+                        title: this.$t('feature_1_title'),
+                        excerp: this.$t('feature_1_description'),
                         content: '',
                     },
                     {
                         icon: 'file',
-                        title: 'Bezpečnost v rámci GDPR',
-                        excerp: 'bezpečnost uložení dat v rámci evropské směrnice o GDPR a přidružených zákonů o zpracování a ochraně citlivých údajů. Naši klienti jsou tedy chráněni před zneužitím dat a tím pádem i před pokutami vyplývajícími z legislativy, které být astronomické. ',
+                        title: this.$t('feature_2_title'),
+                        excerp: this.$t('feature_2_description'),
                         content: '',
                     },
                     {
                         icon: 'cloud',
-                        title: 'Jednoduchost pouzivani',
-                        excerp: 'Naše cloudové uložiště umožňuje bezpečně chránit Vaše firemní data. kdy využíváme několik vysoce zabezpečených serverů po Evropské unii a vícenásobným šifrováním souborů (tzv. kryptováním). ',
+                        title: this.$t('feature_3_title'),
+                        excerp: this.$t('feature_3_description'),
                         content: '',
                     },
                 ]
             }
         },
-        mounted() {
-
-        },
-        created() {
-            this.$scrollTop()
-        }
     }
 </script>
 

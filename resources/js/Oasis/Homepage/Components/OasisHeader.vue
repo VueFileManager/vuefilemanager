@@ -10,10 +10,10 @@
 
         <header class="header container">
             <h1 class="main-title">
-                Jednoduchý a Bezpečný Cloud vo Vrecku
+                {{ $t('homepage_header_title') }}
             </h1>
             <h2 class="sub-title">
-                Virtuální šanon, vždy s tebou.
+                {{ $t('homepage_header_description') }}
             </h2>
 
             <div v-if="config.isAuthenticated">
@@ -23,10 +23,10 @@
             </div>
             <div v-if="! config.isAuthenticated">
                 <router-link :to="{name: 'SignUp'}" class="theme-button">
-                    Zaregistrujte se
+                    {{ $t('page_index.menu.sign_in') }}
                 </router-link>
                 <span class="log-in">
-                    alebo <router-link :to="{name: 'SignIn'}">prihláste se</router-link>
+                    {{ $t('global.or') }} <router-link :to="{name: 'SignIn'}">{{ $t('page_index.menu.log_in') }}</router-link>
                 </span>
             </div>
         </header>
@@ -50,11 +50,6 @@
             ...mapGetters([
                 'config'
             ]),
-        },
-        data() {
-            return {
-
-            }
         },
     }
 </script>

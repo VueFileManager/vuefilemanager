@@ -3,24 +3,24 @@
         <div class="container content-position">
             <div class="title-wrapper">
                 <h3 class="main-title-sm">
-                    Kontakt a Podpora
+                    {{ $t('homepage_contact_title') }}
                 </h3>
                 <h4 class="sub-title-sm">
-                    Jsme česká společnost, která pro fyzické a právnické osoby (živnostníky a firmy) poskytuje cloudové uložiště dle evropské směrnice.
+                    {{ $t('homepage_contact_description') }}
                 </h4>
             </div>
 
-            <div class="info-container">
+            <div v-if="data" class="info-container">
                 <div class="info-grid">
                     <div class="info-wrapper">
-                        <b class="info-title">Společnost:</b>
-                        <p class="info-description">GDPR Cloud Solution, s.r.o., </p>
-                        <p class="info-description">ICO: 08995281</p>
-                        <p class="info-description">Sídlo: Zbraslavská 12/11, Malá Chuchle, 159 00 Praha 5</p>
+                        <b class="info-title">{{ $t('contact_company_title') }}:</b>
+                        <p class="info-description">{{ data.billing_name }}, </p>
+                        <p class="info-description">{{ $t('contact.ico') }}: {{ data.billing_vat_number }}</p>
+                        <p class="info-description">{{ $t('contact.hq') }}: {{ data.billing_address }}, {{ data.billing_city }}, {{ data.billing_postal_code }} {{ data.billing_country }}</p>
                     </div>
 
                     <div class="info-wrapper">
-                        <b class="info-title">Prodej:</b>
+                        <b class="info-title">{{ $t('contact_sales_title') }}:</b>
                         <div class="info-group">
                             <p class="info-description">John Doe</p>
                             <p class="info-description">+420 922 123 456</p>
@@ -32,23 +32,23 @@
                     </div>
 
                     <div class="info-wrapper">
-                        <b class="info-title">Podpora:</b>
-                        <p class="info-description">podpora@oasisdrive.cz</p>
-                        <p class="info-description">+420 922 123 456</p>
+                        <b class="info-title">{{ $t('contact_support_title') }}:</b>
+                        <p class="info-description">{{ data.contact_email }}</p>
+                        <p class="info-description">{{ data.billing_phone_number}}</p>
                     </div>
 
                     <div class="info-wrapper">
-                        <b class="info-title">Dokumenty:</b>
+                        <b class="info-title">{{ $t('contact_documents_title') }}:</b>
 
                         <div class="info-icon">
                             <file-text-icon size="22" />
-                            <a href="/oasis/eu-smernice-gdpr.pdf" target="_blank" class="info-description">Směrnice EU (GDPR)</a>
+                            <a href="/oasis/eu-smernice-gdpr.pdf" target="_blank" class="info-description">{{ $t('document_gdpr_policy') }}</a>
                         </div>
                     </div>
 
                 </div>
                 <ValidationObserver v-if="! isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form" class="contact-form">
-                    <b class="info-title">Zanechte nám vzkaz:</b>
+                    <b class="info-title">{{ $t('contact_leave_message_title') }}:</b>
                     <div class="block-wrapper">
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required" v-slot="{ errors }">
                             <input v-model="contact.email" :placeholder="$t('page_contact_us.form.email_plac')" type="email" class="focus-border-theme" :class="{'is-error': errors[0]}" />
@@ -98,6 +98,7 @@
                     email: '',
                     message: '',
                 },
+                data: undefined,
             }
         },
         methods: {
@@ -125,6 +126,12 @@
                     })
             }
         },
+        created() {
+            axios.get('/api/admin/settings?column=billing_name|billing_country|billing_city|billing_address|billing_phone_number|billing_postal_code|billing_state|billing_vat_number|contact_email')
+                .then(response => {
+                    this.data = response.data
+                })
+        }
     }
 </script>
 

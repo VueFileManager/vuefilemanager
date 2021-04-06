@@ -10,10 +10,10 @@
 
         <div class="title-wrapper container">
             <h3 class="main-title-sm">
-                Kolik stoji OasisDrive?
+                {{ $t('homepage_pricing_title') }}
             </h3>
             <h4 class="sub-title-sm">
-                Cloudové uložiště je v podstatě virtuální šanon, kam uživatelé ukládají svá data, ke kterým se mohou přihlásit odkudkoli v nezávislosti na zařízení. OasisDrive umožňuje bezpečně chránit Vaše firemní data.
+                {{ $t('homepage_pricing_description') }}
             </h4>
         </div>
 
@@ -22,7 +22,7 @@
         </div>
         <div class="container">
 
-            <ul class="pricing-box">
+            <ul v-if="pricing" class="pricing-box">
                 <li v-for="(plan, i) in pricing" :key="i" class="box">
                     <folder-icon size="34" class="pricing-icon" />
 
@@ -70,57 +70,15 @@
         },
         data() {
             return {
-                pricing: [{
-                    "data": {
-                        "id": "virtualni-sanon-basic",
-                        "type": "plans",
-                        "attributes": {
-                            "name": "Virtu\u00e1ln\u00ed \u0161anon BASIC",
-                            "description": "Obsahuje 5 GB pro Va\u0161e firemn\u00ed data",
-                            "price": "CZK\u00a0699.00",
-                            "capacity_formatted": "50GB",
-                            "capacity": 50,
-                            "currency": "CZK",
-                            "tax_rates": [{"id": "txr_1IYQK9BwlPpoyJNw2lR0zgOr", "active": true, "country": "CZ", "percentage": 20, "plan_price_formatted": "CZK\u00a0838.80"}]
-                        }
-                    }
-                }, {
-                    "data": {
-                        "id": "virtualni-sanon-standard",
-                        "type": "plans",
-                        "attributes": {
-                            "name": "Virtu\u00e1ln\u00ed \u0161anon STANDARD",
-                            "description": "Obsahuje 10 GB pro Va\u0161e firemn\u00ed data, 2 dokumenty zdarma",
-                            "price": "CZK\u00a0799.00",
-                            "capacity_formatted": "100GB",
-                            "capacity": 100,
-                            "currency": "CZK",
-                            "tax_rates": [{"id": "txr_1IYQK9BwlPpoyJNw2lR0zgOr", "active": true, "country": "CZ", "percentage": 20, "plan_price_formatted": "CZK\u00a0958.80"}]
-                        }
-                    }
-                }, {
-                    "data": {
-                        "id": "virtualni-sanon-premium",
-                        "type": "plans",
-                        "attributes": {
-                            "name": "Virtu\u00e1ln\u00ed \u0161anon PREMIUM",
-                            "description": "Obsahuje 20 GB pro Va\u0161e firemn\u00ed data, 5 dokument\u016f dle vlastn\u00edho v\u00fdb\u011bru zdarma",
-                            "price": "CZK\u00a01,249.00",
-                            "capacity_formatted": "200GB",
-                            "capacity": 200,
-                            "currency": "CZK",
-                            "tax_rates": [{"id": "txr_1IYQK9BwlPpoyJNw2lR0zgOr", "active": true, "country": "CZ", "percentage": 20, "plan_price_formatted": "CZK\u00a01,498.80"}]
-                        }
-                    }
-                }]
+                pricing: undefined
             }
         },
         mounted() {
-
+            axios.get('/api/pricing')
+                .then(response => {
+                    this.pricing = response.data
+                })
         },
-        created() {
-            this.$scrollTop()
-        }
     }
 </script>
 
