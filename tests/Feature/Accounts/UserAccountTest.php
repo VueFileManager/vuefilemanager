@@ -126,15 +126,16 @@ class UserAccountTest extends TestCase
                                 "id"         => (string)$user->id,
                                 "type"       => "settings",
                                 "attributes" => [
-                                    'avatar'               => $user->settings->avatar,
-                                    'name'         => $user->settings->name,
-                                    'address'      => $user->settings->address,
-                                    'state'        => $user->settings->state,
-                                    'city'         => $user->settings->city,
-                                    'postal_code'  => $user->settings->postal_code,
-                                    'country'      => $user->settings->country,
-                                    'phone_number' => $user->settings->phone_number,
-                                    'timezone'             => $user->settings->timezone
+                                    'avatar'             => $user->settings->avatar,
+                                    'name'               => $user->settings->name,
+                                    'address'            => $user->settings->address,
+                                    'state'              => $user->settings->state,
+                                    'city'               => $user->settings->city,
+                                    'postal_code'        => $user->settings->postal_code,
+                                    'country'            => $user->settings->country,
+                                    'phone_number'       => $user->settings->phone_number,
+                                    'timezone'           => $user->settings->timezone,
+                                    'payment_activation' => 0,
                                 ]
                             ]
                         ],
