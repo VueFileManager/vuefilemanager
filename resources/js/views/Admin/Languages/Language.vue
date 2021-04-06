@@ -97,12 +97,27 @@
                         <div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
                             <label> {{ referenceTranslations[key] }}:</label>
                             <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
-                                <input type="text"
-                                       :class="{'is-error': errors[0]}"
-                                       class="focus-border-theme"
-                                       @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
-                                       v-model="selectedLanguage.data.attributes.translations[key]"
+
+                                <!--Input-->
+                                <input
+                                    v-if="selectedLanguage.data.attributes.translations[key].length < 80"
+                                    type="text"
+                                    :class="{'is-error': errors[0]}"
+                                    class="focus-border-theme"
+                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                    v-model="selectedLanguage.data.attributes.translations[key]"
                                 />
+
+                                <!--Textarea-->
+                                <textarea
+                                    v-if="selectedLanguage.data.attributes.translations[key].length > 80"
+                                    v-model="selectedLanguage.data.attributes.translations[key]"
+                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                    rows="3"
+                                    class="focus-border-theme"
+                                    :class="{'is-error': errors[0]}"
+                                ></textarea>
+
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>

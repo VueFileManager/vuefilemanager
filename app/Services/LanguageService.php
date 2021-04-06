@@ -88,6 +88,9 @@ class LanguageService
             // Store translations into database
             DB::table('language_translations')
                 ->insert($translations);
+
+            // Flush cache
+            cache()->forget("language-translations-$locale");
         });
     }
 }

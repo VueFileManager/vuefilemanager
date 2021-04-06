@@ -18,19 +18,13 @@ use Schema;
 class Maintenance extends Controller
 {
     /**
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function __construct()
-    {
-        // Check admin permission
-        Gate::authorize('maintenance');
-    }
-
-    /**
      *  Start maintenance mode
      */
     public function up()
     {
+        // Check admin permission
+        Gate::authorize('maintenance');
+
         $command = Artisan::call('up');
 
         if ($command === 0) {
@@ -43,6 +37,9 @@ class Maintenance extends Controller
      */
     public function down()
     {
+        // Check admin permission
+        Gate::authorize('maintenance');
+
         $command = Artisan::call('down');
 
         if ($command === 0) {
@@ -58,8 +55,13 @@ class Maintenance extends Controller
      */
     public function upgrade_translations()
     {
+        // Check admin permission
+        Gate::authorize('maintenance');
+
         resolve(LanguageService::class)
             ->upgrade_language_translations();
+
+
 
         return response('Done.', 201);
     }
@@ -69,6 +71,9 @@ class Maintenance extends Controller
      */
     public function upgrade_database()
     {
+        // Check admin permission
+        Gate::authorize('maintenance');
+
         $command = Artisan::call('migrate', [
             '--force' => true
         ]);
