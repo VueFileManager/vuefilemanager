@@ -29,13 +29,13 @@
         "league/flysystem-cached-adapter": "^1.1.0",
         "madnest/madzipper": "^1.1.0",
         "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0",
+        "fzaninotto/faker": "^1.9.2",
         "ext-json": "*"
     },
     "require-dev": {
         "ext-json": "*",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5.14",
-        "fzaninotto/faker": "^1.9.2",
         "mockery/mockery": "^1.4.3",
         "nunomaduro/collision": "^5.3.0",
         "phpunit/phpunit": "^9.5.2",
