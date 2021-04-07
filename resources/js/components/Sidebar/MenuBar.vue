@@ -33,7 +33,7 @@
             </router-link>
         </div>
 
-        <!--User avatar & Logout-->
+        <!--Logout-->
         <ul class="icon-navigation logout">
             <li @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
                 <div class="button-icon">

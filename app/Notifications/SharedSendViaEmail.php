@@ -26,7 +26,7 @@ class SharedSendViaEmail extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -37,23 +37,23 @@ class SharedSendViaEmail extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__t('shared_link_email_subject', ['user' => $this->user->name]))
+            ->subject(__t('shared_link_email_subject', ['user' => $this->user->settings->name]))
             ->greeting(__t('shared_link_email_greeting'))
-            ->line(__t('shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__t('shared_link_email_link'), url('/shared', ['token' => $this->token]))
+            ->line(__t('shared_link_email_user', ['user' => $this->user->settings->name, 'email' => $this->user->email]))
+            ->action(__t('shared_link_email_link'), url('/share', ['token' => $this->token]))
             ->salutation(__t('shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'VueFileManager']));
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

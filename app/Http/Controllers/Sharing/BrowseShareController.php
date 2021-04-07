@@ -43,16 +43,19 @@ class BrowseShareController extends Controller
             $image = File::whereUserId($shared->user_id)
                 ->whereType('image')
                 ->whereId($shared->item_id)
-                ->firstOrFail();
+                ->first();
 
-            // Store user download size
-            $shared
-                ->user
-                ->record_download(
-                    (int)$image->getRawOriginal('filesize')
-                );
+            if ($image) {
 
-            return $this->get_single_image($image, $shared->user_id);
+                // Store user download size
+                $shared
+                    ->user
+                    ->record_download(
+                        (int)$image->getRawOriginal('filesize')
+                    );
+
+                return $this->get_single_image($image, $shared->user_id);
+            }
         }
 
         return view("index")

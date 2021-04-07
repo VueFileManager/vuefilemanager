@@ -52,13 +52,14 @@ class FileManagerService
 
         // Move file to local storage from external storage service
         if (!is_storage_driver('local')) {
-            $files->each(function ($file) use ($disk_local) {
+
+            foreach ($files as $file) {
                 try {
-                    $disk_local->put("temp/$file->basename", Storage::get("files/$file->user_id/$file->basename"));
+                    $disk_local->put("temp/{$file['basename']}", Storage::get("files/$requested_folder->user_id/{$file['basename']}"));
                 } catch (FileNotFoundException $e) {
                     throw new HttpException(404, 'File not found');
                 }
-            });
+            }
         }
 
         // Get zip path
@@ -67,17 +68,16 @@ class FileManagerService
         // Create zip
         $zip = Madzipper::make($disk_local->path("zip/$zip_name"));
 
-        // Get files folder on local storage drive
-        $directory = is_storage_driver('local') ? 'files' : 'temp';
-
         // Add files to zip
         foreach ($files as $file) {
+
+            $file_path = is_storage_driver('local')
+                ? $disk_local->path("files/$requested_folder->user_id/{$file['basename']}")
+                : $disk_local->path("temp/{$file['basename']}");
+
             $zip
                 ->folder($file['folder_path'])
-                ->addString(
-                    "{$file['name']}.{$file['mimetype']}",
-                    File::get($disk_local->path("/$directory/$requested_folder->user_id/{$file['basename']}"))
-                );
+                ->addString("{$file['name']}.{$file['mimetype']}", File::get($file_path));
         }
 
         // Close zip
@@ -114,6 +114,7 @@ class FileManagerService
 
         // Move file to local storage from external storage service
         if (!is_storage_driver('local')) {
+
             $files->each(function ($file) use ($disk_local) {
                 try {
                     $disk_local->put("temp/$file->basename", Storage::get("files/$file->user_id/$file->basename"));
@@ -129,14 +130,14 @@ class FileManagerService
         // Create zip
         $zip = Madzipper::make($disk_local->path("zip/$zip_name"));
 
-        // Get files folder on local storage drive
-        $directory = is_storage_driver('local') ? 'files' : 'temp';
-
         // Add files to zip
-        $files->each(function ($file) use ($zip, $directory, $disk_local) {
-            $zip->addString(
-                "$file->name.$file->mimetype",
-                File::get($disk_local->path("/$directory/$file->user_id/$file->basename")));
+        $files->each(function ($file) use ($zip, $disk_local) {
+
+            $file_path = is_storage_driver('local')
+                ? $disk_local->path("files/$file->user_id/$file->basename")
+                : $disk_local->path("temp/$file->basename");
+
+            $zip->addString("$file->name.$file->mimetype", File::get($file_path));
         });
 
         // Close zip
@@ -388,27 +389,25 @@ class FileManagerService
             $disk_local = Storage::disk('local');
 
             // Get user data
-            $user_id = $shared ? $shared->user_id : Auth::id();
+            $user_id = $shared->user_id ?? Auth::id();
 
             // File Info
-            $file_size = $disk_local->size('chunks/' . $temp_filename);
+            $file_size = $disk_local->size("chunks/$temp_filename");
 
-            $file_mimetype = $disk_local->mimeType('chunks/' . $temp_filename);
+            $file_mimetype = $disk_local->mimeType("chunks/$temp_filename");
 
             // Check if user has enough space to upload file
             $this->helper->check_user_storage_capacity($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = $this->helper->create_image_thumbnail('chunks/' . $temp_filename, $disk_file_name, $user_id);
+            $thumbnail = $this->helper->create_image_thumbnail("chunks/$temp_filename", $disk_file_name, $user_id);
 
             // Move finished file from chunk to file-manager directory
-            $disk_local->move('chunks/' . $temp_filename, "files/$user_id/$disk_file_name");
+            $disk_local->move("chunks/$temp_filename", "files/$user_id/$disk_file_name");
 
             // Move files to external storage
             if (!is_storage_driver(['local'])) {
-
-                // Move file to external storage service
-                $this->helper->move_file_to_external_storage($disk_file_name, $thumbnail);
+                $this->helper->move_file_to_external_storage($disk_file_name, $user_id);
             }
 
             // Store user upload size

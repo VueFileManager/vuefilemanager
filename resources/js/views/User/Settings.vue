@@ -178,7 +178,7 @@
         methods: {
             changeUserName() {
                 this.$store.commit('UPDATE_NAME', this.userInfo.name)
-                this.$updateText('/user/profile', 'name', this.userInfo.name)
+                this.$updateText('/user/relationships/settings', 'name', this.userInfo.name)
             }
         },
         created() {

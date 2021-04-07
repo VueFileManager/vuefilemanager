@@ -96,7 +96,6 @@
                 <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
-
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
                 <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
@@ -105,7 +104,6 @@
                                                             : $t('context_menu.share')" icon="share" />
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
-
 
             <OptionGroup v-if="item && isMultiSelectContextMenu ">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
@@ -139,7 +137,6 @@
             </OptionGroup>
 
             <!-- Single options -->
-
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="renameItem" :title=" $t('context_menu.rename')" icon="rename" />
                 <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
@@ -153,7 +150,6 @@
             </OptionGroup>
 
             <!-- Multi options -->
-
             <OptionGroup v-if="item && !isMultiSelectContextMenu">
                 <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
@@ -323,7 +319,9 @@ export default {
             }
         },
         createFolder() {
-            this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'))
+            this.$store.dispatch('createFolder', {
+                name: this.$t('popup_create_folder.folder_default_name')
+            })
         },
         closeAndResetContextMenu() {
             // Close context menu

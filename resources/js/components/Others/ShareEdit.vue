@@ -207,7 +207,7 @@
                 this.isLoading = true
 
                 axios.
-                    post(`/api/share/${this.shareOptions.token}/send-email`, {
+                    post(`/api/share/${this.shareOptions.token}/email`, {
                         emails: this.emails
                     })
                     .catch(() => {

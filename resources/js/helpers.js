@@ -12,10 +12,10 @@ const Helpers = {
 
             let enableEmptyInput = ['mimetypes_blacklist', 'google_analytics', 'upload_limit']
 
-            if (value === '' && !enableEmptyInput.includes(name)) return
+            if (value === '' || value === ' ' && !enableEmptyInput.includes(name)) return
 
             axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
-                .catch(error => {
+                .catch(() => {
                     events.$emit('alert:open', {
                         title: this.$t('popup_error.title'),
                         message: this.$t('popup_error.message'),
@@ -88,10 +88,6 @@ const Helpers = {
             let win = window.open(source, '_blank')
 
             win.focus()
-        }
-
-        Vue.prototype.$createFolder = function (folderName) {
-            this.$store.dispatch('createFolder', folderName)
         }
 
         Vue.prototype.$uploadFiles = async function (files) {
