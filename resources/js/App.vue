@@ -1,18 +1,24 @@
 <template>
     <div id="vuefilemanager" @click="unClick" v-cloak>
+
+        <!--UI components-->
         <Alert />
         <ToastrWrapper />
-
-        <router-view v-if="isLoadedTranslations" />
-
         <CookieDisclaimer />
         <Vignette />
+
+        <!--Show spinner before translations is loaded-->
+        <Spinner v-if="! isLoadedTranslations"/>
+
+        <!--App view-->
+        <router-view v-if="isLoadedTranslations" />
     </div>
 </template>
 
 <script>
 import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
 import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
+import Spinner from '@/components/FilesView/Spinner'
 import Vignette from '@/components/Others/Vignette'
 import Alert from '@/components/FilesView/Alert'
 import {events} from './bus'
@@ -23,6 +29,7 @@ export default {
         CookieDisclaimer,
         ToastrWrapper,
         Vignette,
+        Spinner,
         Alert
     },
     data() {
@@ -39,7 +46,7 @@ export default {
 
         // Get language translations
         this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.language)
-            .then(response => {
+            .then(() => {
                 this.isLoadedTranslations = true
 
                 // Store config to vuex

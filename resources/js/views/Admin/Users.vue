@@ -139,7 +139,7 @@
             this.columns = [
                 {
                     label: this.$t('admin_page_user.table.name'),
-                    field: 'name',
+                    field: 'email',
                     sortable: true
                 },
                 {

@@ -2,7 +2,7 @@
 @component('mail::layout')
 {{-- Header --}}
 @slot('header')
-@component('mail::header', ['url' => config('app.url')])
+@component('mail::header', ['url' => url('/')])
 {{ get_setting('app_title') ?? 'VueFileManager' }}
 @endcomponent
 @endslot
