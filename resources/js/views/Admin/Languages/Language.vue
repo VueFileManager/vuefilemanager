@@ -191,6 +191,8 @@
             setDefaultLanguage() {
                 this.$updateText('/admin/settings', 'language', this.selectedLanguage.data.attributes.locale)
                 this.defaultLanguageLocale = this.selectedLanguage.data.attributes.locale
+
+                setTimeout(() => location.reload(), 500)
             },
             getLanguages() {
                 axios
