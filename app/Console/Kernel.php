@@ -44,6 +44,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
+
+        // Backup app database daily
+        $schedule->command('backup:clean')
+            ->daily()
+            ->at('01:00');
+        $schedule->command('backup:run --only-db')
+            ->daily()
+            ->at('01:30');
     }
 
     /**

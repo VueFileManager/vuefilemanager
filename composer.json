@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "ext-json": "*",
         "brianium/paratest": "^6.2",
         "cartalyst/stripe-laravel": "^13.1",
         "doctrine/dbal": "^2.12.1",
@@ -28,8 +29,8 @@
         "league/flysystem-aws-s3-v3": "^1.0.29",
         "league/flysystem-cached-adapter": "^1.1.0",
         "madnest/madzipper": "^1.1.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0",
-        "ext-json": "*"
+        "spatie/laravel-backup": "^6.15",
+        "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0"
     },
     "require-dev": {
         "ext-json": "*",
