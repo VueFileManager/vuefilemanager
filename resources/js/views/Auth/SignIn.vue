@@ -186,7 +186,7 @@
                     })
                     .catch(error => {
 
-                        if (error.response.status == 400) {
+                        if (error.response.status == 422) {
 
                             this.$refs.sign_in.setErrors({
                                 'User Password': [this.$t('validation_errors.incorrect_password')]
