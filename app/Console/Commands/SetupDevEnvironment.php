@@ -32,27 +32,18 @@ class SetupDevEnvironment extends Command
     protected $description = 'Set up development environment with demo data';
 
     private $setup;
-    private $helper;
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
         $this->faker = Faker\Factory::create();
         $this->setup = resolve(SetupService::class);
-        $this->helper = resolve(HelperService::class);
     }
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
         $this->info('Setting up development environment');
 
@@ -878,7 +869,6 @@ class SetupDevEnvironment extends Command
             ->each(function ($file) {
                 Storage::putFileAs("system", storage_path("demo/app/$file"), $file, "private");
             });
-
     }
 
     /**
