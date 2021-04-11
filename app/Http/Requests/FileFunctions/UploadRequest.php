@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\FileFunctions;
 
-use App\Rules\MimetypeBlacklistValidation;
+use App\Rules\DisabledMimetypes;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UploadRequest extends FormRequest
 {
@@ -27,7 +26,7 @@ class UploadRequest extends FormRequest
     {
         return [
             'folder_id' => 'nullable|uuid',
-            'file'      => ['required', 'file', new MimetypeBlacklistValidation]
+            'file'      => ['required', 'file', new DisabledMimetypes]
         ];
     }
 }

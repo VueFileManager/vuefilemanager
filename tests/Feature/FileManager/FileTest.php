@@ -4,6 +4,7 @@ namespace Tests\Feature\FileManager;
 
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Zip;
 use App\Services\SetupService;
@@ -114,6 +115,38 @@ class FileTest extends TestCase
         $this->assertDatabaseHas('traffic', [
             'user_id' => $user->id,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_upload_blacklisted_mimetype_file()
+    {
+        Storage::fake('local');
+
+        $this->setup->create_directories();
+
+        Setting::create([
+            'name'  => 'mimetypes_blacklist',
+            'value' => 'pdf',
+        ]);
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 1200, 'application/pdf');
+
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/upload', [
+            'file'      => $file,
+            'folder_id' => null,
+            'is_last'   => true,
+        ])->assertStatus(422);
+
+        Storage::disk('local')
+            ->assertMissing("files/$user->id/fake-file.pdf");
     }
 
     /**
