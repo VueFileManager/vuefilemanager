@@ -408,6 +408,7 @@
         position: sticky;
         top: 120px;
         display: flex;
+        z-index: 7;
 
         .menu-list-item {
             margin-top: 0;
@@ -441,7 +442,7 @@
 
     .search-bar-wrapper {
         top: 15px;
-        z-index: 13;
+        z-index: 7;
     }
 }
 
