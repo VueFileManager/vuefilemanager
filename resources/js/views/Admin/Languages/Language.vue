@@ -40,87 +40,113 @@
                 <!--Content-->
                 <div class="form block-form content">
 
-                    <Spinner v-if="! selectedLanguage" />
+                    <!--Inline Search for mobile-->
+                    <div class="block-wrapper sticky search-bar-wrapper">
+                        <SearchInput v-model="query" @reset-query="query = ''" />
+                    </div>
 
-                    <div v-if="selectedLanguage">
-                        <FormLabel icon="settings">
-                            {{ $t('language_settings') }}
-                        </FormLabel>
+                    <!--Mobile language navigation-->
+                    <div class="menu-list-wrapper horizontal">
 
-                        <!--Language name-->
-                        <div class="block-wrapper">
-                            <label>{{ $t('language_name') }}:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name"
-                                       :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
-
-                        <!--Set default language-->
-                        <div class="block-wrapper">
-                            <div class="input-wrapper">
-                                <div class="inline-wrapper">
-                                    <div class="switch-label">
-                                        <label class="input-label">
-                                            {{ $t('set_as_default_language') }}:
-                                        </label>
-                                        <small class="input-help">
-                                            If this language is set as default, app will appear in this language for all users.
-                                        </small>
-                                    </div>
-                                    <SwitchInput
-                                        @input="setDefaultLanguage"
-                                        class="switch"
-                                        :class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
-                                        :state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
-                                    />
-                                </div>
+                        <!--List of languages-->
+                        <div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" :class="{'router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}" class="menu-list-item link border-bottom-theme">
+                            <div class="label text-theme">
+                                {{ language.data.attributes.name }}
                             </div>
                         </div>
 
-                        <!--Translations-->
-                        <FormLabel class="mt-70">
-                            {{ $t('edit_translations') }}
-                        </FormLabel>
+                        <!--Add new language-->
+                        <div @click="createLanguage" class="menu-list-item link border-bottom-theme">
+                            <div class="icon text-theme">
+                                <plus-icon size="17" />
+                            </div>
+                        </div>
+                    </div>
 
-                        <InfoBox class="info-box">
-                            <p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
-                        </InfoBox>
+                    <div class="dynamic-content">
 
-                        <!--Inline Search-->
-                        <div class="block-wrapper sticky top-50 search-bar-wrapper">
-                            <SearchInput v-model="query" @reset-query="query = ''" />
+                        <Spinner v-if="! selectedLanguage" class="spinner" />
+
+                        <div v-if="selectedLanguage">
+
+                            <!--Disable content when user is searching translations-->
+                            <div v-if="! isSearching">
+                                <FormLabel icon="settings">
+                                    {{ $t('language_settings') }}
+                                </FormLabel>
+
+                                <!--Language name-->
+                                <div class="block-wrapper">
+                                    <label>{{ $t('language_name') }}:</label>
+                                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
+                                        <input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name"
+                                               :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+                                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                    </ValidationProvider>
+                                </div>
+
+                                <!--Set default language-->
+                                <div class="block-wrapper">
+                                    <div class="input-wrapper">
+                                        <div class="inline-wrapper">
+                                            <div class="switch-label">
+                                                <label class="input-label">
+                                                    {{ $t('set_as_default_language') }}:
+                                                </label>
+                                                <small class="input-help">
+                                                    If this language is set as default, app will appear in this language for all users.
+                                                </small>
+                                            </div>
+                                            <SwitchInput
+                                                @input="setDefaultLanguage"
+                                                class="switch"
+                                                :class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
+                                                :state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Translations-->
+                                <FormLabel class="mt-70">
+                                    {{ $t('edit_translations') }}
+                                </FormLabel>
+
+                                <InfoBox class="info-box">
+                                    <p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
+                                </InfoBox>
+                            </div>
+
+                            <!--Translation-->
+                            <div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
+                                <label> {{ referenceTranslations[key] }}:</label>
+                                <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
+
+                                    <!--Input-->
+                                    <input
+                                        v-if="selectedLanguage.data.attributes.translations[key].length < 80"
+                                        type="text"
+                                        :class="{'is-error': errors[0]}"
+                                        class="focus-border-theme"
+                                        @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                        v-model="selectedLanguage.data.attributes.translations[key]"
+                                    />
+
+                                    <!--Textarea-->
+                                    <textarea
+                                        v-if="selectedLanguage.data.attributes.translations[key].length > 80"
+                                        v-model="selectedLanguage.data.attributes.translations[key]"
+                                        @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                        rows="3"
+                                        class="focus-border-theme"
+                                        :class="{'is-error': errors[0]}"
+                                    ></textarea>
+
+                                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
                         </div>
 
-                        <!--Translation-->
-                        <div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
-                            <label> {{ referenceTranslations[key] }}:</label>
-                            <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
-
-                                <!--Input-->
-                                <input
-                                    v-if="selectedLanguage.data.attributes.translations[key].length < 80"
-                                    type="text"
-                                    :class="{'is-error': errors[0]}"
-                                    class="focus-border-theme"
-                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
-                                    v-model="selectedLanguage.data.attributes.translations[key]"
-                                />
-
-                                <!--Textarea-->
-                                <textarea
-                                    v-if="selectedLanguage.data.attributes.translations[key].length > 80"
-                                    v-model="selectedLanguage.data.attributes.translations[key]"
-                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
-                                    rows="3"
-                                    class="focus-border-theme"
-                                    :class="{'is-error': errors[0]}"
-                                ></textarea>
-
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -178,11 +204,18 @@
                 this.searchedTranslationResults = omitBy(this.selectedLanguage.data.attributes.translations, string => {
                     return !string.toLowerCase().includes(val.toLowerCase())
                 })
+
+                var container = document.getElementById('single-page')
+
+                container.scrollTop = 0
             }, 300),
         },
         computed: {
-            translationList() {
+            isSearching() {
                 return this.searchedTranslationResults && this.query !== ''
+            },
+            translationList() {
+                return this.isSearching
                     ? this.searchedTranslationResults
                     : this.selectedLanguage.data.attributes.translations
             }
@@ -191,6 +224,8 @@
             setDefaultLanguage() {
                 this.$updateText('/admin/settings', 'language', this.selectedLanguage.data.attributes.locale)
                 this.defaultLanguageLocale = this.selectedLanguage.data.attributes.locale
+
+                setTimeout(() => location.reload(), 500)
             },
             getLanguages() {
                 axios
@@ -257,10 +292,24 @@
 @import '@assets/vuefilemanager/_forms';
 @import '@assets/vuefilemanager/_vuewind';
 
+.dynamic-content {
+    position: relative;
+
+    .spinner {
+        margin-top: 0 !important;
+    }
+}
+
+.menu-list-wrapper.horizontal {
+    display: none;
+}
+
 .search-bar-wrapper {
     background: white;
-    padding: 10px 10px 0 10px;
+    padding: 0 10px 0 10px;
     margin: 0 -10px;
+    top: 58px;
+    z-index: 3;
 }
 
 .content-page {
@@ -283,7 +332,7 @@
 }
 
 .info-box {
-    margin-bottom: 12px;
+    margin-bottom: 32px;
 }
 
 .side-content {
@@ -353,10 +402,61 @@
     }
 }
 
+@media only screen and (max-width: 790px) {
+
+    .menu-list-wrapper.horizontal {
+        position: sticky;
+        top: 120px;
+        display: flex;
+        z-index: 7;
+
+        .menu-list-item {
+            margin-top: 0;
+
+            &:last-child {
+                padding-left: 0;
+            }
+        }
+    }
+
+    .content-page {
+        display: block;
+
+        .side-content,
+        .search-bar-wrapper.desktop {
+            display: none;
+        }
+
+        .search-bar-wrapper {
+            top: 60px;
+            margin-bottom: 10px !important;
+        }
+
+        .info-box {
+            margin-bottom: 30px;
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .search-bar-wrapper {
+        top: 15px;
+        z-index: 7;
+    }
+}
+
+
 @media only screen and (max-width: 690px) {
-    .side-content {
-        margin-bottom: 35px !important;
-        flex: none;
+    .menu-list-wrapper.horizontal {
+        top: 95px;
+    }
+
+    .content-page {
+
+        .search-bar-wrapper {
+            top: 35px;
+        }
     }
 }
 

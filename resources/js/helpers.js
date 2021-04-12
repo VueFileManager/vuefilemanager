@@ -182,7 +182,7 @@ const Helpers = {
                             this.$isSomethingWrong()
 
                         // Break uploading process
-                        if ([500, 415].includes(error.response.status))
+                        if ([500, 422].includes(error.response.status))
                             isNotGeneralError = false
                     })
                 } while (isNotGeneralError && attempts !== 0 && attempts !== 3)

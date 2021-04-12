@@ -233,7 +233,7 @@ const actions = {
                             title: i18n.t('popup_exceed_limit.title'),
                             message: i18n.t('popup_exceed_limit.message')
                         },
-                        '415': {
+                        '422': {
                             title: i18n.t('popup_mimetypes_blacklist.title'),
                             message: i18n.t('popup_mimetypes_blacklist.message')
                         },

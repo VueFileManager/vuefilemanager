@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\SetupDevEnvironment;
 use App\Services\Oasis\OasisService;
+use App\Console\Commands\SetupProdEnvironment;
 use App\Services\SchedulerService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         SetupDevEnvironment::class,
+        SetupProdEnvironment::class,
     ];
 
     /**
@@ -50,6 +52,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
+
+        // Backup app database daily
+        $schedule->command('backup:clean')
+            ->daily()
+            ->at('01:00');
+        $schedule->command('backup:run --only-db')
+            ->daily()
+            ->at('01:30');
     }
 
     /**

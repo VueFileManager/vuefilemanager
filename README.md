@@ -8,15 +8,9 @@
     - [Installation](#installation)
     - [PHP Configuration](#php-configuration)
     - [Chunk Upload](#chunk-upload)
-    - [Upgrade Guide](#upgrade-guide)
-        - [Common Instructions](#common-instructions)
-        - [Update from 1.7.12 to 1.8](#update-from-1712-to-18)
-        - [Update from 1.7.10 to 1.7.11](#update-from-1710-to-1711)
-        - [Update from 1.7.8 to 1.7.9](#update-from-178-to-179)
-        - [Update from 1.7.x to 1.7.8](#update-from-17x-to-178)
-        - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
+    - [Upgrade Guide](#upgrade-guide)
 - [Payments](#payments)
     - [Get your active plans](#get-your-active-plans)
     - [Manage Failed Payments](#manage-failed-payments)
@@ -24,10 +18,8 @@
 - [Developers](#developers)
     - [Running development environment on your localhost](#running-development-environment-on-your-localhost)
     - [Supported Storages](#supported-storages)
-    - [How to Create New Language](#how-to-create-new-language)
 - [Others](#others)
     - [Changelog](#changelog)
-    - [GitHub Repository](#github-repository)
     - [Support](#support)
     - [Security Vulnerabilities](#security-vulnerabilities)
 
@@ -38,12 +30,11 @@
 
 **For running app make sure you have installed:**
 
-- PHP >= 7.2.5 version
+- PHP >= 7.3 version
 - MySQL 5.6+
 - Nginx or Apache
 
-
-**These PHP Extensions are required:**
+**These PHP Extensions are require:**
 
 - GD
 - BCMath
@@ -72,12 +63,6 @@ Please don't try go to `yourdomain.com/public` URL address, you will have issue 
 
 #### 3. Check your .env file
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
-
-#### 3.1 When you install from GitHub
-When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
-```
-composer install
-```
 
 #### 4. Set write permissions
 Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
@@ -117,51 +102,6 @@ max_execution_time = 3600
 VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to your `.env` and change `CHUNK_SIZE` attribute.
 
 When you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space and set higher `max_execution_time` in your php.ini to move your files to external storage. 
-
-## Upgrade Guide
-
-### Common Instructions
-`Don't forget create backup of your database before make any changes in your production application. If you serve your files in local storage driver pay attention and don't delete your /storage folder!`
-
-These instructions is applicable for all updates. Please follow this step:
-
-- Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
-
-### Update from 1.7.12 to 1.8
-- Before upload new files to your hosting, log in to VueFileManager as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
-- Just rewrite all project files with new, excluded /.env file and /storage folder. These items must be preserved!
-- set **QUEUE_CONNECTION** to **database** in your **.env** file
-- Clear cache in your administration panel - Settings / Application / Clear Cache
-
-If you are upgrading from GitHub, don't forget run `composer install` to install new vendors.
-
-### Update from 1.7.10 to 1.7.11
-Before upload new files to your hosting, log in to VueFileManager as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
-
-### Update from 1.7.8 to 1.7.9
-After rewrited old files with new files, log in as admin to the app and go to `your-domain.com/service/upgrade-database`. This will upgrade your database on the background.
-
-Add the following Cron entry to your server. Just update your php path (if it's different) and project path:
-```
-* * * * *  /usr/local/bin/php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
-```
-
-### Update from 1.7.x to 1.7.8
-For those who have installed VueFileManager via git or any other repository synchronization tool, dont't forget after updated code run `composer update` command to update your vendors.
-
-### Update from 1.6.x to 1.7
-
-For those, who purchase extended licence, place these lines at the end of your `/.env` file:
-```
-CASHIER_LOGGER=stack
-CASHIER_CURRENCY=
-STRIPE_KEY=
-STRIPE_SECRET=
-STRIPE_WEBHOOK_SECRET=
-CASHIER_PAYMENT_NOTIFICATION=App\Notifications\ConfirmPayment
-```
-
-Then go to https://your-domain.com/upgrade and follow the setup wizard instructions.
 
 ## Nginx Configuration
 If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:
@@ -224,14 +164,17 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 </VirtualHost>
 ```
 
+## Upgrade Guide
+### Common Instructions
+`Don't forget create backup of your database before make any changes in your production application. If you serve your files in local storage driver pay attention and don't delete your /storage folder!`
+
+These instructions is applicable for all updates. Please follow this step:
+
+- Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
+
+
 # Payments
 VueFileManager is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
-
-## Get your active plans
-Would you like to get your subscription plans for your custom front-end page? Create GET request and get all your active plans:
-```
-GET /api/pricing
-```
 
 ## Manage Failed Payments
 VueFileManager manage failed payments with additional email notification. But, there is more you can do for better User Experience. There is some additionals option in Stripe, look on [prevent failed payments](https://dashboard.stripe.com/settings/billing/automatic).
@@ -303,51 +246,6 @@ FILESYSTEM_DRIVER=local
 ```
 Then you can find corresponding credentials options for your storage driver like key, secret, region in `/.env` file.
 
-
-## How to Create New Language
-VueFileManager front-end support i18n standard for localization. This mean, you can translate app to any language
-
-### How to create translation for Vue Front-End
-Go to `/resources/js/i18n/lang` And make copy of `en.json` and rename it to your local name (eg: Slovak language has 'sk' shortcut, it means `sk.json`). If you have created your copy, then feel free to translate this file.
-
-Open `/resources/js/i18n/index.js` import your new language and assign it to languages object:
-
-```
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-
-import en from './lang/en.json'
-import sk from './lang/sk.json'
-
-Vue.use(VueI18n);
-
-const i18n = new VueI18n({
-    locale: config.locale,
-    messages: Object.assign({
-        en,
-        sk
-    }),
-});
-
-export default i18n;
-```
-After this, you have to compile language to your application code via this command in your terminal:
-```
-npm run prod
-```
-
-### How to Create Translation for Laravel Back-End
-Go to `/resources/lang/` And make copy of `en` folder and rename it to your local name (eg: Slovak language has 'sk' shortcut, it means `sk`). If you have created your copy, then feel free to translate this file.
-
-### Set locale
-To set your locale in app, go to `/config/app.php` and set your locale string in `locale` option:
-
-```
-'locale' => 'YOUR_LOCALE',
-```
-
-**Small hint:** We use for translating localizations this awesome software, [check it](https://www.codeandweb.com/babeledit). 
-
 # Others
 ## Changelog
 
@@ -361,7 +259,6 @@ Refer to the [Changelog](https://vuefilemanager.com/changelog) for a full histor
 The following support channels are available at your fingertips:
 
 - [CodeCanyon support message](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986/support)
-- [GitHub repository](https://vuefilemanager.com/github-access)
 
 ## Supporting VueFileManager
 Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
