@@ -203,6 +203,12 @@
     }
 
     .logo {
+        max-width: 170px;
+
+        img {
+            width: 100%;
+        }
+
         .dark-mode {
             display: none;
         }
