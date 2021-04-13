@@ -562,7 +562,7 @@ return [
         "shared_form.button_generate"                      => "Generate Link",
         "shared_form.button_more_options"                  => "Set Expiration",
         "shared_form.email_placeholder"                    => "Type your emails",
-        "shared_form.email_successfully_send_message"      => "Your item was <b class='text-theme'>successfully sended</b> to recipients emails.",
+        "shared_form.email_successfully_send_message"      => "Your item was <b class='text-theme'>successfully send</b> to recipients emails.",
         "shared_form.expiration_day"                       => "{value}d.",
         "shared_form.expiration_hour"                      => "{value}h.",
         "shared_form.label_expiration"                     => "Link Expiration",
