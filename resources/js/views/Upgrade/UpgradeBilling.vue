@@ -813,6 +813,7 @@
 
             .steps {
                 margin-bottom: 70px;
+                padding-right: 0;
             }
         }
     }

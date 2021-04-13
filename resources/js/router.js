@@ -87,6 +87,16 @@ const routesOasis = [
         },
         children: [
             {
+                name: 'Dashboard',
+                path: '/admin/dashboard',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/dashboard-oasis" */ './Oasis/Admin/Dashboard'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'routes_title.dashboard'
+                },
+            },
+            {
                 name: 'Users',
                 path: '/admin/users',
                 component: () =>
