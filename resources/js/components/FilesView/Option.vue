@@ -1,25 +1,28 @@
 <template>
     <li class="menu-option group">
         <div class="icon group-hover-text-theme">
-            <calendar-icon v-if="icon === 'calendar'" size="17" class="group-hover-text-theme"/>
-            <grid-icon v-if="icon === 'grid'" size="17" class="group-hover-text-theme"/>
-            <list-icon v-if="icon === 'list'" size="17" class="group-hover-text-theme"/>
-            <trash-2-icon v-if="icon === 'trash'" size="17" class="group-hover-text-theme"/>
-            <life-buoy-icon v-if="icon === 'restore'" size="17" class="group-hover-text-theme"/>
-            <trash-icon v-if="icon === 'empty-trash'" size="17" class="group-hover-text-theme"/>
-            <eye-icon v-if="icon ==='detail'" size="17" class="group-hover-text-theme"/>
-            <download-cloud-icon v-if="icon === 'download'" size="17" class="group-hover-text-theme"/>
-            <edit2-icon v-if="icon === 'rename'" size="17" class="group-hover-text-theme"/>
-            <corner-down-right-icon v-if="icon === 'move-item'" size="17" class="group-hover-text-theme"/>
-            <link-icon v-if="icon === 'share'" size="17" class="group-hover-text-theme"/>
-            <star-icon v-if="icon === 'favourites'" size="17" class="group-hover-text-theme"/>
-            <folder-plus-icon v-if="icon === 'create-folder'" size="17" class="group-hover-text-theme"/>
-            <smile-icon v-if="icon === 'no-options'" size="17" class="group-hover-text-theme"/>
-            <paperclip-icon v-if="icon === 'zip-folder'" size="17" class="group-hover-text-theme"/>
-            <alphabet-icon v-if="icon === 'alphabet'" size="17" class="group-hover-text-theme"/>
-            <star-icon v-if="icon === 'star'" size="17" class="group-hover-text-theme"/>
+            <calendar-icon v-if="icon === 'calendar'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <grid-icon v-if="icon === 'grid'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <list-icon v-if="icon === 'list'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <trash-2-icon v-if="icon === 'trash'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <life-buoy-icon v-if="icon === 'restore'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <trash-icon v-if="icon === 'empty-trash'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <eye-icon v-if="icon ==='detail'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <download-cloud-icon v-if="icon === 'download'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <edit2-icon v-if="icon === 'rename'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <corner-down-right-icon v-if="icon === 'move-item'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <link-icon v-if="icon === 'share'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <star-icon v-if="icon === 'favourites'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <folder-plus-icon v-if="icon === 'create-folder'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <smile-icon v-if="icon === 'no-options'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <paperclip-icon v-if="icon === 'zip-folder'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <alphabet-icon v-if="icon === 'alphabet'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <star-icon v-if="icon === 'star'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <hard-drive-icon v-if="icon === 'hard-drive'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <upload-cloud-icon v-if="icon === 'upload-cloud'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <users-icon v-if="icon === 'users'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
-        <div class="text-label group-hover-text-theme">
+        <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
         </div>
     </li>
@@ -28,6 +31,9 @@
 <script>
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
+    UsersIcon,
+    UploadCloudIcon,
+    HardDriveIcon,
     CornerDownRightIcon,
     DownloadCloudIcon,
     FolderPlusIcon,
@@ -47,24 +53,31 @@ import {
 
     export default {
         name: 'Option',
-        props:['title' , 'icon'],
+        props:[
+            'isActive',
+            'title',
+            'icon'
+        ],
         components: {
             CornerDownRightIcon,
             DownloadCloudIcon,
+            UploadCloudIcon,
             FolderPlusIcon,
+            HardDriveIcon,
             PaperclipIcon,
             LifeBuoyIcon,
+            CalendarIcon,
             AlphabetIcon,
             Trash2Icon,
             SmileIcon,
+            UsersIcon,
             Edit2Icon,
             TrashIcon,
             LinkIcon,
             StarIcon,
-            EyeIcon,
             GridIcon,
             ListIcon,
-            CalendarIcon,
+            EyeIcon,
         }
     }
 </script>

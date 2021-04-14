@@ -347,8 +347,7 @@ const Helpers = {
         // Detect windows
         Vue.prototype.$checkOS = function () {
             if (navigator.userAgent.indexOf('Windows') != -1) {
-                let body = document.body
-                body.classList.add('windows')
+                document.body.classList.add('windows')
             }
         }
 

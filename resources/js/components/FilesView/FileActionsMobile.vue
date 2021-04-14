@@ -1,8 +1,72 @@
 <template>
     <div id="mobile-actions-wrapper">
 
-        <!--Actions for trash location--->
-        <div v-if="trashLocationMenu && ! multiSelectMode" class="mobile-actions">
+        <!--Base location-->
+        <div v-if="$isThisLocation(['base']) && $checkPermission(['master', 'editor']) && ! isSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="showLocations" icon="filter">
+                {{ filterLocationTitle }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="createFolder" icon="folder-plus">
+                {{ $t('context_menu.add_folder') }}
+            </MobileActionButton>
+            <MobileActionButtonUpload>
+                {{ $t('context_menu.upload') }}
+            </MobileActionButtonUpload>
+            <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
+                {{ $t('context_menu.select') }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                {{ $t('preview_sorting.preview_sorting_button') }}
+            </MobileActionButton>
+        </div>
+
+        <!--Base location editor-->
+        <div v-if="$isThisLocation('public') && $checkPermission('editor') && ! isSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="createFolder" icon="folder-plus">
+                {{ $t('context_menu.add_folder') }}
+            </MobileActionButton>
+            <MobileActionButtonUpload>
+                {{ $t('context_menu.upload') }}
+            </MobileActionButtonUpload>
+            <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
+                {{ $t('context_menu.select') }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                {{ $t('preview_sorting.preview_sorting_button') }}
+            </MobileActionButton>
+        </div>
+
+        <!--Base location visitor-->
+        <div v-if="$isThisLocation('public') && $checkPermission('visitor') && ! isSelectMode" class="mobile-actions">
+             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
+               {{ $t('context_menu.select') }}
+            </MobileActionButton>
+             <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                {{ $t('preview_sorting.preview_sorting_button') }}
+            </MobileActionButton>
+        </div>
+
+        <!--Recent uploads location-->
+        <div v-if="$isThisLocation('latest') && ! isSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="showLocations" icon="filter">
+                {{ filterLocationTitle }}
+            </MobileActionButton>
+            <MobileActionButtonUpload>
+                {{ $t('context_menu.upload') }}
+            </MobileActionButtonUpload>
+            <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
+                {{ $t('context_menu.select') }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                {{ $t('preview_sorting.preview_sorting_button') }}
+            </MobileActionButton>
+        </div>
+
+        <!--Trash location--->
+        <div v-if="$isThisLocation(['trash', 'trash-root']) && ! isSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="showLocations" icon="filter">
+                {{ filterLocationTitle }}
+            </MobileActionButton>
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
             </MobileActionButton>
@@ -14,49 +78,29 @@
             </MobileActionButton>
         </div>
 
-        <!--Actions for Base location-->
-        <transition name="button">
-            <div v-if="baseLocationMasterMenu && ! multiSelectMode" class="mobile-actions">
-                <MobileActionButton @click.native="showLocations" icon="filter">
-                    {{ filterLocationTitle }}
-                </MobileActionButton>
-                <MobileActionButton @click.native="createFolder" icon="folder-plus">
-                    {{ $t('context_menu.add_folder') }}
-                </MobileActionButton>
-                <MobileActionButtonUpload>
-                    {{ $t('context_menu.upload') }}
-                </MobileActionButtonUpload>
-                <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
-                    {{ $t('context_menu.select') }}
-                </MobileActionButton>
-                <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
-                    {{ $t('preview_sorting.preview_sorting_button') }}
-                </MobileActionButton>
-            </div>
-        </transition>
-
-        <!-- Selecting buttons -->
-        <transition name="button">
-            <div v-if="multiSelectMode" class="mobile-actions">
-                <MobileActionButton @click.native="selectAll" icon="check-square">
-                    {{ $t('mobile_selecting.select_all') }}
-                </MobileActionButton>
-                <MobileActionButton @click.native="deselectAll" icon="x-square">
-                    {{ $t('mobile_selecting.deselect_all') }}
-                </MobileActionButton>
-                <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
-                    {{ $t('mobile_selecting.done') }}
-                </MobileActionButton>
-            </div>
-        </transition>
-
-        <!--Actions for Base location in shared folder with visit permission-->
-        <div v-if="baseLocationVisitorMenu && ! multiSelectMode" class="mobile-actions">
-             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
-               {{ $t('context_menu.select') }}
+        <!--Shared location--->
+        <div v-if="$isThisLocation(['shared', 'participant_uploads']) && ! isSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="showLocations" icon="filter">
+                {{ filterLocationTitle }}
             </MobileActionButton>
-             <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+            <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
+                {{ $t('context_menu.select') }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}
+            </MobileActionButton>
+        </div>
+
+        <!-- Multi select mode -->
+        <div v-if="isSelectMode" class="mobile-actions">
+            <MobileActionButton @click.native="selectAll" icon="check-square">
+                {{ $t('mobile_selecting.select_all') }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="deselectAll" icon="x-square">
+                {{ $t('mobile_selecting.deselect_all') }}
+            </MobileActionButton>
+            <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
+                {{ $t('mobile_selecting.done') }}
             </MobileActionButton>
         </div>
 
@@ -89,15 +133,6 @@
                     ? 'th'
                     : 'th-list'
             },
-            trashLocationMenu() {
-                return this.$isThisLocation(['trash', 'trash-root']) && this.$checkPermission('master')
-            },
-            baseLocationMasterMenu() {
-                return this.$isThisLocation(['base', 'public']) && this.$checkPermission(['master', 'editor'])
-            },
-            baseLocationVisitorMenu() {
-                return (this.$isThisLocation(['base', 'shared', 'public']) && this.$checkPermission('visitor')) || (this.$isThisLocation(['latest', 'shared']) && this.$checkPermission('master'))
-            },
             filterLocationTitle() {
                 return {
                     'base': 'Files',
@@ -112,12 +147,12 @@
         },
         data() {
             return {
-                multiSelectMode: false,
+                isSelectMode: false,
             }
         },
         methods: {
             showLocations() {
-
+                events.$emit('mobile-menu:show', 'file-filter')
             },
             selectAll() {
                 this.$store.commit('SELECT_ALL_FILES')
@@ -126,12 +161,12 @@
                 this.$store.commit('CLEAR_FILEINFO_DETAIL')
             },
             enableMultiSelectMode() {
-                this.multiSelectMode = true
+                this.isSelectMode = true
 
                 events.$emit('mobileSelecting:start')
             },
             disableMultiSelectMode() {
-                this.multiSelectMode = false
+                this.isSelectMode = false
 
                 events.$emit('mobileSelecting:stop')
             },
@@ -143,7 +178,7 @@
             },
         },
         mounted() {
-            events.$on('mobileSelecting:stop', () => this.multiSelectMode = false)
+            events.$on('mobileSelecting:stop', () => this.isSelectMode = false)
         }
     }
 </script>

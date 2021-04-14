@@ -26,7 +26,10 @@
             UserHeadline,
         },
         computed: {
-            ...mapGetters(['user', 'homeDirectory']),
+            ...mapGetters([
+                'user',
+                'homeDirectory'
+            ]),
             navigation() {
                 return [
                     {
@@ -35,24 +38,6 @@
                         routeName: 'Files',
                         isVisible: true,
                     },
-                    /*{
-                        icon: 'latest',
-                        title: this.$t('menu.latest'),
-                        routeName: 'Files',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'share',
-                        title: this.$t('menu.shared'),
-                        routeName: 'SharedFiles',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'trash',
-                        title: this.$t('menu.trash'),
-                        routeName: 'Files',
-                        isVisible: true,
-                    },*/
                     {
                         icon: 'user',
                         title: this.$t('menu.settings'),
@@ -83,11 +68,11 @@
             action(name) {
 
                 /*if (name === 'latest') {
-                    this.$store.dispatch('getLatest')
+
                 }
 
                 if (name === 'trash') {
-                    this.$store.dispatch('getTrash')
+
                 }*/
 
                 if (name === 'hard-drive') {

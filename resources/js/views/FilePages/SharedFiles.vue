@@ -6,7 +6,7 @@
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.locations_title')">
                 <div class="menu-list-wrapper vertical">
-                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared()">
+                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared">
                         <div class="icon text-theme">
                             <link-icon size="17"></link-icon>
                         </div>
@@ -14,7 +14,7 @@
                             {{ $t('sidebar.my_shared') }}
                         </div>
                     </li>
-                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['participant_uploads'])}" @click="getParticipantUploads()">
+                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['participant_uploads'])}" @click="getParticipantUploads">
                         <div class="icon text-theme">
                             <users-icon size="17"></users-icon>
                         </div>

@@ -18,6 +18,7 @@
 
         <!--Mobile components-->
         <FileSortingMobile />
+        <FileFilterMobile />
         <FileMenuMobile />
 
         <MultiSelectToolbarMobile />
@@ -37,6 +38,7 @@
     import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
+    import FileFilterMobile from '@/components/FilesView/FileFilterMobile'
     import CreateFolderPopup from '@/components/Others/CreateFolderPopup'
     import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
     import MobileNavigation from '@/components/Others/MobileNavigation'
@@ -58,6 +60,7 @@
             CreateFolderPopup,
             FileSortingMobile,
             SidebarNavigation,
+            FileFilterMobile,
             MobileNavigation,
             ShareCreatePopup,
             ProcessingPopup,
