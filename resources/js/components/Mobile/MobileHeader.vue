@@ -3,7 +3,7 @@
 
         <!-- Go back-->
         <div @click="goBack" class="go-back">
-            <chevron-left-icon size="17" class="icon"></chevron-left-icon>
+            <chevron-left-icon size="17" class="icon" />
         </div>
 
         <!--Folder Title-->
@@ -35,7 +35,7 @@
         },
         methods: {
             showMobileNavigation() {
-                events.$emit('mobile-navigation:show')
+                events.$emit('mobile-menu:show', 'user-navigation')
             },
             goBack() {
                 this.$router.back();

@@ -21,6 +21,9 @@
             <hard-drive-icon v-if="icon === 'hard-drive'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <upload-cloud-icon v-if="icon === 'upload-cloud'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <users-icon v-if="icon === 'users'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <user-icon v-if="icon === 'user'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <settings-icon v-if="icon === 'settings'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <power-icon v-if="icon === 'power'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
         <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
@@ -31,7 +34,10 @@
 <script>
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
+    PowerIcon,
+    SettingsIcon,
     UsersIcon,
+    UserIcon,
     UploadCloudIcon,
     HardDriveIcon,
     CornerDownRightIcon,
@@ -65,11 +71,13 @@ import {
             FolderPlusIcon,
             HardDriveIcon,
             PaperclipIcon,
+            SettingsIcon,
             LifeBuoyIcon,
             CalendarIcon,
             AlphabetIcon,
             Trash2Icon,
             SmileIcon,
+            PowerIcon,
             UsersIcon,
             Edit2Icon,
             TrashIcon,
@@ -77,6 +85,7 @@ import {
             StarIcon,
             GridIcon,
             ListIcon,
+            UserIcon,
             EyeIcon,
         }
     }

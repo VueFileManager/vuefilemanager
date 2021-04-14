@@ -27,7 +27,6 @@
             closePopup() {
                 events.$emit('popup:close')
                 events.$emit('mobile-menu:hide')
-                events.$emit('mobile-navigation:hide')
             }
         },
         created() {
@@ -37,10 +36,8 @@
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
             events.$on('confirm:open', () => this.isVisibleVignette = true)
-            events.$on('mobile-navigation:show', () => this.isVisibleVignette = true)
 
             // Hide vignette
-            events.$on('mobile-navigation:hide', () => this.isVisibleVignette = false)
             events.$on('mobile-menu:hide', () => this.isVisibleVignette = false)
             events.$on('popup:close', () => this.isVisibleVignette = false)
         }

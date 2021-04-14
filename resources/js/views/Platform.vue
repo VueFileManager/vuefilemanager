@@ -83,10 +83,8 @@
             }
         },
         mounted() {
-            events.$on('mobile-navigation:show', () => this.isScaledDown = true)
             events.$on('mobile-menu:show', () => this.isScaledDown = true)
 
-            events.$on('mobile-navigation:hide', () => this.isScaledDown = false)
             events.$on('fileItem:deselect', () => this.isScaledDown = false)
             events.$on('mobile-menu:hide', () => this.isScaledDown = false)
         }

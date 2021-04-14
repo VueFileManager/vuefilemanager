@@ -70,8 +70,6 @@ export default {
 		})
 		events.$on('fileFullPreview:hide', () => {
 			this.showFullPreview = false
-
-            events.$emit('mobile-navigation:hide')
         })
 	}
 }

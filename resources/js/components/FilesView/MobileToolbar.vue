@@ -51,11 +51,10 @@
         },
         methods: {
             showMobileNavigation() {
-                events.$emit('mobile-navigation:show')
+                events.$emit('mobile-menu:show', 'user-navigation')
                 events.$emit('mobileSelecting:stop')
             },
             goBack() {
-
                 let previousFolder = last(this.browseHistory)
 
                 if (previousFolder.location === 'trash-root') {
