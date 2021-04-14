@@ -50,7 +50,7 @@
         {{-- Emoji Picker --}}
         .active-menu.focus-border-theme {border-color: {{ $color }} !important;}
 
-        {{-- Menubar --}}
+        {{-- Sidebar Navigation --}}
         .router-link-active.home .button-icon {background: {{ $color }}10}
 
         {{-- Content Panel --}}

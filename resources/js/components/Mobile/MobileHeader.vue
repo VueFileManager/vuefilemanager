@@ -25,7 +25,7 @@
     } from 'vue-feather-icons'
 
     export default {
-        name: 'MenuBar',
+        name: 'MobileHeader',
         props: [
             'title'
         ],
@@ -35,7 +35,7 @@
         },
         methods: {
             showMobileNavigation() {
-                events.$emit('show:mobile-navigation')
+                events.$emit('mobile-navigation:show')
             },
             goBack() {
                 this.$router.back();

@@ -59,7 +59,7 @@ import {required} from 'vee-validate/dist/rules'
 import {events} from '@/bus'
 
 export default {
-    name: 'RenameItem',
+    name: 'RenameItemPopup',
     components: {
         ValidationProvider,
         ValidationObserver,

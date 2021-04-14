@@ -1,7 +1,7 @@
 <template>
     <div class="file-info-content" v-if="fileInfoDetail.length === 1">
         <div class="file-headline" spellcheck="false">
-            <FilePreview/>
+            <FilePreviewDetail/>
 
             <!--File info-->
             <div class="flex">
@@ -66,8 +66,8 @@
 
 <script>
     import {Edit2Icon, LockIcon, UnlockIcon, ImageIcon, VideoIcon, FolderIcon, FileIcon} from 'vue-feather-icons'
+    import FilePreviewDetail from '@/components/Others/FilePreviewDetail'
     import ImageMetaData from '@/components/FilesView/ImageMetaData'
-    import FilePreview from '@/components/FilesView/FilePreview'
     import CopyInput from '@/components/Others/Forms/CopyInput'
     import ListInfoItem from '@/components/Others/ListInfoItem'
     import ListInfo from '@/components/Others/ListInfo'
@@ -77,10 +77,10 @@
     export default {
         name: 'FileInfoPanel',
         components: {
+            FilePreviewDetail,
             ImageMetaData,
             ListInfoItem,
             ListInfo,
-            FilePreview,
             FolderIcon,
             UnlockIcon,
             VideoIcon,

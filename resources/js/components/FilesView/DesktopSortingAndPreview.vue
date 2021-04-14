@@ -1,16 +1,18 @@
 <template>
     <div v-if="isVisible" class="sorting-preview">
-        <SortingAndPreviewMenu />
+        <FileSortingOptions />
     </div>
 </template>
 
 <script>
-import SortingAndPreviewMenu from '@/components/FilesView/SortingAndPreviewMenu'
+import FileSortingOptions from '@/components/FilesView/FileSortingOptions'
 import { events } from '@/bus'
 
     export default {
-        name: 'DesktopSortingAndPreview',
-        components: {SortingAndPreviewMenu},
+        name: 'DesktopSortingOptions',
+        components: {
+            FileSortingOptions
+        },
         data () {
             return {
                 isVisible: false

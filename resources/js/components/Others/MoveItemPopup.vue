@@ -54,7 +54,7 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'MoveItem',
+        name: 'MoveItemPopup',
         components: {
             ThumbnailItem,
             PopupWrapper,

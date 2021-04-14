@@ -57,7 +57,7 @@
     } from 'vue-feather-icons'
 
     export default {
-        name: 'MenuBar',
+        name: 'SidebarNavigation',
         components: {
             HardDriveIcon,
             SettingsIcon,

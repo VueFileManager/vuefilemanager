@@ -112,7 +112,7 @@ import {events} from '@/bus'
 import axios from 'axios'
 
 export default {
-    name: 'ShareCreate',
+    name: 'ShareCreatePopup',
     components: {
         ValidationProvider,
         ValidationObserver,

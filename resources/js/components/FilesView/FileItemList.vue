@@ -155,7 +155,7 @@ export default {
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
             this.$store.commit('GET_FILEINFO_DETAIL', this.item)
 
-            events.$emit('mobileMenu:show')
+            events.$emit('mobile-menu:show', 'file-menu')
         },
         dragEnter() {
             if (this.item.type !== 'folder') return

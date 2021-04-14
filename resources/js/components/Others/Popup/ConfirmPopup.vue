@@ -1,6 +1,5 @@
 <template>
     <PopupWrapper>
-
         <div class="popup-image">
             <span class="emoji">{{ emoji }}</span>
         </div>

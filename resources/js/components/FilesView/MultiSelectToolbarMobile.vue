@@ -1,27 +1,27 @@
 <template>
     <transition name="context-menu">
         <div class="multiselect-actions" v-if="mobileMultiSelect">
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root' , 'shared', 'latest']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : fileInfoDetail.length < 1}" @click.native="moveItem"/>
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root' , 'shared', 'latest']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : fileInfoDetail.length < 1}" @click.native="moveItem" />
 
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem"/>
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem" />
 
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem"/>
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem" />
 
-            <ToolbarButton class="action-btn" source="shared-off" @click.native="shareCancel" v-if="$isThisLocation(['shared'])"/>
+            <ToolbarButton class="action-btn" source="shared-off" @click.native="shareCancel" v-if="$isThisLocation(['shared'])" />
 
-            <ToolbarButton class="action-btn close-icon" source="close" :action="$t('actions.close')" @click.native="closeSelecting"/>
+            <ToolbarButton class="action-btn close-icon" source="close" :action="$t('actions.close')" @click.native="closeSelecting" />
         </div>
     </transition>
 </template>
 
 <script>
 import ToolbarButton from '@/components/FilesView/ToolbarButton'
-import { events } from '@/bus'
-import { mapGetters } from 'vuex'
+import {events} from '@/bus'
+import {mapGetters} from 'vuex'
 
 export default {
-    name: 'MobileMultiSelectMenu',
-    components: { ToolbarButton },
+    name: 'MultiSelectToolbarMobile',
+    components: {ToolbarButton},
     computed: {
         ...mapGetters(['fileInfoDetail']),
         canDownloadItems() {
@@ -34,7 +34,7 @@ export default {
         }
     },
     methods: {
-         shareCancel() {
+        shareCancel() {
             this.$store.dispatch('shareCancel')
             this.closeSelecting()
         },
@@ -51,7 +51,7 @@ export default {
         },
         moveItem() {
             // Open move item popup
-            events.$emit('popup:open', { name: 'move', item: [this.fileInfoDetail[0]] })
+            events.$emit('popup:open', {name: 'move', item: [this.fileInfoDetail[0]]})
         },
         deleteItem() {
             //Delete items
@@ -120,37 +120,37 @@ export default {
     }
 }
 
-    @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 
-        .multiselect-actions {
-            background: $dark_mode_foreground;
-        }
+    .multiselect-actions {
+        background: $dark_mode_foreground;
     }
+}
 
-    // Transition
-    .context-menu-enter-active,
-    .fade-enter-active {
-        transition: all 200ms;
-    }
+// Transition
+.context-menu-enter-active,
+.fade-enter-active {
+    transition: all 200ms;
+}
 
-    .context-menu-leave-active,
-    .fade-leave-active {
-        transition: all 200ms;
-    }
+.context-menu-leave-active,
+.fade-leave-active {
+    transition: all 200ms;
+}
 
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
-    }
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
 
-    .context-menu-enter,
-    .context-menu-leave-to {
-        opacity: 0;
-        transform: translateY(100%);
-    }
+.context-menu-enter,
+.context-menu-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+}
 
-    .context-menu-leave-active {
-        position: absolute;
-    }
+.context-menu-leave-active {
+    position: absolute;
+}
 
 </style>

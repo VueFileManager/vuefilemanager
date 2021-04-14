@@ -26,22 +26,23 @@
         methods: {
             closePopup() {
                 events.$emit('popup:close')
-                events.$emit('mobileMenu:hide')
-                events.$emit('mobileSortingAndPreview', false)
+                events.$emit('mobile-menu:hide')
+                events.$emit('mobile-navigation:hide')
             }
         },
         created() {
-
-            // Hide vignette
-            events.$on('popup:close', () => this.isVisibleVignette = false)
-
             // Show vignette
             events.$on('popup:open', () => this.isVisibleVignette = true)
+            events.$on('mobile-menu:show', () => this.isVisibleVignette = true)
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
             events.$on('confirm:open', () => this.isVisibleVignette = true)
-            events.$on('mobileSortingAndPreviewVignette', (state) => this.isVisibleVignette = state)
+            events.$on('mobile-navigation:show', () => this.isVisibleVignette = true)
 
+            // Hide vignette
+            events.$on('mobile-navigation:hide', () => this.isVisibleVignette = false)
+            events.$on('mobile-menu:hide', () => this.isVisibleVignette = false)
+            events.$on('popup:close', () => this.isVisibleVignette = false)
         }
     }
 </script>

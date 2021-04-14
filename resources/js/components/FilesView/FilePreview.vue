@@ -1,61 +1,96 @@
 <template>
-    <div v-if="canBePreview" class="preview">
-        <img v-if="fileInfoDetail[0].type == 'image' && fileInfoDetail[0].thumbnail" :src="fileInfoDetail[0].thumbnail" :alt="fileInfoDetail[0].name" />
-        <audio v-else-if="fileInfoDetail[0].type == 'audio'" :src="fileInfoDetail[0].file_url" controlsList="nodownload" controls></audio>
-        <video v-else-if="fileInfoDetail[0].type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
-            <source :src="fileInfoDetail[0].file_url" type="video/mp4">
-        </video>
-    </div>
+	<div
+		v-if="showFullPreview"
+		class="file-full-preview-wrapper"
+		id="fileFullPreview"
+		ref="filePreview"
+		tabindex="-1"
+		@click="closeContextMenu"
+		@keydown.esc=";(showFullPreview = false), hideContextMenu()"
+		@keydown.right="next"
+		@keydown.left="prev"
+	>
+		<FilePreviewNavigationPanel />
+		<MediaFullPreview />
+		<FilePreviewActions />
+	</div>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { includes } from 'lodash'
+import { events } from '@/bus'
+import { mapGetters } from 'vuex'
 
-    export default {
-        name: 'FilePreview',
-        computed: {
-            ...mapGetters(['fileInfoDetail']),
-            canBePreview() {
-                return this.fileInfoDetail[0] && ! includes([
-                    'folder', 'file'
-                ], this.fileInfoDetail[0].type)
-            }
-        },
-    }
+import MediaFullPreview from '@/components/FilesView/MediaFullPreview'
+import FilePreviewActions from '@/components/FilesView/FilePreviewActions'
+import FilePreviewNavigationPanel from '@/components/FilesView/FilePreviewNavigationPanel'
+
+export default {
+	name: 'FilePreview',
+	components: {
+		MediaFullPreview,
+		FilePreviewNavigationPanel,
+		FilePreviewActions
+	},
+	computed: {
+		...mapGetters(['fileInfoDetail', 'data'])
+	},
+	data() {
+		return {
+			showFullPreview: false
+		}
+	},
+	methods: {
+		closeContextMenu(event) {
+			if ((event.target.parentElement.id || event.target.id) === 'fast-preview-menu') {
+				return
+			} else {
+				events.$emit('showContextMenuPreview:hide')
+			}
+		},
+		next: function() {
+			events.$emit('filePreviewAction:next')
+		},
+		prev: function() {
+			events.$emit('filePreviewAction:prev')
+		},
+		hideContextMenu() {
+			events.$emit('showContextMenuPreview:hide')
+		}
+	},
+
+	updated() {
+		//Focus file preview for key binding
+		if (this.showFullPreview) {
+			this.$refs.filePreview.focus()
+		}
+	},
+	mounted() {
+		events.$on('fileFullPreview:show', () => {
+			this.showFullPreview = true
+		})
+		events.$on('fileFullPreview:hide', () => {
+			this.showFullPreview = false
+
+            events.$emit('mobile-navigation:hide')
+        })
+	}
+}
 </script>
 
-<style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+<style lang="scss" scoped>
+@import '@assets/vuefilemanager/_variables';
 
-    .preview {
-        width: 100%;
-        display: block;
-        margin-bottom: 7px;
+.file-full-preview-wrapper {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 7;
+	background-color: white;
+}
 
-        img {
-            border-radius: 4px;
-            overflow: hidden;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        audio {
-            width: 100%;
-            &::-webkit-media-controls-panel {
-                background-color: $light_background;
-            }
-
-            &::-webkit-media-controls-play-button {
-                color: $theme;
-            }
-        }
-
-        video {
-            width: 100%;
-            height: auto;
-            border-radius: 3px;
-        }
-    }
+@media (prefers-color-scheme: dark) {
+	.file-full-preview-wrapper {
+		background-color: $dark_mode_background;
+	}
+}
 </style>

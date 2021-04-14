@@ -20,7 +20,7 @@
             <SearchBar class="mobile-search" />
 
             <!--Mobile Actions-->
-            <MobileActions />
+            <FileActionsMobile />
 
             <!--Item previews list-->
             <div v-if="isList" class="file-list-wrapper">
@@ -92,8 +92,8 @@
 </template>
 
 <script>
+    import FileActionsMobile from '@/components/FilesView/FileActionsMobile'
     import MobileToolbar from '@/components/FilesView/MobileToolbar'
-    import MobileActions from '@/components/FilesView/MobileActions'
     import MultiSelected from '@/components/FilesView/MultiSelected'
     import FileInfoPanel from '@/components/FilesView/FileInfoPanel'
     import FileItemList from '@/components/FilesView/FileItemList'
@@ -107,8 +107,8 @@
     export default {
         name: 'FilesContainer',
         components: {
+            FileActionsMobile,
             MobileToolbar,
-            MobileActions,
             MultiSelected,
             FileInfoPanel,
             FileItemList,

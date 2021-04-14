@@ -5,13 +5,14 @@
         <Alert />
         <ToastrWrapper />
         <CookieDisclaimer />
-        <Vignette />
 
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="! isLoadedTranslations"/>
 
         <!--App view-->
         <router-view v-if="isLoadedTranslations" />
+
+        <Vignette />
     </div>
 </template>
 

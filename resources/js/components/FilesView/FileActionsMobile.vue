@@ -1,7 +1,7 @@
 <template>
     <div id="mobile-actions-wrapper">
 
-        <!--Actions for trash location with MASTER permission--->
+        <!--Actions for trash location--->
         <div v-if="trashLocationMenu && ! multiSelectMode" class="mobile-actions">
             <MobileActionButton @click.native="$store.dispatch('emptyTrash')" icon="trash">
                 {{ $t('context_menu.empty_trash') }}
@@ -9,25 +9,28 @@
              <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}
             </MobileActionButton>
-             <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
-                {{$t('preview_sorting.preview_sorting_button')}}
+             <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                {{ $t('preview_sorting.preview_sorting_button') }}
             </MobileActionButton>
         </div>
 
-        <!--ContextMenu for Base location with MASTER permission-->
+        <!--Actions for Base location-->
         <transition name="button">
             <div v-if="baseLocationMasterMenu && ! multiSelectMode" class="mobile-actions">
-                <MobileActionButton @click.native="createFolder" icon="folder-plus" :class="{'is-inactive' : multiSelectMode}">
+                <MobileActionButton @click.native="showLocations" icon="filter">
+                    {{ filterLocationTitle }}
+                </MobileActionButton>
+                <MobileActionButton @click.native="createFolder" icon="folder-plus">
                     {{ $t('context_menu.add_folder') }}
                 </MobileActionButton>
-                <MobileActionButtonUpload :class="{'is-inactive' : multiSelectMode}">
+                <MobileActionButtonUpload>
                     {{ $t('context_menu.upload') }}
                 </MobileActionButtonUpload>
                 <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                     {{ $t('context_menu.select') }}
                 </MobileActionButton>
-                <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
-                    {{$t('preview_sorting.preview_sorting_button')}}
+                <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                    {{ $t('preview_sorting.preview_sorting_button') }}
                 </MobileActionButton>
             </div>
         </transition>
@@ -36,24 +39,24 @@
         <transition name="button">
             <div v-if="multiSelectMode" class="mobile-actions">
                 <MobileActionButton @click.native="selectAll" icon="check-square">
-                    {{$t('mobile_selecting.select_all')}}
+                    {{ $t('mobile_selecting.select_all') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="deselectAll" icon="x-square">
-                    {{$t('mobile_selecting.deselect_all')}}
+                    {{ $t('mobile_selecting.deselect_all') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
-                    {{$t('mobile_selecting.done')}}
+                    {{ $t('mobile_selecting.done') }}
                 </MobileActionButton>
             </div>
         </transition>
 
-        <!--ContextMenu for Base location with VISITOR permission-->
+        <!--Actions for Base location in shared folder with visit permission-->
         <div v-if="baseLocationVisitorMenu && ! multiSelectMode" class="mobile-actions">
              <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                {{ $t('context_menu.select') }}
             </MobileActionButton>
-             <MobileActionButton class="preview-sorting" @click.native="showViewOptions" icon="preview-sorting">
-                {{$t('preview_sorting.preview_sorting_button')}}
+             <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+                {{ $t('preview_sorting.preview_sorting_button') }}
             </MobileActionButton>
         </div>
 
@@ -68,18 +71,23 @@
     import UploadProgress from '@/components/FilesView/UploadProgress'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
+    import store from "../../store";
 
     export default {
-        name: 'MobileActions',
+        name: 'FileActionsMobile',
         components: {
             MobileActionButtonUpload,
             MobileActionButton,
             UploadProgress,
         },
         computed: {
-            ...mapGetters(['FilePreviewType']),
+            ...mapGetters([
+                'FilePreviewType'
+            ]),
             previewIcon() {
-                return this.FilePreviewType === 'list' ? 'th' : 'th-list'
+                return this.FilePreviewType === 'list'
+                    ? 'th'
+                    : 'th-list'
             },
             trashLocationMenu() {
                 return this.$isThisLocation(['trash', 'trash-root']) && this.$checkPermission('master')
@@ -90,14 +98,27 @@
             baseLocationVisitorMenu() {
                 return (this.$isThisLocation(['base', 'shared', 'public']) && this.$checkPermission('visitor')) || (this.$isThisLocation(['latest', 'shared']) && this.$checkPermission('master'))
             },
+            filterLocationTitle() {
+                return {
+                    'base': 'Files',
+                    'public': 'Files',
+                    'shared': 'Shared',
+                    'latest': 'Latest',
+                    'trash': 'Trash',
+                    'trash-root': 'Trash',
+                    'participant_uploads': 'Participants',
+                }[this.$store.getters.currentFolder.location]
+            }
         },
-        data () {
+        data() {
             return {
                 multiSelectMode: false,
-                mobileSortingAndPreview: false,
             }
         },
         methods: {
+            showLocations() {
+
+            },
             selectAll() {
                 this.$store.commit('SELECT_ALL_FILES')
             },
@@ -115,19 +136,14 @@
                 events.$emit('mobileSelecting:stop')
             },
             showViewOptions() {
-                this.mobileSortingAndPreview = ! this.mobileSortingAndPreview
-
-                // Toggle mobile sorting
-                events.$emit('mobileSortingAndPreview', this.mobileSortingAndPreview)
-                events.$emit('mobileSortingAndPreviewVignette', this.mobileSortingAndPreview)
+                events.$emit('mobile-menu:show', 'file-sorting')
             },
             createFolder() {
                 events.$emit('popup:open', {name: 'create-folder'})
             },
         },
-        mounted () {
-                events.$on('mobileSelecting:stop', () => this.multiSelectMode = false)
-                events.$on('mobileSortingAndPreview', state => this.mobileSortingAndPreview = state)
+        mounted() {
+            events.$on('mobileSelecting:stop', () => this.multiSelectMode = false)
         }
     }
 </script>
@@ -161,13 +177,6 @@
         position: sticky;
         top: 35px;
         z-index: 3;
-    }
-
-    .mobile-action-button {
-        &.is-inactive {
-            opacity: 0.25;
-            pointer-events: none;
-        }
     }
 
     .mobile-actions {

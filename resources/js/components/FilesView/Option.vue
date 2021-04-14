@@ -17,6 +17,7 @@
             <smile-icon v-if="icon === 'no-options'" size="17" class="group-hover-text-theme"/>
             <paperclip-icon v-if="icon === 'zip-folder'" size="17" class="group-hover-text-theme"/>
             <alphabet-icon v-if="icon === 'alphabet'" size="17" class="group-hover-text-theme"/>
+            <star-icon v-if="icon === 'star'" size="17" class="group-hover-text-theme"/>
         </div>
         <div class="text-label group-hover-text-theme">
             {{ title }}

@@ -115,7 +115,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'ShareEdit',
+        name: 'ShareEditPopup',
         components: {
             ValidationProvider,
             ValidationObserver,
