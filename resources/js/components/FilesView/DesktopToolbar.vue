@@ -1,6 +1,7 @@
 <template>
     <div id="desktop-toolbar">
         <div class="toolbar-wrapper">
+
             <!-- Go back-->
             <div class="toolbar-go-back" v-if="homeDirectory">
                 <div @click="goBack" class="go-back-button">
@@ -18,9 +19,10 @@
 
             <!-- Tools-->
             <div class="toolbar-tools">
+
                 <!--Search bar-->
                 <div class="toolbar-button-wrapper">
-                    <SearchBar/>
+                    <SearchBar v-model="query" @reset-query="query = ''" :placeholder="$t('inputs.placeholder_search_files')" />
                 </div>
 
                 <!--Creating controls-->
@@ -50,12 +52,12 @@
 <script>
 import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
 import { ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
+import SearchBar from '@/components/FilesView/SearchBar'
 import UploadProgress from '@/components/FilesView/UploadProgress'
 import ToolbarButton from '@/components/FilesView/ToolbarButton'
-import SearchBar from '@/components/FilesView/SearchBar'
+import {debounce, last} from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
-import { last } from 'lodash'
 
 export default {
     name: 'ToolBar',
@@ -77,10 +79,10 @@ export default {
             'homeDirectory'
         ]),
         hasCapacity() {
-            // Check if set storage limitation
+            // Check if storage limitation is set
             if (!this.$store.getters.config.storageLimit) return true
 
-            // Check if is loaded user
+            // Check if user is loaded
             if (!this.$store.getters.user) return true
 
             // Check if user has storage
@@ -137,7 +139,8 @@ export default {
     },
     data() {
         return {
-            sortingAndPreview: false
+            sortingAndPreview: false,
+            query: '',
         }
     },
     watch: {
@@ -149,7 +152,28 @@ export default {
             if (!this.sortingAndPreview) {
                 events.$emit('unClick')
             }
-        }
+        },
+        query: debounce(function (value) {
+
+            if (this.query !== '' && typeof this.query !== 'undefined') {
+
+                this.$store.dispatch('getSearchResult', value)
+
+            } else if (typeof value !== 'undefined') {
+
+                if (this.currentFolder) {
+
+                    // Get back after delete query to previously folder
+                    if (this.$isThisLocation('public')) {
+                        this.$store.dispatch('browseShared', [{folder: this.currentFolder, back: true, init: false}])
+                    } else {
+                        this.$store.dispatch('getFolder', [{folder: this.currentFolder, back: true, init: false}])
+                    }
+                }
+
+                this.$store.commit('CHANGE_SEARCHING_STATE', false)
+            }
+        }, 300),
     },
     methods: {
         goBack() {
@@ -206,10 +230,6 @@ export default {
         }
     },
     mounted() {
-        // events.$on('sortingAndPreview', (state) => {
-        //     this.sortingAndPreview = state
-        // })
-
         events.$on('unClick', () => {
             this.sortingAndPreview = false
         })

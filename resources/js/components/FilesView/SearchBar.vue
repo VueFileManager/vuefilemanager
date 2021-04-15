@@ -7,29 +7,29 @@
             <x-icon class="pointer" size="19" />
         </div>
         <input
-                v-model="query"
-                class="query focus-border-theme"
-                type="text"
-                name="query"
-                :placeholder="$t('inputs.placeholder_search_files')"
+            v-model="query"
+            @input="$emit('input', query)"
+            class="query focus-border-theme"
+            type="text"
+            :placeholder="placeholder"
         />
     </div>
 </template>
 
 <script>
-    import { SearchIcon, XIcon } from 'vue-feather-icons'
-    import {mapGetters} from 'vuex'
-    import {debounce} from 'lodash'
+    import {SearchIcon, XIcon} from 'vue-feather-icons'
     import {events} from '@/bus'
 
     export default {
-        name: 'SearchBar',
+        name: 'DesktopSearchBar',
+        props: [
+            'placeholder'
+        ],
         components: {
             SearchIcon,
             XIcon,
         },
         computed: {
-            ...mapGetters(['currentFolder']),
             isQuery() {
                 return this.query !== '' && typeof this.query !== 'undefined'
             }
@@ -39,36 +39,14 @@
                 query: ''
             }
         },
-        watch: {
-            query(val) {
-                return this.getResult(val)
-            }
-        },
         methods: {
             resetQuery() {
                 this.query = ''
-            },
-            getResult: debounce(function (value) {
-                if (this.isQuery) {
-                    // Get search result if query is not empty
-                    this.$store.dispatch('getSearchResult', value)
-                } else if (typeof value !== 'undefined') {
-                    if (this.currentFolder) {
-
-                        // Get back after delete query to previosly folder
-                        if ( this.$isThisLocation('public') ) {
-                            this.$store.dispatch('browseShared', [{folder: this.currentFolder, back: true, init: false}])
-                        } else {
-                            this.$store.dispatch('getFolder', [{folder: this.currentFolder, back: true, init: false}])
-                        }
-                    }
-
-                    this.$store.commit('CHANGE_SEARCHING_STATE', false)
-                }
-            }, 300)
+                this.$emit('reset-query')
+            }
         },
         created() {
-            events.$on('clear-query', () => (this.query = undefined))
+            events.$on('clear-query', () => this.query = undefined)
         }
     }
 </script>

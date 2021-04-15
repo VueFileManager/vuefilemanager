@@ -7,7 +7,7 @@
                 <div class="menu-list-wrapper vertical">
                     <a class="menu-list-item link" @click="goHome">
                         <div class="icon">
-                            <home-icon size="17"></home-icon>
+                            <home-icon size="17"/>
                         </div>
                         <div class="label">
                             {{ $t('sidebar.home') }}
