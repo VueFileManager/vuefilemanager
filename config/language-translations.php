@@ -672,5 +672,6 @@ return [
         'og_image_description'                             => 'Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627',
         'app_touch_icon'                                   => 'App Touch Icon',
         'app_touch_icon_description'                       => 'If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156',
+        'select_search_placeholder'                        => 'Search in list...',
     ]
 ];

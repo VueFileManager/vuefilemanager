@@ -25,8 +25,7 @@
         <transition name="slide-in">
             <div class="input-options" v-if="isOpen">
                 <div v-if="options.length > 5" class="select-search">
-                    <!--TODO: jazyk-->
-                    <input v-model="query" ref="search" type="text" placeholder="Search in list..." class="search-input focus-border-theme">
+                    <input v-model="query" ref="search" type="text" :placeholder="$t('select_search_placeholder')" class="search-input focus-border-theme">
                 </div>
                 <ul class="option-list">
                     <li class="option-item" @click="selectOption(option)" v-for="(option, i) in optionList" :key="i">
