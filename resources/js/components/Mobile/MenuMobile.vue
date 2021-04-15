@@ -61,12 +61,12 @@
     // Transition
     .context-menu-enter-active,
     .fade-enter-active {
-        transition: all 200ms;
+        transition: all 300ms;
     }
 
     .context-menu-leave-active,
     .fade-leave-active {
-        transition: all 200ms;
+        transition: all 300ms;
     }
 
     .fade-enter,

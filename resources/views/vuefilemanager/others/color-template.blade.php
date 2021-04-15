@@ -5,7 +5,7 @@
         @endphp
 
         {{-- Group options --}}
-        .group:hover .group-hover-text-theme {color: {{ $color }} !important;}
+        .group:hover:not(.hover-disabled) .group-hover-text-theme {color: {{ $color }} !important;}
 
 
         {{-- Single option --}}
