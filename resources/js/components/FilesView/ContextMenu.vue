@@ -267,13 +267,14 @@ export default {
             events.$emit('popup:open', {name: 'move', item: [this.item]})
         },
         shareItem() {
-            if (this.item.shared) {
-                // Open edit share popup
-                events.$emit('popup:open', {name: 'share-edit', item: this.item})
-            } else {
-                // Open create share popup
-                events.$emit('popup:open', {name: 'share-create', item: this.item})
-            }
+            let event = this.item.shared
+                ? 'share-edit'
+                : 'share-create'
+
+            events.$emit('popup:open', {
+                name: event,
+                item: this.item
+            })
         },
         addToFavourites() {
             // Check if folder is in favourites and then add/remove from favourites
@@ -384,12 +385,6 @@ export default {
                 this.showFromPreview = false
             }
         }
-    },
-
-    mounted() {
-        events.$on('actualShowingImage:ContextMenu', (item) => {
-            this.item = item
-        })
     },
     created() {
         events.$on('showContextMenuPreview:show', (item) => {

@@ -47,7 +47,10 @@ import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPrevie
 
 export default {
     name: "ToolbarButton",
-    props: ["source", "action"],
+    props: [
+        'source',
+        'action'
+    ],
     components: {
         SortingAndPreviewIcon,
         CornerDownRightIcon,

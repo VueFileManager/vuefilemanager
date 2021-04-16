@@ -226,9 +226,9 @@ export default {
                 }
 
                 if (this.$isMobile()) {
-                    if (this.isImage || this.isVideo || this.isAudio) {
+                    if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
                         this.$store.commit('GET_FILEINFO_DETAIL', this.item)
-                        events.$emit('fileFullPreview:show')
+                        events.$emit('file-preview:show')
                     }
                 }
             }
@@ -242,10 +242,10 @@ export default {
             }
         },
         goToItem() {
-            if (this.isImage || this.isVideo || this.isAudio) {
-                events.$emit('fileFullPreview:show')
+            if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
+                events.$emit('file-preview:show')
 
-            } else if (this.isFile || !this.isFolder && !this.isPdf && !this.isVideo && !this.isAudio && !this.isImage) {
+            } else if (this.isFile || !this.isFolder && !this.isVideo && !this.isAudio && !this.isImage) {
                 this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
 
             } else if (this.isFolder) {

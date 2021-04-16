@@ -44,7 +44,6 @@
 <script>
     import { ChevronDownIcon, Edit2Icon, UserIcon } from 'vue-feather-icons'
     import {debounce, omitBy} from "lodash"
-    import {events} from '@/bus'
 
     export default {
         name:'SelectInput',

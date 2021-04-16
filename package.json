@@ -23,6 +23,7 @@
         "@fortawesome/vue-fontawesome": "^0.1.10",
         "lodash": "^4.17.20",
         "node-sass": "^4.14.1",
+        "pdfvuer": "^1.7.5",
         "twemoji": "^13.0.1",
         "vee-validate": "^3.3.9",
         "vue": "^2.6.11",
