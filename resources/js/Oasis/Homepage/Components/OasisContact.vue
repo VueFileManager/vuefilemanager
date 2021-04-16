@@ -22,12 +22,16 @@
                     <div class="info-wrapper">
                         <b class="info-title">{{ $t('contact_sales_title') }}:</b>
                         <div class="info-group">
-                            <p class="info-description">John Doe</p>
-                            <p class="info-description">+420 922 123 456</p>
+                            <p class="info-description">Karel Urban</p>
+                            <p class="info-description">+420 773 589 819</p>
                         </div>
                         <div class="info-group">
-                            <p class="info-description">Jane Does</p>
-                            <p class="info-description">+420 982 510 182</p>
+                            <p class="info-description">Maged Hammad</p>
+                            <p class="info-description">+420 776 455 942</p>
+                        </div>
+                        <div class="info-group">
+                            <p class="info-description">Petr Skála</p>
+                            <p class="info-description">+420 737 019 321</p>
                         </div>
                     </div>
 

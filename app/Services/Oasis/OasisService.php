@@ -25,8 +25,8 @@ class OasisService
                 $diff = Carbon::parse($request->created_at)
                     ->diffInHours(Carbon::now());
 
-                // Delete if file is in local storage more than 24 hours
-                if ($diff >= 8) {
+                // Send order reminder
+                if ($diff == 8) {
 
                     $plan = resolve(StripeService::class)
                         ->getPlan($request->requested_plan);
