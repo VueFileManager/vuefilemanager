@@ -3,7 +3,7 @@
 
         <!-- Go back-->
         <div @click="goBack" class="go-back-button">
-            <chevron-left-icon size="17" :class="{'is-visible': browseHistory.length > 1}" class="icon-back"></chevron-left-icon>
+            <chevron-left-icon size="17" :class="{'is-visible': browseHistory.length > 1}" class="icon-back" />
         </div>
 
         <!--Folder Title-->
@@ -12,7 +12,7 @@
         <!--More Actions-->
         <div class="more-actions-button">
             <div class="tap-area" @click="showMobileNavigation" v-if="$checkPermission('master')">
-                <menu-icon size="17"></menu-icon>
+                <menu-icon size="17" />
             </div>
         </div>
     </div>

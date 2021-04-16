@@ -16,8 +16,8 @@
 		<div class="file-wrapper-preview">
 
             <!--Show PDF-->
-            <div v-if="isPDF" id="pdf-wrapper">
-                <pdf :src="pdfdata" v-for="i in numPages" :key="i" :page="i" scale="page-width" style="width:100%; margin:20px auto;" id="printable-file">
+            <div v-if="isPDF" id="pdf-wrapper" :style="{width: documentSize + '%'}">
+                <pdf :src="pdfdata" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:20px auto;" id="printable-file">
                     <template slot="loading">
                         <h1>loading content...</h1>
                     </template>
@@ -104,6 +104,7 @@ export default {
             numPages: 0,
             currentIndex: 0,
             files: [],
+            documentSize: 50,
         }
     },
     watch: {
@@ -195,10 +196,25 @@ export default {
         },
     },
     created() {
+
+        // Set zoom size
+        this.documentSize = window.innerWidth < 960 ? 100 : 50
+
         events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
 
+        events.$on('document-zoom:in', () => {
+            if (this.documentSize < 100)
+                this.documentSize += 10
+        })
+
+        events.$on('document-zoom:out', () => {
+            if (this.documentSize > 40)
+                this.documentSize -= 10
+        })
+
         this.getFilesForView()
+
     }
 }
 </script>
@@ -222,6 +238,7 @@ export default {
         user-select: none;
         filter: drop-shadow(0px 1px 0 rgba(255, 255, 255, 1));
         padding: 10px;
+        z-index: 2;
     }
 
     .next {
@@ -235,13 +252,13 @@ export default {
 
 #pdf-wrapper {
     overflow-y: scroll;
-    width: 80%;
     margin: 0 auto;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 1;
 }
 
 .media-full-preview {
@@ -320,6 +337,14 @@ export default {
         }
     }
 }
+
+@media only screen and (max-width: 960px) {
+
+    .media-full-preview {
+        top: 53px;
+    }
+}
+
 
 @media (prefers-color-scheme: dark) {
 

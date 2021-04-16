@@ -1,20 +1,10 @@
 <template>
   <button class="button hover-text-theme hover-svg-stroke-theme" :title="action">
-    <corner-down-right-icon
-        v-if="source === 'move'"
-        size="19"
-        class="hover-text-theme"
-    />
-    <download-cloud-icon
-        v-if="source === 'download'"
-        size="19"
-        class="hover-text-theme"
-    />
-    <folder-plus-icon
-        v-if="source === 'folder-plus'"
-        size="19"
-        class="hover-text-theme"
-    />
+    <corner-down-right-icon v-if="source === 'move'" size="19" class="hover-text-theme" />
+    <download-cloud-icon v-if="source === 'download'" size="19" class="hover-text-theme" />
+    <folder-plus-icon v-if="source === 'folder-plus'" size="19" class="hover-text-theme" />
+    <zoom-in-icon v-if="source === 'zoom-in'" size="19" />
+    <zoom-out-icon v-if="source === 'zoom-out'" size="19" />
     <edit-2-icon v-if="source === 'rename'" size="19" />
     <printer-icon v-if="source === 'print'" size="19" />
     <trash-2-icon v-if="source === 'trash'" size="19" />
@@ -29,44 +19,48 @@
 </template>
 
 <script>
-import {
-    FolderPlusIcon,
-    Trash2Icon,
-    GridIcon,
-    ListIcon,
-    Edit2Icon,
-    InfoIcon,
-    CornerDownRightIcon,
-    LinkIcon,
-    DownloadCloudIcon,
-    XIcon,
-    PrinterIcon,
-    CloudOffIcon,
-} from "vue-feather-icons";
-import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
-
-export default {
-    name: "ToolbarButton",
-    props: [
-        'source',
-        'action'
-    ],
-    components: {
-        SortingAndPreviewIcon,
+    import {
         CornerDownRightIcon,
         DownloadCloudIcon,
         FolderPlusIcon,
         CloudOffIcon,
         PrinterIcon,
+        ZoomOutIcon,
+        ZoomInIcon,
         Trash2Icon,
         Edit2Icon,
-        ListIcon,
-        XIcon,
         GridIcon,
+        ListIcon,
         InfoIcon,
         LinkIcon,
-    },
-};
+        XIcon,
+    } from "vue-feather-icons";
+    import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
+
+    export default {
+        name: "ToolbarButton",
+        props: [
+            'source',
+            'action'
+        ],
+        components: {
+            SortingAndPreviewIcon,
+            CornerDownRightIcon,
+            DownloadCloudIcon,
+            FolderPlusIcon,
+            CloudOffIcon,
+            PrinterIcon,
+            ZoomOutIcon,
+            ZoomInIcon,
+            Trash2Icon,
+            Edit2Icon,
+            ListIcon,
+            GridIcon,
+            InfoIcon,
+            LinkIcon,
+            XIcon,
+        },
+    };
 </script>
 
 <style scoped lang="scss">

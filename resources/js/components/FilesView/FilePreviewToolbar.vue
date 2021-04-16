@@ -16,6 +16,10 @@
 		</div>
 
 		<div class="navigation-icons">
+			<div v-if="isPdf" class="navigation-tool-wrapper">
+				<ToolbarButton @click.native="increaseSizeOfPDF" source="zoom-in" :action="$t('pdf_zoom_in')" />
+				<ToolbarButton @click.native="decreaseSizeOfPDF" source="zoom-out" :action="$t('pdf_zoom_out')" />
+			</div>
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton @click.native="downloadItem" class="mobile-hide" source="download" :action="$t('actions.download')" />
 				<ToolbarButton v-if="canShareItem" @click.native="shareItem" class="mobile-hide" :class="{ 'is-inactive': !canShareItem }" source="share" :action="$t('actions.share')" />
@@ -45,6 +49,9 @@
             ]),
             isImage() {
                 return this.fileInfoDetail[0].type === 'image'
+            },
+            isPdf() {
+                return this.fileInfoDetail[0].mimetype === 'pdf'
             },
             files() {
                 let files = []
@@ -83,6 +90,12 @@
             },
         },
         methods: {
+            increaseSizeOfPDF() {
+                events.$emit('document-zoom:in')
+            },
+            decreaseSizeOfPDF() {
+                events.$emit('document-zoom:out')
+            },
             printMethod() {
                 let tab = document.getElementById('printable-file')
                 let win = window.open('', '', 'height=700,width=700')

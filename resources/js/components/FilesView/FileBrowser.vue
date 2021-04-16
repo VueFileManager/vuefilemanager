@@ -17,7 +17,7 @@
             <MobileToolbar />
 
             <!--Searchbar-->
-            <SearchBar class="mobile-search" />
+            <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="$t('inputs.placeholder_search_files')" />
 
             <!--Mobile Actions-->
             <FileActionsMobile />
@@ -103,6 +103,7 @@
     import SearchBar from '@/components/FilesView/SearchBar'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
+    import {debounce} from "lodash";
 
     export default {
         name: 'FilesContainer',
@@ -121,9 +122,9 @@
             ...mapGetters([
                 'filesInQueueTotal',
                 'fileInfoVisible',
+                'FilePreviewType',
                 'fileInfoDetail',
                 'currentFolder',
-                'FilePreviewType',
                 'isSearching',
                 'isLoading',
                 'data'
@@ -149,11 +150,35 @@
                 }
             }
         },
+        watch: {
+            query: debounce(function (value) {
+
+                if (this.query !== '' && typeof this.query !== 'undefined') {
+
+                    this.$store.dispatch('getSearchResult', value)
+
+                } else if (typeof value !== 'undefined') {
+
+                    if (this.currentFolder) {
+
+                        // Get back after delete query to previously folder
+                        if (this.$isThisLocation('public')) {
+                            this.$store.dispatch('browseShared', [{folder: this.currentFolder, back: true, init: false}])
+                        } else {
+                            this.$store.dispatch('getFolder', [{folder: this.currentFolder, back: true, init: false}])
+                        }
+                    }
+
+                    this.$store.commit('CHANGE_SEARCHING_STATE', false)
+                }
+            }, 300),
+        },
         data() {
             return {
                 draggingId: undefined,
                 isDragging: false,
                 mobileMultiSelect: false,
+                query: '',
             }
         },
         methods: {

@@ -54,9 +54,9 @@
 
     .mobile-action-button {
         background: $light_background;
-        margin-right: 15px;
+        margin-right: 8px;
         border-radius: 8px;
-        padding: 7px 10px;
+        padding: 7px 14px;
         cursor: pointer;
         border: none;
         @include transition(150ms);
