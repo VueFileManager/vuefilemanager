@@ -3,14 +3,13 @@ import store from './store/index'
 import {debounce, includes, isArray} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
-import router from '@/router'
 
 const Helpers = {
     install(Vue) {
 
         Vue.prototype.$updateText = debounce(function (route, name, value) {
 
-            let enableEmptyInput = ['mimetypes_blacklist', 'google_analytics', 'upload_limit']
+            let enableEmptyInput = ['mimetypes_blacklist', 'google_analytics', 'upload_limit', 'description']
 
             if (value === '' || value === ' ' && !enableEmptyInput.includes(name)) return
 
