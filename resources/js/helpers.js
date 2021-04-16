@@ -3,7 +3,6 @@ import store from './store/index'
 import {debounce, includes, isArray} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
-import router from '@/router'
 
 const Helpers = {
     install(Vue) {

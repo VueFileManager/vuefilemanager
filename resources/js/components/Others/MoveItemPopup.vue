@@ -50,6 +50,7 @@
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import Spinner from '@/components/FilesView/Spinner'
     import TreeMenu from '@/components/Others/TreeMenu'
+    import {isArray, isNull} from 'lodash'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'
 
@@ -57,8 +58,8 @@
         name: 'MoveItemPopup',
         components: {
             ThumbnailItem,
-            PopupWrapper,
             MultiSelected,
+            PopupWrapper,
             PopupActions,
             PopupContent,
             PopupHeader,
@@ -67,7 +68,10 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['navigation', 'fileInfoDetail']),
+            ...mapGetters([
+                'fileInfoDetail',
+                'navigation',
+            ]),
         },
         data() {
             return {
@@ -83,7 +87,7 @@
                 if (!this.selectedFolder) return
 
                 // Prevent to move items to the same parent
-                if (this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.id)) return
+                if ( isArray(this.selectedFolder) && this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.id)) return
 
                 // Move item
                 if (!this.isSelectedItem) {
@@ -103,12 +107,14 @@
             },
         },
         mounted() {
-
-            // Select folder in tree
             events.$on('pick-folder', folder => {
 
                 if (folder.id === this.pickedItem.id) {
                     this.selectedFolder = undefined
+
+                } else if ( ! folder.id && folder.location === 'base') {
+                    this.selectedFolder = 'base'
+
                 } else {
                     this.selectedFolder = folder
                 }
@@ -162,35 +168,5 @@
 .multiple-selected {
     padding: 0 20px;;
     margin-bottom: 20px;
-
-    /deep/ .text {
-        .title {
-            color: $text;
-        }
-
-        .count {
-            color: $text-muted;
-        }
-    }
-
-    /deep/ .icon-wrapper {
-        .icon {
-            stroke: $theme;
-        }
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .multiple-selected {
-        /deep/ .text {
-            .title {
-                color: $dark_mode_text_primary;
-            }
-
-            .count {
-                color: $dark_mode_text_secondary;
-            }
-        }
-    }
 }
 </style>
