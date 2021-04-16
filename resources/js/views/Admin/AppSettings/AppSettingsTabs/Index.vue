@@ -321,8 +321,6 @@ export default {
                     get_started_description: response.data.get_started_description,
                     footer_content: response.data.footer_content
                 }
-
-                console.log(this.app);
             })
             .finally(() => {
                 this.isLoading = false

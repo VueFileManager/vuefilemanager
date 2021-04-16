@@ -94,9 +94,6 @@
                     this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: this.pickedItem})
                 }
 
-                console.log('to item:', this.selectedFolder);
-                console.log('isSelectedItem:', this.pickedItem);
-
                 // Close popup
                 events.$emit('popup:close')
 

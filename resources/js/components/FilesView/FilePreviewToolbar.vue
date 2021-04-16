@@ -32,7 +32,7 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'FilePreviewNavigationPanel',
+        name: 'FilePreviewToolbar',
         components: {
             MoreHorizontalIcon,
             ToolbarButton,

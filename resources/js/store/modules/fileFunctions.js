@@ -89,8 +89,6 @@ const actions = {
             ? `/api/editor/move/${router.currentRoute.params.token}`
             : '/api/move'
 
-        console.log(to_item);
-
         axios
             .post(route, {
                 to_id: to_item.id ? to_item.id : null,

@@ -129,13 +129,11 @@ export default {
                 this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile)
 
                 this.files = []
-                //this.getFilesForView()
             }
         },
         data(newValue, oldValue) {
             if (newValue !== oldValue) {
                 this.files = []
-                //this.getFilesForView()
             }
         },
     },
@@ -215,7 +213,7 @@ export default {
     .prev, .next {
         cursor: pointer;
         position: absolute;
-        top: 35%;
+        top: 45%;
         display: flex;
         justify-content: center;
         color: $text;
