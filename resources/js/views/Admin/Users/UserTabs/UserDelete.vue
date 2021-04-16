@@ -6,7 +6,7 @@
                 <p>{{ $t('user_box_delete.description') }}</p>
             </InfoBox>
             <ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form" class="form block-form">
-                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="User name" :rules="'required|is:' + user.data.relationships.settings.data.attributes.name">
+                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="User name" rules="required">
                     <label>{{ $t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name}) }}:</label>
                     <div class="single-line-form">
                         <input v-model="userName"
@@ -70,6 +70,15 @@
                 const isValid = await this.$refs.deleteUser.validate();
 
                 if (!isValid) return;
+
+                if (this.userName !== this.user.data.relationships.settings.data.attributes.name) {
+
+                    this.$refs.deleteUser.setErrors({
+                        'User name': 'The user name is not the same.'
+                    });
+
+                    return
+                }
 
                 this.isSendingRequest = true
 
