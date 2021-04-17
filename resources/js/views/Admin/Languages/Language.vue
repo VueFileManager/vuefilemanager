@@ -386,7 +386,7 @@
         }
 
         .languages-wrapper {
-            margin-top: 0px;
+            margin-top: 0;
         }
     }
 }
@@ -430,7 +430,7 @@
 @media only screen and (max-width: 1024px) {
 
     .search-bar-wrapper {
-        top: 15px;
+        top: 58px;
         z-index: 7;
     }
 }

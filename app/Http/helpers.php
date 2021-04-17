@@ -10,6 +10,7 @@ use App\Models\LanguageTranslation;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -851,11 +852,20 @@ function __t($key, $values = null)
 {
     // Get current locale
     $locale = cache()->rememberForever('language', function () {
-        return get_setting('language') ?? 'en';
+        try {
+            return get_setting('language') ?? 'en';
+        } catch (QueryException $e) {
+            return 'en';
+        }
     });
 
+    // Get language strings
     $strings = cache()->rememberForever("language-translations-$locale", function () use ($locale) {
-        return Language::whereLocale($locale)->first()->languageTranslations ?? get_default_language_translations();
+        try {
+            return Language::whereLocale($locale)->first()->languageTranslations ?? get_default_language_translations();
+        } catch (QueryException $e) {
+            return get_default_language_translations();
+        }
     });
 
     // Find the string by key
