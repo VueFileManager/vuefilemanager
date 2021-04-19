@@ -13,7 +13,7 @@
             <transition name="slide-from-left">
                 <div class="check-select" v-if="mobileMultiSelect">
                     <div class="select-box" :class="{'select-box-active' : isClicked } ">
-                        <CheckIcon v-if="isClicked" class="icon" size="17"/>
+                        <CheckIcon v-if="isClicked" class="icon" size="17" />
                     </div>
                 </div>
             </transition>
@@ -26,12 +26,12 @@
                 </span>
 
                 <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file"/>
+                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file" />
 
                 <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
+                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name" />
 
-                 <!--Else show only folder icon-->
+                <!--Else show only folder icon-->
                 <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder svg-color-theme" />
             </div>
 
@@ -73,11 +73,11 @@
 </template>
 
 <script>
-import { LinkIcon, UserPlusIcon, CheckIcon, MoreVerticalIcon } from 'vue-feather-icons'
+import {LinkIcon, UserPlusIcon, CheckIcon, MoreVerticalIcon} from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
-import { debounce } from 'lodash'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import {debounce} from 'lodash'
+import {mapGetters} from 'vuex'
+import {events} from '@/bus'
 
 export default {
     name: 'FileItemList',
@@ -90,7 +90,11 @@ export default {
         CheckIcon,
     },
     computed: {
-        ...mapGetters(['FilePreviewType', 'clipboard', 'data']),
+        ...mapGetters([
+            'FilePreviewType',
+            'clipboard',
+            'entries'
+        ]),
         isClicked() {
             return this.clipboard.some(element => element.id === this.item.id)
         },
@@ -120,7 +124,7 @@ export default {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])
         },
         timeStamp() {
-            return this.item.deleted_at ? this.$t('item_thumbnail.deleted_at', { time: this.item.deleted_at }) : this.item.created_at
+            return this.item.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.item.deleted_at}) : this.item.created_at
         },
         folderItems() {
             return this.item.deleted_at ? this.item.trashed_items : this.item.items
@@ -183,8 +187,8 @@ export default {
                     }
                 } else if (e.shiftKey) {
                     // Click + Shift
-                    let lastItem = this.data.indexOf(this.clipboard[this.clipboard.length - 1])
-                    let clickedItem = this.data.indexOf(this.item)
+                    let lastItem = this.entries.indexOf(this.clipboard[this.clipboard.length - 1])
+                    let clickedItem = this.entries.indexOf(this.item)
 
                     // If Click + Shift + Ctrl dont remove already selected items
                     if (!e.ctrlKey && !e.metaKey) {
@@ -194,12 +198,12 @@ export default {
                     //Shift selecting from top to bottom
                     if (lastItem < clickedItem) {
                         for (let i = lastItem; i <= clickedItem; i++) {
-                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.data[i])
+                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entries[i])
                         }
                         //Shift selecting from bottom to top
                     } else {
                         for (let i = lastItem; i >= clickedItem; i--) {
-                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.data[i])
+                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entries[i])
                         }
                     }
                 } else {
@@ -214,9 +218,9 @@ export default {
                 if (this.isFolder) {
 
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
+                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
+                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
                     }
                 } else {
 
@@ -251,13 +255,13 @@ export default {
                 this.$store.commit('CLIPBOARD_CLEAR')
 
                 if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
+                    this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                 } else {
-                    this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
+                    this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
                 }
             }
         },
-        renameItem: debounce(function(e) {
+        renameItem: debounce(function (e) {
             // Prevent submit empty string
             if (e.target.innerText.trim() === '') return
 
@@ -274,7 +278,7 @@ export default {
 
         events.$on('newFolder:focus', (id) => {
 
-            if(this.item.id === id && !this.$isMobile()) {
+            if (this.item.id === id && !this.$isMobile()) {
                 this.$refs[id].focus()
                 document.execCommand('selectAll')
             }
@@ -455,7 +459,7 @@ export default {
         flex: 0 0 50px;
         line-height: 0;
         margin-right: 20px;
-        
+
         .folder {
             width: 52px;
             height: 52px;

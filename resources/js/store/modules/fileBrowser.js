@@ -13,7 +13,7 @@ const defaultState = {
 
     browseHistory: [],
     clipboard: [],
-    data: [],
+    entries: [],
 }
 
 const actions = {
@@ -207,7 +207,7 @@ const actions = {
 const mutations = {
     LOADING_STATE(state, payload) {
         state.clipboard = []
-        state.data = payload.data
+        state.entries = payload.data
         state.isLoading = payload.loading
     },
     UPDATE_FOLDER_TREE(state, tree) {
@@ -217,7 +217,7 @@ const mutations = {
         state.browseHistory = []
     },
     FLUSH_SHARED(state, id) {
-        state.data.find(item => {
+        state.entries.find(item => {
             if (item.id === id) item.shared = undefined
         })
     },
@@ -235,7 +235,7 @@ const mutations = {
         }
 
         // Rename item name in data view
-        state.data.find(item => {
+        state.entries.find(item => {
             if (item.id === updatedFile.id) {
                 item.name = updatedFile.name
                 item.color = updatedFile.color ? updatedFile.color : null
@@ -247,21 +247,21 @@ const mutations = {
         state.isSearching = searchState
     },
     UPDATE_SHARED_ITEM(state, data) {
-        state.data.find(item => {
+        state.entries.find(item => {
             if (item.id === data.item_id) item.shared = data
         })
     },
     ADD_NEW_FOLDER(state, folder) {
-        state.data.unshift(folder)
+        state.entries.unshift(folder)
     },
     ADD_NEW_ITEMS(state, items) {
-        state.data = state.data.concat(items)
+        state.entries = state.entries.concat(items)
     },
     REMOVE_ITEM(state, id) {
-        state.data = state.data.filter(el => el.id !== id)
+        state.entries = state.entries.filter(el => el.id !== id)
     },
     INCREASE_FOLDER_ITEM(state, id) {
-        state.data.map(el => {
+        state.entries.map(el => {
             if (el.id && el.id === id) el.items++
         })
     },
@@ -272,10 +272,10 @@ const mutations = {
         state.clipboard = state.clipboard.filter(element => element.id !== item.id)
     },
     ADD_ALL_ITEMS_TO_CLIPBOARD(state) {
-        state.clipboard = state.data
+        state.clipboard = state.entries
     },
     ADD_ITEM_TO_CLIPBOARD(state, item) {
-        let selectedItem = state.data.find(el => el.id === item.id)
+        let selectedItem = state.entries.find(el => el.id === item.id)
 
         if (state.clipboard.includes(selectedItem)) return
 
@@ -293,7 +293,7 @@ const getters = {
     isSearching: state => state.isSearching,
     navigation: state => state.navigation,
     isLoading: state => state.isLoading,
-    data: state => state.data,
+    entries: state => state.entries,
 }
 
 export default {

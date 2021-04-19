@@ -45,7 +45,7 @@
         computed: {
             ...mapGetters([
                 'clipboard',
-                'data'
+                'entries'
             ]),
             isImage() {
                 return this.clipboard[0].type === 'image'
@@ -56,7 +56,7 @@
             files() {
                 let files = []
 
-                this.data.map(element => {
+                this.entries.map(element => {
 
                     if (this.clipboard[0].mimetype === 'pdf') {
 

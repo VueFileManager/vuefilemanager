@@ -43,7 +43,7 @@
                 <span class="empty-note navigator" v-if="tree.length == 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
-                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in tree" :key="items.id"/>
+                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
             </ContentGroup>
 
             <!--Favourites-->

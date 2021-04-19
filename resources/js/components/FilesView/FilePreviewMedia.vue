@@ -80,7 +80,7 @@ export default {
     computed: {
         ...mapGetters([
             'clipboard',
-            'data',
+            'entries',
         ]),
         currentFile() {
             return this.files[Math.abs(this.currentIndex) % this.files.length]
@@ -174,7 +174,7 @@ export default {
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 
-            this.data.map(element => {
+            this.entries.map(element => {
 
                 if (requestedFile.mimetype === 'pdf') {
 

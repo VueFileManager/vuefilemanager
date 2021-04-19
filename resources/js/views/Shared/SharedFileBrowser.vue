@@ -18,7 +18,7 @@
 
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
-                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.id" />
+                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in navigationTree" :key="folder.id" />
             </ContentGroup>
         </ContentSidebar>
 

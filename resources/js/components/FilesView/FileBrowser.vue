@@ -35,7 +35,7 @@
                         @drop.stop.native.prevent="dragFinish(item, $event)"
                         @contextmenu.native.prevent="contextMenu($event, item)"
                         :item="item"
-                        v-for="item in data"
+                        v-for="item in entries"
                         :key="item.id"
                         class="file-item"
                         :class="draggedItems.includes(item) ? 'dragged' : '' "
@@ -56,7 +56,7 @@
                         @drop.native.prevent="dragFinish(item, $event)"
                         @contextmenu.native.prevent="contextMenu($event, item)"
                         :item="item"
-                        v-for="item in data"
+                        v-for="item in entries"
                         :key="item.id"
                         class="file-item"
                         :class="draggedItems.includes(item) ? 'dragged' : '' "
@@ -123,11 +123,11 @@
                 'filesInQueueTotal',
                 'fileInfoVisible',
                 'FilePreviewType',
-                'clipboard',
                 'currentFolder',
                 'isSearching',
+                'clipboard',
                 'isLoading',
-                'data'
+                'entries'
             ]),
             isGrid() {
                 return this.FilePreviewType === 'grid'
@@ -136,7 +136,7 @@
                 return this.FilePreviewType === 'list'
             },
             isEmpty() {
-                return this.data.length == 0
+                return this.entries.length == 0
             },
             draggedItems() {
                 //Set opacity for dragged items

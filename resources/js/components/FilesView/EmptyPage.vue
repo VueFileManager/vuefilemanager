@@ -50,9 +50,9 @@
             Spinner
         },
         computed: {
-            ...mapGetters(['data', 'isLoading', 'currentFolder']),
+            ...mapGetters(['entries', 'isLoading', 'currentFolder']),
             isEmpty() {
-                return this.data && this.data.length == 0
+                return this.entries && this.entries.length == 0
             }
         }
     }

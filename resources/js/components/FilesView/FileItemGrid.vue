@@ -84,7 +84,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'FilePreviewType', 'sharedDetail', 'clipboard', 'data'
+            'FilePreviewType', 'sharedDetail', 'clipboard', 'entries'
         ]),
         folderEmojiOrColor() {
 
@@ -188,8 +188,8 @@ export default {
                     }
                 } else if (e.shiftKey) {
                     // Click + Shift
-                    let lastItem = this.data.indexOf(this.clipboard[this.clipboard.length - 1])
-                    let clickedItem = this.data.indexOf(this.item)
+                    let lastItem = this.entries.indexOf(this.clipboard[this.clipboard.length - 1])
+                    let clickedItem = this.entries.indexOf(this.item)
 
                     // If Click + Shift + Ctrl dont remove already selected items
                     if (!e.ctrlKey && !e.metaKey) {
@@ -199,12 +199,12 @@ export default {
                     //Shift selecting from top to bottom
                     if (lastItem < clickedItem) {
                         for (let i = lastItem; i <= clickedItem; i++) {
-                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.data[i])
+                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entries[i])
                         }
                         //Shift selecting from bottom to top
                     } else {
                         for (let i = lastItem; i >= clickedItem; i--) {
-                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.data[i])
+                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entries[i])
                         }
                     }
                 } else {
