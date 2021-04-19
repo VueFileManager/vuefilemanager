@@ -11,12 +11,12 @@
 
             <!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
-                <ThumbnailItem v-if="fileInfoDetail.length < 2 || isSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
+                <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
 
                 <MultiSelected class="multiple-selected"
                                :title="$t('file_detail.selected_multiple')"
-                               :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
-                               v-if="fileInfoDetail.length > 1 && !isSelectedItem" />
+                               :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+                               v-if="clipboard.length > 1 && !isSelectedItem" />
                     
                 <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
             </div>
@@ -69,7 +69,7 @@
         },
         computed: {
             ...mapGetters([
-                'fileInfoDetail',
+                'clipboard',
                 'navigation',
             ]),
         },
@@ -87,7 +87,7 @@
                 if (!this.selectedFolder) return
 
                 // Prevent to move items to the same parent
-                if ( isArray(this.selectedFolder) && this.fileInfoDetail.find(item => item.parent_id === this.selectedFolder.id)) return
+                if ( isArray(this.selectedFolder) && this.clipboard.find(item => item.parent_id === this.selectedFolder.id)) return
 
                 // Move item
                 if (!this.isSelectedItem) {
@@ -134,13 +134,13 @@
                 })
 
                 // Store picked item
-                if (!this.fileInfoDetail.includes(args.item[0])) {
+                if (!this.clipboard.includes(args.item[0])) {
                     this.pickedItem = args.item[0]
                     this.isSelectedItem = true
                 }
 
-                if (this.fileInfoDetail.includes(args.item[0])) {
-                    this.pickedItem = this.fileInfoDetail[0]
+                if (this.clipboard.includes(args.item[0])) {
+                    this.pickedItem = this.clipboard[0]
                     this.isSelectedItem = false
                 }
             })

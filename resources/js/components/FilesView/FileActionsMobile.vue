@@ -155,10 +155,10 @@
                 events.$emit('mobile-menu:show', 'file-filter')
             },
             selectAll() {
-                this.$store.commit('SELECT_ALL_FILES')
+                this.$store.commit('ADD_ALL_ITEMS_TO_CLIPBOARD')
             },
             deselectAll() {
-                this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                this.$store.commit('CLIPBOARD_CLEAR')
             },
             enableMultiSelectMode() {
                 this.isSelectMode = true

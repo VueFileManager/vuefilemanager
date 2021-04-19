@@ -73,7 +73,7 @@ export default {
         ...mapGetters([
             'FilePreviewType',
             'fileInfoVisible',
-            'fileInfoDetail',
+            'clipboard',
             'currentFolder',
             'browseHistory',
             'homeDirectory'
@@ -109,7 +109,7 @@ export default {
                 'shared',
                 'public'
             ]
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0
+            return !this.$isThisLocation(locations) || this.clipboard.length === 0
         },
         canUploadInView() {
             return !this.$isThisLocation(['base', 'public'])
@@ -122,7 +122,7 @@ export default {
                 'shared',
                 'public'
             ]
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0
+            return !this.$isThisLocation(locations) || this.clipboard.length === 0
 
         },
         canShareInView() {
@@ -134,7 +134,7 @@ export default {
                 'public'
             ]
 
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1 || this.fileInfoDetail.length === 0
+            return !this.$isThisLocation(locations) || this.clipboard.length > 1 || this.clipboard.length === 0
         }
     },
     data() {
@@ -202,24 +202,24 @@ export default {
             events.$emit('folder:actions', this.currentFolder)
         },
         deleteItem() {
-            if (this.fileInfoDetail.length > 0)
+            if (this.clipboard.length > 0)
                 this.$store.dispatch('deleteItem')
         },
         createFolder() {
             this.$store.dispatch('createFolder', {name: this.$t('popup_create_folder.folder_default_name')})
         },
         moveItem() {
-            if (this.fileInfoDetail.length > 0)
-                events.$emit('popup:open', { name: 'move', item: this.fileInfoDetail })
+            if (this.clipboard.length > 0)
+                events.$emit('popup:open', { name: 'move', item: this.clipboard })
         },
         shareItem() {
-            let event = this.fileInfoDetail[0].shared
+            let event = this.clipboard[0].shared
                 ? 'share-edit'
                 : 'share-create'
 
             events.$emit('popup:open', {
                 name: event,
-                item: this.fileInfoDetail[0]
+                item: this.clipboard[0]
             })
         }
     },

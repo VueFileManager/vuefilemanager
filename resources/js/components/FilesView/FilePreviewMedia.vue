@@ -1,5 +1,5 @@
 <template>
-	<div class="media-full-preview" id="mediaPreview" v-if="fileInfoDetail[0]">
+	<div class="media-full-preview" id="mediaPreview" v-if="clipboard[0]">
 
         <!--Arrow navigation-->
         <div v-if="files.length > 1" class="navigation-arrows">
@@ -79,23 +79,23 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'fileInfoDetail',
+            'clipboard',
             'data',
         ]),
         currentFile() {
             return this.files[Math.abs(this.currentIndex) % this.files.length]
         },
         isPDF() {
-            return this.fileInfoDetail[0].mimetype === 'pdf'
+            return this.clipboard[0].mimetype === 'pdf'
         },
         isVideo() {
-            return this.fileInfoDetail[0].type === 'video'
+            return this.clipboard[0].type === 'video'
         },
         isAudio() {
-            return this.fileInfoDetail[0].type === 'audio'
+            return this.clipboard[0].type === 'audio'
         },
         isImage() {
-            return this.fileInfoDetail[0].type === 'image'
+            return this.clipboard[0].type === 'image'
         }
     },
     data() {
@@ -113,21 +113,21 @@ export default {
                 events.$emit('file-preview:hide')
         },
         currentFile() {
-            if (this.fileInfoDetail[0]) {
-                this.$store.commit('CLEAR_FILEINFO_DETAIL')
-                this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile)
+            if (this.clipboard[0]) {
+                this.$store.commit('CLIPBOARD_CLEAR')
+                this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFile)
 
                 // Init pdf instance
-                if (this.fileInfoDetail[0].mimetype === 'pdf') {
+                if (this.clipboard[0].mimetype === 'pdf') {
                     this.getPdf()
                 }
             }
         },
-        fileInfoDetail() {
-            if (!this.fileInfoDetail[0]) {
+        clipboard() {
+            if (!this.clipboard[0]) {
                 this.currentIndex -= 1
 
-                this.$store.commit('GET_FILEINFO_DETAIL', this.currentFile)
+                this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFile)
 
                 this.files = []
             }
@@ -172,7 +172,7 @@ export default {
             self.pdfdata.then(pdf => self.numPages = pdf.numPages);
         },
         getFilesForView() {
-            let requestedFile = this.fileInfoDetail[0]
+            let requestedFile = this.clipboard[0]
 
             this.data.map(element => {
 
@@ -189,7 +189,7 @@ export default {
             })
 
             this.files.forEach((element, index) => {
-                if (element.id === this.fileInfoDetail[0].id) {
+                if (element.id === this.clipboard[0].id) {
                     this.currentIndex = index
                 }
             })

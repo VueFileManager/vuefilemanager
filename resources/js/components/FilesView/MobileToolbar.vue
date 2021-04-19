@@ -40,7 +40,6 @@
             ...mapGetters([
                 'fileInfoVisible',
                 'FilePreviewType',
-                'fileInfoDetail',
                 'currentFolder',
                 'browseHistory',
                 'homeDirectory',

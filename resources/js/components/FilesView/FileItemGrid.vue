@@ -59,7 +59,7 @@
             </div>
 
             <span @mousedown.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! mobileMultiSelect && canShowMobileOptions">
-                <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme"/>
+                <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme" />
             </span>
         </div>
     </div>
@@ -84,7 +84,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'FilePreviewType', 'sharedDetail', 'fileInfoDetail', 'data'
+            'FilePreviewType', 'sharedDetail', 'clipboard', 'data'
         ]),
         folderEmojiOrColor() {
 
@@ -102,7 +102,7 @@ export default {
 
         },
         isClicked() {
-            return this.fileInfoDetail.some(element => element.id === this.item.id)
+            return this.clipboard.some(element => element.id === this.item.id)
         },
         isFolder() {
             return this.item.type === 'folder'
@@ -158,8 +158,8 @@ export default {
         },
         showItemActions() {
             // Load file info detail
-            this.$store.commit('CLEAR_FILEINFO_DETAIL')
-            this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+            this.$store.commit('CLIPBOARD_CLEAR')
+            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
             events.$emit('mobile-menu:show', 'file-menu')
         },
@@ -181,36 +181,36 @@ export default {
 
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {
                     // Click + Ctrl
-                    if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
-                        this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
+                    if (this.clipboard.some(item => item.id === this.item.id)) {
+                        this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                     } else {
-                        this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+                        this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                     }
                 } else if (e.shiftKey) {
                     // Click + Shift
-                    let lastItem = this.data.indexOf(this.fileInfoDetail[this.fileInfoDetail.length - 1])
+                    let lastItem = this.data.indexOf(this.clipboard[this.clipboard.length - 1])
                     let clickedItem = this.data.indexOf(this.item)
 
                     // If Click + Shift + Ctrl dont remove already selected items
                     if (!e.ctrlKey && !e.metaKey) {
-                        this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                        this.$store.commit('CLIPBOARD_CLEAR')
                     }
 
                     //Shift selecting from top to bottom
                     if (lastItem < clickedItem) {
                         for (let i = lastItem; i <= clickedItem; i++) {
-                            this.$store.commit('GET_FILEINFO_DETAIL', this.data[i])
+                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.data[i])
                         }
                         //Shift selecting from bottom to top
                     } else {
                         for (let i = lastItem; i >= clickedItem; i--) {
-                            this.$store.commit('GET_FILEINFO_DETAIL', this.data[i])
+                            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.data[i])
                         }
                     }
                 } else {
                     // Click
-                    this.$store.commit('CLEAR_FILEINFO_DETAIL')
-                    this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+                    this.$store.commit('CLIPBOARD_CLEAR')
+                    this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                 }
             }
 
@@ -219,24 +219,27 @@ export default {
                 if (this.isFolder) {
 
                     if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
+                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
+                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
                     }
                 } else {
 
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-                        this.$store.commit('LOAD_FILEINFO_DETAIL', this.item)
+
+                        this.$store.commit('CLIPBOARD_CLEAR')
+                        this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
+
                         events.$emit('file-preview:show')
                     }
                 }
             }
 
             if (this.mobileMultiSelect && this.$isMobile()) {
-                if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
-                    this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
+                if (this.clipboard.some(item => item.id === this.item.id)) {
+                    this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                 } else {
-                    this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+                    this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                 }
             }
         },
@@ -250,7 +253,7 @@ export default {
             } else if (this.isFolder) {
 
                 //Clear selected data after open another folder
-                this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                this.$store.commit('CLIPBOARD_CLEAR')
 
                 if (this.$isThisLocation('public')) {
                     this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
@@ -284,12 +287,12 @@ export default {
 
         events.$on('mobileSelecting:start', () => {
             this.mobileMultiSelect = true
-            this.$store.commit('CLEAR_FILEINFO_DETAIL')
+            this.$store.commit('CLIPBOARD_CLEAR')
         })
 
         events.$on('mobileSelecting:stop', () => {
             this.mobileMultiSelect = false
-            this.$store.commit('CLEAR_FILEINFO_DETAIL')
+            this.$store.commit('CLIPBOARD_CLEAR')
         })
         // Change item name
         events.$on('change:name', (item) => {

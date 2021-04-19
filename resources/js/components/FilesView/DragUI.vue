@@ -11,10 +11,10 @@ export default {
     name: 'DragUI',
     components: { MultiSelected },
     computed: {
-        ...mapGetters(['fileInfoDetail']),
+        ...mapGetters(['clipboard']),
         title() {
-            let filesLength = this.fileInfoDetail.length,
-                hasDraggedItem = this.fileInfoDetail.includes(this.draggedItem)
+            let filesLength = this.clipboard.length,
+                hasDraggedItem = this.clipboard.includes(this.draggedItem)
 
             // Title for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {
@@ -27,8 +27,8 @@ export default {
             }
         },
         subtitle() {
-            let filesLength = this.fileInfoDetail.length,
-                hasDraggedItem = this.fileInfoDetail.includes(this.draggedItem)
+            let filesLength = this.clipboard.length,
+                hasDraggedItem = this.clipboard.includes(this.draggedItem)
 
             // Subtitle for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {

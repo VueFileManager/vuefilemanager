@@ -1,9 +1,9 @@
 <template>
-	<div class="navigation-panel" v-if="fileInfoDetail[0]">
+	<div class="navigation-panel" v-if="clipboard[0]">
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close hover-text-theme" />
 			<div class="name-count-wrapper">
-				<p class="title">{{ fileInfoDetail[0].name }}</p>				
+				<p class="title">{{ clipboard[0].name }}</p>
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + files.length }}) </span>
 			</div>
 			<span @click.stop="menuOpen" id="fast-preview-menu" class="fast-menu-icon group">
@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="created-at-wrapper">
-			<p>{{ fileInfoDetail[0].filesize }}, {{ fileInfoDetail[0].created_at }}</p>
+			<p>{{ clipboard[0].filesize }}, {{ clipboard[0].created_at }}</p>
 		</div>
 
 		<div class="navigation-icons">
@@ -44,28 +44,28 @@
         },
         computed: {
             ...mapGetters([
-                'fileInfoDetail',
+                'clipboard',
                 'data'
             ]),
             isImage() {
-                return this.fileInfoDetail[0].type === 'image'
+                return this.clipboard[0].type === 'image'
             },
             isPdf() {
-                return this.fileInfoDetail[0].mimetype === 'pdf'
+                return this.clipboard[0].mimetype === 'pdf'
             },
             files() {
                 let files = []
 
                 this.data.map(element => {
 
-                    if (this.fileInfoDetail[0].mimetype === 'pdf') {
+                    if (this.clipboard[0].mimetype === 'pdf') {
 
                         if (element.mimetype === 'pdf')
                             files.push(element)
 
                     } else {
 
-                        if (element.type === this.fileInfoDetail[0].type)
+                        if (element.type === this.clipboard[0].type)
                             files.push(element)
                     }
                 })
@@ -76,7 +76,7 @@
                 let activeIndex = undefined
 
                 this.files.forEach((element, index) => {
-                    if (element.id === this.fileInfoDetail[0].id) {
+                    if (element.id === this.clipboard[0].id) {
                         activeIndex = index + 1
                     }
                 })
@@ -106,25 +106,25 @@
             },
             downloadItem() {
                 this.$downloadFile(
-                    this.fileInfoDetail[0].file_url,
-                    this.fileInfoDetail[0].name + '.' + this.fileInfoDetail[0].mimetype
+                    this.clipboard[0].file_url,
+                    this.clipboard[0].name + '.' + this.clipboard[0].mimetype
                 )
             },
             shareItem() {
-                let event = this.fileInfoDetail[0].shared
+                let event = this.clipboard[0].shared
                     ? 'share-edit'
                     : 'share-create'
 
                 events.$emit('popup:open', {
                     name: event,
-                    item: this.fileInfoDetail[0]
+                    item: this.clipboard[0]
                 })
             },
             menuOpen() {
                 if (this.$isMobile()) {
                     events.$emit('mobile-menu:show', 'file-menu')
                 } else {
-                    events.$emit('showContextMenuPreview:show', this.fileInfoDetail[0])
+                    events.$emit('showContextMenuPreview:show', this.clipboard[0])
                 }
             },
             closeFullPreview() {

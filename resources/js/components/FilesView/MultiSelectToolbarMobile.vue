@@ -1,9 +1,9 @@
 <template>
     <transition name="context-menu">
         <div class="multiselect-actions" v-if="mobileMultiSelect">
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root' , 'shared', 'latest']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : fileInfoDetail.length < 1}" @click.native="moveItem" />
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root' , 'shared', 'latest']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" @click.native="moveItem" />
 
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : fileInfoDetail.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem" />
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem" />
 
             <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem" />
 
@@ -23,9 +23,9 @@ export default {
     name: 'MultiSelectToolbarMobile',
     components: {ToolbarButton},
     computed: {
-        ...mapGetters(['fileInfoDetail']),
+        ...mapGetters(['clipboard']),
         canDownloadItems() {
-            return this.fileInfoDetail.filter(item => item.type === 'folder').length !== 0
+            return this.clipboard.filter(item => item.type === 'folder').length !== 0
         }
     },
     data() {
@@ -42,16 +42,16 @@ export default {
             events.$emit('mobileSelecting:stop')
         },
         downloadItem() {
-            if (this.fileInfoDetail.length > 1)
+            if (this.clipboard.length > 1)
                 this.$store.dispatch('downloadFiles')
             else {
-                this.$downloadFile(this.fileInfoDetail[0].file_url, this.fileInfoDetail[0].name + '.' + this.fileInfoDetail[0].mimetype)
+                this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
             }
             this.closeSelecting()
         },
         moveItem() {
             // Open move item popup
-            events.$emit('popup:open', {name: 'move', item: [this.fileInfoDetail[0]]})
+            events.$emit('popup:open', {name: 'move', item: [this.clipboard[0]]})
         },
         deleteItem() {
             //Delete items

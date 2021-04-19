@@ -1,9 +1,9 @@
 <template>
     <div v-if="canBePreview" class="preview">
-        <img v-if="fileInfoDetail[0].type == 'image' && fileInfoDetail[0].thumbnail" :src="fileInfoDetail[0].thumbnail" :alt="fileInfoDetail[0].name" />
-        <audio v-else-if="fileInfoDetail[0].type == 'audio'" :src="fileInfoDetail[0].file_url" controlsList="nodownload" controls></audio>
-        <video v-else-if="fileInfoDetail[0].type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
-            <source :src="fileInfoDetail[0].file_url" type="video/mp4">
+        <img v-if="clipboard[0].type == 'image' && clipboard[0].thumbnail" :src="clipboard[0].thumbnail" :alt="clipboard[0].name" />
+        <audio v-else-if="clipboard[0].type == 'audio'" :src="clipboard[0].file_url" controlsList="nodownload" controls></audio>
+        <video v-else-if="clipboard[0].type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
+            <source :src="clipboard[0].file_url" type="video/mp4">
         </video>
     </div>
 </template>
@@ -15,11 +15,11 @@
     export default {
         name: 'FilePreview',
         computed: {
-            ...mapGetters(['fileInfoDetail']),
+            ...mapGetters(['clipboard']),
             canBePreview() {
-                return this.fileInfoDetail[0] && ! includes([
+                return this.clipboard[0] && ! includes([
                     'folder', 'file'
-                ], this.fileInfoDetail[0].type)
+                ], this.clipboard[0].type)
             }
         },
     }

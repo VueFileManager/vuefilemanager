@@ -78,15 +78,15 @@
         <!--File Info Panel-->
         <div v-if="! $isMinimalScale()" class="file-info-container" :class="{ 'is-fileinfo-visible': fileInfoVisible }">
             <!--File info panel-->
-            <FileInfoPanel v-if="fileInfoDetail.length === 1" />
+            <FileInfoPanel v-if="clipboard.length === 1" />
 
-            <MultiSelected v-if="fileInfoDetail.length > 1"
+            <MultiSelected v-if="clipboard.length > 1"
                            :title="$t('file_detail.selected_multiple')"
-                           :subtitle="this.fileInfoDetail.length + ' ' + $tc('file_detail.items', this.fileInfoDetail.length)"
+                           :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
             />
 
             <!--If file info panel empty show message-->
-            <EmptyMessage v-if="fileInfoDetail.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off" />
+            <EmptyMessage v-if="clipboard.length === 0" :message="$t('messages.nothing_to_preview')" icon="eye-off" />
         </div>
     </div>
 </template>
@@ -123,7 +123,7 @@
                 'filesInQueueTotal',
                 'fileInfoVisible',
                 'FilePreviewType',
-                'fileInfoDetail',
+                'clipboard',
                 'currentFolder',
                 'isSearching',
                 'isLoading',
@@ -141,12 +141,12 @@
             draggedItems() {
                 //Set opacity for dragged items
 
-                if (!this.fileInfoDetail.includes(this.draggingId)) {
+                if (!this.clipboard.includes(this.draggingId)) {
                     return [this.draggingId]
                 }
 
-                if (this.fileInfoDetail.includes(this.draggingId)) {
-                    return this.fileInfoDetail
+                if (this.clipboard.includes(this.draggingId)) {
+                    return this.clipboard
                 }
             }
         },
@@ -183,7 +183,7 @@
         },
         methods: {
             deleteItems() {
-                if (this.fileInfoDetail.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
+                if (this.clipboard.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
                     this.$store.dispatch('deleteItem')
                 }
             },
@@ -216,17 +216,17 @@
                     if (data.type !== 'folder' || this.draggingId === data) return
 
                     //Prevent move selected folder to folder if in beteewn selected folders
-                    if (this.fileInfoDetail.find(item => item === data && this.fileInfoDetail.length > 1)) return
+                    if (this.clipboard.find(item => item === data && this.clipboard.length > 1)) return
 
                     // Move folder to new parent
 
                     //Move item if is not included in selected items
-                    if (!this.fileInfoDetail.includes(this.draggingId)) {
+                    if (!this.clipboard.includes(this.draggingId)) {
                         this.$store.dispatch('moveItem', {to_item: data, noSelectedItem: this.draggingId})
                     }
 
                     //Move selected items to folder
-                    if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)) {
+                    if (this.clipboard.length > 0 && this.clipboard.includes(this.draggingId)) {
                         this.$store.dispatch('moveItem', {to_item: data, noSelectedItem: null})
                     }
 
@@ -247,7 +247,7 @@
             filesContainerClick() {
 
                 // Deselect items clicked by outside
-                this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                this.$store.commit('CLIPBOARD_CLEAR')
             }
         },
         created() {
@@ -268,7 +268,7 @@
             })
 
             events.$on('fileItem:deselect', () => {
-                this.$store.commit('CLEAR_FILEINFO_DETAIL')
+                this.$store.commit('CLIPBOARD_CLEAR')
             })
 
             events.$on('scrollTop', () => {

@@ -31,14 +31,14 @@
             TreeMenu,
         },
         computed: {
-            ...mapGetters(['fileInfoDetail']),
+            ...mapGetters(['clipboard']),
             indent() {
                 return { paddingLeft: this.depth * 20 + 'px' }
             },
             disableId() {
                 let canBeShow = true
-                if(this.fileInfoDetail.includes(this.disabledById)){
-                    this.fileInfoDetail.map(item => {
+                if(this.clipboard.includes(this.disabledById)){
+                    this.clipboard.map(item => {
                         if(item.id === this.nodes.id) {
                             canBeShow = false
                         }
