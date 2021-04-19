@@ -59,6 +59,7 @@ class BrowseShareController extends Controller
         }
 
         return view("index")
+            ->with('installation', 'setup-done')
             ->with('settings', get_settings_in_json() ?? null);
     }
 

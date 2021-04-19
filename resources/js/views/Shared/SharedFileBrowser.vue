@@ -28,14 +28,11 @@
             <DesktopToolbar />
 
             <FileBrowser />
-
-            <DesktopSortingAndPreview />
         </div>
     </div>
 </template>
 
 <script>
-    import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
@@ -49,7 +46,6 @@
     export default {
         name: 'SharedFileBrowser',
         components: {
-            DesktopSortingAndPreview,
             TreeMenuNavigator,
             ContentSidebar,
             DesktopToolbar,

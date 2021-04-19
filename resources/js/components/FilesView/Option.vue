@@ -179,7 +179,7 @@ import {
     .menu-option {
         color: $dark_mode_text_primary;
 
-        &:hover {
+        &:hover:not(.hover-disabled) {
             background: lighten($dark_mode_foreground, 2%);
         }
     } 

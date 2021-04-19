@@ -13,7 +13,7 @@
             <x-square-icon v-if="icon === 'x-square'" size="15" class="icon dark-text-theme" />
             <check-icon v-if="icon === 'check'" size="15" class="icon dark-text-theme" />
             <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon dark-text-theme" />
-            <sorting-and-preview-icon v-if="icon === 'preview-sorting'" size="15" class="icon dark-text-theme preview-sorting" />
+            <sorting-icon v-if="icon === 'preview-sorting'" class="icon dark-text-theme preview-sorting" />
             <span class="label">
                 <slot></slot>
             </span>
@@ -23,7 +23,7 @@
 
 <script>
     import { FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
-    import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
+    import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
 
     export default {
         name: 'MobileActionButton',
@@ -31,7 +31,7 @@
             'icon'
         ],
         components: {
-            SortingAndPreviewIcon,
+            SortingIcon,
             CheckSquareIcon,
             DollarSignIcon,
             CreditCardIcon,
@@ -70,7 +70,7 @@
             margin-right: 10px;
             @include font-size(14);
 
-            path, line, polyline, rect, circle {
+            path, line, polyline, rect, circle, polygon {
                 @include transition(150ms);
             }
         }
@@ -91,7 +91,7 @@
         .mobile-action-button {
             background: $dark_mode_foreground;
 
-            path, line, polyline, rect, circle {
+            path, line, polyline, rect, circle, polygon {
                 color: inherit;
             }
 

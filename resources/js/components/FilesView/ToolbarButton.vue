@@ -14,11 +14,12 @@
     <link-icon v-if="source === 'share'" size="19" />
     <x-icon v-if="source === 'close'" size="19" />
     <cloud-off-icon v-if="source === 'shared-off'" size="19" />
-    <sorting-and-preview-icon v-if="source === 'preview-sorting'" size="19" class="preview-sorting"/>
+    <sorting-icon v-if="source === 'preview-sorting'" class="preview-sorting"/>
   </button>
 </template>
 
 <script>
+    import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
     import {
         CornerDownRightIcon,
         DownloadCloudIcon,
@@ -35,7 +36,6 @@
         LinkIcon,
         XIcon,
     } from "vue-feather-icons";
-    import SortingAndPreviewIcon from '@/components/FilesView/Icons/SortingAndPreviewIcon'
 
     export default {
         name: "ToolbarButton",
@@ -44,7 +44,7 @@
             'action'
         ],
         components: {
-            SortingAndPreviewIcon,
+            SortingIcon,
             CornerDownRightIcon,
             DownloadCloudIcon,
             FolderPlusIcon,
