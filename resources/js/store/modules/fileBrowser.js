@@ -252,10 +252,11 @@ const mutations = {
         state.fileInfoDetail.push(item)
     },
     GET_FILEINFO_DETAIL(state, item) {
-        let checkData = state.data.find(el => el.id === item.id)
-        if(state.fileInfoDetail.includes(checkData)) return
+        let selectedItem = state.data.find(el => el.id === item.id)
 
-        state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
+        if(state.fileInfoDetail.includes(selectedItem)) return
+
+        state.fileInfoDetail.push(selectedItem ? selectedItem : state.currentFolder)
     },
     SELECT_ALL_FILES(state){
         state.fileInfoDetail = state.data

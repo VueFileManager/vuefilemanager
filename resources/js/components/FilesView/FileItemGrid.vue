@@ -1,5 +1,5 @@
 <template>
-    <div class="file-wrapper" @click.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
+    <div class="file-wrapper" @mousedown.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <!--Grid preview-->
         <div :draggable="canDrag" @dragstart="$emit('dragstart')" @drop="
 				drop()
@@ -8,7 +8,7 @@
             <div class="icon-item">
 
                 <!-- MultiSelecting for the mobile version -->
-                <div :class="{'check-select-folder' : this.item.type === 'folder', 'check-select' : this.item.type !== 'folder'}" v-if="multiSelectMode">
+                <div :class="{'check-select-folder' : this.item.type === 'folder', 'check-select' : this.item.type !== 'folder'}" v-if="mobileMultiSelect">
                     <div class="select-box" :class="{'select-box-active' : isClicked } ">
                         <CheckIcon v-if="isClicked" class="icon" size="17" />
                     </div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <span @click.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! multiSelectMode && canShowMobileOptions">
+            <span @mousedown.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! mobileMultiSelect && canShowMobileOptions">
                 <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme"/>
             </span>
         </div>
@@ -149,7 +149,7 @@ export default {
         return {
             area: false,
             itemName: undefined,
-            multiSelectMode: false
+            mobileMultiSelect: false
         }
     },
     methods: {
@@ -214,26 +214,25 @@ export default {
                 }
             }
 
-            if (!this.multiSelectMode && this.$isMobile()) {
-                // Open in mobile version on first click
-                if (this.$isMobile() && this.isFolder) {
-                    // Go to folder
-                    if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                    } else {
-                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
-                    }
-                }
+            if (!this.mobileMultiSelect && this.$isMobile()) {
 
-                if (this.$isMobile()) {
+                if (this.isFolder) {
+
+                    if (this.$isThisLocation('public')) {
+                        this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
+                    } else {
+                        this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
+                    }
+                } else {
+
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-                        this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+                        this.$store.commit('LOAD_FILEINFO_DETAIL', this.item)
                         events.$emit('file-preview:show')
                     }
                 }
             }
 
-            if (this.multiSelectMode && this.$isMobile()) {
+            if (this.mobileMultiSelect && this.$isMobile()) {
                 if (this.fileInfoDetail.some(item => item.id === this.item.id)) {
                     this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item)
                 } else {
@@ -284,12 +283,12 @@ export default {
         })
 
         events.$on('mobileSelecting:start', () => {
-            this.multiSelectMode = true
+            this.mobileMultiSelect = true
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
         })
 
         events.$on('mobileSelecting:stop', () => {
-            this.multiSelectMode = false
+            this.mobileMultiSelect = false
             this.$store.commit('CLEAR_FILEINFO_DETAIL')
         })
         // Change item name

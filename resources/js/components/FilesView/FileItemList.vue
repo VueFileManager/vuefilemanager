@@ -1,5 +1,5 @@
 <template>
-    <div class="file-wrapper" @click.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
+    <div class="file-wrapper" @mousedown.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <!--List preview-->
         <div
             :draggable="canDrag"
@@ -63,7 +63,7 @@
             <!--Show item actions-->
             <transition name="slide-from-right">
                 <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
-                    <span @click.stop="showItemActions" class="show-actions">
+                    <span @mousedown.stop="showItemActions" class="show-actions">
                         <MoreVerticalIcon size="16" class="icon-action text-theme" />
                     </span>
                 </div>
@@ -211,19 +211,17 @@ export default {
 
             if (!this.mobileMultiSelect && this.$isMobile()) {
 
-                // Open in mobile version on first click
-                if (this.$isMobile() && this.isFolder) {
-                    // Go to folder
+                if (this.isFolder) {
+
                     if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [{ folder: this.item, back: false, init: false }])
                     } else {
                         this.$store.dispatch('getFolder', [{ folder: this.item, back: false, init: false }])
                     }
-                }
+                } else {
 
-                if (this.$isMobile()) {
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-                        this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+                        this.$store.commit('LOAD_FILEINFO_DETAIL', this.item)
                         events.$emit('file-preview:show')
                     }
                 }

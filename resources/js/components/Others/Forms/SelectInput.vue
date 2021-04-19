@@ -237,6 +237,14 @@
 
     @media (prefers-color-scheme: dark) {
 
+        .select-search {
+            background: $dark_mode_foreground;
+
+            .search-input {
+                background: $dark_mode_background;
+            }
+        }
+
         .input-area {
             background: $dark_mode_foreground;
             border-color: $dark_mode_foreground;
