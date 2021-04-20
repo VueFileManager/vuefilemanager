@@ -9,7 +9,7 @@
             <MobileActionButton @click.native="createButton" icon="file-plus">
                 Create
             </MobileActionButton>
-            <MobileActionButton @click.native="showViewOptions" icon="preview-sorting">
+            <MobileActionButton @click.native="showViewOptions" icon="th-list">
                 {{ $t('preview_sorting.preview_sorting_button') }}
             </MobileActionButton>
         </div>
@@ -48,10 +48,8 @@
                 events.$emit('mobile-menu:show', 'invoice-create')
             },
 			showViewOptions() {
-				events.$emit('mobile-menu:show', 'file-sorting')
+				events.$emit('mobile-menu:show', 'invoice-sorting')
 			},
-
-
             selectAll() {
                 this.$store.commit('ADD_ALL_ITEMS_TO_CLIPBOARD')
             },

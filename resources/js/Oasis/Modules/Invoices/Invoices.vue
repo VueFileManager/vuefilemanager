@@ -7,6 +7,7 @@
 		<InvoiceMobileMenu />
 		<InvoiceCreateMenu />
 		<InvoiceFilterMobile />
+		<InvoiceSortingMobile />
 
         <!--Navigations-->
         <MobileNavigation />
@@ -53,6 +54,7 @@
 </template>
 
 <script>
+    import InvoiceSortingMobile from '@/Oasis/Modules/Invoices/components/InvoiceSortingMobile'
     import InvoiceFilterMobile from '@/Oasis/Modules/Invoices/components/InvoiceFilterMobile'
     import InvoiceMobileMenu from '@/Oasis/Modules/Invoices/components/InvoiceMobileMenu'
     import InvoiceCreateMenu from '@/Oasis/Modules/Invoices/components/InvoiceCreateMenu'
@@ -74,6 +76,7 @@
 			]),
         },
         components: {
+			InvoiceSortingMobile,
 			InvoiceFilterMobile,
 			InvoiceCreateMenu,
 			InvoiceMobileMenu,

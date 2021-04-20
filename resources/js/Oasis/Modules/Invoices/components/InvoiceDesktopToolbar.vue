@@ -17,7 +17,6 @@
 					<SearchBar v-model="query" @reset-query="query = ''" placeholder="Search your invoices..." />
 				</ToolbarGroup>
 
-
 				<!--Creating controls-->
 				<ToolbarGroup>
 					<PopoverWrapper>
@@ -28,7 +27,7 @@
 								<Option title="Create Advance Invoice" icon="clock" />
 							</OptionGroup>
 							<OptionGroup>
-								<Option title="Create Client" icon="user" />
+								<Option title="Create Client" icon="user-plus" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
