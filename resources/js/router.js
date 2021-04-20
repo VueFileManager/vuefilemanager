@@ -89,7 +89,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/InvoicesList'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Faktúry'
+                    title: 'Invoices'
                 },
             }
         ]

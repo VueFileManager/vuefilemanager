@@ -28,6 +28,8 @@
             <cloud-icon v-if="icon === 'cloud'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <credit-card-icon v-if="icon === 'credit-card'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <file-text-icon v-if="icon === 'file-text'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <file-plus-icon v-if="icon === 'file-plus'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <user-plus-icon v-if="icon === 'user-plus'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <database-icon v-if="icon === 'database'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <globe-icon v-if="icon === 'globe'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <monitor-icon v-if="icon === 'monitor'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
@@ -47,6 +49,8 @@
 <script>
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
+	UserPlusIcon,
+	FilePlusIcon,
 	SendIcon,
 	ClockIcon,
     ChevronRightIcon,
@@ -91,6 +95,8 @@ import {
             'icon'
         ],
         components: {
+			UserPlusIcon,
+			FilePlusIcon,
 			SendIcon,
 			ClockIcon,
 			BoxIcon,

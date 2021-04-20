@@ -15,7 +15,7 @@
             <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="$t('inputs.placeholder_search_files')" />
 
 			<!--Mobile Actions-->
-            <FileActionsMobile />
+            <InvoiceActionsMobile />
 
 			<!--Item previews list-->
             <div class="file-list-wrapper">
@@ -53,12 +53,12 @@
 </template>
 
 <script>
+    import InvoiceActionsMobile from '@/Oasis/Modules/Invoices/components/InvoiceActionsMobile'
 	import InvoiceInfoSidebar from '@/Oasis/Modules/Invoices/components/InvoiceInfoSidebar'
-    import FileActionsMobile from '@/components/FilesView/FileActionsMobile'
-	import MobileToolbar from '@/components/FilesView/MobileToolbar'
-	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
-	import EmptyMessage from '@/components/FilesView/EmptyMessage'
 	import InvoiceItem from '@/Oasis/Modules/Invoices/components/InvoiceItem'
+	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
+	import MobileToolbar from '@/components/FilesView/MobileToolbar'
+	import EmptyMessage from '@/components/FilesView/EmptyMessage'
 	import SearchBar from '@/components/FilesView/SearchBar'
 	import {mapGetters} from 'vuex'
 	import {events} from '@/bus'
@@ -66,7 +66,7 @@
 	export default {
 		name: 'FilesContainer',
 		components: {
-			FileActionsMobile,
+			InvoiceActionsMobile,
 			EmptyFilePage,
 			MobileToolbar,
 			InvoiceItem,

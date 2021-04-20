@@ -1,6 +1,7 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
+            <file-plus-icon v-if="icon === 'file-plus'" size="15" class="icon dark-text-theme" />
             <filter-icon v-if="icon === 'filter'" size="15" class="icon dark-text-theme" />
             <credit-card-icon v-if="icon === 'credit-card'" size="15" class="icon dark-text-theme" />
             <folder-plus-icon v-if="icon === 'folder-plus'" size="15" class="icon dark-text-theme" />
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-    import { FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import { FilePlusIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
     import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
 
     export default {
@@ -31,6 +32,7 @@
             'icon'
         ],
         components: {
+			FilePlusIcon,
             SortingIcon,
             CheckSquareIcon,
             DollarSignIcon,

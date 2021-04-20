@@ -5,6 +5,8 @@
         <FilePreview />
 
 		<InvoiceMobileMenu />
+		<InvoiceCreateMenu />
+		<InvoiceFilterMobile />
 
         <!--Navigations-->
         <MobileNavigation />
@@ -51,7 +53,10 @@
 </template>
 
 <script>
+    import InvoiceFilterMobile from '@/Oasis/Modules/Invoices/components/InvoiceFilterMobile'
     import InvoiceMobileMenu from '@/Oasis/Modules/Invoices/components/InvoiceMobileMenu'
+    import InvoiceCreateMenu from '@/Oasis/Modules/Invoices/components/InvoiceCreateMenu'
+
     import { UsersIcon, FileTextIcon, ClockIcon } from 'vue-feather-icons'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
     import MobileNavigation from '@/components/Others/MobileNavigation'
@@ -69,6 +74,8 @@
 			]),
         },
         components: {
+			InvoiceFilterMobile,
+			InvoiceCreateMenu,
 			InvoiceMobileMenu,
             SidebarNavigation,
             MobileNavigation,
