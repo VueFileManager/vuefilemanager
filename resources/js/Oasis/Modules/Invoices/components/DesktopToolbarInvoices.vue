@@ -17,9 +17,21 @@
 					<SearchBar v-model="query" @reset-query="query = ''" placeholder="Search your invoices..." />
 				</ToolbarGroup>
 
+
 				<!--Creating controls-->
 				<ToolbarGroup>
-                    <ToolbarButton @click.native="createInvoice" source="file-plus" :action="$t('actions.create_folder')" />
+					<PopoverWrapper>
+                    	<ToolbarButton @click.stop.native="createCreateMenu" source="file-plus" :action="$t('actions.create_folder')" />
+						<PopoverItem name="desktop-create-invoices">
+							<OptionGroup>
+								<Option title="Create Invoice" icon="file-text" />
+								<Option title="Create Advance Invoice" icon="clock" />
+							</OptionGroup>
+							<OptionGroup>
+								<Option title="Create Client" icon="user" />
+							</OptionGroup>
+						</PopoverItem>
+					</PopoverWrapper>
 				</ToolbarGroup>
 
 				<!--Invoice Controls-->
@@ -40,8 +52,6 @@
 				</ToolbarGroup>
 			</ToolbarWrapper>
         </div>
-
-		<UploadProgress />
     </div>
 </template>
 
@@ -56,6 +66,8 @@
 	import SearchBar from '@/components/FilesView/SearchBar'
 	import {mapGetters} from 'vuex'
 	import {events} from '@/bus'
+	import OptionGroup from '@/components/FilesView/OptionGroup'
+	import Option from '@/components/FilesView/Option'
 
 	export default {
 		name: 'ToolBar',
@@ -69,6 +81,8 @@
 			ToolbarGroup,
 			PopoverItem,
 			SearchBar,
+			OptionGroup,
+			Option,
 		},
 		computed: {
 			...mapGetters([
@@ -90,15 +104,15 @@
 			showSortingMenu() {
 				events.$emit('popover:open', 'desktop-sorting')
 			},
+			createCreateMenu() {
+				events.$emit('popover:open', 'desktop-create-invoices')
+			},
 			deleteInvoice() {
 				if (this.clipboard.length > 0)
 					this.$store.dispatch('deleteInvoice')
 			},
 			shareInvoice() {
 				alert('Share Invoice')
-			},
-			createInvoice() {
-				alert('Create Invoice')
 			},
 		},
 	}
