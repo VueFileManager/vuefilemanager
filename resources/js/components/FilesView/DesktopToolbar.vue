@@ -42,7 +42,7 @@
 							<FileSortingOptions />
 						</PopoverItem>
 					</PopoverWrapper>
-                    <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :class="{'active': fileInfoVisible }" :action="$t('actions.info_panel')" source="info" />
+                    <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :class="{'active': isVisibleSidebar }" :action="$t('actions.info_panel')" source="info" />
 				</ToolbarGroup>
 			</ToolbarWrapper>
         </div>
@@ -83,8 +83,8 @@
 		},
 		computed: {
 			...mapGetters([
+				'isVisibleSidebar',
 				'FilePreviewType',
-				'fileInfoVisible',
 				'currentFolder',
 				'browseHistory',
 				'homeDirectory',
@@ -155,27 +155,9 @@
 			}
 		},
 		watch: {
-			query: debounce(function (value) {
-
-				if (this.query !== '' && typeof this.query !== 'undefined') {
-
-					this.$store.dispatch('getSearchResult', value)
-
-				} else if (typeof value !== 'undefined') {
-
-					if (this.currentFolder) {
-
-						// Get back after delete query to previously folder
-						if (this.$isThisLocation('public')) {
-							this.$store.dispatch('browseShared', [{folder: this.currentFolder, back: true, init: false}])
-						} else {
-							this.$store.dispatch('getFolder', [{folder: this.currentFolder, back: true, init: false}])
-						}
-					}
-
-					this.$store.commit('CHANGE_SEARCHING_STATE', false)
-				}
-			}, 300),
+			query(val) {
+				this.$searchFiles(val)
+			}
 		},
 		methods: {
 			showSortingMenu() {

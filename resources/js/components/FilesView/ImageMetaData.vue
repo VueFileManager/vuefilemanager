@@ -23,10 +23,10 @@
 
             <li v-if="clipboard.metadata.ColorSpace">
                 <span> {{ $t('file_detail_meta.color_space') }}</span>
-                <b>{{ clipboard.metadata.ColorSpace}}</b>
+                <b>{{ clipboard.metadata.ColorSpace }}</b>
             </li>
 
-            <!--TODO: Colour profile:sRGB IEC61966-2.1-->
+			<!--TODO: Colour profile:sRGB IEC61966-2.1-->
 
             <li v-if="clipboard.metadata.Make">
                 <span>{{ $t('file_detail_meta.make') }}</span>
@@ -68,41 +68,42 @@
                 <b>{{ clipboard.metadata.COMPUTED.CCDWidth }}</b>
             </li>
 
-              <li v-if="clipboard.metadata.GPSLongitude">
+		  	<li v-if="clipboard.metadata.GPSLongitude">
                 <span>{{ $t('file_detail_meta.longitude') }}</span>
-                <b>{{ formatGps(clipboard.metadata.GPSLongitude,clipboard.metadata.GPSLongitudeRef) }}</b>
+                <b>{{ formatGps(clipboard.metadata.GPSLongitude, clipboard.metadata.GPSLongitudeRef) }}</b>
             </li>
 
-               <li v-if="clipboard.metadata.GPSLatitude">
-                <span>{{ $t('file_detail_meta.latitude') }}</span>
-                <b>{{ formatGps(clipboard.metadata.GPSLatitude, clipboard.metadata.GPSLatitudeRef) }}</b>
-            </li>
-
+			<li v-if="clipboard.metadata.GPSLatitude">
+				<span>{{ $t('file_detail_meta.latitude') }}</span>
+				<b>{{ formatGps(clipboard.metadata.GPSLatitude, clipboard.metadata.GPSLatitudeRef) }}</b>
+			</li>
         </ul>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import {split} from 'lodash'
 
 export default {
-    name: 'ImageMetaData',
-    computed: {
-    clipboard() {
-        return this.$store.getters.clipboard[0]
-    },
-    },
-    methods: {
-        formatGps(location, ref) {
-            let data = []
-            location.forEach(location => {
-                data.push(split(location , '/' , 2)[0])
-            })
-          return `${data[0]}° ${data[1]}' ${data[2].substr(0,4) / 100}" ${ref} `
-        }
-    },
-    
+	name: 'ImageMetaData',
+	computed: {
+		clipboard() {
+			return this.$store.getters.clipboard[0]
+		},
+	},
+	methods: {
+		formatGps(location, ref) {
+			let data = []
+
+			location.forEach(location => {
+				data.push(split(location, '/', 2)[0])
+			})
+
+			return `${data[0]}° ${data[1]}' ${data[2].substr(0, 4) / 100}" ${ref} `
+		}
+	},
+
 }
 </script>
 
@@ -111,33 +112,33 @@ export default {
 @import '@assets/vuefilemanager/_mixins';
 
 .meta-data-list {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
 
-    li {
-        display: flex;
-        justify-content: space-between;
-        padding: 9px 0;
-        border-bottom: 1px solid $light_mode_border;
+	li {
+		display: flex;
+		justify-content: space-between;
+		padding: 9px 0;
+		border-bottom: 1px solid $light_mode_border;
 
-        b, span {
-            @include font-size(14);
-            color: $text;
-        }
-    }
+		b, span {
+			@include font-size(14);
+			color: $text;
+		}
+	}
 }
 
 @media (prefers-color-scheme: dark) {
 
-    .meta-data-list {
-        li {
-            border-color: $dark_mode_border_color;
+	.meta-data-list {
+		li {
+			border-color: $dark_mode_border_color;
 
-            b, span {
-                color: $dark_mode_text_primary !important;
-            }
-        }
-    }
+			b, span {
+				color: $dark_mode_text_primary !important;
+			}
+		}
+	}
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
-    <div class="file-wrapper" @mousedown.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
-        <!--List preview-->
+    <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <div
             :draggable="canDrag"
             @dragstart="$emit('dragstart')"
@@ -81,13 +80,15 @@ import {events} from '@/bus'
 
 export default {
     name: 'FileItemList',
-    props: ['item'],
+    props: [
+		'item'
+	],
     components: {
         MoreVerticalIcon,
         UserPlusIcon,
-        LinkIcon,
         FolderIcon,
         CheckIcon,
+        LinkIcon,
     },
     computed: {
         ...mapGetters([
@@ -155,7 +156,6 @@ export default {
             events.$emit('drop')
         },
         showItemActions() {
-            // Load file info detail
             this.$store.commit('CLIPBOARD_CLEAR')
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
@@ -178,15 +178,16 @@ export default {
                 document.getSelection().removeAllRanges();
 
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
-                    // Click + Ctrl
 
+                	// Click + Ctrl
                     if (this.clipboard.some(item => item.id === this.item.id)) {
                         this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                     } else {
                         this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                     }
                 } else if (e.shiftKey) {
-                    // Click + Shift
+
+                	// Click + Shift
                     let lastItem = this.entries.indexOf(this.clipboard[this.clipboard.length - 1])
                     let clickedItem = this.entries.indexOf(this.item)
 
@@ -207,7 +208,8 @@ export default {
                         }
                     }
                 } else {
-                    // Click
+
+                	// Click
                     this.$store.commit('CLIPBOARD_CLEAR')
                     this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                 }

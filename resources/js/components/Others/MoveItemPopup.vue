@@ -13,7 +13,7 @@
             <div v-if="! isLoadingTree && navigation">
                 <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
 
-                <MultiSelected class="multiple-selected"
+                <TitlePreview class="multiple-selected"
                                :title="$t('file_detail.selected_multiple')"
                                :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
                                v-if="clipboard.length > 1 && !isSelectedItem" />
@@ -43,7 +43,7 @@
 <script>
     import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
     import PopupActions from '@/components/Others/Popup/PopupActions'
-    import MultiSelected from '@/components/FilesView/MultiSelected'
+    import TitlePreview from '@/components/FilesView/TitlePreview'
     import PopupContent from '@/components/Others/Popup/PopupContent'
     import PopupHeader from '@/components/Others/Popup/PopupHeader'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
@@ -58,7 +58,7 @@
         name: 'MoveItemPopup',
         components: {
             ThumbnailItem,
-            MultiSelected,
+            TitlePreview,
             PopupWrapper,
             PopupActions,
             PopupContent,

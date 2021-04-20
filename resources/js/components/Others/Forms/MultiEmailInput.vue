@@ -175,12 +175,12 @@ export default {
 
 @media (prefers-color-scheme: dark) {
     .input-wrapper {
-        background: $dark_mode_foreground;
+		background: lighten($dark_mode_foreground, 3%);
 
         .email-list {
 
             .email-input {
-                background: $dark_mode_foreground;
+				background: lighten($dark_mode_foreground, 3%);
                 color: $dark_mode_text_primary;
 
                 &::placeholder {
@@ -190,6 +190,4 @@ export default {
         }
     }
 }
-
-
 </style>

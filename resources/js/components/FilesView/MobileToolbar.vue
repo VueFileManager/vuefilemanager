@@ -3,15 +3,17 @@
 
         <!-- Go back-->
         <div @click="goBack" class="go-back-button">
-            <chevron-left-icon size="17" :class="{'is-visible': browseHistory.length > 1}" class="icon-back" />
+            <chevron-left-icon :class="{'is-visible': browseHistory.length > 1}" size="17" class="icon-back" />
         </div>
 
         <!--Folder Title-->
-        <div class="directory-name">{{ directoryName }}</div>
+        <div class="directory-name">
+			{{ directoryName }}
+		</div>
 
         <!--More Actions-->
         <div class="more-actions-button">
-            <div class="tap-area" @click="showMobileNavigation" v-if="$checkPermission('master')">
+            <div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area">
                 <menu-icon size="17" />
             </div>
         </div>
@@ -38,7 +40,7 @@
         },
         computed: {
             ...mapGetters([
-                'fileInfoVisible',
+                'isVisibleSidebar',
                 'FilePreviewType',
                 'currentFolder',
                 'browseHistory',

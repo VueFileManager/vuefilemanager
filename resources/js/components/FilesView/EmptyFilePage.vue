@@ -43,17 +43,20 @@
 	import {mapGetters} from 'vuex'
 
 	export default {
-		name: 'EmptyPage',
-		props: ['title', 'description'],
+		name: 'EmptyFilePage',
+		props: [
+			'title',
+			'description'
+		],
 		components: {
 			ButtonUpload,
-			Spinner
+			Spinner,
 		},
 		computed: {
 			...mapGetters([
-				'entries',
+				'currentFolder',
 				'isLoading',
-				'currentFolder'
+				'entries',
 			]),
 			isEmpty() {
 				return this.entries && this.entries.length == 0

@@ -74,7 +74,7 @@
 <script>
 import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
 import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
-import MultiSelected from '@/components/FilesView/MultiSelected'
+import TitlePreview from '@/components/FilesView/TitlePreview'
 import ContentFileView from '@/components/Others/ContentFileView'
 import ContentSidebar from '@/components/Sidebar/ContentSidebar'
 import ContentGroup from '@/components/Sidebar/ContentGroup'
@@ -94,7 +94,7 @@ export default {
         UpgradeSidebarBanner,
         TreeMenuNavigator,
         ContentFileView,
-        MultiSelected,
+        TitlePreview,
         ContentSidebar,
         UploadCloudIcon,
         ContentGroup,

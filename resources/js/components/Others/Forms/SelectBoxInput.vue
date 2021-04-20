@@ -85,7 +85,7 @@
 
             .box-item {
                 border-color: $dark_mode_border_color;
-                background: $dark_mode_foreground;
+				background: lighten($dark_mode_foreground, 3%);
             }
         }
     }
