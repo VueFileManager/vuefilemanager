@@ -1,10 +1,13 @@
 <template>
     <section id="viewport">
 
-        <!--Mobile Navigation-->
-        <MobileNavigation />
+		<!--File preview window-->
+        <FilePreview />
 
-        <!--Navigation Sidebar-->
+		<InvoiceMobileMenu />
+
+        <!--Navigations-->
+        <MobileNavigation />
         <SidebarNavigation/>
 
 		<!--Sidebar navigation-->
@@ -43,22 +46,20 @@
             </ContentGroup>
         </ContentSidebar>
 
-		<!--<ContentFileView/>-->
-
 		<router-view :class="{'is-scaled-down': isScaledDown}" />
     </section>
 </template>
 
 <script>
+    import InvoiceMobileMenu from '@/Oasis/Modules/Invoices/components/InvoiceMobileMenu'
     import { UsersIcon, FileTextIcon, ClockIcon } from 'vue-feather-icons'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
     import MobileNavigation from '@/components/Others/MobileNavigation'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
+    import FilePreview from '@/components/FilesView/FilePreview'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
 	import { mapGetters } from 'vuex'
 	import {events} from '@/bus'
-
-	import ContentFileView from '@/components/Others/ContentFileView'
 
 	export default {
         name: 'Settings',
@@ -68,14 +69,15 @@
 			]),
         },
         components: {
+			InvoiceMobileMenu,
             SidebarNavigation,
             MobileNavigation,
             ContentSidebar,
             FileTextIcon,
             ContentGroup,
+			FilePreview,
             UsersIcon,
 			ClockIcon,
-			ContentFileView,
         },
 		data() {
 			return {

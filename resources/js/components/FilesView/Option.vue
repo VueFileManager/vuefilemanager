@@ -33,6 +33,7 @@
             <monitor-icon v-if="icon === 'monitor'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <box-icon v-if="icon === 'box'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <clock-icon v-if="icon === 'clock'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <send-icon v-if="icon === 'send'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
         <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
@@ -46,6 +47,7 @@
 <script>
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
+	SendIcon,
 	ClockIcon,
     ChevronRightIcon,
     BoxIcon,
@@ -89,6 +91,7 @@ import {
             'icon'
         ],
         components: {
+			SendIcon,
 			ClockIcon,
 			BoxIcon,
             MonitorIcon,

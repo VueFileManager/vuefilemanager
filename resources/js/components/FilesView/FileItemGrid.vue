@@ -171,8 +171,6 @@ export default {
             this.area = false
         },
         clickedItem(e) {
-            events.$emit('unClick')
-
             if (!this.$isMobile()) {
 
                 // After click deselect new folder rename input

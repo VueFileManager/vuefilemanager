@@ -1,23 +1,23 @@
 <template>
     <div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view">
-		<DesktopToolbarInvoices/>
-		<!--<ContextMenu />
-        <FileBrowser/>-->
+		<InvoiceDesktopToolbar/>
+		<InvoiceContextMenu />
+        <InvoiceBrowser/>
     </div>
 </template>
 
 <script>
-    import DesktopToolbarInvoices from '@/Oasis/Modules/Invoices/components/DesktopToolbarInvoices'
-    import FileBrowser from '@/components/FilesView/FileBrowser'
-	import ContextMenu from '@/components/FilesView/ContextMenu'
+    import InvoiceDesktopToolbar from '@/Oasis/Modules/Invoices/components/InvoiceDesktopToolbar'
+    import InvoiceBrowser from '@/Oasis/Modules/Invoices/components/InvoiceBrowser'
+	import InvoiceContextMenu from '@/Oasis/Modules/Invoices/components/InvoiceContextMenu'
     import {events} from '@/bus'
 
     export default {
         name: 'FilesView',
         components: {
-			DesktopToolbarInvoices,
-            FileBrowser,
-            ContextMenu,
+			InvoiceDesktopToolbar,
+            InvoiceContextMenu,
+            InvoiceBrowser,
         },
         methods: {
             contextMenu(event, item) {

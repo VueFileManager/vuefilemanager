@@ -1,67 +1,33 @@
 <template>
-    <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
-        <div
-            :draggable="canDrag"
-            @dragstart="$emit('dragstart')"
-            @drop="drop()"
-            @dragleave="dragLeave"
-            @dragover.prevent="dragEnter"
-            class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
-        >
-            <!-- MultiSelecting for the mobile version -->
+    <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="showInvoice">
+        <div class="file-item" :class="{'is-clicked': isClicked , 'no-clicked': !isClicked && $isMobile()}">
+
+			<!-- MultiSelecting for the mobile version -->
             <transition name="slide-from-left">
-                <div class="check-select" v-if="mobileMultiSelect">
-                    <div class="select-box" :class="{'select-box-active' : isClicked } ">
+                <div class="check-select" v-if="isMobileSelectMode">
+                    <div class="select-box" :class="{'select-box-active': isClicked } ">
                         <CheckIcon v-if="isClicked" class="icon" size="17" />
                     </div>
                 </div>
             </transition>
 
-            <!--Thumbnail for item-->
-            <div class="icon-item">
-                <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
-                    {{ item.mimetype | limitCharacters }}
-                </span>
-
-                <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file" />
-
-                <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name" />
-
-                <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder svg-color-theme" />
-            </div>
-
             <!--Name-->
             <div class="item-name">
-                <b :ref="this.item.id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
-                    {{ itemName }}
+
+				<b :ref="item.id" class="name">
+                    {{ item.clientName }} - {{ item.total }}
                 </b>
 
                 <div class="item-info">
-                    <!--Shared Icon-->
-                    <div v-if="$checkPermission('master') && item.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon text-theme"></link-icon>
-                    </div>
-
-                    <!--Participant owner Icon-->
-                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon text-theme"></user-plus-icon>
-                    </div>
-
-                    <!--Filesize and timestamp-->
-                    <span v-if="!isFolder" class="item-size">{{ item.filesize }}, {{ timeStamp }}</span>
-
-                    <!--Folder item counts-->
-                    <span v-if="isFolder" class="item-length"> {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }} </span>
+                    <span class="item-size">
+						{{ item.created_at }}, {{ item.invoiceNumber }}
+					</span>
                 </div>
             </div>
 
             <!--Show item actions-->
             <transition name="slide-from-right">
-                <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
+                <div class="actions" v-if="$isMobile() && ! isMobileSelectMode">
                     <span @mousedown.stop="showItemActions" class="show-actions">
                         <MoreVerticalIcon size="16" class="icon-action text-theme" />
                     </span>
@@ -72,23 +38,18 @@
 </template>
 
 <script>
-import {LinkIcon, UserPlusIcon, CheckIcon, MoreVerticalIcon} from 'vue-feather-icons'
-import FolderIcon from '@/components/FilesView/FolderIcon'
-import {debounce} from 'lodash'
+import {CheckIcon, MoreVerticalIcon} from 'vue-feather-icons'
 import {mapGetters} from 'vuex'
 import {events} from '@/bus'
 
 export default {
-    name: 'FileItemList',
+    name: 'InvoiceItem',
     props: [
 		'item'
 	],
     components: {
         MoreVerticalIcon,
-        UserPlusIcon,
-        FolderIcon,
         CheckIcon,
-        LinkIcon,
     },
     computed: {
         ...mapGetters([
@@ -99,90 +60,31 @@ export default {
         isClicked() {
             return this.clipboard.some(element => element.id === this.item.id)
         },
-        isFolder() {
-            return this.item.type === 'folder'
-        },
-        isFile() {
-            return this.item.type !== 'folder' && this.item.type !== 'image'
-        },
-        isImage() {
-            return this.item.type === 'image'
-        },
-        isPdf() {
-            return this.item.mimetype === 'pdf'
-        },
-        isVideo() {
-            return this.item.type === 'video'
-        },
-        isAudio() {
-            let mimetypes = ['mpeg', 'mp3', 'mp4', 'wan', 'flac']
-            return mimetypes.includes(this.item.mimetype) && this.item.type === 'audio'
-        },
-        canEditName() {
-            return !this.$isMobile() && !this.$isThisLocation(['trash', 'trash-root']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.type === 'file')
-        },
-        canDrag() {
-            return !this.isDeleted && this.$checkPermission(['master', 'editor'])
-        },
-        timeStamp() {
-            return this.item.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.item.deleted_at}) : this.item.created_at
-        },
-        folderItems() {
-            return this.item.deleted_at ? this.item.trashed_items : this.item.items
-        },
-        isDeleted() {
-            return this.item.deleted_at ? true : false
-        }
-    },
-    filters: {
-        limitCharacters(str) {
-            if (str.length > 3) {
-                return str.substring(0, 3) + '...'
-            } else {
-                return str.substring(0, 3)
-            }
-        }
     },
     data() {
         return {
-            area: false,
-            itemName: undefined,
-            mobileMultiSelect: false
+            isMobileSelectMode: false
         }
     },
     methods: {
-        drop() {
-            this.area = false
-            events.$emit('drop')
-        },
         showItemActions() {
             this.$store.commit('CLIPBOARD_CLEAR')
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
-            events.$emit('mobile-menu:show', 'file-menu')
-        },
-        dragEnter() {
-            if (this.item.type !== 'folder') return
-
-            this.area = true
-        },
-        dragLeave() {
-            this.area = false
+            events.$emit('mobile-menu:show', 'invoice-menu')
         },
         clickedItem(e) {
             if (!this.$isMobile()) {
 
-                // After click deselect new folder rename input
-                document.getSelection().removeAllRanges();
-
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
 
                 	// Click + Ctrl
-                    if (this.clipboard.some(item => item.id === this.item.id)) {
+                    if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
                         this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                     } else {
                         this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                     }
+
                 } else if (e.shiftKey) {
 
                 	// Click + Shift
@@ -205,6 +107,7 @@ export default {
                             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entries[i])
                         }
                     }
+
                 } else {
 
                 	// Click
@@ -213,90 +116,31 @@ export default {
                 }
             }
 
-            if (!this.mobileMultiSelect && this.$isMobile()) {
-
-                if (this.isFolder) {
-
-                    if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                    } else {
-                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
-                    }
-                } else {
-
-                    if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-
-                        this.$store.commit('CLIPBOARD_CLEAR')
-                        this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
-
-                        events.$emit('file-preview:show')
-                    }
-                }
+            if (!this.isMobileSelectMode && this.$isMobile()) {
+				events.$emit('file-preview:show')
             }
 
-            if (this.mobileMultiSelect && this.$isMobile()) {
-                if (this.clipboard.some(item => item.id === this.item.id)) {
+            if (this.isMobileSelectMode && this.$isMobile()) {
+                if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
                     this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                 } else {
                     this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                 }
             }
         },
-        goToItem() {
-            if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-                events.$emit('file-preview:show')
-
-            } else if (this.isFile || !this.isFolder && !this.isVideo && !this.isAudio && !this.isImage) {
-                this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
-
-            } else if (this.isFolder) {
-
-                // Clear selected items after open another folder
-                this.$store.commit('CLIPBOARD_CLEAR')
-
-                if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                } else {
-                    this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
-                }
-            }
+        showInvoice() {
+			events.$emit('file-preview:show')
         },
-        renameItem: debounce(function (e) {
-            // Prevent submit empty string
-            if (e.target.innerText.trim() === '') return
-
-            this.$store.dispatch('renameItem', {
-                id: this.item.id,
-                type: this.item.type,
-                name: e.target.innerText
-            })
-        }, 300)
     },
     created() {
-
-        this.itemName = this.item.name
-
-        events.$on('newFolder:focus', (id) => {
-
-            if (this.item.id === id && !this.$isMobile()) {
-                this.$refs[id].focus()
-                document.execCommand('selectAll')
-            }
-        })
-
         events.$on('mobileSelecting:start', () => {
-            this.mobileMultiSelect = true
+            this.isMobileSelectMode = true
             this.$store.commit('CLIPBOARD_CLEAR')
         })
 
         events.$on('mobileSelecting:stop', () => {
-            this.mobileMultiSelect = false
+            this.isMobileSelectMode = false
             this.$store.commit('CLIPBOARD_CLEAR')
-        })
-
-        // Change item name
-        events.$on('change:name', item => {
-            if (this.item.id === item.id) this.itemName = item.name
         })
     }
 }
@@ -513,7 +357,7 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 7px;
+        padding: 7px 7px 7px 15px;
 
         &.is-dragenter {
             border-radius: 8px;

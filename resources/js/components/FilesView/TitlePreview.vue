@@ -6,6 +6,7 @@
 			<video-icon v-if="icon === 'video'" class="icon text-theme" size="21" />
 			<folder-icon v-if="icon === 'folder'" class="icon text-theme" size="21" />
 			<file-icon v-if="icon === 'file'" class="icon text-theme" size="21" />
+			<file-text-icon v-if="icon === 'file-text'" class="icon text-theme" size="21" />
         </div>
         <div class="text">
             <span class="title">{{ title }}</span>
@@ -17,6 +18,7 @@
 <script>
 import {
 	CheckSquareIcon,
+	FileTextIcon,
 	FolderIcon,
 	ImageIcon,
 	VideoIcon,
@@ -32,6 +34,7 @@ export default {
     ],
     components: {
         CheckSquareIcon,
+		FileTextIcon,
 		FolderIcon,
 		ImageIcon,
 		VideoIcon,
@@ -71,7 +74,7 @@ export default {
 
     .icon-wrapper {
 
-        polyline, path, rect, circle, polyline {
+        polyline, path, rect, circle, polyline, line {
             color: inherit;
         }
     }

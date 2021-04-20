@@ -37,6 +37,7 @@
 				<!--Invoice Controls-->
 				<ToolbarGroup v-if="! $isMobile()">
                     <ToolbarButton @click.native="shareInvoice" source="send" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="shareInvoice" source="rename" :action="$t('actions.share')" />
                     <ToolbarButton @click.native="deleteInvoice" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
 
@@ -70,7 +71,7 @@
 	import Option from '@/components/FilesView/Option'
 
 	export default {
-		name: 'ToolBar',
+		name: 'InvoiceDesktopToolbar',
 		components: {
 			FileSortingOptions,
 			MoreHorizontalIcon,
