@@ -91,8 +91,8 @@
             return {
                 isLoading: false,
                 checkedAccount: undefined,
-                loginPassword: '',
-                loginEmail: '',
+                loginPassword: 'vuefilemanager',
+                loginEmail: 'howdy@hi5ve.digital',
             }
         },
         methods: {
