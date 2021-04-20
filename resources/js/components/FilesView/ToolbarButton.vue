@@ -1,5 +1,7 @@
 <template>
   <button class="button hover-text-theme hover-svg-stroke-theme" :title="action">
+    <file-plus-icon v-if="source === 'file-plus'" size="19" class="hover-text-theme" />
+    <send-icon v-if="source === 'send'" size="19" class="hover-text-theme" />
     <corner-down-right-icon v-if="source === 'move'" size="19" class="hover-text-theme" />
     <download-cloud-icon v-if="source === 'download'" size="19" class="hover-text-theme" />
     <folder-plus-icon v-if="source === 'folder-plus'" size="19" class="hover-text-theme" />
@@ -21,6 +23,8 @@
 <script>
     import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
     import {
+    	SendIcon,
+    	FilePlusIcon,
         CornerDownRightIcon,
         DownloadCloudIcon,
         FolderPlusIcon,
@@ -44,6 +48,8 @@
             'action'
         ],
         components: {
+			SendIcon,
+			FilePlusIcon,
             SortingIcon,
             CornerDownRightIcon,
             DownloadCloudIcon,
@@ -98,7 +104,7 @@
     svg {
         color: inherit;
 
-        path, line, polyline, rect, circle {
+        path, line, polyline, rect, circle, polygon {
             color: inherit;
         }
     }
@@ -110,6 +116,7 @@
         line,
         polyline,
         rect,
+		polygon,
         circle {
             @include transition(150ms);
             color: inherit;

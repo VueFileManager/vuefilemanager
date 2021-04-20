@@ -39,7 +39,7 @@ const routesOasis = [
             import(/* webpackChunkName: "chunks/oasis/upgrade-plan" */ './Oasis/Onboarding/SelectPlan'),
         meta: {
             requiresAuth: true,
-            title: i18n.t('routes_title.upgrade_plan')
+            title: 'routes_title.upgrade_plan'
         },
     },
     {
@@ -49,7 +49,7 @@ const routesOasis = [
             import(/* webpackChunkName: "chunks/oasis/upgrade-billing" */ './Oasis/Onboarding/PayForPlan'),
         meta: {
             requiresAuth: true,
-            title: i18n.t('routes_title.upgrade_billing')
+            title: 'routes_title.upgrade_billing'
         },
     },
     {
@@ -71,6 +71,28 @@ const routesOasis = [
             requiresAuth: false,
             title: 'Vytvorit Heslo'
         },
+    },
+    {
+        name: 'Invoicing',
+        path: '/invoices',
+        component: () =>
+            import(/* webpackChunkName: "chunks/oasis/invoices" */ './Oasis/Modules/Invoices/Invoices'),
+        meta: {
+            requiresAuth: true,
+            title: 'Faktúry'
+        },
+        children: [
+            {
+                name: 'InvoicesList',
+                path: '/invoices/all',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/InvoicesList'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'Faktúry'
+                },
+            }
+        ]
     },
     {
         name: 'Admin',
@@ -99,7 +121,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/users" */ './Oasis/Admin/Users'),
                 meta: {
                     requiresAuth: true,
-                    title: i18n.t('routes_title.users_list')
+                    title: 'routes_title.users_list'
                 },
             },
             {
@@ -109,7 +131,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/user-create" */ './Oasis/Admin/UserCreateOrder'),
                 meta: {
                     requiresAuth: true,
-                    title: i18n.t('routes_title.user_create')
+                    title: 'routes_title.user_create'
                 },
             },
             {
@@ -119,7 +141,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/user-create" */ './Oasis/Admin/UserCreate'),
                 meta: {
                     requiresAuth: true,
-                    title: i18n.t('routes_title.user_create')
+                    title: 'routes_title.user_create'
                 },
             },
         ]
