@@ -1,26 +1,41 @@
 <template>
     <div class="wrapper">
-        <div class="icon-wrapper">   
-            <CheckSquareIcon class="icon text-theme" size="21" />
+        <div class="icon-wrapper">
+            <CheckSquareIcon v-if="icon === 'check-square'" class="icon text-theme" size="21" />
+			<image-icon v-if="icon === 'image'" class="icon text-theme" size="21" />
+			<video-icon v-if="icon === 'video'" class="icon text-theme" size="21" />
+			<folder-icon v-if="icon === 'folder'" class="icon text-theme" size="21" />
+			<file-icon v-if="icon === 'file'" class="icon text-theme" size="21" />
         </div>
         <div class="text">
             <span class="title">{{ title }}</span>
-            <span class="count">{{ subtitle }}</span>
+            <span class="subtitle">{{ subtitle }}</span>
         </div>
     </div>
 </template>
 
 <script>
-import {CheckSquareIcon} from "vue-feather-icons"
+import {
+	CheckSquareIcon,
+	FolderIcon,
+	ImageIcon,
+	VideoIcon,
+	FileIcon,
+} from "vue-feather-icons"
 
 export default {
-    name: 'MultiSelected',
+    name: 'TitlePreview',
     props: [
+        'subtitle',
         'title',
-        'subtitle'
+        'icon',
     ],
     components: {
-        CheckSquareIcon
+        CheckSquareIcon,
+		FolderIcon,
+		ImageIcon,
+		VideoIcon,
+		FileIcon,
     },
 }
 </script>
@@ -31,7 +46,7 @@ export default {
 
 .wrapper {
     display: flex;
-    justify-content: center;
+    align-items: flex-start;
 
     .text {
         padding-left: 10px;
@@ -46,7 +61,7 @@ export default {
             color: $text;
         }
 
-        .count {
+        .subtitle {
             @include font-size(12);
             font-weight: 600;
             color: $text-muted;
@@ -55,17 +70,8 @@ export default {
     }
 
     .icon-wrapper {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        text-align: center;
-        cursor: pointer;
-        white-space: nowrap;
-        outline: none;
-        border: none;
 
-        polyline, path {
+        polyline, path, rect, circle, polyline {
             color: inherit;
         }
     }
@@ -78,7 +84,7 @@ export default {
                 color: $dark_mode_text_primary;
             }
 
-            .count {
+            .subtitle {
                 color: $dark_mode_text_secondary;
             }
         }

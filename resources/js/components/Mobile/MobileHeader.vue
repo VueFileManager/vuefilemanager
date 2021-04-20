@@ -3,7 +3,7 @@
 
         <!-- Go back-->
         <div @click="goBack" class="go-back">
-            <chevron-left-icon size="17" class="icon"></chevron-left-icon>
+            <chevron-left-icon size="17" class="icon" />
         </div>
 
         <!--Folder Title-->
@@ -25,7 +25,7 @@
     } from 'vue-feather-icons'
 
     export default {
-        name: 'MenuBar',
+        name: 'MobileHeader',
         props: [
             'title'
         ],
@@ -35,7 +35,7 @@
         },
         methods: {
             showMobileNavigation() {
-                events.$emit('show:mobile-navigation')
+                events.$emit('mobile-menu:show', 'user-navigation')
             },
             goBack() {
                 this.$router.back();

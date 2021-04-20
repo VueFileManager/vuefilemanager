@@ -5,13 +5,15 @@ import router from '@/router'
 import i18n from '@/i18n/index'
 
 const defaultState = {
-    fileInfoDetail: [],
     currentFolder: undefined,
     navigation: undefined,
+
     isSearching: false,
-    browseHistory: [],
     isLoading: true,
-    data: [],
+
+    browseHistory: [],
+    clipboard: [],
+    entries: [],
 }
 
 const actions = {
@@ -30,7 +32,7 @@ const actions = {
         // Set folder location
         payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
 
-        if (! payload.back && !payload.sorting)
+        if (!payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 
         let url = payload.folder.location === 'trash'
@@ -77,7 +79,7 @@ const actions = {
         })
 
         axios
-            .get(getters.api + '/browse/latest' )
+            .get(getters.api + '/browse/latest')
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 events.$emit('scrollTop')
@@ -175,7 +177,6 @@ const actions = {
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
     getFolderTree: ({commit, getters}) => {
-
         return new Promise((resolve, reject) => {
 
             // Get route
@@ -204,19 +205,19 @@ const actions = {
 }
 
 const mutations = {
+    LOADING_STATE(state, payload) {
+        state.clipboard = []
+        state.entries = payload.data
+        state.isLoading = payload.loading
+    },
     UPDATE_FOLDER_TREE(state, tree) {
         state.navigation = tree
-    },
-    LOADING_STATE(state, payload) {
-        state.fileInfoDetail= []
-        state.data = payload.data
-        state.isLoading = payload.loading
     },
     FLUSH_FOLDER_HISTORY(state) {
         state.browseHistory = []
     },
     FLUSH_SHARED(state, id) {
-        state.data.find(item => {
+        state.entries.find(item => {
             if (item.id === id) item.shared = undefined
         })
     },
@@ -227,13 +228,14 @@ const mutations = {
         state.browseHistory.pop()
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
-        // Rename filename in file info detail
-        if (state.fileInfoDetail && state.fileInfoDetail.id === updatedFile.id) {
-            state.fileInfoDetail = updatedFile
+
+        // Rename filename in clipboard
+        if (state.clipboard && state.clipboard.id === updatedFile.id) {
+            state.clipboard = updatedFile
         }
 
         // Rename item name in data view
-        state.data.find(item => {
+        state.entries.find(item => {
             if (item.id === updatedFile.id) {
                 item.name = updatedFile.name
                 item.color = updatedFile.color ? updatedFile.color : null
@@ -241,60 +243,57 @@ const mutations = {
             }
         })
     },
-    REMOVE_ITEM_FILEINFO_DETAIL(state,item) {
-      state.fileInfoDetail = state.fileInfoDetail.filter(element => element.id !== item.id)
-    },
-    CLEAR_FILEINFO_DETAIL(state) {
-        state.fileInfoDetail = []
-    },
-    LOAD_FILEINFO_DETAIL(state, item) {
-        state.fileInfoDetail = []
-        state.fileInfoDetail.push(item)
-    },
-    GET_FILEINFO_DETAIL(state, item) {
-        let checkData = state.data.find(el => el.id === item.id)
-        if(state.fileInfoDetail.includes(checkData)) return
-
-        state.fileInfoDetail.push(checkData ? checkData : state.currentFolder)
-    },
-    SELECT_ALL_FILES(state){
-        state.fileInfoDetail = state.data
-    },
     CHANGE_SEARCHING_STATE(state, searchState) {
         state.isSearching = searchState
     },
     UPDATE_SHARED_ITEM(state, data) {
-        state.data.find(item => {
+        state.entries.find(item => {
             if (item.id === data.item_id) item.shared = data
         })
     },
     ADD_NEW_FOLDER(state, folder) {
-        state.data.unshift(folder)
+        state.entries.unshift(folder)
     },
     ADD_NEW_ITEMS(state, items) {
-        state.data = state.data.concat(items)
+        state.entries = state.entries.concat(items)
     },
     REMOVE_ITEM(state, id) {
-        state.data = state.data.filter(el => el.id !== id)
+        state.entries = state.entries.filter(el => el.id !== id)
     },
     INCREASE_FOLDER_ITEM(state, id) {
-        state.data.map(el => {
+        state.entries.map(el => {
             if (el.id && el.id === id) el.items++
         })
     },
     STORE_CURRENT_FOLDER(state, folder) {
         state.currentFolder = folder
     },
+    REMOVE_ITEM_FROM_CLIPBOARD(state, item) {
+        state.clipboard = state.clipboard.filter(element => element.id !== item.id)
+    },
+    ADD_ALL_ITEMS_TO_CLIPBOARD(state) {
+        state.clipboard = state.entries
+    },
+    ADD_ITEM_TO_CLIPBOARD(state, item) {
+        let selectedItem = state.entries.find(el => el.id === item.id)
+
+        if (state.clipboard.includes(selectedItem)) return
+
+        state.clipboard.push(selectedItem ? selectedItem : state.currentFolder)
+    },
+    CLIPBOARD_CLEAR(state) {
+        state.clipboard = []
+    },
 }
 
 const getters = {
-    fileInfoDetail: state => state.fileInfoDetail,
+    clipboard: state => state.clipboard,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
     isSearching: state => state.isSearching,
     navigation: state => state.navigation,
     isLoading: state => state.isLoading,
-    data: state => state.data,
+    entries: state => state.entries,
 }
 
 export default {

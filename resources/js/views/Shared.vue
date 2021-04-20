@@ -1,108 +1,112 @@
 <template>
     <div id="application-wrapper">
 
-        <!--Full File Preview-->
-        <FileFullPreview />
-
         <!--Loading Spinner-->
         <Spinner v-if="isLoading" />
 
-        <!--Move item popup-->
-        <MoveItem />
+        <!--File preview window-->
+        <FilePreview />
 
-        <!-- Processing popup for zip -->
+        <!--Popups-->
         <ProcessingPopup />
 
-        <!-- Mobile Menu for Multi selected items -->
-        <MobileMultiSelectMenu />
+        <CreateFolderPopup />
+        <RenameItemPopup />
 
-        <!--Rename folder/file item-->
-        <RenameItem />
+        <MoveItemPopup />
 
-        <!--Create folder mobile UI-->
-        <CreateFolder />
+        <!-- Mobile components -->
+        <FileSortingMobile />
+        <FileMenuMobile />
 
-        <!--Drag UI-->
+        <MultiSelectToolbarMobile />
+
+        <!--Others-->
+        <Vignette />
         <DragUI />
-
-        <!--Mobile Menu-->
-        <MobileMenu />
-
-        <!--Mobile menu for selecting view and sorting-->
-        <MobileSortingAndPreview />
-
-        <!--System alerts-->
         <Alert />
 
-        <!--Background vignette-->
-        <Vignette />
-
-        <!--Pages-->
-        <router-view />
+        <router-view :class="{'is-scaled-down': isScaledDown}" />
     </div>
 </template>
 
 <script>
-import MobileSortingAndPreview from '@/components/FilesView/MobileSortingAndPreview'
-import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
-import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
-import FileFullPreview from '@/components/FilesView/FileFullPreview'
-import CreateFolder from '@/components/Others/CreateFolder'
-import MobileMenu from '@/components/FilesView/MobileMenu'
-import RenameItem from '@/components/Others/RenameItem'
-import Spinner from '@/components/FilesView/Spinner'
-import MoveItem from '@/components/Others/MoveItem'
-import Vignette from '@/components/Others/Vignette'
-import DragUI from '@/components/FilesView/DragUI'
-import Alert from '@/components/FilesView/Alert'
-import {mapGetters} from 'vuex'
+    import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
+    import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
+    import CreateFolderPopup from '@/components/Others/CreateFolderPopup'
+    import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
+    import FileMenuMobile from '@/components/FilesView/FileMenuMobile'
+    import RenameItemPopup from '@/components/Others/RenameItemPopup'
+    import MoveItemPopup from '@/components/Others/MoveItemPopup'
+    import FilePreview from '@/components/FilesView/FilePreview'
+    import Spinner from '@/components/FilesView/Spinner'
+    import Vignette from '@/components/Others/Vignette'
+    import DragUI from '@/components/FilesView/DragUI'
+    import Alert from '@/components/FilesView/Alert'
+    import {events} from '@/bus'
+    import {mapGetters} from 'vuex'
 
-export default {
-    name: 'Platform',
-    components: {
-        MobileSortingAndPreview,
-        MobileMultiSelectMenu,
-        FileFullPreview,
-        ProcessingPopup,
-        CreateFolder,
-        MobileMenu,
-        RenameItem,
-        MoveItem,
-        Vignette,
-        Spinner,
-        DragUI,
-        Alert,
-    },
-    computed: {
-        ...mapGetters([
-            'config'
-        ]),
-    },
-    data() {
-        return {
-            isLoading: true,
+    export default {
+        name: 'Platform',
+        components: {
+            MultiSelectToolbarMobile,
+            CreateFolderPopup,
+            FileSortingMobile,
+            ProcessingPopup,
+            RenameItemPopup,
+            FileMenuMobile,
+            MoveItemPopup,
+            FilePreview,
+            Vignette,
+            Spinner,
+            DragUI,
+            Alert,
+        },
+        computed: {
+            ...mapGetters([
+                'config'
+            ]),
+        },
+        data() {
+            return {
+                isLoading: true,
+                isScaledDown: false
+            }
+        },
+        mounted() {
+            events.$on('mobile-menu:show', () => this.isScaledDown = true)
+            events.$on('fileItem:deselect', () => this.isScaledDown = false)
+
+            this.$store.dispatch('getShareDetail', this.$route.params.token)
+                .then(response => {
+                    this.isLoading = false
+
+                    // Show public file browser
+                    if (response.data.data.attributes.type === 'folder' && !response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedFileBrowser') {
+                        this.$router.push({name: 'SharedFileBrowser'})
+                    }
+
+                    // Show public single file
+                    if (response.data.data.attributes.type !== 'folder' && !response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedSingleFile') {
+                        this.$router.push({name: 'SharedSingleFile'})
+                    }
+
+                    // Show authentication page
+                    if (response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedAuthentication') {
+                        this.$router.push({name: 'SharedAuthentication'})
+                    }
+                })
         }
-    },
-    mounted() {
-        this.$store.dispatch('getShareDetail', this.$route.params.token)
-            .then(response => {
-                this.isLoading = false
-
-                // Show public file browser
-                if (response.data.data.attributes.type === 'folder' && !response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedFileBrowser') {
-                    this.$router.push({name: 'SharedFileBrowser'})
-                }
-
-                // Show public single file
-                if (response.data.data.attributes.type !== 'folder' && !response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedSingleFile') {
-                    this.$router.push({name: 'SharedSingleFile'})
-                }
-
-                // Show authentication page
-                if (response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedAuthentication') {
-                    this.$router.push({name: 'SharedAuthentication'})
-                }
-            })
     }
-}
 </script>
+
+<style lang="scss">
+    @import '@assets/vuefilemanager/_mixins';
+
+    @media only screen and (max-width: 690px) {
+
+        .is-scaled-down {
+            @include transform(scale(0.95));
+        }
+    }
+</style>

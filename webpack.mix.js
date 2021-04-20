@@ -23,6 +23,7 @@ mix.js('resources/js/main.js', 'public/js')
             alias: {
                 "@assets": path.resolve(__dirname, "resources/sass"),
                 "@": path.resolve(__dirname, "resources/js"),
+                "@modules": path.resolve(__dirname, "node_modules"),
             }
         },
         output: {
@@ -33,12 +34,12 @@ mix.js('resources/js/main.js', 'public/js')
             clientLogLevel: 'none'
         }
     })
-    /*.options({
+    .options({
         hmrOptions: {
             host: '192.168.1.198',
             port: '8080'
         },
-    })*/
+    })
     .disableNotifications();
 
 if (mix.inProduction()) {

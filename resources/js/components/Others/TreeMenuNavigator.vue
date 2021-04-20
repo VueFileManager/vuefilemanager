@@ -37,7 +37,7 @@
             FolderIcon,
         },
         computed: {
-            ...mapGetters(['fileInfoDetail']),
+            ...mapGetters(['clipboard']),
 
             disabledFolder() {
                 let disableFolder = false
@@ -84,12 +84,12 @@
         methods: {
             dragFinish() {
                 // Move no selected item
-                if(!this.fileInfoDetail.includes(this.draggedItem[0])) {
+                if(!this.clipboard.includes(this.draggedItem[0])) {
                     this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:this.draggedItem[0]})
                 }
 
                 // Move all selected items
-                if(this.fileInfoDetail.includes(this.draggedItem[0])) {
+                if(this.clipboard.includes(this.draggedItem[0])) {
                     this.$store.dispatch('moveItem', {to_item: this.nodes ,noSelectedItem:null})
                 }
                 
@@ -127,12 +127,12 @@
             //Get dragged item
             events.$on('dragstart' , (data) => {
                //If is dragged item not selected
-                if(!this.fileInfoDetail.includes(data)) {
+                if(!this.clipboard.includes(data)) {
                     this.draggedItem = [data]
                 }
                 //If are the dragged items selected
-                if(this.fileInfoDetail.includes(data)) {
-                    this.draggedItem = this.fileInfoDetail
+                if(this.clipboard.includes(data)) {
+                    this.draggedItem = this.clipboard
                 }
             })
 

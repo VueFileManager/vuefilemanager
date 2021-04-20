@@ -1,399 +1,334 @@
 <template>
     <div id="desktop-toolbar">
         <div class="toolbar-wrapper">
-            <!-- Go back-->
-            <div class="toolbar-go-back" v-if="homeDirectory">
-                <div @click="goBack" class="go-back-button">
-                    <chevron-left-icon size="17" :class="{ 'is-active': browseHistory.length > 1 }" class="icon-back"></chevron-left-icon>
 
-                    <span class="back-directory-title">
-                        {{ directoryName }}
-                    </span>
+			<div v-if="homeDirectory" @click="goBack" class="location">
+				<chevron-left-icon :class="{'is-active': browseHistory.length > 1 }" class="icon-back" size="17" />
 
-                    <span @click.stop="folderActions" v-if="browseHistory.length > 1 && $isThisLocation(['base', 'public'])" class="folder-options group" id="folder-actions">
-                        <more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
-                    </span>
-                </div>
-            </div>
+				<span class="location-title">
+					{{ directoryName }}
+				</span>
 
-            <!-- Tools-->
-            <div class="toolbar-tools">
-                <!--Search bar-->
-                <div class="toolbar-button-wrapper">
-                    <SearchBar/>
-                </div>
+				<span @click.stop="folderActions" v-if="browseHistory.length > 1 && $isThisLocation(['base', 'public'])" class="location-more group" id="folder-actions">
+					<more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
+				</span>
+			</div>
 
-                <!--Creating controls-->
-                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor'])">
-                    <ToolbarButtonUpload :class="{ 'is-inactive': canUploadInView || !hasCapacity }" :action="$t('actions.upload')"/>
-                    <ToolbarButton :class="{ 'is-inactive': canCreateFolderInView }" @click.native="createFolder" source="folder-plus" :action="$t('actions.create_folder')"/>
-                </div>
+			<ToolbarWrapper>
 
-                <!--File Controls-->
-                <div class="toolbar-button-wrapper" v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
-                    <ToolbarButton source="move" :class="{ 'is-inactive': canMoveInView }" :action="$t('actions.move')" @click.native="moveItem"/>
-                    <ToolbarButton v-if="!$isThisLocation(['public'])" source="share" :class="{ 'is-inactive': canShareInView }" :action="$t('actions.share')" @click.native="shareItem"/>
-                    <ToolbarButton source="trash" :class="{ 'is-inactive': canDeleteInView }" :action="$t('actions.delete')" @click.native="deleteItem"/>
-                </div>
+				<!--Search bar-->
+				<ToolbarGroup style="margin-left: 0">
+					<SearchBar v-model="query" @reset-query="query = ''" :placeholder="$t('inputs.placeholder_search_files')" />
+				</ToolbarGroup>
 
-                <!--View Controls-->
-                <div class="toolbar-button-wrapper">
-                    <ToolbarButton source="preview-sorting" class="preview-sorting" :action="$t('actions.sorting_view')" :class="{ active: sortingAndPreview }" @click.stop.native="sortingAndPreview = !sortingAndPreview"/>
-                    <ToolbarButton :action="$t('actions.info_panel')" :class="{ active: fileInfoVisible }" @click.native="$store.dispatch('fileInfoToggle')" source="info"/>
-                </div>
-            </div>
+				<!--Creating controls-->
+				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">
+					<ToolbarButtonUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :action="$t('actions.upload')" />
+                    <ToolbarButton @click.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" source="folder-plus" :action="$t('actions.create_folder')" />
+				</ToolbarGroup>
+
+				<!--File Controls-->
+				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
+					<ToolbarButton @click.native="moveItem" :class="{'is-inactive': canMoveInView }" source="move" :action="$t('actions.move')" />
+                    <ToolbarButton @click.native="shareItem" v-if="!$isThisLocation(['public'])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="deleteItem" :class="{'is-inactive': canDeleteInView }" source="trash" :action="$t('actions.delete')" />
+				</ToolbarGroup>
+
+				<!--View Controls-->
+				<ToolbarGroup>
+					<PopoverWrapper>
+						<ToolbarButton @click.stop.native="showSortingMenu" source="preview-sorting" :action="$t('actions.sorting_view')" />
+						<PopoverItem name="desktop-sorting">
+							<FileSortingOptions />
+						</PopoverItem>
+					</PopoverWrapper>
+                    <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :class="{'active': isVisibleSidebar }" :action="$t('actions.info_panel')" source="info" />
+				</ToolbarGroup>
+			</ToolbarWrapper>
         </div>
-        <UploadProgress/>
+
+		<UploadProgress />
     </div>
 </template>
 
 <script>
-import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
-import { ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
-import UploadProgress from '@/components/FilesView/UploadProgress'
-import ToolbarButton from '@/components/FilesView/ToolbarButton'
-import SearchBar from '@/components/FilesView/SearchBar'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
-import { last } from 'lodash'
+	import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
+	import FileSortingOptions from '@/components/FilesView/FileSortingOptions'
+	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
+	import UploadProgress from '@/components/FilesView/UploadProgress'
+	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
+	import ToolbarWrapper from '@/components/Desktop/ToolbarWrapper'
+	import ToolbarButton from '@/components/FilesView/ToolbarButton'
+	import ToolbarGroup from '@/components/Desktop/ToolbarGroup'
+	import PopoverItem from '@/components/Desktop/PopoverItem'
+	import SearchBar from '@/components/FilesView/SearchBar'
+	import {debounce, last} from 'lodash'
+	import {mapGetters} from 'vuex'
+	import {events} from '@/bus'
 
-export default {
-    name: 'ToolBar',
-    components: {
-        ToolbarButtonUpload,
-        MoreHorizontalIcon,
-        ChevronLeftIcon,
-        UploadProgress,
-        ToolbarButton,
-        SearchBar
-    },
-    computed: {
-        ...mapGetters([
-            'FilePreviewType',
-            'fileInfoVisible',
-            'fileInfoDetail',
-            'currentFolder',
-            'browseHistory',
-            'homeDirectory'
-        ]),
-        hasCapacity() {
-            // Check if set storage limitation
-            if (!this.$store.getters.config.storageLimit) return true
+	export default {
+		name: 'ToolBar',
+		components: {
+			ToolbarButtonUpload,
+			FileSortingOptions,
+			MoreHorizontalIcon,
+			ChevronLeftIcon,
+			ToolbarWrapper,
+			UploadProgress,
+			PopoverWrapper,
+			ToolbarButton,
+			ToolbarGroup,
+			PopoverItem,
+			SearchBar,
+		},
+		computed: {
+			...mapGetters([
+				'isVisibleSidebar',
+				'FilePreviewType',
+				'currentFolder',
+				'browseHistory',
+				'homeDirectory',
+				'clipboard',
+			]),
+			hasCapacity() {
+				// Check if storage limitation is set
+				if (!this.$store.getters.config.storageLimit) return true
 
-            // Check if is loaded user
-            if (!this.$store.getters.user) return true
+				// Check if user is loaded
+				if (!this.$store.getters.user) return true
 
-            // Check if user has storage
-            return this.$store.getters.user.data.attributes.storage.used <= 100
-        },
-        directoryName() {
-            return this.currentFolder
-                ? this.currentFolder.name
-                : this.homeDirectory.name
-        },
-        preview() {
-            return this.FilePreviewType === 'list' ? 'th' : 'th-list'
-        },
-        canCreateFolderInView() {
-            return !this.$isThisLocation(['base', 'public'])
-        },
-        canDeleteInView() {
-            let locations = [
-                'trash',
-                'trash-root',
-                'base',
-                'participant_uploads',
-                'latest',
-                'shared',
-                'public'
-            ]
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0
-        },
-        canUploadInView() {
-            return !this.$isThisLocation(['base', 'public'])
-        },
-        canMoveInView() {
-            let locations = [
-                'base',
-                'participant_uploads',
-                'latest',
-                'shared',
-                'public'
-            ]
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length === 0
+				// Check if user has storage
+				return this.$store.getters.user.data.attributes.storage.used <= 100
+			},
+			directoryName() {
+				return this.currentFolder
+					? this.currentFolder.name
+					: this.homeDirectory.name
+			},
+			preview() {
+				return this.FilePreviewType === 'list'
+					? 'th'
+					: 'th-list'
+			},
+			canCreateFolderInView() {
+				return !this.$isThisLocation(['base', 'public'])
+			},
+			canDeleteInView() {
+				let locations = [
+					'participant_uploads',
+					'trash-root',
+					'latest',
+					'shared',
+					'public',
+					'trash',
+					'base',
+				]
+				return !this.$isThisLocation(locations) || this.clipboard.length === 0
+			},
+			canUploadInView() {
+				return !this.$isThisLocation(['base', 'public'])
+			},
+			canMoveInView() {
+				let locations = [
+					'participant_uploads',
+					'latest',
+					'shared',
+					'public',
+					'base',
+				]
+				return !this.$isThisLocation(locations) || this.clipboard.length === 0
+			},
+			canShareInView() {
+				let locations = [
+					'participant_uploads',
+					'latest',
+					'shared',
+					'public',
+					'base',
+				]
+				return !this.$isThisLocation(locations) || this.clipboard.length > 1 || this.clipboard.length === 0
+			}
+		},
+		data() {
+			return {
+				query: '',
+			}
+		},
+		watch: {
+			query(val) {
+				this.$searchFiles(val)
+			}
+		},
+		methods: {
+			showSortingMenu() {
+				events.$emit('popover:open', 'desktop-sorting')
+			},
+			goBack() {
+				let previousFolder = last(this.browseHistory)
 
-        },
-        canShareInView() {
-            let locations = [
-                'base',
-                'participant_uploads',
-                'latest',
-                'shared',
-                'public'
-            ]
+				if (!previousFolder) return
 
-            return !this.$isThisLocation(locations) || this.fileInfoDetail.length > 1 || this.fileInfoDetail.length === 0
-        }
-    },
-    data() {
-        return {
-            sortingAndPreview: false
-        }
-    },
-    watch: {
-        sortingAndPreview() {
-            if (this.sortingAndPreview) {
-                events.$emit('sortingAndPreview', true)
-            }
+				if (previousFolder.location === 'trash-root') {
+					this.$store.dispatch('getTrash')
 
-            if (!this.sortingAndPreview) {
-                events.$emit('unClick')
-            }
-        }
-    },
-    methods: {
-        goBack() {
-            // Get previous folder
-            let previousFolder = last(this.browseHistory)
+				} else if (previousFolder.location === 'shared') {
+					this.$store.dispatch('getShared')
 
-            if (!previousFolder) return
+				} else {
+					if (this.$isThisLocation('public')) {
+						this.$store.dispatch('browseShared', [
+							{folder: previousFolder, back: true, init: false}
+						])
+					} else {
+						this.$store.dispatch('getFolder', [
+							{folder: previousFolder, back: true, init: false}
+						])
+					}
+				}
+			},
+			folderActions() {
+				events.$emit('folder:actions', this.currentFolder)
+			},
+			deleteItem() {
+				if (this.clipboard.length > 0)
+					this.$store.dispatch('deleteItem')
+			},
+			createFolder() {
+				this.$store.dispatch('createFolder', {name: this.$t('popup_create_folder.folder_default_name')})
+			},
+			moveItem() {
+				if (this.clipboard.length > 0)
+					events.$emit('popup:open', {name: 'move', item: this.clipboard})
+			},
+			shareItem() {
+				let event = this.clipboard[0].shared
+					? 'share-edit'
+					: 'share-create'
 
-            if (previousFolder.location === 'trash-root') {
-                this.$store.dispatch('getTrash')
-            } else if (previousFolder.location === 'shared') {
-                this.$store.dispatch('getShared')
-            } else {
-                if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [
-                        { folder: previousFolder, back: true, init: false }
-                    ])
-                } else {
-                    this.$store.dispatch('getFolder', [
-                        { folder: previousFolder, back: true, init: false }
-                    ])
-                }
-            }
-        },
-        folderActions() {
-            events.$emit('folder:actions', this.currentFolder)
-        },
-        deleteItem() {
-            if (this.fileInfoDetail.length > 0)
-                this.$store.dispatch('deleteItem')
-        },
-        createFolder() {
-            this.$store.dispatch('createFolder', {name: this.$t('popup_create_folder.folder_default_name')})
-        },
-        moveItem() {
-            if (this.fileInfoDetail.length > 0)
-                events.$emit('popup:open', { name: 'move', item: this.fileInfoDetail })
-        },
-        shareItem() {
-            if (this.fileInfoDetail[0]) {
-                //ADD BY M
-                if (this.fileInfoDetail[0].shared) {
-                    events.$emit('popup:open', {
-                        name: 'share-edit',
-                        item: this.fileInfoDetail[0]
-                    })
-                } else {
-                    events.$emit('popup:open', {
-                        name: 'share-create',
-                        item: this.fileInfoDetail[0]
-                    })
-                }
-            }
-        }
-    },
-    mounted() {
-        // events.$on('sortingAndPreview', (state) => {
-        //     this.sortingAndPreview = state
-        // })
-
-        events.$on('unClick', () => {
-            this.sortingAndPreview = false
-        })
-    }
-}
+				events.$emit('popup:open', {
+					name: event,
+					item: this.clipboard[0]
+				})
+			}
+		},
+	}
 </script>
 
 <style scoped lang="scss">
 @import "@assets/vuefilemanager/_variables";
 @import "@assets/vuefilemanager/_mixins";
 
-.preview-sorting {
-    /deep/ .label {
-        color: $text !important;
-    }
+.is-inactive {
+	opacity: 0.25;
+	pointer-events: none;
 }
 
 .toolbar-wrapper {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: flex;
-    position: relative;
-    z-index: 2;
-
-    > div {
-        flex-grow: 1;
-        align-self: center;
-        white-space: nowrap;
-    }
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	z-index: 2;
 }
 
-.directory-name {
-    vertical-align: middle;
-    @include font-size(17);
-    color: $text;
-    font-weight: 700;
-    max-width: 220px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-}
+.location {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
 
-.icon-back {
-    vertical-align: middle;
-    cursor: pointer;
-    margin-right: 6px;
-    opacity: 0.15;
-    pointer-events: none;
-    @include transition(150ms);
+	.icon-back {
+		@include transition(150ms);
+		pointer-events: none;
+		margin-right: 6px;
+		flex-shrink: 0;
+		opacity: 0.15;
 
-    &.is-active {
-        opacity: 1;
-        pointer-events: initial;
-    }
-}
+		&.is-active {
+			opacity: 1;
+			pointer-events: initial;
+		}
+	}
 
-.toolbar-go-back {
-    cursor: pointer;
+	.location-title {
+		@include font-size(15);
+		line-height: 1;
+		font-weight: 700;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		color: $text;
+	}
 
-    .folder-options {
-        vertical-align: middle;
-        margin-left: 6px;
-        padding: 1px 4px;
-        line-height: 0;
-        border-radius: 3px;
-        @include transition(150ms);
+	.location-more {
+		margin-left: 6px;
+		padding: 1px 4px;
+		line-height: 0;
+		border-radius: 3px;
+		@include transition(150ms);
 
-        svg circle {
-            @include transition(150ms);
-        }
+		svg circle {
+			@include transition(150ms);
+		}
 
-        &:hover {
-            background: $light_background;
+		&:hover {
+			background: $light_background;
 
-            svg circle {
-                color: inherit;
-            }
-        }
-
-        .icon-more {
-            vertical-align: middle;
-        }
-    }
-
-    .back-directory-title {
-        @include font-size(15);
-        line-height: 1;
-        font-weight: 700;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: inline-block;
-        vertical-align: middle;
-        color: $text;
-    }
+			svg circle {
+				color: inherit;
+			}
+		}
+	}
 }
 
 .toolbar-position {
-    text-align: center;
+	text-align: center;
 
-    span {
-        @include font-size(17);
-        font-weight: 600;
-    }
-}
-
-.toolbar-tools {
-    text-align: right;
-
-    .toolbar-button-wrapper {
-        margin-left: 28px;
-        display: inline-block;
-        vertical-align: middle;
-
-        &:first-child {
-            margin-left: 0 !important;
-        }
-    }
-
-    .button {
-        margin-left: 5px;
-
-        &.active {
-
-            &.preview-sorting {
-                background: $light_background;
-            }
-        }
-
-        &.is-inactive {
-            opacity: 0.25;
-            pointer-events: none;
-        }
-
-        &:first-child {
-            margin-left: 0;
-        }
-    }
+	span {
+		@include font-size(17);
+		font-weight: 600;
+	}
 }
 
 @media only screen and (max-width: 1024px) {
-    .toolbar-go-back .back-directory-title {
-        max-width: 120px;
-    }
+	.location {
 
-    .toolbar-tools {
-        .button {
-            margin-left: 0;
-            height: 40px;
-            width: 40px;
-        }
+		.location-title {
+			max-width: 120px;
+		}
+	}
 
-        .toolbar-button-wrapper {
-            margin-left: 25px;
-        }
-    }
+	.toolbar-tools {
+		.button {
+			margin-left: 0;
+			height: 40px;
+			width: 40px;
+		}
+	}
 }
 
 @media only screen and (max-width: 960px) {
-    #desktop-toolbar {
-        display: none;
-    }
+	#desktop-toolbar {
+		display: none;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
-    .toolbar .directory-name {
-        color: $dark_mode_text_primary;
-    }
+	.toolbar .directory-name {
+		color: $dark_mode_text_primary;
+	}
 
-    .toolbar-go-back {
-        .back-directory-title {
-            color: $dark_mode_text_primary;
-        }
+	.toolbar-go-back {
+		.location-title {
+			color: $dark_mode_text_primary;
+		}
 
-        .folder-options {
-            &:hover {
-                background: $dark_mode_foreground;
-            }
-        }
-    }
-
-    .active {
-        &.preview-sorting {
-            background: $dark_mode_foreground !important;
-        }
-    }
+		.location-more {
+			&:hover {
+				background: $dark_mode_foreground;
+			}
+		}
+	}
 }
 </style>

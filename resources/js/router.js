@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import i18n from '@/i18n/index'
 import store from './store/index'
-
-import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
-import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
 
 Vue.use(Router)
 
@@ -416,24 +412,6 @@ const routesAdmin = [
                     },
             }
         ]
-    },
-    {
-        name: 'AdminMobileMenu',
-        path: '/admin-menu',
-        component: AdminMobileMenu,
-        meta: {
-            requiresAuth: true,
-            title: 'routes_title.settings_mobile'
-        },
-    },
-    {
-        name: 'UserProfileMobileMenu',
-        path: '/user-menu',
-        component: UserProfileMobileMenu,
-        meta: {
-            requiresAuth: true,
-            title: 'routes_title.profile_settings'
-        },
     },
 ]
 const routesShared = [

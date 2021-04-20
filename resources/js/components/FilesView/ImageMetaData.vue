@@ -1,108 +1,109 @@
 <template>
     <div>
         <ul class="meta-data-list">
-            <li v-if="fileInfoDetail.metadata.DateTimeOriginal">
+            <li v-if="clipboard.metadata.DateTimeOriginal">
                 <span>{{ $t('file_detail_meta.time_data') }}</span>
-                <b>{{ fileInfoDetail.metadata.DateTimeOriginal }}</b>
+                <b>{{ clipboard.metadata.DateTimeOriginal }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.Artist">
+            <li v-if="clipboard.metadata.Artist">
                 <span>{{ $t('file_detail_meta.author') }}</span>
-                <b>{{ fileInfoDetail.metadata.Artist }}</b>
+                <b>{{ clipboard.metadata.Artist }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.ExifImageWidth && fileInfoDetail.metadata.ExifImageLength">
+            <li v-if="clipboard.metadata.ExifImageWidth && clipboard.metadata.ExifImageLength">
                 <span>{{ $t('file_detail_meta.dimension') }}</span>
-                <b>{{ fileInfoDetail.metadata.ExifImageWidth }}x{{ fileInfoDetail.metadata.ExifImageLength }}</b>
+                <b>{{ clipboard.metadata.ExifImageWidth }}x{{ clipboard.metadata.ExifImageLength }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.XResolution && fileInfoDetail.metadata.YResolution">
+            <li v-if="clipboard.metadata.XResolution && clipboard.metadata.YResolution">
                 <span>{{ $t('file_detail_meta.resolution') }}</span>
-                <b>{{ fileInfoDetail.metadata.XResolution }}x{{ fileInfoDetail.metadata.YResolution }}</b>
+                <b>{{ clipboard.metadata.XResolution }}x{{ clipboard.metadata.YResolution }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.ColorSpace">
+            <li v-if="clipboard.metadata.ColorSpace">
                 <span> {{ $t('file_detail_meta.color_space') }}</span>
-                <b>{{ fileInfoDetail.metadata.ColorSpace}}</b>
+                <b>{{ clipboard.metadata.ColorSpace }}</b>
             </li>
 
-            <!--TODO: Colour profile:sRGB IEC61966-2.1-->
+			<!--TODO: Colour profile:sRGB IEC61966-2.1-->
 
-            <li v-if="fileInfoDetail.metadata.Make">
+            <li v-if="clipboard.metadata.Make">
                 <span>{{ $t('file_detail_meta.make') }}</span>
-                <b>{{ fileInfoDetail.metadata.Make }}</b>
+                <b>{{ clipboard.metadata.Make }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.Model">
+            <li v-if="clipboard.metadata.Model">
                 <span>{{ $t('file_detail_meta.model') }}</span>
-                <b>{{ fileInfoDetail.metadata.Model }}</b>
+                <b>{{ clipboard.metadata.Model }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.ApertureValue">
+            <li v-if="clipboard.metadata.ApertureValue">
                 <span>{{ $t('file_detail_meta.aperture_value') }}</span>
-                <b v-html="parseInt(fileInfoDetail.metadata.ApertureValue) / 100"></b>
+                <b v-html="parseInt(clipboard.metadata.ApertureValue) / 100"></b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.ExposureTime">
+            <li v-if="clipboard.metadata.ExposureTime">
                 <span>{{ $t('file_detail_meta.exposure') }}</span>
-                <b>{{ fileInfoDetail.metadata.ExposureTime }}</b>
+                <b>{{ clipboard.metadata.ExposureTime }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.FocalLength">
+            <li v-if="clipboard.metadata.FocalLength">
                 <span>{{ $t('file_detail_meta.focal') }}</span>
-                <b>{{ fileInfoDetail.metadata.FocalLength }}</b>
+                <b>{{ clipboard.metadata.FocalLength }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.ISOSpeedRatings">
+            <li v-if="clipboard.metadata.ISOSpeedRatings">
                 <span>{{ $t('file_detail_meta.iso') }}</span>
-                <b>{{ fileInfoDetail.metadata.ISOSpeedRatings }}</b>
+                <b>{{ clipboard.metadata.ISOSpeedRatings }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.COMPUTED.ApertureFNumber">
+            <li v-if="clipboard.metadata.COMPUTED.ApertureFNumber">
                 <span>{{ $t('file_detail_meta.aperature') }}</span>
-                <b>{{ fileInfoDetail.metadata.COMPUTED.ApertureFNumber }}</b>
+                <b>{{ clipboard.metadata.COMPUTED.ApertureFNumber }}</b>
             </li>
 
-            <li v-if="fileInfoDetail.metadata.COMPUTED.CCDWidth">
+            <li v-if="clipboard.metadata.COMPUTED.CCDWidth">
                 <span>{{ $t('file_detail_meta.camera_lens') }}</span>
-                <b>{{ fileInfoDetail.metadata.COMPUTED.CCDWidth }}</b>
+                <b>{{ clipboard.metadata.COMPUTED.CCDWidth }}</b>
             </li>
 
-              <li v-if="fileInfoDetail.metadata.GPSLongitude">
+		  	<li v-if="clipboard.metadata.GPSLongitude">
                 <span>{{ $t('file_detail_meta.longitude') }}</span>
-                <b>{{ formatGps(fileInfoDetail.metadata.GPSLongitude,fileInfoDetail.metadata.GPSLongitudeRef) }}</b>
+                <b>{{ formatGps(clipboard.metadata.GPSLongitude, clipboard.metadata.GPSLongitudeRef) }}</b>
             </li>
 
-               <li v-if="fileInfoDetail.metadata.GPSLatitude">
-                <span>{{ $t('file_detail_meta.latitude') }}</span>
-                <b>{{ formatGps(fileInfoDetail.metadata.GPSLatitude, fileInfoDetail.metadata.GPSLatitudeRef) }}</b>
-            </li>
-
+			<li v-if="clipboard.metadata.GPSLatitude">
+				<span>{{ $t('file_detail_meta.latitude') }}</span>
+				<b>{{ formatGps(clipboard.metadata.GPSLatitude, clipboard.metadata.GPSLatitudeRef) }}</b>
+			</li>
         </ul>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import {split} from 'lodash'
 
 export default {
-    name: 'ImageMetaData',
-    computed: {
-    fileInfoDetail() {
-        return this.$store.getters.fileInfoDetail[0]
-    },
-    },
-    methods: {
-        formatGps(location, ref) {
-            let data = []
-            location.forEach(location => {
-                data.push(split(location , '/' , 2)[0])
-            })
-          return `${data[0]}° ${data[1]}' ${data[2].substr(0,4) / 100}" ${ref} `
-        }
-    },
-    
+	name: 'ImageMetaData',
+	computed: {
+		clipboard() {
+			return this.$store.getters.clipboard[0]
+		},
+	},
+	methods: {
+		formatGps(location, ref) {
+			let data = []
+
+			location.forEach(location => {
+				data.push(split(location, '/', 2)[0])
+			})
+
+			return `${data[0]}° ${data[1]}' ${data[2].substr(0, 4) / 100}" ${ref} `
+		}
+	},
+
 }
 </script>
 
@@ -111,33 +112,33 @@ export default {
 @import '@assets/vuefilemanager/_mixins';
 
 .meta-data-list {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
 
-    li {
-        display: flex;
-        justify-content: space-between;
-        padding: 9px 0;
-        border-bottom: 1px solid $light_mode_border;
+	li {
+		display: flex;
+		justify-content: space-between;
+		padding: 9px 0;
+		border-bottom: 1px solid $light_mode_border;
 
-        b, span {
-            @include font-size(14);
-            color: $text;
-        }
-    }
+		b, span {
+			@include font-size(14);
+			color: $text;
+		}
+	}
 }
 
 @media (prefers-color-scheme: dark) {
 
-    .meta-data-list {
-        li {
-            border-color: $dark_mode_border_color;
+	.meta-data-list {
+		li {
+			border-color: $dark_mode_border_color;
 
-            b, span {
-                color: $dark_mode_text_primary !important;
-            }
-        }
-    }
+			b, span {
+				color: $dark_mode_text_primary !important;
+			}
+		}
+	}
 }
 </style>

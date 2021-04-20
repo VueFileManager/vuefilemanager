@@ -1,20 +1,30 @@
 <template>
-    <MultiSelected :title="title" :subtitle="subtitle" id="multi-select-ui" v-show="isVisible"/>
+    <TitlePreview
+		icon="check-square"
+		:title="title"
+		:subtitle="subtitle"
+		id="drag-ui"
+		v-show="isVisible"
+	/>
 </template>
 
 <script>
-import MultiSelected from '@/components/FilesView/MultiSelected'
+import TitlePreview from '@/components/FilesView/TitlePreview'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
 
 export default {
     name: 'DragUI',
-    components: { MultiSelected },
+    components: {
+		TitlePreview
+	},
     computed: {
-        ...mapGetters(['fileInfoDetail']),
+        ...mapGetters([
+			'clipboard'
+		]),
         title() {
-            let filesLength = this.fileInfoDetail.length,
-                hasDraggedItem = this.fileInfoDetail.includes(this.draggedItem)
+            let filesLength = this.clipboard.length,
+                hasDraggedItem = this.clipboard.includes(this.draggedItem)
 
             // Title for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {
@@ -27,8 +37,8 @@ export default {
             }
         },
         subtitle() {
-            let filesLength = this.fileInfoDetail.length,
-                hasDraggedItem = this.fileInfoDetail.includes(this.draggedItem)
+            let filesLength = this.clipboard.length,
+                hasDraggedItem = this.clipboard.includes(this.draggedItem)
 
             // Subtitle for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {
@@ -56,7 +66,6 @@ export default {
         }
     },
     created() {
-        // Handle Drag & Drop Ghost show
         events.$on('dragstart', data => {
             this.draggedItem = data
 
@@ -65,9 +74,7 @@ export default {
             }, 100)
         })
 
-        events.$on('drop', () => {
-            this.isVisible = false
-        })
+        events.$on('drop', () => this.isVisible = false)
     }
 }
 </script>
@@ -76,7 +83,7 @@ export default {
 @import '@assets/vuefilemanager/_variables';
 @import '@assets/vuefilemanager/_mixins';
 
-#multi-select-ui {
+#drag-ui {
     max-width: 300px;
     min-width: 250px;
     position: fixed;
@@ -89,7 +96,7 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-    #multi-select-ui {
+    #drag-ui {
         background: $dark_mode_foreground;
     }
 }

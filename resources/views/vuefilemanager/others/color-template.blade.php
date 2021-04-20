@@ -5,7 +5,7 @@
         @endphp
 
         {{-- Group options --}}
-        .group:hover .group-hover-text-theme {color: {{ $color }} !important;}
+        .group:hover:not(.hover-disabled) .group-hover-text-theme {color: {{ $color }} !important;}
 
 
         {{-- Single option --}}
@@ -50,7 +50,7 @@
         {{-- Emoji Picker --}}
         .active-menu.focus-border-theme {border-color: {{ $color }} !important;}
 
-        {{-- Menubar --}}
+        {{-- Sidebar Navigation --}}
         .router-link-active.home .button-icon {background: {{ $color }}10}
 
         {{-- Content Panel --}}

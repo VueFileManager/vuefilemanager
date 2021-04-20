@@ -3,7 +3,7 @@ import axios from "axios";
 import Vue from "vue";
 
 const defaultState = {
-    fileInfoPanelVisible: localStorage.getItem('file_info_visibility') === 'true' || false,
+    isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
     FilePreviewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
     index: undefined,
@@ -982,7 +982,7 @@ const actions = {
     },
     fileInfoToggle: (context, visibility = undefined) => {
         if (!visibility) {
-            if (context.state.fileInfoPanelVisible) {
+            if (context.state.isVisibleSidebar) {
                 context.commit('FILE_INFO_TOGGLE', false)
             } else {
                 context.commit('FILE_INFO_TOGGLE', true)
@@ -1025,7 +1025,7 @@ const mutations = {
         state.config.stripe_public_key = data
     },
     FILE_INFO_TOGGLE(state, isVisible) {
-        state.fileInfoPanelVisible = isVisible
+        state.isVisibleSidebar = isVisible
 
         localStorage.setItem('file_info_visibility', isVisible)
     },
@@ -1044,7 +1044,7 @@ const mutations = {
 }
 
 const getters = {
-    fileInfoVisible: state => state.fileInfoPanelVisible,
+    isVisibleSidebar: state => state.isVisibleSidebar,
     FilePreviewType: state => state.FilePreviewType,
     expirationList: state => state.expirationList,
     homeDirectory: state => state.homeDirectory,

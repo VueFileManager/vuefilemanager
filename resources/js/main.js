@@ -91,7 +91,7 @@ Vue.config.productionTip = false;
 
 // Handle position of Drag & Drop Ghost
 document.addEventListener('drag', event => {
-  let multiSelect = document.getElementById('multi-select-ui')
+  let multiSelect = document.getElementById('drag-ui')
 
   multiSelect.style.top = event.clientY + 20 + 'px'
   multiSelect.style.left = event.clientX + 'px'

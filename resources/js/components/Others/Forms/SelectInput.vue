@@ -7,8 +7,8 @@
             <!--If is selected-->
             <div class="selected" v-if="selected">
                 <div class="option-icon" v-if="selected.icon">
-                    <user-icon v-if="selected.icon === 'user'" size="14"></user-icon>
-                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14"></edit2-icon>
+                    <user-icon v-if="selected.icon === 'user'" size="14" />
+                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14" />
                 </div>
                 <span class="option-value">{{ selected.label }}</span>
             </div>
@@ -23,34 +23,64 @@
 
         <!--Options-->
         <transition name="slide-in">
-            <ul class="input-options" v-if="isOpen">
-                <li class="option-item" @click="selectOption(option)" v-for="(option, i) in options" :key="i">
-                    <div class="option-icon" v-if="option.icon">
-                        <user-icon v-if="option.icon === 'user'" size="14"></user-icon>
-                        <edit2-icon v-if="option.icon === 'user-edit'" size="14"></edit2-icon>
-                    </div>
-                    <span class="option-value">{{ option.label }}</span>
-                </li>
-            </ul>
+            <div class="input-options" v-if="isOpen">
+                <div v-if="options.length > 5" class="select-search">
+                    <input v-model="query" ref="search" type="text" :placeholder="$t('select_search_placeholder')" class="search-input focus-border-theme">
+                </div>
+                <ul class="option-list">
+                    <li class="option-item" @click="selectOption(option)" v-for="(option, i) in optionList" :key="i">
+                        <div class="option-icon" v-if="option.icon">
+                            <user-icon v-if="option.icon === 'user'" size="14" />
+                            <edit2-icon v-if="option.icon === 'user-edit'" size="14" />
+                        </div>
+                        <span class="option-value">{{ option.label }}</span>
+                    </li>
+                </ul>
+            </div>
         </transition>
     </div>
 </template>
 
 <script>
     import { ChevronDownIcon, Edit2Icon, UserIcon } from 'vue-feather-icons'
+    import {debounce, omitBy} from "lodash"
 
     export default {
         name:'SelectInput',
-        props: ['options', 'isError', 'default', 'placeholder'],
+        props: [
+            'placeholder',
+            'options',
+            'isError',
+            'default',
+        ],
         components: {
             Edit2Icon,
             UserIcon,
             ChevronDownIcon
         },
+        watch: {
+            query: debounce(function (val) {
+                this.searchedResults = omitBy(this.options, string => {
+                    return !string.label.toLowerCase().includes(val.toLowerCase())
+                })
+            }, 200),
+        },
+        computed: {
+            isSearching() {
+                return this.searchedResults && this.query !== ''
+            },
+            optionList() {
+                return this.isSearching
+                    ? this.searchedResults
+                    : this.options
+            }
+        },
         data() {
             return {
+                searchedResults: undefined,
                 selected: undefined,
                 isOpen: false,
+                query: '',
             }
         },
         methods: {
@@ -67,10 +97,13 @@
             },
             openMenu() {
                 this.isOpen = ! this.isOpen
+
+                if (this.isOpen) {
+                    this.$nextTick(() => this.$refs.search.focus());
+                }
             },
         },
         created() {
-
             if (this.default)
                 this.selected = this.options.find(option => option.value === this.default)
         }
@@ -85,6 +118,26 @@
         position: relative;
         user-select: none;
         width: 100%;
+    }
+
+    .select-search {
+        background: white;
+        position: sticky;
+        top: 0;
+        padding: 13px;
+
+        .search-input {
+            border: 1px solid transparent;
+            background: $light_background;
+            @include transition(150ms);
+            @include font-size(14);
+            border-radius: 8px;
+            padding: 13px 20px;
+            appearance: none;
+            font-weight: 700;
+            outline: 0;
+            width: 100%;
+        }
     }
 
     .input-options {
@@ -183,6 +236,14 @@
     }
 
     @media (prefers-color-scheme: dark) {
+
+        .select-search {
+            background: $dark_mode_foreground;
+
+            .search-input {
+                background: $dark_mode_background;
+            }
+        }
 
         .input-area {
             background: $dark_mode_foreground;

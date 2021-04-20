@@ -1,10 +1,10 @@
 <template>
-    <div class="menu-options" id="menu-list">
-        <OptionGroup class="menu-option-group">
+    <div>
+        <OptionGroup>
             <Option v-if="isList" @click.native="changePreview('grid')" :title="$t('preview_sorting.grid_view')" icon="grid" />
             <Option v-if="isGrid" @click.native="changePreview('list')" :title="$t('preview_sorting.list_view')" icon="list" />
         </OptionGroup>
-        <OptionGroup class="menu-option-group">
+        <OptionGroup>
             <Option @click.native.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
             <Option @click.native.stop="sort('name')" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
         </OptionGroup>
@@ -19,25 +19,20 @@
 
 import OptionGroup from '@/components/FilesView/OptionGroup'
 import Option from '@/components/FilesView/Option'
-import { CalendarIcon, ListIcon, GridIcon, ArrowUpIcon, CheckIcon } from 'vue-feather-icons'
-import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
+import { ArrowUpIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
-import { events } from '@/bus'
 
 export default {
-    name: 'SortingAndPreviewMenu',
+    name: 'FileSortingOptions',
     components: {
         OptionGroup,
-        Option,
-        CalendarIcon,
-        AlphabetIcon,
         ArrowUpIcon,
-        CheckIcon,
-        ListIcon,
-        GridIcon
+        Option,
     },
     computed: {
-        ...mapGetters(['FilePreviewType']),
+        ...mapGetters([
+            'FilePreviewType'
+        ]),
         isGrid() {
             return this.FilePreviewType === 'grid'
         },
@@ -55,7 +50,6 @@ export default {
     },
     methods: {
         sort(field) {
-
             this.filter.field = field
 
             // Set sorting direction
@@ -74,16 +68,10 @@ export default {
             this.$getDataByLocation()
         },
         changePreview(previewType) {
-
             this.$store.dispatch('changePreviewType', previewType)
-
-            if (this.$isMobile())
-                events.$emit('mobileSortingAndPreview', false)
-                events.$emit('mobileSortingAndPreviewVignette', this.mobileSortingAndPreview)
         }
     },
     mounted() {
-
         let sorting = JSON.parse(localStorage.getItem('sorting'))
 
         // Set default sorting if in not setup in LocalStorage
@@ -92,89 +80,3 @@ export default {
     }
 }
 </script>
-
-<style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
-
-.show-icon {
-    margin-left: auto;
-    max-height: 19px;
-
-    .arrow-down {
-        @include transform(rotate(180deg));
-    }
-}
-
-.menu-option {
-    display: flex;
-
-    .icon {
-        margin-right: 20px;
-        line-height: 0;
-    }
-
-    .text-label {
-        @include font-size(16);
-    }
-}
-
-.sorting-preview {
-    min-width: 250px;
-    position: absolute;
-    z-index: 99;
-    box-shadow: $shadow;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    right: 66px;
-    top: 63px;
-
-    &.showed {
-        display: block;
-    }
-}
-
-.menu-options {
-    list-style: none;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-
-    .menu-option-group {
-        padding: 5px 0;
-        border-bottom: 1px solid $light_mode_border;
-
-        &:first-child {
-            padding-top: 0;
-        }
-
-        &:last-child {
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-    }
-
-    .menu-option {
-        white-space: nowrap;
-        font-weight: 700;
-        @include font-size(14);
-        padding: 15px 20px;
-        cursor: pointer;
-        width: 100%;
-        color: $text;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .menu-options {
-        .menu-option-group {
-            border-color: $dark_mode_border_color;
-        }
-
-        .menu-option {
-            color: $dark_mode_text_primary;
-        }
-    }
-}
-</style>

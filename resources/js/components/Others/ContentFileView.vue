@@ -1,31 +1,23 @@
 <template>
-    <div @contextmenu.prevent.capture="contextMenu($event, undefined)"
-         id="files-view">
-        <ContextMenu/>
-        <DesktopSortingAndPreview/>
-        <DesktopToolbar/>
+    <div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view">
+		<DesktopToolbar/>
+		<ContextMenu />
         <FileBrowser/>
     </div>
 </template>
 
 <script>
-    import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import FileBrowser from '@/components/FilesView/FileBrowser'
-    import ContextMenu from '@/components/FilesView/ContextMenu'
-    import {mapGetters} from 'vuex'
+	import ContextMenu from '@/components/FilesView/ContextMenu'
     import {events} from '@/bus'
 
     export default {
         name: 'FilesView',
         components: {
-            DesktopSortingAndPreview,
             DesktopToolbar,
             FileBrowser,
             ContextMenu,
-        },
-        computed: {
-            ...mapGetters(['config']),
         },
         methods: {
             contextMenu(event, item) {
@@ -36,8 +28,6 @@
 </script>
 
 <style lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
 
     #files-view {
         font-family: 'Nunito', sans-serif;

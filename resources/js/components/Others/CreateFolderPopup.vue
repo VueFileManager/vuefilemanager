@@ -55,7 +55,7 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'CreateFolder',
+        name: 'CreateFolderPopup',
         components: {
             ValidationProvider,
             ValidationObserver,

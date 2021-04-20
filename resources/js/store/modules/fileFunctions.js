@@ -41,7 +41,7 @@ const actions = {
         let files = []
 
         // get ids of selected files
-        getters.fileInfoDetail.forEach(file => files.push(file.id))
+        getters.clipboard.forEach(file => files.push(file.id))
 
         // Get route
         let route = getters.sharedDetail
@@ -71,9 +71,9 @@ const actions = {
         let itemsToMove = []
         let items = [noSelectedItem]
 
-        // If coming no selected item dont get items to move from fileInfoDetail
+        // If coming no selected item dont get items to move from clipboard
         if (!noSelectedItem)
-            items = getters.fileInfoDetail
+            items = getters.clipboard
 
         items.forEach(data => itemsToMove.push({
             'id': data.id,
@@ -82,14 +82,12 @@ const actions = {
 
         // Remove file preview
         if (!noSelectedItem)
-            commit('CLEAR_FILEINFO_DETAIL')
+            commit('CLIPBOARD_CLEAR')
 
         // Get route
         let route = getters.sharedDetail
             ? `/api/editor/move/${router.currentRoute.params.token}`
             : '/api/move'
-
-        console.log(to_item);
 
         axios
             .post(route, {
@@ -269,9 +267,9 @@ const actions = {
         let items = [item]
         let restoreToHome = false
 
-        // If coming no selected item dont get items to restore from fileInfoDetail
+        // If coming no selected item dont get items to restore from clipboard
         if (!item)
-            items = getters.fileInfoDetail
+            items = getters.clipboard
 
         // Check if file can be restored to home directory
         if (getters.currentFolder.location === 'trash')
@@ -283,7 +281,7 @@ const actions = {
         }))
 
         // Remove file preview
-        commit('CLEAR_FILEINFO_DETAIL')
+        commit('CLIPBOARD_CLEAR')
 
         axios
             .post(getters.api + '/trash/restore', {
@@ -301,9 +299,9 @@ const actions = {
         let itemsToDelete = []
         let items = [noSelectedItem]
 
-        // If coming no selected item dont get items to move from fileInfoDetail
+        // If coming no selected item dont get items to move from clipboard
         if (!noSelectedItem)
-            items = getters.fileInfoDetail
+            items = getters.clipboard
 
             items.forEach(data => {
                 itemsToDelete.push({
@@ -335,7 +333,7 @@ const actions = {
 
         // Remove file preview
         if (!noSelectedItem) {
-            commit('CLEAR_FILEINFO_DETAIL')
+            commit('CLIPBOARD_CLEAR')
         }
 
         // Get route
@@ -387,7 +385,7 @@ const actions = {
                 commit('LOADING_STATE', {loading: false, data: []})
                 events.$emit('scrollTop')
 
-                commit('CLEAR_FILEINFO_DETAIL')
+                commit('CLIPBOARD_CLEAR')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     }

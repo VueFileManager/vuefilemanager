@@ -1,61 +1,77 @@
 <template>
-    <div v-if="canBePreview" class="preview">
-        <img v-if="fileInfoDetail[0].type == 'image' && fileInfoDetail[0].thumbnail" :src="fileInfoDetail[0].thumbnail" :alt="fileInfoDetail[0].name" />
-        <audio v-else-if="fileInfoDetail[0].type == 'audio'" :src="fileInfoDetail[0].file_url" controlsList="nodownload" controls></audio>
-        <video v-else-if="fileInfoDetail[0].type == 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
-            <source :src="fileInfoDetail[0].file_url" type="video/mp4">
-        </video>
-    </div>
+	<div
+        v-if="isFullPreview"
+        class="file-preview"
+        ref="filePreview"
+        tabindex="-1"
+        @keydown.esc="closeFilePreview"
+        @keydown.right="next"
+        @keydown.left="prev"
+    >
+		<FilePreviewToolbar />
+		<FilePreviewMedia />
+	</div>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import { includes } from 'lodash'
+    import FilePreviewToolbar from '@/components/FilesView/FilePreviewToolbar'
+    import FilePreviewMedia from '@/components/FilesView/FilePreviewMedia'
+    import {events} from '@/bus'
 
     export default {
         name: 'FilePreview',
-        computed: {
-            ...mapGetters(['fileInfoDetail']),
-            canBePreview() {
-                return this.fileInfoDetail[0] && ! includes([
-                    'folder', 'file'
-                ], this.fileInfoDetail[0].type)
+        components: {
+            FilePreviewToolbar,
+            FilePreviewMedia,
+        },
+        data() {
+            return {
+                isFullPreview: false
             }
         },
+        methods: {
+            closeFilePreview() {
+                this.isFullPreview = false
+
+                events.$emit('showContextMenuPreview:hide')
+            },
+            next() {
+                events.$emit('file-preview:next')
+            },
+            prev() {
+                events.$emit('file-preview:prev')
+            }
+        },
+        updated() {
+            if (this.isFullPreview) {
+                this.$refs.filePreview.focus()
+            }
+        },
+        mounted() {
+            events.$on('file-preview:show', () => {
+                this.isFullPreview = true
+            })
+            events.$on('file-preview:hide', () => {
+                this.isFullPreview = false
+            })
+        }
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
     @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
 
-    .preview {
+    .file-preview {
         width: 100%;
-        display: block;
-        margin-bottom: 7px;
+        height: 100%;
+        position: absolute;
+        z-index: 7;
+        background-color: white;
+    }
 
-        img {
-            border-radius: 4px;
-            overflow: hidden;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        audio {
-            width: 100%;
-            &::-webkit-media-controls-panel {
-                background-color: $light_background;
-            }
-
-            &::-webkit-media-controls-play-button {
-                color: $theme;
-            }
-        }
-
-        video {
-            width: 100%;
-            height: auto;
-            border-radius: 3px;
+    @media (prefers-color-scheme: dark) {
+        .file-preview {
+            background-color: $dark_mode_background;
         }
     }
 </style>

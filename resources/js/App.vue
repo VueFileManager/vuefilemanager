@@ -5,13 +5,14 @@
         <Alert />
         <ToastrWrapper />
         <CookieDisclaimer />
-        <Vignette />
 
         <!--Show spinner before translations is loaded-->
-        <Spinner v-if="! isLoadedTranslations"/>
+        <Spinner v-if="! isLoaded"/>
 
         <!--App view-->
-        <router-view v-if="isLoadedTranslations" />
+        <router-view v-if="isLoaded" />
+
+        <Vignette />
     </div>
 </template>
 
@@ -34,7 +35,7 @@ export default {
     },
     data() {
         return {
-            isLoadedTranslations: false
+            isLoaded: false
         }
     },
     methods: {
@@ -44,24 +45,11 @@ export default {
     },
     beforeMount() {
 
-        // Get language translations
-        this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.language)
-            .then(() => {
-                this.isLoadedTranslations = true
-
-                // Store config to vuex
-                this.$store.commit('INIT', {
-                    config: this.$root.$data.config,
-                    rootDirectory: {
-                        name: this.$t('locations.home'),
-                        location: 'base',
-                        id: undefined
-                    }
-                })
-            })
-
         // Get installation state
         let installation = this.$root.$data.config.installation
+
+        if (['setup-disclaimer', 'setup-database'].includes(installation))
+            this.isLoaded = true
 
         // Redirect to database verify code
         if (installation === 'setup-database')
@@ -70,6 +58,22 @@ export default {
         // Redirect to starting installation process
         if (installation === 'setup-disclaimer')
             this.$router.push({name: 'InstallationDisclaimer'})
+
+        if (installation === 'setup-done')
+            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.language)
+                .then(() => {
+                    this.isLoaded = true
+
+                    // Store config to vuex
+                    this.$store.commit('INIT', {
+                        config: this.$root.$data.config,
+                        rootDirectory: {
+                            name: this.$t('locations.home'),
+                            location: 'base',
+                            id: undefined
+                        }
+                    })
+                })
     },
     mounted() {
         this.$checkOS()

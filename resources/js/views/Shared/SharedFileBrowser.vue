@@ -7,7 +7,7 @@
                 <div class="menu-list-wrapper vertical">
                     <a class="menu-list-item link" @click="goHome">
                         <div class="icon">
-                            <home-icon size="17"></home-icon>
+                            <home-icon size="17"/>
                         </div>
                         <div class="label">
                             {{ $t('sidebar.home') }}
@@ -18,7 +18,7 @@
 
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.navigator_title')" class="navigator">
-                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in navigationTree" :key="items.id" />
+                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in navigationTree" :key="folder.id" />
             </ContentGroup>
         </ContentSidebar>
 
@@ -28,14 +28,11 @@
             <DesktopToolbar />
 
             <FileBrowser />
-
-            <DesktopSortingAndPreview />
         </div>
     </div>
 </template>
 
 <script>
-    import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
@@ -49,7 +46,6 @@
     export default {
         name: 'SharedFileBrowser',
         components: {
-            DesktopSortingAndPreview,
             TreeMenuNavigator,
             ContentSidebar,
             DesktopToolbar,

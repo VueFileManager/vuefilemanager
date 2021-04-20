@@ -1,18 +1,26 @@
 <template>
-    <div class="user-meta" v-if="user">
-        <b class="name">{{ user.data.relationships.settings.data.attributes.name }}</b>
-        <span class="email text-theme">{{ user.data.attributes.email }}</span>
+    <div class="user-headline">
+        <UserAvatar size="large"/>
+        <div class="user-meta">
+            <b class="name">{{ user.data.relationships.settings.data.attributes.name }}</b>
+            <span class="email text-theme">{{ user.data.attributes.email }}</span>
+        </div>
     </div>
 </template>
 
 <script>
+    import UserAvatar from '@/components/Others/UserAvatar'
     import { mapGetters } from 'vuex'
-    import {events} from '@/bus'
 
     export default {
         name: 'UserHeadline',
+        components: {
+            UserAvatar,
+        },
         computed: {
-            ...mapGetters(['user']),
+            ...mapGetters([
+                'user'
+            ]),
         },
     }
 </script>
@@ -20,6 +28,11 @@
 <style scoped lang="scss">
     @import '@assets/vuefilemanager/_variables';
     @import '@assets/vuefilemanager/_mixins';
+
+    .user-headline {
+        display: flex;
+        align-items: center;
+    }
 
     .user-meta {
         padding-left: 20px;
@@ -34,13 +47,5 @@
             @include font-size(12);
             font-weight: 600;
         }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-    }
-
-    @media (prefers-color-scheme: dark) {
-
     }
 </style>

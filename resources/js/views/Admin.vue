@@ -4,14 +4,14 @@
         <!--Mobile Navigation-->
         <MobileNavigation />
 
-        <!--Confirm Popup-->
-        <Confirm />
+        <!--ConfirmPopup Popup-->
+        <ConfirmPopup />
 
         <!-- Create language popup -->
         <CreateLanguage/>
 
         <!--Navigation Sidebar-->
-        <MenuBar/>
+        <SidebarNavigation/>
 
         <ContentSidebar>
 
@@ -90,12 +90,12 @@
 
 <script>
     import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
+    import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
     import MobileNavigation from '@/components/Others/MobileNavigation'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import CreateLanguage from '@/components/Others/CreateLanguage'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
-    import Confirm from '@/components/Others/Popup/Confirm'
-    import MenuBar from '@/components/Sidebar/MenuBar'
+    import ConfirmPopup from '@/components/Others/Popup/ConfirmPopup'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -104,6 +104,7 @@
             ...mapGetters(['config']),
         },
         components: {
+            SidebarNavigation,
             MobileNavigation,
             CreateLanguage,
             ContentSidebar,
@@ -115,8 +116,7 @@
             MonitorIcon,
             UsersIcon,
             GlobeIcon,
-            Confirm,
-            MenuBar,
+            ConfirmPopup,
             BoxIcon,
         },
     }

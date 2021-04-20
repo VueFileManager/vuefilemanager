@@ -121,7 +121,6 @@
 <script>
 import {ChevronUpIcon, ChevronLeftIcon, ChevronRightIcon} from 'vue-feather-icons'
 import DatatableCell from '@/components/Others/Tables/DatatableCell'
-import {chunk, sortBy} from 'lodash'
 import axios from "axios";
 
 export default {

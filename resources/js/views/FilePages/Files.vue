@@ -43,7 +43,7 @@
                 <span class="empty-note navigator" v-if="tree.length == 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
-                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="items" v-for="items in tree" :key="items.id"/>
+                <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
             </ContentGroup>
 
             <!--Favourites-->
@@ -74,7 +74,7 @@
 <script>
 import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
 import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
-import MultiSelected from '@/components/FilesView/MultiSelected'
+import TitlePreview from '@/components/FilesView/TitlePreview'
 import ContentFileView from '@/components/Others/ContentFileView'
 import ContentSidebar from '@/components/Sidebar/ContentSidebar'
 import ContentGroup from '@/components/Sidebar/ContentGroup'
@@ -94,7 +94,7 @@ export default {
         UpgradeSidebarBanner,
         TreeMenuNavigator,
         ContentFileView,
-        MultiSelected,
+        TitlePreview,
         ContentSidebar,
         UploadCloudIcon,
         ContentGroup,
@@ -104,7 +104,7 @@ export default {
         XIcon
     },
     computed: {
-        ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'fileInfoDetail']),
+        ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'clipboard']),
         favourites() {
             return this.user.data.relationships.favourites.data.attributes.folders
         },
@@ -137,7 +137,7 @@ export default {
         dragEnter() {
             if (this.draggedItem && this.draggedItem.type !== 'folder') return
 
-            if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(item => item.type !== 'folder')) return
+            if (this.clipboard.length > 0 && this.clipboard.find(item => item.type !== 'folder')) return
 
             this.area = true
         },
@@ -156,17 +156,17 @@ export default {
             if (this.favourites.find(folder => folder.id == this.draggedItem.id)) return
 
             // Prevent to move folders to self
-            if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(item => item.type !== 'folder')) return
+            if (this.clipboard.length > 0 && this.clipboard.find(item => item.type !== 'folder')) return
 
             // Store favourites folder
 
             //Add to favourites non selected folder
-            if (!this.fileInfoDetail.includes(this.draggedItem)) {
+            if (!this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', this.draggedItem)
             }
 
             //Add to favourites selected folders
-            if (this.fileInfoDetail.includes(this.draggedItem)) {
+            if (this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', null)
             }
 

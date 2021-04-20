@@ -95,7 +95,7 @@ const actions = {
             let items = [singleItem]
 
             if(!singleItem) {
-                items = getters.fileInfoDetail
+                items = getters.clipboard
             }
 
             items.forEach(data => {
@@ -119,7 +119,7 @@ const actions = {
                         // Flush shared data
                         commit('FLUSH_SHARED', item.id)
 
-                        commit('CLEAR_FILEINFO_DETAIL')
+                        commit('CLIPBOARD_CLEAR')
                     })
                     resolve(true)
 

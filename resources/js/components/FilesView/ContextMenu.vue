@@ -193,21 +193,21 @@ export default {
         Option
     },
     computed: {
-        ...mapGetters(['user', 'fileInfoDetail']),
+        ...mapGetters(['user', 'clipboard']),
         hasFolder() {
-            return this.fileInfoDetail.find(item => item.type === 'folder')
+            return this.clipboard.find(item => item.type === 'folder')
         },
         hasFile() {
-            return this.fileInfoDetail.find(item => item.type !== 'folder')
+            return this.clipboard.find(item => item.type !== 'folder')
         },
         isMultiSelectContextMenu() {
 
             // If is context Menu open on multi selected items open just options for the multi selected items
-            if (this.fileInfoDetail.length > 1 && this.fileInfoDetail.includes(this.item))
+            if (this.clipboard.length > 1 && this.clipboard.includes(this.item))
                 return false
 
             // If is context Menu open for the non selected item open options for the single item
-            if (this.fileInfoDetail.length < 2 || !this.fileInfoDetail.includes(this.item))
+            if (this.clipboard.length < 2 || !this.clipboard.includes(this.item))
                 return true
         },
         favourites() {
@@ -250,11 +250,11 @@ export default {
         restoreItem() {
 
             // If is item not in selected items restore just this single item
-            if (!this.fileInfoDetail.includes(this.item))
+            if (!this.clipboard.includes(this.item))
                 this.$store.dispatch('restoreItem', this.item)
 
-            // If is item in selected items restore all items from fileInfoDetail
-            if (this.fileInfoDetail.includes(this.item))
+            // If is item in selected items restore all items from clipboard
+            if (this.clipboard.includes(this.item))
                 this.$store.dispatch('restoreItem', null)
         },
         shareCancel() {
@@ -267,13 +267,14 @@ export default {
             events.$emit('popup:open', {name: 'move', item: [this.item]})
         },
         shareItem() {
-            if (this.item.shared) {
-                // Open edit share popup
-                events.$emit('popup:open', {name: 'share-edit', item: this.item})
-            } else {
-                // Open create share popup
-                events.$emit('popup:open', {name: 'share-create', item: this.item})
-            }
+            let event = this.item.shared
+                ? 'share-edit'
+                : 'share-create'
+
+            events.$emit('popup:open', {
+                name: event,
+                item: this.item
+            })
         },
         addToFavourites() {
             // Check if folder is in favourites and then add/remove from favourites
@@ -282,12 +283,12 @@ export default {
                 !this.favourites.find(el => el.id === this.item.id)
             ) {
                 // Add to favourite folder that is not selected
-                if (!this.fileInfoDetail.includes(this.item)) {
+                if (!this.clipboard.includes(this.item)) {
                     this.$store.dispatch('addToFavourites', this.item)
                 }
 
                 // Add to favourites all selected folders
-                if (this.fileInfoDetail.includes(this.item)) {
+                if (this.clipboard.includes(this.item)) {
                     this.$store.dispatch('addToFavourites', null)
                 }
             } else {
@@ -295,7 +296,7 @@ export default {
             }
         },
         downloadItem() {
-            if (this.fileInfoDetail.length > 1)
+            if (this.clipboard.length > 1)
                 this.$store.dispatch('downloadFiles')
             else {
                 this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
@@ -303,18 +304,18 @@ export default {
         },
         ItemDetail() {
             // Dispatch load file info detail
-            this.$store.commit('GET_FILEINFO_DETAIL', this.item)
+            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
             // Show panel if is not open
             this.$store.dispatch('fileInfoToggle', true)
         },
         deleteItem() {
             // If is context menu open on non selected item delete this single item
-            if (!this.fileInfoDetail.includes(this.item)) {
+            if (!this.clipboard.includes(this.item)) {
                 this.$store.dispatch('deleteItem', this.item)
             }
             // If is context menu open to multi selected items dele this selected items
-            if (this.fileInfoDetail.includes(this.item)) {
+            if (this.clipboard.includes(this.item)) {
                 this.$store.dispatch('deleteItem')
             }
         },
@@ -384,12 +385,6 @@ export default {
                 this.showFromPreview = false
             }
         }
-    },
-
-    mounted() {
-        events.$on('actualShowingImage:ContextMenu', (item) => {
-            this.item = item
-        })
     },
     created() {
         events.$on('showContextMenuPreview:show', (item) => {

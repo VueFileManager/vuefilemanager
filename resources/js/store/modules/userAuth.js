@@ -56,9 +56,9 @@ const actions = {
         let addFavourites = []
         let items = [folder]
 
-        // If dont coming single folder get folders to add to favourites from fileInfoDetail
+        // If dont coming single folder get folders to add to favourites from clipboard
         if (!folder)
-            items = context.getters.fileInfoDetail
+            items = context.getters.clipboard
 
         items.forEach((data) => {
             if (data.type === 'folder') {
@@ -71,9 +71,9 @@ const actions = {
             }
         })
 
-        // If dont coming single folder clear the selected folders in fileInfoDetail
+        // If dont coming single folder clear the selected folders in clipboard
         if (!folder) {
-            context.commit('CLEAR_FILEINFO_DETAIL')
+            context.commit('CLIPBOARD_CLEAR')
         }
 
         let pushToFavorites = []

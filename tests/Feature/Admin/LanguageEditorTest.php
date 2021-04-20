@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class LanguageEditorTest extends TestCase
 {
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
 
     protected $setup;
 
@@ -260,6 +260,18 @@ class LanguageEditorTest extends TestCase
         $this->assertEquals(
             __t('test', ['name' => 'John', 'surname' => 'Doe']),
             'Hi, my name is John Doe'
+        );
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_get_translated_string_from_t_helper_without_database_connection()
+    {
+        $this->assertEquals(
+            __t('actions.close'),
+            'Close'
         );
     }
 }

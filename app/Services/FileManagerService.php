@@ -333,17 +333,13 @@ class FileManagerService
             if ($item['type'] === 'folder') {
 
                 Folder::find($item['id'])
-                    ->update([
-                        'parent_id' => $to_id
-                    ]);
+                    ->update(['parent_id' => $to_id]);
             }
 
             // Move file
             if ($item['type'] !== 'folder') {
                 UserFile::find($item['id'])
-                    ->update([
-                        'folder_id' => $to_id
-                    ]);
+                    ->update(['folder_id' => $to_id]);
             }
         }
     }

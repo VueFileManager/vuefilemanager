@@ -1,199 +1,141 @@
 <template>
-    <div class="mobile-main-navigation" v-if="user">
-        <transition name="context-menu">
-            <nav v-if="isVisible" class="mobile-navigation">
+    <MenuMobile name="user-navigation">
 
-                <!--User Info-->
-                <div class="user-info">
-                    <UserAvatar size="large"/>
-                    <UserHeadline/>
-                </div>
+        <!--User avatar-->
+        <UserHeadline v-if="!clickedSubmenu" class="user-info" />
 
-                <!--Navigation-->
-                <MenuItemList :navigation="navigation" @menu="action"/>
-            </nav>
-        </transition>
-        <transition name="fade">
-            <div v-show="isVisible" class="vignette" @click="closeAndResetContextMenu"></div>
-        </transition>
-    </div>
+        <!--Go back button-->
+        <div v-if="clickedSubmenu" @click.stop="showSubmenu(undefined)" class="go-back">
+            <chevron-left-icon size="19" class="text-theme" />
+            <span class="title text-theme">{{ backTitle }}</span>
+        </div>
+
+        <!--Menu links-->
+        <MenuMobileGroup>
+
+            <!--Main navigation-->
+            <OptionGroup v-if="!clickedSubmenu">
+                <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" is-hover-disabled="true"/>
+                <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" :is-arrow-right="true" is-hover-disabled="true"/>
+                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" :is-arrow-right="true" is-hover-disabled="true"/>
+            </OptionGroup>
+            <OptionGroup v-if="!clickedSubmenu">
+                <Option @click.native="logOut" :title="$t('menu.logout')" icon="power" is-hover-disabled="true" />
+            </OptionGroup>
+
+            <!--Submenu: User settings-->
+            <OptionGroup v-if="clickedSubmenu === 'settings'">
+                <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Password')" :title="$t('menu.password')" icon="lock" is-hover-disabled="true" />
+            </OptionGroup>
+            <OptionGroup v-if="clickedSubmenu === 'settings' && config.isSaaS">
+                <Option v-if="" @click.native="goToRoute('Subscription')" :title="$t('menu.subscription')" icon="cloud" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('PaymentMethods')" :title="$t('menu.payment_cards')" icon="credit-card" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Invoice')" :title="$t('menu.invoices')" icon="file-text" is-hover-disabled="true" />
+            </OptionGroup>
+
+            <!--Submenu: Admin settings-->
+            <OptionGroup v-if="clickedSubmenu === 'admin'">
+                <Option @click.native="goToRoute('Dashboard')" :title="$t('admin_menu.dashboard')" icon="box" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Users')" :title="$t('admin_menu.users')" icon="users" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('AppOthers')" :title="$t('admin_menu.settings')" icon="settings" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Pages')" :title="$t('admin_menu.pages')" icon="monitor" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Language')" :title="$t('languages')" icon="globe" is-hover-disabled="true" />
+            </OptionGroup>
+            <OptionGroup v-if="clickedSubmenu === 'admin' && config.isSaaS">
+                <Option v-if="" @click.native="goToRoute('Plans')" :title="$t('admin_menu.plans')" icon="database" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Invoices')" :title="$t('admin_menu.invoices')" icon="file-text" is-hover-disabled="true" />
+            </OptionGroup>
+        </MenuMobileGroup>
+    </MenuMobile>
 </template>
 
 <script>
+    import MenuMobileGroup from '@/components/Mobile/MenuMobileGroup'
+    import OptionGroup from '@/components/FilesView/OptionGroup'
     import UserHeadline from '@/components/Sidebar/UserHeadline'
-    import MenuItemList from '@/components/Mobile/MenuItemList'
-    import UserAvatar from '@/components/Others/UserAvatar'
+    import MenuMobile from '@/components/Mobile/MenuMobile'
+    import Option from '@/components/FilesView/Option'
+    import {ChevronLeftIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
 
     export default {
-        name: 'UserMobileNavigation',
+        name: 'MobileNavigation',
         components: {
-            MenuItemList,
+            ChevronLeftIcon,
+            MenuMobileGroup,
             UserHeadline,
-            UserAvatar,
+            OptionGroup,
+            MenuMobile,
+            Option,
         },
         computed: {
-            ...mapGetters(['user', 'homeDirectory']),
-            navigation() {
-                return [
-                    {
-                        icon: 'hard-drive',
-                        title: this.$t('menu.files'),
-                        routeName: 'Files',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'latest',
-                        title: this.$t('menu.latest'),
-                        routeName: 'Files',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'share',
-                        title: this.$t('menu.shared'),
-                        routeName: 'SharedFiles',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'trash',
-                        title: this.$t('menu.trash'),
-                        routeName: 'Files',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'user',
-                        title: this.$t('menu.settings'),
-                        routeName: 'UserProfileMobileMenu',
-                        isVisible: true,
-                    },
-                    {
-                        icon: 'settings',
-                        title: this.$t('menu.admin'),
-                        routeName: 'AdminMobileMenu',
-                        isVisible: this.user.data.attributes.role === 'admin',
-                    },
-                    {
-                        icon: 'power',
-                        title: this.$t('menu.logout'),
-                        routeName: 'LogOut',
-                        isVisible: true,
-                    },
-                ]
+            ...mapGetters([
+                'homeDirectory',
+                'config',
+                'user',
+            ]),
+            isAdmin() {
+                return this.user && this.user.data.attributes.role === 'admin'
             },
+            backTitle() {
+                let location = {
+                    'settings': this.$t('menu.settings'),
+                    'admin': this.$t('menu.admin')
+                }
+
+                return 'Go back from ' + location[this.clickedSubmenu]
+            }
         },
         data() {
             return {
-                isVisible: false,
+                clickedSubmenu: undefined,
             }
         },
         methods: {
-            action(name) {
-
-                if (name === 'latest') {
-                    this.$store.dispatch('getLatest')
-                }
-
-                if (name === 'trash') {
-                    this.$store.dispatch('getTrash')
-                }
-
-                if (name === 'hard-drive') {
-                    this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
-                }
-
-                if (name === 'power') {
-                    this.$store.dispatch('logOut')
-                }
-
-                this.closeAndResetContextMenu()
+            goToRoute(route) {
+                this.$router.push({name: route})
+                this.clickedSubmenu = undefined
             },
-            closeAndResetContextMenu() {
-                this.isVisible = false
+            showSubmenu(name) {
+                this.clickedSubmenu = name
+            },
+            goToFiles() {
+                if (this.$route.name !== 'Files')
+                    this.$router.push({name: 'Files'})
 
-                events.$emit('hide:mobile-navigation')
-            }
-        },
-        created() {
-            events.$on('show:mobile-navigation', () => {
-                this.isVisible = true
-            })
+                this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
+            },
+            logOut() {
+                this.$store.dispatch('logOut')
+            },
         }
     }
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-
-    .mobile-navigation {
-        padding: 20px;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 99;
-        background: white;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-        min-height: 440px;
-        max-height: 80%;
-        overflow-y: auto;
-    }
-
-    .vignette {
-        background: rgba(0, 0, 0, 0.35);
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 9;
-        cursor: pointer;
-        opacity: 1;
-    }
+    @import "@assets/vuefilemanager/_variables";
+    @import "@assets/vuefilemanager/_mixins";
 
     .user-info {
+        padding: 20px 20px 10px;
+    }
+
+    .go-back {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
-    }
+        padding: 30px 20px 10px;
+        cursor: pointer;
 
-    @media only screen and (max-width: 690px) {
+        .title {
+            @include font-size(14);
+            font-weight: 700;
+            margin-left: 10px;
+        }
 
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .mobile-navigation {
-            background: $dark_mode_background;
+        polyline {
+            color: inherit;
         }
     }
-
-    // Transition
-    .context-menu-enter-active,
-    .fade-enter-active {
-        transition: all 200ms;
-    }
-
-    .context-menu-leave-active,
-    .fade-leave-active {
-        transition: all 200ms;
-    }
-
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
-    }
-
-    .context-menu-enter,
-    .context-menu-leave-to {
-        opacity: 0;
-        transform: translateY(100%);
-    }
-
-    .context-menu-leave-active {
-        position: absolute;
-    }
-
 </style>

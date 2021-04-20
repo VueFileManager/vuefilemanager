@@ -90,8 +90,6 @@ return [
         "admin_settings.tabs.payments"                        => "Payments",
         "global.monthly_ac"                                   => "Mo.",
         "global.premium"                                      => "Premium",
-        "global.saas"                                         => "Services",
-        "global.subscription"                                 => "Subscription",
         "global.upgrade_plan"                                 => "Upgrade Plan",
         "incomplete_payment.description"                      => "Your latest payment is incomplete. {0}",
         "incomplete_payment.href"                             => "Please confirm your payment.",
@@ -380,7 +378,6 @@ return [
         "global.free"                                      => "Free",
         "global.get_it"                                    => "Get It",
         "global.incomplete"                                => "Incomplete",
-        "global.menu"                                      => "Menu",
         "global.or"                                        => "or",
         "global.total"                                     => "Total",
         "input_image.supported"                            => "Supported formats are .png, .jpg, .jpeg.",
@@ -540,9 +537,7 @@ return [
         "routes_title.page_edit"                           => "Edit Page",
         "routes_title.pages"                               => "Pages",
         "routes_title.profile"                             => "My Profile",
-        "routes_title.profile_settings"                    => "Profile Settings",
         "routes_title.settings"                            => "Settings",
-        "routes_title.settings_mobile"                     => "Settings",
         "routes_title.settings_password"                   => "Change Password",
         "routes_title.settings_storage"                    => "Storage",
         "routes_title.user_create"                         => "Create User",
@@ -677,5 +672,6 @@ return [
         'og_image_description'                             => 'Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627',
         'app_touch_icon'                                   => 'App Touch Icon',
         'app_touch_icon_description'                       => 'If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156',
+        'select_search_placeholder'                        => 'Search in list...',
     ]
 ];
