@@ -5,7 +5,7 @@
         <div class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
                 <Option @click.native="" title="Edit Invoice" icon="rename" />
-                <Option @click.native="" title="Share Invoice" icon="send" />
+                <Option @click.native="" title="Send Invoice" icon="send" />
                 <Option @click.native="" title="Go to Company" icon="user" />
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>

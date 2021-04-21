@@ -112,7 +112,7 @@
 					this.$store.dispatch('deleteInvoice')
 			},
 			shareInvoice() {
-				alert('Share Invoice')
+				alert('Send Invoice')
 			},
 		},
 	}

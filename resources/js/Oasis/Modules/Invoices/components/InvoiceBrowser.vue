@@ -139,6 +139,12 @@
 				this.$store.commit('CLIPBOARD_CLEAR')
 			})
 
+			this.$store.commit('STORE_CURRENT_FOLDER', {
+				name: 'Invoices',
+				id: undefined,
+				location: 'invoices',
+			})
+
 			this.$store.commit('LOADING_STATE', {
 				isLoading: false,
 				data: [

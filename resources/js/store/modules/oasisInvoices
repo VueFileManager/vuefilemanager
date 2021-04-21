@@ -1,0 +1,94 @@
+import {events} from '@/bus'
+import axios from "axios"
+import Vue from "vue"
+
+const defaultState = {}
+
+const actions = {
+	getInvoices: ({commit, getters}) => {
+		commit('LOADING_STATE', {loading: true, data: []})
+
+		commit('STORE_CURRENT_FOLDER', {
+			name: 'Invoices',
+			id: undefined,
+			location: 'invoices',
+		})
+
+		axios
+			.get(`${getters.api}/invoices/invoice`)
+			.then(response => {
+				commit('LOADING_STATE', {loading: false, data: response.data})
+			})
+			.catch(() => {
+				Vue.prototype.$isSomethingWrong()
+			})
+			.finally(() => {
+				events.$emit('scrollTop')
+			})
+	},
+	getAdvanceInvoices: ({commit, getters}) => {
+		commit('LOADING_STATE', {loading: true, data: []})
+
+		commit('STORE_CURRENT_FOLDER', {
+			name: 'Advance Invoices',
+			id: undefined,
+			location: 'advance-invoices',
+		})
+
+		axios
+			.get(`${getters.api}/invoices/advance-invoice`)
+			.then(response => {
+				commit('LOADING_STATE', {loading: false, data: response.data})
+			})
+			.catch(() => {
+				Vue.prototype.$isSomethingWrong()
+			})
+			.finally(() => {
+				events.$emit('scrollTop')
+			})
+	},
+	getClients: ({commit, getters}) => {
+		commit('LOADING_STATE', {loading: true, data: []})
+
+		commit('STORE_CURRENT_FOLDER', {
+			name: 'Clients',
+			id: undefined,
+			location: 'clients',
+		})
+
+		axios
+			.get(`${getters.api}/invoices/clients`)
+			.then(response => {
+				commit('LOADING_STATE', {loading: false, data: response.data})
+			})
+			.catch(() => {
+				Vue.prototype.$isSomethingWrong()
+			})
+			.finally(() => {
+				events.$emit('scrollTop')
+			})
+	},
+	deleteClient: ({commit, getters}, payload) => {
+		//
+	},
+	deleteInvoice: ({commit, getters}, payload) => {
+		//
+	},
+	deleteAdvanceInvoice: ({commit, getters}, payload) => {
+		//
+	},
+	sendInvoice: ({commit, getters}, payload) => {
+		//
+	},
+}
+
+const mutations = {}
+
+const getters = {}
+
+export default {
+	state: defaultState,
+	getters,
+	actions,
+	mutations
+}
