@@ -15,7 +15,7 @@ const actions = {
 		})
 
 		axios
-			.get(`${getters.api}/invoices/invoice`)
+			.get('/api/oasis/invoices/regular')
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -36,7 +36,7 @@ const actions = {
 		})
 
 		axios
-			.get(`${getters.api}/invoices/advance-invoice`)
+			.get('/api/oasis/invoices/advance')
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -57,7 +57,7 @@ const actions = {
 		})
 
 		axios
-			.get(`${getters.api}/invoices/clients`)
+			.get('/api/oasis/invoices/clients')
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})

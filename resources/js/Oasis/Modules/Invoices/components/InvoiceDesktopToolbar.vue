@@ -6,7 +6,7 @@
 				<!--<chevron-left-icon :class="{'is-active': browseHistory.length > 1 }" class="icon-back" size="17" />-->
 
 				<span class="location-title">
-					Invoices
+					{{ directoryName }}
 				</span>
 			</div>
 
@@ -90,8 +90,14 @@
 		computed: {
 			...mapGetters([
 				'isVisibleSidebar',
+				'currentFolder',
 				'clipboard',
 			]),
+			directoryName() {
+				return this.currentFolder
+					? this.currentFolder.name
+					: this.homeDirectory.name
+			},
 			canActiveInView() {
 				let locations = [
 					'invoices',

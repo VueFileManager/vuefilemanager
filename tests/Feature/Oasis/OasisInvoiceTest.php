@@ -3,7 +3,9 @@
 namespace Tests\Feature\Oasis;
 
 use App\Models\Oasis\Invoice;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class OasisInvoiceTest extends TestCase
@@ -123,5 +125,51 @@ class OasisInvoiceTest extends TestCase
 
         $this->assertEquals(40, invoice_total_tax($invoice));
         $this->assertEquals('40,00 Kč', invoice_total_tax($invoice, true));
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_all_user_regular_invoices()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'      => $user->id,
+                'invoice_type' => 'regular_invoice'
+            ]);
+
+        $response = $this->getJson('/api/oasis/invoices/regular')
+            ->assertJsonFragment([
+                'id'      => $invoice->id,
+            ])->assertStatus(200);
+
+        dd(json_decode($response->content(), true));
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_all_user_advance_invoices()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'      => $user->id,
+                'invoice_type' => 'advance_invoice'
+            ]);
+
+        $this->getJson('/api/oasis/invoices/advance')
+            ->assertJsonFragment([
+                'id'      => $invoice->id,
+            ])->assertStatus(200);
     }
 }

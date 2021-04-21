@@ -4,7 +4,7 @@
         <!--Base location-->
         <div class="mobile-actions">
             <MobileActionButton @click.native="showLocations" icon="filter">
-                {{ $route.meta.title }}
+                {{ directoryName }}
             </MobileActionButton>
             <MobileActionButton @click.native="createButton" icon="file-plus">
                 Create
@@ -32,8 +32,13 @@
         },
         computed: {
             ...mapGetters([
-                //
+                'currentFolder'
             ]),
+			directoryName() {
+				return this.currentFolder
+					? this.currentFolder.name
+					: 'Invoices'
+			},
         },
         data() {
             return {

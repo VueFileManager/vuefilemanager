@@ -2,11 +2,11 @@
     <MenuMobile name="invoice-filter">
         <MenuMobileGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('invoices')" title="Invoices" icon="file-text" is-hover-disabled="true" />
-                <Option @click.native="showLocation('advance-invoices')" title="Advance Invoices" icon="clock" is-hover-disabled="true" />
+                <Option @click.native="showLocation('invoices')" :is-active="$isThisLocation('invoices')" title="Invoices" icon="file-text" is-hover-disabled="true" />
+                <Option @click.native="showLocation('advance-invoices')" :is-active="$isThisLocation('advance-invoices')" title="Advance Invoices" icon="clock" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('clients')" title="Clients" icon="users" is-hover-disabled="true" />
+                <Option @click.native="showLocation('clients')" :is-active="$isThisLocation('clients')" title="Clients" icon="users" is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
@@ -34,31 +34,13 @@ export default {
     },
     methods: {
 		showLocation(location) {
-
-		},
-        flushBrowseHistory() {
-            this.$store.commit('FLUSH_FOLDER_HISTORY')
-        },
-        goToFiles() {
-            this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
-            this.flushBrowseHistory()
-        },
-        goToLatest() {
-            this.$store.dispatch('getLatest')
-            this.flushBrowseHistory()
-        },
-        goToTrash() {
-            this.$store.dispatch('getTrash')
-            this.flushBrowseHistory()
-        },
-        goToShared() {
-            this.$store.dispatch('getShared', [{back: false, init: false}])
-            this.flushBrowseHistory()
-        },
-        goToParticipantUploads() {
-            this.$store.dispatch('getParticipantUploads')
-            this.flushBrowseHistory()
-        }
+			let routes = {
+				'invoices': 'getInvoices',
+				'advance-invoices': 'getAdvanceInvoices',
+				'clients': 'getClients',
+			}
+			this.$store.dispatch(routes[location])
+		}
     }
 }
 </script>

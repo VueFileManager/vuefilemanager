@@ -91,13 +91,13 @@
 			}
 		},
 		methods: {
-			goTo(category) {
+			goTo(location) {
 				let routes = {
 					'invoices': 'getInvoices',
 					'advance-invoices': 'getAdvanceInvoices',
 					'clients': 'getClients',
 				}
-				this.$store.dispatch(routes[category])
+				this.$store.dispatch(routes[location])
 			}
 		},
 		mounted() {
@@ -105,6 +105,8 @@
 
 			events.$on('fileItem:deselect', () => this.isScaledDown = false)
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
+
+			this.$store.dispatch('getInvoices')
 		}
 	}
 </script>

@@ -23,8 +23,13 @@ trait Oasis
         return $this->hasMany(Client::class);
     }
 
-    public function createdInvoices()
+    public function regularInvoices()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->hasMany(Invoice::class)->whereInvoiceType('regular_invoice');
+    }
+
+    public function advanceInvoices()
+    {
+        return $this->hasMany(Invoice::class)->whereInvoiceType('advance_invoice');
     }
 }

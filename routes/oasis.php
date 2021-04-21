@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Oasis\AdminController;
+use App\Http\Controllers\Oasis\ClientController;
+use App\Http\Controllers\Oasis\InvoiceController;
 use App\Http\Controllers\Oasis\SubscriptionController;
 
 Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
@@ -17,6 +19,17 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::post('/{order?}', [SubscriptionController::class, 'subscribe']);
         Route::get('/{order}', [SubscriptionController::class, 'get_subscription_request']);
         Route::get('/{order}/setup-intent', [SubscriptionController::class, 'get_setup_intent']);
+    });
+
+    // Invoices
+    Route::group(['prefix' => 'invoices'], function () {
+        Route::get('/regular', [InvoiceController::class, 'get_all_regular_invoices']);
+        Route::get('/advance', [InvoiceController::class, 'get_all_advance_invoices']);
+    });
+
+    // Clients
+    Route::group(['prefix' => 'clients'], function () {
+        Route::get('/', [ClientController::class, 'index']);
     });
 });
 

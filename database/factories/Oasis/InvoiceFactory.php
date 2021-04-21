@@ -28,7 +28,7 @@ class InvoiceFactory extends Factory
             'id'              => $this->faker->uuid,
             'user_id'         => $this->faker->uuid,
             'client_id'       => $this->faker->uuid,
-            'invoice_type'    => $this->faker->randomElement(['invoice', 'advance_invoice']),
+            'invoice_type'    => $this->faker->randomElement(['regular_invoice', 'advance_invoice']),
             'invoice_number'  => $this->faker->numberBetween(2120001, 2120999),
             'variable_number' => $this->faker->numberBetween(2120001, 2120999),
             'currency'        => $this->faker->randomElement(['CZK', 'EUR']),
@@ -94,10 +94,6 @@ class InvoiceFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Invoice $invoice) {
-
-            $invoice->delivery_at = $invoice->created_at;
-            $invoice->due_at = Carbon::parse($invoice->created_at)->addWeeks(2);
-
             if ($invoice->discount_type === 'percent') {
                 $invoice->discount_rate = $this->faker->randomElement([2, 5, 10, 15, 20]);
             }
@@ -105,10 +101,6 @@ class InvoiceFactory extends Factory
             if ($invoice->discount_type === 'value') {
                 $invoice->discount_rate = $this->faker->randomElement([20, 10]);
             }
-
-            $invoice->total_discount = invoice_total_discount($invoice);
-            $invoice->total_net = invoice_total_net($invoice);
-            $invoice->total_tax = invoice_total_tax($invoice);
 
             $invoice->save();
         });

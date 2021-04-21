@@ -71,3 +71,14 @@ function invoice_total_tax($invoice, $format = false)
 
     return $total;
 }
+
+/**
+ * @param $value
+ * @param $currency
+ * @param string $locale
+ * @return string
+ */
+function format_to_currency($value, $currency, $locale = 'cs')
+{
+    return Cashier::formatAmount(($value * 100), $currency, $locale);
+}

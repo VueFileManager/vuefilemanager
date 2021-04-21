@@ -144,32 +144,6 @@
 				id: undefined,
 				location: 'invoices',
 			})
-
-			this.$store.commit('LOADING_STATE', {
-				isLoading: false,
-				data: [
-					{
-						id: 'c2fa9df5-se64-499b-b001-94691ccb14e2',
-						name: 'Nitex s.r.o. - 3260,00 EUR',
-						invoiceNumber: '2021001',
-						total: '3260,00 EUR',
-						created_at: '12. April. 2021',
-						clientName: 'Nitex s.r.o.',
-						file_url: 'http://192.168.1.198:8000/file/9ti6r4481cqtuk36-190001-FMkuIZM5TYWjp0TpxoTPjSYj96a5qMtM.pdf',
-						mimetype: 'pdf',
-					},
-					{
-						id: 'c3fa9df5-ee64-499b-b001-94691ccb14e1',
-						name: 'VueFileManager s.r.o. - 220,00 EUR',
-						invoiceNumber: '2021002',
-						total: '220,00 EUR',
-						created_at: '9. April. 2021',
-						clientName: 'VueFileManager s.r.o.',
-						file_url: 'http://192.168.1.198:8000/file/9ti6r4481cqtuk36-190001-FMkuIZM5TYWjp0TpxoTPjSYj96a5qMtM.pdf',
-						mimetype: 'pdf',
-					},
-				],
-			})
 		}
 	}
 </script>

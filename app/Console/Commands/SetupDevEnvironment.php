@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\Folder;
 use App\Models\Share;
 use App\Services\HelperService;
+use App\Services\Oasis\OasisDevService;
 use App\Services\SetupService;
 use App\Models\Setting;
 use App\Models\User;
@@ -76,6 +77,9 @@ class SetupDevEnvironment extends Command
         $this->call('queue:work', [
             '--stop-when-empty' => true,
         ]);
+
+        // Oasis demo content generator
+        resolve(OasisDevService::class)->create_demo_content();
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
     }
