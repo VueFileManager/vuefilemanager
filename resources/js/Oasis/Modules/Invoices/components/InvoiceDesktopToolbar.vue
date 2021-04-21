@@ -35,9 +35,9 @@
 
 				<!--Invoice Controls-->
 				<ToolbarGroup v-if="! $isMobile()">
-                    <ToolbarButton @click.native="shareInvoice" source="send" :action="$t('actions.share')" />
-                    <ToolbarButton @click.native="shareInvoice" source="rename" :action="$t('actions.share')" />
-                    <ToolbarButton @click.native="deleteInvoice" source="trash" :action="$t('actions.delete')" />
+                    <ToolbarButton @click.native="shareInvoice" :class="{'is-inactive': canActiveInView }" source="send" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="shareInvoice" :class="{'is-inactive': canActiveInView }" source="rename" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="deleteInvoice" :class="{'is-inactive': canActiveInView }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
 
 				<!--View Controls-->
@@ -45,7 +45,10 @@
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showSortingMenu" source="preview-sorting" :action="$t('actions.sorting_view')" />
 						<PopoverItem name="desktop-sorting">
-							<FileSortingOptions />
+							<OptionGroup>
+								<Option @click.native.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
+								<Option @click.native.stop="sort('name')" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
+							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
                     <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :class="{'active': isVisibleSidebar }" :action="$t('actions.info_panel')" source="info" />
@@ -89,6 +92,13 @@
 				'isVisibleSidebar',
 				'clipboard',
 			]),
+			canActiveInView() {
+				let locations = [
+					'invoices',
+					'advance-invoices',
+				]
+				return !this.$isThisLocation(locations) || this.clipboard.length === 0
+			},
 		},
 		data() {
 			return {
