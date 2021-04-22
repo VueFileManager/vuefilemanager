@@ -1,44 +1,24 @@
 <template>
-    <section id="viewport">
+    <div id="application-wrapper">
 
-		<!--Sidebar navigation-->
-        <ContentSidebar>
-            <ContentGroup title="Invoices" class="navigator menu-list-wrapper vertical">
-				<a @click="goTo('invoices')" :class="{'is-active': $isThisLocation(['invoices'])}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<file-text-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						Invoices
-					</div>
-				</a>
-				<a @click="goTo('advance-invoices')" :class="{'is-active': $isThisLocation(['advance-invoices'])}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<clock-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						Advance Invoices
-					</div>
-				</a>
-            </ContentGroup>
-            <ContentGroup title="Others" class="navigator menu-list-wrapper vertical">
-				<a @click="goTo('clients')" :class="{'is-active': $isThisLocation(['clients'])}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<users-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						Clients
-					</div>
-				</a>
-            </ContentGroup>
-        </ContentSidebar>
+		<!--File preview window-->
+        <FilePreview />
 
-		<ContentInvoiceView />
-    </section>
+		<InvoiceMobileMenu />
+		<ClientMobileMenu />
+		<InvoiceCreateMenu />
+		<InvoiceFilterMobile />
+		<InvoiceSortingMobile />
+
+		<!--Navigations-->
+        <MobileNavigation />
+        <SidebarNavigation />
+
+		<router-view :class="{'is-scaled-down': isScaledDown}" />
+    </div>
 </template>
 
 <script>
-    import ContentInvoiceView from '@/Oasis/Modules/Invoices/ContentInvoiceView'
     import InvoiceSortingMobile from '@/Oasis/Modules/Invoices/components/InvoiceSortingMobile'
 	import InvoiceFilterMobile from '@/Oasis/Modules/Invoices/components/InvoiceFilterMobile'
 	import InvoiceMobileMenu from '@/Oasis/Modules/Invoices/components/InvoiceMobileMenu'
@@ -62,7 +42,6 @@
 			]),
 		},
 		components: {
-			ContentInvoiceView,
 			InvoiceSortingMobile,
 			InvoiceFilterMobile,
 			InvoiceCreateMenu,
@@ -97,8 +76,6 @@
 
 			events.$on('fileItem:deselect', () => this.isScaledDown = false)
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
-
-			this.$store.dispatch('getInvoices')
 		}
 	}
 </script>

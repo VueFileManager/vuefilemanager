@@ -13,7 +13,7 @@
 	import {events} from '@/bus'
 
 	export default {
-		name: 'FilesView',
+		name: 'ContentInvoiceView',
 		components: {
 			InvoiceDesktopToolbar,
 			InvoiceContextMenu,

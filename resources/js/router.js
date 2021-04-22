@@ -74,9 +74,9 @@ const routesOasis = [
     },
     {
         name: 'Invoicing',
-        path: '/invoices',
+        path: '/invoice',
         component: () =>
-            import(/* webpackChunkName: "chunks/oasis/invoices" */ './Oasis/Modules/Invoices/Invoices'),
+            import(/* webpackChunkName: "chunks/oasis/invoices" */ './Oasis/Modules/Invoices/Invoice'),
         meta: {
             requiresAuth: true,
             title: 'Faktúry'
@@ -84,9 +84,9 @@ const routesOasis = [
         children: [
             {
                 name: 'InvoicesList',
-                path: '/invoices/all',
+                path: '/invoice/invoices',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/List'),
+                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/Invoices'),
                 meta: {
                     requiresAuth: true,
                     title: 'Invoices'

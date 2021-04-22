@@ -1,6 +1,9 @@
 <template>
-    <div class="wrapper">
-        <div class="icon-wrapper">
+    <div class="wrapper" :class="{'center': avatar}">
+        <div v-if="avatar" class="avatar-wrapper">
+			<img :src="avatar" alt="">
+        </div>
+        <div v-if="icon" class="icon-wrapper">
             <CheckSquareIcon v-if="icon === 'check-square'" class="icon text-theme" size="21" />
 			<image-icon v-if="icon === 'image'" class="icon text-theme" size="21" />
 			<video-icon v-if="icon === 'video'" class="icon text-theme" size="21" />
@@ -31,6 +34,7 @@ export default {
     name: 'TitlePreview',
     props: [
         'subtitle',
+        'avatar',
         'title',
         'icon',
     ],
@@ -54,6 +58,10 @@ export default {
     display: flex;
     align-items: flex-start;
 
+	&.center {
+		align-items: center;
+	}
+
     .text {
         padding-left: 10px;
         width: 100%;
@@ -74,6 +82,16 @@ export default {
             display: block;
         }
     }
+
+	.avatar-wrapper {
+		line-height: 0;
+
+		img {
+			border-radius: 9px;
+			width: 52px;
+			height: 52px;
+		}
+	}
 
     .icon-wrapper {
 
