@@ -25,11 +25,13 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
     Route::group(['prefix' => 'invoices'], function () {
         Route::get('/regular', [InvoiceController::class, 'get_all_regular_invoices']);
         Route::get('/advance', [InvoiceController::class, 'get_all_advance_invoices']);
+        Route::get('/search', [InvoiceController::class, 'search']);
     });
 
     // Clients
     Route::group(['prefix' => 'clients'], function () {
         Route::get('/', [ClientController::class, 'index']);
+        Route::get('/search', [ClientController::class, 'search']);
     });
 });
 

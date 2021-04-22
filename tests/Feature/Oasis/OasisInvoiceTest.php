@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\Oasis;
 
-use App\Models\Oasis\Invoice;
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\Oasis\Invoice;
+use Illuminate\Bus\Queueable;
 use Laravel\Sanctum\Sanctum;
+use App\Models\User;
 use Tests\TestCase;
 
 class OasisInvoiceTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, Queueable;
 
     /**
      * @test
@@ -143,12 +144,10 @@ class OasisInvoiceTest extends TestCase
                 'invoice_type' => 'regular_invoice'
             ]);
 
-        $response = $this->getJson('/api/oasis/invoices/regular')
+        $this->getJson('/api/oasis/invoices/regular')
             ->assertJsonFragment([
-                'id'      => $invoice->id,
+                'id' => $invoice->id,
             ])->assertStatus(200);
-
-        dd(json_decode($response->content(), true));
     }
 
     /**
@@ -169,7 +168,38 @@ class OasisInvoiceTest extends TestCase
 
         $this->getJson('/api/oasis/invoices/advance')
             ->assertJsonFragment([
-                'id'      => $invoice->id,
+                'id' => $invoice->id,
+            ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_search_user_regular_invoice()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'        => $user->id,
+                'invoice_type'   => 'regular_invoice',
+                'invoice_number' => 2001212,
+                'client'         => [
+                    'name' => 'VueFileManager Inc.',
+                ]
+            ]);
+
+        $this->getJson('/api/oasis/invoices/search?type=regular_invoice&query=2001212')
+            ->assertJsonFragment([
+                'invoiceNumber' => '2001212',
+            ])->assertStatus(200);
+
+        $this->getJson('/api/oasis/invoices/search?type=regular_invoice&query=Vue')
+            ->assertJsonFragment([
+                'invoiceNumber' => '2001212',
             ])->assertStatus(200);
     }
 }
