@@ -7,6 +7,29 @@ import axios from 'axios'
 const Helpers = {
     install(Vue) {
 
+        Vue.prototype.$searchInvoices = debounce(function (value) {
+
+            if (value !== '' && typeof value !== 'undefined') {
+
+                if (['regular-invoice', 'advance-invoice'].includes(this.$store.getters.currentFolder.location)) {
+                    this.$store.dispatch('getSearchResultForInvoices', value)
+                } else {
+                    this.$store.dispatch('getSearchResultForClients', value)
+                }
+            } else if (typeof value !== 'undefined') {
+
+                let locations = {
+                    'regular-invoice': 'getRegularInvoices',
+                    'advance-invoice': 'getAdvanceInvoices',
+                    'clients': 'getClients',
+                }
+
+                this.$store.dispatch(locations[this.$store.getters.currentFolder.location])
+
+                this.$store.commit('CHANGE_SEARCHING_STATE', false)
+            }
+        }, 300)
+
         Vue.prototype.$searchFiles = debounce(function (value) {
 
             if (value !== '' && typeof value !== 'undefined') {

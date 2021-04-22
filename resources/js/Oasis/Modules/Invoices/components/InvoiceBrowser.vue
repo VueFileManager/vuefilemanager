@@ -113,7 +113,7 @@
 		},
 		watch: {
 			query(val) {
-				this.$searchFiles(val)
+				this.$searchInvoices(val)
 			}
 		},
 		data() {

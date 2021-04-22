@@ -9,7 +9,7 @@
         <input
             v-model="query"
             @input="$emit('input', query)"
-            class="query focus-border-theme"
+            class="query"
             type="text"
             :placeholder="placeholder"
         />

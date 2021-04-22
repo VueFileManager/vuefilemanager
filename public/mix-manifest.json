@@ -40,7 +40,7 @@
     "/chunks/files.js": "/chunks/files.js?id=ee5b19530d832c6f9f34",
     "/chunks/files~chunks/oasis/invoices/list~chunks/oasis/platba~chunks/settings-subscription~chunks/shar~d6675e1e.js": "/chunks/files~chunks/oasis/invoices/list~chunks/oasis/platba~chunks/settings-subscription~chunks/shar~d6675e1e.js?id=effef49b99446fdaee0b",
     "/chunks/files~chunks/oasis/invoices/list~chunks/platform~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/oasis/invoices/list~chunks/platform~chunks/shared-files~chunks/shared/file-browser.js?id=c777877000f1e219a748",
-    "/chunks/files~chunks/oasis/invoices/list~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/oasis/invoices/list~chunks/shared-files~chunks/shared/file-browser.js?id=c6fc1ec1f0bf1b367c92",
+    "/chunks/files~chunks/oasis/invoices/list~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/oasis/invoices/list~chunks/shared-files~chunks/shared/file-browser.js?id=a35f0d58f42da919a182",
     "/chunks/files~chunks/oasis/invoices~chunks/oasis/invoices/list~chunks/platform~chunks/shared~chunks/s~87b39a8d.js": "/chunks/files~chunks/oasis/invoices~chunks/oasis/invoices/list~chunks/platform~chunks/shared~chunks/s~87b39a8d.js?id=c226fe89b510c599615f",
     "/chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/f~9f6a6eef.js": "/chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/f~9f6a6eef.js?id=9bc0d89f45dff1feb308",
     "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js?id=14b259c05259260985ec",
@@ -53,7 +53,7 @@
     "/chunks/not-found-shared.js": "/chunks/not-found-shared.js?id=7fc7f9b6f10bdfac770e",
     "/chunks/oasis/homepage.js": "/chunks/oasis/homepage.js?id=a1885dd8814f9eb63a1c",
     "/chunks/oasis/invoices.js": "/chunks/oasis/invoices.js?id=fd5e7aca8897f59cd625",
-    "/chunks/oasis/invoices/list.js": "/chunks/oasis/invoices/list.js?id=b94927bd83dae0172ac2",
+    "/chunks/oasis/invoices/list.js": "/chunks/oasis/invoices/list.js?id=7e67f5fdd3306971f5e4",
     "/chunks/oasis/invoices~chunks/platform~chunks/shared.js": "/chunks/oasis/invoices~chunks/platform~chunks/shared.js?id=28a7253b6d421716fe94",
     "/chunks/oasis/platba.js": "/chunks/oasis/platba.js?id=53d9f2a31b1dd5dad85e",
     "/chunks/oasis/platba~chunks/oasis/upgrade-billing~chunks/oasis/upgrade-plan~chunks/upgrade-billing~ch~6880400b.js": "/chunks/oasis/platba~chunks/oasis/upgrade-billing~chunks/oasis/upgrade-plan~chunks/upgrade-billing~ch~6880400b.js?id=0c8d1c3cca084baa177f",
@@ -229,5 +229,10 @@
     "/js/main.4ea5f95a6ebe1bc881ca.hot-update.js": "/js/main.4ea5f95a6ebe1bc881ca.hot-update.js",
     "/chunks/oasis/invoices.4ea5f95a6ebe1bc881ca.hot-update.js": "/chunks/oasis/invoices.4ea5f95a6ebe1bc881ca.hot-update.js",
     "/chunks/oasis/invoices/list.4ea5f95a6ebe1bc881ca.hot-update.js": "/chunks/oasis/invoices/list.4ea5f95a6ebe1bc881ca.hot-update.js",
-    "/chunks/oasis/invoices~chunks/oasis/invoices/list.4ea5f95a6ebe1bc881ca.hot-update.js": "/chunks/oasis/invoices~chunks/oasis/invoices/list.4ea5f95a6ebe1bc881ca.hot-update.js"
+    "/chunks/oasis/invoices~chunks/oasis/invoices/list.4ea5f95a6ebe1bc881ca.hot-update.js": "/chunks/oasis/invoices~chunks/oasis/invoices/list.4ea5f95a6ebe1bc881ca.hot-update.js",
+    "/chunks/oasis/invoices/list.8e2d2be381674fb05b0c.hot-update.js": "/chunks/oasis/invoices/list.8e2d2be381674fb05b0c.hot-update.js",
+    "/chunks/oasis/invoices/list.df406d455e437b8b4db6.hot-update.js": "/chunks/oasis/invoices/list.df406d455e437b8b4db6.hot-update.js",
+    "/js/main.0ac3865b6b3762804fff.hot-update.js": "/js/main.0ac3865b6b3762804fff.hot-update.js",
+    "/chunks/files~chunks/oasis/invoices/list~chunks/shared-files~chunks/shared/file-browser.7ac3afc1072873d385f7.hot-update.js": "/chunks/files~chunks/oasis/invoices/list~chunks/shared-files~chunks/shared/file-browser.7ac3afc1072873d385f7.hot-update.js",
+    "/chunks/oasis/invoices/list.49eab18a6be6e969328a.hot-update.js": "/chunks/oasis/invoices/list.49eab18a6be6e969328a.hot-update.js"
 }
