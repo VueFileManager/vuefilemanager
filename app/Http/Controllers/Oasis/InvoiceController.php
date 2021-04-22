@@ -14,7 +14,9 @@ class InvoiceController extends Controller
      */
     public function get_all_regular_invoices()
     {
-        return response(new OasisInvoiceCollection(Auth::user()->regularInvoices), 200);
+        return response(
+            new OasisInvoiceCollection(Auth::user()->regularInvoices), 200
+        );
     }
 
     /**
@@ -22,6 +24,8 @@ class InvoiceController extends Controller
      */
     public function get_all_advance_invoices()
     {
-        return response(new OasisInvoiceCollection(Auth::user()->advanceInvoices), 200);
+        return response(
+            new OasisInvoiceCollection(Auth::user()->advanceInvoices), 200
+        );
     }
 }

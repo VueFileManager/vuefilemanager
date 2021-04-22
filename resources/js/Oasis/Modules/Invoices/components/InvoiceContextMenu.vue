@@ -1,8 +1,8 @@
 <template>
     <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" v-show="isVisible || showFromPreview" ref="contextmenu" :class="{'filePreviewFixed': showFromPreview}">
 
-        <!-- File Preview -->
-        <div class="menu-options" id="menu-list">
+        <!--Invoice-->
+        <div v-show="isInvoice" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
                 <Option @click.native="" title="Edit Invoice" icon="rename" />
                 <Option @click.native="" title="Send Invoice" icon="send" />
@@ -16,6 +16,17 @@
             </OptionGroup>
         </div>
 
+        <!--Client-->
+        <div v-show="isClient" class="menu-options" id="menu-list">
+            <OptionGroup class="menu-option-group">
+                <Option @click.native="" title="Edit" icon="rename" />
+                <Option @click.native="deleteItem" title="Delete" icon="trash" />
+            </OptionGroup>
+            <OptionGroup>
+                <Option @click.native="showDetail" title="Go to Profile" icon="user" />
+                <Option @click.native="showDetail" :title="$t('context_menu.detail')" icon="detail" />
+            </OptionGroup>
+        </div>
     </div>
 </template>
 
@@ -36,6 +47,12 @@ export default {
 			'user',
 			'clipboard'
 		]),
+		isInvoice() {
+			return this.clipboard[0] && this.clipboard[0].type === 'invoice'
+		},
+		isClient() {
+			return this.clipboard[0] && this.clipboard[0].type === 'client'
+		},
         isMultiSelectContextMenu() {
 
             // If is context Menu open on multi selected items open just options for the multi selected items

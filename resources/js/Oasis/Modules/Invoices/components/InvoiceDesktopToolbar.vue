@@ -20,10 +20,10 @@
 				<!--Creating controls-->
 				<ToolbarGroup>
 					<PopoverWrapper>
-                    	<ToolbarButton @click.stop.native="createCreateMenu" source="file-plus" :action="$t('actions.create_folder')" />
+                    	<ToolbarButton @click.stop.native="createCreateMenu" source="plus" :action="$t('actions.create_folder')" />
 						<PopoverItem name="desktop-create-invoices">
 							<OptionGroup>
-								<Option title="Create Invoice" icon="file-text" />
+								<Option title="Create Invoice" icon="file-plus" />
 								<Option title="Create Advance Invoice" icon="clock" />
 							</OptionGroup>
 							<OptionGroup>
@@ -94,9 +94,7 @@
 				'clipboard',
 			]),
 			directoryName() {
-				return this.currentFolder
-					? this.currentFolder.name
-					: this.homeDirectory.name
+				return this.currentFolder ? this.currentFolder.name : 'Invoices'
 			},
 			canActiveInView() {
 				let locations = [
@@ -235,11 +233,8 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	.toolbar .directory-name {
-		color: $dark_mode_text_primary;
-	}
 
-	.toolbar-go-back {
+	.location {
 		.location-title {
 			color: $dark_mode_text_primary;
 		}

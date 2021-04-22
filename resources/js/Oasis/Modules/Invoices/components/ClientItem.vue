@@ -11,16 +11,23 @@
                 </div>
             </transition>
 
+			<!--Thumbnail for item-->
+            <div class="icon-item">
+
+				<!--Image thumbnail-->
+                <img loading="lazy" class="image" :src="item.avatar" :alt="item.name" />
+            </div>
+
             <!--Name-->
             <div class="item-name">
 
 				<b :ref="item.id" class="name">
-                    {{ item.clientName }} - {{ item.total }}
+                    {{ item.name }}
                 </b>
 
                 <div class="item-info">
                     <span class="item-size">
-						{{ item.created_at }}, n. {{ item.invoiceNumber }}
+						Created at: {{ item.created_at }}, Total: {{ item.totalNet }}
 					</span>
                 </div>
             </div>
@@ -357,7 +364,7 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 12px 7px 12px 15px;
+        padding: 7px 7px 7px 15px;
 
         &.is-dragenter {
             border-radius: 8px;

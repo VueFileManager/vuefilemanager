@@ -86,7 +86,7 @@ const routesOasis = [
                 name: 'InvoicesList',
                 path: '/invoices/all',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/InvoicesList'),
+                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/List'),
                 meta: {
                     requiresAuth: true,
                     title: 'Invoices'

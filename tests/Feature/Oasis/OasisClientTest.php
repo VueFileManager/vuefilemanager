@@ -42,8 +42,7 @@ class OasisClientTest extends TestCase
 
         $this->getJson('/api/oasis/clients')
             ->assertJsonFragment([
-                'id'      => $client->id,
-                'user_id' => $user->id,
+                'id' => $client->id,
             ])->assertStatus(200);
     }
 }

@@ -8,51 +8,88 @@
 			icon="eye-off"
 		/>
 
-		<!--Multiple item selection-->
-        <div v-if="! isSingleFile && !isEmpty" class="info-headline">
-			<TitlePreview
-				icon="check-square"
-				:title="$t('file_detail.selected_multiple')"
-				:subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
-			/>
-        </div>
+		<div v-if="isClient">
 
-		<!--Single file preview-->
-        <div v-if="isSingleFile && !isEmpty" class="info-headline">
-            <FilePreviewDetail />
+			<!--Single file preview-->
+			<div v-if="isSingleFile && !isEmpty" class="info-headline">
+				<TitlePreview
+					icon="user"
+					:title="singleFile.name"
+					subtitle="Client"
+				/>
+			</div>
 
-			<TitlePreview
-				icon="file-text"
-				:title="singleFile.clientName"
-				:subtitle="'Invoice - ' + singleFile.invoiceNumber"
-			/>
-        </div>
+			<!--File info-->
+			<ListInfo v-if="isSingleFile && !isEmpty">
 
-		<!--File info-->
-        <ListInfo v-if="isSingleFile && !isEmpty">
+				<ListInfoItem
+					title="Email"
+					:content="singleFile.email"
+				/>
 
-            <ListInfoItem
-				title="Invoice Number"
-				:content="singleFile.invoiceNumber"
-			/>
+				<ListInfoItem
+					title="Total Net"
+					:content="singleFile.totalNet"
+				/>
 
-            <ListInfoItem
-				title="Total"
-				:content="singleFile.total"
-			/>
+				<ListInfoItem
+					title="Total Invoices"
+					:content="singleFile.totalInvoices + ' Pcs.'"
+				/>
 
-            <ListInfoItem
-				title="Client"
-				:content="singleFile.clientName"
-			/>
+				<!--Created At-->
+				<ListInfoItem
+					:title="$t('file_detail.created_at')"
+					:content="singleFile.created_at"
+				/>
+			</ListInfo>
+		</div>
 
-			<!--Created At-->
-            <ListInfoItem
-				:title="$t('file_detail.created_at')"
-				:content="singleFile.created_at"
-			/>
+		<div v-if="isInvoice">
 
-        </ListInfo>
+			<!--Multiple item selection-->
+			<div v-if="! isSingleFile && !isEmpty" class="info-headline">
+				<TitlePreview
+					icon="check-square"
+					:title="$t('file_detail.selected_multiple')"
+					:subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+				/>
+			</div>
+
+			<!--Single file preview-->
+			<div v-if="isSingleFile && !isEmpty" class="info-headline">
+				<TitlePreview
+					icon="file-text"
+					:title="singleFile.clientName"
+					:subtitle="'Invoice - ' + singleFile.invoiceNumber"
+				/>
+			</div>
+
+			<!--File info-->
+			<ListInfo v-if="isSingleFile && !isEmpty">
+
+				<ListInfoItem
+					title="Invoice Number"
+					:content="singleFile.invoiceNumber"
+				/>
+
+				<ListInfoItem
+					title="Total"
+					:content="singleFile.total"
+				/>
+
+				<ListInfoItem
+					title="Client"
+					:content="singleFile.clientName"
+				/>
+
+				<!--Created At-->
+				<ListInfoItem
+					:title="$t('file_detail.created_at')"
+					:content="singleFile.created_at"
+				/>
+			</ListInfo>
+		</div>
     </div>
 </template>
 
@@ -87,6 +124,12 @@
 				'permissionOptions',
 				'clipboard',
 			]),
+			isInvoice() {
+				return this.clipboard[0] && this.clipboard[0].type === 'invoice'
+			},
+			isClient() {
+				return this.clipboard[0] && this.clipboard[0].type === 'client'
+			},
 			isEmpty() {
 				return this.clipboard.length === 0
 			},

@@ -1,5 +1,6 @@
 <template>
   <button class="button hover-text-theme hover-svg-stroke-theme" :title="action">
+    <plus-icon v-if="source === 'plus'" size="19" class="hover-text-theme" />
     <file-plus-icon v-if="source === 'file-plus'" size="19" class="hover-text-theme" />
     <send-icon v-if="source === 'send'" size="19" class="hover-text-theme" />
     <corner-down-right-icon v-if="source === 'move'" size="19" class="hover-text-theme" />
@@ -23,6 +24,7 @@
 <script>
     import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
     import {
+		PlusIcon,
     	SendIcon,
     	FilePlusIcon,
         CornerDownRightIcon,
@@ -48,6 +50,7 @@
             'action'
         ],
         components: {
+        	PlusIcon,
 			SendIcon,
 			FilePlusIcon,
             SortingIcon,

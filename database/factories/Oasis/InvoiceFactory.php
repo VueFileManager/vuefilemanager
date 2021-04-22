@@ -78,10 +78,10 @@ class InvoiceFactory extends Factory
             ],
             'discount_type'   => $this->faker->randomElement(['percent', 'value', null]),
             'delivery_at'      => $this->faker->dateTimeBetween(
-                $startDate = '-36 months', $endDate = 'now', $timezone = null
+                $startDate = '-6 months', $endDate = 'now', $timezone = null
             ),
             'created_at'      => $this->faker->dateTimeBetween(
-                $startDate = '-36 months', $endDate = 'now', $timezone = null
+                $startDate = '-6 months', $endDate = 'now', $timezone = null
             ),
         ];
     }

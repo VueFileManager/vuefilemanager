@@ -57,7 +57,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/oasis/invoices/clients')
+			.get('/api/oasis/clients')
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})

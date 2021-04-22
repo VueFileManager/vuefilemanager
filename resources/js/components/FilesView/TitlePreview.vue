@@ -7,6 +7,7 @@
 			<folder-icon v-if="icon === 'folder'" class="icon text-theme" size="21" />
 			<file-icon v-if="icon === 'file'" class="icon text-theme" size="21" />
 			<file-text-icon v-if="icon === 'file-text'" class="icon text-theme" size="21" />
+			<user-icon v-if="icon === 'user'" class="icon text-theme" size="21" />
         </div>
         <div class="text">
             <span class="title">{{ title }}</span>
@@ -23,6 +24,7 @@ import {
 	ImageIcon,
 	VideoIcon,
 	FileIcon,
+	UserIcon,
 } from "vue-feather-icons"
 
 export default {
@@ -39,7 +41,8 @@ export default {
 		ImageIcon,
 		VideoIcon,
 		FileIcon,
-    },
+		UserIcon,
+	},
 }
 </script>
 

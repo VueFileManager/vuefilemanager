@@ -315,11 +315,8 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	.toolbar .directory-name {
-		color: $dark_mode_text_primary;
-	}
 
-	.toolbar-go-back {
+	.location {
 		.location-title {
 			color: $dark_mode_text_primary;
 		}

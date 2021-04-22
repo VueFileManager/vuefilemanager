@@ -22,6 +22,7 @@ class OasisInvoiceResource extends JsonResource
             'file_url'      => '',
             'clientName'    => $this->client['name'],
             'mimetype'      => 'pdf',
+            'type'          => 'invoice',
             'created_at'    => format_date($this->created_at, '%d. %B. %Y'),
         ];
     }

@@ -27,6 +27,15 @@
                     <InvoiceItem
 						@contextmenu.native.prevent="contextMenu($event, item)"
 						:item="item"
+						v-if="item.type === 'invoice'"
+						v-for="item in entries"
+						:key="item.id"
+						class="file-item"
+					/>
+                    <ClientItem
+						@contextmenu.native.prevent="contextMenu($event, item)"
+						:item="item"
+						v-if="item.type === 'client'"
 						v-for="item in entries"
 						:key="item.id"
 						class="file-item"
@@ -56,6 +65,7 @@
     import InvoiceActionsMobile from '@/Oasis/Modules/Invoices/components/InvoiceActionsMobile'
 	import InvoiceInfoSidebar from '@/Oasis/Modules/Invoices/components/InvoiceInfoSidebar'
 	import InvoiceItem from '@/Oasis/Modules/Invoices/components/InvoiceItem'
+	import ClientItem from '@/Oasis/Modules/Invoices/components/ClientItem'
 	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
 	import MobileToolbar from '@/components/FilesView/MobileToolbar'
 	import EmptyMessage from '@/components/FilesView/EmptyMessage'
@@ -67,11 +77,12 @@
 		name: 'FilesContainer',
 		components: {
 			InvoiceActionsMobile,
+			InvoiceInfoSidebar,
 			EmptyFilePage,
 			MobileToolbar,
-			InvoiceItem,
 			EmptyMessage,
-			InvoiceInfoSidebar,
+			InvoiceItem,
+			ClientItem,
 			SearchBar,
 		},
 		computed: {
