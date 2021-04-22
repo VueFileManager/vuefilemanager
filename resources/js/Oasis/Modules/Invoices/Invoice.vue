@@ -64,8 +64,8 @@
 		methods: {
 			goTo(location) {
 				let routes = {
-					'invoices': 'getInvoices',
-					'advance-invoices': 'getAdvanceInvoices',
+					'regular-invoice': 'getRegularInvoices',
+					'advance-invoice': 'getAdvanceInvoices',
 					'clients': 'getClients',
 				}
 				this.$store.dispatch(routes[location])

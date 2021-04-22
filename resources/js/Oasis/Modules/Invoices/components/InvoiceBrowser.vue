@@ -153,7 +153,7 @@
 			this.$store.commit('STORE_CURRENT_FOLDER', {
 				name: 'Invoices',
 				id: undefined,
-				location: 'invoices',
+				location: 'regular-invoice',
 			})
 		}
 	}

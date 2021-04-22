@@ -25,11 +25,11 @@ trait Oasis
 
     public function regularInvoices()
     {
-        return $this->hasMany(Invoice::class)->whereInvoiceType('regular_invoice');
+        return $this->hasMany(Invoice::class)->whereInvoiceType('regular-invoice');
     }
 
     public function advanceInvoices()
     {
-        return $this->hasMany(Invoice::class)->whereInvoiceType('advance_invoice');
+        return $this->hasMany(Invoice::class)->whereInvoiceType('advance-invoice');
     }
 }

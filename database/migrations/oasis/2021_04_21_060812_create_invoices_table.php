@@ -18,7 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->uuid('user_id')->index();
             $table->uuid('client_id')->index();
 
-            $table->enum('invoice_type', ['regular_invoice', 'advance_invoice']);
+            $table->enum('invoice_type', ['regular-invoice', 'advance-invoice']);
 
             $table->text('invoice_number')->nullable();
             $table->text('variable_number')->nullable();

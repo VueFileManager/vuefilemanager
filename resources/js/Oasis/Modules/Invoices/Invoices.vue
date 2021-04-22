@@ -4,7 +4,7 @@
 		<!--Sidebar navigation-->
         <ContentSidebar>
             <ContentGroup title="Invoices" class="navigator menu-list-wrapper vertical">
-				<a @click="goTo('invoices')" :class="{'is-active': $isThisLocation(['invoices'])}" class="menu-list-item link">
+				<a @click="goTo('regular-invoice')" :class="{'is-active': $isThisLocation(['regular-invoice'])}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<file-text-icon size="17" />
 					</div>
@@ -12,7 +12,7 @@
 						Invoices
 					</div>
 				</a>
-				<a @click="goTo('advance-invoices')" :class="{'is-active': $isThisLocation(['advance-invoices'])}" class="menu-list-item link">
+				<a @click="goTo('advance-invoice')" :class="{'is-active': $isThisLocation(['advance-invoice'])}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<clock-icon size="17" />
 					</div>
@@ -85,8 +85,8 @@
 		methods: {
 			goTo(location) {
 				let routes = {
-					'invoices': 'getInvoices',
-					'advance-invoices': 'getAdvanceInvoices',
+					'regular-invoice': 'getRegularInvoices',
+					'advance-invoice': 'getAdvanceInvoices',
 					'clients': 'getClients',
 				}
 				this.$store.dispatch(routes[location])
@@ -98,7 +98,7 @@
 			events.$on('fileItem:deselect', () => this.isScaledDown = false)
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
 
-			this.$store.dispatch('getInvoices')
+			this.$store.dispatch('getRegularInvoices')
 		}
 	}
 </script>

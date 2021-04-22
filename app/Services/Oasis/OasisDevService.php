@@ -31,7 +31,7 @@ class OasisDevService
             ))->count(14)
             ->create([
                 'user_id'      => $user->id,
-                'invoice_type' => 'regular_invoice'
+                'invoice_type' => 'regular-invoice'
             ]);
 
         Invoice::factory(Invoice::class)
@@ -45,7 +45,7 @@ class OasisDevService
                 ['client_id' => $clients[5]->id],
             ))->create([
                 'user_id'      => $user->id,
-                'invoice_type' => 'advance_invoice'
+                'invoice_type' => 'advance-invoice'
             ]);
     }
 }

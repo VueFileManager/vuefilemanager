@@ -71,6 +71,7 @@
 	import {events} from '@/bus'
 	import OptionGroup from '@/components/FilesView/OptionGroup'
 	import Option from '@/components/FilesView/Option'
+	import {debounce} from "lodash";
 
 	export default {
 		name: 'InvoiceDesktopToolbar',
@@ -98,8 +99,8 @@
 			},
 			canActiveInView() {
 				let locations = [
-					'invoices',
-					'advance-invoices',
+					'regular-invoice',
+					'advance-invoice',
 				]
 				return !this.$isThisLocation(locations) || this.clipboard.length === 0
 			},
@@ -110,9 +111,29 @@
 			}
 		},
 		watch: {
-			query(val) {
-				this.$searchFiles(val)
-			}
+			query: debounce(function (value) {
+
+				if (value !== '' && typeof value !== 'undefined') {
+
+					if (['regular-invoice', 'advance-invoice'].includes(this.$store.getters.currentFolder.location)) {
+						this.$store.dispatch('getSearchResultForInvoices', value)
+					} else {
+						this.$store.dispatch('getSearchResultForClients', value)
+					}
+
+				} else if (typeof value !== 'undefined') {
+
+					let locations = {
+						'regular-invoice': 'getRegularInvoices',
+						'advance-invoice': 'getAdvanceInvoices',
+						'clients': 'getClients',
+					}
+
+					this.$store.dispatch(locations[this.$store.getters.currentFolder.location])
+
+					this.$store.commit('CHANGE_SEARCHING_STATE', false)
+				}
+			}, 300)
 		},
 		methods: {
 			showSortingMenu() {

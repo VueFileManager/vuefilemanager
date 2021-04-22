@@ -2,8 +2,8 @@
     <MenuMobile name="invoice-create">
         <MenuMobileGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('invoices')" title="Create Invoice" icon="file-plus" is-hover-disabled="true" />
-                <Option @click.native="showLocation('advance-invoices')" title="Create Advance Invoice" icon="clock" is-hover-disabled="true" />
+                <Option @click.native="showLocation('regular-invoice')" title="Create Invoice" icon="file-plus" is-hover-disabled="true" />
+                <Option @click.native="showLocation('advance-invoice')" title="Create Advance Invoice" icon="clock" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
                 <Option @click.native="showLocation('clients')" title="Create Client" icon="user-plus" is-hover-disabled="true" />

@@ -28,7 +28,7 @@ class InvoiceFactory extends Factory
             'id'              => $this->faker->uuid,
             'user_id'         => $this->faker->uuid,
             'client_id'       => $this->faker->uuid,
-            'invoice_type'    => $this->faker->randomElement(['regular_invoice', 'advance_invoice']),
+            'invoice_type'    => $this->faker->randomElement(['regular-invoice', 'advance-invoice']),
             'invoice_number'  => $this->faker->numberBetween(2120001, 2120999),
             'variable_number' => $this->faker->numberBetween(2120001, 2120999),
             'currency'        => $this->faker->randomElement(['CZK', 'EUR']),

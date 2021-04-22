@@ -141,7 +141,7 @@ class OasisInvoiceTest extends TestCase
         $invoice = Invoice::factory(Invoice::class)
             ->create([
                 'user_id'      => $user->id,
-                'invoice_type' => 'regular_invoice'
+                'invoice_type' => 'regular-invoice'
             ]);
 
         $this->getJson('/api/oasis/invoices/regular')
@@ -163,7 +163,7 @@ class OasisInvoiceTest extends TestCase
         $invoice = Invoice::factory(Invoice::class)
             ->create([
                 'user_id'      => $user->id,
-                'invoice_type' => 'advance_invoice'
+                'invoice_type' => 'advance-invoice'
             ]);
 
         $this->getJson('/api/oasis/invoices/advance')
@@ -185,19 +185,19 @@ class OasisInvoiceTest extends TestCase
         Invoice::factory(Invoice::class)
             ->create([
                 'user_id'        => $user->id,
-                'invoice_type'   => 'regular_invoice',
+                'invoice_type'   => 'regular-invoice',
                 'invoice_number' => 2001212,
                 'client'         => [
                     'name' => 'VueFileManager Inc.',
                 ]
             ]);
 
-        $this->getJson('/api/oasis/invoices/search?type=regular_invoice&query=2001212')
+        $this->getJson('/api/oasis/invoices/search?type=regular-invoice&query=2001212')
             ->assertJsonFragment([
                 'invoiceNumber' => '2001212',
             ])->assertStatus(200);
 
-        $this->getJson('/api/oasis/invoices/search?type=regular_invoice&query=Vue')
+        $this->getJson('/api/oasis/invoices/search?type=regular-invoice&query=Vue')
             ->assertJsonFragment([
                 'invoiceNumber' => '2001212',
             ])->assertStatus(200);

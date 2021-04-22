@@ -73,13 +73,13 @@ class SetupDevEnvironment extends Command
         $this->info('Clearing application cache...');
         $this->clear_cache();
 
+        // Oasis demo content generator
+        resolve(OasisDevService::class)->create_demo_content();
+
         $this->info('Dispatching jobs...');
         $this->call('queue:work', [
             '--stop-when-empty' => true,
         ]);
-
-        // Oasis demo content generator
-        resolve(OasisDevService::class)->create_demo_content();
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
     }

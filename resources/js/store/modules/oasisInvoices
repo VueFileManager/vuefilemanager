@@ -5,13 +5,13 @@ import Vue from "vue"
 const defaultState = {}
 
 const actions = {
-	getInvoices: ({commit, getters}) => {
+	getRegularInvoices: ({commit, getters}) => {
 		commit('LOADING_STATE', {loading: true, data: []})
 
 		commit('STORE_CURRENT_FOLDER', {
 			name: 'Invoices',
 			id: undefined,
-			location: 'invoices',
+			location: 'regular-invoice',
 		})
 
 		axios
@@ -32,7 +32,7 @@ const actions = {
 		commit('STORE_CURRENT_FOLDER', {
 			name: 'Advance Invoices',
 			id: undefined,
-			location: 'advance-invoices',
+			location: 'advance-invoice',
 		})
 
 		axios
@@ -67,6 +67,35 @@ const actions = {
 			.finally(() => {
 				events.$emit('scrollTop')
 			})
+	},
+	getSearchResultForInvoices: ({commit, getters}, query) => {
+		commit('LOADING_STATE', {loading: true, data: []})
+		commit('CHANGE_SEARCHING_STATE', true)
+
+		axios
+			.get('/api/oasis/invoices/search', {
+				params: {
+					query: query,
+					type: getters.currentFolder.location,
+				}
+			})
+			.then(response => {
+				commit('LOADING_STATE', {loading: false, data: response.data})
+			})
+			.catch(() => Vue.prototype.$isSomethingWrong())
+	},
+	getSearchResultForClients: ({commit, getters}, query) => {
+		commit('LOADING_STATE', {loading: true, data: []})
+		commit('CHANGE_SEARCHING_STATE', true)
+
+		axios
+			.get('/api/oasis/clients/search', {
+				params: {query: query}
+			})
+			.then(response => {
+				commit('LOADING_STATE', {loading: false, data: response.data})
+			})
+			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
 	deleteClient: ({commit, getters}, payload) => {
 		//
