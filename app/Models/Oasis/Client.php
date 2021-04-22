@@ -5,6 +5,7 @@ namespace App\Models\Oasis;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
@@ -18,6 +19,26 @@ class Client extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    /**
+     * Format avatar to full url
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getAvatarAttribute()
+    {
+        // Get avatar from external storage
+        if ($this->attributes['avatar'] && ! is_storage_driver('local')) {
+            return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
+        }
+
+        // Get avatar from local storage
+        if ($this->attributes['avatar']) {
+            return url('/' . $this->attributes['avatar']);
+        }
+
+        return url('/assets/images/default-avatar.png');
+    }
 
     public function user()
     {

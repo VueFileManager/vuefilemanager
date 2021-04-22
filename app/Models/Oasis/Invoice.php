@@ -3,6 +3,7 @@
 namespace App\Models\Oasis;
 
 use App\Models\User;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -69,6 +70,26 @@ class Invoice extends Model
             $invoice->total_discount = invoice_total_discount($invoice);
             $invoice->total_net = invoice_total_net($invoice);
             $invoice->total_tax = invoice_total_tax($invoice);
+
+            $invoice->currency = 'CZK';
+
+            $user = Auth::user();
+
+            $invoice->author_name = $user->settings->name ?? null;
+            $invoice->author_stamp = ''; // TODO: doplnit
+
+            $invoice->user = [
+                'name'         => $user->settings->name ?? null,
+                'address'      => $user->settings->address ?? null,
+                'state'        => $user->settings->state ?? null,
+                'city'         => $user->settings->city ?? null,
+                'postal_code'  => $user->settings->postcode ?? null,
+                'country'      => $user->settings->country ?? null,
+                'phone_number' => $user->settings->phoneNumber ?? null,
+                'bank_name'    => $user->settings->bank_name ?? null,
+                'iban'         => $user->settings->iban ?? null,
+                'swift'        => $user->settings->swift ?? null,
+            ];
         });
     }
 }

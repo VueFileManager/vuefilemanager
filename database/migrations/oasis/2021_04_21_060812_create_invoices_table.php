@@ -16,7 +16,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
             $table->uuid('user_id')->index();
-            $table->uuid('client_id')->index();
+            $table->uuid('client_id')->nullable()->index();
 
             $table->enum('invoice_type', ['regular-invoice', 'advance-invoice']);
 

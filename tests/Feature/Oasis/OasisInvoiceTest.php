@@ -2,9 +2,15 @@
 
 namespace Tests\Feature\Oasis;
 
+use App\Models\Oasis\Client;
+use App\Notifications\Oasis\InvoiceDeliveryNotification;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Oasis\Invoice;
 use Illuminate\Bus\Queueable;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use App\Models\User;
 use Tests\TestCase;
@@ -24,6 +30,256 @@ class OasisInvoiceTest extends TestCase
         $this->assertDatabaseHas('invoices', [
             'id' => $invoice->id,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_create_new_invoice_with_storing_new_client()
+    {
+        Notification::fake();
+        Storage::fake('local');
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->postJson('/api/oasis/invoices', [
+            'invoice_type'        => 'regular-invoice',
+            'invoice_number'      => '2120001',
+            'variable_number'     => '2120001',
+            'client'              => 'others',
+            'client_avatar'       => $avatar,
+            'client_name'         => 'VueFileManager Inc.',
+            'client_email'        => 'howdy@hi5ve.digital',
+            'client_phone_number' => '+421 950 123 456',
+            'client_address'      => 'Does 12',
+            'client_city'         => 'Bratislava',
+            'client_postal_code'  => '076 54',
+            'client_country'      => 'SK',
+            'client_ico'          => 11111111,
+            'client_dic'          => 11111111,
+            'client_ic_dph'       => 'SK11111111',
+            'items'               => [
+                [
+                    'description' => 'Test 1',
+                    'amount'      => 1,
+                    'tax_rate'    => 20,
+                    'price'       => 200,
+                ],
+                [
+                    'description' => 'Test 2',
+                    'amount'      => 3,
+                    'tax_rate'    => 20,
+                    'price'       => 500,
+                ],
+            ],
+            'discount_type'       => 'percent',
+            'discount_rate'       => 10,
+            'delivery_at'         => Carbon::now()->addWeek(),
+            'store_client'        => true,
+            'send_invoice'        => true,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('invoices', [
+            'invoice_number' => '2120001',
+            'user_id'        => $user->id,
+            'items'          => json_encode([
+                [
+                    'description' => 'Test 1',
+                    'amount'      => 1,
+                    'tax_rate'    => 20,
+                    'price'       => 200,
+                ],
+                [
+                    'description' => 'Test 2',
+                    'amount'      => 3,
+                    'tax_rate'    => 20,
+                    'price'       => 500,
+                ],
+            ]),
+            'client'         => json_encode([
+                'email'       => 'howdy@hi5ve.digital',
+                'name'        => 'VueFileManager Inc.',
+                'address'     => 'Does 12',
+                'city'        => 'Bratislava',
+                'postal_code' => '076 54',
+                'country'     => 'SK',
+                'ico'         => 11111111,
+                'dic'         => 11111111,
+                'ic_dph'      => 'SK11111111',
+            ]),
+        ]);
+
+        $this->assertDatabaseHas('clients', [
+            'user_id' => $user->id,
+            'name'    => 'VueFileManager Inc.',
+            'email'   => 'howdy@hi5ve.digital',
+        ]);
+
+        Storage::disk('local')
+            ->assertExists(Client::first()->getRawOriginal('avatar'));
+
+        Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
+    }
+
+    /**
+     * @test
+     */
+    public function user_create_new_invoice_without_storing_client()
+    {
+        Notification::fake();
+        Storage::fake('local');
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/oasis/invoices', [
+            'invoice_type'        => 'regular-invoice',
+            'invoice_number'      => '2120001',
+            'variable_number'     => '2120001',
+            'client'              => 'others',
+            'client_name'         => 'VueFileManager Inc.',
+            'client_email'        => 'howdy@hi5ve.digital',
+            'client_phone_number' => '+421 950 123 456',
+            'client_address'      => 'Does 12',
+            'client_city'         => 'Bratislava',
+            'client_postal_code'  => '076 54',
+            'client_country'      => 'SK',
+            'client_ico'          => 11111111,
+            'client_dic'          => 11111111,
+            'client_ic_dph'       => 'SK11111111',
+            'items'               => [
+                [
+                    'description' => 'Test 1',
+                    'amount'      => 1,
+                    'tax_rate'    => 20,
+                    'price'       => 200,
+                ],
+                [
+                    'description' => 'Test 2',
+                    'amount'      => 3,
+                    'tax_rate'    => 20,
+                    'price'       => 500,
+                ],
+            ],
+            'discount_type'       => 'percent',
+            'discount_rate'       => 10,
+            'delivery_at'         => Carbon::now()->addWeek(),
+            'store_client'        => false,
+            'send_invoice'        => true,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('invoices', [
+            'invoice_number' => '2120001',
+            'user_id'        => $user->id,
+            'items'          => json_encode([
+                [
+                    'description' => 'Test 1',
+                    'amount'      => 1,
+                    'tax_rate'    => 20,
+                    'price'       => 200,
+                ],
+                [
+                    'description' => 'Test 2',
+                    'amount'      => 3,
+                    'tax_rate'    => 20,
+                    'price'       => 500,
+                ],
+            ]),
+            'client'         => json_encode([
+                'email'       => 'howdy@hi5ve.digital',
+                'name'        => 'VueFileManager Inc.',
+                'address'     => 'Does 12',
+                'city'        => 'Bratislava',
+                'postal_code' => '076 54',
+                'country'     => 'SK',
+                'ico'         => 11111111,
+                'dic'         => 11111111,
+                'ic_dph'      => 'SK11111111',
+            ]),
+        ]);
+
+        $this->assertDatabaseMissing('clients', [
+            'name'  => 'VueFileManager Inc.',
+            'email' => 'howdy@hi5ve.digital',
+        ]);
+
+        Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
+    }
+
+    /**
+     * @test
+     */
+    public function user_create_new_invoice_with_existing_client()
+    {
+        Notification::fake();
+        Storage::fake('local');
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $client = Client::factory(Client::class)
+            ->create([
+                'user_id' => $user->id,
+                'name'    => 'VueFileManager Inc.',
+                'email'   => 'howdy@hi5ve.digital',
+            ]);
+
+        $this->postJson('/api/oasis/invoices', [
+            'invoice_type'    => 'regular-invoice',
+            'invoice_number'  => '2120001',
+            'variable_number' => '2120001',
+            'client'          => $client->id,
+            'items'           => [
+                [
+                    'description' => 'Test 1',
+                    'amount'      => 1,
+                    'tax_rate'    => 20,
+                    'price'       => 200,
+                ],
+                [
+                    'description' => 'Test 2',
+                    'amount'      => 3,
+                    'tax_rate'    => 20,
+                    'price'       => 500,
+                ],
+            ],
+            'discount_type'   => 'percent',
+            'discount_rate'   => 10,
+            'delivery_at'     => Carbon::now()->addWeek(),
+            'send_invoice'    => true,
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('invoices', [
+            'invoice_number' => '2120001',
+            'user_id'        => $user->id,
+            'client_id'      => $client->id,
+            'items'          => json_encode([
+                [
+                    'description' => 'Test 1',
+                    'amount'      => 1,
+                    'tax_rate'    => 20,
+                    'price'       => 200,
+                ],
+                [
+                    'description' => 'Test 2',
+                    'amount'      => 3,
+                    'tax_rate'    => 20,
+                    'price'       => 500,
+                ],
+            ]),
+        ]);
+
+        Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
     }
 
     /**

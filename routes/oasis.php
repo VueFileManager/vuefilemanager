@@ -26,6 +26,8 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::get('/regular', [InvoiceController::class, 'get_all_regular_invoices']);
         Route::get('/advance', [InvoiceController::class, 'get_all_advance_invoices']);
         Route::get('/search', [InvoiceController::class, 'search']);
+
+        Route::post('/', [InvoiceController::class, 'store']);
     });
 
     // Clients
