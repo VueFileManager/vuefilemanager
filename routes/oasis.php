@@ -34,6 +34,8 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
     Route::group(['prefix' => 'clients'], function () {
         Route::get('/', [ClientController::class, 'index']);
         Route::get('/search', [ClientController::class, 'search']);
+
+        Route::post('/', [ClientController::class, 'store']);
     });
 });
 

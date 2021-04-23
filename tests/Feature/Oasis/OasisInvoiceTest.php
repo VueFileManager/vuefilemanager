@@ -172,15 +172,16 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_with_storing_new_client()
     {
         Notification::fake();
+
         Storage::fake('local');
+
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
         Sanctum::actingAs($user);
-
-        $avatar = UploadedFile::fake()
-            ->image('fake-image.jpg');
 
         $this->postJson('/api/oasis/invoices', [
             'invoice_type'    => 'regular-invoice',
@@ -221,7 +222,9 @@ class OasisInvoiceTest extends TestCase
         ]);
 
         Storage::disk('local')
-            ->assertExists(Client::first()->getRawOriginal('avatar'));
+            ->assertExists(
+                Client::first()->getRawOriginal('avatar')
+            );
 
         Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
     }
@@ -335,7 +338,6 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_without_storing_client()
     {
         Notification::fake();
-        Storage::fake('local');
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -387,7 +389,6 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_with_existing_client()
     {
         Notification::fake();
-        Storage::fake('local');
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
