@@ -70,14 +70,18 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::create([
             'user_id'         => $request->user()->id,
+            'client_id'       => $client->id ?? null,
+
             'invoice_type'    => $request->invoice_type,
             'invoice_number'  => $request->invoice_number,
+
             'variable_number' => $request->variable_number,
+            'delivery_at'     => $request->delivery_at,
+
             'discount_type'   => $request->discount_type ?? null,
             'discount_rate'   => $request->discount_rate ?? null,
-            'delivery_at'     => $request->delivery_at,
             'items'           => $request->items,
-            'client_id'       => $client->id ?? null,
+
             'client'          => [
                 'email'       => $client->email ?? $request->client_email,
                 'name'        => $client->name ?? $request->client_name,
@@ -108,30 +112,27 @@ class InvoiceController extends Controller
      */
     private function getOrStoreClient(StoreInvoiceRequest $request)
     {
-        // Store new client
         if (!Str::isUuid($request->client) && $request->store_client) {
 
-            return $request->user()->clients()->create([
-                'avatar'       => store_avatar($request, 'client_avatar') ?? null,
-                'name'         => $request->client_name,
-                'email'        => $request->client_email ?? null,
-                'phone_number' => $request->client_phone_number ?? null,
-                'address'      => $request->client_address,
-                'city'         => $request->client_city,
-                'postal_code'  => $request->client_postal_code,
-                'country'      => $request->client_country,
-                'ico'          => $request->client_ico,
-                'dic'          => $request->client_dic ?? null,
-                'ic_dph'       => $request->client_ic_dph ?? null,
-            ]);
+            return $request->user()
+                ->clients()
+                ->create([
+                    'avatar'       => store_avatar($request, 'client_avatar') ?? null,
+                    'name'         => $request->client_name,
+                    'email'        => $request->client_email ?? null,
+                    'phone_number' => $request->client_phone_number ?? null,
+                    'address'      => $request->client_address,
+                    'city'         => $request->client_city,
+                    'postal_code'  => $request->client_postal_code,
+                    'country'      => $request->client_country,
+                    'ico'          => $request->client_ico ?? null,
+                    'dic'          => $request->client_dic ?? null,
+                    'ic_dph'       => $request->client_ic_dph ?? null,
+                ]);
         }
 
-        // Get client
-        if (Str::isUuid($request->client)) {
-
-            return Client::whereUserId($request->user()->id)
-                ->whereId($request->client)
-                ->first();
-        }
+        return Client::whereUserId($request->user()->id)
+            ->whereId($request->client)
+            ->first();
     }
 }
