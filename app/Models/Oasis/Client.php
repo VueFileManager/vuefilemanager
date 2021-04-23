@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 
+/**
+ * @method static whereUserId($id)
+ */
 class Client extends Model
 {
     use HasFactory, Searchable;

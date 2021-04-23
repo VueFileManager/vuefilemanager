@@ -11,6 +11,7 @@ use App\Models\Oasis\Invoice;
 use App\Notifications\Oasis\InvoiceDeliveryNotification;
 use App\Notifications\SharedSendViaEmail;
 use Auth;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -57,43 +58,18 @@ class InvoiceController extends Controller
         );
     }
 
-
     /**
+     * Store and generate new invoice
+     *
      * @param StoreInvoiceRequest $request
      * @return Application|ResponseFactory|Response
      */
     public function store(StoreInvoiceRequest $request)
     {
-        $user = Auth::user();
+        $client = $this->getOrStoreClient($request);
 
-        // Store client
-        if (! Str::isUuid($request->client) && $request->store_client) {
-
-            $client = $user->clients()->create([
-                'name'         => $request->client_name,
-                'address'      => $request->client_address,
-                'city'         => $request->client_city,
-                'postal_code'  => $request->client_postal_code,
-                'country'      => $request->client_country,
-                'ico'          => $request->client_ico,
-
-                'avatar'       => store_avatar($request, 'client_avatar') ?? null,
-                'email'        => $request->client_email ?? null,
-                'phone_number' => $request->client_phone_number ?? null,
-                'dic'          => $request->client_dic ?? null,
-                'ic_dph'       => $request->client_ic_dph ?? null,
-            ]);
-        }
-
-        // Get client
-        if (Str::isUuid($request->client)) {
-
-            $client = Client::whereUserIdAndId($user->id, $request->client)->first();
-        }
-
-        // Store invoice
         $invoice = Invoice::create([
-            'user_id'         => $user->id,
+            'user_id'         => $request->user()->id,
             'invoice_type'    => $request->invoice_type,
             'invoice_number'  => $request->invoice_number,
             'variable_number' => $request->variable_number,
@@ -116,12 +92,46 @@ class InvoiceController extends Controller
         ]);
 
         if ($request->send_invoice && $invoice->client['email']) {
+
             Notification::route('mail', $invoice->client['email'])
-                ->notify(new InvoiceDeliveryNotification($user));
+                ->notify(new InvoiceDeliveryNotification($request->user()));
         }
 
         return response(
             new OasisInvoiceResource($invoice), 201
         );
+    }
+
+    /**
+     * @param StoreInvoiceRequest $request
+     * @return mixed
+     */
+    private function getOrStoreClient(StoreInvoiceRequest $request)
+    {
+        // Store new client
+        if (!Str::isUuid($request->client) && $request->store_client) {
+
+            return $request->user()->clients()->create([
+                'avatar'       => store_avatar($request, 'client_avatar') ?? null,
+                'name'         => $request->client_name,
+                'email'        => $request->client_email ?? null,
+                'phone_number' => $request->client_phone_number ?? null,
+                'address'      => $request->client_address,
+                'city'         => $request->client_city,
+                'postal_code'  => $request->client_postal_code,
+                'country'      => $request->client_country,
+                'ico'          => $request->client_ico,
+                'dic'          => $request->client_dic ?? null,
+                'ic_dph'       => $request->client_ic_dph ?? null,
+            ]);
+        }
+
+        // Get client
+        if (Str::isUuid($request->client)) {
+
+            return Client::whereUserId($request->user()->id)
+                ->whereId($request->client)
+                ->first();
+        }
     }
 }
