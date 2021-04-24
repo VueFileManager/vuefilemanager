@@ -35,9 +35,9 @@ class CreateInvoicesTable extends Migration
 
             $table->text('currency');
 
-            $table->integer('total_discount')->nullable();
-            $table->integer('total_net')->nullable();
-            $table->integer('total_tax')->nullable();
+            $table->string('total_discount')->nullable();
+            $table->string('total_net')->nullable();
+            $table->string('total_tax')->nullable();
 
             $table->text('author_stamp')->nullable();
             $table->text('author_name')->nullable();

@@ -3,6 +3,42 @@
 use Laravel\Cashier\Cashier;
 
 /**
+ * Get only tax for single invoice item
+ *
+ * @param $item
+ * @param false $format
+ * @return float|int|string
+ */
+function invoice_item_only_tax_price($item, $format = false)
+{
+    $tax = ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100);
+
+    if ($format) {
+        return Cashier::formatAmount($tax * 100, 'CZK', 'cs');
+    }
+
+    return $tax;
+}
+
+/**
+ * Get item price with tax for single invoice item
+ *
+ * @param $item
+ * @param false $format
+ * @return float|int|string
+ */
+function invoice_item_with_tax_price($item, $format = false)
+{
+    $tax = ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100 + 1);
+
+    if ($format) {
+        return Cashier::formatAmount($tax * 100, 'CZK', 'cs');
+    }
+
+    return $tax;
+}
+
+/**
  * @param $invoice
  * @param false $format
  * @return float|int|mixed|string
@@ -12,7 +48,7 @@ function invoice_total_discount($invoice, $format = false)
     // Percent discount
     if ($invoice['discount_type'] === 'percent') {
 
-        $discount = invoice_total_net($invoice) * ($invoice['discount_rate'] / 100);
+        $discount = (invoice_total_net($invoice) + invoice_total_tax($invoice)) * ($invoice['discount_rate'] / 100);
 
         if ($format) {
             return Cashier::formatAmount($discount * 100, $invoice['currency'], 'cs');
@@ -78,7 +114,7 @@ function invoice_total_tax($invoice, $format = false)
  * @param string $locale
  * @return string
  */
-function format_to_currency($value, $currency, $locale = 'cs')
+function format_to_currency($value, $currency = 'CZK', $locale = 'cs')
 {
     return Cashier::formatAmount(($value * 100), $currency, $locale);
 }

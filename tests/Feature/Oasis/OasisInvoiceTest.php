@@ -54,6 +54,38 @@ class OasisInvoiceTest extends TestCase
     /**
      * @test
      */
+    public function it_test_invoice_item_only_tax_price_function()
+    {
+        $item = [
+            'description' => 'Test 1',
+            'amount'      => 1,
+            'tax_rate'    => 20,
+            'price'       => 20,
+        ];
+
+        $this->assertEquals(4, invoice_item_only_tax_price($item));
+        $this->assertEquals('4,00 Kč', invoice_item_only_tax_price($item, true));
+    }
+
+    /**
+     * @test
+     */
+    public function it_test_invoice_item_with_tax_price_function()
+    {
+        $item = [
+            'description' => 'Test 1',
+            'amount'      => 1,
+            'tax_rate'    => 20,
+            'price'       => 20,
+        ];
+
+        $this->assertEquals(24, invoice_item_with_tax_price($item));
+        $this->assertEquals('24,00 Kč', invoice_item_with_tax_price($item, true));
+    }
+
+    /**
+     * @test
+     */
     public function it_test_invoice_total_net()
     {
         $invoice = [
