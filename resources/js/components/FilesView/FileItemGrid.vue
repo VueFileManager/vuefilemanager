@@ -171,7 +171,8 @@ export default {
             this.area = false
         },
         clickedItem(e) {
-            events.$emit('unClick')
+			// Disabled right click
+			if (e.button === 2) return
 
             if (!this.$isMobile()) {
 
