@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\SetupWizard;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,10 +23,10 @@ class StoreStripeCredentialsRequest extends FormRequest
     public function rules()
     {
         return [
-            'currency'      => 'required|string',
+            'currency' => 'required|string',
             'webhookSecret' => 'required|string',
-            'secret'        => 'required|string',
-            'key'           => 'required|string',
+            'secret' => 'required|string',
+            'key' => 'required|string',
         ];
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,8 +23,8 @@ class ChangeRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes'      => 'required|array',
-            'attributes.role' => 'required|string'
+            'attributes' => 'required|array',
+            'attributes.role' => 'required|string',
         ];
     }
 }

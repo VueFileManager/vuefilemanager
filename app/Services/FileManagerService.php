@@ -1,23 +1,21 @@
 <?php
-
 namespace App\Services;
 
-use App\Models\Folder;
-use App\Models\Share;
-use App\Models\File as UserFile;
-use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\Models\User;
-use App\Models\Zip;
 use DB;
+use App\Models\Zip;
+use App\Models\User;
+use App\Models\Share;
+use App\Models\Folder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use App\Models\File as UserFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\FileNotFoundException;
 use Madnest\Madzipper\Facades\Madzipper;
+use League\Flysystem\FileNotFoundException;
+use App\Http\Requests\FileFunctions\RenameItemRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-
 
 class FileManagerService
 {
@@ -51,8 +49,7 @@ class FileManagerService
         $disk_local = Storage::disk('local');
 
         // Move file to local storage from external storage service
-        if (!is_storage_driver('local')) {
-
+        if (! is_storage_driver('local')) {
             foreach ($files as $file) {
                 try {
                     $disk_local->put("temp/{$file['basename']}", Storage::get("files/$requested_folder->user_id/{$file['basename']}"));
@@ -70,7 +67,6 @@ class FileManagerService
 
         // Add files to zip
         foreach ($files as $file) {
-
             $file_path = is_storage_driver('local')
                 ? $disk_local->path("files/$requested_folder->user_id/{$file['basename']}")
                 : $disk_local->path("temp/{$file['basename']}");
@@ -84,8 +80,7 @@ class FileManagerService
         $zip->close();
 
         // Delete temporary files
-        if (!is_storage_driver('local')) {
-
+        if (! is_storage_driver('local')) {
             foreach ($files as $file) {
                 $disk_local->delete('temp/' . $file['basename']);
             }
@@ -93,9 +88,9 @@ class FileManagerService
 
         // Store zip record
         return Zip::create([
-            'user_id'      => $shared->user_id ?? Auth::id(),
+            'user_id' => $shared->user_id ?? Auth::id(),
             'shared_token' => $shared->token ?? null,
-            'basename'     => $zip_name,
+            'basename' => $zip_name,
         ]);
     }
 
@@ -113,8 +108,7 @@ class FileManagerService
         $disk_local = Storage::disk('local');
 
         // Move file to local storage from external storage service
-        if (!is_storage_driver('local')) {
-
+        if (! is_storage_driver('local')) {
             $files->each(function ($file) use ($disk_local) {
                 try {
                     $disk_local->put("temp/$file->basename", Storage::get("files/$file->user_id/$file->basename"));
@@ -132,7 +126,6 @@ class FileManagerService
 
         // Add files to zip
         $files->each(function ($file) use ($zip, $disk_local) {
-
             $file_path = is_storage_driver('local')
                 ? $disk_local->path("files/$file->user_id/$file->basename")
                 : $disk_local->path("temp/$file->basename");
@@ -144,7 +137,7 @@ class FileManagerService
         $zip->close();
 
         // Delete temporary files
-        if (!is_storage_driver('local')) {
+        if (! is_storage_driver('local')) {
             $files->each(function ($file) use ($disk_local) {
                 $disk_local->delete("temp/$file->basename");
             });
@@ -152,9 +145,9 @@ class FileManagerService
 
         // Store zip record
         return Zip::create([
-            'user_id'      => $shared->user_id ?? Auth::id(),
+            'user_id' => $shared->user_id ?? Auth::id(),
             'shared_token' => $shared->token ?? null,
-            'basename'     => $zip_name,
+            'basename' => $zip_name,
         ]);
     }
 
@@ -169,12 +162,12 @@ class FileManagerService
     {
         return Folder::create([
             'parent_id' => $request->parent_id,
-            'author'    => $shared ? 'visitor' : 'user',
-            'user_id'   => $shared ? $shared->user_id : Auth::id(),
-            'name'      => $request->name,
-            'color'     => $request->color ?? null,
-            'emoji'     => $request->emoji ?? null,
-        ]);;
+            'author' => $shared ? 'visitor' : 'user',
+            'user_id' => $shared ? $shared->user_id : Auth::id(),
+            'name' => $request->name,
+            'color' => $request->color ?? null,
+            'emoji' => $request->emoji ?? null,
+        ]);
     }
 
     /**
@@ -196,7 +189,7 @@ class FileManagerService
 
         // Rename item
         $item->update([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
         // Return updated item
@@ -215,7 +208,6 @@ class FileManagerService
     {
         // Delete folder
         if ($item['type'] === 'folder') {
-
             // Get folder
             $folder = Folder::withTrashed()
                 ->with('folders')
@@ -237,15 +229,13 @@ class FileManagerService
                 ->delete();
 
             // Soft delete items
-            if (!$item['force_delete']) {
-
+            if (! $item['force_delete']) {
                 // Soft delete folder record
                 $folder->delete();
             }
 
             // Force delete children files
             if ($item['force_delete']) {
-
                 // Get children folder ids
                 $child_folders = filter_folders_ids($folder->trashed_folders, 'id');
 
@@ -256,7 +246,6 @@ class FileManagerService
 
                 // Remove all children files
                 foreach ($files as $file) {
-
                     // Delete file
                     Storage::delete("/files/$file->user_id/$file->basename");
 
@@ -278,7 +267,6 @@ class FileManagerService
 
         // Delete item
         if ($item['type'] !== 'folder') {
-
             // Get file
             $file = UserFile::withTrashed()
                 ->find($id);
@@ -295,7 +283,6 @@ class FileManagerService
 
             // Force delete file
             if ($item['force_delete']) {
-
                 // Delete file
                 Storage::delete("/files/$file->user_id/$file->basename");
 
@@ -311,8 +298,7 @@ class FileManagerService
             }
 
             // Soft delete file
-            if (!$item['force_delete']) {
-
+            if (! $item['force_delete']) {
                 // Soft delete file
                 $file->delete();
             }
@@ -328,10 +314,8 @@ class FileManagerService
     public function move($request, $to_id)
     {
         foreach ($request->items as $item) {
-
             // Move folder
             if ($item['type'] === 'folder') {
-
                 Folder::find($item['id'])
                     ->update(['parent_id' => $to_id]);
             }
@@ -375,11 +359,12 @@ class FileManagerService
         $limit = get_setting('upload_limit');
 
         // File size handling
-        if ($limit && $file_size > format_bytes($limit)) abort(413);
+        if ($limit && $file_size > format_bytes($limit)) {
+            abort(413);
+        }
 
         // If last then process file
         if ($request->boolean('is_last')) {
-
             $metadata = get_image_meta_data($file);
 
             $disk_local = Storage::disk('local');
@@ -402,7 +387,7 @@ class FileManagerService
             $disk_local->move("chunks/$temp_filename", "files/$user_id/$disk_file_name");
 
             // Move files to external storage
-            if (!is_storage_driver(['local'])) {
+            if (! is_storage_driver(['local'])) {
                 $this->helper->move_file_to_external_storage($disk_file_name, $user_id);
             }
 
@@ -412,16 +397,16 @@ class FileManagerService
 
             // Return new file
             return UserFile::create([
-                'mimetype'  => get_file_type_from_mimetype($file_mimetype),
-                'type'      => get_file_type($file_mimetype),
+                'mimetype' => get_file_type_from_mimetype($file_mimetype),
+                'type' => get_file_type($file_mimetype),
                 'folder_id' => $request->folder_id,
-                'metadata'  => $metadata,
-                'name'      => $user_file_name,
-                'basename'  => $disk_file_name,
-                'author'    => $shared ? 'visitor' : 'user',
+                'metadata' => $metadata,
+                'name' => $user_file_name,
+                'basename' => $disk_file_name,
+                'author' => $shared ? 'visitor' : 'user',
                 'thumbnail' => $thumbnail,
-                'filesize'  => $file_size,
-                'user_id'   => $user_id,
+                'filesize' => $file_size,
+                'user_id' => $user_id,
             ]);
         }
     }

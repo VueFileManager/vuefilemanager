@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +10,7 @@ class UserSettings extends Model
 
     protected $guarded = [
         'id',
-        'storage_capacity'
+        'storage_capacity',
     ];
 
     /**

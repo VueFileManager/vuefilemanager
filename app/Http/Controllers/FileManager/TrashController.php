@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Http\Controllers\FileManager;
 
+use App\Models\File;
+use App\Models\Folder;
+use Illuminate\Http\Request;
 use App\Services\DemoService;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Models\Folder;
-use App\Models\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class TrashController extends Controller
 {
@@ -34,11 +33,13 @@ class TrashController extends Controller
         // TODO: zrefaktorovat validator do requestu
         $validator = Validator::make($request->input('items'), [
             '*.type' => 'required|string',
-            '*.id'   => 'string',
+            '*.id' => 'string',
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user id
         $user_id = Auth::id();
@@ -46,10 +47,8 @@ class TrashController extends Controller
         abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         foreach ($request->input('items') as $restore) {
-
             // Get folder
             if ($restore['type'] === 'folder') {
-
                 // Get folder
                 $item = Folder::onlyTrashed()
                     ->where('user_id', $user_id)
@@ -62,7 +61,6 @@ class TrashController extends Controller
                     $item->save();
                 }
             } else {
-
                 // Get item
                 $item = File::onlyTrashed()
                     ->where('user_id', $user_id)
@@ -105,7 +103,6 @@ class TrashController extends Controller
 
         // Force delete files
         foreach ($files as $file) {
-
             // Delete file
             Storage::delete("/files/$user_id/{$file->basename}");
 

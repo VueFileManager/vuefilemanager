@@ -1,15 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Models\File;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\UsersCollection;
-use App\Services\StripeService;
+use DB;
 use App\Models\User;
 use ByteUnits\Metric;
-use DB;
+use App\Services\StripeService;
 use Laravel\Cashier\Subscription;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UsersCollection;
 
 class DashboardController extends Controller
 {
@@ -38,10 +36,10 @@ class DashboardController extends Controller
         )->format();
 
         return [
-            'license'             => get_setting('license'),
-            'app_version'         => config('vuefilemanager.version'),
-            'total_users'         => User::count(),
-            'total_used_space'    => $storage_usage,
+            'license' => get_setting('license'),
+            'app_version' => config('vuefilemanager.version'),
+            'total_users' => User::count(),
+            'total_used_space' => $storage_usage,
             'total_premium_users' => $premium_users,
         ];
     }

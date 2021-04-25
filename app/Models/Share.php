@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Share extends Model
 {
@@ -22,7 +21,7 @@ class Share extends Model
     protected $primaryKey = 'token';
 
     protected $casts = [
-        'is_protected' => 'boolean'
+        'is_protected' => 'boolean',
     ];
 
     /**
@@ -48,7 +47,7 @@ class Share extends Model
         parent::boot();
 
         static::creating(function ($shared) {
-            $shared->id = (string)Str::uuid();
+            $shared->id = (string) Str::uuid();
             $shared->token = Str::random(16);
         });
     }

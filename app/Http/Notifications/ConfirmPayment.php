@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Http\Notifications;
 
+use Laravel\Cashier\Payment;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use Laravel\Cashier\Payment;
 
 class ConfirmPayment extends Notification implements ShouldQueue
 {

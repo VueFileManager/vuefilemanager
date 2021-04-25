@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -59,7 +57,6 @@ class SharedSendViaEmail extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

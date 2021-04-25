@@ -1,14 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\CheckAccountRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\CheckAccountRequest;
 
 class AuthController extends Controller
 {
-
     /**
      * Check if user account exist
      *
@@ -26,7 +24,7 @@ class AuthController extends Controller
         }
 
         return [
-            'name'   => $user->settings->name,
+            'name' => $user->settings->name,
             'avatar' => $user->settings->avatar,
         ];
     }

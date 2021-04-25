@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -34,7 +33,6 @@ return [
     */
 
     'connections' => [
-
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
@@ -65,7 +63,7 @@ return [
                 'dump_binary_path' => env('DB_MYSQLDUMP_PATH', 'usr/bin'), // only the path, so without `mysqldump` or `pg_dump`
                 'use_single_transaction',
                 'timeout' => 360,
-            ]
+            ],
         ],
 
         'pgsql' => [
@@ -95,7 +93,6 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
     ],
 
     /*
@@ -123,7 +120,6 @@ return [
     */
 
     'redis' => [
-
         'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
@@ -146,7 +142,5 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
-
     ],
-
 ];

@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Subscription;
 
-use App\Services\StripeService;
-use App\Models\Setting;
 use App\Models\User;
-
+use App\Services\StripeService;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
 class StripeWebhookController extends CashierController
@@ -39,7 +36,7 @@ class StripeWebhookController extends CashierController
         $user
             ->settings()
             ->update([
-                'storage_capacity' => get_setting('storage_default')
+                'storage_capacity' => get_setting('storage_default'),
             ]);
 
         return $this->successMethod();
@@ -64,7 +61,7 @@ class StripeWebhookController extends CashierController
         $user
             ->settings()
             ->update([
-                'storage_capacity' => $plan['product']['metadata']['capacity']
+                'storage_capacity' => $plan['product']['metadata']['capacity'],
             ]);
 
         return $this->successMethod();

@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\App\AppFunctionsController;
+use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\Sharing\BrowseShareController;
 use App\Http\Controllers\Sharing\ManipulateShareItemsController;
-use App\Http\Controllers\FileManager\ShareController;
 
 // Browse functions
 Route::group(['prefix' => 'editor'], function () {

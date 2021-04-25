@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\SetupWizard;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,12 +23,12 @@ class StoreStripePlansRequest extends FormRequest
     public function rules()
     {
         return [
-            'plans'                          => 'required|array',
-            'plans.*.type'                   => 'required|string',
-            'plans.*.attributes.name'        => 'required|string',
-            'plans.*.attributes.price'       => 'required|string',
+            'plans' => 'required|array',
+            'plans.*.type' => 'required|string',
+            'plans.*.attributes.name' => 'required|string',
+            'plans.*.attributes.price' => 'required|string',
             'plans.*.attributes.description' => 'sometimes|nullable|string',
-            'plans.*.attributes.capacity'    => 'required|digits_between:1,9',
+            'plans.*.attributes.capacity' => 'required|digits_between:1,9',
         ];
     }
 }

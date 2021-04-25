@@ -1,23 +1,21 @@
 <?php
-
 namespace App\Http\Controllers\Sharing;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FileFunctions\CreateFolderRequest;
-use App\Http\Requests\FileFunctions\DeleteItemRequest;
-use App\Http\Requests\FileFunctions\MoveItemRequest;
-use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\Http\Requests\FileFunctions\UploadRequest;
 use App\Models\File;
-use App\Models\Folder;
 use App\Models\Share;
-use App\Services\DemoService;
-use App\Services\FileManagerService;
-use App\Services\HelperService;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Folder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\DemoService;
+use App\Services\HelperService;
+use App\Http\Controllers\Controller;
+use App\Services\FileManagerService;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Requests\FileFunctions\UploadRequest;
+use App\Http\Requests\FileFunctions\MoveItemRequest;
+use App\Http\Requests\FileFunctions\DeleteItemRequest;
+use App\Http\Requests\FileFunctions\RenameItemRequest;
+use App\Http\Requests\FileFunctions\CreateFolderRequest;
 
 class ManipulateShareItemsController extends Controller
 {
@@ -123,7 +121,6 @@ class ManipulateShareItemsController extends Controller
     {
         abort_if(is_demo_account($shared->user->email), 204, 'Done.');
 
-
         // Check ability to access protected share record
         $this->helper->check_protected_share_record($shared);
 
@@ -133,7 +130,6 @@ class ManipulateShareItemsController extends Controller
         }
 
         foreach ($request->items as $file) {
-
             // Get file|folder item
             $item = get_item($file['type'], $file['id']);
 
@@ -205,22 +201,19 @@ class ManipulateShareItemsController extends Controller
         }
 
         foreach ($request->items as $item) {
-
             if ($item['type'] === 'folder') {
-
                 $this->helper->check_item_access([
-                    $request->to_id, $item['id']
+                    $request->to_id, $item['id'],
                 ], $shared);
             }
 
             if ($item['type'] !== 'folder') {
-
                 $file = File::where('id', $item['id'])
                     ->where('user_id', $shared->user_id)
                     ->firstOrFail();
 
                 $this->helper->check_item_access([
-                    $request->to_id, $file->folder_id
+                    $request->to_id, $file->folder_id,
                 ], $shared);
             }
         }
@@ -250,7 +243,7 @@ class ManipulateShareItemsController extends Controller
         $folder = Folder::whereUserId($shared->user_id)
             ->where('id', $id);
 
-        if (!$folder->exists()) {
+        if (! $folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
@@ -258,8 +251,8 @@ class ManipulateShareItemsController extends Controller
 
         // Get file
         return response([
-            'url'  => route('zip_public', [
-                'id'    => $zip->id,
+            'url' => route('zip_public', [
+                'id' => $zip->id,
                 'token' => $shared->token,
             ]),
             'name' => $zip->basename,
@@ -297,8 +290,8 @@ class ManipulateShareItemsController extends Controller
 
         // Get file
         return response([
-            'url'  => route('zip_public', [
-                'id'    => $zip->id,
+            'url' => route('zip_public', [
+                'id' => $zip->id,
                 'token' => $shared->token,
             ]),
             'name' => $zip->basename,

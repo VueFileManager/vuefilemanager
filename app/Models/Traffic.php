@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Traffic extends Model
 {
@@ -13,7 +12,7 @@ class Traffic extends Model
     protected $fillable = [
         'user_id',
         'upload',
-        'download'
+        'download',
     ];
 
     public $incrementing = false;
@@ -28,7 +27,7 @@ class Traffic extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+            $model->id = (string) Str::uuid();
         });
     }
 }

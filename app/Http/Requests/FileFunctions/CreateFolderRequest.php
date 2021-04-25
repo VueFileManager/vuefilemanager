@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Requests\FileFunctions;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class CreateFolderRequest extends FormRequest
 {
@@ -26,7 +24,7 @@ class CreateFolderRequest extends FormRequest
     {
         return [
             'parent_id' => 'nullable|uuid',
-            'name'      => 'required|string',
+            'name' => 'required|string',
         ];
     }
 }

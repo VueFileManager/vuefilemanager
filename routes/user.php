@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\AccountController;
-use App\Http\Controllers\User\PaymentMethodsController;
 use App\Http\Controllers\User\SubscriptionController;
+use App\Http\Controllers\User\PaymentMethodsController;
 
 Route::post('/check', [AuthController::class, 'check_account']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
     // Account
     Route::patch('/relationships/settings', [AccountController::class, 'update_user_settings']);
     Route::post('/password', [AccountController::class, 'change_password']);
@@ -31,4 +30,3 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/resume', [SubscriptionController::class, 'resume']);
     });
 });
-

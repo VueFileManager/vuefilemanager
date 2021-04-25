@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\FileFunctions;
 
 use App\Rules\DisabledMimetypes;
@@ -26,7 +25,7 @@ class UploadRequest extends FormRequest
     {
         return [
             'folder_id' => 'nullable|uuid',
-            'file'      => ['required', 'file', new DisabledMimetypes]
+            'file' => ['required', 'file', new DisabledMimetypes],
         ];
     }
 }

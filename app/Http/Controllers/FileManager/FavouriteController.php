@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\FileManager;
 
-use App\Services\DemoService;
 use App\Models\Folder;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use App\Services\DemoService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FavouriteController extends Controller
 {
@@ -30,7 +29,6 @@ class FavouriteController extends Controller
         // todo: pridat validator ako AddToFavouritesRequest
 
         foreach ($request->folders as $id) {
-
             // Get user & folder
             $user = Auth::user();
 

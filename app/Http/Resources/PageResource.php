@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Http\Resources;
 
-use App\Models\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PageResource extends JsonResource
@@ -17,15 +15,15 @@ class PageResource extends JsonResource
     {
         return [
             'data' => [
-                'id'         => $this->slug,
-                'type'       => 'pages',
+                'id' => $this->slug,
+                'type' => 'pages',
                 'attributes' => [
-                    'visibility'        => $this->visibility,
-                    'title'             => $this->title,
-                    'slug'              => $this->slug,
-                    'content'           => $this->content,
+                    'visibility' => $this->visibility,
+                    'title' => $this->title,
+                    'slug' => $this->slug,
+                    'content' => $this->content,
                     'content_formatted' => add_paragraphs($this->content),
-                ]
+                ],
             ],
         ];
     }

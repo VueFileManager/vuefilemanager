@@ -1,22 +1,20 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Payments\RegisterNewPaymentMethodRequest;
-use App\Http\Resources\PaymentCardCollection;
-use App\Http\Resources\PaymentCardResource;
-use App\Http\Resources\PaymentDefaultCardResource;
-use App\Services\DemoService;
-use App\Services\StripeService;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use App\Services\DemoService;
+use App\Services\StripeService;
 use Laravel\Cashier\PaymentMethod;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\PaymentCardResource;
+use App\Http\Resources\PaymentCardCollection;
+use App\Http\Resources\PaymentDefaultCardResource;
+use App\Http\Requests\Payments\RegisterNewPaymentMethodRequest;
 
 class PaymentMethodsController extends Controller
 {
-
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
@@ -32,7 +30,7 @@ class PaymentMethodsController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasPaymentMethod()) {
+        if (! $user->hasPaymentMethod()) {
             return abort(204, 'User don\'t have any payment methods');
         }
 
@@ -40,15 +38,11 @@ class PaymentMethodsController extends Controller
         $slug_default_payment_method = 'default-payment-methods-user-' . $user->id;
 
         if (Cache::has($slug_payment_methods) && Cache::has($slug_default_payment_method)) {
-
             $defaultPaymentMethod = Cache::get($slug_default_payment_method);
             $paymentMethodsMapped = Cache::get($slug_payment_methods);
-
         } else {
-
             // Get default payment method
             $defaultPaymentMethod = Cache::rememberForever($slug_default_payment_method, function () use ($user) {
-
                 $defaultPaymentMethodObject = $user->defaultPaymentMethod();
 
                 return $defaultPaymentMethodObject instanceof PaymentMethod
@@ -58,7 +52,6 @@ class PaymentMethodsController extends Controller
 
             // filter payment methods without default payment
             $paymentMethodsMapped = Cache::rememberForever($slug_payment_methods, function () use ($defaultPaymentMethod, $user) {
-
                 $paymentMethods = $user->paymentMethods()->filter(function ($paymentMethod) use ($defaultPaymentMethod) {
                     return $paymentMethod->id !== $defaultPaymentMethod->id;
                 });
@@ -70,10 +63,10 @@ class PaymentMethodsController extends Controller
             });
         }
 
-        if (!$user->card_brand || !$user->stripe_id || is_null($paymentMethodsMapped) && is_null($paymentMethodsMapped)) {
+        if (! $user->card_brand || ! $user->stripe_id || is_null($paymentMethodsMapped) && is_null($paymentMethodsMapped)) {
             return [
                 'default' => null,
-                'others'  => [],
+                'others' => [],
             ];
         }
 
@@ -81,7 +74,7 @@ class PaymentMethodsController extends Controller
             'default' => $defaultPaymentMethod instanceof PaymentMethod
                 ? new PaymentCardResource($defaultPaymentMethod)
                 : new PaymentDefaultCardResource($defaultPaymentMethod),
-            'others'  => new PaymentCardCollection($paymentMethodsMapped),
+            'others' => new PaymentCardCollection($paymentMethodsMapped),
         ];
     }
 
@@ -108,7 +101,7 @@ class PaymentMethodsController extends Controller
         // Clear cached payment methods
         cache_forget_many([
             'payment-methods-user-' . $user->id,
-            'default-payment-methods-user-' . $user->id
+            'default-payment-methods-user-' . $user->id,
         ]);
 
         return response('Done', 204);
@@ -159,7 +152,7 @@ class PaymentMethodsController extends Controller
         // Clear cached payment methods
         cache_forget_many([
             'payment-methods-user-' . $user->id,
-            'default-payment-methods-user-' . $user->id
+            'default-payment-methods-user-' . $user->id,
         ]);
 
         return response('Done!', 204);

@@ -1,22 +1,12 @@
 <?php
-
 namespace App\Services;
 
-use App;
-use App\Models\Share;
 use App\Models\File;
-use App\Models\Folder;
-use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\Models\User;
 use ByteUnits\Metric;
-use Carbon\Carbon;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Folder;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as Image;
-
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Requests\FileFunctions\RenameItemRequest;
 
 class DemoService
 {
@@ -27,18 +17,18 @@ class DemoService
      * @return array
      * @throws \Exception
      */
-    function create_folder($request)
+    public function create_folder($request)
     {
         return [
-            'user_id'    => 1,
-            'id'         => Str::uuid(),
-            'parent_id'  => random_int(1000, 9999),
-            'name'       => $request->name,
-            'type'       => 'folder',
-            'author'     => $request->user() ? 'user' : 'visitor',
-            'items'      => '0',
-            'color'      => isset($request->icon['color']) ? $request->icon['color'] : null,
-            'emoji'      => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
+            'user_id' => 1,
+            'id' => Str::uuid(),
+            'parent_id' => random_int(1000, 9999),
+            'name' => $request->name,
+            'type' => 'folder',
+            'author' => $request->user() ? 'user' : 'visitor',
+            'items' => '0',
+            'color' => isset($request->icon['color']) ? $request->icon['color'] : null,
+            'emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
             'updated_at' => now()->format('j M Y \a\t H:i'),
             'created_at' => now()->format('j M Y \a\t H:i'),
         ];
@@ -51,17 +41,14 @@ class DemoService
      * @param $id
      * @return mixed
      */
-    function rename_item($request, $id)
+    public function rename_item($request, $id)
     {
         // Get item
         if ($request->type === 'folder') {
-
             $item = Folder::where('id', $id)
                 ->where('user_id', 1)
                 ->first();
-
         } else {
-
             $item = File::where('id', $id)
                 ->where('user_id', 1)
                 ->first();
@@ -73,15 +60,13 @@ class DemoService
             $item->color = $request->icon['color'] ?? null;
 
             return $item;
-
-        } else {
-
-            return [
-                'id'   => $request->id,
-                'name' => $request->name,
-                'type' => $request->type,
-            ];
         }
+
+        return [
+            'id' => $request->id,
+            'name' => $request->name,
+            'type' => $request->type,
+        ];
     }
 
     /**
@@ -91,7 +76,7 @@ class DemoService
      * @return array
      * @throws \Exception
      */
-    function upload($request)
+    public function upload($request)
     {
         // File
         $file = $request->file('file');
@@ -101,16 +86,16 @@ class DemoService
         $filetype = get_file_type($file->getMimeType());
 
         return [
-            'id'         => Str::uuid(),
-            'folder_id'  => $request->parent_id,
-            'thumbnail'  => 'data:' . $request->file('file')->getMimeType() . ';base64, ' . base64_encode(file_get_contents($request->file('file'))),
-            'name'       => $file->getClientOriginalName(),
-            'basename'   => $filename,
-            'mimetype'   => $file->getClientOriginalExtension(),
-            'filesize'   => Metric::bytes($filesize)->format(),
-            'type'       => $filetype,
-            'file_url'   => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
-            'author'     => $request->user() ? 'user' : 'visitor',
+            'id' => Str::uuid(),
+            'folder_id' => $request->parent_id,
+            'thumbnail' => 'data:' . $request->file('file')->getMimeType() . ';base64, ' . base64_encode(file_get_contents($request->file('file'))),
+            'name' => $file->getClientOriginalName(),
+            'basename' => $filename,
+            'mimetype' => $file->getClientOriginalExtension(),
+            'filesize' => Metric::bytes($filesize)->format(),
+            'type' => $filetype,
+            'file_url' => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
+            'author' => $request->user() ? 'user' : 'visitor',
             'created_at' => now()->format('j M Y \a\t H:i'),
             'updated_at' => now()->format('j M Y \a\t H:i'),
         ];
@@ -122,7 +107,7 @@ class DemoService
      * @param $user
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    function favourites($user)
+    public function favourites($user)
     {
         return $user->favouriteFolders->makeHidden(['pivot']);
     }

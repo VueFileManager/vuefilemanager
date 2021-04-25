@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Console\Commands;
 
-use App\Models\Setting;
 use App\Models\User;
+use App\Models\Setting;
 use App\Services\SetupService;
 use Illuminate\Console\Command;
 
@@ -16,7 +15,6 @@ class SetupProdEnvironment extends Command
      */
     protected $signature = 'setup:prod';
     protected $license = 'Extended';
-
 
     /**
      * The console command description.
@@ -71,105 +69,105 @@ class SetupProdEnvironment extends Command
         // Get options
         collect([
             [
-                'name'  => 'setup_wizard_database',
+                'name' => 'setup_wizard_database',
                 'value' => 1,
             ],
             [
-                'name'  => 'app_title',
+                'name' => 'app_title',
                 'value' => 'VueFileManager',
             ],
             [
-                'name'  => 'app_description',
+                'name' => 'app_description',
                 'value' => 'Your self-hosted storage cloud software powered by Laravel and Vue',
             ],
             [
-                'name'  => 'app_logo',
+                'name' => 'app_logo',
                 'value' => null,
             ],
             [
-                'name'  => 'app_logo_horizontal',
+                'name' => 'app_logo_horizontal',
                 'value' => null,
             ],
             [
-                'name'  => 'app_favicon',
+                'name' => 'app_favicon',
                 'value' => null,
             ],
             [
-                'name'  => 'app_og_image',
+                'name' => 'app_og_image',
                 'value' => null,
             ],
             [
-                'name'  => 'app_touch_icon',
+                'name' => 'app_touch_icon',
                 'value' => null,
             ],
             [
-                'name'  => 'google_analytics',
+                'name' => 'google_analytics',
                 'value' => null,
             ],
             [
-                'name'  => 'contact_email',
+                'name' => 'contact_email',
                 'value' => null,
             ],
             [
-                'name'  => 'registration',
+                'name' => 'registration',
                 'value' => 0,
             ],
             [
-                'name'  => 'storage_limitation',
+                'name' => 'storage_limitation',
                 'value' => 1,
             ],
             [
-                'name'  => 'storage_default',
+                'name' => 'storage_default',
                 'value' => 5,
             ],
             [
-                'name'  => 'setup_wizard_success',
+                'name' => 'setup_wizard_success',
                 'value' => 1,
             ],
             [
-                'name'  => 'license',
+                'name' => 'license',
                 'value' => $this->license,
             ],
             [
-                'name'  => 'purchase_code',
+                'name' => 'purchase_code',
                 'value' => '26b889eb-3602-4bf2-beb3-3sc378fcf484',
             ],
             [
-                'name'  => 'billing_address',
+                'name' => 'billing_address',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_city',
+                'name' => 'billing_city',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_country',
+                'name' => 'billing_country',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_name',
+                'name' => 'billing_name',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_phone_number',
+                'name' => 'billing_phone_number',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_postal_code',
+                'name' => 'billing_postal_code',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_state',
+                'name' => 'billing_state',
                 'value' => null,
             ],
             [
-                'name'  => 'billing_vat_number',
+                'name' => 'billing_vat_number',
                 'value' => null,
-            ]
+            ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name'  => $col['name'],
-                'value' => $col['value']
+                'name' => $col['name'],
+                'value' => $col['value'],
             ]);
         });
     }
@@ -180,8 +178,8 @@ class SetupProdEnvironment extends Command
     private function create_admin(): void
     {
         $user = User::forceCreate([
-            'role'     => 'admin',
-            'email'    => 'admin@vuefilemanager.com',
+            'role' => 'admin',
+            'email' => 'admin@vuefilemanager.com',
             'password' => bcrypt('vuefilemanager'),
         ]);
 
@@ -189,7 +187,7 @@ class SetupProdEnvironment extends Command
             ->settings()
             ->create([
                 'storage_capacity' => 5,
-                'name'             => 'Admin',
+                'name' => 'Admin',
             ]);
 
         // Show user credentials
@@ -203,12 +201,12 @@ class SetupProdEnvironment extends Command
     {
         // Migrate database
         $this->call('migrate:fresh', [
-            '--force' => true
+            '--force' => true,
         ]);
 
         // Generate app key
         $this->call('key:generate', [
-            '--force' => true
+            '--force' => true,
         ]);
     }
 

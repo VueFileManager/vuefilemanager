@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,19 +15,19 @@ class FileResource extends JsonResource
     {
         return [
             'data' => [
-                'id'         => $this->id,
-                'type'       => 'file',
+                'id' => $this->id,
+                'type' => 'file',
                 'attributes' => [
-                    'name'       => $this->name,
-                    'basename'   => $this->basename,
-                    'mimetype'   => $this->mimetype,
-                    'filesize'   => $this->filesize,
-                    'type'       => $this->type,
-                    'file_url'   => $this->file_url,
-                    'thumbnail'  => $this->thumbnail,
+                    'name' => $this->name,
+                    'basename' => $this->basename,
+                    'mimetype' => $this->mimetype,
+                    'filesize' => $this->filesize,
+                    'type' => $this->type,
+                    'file_url' => $this->file_url,
+                    'thumbnail' => $this->thumbnail,
                     'created_at' => $this->created_at,
                     'updated_at' => $this->created_at,
-                ]
+                ],
             ],
         ];
     }

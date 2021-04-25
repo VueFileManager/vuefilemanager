@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Lang;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 
 class ResetPasswordController extends Controller
 {
@@ -30,7 +29,6 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-
     /**
      * Get the response for a successful password reset.
      *
@@ -40,7 +38,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-
         return response(['message' => Lang::get($response)]);
     }
 
@@ -53,7 +50,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-
         return response(['error' => Lang::get($response)], 422);
     }
 }

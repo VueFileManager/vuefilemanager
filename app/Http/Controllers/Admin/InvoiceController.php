@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\InvoiceAdminCollection;
-use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Services\StripeService;
-use App\Models\Setting;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\InvoiceAdminCollection;
 
 class InvoiceController extends Controller
 {

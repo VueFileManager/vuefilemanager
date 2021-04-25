@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\FileManager;
 
-use App\Http\Controllers\Controller;
 use App\Models\Zip;
-use App\Services\HelperService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Services\HelperService;
 use App\Models\File as UserFile;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class FileAccessController extends Controller
@@ -29,7 +28,7 @@ class FileAccessController extends Controller
     public function get_avatar($basename)
     {
         // Check if file exist
-        if (!Storage::exists("/avatars/$basename")) {
+        if (! Storage::exists("/avatars/$basename")) {
             abort(404);
         }
 
@@ -47,7 +46,7 @@ class FileAccessController extends Controller
     public function get_system_image($basename)
     {
         // Check if file exist
-        if (!Storage::exists("/system/$basename")) {
+        if (! Storage::exists("/system/$basename")) {
             abort(404);
         }
 
@@ -81,10 +80,9 @@ class FileAccessController extends Controller
             $this->check_file_access($shared, $file);
         }*/
 
-
         // Store user download size
         $request->user()->record_download(
-            (int)$file->getRawOriginal('filesize')
+            (int) $file->getRawOriginal('filesize')
         );
 
         return $this->helper->download_file($file, Auth::id());
@@ -111,11 +109,11 @@ class FileAccessController extends Controller
             );
 
         return $disk->download("zip/$zip->basename", $zip->basename, [
-            "Content-Type"        => 'application/zip',
-            "Content-Length"      => $disk->size("zip/$zip->basename"),
-            "Accept-Ranges"       => "bytes",
-            "Content-Range"       => "bytes 0-600/" . $disk->size("zip/$zip->basename"),
-            "Content-Disposition" => "attachment; filename=$zip->basename",
+            'Content-Type' => 'application/zip',
+            'Content-Length' => $disk->size("zip/$zip->basename"),
+            'Accept-Ranges' => 'bytes',
+            'Content-Range' => 'bytes 0-600/' . $disk->size("zip/$zip->basename"),
+            'Content-Disposition' => "attachment; filename=$zip->basename",
         ]);
     }
 

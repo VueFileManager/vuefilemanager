@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\InvoiceController;
-use App\Http\Controllers\Admin\LanguageController;
-use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\AppFunctionsController;
+use App\Http\Controllers\Admin\PagesController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\DashboardController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {

@@ -7,5 +7,5 @@
  */
 
 return [
-    'custom' => 'translation'
+    'custom' => 'translation',
 ];

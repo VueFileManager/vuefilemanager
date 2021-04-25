@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Resources;
 
+use Laravel\Cashier\Cashier;
 use App\Services\StripeService;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Laravel\Cashier\Cashier;
 
 class PricingResource extends JsonResource
 {
@@ -18,18 +17,18 @@ class PricingResource extends JsonResource
     {
         return [
             'data' => [
-                'id'         => $this['plan']['id'],
-                'type'       => 'plans',
+                'id' => $this['plan']['id'],
+                'type' => 'plans',
                 'attributes' => [
-                    'name'               => $this['product']['name'],
-                    'description'        => $this['product']['description'],
-                    'price'              => Cashier::formatAmount($this['plan']['amount']),
+                    'name' => $this['product']['name'],
+                    'description' => $this['product']['description'],
+                    'price' => Cashier::formatAmount($this['plan']['amount']),
                     'capacity_formatted' => format_gigabytes($this['product']['metadata']['capacity']),
-                    'capacity'           => (int)$this['product']['metadata']['capacity'],
-                    'currency'           => config('cashier.currency'),
-                    'tax_rates'          => resolve(StripeService::class)->get_tax_rates($this['plan']['amount'])
-                ]
-            ]
+                    'capacity' => (int) $this['product']['metadata']['capacity'],
+                    'currency' => config('cashier.currency'),
+                    'tax_rates' => resolve(StripeService::class)->get_tax_rates($this['plan']['amount']),
+                ],
+            ],
         ];
     }
 }
