@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="Pragma" content="no-cache">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    
-    <link href="{{ mix('css/oasis-invoice.css') }}?v={{ get_version() }}" rel="stylesheet">
+
+    @if(is_route('invoice-debug'))
+        <link rel="stylesheet" href="{{ mix('css/oasis-invoice.css') }}">
+
+        <style>
+            body {
+                padding: 25px;
+            }
+        </style>
+    @else
+        <link rel="stylesheet" href="{{ public_path('css/oasis-invoice.css') }}">
+    @endif
 
     <title>Invoice</title>
 </head>
 <body>
-
-@php
-    //dd($invoice->user);
-@endphp
-
     {{--Invoice header--}}
     <header class="invoice-header">
         <div class="row">
             <div class="col-left">
+
                 {{--TODO: klientske logo--}}
-                <img class="logo" src="{{ get_setting('app_logo_horizontal') }}">
+                <img class="logo" src="{{ get_storage_path('system/5YDehSGh-vuefilemanager-horizontal-logo.svg') }}">
 
                 <b class="email">{{ $user->email }}</b>
                 <b class="phone">{{ $user->settings->phone_number }}</b>
@@ -144,6 +150,8 @@
                 <td class="table-cell">
                     <span>Celkom</span>
                 </td>
+
+                {{--TODO: zmenit dph z klienta na usera--}}
                 @if($invoice->client['ic_dph'])
                     <td class="table-cell">
                         <span>Sadzba DPH</span>
@@ -203,82 +211,58 @@
 
         @if($invoice->discount_type)
             <li class="row">
-                <div class="col-full">
-                    <span>Zlava za doklad:</span>
-                </div>
-                <div class="col-full">
-                    <!-- -32,64-->
-                    <span>-{{ invoice_total_discount($invoice, true) }}</span>
-                </div>
+                <span>Zlava za doklad:</span>
+                <!-- -32,64-->
+                <span>-{{ invoice_total_discount($invoice, true) }}</span>
             </li>
         @endif
 
         {{--VAT Payer--}}
         @if($invoice->client['ic_dph'] && ! $invoice->discount_type)
             <li class="row">
-                <div class="col-full">
-                    <span>Cena bez DPH:</span>
-                </div>
-                <div class="col-full">
-                    <span>{{ format_to_currency($invoice->total_net) }}</span>
-                </div>
+                <span>Cena bez DPH:</span>
+                <span>{{ format_to_currency($invoice->total_net) }}</span>
             </li>
             <li class="row">
-                <div class="col-full">
-                    <span>DPH:</span>
-                </div>
-                <div class="col-full">
-                    <span>{{ format_to_currency($invoice->total_tax) }}</span>
-                </div>
+                <span>DPH:</span>
+                <span>{{ format_to_currency($invoice->total_tax) }}</span>
             </li>
         @endif
 
         {{--VAT Payer with Discount--}}
         @if($invoice->client['ic_dph'] && $invoice->discount_type)
             <li class="row">
-                <div class="col-full">
-                    <span>Cena bez DPH:</span>
-                </div>
-                <div class="col-full">
-                    <span>
-                        @if($invoice->discount_type === 'percent')
-                            <!--244,80-->
-                            {{ format_to_currency($invoice->total_net * ((100 - $invoice->discount_rate) / 100)) }}
-                        @endif
-                        @if($invoice->discount_type === 'value')
-                            <!--263,67-->
-                                {{ format_to_currency(($invoice->total_net + invoice_total_tax($invoice)) / ((100 - $invoice->discount_rate) / 100)) }}
-                            @endif
-                    </span>
-                </div>
-            </li>
-            <li class="row">
-                <div class="col-full">
-                    <span>DPH:</span>
-                </div>
-                <div class="col-full">
+                <span>Cena bez DPH:</span>
+                <span>
                     @if($invoice->discount_type === 'percent')
-                        <!--48,96-->
-                            <span>{{ format_to_currency(invoice_total_tax($invoice) * ((100 - $invoice->discount_rate) / 100)) }}</span>
+                        <!--244,80-->
+                        {{ format_to_currency($invoice->total_net * ((100 - $invoice->discount_rate) / 100)) }}
                     @endif
                     @if($invoice->discount_type === 'value')
-                        <!--52,73-->
+                        <!--263,67-->
+                            {{ format_to_currency(($invoice->total_net + invoice_total_tax($invoice)) / ((100 - $invoice->discount_rate) / 100)) }}
                         @endif
-                </div>
+                </span>
+            </li>
+            <li class="row">
+                <span>DPH:</span>
+                @if($invoice->discount_type === 'percent')
+                    <!--48,96-->
+                    <span>{{ format_to_currency(invoice_total_tax($invoice) * ((100 - $invoice->discount_rate) / 100)) }}</span>
+                @endif
+                @if($invoice->discount_type === 'value')
+                    <!--52,73-->
+                @endif
             </li>
         @endif
 
         <li class="row">
-            <div class="col-full">
-                <b>Spolu k úhrade:</b>
-            </div>
-            <div class="col-full">
-                @if($invoice->client['ic_dph'])
-                    <b>{{ format_to_currency(invoice_total_net($invoice) + invoice_total_tax($invoice)) }}</b>
-                @else
-                    <b>{{ format_to_currency(invoice_total_net($invoice)) }}</b>
-                @endif
-            </div>
+            <b>Spolu k úhrade:</b>
+            @if($invoice->client['ic_dph'])
+                <b>{{ format_to_currency(invoice_total_net($invoice) + invoice_total_tax($invoice)) }}</b>
+            @else
+                <b>{{ format_to_currency(invoice_total_net($invoice)) }}</b>
+            @endif
         </li>
     </ul>
 
@@ -295,8 +279,10 @@
             @endif
         </div>
         <div class="sign">
+            @if(is_route('invoice-debug'))
+                <img src="{{ asset('/stamp.png') }}">
+            @endif
             {{--<img src="{{ public_path('/stamp.png') }}">--}}
-            <img src="{{ asset('/stamp.png') }}">
             <span class="highlight">Faktúru vystavil:</span> {{ $invoice->user['name'] }}
         </div>
     </div>

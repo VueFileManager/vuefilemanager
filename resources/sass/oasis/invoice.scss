@@ -8,10 +8,6 @@ $border-radius: 15px;
     font-size:(($size*1.6)/16) + 0em;
 }
 
-body {
-    padding: 25px;
-}
-
 * {
     outline: 0;
     margin: 0;
@@ -31,8 +27,9 @@ html {
 }
 
 .row {
-    display: flex;
-    flex-wrap: nowrap;
+    display: -webkit-flex;
+    -webkit-flex-wrap: nowrap;
+    width: 100%;
 
     &.spaces {
         margin: 0 -15px;
@@ -43,7 +40,7 @@ html {
     }
 
     div[class^='col-'] {
-        flex-grow: 1;
+        -webkit-flex-grow: 1;
 
         &.align-right {
             text-align: right;
@@ -51,18 +48,22 @@ html {
     }
 
     .col-left, .col-right {
-        width: 50%;
+        width: 49%;
     }
 
     &.align-center div[class^='col-'] {
-        align-self: center;
+        -webkit-align-self: center;
     }
     &.align-bottom div[class^='col-'] {
-        align-self: flex-end;
+        -webkit-align-self: flex-end;
     }
 }
 
 .invoice-header {
+
+    .col-left, .col-right {
+        display: inline-block;
+    }
 
     .logo {
         margin-bottom: 5px;
@@ -117,16 +118,20 @@ html {
 }
 
 .special-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 20px;
     padding-bottom: 25px;
     border-bottom: 1px dashed $border-color;
-    margin-bottom: 25px;
+    margin: 0 -5px 25px;
 
     .special-item {
         background: $background-color;
         border-radius: 8px;
+        display: inline-block;
+        width: 20.9%;
+        margin: 0 5px;
+
+        &:nth-child(1) {
+            width: 31.5%;
+        }
 
         .padding {
             padding: 10px 15px;
@@ -152,10 +157,11 @@ html {
 }
 
 .table {
+    table-layout: fixed;
+    border-collapse: collapse;
     width: 100%;
 
     .table-row {
-        display: flex;
 
         &:nth-child(even) {
             background-color: $background-color;
@@ -163,17 +169,16 @@ html {
         }
 
         .table-cell {
-            flex: 1 1 100%;
             text-align: left;
-            min-width: 50px;
             word-break: break-word;
+            padding: 5px;
 
             span, a {
                 word-break: break-word;
             }
 
             &:first-child {
-                flex: 0 0 280px;
+                width: 280px;
                 padding-left: 15px;
                 padding-right: 15px;
             }
@@ -195,7 +200,6 @@ html {
         background-color: white !important;
         padding-bottom: 15px;
         border-bottom: 0;
-        display: block;
 
         .table-cell {
 
@@ -209,7 +213,7 @@ html {
     }
 
     .table-cell {
-        align-self: center;
+        word-break: break-all;
 
         span, a {
             vertical-align: middle;
@@ -226,16 +230,15 @@ html {
 
     li {
         padding: 2px 0;
+        display: block;
 
-        .col-full:first-child {
-
-            b, span {
-                white-space: nowrap;
-            }
+        b, span {
+            white-space: nowrap;
         }
 
         .col-full {
             width: 50%;
+            display: inline-block;
         }
     }
 
@@ -255,9 +258,9 @@ html {
 }
 
 .invoice-author {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    display: -webkit-flex;
+    -webkit-justify-content: space-between;
+    -webkit-align-items: flex-end;
     padding-bottom: 25px;
     
     .sign {

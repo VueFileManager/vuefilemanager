@@ -4,6 +4,7 @@ use App\Http\Controllers\Oasis\AdminController;
 use App\Http\Controllers\Oasis\ClientController;
 use App\Http\Controllers\Oasis\InvoiceController;
 use App\Http\Controllers\Oasis\SubscriptionController;
+use App\Services\Oasis\OasisDevService;
 
 Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
 
@@ -42,4 +43,9 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
 // Web routes
 Route::group(['middleware' => 'web', 'prefix' => 'oasis'], function () {
     Route::post('/subscribe/{order}/set-password', [SubscriptionController::class, 'set_password']);
+});
+
+// Debug routes
+Route::group(['middleware' => 'web', 'prefix' => 'oasis/debug'], function () {
+    Route::get('/invoice', [OasisDevService::class, 'get_invoice_view'])->name('invoice-debug');
 });

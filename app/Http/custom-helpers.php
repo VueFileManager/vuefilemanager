@@ -3,6 +3,32 @@
 use Laravel\Cashier\Cashier;
 
 /**
+ * @param $name
+ * @return bool
+ */
+function is_route($name)
+{
+    return Route::currentRouteName() === $name;
+}
+
+/**
+ * @param $filepath
+ * @return string
+ */
+function get_storage_path($filepath)
+{
+    if (is_null($filepath)) {
+        return null;
+    }
+
+    if (! Storage::exists($filepath)) {
+        return null;
+    }
+
+    return 'data:' . Storage::mimeType($filepath) . ';base64,' . base64_encode(Storage::get($filepath));
+}
+
+/**
  * Get only tax for single invoice item
  *
  * @param $item

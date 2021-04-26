@@ -66,20 +66,16 @@ class InvoiceController extends Controller
         $client = $this->getOrStoreClient($request);
 
         $invoice = Invoice::create([
-            'user_id'   => $request->user()->id,
-            'client_id' => $client->id ?? null,
-
-            'invoice_type'   => $request->invoice_type,
-            'invoice_number' => $request->invoice_number,
-
+            'user_id'         => $request->user()->id,
+            'client_id'       => $client->id ?? null,
+            'invoice_type'    => $request->invoice_type,
+            'invoice_number'  => $request->invoice_number,
             'variable_number' => $request->variable_number,
             'delivery_at'     => $request->delivery_at,
-
-            'discount_type' => $request->discount_type ?? null,
-            'discount_rate' => $request->discount_rate ?? null,
-            'items'         => $request->items,
-
-            'client' => [
+            'discount_type'   => $request->discount_type ?? null,
+            'discount_rate'   => $request->discount_rate ?? null,
+            'items'           => $request->items,
+            'client'          => [
                 'email'       => $client->email ?? $request->client_email,
                 'name'        => $client->name ?? $request->client_name,
                 'address'     => $client->address ?? $request->client_address,
@@ -92,14 +88,18 @@ class InvoiceController extends Controller
             ],
         ]);
 
+        // Generate PDF
         \PDF::loadView('oasis.invoices.invoice', [
             'invoice' => Invoice::find($invoice->id),
             'user'    => $request->user(),
         ])
-            ->save(storage_path() . "/app/faktura-{$invoice->id}.pdf");
+            ->setPaper('a4')
+            ->setOrientation('portrait')
+            ->save(
+                storage_path("/app/files/{$request->user()->id}/invoice-{$invoice->id}.pdf")
+            );
 
         if ($request->send_invoice && $invoice->client['email']) {
-
             Notification::route('mail', $invoice->client['email'])
                 ->notify(new InvoiceDeliveryNotification($request->user()));
         }

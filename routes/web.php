@@ -6,12 +6,6 @@ use App\Http\Controllers\App\AppFunctionsController;
 use App\Http\Controllers\Sharing\BrowseShareController;
 use App\Http\Controllers\Subscription\StripeWebhookController;
 
-Route::get('/invoice', function () {
-    return view('oasis.invoices.invoice')
-        ->with('invoice', \App\Models\Oasis\Invoice::first())
-        ->with('user', \App\Models\User::whereEmail('howdy@hi5ve.digital')->first());
-});
-
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);
 

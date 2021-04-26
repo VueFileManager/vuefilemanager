@@ -25,13 +25,13 @@ class OasisInvoiceTest extends TestCase
 
         $this->items = [
             [
-                'description' => 'Test 1',
+                'description' => "No, I've made up my mind about it; if I'm Mabel, I'll stay.",
                 'amount'      => 1,
                 'tax_rate'    => 20,
                 'price'       => 200,
             ],
             [
-                'description' => 'Test 2',
+                'description' => "I only knew the right words,' said poor Alice, who felt.",
                 'amount'      => 3,
                 'tax_rate'    => 20,
                 'price'       => 500,
@@ -204,14 +204,24 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_with_storing_new_client()
     {
         Notification::fake();
-
-        Storage::fake('local');
+        //Storage::fake('local');
+        //PDF::fake();
 
         $avatar = UploadedFile::fake()
             ->image('fake-image.jpg');
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
+
+        $user->settings()->update([
+            'ic_dph'        => 'SK2023489457',
+            'dic'           => '2023489457',
+            'ico'           => '46530045',
+            'bank_name'     => 'Fio a.s.',
+            'iban'          => 'SK7583300000002000476497',
+            'swift'         => 'FIOZSKBAXXX',
+            'registration_notes' => 'Registrácia na OR SR Bratislava I. oddiel: Sro vl. č 91906',
+        ]);
 
         Sanctum::actingAs($user);
 
@@ -256,6 +266,11 @@ class OasisInvoiceTest extends TestCase
         Storage::disk('local')
             ->assertExists(
                 Client::first()->getRawOriginal('avatar')
+            );
+
+        Storage::disk('local')
+            ->assertExists(
+                'files/' . $user->id . '/invoice-' . Invoice::first()->id . '.pdf'
             );
 
         Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
