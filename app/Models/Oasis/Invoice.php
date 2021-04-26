@@ -27,7 +27,7 @@ class Invoice extends Model
 
     protected $keyType = 'string';
 
-    public function user()
+    public function author()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
@@ -73,7 +73,7 @@ class Invoice extends Model
 
             $invoice->currency = 'CZK';
 
-            $user = Auth::user();
+            $user = Auth::user() ?? User::find($invoice->user_id);
 
             $invoice->author_name = $user->settings->name ?? null;
             $invoice->author_stamp = ''; // TODO: doplnit

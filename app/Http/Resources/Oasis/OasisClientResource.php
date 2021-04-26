@@ -30,7 +30,7 @@ class OasisClientResource extends JsonResource
             'totalNet'      => format_to_currency($total_net, 'CZK'),
             'totalInvoices' => $total_invoices,
             'type'          => 'client',
-            'created_at'    => format_date($this->created_at, '%d. %B. %Y'),
+            'created_at'    => format_date($this->created_at, '%d. %B %Y'),
         ];
     }
 }

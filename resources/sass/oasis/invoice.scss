@@ -120,6 +120,9 @@ html {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 1px dashed $border-color;
+    margin-bottom: 25px;
 
     .special-item {
         background: $background-color;
@@ -218,7 +221,7 @@ html {
 
 .summary {
     max-width: 300px;
-    margin: 20px 0 30px auto;
+    margin: 20px 0 20px auto;
     text-align: right;
 
     li {
@@ -243,6 +246,42 @@ html {
     b {
         @include font-size(13);
         font-weight: 600;
+    }
+}
+
+.notes {
+    padding-top: 25px;
+    border-top: 1px dashed $border-color;
+}
+
+.invoice-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 25px;
+    
+    .sign {
+        text-align: right;
+    }
+
+    img {
+        max-width: 240px;
+        display: block;
+        margin: 0 0 0 auto;
+    }
+}
+
+.invoice-footer {
+    padding-top: 15px;
+    border-top: 1px dashed $border-color;
+    text-align: center;
+
+    p {
+        @include font-size(10);
+    }
+
+    a {
+        color: $primary-color;
     }
 }
 

@@ -233,7 +233,8 @@ return [
         'Image'        => Intervention\Image\Facades\Image::class,
         'Stripe'       => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
         'Crawler'      => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class,
-        'Madzipper' => Madnest\Madzipper\Madzipper::class,
+        'Madzipper'    => Madnest\Madzipper\Madzipper::class,
+        'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
     ],
 
     'deploy_secret' => env('APP_DEPLOY_SECRET'),
@@ -242,53 +243,39 @@ return [
     'debug_blacklist' => [
         '_ENV'    => [
             'APP_KEY',
-
             'DB_USERNAME',
             'DB_PASSWORD',
             'REDIS_PASSWORD',
             'MAIL_PASSWORD',
-
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-
             'PASSPORT_CLIENT_ID',
             'PASSPORT_CLIENT_SECRET',
-
             'AWS_SECRET_ACCESS_KEY',
             'AWS_ACCESS_KEY_ID',
-
             'DO_SPACES_KEY',
             'DO_SPACES_SECRET',
-
             'WASABI_KEY',
             'WASABI_SECRET',
-
             'BACKBLAZE_KEY',
             'BACKBLAZE_SECRET',
         ],
         '_SERVER' => [
             'APP_KEY',
-
             'DB_USERNAME',
             'DB_PASSWORD',
             'REDIS_PASSWORD',
             'MAIL_PASSWORD',
-
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-
             'PASSPORT_CLIENT_ID',
             'PASSPORT_CLIENT_SECRET',
-
             'AWS_SECRET_ACCESS_KEY',
             'AWS_ACCESS_KEY_ID',
-
             'DO_SPACES_KEY',
             'DO_SPACES_SECRET',
-
             'WASABI_KEY',
             'WASABI_SECRET',
-
             'BACKBLAZE_KEY',
             'BACKBLAZE_SECRET',
         ],

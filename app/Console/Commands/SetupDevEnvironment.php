@@ -5,18 +5,19 @@ namespace App\Console\Commands;
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\Share;
-use App\Services\HelperService;
 use App\Services\Oasis\OasisDevService;
 use App\Services\SetupService;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Faker;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SetupDevEnvironment extends Command
 {
+    use WithFaker;
+
     /**
      * The name and signature of the console command.
      *
@@ -37,7 +38,7 @@ class SetupDevEnvironment extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->faker = Faker\Factory::create();
+        $this->setUpFaker();
         $this->setup = resolve(SetupService::class);
     }
 
