@@ -9,6 +9,7 @@ use App\Http\Resources\Oasis\OasisInvoiceResource;
 use App\Models\Oasis\Client;
 use App\Models\Oasis\Invoice;
 use App\Notifications\Oasis\InvoiceDeliveryNotification;
+use App\Notifications\SharedSendViaEmail;
 use Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -96,12 +97,13 @@ class InvoiceController extends Controller
             ->setPaper('a4')
             ->setOrientation('portrait')
             ->save(
-                storage_path("/app/files/{$request->user()->id}/invoice-{$invoice->id}.pdf")
+                storage_path("app/files/{$request->user()->id}/invoice-{$invoice->id}.pdf")
             );
 
         if ($request->send_invoice && $invoice->client['email']) {
-            Notification::route('mail', $invoice->client['email'])
-                ->notify(new InvoiceDeliveryNotification($request->user()));
+            Notification::route('mail', $invoice->client['email'])->notify(
+                new InvoiceDeliveryNotification($request->user(), $invoice)
+            );
         }
 
         return response(

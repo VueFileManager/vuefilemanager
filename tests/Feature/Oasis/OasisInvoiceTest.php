@@ -4,6 +4,7 @@ namespace Tests\Feature\Oasis;
 
 use App\Models\Oasis\Client;
 use App\Notifications\Oasis\InvoiceDeliveryNotification;
+use PDF;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Oasis\Invoice;
@@ -123,7 +124,7 @@ class OasisInvoiceTest extends TestCase
                 [
                     'description' => 'Test 1',
                     'amount'      => 1,
-                    'tax_rate'    => 20,
+                    'tax_rate'    => 0,
                     'price'       => 200,
                 ],
             ]
@@ -204,8 +205,8 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_with_storing_new_client()
     {
         Notification::fake();
-        //Storage::fake('local');
-        //PDF::fake();
+        Storage::fake('local');
+        PDF::fake();
 
         $avatar = UploadedFile::fake()
             ->image('fake-image.jpg');
@@ -235,7 +236,6 @@ class OasisInvoiceTest extends TestCase
             'delivery_at'     => Carbon::now()->addWeek(),
             'store_client'    => true,
             'send_invoice'    => true,
-
             'client'              => 'others',
             'client_avatar'       => $avatar,
             'client_name'         => 'VueFileManager Inc.',
@@ -268,10 +268,7 @@ class OasisInvoiceTest extends TestCase
                 Client::first()->getRawOriginal('avatar')
             );
 
-        Storage::disk('local')
-            ->assertExists(
-                'files/' . $user->id . '/invoice-' . Invoice::first()->id . '.pdf'
-            );
+        PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
 
         Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
     }
@@ -282,6 +279,7 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_with_storing_new_client_without_avatar_and_mail()
     {
         Notification::fake();
+        PDF::fake();
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -324,6 +322,8 @@ class OasisInvoiceTest extends TestCase
             'name'    => 'VueFileManager Inc.',
         ]);
 
+        PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
+
         Notification::assertNothingSent();
     }
 
@@ -333,6 +333,7 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_without_storing_client_without_avatar_and_mail()
     {
         Notification::fake();
+        PDF::fake();
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -376,6 +377,8 @@ class OasisInvoiceTest extends TestCase
             'name'    => 'VueFileManager Inc.',
         ]);
 
+        PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
+
         Notification::assertNothingSent();
     }
 
@@ -385,6 +388,7 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_without_storing_client()
     {
         Notification::fake();
+        PDF::fake();
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -427,6 +431,8 @@ class OasisInvoiceTest extends TestCase
             'email' => 'howdy@hi5ve.digital',
         ]);
 
+        PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
+
         Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
     }
 
@@ -436,6 +442,7 @@ class OasisInvoiceTest extends TestCase
     public function user_create_new_invoice_with_existing_client()
     {
         Notification::fake();
+        PDF::fake();
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -467,6 +474,8 @@ class OasisInvoiceTest extends TestCase
             'client_id'      => $client->id,
             'items'          => json_encode($this->items),
         ]);
+
+        PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
 
         Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
     }

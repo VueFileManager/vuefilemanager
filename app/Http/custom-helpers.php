@@ -15,17 +15,28 @@ function is_route($name)
  * @param $filepath
  * @return string
  */
-function get_storage_path($filepath)
+function base64_from_storage_image($filepath)
 {
     if (is_null($filepath)) {
         return null;
     }
 
-    if (! Storage::exists($filepath)) {
+    if (!Storage::exists($filepath)) {
         return null;
     }
 
     return 'data:' . Storage::mimeType($filepath) . ';base64,' . base64_encode(Storage::get($filepath));
+}
+
+/**
+ * Return invoice path to storage
+ *
+ * @param $invoice
+ * @return string
+ */
+function invoice_path($invoice)
+{
+    return "files/{$invoice->user_id}/invoice-{$invoice->id}.pdf";
 }
 
 /**

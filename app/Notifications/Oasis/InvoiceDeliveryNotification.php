@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Oasis;
 
+use App\Models\Oasis\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,19 @@ class InvoiceDeliveryNotification extends Notification
 {
     use Queueable;
 
+    private $invoice;
+    private $user;
+
     /**
      * Create a new notification instance.
      *
      * @param $user
+     * @param $invoice
      */
-    public function __construct($user)
+    public function __construct($user, $invoice)
     {
         $this->user = $user;
+        $this->invoice = $invoice;
     }
 
     /**
@@ -44,7 +50,11 @@ class InvoiceDeliveryNotification extends Notification
             ->subject('New invoice')
             ->greeting(__t('mail_greeting'))
             ->line($this->user->settings->name . ' sent you an invoice.')
-            ->salutation(__t('mail_salutation'));
+            ->salutation(__t('mail_salutation'))
+            ->attach(storage_path("app/" . invoice_path($this->invoice)), [
+                'as' => 'name.pdf',
+                'mime' => 'application/pdf',
+            ]);
     }
 
     /**

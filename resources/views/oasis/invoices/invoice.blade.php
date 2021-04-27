@@ -28,7 +28,7 @@
             <div class="col-left">
 
                 {{--TODO: klientske logo--}}
-                <img class="logo" src="{{ get_storage_path('system/5YDehSGh-vuefilemanager-horizontal-logo.svg') }}">
+                <img class="logo" src="{{ base64_from_storage_image('system/5YDehSGh-vuefilemanager-horizontal-logo.svg') }}">
 
                 <b class="email">{{ $user->email }}</b>
                 <b class="phone">{{ $user->settings->phone_number }}</b>
