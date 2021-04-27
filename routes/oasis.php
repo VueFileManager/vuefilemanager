@@ -43,6 +43,11 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
 // Web routes
 Route::group(['middleware' => 'web', 'prefix' => 'oasis'], function () {
     Route::post('/subscribe/{order}/set-password', [SubscriptionController::class, 'set_password']);
+
+    // Admin
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::get('/invoice/{invoice}', [InvoiceController::class, 'get_invoice']);
+    });
 });
 
 // Debug routes

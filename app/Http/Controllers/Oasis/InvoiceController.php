@@ -16,6 +16,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
+use Storage;
 
 class InvoiceController extends Controller
 {
@@ -37,6 +38,19 @@ class InvoiceController extends Controller
         return response(
             new OasisInvoiceCollection(Auth::user()->advanceInvoices), 200
         );
+    }
+
+    /**
+     * @param Invoice $invoice
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function get_invoice(Invoice $invoice)
+    {
+        if (! Storage::exists(invoice_path($invoice))) {
+            abort(404, 'Not Found');
+        }
+
+        return Storage::download(invoice_path($invoice), "invoice-{$invoice->id}.pdf");
     }
 
     /**

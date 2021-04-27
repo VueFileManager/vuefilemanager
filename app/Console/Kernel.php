@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\SetupDevEnvironment;
+use App\Console\Commands\SetupOasisEnvironment;
 use App\Services\Oasis\OasisService;
 use App\Console\Commands\SetupProdEnvironment;
 use App\Services\SchedulerService;
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         SetupDevEnvironment::class,
         SetupProdEnvironment::class,
+        SetupOasisEnvironment::class,
     ];
 
     /**

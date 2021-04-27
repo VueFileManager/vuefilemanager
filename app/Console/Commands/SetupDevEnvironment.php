@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\Share;
-use App\Services\Oasis\OasisDevService;
 use App\Services\SetupService;
 use App\Models\Setting;
 use App\Models\User;
@@ -73,9 +72,6 @@ class SetupDevEnvironment extends Command
 
         $this->info('Clearing application cache...');
         $this->clear_cache();
-
-        // Oasis demo content generator
-        resolve(OasisDevService::class)->create_demo_content();
 
         $this->info('Dispatching jobs...');
         $this->call('queue:work', [

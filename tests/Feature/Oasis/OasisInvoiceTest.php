@@ -278,6 +278,7 @@ class OasisInvoiceTest extends TestCase
      */
     public function user_create_new_invoice_with_storing_new_client_without_avatar_and_mail()
     {
+        Storage::fake('local');
         Notification::fake();
         PDF::fake();
 
@@ -332,6 +333,7 @@ class OasisInvoiceTest extends TestCase
      */
     public function user_create_new_invoice_without_storing_client_without_avatar_and_mail()
     {
+        Storage::fake('local');
         Notification::fake();
         PDF::fake();
 
@@ -387,6 +389,7 @@ class OasisInvoiceTest extends TestCase
      */
     public function user_create_new_invoice_without_storing_client()
     {
+        Storage::fake('local');
         Notification::fake();
         PDF::fake();
 
@@ -441,6 +444,7 @@ class OasisInvoiceTest extends TestCase
      */
     public function user_create_new_invoice_with_existing_client()
     {
+        Storage::fake('local');
         Notification::fake();
         PDF::fake();
 
@@ -478,6 +482,41 @@ class OasisInvoiceTest extends TestCase
         PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
 
         Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_invoice_from_url()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $client = Client::factory(Client::class)
+            ->create([
+                'user_id' => $user->id,
+                'name'    => 'VueFileManager Inc.',
+                'email'   => 'howdy@hi5ve.digital',
+            ]);
+
+        $this->postJson('/api/oasis/invoices', [
+            'invoice_type'    => 'regular-invoice',
+            'invoice_number'  => '2120001',
+            'variable_number' => '2120001',
+            'client'          => $client->id,
+            'items'           => $this->items,
+            'discount_type'   => 'percent',
+            'discount_rate'   => 10,
+            'delivery_at'     => Carbon::now()->addWeek(),
+            'send_invoice'    => true,
+        ])->assertStatus(201);
+
+        $invoice = Invoice::first();
+
+        $this->get("/oasis/invoice/{$invoice->id}")
+            ->assertStatus(200);
     }
 
     /**

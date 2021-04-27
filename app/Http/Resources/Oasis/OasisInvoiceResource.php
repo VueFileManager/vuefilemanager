@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Oasis;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class OasisInvoiceResource extends JsonResource
 {
@@ -19,7 +21,7 @@ class OasisInvoiceResource extends JsonResource
             'name'          => $this->client['name'] . ' ' . format_to_currency($this->total_net, $this->currency),
             'invoiceNumber' => $this->invoice_number,
             'total'         => format_to_currency($this->total_net, $this->currency),
-            'file_url'      => '',
+            'file_url'      => "/oasis/invoice/$this->id",
             'clientName'    => $this->client['name'],
             'mimetype'      => 'pdf',
             'type'          => 'invoice',
