@@ -30,8 +30,8 @@
                 {{--TODO: klientske logo--}}
                 <img class="logo" src="{{ base64_from_storage_image('system/5YDehSGh-vuefilemanager-horizontal-logo.svg') }}">
 
-                <b class="email">{{ $user->email }}</b>
-                <b class="phone">{{ $user->settings->phone_number }}</b>
+                <b class="email">{{ $user->invoiceProfile->email }}</b>
+                <b class="phone">{{ $user->invoiceProfile->phone }}</b>
             </div>
             <div class="col-right align-right">
                 @if($invoice->invoice_type === 'regular-invoice')
@@ -78,31 +78,31 @@
 
         <div class="content-box">
             <h3>Dodávateľ:</h3>
-            <p>{{ $user->settings->name }}</p>
-            <small>{{ $user->settings->registration_notes }}</small>
+            <p>{{ $invoice->user['company'] }}</p>
+            <small>{{ $invoice->user['registration_notes'] }}</small>
         </div>
 
         <div class="content-box">
             <h3>Sídlo:</h3>
-            <p>{{ $user->settings->address }} {{ $user->settings->city }}</p>
-            <p>{{ $user->settings->postal_code }}, {{ $user->settings->country }}</p>
+            <p>{{ $invoice->user['address'] }} {{ $invoice->user['city'] }}</p>
+            <p>{{ $invoice->user['postal_code'] }}, {{ $invoice->user['country'] }}</p>
         </div>
 
         <div class="content-box">
             <h3>Faktúračné údaje:</h3>
 
-            @isset($user->settings->ico)
-                <p>IČO: {{ $user->settings->ico }}</p>
+            @isset($invoice->user['ico'])
+                <p>IČO: {{ $invoice->user['ico'] }}</p>
             @endisset
-            @isset($user->settings->dic)
-                <p>DIČ: {{ $user->settings->dic }}</p>
+            @isset($invoice->user['dic'])
+                <p>DIČ: {{ $invoice->user['dic'] }}</p>
             @endisset
-            @isset($invoice->supplier_ic_dph)
-                <p>IČ DPH: {{ $user->settings->ic_dph }}</p>
+            @isset($invoice->user['ic_dph'])
+                <p>IČ DPH: {{ $invoice->user['ic_dph'] }}</p>
             @endisset
 
-            <p>{{ $user->settings->bank_name }}</p>
-            <p>IBAN: {{ $user->settings->iban }}, BIC kód/SWIFT: {{ $user->settings->swift }}</p>
+            <p>{{ $invoice->user['bank'] }}</p>
+            <p>IBAN: {{ $invoice->user['iban'] }}, BIC kód/SWIFT: {{ $invoice->user['swift'] }}</p>
         </div>
     </section>
 
@@ -111,7 +111,7 @@
         <div class="special-item">
             <div class="padding">
                 <b>Číslo účtu:</b>
-                <span>{{ $user->settings->iban }}</span>
+                <span>{{ $invoice->user['iban'] }}</span>
             </div>
         </div>
         <div class="special-item">
@@ -150,14 +150,10 @@
                 <td class="table-cell">
                     <span>Celkom</span>
                 </td>
-
-                {{--TODO: zmenit dph z klienta na usera--}}
-                @if($invoice->client['ic_dph'])
+                @if($invoice->user['ic_dph'])
                     <td class="table-cell">
                         <span>Sadzba DPH</span>
                     </td>
-                @endif
-                @if($invoice->client['ic_dph'])
                     <td class="table-cell">
                         <span>DPH</span>
                     </td>
@@ -185,13 +181,13 @@
                         <span>{{ format_to_currency($item['price'] * $item['amount']) }}</span>
                     </td>
 
-                    @if($invoice->client['ic_dph'])
+                    @if($invoice->user['ic_dph'])
                         <td class="table-cell">
                             <span>{{ $item['tax_rate'] }} %</span>
                         </td>
                     @endif
 
-                    @if($invoice->client['ic_dph'])
+                    @if($invoice->user['ic_dph'])
                         <td class="table-cell">
                             <span>{{ invoice_item_only_tax_price($item, true) }}</span>
                         </td>
@@ -218,7 +214,7 @@
         @endif
 
         {{--VAT Payer--}}
-        @if($invoice->client['ic_dph'] && ! $invoice->discount_type)
+        @if($invoice->user['ic_dph'] && ! $invoice->discount_type)
             <li class="row">
                 <span>Cena bez DPH:</span>
                 <span>{{ format_to_currency($invoice->total_net) }}</span>
@@ -230,7 +226,7 @@
         @endif
 
         {{--VAT Payer with Discount--}}
-        @if($invoice->client['ic_dph'] && $invoice->discount_type)
+        @if($invoice->user['ic_dph'] && $invoice->discount_type)
             <li class="row">
                 <span>Cena bez DPH:</span>
                 <span>
@@ -258,7 +254,7 @@
 
         <li class="row">
             <b>Spolu k úhrade:</b>
-            @if($invoice->client['ic_dph'])
+            @if($invoice->user['ic_dph'])
                 <b>{{ format_to_currency(invoice_total_net($invoice) + invoice_total_tax($invoice)) }}</b>
             @else
                 <b>{{ format_to_currency(invoice_total_net($invoice)) }}</b>
@@ -274,7 +270,7 @@
     {{--Invoice header--}}
     <div class="invoice-author">
         <div class="tax-note">
-            @if(! $invoice->client['ic_dph'])
+            @if(! $invoice->user['ic_dph'])
                 <p>Nie sme platci DPH</p>
             @endif
         </div>
@@ -283,7 +279,7 @@
                 <img src="{{ asset('/stamp.png') }}">
             @endif
             {{--<img src="{{ public_path('/stamp.png') }}">--}}
-            <span class="highlight">Faktúru vystavil:</span> {{ $invoice->user['name'] }}
+            <span class="highlight">Faktúru vystavil:</span> {{ $invoice->user['author'] }}
         </div>
     </div>
 

@@ -3,9 +3,6 @@
 namespace Database\Factories\Oasis;
 
 use App\Models\Oasis\Invoice;
-use App\Models\User;
-use Carbon\Carbon;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InvoiceFactory extends Factory
@@ -32,7 +29,7 @@ class InvoiceFactory extends Factory
             'invoice_number'  => $this->faker->numberBetween(2120001, 2120999),
             'variable_number' => $this->faker->numberBetween(2120001, 2120999),
             'currency'        => $this->faker->randomElement(['CZK', 'EUR']),
-            'author_name'     => $this->faker->name,
+            'user'            => null,
             'client'          => [
                 'name'         => $this->faker->company,
                 'email'        => $this->faker->email,
@@ -46,21 +43,6 @@ class InvoiceFactory extends Factory
                 'ico'          => $this->faker->numberBetween(11111111, 99999999),
                 'dic'          => $this->faker->numberBetween(11111111, 99999999),
                 'ic_dph'       => 'CZ' . $this->faker->numberBetween(1111111111, 9999999999),
-            ],
-            'user'            => [
-                'name'         => $this->faker->name,
-                'address'      => $this->faker->address,
-                'state'        => $this->faker->state,
-                'city'         => $this->faker->city,
-                'postal_code'  => $this->faker->postcode,
-                'country'      => $this->faker->randomElement(
-                    ['SK', 'CZ', 'DE', 'FR']
-                ),
-                'phone_number' => $this->faker->phoneNumber,
-
-                'bank_name' => $this->faker->randomElement(['Fio Banka', 'Tatra Banka']),
-                'iban'      => $this->faker->iban('CZ'),
-                'swift'     => $this->faker->swiftBicNumber,
             ],
             'items'           => [
                 [
@@ -77,7 +59,7 @@ class InvoiceFactory extends Factory
                 ],
             ],
             'discount_type'   => $this->faker->randomElement(['percent', 'value', null]),
-            'delivery_at'      => $this->faker->dateTimeBetween(
+            'delivery_at'     => $this->faker->dateTimeBetween(
                 $startDate = '-6 months', $endDate = 'now', $timezone = null
             ),
             'created_at'      => $this->faker->dateTimeBetween(

@@ -37,11 +37,6 @@ class Invoice extends Model
         return $this->hasOne(Client::class, 'id', 'user_id');
     }
 
-    /**
-     * Index file
-     *
-     * @return array
-     */
     public function toSearchableArray()
     {
         $array = $this->toArray();
@@ -72,24 +67,6 @@ class Invoice extends Model
             $invoice->total_tax = invoice_total_tax($invoice);
 
             $invoice->currency = 'CZK';
-
-            $user = Auth::user() ?? User::find($invoice->user_id);
-
-            $invoice->author_name = $user->settings->name ?? null;
-            $invoice->author_stamp = ''; // TODO: doplnit
-
-            $invoice->user = [
-                'name'         => $user->settings->name ?? null,
-                'address'      => $user->settings->address ?? null,
-                'state'        => $user->settings->state ?? null,
-                'city'         => $user->settings->city ?? null,
-                'postal_code'  => $user->settings->postcode ?? null,
-                'country'      => $user->settings->country ?? null,
-                'phone_number' => $user->settings->phoneNumber ?? null,
-                'bank_name'    => $user->settings->bank_name ?? null,
-                'iban'         => $user->settings->iban ?? null,
-                'swift'        => $user->settings->swift ?? null,
-            ];
         });
     }
 }

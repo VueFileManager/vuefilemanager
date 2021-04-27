@@ -18,7 +18,9 @@ class CreateInvoicesTable extends Migration
             $table->uuid('user_id')->index();
             $table->uuid('client_id')->nullable()->index();
 
-            $table->enum('invoice_type', ['regular-invoice', 'advance-invoice']);
+            $table->enum('invoice_type', [
+                'regular-invoice', 'advance-invoice'
+            ]);
 
             $table->text('invoice_number')->nullable();
             $table->text('variable_number')->nullable();
@@ -38,9 +40,6 @@ class CreateInvoicesTable extends Migration
             $table->string('total_discount')->nullable();
             $table->string('total_net')->nullable();
             $table->string('total_tax')->nullable();
-
-            $table->text('author_stamp')->nullable();
-            $table->text('author_name')->nullable();
 
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Oasis;
 
 use App\Models\Oasis\Client;
+use App\Models\Oasis\InvoiceProfile;
 use App\Notifications\Oasis\InvoiceDeliveryNotification;
 use PDF;
 use Carbon\Carbon;
@@ -191,11 +192,18 @@ class OasisInvoiceTest extends TestCase
      */
     public function it_test_invoice_factory()
     {
-        $invoice = Invoice::factory(Invoice::class)
+        $invoice_profile = InvoiceProfile::factory(InvoiceProfile::class)
             ->create();
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create(['user' => $invoice_profile->toArray()]);
 
         $this->assertDatabaseHas('invoices', [
             'id' => $invoice->id,
+        ]);
+
+        $this->assertDatabaseMissing('invoices', [
+            'user' => null,
         ]);
     }
 
@@ -214,28 +222,21 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
-        $user->settings()->update([
-            'ic_dph'        => 'SK2023489457',
-            'dic'           => '2023489457',
-            'ico'           => '46530045',
-            'bank_name'     => 'Fio a.s.',
-            'iban'          => 'SK7583300000002000476497',
-            'swift'         => 'FIOZSKBAXXX',
-            'registration_notes' => 'Registrácia na OR SR Bratislava I. oddiel: Sro vl. č 91906',
-        ]);
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/invoices', [
-            'invoice_type'    => 'regular-invoice',
-            'invoice_number'  => '2120001',
-            'variable_number' => '2120001',
-            'items'           => $this->items,
-            'discount_type'   => 'percent',
-            'discount_rate'   => 10,
-            'delivery_at'     => Carbon::now()->addWeek(),
-            'store_client'    => true,
-            'send_invoice'    => true,
+            'invoice_type'        => 'regular-invoice',
+            'invoice_number'      => '2120001',
+            'variable_number'     => '2120001',
+            'items'               => $this->items,
+            'discount_type'       => 'percent',
+            'discount_rate'       => 10,
+            'delivery_at'         => Carbon::now()->addWeek(),
+            'store_client'        => true,
+            'send_invoice'        => true,
             'client'              => 'others',
             'client_avatar'       => $avatar,
             'client_name'         => 'VueFileManager Inc.',
@@ -284,6 +285,9 @@ class OasisInvoiceTest extends TestCase
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);
 
@@ -339,6 +343,9 @@ class OasisInvoiceTest extends TestCase
 
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);
 
@@ -396,6 +403,9 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/invoices', [
@@ -451,6 +461,9 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
         Sanctum::actingAs($user);
 
         $client = Client::factory(Client::class)
@@ -492,6 +505,9 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
         Sanctum::actingAs($user);
 
         $client = Client::factory(Client::class)
@@ -527,12 +543,16 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
         Sanctum::actingAs($user);
 
         $invoice = Invoice::factory(Invoice::class)
             ->create([
                 'user_id'      => $user->id,
-                'invoice_type' => 'regular-invoice'
+                'invoice_type' => 'regular-invoice',
+                'user'         => $profile,
             ]);
 
         $this->getJson('/api/oasis/invoices/regular')
@@ -549,12 +569,16 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
         Sanctum::actingAs($user);
 
         $invoice = Invoice::factory(Invoice::class)
             ->create([
                 'user_id'      => $user->id,
-                'invoice_type' => 'advance-invoice'
+                'invoice_type' => 'advance-invoice',
+                'user'         => $profile,
             ]);
 
         $this->getJson('/api/oasis/invoices/advance')
@@ -571,6 +595,9 @@ class OasisInvoiceTest extends TestCase
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
         Sanctum::actingAs($user);
 
         Invoice::factory(Invoice::class)
@@ -580,7 +607,8 @@ class OasisInvoiceTest extends TestCase
                 'invoice_number' => 2001212,
                 'client'         => [
                     'name' => 'VueFileManager Inc.',
-                ]
+                ],
+                'user'           => $profile,
             ]);
 
         $this->getJson('/api/oasis/invoices/search?type=regular-invoice&query=2001212')

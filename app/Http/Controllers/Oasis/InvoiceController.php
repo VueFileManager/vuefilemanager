@@ -46,7 +46,7 @@ class InvoiceController extends Controller
      */
     public function get_invoice(Invoice $invoice)
     {
-        if (! Storage::exists(invoice_path($invoice))) {
+        if (!Storage::exists(invoice_path($invoice))) {
             abort(404, 'Not Found');
         }
 
@@ -79,9 +79,10 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         $client = $this->getOrStoreClient($request);
+        $user = $request->user();
 
         $invoice = Invoice::create([
-            'user_id'         => $request->user()->id,
+            'user_id'         => $user->id,
             'client_id'       => $client->id ?? null,
             'invoice_type'    => $request->invoice_type,
             'invoice_number'  => $request->invoice_number,
@@ -90,6 +91,7 @@ class InvoiceController extends Controller
             'discount_type'   => $request->discount_type ?? null,
             'discount_rate'   => $request->discount_rate ?? null,
             'items'           => $request->items,
+            'user'            => $user->invoiceProfile,
             'client'          => [
                 'email'       => $client->email ?? $request->client_email,
                 'name'        => $client->name ?? $request->client_name,
@@ -106,17 +108,17 @@ class InvoiceController extends Controller
         // Generate PDF
         \PDF::loadView('oasis.invoices.invoice', [
             'invoice' => Invoice::find($invoice->id),
-            'user'    => $request->user(),
+            'user'    => $user,
         ])
             ->setPaper('a4')
             ->setOrientation('portrait')
             ->save(
-                storage_path("app/files/{$request->user()->id}/invoice-{$invoice->id}.pdf")
+                storage_path("app/files/{$user->id}/invoice-{$invoice->id}.pdf")
             );
 
         if ($request->send_invoice && $invoice->client['email']) {
             Notification::route('mail', $invoice->client['email'])->notify(
-                new InvoiceDeliveryNotification($request->user(), $invoice)
+                new InvoiceDeliveryNotification($user, $invoice)
             );
         }
 
