@@ -102,6 +102,36 @@ class OasisClientTest extends TestCase
     /**
      * @test
      */
+    public function user_delete_client()
+    {
+        Storage::fake('local');
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        Storage::putFileAs('avatar', $avatar, 'fake-image.jpg');
+
+        $client = Client::factory(Client::class)
+            ->create([
+                'avatar'  => 'avatar/fake-image.jpg',
+                'user_id' => $user->id,
+            ]);
+
+        $this->deleteJson("/api/oasis/clients/$client->id")
+            ->assertStatus(204);
+
+        Storage::disk('local')
+            ->assertMissing('avatar/fake-image.jpg');
+    }
+
+    /**
+     * @test
+     */
     public function it_get_all_clients()
     {
         $user = User::factory(User::class)

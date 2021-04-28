@@ -78,8 +78,14 @@ class Client extends Model
     {
         parent::boot();
 
-        static::creating(function ($order) {
-            $order->id = (string) Str::uuid();
+        static::creating(function ($client) {
+            $client->id = (string) Str::uuid();
+        });
+
+        static::deleting(function ($client) {
+            if ($client->getRawOriginal('avatar')) {
+                Storage::delete($client->getRawOriginal('avatar'));
+            }
         });
     }
 }

@@ -66,4 +66,17 @@ class ClientController extends Controller
             new OasisClientResource($client), 201
         );
     }
+
+    /**
+     * @param Client $client
+     * @throws \Exception
+     */
+    public function destroy(Client $client)
+    {
+        if ($client->user_id === Auth::id()) {
+            $client->delete();
+
+            return response('Done', 204);
+        }
+    }
 }
