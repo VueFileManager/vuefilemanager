@@ -7,6 +7,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
@@ -69,6 +70,10 @@ class Invoice extends Model
             $invoice->total_tax = invoice_total_tax($invoice);
 
             $invoice->currency = 'CZK';
+        });
+
+        static::deleting(function ($invoice) {
+            Storage::delete(invoice_path($invoice));
         });
     }
 }

@@ -128,6 +128,17 @@ class InvoiceController extends Controller
     }
 
     /**
+     * @param Invoice $invoice
+     * @throws \Exception
+     */
+    public function destroy(Invoice $invoice)
+    {
+        $invoice->delete();
+
+        return response('Done', 204);
+    }
+
+    /**
      * @param StoreInvoiceRequest $request
      * @return mixed
      */

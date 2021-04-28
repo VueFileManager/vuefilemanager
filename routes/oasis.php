@@ -30,6 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::get('/search', [InvoiceController::class, 'search']);
 
         Route::post('/', [InvoiceController::class, 'store']);
+        Route::delete('/{invoice}', [InvoiceController::class, 'destroy']);
 
         Route::get('/profile', [InvoiceProfileController::class, 'show']);
         Route::post('/profile', [InvoiceProfileController::class, 'store']);

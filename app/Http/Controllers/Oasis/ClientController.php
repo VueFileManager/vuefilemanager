@@ -73,10 +73,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        if ($client->user_id === Auth::id()) {
-            $client->delete();
+        $client->delete();
 
-            return response('Done', 204);
-        }
+        return response('Done', 204);
     }
 }

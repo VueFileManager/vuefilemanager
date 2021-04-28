@@ -125,6 +125,10 @@ class OasisClientTest extends TestCase
         $this->deleteJson("/api/oasis/clients/$client->id")
             ->assertStatus(204);
 
+        $this->assertDatabaseMissing('clients', [
+            'id' => $client->id
+        ]);
+
         Storage::disk('local')
             ->assertMissing('avatar/fake-image.jpg');
     }

@@ -497,6 +497,53 @@ class OasisInvoiceTest extends TestCase
     /**
      * @test
      */
+    public function user_delete_invoice()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'      => $user->id,
+                'invoice_type' => 'regular-invoice',
+                'user'         => $profile->toArray(),
+            ]);
+
+        \PDF::loadView('oasis.invoices.invoice', [
+            'invoice' => Invoice::find($invoice->id),
+            'user'    => $user,
+        ])
+            ->setPaper('a4')
+            ->setOrientation('portrait')
+            ->save(
+                storage_path("app/files/{$invoice->user_id}/invoice-{$invoice->id}.pdf")
+            );
+
+        Storage::disk('local')
+            ->assertExists(
+                invoice_path($invoice)
+            );
+
+        $this->delete("/api/oasis/invoices/$invoice->id");
+
+        $this->assertDatabaseMissing('invoices', [
+            'id' => $invoice->id
+        ]);
+
+        Storage::disk('local')
+            ->assertMissing(
+                invoice_path($invoice)
+            );
+    }
+
+    /**
+     * @test
+     */
     public function it_get_invoice_from_url()
     {
         $user = User::factory(User::class)

@@ -85,7 +85,7 @@ function invoice_total_discount($invoice, $format = false)
     // Percent discount
     if ($invoice['discount_type'] === 'percent') {
 
-        $discount = (invoice_total_net($invoice) + invoice_total_tax($invoice)) * ($invoice['discount_rate'] / 100);
+        $discount = (int) (invoice_total_net($invoice) + invoice_total_tax($invoice)) * ($invoice['discount_rate'] / 100);
 
         if ($format) {
             return Cashier::formatAmount($discount * 100, $invoice['currency'], 'cs');
@@ -153,5 +153,5 @@ function invoice_total_tax($invoice, $format = false)
  */
 function format_to_currency($value, $currency = 'CZK', $locale = 'cs')
 {
-    return Cashier::formatAmount(($value * 100), $currency, $locale);
+    return Cashier::formatAmount(((int) $value * 100), $currency, $locale);
 }
