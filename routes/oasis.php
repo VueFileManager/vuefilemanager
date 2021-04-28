@@ -32,6 +32,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::post('/', [InvoiceController::class, 'store']);
 
         Route::post('/profile', [InvoiceProfileController::class, 'store']);
+        Route::patch('/profile', [InvoiceProfileController::class, 'update']);
     });
 
     // Clients

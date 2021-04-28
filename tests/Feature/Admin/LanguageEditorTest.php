@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class LanguageEditorTest extends TestCase
 {
-    //use DatabaseMigrations;
+    use DatabaseMigrations;
 
     protected $setup;
 

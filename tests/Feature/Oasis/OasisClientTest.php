@@ -142,7 +142,7 @@ class OasisClientTest extends TestCase
                 'id' => $client->id,
             ])->assertStatus(200);
 
-        $this->getJson('/api/oasis/clients/search?query=info')
+        $this->getJson('/api/oasis/clients/search?query=inf')
             ->assertJsonFragment([
                 'id' => $client->id,
             ])->assertStatus(200);

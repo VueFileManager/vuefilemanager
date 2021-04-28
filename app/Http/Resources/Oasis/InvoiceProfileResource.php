@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Oasis;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Laravel\Cashier\Cashier;
 
 class InvoiceProfileResource extends JsonResource
 {

@@ -48,7 +48,10 @@ class OasisInvoiceProfileTest extends TestCase
             'bank'               => 'Fio Banka',
             'iban'               => 'SK20000054236423624',
             'swift'              => 'FIOZXXX',
-        ])->assertStatus(201);
+        ])->assertStatus(201)
+            ->assertJsonFragment([
+                'company' => 'VueFileManager Inc.',
+            ]);
 
         $this->assertDatabaseHas('invoice_profiles', [
             'user_id' => $user->id,
@@ -60,5 +63,59 @@ class OasisInvoiceProfileTest extends TestCase
 
         Storage::disk('local')->assertExists($profile->logo);
         Storage::disk('local')->assertExists($profile->stamp);
+    }
+
+    /**
+     * @test
+     */
+    public function user_update_invoice_profile_column()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $this->patchJson('/api/oasis/invoices/profile', [
+            'name'  => 'company',
+            'value' => 'VueFileManager Inc.',
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('invoice_profiles', [
+            'user_id' => $user->id,
+            'company' => 'VueFileManager Inc.',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_update_invoice_profile_logo()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $image = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->patchJson('/api/oasis/invoices/profile', [
+            'name' => 'logo',
+            'logo' => $image,
+        ])->assertStatus(204);
+
+        $this->assertDatabaseMissing('invoice_profiles', [
+            'logo' => null,
+        ]);
+
+        Storage::disk('local')->assertExists(
+            InvoiceProfile::first()->logo
+        );
     }
 }
