@@ -290,14 +290,22 @@ function store_avatar($request, $name)
     // Store avatar
     $image_path = Str::random(16) . '-' . $image->getClientOriginalName();
 
-    // Create intervention image
-    $img = Image::make($image->getRealPath());
+    if (in_array($image->getClientMimeType(), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
 
-    // Generate thumbnail
-    $img->fit('150', '150')->stream();
+        // Create intervention image
+        $img = Image::make($image->getRealPath());
 
-    // Store thumbnail to disk
-    Storage::put("avatars/$image_path", $img);
+        // Generate thumbnail
+        $img->fit('150', '150')->stream();
+
+        // Store thumbnail to disk
+        Storage::put("avatars/$image_path", $img);
+    }
+
+    if ($image->getClientMimeType() === 'image/svg+xml') {
+
+        Storage::putFileAs("avatars", $image, $image_path);
+    }
 
     // Return path to image
     return "avatars/$image_path";

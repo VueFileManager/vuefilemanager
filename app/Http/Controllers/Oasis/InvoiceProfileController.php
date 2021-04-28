@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Oasis\InvoiceProfileResource;
 use App\Models\Oasis\InvoiceProfile;
 use App\Models\Setting;
+use Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -14,6 +15,15 @@ use Illuminate\Http\Response;
 class InvoiceProfileController extends Controller
 {
     /**
+     * @return Application|ResponseFactory|Response
+     */
+    public function show()
+    {
+        return response(
+            new InvoiceProfileResource(Auth::user()->invoiceProfile), 200
+        );
+    }
+    /**
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
@@ -21,8 +31,8 @@ class InvoiceProfileController extends Controller
     {
         $profile = InvoiceProfile::create([
             'user_id'            => $request->user()->id,
-            'logo'               => store_avatar($request, 'logo') ?? null,
-            'stamp'              => store_avatar($request, 'stamp') ?? null,
+            'logo'               => store_system_image($request, 'logo') ?? null,
+            'stamp'              => store_system_image($request, 'stamp') ?? null,
             'company'            => $request->company,
             'email'              => $request->email,
             'ico'                => $request->ico,
@@ -59,7 +69,7 @@ class InvoiceProfileController extends Controller
             $request->user()
                 ->invoiceProfile()
                 ->update([
-                    $request->name => store_avatar($request, $request->name)
+                    $request->name => store_system_image($request, $request->name)
                 ]);
 
             return response('Done', 204);

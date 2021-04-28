@@ -86,10 +86,20 @@ const routesOasis = [
                 name: 'InvoicesList',
                 path: '/invoice/invoices',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/Invoices'),
+                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/InvoicesView'),
                 meta: {
                     requiresAuth: true,
                     title: 'Invoices'
+                },
+            },
+            {
+                name: 'InvoicesProfile',
+                path: '/invoice/profile',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Modules/Invoices/BillingProfile'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'Billing Profile'
                 },
             }
         ]

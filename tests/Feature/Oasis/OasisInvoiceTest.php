@@ -292,16 +292,15 @@ class OasisInvoiceTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/invoices', [
-            'invoice_type'    => 'regular-invoice',
-            'invoice_number'  => '2120001',
-            'variable_number' => '2120001',
-            'items'           => $this->items,
-            'discount_type'   => 'percent',
-            'discount_rate'   => 10,
-            'delivery_at'     => Carbon::now()->addWeek(),
-            'store_client'    => true,
-            'send_invoice'    => true,
-
+            'invoice_type'        => 'regular-invoice',
+            'invoice_number'      => '2120001',
+            'variable_number'     => '2120001',
+            'items'               => $this->items,
+            'discount_type'       => 'percent',
+            'discount_rate'       => 10,
+            'delivery_at'         => Carbon::now()->addWeek(),
+            'store_client'        => true,
+            'send_invoice'        => true,
             'client'              => 'others',
             'client_avatar'       => null,
             'client_name'         => 'VueFileManager Inc.',
@@ -350,16 +349,15 @@ class OasisInvoiceTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/invoices', [
-            'invoice_type'    => 'regular-invoice',
-            'invoice_number'  => '2120001',
-            'variable_number' => '2120001',
-            'items'           => $this->items,
-            'discount_type'   => 'percent',
-            'discount_rate'   => 10,
-            'delivery_at'     => Carbon::now()->addWeek(),
-            'store_client'    => false,
-            'send_invoice'    => false,
-
+            'invoice_type'        => 'regular-invoice',
+            'invoice_number'      => '2120001',
+            'variable_number'     => '2120001',
+            'items'               => $this->items,
+            'discount_type'       => 'percent',
+            'discount_rate'       => 10,
+            'delivery_at'         => Carbon::now()->addWeek(),
+            'store_client'        => false,
+            'send_invoice'        => false,
             'client'              => 'others',
             'client_avatar'       => null,
             'client_name'         => 'VueFileManager Inc.',
@@ -409,16 +407,15 @@ class OasisInvoiceTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/invoices', [
-            'invoice_type'    => 'regular-invoice',
-            'invoice_number'  => '2120001',
-            'variable_number' => '2120001',
-            'items'           => $this->items,
-            'discount_type'   => 'percent',
-            'discount_rate'   => 10,
-            'delivery_at'     => Carbon::now()->addWeek(),
-            'store_client'    => false,
-            'send_invoice'    => true,
-
+            'invoice_type'        => 'regular-invoice',
+            'invoice_number'      => '2120001',
+            'variable_number'     => '2120001',
+            'items'               => $this->items,
+            'discount_type'       => 'percent',
+            'discount_rate'       => 10,
+            'delivery_at'         => Carbon::now()->addWeek(),
+            'store_client'        => false,
+            'send_invoice'        => true,
             'client'              => 'others',
             'client_name'         => 'VueFileManager Inc.',
             'client_email'        => 'howdy@hi5ve.digital',

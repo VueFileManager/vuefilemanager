@@ -17,6 +17,26 @@ class OasisInvoiceProfileTest extends TestCase
     /**
      * @test
      */
+    public function it_get_user_invoice_profile()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/oasis/invoices/profile')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'company' => $profile->company,
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function user_store_invoice_profile_with_images()
     {
         Storage::fake('local');
@@ -30,24 +50,28 @@ class OasisInvoiceProfileTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/invoices/profile', [
-            'logo'               => $image,
-            'stamp'              => $image,
             'company'            => 'VueFileManager Inc.',
-            'email'              => 'howdy@hi5ve.digital',
+            'registration_notes' => 'Some registration notes',
+            'logo'               => $image,
+
             'ico'                => '11111111',
             'dic'                => '11111111',
             'ic_dph'             => 'SK20002313123',
-            'registration_notes' => 'Some registration notes',
-            'author'             => 'John Doe',
+
             'address'            => 'Does 11',
             'state'              => 'Slovakia',
             'city'               => 'Bratislava',
             'postal_code'        => '04001',
             'country'            => 'SK',
-            'phone'              => '+421950123456',
+
             'bank'               => 'Fio Banka',
             'iban'               => 'SK20000054236423624',
             'swift'              => 'FIOZXXX',
+
+            'phone'              => '+421950123456',
+            'email'              => 'howdy@hi5ve.digital',
+            'author'             => 'John Doe',
+            'stamp'              => $image,
         ])->assertStatus(201)
             ->assertJsonFragment([
                 'company' => 'VueFileManager Inc.',

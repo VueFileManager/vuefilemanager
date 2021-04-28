@@ -21,7 +21,9 @@ class Invoice extends Model
         'client' => 'array',
     ];
 
-    public $guarded = ['id'];
+    public $guarded = [
+        'id'
+    ];
 
     public $incrementing = false;
 

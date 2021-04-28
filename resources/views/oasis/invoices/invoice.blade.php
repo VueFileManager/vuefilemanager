@@ -27,8 +27,10 @@
         <div class="row">
             <div class="col-left">
 
-                {{--TODO: klientske logo--}}
-                <img class="logo" src="{{ base64_from_storage_image('system/5YDehSGh-vuefilemanager-horizontal-logo.svg') }}">
+                {{--TODO: pridat textove logo--}}
+                @if($user->invoiceProfile->logo)
+                    <img class="logo" src="{{ base64_from_storage_image($user->invoiceProfile->logo) }}">
+                @endif
 
                 <b class="email">{{ $user->invoiceProfile->email }}</b>
                 <b class="phone">{{ $user->invoiceProfile->phone }}</b>
@@ -275,10 +277,14 @@
             @endif
         </div>
         <div class="sign">
-            @if(is_route('invoice-debug'))
-                <img src="{{ asset('/stamp.png') }}">
+            @if(is_route('invoice-debug') && $user->invoiceProfile->stamp)
+                <img src="{{ $user->invoiceProfile->stamp }}">
             @endif
-            {{--<img src="{{ public_path('/stamp.png') }}">--}}
+
+            @if(! is_route('invoice-debug') && $user->invoiceProfile->stamp)
+                <img src="{{ base64_from_storage_image($user->invoiceProfile->stamp) }}">
+            @endif
+
             <span class="highlight">Faktúru vystavil:</span> {{ $invoice->user['author'] }}
         </div>
     </div>
