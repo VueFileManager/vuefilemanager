@@ -1,3 +1,5 @@
+[![Frontend Build](https://github.com/MakingCG/vuefilemanager/actions/workflows/build.yml/badge.svg)](https://github.com/MakingCG/vuefilemanager/actions/workflows/build.yml)
+
 ![logo](https://vuefilemanager.com/assets/images/vuefilemanager-horizontal-logo.svg)
 # Private Cloud Storage Build on Laravel & Vue.js
 

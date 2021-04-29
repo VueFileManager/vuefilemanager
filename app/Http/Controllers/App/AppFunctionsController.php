@@ -1,23 +1,22 @@
 <?php
-
 namespace App\Http\Controllers\App;
 
-use App\Http\Controllers\Controller;
-use App\Http\Mail\SendContactMessage;
-use App\Http\Resources\PricingCollection;
-use App\Http\Requests\PublicPages\SendContactMessageRequest;
-use App\Http\Resources\PageResource;
-use App\Models\Language;
-use App\Models\Setting;
 use App\Models\Page;
 use App\Models\Share;
-use App\Services\StripeService;
-use Doctrine\DBAL\Driver\PDOException;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Models\Setting;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
+use App\Services\StripeService;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PageResource;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Mail\SendContactMessage;
+use Illuminate\Support\Facades\Cache;
+use Doctrine\DBAL\Driver\PDOException;
+use App\Http\Resources\PricingCollection;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Requests\PublicPages\SendContactMessageRequest;
 
 class AppFunctionsController extends Controller
 {
@@ -55,13 +54,11 @@ class AppFunctionsController extends Controller
 
             // Get all settings
             $settings = get_settings_in_json();
-
         } catch (PDOException $e) {
-
             $setup_status = 'setup-database';
         }
 
-        return view("index")
+        return view('index')
             ->with('settings', $settings ?? null)
             ->with('legal', $pages ?? null)
             ->with('installation', $setup_status);
@@ -78,24 +75,24 @@ class AppFunctionsController extends Controller
         // Get file/folder record
         $item = ('App\\Models\\' . ucfirst($shared->type))
             ::where('user_id', $shared->user->id)
-            ->where('id', $shared->item_id)
-            ->first();
+                ->where('id', $shared->item_id)
+                ->first();
 
         if ($item->thumbnail) {
             $item->setPublicUrl($shared->token);
         }
 
-        return view("vuefilemanager.crawler.og-view")
+        return view('vuefilemanager.crawler.og-view')
             ->with('settings', get_settings_in_json())
             ->with('metadata', [
-                'url'          => url('/share', ['token' => $shared->token]),
+                'url' => url('/share', ['token' => $shared->token]),
                 'is_protected' => $shared->is_protected,
-                'user'         => $shared->user->settings->name,
-                'name'         => $item->name,
-                'size'         => $shared->type === 'folder'
+                'user' => $shared->user->settings->name,
+                'name' => $item->name,
+                'size' => $shared->type === 'folder'
                     ? $item->items
                     : $item->filesize,
-                'thumbnail'    => $item->thumbnail ?? null,
+                'thumbnail' => $item->thumbnail ?? null,
             ]);
     }
 
@@ -136,7 +133,6 @@ class AppFunctionsController extends Controller
     public function get_setting_columns(Request $request)
     {
         if (strpos($request->column, '|') !== false) {
-
             $columns = collect(explode('|', $request->column))
                 ->each(function ($column) {
                     if (in_array($column, $this->blacklist)) {

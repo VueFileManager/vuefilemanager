@@ -1,24 +1,22 @@
 <?php
-
 namespace App\Http\Controllers\FileManager;
 
-use App\Http\Requests\FileFunctions\CreateFolderRequest;
+use Exception;
+use App\Models\File;
+use App\Models\Folder;
+use Illuminate\Http\Request;
+use App\Services\DemoService;
+use App\Services\HelperService;
+use App\Http\Controllers\Controller;
+use App\Services\FileManagerService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Requests\FileFunctions\UploadRequest;
+use App\Http\Requests\FileFunctions\MoveItemRequest;
 use App\Http\Requests\FileFunctions\DeleteItemRequest;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\Http\Requests\FileFunctions\MoveItemRequest;
-use App\Http\Requests\FileFunctions\UploadRequest;
-use App\Services\DemoService;
-use App\Services\FileManagerService;
-use App\Services\HelperService;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use App\Models\Folder;
-use App\Models\File;
-use Exception;
-
+use App\Http\Requests\FileFunctions\CreateFolderRequest;
 
 class EditItemsController extends Controller
 {
@@ -134,14 +132,14 @@ class EditItemsController extends Controller
         $folder = Folder::whereUserId(Auth::id())
             ->where('id', $id);
 
-        if (!$folder->exists()) {
+        if (! $folder->exists()) {
             abort(404, "Requested folder doesn't exists.");
         }
 
         $zip = $this->filemanager->zip_folder($id);
 
         return response([
-            'url'  => route('zip', $zip->id),
+            'url' => route('zip', $zip->id),
             'name' => $zip->basename,
         ], 201);
     }
@@ -161,7 +159,7 @@ class EditItemsController extends Controller
         $zip = $this->filemanager->zip_files($files);
 
         return response([
-            'url'  => route('zip', $zip->id),
+            'url' => route('zip', $zip->id),
             'name' => $zip->basename,
         ], 201);
     }

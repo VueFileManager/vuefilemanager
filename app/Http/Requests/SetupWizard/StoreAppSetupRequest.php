@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\SetupWizard;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,15 +23,15 @@ class StoreAppSetupRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'             => 'required|string',
-            'description'       => 'required|string',
-            'logo'              => 'sometimes|file',
-            'logo_horizontal'   => 'sometimes|file',
-            'favicon'           => 'sometimes|file',
-            'contactMail'       => 'required|email',
-            'googleAnalytics'   => 'sometimes|string',
-            'defaultStorage'    => 'sometimes|digits_between:1,9',
-            'userRegistration'  => 'required|boolean',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'logo' => 'sometimes|file',
+            'logo_horizontal' => 'sometimes|file',
+            'favicon' => 'sometimes|file',
+            'contactMail' => 'required|email',
+            'googleAnalytics' => 'sometimes|string',
+            'defaultStorage' => 'sometimes|digits_between:1,9',
+            'userRegistration' => 'required|boolean',
             'storageLimitation' => 'required|boolean',
         ];
     }

@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PageCollection;
-use App\Http\Resources\PageResource;
-use App\Services\DemoService;
 use App\Models\Page;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use App\Services\DemoService;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PageResource;
+use App\Http\Resources\PageCollection;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PagesController extends Controller
 {

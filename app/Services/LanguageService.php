@@ -1,12 +1,9 @@
 <?php
-
-
 namespace App\Services;
 
-
+use DB;
 use App\Models\Language;
 use App\Models\LanguageTranslation;
-use DB;
 
 class LanguageService
 {
@@ -14,26 +11,26 @@ class LanguageService
      * @param $license
      * @param $locale
      */
-    function create_default_language_translations($license, $locale)
+    public function create_default_language_translations($license, $locale)
     {
         $translations = [
             'extended' => collect([
-                config("language-translations.extended"),
-                config("language-translations.regular"),
-                config("custom-language-translations")
+                config('language-translations.extended'),
+                config('language-translations.regular'),
+                config('custom-language-translations'),
             ])->collapse(),
-            'regular'  => collect([
-                config("language-translations.regular"),
-                config("custom-language-translations")
+            'regular' => collect([
+                config('language-translations.regular'),
+                config('custom-language-translations'),
             ])->collapse(),
         ];
 
         $translations = $translations[strtolower($license)]
             ->map(function ($value, $key) use ($locale) {
                 return [
-                    'lang'  => $locale,
+                    'lang' => $locale,
                     'value' => $value,
-                    'key'   => $key,
+                    'key' => $key,
                 ];
             })->toArray();
 
@@ -45,7 +42,7 @@ class LanguageService
      * Find newly added translations in default language
      * translations file and insert it into database
      */
-    function upgrade_language_translations()
+    public function upgrade_language_translations()
     {
         // Get all app locales
         $locales = Language::all()
@@ -57,13 +54,13 @@ class LanguageService
 
         $default_translations = [
             'extended' => collect([
-                config("language-translations.extended"),
-                config("language-translations.regular"),
-                config("custom-language-translations")
+                config('language-translations.extended'),
+                config('language-translations.regular'),
+                config('custom-language-translations'),
             ])->collapse(),
-            'regular'  => collect([
-                config("language-translations.regular"),
-                config("custom-language-translations")
+            'regular' => collect([
+                config('language-translations.regular'),
+                config('custom-language-translations'),
             ])->collapse(),
         ];
 
@@ -75,13 +72,12 @@ class LanguageService
 
         // Store new translations for every language
         $locales->each(function ($locale) use ($newbies) {
-
             $translations = $newbies
                 ->map(function ($value, $key) use ($locale) {
                     return [
-                        'lang'  => $locale,
+                        'lang' => $locale,
                         'value' => $value,
-                        'key'   => $key,
+                        'key' => $key,
                     ];
                 })->toArray();
 

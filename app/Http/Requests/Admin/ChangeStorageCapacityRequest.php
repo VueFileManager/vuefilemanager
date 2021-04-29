@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,8 +23,8 @@ class ChangeStorageCapacityRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes'                  => 'required|array',
-            'attributes.storage_capacity' => 'required|digits_between:1,9'
+            'attributes' => 'required|array',
+            'attributes.storage_capacity' => 'required|digits_between:1,9',
         ];
     }
 }

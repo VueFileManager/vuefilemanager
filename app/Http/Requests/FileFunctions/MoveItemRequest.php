@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Requests\FileFunctions;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class MoveItemRequest extends FormRequest
 {
@@ -25,9 +23,9 @@ class MoveItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'to_id'         => 'nullable|uuid',
+            'to_id' => 'nullable|uuid',
             'items[*].type' => 'required|string',
-            'items[*].id'   => 'required|uuid',
+            'items[*].id' => 'required|uuid',
         ];
     }
 }

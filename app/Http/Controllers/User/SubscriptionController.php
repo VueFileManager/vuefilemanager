@@ -1,19 +1,18 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
-use App\Http\Resources\UserSubscription;
-use App\Services\DemoService;
-use App\Models\User;
-use App\Services\StripeService;
 use Auth;
+use App\Models\User;
+use Stripe\SetupIntent;
+use App\Services\DemoService;
+use Illuminate\Http\Response;
+use App\Services\StripeService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\UserSubscription;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
-use Stripe\SetupIntent;
+use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
 
 class SubscriptionController extends Controller
 {
@@ -34,7 +33,8 @@ class SubscriptionController extends Controller
     public function setup_intent()
     {
         return response(
-            $this->stripe->getSetupIntent(Auth::user()), 201
+            $this->stripe->getSetupIntent(Auth::user()),
+            201
         );
     }
 
@@ -47,7 +47,7 @@ class SubscriptionController extends Controller
     {
         $user = User::find(Auth::id());
 
-        if (!$user->subscription('main')) {
+        if (! $user->subscription('main')) {
             return abort(204, 'User don\'t have any subscription');
         }
 
@@ -97,7 +97,7 @@ class SubscriptionController extends Controller
 
         // Update user storage limit
         $user->settings()->update([
-            'storage_capacity' => $plan['product']['metadata']['capacity']
+            'storage_capacity' => $plan['product']['metadata']['capacity'],
         ]);
 
         return response('Done!', 204);

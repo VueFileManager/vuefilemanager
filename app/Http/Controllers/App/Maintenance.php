@@ -1,19 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\App;
 
-use App\Http\Controllers\Controller;
-use App\Models\Language;
-use App\Models\LanguageTranslation;
-use App\Services\LanguageService;
-use Artisan;
-use DB;
 use Gate;
+use Artisan;
+use App\Models\Language;
+use Illuminate\Http\Response;
+use App\Services\LanguageService;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Schema;
 
 class Maintenance extends Controller
 {
@@ -61,8 +56,6 @@ class Maintenance extends Controller
         resolve(LanguageService::class)
             ->upgrade_language_translations();
 
-
-
         return response('Done.', 201);
     }
 
@@ -75,7 +68,7 @@ class Maintenance extends Controller
         Gate::authorize('maintenance');
 
         $command = Artisan::call('migrate', [
-            '--force' => true
+            '--force' => true,
         ]);
 
         if ($command === 0) {
@@ -85,6 +78,7 @@ class Maintenance extends Controller
         if ($command === 1) {
             echo 'Operation failed.';
         }
+
         return $command;
     }
 }

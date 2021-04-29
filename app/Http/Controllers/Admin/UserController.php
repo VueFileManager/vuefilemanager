@@ -1,29 +1,25 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\ChangeRoleRequest;
-use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
-use App\Http\Requests\Admin\CreateUserByAdmin;
-use App\Http\Requests\Admin\DeleteUserRequest;
-use App\Http\Resources\InvoiceCollection;
-use App\Http\Resources\UsersCollection;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\UserStorageResource;
-use App\Http\Resources\UserSubscription;
-use App\Services\StripeService;
-use App\Models\Share;
+use Storage;
 use App\Models\User;
 use App\Models\UserSettings;
+use Illuminate\Http\Response;
+use App\Services\StripeService;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UsersCollection;
+use App\Http\Resources\UserSubscription;
+use Illuminate\Support\Facades\Password;
+use App\Http\Resources\InvoiceCollection;
+use App\Http\Resources\UserStorageResource;
+use App\Http\Requests\Admin\ChangeRoleRequest;
+use App\Http\Requests\Admin\CreateUserByAdmin;
+use App\Http\Requests\Admin\DeleteUserRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
-use Storage;
+use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
 
 class UserController extends Controller
 {
@@ -81,7 +77,7 @@ class UserController extends Controller
      */
     public function subscription(User $user)
     {
-        if (!$user->stripeId() || !$user->subscription('main')) {
+        if (! $user->stripeId() || ! $user->subscription('main')) {
             return response("User doesn't have any subscription.", 404);
         }
 
@@ -179,8 +175,8 @@ class UserController extends Controller
     {
         // Create user
         $user = User::forceCreate([
-            'role'     => $request->role,
-            'email'    => $request->email,
+            'role' => $request->role,
+            'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
@@ -189,8 +185,8 @@ class UserController extends Controller
         $user
             ->settings()
             ->create([
-                'name'             => $request->name,
-                'avatar'           => store_avatar($request, 'avatar'),
+                'name' => $request->name,
+                'avatar' => store_avatar($request, 'avatar'),
                 'storage_capacity' => $request->storage_capacity,
             ]);
 
@@ -222,7 +218,7 @@ class UserController extends Controller
         }
 
         if ($user->settings->name !== $request->name) {
-            abort(403, "The name you typed is wrong!");
+            abort(403, 'The name you typed is wrong!');
         }
 
         $user->delete();

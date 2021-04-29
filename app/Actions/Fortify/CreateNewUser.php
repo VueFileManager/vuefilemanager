@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Actions\Fortify;
 
-use App\Models\Setting;
 use App\Models\User;
+use App\Models\Setting;
 use App\Models\UserSettings;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -25,13 +24,13 @@ class CreateNewUser implements CreatesNewUsers
             ->pluck('value', 'name');
 
         // Check if account registration is enabled
-        if (!intval($settings['registration'])) {
+        if (! intval($settings['registration'])) {
             abort(401);
         }
 
         Validator::make($input, [
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
                 'required',
                 'string',
                 'email',
@@ -42,7 +41,7 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         $user = User::create([
-            'email'    => $input['email'],
+            'email' => $input['email'],
             'password' => bcrypt($input['password']),
         ]);
 
@@ -51,7 +50,7 @@ class CreateNewUser implements CreatesNewUsers
         $user
             ->settings()
             ->create([
-                'name'             => $input['name'],
+                'name' => $input['name'],
                 'storage_capacity' => $settings['storage_default'],
             ]);
 

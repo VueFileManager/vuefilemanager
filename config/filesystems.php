@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -42,7 +41,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -90,7 +88,5 @@ return [
             'region' => env('BACKBLAZE_REGION'),
             'bucket' => env('BACKBLAZE_BUCKET'),
         ],
-
     ],
-
 ];

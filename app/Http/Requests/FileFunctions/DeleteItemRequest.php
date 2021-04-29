@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Requests\FileFunctions;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class DeleteItemRequest extends FormRequest
 {
@@ -26,8 +24,8 @@ class DeleteItemRequest extends FormRequest
     {
         return [
             'data[*].force_delete' => 'required|boolean',
-            'data[*].type'         => 'required|string',
-            'data[*].id'    => 'required|integer'
+            'data[*].type' => 'required|string',
+            'data[*].id' => 'required|integer',
         ];
     }
 }

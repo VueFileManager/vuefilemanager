@@ -1,20 +1,19 @@
 <?php
-
 namespace App\Http\Controllers\Sharing;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Share\AuthenticateShareRequest;
-use App\Http\Resources\FileResource;
-use App\Http\Resources\ShareResource;
 use App\Models\File;
-use App\Models\Folder;
 use App\Models\Share;
-use App\Services\HelperService;
-use Illuminate\Http\Request;
+use App\Models\Folder;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Services\HelperService;
 use Illuminate\Support\Collection;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\FileResource;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\ShareResource;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Share\AuthenticateShareRequest;
 
 class BrowseShareController extends Controller
 {
@@ -38,27 +37,25 @@ class BrowseShareController extends Controller
         }
 
         // Check if shared is image file and then show it
-        if ($shared->type === 'file' && !$shared->is_protected) {
-
+        if ($shared->type === 'file' && ! $shared->is_protected) {
             $image = File::whereUserId($shared->user_id)
                 ->whereType('image')
                 ->whereId($shared->item_id)
                 ->first();
 
             if ($image) {
-
                 // Store user download size
                 $shared
                     ->user
                     ->record_download(
-                        (int)$image->getRawOriginal('filesize')
+                        (int) $image->getRawOriginal('filesize')
                     );
 
                 return $this->get_single_image($image, $shared->user_id);
             }
         }
 
-        return view("index")
+        return view('index')
             ->with('installation', 'setup-done')
             ->with('settings', get_settings_in_json() ?? null);
     }
@@ -74,9 +71,8 @@ class BrowseShareController extends Controller
     {
         // Check password
         if (Hash::check($request->password, $shared->password)) {
-
             $cookie = json_encode([
-                'token'         => $shared->token,
+                'token' => $shared->token,
                 'authenticated' => true,
             ]);
 
@@ -151,7 +147,6 @@ class BrowseShareController extends Controller
 
         // Filter files
         $files = $searched_files->filter(function ($file) use ($accessible_folder_ids, $shared) {
-
             // Set public urls
             $file->setPublicUrl($shared->token);
 
@@ -161,7 +156,6 @@ class BrowseShareController extends Controller
 
         // Filter folders
         $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
-
             // check if item is in accessible folders
             return in_array($folder->id, $accessible_folder_ids);
         });
@@ -194,11 +188,11 @@ class BrowseShareController extends Controller
 
         return [
             [
-                'id'       => $shared->item_id,
-                'name'     => __t('home'),
+                'id' => $shared->item_id,
+                'name' => __t('home'),
                 'location' => 'public',
-                'folders'  => $folders,
-            ]
+                'folders' => $folders,
+            ],
         ];
     }
 
@@ -240,13 +234,15 @@ class BrowseShareController extends Controller
         $path = "/files/$user_id/$file->basename";
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (! Storage::exists($path)) {
+            abort(404);
+        }
 
         return Storage::response($path, $file_pretty_name, [
-            "Content-Type"   => Storage::mimeType($path),
-            "Content-Length" => Storage::size($path),
-            "Accept-Ranges"  => "bytes",
-            "Content-Range"  => "bytes 0-600/" . Storage::size($path),
+            'Content-Type' => Storage::mimeType($path),
+            'Content-Length' => Storage::size($path),
+            'Accept-Ranges' => 'bytes',
+            'Content-Range' => 'bytes 0-600/' . Storage::size($path),
         ]);
     }
 }

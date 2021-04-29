@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Resources;
 
 use App\Models\User;
@@ -20,38 +19,38 @@ class InvoiceResource extends JsonResource
 
         return [
             'data' => [
-                'id'         => $this->id,
-                'type'       => 'invoices',
+                'id' => $this->id,
+                'type' => 'invoices',
                 'attributes' => [
-                    'customer'              => $this->customer,
-                    'total'                 => $this->total(),
-                    'currency'              => $this->currency,
-                    'created_at_formatted'  => format_date($this->date(), '%d. %B %Y'),
-                    'created_at'            => $this->created,
-                    'order'                 => $this->number,
-                    'user_id'               => $user->id ?? null,
-                    'client'                => [
-                        'billing_address'      => $this->customer_address,
-                        'billing_name'         => $this->customer_name,
+                    'customer' => $this->customer,
+                    'total' => $this->total(),
+                    'currency' => $this->currency,
+                    'created_at_formatted' => format_date($this->date(), '%d. %B. %Y'),
+                    'created_at' => $this->created,
+                    'order' => $this->number,
+                    'user_id' => $user->id ?? null,
+                    'client' => [
+                        'billing_address' => $this->customer_address,
+                        'billing_name' => $this->customer_name,
                         'billing_phone_number' => $this->customer_phone,
                     ],
-                    'seller'                => null,
-                    'invoice_items'         => $this->get_invoice_items(),
+                    'seller' => null,
+                    'invoice_items' => $this->get_invoice_items(),
                     'invoice_subscriptions' => $this->get_invoice_subscriptions(),
                 ],
                 $this->mergeWhen($user, [
                     'relationships' => [
                         'user' => [
                             'data' => [
-                                'id'         => $user->id,
-                                'type'       => 'user',
+                                'id' => $user->id,
+                                'type' => 'user',
                                 'attributes' => [
-                                    'name'   => $user->settings->name,
+                                    'name' => $user->settings->name,
                                     'avatar' => $user->settings->avatar,
-                                ]
-                            ]
-                        ]
-                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ]),
             ],
         ];
@@ -66,10 +65,10 @@ class InvoiceResource extends JsonResource
 
         foreach ($this->subscriptions() as $item) {
             array_push($array, [
-                'amount'      => $item->total(),
+                'amount' => $item->total(),
                 'description' => $item->description,
-                'currency'    => $item->currency,
-                'type'        => $item->type,
+                'currency' => $item->currency,
+                'type' => $item->type,
             ]);
         }
 
@@ -85,10 +84,10 @@ class InvoiceResource extends JsonResource
 
         foreach ($this->invoiceItems() as $item) {
             array_push($array, [
-                'amount'      => $item->total(),
+                'amount' => $item->total(),
                 'description' => $item->description,
-                'currency'    => $item->currency,
-                'type'        => $item->type,
+                'currency' => $item->currency,
+                'type' => $item->type,
             ]);
         }
 

@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Requests\FileFunctions;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class RenameItemRequest extends FormRequest
 {
@@ -25,8 +23,8 @@ class RenameItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string',
-            'type'      => 'required|string',
+            'name' => 'required|string',
+            'type' => 'required|string',
         ];
     }
 }

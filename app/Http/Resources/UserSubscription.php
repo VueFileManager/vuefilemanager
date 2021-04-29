@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,21 +22,21 @@ class UserSubscription extends JsonResource
 
         return [
             'data' => [
-                'id'         => $subscription['plan']['id'],
-                'type'       => 'subscription',
+                'id' => $subscription['plan']['id'],
+                'type' => 'subscription',
                 'attributes' => [
-                    'incomplete'         => $this->subscription('main')->incomplete(),
-                    'active'             => $this->subscription('main')->active(),
-                    'canceled'           => $this->subscription('main')->cancelled(),
-                    'name'               => $subscription['product']['name'],
-                    'capacity'           => (int)$subscription['product']['metadata']['capacity'],
+                    'incomplete' => $this->subscription('main')->incomplete(),
+                    'active' => $this->subscription('main')->active(),
+                    'canceled' => $this->subscription('main')->cancelled(),
+                    'name' => $subscription['product']['name'],
+                    'capacity' => (int) $subscription['product']['metadata']['capacity'],
                     'capacity_formatted' => format_gigabytes($subscription['product']['metadata']['capacity']),
-                    'slug'               => $subscription['plan']['id'],
-                    'canceled_at'        => format_date($active_subscription["canceled_at"], '%d. %B. %Y'),
-                    'created_at'         => format_date($active_subscription["current_period_start"], '%d. %B. %Y'),
-                    'ends_at'            => format_date($active_subscription["current_period_end"], '%d. %B. %Y'),
-                ]
-            ]
+                    'slug' => $subscription['plan']['id'],
+                    'canceled_at' => format_date($active_subscription['canceled_at'], '%d. %B. %Y'),
+                    'created_at' => format_date($active_subscription['current_period_start'], '%d. %B. %Y'),
+                    'ends_at' => format_date($active_subscription['current_period_end'], '%d. %B. %Y'),
+                ],
+            ],
         ];
     }
 }

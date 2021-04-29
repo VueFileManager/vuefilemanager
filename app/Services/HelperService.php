@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Services;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\Share;
-use Aws\Exception\MultipartUploadException;
-use Aws\S3\MultipartUploader;
 use DB;
+use App\Models\File;
+use App\Models\Share;
+use App\Models\Folder;
 use Illuminate\Support\Arr;
+use Aws\S3\MultipartUploader;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Aws\Exception\MultipartUploadException;
 use Intervention\Image\ImageManagerStatic as Image;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -43,7 +42,7 @@ class HelperService
     /**
      * Check access to requested directory
      *
-     * @param integer|array $requested_id
+     * @param int|array $requested_id
      * @param string $shared Shared record detail
      */
     public function check_item_access($requested_id, $shared)
@@ -60,14 +59,16 @@ class HelperService
         // Check user access
         if (is_array($requested_id)) {
             foreach ($requested_id as $id) {
-                if (!in_array($id, $accessible_folder_ids))
+                if (! in_array($id, $accessible_folder_ids)) {
                     abort(403);
+                }
             }
         }
 
-        if (!is_array($requested_id)) {
-            if (!in_array($requested_id, $accessible_folder_ids))
+        if (! is_array($requested_id)) {
+            if (! in_array($requested_id, $accessible_folder_ids)) {
                 abort(403);
+            }
         }
     }
 
@@ -106,7 +107,6 @@ class HelperService
 
         // Check if user can upload
         if (get_setting('storage_limitation') && $user_storage_used >= 100) {
-
             // Delete file
             Storage::disk('local')
                 ->delete("chunks/$temp_filename");
@@ -123,7 +123,7 @@ class HelperService
      * @param string $file
      * @param string $user_id
      */
-    function move_file_to_external_storage($file, $user_id): void
+    public function move_file_to_external_storage($file, $user_id): void
     {
         $disk_local = Storage::disk('local');
 
@@ -132,7 +132,6 @@ class HelperService
 
         // If file is bigger than 5.2MB then run multipart upload
         if ($filesize > 5242880) {
-
             // Get driver
             $driver = \Storage::getDriver();
 
@@ -146,16 +145,13 @@ class HelperService
             // TODO: replace local files with temp folder
             $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . "/files/$user_id/$file", [
                 'bucket' => $adapter->getBucket(),
-                'key'    => "/files/$user_id/$file"
+                'key' => "/files/$user_id/$file",
             ]);
 
             try {
-
                 // Upload content
                 $uploader->upload();
-
             } catch (MultipartUploadException $e) {
-
                 // Write error log
                 Log::error($e->getMessage());
 
@@ -164,12 +160,10 @@ class HelperService
 
                 throw new HttpException(409, $e->getMessage());
             }
-
         } else {
-
             // Stream file object to s3
             // TODO: replace local files with temp folder
-            Storage::putFileAs("files/$user_id", config('filesystems.disks.local.root') . "/files/$user_id/$file", $file, "private");
+            Storage::putFileAs("files/$user_id", config('filesystems.disks.local.root') . "/files/$user_id/$file", $file, 'private');
         }
 
         // Delete file after upload
@@ -184,11 +178,10 @@ class HelperService
      * @param string $user_id
      * @return string|null
      */
-    function create_image_thumbnail($file_path, $filename, $user_id)
+    public function create_image_thumbnail($file_path, $filename, $user_id)
     {
         // Create thumbnail from image
         if (in_array(Storage::disk('local')->mimeType($file_path), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
-
             // Get thumbnail name
             $thumbnail = "thumbnail-$filename";
 
@@ -207,7 +200,6 @@ class HelperService
 
         // Return thumbnail as svg file
         if (Storage::disk('local')->mimeType($file_path) === 'image/svg+xml') {
-
             $thumbnail = $filename;
         }
 
@@ -221,13 +213,13 @@ class HelperService
      * @param $user_id
      * @return mixed
      */
-    function download_file($file, $user_id)
+    public function download_file($file, $user_id)
     {
         // Get file path
         $path = "files/$user_id/$file->basename";
 
         // Check if file exist
-        if (!Storage::exists($path)) {
+        if (! Storage::exists($path)) {
             abort(404);
         }
 
@@ -236,11 +228,11 @@ class HelperService
 
         return response()
             ->download(Storage::path($path), $pretty_name, [
-                "Accept-Ranges"       => "bytes",
-                "Content-Type"        => Storage::mimeType($path),
-                "Content-Length"      => Storage::size($path),
-                "Content-Range"       => "bytes 0-600/" . Storage::size($path),
-                "Content-Disposition" => "attachment; filename=$pretty_name",
+                'Accept-Ranges' => 'bytes',
+                'Content-Type' => Storage::mimeType($path),
+                'Content-Length' => Storage::size($path),
+                'Content-Range' => 'bytes 0-600/' . Storage::size($path),
+                'Content-Disposition' => "attachment; filename=$pretty_name",
             ]);
     }
 
@@ -251,13 +243,15 @@ class HelperService
      * @param $user_id
      * @return mixed
      */
-    function download_thumbnail_file($file, $user_id)
+    public function download_thumbnail_file($file, $user_id)
     {
         // Get file path
         $path = "/files/$user_id/{$file->getRawOriginal('thumbnail')}";
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (! Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return image thumbnail
         return Storage::download($path, $file->getRawOriginal('thumbnail'));
@@ -270,7 +264,7 @@ class HelperService
      * @param $shared
      * @return array
      */
-    function get_items_under_shared_by_folder_id($id, $shared): array
+    public function get_items_under_shared_by_folder_id($id, $shared): array
     {
         $folders = Folder::where('user_id', $shared->user_id)
             ->where('parent_id', $id)
@@ -288,13 +282,12 @@ class HelperService
     /**
      * @param Share $shared
      */
-    function check_protected_share_record(Share $shared): void
+    public function check_protected_share_record(Share $shared): void
     {
         if ($shared->is_protected) {
-
             $abort_message = "Sorry, you don't have permission";
 
-            if (!request()->hasCookie('share_session')) {
+            if (! request()->hasCookie('share_session')) {
                 abort(403, $abort_message);
             }
 
@@ -309,7 +302,7 @@ class HelperService
             }
 
             // Check if share record was authenticated previously via ShareController@authenticate
-            if (!$share_session->authenticated) {
+            if (! $share_session->authenticated) {
                 abort(403, $abort_message);
             }
         }

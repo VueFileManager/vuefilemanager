@@ -1,12 +1,9 @@
 <?php
-
-
 namespace App\Services;
 
-
-use App\Models\Share;
-use App\Models\Zip;
 use Carbon\Carbon;
+use App\Models\Zip;
+use App\Models\Share;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +17,6 @@ class SchedulerService
         Zip::where('created_at', '<=', now()->subDay()->toDateTimeString())
             ->get()
             ->each(function ($zip) {
-
                 // Delete zip file
                 \Storage::disk('local')->delete("zip/$zip->basename");
 
@@ -37,7 +33,6 @@ class SchedulerService
         Share::whereNotNull('expire_in')
             ->get()
             ->each(function ($share) {
-
                 // Get dates
                 $created_at = Carbon::parse($share->created_at);
 
@@ -58,11 +53,10 @@ class SchedulerService
         // Get all files from storage
         $files = collect([
             //$local_disk->allFiles('files'),
-            $local_disk->allFiles('chunks')
+            $local_disk->allFiles('chunks'),
         ])->collapse();
 
         $files->each(function ($file) use ($local_disk) {
-
             // Get the file's last modification time.
             $last_modified = $local_disk
                 ->lastModified($file);
@@ -73,7 +67,6 @@ class SchedulerService
 
             // Delete if file is in local storage more than 24 hours
             if ($diff >= 24) {
-
                 Log::info("Failed file or chunk $file deleted.");
 
                 // Delete file from local storage

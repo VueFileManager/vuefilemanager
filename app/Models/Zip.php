@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Zip extends Model
 {
@@ -29,7 +28,7 @@ class Zip extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+            $model->id = (string) Str::uuid();
         });
     }
 }

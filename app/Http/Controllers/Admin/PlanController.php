@@ -1,23 +1,20 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PlanCollection;
-use App\Http\Resources\PlanResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\UsersCollection;
-use App\Services\DemoService;
 use App\Models\Plan;
-use App\Services\StripeService;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Services\DemoService;
+use Illuminate\Http\Response;
+use App\Services\StripeService;
+use Laravel\Cashier\Subscription;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PlanResource;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\PlanCollection;
+use App\Http\Resources\UsersCollection;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Cashier\Subscription;
-use Rinvex\Subscriptions\Models\PlanFeature;
 
 class PlanController extends Controller
 {
@@ -79,7 +76,6 @@ class PlanController extends Controller
     {
         // TODO: inline request
         if (is_demo()) {
-
             if (Cache::has('plan-starter-pack')) {
                 $plan = Cache::get('plan-starter-pack');
             } else {

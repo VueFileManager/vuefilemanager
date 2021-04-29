@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Models;
 
-use App\Services\LanguageService;
 use Illuminate\Support\Str;
+use App\Services\LanguageService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static whereLocale(string $param)
@@ -20,7 +19,7 @@ class Language extends Model
     ];
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected $keyType = 'string';
@@ -43,7 +42,8 @@ class Language extends Model
 
             resolve(LanguageService::class)
                 ->create_default_language_translations(
-                    get_setting('license') ?? 'extended', $language->locale
+                    get_setting('license') ?? 'extended',
+                    $language->locale
                 );
         });
 

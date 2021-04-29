@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Payments;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,8 +23,8 @@ class RegisterNewPaymentMethodRequest extends FormRequest
     public function rules()
     {
         return [
-            'token'   => 'required|string',
-            'default' => 'required|boolean'
+            'token' => 'required|string',
+            'default' => 'required|boolean',
         ];
     }
 }

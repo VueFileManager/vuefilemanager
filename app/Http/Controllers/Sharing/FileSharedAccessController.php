@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Sharing;
 
-use App\Http\Controllers\Controller;
-use App\Models\File as UserFile;
-use App\Models\Share;
 use App\Models\Zip;
+use App\Models\Share;
 use App\Services\HelperService;
-use Illuminate\Http\Request;
+use App\Models\File as UserFile;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class FileSharedAccessController extends Controller
@@ -42,11 +40,11 @@ class FileSharedAccessController extends Controller
 
         return $disk
             ->download("zip/$zip->basename", $zip->basename, [
-                "Content-Type"        => 'application/zip',
-                "Content-Length"      => $disk->size("zip/$zip->basename"),
-                "Accept-Ranges"       => "bytes",
-                "Content-Range"       => "bytes 0-600/" . $disk->size("zip/$zip->basename"),
-                "Content-Disposition" => "attachment; filename=" . $zip->basename,
+                'Content-Type' => 'application/zip',
+                'Content-Length' => $disk->size("zip/$zip->basename"),
+                'Accept-Ranges' => 'bytes',
+                'Content-Range' => 'bytes 0-600/' . $disk->size("zip/$zip->basename"),
+                'Content-Disposition' => 'attachment; filename=' . $zip->basename,
             ]);
     }
 
@@ -74,7 +72,7 @@ class FileSharedAccessController extends Controller
         $shared
             ->user
             ->record_download(
-                (int)$file->getRawOriginal('filesize')
+                (int) $file->getRawOriginal('filesize')
             );
 
         return $this->helper->download_file($file, $shared->user_id);
@@ -104,7 +102,7 @@ class FileSharedAccessController extends Controller
         $shared
             ->user
             ->record_download(
-                (int)$file->getRawOriginal('filesize')
+                (int) $file->getRawOriginal('filesize')
             );
 
         return $this->helper->download_thumbnail_file($file, $shared->user_id);

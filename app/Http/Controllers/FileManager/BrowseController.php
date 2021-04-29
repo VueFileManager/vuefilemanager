@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Http\Controllers\FileManager;
 
-use App\Http\Requests\FileBrowser\SearchRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Collection;
-use Illuminate\Http\Request;
-use App\Models\Folder;
 use App\Models\File;
+use App\Models\User;
 use App\Models\Share;
+use App\Models\Folder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\FileBrowser\SearchRequest;
 
 class BrowseController extends Controller
 {
@@ -27,7 +26,6 @@ class BrowseController extends Controller
 
         // Get folder trash items
         if ($request->query('trash')) {
-
             // Get folders and files
             $folders = Folder::onlyTrashed()
                 ->with('parent')
@@ -105,7 +103,7 @@ class BrowseController extends Controller
         $files_trashed = File::onlyTrashed()
             ->with(['parent'])
             ->where('user_id', $user_id)
-            ->where(function($query) use ($folders_trashed) {
+            ->where(function ($query) use ($folders_trashed) {
                 $query->whereNull('folder_id');
                 $query->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))));
             })
@@ -182,10 +180,10 @@ class BrowseController extends Controller
 
         return [
             [
-                'name'      => __t('home'),
-                'location'  => 'base',
-                'folders'   => $folders,
-            ]
+                'name' => __t('home'),
+                'location' => 'base',
+                'folders' => $folders,
+            ],
         ];
     }
 

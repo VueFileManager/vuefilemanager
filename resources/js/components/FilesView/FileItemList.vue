@@ -170,6 +170,9 @@ export default {
             this.area = false
         },
         clickedItem(e) {
+			// Disabled right click
+			if (e.button === 2) return
+
             if (!this.$isMobile()) {
 
                 // After click deselect new folder rename input

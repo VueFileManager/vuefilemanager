@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Languages;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,7 +24,7 @@ class CreateLanguageRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'locale' => 'required|string'
+            'locale' => 'required|string',
         ];
     }
 }

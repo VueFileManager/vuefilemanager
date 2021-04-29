@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Languages;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,8 +23,8 @@ class UpdateStringRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => 'required|string',
-            'value'     => 'required|string'
+            'name' => 'required|string',
+            'value' => 'required|string',
         ];
     }
 }

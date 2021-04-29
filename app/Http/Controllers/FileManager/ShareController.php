@@ -1,19 +1,18 @@
 <?php
-
 namespace App\Http\Controllers\FileManager;
 
+use Validator;
+use App\Models\Zip;
+use App\Models\Share;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ShareResource;
+use App\Notifications\SharedSendViaEmail;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\Share\CreateShareRequest;
 use App\Http\Requests\Share\UpdateShareRequest;
-use App\Http\Resources\ShareResource;
-use App\Models\Share;
-use App\Models\Zip;
-use App\Notifications\SharedSendViaEmail;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
-use Validator;
 
 class ShareController extends Controller
 {
@@ -41,20 +40,18 @@ class ShareController extends Controller
     {
         // Create shared options
         $shared = Share::create([
-            'password'     => $request->has('password') ? bcrypt($request->password) : null,
-            'type'         => $request->type === 'folder' ? 'folder' : 'file',
+            'password' => $request->has('password') ? bcrypt($request->password) : null,
+            'type' => $request->type === 'folder' ? 'folder' : 'file',
             'is_protected' => $request->isPassword,
-            'permission'   => $request->permission ?? null,
-            'item_id'      => $id,
-            'expire_in'    => $request->expiration ?? null,
-            'user_id'      => Auth::id(),
+            'permission' => $request->permission ?? null,
+            'item_id' => $id,
+            'expire_in' => $request->expiration ?? null,
+            'user_id' => Auth::id(),
         ]);
 
         // Send shared link via email
         if ($request->has('emails')) {
-
             foreach ($request->emails as $email) {
-
                 Notification::route('mail', $email)->notify(
                     new SharedSendViaEmail($shared->token)
                 );
@@ -81,10 +78,10 @@ class ShareController extends Controller
 
         // Update sharing record
         $shared->update([
-            'permission'   => $request->permission,
+            'permission' => $request->permission,
             'is_protected' => $request->protected,
-            'expire_in'    => $request->expiration,
-            'password'     => $request->password ? bcrypt($request->password) : $shared->password,
+            'expire_in' => $request->expiration,
+            'password' => $request->password ? bcrypt($request->password) : $shared->password,
         ]);
 
         // Return shared record
@@ -100,7 +97,6 @@ class ShareController extends Controller
     public function destroy(Request $request)
     {
         foreach ($request->tokens as $token) {
-
             // Get sharing record
             Share::where('token', $token)
                 ->where('user_id', Auth::id())
@@ -141,7 +137,6 @@ class ShareController extends Controller
 
         // Send shared link via email
         if ($request->has('emails')) {
-
             foreach ($request->emails as $email) {
                 Notification::route('mail', $email)
                     ->notify(new SharedSendViaEmail($token));

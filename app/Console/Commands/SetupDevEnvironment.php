@@ -1,17 +1,16 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Models\File;
-use App\Models\Folder;
-use App\Models\Share;
-use App\Services\SetupService;
-use App\Models\Setting;
 use App\Models\User;
-use Illuminate\Console\Command;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Share;
+use App\Models\Folder;
+use App\Models\Setting;
 use Illuminate\Support\Str;
+use App\Services\SetupService;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class SetupDevEnvironment extends Command
 {
@@ -87,27 +86,27 @@ class SetupDevEnvironment extends Command
     private function create_admin(): void
     {
         $user = User::forceCreate([
-            'role'     => 'admin',
-            'email'    => 'howdy@hi5ve.digital',
+            'role' => 'admin',
+            'email' => 'howdy@hi5ve.digital',
             'password' => bcrypt('vuefilemanager'),
         ]);
 
         $user
             ->settings()
             ->create([
-                'avatar'           => 'avatars/avatar-01.png',
+                'avatar' => 'avatars/avatar-01.png',
                 'storage_capacity' => 5,
-                'name'             => 'Jane Doe',
-                'address'          => $this->faker->address,
-                'state'            => $this->faker->state,
-                'city'             => $this->faker->city,
-                'postal_code'      => $this->faker->postcode,
-                'country'          => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
-                'phone_number'     => $this->faker->phoneNumber,
-                'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                'name' => 'Jane Doe',
+                'address' => $this->faker->address,
+                'state' => $this->faker->state,
+                'city' => $this->faker->city,
+                'postal_code' => $this->faker->postcode,
+                'country' => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                'phone_number' => $this->faker->phoneNumber,
+                'timezone' => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
 
-        Storage::putFileAs("avatars", storage_path("demo/avatars/avatar-01.png"), 'avatar-01.png', "private");
+        Storage::putFileAs('avatars', storage_path('demo/avatars/avatar-01.png'), 'avatar-01.png', 'private');
 
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
@@ -126,29 +125,28 @@ class SetupDevEnvironment extends Command
                 'avatar' => 'avatar-03.png',
             ],
         ])->each(function ($user) {
-
             $newbie = User::forceCreate([
-                'role'     => 'user',
-                'email'    => $this->faker->email,
+                'role' => 'user',
+                'email' => $this->faker->email,
                 'password' => bcrypt('vuefilemanager'),
             ]);
 
             $newbie
                 ->settings()
                 ->create([
-                    'avatar'           => "avatars/{$user['avatar']}",
+                    'avatar' => "avatars/{$user['avatar']}",
                     'storage_capacity' => 5,
-                    'name'             => $this->faker->name,
-                    'address'          => $this->faker->address,
-                    'state'            => $this->faker->state,
-                    'city'             => $this->faker->city,
-                    'postal_code'      => $this->faker->postcode,
-                    'country'          => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
-                    'phone_number'     => $this->faker->phoneNumber,
-                    'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                    'name' => $this->faker->name,
+                    'address' => $this->faker->address,
+                    'state' => $this->faker->state,
+                    'city' => $this->faker->city,
+                    'postal_code' => $this->faker->postcode,
+                    'country' => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                    'phone_number' => $this->faker->phoneNumber,
+                    'timezone' => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
                 ]);
 
-            Storage::putFileAs("avatars", storage_path("demo/avatars/{$user['avatar']}"), $user['avatar'], "private");
+            Storage::putFileAs('avatars', storage_path("demo/avatars/{$user['avatar']}"), $user['avatar'], 'private');
 
             $this->info("Generated user with email: $newbie->email and Password: vuefilemanager");
         });
@@ -165,51 +163,51 @@ class SetupDevEnvironment extends Command
         // 1.
         $shared_folder = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'author'     => 'user',
-                'name'       => 'Shared Folder',
-                'emoji'      => [
-                    "codes"    => "1F680",
-                    "char"     => "🚀",
-                    "name"     => "rocket",
-                    "category" => "Travel & Places (transport-air)",
-                    "group"    => "Travel & Places",
-                    "subgroup" => "transport-air"
+                'user_id' => $user->id,
+                'author' => 'user',
+                'name' => 'Shared Folder',
+                'emoji' => [
+                    'codes' => '1F680',
+                    'char' => '🚀',
+                    'name' => 'rocket',
+                    'category' => 'Travel & Places (transport-air)',
+                    'group' => 'Travel & Places',
+                    'subgroup' => 'transport-air',
                 ],
                 'created_at' => now(),
             ]);
 
         Share::factory(Share::class)
             ->create([
-                'type'         => 'folder',
-                'item_id'      => $shared_folder->id,
-                'user_id'      => $user->id,
-                'permission'   => 'editor',
+                'type' => 'folder',
+                'item_id' => $shared_folder->id,
+                'user_id' => $user->id,
+                'permission' => 'editor',
                 'is_protected' => false,
-                'password'     => null,
-                'expire_in'    => null,
+                'password' => null,
+                'expire_in' => null,
             ]);
 
         $peters_files = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $shared_folder->id,
-                'author'    => 'visitor',
-                'name'      => "Peter's Files",
+                'author' => 'visitor',
+                'name' => "Peter's Files",
             ]);
 
         // 2.
         $random_pics = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'author'     => 'user',
-                'name'       => 'Random Pics',
-                'emoji'      => [
-                    'codes'    => '1F4F7',
-                    'char'     => '📷',
-                    'name'     => 'camera',
+                'user_id' => $user->id,
+                'author' => 'user',
+                'name' => 'Random Pics',
+                'emoji' => [
+                    'codes' => '1F4F7',
+                    'char' => '📷',
+                    'name' => 'camera',
                     'category' => 'Objects (light & video)',
-                    'group'    => 'Objects',
+                    'group' => 'Objects',
                     'subgroup' => 'light & video',
                 ],
                 'created_at' => now()->subMinutes(1),
@@ -217,32 +215,32 @@ class SetupDevEnvironment extends Command
 
         $nature = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $random_pics->id,
-                'author'    => 'user',
-                'name'      => "Nature",
-                'emoji'     => [
-                    'codes'    => '26F0',
-                    'char'     => '⛰',
-                    'name'     => 'mountain',
+                'author' => 'user',
+                'name' => 'Nature',
+                'emoji' => [
+                    'codes' => '26F0',
+                    'char' => '⛰',
+                    'name' => 'mountain',
                     'category' => 'Travel & Places (place-geographic)',
-                    'group'    => 'Travel & Places',
+                    'group' => 'Travel & Places',
                     'subgroup' => 'place-geographic',
                 ],
             ]);
 
         $apartments = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $random_pics->id,
-                'author'    => 'user',
-                'name'      => "Apartments",
-                'emoji'     => [
-                    'codes'    => '1F3E0',
-                    'char'     => '🏠',
-                    'name'     => 'house',
+                'author' => 'user',
+                'name' => 'Apartments',
+                'emoji' => [
+                    'codes' => '1F3E0',
+                    'char' => '🏠',
+                    'name' => 'house',
                     'category' => 'Travel & Places (place-building)',
-                    'group'    => 'Travel & Places',
+                    'group' => 'Travel & Places',
                     'subgroup' => 'place-building',
                 ],
             ]);
@@ -250,87 +248,87 @@ class SetupDevEnvironment extends Command
         // 3.
         $playable_media = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'author'     => 'user',
-                'name'       => 'Playable Media',
+                'user_id' => $user->id,
+                'author' => 'user',
+                'name' => 'Playable Media',
                 'created_at' => now()->subMinutes(2),
             ]);
 
         $video = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $playable_media->id,
-                'author'    => 'user',
-                'name'      => "Video",
+                'author' => 'user',
+                'name' => 'Video',
             ]);
 
         $audio = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $playable_media->id,
-                'author'    => 'user',
-                'name'      => "Audio",
+                'author' => 'user',
+                'name' => 'Audio',
             ]);
 
         // 4.
         $multi_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'author'     => 'user',
-                'name'       => 'Multi Level Folder',
+                'user_id' => $user->id,
+                'author' => 'user',
+                'name' => 'Multi Level Folder',
                 'created_at' => now()->subMinutes(3),
             ]);
 
         $first_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $multi_level->id,
-                'author'    => 'user',
-                'name'      => "First Level",
+                'author' => 'user',
+                'name' => 'First Level',
             ]);
 
         $second_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $first_level->id,
-                'author'    => 'user',
-                'name'      => "Second Level",
+                'author' => 'user',
+                'name' => 'Second Level',
             ]);
 
         $third_level = Folder::factory(Folder::class)
             ->create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
                 'parent_id' => $second_level->id,
-                'author'    => 'user',
-                'name'      => "Third Level",
+                'author' => 'user',
+                'name' => 'Third Level',
             ]);
 
         // 5.
         $documents = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'author'     => 'user',
-                'name'       => 'Documents',
+                'user_id' => $user->id,
+                'author' => 'user',
+                'name' => 'Documents',
                 'created_at' => now()->subMinutes(4),
             ]);
 
         Share::factory(Share::class)
             ->create([
-                'type'         => 'folder',
-                'item_id'      => $documents->id,
-                'user_id'      => $user->id,
-                'permission'   => 'editor',
+                'type' => 'folder',
+                'item_id' => $documents->id,
+                'user_id' => $user->id,
+                'permission' => 'editor',
                 'is_protected' => false,
-                'password'     => null,
-                'expire_in'    => null,
+                'password' => null,
+                'expire_in' => null,
             ]);
 
         // 6.
         $videohive = Folder::factory(Folder::class)
             ->create([
-                'user_id'    => $user->id,
-                'author'     => 'user',
-                'name'       => 'Videohive by MakingCG',
+                'user_id' => $user->id,
+                'author' => 'user',
+                'name' => 'Videohive by MakingCG',
                 'created_at' => now()->subMinutes(5),
             ]);
 
@@ -346,43 +344,42 @@ class SetupDevEnvironment extends Command
         // Get documents to root directory
         collect([
             [
-                'name'     => 'Random Document',
+                'name' => 'Random Document',
                 'basename' => 'Licence.pdf',
                 'mimetype' => 'pdf',
             ],
             [
-                'name'     => 'School Report',
+                'name' => 'School Report',
                 'basename' => 'Project Notes.pdf',
                 'mimetype' => 'pdf',
             ],
             [
-                'name'     => 'Personal Savings',
+                'name' => 'Personal Savings',
                 'basename' => 'School Report.pages',
                 'mimetype' => 'pages',
             ],
             [
-                'name'     => 'Top Secret Files',
+                'name' => 'Top Secret Files',
                 'basename' => 'Stories of the Night Skies.pages',
                 'mimetype' => 'pages',
             ],
         ])
             ->each(function ($file) use ($user) {
-
                 $basename = Str::random(12) . '-' . $file['basename'];
 
                 // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, "private");
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
 
                 // Create file record
                 File::create([
-                    'folder_id'  => null,
-                    'user_id'    => $user->id,
-                    'name'       => $file['name'],
-                    'basename'   => $basename,
-                    'type'       => 'file',
-                    'author'     => 'user',
-                    'mimetype'   => $file['mimetype'],
-                    'filesize'   => rand(1000000, 4000000),
+                    'folder_id' => null,
+                    'user_id' => $user->id,
+                    'name' => $file['name'],
+                    'basename' => $basename,
+                    'type' => 'file',
+                    'author' => 'user',
+                    'mimetype' => $file['mimetype'],
+                    'filesize' => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -390,7 +387,7 @@ class SetupDevEnvironment extends Command
         // Get documents to documents folder
         collect([
             [
-                'name'     => 'Home Improvement',
+                'name' => 'Home Improvement',
                 'basename' => 'Licence.pdf',
                 'mimetype' => 'pdf',
             ],

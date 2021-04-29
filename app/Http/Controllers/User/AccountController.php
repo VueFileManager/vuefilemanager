@@ -1,18 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
-use App\Http\Requests\User\UpdateUserPasswordRequest;
-use App\Http\Resources\InvoiceCollection;
-use App\Http\Resources\StorageDetailResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\UserStorageResource;
-use App\Services\DemoService;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Services\DemoService;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\InvoiceCollection;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\UserStorageResource;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Requests\User\UpdateUserPasswordRequest;
 
 class AccountController extends Controller
 {
@@ -72,12 +70,14 @@ class AccountController extends Controller
         // TODO: pridat validator do requestu
         $validator = Validator::make($request->all(), [
             'avatar' => 'sometimes|file',
-            'name'   => 'string',
-            'value'  => 'string',
+            'name' => 'string',
+            'value' => 'string',
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user
         $user = Auth::user();
@@ -90,7 +90,7 @@ class AccountController extends Controller
             $user
                 ->settings()
                 ->update([
-                    'avatar' => store_avatar($request, 'avatar')
+                    'avatar' => store_avatar($request, 'avatar'),
                 ]);
 
             return response('Saved!', 204);

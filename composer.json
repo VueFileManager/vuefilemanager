@@ -14,6 +14,7 @@
         "cartalyst/stripe-laravel": "^13.1",
         "doctrine/dbal": "^2.12.1",
         "fideloper/proxy": "^4.4.1",
+        "friendsofphp/php-cs-fixer": "^2.18",
         "fruitcake/laravel-cors": "^2.0.3",
         "fzaninotto/faker": "^1.9",
         "gabrielelana/byte-units": "^0.5.0",
@@ -85,6 +86,7 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     }
 }

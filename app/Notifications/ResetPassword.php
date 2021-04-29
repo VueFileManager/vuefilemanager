@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ResetPassword extends Notification
 {
@@ -61,7 +59,6 @@ class ResetPassword extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

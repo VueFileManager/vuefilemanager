@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Services\DemoService;
-use App\Models\Setting;
-use Artisan;
 use Stripe;
-use Cartalyst\Stripe\Exception\UnauthorizedException;
+use Artisan;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Services\DemoService;
+use App\Http\Controllers\Controller;
+use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SettingController extends Controller
@@ -30,7 +29,6 @@ class SettingController extends Controller
     public function show(Request $request)
     {
         if (strpos($request->column, '|') !== false) {
-
             $columns = explode('|', $request->column);
 
             return Setting::whereIn('name', $columns)
@@ -54,12 +52,11 @@ class SettingController extends Controller
 
         // Store image if exist
         if ($request->hasFile($request->name)) {
-
             // Find and update image path
             Setting::updateOrCreate([
-                'name' => $request->name
+                'name' => $request->name,
             ], [
-                'value' => store_system_image($request, $request->name)
+                'value' => store_system_image($request, $request->name),
             ]);
 
             return response('Done', 204);
@@ -86,14 +83,13 @@ class SettingController extends Controller
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        if (!app()->runningUnitTests()) {
-
+        if (! app()->runningUnitTests()) {
             setEnvironmentValue([
-                'MAIL_DRIVER'     => $request->driver,
-                'MAIL_HOST'       => $request->host,
-                'MAIL_PORT'       => $request->port,
-                'MAIL_USERNAME'   => $request->username,
-                'MAIL_PASSWORD'   => $request->password,
+                'MAIL_DRIVER' => $request->driver,
+                'MAIL_HOST' => $request->host,
+                'MAIL_PORT' => $request->port,
+                'MAIL_USERNAME' => $request->username,
+                'MAIL_PASSWORD' => $request->password,
                 'MAIL_ENCRYPTION' => $request->encryption,
             ]);
 
@@ -120,45 +116,42 @@ class SettingController extends Controller
 
         // Try to get stripe account details
         try {
-            if (!app()->runningUnitTests()) {
-
+            if (! app()->runningUnitTests()) {
                 Stripe::make($request->secret, '2020-03-02')
                     ->account()
                     ->details();
             }
         } catch (UnauthorizedException $e) {
-
             throw new HttpException(401, $e->getMessage());
         }
 
         // Get options
         collect([
             [
-                'name'  => 'stripe_currency',
+                'name' => 'stripe_currency',
                 'value' => $request->currency,
             ],
             [
-                'name'  => 'payments_configured',
+                'name' => 'payments_configured',
                 'value' => 1,
             ],
             [
-                'name'  => 'payments_active',
+                'name' => 'payments_active',
                 'value' => 1,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name'  => $col['name'],
+                'name' => $col['name'],
                 'value' => $col['value'],
             ]);
         });
 
-        if (!app()->runningUnitTests()) {
-
+        if (! app()->runningUnitTests()) {
             // Set stripe credentials to .env
             setEnvironmentValue([
-                'CASHIER_CURRENCY'      => $request->currency,
-                'STRIPE_KEY'            => $request->key,
-                'STRIPE_SECRET'         => $request->secret,
+                'CASHIER_CURRENCY' => $request->currency,
+                'STRIPE_KEY' => $request->key,
+                'STRIPE_SECRET' => $request->secret,
                 'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
             ]);
 
@@ -179,7 +172,7 @@ class SettingController extends Controller
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             Artisan::call('cache:clear');
             Artisan::call('config:clear');
             Artisan::call('config:cache');

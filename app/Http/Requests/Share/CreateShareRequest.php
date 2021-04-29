@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Requests\Share;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CreateShareRequest extends FormRequest
 {
@@ -26,11 +25,11 @@ class CreateShareRequest extends FormRequest
     {
         return [
             'isPassword' => 'required|boolean',
-            'type'       => 'required|string',
+            'type' => 'required|string',
             'expiration' => 'integer|nullable',
             'permission' => 'string',
-            'password'   => 'string',
-            'emails.*'   => 'email'
+            'password' => 'string',
+            'emails.*' => 'email',
         ];
     }
 }

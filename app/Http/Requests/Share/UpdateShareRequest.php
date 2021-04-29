@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Requests\Share;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateShareRequest extends FormRequest
 {
@@ -25,10 +24,10 @@ class UpdateShareRequest extends FormRequest
     public function rules()
     {
         return [
-            'protected'  => 'required|boolean',
+            'protected' => 'required|boolean',
             'permission' => 'nullable|string',
             'expiration' => 'integer|nullable',
-            'password'   => 'string',
+            'password' => 'string',
         ];
     }
 }

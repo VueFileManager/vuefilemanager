@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Services;
 
-use App\Models\Language;
 use App\Models\Page;
 use App\Models\Setting;
+use App\Models\Language;
 use Illuminate\Support\Facades\Storage;
 
 class SetupService
@@ -16,7 +15,6 @@ class SetupService
     {
         collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip'])
             ->each(function ($directory) {
-
                 // Create directory for local driver
                 Storage::disk('local')
                     ->makeDirectory($directory);
@@ -58,12 +56,12 @@ class SetupService
     public function seed_default_language()
     {
         Language::create([
-            'name'   => 'English',
-            'locale' => 'en'
+            'name' => 'English',
+            'locale' => 'en',
         ]);
 
         Setting::create([
-            'name'  => 'language',
+            'name' => 'language',
             'value' => 'en',
         ]);
     }

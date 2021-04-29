@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
-use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @method static whereUserId(int|string|null $id)
@@ -18,13 +17,13 @@ class Folder extends Model
     use Searchable, SoftDeletes, Sortable, HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected $appends = [
         'items',
         'trashed_items',
-        'type'
+        'type',
     ];
 
     protected $casts = [
@@ -32,7 +31,7 @@ class Folder extends Model
     ];
 
     protected $hidden = [
-        'author_id'
+        'author_id',
     ];
 
     /**
@@ -65,8 +64,8 @@ class Folder extends Model
         $name = Str::slug($array['name'], ' ');
 
         return [
-            'id'         => $this->id,
-            'name'       => $name,
+            'id' => $this->id,
+            'name' => $name,
             'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
         ];
     }
@@ -114,7 +113,9 @@ class Folder extends Model
      */
     public function getDeletedAtAttribute()
     {
-        if (!$this->attributes['deleted_at']) return null;
+        if (! $this->attributes['deleted_at']) {
+            return null;
+        }
 
         return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'));
     }
@@ -151,7 +152,6 @@ class Folder extends Model
      */
     public function trashed_files()
     {
-
         return $this->hasMany(File::class, 'folder_id', 'id')->withTrashed();
     }
 
@@ -211,19 +211,15 @@ class Folder extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+            $model->id = (string) Str::uuid();
         });
 
         static::deleting(function ($item) {
-
             if ($item->isForceDeleting()) {
-
                 $item->trashed_children()->each(function ($folder) {
                     $folder->forceDelete();
                 });
-
             } else {
-
                 $item->children()->each(function ($folder) {
                     $folder->delete();
                 });
@@ -235,7 +231,6 @@ class Folder extends Model
         });
 
         static::restoring(function ($item) {
-
             // Restore children folders
             $item->trashed_children()->each(function ($folder) {
                 $folder->restore();

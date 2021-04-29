@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\App\AppFunctionsController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\FileManager\BrowseController;
-use App\Http\Controllers\FileManager\EditItemsController;
-use App\Http\Controllers\FileManager\FavouriteController;
 use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\FileManager\TrashController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\FileManager\BrowseController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\FileManager\EditItemsController;
+use App\Http\Controllers\FileManager\FavouriteController;
 
 // Pages
 Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);
@@ -23,7 +23,6 @@ Route::group(['prefix' => 'password'], function () {
 
 // User master Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
     // Browse
     Route::group(['prefix' => 'browse'], function () {
         Route::get('/participants', [BrowseController::class, 'participant_uploads']);
@@ -58,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // User master,editor routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
     Route::post('/create-folder', [EditItemsController::class, 'create_folder']);
     Route::patch('/rename/{id}', [EditItemsController::class, 'rename_item']);
     Route::post('/remove', [EditItemsController::class, 'delete_item']);

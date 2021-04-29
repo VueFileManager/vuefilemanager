@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Resources;
 
 use App\Models\File;
@@ -17,31 +16,31 @@ class UserStorageResource extends JsonResource
     public function toArray($request)
     {
         $document_mimetypes = [
-            'pdf', 'numbers', 'xlsx', 'xls', 'txt', 'md', 'rtf', 'pptx', 'ppt', 'odt', 'ods', 'odp', 'epub', 'docx', 'doc', 'csv', 'pages'
+            'pdf', 'numbers', 'xlsx', 'xls', 'txt', 'md', 'rtf', 'pptx', 'ppt', 'odt', 'ods', 'odp', 'epub', 'docx', 'doc', 'csv', 'pages',
         ];
 
         // Get all images
         $images = File::where('user_id', $this->id)
             ->where('type', 'image')->get()->map(function ($item) {
-                return (int)$item->getRawOriginal('filesize');
+                return (int) $item->getRawOriginal('filesize');
             })->sum();
 
         // Get all audios
         $audios = File::where('user_id', $this->id)
             ->where('type', 'audio')->get()->map(function ($item) {
-                return (int)$item->getRawOriginal('filesize');
+                return (int) $item->getRawOriginal('filesize');
             })->sum();
 
         // Get all videos
         $videos = File::where('user_id', $this->id)
             ->where('type', 'video')->get()->map(function ($item) {
-                return (int)$item->getRawOriginal('filesize');
+                return (int) $item->getRawOriginal('filesize');
             })->sum();
 
         // Get all documents
         $documents = File::where('user_id', $this->id)
             ->whereIn('mimetype', $document_mimetypes)->get()->map(function ($item) {
-                return (int)$item->getRawOriginal('filesize');
+                return (int) $item->getRawOriginal('filesize');
             })->sum();
 
         // Get all other files
@@ -49,41 +48,41 @@ class UserStorageResource extends JsonResource
             ->whereNotIn('mimetype', $document_mimetypes)
             ->whereNotIn('type', ['audio', 'video', 'image'])
             ->get()->map(function ($item) {
-                return (int)$item->getRawOriginal('filesize');
+                return (int) $item->getRawOriginal('filesize');
             })->sum();
 
         return [
             'data' => [
-                'id'            => (string)$this->id,
-                'type'          => 'storage',
-                'attributes'    => [
-                    'used'       => Metric::bytes($this->used_capacity)->format(),
-                    'capacity'   => format_gigabytes($this->settings->storage_capacity),
-                    'percentage' => (float)get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
+                'id' => (string) $this->id,
+                'type' => 'storage',
+                'attributes' => [
+                    'used' => Metric::bytes($this->used_capacity)->format(),
+                    'capacity' => format_gigabytes($this->settings->storage_capacity),
+                    'percentage' => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
                 ],
                 'meta' => [
-                    'images'    => [
-                        'used'       => Metric::bytes($images)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($images, $this->settings->storage_capacity),
+                    'images' => [
+                        'used' => Metric::bytes($images)->format(),
+                        'percentage' => (float) get_storage_fill_percentage($images, $this->settings->storage_capacity),
                     ],
-                    'audios'    => [
-                        'used'       => Metric::bytes($audios)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($audios, $this->settings->storage_capacity),
+                    'audios' => [
+                        'used' => Metric::bytes($audios)->format(),
+                        'percentage' => (float) get_storage_fill_percentage($audios, $this->settings->storage_capacity),
                     ],
-                    'videos'    => [
-                        'used'       => Metric::bytes($videos)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($videos, $this->settings->storage_capacity),
+                    'videos' => [
+                        'used' => Metric::bytes($videos)->format(),
+                        'percentage' => (float) get_storage_fill_percentage($videos, $this->settings->storage_capacity),
                     ],
                     'documents' => [
-                        'used'       => Metric::bytes($documents)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($documents, $this->settings->storage_capacity),
+                        'used' => Metric::bytes($documents)->format(),
+                        'percentage' => (float) get_storage_fill_percentage($documents, $this->settings->storage_capacity),
                     ],
-                    'others'    => [
-                        'used'       => Metric::bytes($others)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($others, $this->settings->storage_capacity),
+                    'others' => [
+                        'used' => Metric::bytes($others)->format(),
+                        'percentage' => (float) get_storage_fill_percentage($others, $this->settings->storage_capacity),
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

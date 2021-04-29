@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,12 +23,12 @@ class CreateUserByAdmin extends FormRequest
     public function rules()
     {
         return [
-            'email'            => 'required|string|email|max:255|unique:users',
-            'password'         => 'required|string|min:6|confirmed',
-            'name'             => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'name' => 'required|string|max:255',
             'storage_capacity' => 'required|digits_between:1,9',
-            'role'             => 'required|string',
-            'avatar'           => 'sometimes|file',
+            'role' => 'required|string',
+            'avatar' => 'sometimes|file',
         ];
     }
 }

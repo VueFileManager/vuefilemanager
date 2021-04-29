@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Resources;
 
 use App\Models\Language;
@@ -24,8 +23,8 @@ class LanguageCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'meta' => [
-                'current_language'       => new LanguageResource($current_language),
-                'reference_translations' => get_default_language_translations()
+                'current_language' => new LanguageResource($current_language),
+                'reference_translations' => get_default_language_translations(),
             ],
         ];
     }
