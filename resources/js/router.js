@@ -76,7 +76,7 @@ const routesOasis = [
         name: 'Invoicing',
         path: '/invoice',
         component: () =>
-            import(/* webpackChunkName: "chunks/oasis/invoices" */ './Oasis/Modules/Invoices/Invoice'),
+            import(/* webpackChunkName: "chunks/oasis/invoices" */ './Oasis/Invoices/Invoice'),
         meta: {
             requiresAuth: true,
             title: 'Faktúry'
@@ -86,7 +86,7 @@ const routesOasis = [
                 name: 'InvoicesList',
                 path: '/invoice/invoices',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Modules/Invoices/InvoicesView'),
+                    import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Invoices/InvoicesView'),
                 meta: {
                     requiresAuth: true,
                     title: 'Invoices'
@@ -96,10 +96,20 @@ const routesOasis = [
                 name: 'InvoicesProfile',
                 path: '/invoice/profile',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Modules/Invoices/BillingProfile'),
+                    import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Invoices/BillingProfile'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Billing Profile'
+                    title: 'My Billing Profile'
+                },
+            },
+            {
+                name: 'CreateClient',
+                path: '/invoice/create-client',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/oasis/invoices/create-client" */ './Oasis/Invoices/CreateClient'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'Create Client'
                 },
             }
         ]

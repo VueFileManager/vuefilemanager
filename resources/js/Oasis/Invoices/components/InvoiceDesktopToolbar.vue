@@ -27,7 +27,7 @@
 								<Option title="Create Advance Invoice" icon="clock" />
 							</OptionGroup>
 							<OptionGroup>
-								<Option title="Create Client" icon="user-plus" />
+								<Option @click.native="createClient" title="Create Client" icon="user-plus" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
@@ -115,6 +115,9 @@
 			}
 		},
 		methods: {
+			createClient() {
+				this.$router.push({name: 'CreateClient'})
+			},
 			showSortingMenu() {
 				events.$emit('popover:open', 'desktop-sorting')
 			},

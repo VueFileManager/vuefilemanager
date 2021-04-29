@@ -62,10 +62,10 @@
 </template>
 
 <script>
-    import InvoiceActionsMobile from '@/Oasis/Modules/Invoices/components/InvoiceActionsMobile'
-	import InvoiceInfoSidebar from '@/Oasis/Modules/Invoices/components/InvoiceInfoSidebar'
-	import InvoiceItem from '@/Oasis/Modules/Invoices/components/InvoiceItem'
-	import ClientItem from '@/Oasis/Modules/Invoices/components/ClientItem'
+    import InvoiceActionsMobile from '@/Oasis/Invoices/components/InvoiceActionsMobile'
+	import InvoiceInfoSidebar from '@/Oasis/Invoices/components/InvoiceInfoSidebar'
+	import InvoiceItem from '@/Oasis/Invoices/components/InvoiceItem'
+	import ClientItem from '@/Oasis/Invoices/components/ClientItem'
 	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
 	import MobileToolbar from '@/components/FilesView/MobileToolbar'
 	import EmptyMessage from '@/components/FilesView/EmptyMessage'

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import InvoiceDesktopToolbar from '@/Oasis/Modules/Invoices/components/InvoiceDesktopToolbar'
-	import InvoiceBrowser from '@/Oasis/Modules/Invoices/components/InvoiceBrowser'
-	import InvoiceContextMenu from '@/Oasis/Modules/Invoices/components/InvoiceContextMenu'
+    import InvoiceDesktopToolbar from '@/Oasis/Invoices/components/InvoiceDesktopToolbar'
+	import InvoiceBrowser from '@/Oasis/Invoices/components/InvoiceBrowser'
+	import InvoiceContextMenu from '@/Oasis/Invoices/components/InvoiceContextMenu'
 	import {events} from '@/bus'
 
 	export default {

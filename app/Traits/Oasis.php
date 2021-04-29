@@ -21,7 +21,8 @@ trait Oasis
 
     public function clients()
     {
-        return $this->hasMany(Client::class, 'user_id', 'id');
+        return $this->hasMany(Client::class, 'user_id', 'id')
+            ->orderByDesc('created_at');
     }
 
     public function regularInvoices()

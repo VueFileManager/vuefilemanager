@@ -10,7 +10,7 @@
 						<div class="form block-form">
 							<FormLabel>Company & Logo</FormLabel>
 							<InfoBox>
-								Here you can set your <b class="text-theme">billing profile</b> which will be paste to your every newly generated invoice.
+								<p>Here you can set your <b class="text-theme">billing profile</b> which will be paste to your every newly generated invoice.</p>
 							</InfoBox>
 
 							<div class="block-wrapper">

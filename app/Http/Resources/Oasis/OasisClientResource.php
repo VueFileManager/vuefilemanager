@@ -26,7 +26,7 @@ class OasisClientResource extends JsonResource
             'id'            => $this->id,
             'name'          => $this->name,
             'email'         => $this->email,
-            'avatar'        => url('/assets/images/default-avatar.png'),
+            'avatar'        => $this->avatar,
             'totalNet'      => format_to_currency($total_net, 'CZK'),
             'totalInvoices' => $total_invoices,
             'type'          => 'client',

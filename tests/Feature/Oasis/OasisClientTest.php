@@ -46,12 +46,15 @@ class OasisClientTest extends TestCase
         $this->postJson('/api/oasis/clients', [
             'avatar'       => $avatar,
             'name'         => 'VueFileManager Inc.',
+
             'email'        => 'howdy@hi5ve.digital',
             'phone_number' => '+421 950 123 456',
+
             'address'      => 'Does 12',
             'city'         => 'Bratislava',
             'postal_code'  => '076 54',
             'country'      => 'SK',
+
             'ico'          => '11111111',
             'dic'          => '11111111',
             'ic_dph'       => 'SK11111111',

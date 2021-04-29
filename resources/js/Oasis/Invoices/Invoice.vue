@@ -50,7 +50,7 @@
 							<edit2-icon size="17" />
 						</div>
 						<div class="label text-theme">
-							Billing Profile
+							My Billing Profile
 						</div>
 					</router-link>
 				</ContentGroup>
@@ -62,11 +62,11 @@
 </template>
 
 <script>
-    import InvoiceSortingMobile from '@/Oasis/Modules/Invoices/components/InvoiceSortingMobile'
-	import InvoiceFilterMobile from '@/Oasis/Modules/Invoices/components/InvoiceFilterMobile'
-	import InvoiceMobileMenu from '@/Oasis/Modules/Invoices/components/InvoiceMobileMenu'
-	import ClientMobileMenu from '@/Oasis/Modules/Invoices/components/ClientMobileMenu'
-	import InvoiceCreateMenu from '@/Oasis/Modules/Invoices/components/InvoiceCreateMenu'
+    import InvoiceSortingMobile from '@/Oasis/Invoices/components/InvoiceSortingMobile'
+	import InvoiceFilterMobile from '@/Oasis/Invoices/components/InvoiceFilterMobile'
+	import InvoiceMobileMenu from '@/Oasis/Invoices/components/InvoiceMobileMenu'
+	import ClientMobileMenu from '@/Oasis/Invoices/components/ClientMobileMenu'
+	import InvoiceCreateMenu from '@/Oasis/Invoices/components/InvoiceCreateMenu'
 
 	import {UsersIcon, FileTextIcon, ClockIcon, Edit2Icon} from 'vue-feather-icons'
 	import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
