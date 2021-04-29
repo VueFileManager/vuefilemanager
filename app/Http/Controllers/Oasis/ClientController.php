@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Oasis;
 
 use App\Http\Requests\Oasis\StoreClientRequest;
+use App\Http\Resources\Oasis\OasisInvoiceCollection;
 use App\Http\Resources\Oasis\OasisViewClientCollection;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Oasis\OasisViewClientResource;
@@ -104,7 +105,7 @@ class ClientController extends Controller
      */
     public function show_invoices(Client $client)
     {
-        return response(new OasisViewInvoiceCollection($client->invoices), 200);
+        return response(new OasisInvoiceCollection($client->invoices), 200);
     }
 
     /**

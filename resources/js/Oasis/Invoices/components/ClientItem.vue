@@ -124,8 +124,8 @@ export default {
             }
 
             if (!this.isMobileSelectMode && this.$isMobile()) {
-				events.$emit('file-preview:show')
-            }
+				this.$router.push({name: 'ClientDetail', params: {id: this.item.id}})
+			}
 
             if (this.isMobileSelectMode && this.$isMobile()) {
                 if (this.clipboard.some(item => item.data.id === this.item.data.id)) {

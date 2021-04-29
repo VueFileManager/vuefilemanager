@@ -10,11 +10,11 @@
 
         <MenuMobileGroup>
             <OptionGroup class="menu-option-group">
-                <Option @click.native="" title="Edit" icon="rename" />
+                <Option @click.native="goToProfile" title="Edit" icon="rename" />
                 <Option @click.native="deleteItem" title="Delete" icon="trash" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="showDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="goToProfile" :title="$t('context_menu.detail')" icon="detail" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
@@ -51,7 +51,9 @@ export default {
         }
     },
     methods: {
-
+		goToProfile() {
+			this.$router.push({name: 'ClientDetail', params: {id: this.clipboard[0].id}})
+		}
     }
 }
 </script>

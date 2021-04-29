@@ -232,7 +232,7 @@
 						})
 
 						// Go to User page
-						//this.$router.push({name: 'UserDetail', params: {id: response.data.data.id}})
+						this.$router.push({name: 'ClientDetail', params: {id: response.data.id}})
 					})
 					.catch(error => {
 						this.isError = true

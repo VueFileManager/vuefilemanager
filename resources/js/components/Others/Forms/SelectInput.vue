@@ -215,7 +215,7 @@
     }
 
     .option-value {
-        @include font-size(14);
+        @include font-size(16);
         font-weight: 700;
         width: 100%;
         vertical-align: middle;

@@ -35,15 +35,6 @@
                             {{ $t('admin_page_user.tabs.invoices') }}
                         </div>
                     </router-link>
-
-					<router-link replace :to="{name: 'UserDelete'}" class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <trash2-icon size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            Delete Client
-                        </div>
-                    </router-link>
                 </div>
 
 				<!--Router Content-->

@@ -13,25 +13,28 @@
                 <template slot-scope="{ row }">
                     <tr>
                         <td>
-                            <a target="_blank" class="cell-item">
-                                {{ row.invoiceNumber }}
-                            </a>
-                        </td>
-                        <td>
                             <span class="cell-item">
-                                {{ row.total }}
+                                {{ row.data.attributes.invoiceNumber }}
                             </span>
                         </td>
                         <td>
                             <span class="cell-item">
-                                {{ row.created_at }}
+                                {{ row.data.attributes.total }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="cell-item">
+                                {{ row.data.attributes.created_at }}
                             </span>
                         </td>
                         <td>
                             <div class="action-icons">
-                                <a target="_blank">
-                                    <external-link-icon size="15" class="icon" />
-                                </a>
+								<a @click="downloadItem(row)">
+									<DownloadCloudIcon size="15" class="icon" />
+								</a>
+                                <router-link :to="{name: 'ClientDetail'}">
+                                    <edit2-icon size="15" class="icon" />
+                                </router-link>
                             </div>
                         </td>
                     </tr>
@@ -54,15 +57,15 @@
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import PageTab from '@/components/Others/Layout/PageTab'
     import InfoBox from '@/components/Others/Forms/InfoBox'
-    import {ExternalLinkIcon} from "vue-feather-icons";
-    import axios from 'axios'
+    import {Edit2Icon, DownloadCloudIcon} from "vue-feather-icons";
 
     export default {
         name: 'UserInvoices',
         components: {
             EmptyPageContent,
             DatatableWrapper,
-            ExternalLinkIcon,
+			DownloadCloudIcon,
+            Edit2Icon,
             PageTabGroup,
             InfoBox,
             PageTab,
@@ -82,12 +85,7 @@
                         sortable: false
                     },
                     {
-                        label: this.$t('admin_page_invoices.table.plan'),
-                        field: 'data.attributes.bag.amount',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_invoices.table.payed'),
+                        label: 'Created At',
                         field: 'data.attributes.created_at',
                         sortable: false
                     },
@@ -98,6 +96,11 @@
                 ],
             }
         },
+		methods: {
+			downloadItem(row) {
+				this.$downloadFile(row.data.attributes.file_url, row.data.attributes.name + '.pdf')
+			},
+		}
     }
 </script>
 

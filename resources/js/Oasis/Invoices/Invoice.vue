@@ -56,7 +56,9 @@
 				</ContentGroup>
 			</ContentSidebar>
 
-			<router-view :class="{'is-scaled-down': isScaledDown}" />
+			<keep-alive>
+				<router-view :class="{'is-scaled-down': isScaledDown}" />
+			</keep-alive>
 		</div>
     </div>
 </template>
