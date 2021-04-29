@@ -4,7 +4,7 @@ namespace App\Http\Resources\Oasis;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OasisClientResource extends JsonResource
+class OasisViewClientResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class OasisInvoiceResource extends JsonResource
+class OasisViewInvoiceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,6 +18,7 @@ class OasisInvoiceResource extends JsonResource
     {
         return [
             'id'            => $this->id,
+            'client_id'     => $this->client_id,
             'name'          => $this->client['name'] . ' ' . format_to_currency($this->total_net, $this->currency),
             'invoiceNumber' => $this->invoice_number,
             'total'         => format_to_currency($this->total_net, $this->currency),

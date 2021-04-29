@@ -22,4 +22,8 @@
 <style lang="scss" scoped>
     @import '@assets/vuefilemanager/_variables';
     @import '@assets/vuefilemanager/_mixins';
+
+	.page-tab {
+		position: relative;
+	}
 </style>

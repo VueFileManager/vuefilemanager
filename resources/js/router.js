@@ -131,7 +131,17 @@ const routesOasis = [
                             requiresAuth: true,
                             title: 'Client Detail'
                         },
-                    }
+                    },
+                    {
+                        name: 'ClientInvoices',
+                        path: '/invoice/client/:id/invoices',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/oasis/invoices/client-invoices" */ './Oasis/Invoices/Clients/Tabs/ClientInvoices'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Client Invoices'
+                        },
+                    },
                 ]
             }
         ]

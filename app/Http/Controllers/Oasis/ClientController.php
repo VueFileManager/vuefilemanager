@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Oasis;
 
 use App\Http\Requests\Oasis\StoreClientRequest;
-use App\Http\Resources\Oasis\OasisClientCollection;
+use App\Http\Resources\Oasis\OasisViewClientCollection;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Oasis\OasisClientResource;
+use App\Http\Resources\Oasis\OasisViewClientResource;
+use App\Http\Resources\Oasis\OasisViewInvoiceCollection;
 use App\Models\Oasis\Client;
 use Auth;
 use Illuminate\Contracts\Foundation\Application;
@@ -21,7 +22,7 @@ class ClientController extends Controller
     public function index()
     {
         return response(
-            new OasisClientCollection(Auth::user()->clients), 200
+            new OasisViewClientCollection(Auth::user()->clients), 200
         );
     }
 
@@ -48,7 +49,7 @@ class ClientController extends Controller
             ]);
 
         return response(
-            new OasisClientResource($client), 201
+            new OasisViewClientResource($client), 201
         );
     }
 
@@ -58,7 +59,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        return response(new OasisClientResource($client), 200);
+        return response(new OasisViewClientResource($client), 200);
     }
 
     /**
@@ -98,6 +99,15 @@ class ClientController extends Controller
     }
 
     /**
+     * @param Client $client
+     * @return Application|ResponseFactory|Response
+     */
+    public function show_invoices(Client $client)
+    {
+        return response(new OasisViewInvoiceCollection($client->invoices), 200);
+    }
+
+    /**
      * @return mixed
      */
     public function search()
@@ -109,7 +119,7 @@ class ClientController extends Controller
             ->get();
 
         return response(
-            new OasisClientCollection($results), 200
+            new OasisViewClientCollection($results), 200
         );
     }
 }

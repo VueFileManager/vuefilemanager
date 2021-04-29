@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Oasis;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Oasis\StoreInvoiceRequest;
-use App\Http\Resources\Oasis\OasisInvoiceCollection;
-use App\Http\Resources\Oasis\OasisInvoiceResource;
+use App\Http\Resources\Oasis\OasisViewInvoiceCollection;
+use App\Http\Resources\Oasis\OasisViewInvoiceResource;
 use App\Models\Oasis\Client;
 use App\Models\Oasis\Invoice;
 use App\Notifications\Oasis\InvoiceDeliveryNotification;
@@ -26,7 +26,7 @@ class InvoiceController extends Controller
     public function get_all_regular_invoices()
     {
         return response(
-            new OasisInvoiceCollection(Auth::user()->regularInvoices), 200
+            new OasisViewInvoiceCollection(Auth::user()->regularInvoices), 200
         );
     }
 
@@ -36,7 +36,7 @@ class InvoiceController extends Controller
     public function get_all_advance_invoices()
     {
         return response(
-            new OasisInvoiceCollection(Auth::user()->advanceInvoices), 200
+            new OasisViewInvoiceCollection(Auth::user()->advanceInvoices), 200
         );
     }
 
@@ -66,7 +66,7 @@ class InvoiceController extends Controller
             ->get();
 
         return response(
-            new OasisInvoiceCollection($results), 200
+            new OasisViewInvoiceCollection($results), 200
         );
     }
 
@@ -123,7 +123,7 @@ class InvoiceController extends Controller
         }
 
         return response(
-            new OasisInvoiceResource($invoice), 201
+            new OasisViewInvoiceResource($invoice), 201
         );
     }
 

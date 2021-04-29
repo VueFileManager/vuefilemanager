@@ -27,7 +27,7 @@
                         </div>
                     </router-link>
 
-                    <router-link replace :to="{name: 'UserInvoices'}" class="menu-list-item link border-bottom-theme">
+                    <router-link replace :to="{name: 'ClientInvoices'}" class="menu-list-item link border-bottom-theme">
                         <div class="icon text-theme">
                             <file-text-icon size="17" />
                         </div>

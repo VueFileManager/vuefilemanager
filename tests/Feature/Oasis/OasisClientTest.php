@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Oasis;
 
+use App\Models\Oasis\Invoice;
+use App\Models\Oasis\InvoiceProfile;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Oasis\Client;
 use Illuminate\Http\UploadedFile;
@@ -209,6 +211,43 @@ class OasisClientTest extends TestCase
             ->assertJsonFragment([
                 'id' => $client->id,
             ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_client_client_invoices()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $client = Client::factory(Client::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'        => $user->id,
+                'client_id'      => $client->id,
+                'invoice_type'   => 'regular-invoice',
+                'invoice_number' => 2001212,
+                'client'         => [
+                    'name' => 'VueFileManager Inc.',
+                ],
+                'user'           => $profile->toArray(),
+            ]);
+
+        $this->getJson("/api/oasis/clients/$client->id/invoices")
+            ->assertJsonFragment([
+                'id' => $invoice->id,
+            ])
+            ->assertStatus(200);
     }
 
     /**

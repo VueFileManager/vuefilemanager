@@ -19,11 +19,11 @@
         <!--Client-->
         <div v-show="isClient" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="" title="Edit" icon="rename" />
+                <Option @click.native="goToCompany" title="Edit" icon="rename" />
                 <Option @click.native="deleteItem" title="Delete" icon="trash" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="showDetail" title="Go to Profile" icon="user" />
+                <Option @click.native="goToCompany" title="Go to Profile" icon="user" />
                 <Option @click.native="showDetail" :title="$t('context_menu.detail')" icon="detail" />
             </OptionGroup>
         </div>

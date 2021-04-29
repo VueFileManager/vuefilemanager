@@ -4,9 +4,9 @@ namespace App\Http\Resources\Oasis;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class OasisInvoiceCollection extends ResourceCollection
+class OasisViewClientCollection extends ResourceCollection
 {
-    public $collects = OasisInvoiceResource::class;
+    public $collects = OasisViewClientResource::class;
 
     /**
      * Transform the resource collection into an array.
