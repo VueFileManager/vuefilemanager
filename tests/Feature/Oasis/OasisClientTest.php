@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Oasis;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Oasis\Client;
 use Illuminate\Http\UploadedFile;
@@ -31,7 +30,7 @@ class OasisClientTest extends TestCase
     /**
      * @test
      */
-    public function user_create_new_client_with_avatar()
+    public function it_create_new_client_with_avatar()
     {
         Storage::fake('local');
 
@@ -44,20 +43,20 @@ class OasisClientTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/oasis/clients', [
-            'avatar'       => $avatar,
-            'name'         => 'VueFileManager Inc.',
+            'avatar' => $avatar,
+            'name'   => 'VueFileManager Inc.',
 
             'email'        => 'howdy@hi5ve.digital',
             'phone_number' => '+421 950 123 456',
 
-            'address'      => 'Does 12',
-            'city'         => 'Bratislava',
-            'postal_code'  => '076 54',
-            'country'      => 'SK',
+            'address'     => 'Does 12',
+            'city'        => 'Bratislava',
+            'postal_code' => '076 54',
+            'country'     => 'SK',
 
-            'ico'          => '11111111',
-            'dic'          => '11111111',
-            'ic_dph'       => 'SK11111111',
+            'ico'    => '11111111',
+            'dic'    => '11111111',
+            'ic_dph' => 'SK11111111',
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('clients', [
@@ -75,7 +74,7 @@ class OasisClientTest extends TestCase
     /**
      * @test
      */
-    public function user_create_new_client_without_avatar_and_contact_info()
+    public function it_create_new_client_without_avatar_and_contact_info()
     {
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -105,7 +104,62 @@ class OasisClientTest extends TestCase
     /**
      * @test
      */
-    public function user_delete_client()
+    public function it_update_client_info()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $client = Client::factory(Client::class)
+            ->create(['user_id' => $user->id]);
+
+        $this->patchJson("/api/oasis/clients/$client->id", [
+            'name'  => 'name',
+            'value' => 'VueFileManager Inc.',
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('clients', [
+            'user_id' => $user->id,
+            'name'    => 'VueFileManager Inc.',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_client_avatar()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $client = Client::factory(Client::class)
+            ->create(['user_id' => $user->id]);
+
+        $avatar = UploadedFile::fake()
+            ->image('fake-image.jpg');
+
+        $this->patchJson("/api/oasis/clients/$client->id", [
+            'name'   => 'avatar',
+            'avatar' => $avatar,
+        ])->assertStatus(204);
+
+        $this->assertDatabaseMissing('clients', [
+            'user_id' => $user->id,
+            'avatar'  => null,
+        ]);
+
+        Storage::disk('local')->assertExists(
+            Client::first()->getRawOriginal('avatar')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_client()
     {
         Storage::fake('local');
 
@@ -139,7 +193,7 @@ class OasisClientTest extends TestCase
     /**
      * @test
      */
-    public function it_get_all_clients()
+    public function it_get_single_client()
     {
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -151,10 +205,30 @@ class OasisClientTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $this->getJson('/api/oasis/clients')
+        $this->getJson("/api/oasis/clients/$client->id")
             ->assertJsonFragment([
                 'id' => $client->id,
             ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_all_clients()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        Client::factory(Client::class)
+            ->count(2)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $this->getJson('/api/oasis/clients')
+            ->assertStatus(200);
     }
 
     /**

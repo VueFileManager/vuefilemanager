@@ -10,6 +10,7 @@ use App\Models\Oasis\Client;
 use Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ClientController extends Controller
@@ -21,22 +22,6 @@ class ClientController extends Controller
     {
         return response(
             new OasisClientCollection(Auth::user()->clients), 200
-        );
-    }
-
-    /**
-     * @return mixed
-     */
-    public function search()
-    {
-        $query = remove_accents(request()->input('query'));
-
-        $results = Client::search($query)
-            ->where('user_id', request()->user()->id)
-            ->get();
-
-        return response(
-            new OasisClientCollection($results), 200
         );
     }
 
@@ -69,6 +54,40 @@ class ClientController extends Controller
 
     /**
      * @param Client $client
+     * @return Application|ResponseFactory|Response
+     */
+    public function show(Client $client)
+    {
+        return response(new OasisClientResource($client), 200);
+    }
+
+    /**
+     * @param Client $client
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function update(Client $client, Request $request)
+    {
+        // Store image if exist
+        if ($request->hasFile($request->name)) {
+
+            // Find and update image path
+            $client->update([
+                $request->name => store_avatar($request, $request->name)
+            ]);
+
+            return response('Done', 204);
+        }
+
+        $client->update(
+            make_single_input($request)
+        );
+
+        return response('Done', 204);
+    }
+
+    /**
+     * @param Client $client
      * @throws \Exception
      */
     public function destroy(Client $client)
@@ -76,5 +95,21 @@ class ClientController extends Controller
         $client->delete();
 
         return response('Done', 204);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function search()
+    {
+        $query = remove_accents(request()->input('query'));
+
+        $results = Client::search($query)
+            ->where('user_id', request()->user()->id)
+            ->get();
+
+        return response(
+            new OasisClientCollection($results), 200
+        );
     }
 }

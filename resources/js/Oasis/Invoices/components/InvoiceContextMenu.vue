@@ -6,7 +6,7 @@
             <OptionGroup class="menu-option-group">
                 <Option @click.native="" title="Edit Invoice" icon="rename" />
                 <Option @click.native="" title="Send Invoice" icon="send" />
-                <Option @click.native="" title="Go to Company" icon="user" />
+                <Option @click.native="goToCompany" title="Go to Company" icon="user" />
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
@@ -74,6 +74,9 @@ export default {
         }
     },
     methods: {
+		goToCompany() {
+			this.$router.push({name: 'ClientDetail', params: {id: this.item.id}})
+		},
         downloadItem() {
             if (this.clipboard.length > 1)
                 this.$store.dispatch('downloadFiles')

@@ -1,5 +1,5 @@
 <template>
-    <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="showInvoice">
+    <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="showClient">
         <div class="file-item" :class="{'is-clicked': isClicked , 'no-clicked': !isClicked && $isMobile()}">
 
 			<!-- MultiSelecting for the mobile version -->
@@ -135,8 +135,8 @@ export default {
                 }
             }
         },
-        showInvoice() {
-			events.$emit('file-preview:show')
+        showClient() {
+			this.$router.push({name: 'ClientDetail', params: {id: this.item.id}})
         },
     },
     created() {

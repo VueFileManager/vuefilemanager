@@ -106,11 +106,33 @@ const routesOasis = [
                 name: 'CreateClient',
                 path: '/invoice/create-client',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/oasis/invoices/create-client" */ './Oasis/Invoices/CreateClient'),
+                    import(/* webpackChunkName: "chunks/oasis/invoices/create-client" */ './Oasis/Invoices/Clients/CreateClient'),
                 meta: {
                     requiresAuth: true,
                     title: 'Create Client'
                 },
+            },
+            {
+                name: 'Client',
+                path: '/invoice/client/:id',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/oasis/invoices/client" */ './Oasis/Invoices/Clients/Client'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'Client'
+                },
+                children: [
+                    {
+                        name: 'ClientDetail',
+                        path: '/invoice/client/:id/detail',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/oasis/invoices/client-detail" */ './Oasis/Invoices/Clients/Tabs/ClientDetail'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Client Detail'
+                        },
+                    }
+                ]
             }
         ]
     },
