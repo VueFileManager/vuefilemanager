@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Traits;
 
 use App\Models\Oasis\Client;

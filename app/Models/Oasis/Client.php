@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Models\Oasis;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @method static whereUserId($id)
@@ -66,11 +65,11 @@ class Client extends Model
         $client_email = Str::slug($array['email'], ' ');
 
         return [
-            'id'                  => $this->id,
-            'clientName'          => $array['name'],
-            'clientNameNgrams'    => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$client_name]))),
-            'clientEmail'          => $array['email'],
-            'clientEmailNgrams'    => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$client_email]))),
+            'id' => $this->id,
+            'clientName' => $array['name'],
+            'clientNameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$client_name]))),
+            'clientEmail' => $array['email'],
+            'clientEmailNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$client_email]))),
         ];
     }
 

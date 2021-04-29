@@ -1,20 +1,17 @@
 <?php
-
 namespace App\Http\Controllers\Oasis;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UpdateUserPasswordRequest;
-use App\Http\Resources\Oasis\SubscriptionRequestResource;
-use App\Http\Resources\PlanResource;
-use App\Models\Oasis\SubscriptionRequest;
-use App\Services\StripeService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Services\StripeService;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Oasis\SubscriptionRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Requests\User\UpdateUserPasswordRequest;
+use App\Http\Resources\Oasis\SubscriptionRequestResource;
 
 class SubscriptionController extends Controller
 {
@@ -32,7 +29,8 @@ class SubscriptionController extends Controller
     public function get_subscription_request(SubscriptionRequest $order)
     {
         return response(
-            new SubscriptionRequestResource($order), 200
+            new SubscriptionRequestResource($order),
+            200
         );
     }
 
@@ -62,7 +60,6 @@ class SubscriptionController extends Controller
     {
         // Make subscription from subscription request
         if ($order->exists) {
-
             // Create subscription
             $order->user
                 ->newSubscription('main', $order->requested_plan)
@@ -77,7 +74,7 @@ class SubscriptionController extends Controller
         }
 
         // Make subscription after user sign up and pay for the plan
-        if (!$order->exists) {
+        if (! $order->exists) {
             $user = Auth::user();
 
             // Set user billing
@@ -99,7 +96,7 @@ class SubscriptionController extends Controller
         $user
             ->settings()
             ->update([
-                'storage_capacity'   => $plan['product']['metadata']['capacity'],
+                'storage_capacity' => $plan['product']['metadata']['capacity'],
                 'payment_activation' => 1,
             ]);
 
@@ -126,7 +123,7 @@ class SubscriptionController extends Controller
 
         // Update status
         $order->update([
-            'status' => 'logged'
+            'status' => 'logged',
         ]);
 
         // Log in user

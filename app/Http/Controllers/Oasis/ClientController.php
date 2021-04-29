@@ -1,17 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\Oasis;
 
-use App\Http\Requests\Oasis\StoreClientRequest;
-use App\Http\Resources\Oasis\OasisClientCollection;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Oasis\OasisClientResource;
-use App\Models\Oasis\Client;
 use Auth;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Models\Oasis\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Oasis\StoreClientRequest;
+use Illuminate\Contracts\Foundation\Application;
+use App\Http\Resources\Oasis\OasisClientResource;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Resources\Oasis\OasisClientCollection;
 
 class ClientController extends Controller
 {
@@ -21,7 +20,8 @@ class ClientController extends Controller
     public function index()
     {
         return response(
-            new OasisClientCollection(Auth::user()->clients), 200
+            new OasisClientCollection(Auth::user()->clients),
+            200
         );
     }
 
@@ -34,21 +34,22 @@ class ClientController extends Controller
         $client = $request->user()
             ->clients()
             ->create([
-                'avatar'       => store_avatar($request, 'avatar') ?? null,
-                'name'         => $request->name,
-                'email'        => $request->email ?? null,
+                'avatar' => store_avatar($request, 'avatar') ?? null,
+                'name' => $request->name,
+                'email' => $request->email ?? null,
                 'phone_number' => $request->phone_number ?? null,
-                'address'      => $request->address,
-                'city'         => $request->city,
-                'postal_code'  => $request->postal_code,
-                'country'      => $request->country,
-                'ico'          => $request->ico ?? null,
-                'dic'          => $request->dic ?? null,
-                'ic_dph'       => $request->ic_dph ?? null,
+                'address' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+                'country' => $request->country,
+                'ico' => $request->ico ?? null,
+                'dic' => $request->dic ?? null,
+                'ic_dph' => $request->ic_dph ?? null,
             ]);
 
         return response(
-            new OasisClientResource($client), 201
+            new OasisClientResource($client),
+            201
         );
     }
 
@@ -70,10 +71,9 @@ class ClientController extends Controller
     {
         // Store image if exist
         if ($request->hasFile($request->name)) {
-
             // Find and update image path
             $client->update([
-                $request->name => store_avatar($request, $request->name)
+                $request->name => store_avatar($request, $request->name),
             ]);
 
             return response('Done', 204);
@@ -109,7 +109,8 @@ class ClientController extends Controller
             ->get();
 
         return response(
-            new OasisClientCollection($results), 200
+            new OasisClientCollection($results),
+            200
         );
     }
 }

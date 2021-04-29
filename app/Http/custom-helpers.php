@@ -21,7 +21,7 @@ function base64_from_storage_image($filepath)
         return null;
     }
 
-    if (!Storage::exists($filepath)) {
+    if (! Storage::exists($filepath)) {
         return null;
     }
 
@@ -84,7 +84,6 @@ function invoice_total_discount($invoice, $format = false)
 {
     // Percent discount
     if ($invoice['discount_type'] === 'percent') {
-
         $discount = (int) (invoice_total_net($invoice) + invoice_total_tax($invoice)) * ($invoice['discount_rate'] / 100);
 
         if ($format) {
@@ -96,7 +95,6 @@ function invoice_total_discount($invoice, $format = false)
 
     // Value discount
     if ($invoice['discount_type'] === 'value') {
-
         if ($format) {
             return Cashier::formatAmount($invoice['discount_rate'] * 100, $invoice['currency'], 'cs');
         }

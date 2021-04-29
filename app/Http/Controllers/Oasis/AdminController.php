@@ -1,23 +1,22 @@
 <?php
-
 namespace App\Http\Controllers\Oasis;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CreateUserByAdmin;
-use App\Http\Requests\Oasis\CreateOrderRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
-use App\Models\UserSettings;
-use App\Notifications\Oasis\PaymentRequiredNotification;
-use App\Services\Oasis\CzechRegisterSearchService;
-use App\Services\StripeService;
 use Hash;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Notification;
+use App\Models\User;
+use Illuminate\Support\Str;
+use App\Models\UserSettings;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
-use Notification;
+use App\Services\StripeService;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\Admin\CreateUserByAdmin;
+use App\Http\Requests\Oasis\CreateOrderRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Services\Oasis\CzechRegisterSearchService;
+use App\Notifications\Oasis\PaymentRequiredNotification;
 
 class AdminController extends Controller
 {
@@ -51,7 +50,7 @@ class AdminController extends Controller
     {
         // Create user
         $newbie = User::create([
-            'email'    => $request->email,
+            'email' => $request->email,
             'password' => Hash::make(Str::random()),
         ]);
 
@@ -62,15 +61,15 @@ class AdminController extends Controller
             ->settings()
             ->create([
                 'storage_capacity' => 0,
-                'ico'              => $request->ico ?? null,
-                'name'             => $request->name,
-                'address'          => $request->address,
-                'state'            => $request->state,
-                'city'             => $request->city,
-                'postal_code'      => $request->postal_code,
-                'country'          => $request->country,
-                'phone_number'     => $request->phone_number ?? null,
-                'timezone'         => '1.0',
+                'ico' => $request->ico ?? null,
+                'name' => $request->name,
+                'address' => $request->address,
+                'state' => $request->state,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+                'country' => $request->country,
+                'phone_number' => $request->phone_number ?? null,
+                'timezone' => '1.0',
             ]);
 
         // Store subscription request
@@ -90,7 +89,8 @@ class AdminController extends Controller
         ));
 
         return response(
-            new UserResource($newbie), 201
+            new UserResource($newbie),
+            201
         );
     }
 
@@ -104,8 +104,8 @@ class AdminController extends Controller
     {
         // Create user
         $user = User::forceCreate([
-            'role'     => $request->role,
-            'email'    => $request->email,
+            'role' => $request->role,
+            'email' => $request->email,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
         ]);
 
@@ -114,9 +114,9 @@ class AdminController extends Controller
         $user
             ->settings()
             ->create([
-                'name'               => $request->name,
-                'avatar'             => store_avatar($request, 'avatar'),
-                'storage_capacity'   => $request->storage_capacity,
+                'name' => $request->name,
+                'avatar' => store_avatar($request, 'avatar'),
+                'storage_capacity' => $request->storage_capacity,
                 'payment_activation' => 1,
             ]);
 

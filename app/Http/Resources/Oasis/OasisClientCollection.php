@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Resources\Oasis;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
