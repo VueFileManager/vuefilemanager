@@ -75,7 +75,9 @@ export default {
     },
     methods: {
 		goToCompany() {
-			this.$router.push({name: 'ClientDetail', params: {id: this.item.id}})
+			this.$router.push({name: 'ClientDetail', params: {id: this.item.client_id}})
+			events.$emit('file-preview:hide')
+			this.isVisible = false
 		},
         downloadItem() {
             if (this.clipboard.length > 1)

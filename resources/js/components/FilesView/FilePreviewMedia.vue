@@ -198,7 +198,7 @@ export default {
     created() {
 
         // Set zoom size
-        this.documentSize = window.innerWidth < 960 ? 100 : 50
+        this.documentSize = window.innerWidth < 960 ? 100 : 70
 
         events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())

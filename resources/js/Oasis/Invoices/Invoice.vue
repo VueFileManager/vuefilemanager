@@ -18,7 +18,7 @@
 
 			<!--Sidebar navigation-->
 			<ContentSidebar>
-				<ContentGroup title="Invoices" class="navigator menu-list-wrapper vertical">
+				<ContentGroup title="Invoicing" class="navigator menu-list-wrapper vertical">
 					<a @click="goTo('regular-invoice')" :class="{'is-active': $isThisLocation(['regular-invoice']) && $route.name === 'InvoicesList'}" class="menu-list-item link">
 						<div class="icon text-theme">
 							<file-text-icon size="17" />
@@ -35,8 +35,6 @@
 							Advance Invoices
 						</div>
 					</a>
-				</ContentGroup>
-				<ContentGroup title="Others" class="navigator menu-list-wrapper vertical">
 					<a @click="goTo('clients')" :class="{'is-active': $isThisLocation(['clients']) && $route.name === 'InvoicesList'}" class="menu-list-item link">
 						<div class="icon text-theme">
 							<users-icon size="17" />
@@ -45,6 +43,8 @@
 							Clients
 						</div>
 					</a>
+				</ContentGroup>
+				<ContentGroup title="Settings" class="navigator menu-list-wrapper vertical">
 					<router-link :to="{name: 'InvoicesProfile'}" class="menu-list-item link">
 						<div class="icon text-theme">
 							<edit2-icon size="17" />
