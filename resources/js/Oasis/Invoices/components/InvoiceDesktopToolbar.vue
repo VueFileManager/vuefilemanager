@@ -23,8 +23,8 @@
                     	<ToolbarButton @click.stop.native="createCreateMenu" source="plus" :action="$t('actions.create_folder')" />
 						<PopoverItem name="desktop-create-invoices">
 							<OptionGroup>
-								<Option title="Create Invoice" icon="file-plus" />
-								<Option title="Create Advance Invoice" icon="clock" />
+								<Option @click.stop.native="createInvoice('regular-invoice')" title="Create Regular Invoice" icon="file-plus" />
+								<Option @click.stop.native="createInvoice('advance-invoice')" title="Create Advance Invoice" icon="clock" />
 							</OptionGroup>
 							<OptionGroup>
 								<Option @click.native="createClient" title="Create Client" icon="user-plus" />
@@ -115,6 +115,9 @@
 			}
 		},
 		methods: {
+			createInvoice(type) {
+				this.$router.push({name: 'CreateInvoice', query: {type: type}})
+			},
 			createClient() {
 				this.$router.push({name: 'CreateClient'})
 			},

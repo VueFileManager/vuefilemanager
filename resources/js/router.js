@@ -113,6 +113,15 @@ const routesOasis = [
                 },
             },
             {
+                name: 'CreateInvoice',
+                path: '/invoice/create-invoice',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/oasis/invoices/create-invoice" */ './Oasis/Invoices/Invoices/CreateInvoice'),
+                meta: {
+                    requiresAuth: true,
+                },
+            },
+            {
                 name: 'Client',
                 path: '/invoice/client/:id',
                 component: () =>

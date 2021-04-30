@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Notifications\Oasis;
 
-use App\Models\Oasis\Invoice;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class InvoiceDeliveryNotification extends Notification
 {
@@ -51,7 +48,7 @@ class InvoiceDeliveryNotification extends Notification
             ->greeting(__t('mail_greeting'))
             ->line($this->user->settings->name . ' sent you an invoice.')
             ->salutation(__t('mail_salutation'))
-            ->attach(storage_path("app/" . invoice_path($this->invoice)), [
+            ->attach(storage_path('app/' . invoice_path($this->invoice)), [
                 'as' => 'name.pdf',
                 'mime' => 'application/pdf',
             ]);
@@ -66,7 +63,6 @@ class InvoiceDeliveryNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

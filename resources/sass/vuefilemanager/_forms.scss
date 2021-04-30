@@ -115,6 +115,7 @@ textarea,
 input[type="password"],
 input[type="text"],
 input[type="number"],
+input[type="date"],
 input[type="email"] {
   border: 1px solid transparent;
   @include transition(150ms);
@@ -236,6 +237,7 @@ input[type="email"] {
   textarea,
   input[type="password"],
   input[type="number"],
+  input[type="date"],
   input[type="text"],
   input[type="email"] {
     padding: 14px 20px;
@@ -278,6 +280,7 @@ input[type="email"] {
   textarea,
   input[type="password"],
   input[type="text"],
+  input[type="date"],
   input[type="number"],
   input[type="email"] {
     border-color: $dark_mode_foreground;
@@ -300,6 +303,7 @@ input[type="email"] {
 
     textarea,
     input[type="password"],
+    input[type="date"],
     input[type="text"],
     input[type="number"],
     input[type="email"] {

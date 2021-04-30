@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\Traits\Oasis;
@@ -18,7 +17,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable, Billable, Sortable, HasFactory, HasApiTokens;
-
     use Oasis;
 
     protected $guarded = [

@@ -1,14 +1,13 @@
 <?php
 
+use App\Services\Oasis\OasisDevService;
 use App\Http\Controllers\Oasis\AdminController;
 use App\Http\Controllers\Oasis\ClientController;
 use App\Http\Controllers\Oasis\InvoiceController;
-use App\Http\Controllers\Oasis\InvoiceProfileController;
 use App\Http\Controllers\Oasis\SubscriptionController;
-use App\Services\Oasis\OasisDevService;
+use App\Http\Controllers\Oasis\InvoiceProfileController;
 
 Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
-
     // Admin
     Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin'], function () {
         Route::get('/company-details', [AdminController::class, 'get_company_details']);
@@ -35,6 +34,8 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::get('/profile', [InvoiceProfileController::class, 'show']);
         Route::post('/profile', [InvoiceProfileController::class, 'store']);
         Route::patch('/profile', [InvoiceProfileController::class, 'update']);
+
+        Route::get('/editor', [InvoiceController::class, 'editor']);
     });
 
     // Clients

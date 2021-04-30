@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StripeService
 {
-
     /**
      * Stripe Service constructor.
      */

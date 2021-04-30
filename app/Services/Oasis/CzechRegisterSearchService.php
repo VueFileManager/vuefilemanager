@@ -22,7 +22,6 @@
  * $out = $connector->findByIco('44315945');
  * echo ''.print_r($out, 1).'';
  */
-
 namespace App\Services\Oasis;
 
 class CzechRegisterSearchService
@@ -85,9 +84,11 @@ class CzechRegisterSearchService
         if (preg_match('/^\d{8}$/', $ico)) {
             $url = self::URL_SERVER . '?ico=' . $ico;
             $response = file_get_contents($url);
+
             if ($response) {
                 $response = self::extractSubjects($response);
-                if (!empty($response[0])) {
+
+                if (! empty($response[0])) {
                     $response = $response[0];
                 }
             }
@@ -95,7 +96,6 @@ class CzechRegisterSearchService
 
         return $response;
     }
-
 
     /**
      * Return matched formatted for autocomplete dropdown list
@@ -116,8 +116,7 @@ class CzechRegisterSearchService
             }
         }
 
-        if (!empty($subjects) && is_array($subjects)) {
-
+        if (! empty($subjects) && is_array($subjects)) {
             $subjects = array_slice($subjects, 0, $size); // return first $size matches
 
             foreach ($subjects as &$subject) {
@@ -129,7 +128,7 @@ class CzechRegisterSearchService
             }
 
             foreach ($subjects as $subject) {
-                if (!empty($subject['ico'])) {
+                if (! empty($subject['ico'])) {
                     $out[] = [
                         'value' => $subject['ico'],
                         'label' => "{$subject['shortname']} (IČO: {$subject['ico']})",
@@ -149,15 +148,15 @@ class CzechRegisterSearchService
     protected static function extractSubjects($html)
     {
         // ensure valid XHTML markup
-        if (!extension_loaded('tidy')) {
+        if (! extension_loaded('tidy')) {
             throw new \Exception('Missing extension [tidy].');
         }
 
         $tidy = new \tidy();
-        $html = $tidy->repairString($html, array(
-            'output-xhtml'   => true,
+        $html = $tidy->repairString($html, [
+            'output-xhtml' => true,
             'show-body-only' => true,
-        ), 'utf8');
+        ], 'utf8');
 
         // purify whitespaces - vkladaju \n alebo
         $html = strtr($html, [
@@ -174,26 +173,25 @@ class CzechRegisterSearchService
         $out = [];
 
         if ($rows->length) {
-
             foreach ($rows as $row) {
-
                 // Nazev
-                $nodeList = $xpath->query("./tr[1]/td[1]", $row);
-                if (!$nodeList->length) {
+                $nodeList = $xpath->query('./tr[1]/td[1]', $row);
+
+                if (! $nodeList->length) {
                     continue; // nazev je povinny
                 }
                 $name = $nodeList->item(0)->nodeValue;
                 $name = preg_replace('/\s+/', ' ', $name); // viacnasobne inside spaces
 
                 // ICO
-                $nodeList = $xpath->query("./tr[1]/td[2]", $row);
+                $nodeList = $xpath->query('./tr[1]/td[2]', $row);
                 $ico = $nodeList->length ? $nodeList->item(0)->nodeValue : '';
 
                 // adresa - neda sa spolahnut na poradie prvkov :-(
                 $city = '';
-                $nodeList = $xpath->query("./tr[3]/td[1]", $row);
-                if ($nodeList->length) {
+                $nodeList = $xpath->query('./tr[3]/td[1]', $row);
 
+                if ($nodeList->length) {
                     $addr = trim($nodeList->item(0)->nodeValue);
 
                     if (preg_match('/,\s*(\d{3} ?\d{2})\s+(.+)$/', $addr, $match)) {
@@ -206,9 +204,10 @@ class CzechRegisterSearchService
                         list($city, $addr_streetnr) = explode(',', $addr);
                         $addr_city = $city;
                         $addr_zip = $match[1];
-                    } elseif (!preg_match('/\d{3} ?\d{2}/', $addr, $match)) {
+                    } elseif (! preg_match('/\d{3} ?\d{2}/', $addr, $match)) {
                         // Ústí nad Labem, Masarykova 74 - bez PSC - obec, ulice a cislo
                         $addr_streetnr = $addr_zip = '';
+
                         if (false !== strpos($addr, ',')) {
                             list($city, $addr_streetnr) = explode(',', $addr);
                         } else {
@@ -227,15 +226,15 @@ class CzechRegisterSearchService
                 }
 
                 $out[] = [
-                    'name'          => self::trimQuotes($name),
-                    'ico'           => preg_replace('/[^\d]/', '', $ico),
-                    'city'          => self::trimQuotes($city),
+                    'name' => self::trimQuotes($name),
+                    'ico' => preg_replace('/[^\d]/', '', $ico),
+                    'city' => self::trimQuotes($city),
                     // pre polia s adresou konzistentne so smartform naseptavacem
-                    'addr_city'     => self::trimQuotes($addr_city),
-                    'addr_zip'      => preg_replace('/[^\d]/', '', $addr_zip),
+                    'addr_city' => self::trimQuotes($addr_city),
+                    'addr_zip' => preg_replace('/[^\d]/', '', $addr_zip),
                     'addr_streetnr' => self::trimQuotes($addr_streetnr),
                     // len pre kontrolu - plna povodna adresa
-                    'addr_full'     => self::trimQuotes($addr),
+                    'addr_full' => self::trimQuotes($addr),
                 ];
             }
         }
@@ -251,5 +250,4 @@ class CzechRegisterSearchService
     {
         return trim(strtr($s, ['"' => '', "'" => '']));
     }
-
 }

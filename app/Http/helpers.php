@@ -291,7 +291,6 @@ function store_avatar($request, $name)
     $image_path = Str::random(16) . '-' . $image->getClientOriginalName();
 
     if (in_array($image->getClientMimeType(), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
-
         // Create intervention image
         $img = Image::make($image->getRealPath());
 
@@ -303,8 +302,7 @@ function store_avatar($request, $name)
     }
 
     if ($image->getClientMimeType() === 'image/svg+xml') {
-
-        Storage::putFileAs("avatars", $image, $image_path);
+        Storage::putFileAs('avatars', $image, $image_path);
     }
 
     // Return path to image

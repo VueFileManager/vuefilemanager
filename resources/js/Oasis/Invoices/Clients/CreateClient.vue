@@ -28,21 +28,23 @@
 						 <PageTabGroup>
 							<FormLabel>Company Details</FormLabel>
 
-							<div class="block-wrapper">
-								<label>ICO:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ico" rules="required" v-slot="{ errors }">
-									<input v-model="client.ico" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
+							 <div class="wrapper-inline">
+								<div class="block-wrapper">
+									<label>ICO:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ico" rules="required" v-slot="{ errors }">
+										<input v-model="client.ico" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 
-							<div class="block-wrapper">
-								<label>DIC (optional):</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="dic" v-slot="{ errors }">
-									<input v-model="client.dic" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
+								<div class="block-wrapper">
+									<label>DIC (optional):</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="dic" v-slot="{ errors }">
+										<input v-model="client.dic" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
+							 </div>
 
 							<div class="block-wrapper">
 								<label>IC DPH (optional):</label>
@@ -63,21 +65,23 @@
 								</ValidationProvider>
 							</div>
 
-							<div class="block-wrapper">
-								<label>City:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
-									<input v-model="client.city" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
+							 <div class="wrapper-inline">
+								<div class="block-wrapper">
+									<label>City:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
+										<input v-model="client.city" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 
-							<div class="block-wrapper">
-								<label>Postal Code:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
-									<input v-model="client.postal_code" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
+								<div class="block-wrapper">
+									<label>Postal Code:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
+										<input v-model="client.postal_code" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
+							 </div>
 
 							<div class="block-wrapper">
 								<label>Country:</label>
@@ -134,7 +138,6 @@
 	import ButtonBase from '@/components/FilesView/ButtonBase'
 	import PageTab from '@/components/Others/Layout/PageTab'
 	import PageHeader from '@/components/Others/PageHeader'
-	import ThemeLabel from '@/components/Others/ThemeLabel'
 	import InfoBox from '@/components/Others/Forms/InfoBox'
 	import {required} from 'vee-validate/dist/rules'
 	import {mapGetters} from 'vuex'
@@ -152,7 +155,6 @@
 			ImageInput,
 			PageHeader,
 			ButtonBase,
-			ThemeLabel,
 			FormLabel,
 			required,
 			InfoBox,
@@ -204,7 +206,8 @@
 				if (!isValid) {
 					this.isError = true
 					return
-				};
+				}
+				;
 
 				// Start loading
 				this.isLoading = true
@@ -241,7 +244,8 @@
 
 							Object.keys(error.response.data.errors).forEach(key => {
 
-								let obj = {}; obj[key] = error.response.data.errors[key]
+								let obj = {};
+								obj[key] = error.response.data.errors[key]
 
 								this.$refs.createClient.setErrors(obj);
 							})
@@ -265,9 +269,4 @@
     @import '@assets/vuefilemanager/_variables';
 	@import '@assets/vuefilemanager/_mixins';
 	@import '@assets/vuefilemanager/_forms';
-
-	.block-form {
-		max-width: 100%;
-	}
-
 </style>

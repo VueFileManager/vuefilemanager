@@ -48,7 +48,7 @@ class UserResource extends JsonResource
                                 'timezone' => $this->settings->timezone,
 
                                 // OasisDrive
-                                'payment_activation' => (integer) $this->settings->payment_activation
+                                'payment_activation' => (integer) $this->settings->payment_activation,
                             ],
                         ],
                     ],

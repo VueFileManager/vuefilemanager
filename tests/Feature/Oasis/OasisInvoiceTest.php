@@ -665,4 +665,85 @@ class OasisInvoiceTest extends TestCase
                 'invoiceNumber' => '2001212',
             ])->assertStatus(200);
     }
+
+    /**
+     * @test
+     */
+    public function it_get_data_for_invoice_editor()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        $client = Client::factory(Client::class)
+            ->count(2)
+            ->create(['user_id' => $user->id]);
+
+        $client->pluck('id')
+            ->each(function ($id) {
+                $this->getJson('/api/oasis/invoices/editor')
+                    ->assertStatus(200)
+                    ->assertJsonFragment([
+                        'value'                    => $id,
+                        'recommendedInvoiceNumber' => '20210001',
+                    ]);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_default_recommended_invoice_number()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        $this->getJson('/api/oasis/invoices/editor')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'latestInvoiceNumber'      => null,
+                'recommendedInvoiceNumber' => '20210001',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_next_invoice_number_after_latest_invoice_number()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'        => $user->id,
+                'invoice_type'   => 'regular-invoice',
+                'invoice_number' => 20210001,
+                'client'         => [
+                    'name' => 'VueFileManager Inc.',
+                ],
+                'user'           => 'test',
+            ]);
+
+        $this->getJson('/api/oasis/invoices/editor')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'latestInvoiceNumber'      => 20210001,
+                'recommendedInvoiceNumber' => 20210002,
+            ]);
+    }
 }

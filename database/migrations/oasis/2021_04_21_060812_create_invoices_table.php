@@ -32,7 +32,9 @@ class CreateInvoicesTable extends Migration
             $table->dateTime('delivery_at')->nullable();
             $table->dateTime('due_at')->nullable();
 
-            $table->enum('discount_type', ['percent', 'value'])->nullable();
+            $table->enum('discount_type', [
+                'percent', 'value'
+            ])->nullable();
             $table->integer('discount_rate')->nullable();
 
             $table->text('currency');

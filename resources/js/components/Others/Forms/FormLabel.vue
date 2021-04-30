@@ -1,6 +1,10 @@
 <template>
     <div class="form-label">
-        <edit-2-icon v-if="!icon" size="22" class="icon text-theme" />
+        <edit2-icon v-if="!icon" size="22" class="icon text-theme" />
+        <credit-card-icon  v-if="icon === 'credit-card'" size="22" class="icon text-theme" />
+        <tool-icon  v-if="icon === 'tool'" size="22" class="icon text-theme" />
+        <edit-icon  v-if="icon === 'edit'" size="22" class="icon text-theme" />
+        <user-icon  v-if="icon === 'user'" size="22" class="icon text-theme" />
         <settings-icon v-if="icon === 'settings'" size="22" class="icon text-theme" />
         <b class="label">
             <slot></slot>
@@ -9,14 +13,18 @@
 </template>
 
 <script>
-    import { Edit2Icon, SettingsIcon } from 'vue-feather-icons'
+    import { Edit2Icon, SettingsIcon, UserIcon, EditIcon, ToolIcon, CreditCardIcon } from 'vue-feather-icons'
 
     export default {
         name: 'FormLabel',
         props: ['icon'],
         components: {
+			CreditCardIcon,
+            SettingsIcon,
             Edit2Icon,
-            SettingsIcon
+			EditIcon,
+            UserIcon,
+			ToolIcon,
         }
     }
 </script>
@@ -33,7 +41,7 @@
         .icon {
             margin-right: 10px;
 
-            path, circle {
+            path, circle, rect, line {
                 color: inherit;
             }
         }

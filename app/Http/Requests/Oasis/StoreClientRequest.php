@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Oasis;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,17 +23,17 @@ class StoreClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar'       => 'sometimes|nullable',
-            'name'         => 'required|string',
-            'email'        => 'sometimes|email|nullable',
+            'avatar' => 'sometimes|nullable',
+            'name' => 'required|string',
+            'email' => 'sometimes|email|nullable',
             'phone_number' => 'sometimes|string|nullable',
-            'address'      => 'required|string',
-            'city'         => 'required|string',
-            'postal_code'  => 'required|string',
-            'country'      => 'required|string',
-            'ico'          => 'required|string',
-            'dic'          => 'required|string|nullable',
-            'ic_dph'       => 'sometimes|string|nullable',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'postal_code' => 'required|string',
+            'country' => 'required|string',
+            'ico' => 'required|string',
+            'dic' => 'required|string|nullable',
+            'ic_dph' => 'sometimes|string|nullable',
         ];
     }
 }

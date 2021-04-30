@@ -1,16 +1,11 @@
 <?php
-
-
 namespace App\Services\Oasis;
 
-
-use App\Models\Oasis\Client;
-use App\Models\Oasis\Invoice;
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use App\Models\Oasis\Invoice;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\Foundation\Application;
 
 class OasisDevService
 {

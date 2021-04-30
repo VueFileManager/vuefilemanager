@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Notifications\Oasis;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Laravel\Cashier\Cashier;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class PaymentRequiredNotification extends Notification
 {
@@ -50,9 +48,9 @@ class PaymentRequiredNotification extends Notification
             ->greeting(__t('mail_greeting'))
             ->line(__t('mail_order_line_1'))
             ->line(__t('mail_tariff', [
-                'name'    => $this->plan['product']['name'],
+                'name' => $this->plan['product']['name'],
                 'storage' => Cashier::formatAmount($this->plan['plan']['amount']),
-                'price'   => format_gigabytes($this->plan['product']['metadata']['capacity']),
+                'price' => format_gigabytes($this->plan['product']['metadata']['capacity']),
             ]))
             ->action(__t('mail_activation_action'), $url)
             ->line(__t('mail_order_line_2'))
@@ -69,7 +67,6 @@ class PaymentRequiredNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

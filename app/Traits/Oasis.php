@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Traits;
 
 use App\Models\Oasis\Client;
@@ -27,11 +26,11 @@ trait Oasis
 
     public function regularInvoices()
     {
-        return $this->hasMany(Invoice::class)->whereInvoiceType('regular-invoice');
+        return $this->hasMany(Invoice::class)->whereInvoiceType('regular-invoice')->orderByDesc('created_at');
     }
 
     public function advanceInvoices()
     {
-        return $this->hasMany(Invoice::class)->whereInvoiceType('advance-invoice');
+        return $this->hasMany(Invoice::class)->whereInvoiceType('advance-invoice')->orderByDesc('created_at');
     }
 }

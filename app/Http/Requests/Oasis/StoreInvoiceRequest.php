@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Oasis;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,14 +23,14 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'invoice_type'    => 'required|string',
-            'invoice_number'  => 'required|string',
+            'invoice_type' => 'required|string',
+            'invoice_number' => 'required|string',
             'variable_number' => 'required|string',
-            'client'          => 'required',
-            'items'           => 'required|array',
-            'discount_type'   => 'sometimes|string',
-            'discount_rate'   => 'sometimes|integer',
-            'delivery_at'     => 'required|date',
+            'client' => 'required',
+            'items' => 'required|string',
+            'discount_type' => 'nullable|string',
+            'discount_rate' => 'nullable|integer',
+            'delivery_at' => 'required|date',
         ];
     }
 }

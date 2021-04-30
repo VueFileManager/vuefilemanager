@@ -62,6 +62,63 @@
   }
 }
 
+.duplicator {
+
+  .duplicator-add-button {
+    //width: 100%;
+  }
+
+  .duplicator-item {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    background: white;
+    padding: 25px 25px 10px;
+    margin: 0 0 32px;
+    position: relative;
+
+    .duplicator-title {
+      @include font-size(18);
+      margin-bottom: 20px;
+      display: block;
+      font-weight: 700;
+    }
+
+    .delete-item {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+
+      &:hover {
+
+        line {
+          color: inherit;
+        }
+      }
+    }
+
+    .block-wrapper {
+      margin-bottom: 16px !important;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      box-shadow: none;
+      background: white;
+      border-bottom: 1px solid darken($light_mode_border, 6%);
+      border-radius: 0;
+      padding: 0 0 8px;
+
+      &:focus {
+        border-top-color: transparent !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+      }
+    }
+  }
+
+}
+
 .form-fixed-width {
   width: 700px;
   margin: 0 auto;
