@@ -100,12 +100,6 @@ const actions = {
 	deleteClient: ({commit, getters}, payload) => {
 		//
 	},
-	deleteInvoice: ({commit, getters}, payload) => {
-		//
-	},
-	deleteAdvanceInvoice: ({commit, getters}, payload) => {
-		//
-	},
 	sendInvoice: ({commit, getters}, payload) => {
 		//
 	},

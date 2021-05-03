@@ -117,6 +117,9 @@ export default {
             }
 
             if (!this.isMobileSelectMode && this.$isMobile()) {
+				this.$store.commit('CLIPBOARD_CLEAR')
+				this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
+
 				events.$emit('file-preview:show')
             }
 

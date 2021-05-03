@@ -4,6 +4,9 @@
 		<!--File preview window-->
         <FilePreview />
 
+		<!--Popups-->
+		<ConfirmPopup />
+
 		<InvoiceMobileMenu />
 		<ClientMobileMenu />
 		<InvoiceCreateMenu />
@@ -69,6 +72,7 @@
 	import InvoiceMobileMenu from '@/Oasis/Invoices/components/InvoiceMobileMenu'
 	import ClientMobileMenu from '@/Oasis/Invoices/components/ClientMobileMenu'
 	import InvoiceCreateMenu from '@/Oasis/Invoices/components/InvoiceCreateMenu'
+	import ConfirmPopup from '@/components/Others/Popup/ConfirmPopup'
 
 	import {UsersIcon, FileTextIcon, ClockIcon, Edit2Icon} from 'vue-feather-icons'
 	import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
@@ -83,7 +87,8 @@
 		name: 'Settings',
 		computed: {
 			...mapGetters([
-				'config'
+				'currentFolder',
+				'config',
 			]),
 		},
 		components: {
@@ -95,6 +100,7 @@
 			ClientMobileMenu,
 			MobileNavigation,
 			ContentSidebar,
+			ConfirmPopup,
 			FileTextIcon,
 			ContentGroup,
 			FilePreview,
@@ -129,6 +135,15 @@
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
 
 			this.$store.dispatch('getRegularInvoices')
+
+			events.$on('action:confirmed', data => {
+				if (data.operation === 'delete-invoice') {
+
+					axios.delete(`/api/oasis/invoices/${data.id}`)
+						.then(() => this.goTo(this.currentFolder.location))
+						.catch(() => this.$isSomethingWrong())
+				}
+			})
 		}
 	}
 </script>

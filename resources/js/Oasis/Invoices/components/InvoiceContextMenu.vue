@@ -76,7 +76,9 @@ export default {
     methods: {
 		goToCompany() {
 			this.$router.push({name: 'ClientDetail', params: {id: this.item.client_id}})
+
 			events.$emit('file-preview:hide')
+
 			this.isVisible = false
 		},
         downloadItem() {
@@ -94,7 +96,15 @@ export default {
             this.$store.dispatch('fileInfoToggle', true)
         },
         deleteItem() {
-
+			events.$emit('confirm:open', {
+				title: `Are you sure you want to delete invoice number ${this.item.invoiceNumber}?`,
+				message: 'Your invoice will be permanently deleted.',
+				buttonColor: 'danger-solid',
+				action: {
+					id: this.item.id,
+					operation: 'delete-invoice'
+				}
+			})
         },
         closeAndResetContextMenu() {
             // Close context menu

@@ -2,11 +2,11 @@
     <MenuMobile name="invoice-create">
         <MenuMobileGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('regular-invoice')" title="Create Invoice" icon="file-plus" is-hover-disabled="true" />
-                <Option @click.native="showLocation('advance-invoice')" title="Create Advance Invoice" icon="clock" is-hover-disabled="true" />
+                <Option @click.native="createInvoice('regular-invoice')" title="Create Invoice" icon="file-plus" is-hover-disabled="true" />
+                <Option @click.native="createInvoice('advance-invoice')" title="Create Advance Invoice" icon="clock" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('clients')" title="Create Client" icon="user-plus" is-hover-disabled="true" />
+                <Option @click.native="createClient" title="Create Client" icon="user-plus" is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
@@ -33,32 +33,12 @@ export default {
         ]),
     },
     methods: {
-		showLocation(location) {
-
+		createInvoice(type) {
+			this.$router.push({name: 'CreateInvoice', query: {type: type}})
 		},
-        flushBrowseHistory() {
-            this.$store.commit('FLUSH_FOLDER_HISTORY')
-        },
-        goToFiles() {
-            this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
-            this.flushBrowseHistory()
-        },
-        goToLatest() {
-            this.$store.dispatch('getLatest')
-            this.flushBrowseHistory()
-        },
-        goToTrash() {
-            this.$store.dispatch('getTrash')
-            this.flushBrowseHistory()
-        },
-        goToShared() {
-            this.$store.dispatch('getShared', [{back: false, init: false}])
-            this.flushBrowseHistory()
-        },
-        goToParticipantUploads() {
-            this.$store.dispatch('getParticipantUploads')
-            this.flushBrowseHistory()
-        }
+		createClient() {
+			this.$router.push({name: 'CreateClient'})
+		},
     }
 }
 </script>

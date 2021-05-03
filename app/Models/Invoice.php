@@ -15,6 +15,10 @@ class Invoice extends Model
         'bag' => 'array',
     ];
 
+    public function getMimetype() {
+        return 'pdf';
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

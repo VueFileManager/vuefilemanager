@@ -128,8 +128,18 @@
 				events.$emit('popover:open', 'desktop-create-invoices')
 			},
 			deleteInvoice() {
-				if (this.clipboard.length > 0)
-					this.$store.dispatch('deleteInvoice')
+				if (this.clipboard.length > 0) {
+
+					events.$emit('confirm:open', {
+						title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoiceNumber}?`,
+						message: 'Your invoice will be permanently deleted.',
+						buttonColor: 'danger-solid',
+						action: {
+							id: this.clipboard[0].id,
+							operation: 'delete-invoice'
+						}
+					})
+				}
 			},
 			shareInvoice() {
 				alert('Send Invoice')

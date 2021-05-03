@@ -305,8 +305,8 @@
 			]),
 			pageTitle() {
 				return {
-					'regular': 'Create Regular Invoice',
-					'advance': 'Create Advance Invoice',
+					'regular-invoice': 'Create Regular Invoice',
+					'advance-invoice': 'Create Advance Invoice',
 				}[this.$route.query.type]
 			},
 			isNewClient() {
