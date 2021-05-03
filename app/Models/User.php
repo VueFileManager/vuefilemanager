@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Notifications\ResetPassword;
 use App\Traits\Oasis;
 use ByteUnits\Metric;
 use Illuminate\Support\Str;

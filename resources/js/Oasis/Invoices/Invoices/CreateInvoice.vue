@@ -10,14 +10,6 @@
 						<PageTabGroup>
 							<FormLabel icon="tool">Invoice Properties</FormLabel>
 
-							<!--<div class="block-wrapper">
-								<label>Invoice Type:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="invoice_type" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.invoice_type" :default="invoice.invoice_type" :options="invoiceTypeList" placeholder="" :isError="errors[0]" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>-->
-
 							<div class="block-wrapper">
 								<label>Invoice Number:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="invoice_number" rules="required" v-slot="{ errors }">
