@@ -8,7 +8,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^8.0",
+        "ext-json": "*",
         "barryvdh/laravel-snappy": "^0.4.8",
         "brianium/paratest": "^6.2",
         "cartalyst/stripe-laravel": "^13.1",
@@ -16,7 +17,6 @@
         "fideloper/proxy": "^4.4.1",
         "friendsofphp/php-cs-fixer": "^2.18",
         "fruitcake/laravel-cors": "^2.0.3",
-        "fzaninotto/faker": "^1.9",
         "gabrielelana/byte-units": "^0.5.0",
         "guzzlehttp/guzzle": "^7.2.0",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
@@ -33,16 +33,17 @@
         "league/flysystem-cached-adapter": "^1.1.0",
         "madnest/madzipper": "^1.1.0",
         "spatie/laravel-backup": "^6.15",
-        "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0"
+        "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0",
+        "vimeo/psalm": "^4.7"
     },
     "require-dev": {
         "ext-json": "*",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5.14",
+        "fakerphp/faker": "^1.14.1",
         "mockery/mockery": "^1.4.3",
         "nunomaduro/collision": "^5.3.0",
-        "phpunit/phpunit": "^9.5.2",
-        "supliu/laravel-query-monitor": "^1.0.2"
+        "phpunit/phpunit": "^9.5.2"
     },
     "config": {
         "optimize-autoloader": true,
@@ -87,6 +88,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "psalm": "vendor/bin/psalm"
     }
 }
