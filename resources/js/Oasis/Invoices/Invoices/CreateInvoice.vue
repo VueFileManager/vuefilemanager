@@ -3,10 +3,58 @@
 		<MobileHeader :title="pageTitle" />
 		<PageHeader :title="pageTitle" />
 
-		<div id="page-content" class="medium-width">
-			<div class="content-page">
-				<ValidationObserver @submit.prevent="createInvoice" ref="createInvoice" v-slot="{ invalid }" tag="form" class="form block-form">
+		<div id="page-content">
+			<div class="content-page order">
+				<ValidationObserver @submit.prevent="createInvoice" ref="createInvoice" v-slot="{ invalid }" tag="form" class="steps form block-form">
 					<PageTab>
+						<PageTabGroup>
+							<FormLabel icon="edit">Items</FormLabel>
+
+							<div class="duplicator">
+								<div class="plan-item duplicator-item" v-for="(item, index) in invoice.items" :key="index++">
+									<x-icon @click="removeRow(item)" v-if="index !== 0" size="22" class="delete-item hover-text-theme" />
+
+									<div class="block-wrapper">
+										<label>Description:</label>
+										<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="description" rules="required" v-slot="{ errors }">
+											<input v-model="item.description" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+											<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+										</ValidationProvider>
+									</div>
+
+									<div class="wrapper-inline">
+										<div class="block-wrapper">
+											<label>Amount:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="amount" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.amount" placeholder="The amount in Pcs." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+
+										<div v-if="isVatPayer" class="block-wrapper">
+											<label>Tax Rate:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.tax_rate" placeholder="Type item tax rate in %..." type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+
+										<div class="block-wrapper">
+											<label>Price:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.price" placeholder="Type the item price..." type="number" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+									</div>
+								</div>
+
+								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme" style="width: 100%">
+									Add New Item
+								</ButtonBase>
+							</div>
+						</PageTabGroup>
+
 						<PageTabGroup>
 							<FormLabel icon="tool">Invoice Properties</FormLabel>
 
@@ -143,54 +191,6 @@
 						</PageTabGroup>
 
 						<PageTabGroup>
-							<FormLabel icon="edit">Items</FormLabel>
-
-							<div class="duplicator">
-								<div class="plan-item duplicator-item" v-for="(item, index) in invoice.items" :key="index++">
-									<x-icon @click="removeRow(item)" v-if="index !== 0" size="22" class="delete-item hover-text-theme" />
-
-									<div class="block-wrapper">
-										<label>Description:</label>
-										<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="description" rules="required" v-slot="{ errors }">
-											<input v-model="item.description" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-											<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-										</ValidationProvider>
-									</div>
-
-									<div class="wrapper-inline">
-										<div class="block-wrapper">
-											<label>Amount:</label>
-											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="amount" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.amount" placeholder="The amount in Pcs." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-											</ValidationProvider>
-										</div>
-
-										<div v-if="isVatPayer" class="block-wrapper">
-											<label>Tax Rate:</label>
-											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.tax_rate" placeholder="Type item tax rate in %..." type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-											</ValidationProvider>
-										</div>
-
-										<div class="block-wrapper">
-											<label>Price:</label>
-											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.price" placeholder="Type the item price..." type="number" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-											</ValidationProvider>
-										</div>
-									</div>
-								</div>
-
-								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme">
-									Add New Item
-								</ButtonBase>
-							</div>
-						</PageTabGroup>
-
-						<PageTabGroup>
 							<FormLabel icon="credit-card">Discount</FormLabel>
 
 							<div class="block-wrapper">
@@ -248,15 +248,50 @@
 									</div>
 								</ValidationProvider>
 							</div>
-
-							<div class="block-wrapper">
-								<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
-									Store & Generate Invoice
-								</ButtonBase>
-							</div>
 						</PageTabGroup>
 					</PageTab>
 				</ValidationObserver>
+				<div class="summary">
+					<FormLabel icon="credit-card">Invoice Summary</FormLabel>
+					<div class="summary-list" :class="{'is-error': isError}">
+
+						<div v-for="(tax, i) in taxBased" :key="i" class="row small">
+							<div class="cell">
+								<span>Základ DPH {{ tax.rate }}%</span>
+							</div>
+							<div class="cell">
+								<span>{{ formatNumber(tax.total) }}</span>
+							</div>
+						</div>
+
+						<div :class="{'is-offset': taxSummary.length > 1}">
+							<div v-for="(tax, i) in taxSummary" :key="i" class="row small">
+								<div class="cell">
+									<span>DPH {{ tax.rate }}%</span>
+								</div>
+								<div class="cell">
+									<span>{{ formatNumber(tax.total) }}</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="row row-summary">
+							<div class="cell">
+								<b>Spolu</b>
+							</div>
+							<div class="cell">
+								<b>{{ formatNumber(total) }}</b>
+							</div>
+						</div>
+
+						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="createInvoice" button-style="theme-solid" class="next-submit">
+							Store & Generate Invoice
+						</ButtonBase>
+						<p class="error-message" v-if="isError">
+							{{ errorMessage }}
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -312,6 +347,74 @@
 			isNewClient() {
 				return this.invoice.client === 'new-client'
 			},
+			taxBased() {
+				let bag = [];
+
+				this.invoice.items.forEach(item => {
+
+					if (item.price && item.amount && item.tax_rate) {
+
+						if (! bag.find(bagItem => bagItem.rate === item.tax_rate)) {
+
+							bag.push({
+								rate: item.tax_rate,
+								total: (item.price * item.amount),
+							})
+						} else {
+							bag.find(bagItem => {
+								if (bagItem.rate === item.tax_rate)
+									bagItem.total += (item.price * item.amount)
+							})
+						}
+					}
+				})
+
+				return bag
+			},
+			taxSummary() {
+				let bag = [];
+
+				this.invoice.items.forEach(item => {
+
+					if (item.price && item.amount && item.tax_rate) {
+
+						if (! bag.find(bagItem => bagItem.rate === item.tax_rate)) {
+
+							bag.push({
+								rate: item.tax_rate,
+								total: (item.price * item.amount) * (item.tax_rate / 100),
+							})
+
+						} else {
+
+							bag.find(bagItem => {
+								if (bagItem.rate === item.tax_rate)
+									bagItem.total += (item.price * item.amount) * (item.tax_rate / 100)
+							})
+						}
+					}
+				})
+
+				return bag
+			},
+			total() {
+				let total = 0;
+
+				this.invoice.items.forEach(item => {
+					if (item.price && item.amount) {
+
+						let total_without_tax = (item.price * item.amount)
+
+						if (item.tax_rate) {
+							total_without_tax += total_without_tax * (item.tax_rate / 100)
+						}
+
+						total += total_without_tax
+					}
+				})
+
+				return total
+			}
 		},
 		watch: {
 			isDiscount(val) {
@@ -414,6 +517,9 @@
 			}
 		},
 		methods: {
+			formatNumber(value) {
+				return (Math.round(value * 100) / 100).toFixed(2);
+			},
 			async createInvoice() {
 
 				const isValid = await this.$refs.createInvoice.validate();
@@ -484,8 +590,8 @@
 					id: Math.floor(Math.random() * 10000000),
 					description: '',
 					amount: 1,
-					tax_rate: 0,
-					price: undefined,
+					tax_rate: 12,
+					price: 10,
 				})
 			},
 			removeRow(item) {
@@ -520,4 +626,100 @@
     @import '@assets/vuefilemanager/_variables';
 	@import '@assets/vuefilemanager/_mixins';
 	@import '@assets/vuefilemanager/_forms';
+
+	#page-content {
+		max-width: 1190px;
+	}
+
+	.order {
+		display: flex;
+		margin-bottom: 30px;
+
+		.steps {
+			flex: 0 0 65%;
+			padding-right: 30px;
+
+			.form {
+				max-width: 100%;
+			}
+		}
+
+		.summary {
+			flex: 0 0 34%;
+		}
+	}
+
+	.summary-list {
+		box-shadow: 0 7px 20px 5px hsla(220, 36%, 16%, 0.06);
+		border-radius: 8px;
+		position: sticky;
+		padding: 25px;
+		top: 85px;
+
+		&.is-error {
+			border: 2px solid $danger;
+			box-shadow: 0 7px 20px 5px rgba($danger, 0.06);
+		}
+
+		.error-message {
+			font-weight: 600;
+		}
+
+		.next-submit {
+			width: 100%;
+			margin-top: 20px;
+		}
+
+		.disclaimer {
+			@include font-size(12);
+			line-height: 1.6;
+			display: block;
+			margin-top: 12px;
+		}
+
+		.is-offset {
+			border-top: 1px solid $light_mode_border;
+			display: block;
+			padding-top: 10px;
+		}
+
+		.row {
+			display: flex;
+			justify-content: space-between;
+			padding: 15px 0;
+
+			&.small {
+				padding: 0 0 10px;
+			}
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			&.row-summary {
+				border-top: 1px solid $light_mode_border;
+				padding-bottom: 0;
+
+				b {
+					font-weight: 800;
+				}
+			}
+		}
+
+		.cell {
+			b {
+				display: block;
+				@include font-size(18);
+			}
+
+			small {
+				color: $text-muted;
+				@include font-size(12);
+			}
+
+			span {
+				@include font-size(14);
+			}
+		}
+	}
 </style>
