@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-use App\Notifications\ResetPassword;
 use App\Traits\Oasis;
 use ByteUnits\Metric;
 use Illuminate\Support\Str;
@@ -10,6 +9,7 @@ use App\Services\HelperService;
 use App\Services\StripeService;
 use Laravel\Sanctum\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
+use App\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

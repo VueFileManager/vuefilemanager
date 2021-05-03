@@ -15,7 +15,8 @@ class Invoice extends Model
         'bag' => 'array',
     ];
 
-    public function getMimetype() {
+    public function getMimetype()
+    {
         return 'pdf';
     }
 

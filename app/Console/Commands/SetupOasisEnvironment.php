@@ -182,7 +182,6 @@ class SetupOasisEnvironment extends Command
                 'value' => 'system/oasis-og-image.jpg',
             ],
         ])->each(function ($option) {
-
             Setting::updateOrCreate([
                 'name' => $option['name'],
             ], [
