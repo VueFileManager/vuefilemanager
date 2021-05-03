@@ -4,57 +4,11 @@
 		<PageHeader :title="pageTitle" />
 
 		<div id="page-content">
-			<div class="content-page order">
-				<ValidationObserver @submit.prevent="createInvoice" ref="createInvoice" v-slot="{ invalid }" tag="form" class="steps form block-form">
+			<div class="content-page">
+				<ValidationObserver @submit.prevent="createInvoice" ref="createInvoice" v-slot="{ invalid }" tag="form" class="form block-form">
 					<PageTab>
-						<PageTabGroup>
-							<FormLabel icon="edit">Items</FormLabel>
 
-							<div class="duplicator">
-								<div class="plan-item duplicator-item" v-for="(item, index) in invoice.items" :key="index++">
-									<x-icon @click="removeRow(item)" v-if="index !== 0" size="22" class="delete-item hover-text-theme" />
-
-									<div class="block-wrapper">
-										<label>Description:</label>
-										<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="description" rules="required" v-slot="{ errors }">
-											<input v-model="item.description" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-											<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-										</ValidationProvider>
-									</div>
-
-									<div class="wrapper-inline">
-										<div class="block-wrapper">
-											<label>Amount:</label>
-											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="amount" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.amount" placeholder="The amount in Pcs." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-											</ValidationProvider>
-										</div>
-
-										<div v-if="isVatPayer" class="block-wrapper">
-											<label>Tax Rate:</label>
-											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.tax_rate" placeholder="Type item tax rate in %..." type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-											</ValidationProvider>
-										</div>
-
-										<div class="block-wrapper">
-											<label>Price:</label>
-											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.price" placeholder="Type the item price..." type="number" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-											</ValidationProvider>
-										</div>
-									</div>
-								</div>
-
-								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme" style="width: 100%">
-									Add New Item
-								</ButtonBase>
-							</div>
-						</PageTabGroup>
-
+						<!--Properties-->
 						<PageTabGroup>
 							<FormLabel icon="tool">Invoice Properties</FormLabel>
 
@@ -89,6 +43,7 @@
 							</div>
 						</PageTabGroup>
 
+						<!--Client-->
 						<PageTabGroup>
 							<FormLabel icon="user">Client</FormLabel>
 
@@ -190,6 +145,56 @@
 							</div>
 						</PageTabGroup>
 
+						<!--Items-->
+						<PageTabGroup>
+							<FormLabel icon="edit">Items</FormLabel>
+
+							<div class="duplicator">
+								<div class="plan-item duplicator-item" v-for="(item, index) in invoice.items" :key="index++">
+									<x-icon @click="removeRow(item)" v-if="index !== 0" size="22" class="delete-item hover-text-theme" />
+
+									<div class="block-wrapper">
+										<label>Description:</label>
+										<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="description" rules="required" v-slot="{ errors }">
+											<input v-model="item.description" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+											<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+										</ValidationProvider>
+									</div>
+
+									<div class="wrapper-inline">
+										<div class="block-wrapper">
+											<label>Amount:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="amount" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.amount" placeholder="The amount in Pcs." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+
+										<div v-if="isVatPayer" class="block-wrapper">
+											<label>Tax Rate:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.tax_rate" placeholder="Type item tax rate in %..." type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+
+										<div class="block-wrapper">
+											<label>Price:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.price" placeholder="Type the item price..." type="number" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+									</div>
+								</div>
+
+								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme" style="width: 100%">
+									Add New Item
+								</ButtonBase>
+							</div>
+						</PageTabGroup>
+
+						<!--Discount-->
 						<PageTabGroup>
 							<FormLabel icon="credit-card">Discount</FormLabel>
 
@@ -216,12 +221,13 @@
 							<div v-if="isDiscount" class="block-wrapper">
 								<label>Discount Rate:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="discount_rate" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.discount_rate" placeholder="" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.discount_rate" placeholder="" max="100" min="0" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 						</PageTabGroup>
 
+						<!--Others-->
 						<PageTabGroup>
 							<FormLabel icon="settings">Others</FormLabel>
 
@@ -255,12 +261,23 @@
 					<FormLabel icon="credit-card">Invoice Summary</FormLabel>
 					<div class="summary-list" :class="{'is-error': isError}">
 
-						<div v-for="(tax, i) in taxBased" :key="i" class="row small">
+						<div v-if="isDiscount && invoice.discount_rate > 0" class="row small">
 							<div class="cell">
-								<span>Základ DPH {{ tax.rate }}%</span>
+								<span>Discount</span>
 							</div>
 							<div class="cell">
-								<span>{{ formatNumber(tax.total) }}</span>
+								<span>- {{ formatNumber(invoice.discount_rate) }} {{ invoice.discount_type === 'percent' ? '%' : ''}}</span>
+							</div>
+						</div>
+
+						<div :class="{'is-offset': isDiscount && invoice.discount_rate > 0}">
+							<div v-for="(tax, i) in taxBased" :key="i" class="row small">
+								<div class="cell">
+									<span>Základ DPH {{ tax.rate }}%</span>
+								</div>
+								<div class="cell">
+									<span>{{ formatNumber(tax.total) }}</span>
+								</div>
 							</div>
 						</div>
 
@@ -362,12 +379,31 @@
 							})
 						} else {
 							bag.find(bagItem => {
-								if (bagItem.rate === item.tax_rate)
+
+								// Count total tax rate for percentage
+								if (bagItem.rate === item.tax_rate) {
 									bagItem.total += (item.price * item.amount)
+								}
 							})
 						}
 					}
 				})
+
+				// Count discount
+				if (this.isDiscount) {
+					bag.forEach(bagItem => {
+
+						if (this.invoice.discount_type === 'percent') {
+							bagItem.total -= bagItem.total * (this.invoice.discount_rate / 100)
+						}
+
+						if (this.invoice.discount_type === 'value') {
+							let percentage_of_discount = this.invoice.discount_rate / (this.total + this.invoice.discount_rate)
+
+							bagItem.total -= bagItem.total * percentage_of_discount
+						}
+					})
+				}
 
 				return bag
 			},
@@ -387,13 +423,32 @@
 
 						} else {
 
-							bag.find(bagItem => {
-								if (bagItem.rate === item.tax_rate)
+							bag.map(bagItem => {
+
+								// Count total tax rate for percentage
+								if (bagItem.rate === item.tax_rate) {
 									bagItem.total += (item.price * item.amount) * (item.tax_rate / 100)
+								}
 							})
 						}
 					}
 				})
+
+				// Count discount
+				if (this.isDiscount) {
+					bag.forEach(bagItem => {
+
+						if (this.invoice.discount_type === 'percent') {
+							bagItem.total -= bagItem.total * (this.invoice.discount_rate / 100)
+						}
+
+						if (this.invoice.discount_type === 'value') {
+							let percentage_of_discount = this.invoice.discount_rate / (this.total + this.invoice.discount_rate)
+
+							bagItem.total -= bagItem.total * percentage_of_discount
+						}
+					})
+				}
 
 				return bag
 			},
@@ -405,6 +460,7 @@
 
 						let total_without_tax = (item.price * item.amount)
 
+						// Count tax
 						if (item.tax_rate) {
 							total_without_tax += total_without_tax * (item.tax_rate / 100)
 						}
@@ -412,6 +468,18 @@
 						total += total_without_tax
 					}
 				})
+
+				// Count discount
+				if (this.isDiscount) {
+
+					if (this.invoice.discount_type === 'percent') {
+						total -= total * (this.invoice.discount_rate / 100)
+					}
+
+					if (this.invoice.discount_type === 'value') {
+						total -= this.invoice.discount_rate
+					}
+				}
 
 				return total
 			}
@@ -428,7 +496,7 @@
 			return {
 				isLoading: true,
 				isError: false,
-				isDiscount: false,
+				isDiscount: true,
 				isVatPayer: false,
 				clients: [],
 				latestInvoiceNumber: undefined,
@@ -472,13 +540,20 @@
 						{
 							id: 1,
 							description: 'Item 1',
-							amount: 1,
+							amount: 2,
 							tax_rate: 20,
 							price: 200,
-						}
+						},
+						{
+							id: 2,
+							description: 'Item 2',
+							amount: 1,
+							tax_rate: 10,
+							price: 100,
+						},
 					],
-					discount_type: 'percent',
-					discount_rate: '10',
+					discount_type: 'value',
+					discount_rate: 10,
 					client: '0354bab9-1b23-4d17-aa5f-fd8e9aaaf0a2',
 					client_avatar: '',
 					client_name: 'VueFileManager Inc.',
@@ -628,24 +703,17 @@
 	@import '@assets/vuefilemanager/_forms';
 
 	#page-content {
-		max-width: 1190px;
+		max-width: 1100px;
 	}
 
-	.order {
-		display: flex;
+	.content-page {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
 		margin-bottom: 30px;
+		gap: 50px;
 
-		.steps {
-			flex: 0 0 65%;
-			padding-right: 30px;
-
-			.form {
-				max-width: 100%;
-			}
-		}
-
-		.summary {
-			flex: 0 0 34%;
+		.form {
+			max-width: 100%;
 		}
 	}
 
@@ -719,6 +787,7 @@
 
 			span {
 				@include font-size(14);
+				font-weight: 600;
 			}
 		}
 	}
