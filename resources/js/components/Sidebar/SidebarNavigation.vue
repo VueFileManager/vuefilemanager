@@ -20,7 +20,7 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'InvoicesList'}" title="Invoices" class="icon-navigation-item shared">
+            <router-link :to="{name: 'InvoicesList'}" title="Invoices" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item shared">
                 <div class="button-icon">
                     <file-text-icon size="19" />
                 </div>
@@ -85,6 +85,14 @@
         },
         data() {
             return {
+				invoiceRoutes: [
+					'InvoicesList',
+					'InvoicesProfile',
+					'CreateClient',
+					'CreateInvoice',
+					'ClientDetail',
+					'ClientInvoices',
+				],
                 adminRoutes: [
                     'AppSettings',
                     'AppAppearance',
