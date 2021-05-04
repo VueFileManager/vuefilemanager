@@ -28,7 +28,7 @@
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="variable_number" rules="required" v-slot="{ errors }">
 									<input v-model.number="invoice.variable_number" placeholder="" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<small v-if="latestInvoiceNumber" class="input-help">
-										Recommendation based on your latest invoice number {{ latestInvoiceNumber }}
+										Recommendation based on your invoice number
 									</small>
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -55,20 +55,22 @@
 								</ValidationProvider>
 							</div>
 
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>ICO:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_ico" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
+							<div v-if="isNewClient" class="wrapper-inline">
+								<div class="block-wrapper">
+									<label>ICO:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
+										<input v-model="invoice.client_ico" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>DIC:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_dic" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
+								<div class="block-wrapper">
+									<label>DIC:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
+										<input v-model="invoice.client_dic" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
@@ -156,7 +158,7 @@
 									<div class="block-wrapper">
 										<label>Description:</label>
 										<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="description" rules="required" v-slot="{ errors }">
-											<input v-model="item.description" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+											<input v-model="item.description" ref="duplicatorItemTitle" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 											<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 										</ValidationProvider>
 									</div>
@@ -266,17 +268,17 @@
 								<span>Discount</span>
 							</div>
 							<div class="cell">
-								<span>- {{ formatNumber(invoice.discount_rate) }} {{ invoice.discount_type === 'percent' ? '%' : ''}}</span>
+								<span>-{{ invoice.discount_type === 'percent' ? formatNumber(invoice.discount_rate) + '%' : formatCurrency(invoice.discount_rate) }}</span>
 							</div>
 						</div>
 
 						<div :class="{'is-offset': isDiscount && invoice.discount_rate > 0}">
 							<div v-for="(tax, i) in taxBased" :key="i" class="row small">
 								<div class="cell">
-									<span>Základ DPH {{ tax.rate }}%</span>
+									<span>VAT Base {{ tax.rate }}%</span>
 								</div>
 								<div class="cell">
-									<span>{{ formatNumber(tax.total) }}</span>
+									<span>{{ formatCurrency(tax.total) }}</span>
 								</div>
 							</div>
 						</div>
@@ -284,10 +286,10 @@
 						<div :class="{'is-offset': taxSummary.length > 1}">
 							<div v-for="(tax, i) in taxSummary" :key="i" class="row small">
 								<div class="cell">
-									<span>DPH {{ tax.rate }}%</span>
+									<span>VAT {{ tax.rate }}%</span>
 								</div>
 								<div class="cell">
-									<span>{{ formatNumber(tax.total) }}</span>
+									<span>{{ formatCurrency(tax.total) }}</span>
 								</div>
 							</div>
 						</div>
@@ -297,7 +299,7 @@
 								<b>Spolu</b>
 							</div>
 							<div class="cell">
-								<b>{{ formatNumber(total) }}</b>
+								<b>{{ formatCurrency(total) }}</b>
 							</div>
 						</div>
 
@@ -371,7 +373,7 @@
 
 					if (item.price && item.amount && item.tax_rate) {
 
-						if (! bag.find(bagItem => bagItem.rate === item.tax_rate)) {
+						if (!bag.find(bagItem => bagItem.rate === item.tax_rate)) {
 
 							bag.push({
 								rate: item.tax_rate,
@@ -414,7 +416,7 @@
 
 					if (item.price && item.amount && item.tax_rate) {
 
-						if (! bag.find(bagItem => bagItem.rate === item.tax_rate)) {
+						if (!bag.find(bagItem => bagItem.rate === item.tax_rate)) {
 
 							bag.push({
 								rate: item.tax_rate,
@@ -487,9 +489,12 @@
 		watch: {
 			isDiscount(val) {
 				if (!val) {
-					this.invoice.discount_rate = null
-					this.invoice.discount_type = null
+					this.invoice.discount_rate = 10
+					this.invoice.discount_type = 'percent'
 				}
+			},
+			'invoice.invoice_number': function (val) {
+				this.invoice.variable_number = val
 			}
 		},
 		data() {
@@ -533,8 +538,8 @@
 				},
 				invoice: {
 					invoice_type: 'regular-invoice',
-					invoice_number: '2120001',
-					variable_number: '2120001',
+					invoice_number: undefined,
+					variable_number: undefined,
 					delivery_at: '2021-04-09',
 					items: [
 						{
@@ -592,6 +597,14 @@
 			}
 		},
 		methods: {
+			formatCurrency(value) {
+				return new Intl
+					.NumberFormat('cs-CS', {
+						style: 'currency',
+						currency: 'CZK'
+					})
+					.format(value)
+			},
 			formatNumber(value) {
 				return (Math.round(value * 100) / 100).toFixed(2);
 			},
@@ -644,7 +657,8 @@
 
 							Object.keys(error.response.data.errors).forEach(key => {
 
-								let obj = {}; obj[key] = error.response.data.errors[key]
+								let obj = {};
+								obj[key] = error.response.data.errors[key]
 
 								this.$refs.createInvoice.setErrors(obj);
 							})
@@ -661,13 +675,18 @@
 					})
 			},
 			addRow() {
+				let lastTaxRate = this.invoice.items.slice(-1).pop()
+
 				this.invoice.items.push({
 					id: Math.floor(Math.random() * 10000000),
 					description: '',
 					amount: 1,
-					tax_rate: 12,
-					price: 10,
+					tax_rate: lastTaxRate?.tax_rate || 0,
+					price: 1,
 				})
+
+				this.$nextTick(() => this.$refs.duplicatorItemTitle.slice(-1).pop().focus())
+
 			},
 			removeRow(item) {
 				this.invoice.items = this.invoice.items.filter(obj => obj.id !== item.id)
@@ -687,7 +706,6 @@
 					})
 
 					this.invoice.invoice_number = response.data.recommendedInvoiceNumber
-					this.invoice.variable_number = response.data.recommendedInvoiceNumber
 					this.latestInvoiceNumber = response.data.latestInvoiceNumber
 				})
 				.finally(() => {
