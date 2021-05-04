@@ -71,11 +71,12 @@ function invoice_tax_base($invoice)
 
     // Count tax base
     foreach ($invoice['items'] as $item) {
-        if ($bag->whereNotIn('rate', $item['tax_rate'])) {
+        if (! $bag->firstWhere('rate', $item['tax_rate'])) {
             $bag->push([
                 'rate' => $item['tax_rate'],
                 'total' => $item['price'] * $item['amount'],
             ]);
+
         } else {
             $bag->map(function ($bagItem) use ($item) {
                 if ($bagItem['rate'] === $item['tax_rate']) {
@@ -115,7 +116,7 @@ function invoice_tax_summary($invoice)
 
     // Count tax base
     foreach ($invoice['items'] as $item) {
-        if ($bag->whereNotIn('rate', $item['tax_rate'])) {
+        if (! $bag->firstWhere('rate', $item['tax_rate'])) {
             $bag->push([
                 'rate' => $item['tax_rate'],
                 'total' => ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100),

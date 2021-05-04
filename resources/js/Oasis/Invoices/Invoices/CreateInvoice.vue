@@ -4,7 +4,7 @@
 		<PageHeader :title="pageTitle" />
 
 		<div id="page-content">
-			<div class="content-page">
+			<div class="content-page" v-if="! isLoadingPage">
 				<ValidationObserver @submit.prevent="createInvoice" ref="createInvoice" v-slot="{ invalid }" tag="form" class="form block-form">
 					<PageTab>
 
@@ -183,7 +183,7 @@
 										<div class="block-wrapper">
 											<label>Price:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.price" placeholder="Type the item price..." type="number" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model.number="item.price" placeholder="Type the item price..." type="text" pattern="[0-9]{1,4}(\.[0-9]{2})?" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
@@ -294,7 +294,7 @@
 							</div>
 						</div>
 
-						<div class="row row-summary">
+						<div class="row" :class="{'row-summary': total > 0}">
 							<div class="cell">
 								<b>Spolu</b>
 							</div>
@@ -312,6 +312,9 @@
 					</div>
 				</div>
 			</div>
+			<div id="loader" v-if="isLoadingPage">
+				<Spinner />
+			</div>
 		</div>
 	</div>
 </template>
@@ -328,6 +331,7 @@
 	import PageTab from '@/components/Others/Layout/PageTab'
 	import PageHeader from '@/components/Others/PageHeader'
 	import InfoBox from '@/components/Others/Forms/InfoBox'
+	import Spinner from '@/components/FilesView/Spinner'
 	import {required} from 'vee-validate/dist/rules'
 	import {XIcon} from 'vue-feather-icons'
 	import {mapGetters} from 'vuex'
@@ -348,6 +352,7 @@
 			ButtonBase,
 			FormLabel,
 			required,
+			Spinner,
 			InfoBox,
 			PageTab,
 			XIcon,
@@ -499,9 +504,10 @@
 		},
 		data() {
 			return {
-				isLoading: true,
+				isLoadingPage: true,
+				isLoading: false,
 				isError: false,
-				isDiscount: true,
+				isDiscount: false,
 				isVatPayer: false,
 				clients: [],
 				latestInvoiceNumber: undefined,
@@ -541,23 +547,8 @@
 					invoice_number: undefined,
 					variable_number: undefined,
 					delivery_at: '2021-04-09',
-					items: [
-						{
-							id: 1,
-							description: 'Item 1',
-							amount: 2,
-							tax_rate: 20,
-							price: 200,
-						},
-						{
-							id: 2,
-							description: 'Item 2',
-							amount: 1,
-							tax_rate: 10,
-							price: 100,
-						},
-					],
-					discount_type: 'value',
+					items: [],
+					discount_type: 'percent',
 					discount_rate: 10,
 					client: '0354bab9-1b23-4d17-aa5f-fd8e9aaaf0a2',
 					client_avatar: '',
@@ -647,7 +638,12 @@
 							message: 'Invoice was created successfully',
 						})
 
-						// Go to invoice page
+						// Reload invoices and go to invoice page
+						this.$store.dispatch({
+							'regular-invoice': 'getRegularInvoices',
+							'advance-invoice': 'getAdvanceInvoices',
+						}[this.invoice.invoice_type])
+
 						this.$router.push({name: 'InvoicesList'})
 					})
 					.catch(error => {
@@ -681,7 +677,7 @@
 					id: Math.floor(Math.random() * 10000000),
 					description: '',
 					amount: 1,
-					tax_rate: lastTaxRate?.tax_rate || 0,
+					tax_rate: lastTaxRate?.tax_rate || 20,
 					price: 1,
 				})
 
@@ -709,7 +705,7 @@
 					this.latestInvoiceNumber = response.data.latestInvoiceNumber
 				})
 				.finally(() => {
-					this.isLoading = false
+					this.isLoadingPage = false
 				})
 		}
 	}
@@ -807,6 +803,14 @@
 				@include font-size(14);
 				font-weight: 600;
 			}
+		}
+	}
+
+	@media only screen and (max-width: 970px) {
+		.content-page {
+			grid-template-columns: 1fr;
+			margin-bottom: 30px;
+			gap: 0;
 		}
 	}
 </style>

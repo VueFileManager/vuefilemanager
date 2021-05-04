@@ -25,7 +25,7 @@
 
     .wrapper-inline {
       display: flex;
-      margin: 0 -15px;
+      margin: 0 -15px 32px;
 
       .block-wrapper {
         width: 100%;
@@ -34,7 +34,7 @@
     }
 
     .block-wrapper {
-      margin-bottom: 32px;
+      margin-bottom: 22px;
 
       label {
         @include font-size(14);
