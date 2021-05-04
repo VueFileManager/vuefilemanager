@@ -61,7 +61,7 @@
         <!--Supplier-->
         <section>
             <div class="supplier">
-                <div class="box">
+                <div class="box" style="width: 500px;">
                     <h3>Odberateľ:</h3>
                     <p>{{ $invoice->client['name'] }}</p>
                     <p>{{ $invoice->client['address'] }}, {{ $invoice->client['city'] }}</p>

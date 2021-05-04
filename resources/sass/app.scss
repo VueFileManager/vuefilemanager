@@ -65,7 +65,7 @@
 .duplicator {
 
   .duplicator-add-button {
-    //width: 100%;
+    width: 100%;
   }
 
   .duplicator-item {
@@ -109,7 +109,7 @@
       border-radius: 0;
       padding: 0 0 8px;
 
-      &:focus {
+      &:focus, &.is-error {
         border-top-color: transparent !important;
         border-left-color: transparent !important;
         border-right-color: transparent !important;

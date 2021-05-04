@@ -28,8 +28,8 @@ class StoreInvoiceRequest extends FormRequest
             'variable_number' => 'required|string',
             'client' => 'required',
             'items' => 'required|string',
-            'discount_type' => 'nullable|string',
-            'discount_rate' => 'nullable|integer',
+            'discount_type' => 'sometimes|string',
+            'discount_rate' => 'sometimes|integer',
             'delivery_at' => 'required|date',
         ];
     }

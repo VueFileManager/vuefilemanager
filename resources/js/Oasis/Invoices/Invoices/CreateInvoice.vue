@@ -15,7 +15,7 @@
 							<div class="block-wrapper">
 								<label>Invoice Number:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="invoice_number" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.invoice_number" placeholder="" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.invoice_number" placeholder="Type invoice number..." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<small v-if="latestInvoiceNumber" class="input-help">
 										Recommendation based on your latest invoice number {{ latestInvoiceNumber }}
 									</small>
@@ -26,7 +26,7 @@
 							<div class="block-wrapper">
 								<label>Variable Number:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="variable_number" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.variable_number" placeholder="" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.variable_number" placeholder="Type variable number..." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<small v-if="latestInvoiceNumber" class="input-help">
 										Recommendation based on your invoice number
 									</small>
@@ -36,8 +36,8 @@
 
 							<div class="block-wrapper">
 								<label>Delivery At:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="variable_number" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.delivery_at" placeholder="" type="date" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="delivery_at" rules="required" v-slot="{ errors }">
+									<input v-model="invoice.delivery_at" type="date" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -49,7 +49,7 @@
 
 							<div class="block-wrapper">
 								<label>Client:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="invoice_type" rules="required" v-slot="{ errors }">
+								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client" rules="required" v-slot="{ errors }">
 									<SelectInput v-model="invoice.client" :options="clients" placeholder="Create new or select existing client..." :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -59,7 +59,7 @@
 								<div class="block-wrapper">
 									<label>ICO:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_ico" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_ico" placeholder="Type client ICO..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
@@ -67,7 +67,7 @@
 								<div class="block-wrapper">
 									<label>DIC:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_dic" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_dic" placeholder="Type client DIC..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
@@ -76,7 +76,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>IC DPH (optional):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ic_dph" v-slot="{ errors }">
-									<input v-model="invoice.client_ic_dph" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_ic_dph" placeholder="Type client IC DHP..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -84,7 +84,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>Company name:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_name" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_name" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_name" placeholder="Type client company name..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -92,7 +92,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>Address:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_address" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_address" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_address" placeholder="Type client address..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -101,7 +101,7 @@
 								<div class="block-wrapper">
 									<label>City:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_city" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_city" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_city" placeholder="Type client city..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
@@ -109,7 +109,7 @@
 								<div class="block-wrapper">
 									<label>Postal Code:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_postal_code" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_postal_code" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_postal_code" placeholder="Type client postal code..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
@@ -118,7 +118,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>Country:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_country" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" placeholder="" :isError="errors[0]" />
+									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" placeholder="Select client country" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -126,7 +126,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>Phone (optional):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_phone_number" v-slot="{ errors }">
-									<input v-model="invoice.client_phone_number" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_phone_number" placeholder="Type client's phone number..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -134,7 +134,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>Email (optional):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_email" v-slot="{ errors }">
-									<input v-model="invoice.client_email" placeholder="" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_email" placeholder="Type client's email address..." type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -153,7 +153,7 @@
 
 							<div class="duplicator">
 								<div class="plan-item duplicator-item" v-for="(item, index) in invoice.items" :key="index++">
-									<x-icon @click="removeRow(item)" v-if="index !== 0" size="22" class="delete-item hover-text-theme" />
+									<x-icon @click="removeRow(item)" v-if="index !== 1" size="22" class="delete-item hover-text-theme" />
 
 									<div class="block-wrapper">
 										<label>Description:</label>
@@ -190,7 +190,7 @@
 									</div>
 								</div>
 
-								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme" style="width: 100%">
+								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme">
 									Add New Item
 								</ButtonBase>
 							</div>
@@ -201,7 +201,7 @@
 							<FormLabel icon="credit-card">Discount</FormLabel>
 
 							<div class="block-wrapper">
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" v-slot="{ errors }">
+								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
 											<label class="input-label">Apply discount:</label>
@@ -209,13 +209,13 @@
 										</div>
 										<SwitchInput v-model="isDiscount" class="switch" :state="isDiscount" />
 									</div>
-								</ValidationProvider>
+								</div>
 							</div>
 
 							<div v-if="isDiscount" class="block-wrapper">
 								<label>Discount Type:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="discount_type" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.discount_type" :default="invoice.discount_type" :options="discountTypeList" placeholder="" :isError="errors[0]" />
+									<SelectInput v-model="invoice.discount_type" :default="invoice.discount_type" :options="discountTypeList" placeholder="Select discount type" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -223,7 +223,7 @@
 							<div v-if="isDiscount" class="block-wrapper">
 								<label>Discount Rate:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="discount_rate" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.discount_rate" placeholder="" max="100" min="0" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.discount_rate" placeholder="Type discount rate..." max="100" min="0" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -234,7 +234,7 @@
 							<FormLabel icon="settings">Others</FormLabel>
 
 							<div v-if="isNewClient && invoice.client_email" class="block-wrapper">
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" v-slot="{ errors }">
+								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
 											<label class="input-label">Store client for future use:</label>
@@ -242,11 +242,11 @@
 										</div>
 										<SwitchInput v-model="invoice.send_invoice" class="switch" :state="invoice.send_invoice" />
 									</div>
-								</ValidationProvider>
+								</div>
 							</div>
 
 							<div class="block-wrapper">
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" v-slot="{ errors }">
+								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
 											<label class="input-label">Send invoice on client's email:</label>
@@ -254,7 +254,7 @@
 										</div>
 										<SwitchInput v-model="invoice.send_invoice" class="switch" :state="invoice.send_invoice" />
 									</div>
-								</ValidationProvider>
+								</div>
 							</div>
 						</PageTabGroup>
 					</PageTab>
@@ -511,22 +511,22 @@
 				isVatPayer: false,
 				clients: [],
 				latestInvoiceNumber: undefined,
-				_invoice: {
+				invoice: {
 					invoice_type: '',
 					invoice_number: '',
 					variable_number: '',
 					delivery_at: '',
 					items: [
 						{
-							id: 1,
+							id: Math.floor(Math.random() * 10000000),
 							description: '',
 							amount: 1,
-							tax_rate: undefined,
+							tax_rate: 21,
 							price: undefined,
 						}
 					],
-					discount_type: null,
-					discount_rate: null,
+					discount_type: undefined,
+					discount_rate: undefined,
 					client: '',
 					client_avatar: '',
 					client_name: '',
@@ -542,7 +542,7 @@
 					send_invoice: true,
 					store_client: true,
 				},
-				invoice: {
+				/*invoice: {
 					invoice_type: 'regular-invoice',
 					invoice_number: undefined,
 					variable_number: undefined,
@@ -564,7 +564,7 @@
 					client_ic_dph: 'SK2023489457',
 					send_invoice: false,
 					store_client: true,
-				},
+				},*/
 				invoiceTypeList: [
 					{
 						label: 'Regular Invoice',
@@ -605,6 +605,7 @@
 
 				if (!isValid) {
 					this.isError = true
+					this.errorMessage = 'There is probably an error, please check it and fix it.'
 					return
 				}
 
@@ -620,7 +621,8 @@
 					if (key === 'items') {
 						formData.append(key, JSON.stringify(this.invoice[key]))
 					} else {
-						formData.append(key, this.invoice[key])
+						if (this.invoice[key])
+							formData.append(key, this.invoice[key])
 					}
 				})
 
@@ -677,7 +679,7 @@
 					id: Math.floor(Math.random() * 10000000),
 					description: '',
 					amount: 1,
-					tax_rate: lastTaxRate?.tax_rate || 20,
+					tax_rate: lastTaxRate?.tax_rate || 21,
 					price: 1,
 				})
 
@@ -685,8 +687,19 @@
 
 			},
 			removeRow(item) {
-				this.invoice.items = this.invoice.items.filter(obj => obj.id !== item.id)
+				if (this.invoice.items.length > 1)
+					this.invoice.items = this.invoice.items.filter(obj => obj.id !== item.id)
 			},
+			get_recommended_delivery_date() {
+				let now = new Date(),
+					delivery_time = now.setDate(now.getDate() + 2 * 7)
+
+				let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(delivery_time),
+					month = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(delivery_time),
+					day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(delivery_time)
+
+				this.invoice.delivery_at = `${year}-${month}-${day}`
+			}
 		},
 		mounted() {
 			this.invoice.invoice_type = this.$route.query.type
@@ -703,6 +716,8 @@
 
 					this.invoice.invoice_number = response.data.recommendedInvoiceNumber
 					this.latestInvoiceNumber = response.data.latestInvoiceNumber
+
+					this.get_recommended_delivery_date()
 				})
 				.finally(() => {
 					this.isLoadingPage = false
@@ -734,6 +749,7 @@
 	.summary-list {
 		box-shadow: 0 7px 20px 5px hsla(220, 36%, 16%, 0.06);
 		border-radius: 8px;
+		min-width: 300px;
 		position: sticky;
 		padding: 25px;
 		top: 85px;
@@ -803,6 +819,13 @@
 				@include font-size(14);
 				font-weight: 600;
 			}
+		}
+	}
+
+	.duplicator {
+
+		.wrapper-inline {
+			margin-bottom: 0 !important;
 		}
 	}
 

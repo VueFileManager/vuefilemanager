@@ -251,10 +251,12 @@ export default {
 }
 
 #pdf-wrapper {
-    overflow-y: scroll;
+	border-radius: 8px;
+	box-shadow: $light_mode_popup_shadow;
+	overflow-y: scroll;
     margin: 0 auto;
     position: absolute;
-    top: 0;
+    top: 20px;
     left: 0;
     right: 0;
     bottom: 0;
