@@ -142,6 +142,8 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Get data for frontend invoice creator
+     *
      * @return array
      */
     public function editor()
@@ -158,11 +160,11 @@ class InvoiceController extends Controller
             'isVatPayer' => $user->invoiceProfile->ic_dph
                 ? true
                 : false,
-            'latestInvoiceNumber' => $user->regularInvoices->last()
-                ? (int) $user->regularInvoices->last()->invoice_number
+            'latestInvoiceNumber' => $user->regularInvoices->first()
+                ? (int) $user->regularInvoices->first()->invoice_number
                 : null,
-            'recommendedInvoiceNumber' => $user->regularInvoices->last()
-                ? (int) $user->regularInvoices->last()->invoice_number + 1
+            'recommendedInvoiceNumber' => $user->regularInvoices->first()
+                ? (int) $user->regularInvoices->first()->invoice_number + 1
                 : Carbon::now()->format('Y') . '0001',
         ];
     }

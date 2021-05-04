@@ -66,7 +66,6 @@ class OasisInvoiceTest extends TestCase
         ];
 
         $this->assertEquals(4, invoice_item_only_tax_price($item));
-        $this->assertEquals('4,00 Kč', invoice_item_only_tax_price($item, true));
     }
 
     /**
@@ -82,7 +81,6 @@ class OasisInvoiceTest extends TestCase
         ];
 
         $this->assertEquals(24, invoice_item_with_tax_price($item));
-        $this->assertEquals('24,00 Kč', invoice_item_with_tax_price($item, true));
     }
 
     /**
@@ -91,8 +89,9 @@ class OasisInvoiceTest extends TestCase
     public function it_test_invoice_total_net()
     {
         $invoice = [
-            'currency' => 'CZK',
-            'items'    => [
+            'discount_type' => null,
+            'currency'      => 'CZK',
+            'items'         => [
                 [
                     'description' => 'Test 1',
                     'amount'      => 1,
@@ -108,54 +107,7 @@ class OasisInvoiceTest extends TestCase
             ]
         ];
 
-        $this->assertEquals(170, invoice_total_net($invoice));
-        $this->assertEquals('170,00 Kč', invoice_total_net($invoice, true));
-    }
-
-    /**
-     * @test
-     */
-    public function it_test_invoice_total_discount_as_percent()
-    {
-        $invoice = [
-            'currency'      => 'CZK',
-            'discount_type' => 'percent',
-            'discount_rate' => 15,
-            'items'         => [
-                [
-                    'description' => 'Test 1',
-                    'amount'      => 1,
-                    'tax_rate'    => 0,
-                    'price'       => 200,
-                ],
-            ]
-        ];
-
-        $this->assertEquals(30, invoice_total_discount($invoice));
-        $this->assertEquals('30,00 Kč', invoice_total_discount($invoice, true));
-    }
-
-    /**
-     * @test
-     */
-    public function it_test_invoice_total_discount_as_value()
-    {
-        $invoice = [
-            'currency'      => 'CZK',
-            'discount_type' => 'value',
-            'discount_rate' => 18,
-            'items'         => [
-                [
-                    'description' => 'Test 1',
-                    'amount'      => 1,
-                    'tax_rate'    => 20,
-                    'price'       => 100,
-                ],
-            ]
-        ];
-
-        $this->assertEquals(18, invoice_total_discount($invoice));
-        $this->assertEquals('18,00 Kč', invoice_total_discount($invoice, true));
+        $this->assertEquals(204, invoice_total($invoice));
     }
 
     /**
@@ -184,7 +136,6 @@ class OasisInvoiceTest extends TestCase
         ];
 
         $this->assertEquals(40, invoice_total_tax($invoice));
-        $this->assertEquals('40,00 Kč', invoice_total_tax($invoice, true));
     }
 
     /**

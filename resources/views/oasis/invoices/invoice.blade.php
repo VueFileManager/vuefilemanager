@@ -5,7 +5,7 @@
     <meta http-equiv="Pragma" content="no-cache">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     @if(is_route('invoice-debug'))
         <link rel="stylesheet" href="{{ mix('css/oasis-invoice.css') }}">
@@ -27,9 +27,10 @@
         <div class="row">
             <div class="col-left">
 
-                {{--TODO: pridat textove logo--}}
                 @if($user->invoiceProfile->logo)
                     <img class="logo" src="{{ base64_from_storage_image($user->invoiceProfile->logo) }}">
+                @else
+                    <h1>{{ $user->invoiceProfile->company }}</h1>
                 @endif
 
                 <b class="email">{{ $user->invoiceProfile->email }}</b>
@@ -80,7 +81,7 @@
 
         <div class="content-box">
             <h3>Dodávateľ:</h3>
-            <p>{{ $invoice->user['company'] }}</p>
+            <p style="padding-bottom: 0">{{ $invoice->user['company'] }}</p>
             <small>{{ $invoice->user['registration_notes'] }}</small>
         </div>
 
@@ -90,7 +91,7 @@
             <p>{{ $invoice->user['postal_code'] }}, {{ $invoice->user['country'] }}</p>
         </div>
 
-        <div class="content-box">
+        <div class="content-box" style="padding-bottom: 0px">
             <h3>Faktúračné údaje:</h3>
 
             @isset($invoice->user['ico'])
@@ -191,10 +192,10 @@
 
                     @if($invoice->user['ic_dph'])
                         <td class="table-cell">
-                            <span>{{ invoice_item_only_tax_price($item, true) }}</span>
+                            <span>{{ format_to_currency(invoice_item_only_tax_price($item)) }}</span>
                         </td>
                         <td class="table-cell">
-                            <span>{{ invoice_item_with_tax_price($item, true) }}</span>
+                            <span>{{ format_to_currency(invoice_item_with_tax_price($item)) }}</span>
                         </td>
                     @endif
                 </tr>
@@ -203,64 +204,42 @@
     </table>
 
     {{--Item Summary--}}
-    {{--TODO: doplnit vypis za danove sadzby--}}
-    {{--TODO: dokoncit prepocitavanie zlav--}}
     <ul class="summary">
 
         @if($invoice->discount_type)
-            <li class="row">
+            <li class="row" style="padding-bottom: 8px">
                 <span>Zlava za doklad:</span>
-                <!-- -32,64-->
-                <span>-{{ invoice_total_discount($invoice, true) }}</span>
+                <span>-{{ $invoice->discount_type === 'percent' ? $invoice->discount_rate . '%' : format_to_currency($invoice->discount_rate) }}</span>
             </li>
         @endif
 
-        {{--VAT Payer--}}
-        @if($invoice->user['ic_dph'] && ! $invoice->discount_type)
-            <li class="row">
-                <span>Cena bez DPH:</span>
-                <span>{{ format_to_currency($invoice->total_net) }}</span>
-            </li>
-            <li class="row">
-                <span>DPH:</span>
-                <span>{{ format_to_currency($invoice->total_tax) }}</span>
-            </li>
+        {{--VAT Base--}}
+        @if($invoice->user['ic_dph'])
+            <div style="padding-bottom: 8px">
+                @foreach(invoice_tax_base($invoice) as $item)
+                    <li class="row">
+                        <span>VAT Base {{ $item['rate'] }}%: </span>
+                        <span>{{ format_to_currency($item['total']) }}</span>
+                    </li>
+                @endforeach
+            </div>
         @endif
 
-        {{--VAT Payer with Discount--}}
-        @if($invoice->user['ic_dph'] && $invoice->discount_type)
-            <li class="row">
-                <span>Cena bez DPH:</span>
-                <span>
-                    @if($invoice->discount_type === 'percent')
-                        <!--244,80-->
-                        {{ format_to_currency($invoice->total_net * ((100 - $invoice->discount_rate) / 100)) }}
-                    @endif
-                    @if($invoice->discount_type === 'value')
-                        <!--263,67-->
-                            {{ format_to_currency(($invoice->total_net + invoice_total_tax($invoice)) / ((100 - $invoice->discount_rate) / 100)) }}
-                        @endif
-                </span>
-            </li>
-            <li class="row">
-                <span>DPH:</span>
-                @if($invoice->discount_type === 'percent')
-                    <!--48,96-->
-                    <span>{{ format_to_currency(invoice_total_tax($invoice) * ((100 - $invoice->discount_rate) / 100)) }}</span>
-                @endif
-                @if($invoice->discount_type === 'value')
-                    <!--52,73-->
-                @endif
-            </li>
+        {{--VAT Summary--}}
+        @if($invoice->user['ic_dph'])
+            <div style="padding-bottom: 8px">
+                @foreach(invoice_tax_summary($invoice) as $item)
+                    <li class="row">
+                        <span>VAT {{ $item['rate'] }}%: </span>
+                        <span>{{ format_to_currency($item['total']) }}</span>
+                    </li>
+                @endforeach
+            </div>
         @endif
 
         <li class="row">
             <b>Spolu k úhrade:</b>
-            @if($invoice->user['ic_dph'])
-                <b>{{ format_to_currency(invoice_total_net($invoice) + invoice_total_tax($invoice)) }}</b>
-            @else
-                <b>{{ format_to_currency(invoice_total_net($invoice)) }}</b>
-            @endif
+            <b>{{ format_to_currency(invoice_total($invoice)) }}</b>
         </li>
     </ul>
 
@@ -278,7 +257,7 @@
         </div>
         <div class="sign">
             @if(is_route('invoice-debug') && $user->invoiceProfile->stamp)
-                <img src="{{ $user->invoiceProfile->stamp }}">
+                <img src="/{{ $user->invoiceProfile->stamp }}">
             @endif
 
             @if(! is_route('invoice-debug') && $user->invoiceProfile->stamp)

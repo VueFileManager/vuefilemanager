@@ -118,7 +118,7 @@ html {
 }
 
 .special-wrapper {
-    padding-bottom: 25px;
+    padding-bottom: 20px;
     border-bottom: 1px dashed $border-color;
     margin: 0 -5px 25px;
 
@@ -217,7 +217,7 @@ html {
 
         span, a {
             vertical-align: middle;
-            font-weight: 500;
+            font-weight: 600;
             @include font-size(9);
         }
     }
@@ -225,7 +225,7 @@ html {
 
 .summary {
     max-width: 300px;
-    margin: 20px 0 20px auto;
+    margin: 15px 0 10px auto;
     text-align: right;
 
     li {
@@ -253,7 +253,7 @@ html {
 }
 
 .notes {
-    padding-top: 25px;
+    padding-top: 20px;
     border-top: 1px dashed $border-color;
 }
 
@@ -268,7 +268,7 @@ html {
     }
 
     img {
-        max-width: 240px;
+        max-height: 125px;
         display: block;
         margin: 0 0 0 auto;
     }
@@ -296,7 +296,7 @@ h3 {
 }
 
 p, span {
-    font-weight: 400;
+    font-weight: 600;
     padding-bottom: 4px;
     @include font-size(10);
     color: $text-color;
@@ -308,8 +308,8 @@ p, span {
 
 section, header {
     border-bottom: 1px dashed $border-color;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .address, .number {

@@ -63,8 +63,7 @@ class Invoice extends Model
             $invoice->delivery_at = $invoice->created_at;
             $invoice->due_at = Carbon::parse($invoice->created_at)->addWeeks(2);
 
-            $invoice->total_discount = invoice_total_discount($invoice);
-            $invoice->total_net = invoice_total_net($invoice);
+            $invoice->total_net = invoice_total($invoice);
             $invoice->total_tax = invoice_total_tax($invoice);
 
             $invoice->currency = 'CZK';

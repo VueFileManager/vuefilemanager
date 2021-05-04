@@ -43,81 +43,138 @@ function invoice_path($invoice)
  * Get only tax for single invoice item
  *
  * @param $item
- * @param false $format
  * @return float|int|string
  */
-function invoice_item_only_tax_price($item, $format = false)
+function invoice_item_only_tax_price($item)
 {
-    $tax = ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100);
-
-    if ($format) {
-        return Cashier::formatAmount($tax * 100, 'CZK', 'cs');
-    }
-
-    return $tax;
+    return ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100);
 }
 
 /**
  * Get item price with tax for single invoice item
  *
  * @param $item
- * @param false $format
  * @return float|int|string
  */
-function invoice_item_with_tax_price($item, $format = false)
+function invoice_item_with_tax_price($item)
 {
-    $tax = ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100 + 1);
-
-    if ($format) {
-        return Cashier::formatAmount($tax * 100, 'CZK', 'cs');
-    }
-
-    return $tax;
+    return ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100 + 1);
 }
 
 /**
  * @param $invoice
- * @param false $format
- * @return float|int|mixed|string
+ * @return \Illuminate\Support\Collection
  */
-function invoice_total_discount($invoice, $format = false)
+function invoice_tax_base($invoice)
 {
-    // Percent discount
-    if ($invoice['discount_type'] === 'percent') {
-        $discount = (int) (invoice_total_net($invoice) + invoice_total_tax($invoice)) * ($invoice['discount_rate'] / 100);
+    $bag = collect([]);
 
-        if ($format) {
-            return Cashier::formatAmount($discount * 100, $invoice['currency'], 'cs');
+    // Count tax base
+    foreach ($invoice['items'] as $item) {
+        if ($bag->whereNotIn('rate', $item['tax_rate'])) {
+            $bag->push([
+                'rate' => $item['tax_rate'],
+                'total' => $item['price'] * $item['amount'],
+            ]);
+        } else {
+            $bag->map(function ($bagItem) use ($item) {
+                if ($bagItem['rate'] === $item['tax_rate']) {
+                    $bagItem['total'] += ($item['price'] * $item['amount']);
+                }
+            });
         }
-
-        return $discount;
     }
 
-    // Value discount
-    if ($invoice['discount_type'] === 'value') {
-        if ($format) {
-            return Cashier::formatAmount($invoice['discount_rate'] * 100, $invoice['currency'], 'cs');
-        }
+    // Count discount
+    if ($invoice['discount_type']) {
+        return $bag->map(function ($bagItem) use ($invoice) {
+            if ($invoice['discount_type'] === 'percent') {
+                $bagItem['total'] -= $bagItem['total'] * ($invoice['discount_rate'] / 100);
+            }
 
-        return $invoice['discount_rate'];
+            if ($invoice['discount_type'] === 'value') {
+                $percentage_of_discount = $invoice['discount_rate'] / (invoice_total($invoice) + $invoice['discount_rate']);
+
+                $bagItem['total'] -= $bagItem['total'] * $percentage_of_discount;
+            }
+
+            return $bagItem;
+        });
     }
+
+    return $bag;
 }
 
 /**
  * @param $invoice
- * @param false $format
+ * @return \Illuminate\Support\Collection
+ */
+function invoice_tax_summary($invoice)
+{
+    $bag = collect([]);
+
+    // Count tax base
+    foreach ($invoice['items'] as $item) {
+        if ($bag->whereNotIn('rate', $item['tax_rate'])) {
+            $bag->push([
+                'rate' => $item['tax_rate'],
+                'total' => ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100),
+            ]);
+        } else {
+            $bag->map(function ($bagItem) use ($item) {
+                if ($bagItem['rate'] === $item['tax_rate']) {
+                    $bagItem['total'] += ($item['price'] * $item['amount']) * ($item['tax_rate'] / 100);
+                }
+            });
+        }
+    }
+
+    // Count discount
+    if ($invoice['discount_type']) {
+        return $bag->map(function ($bagItem) use ($invoice) {
+            if ($invoice['discount_type'] === 'percent') {
+                $bagItem['total'] -= $bagItem['total'] * ($invoice['discount_rate'] / 100);
+            }
+
+            if ($invoice['discount_type'] === 'value') {
+                $percentage_of_discount = $invoice['discount_rate'] / (invoice_total($invoice) + $invoice['discount_rate']);
+
+                $bagItem['total'] -= $bagItem['total'] * $percentage_of_discount;
+            }
+
+            return $bagItem;
+        });
+    }
+
+    return $bag;
+}
+
+/**
+ * @param $invoice
  * @return float|int|string
  */
-function invoice_total_net($invoice, $format = false)
+function invoice_total($invoice)
 {
     $total = 0;
 
     foreach ($invoice['items'] as $item) {
-        $total += $item['amount'] * $item['price'];
+        $total_without_tax = $item['amount'] * $item['price'];
+
+        if ($item['tax_rate']) {
+            $total_without_tax += $total_without_tax * ($item['tax_rate'] / 100);
+        }
+
+        $total += $total_without_tax;
     }
 
-    if ($format) {
-        return Cashier::formatAmount(($total * 100), $invoice['currency'], 'cs');
+    if ($invoice['discount_type']) {
+        if ($invoice['discount_type'] === 'percent') {
+            $total -= $total * ($invoice['discount_rate'] / 100);
+        }
+
+        if ($invoice['discount_type'] === 'value') {
+            $total -= $invoice['discount_rate'];
+        }
     }
 
     return $total;
@@ -128,7 +185,7 @@ function invoice_total_net($invoice, $format = false)
  * @param false $format
  * @return float|int|string
  */
-function invoice_total_tax($invoice, $format = false)
+function invoice_total_tax($invoice)
 {
     $total = 0;
 
@@ -136,20 +193,18 @@ function invoice_total_tax($invoice, $format = false)
         $total += ($item['amount'] * $item['price']) * ($item['tax_rate'] / 100);
     }
 
-    if ($format) {
-        return Cashier::formatAmount(($total * 100), $invoice['currency'], 'cs');
-    }
-
     return $total;
 }
 
 /**
  * @param $value
- * @param $currency
+ * @param string $currency
  * @param string $locale
  * @return string
  */
 function format_to_currency($value, $currency = 'CZK', $locale = 'cs')
 {
-    return Cashier::formatAmount(((int) $value * 100), $currency, $locale);
+    $amount = round($value, 2) * 100;
+
+    return Cashier::formatAmount((int) $amount, $currency, $locale);
 }
