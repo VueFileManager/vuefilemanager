@@ -28,14 +28,16 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::get('/advance', [InvoiceController::class, 'get_all_advance_invoices']);
         Route::get('/search', [InvoiceController::class, 'search']);
 
-        Route::post('/', [InvoiceController::class, 'store']);
-        Route::delete('/{invoice}', [InvoiceController::class, 'destroy']);
-
         Route::get('/profile', [InvoiceProfileController::class, 'show']);
         Route::post('/profile', [InvoiceProfileController::class, 'store']);
         Route::patch('/profile', [InvoiceProfileController::class, 'update']);
 
         Route::get('/editor', [InvoiceController::class, 'editor']);
+
+        Route::get('/{invoice}', [InvoiceController::class, 'get_single_invoice']);
+        Route::delete('/{invoice}', [InvoiceController::class, 'destroy']);
+        Route::post('/{invoice}', [InvoiceController::class, 'update']);
+        Route::post('/', [InvoiceController::class, 'store']);
     });
 
     // Clients
@@ -56,9 +58,9 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
 Route::group(['middleware' => 'web', 'prefix' => 'oasis'], function () {
     Route::post('/subscribe/{order}/set-password', [SubscriptionController::class, 'set_password']);
 
-    // Admin
+    // Invoices
     Route::group(['middleware' => 'auth:sanctum'], function () {
-        Route::get('/invoice/{invoice}', [InvoiceController::class, 'get_invoice']);
+        Route::get('/invoice/{invoice}', [InvoiceController::class, 'download_invoice']);
     });
 });
 

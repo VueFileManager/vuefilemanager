@@ -91,6 +91,9 @@ return [
     'in_editor.page.create_regular_invoice' => 'Create Regular Invoice',
     'in_editor.page.create_advance_invoice' => 'Create Advance Invoice',
 
+    'in_editor.page.edit_regular_invoice' => 'Edit Regular Invoice',
+    'in_editor.page.edit_advance_invoice' => 'Edit Advance Invoice',
+
     'in_number' => 'Invoice Number',
     'in_variable' => 'Variable Number',
     'in_delivery_at' => 'Delivery At',

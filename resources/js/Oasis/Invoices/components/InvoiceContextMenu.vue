@@ -4,7 +4,7 @@
         <!--Invoice-->
         <div v-show="isInvoice" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="" title="Edit Invoice" icon="rename" />
+                <Option @click.native="editItem" title="Edit Invoice" icon="rename" />
                 <Option @click.native="" title="Send Invoice" icon="send" />
                 <Option @click.native="goToCompany" title="Go to Company" icon="user" />
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
@@ -95,9 +95,12 @@ export default {
             // Show panel if is not open
             this.$store.dispatch('fileInfoToggle', true)
         },
+		editItem() {
+			this.$router.push({name: 'EditInvoice', params: {id: this.item.id}})
+		},
         deleteItem() {
 			events.$emit('confirm:open', {
-				title: `Are you sure you want to delete invoice number ${this.item.invoiceNumber}?`,
+				title: `Are you sure you want to delete invoice number ${this.item.invoice_number}?`,
 				message: 'Your invoice will be permanently deleted.',
 				buttonColor: 'danger-solid',
 				action: {

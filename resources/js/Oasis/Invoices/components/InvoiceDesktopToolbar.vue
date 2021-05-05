@@ -36,7 +36,7 @@
 				<!--Invoice Controls-->
 				<ToolbarGroup v-if="! $isMobile()">
                     <ToolbarButton @click.native="shareInvoice" :class="{'is-inactive': canActiveInView }" source="send" :action="$t('actions.share')" />
-                    <ToolbarButton @click.native="shareInvoice" :class="{'is-inactive': canActiveInView }" source="rename" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="editInvoice" :class="{'is-inactive': canActiveInView }" source="rename" :action="$t('actions.share')" />
                     <ToolbarButton @click.native="deleteInvoice" :class="{'is-inactive': canActiveInView }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
 
@@ -131,7 +131,7 @@
 				if (this.clipboard.length > 0) {
 
 					events.$emit('confirm:open', {
-						title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoiceNumber}?`,
+						title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoice_number}?`,
 						message: 'Your invoice will be permanently deleted.',
 						buttonColor: 'danger-solid',
 						action: {
@@ -143,6 +143,9 @@
 			},
 			shareInvoice() {
 				alert('Send Invoice')
+			},
+			editInvoice() {
+				this.$router.push({name: 'EditInvoice', params: {id: this.clipboard[0].id}})
 			},
 		},
 	}

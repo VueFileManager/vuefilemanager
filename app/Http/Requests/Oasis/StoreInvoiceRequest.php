@@ -23,10 +23,10 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'invoice_type' => 'required|string',
+            'invoice_type' => 'sometimes|string',
             'invoice_number' => 'required|string',
             'variable_number' => 'required|string',
-            'client' => 'required',
+            'client' => 'sometimes|required',
             'items' => 'required|string',
             'discount_type' => 'sometimes|string',
             'discount_rate' => 'sometimes|integer',

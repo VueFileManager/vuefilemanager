@@ -14,7 +14,7 @@
                     <tr>
                         <td>
                             <span class="cell-item">
-                                {{ row.data.attributes.invoiceNumber }}
+                                {{ row.data.attributes.invoice_number }}
                             </span>
                         </td>
                         <td>
@@ -32,7 +32,7 @@
 								<a @click="downloadItem(row)">
 									<DownloadCloudIcon size="15" class="icon" />
 								</a>
-                                <router-link :to="{name: 'ClientDetail'}">
+                                <router-link :to="{name: 'EditInvoice', params: {id: row.data.id}}">
                                     <edit2-icon size="15" class="icon" />
                                 </router-link>
                             </div>

@@ -161,7 +161,7 @@ function invoice_total($invoice)
     foreach ($invoice['items'] as $item) {
         $total_without_tax = $item['amount'] * $item['price'];
 
-        if ($item['tax_rate']) {
+        if ($invoice['user']['ic_dph'] && $item['tax_rate']) {
             $total_without_tax += $total_without_tax * ($item['tax_rate'] / 100);
         }
 

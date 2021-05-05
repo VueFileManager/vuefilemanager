@@ -15,12 +15,12 @@
             <div class="item-name">
 
 				<b :ref="item.id" class="name">
-                    {{ item.clientName }} - {{ item.total }}
+                    {{ item.client_name }} - {{ item.total }}
                 </b>
 
                 <div class="item-info">
                     <span class="item-size">
-						{{ item.created_at }}, n. {{ item.invoiceNumber }}
+						{{ item.created_at }}, n. {{ item.invoice_number }}
 					</span>
                 </div>
             </div>

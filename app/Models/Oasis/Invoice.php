@@ -60,13 +60,15 @@ class Invoice extends Model
         static::creating(function ($invoice) {
             $invoice->id = (string) Str::uuid();
 
-            $invoice->delivery_at = $invoice->created_at;
-            $invoice->due_at = Carbon::parse($invoice->created_at)->addWeeks(2);
-
             $invoice->total_net = invoice_total($invoice);
             $invoice->total_tax = invoice_total_tax($invoice);
 
             $invoice->currency = 'CZK';
+        });
+
+        static::updating(function ($invoice) {
+            $invoice->total_net = invoice_total($invoice);
+            $invoice->total_tax = invoice_total_tax($invoice);
         });
 
         static::deleting(function ($invoice) {

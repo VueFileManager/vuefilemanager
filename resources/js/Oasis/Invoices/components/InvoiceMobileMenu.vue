@@ -5,7 +5,7 @@
 			class="headline"
 			icon="file-text"
 			:title="clipboard[0].name"
-			:subtitle="'Invoice - ' + clipboard[0].invoiceNumber"
+			:subtitle="'Invoice - ' + clipboard[0].invoice_number"
 		/>
 
 		<!--Trash location-->
@@ -64,7 +64,7 @@ export default {
 		},
 		deleteInvoice() {
 			events.$emit('confirm:open', {
-				title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoiceNumber}?`,
+				title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoice_number}?`,
 				message: 'Your invoice will be permanently deleted.',
 				buttonColor: 'danger-solid',
 				action: {

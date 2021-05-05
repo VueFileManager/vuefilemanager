@@ -12,7 +12,7 @@ Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account
 Route::get('/translations/{lang}', [AppFunctionsController::class, 'get_translations']);
 
 // Get user invoice from stripe service
-Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
+Route::get('/stripe-invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {

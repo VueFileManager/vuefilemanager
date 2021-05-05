@@ -29,7 +29,7 @@ class CreateInvoicesTable extends Migration
             $table->longText('user');
             $table->longText('items');
 
-            $table->dateTime('delivery_at')->nullable();
+            $table->date('delivery_at')->nullable();
             $table->dateTime('due_at')->nullable();
 
             $table->enum('discount_type', [

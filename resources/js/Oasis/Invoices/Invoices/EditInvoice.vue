@@ -5,7 +5,7 @@
 
 		<div id="page-content">
 			<div class="content-page" v-if="! isLoadingPage">
-				<ValidationObserver @submit.prevent="createInvoice" ref="createInvoice" v-slot="{ invalid }" tag="form" class="form block-form">
+				<ValidationObserver @submit.prevent="updateInvoice" ref="updateInvoice" v-slot="{ invalid }" tag="form" class="form block-form">
 					<PageTab>
 
 						<!--Properties-->
@@ -49,102 +49,9 @@
 
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client') }}:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.client" :options="clients" :placeholder="$t('in_editor.plac.select_client')" :isError="errors[0]" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.lab_ico') }}:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_ico" :placeholder="$t('in_editor.plac.client_ico')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<small v-if="fullDetails" class="input-help">
-										{{ fullDetails }}
-									</small>
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.dic') }}:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_dic" :placeholder="$t('client_dic')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ic_dph" v-slot="{ errors }">
-									<input v-model="invoice.client_ic_dph" :placeholder="$t('client_ic_dph')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.company_name') }}:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_name" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_name" :placeholder="$t('client_company')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.client_address') }}:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_address" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_address" :placeholder="$t('client_address')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="wrapper-inline">
-								<div class="block-wrapper">
-									<label>{{ $t('in_editor.client_city') }}:</label>
-									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_city" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_city" :placeholder="$t('client_city')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-									</ValidationProvider>
+								<div class="input-wrapper">
+									<input v-model.number="invoice.client['name']" type="text" disabled />
 								</div>
-
-								<div class="block-wrapper">
-									<label>{{ $t('in_editor.client_postal_code') }}:</label>
-									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_postal_code" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_postal_code" :placeholder="$t('client_postal_code')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-									</ValidationProvider>
-								</div>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.client_country') }}:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_country" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" :placeholder="$t('client_country')" :isError="errors[0]" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.client_phone') }} ({{ $t('global.optional') }}):</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_phone_number" v-slot="{ errors }">
-									<input v-model="invoice.client_phone_number" :placeholder="$t('client_phone')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.client_email') }} ({{ $t('global.optional') }}):</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_email" v-slot="{ errors }">
-									<input v-model="invoice.client_email" :placeholder="$t('client_email')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
-
-							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.client_logo') }} ({{ $t('global.optional') }}):</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_avatar" v-slot="{ errors }">
-									<ImageInput v-model="invoice.client_avatar" :error="errors[0]" />
-								</ValidationProvider>
 							</div>
 						</PageTabGroup>
 
@@ -236,7 +143,7 @@
 						<PageTabGroup>
 							<FormLabel icon="settings">{{ $t('in_editor.others') }}</FormLabel>
 
-							<div v-if="isNewClient && invoice.client_email" class="block-wrapper">
+							<div v-if="invoice.client_email" class="block-wrapper">
 								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
@@ -308,7 +215,11 @@
 							</div>
 						</div>
 
-						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="createInvoice" button-style="theme-solid" class="next-submit">
+						<ButtonBase :disabled="isLoading" @click.native="deleteInvoice" button-style="danger" class="next-submit">
+							Delete Invoice
+						</ButtonBase>
+
+						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="updateInvoice" button-style="theme-solid" class="next-submit" style="margin-top: 10px">
 							{{ $t('in_editor.submit') }}
 						</ButtonBase>
 						<p class="error-message" v-if="isError">
@@ -370,12 +281,9 @@
 			]),
 			pageTitle() {
 				return {
-					'regular-invoice': this.$t('in_editor.page.create_regular_invoice'),
-					'advance-invoice': this.$t('in_editor.page.create_advance_invoice'),
-				}[this.$route.query.type]
-			},
-			isNewClient() {
-				return this.invoice.client === 'new-client'
+					'regular-invoice': this.$t('in_editor.page.edit_regular_invoice'),
+					'advance-invoice': this.$t('in_editor.page.edit_advance_invoice'),
+				}[this.invoice.invoice_type]
 			},
 			taxBased() {
 				let bag = [];
@@ -500,16 +408,13 @@
 		watch: {
 			isDiscount(val) {
 				if (!val) {
-					this.invoice.discount_rate = 10
-					this.invoice.discount_type = 'percent'
+					this.invoice.discount_rate = null
+					this.invoice.discount_type = null
 				}
 			},
 			'invoice.invoice_number': function (val) {
 				this.invoice.variable_number = val
 			},
-			'invoice.client_ico': function (val) {
-				this.getCompanyDetails(val)
-			}
 		},
 		data() {
 			return {
@@ -535,22 +440,10 @@
 							price: undefined,
 						}
 					],
-					discount_type: 'percent',
-					discount_rate: 10,
+					discount_type: undefined,
+					discount_rate: undefined,
 					client: '',
-					client_avatar: '',
-					client_name: '',
-					client_email: '',
-					client_phone_number: '',
-					client_address: '',
-					client_city: '',
-					client_postal_code: '',
-					client_country: '',
-					client_ico: '',
-					client_dic: '',
-					client_ic_dph: '',
-					send_invoice: true,
-					store_client: true,
+					send_invoice: false,
 				},
 				discountTypeList: [
 					{
@@ -565,16 +458,6 @@
 			}
 		},
 		methods: {
-			getCompanyDetails: debounce(function (value) {
-				axios.get('/api/oasis/admin/company-details?ico=' + value)
-					.then(response => {
-						this.invoice.client_name = response.data.name
-						this.invoice.client_address = response.data.addr_streetnr
-						this.invoice.client_city = response.data.city
-						this.invoice.client_postal_code = response.data.addr_zip
-						this.fullDetails = response.data.name + ' ' + response.data.addr_full
-					})
-			}, 300),
 			formatCurrency(value) {
 				return new Intl
 					.NumberFormat('cs-CS', {
@@ -587,8 +470,19 @@
 				return (Math.round(value * 100) / 100)
 					.toFixed(2);
 			},
-			async createInvoice() {
-				const isValid = await this.$refs.createInvoice.validate();
+			deleteInvoice() {
+				events.$emit('confirm:open', {
+					title: `Are you sure you want to delete this invoice?`,
+					message: 'Your invoice will be permanently deleted.',
+					buttonColor: 'danger-solid',
+					action: {
+						id: this.$route.params.id,
+						operation: 'delete-invoice'
+					}
+				})
+			},
+			async updateInvoice() {
+				const isValid = await this.$refs.updateInvoice.validate();
 
 				if (!isValid) {
 					this.isError = true
@@ -615,25 +509,13 @@
 
 				// Send request to get user token
 				axios
-					.post('/api/oasis/invoices', formData, {
-						headers: {
-							'Content-Type': 'multipart/form-data',
-						}
-					})
-					.then(response => {
+					.post(`/api/oasis/invoices/${this.$route.params.id}`, formData)
+					.then(() => {
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: this.$t('in_toaster.success_creation'),
+							message: 'The invoice was successfully edited.',
 						})
-
-						// Reload invoices and go to invoice page
-						this.$store.dispatch({
-							'regular-invoice': 'getRegularInvoices',
-							'advance-invoice': 'getAdvanceInvoices',
-						}[this.invoice.invoice_type])
-
-						this.$router.push({name: 'InvoicesList'})
 					})
 					.catch(error => {
 						this.isError = true
@@ -645,7 +527,7 @@
 								let obj = {};
 								obj[key] = error.response.data.errors[key]
 
-								this.$refs.createInvoice.setErrors(obj);
+								this.$refs.updateInvoice.setErrors(obj);
 							})
 
 						} else {
@@ -675,35 +557,28 @@
 			removeRow(item) {
 				if (this.invoice.items.length > 1)
 					this.invoice.items = this.invoice.items.filter(obj => obj.id !== item.id)
-			},
-			get_recommended_delivery_date() {
-				let now = new Date(),
-					delivery_time = now.setDate(now.getDate() + 2 * 7)
-
-				let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(delivery_time),
-					month = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(delivery_time),
-					day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(delivery_time)
-
-				this.invoice.delivery_at = `${year}-${month}-${day}`
 			}
 		},
 		mounted() {
-			this.invoice.invoice_type = this.$route.query.type
-
 			axios.get('/api/oasis/invoices/editor')
 				.then(response => {
 					this.isVatPayer = response.data.isVatPayer
-					this.clients = response.data.clients
+				})
 
-					this.clients.unshift({
-						label: this.$t('in_editor.new_client'),
-						value: 'new-client'
-					})
+			axios.get(`/api/oasis/invoices/${this.$route.params.id}`)
+				.then(response => {
+					this.invoice.invoice_number = response.data.data.attributes.invoice_number
+					this.invoice.variable_number = response.data.data.attributes.variable_number
+					this.invoice.invoice_type = response.data.data.attributes.invoice_type
+					this.invoice.delivery_at = response.data.data.attributes.delivery_at
+					this.invoice.items = response.data.data.attributes.items
+					this.invoice.discount_type = response.data.data.attributes.discount_type
+					this.invoice.discount_rate = response.data.data.attributes.discount_rate
+					this.invoice.client = response.data.data.attributes.client
 
-					this.invoice.invoice_number = response.data.recommendedInvoiceNumber
-					this.latestInvoiceNumber = response.data.latestInvoiceNumber
-
-					this.get_recommended_delivery_date()
+					if (this.invoice.discount_type && this.invoice.discount_rate) {
+						this.isDiscount = true
+					}
 				})
 				.finally(() => {
 					this.isLoadingPage = false

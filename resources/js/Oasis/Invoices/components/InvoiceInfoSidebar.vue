@@ -60,8 +60,8 @@
 			<div v-if="isSingleFile && !isEmpty" class="info-headline">
 				<TitlePreview
 					icon="file-text"
-					:title="singleFile.clientName"
-					:subtitle="'Invoice - ' + singleFile.invoiceNumber"
+					:title="singleFile.client_name"
+					:subtitle="'Invoice - ' + singleFile.invoice_number"
 				/>
 			</div>
 
@@ -70,7 +70,7 @@
 
 				<ListInfoItem
 					title="Invoice Number"
-					:content="singleFile.invoiceNumber"
+					:content="singleFile.invoice_number"
 				/>
 
 				<ListInfoItem
@@ -80,7 +80,7 @@
 
 				<ListInfoItem
 					title="Client"
-					:content="singleFile.clientName"
+					:content="singleFile.client_name"
 				/>
 
 				<!--Created At-->

@@ -89,6 +89,9 @@ class OasisInvoiceTest extends TestCase
     public function it_test_invoice_total_net()
     {
         $invoice = [
+            'user'          => [
+                'ic_dph' => 43123545233
+            ],
             'discount_type' => null,
             'currency'      => 'CZK',
             'items'         => [
@@ -448,6 +451,48 @@ class OasisInvoiceTest extends TestCase
     /**
      * @test
      */
+    public function user_update_existing_invoice()
+    {
+        PDF::fake();
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Sanctum::actingAs($user);
+
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'      => $user->id,
+                'invoice_type' => 'regular-invoice',
+                'user'         => $profile->toArray(),
+            ]);
+
+        $this->postJson("/api/oasis/invoices/$invoice->id", [
+            'invoice_number'  => '2120001',
+            'variable_number' => '2120001',
+            'items'           => json_encode($this->items),
+            'discount_type'   => 'value',
+            'discount_rate'   => 10,
+            'delivery_at'     => Carbon::now()->addWeek(),
+        ])->assertStatus(204);
+
+        $this->assertDatabaseHas('invoices', [
+            'invoice_number' => '2120001',
+            'discount_type'  => 'value',
+            'items'          => json_encode($this->items),
+            'discount_rate'  => 10,
+            'total_net'      => 2030,
+        ]);
+
+        PDF::assertFileNameIs(storage_path("app/" . invoice_path(Invoice::first())));
+    }
+
+    /**
+     * @test
+     */
     public function user_delete_invoice()
     {
         $user = User::factory(User::class)
@@ -495,7 +540,7 @@ class OasisInvoiceTest extends TestCase
     /**
      * @test
      */
-    public function it_get_invoice_from_url()
+    public function it_download_invoice_from_url()
     {
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -533,6 +578,32 @@ class OasisInvoiceTest extends TestCase
     /**
      * @test
      */
+    public function it_get_single_invoice()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'      => $user->id,
+                'invoice_type' => 'regular-invoice',
+                'user'         => $profile->toArray(),
+            ]);
+
+        $this->getJson("/api/oasis/invoices/$invoice->id")
+            ->assertJsonFragment([
+                'id' => $invoice->id,
+            ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
     public function it_get_all_user_regular_invoices()
     {
         $user = User::factory(User::class)
@@ -547,7 +618,7 @@ class OasisInvoiceTest extends TestCase
             ->create([
                 'user_id'      => $user->id,
                 'invoice_type' => 'regular-invoice',
-                'user'         => $profile,
+                'user'         => $profile->toArray(),
             ]);
 
         $this->getJson('/api/oasis/invoices/regular')
@@ -573,7 +644,7 @@ class OasisInvoiceTest extends TestCase
             ->create([
                 'user_id'      => $user->id,
                 'invoice_type' => 'advance-invoice',
-                'user'         => $profile,
+                'user'         => $profile->toArray(),
             ]);
 
         $this->getJson('/api/oasis/invoices/advance')
@@ -603,17 +674,17 @@ class OasisInvoiceTest extends TestCase
                 'client'         => [
                     'name' => 'VueFileManager Inc.',
                 ],
-                'user'           => $profile,
+                'user'           => $profile->toArray(),
             ]);
 
         $this->getJson('/api/oasis/invoices/search?type=regular-invoice&query=2001212')
             ->assertJsonFragment([
-                'invoiceNumber' => '2001212',
+                'invoice_number' => '2001212',
             ])->assertStatus(200);
 
         $this->getJson('/api/oasis/invoices/search?type=regular-invoice&query=Vue')
             ->assertJsonFragment([
-                'invoiceNumber' => '2001212',
+                'invoice_number' => '2001212',
             ])->assertStatus(200);
     }
 
@@ -687,7 +758,9 @@ class OasisInvoiceTest extends TestCase
                 'client'         => [
                     'name' => 'VueFileManager Inc.',
                 ],
-                'user'           => 'test',
+                'user'           => [
+                    'ic_dph' => 423143124213
+                ],
             ]);
 
         $this->getJson('/api/oasis/invoices/editor')

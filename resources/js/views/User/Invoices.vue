@@ -8,7 +8,7 @@
                 <template slot-scope="{ row }">
                     <tr>
                         <td>
-                            <a :href="'/invoice/' + row.data.attributes.customer + '/' + row.data.id" target="_blank" class="cell-item">
+                            <a :href="'/stripe-invoice/' + row.data.attributes.customer + '/' + row.data.id" target="_blank" class="cell-item">
                                 {{ row.data.attributes.order }}
                             </a>
                         </td>

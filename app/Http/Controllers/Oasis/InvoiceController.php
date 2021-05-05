@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers\Oasis;
 
+use App\Http\Resources\Oasis\OasisInvoiceResource;
 use Auth;
+use Illuminate\Http\Request;
 use Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -20,7 +22,7 @@ use App\Notifications\Oasis\InvoiceDeliveryNotification;
 class InvoiceController extends Controller
 {
     /**
-     * @return mixed
+     * @return Application|ResponseFactory|Response
      */
     public function get_all_regular_invoices()
     {
@@ -31,7 +33,7 @@ class InvoiceController extends Controller
     }
 
     /**
-     * @return mixed
+     * @return Application|ResponseFactory|Response
      */
     public function get_all_advance_invoices()
     {
@@ -43,9 +45,21 @@ class InvoiceController extends Controller
 
     /**
      * @param Invoice $invoice
+     * @return Application|ResponseFactory|Response
+     */
+    public function get_single_invoice(Invoice $invoice)
+    {
+        return response(
+            new OasisInvoiceResource($invoice),
+            200
+        );
+    }
+
+    /**
+     * @param Invoice $invoice
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
-    public function get_invoice(Invoice $invoice)
+    public function download_invoice(Invoice $invoice)
     {
         if (! Storage::exists(invoice_path($invoice))) {
             abort(404, 'Not Found');
@@ -55,7 +69,7 @@ class InvoiceController extends Controller
     }
 
     /**
-     * @return mixed
+     * @return Application|ResponseFactory|Response
      */
     public function search()
     {
@@ -127,6 +141,51 @@ class InvoiceController extends Controller
         return response(
             new OasisViewInvoiceResource($invoice),
             201
+        );
+    }
+
+    /**
+     * Store and generate new invoice
+     *
+     * @param Request $request
+     * @param Invoice $invoice
+     * @return Application|ResponseFactory|Response
+     */
+    public function update(StoreInvoiceRequest $request, Invoice $invoice)
+    {
+        $user = $request->user();
+
+        $invoice->update([
+            'invoice_number' => $request->invoice_number,
+            'variable_number' => $request->variable_number,
+            'delivery_at' => $request->delivery_at,
+            'discount_type' => $request->discount_type ?? null,
+            'discount_rate' => $request->discount_rate ?? null,
+            'items' => json_decode($request->items),
+        ]);
+
+        Storage::delete(invoice_path($invoice));
+
+        // Generate PDF
+        \PDF::loadView('oasis.invoices.invoice', [
+            'invoice' => Invoice::find($invoice->id),
+            'user' => $user,
+        ])
+            ->setPaper('a4')
+            ->setOrientation('portrait')
+            ->save(
+                storage_path("app/files/{$user->id}/invoice-{$invoice->id}.pdf")
+            );
+
+        if ($request->send_invoice && $invoice->client['email']) {
+            Notification::route('mail', $invoice->client['email'])->notify(
+                new InvoiceDeliveryNotification($user, $invoice)
+            );
+        }
+
+        return response(
+            'Done',
+            204
         );
     }
 
