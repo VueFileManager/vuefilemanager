@@ -10,32 +10,32 @@
 
 						<!--Properties-->
 						<PageTabGroup>
-							<FormLabel icon="tool">Invoice Properties</FormLabel>
+							<FormLabel icon="tool">{{ $t('in_editor.properties') }}</FormLabel>
 
 							<div class="block-wrapper">
-								<label>Invoice Number:</label>
+								<label>{{ $t('in_number') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="invoice_number" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.invoice_number" placeholder="Type invoice number..." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.invoice_number" :placeholder="$t('in_editor.plac.invoice_number')" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<small v-if="latestInvoiceNumber" class="input-help">
-										Recommendation based on your latest invoice number {{ latestInvoiceNumber }}
+										{{ $t('in_number_desc', {number: latestInvoiceNumber}) }}
 									</small>
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div class="block-wrapper">
-								<label>Variable Number:</label>
+								<label>{{ $t('in_variable') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="variable_number" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.variable_number" placeholder="Type variable number..." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.variable_number" :placeholder="$t('in_editor.plac.variable_number')" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<small v-if="latestInvoiceNumber" class="input-help">
-										Recommendation based on your invoice number
+										{{ $t('in_variable_desc') }}
 									</small>
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div class="block-wrapper">
-								<label>Delivery At:</label>
+								<label>{{ $t('in_delivery_at') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="delivery_at" rules="required" v-slot="{ errors }">
 									<input v-model="invoice.delivery_at" type="date" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -45,102 +45,103 @@
 
 						<!--Client-->
 						<PageTabGroup>
-							<FormLabel icon="user">Client</FormLabel>
+							<FormLabel icon="user">{{ $t('in_editor.client') }}</FormLabel>
 
 							<div class="block-wrapper">
-								<label>Client:</label>
+								<label>{{ $t('in_editor.client') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.client" :options="clients" placeholder="Create new or select existing client..." :isError="errors[0]" />
+									<SelectInput v-model="invoice.client" :options="clients" :placeholder="$t('in_editor.plac.select_client')" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
-							<div v-if="isNewClient" class="wrapper-inline">
-								<div class="block-wrapper">
-									<label>ICO:</label>
-									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_ico" placeholder="Type client ICO..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-									</ValidationProvider>
-								</div>
-
-								<div class="block-wrapper">
-									<label>DIC:</label>
-									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_dic" placeholder="Type client DIC..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-									</ValidationProvider>
-								</div>
+							<div v-if="isNewClient" class="block-wrapper">
+								<label>{{ $t('in_editor.lab_ico') }}:</label>
+								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
+									<input v-model="invoice.client_ico" :placeholder="$t('in_editor.plac.client_ico')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<small v-if="fullDetails" class="input-help">
+										{{ fullDetails }}
+									</small>
+									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>IC DPH (optional):</label>
+								<label>{{ $t('in_editor.dic') }}:</label>
+								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
+									<input v-model="invoice.client_dic" :placeholder="$t('client_dic')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+								</ValidationProvider>
+							</div>
+
+							<div v-if="isNewClient" class="block-wrapper">
+								<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ic_dph" v-slot="{ errors }">
-									<input v-model="invoice.client_ic_dph" placeholder="Type client IC DHP..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_ic_dph" :placeholder="$t('client_ic_dph')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>Company name:</label>
+								<label>{{ $t('in_editor.company_name') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_name" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_name" placeholder="Type client company name..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_name" :placeholder="$t('client_company')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>Address:</label>
+								<label>{{ $t('in_editor.client_address') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_address" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_address" placeholder="Type client address..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_address" :placeholder="$t('client_address')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="wrapper-inline">
 								<div class="block-wrapper">
-									<label>City:</label>
+									<label>{{ $t('in_editor.client_city') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_city" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_city" placeholder="Type client city..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_city" :placeholder="$t('client_city')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
 
 								<div class="block-wrapper">
-									<label>Postal Code:</label>
+									<label>{{ $t('in_editor.client_postal_code') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_postal_code" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_postal_code" placeholder="Type client postal code..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_postal_code" :placeholder="$t('client_postal_code')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>Country:</label>
+								<label>{{ $t('in_editor.client_country') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_country" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" placeholder="Select client country" :isError="errors[0]" />
+									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" :placeholder="$t('client_country')" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>Phone (optional):</label>
+								<label>{{ $t('in_editor.client_phone') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_phone_number" v-slot="{ errors }">
-									<input v-model="invoice.client_phone_number" placeholder="Type client's phone number..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_phone_number" :placeholder="$t('client_phone')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>Email (optional):</label>
+								<label>{{ $t('in_editor.client_email') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_email" v-slot="{ errors }">
-									<input v-model="invoice.client_email" placeholder="Type client's email address..." type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_email" :placeholder="$t('client_email')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>Logo (optional):</label>
+								<label>{{ $t('in_editor.client_logo') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_avatar" v-slot="{ errors }">
 									<ImageInput v-model="invoice.client_avatar" :error="errors[0]" />
 								</ValidationProvider>
@@ -149,41 +150,41 @@
 
 						<!--Items-->
 						<PageTabGroup>
-							<FormLabel icon="edit">Items</FormLabel>
+							<FormLabel icon="edit">{{ $t('in_editor.items') }}</FormLabel>
 
 							<div class="duplicator">
 								<div class="plan-item duplicator-item" v-for="(item, index) in invoice.items" :key="index++">
 									<x-icon @click="removeRow(item)" v-if="index !== 1" size="22" class="delete-item hover-text-theme" />
 
 									<div class="block-wrapper">
-										<label>Description:</label>
+										<label>{{ $t('in_editor.description') }}:</label>
 										<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="description" rules="required" v-slot="{ errors }">
-											<input v-model="item.description" ref="duplicatorItemTitle" placeholder="Type item description..." type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+											<input v-model="item.description" ref="duplicatorItemTitle" :placeholder="$t('in_editor.plac.item_desc')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 											<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 										</ValidationProvider>
 									</div>
 
 									<div class="wrapper-inline">
 										<div class="block-wrapper">
-											<label>Amount:</label>
+											<label>{{ $t('in_editor.amount') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="amount" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.amount" placeholder="The amount in Pcs." type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model.number="item.amount" :placeholder="$t('in_editor.plac.item_amount')" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
 
 										<div v-if="isVatPayer" class="block-wrapper">
-											<label>Tax Rate:</label>
+											<label>{{ $t('in_editor.tax_rate') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.tax_rate" placeholder="Type item tax rate in %..." type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model.number="item.tax_rate" :placeholder="$t('in_editor.plac.item_tax_rate')" type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
 
 										<div class="block-wrapper">
-											<label>Price:</label>
+											<label>{{ $t('in_editor.price') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.price" placeholder="Type the item price..." type="text" pattern="[0-9]{1,4}(\.[0-9]{2})?" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model.number="item.price" :placeholder="$t('in_editor.plac.item_price')" type="text" pattern="[0-9]{1,4}(\.[0-9]{2})?" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
@@ -191,21 +192,23 @@
 								</div>
 
 								<ButtonBase @click.native="addRow" class="duplicator-add-button" button-style="theme">
-									Add New Item
+									{{ $t('in_editor.add_item') }}
 								</ButtonBase>
 							</div>
 						</PageTabGroup>
 
 						<!--Discount-->
 						<PageTabGroup>
-							<FormLabel icon="credit-card">Discount</FormLabel>
+							<FormLabel icon="credit-card">
+								{{ $t('in_editor.discount') }}
+							</FormLabel>
 
 							<div class="block-wrapper">
 								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
-											<label class="input-label">Apply discount:</label>
-											<small class="input-help">You can apply percentage or value discount on your invoice.</small>
+											<label class="input-label">{{ $t('in_editor.apply_discount') }}:</label>
+											<small class="input-help">{{ $t('in_editor.discount_help') }}</small>
 										</div>
 										<SwitchInput v-model="isDiscount" class="switch" :state="isDiscount" />
 									</div>
@@ -213,17 +216,17 @@
 							</div>
 
 							<div v-if="isDiscount" class="block-wrapper">
-								<label>Discount Type:</label>
+								<label>{{ $t('in_editor.discount_type') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="discount_type" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.discount_type" :default="invoice.discount_type" :options="discountTypeList" placeholder="Select discount type" :isError="errors[0]" />
+									<SelectInput v-model="invoice.discount_type" :default="invoice.discount_type" :options="discountTypeList" :placeholder="$t('in_editor.plac.discount_type')" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div v-if="isDiscount" class="block-wrapper">
-								<label>Discount Rate:</label>
+								<label>{{ $t('in_editor.discount_rate') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="discount_rate" rules="required" v-slot="{ errors }">
-									<input v-model.number="invoice.discount_rate" placeholder="Type discount rate..." max="100" min="0" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model.number="invoice.discount_rate" :placeholder="$t('in_editor.plac.discount_rate')" max="100" min="0" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -231,14 +234,14 @@
 
 						<!--Others-->
 						<PageTabGroup>
-							<FormLabel icon="settings">Others</FormLabel>
+							<FormLabel icon="settings">{{ $t('in_editor.others') }}</FormLabel>
 
 							<div v-if="isNewClient && invoice.client_email" class="block-wrapper">
 								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
-											<label class="input-label">Store client for future use:</label>
-											<small class="input-help">Client will be stored to your list and will be ready to reuse again when you create new invoice.</small>
+											<label class="input-label">{{ $t('in_editor.store_client') }}:</label>
+											<small class="input-help">{{ $t('in_editor.store_client_notes') }}</small>
 										</div>
 										<SwitchInput v-model="invoice.send_invoice" class="switch" :state="invoice.send_invoice" />
 									</div>
@@ -249,8 +252,8 @@
 								<div class="input-wrapper">
 									<div class="inline-wrapper">
 										<div class="switch-label">
-											<label class="input-label">Send invoice on client's email:</label>
-											<small class="input-help">Invoice will be sent to client immediately after invoice generate.</small>
+											<label class="input-label">{{ $t('in_editor.send') }}:</label>
+											<small class="input-help">{{ $t('in_editor.send_notes') }}</small>
 										</div>
 										<SwitchInput v-model="invoice.send_invoice" class="switch" :state="invoice.send_invoice" />
 									</div>
@@ -260,12 +263,14 @@
 					</PageTab>
 				</ValidationObserver>
 				<div class="summary">
-					<FormLabel icon="credit-card">Invoice Summary</FormLabel>
+					<FormLabel icon="credit-card">
+						{{ $t('in_editor.summary') }}
+					</FormLabel>
 					<div class="summary-list" :class="{'is-error': isError}">
 
 						<div v-if="isDiscount && invoice.discount_rate > 0" class="row small">
 							<div class="cell">
-								<span>Discount</span>
+								<span>{{ $t('in_editor.discount') }}</span>
 							</div>
 							<div class="cell">
 								<span>-{{ invoice.discount_type === 'percent' ? formatNumber(invoice.discount_rate) + '%' : formatCurrency(invoice.discount_rate) }}</span>
@@ -275,7 +280,7 @@
 						<div :class="{'is-offset': isDiscount && invoice.discount_rate > 0}">
 							<div v-for="(tax, i) in taxBased" :key="i" class="row small">
 								<div class="cell">
-									<span>VAT Base {{ tax.rate }}%</span>
+									<span>{{ $t('in_editor.summary.vat_base') }} {{ tax.rate }}%</span>
 								</div>
 								<div class="cell">
 									<span>{{ formatCurrency(tax.total) }}</span>
@@ -286,7 +291,7 @@
 						<div :class="{'is-offset': taxSummary.length > 1}">
 							<div v-for="(tax, i) in taxSummary" :key="i" class="row small">
 								<div class="cell">
-									<span>VAT {{ tax.rate }}%</span>
+									<span>{{ $t('in_editor.summary.vat') }} {{ tax.rate }}%</span>
 								</div>
 								<div class="cell">
 									<span>{{ formatCurrency(tax.total) }}</span>
@@ -296,7 +301,7 @@
 
 						<div class="row" :class="{'row-summary': total > 0}">
 							<div class="cell">
-								<b>Spolu</b>
+								<b>{{ $t('in_editor.summary.total') }}</b>
 							</div>
 							<div class="cell">
 								<b>{{ formatCurrency(total) }}</b>
@@ -304,7 +309,7 @@
 						</div>
 
 						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="createInvoice" button-style="theme-solid" class="next-submit">
-							Store & Generate Invoice
+							{{ $t('in_editor.submit') }}
 						</ButtonBase>
 						<p class="error-message" v-if="isError">
 							{{ errorMessage }}
@@ -337,6 +342,7 @@
 	import {mapGetters} from 'vuex'
 	import {events} from "@/bus"
 	import axios from "axios"
+	import {debounce} from "lodash"
 
 	export default {
 		name: 'CreateInvoice',
@@ -364,8 +370,8 @@
 			]),
 			pageTitle() {
 				return {
-					'regular-invoice': 'Create Regular Invoice',
-					'advance-invoice': 'Create Advance Invoice',
+					'regular-invoice': this.$t('in_editor.page.create_regular_invoice'),
+					'advance-invoice': this.$t('in_editor.page.create_advance_invoice'),
 				}[this.$route.query.type]
 			},
 			isNewClient() {
@@ -500,10 +506,14 @@
 			},
 			'invoice.invoice_number': function (val) {
 				this.invoice.variable_number = val
+			},
+			'invoice.client_ico': function (val) {
+				this.getCompanyDetails(val)
 			}
 		},
 		data() {
 			return {
+				fullDetails: undefined,
 				isLoadingPage: true,
 				isLoading: false,
 				isError: false,
@@ -542,29 +552,6 @@
 					send_invoice: true,
 					store_client: true,
 				},
-				/*invoice: {
-					invoice_type: 'regular-invoice',
-					invoice_number: undefined,
-					variable_number: undefined,
-					delivery_at: '2021-04-09',
-					items: [],
-					discount_type: 'percent',
-					discount_rate: 10,
-					client: '0354bab9-1b23-4d17-aa5f-fd8e9aaaf0a2',
-					client_avatar: '',
-					client_name: 'VueFileManager Inc.',
-					client_email: 'howdy@hi5ve.digital',
-					client_phone_number: '+421950123456',
-					client_address: 'Does 20',
-					client_city: 'Bratislava',
-					client_postal_code: '04001',
-					client_country: 'SK',
-					client_ico: '46530045',
-					client_dic: '2023489457',
-					client_ic_dph: 'SK2023489457',
-					send_invoice: false,
-					store_client: true,
-				},*/
 				invoiceTypeList: [
 					{
 						label: 'Regular Invoice',
@@ -577,17 +564,36 @@
 				],
 				discountTypeList: [
 					{
-						label: 'Percentage',
+						label: this.$t('in_editor.discount_type_percent'),
 						value: 'percent',
 					},
 					{
-						label: 'Amount',
+						label: this.$t('in_editor.discount_type_amount'),
 						value: 'value',
 					},
 				],
 			}
 		},
 		methods: {
+			getCompanyDetails: debounce(function (value) {
+				axios.get('/api/oasis/admin/company-details?ico=' + value)
+					.then(response => {
+						this.invoice.client_name = response.data.name
+						this.invoice.client_address = response.data.addr_streetnr
+						this.invoice.client_city = response.data.city
+						this.invoice.client_postal_code = response.data.addr_zip
+						this.fullDetails = response.data.name + ' ' + response.data.addr_full
+
+						//this.$refs.createUser.reset()
+					})
+					.catch(error => {
+						/*if (error.response.status == 404) {
+							this.$refs.createUser.setErrors({
+								'ICO': 'Nič sa nenašlo :('
+							});
+						}*/
+					})
+			}, 300),
 			formatCurrency(value) {
 				return new Intl
 					.NumberFormat('cs-CS', {
@@ -597,15 +603,15 @@
 					.format(value)
 			},
 			formatNumber(value) {
-				return (Math.round(value * 100) / 100).toFixed(2);
+				return (Math.round(value * 100) / 100)
+					.toFixed(2);
 			},
 			async createInvoice() {
-
 				const isValid = await this.$refs.createInvoice.validate();
 
 				if (!isValid) {
 					this.isError = true
-					this.errorMessage = 'There is probably an error, please check it and fix it.'
+					this.errorMessage = this.$t('in_editor.error')
 					return
 				}
 
@@ -637,7 +643,7 @@
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: 'Invoice was created successfully',
+							message: this.$t('in_toaster.success_creation'),
 						})
 
 						// Reload invoices and go to invoice page
@@ -710,7 +716,7 @@
 					this.clients = response.data.clients
 
 					this.clients.unshift({
-						label: 'Register new client...',
+						label: this.$t('in_editor.new_client'),
 						value: 'new-client'
 					})
 

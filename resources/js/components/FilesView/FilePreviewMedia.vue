@@ -17,7 +17,7 @@
 
             <!--Show PDF-->
             <div v-if="isPDF" id="pdf-wrapper" :style="{width: documentSize + '%'}">
-                <pdf :src="pdfdata" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:20px auto;" id="printable-file">
+                <pdf :src="pdfdata" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:0 auto 35px;" class="pdf-file">
                     <template slot="loading">
                         <h1>loading content...</h1>
                     </template>
@@ -252,15 +252,21 @@ export default {
 
 #pdf-wrapper {
 	border-radius: 8px;
-	box-shadow: $light_mode_popup_shadow;
 	overflow-y: scroll;
     margin: 0 auto;
     position: absolute;
-    top: 20px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1;
+	padding: 40px;
+
+	.pdf-file {
+		box-shadow: $light_mode_popup_shadow;
+		border-radius: 8px;
+		overflow: hidden;
+	}
 }
 
 .media-full-preview {

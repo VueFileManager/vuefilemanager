@@ -25,7 +25,7 @@
 
     .wrapper-inline {
       display: flex;
-      margin: 0 -15px 32px;
+      margin: 0 -15px 0;
 
       .block-wrapper {
         width: 100%;
@@ -248,6 +248,7 @@ input[type="email"] {
 
   .form.block-form .wrapper-inline {
     display: block;
+    margin-bottom: 32px;
   }
 }
 

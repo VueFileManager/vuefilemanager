@@ -380,6 +380,7 @@ return [
         'global.incomplete' => 'Incomplete',
         'global.or' => 'or',
         'global.total' => 'Total',
+        'global.optional' => 'optional',
         'input_image.supported' => 'Supported formats are .png, .jpg, .jpeg.',
         'input_image.title' => 'Upload Image',
         'inputs.placeholder_search_files' => 'Search files or folders...',

@@ -93,22 +93,24 @@
 								</ValidationProvider>
 							</div>
 
-							<div class="block-wrapper">
-								<label>City:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/oasis/invoices/profile', 'city', profile.city)" v-model="profile.city" placeholder="" type="text"
-										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
-							</div>
+							<div class="wrapper-inline">
+								<div class="block-wrapper">
+									<label>City:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
+										<input @input="$updateText('/oasis/invoices/profile', 'city', profile.city)" v-model="profile.city" placeholder="" type="text"
+											   :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 
-							<div class="block-wrapper">
-								<label>Postal Code:</label>
-								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/oasis/invoices/profile', 'postal_code', profile.postal_code)" v-model="profile.postal_code" placeholder="" type="text"
-										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</ValidationProvider>
+								<div class="block-wrapper">
+									<label>Postal Code:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
+										<input @input="$updateText('/oasis/invoices/profile', 'postal_code', profile.postal_code)" v-model="profile.postal_code" placeholder="" type="text"
+											   :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 							</div>
 
 							<div class="block-wrapper">
