@@ -7,7 +7,7 @@
                 <Option @click.native="editItem" title="Edit Invoice" icon="rename" />
                 <Option @click.native="" title="Send Invoice" icon="send" />
                 <Option @click.native="goToCompany" title="Go to Company" icon="user" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="deleteInvoice" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup>
@@ -20,7 +20,7 @@
         <div v-show="isClient" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
                 <Option @click.native="goToCompany" title="Edit" icon="rename" />
-                <Option @click.native="deleteItem" title="Delete" icon="trash" />
+                <Option @click.native="deleteClient" title="Delete" icon="trash" />
             </OptionGroup>
             <OptionGroup>
                 <Option @click.native="goToCompany" title="Go to Profile" icon="user" />
@@ -75,7 +75,7 @@ export default {
     },
     methods: {
 		goToCompany() {
-			this.$router.push({name: 'ClientDetail', params: {id: this.item.client_id}})
+			this.$router.push({name: 'ClientDetail', params: {id: this.item.client_id ?? this.item.id}})
 
 			events.$emit('file-preview:hide')
 
@@ -98,7 +98,7 @@ export default {
 		editItem() {
 			this.$router.push({name: 'EditInvoice', params: {id: this.item.id}})
 		},
-        deleteItem() {
+        deleteInvoice() {
 			events.$emit('confirm:open', {
 				title: `Are you sure you want to delete invoice number ${this.item.invoice_number}?`,
 				message: 'Your invoice will be permanently deleted.',
@@ -106,6 +106,17 @@ export default {
 				action: {
 					id: this.item.id,
 					operation: 'delete-invoice'
+				}
+			})
+        },
+		deleteClient() {
+			events.$emit('confirm:open', {
+				title: `Are you sure you want to delete client ${this.item.name}?`,
+				message: 'Your client will be permanently deleted.',
+				buttonColor: 'danger-solid',
+				action: {
+					id: this.item.id,
+					operation: 'delete-client'
 				}
 			})
         },

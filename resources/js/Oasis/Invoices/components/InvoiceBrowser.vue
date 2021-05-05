@@ -44,7 +44,7 @@
             </div>
 
 			<!--Show empty page if folder is empty-->
-            <EmptyFilePage v-if="! isSearching" />
+            <EmptyInvoicePage v-if="! isSearching" />
 
 			<!--Show empty page if no search results-->
             <EmptyMessage
@@ -64,9 +64,9 @@
 <script>
     import InvoiceActionsMobile from '@/Oasis/Invoices/components/InvoiceActionsMobile'
 	import InvoiceInfoSidebar from '@/Oasis/Invoices/components/InvoiceInfoSidebar'
+	import EmptyInvoicePage from '@/Oasis/Invoices/components/EmptyInvoicePage'
 	import InvoiceItem from '@/Oasis/Invoices/components/InvoiceItem'
 	import ClientItem from '@/Oasis/Invoices/components/ClientItem'
-	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
 	import MobileToolbar from '@/components/FilesView/MobileToolbar'
 	import EmptyMessage from '@/components/FilesView/EmptyMessage'
 	import SearchBar from '@/components/FilesView/SearchBar'
@@ -78,7 +78,7 @@
 		components: {
 			InvoiceActionsMobile,
 			InvoiceInfoSidebar,
-			EmptyFilePage,
+			EmptyInvoicePage,
 			MobileToolbar,
 			EmptyMessage,
 			InvoiceItem,

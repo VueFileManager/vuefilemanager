@@ -36,8 +36,8 @@
 				<!--Invoice Controls-->
 				<ToolbarGroup v-if="! $isMobile()">
                     <ToolbarButton @click.native="shareInvoice" :class="{'is-inactive': canActiveInView }" source="send" :action="$t('actions.share')" />
-                    <ToolbarButton @click.native="editInvoice" :class="{'is-inactive': canActiveInView }" source="rename" :action="$t('actions.share')" />
-                    <ToolbarButton @click.native="deleteInvoice" :class="{'is-inactive': canActiveInView }" source="trash" :action="$t('actions.delete')" />
+                    <ToolbarButton @click.native="editItem" :class="{'is-inactive': canActiveInView }" source="rename" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="deleteItem" :class="{'is-inactive': canActiveInView }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
 
 				<!--View Controls-->
@@ -100,6 +100,7 @@
 				let locations = [
 					'regular-invoice',
 					'advance-invoice',
+					'clients',
 				]
 				return !this.$isThisLocation(locations) || this.clipboard.length === 0
 			},
@@ -127,8 +128,9 @@
 			createCreateMenu() {
 				events.$emit('popover:open', 'desktop-create-invoices')
 			},
-			deleteInvoice() {
-				if (this.clipboard.length > 0) {
+			deleteItem() {
+
+				if (this.$isThisLocation(['regular-invoice', 'advance-invoice']) && this.clipboard.length > 0) {
 
 					events.$emit('confirm:open', {
 						title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoice_number}?`,
@@ -140,12 +142,30 @@
 						}
 					})
 				}
+
+				if (this.$isThisLocation('clients') && this.clipboard.length > 0) {
+					events.$emit('confirm:open', {
+						title: `Are you sure you want to delete client ${this.clipboard[0].name}?`,
+						message: 'Your client will be permanently deleted.',
+						buttonColor: 'danger-solid',
+						action: {
+							id: this.clipboard[0].id,
+							operation: 'delete-client'
+						}
+					})
+				}
 			},
 			shareInvoice() {
 				alert('Send Invoice')
 			},
-			editInvoice() {
-				this.$router.push({name: 'EditInvoice', params: {id: this.clipboard[0].id}})
+			editItem() {
+				if (this.$isThisLocation(['regular-invoice', 'advance-invoice'])) {
+					this.$router.push({name: 'EditInvoice', params: {id: this.clipboard[0].id}})
+				}
+
+				if (this.$isThisLocation('clients')) {
+					this.$router.push({name: 'ClientDetail', params: {id: this.clipboard[0].id}})
+				}
 			},
 		},
 	}

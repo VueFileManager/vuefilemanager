@@ -1,7 +1,7 @@
 <template>
 	<div id="single-page">
 		<MobileHeader :title="pageTitle" />
-		<PageHeader :title="pageTitle" />
+		<PageHeader :title="pageTitle" :can-back="true" />
 
 		<div id="page-content">
 			<div class="content-page" v-if="! isLoadingPage">
@@ -69,7 +69,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.dic') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_dic" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_dic" :placeholder="$t('client_dic')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_dic" :placeholder="$t('in_editor.plac.client_dic')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -77,7 +77,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ic_dph" v-slot="{ errors }">
-									<input v-model="invoice.client_ic_dph" :placeholder="$t('client_ic_dph')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_ic_dph" :placeholder="$t('in_editor.plac.client_ic_dph')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -85,7 +85,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.company_name') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_name" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_name" :placeholder="$t('client_company')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_name" :placeholder="$t('in_editor.plac.client_company')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -93,7 +93,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.client_address') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_address" rules="required" v-slot="{ errors }">
-									<input v-model="invoice.client_address" :placeholder="$t('client_address')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_address" :placeholder="$t('in_editor.plac.client_address')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -102,7 +102,7 @@
 								<div class="block-wrapper">
 									<label>{{ $t('in_editor.client_city') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_city" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_city" :placeholder="$t('client_city')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_city" :placeholder="$t('in_editor.plac.client_city')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
@@ -110,7 +110,7 @@
 								<div class="block-wrapper">
 									<label>{{ $t('in_editor.client_postal_code') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_postal_code" rules="required" v-slot="{ errors }">
-										<input v-model="invoice.client_postal_code" :placeholder="$t('client_postal_code')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="invoice.client_postal_code" :placeholder="$t('in_editor.plac.client_postal_code')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
@@ -119,7 +119,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.client_country') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_country" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" :placeholder="$t('client_country')" :isError="errors[0]" />
+									<SelectInput v-model="invoice.client_country" :default="invoice.client_country" :options="countries" :placeholder="$t('in_editor.plac.client_country')" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -127,7 +127,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.client_phone') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_phone_number" v-slot="{ errors }">
-									<input v-model="invoice.client_phone_number" :placeholder="$t('client_phone')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_phone_number" :placeholder="$t('in_editor.plac.client_phone')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -135,7 +135,7 @@
 							<div v-if="isNewClient" class="block-wrapper">
 								<label>{{ $t('in_editor.client_email') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_email" v-slot="{ errors }">
-									<input v-model="invoice.client_email" :placeholder="$t('client_email')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="invoice.client_email" :placeholder="$t('in_editor.plac.client_email')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>

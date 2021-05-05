@@ -1,7 +1,7 @@
 <template>
 	<div id="single-page">
 		<MobileHeader :title="$router.currentRoute.meta.title" />
-		<PageHeader :title="$router.currentRoute.meta.title" />
+		<PageHeader :title="$router.currentRoute.meta.title" :can-back="true" />
 
 		<div id="page-content" class="medium-width">
 			<div class="content-page">
