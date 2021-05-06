@@ -17,8 +17,8 @@
 
 		<div class="navigation-icons">
 			<div v-if="isPdf" class="navigation-tool-wrapper">
-				<ToolbarButton @click.native="increaseSizeOfPDF" source="zoom-in" :action="$t('pdf_zoom_in')" />
 				<ToolbarButton @click.native="decreaseSizeOfPDF" source="zoom-out" :action="$t('pdf_zoom_out')" />
+				<ToolbarButton @click.native="increaseSizeOfPDF" source="zoom-in" :action="$t('pdf_zoom_in')" />
 			</div>
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton @click.native="downloadItem" class="mobile-hide" source="download" :action="$t('actions.download')" />

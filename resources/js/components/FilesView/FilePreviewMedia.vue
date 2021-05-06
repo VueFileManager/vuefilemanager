@@ -194,27 +194,40 @@ export default {
                 }
             })
         },
+		getDocumentSize() {
+
+			if (window.innerWidth < 960) {
+				this.documentSize = 100
+			}
+
+			if (window.innerWidth > 960){
+				this.documentSize = localStorage.getItem('documentSize')
+					? parseInt(localStorage.getItem('documentSize'))
+					: 50;
+			}
+		}
     },
     created() {
 
-        // Set zoom size
-        this.documentSize = window.innerWidth < 960 ? 100 : 50
-
-        events.$on('file-preview:next', () => this.next())
+		events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
 
         events.$on('document-zoom:in', () => {
-            if (this.documentSize < 100)
-                this.documentSize += 10
+            if (this.documentSize < 100) {
+				this.documentSize += 10
+				localStorage.setItem('documentSize', this.documentSize)
+			}
         })
 
         events.$on('document-zoom:out', () => {
-            if (this.documentSize > 40)
-                this.documentSize -= 10
+            if (this.documentSize > 40) {
+				this.documentSize -= 10
+				localStorage.setItem('documentSize', this.documentSize)
+			}
         })
 
+        this.getDocumentSize()
         this.getFilesForView()
-
     }
 }
 </script>
