@@ -3,9 +3,9 @@
 		<MobileHeader :title="$router.currentRoute.meta.title" />
 		<PageHeader :title="$router.currentRoute.meta.title" />
 
-		<div id="page-content" class="medium-width">
+		<div v-if="!isLoading && !profileNotExist" id="page-content" class="medium-width">
 			<div class="content-page">
-				<PageTab :is-loading="! profile">
+				<PageTab>
 					 <PageTabGroup>
 						<div class="form block-form">
 							<FormLabel>Company & Logo</FormLabel>
@@ -196,12 +196,26 @@
 				</PageTab>
 			</div>
 		</div>
+
+		<EmptyPageContent
+			v-if="!isLoading && profileNotExist"
+			icon="edit"
+			title="You don't have billing profile"
+			description="Before your first invoice, please set up your billing profile."
+		>
+            <router-link :to="{name: 'BillingProfileSetUp'}" tag="p">
+                <ButtonBase button-style="theme">
+					Set up Billing Profile
+				</ButtonBase>
+            </router-link>
+        </EmptyPageContent>
 	</div>
 
 </template>
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import EmptyPageContent from '@/components/Others/EmptyPageContent'
 	import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
 	import SelectInput from '@/components/Others/Forms/SelectInput'
 	import ImageInput from '@/components/Others/Forms/ImageInput'
@@ -223,6 +237,7 @@
 		components: {
 			ValidationProvider,
 			ValidationObserver,
+			EmptyPageContent,
 			PageTabGroup,
 			MobileHeader,
 			SelectInput,
@@ -243,8 +258,9 @@
 		},
 		data() {
 			return {
-				isLoading: false,
+				isLoading: true,
 				profile: undefined,
+				profileNotExist: false,
 			}
 		},
 		methods: {},
@@ -252,6 +268,14 @@
 			axios.get('/api/oasis/invoices/profile')
 				.then(response => {
 					this.profile = response.data.data.attributes
+				})
+				.catch(error => {
+					if (error.response.status === 404) {
+						this.profileNotExist = true
+					}
+				})
+				.finally(() => {
+					this.isLoading = false
 				})
 		}
 	}

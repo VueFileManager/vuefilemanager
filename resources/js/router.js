@@ -93,13 +93,23 @@ const routesOasis = [
                 },
             },
             {
-                name: 'InvoicesProfile',
+                name: 'BillingProfile',
                 path: '/invoice/profile',
                 component: () =>
                     import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Invoices/BillingProfile'),
                 meta: {
                     requiresAuth: true,
                     title: 'My Billing Profile'
+                },
+            },
+            {
+                name: 'BillingProfileSetUp',
+                path: '/invoice/set-up-billing-profile',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Invoices/BillingProfileSetUp'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'Set My Billing Profile'
                 },
             },
             {

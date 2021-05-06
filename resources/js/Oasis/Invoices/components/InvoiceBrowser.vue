@@ -149,12 +149,6 @@
 			events.$on('fileItem:deselect', () => {
 				this.$store.commit('CLIPBOARD_CLEAR')
 			})
-
-			this.$store.commit('STORE_CURRENT_FOLDER', {
-				name: 'Invoices',
-				id: undefined,
-				location: 'regular-invoice',
-			})
 		}
 	}
 </script>

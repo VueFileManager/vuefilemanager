@@ -2,8 +2,8 @@
     <div class="empty-page" v-if="isLoading || isEmpty">
         <div class="empty-state">
 
-			<!--Base invoice browser empty message-->
-            <div class="text-content" v-if="$isThisLocation(['regular-invoice', 'advance-invoice']) && !isLoading">
+			<!--Invoice message-->
+            <div class="text-content" v-if="hasBillingProfile && $isThisLocation(['regular-invoice', 'advance-invoice']) && !isLoading">
                 <h1 class="title">
 					Create Your First Invoice
 				</h1>
@@ -16,7 +16,9 @@
 					{{ buttonTitle }}
 				</ButtonBase>
             </div>
-            <div class="text-content" v-if="$isThisLocation('clients') && !isLoading">
+
+			<!--Client Message-->
+            <div class="text-content" v-if="hasBillingProfile && $isThisLocation('clients') && !isLoading">
                 <h1 class="title">
 					Create Your First Client
 				</h1>
@@ -27,6 +29,21 @@
 
                 <ButtonBase @click.native="createClient" button-style="theme" class="button">
 					Create Client
+				</ButtonBase>
+            </div>
+
+			<!--Billing Profile Message-->
+            <div class="text-content" v-if="! hasBillingProfile">
+                <h1 class="title">
+					You don't have billing profile
+				</h1>
+
+                <p class="description">
+					Before your first invoice, please set up your billing profile.
+				</p>
+
+                <ButtonBase @click.native="createBillingProfile" button-style="theme" class="button">
+					Set up Billing Profile
 				</ButtonBase>
             </div>
 
@@ -58,12 +75,16 @@
 				'currentFolder',
 				'isLoading',
 				'entries',
+				'user',
 			]),
 			isEmpty() {
 				return this.entries && this.entries.length == 0
 			},
 			buttonTitle() {
 				return this.$isThisLocation('regular-invoice') ? 'Create Regular Invoice' : 'Create Advance Invoice'
+			},
+			hasBillingProfile() {
+				return this.user && this.user.data.attributes.has_billing_profile
 			}
 		},
 		methods: {
@@ -72,6 +93,9 @@
 			},
 			createClient() {
 				this.$router.push({name: 'CreateClient'})
+			},
+			createBillingProfile() {
+				this.$router.push({name: 'BillingProfileSetUp'})
 			}
 		}
 	}

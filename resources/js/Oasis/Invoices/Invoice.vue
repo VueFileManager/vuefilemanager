@@ -48,7 +48,7 @@
 					</a>
 				</ContentGroup>
 				<ContentGroup title="Settings" class="navigator menu-list-wrapper vertical">
-					<router-link :to="{name: 'InvoicesProfile'}" class="menu-list-item link">
+					<router-link :to="{name: 'BillingProfile'}" class="menu-list-item link">
 						<div class="icon text-theme">
 							<edit2-icon size="17" />
 						</div>
@@ -127,12 +127,22 @@
 			},
 		},
 		mounted() {
+
+			if (! this.currentFolder) {
+
+				this.$store.commit('STORE_CURRENT_FOLDER', {
+					name: 'Invoices',
+					id: undefined,
+					location: 'regular-invoice',
+				})
+
+				this.$store.dispatch('getRegularInvoices')
+			}
+
 			events.$on('mobile-menu:show', () => this.isScaledDown = true)
 
 			events.$on('fileItem:deselect', () => this.isScaledDown = false)
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
-
-			this.$store.dispatch('getRegularInvoices')
 
 			events.$on('action:confirmed', data => {
 				if (data.operation === 'delete-invoice') {

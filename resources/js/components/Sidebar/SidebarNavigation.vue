@@ -20,11 +20,11 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'InvoicesList'}" title="Invoices" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item shared">
+            <a @click="goToInvoice" title="Invoices" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item shared">
                 <div class="button-icon">
                     <file-text-icon size="19" />
                 </div>
-            </router-link>
+            </a>
 
             <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
@@ -87,7 +87,7 @@
             return {
 				invoiceRoutes: [
 					'InvoicesList',
-					'InvoicesProfile',
+					'BillingProfile',
 					'CreateClient',
 					'CreateInvoice',
 					'ClientDetail',
@@ -125,6 +125,19 @@
                 ]
             }
         },
+		methods: {
+			goToInvoice() {
+				this.$router.push({name: 'InvoicesList'})
+
+				this.$store.commit('STORE_CURRENT_FOLDER', {
+					name: 'Invoices',
+					id: undefined,
+					location: 'regular-invoice',
+				})
+
+				this.$store.dispatch('getRegularInvoices')
+			}
+		},
         mounted() {
             this.$store.dispatch('getAppData')
         }

@@ -216,9 +216,7 @@ class InvoiceController extends Controller
                     'value' => $client->id,
                 ];
             }),
-            'isVatPayer' => $user->invoiceProfile->ic_dph
-                ? true
-                : false,
+            'isVatPayer' => $user->invoiceProfile->ic_dph ?? false,
             'latestInvoiceNumber' => $user->regularInvoices->first()
                 ? (int) $user->regularInvoices->first()->invoice_number
                 : null,

@@ -17,10 +17,17 @@ class InvoiceProfileController extends Controller
      */
     public function show()
     {
-        return response(
-            new InvoiceProfileResource(Auth::user()->invoiceProfile),
-            200
-        );
+        $user = Auth::user();
+
+        if ($user->invoiceProfile) {
+
+            return response(
+                new InvoiceProfileResource($user->invoiceProfile),
+                200
+            );
+        }
+
+        return response("Profile didn't exists", 404);
     }
 
     /**

@@ -2,9 +2,10 @@
     <div class="empty-page-content">
         <div class="content">
             <div class="icon">
-                <file-icon v-if="icon === 'file'" size="38"></file-icon>
-                <file-text-icon v-if="icon === 'file-text'" size="38"></file-text-icon>
-                <settings-icon v-if="icon === 'settings'" size="38"></settings-icon>
+                <file-icon v-if="icon === 'file'" size="38" class="text-theme" />
+                <file-text-icon v-if="icon === 'file-text'" size="38" class="text-theme" />
+                <settings-icon v-if="icon === 'settings'" size="38" class="text-theme" />
+                <edit2-icon v-if="icon === 'edit'" size="38" class="text-theme" />
             </div>
             <div class="header">
                 <h1 class="title">{{ title }}</h1>
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-    import { FileIcon, FileTextIcon, SettingsIcon } from 'vue-feather-icons'
+    import { FileIcon, FileTextIcon, SettingsIcon, Edit2Icon } from 'vue-feather-icons'
 
     export default {
         name: 'EmptyPageContent',
@@ -24,6 +25,7 @@
         components: {
             SettingsIcon,
             FileTextIcon,
+			Edit2Icon,
             FileIcon,
         }
     }
@@ -41,7 +43,7 @@
         text-align: center;
 
         .content {
-            margin: 0 auto;
+            margin: -70px auto 0;
             max-width: 360px;
 
             /deep/ .button-base {
@@ -51,7 +53,7 @@
 
         .icon {
             path, polyline, line, circle {
-                stroke: $theme;
+                color: inherit;
             }
         }
 

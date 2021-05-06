@@ -30,6 +30,9 @@ class UserResource extends JsonResource
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
                     'created_at' => $this->created_at,
                     'updated_at' => $this->updated_at,
+
+                    // OasisDrive
+                    'has_billing_profile' => $this->invoiceProfile ? true : false,
                 ],
                 'relationships' => [
                     'settings' => [
