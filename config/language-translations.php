@@ -571,6 +571,7 @@ return [
         'shared_form.recipients_label' => 'Recipients',
         'shared_form.share_by_email' => 'Share by Email',
         'shared_form.share_by_link' => 'Share by Link',
+        'sidebar.sharing' => 'Sharing',
         'sidebar.favourites' => 'Favourites',
         'sidebar.favourites_empty' => 'Drag here your favourite folder.',
         'sidebar.folders_empty' => 'Create some new folder.',

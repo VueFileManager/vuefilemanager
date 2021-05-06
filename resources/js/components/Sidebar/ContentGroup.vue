@@ -57,7 +57,7 @@
     @import '@assets/vuefilemanager/_mixins';
 
     .content-group {
-        margin-bottom: 30px;
+        margin-bottom: 15px;
         transition: all 300ms;
 
         .group-title {

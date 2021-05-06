@@ -10,13 +10,7 @@
 
             <router-link :to="{name: 'Files'}" :title="$t('locations.home')" class="icon-navigation-item home">
                 <div class="button-icon text-theme">
-                    <hard-drive-icon size="19" class="text-theme" />
-                </div>
-            </router-link>
-
-            <router-link :to="{name: 'SharedFiles'}" :title="$t('locations.shared')" class="icon-navigation-item shared">
-                <div class="button-icon">
-                    <share-icon size="19" />
+                    <hard-drive-icon size="19" class="text-theme"></hard-drive-icon>
                 </div>
             </router-link>
 
@@ -28,13 +22,13 @@
 
             <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
-                    <user-icon size="19" />
+                    <user-icon size="19"></user-icon>
                 </div>
             </router-link>
 
             <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" :title="$t('locations.settings')" class="icon-navigation-item users">
                 <div class="button-icon">
-                    <settings-icon size="19" />
+                    <settings-icon size="19"></settings-icon>
                 </div>
             </router-link>
         </div>
@@ -43,7 +37,7 @@
         <ul class="icon-navigation logout">
             <li @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
                 <div class="button-icon">
-                    <power-icon size="19" />
+                    <power-icon size="19"></power-icon>
                 </div>
             </li>
         </ul>
@@ -202,16 +196,6 @@
 
                     path, line, polyline, rect, circle {
                         color: inherit;
-                    }
-                }
-            }
-
-            &.shared {
-                .button-icon {
-                    background: rgba($yellow, 0.1);
-
-                    path, line, polyline, rect, circle {
-                        stroke: $yellow;
                     }
                 }
             }

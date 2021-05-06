@@ -69,7 +69,7 @@ import {events} from '@/bus'
 import pdf from 'pdfvuer'
 
 export default {
-    name: 'MediaFullPreview',
+    name: 'FilePreviewMedia',
     components: {
         ChevronRightIcon,
         ChevronLeftIcon,
@@ -194,27 +194,40 @@ export default {
                 }
             })
         },
+		getDocumentSize() {
+
+			if (window.innerWidth < 960) {
+				this.documentSize = 100
+			}
+
+			if (window.innerWidth > 960){
+				this.documentSize = localStorage.getItem('documentSize')
+					? parseInt(localStorage.getItem('documentSize'))
+					: 50;
+			}
+		}
     },
     created() {
 
-        // Set zoom size
-        this.documentSize = window.innerWidth < 960 ? 100 : 70
-
-        events.$on('file-preview:next', () => this.next())
+		events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
 
         events.$on('document-zoom:in', () => {
-            if (this.documentSize < 100)
-                this.documentSize += 10
+            if (this.documentSize < 100) {
+				this.documentSize += 10
+				localStorage.setItem('documentSize', this.documentSize)
+			}
         })
 
         events.$on('document-zoom:out', () => {
-            if (this.documentSize > 40)
-                this.documentSize -= 10
+            if (this.documentSize > 40) {
+				this.documentSize -= 10
+				localStorage.setItem('documentSize', this.documentSize)
+			}
         })
 
+        this.getDocumentSize()
         this.getFilesForView()
-
     }
 }
 </script>
@@ -253,13 +266,13 @@ export default {
 #pdf-wrapper {
 	border-radius: 8px;
 	overflow-y: scroll;
-    margin: 0 auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
+	margin: 0 auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
 	padding: 40px;
 
 	.pdf-file {
