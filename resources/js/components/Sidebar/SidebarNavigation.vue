@@ -14,12 +14,6 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'SharedFiles'}" :title="$t('locations.shared')" class="icon-navigation-item shared">
-                <div class="button-icon">
-                    <share-icon size="19"></share-icon>
-                </div>
-            </router-link>
-
             <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <user-icon size="19"></user-icon>
@@ -171,16 +165,6 @@
 
                     path, line, polyline, rect, circle {
                         color: inherit;
-                    }
-                }
-            }
-
-            &.shared {
-                .button-icon {
-                    background: rgba($yellow, 0.1);
-
-                    path, line, polyline, rect, circle {
-                        stroke: $yellow;
                     }
                 }
             }
