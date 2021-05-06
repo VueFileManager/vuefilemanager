@@ -176,8 +176,10 @@ export default {
 
             if (!this.$isMobile()) {
 
-                // After click deselect new folder rename input
-                document.getSelection().removeAllRanges();
+				// After click deselect new folder rename input
+				if (document.getSelection().toString().length) {
+					document.getSelection().removeAllRanges();
+				}
 
                 if (e.ctrlKey || e.metaKey && !e.shiftKey) {
                     // Click + Ctrl

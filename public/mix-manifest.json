@@ -44,7 +44,7 @@
     "/chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/f~9f6a6eef.js": "/chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared-files~chunks/shared/f~9f6a6eef.js?id=d85fcb76a9b5d1cf4da5",
     "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser.js?id=ad0ae37b1adbba66f83f",
     "/chunks/files~chunks/shared-files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared-files~chunks/shared/file-browser~chunks/shared/single-file.js?id=87a26719b4e2b0800163",
-    "/chunks/files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared/file-browser.js?id=ef4bcb55086540b7804d",
+    "/chunks/files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared/file-browser.js?id=cf911fbc7adc3c2efd3a",
     "/chunks/forgotten-password.js": "/chunks/forgotten-password.js?id=877a9289b77ac3885042",
     "/chunks/homepage.js": "/chunks/homepage.js?id=48e0e9b3c870c46218ce",
     "/chunks/installation-disclaimer.js": "/chunks/installation-disclaimer.js?id=c523e816ae410f52d767",
@@ -406,7 +406,7 @@
     "/chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser.js": "/chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser.js?id=79fbefea1ea5353aadff",
     "/chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js?id=c311ddf66665e756332e",
     "/chunks/files~chunks/settings-subscription~chunks/shared/file-browser~chunks/user-subscription.js": "/chunks/files~chunks/settings-subscription~chunks/shared/file-browser~chunks/user-subscription.js?id=8e64aa7dcf2243d072cf",
-    "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js?id=7290a11135390d651b60",
+    "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js?id=7a6b6c8b23774249d5b2",
     "/chunks/shared-files.46a17203074cc430e987.hot-update.js": "/chunks/shared-files.46a17203074cc430e987.hot-update.js",
     "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js?id=ca01bfe1656f58710763",
     "/js/main.bdb0092d351af22274c5.hot-update.js": "/js/main.bdb0092d351af22274c5.hot-update.js",
@@ -427,5 +427,11 @@
     "/js/main.6e42083eb30e9061f9f1.hot-update.js": "/js/main.6e42083eb30e9061f9f1.hot-update.js",
     "/js/main.eee1ffd3fe3caa473ed0.hot-update.js": "/js/main.eee1ffd3fe3caa473ed0.hot-update.js",
     "/js/main.168fcbb1cfee63eab722.hot-update.js": "/js/main.168fcbb1cfee63eab722.hot-update.js",
-    "/js/main.677f002e2ff871016185.hot-update.js": "/js/main.677f002e2ff871016185.hot-update.js"
+    "/js/main.677f002e2ff871016185.hot-update.js": "/js/main.677f002e2ff871016185.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser.7933821f1e19ec441b76.hot-update.js": "/chunks/files~chunks/shared/file-browser.7933821f1e19ec441b76.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser.ecb38c41ec6ce93be047.hot-update.js": "/chunks/files~chunks/shared/file-browser.ecb38c41ec6ce93be047.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser.ca08dea4caf3c25aa63f.hot-update.js": "/chunks/files~chunks/shared/file-browser.ca08dea4caf3c25aa63f.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser.8f6de54dd00c24d0d6d4.hot-update.js": "/chunks/files~chunks/shared/file-browser.8f6de54dd00c24d0d6d4.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser.510caae3a305662fa904.hot-update.js": "/chunks/files~chunks/shared/file-browser.510caae3a305662fa904.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.e266c92f611d69251a59.hot-update.js": "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.e266c92f611d69251a59.hot-update.js"
 }
