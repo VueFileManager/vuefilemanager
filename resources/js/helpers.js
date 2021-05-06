@@ -29,11 +29,9 @@ const Helpers = {
             }
         }, 300)
 
-        Vue.prototype.$updateText = debounce(function (route, name, value) {
+        Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
 
-            let enableEmptyInput = ['mimetypes_blacklist', 'google_analytics', 'upload_limit']
-
-            if (value === '' || value === ' ' && !enableEmptyInput.includes(name)) return
+            if ((value === '' || value === ' ') && !allowEmpty) return
 
             axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
                 .catch(() => {

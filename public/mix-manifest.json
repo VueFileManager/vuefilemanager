@@ -20,7 +20,7 @@
     "/chunks/app-language.js": "/chunks/app-language.js?id=ccf2292ad048d4bfad60",
     "/chunks/app-language~chunks/app-settings~chunks/dashboard~chunks/dashboard-oasis~chunks/invoices~chun~93101a7f.js": "/chunks/app-language~chunks/app-settings~chunks/dashboard~chunks/dashboard-oasis~chunks/invoices~chun~93101a7f.js?id=93fb27b76209e5b7b2d9",
     "/chunks/app-language~chunks/dashboard~chunks/dashboard-oasis~chunks/files~chunks/invoices~chunks/oasi~c6e9de01.js": "/chunks/app-language~chunks/dashboard~chunks/dashboard-oasis~chunks/files~chunks/invoices~chunks/oasi~c6e9de01.js?id=f9af3b7905bb7c35023d",
-    "/chunks/app-others.js": "/chunks/app-others.js?id=9156adba3b1697a8bf3e",
+    "/chunks/app-others.js": "/chunks/app-others.js?id=98970c52f69ab8ae1bc9",
     "/chunks/app-payments.js": "/chunks/app-payments.js?id=7e1a982c90174f568fb2",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=acc6ba7a93681f0d5d64",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=d0e3e046e147ca928f34",
@@ -421,5 +421,11 @@
     "/chunks/platform~chunks/shared.6c21d61908391d289fde.hot-update.js": "/chunks/platform~chunks/shared.6c21d61908391d289fde.hot-update.js",
     "/chunks/platform~chunks/shared.1107858fead4e99c0777.hot-update.js": "/chunks/platform~chunks/shared.1107858fead4e99c0777.hot-update.js",
     "/chunks/platform~chunks/shared.8ecbc2534cc15edb24c7.hot-update.js": "/chunks/platform~chunks/shared.8ecbc2534cc15edb24c7.hot-update.js",
-    "/chunks/platform~chunks/shared.726c307ce12d01d3d14b.hot-update.js": "/chunks/platform~chunks/shared.726c307ce12d01d3d14b.hot-update.js"
+    "/chunks/platform~chunks/shared.726c307ce12d01d3d14b.hot-update.js": "/chunks/platform~chunks/shared.726c307ce12d01d3d14b.hot-update.js",
+    "/js/main.1342e30369dc66c18368.hot-update.js": "/js/main.1342e30369dc66c18368.hot-update.js",
+    "/chunks/app-others.1c89c0d9ff0756cf8526.hot-update.js": "/chunks/app-others.1c89c0d9ff0756cf8526.hot-update.js",
+    "/js/main.6e42083eb30e9061f9f1.hot-update.js": "/js/main.6e42083eb30e9061f9f1.hot-update.js",
+    "/js/main.eee1ffd3fe3caa473ed0.hot-update.js": "/js/main.eee1ffd3fe3caa473ed0.hot-update.js",
+    "/js/main.168fcbb1cfee63eab722.hot-update.js": "/js/main.168fcbb1cfee63eab722.hot-update.js",
+    "/js/main.677f002e2ff871016185.hot-update.js": "/js/main.677f002e2ff871016185.hot-update.js"
 }
