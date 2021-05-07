@@ -10,8 +10,11 @@ Route::post('/check', [AuthController::class, 'check_account']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Account
     Route::patch('/relationships/settings', [AccountController::class, 'update_user_settings']);
+    Route::delete('/token/revoke/{id}', [AccountController::class, 'revoke_token']);
+    Route::post('/token/create', [AccountController::class, 'create_token']);
     Route::post('/password', [AccountController::class, 'change_password']);
     Route::get('/subscription', [SubscriptionController::class, 'show']);
+    Route::get('/tokens', [AccountController::class, 'tokens_index']);
     Route::get('/invoices', [AccountController::class, 'invoices']);
     Route::get('/storage', [AccountController::class, 'storage']);
     Route::get('/', [AccountController::class, 'user']);

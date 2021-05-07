@@ -11,6 +11,7 @@ use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
+use App\Models\Folder;
 
 class UserAccountTest extends TestCase
 {
@@ -150,5 +151,112 @@ class UserAccountTest extends TestCase
                     ]
                 ],
             ]);
+    }
+
+     /**
+     * @test
+     */
+    public function it_create_user_token()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/user/token/create')
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_id' => $user->id,
+        ]);
+    }
+
+     /**
+     * @test
+     */
+    public function it_revoke_user_token()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+            
+        $user->createToken('token');
+
+        $token_id = $user->tokens()->first()->id;
+
+        $this->deleteJson("/api/user/token/revoke/$token_id")
+            ->assertStatus(204);
+
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'id' => $token_id
+        ]);
+
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_user_tokens()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $user->createToken('token');
+
+        $token = $user->tokens()->first();
+
+        $this->getJson('/api/user/tokens')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                "id"             => $token->id,        
+                "tokenable_type" => $token->tokenable_type,  
+                "tokenable_id"   => $user->id,     
+                "name"           => $token->name,
+                "abilities"      => $token->abilities
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_use_user_token_to_request()
+    {
+        $user = User::factory(User::class)
+        ->create();
+        
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+        
+        $token = $user->createToken('token')->plainTextToken;
+
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_id' => $user->id
+        ]);
+
+        $this->assertDatabaseHas('folders', [
+            'id' => $folder->id,
+            'user_id' => $user->id
+        ]);
+
+        $response = $this->call('GET', "api/browse/folders/$folder->id", 
+            [], [], [], [
+                'Content-type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' .$token,    
+            ]);
+
+    
+        // $response->assertJsonFragment([
+        //     'id' => $folder->id,
+        //     'user_id' => $user->id,
+        // ]);
+
+        dd($response);
+
     }
 }

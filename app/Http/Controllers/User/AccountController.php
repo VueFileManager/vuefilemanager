@@ -125,4 +125,43 @@ class AccountController extends Controller
 
         return response('Changed!', 204);
     }
+
+    /**
+     * Get all user tokens
+     * 
+     * @return Collection
+     */
+    public function tokens_index()
+    {
+        return response(
+            Auth::user()->tokens()->get(),
+            200
+        );
+    }
+
+    /**
+     * Create token
+     * 
+     * @return Collection
+     */
+    public function create_token()
+    {
+        return response(
+            Auth::user()->createToken('token'),
+            201
+        );
+    }
+
+     /**
+     * Revoke token
+     * 
+     * @param $id
+     * @return  ResponseFactory|\Illuminate\Http\Response
+     */
+    public function revoke_token($id)
+    {
+        Auth::user()->tokens()->whereId($id)->delete();
+
+        return response('Deleted!', 204);
+    }
 }
