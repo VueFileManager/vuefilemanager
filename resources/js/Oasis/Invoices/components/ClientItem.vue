@@ -27,7 +27,7 @@
 
                 <div class="item-info">
                     <span class="item-size">
-						Created at: {{ item.created_at }}, Total: {{ item.totalNet }}
+						{{ $t('file_detail.created_at') }}: {{ item.created_at }}, {{ $t('global.total') }}: {{ item.totalNet }}
 					</span>
                 </div>
             </div>
@@ -50,7 +50,7 @@ import {mapGetters} from 'vuex'
 import {events} from '@/bus'
 
 export default {
-    name: 'InvoiceItem',
+    name: 'ClientItem',
     props: [
 		'item'
 	],

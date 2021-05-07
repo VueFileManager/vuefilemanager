@@ -56,7 +56,7 @@
 							</div>
 
 							<div v-if="isNewClient" class="block-wrapper">
-								<label>{{ $t('in_editor.lab_ico') }}:</label>
+								<label>{{ $t('in_editor.ico') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="client_ico" rules="required" v-slot="{ errors }">
 									<input v-model="invoice.client_ico" :placeholder="$t('in_editor.plac.client_ico')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<small v-if="fullDetails" class="input-help">

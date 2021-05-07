@@ -23,18 +23,18 @@
 			<ListInfo v-if="isSingleFile && !isEmpty">
 
 				<ListInfoItem
-					title="Email"
+					:title="$t('in_editor.client_email')"
 					:content="singleFile.email"
 				/>
 
 				<ListInfoItem
-					title="Total Net"
+					:title="$t('in.total_net')"
 					:content="singleFile.totalNet"
 				/>
 
 				<ListInfoItem
-					title="Total Invoices"
-					:content="singleFile.totalInvoices + ' Pcs.'"
+					:title="$t('in.total_invoices')"
+					:content="singleFile.totalInvoices + ' ' + $t('global.pcs')"
 				/>
 
 				<!--Created At-->
@@ -61,7 +61,7 @@
 				<TitlePreview
 					icon="file-text"
 					:title="singleFile.client_name"
-					:subtitle="'Invoice - ' + singleFile.invoice_number"
+					:subtitle="$t('invoice_title') + ' - ' + singleFile.invoice_number"
 				/>
 			</div>
 
@@ -69,17 +69,17 @@
 			<ListInfo v-if="isSingleFile && !isEmpty">
 
 				<ListInfoItem
-					title="Invoice Number"
+					:title="$t('invoice_number')"
 					:content="singleFile.invoice_number"
 				/>
 
 				<ListInfoItem
-					title="Total"
+					:title="$t('total')"
 					:content="singleFile.total"
 				/>
 
 				<ListInfoItem
-					title="Client"
+					:title="$t('client')"
 					:content="singleFile.client_name"
 				/>
 
@@ -106,7 +106,7 @@
 	import {events} from "@/bus"
 
 	export default {
-		name: 'InfoSidebar',
+		name: 'InvoiceInfoSidebar',
 		components: {
 			FilePreviewDetail,
 			ImageMetaData,

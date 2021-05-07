@@ -26,7 +26,7 @@
         </style>
     @endif
 
-    <title>Invoice</title>
+    <title>{{ __t('in.invoice') }}</title>
 </head>
 <body>
 
@@ -47,13 +47,13 @@
                 </div>
                 <div class="col-right align-right">
                     @if($invoice->invoice_type === 'regular-invoice')
-                        <h1>Faktúra - daňový doklad</h1>
+                        <h1>{{ __t('in.invoice') }} - {{ __t('in.doc.taxable_doc') }}</h1>
                     @endif
                     @if($invoice->invoice_type === 'advance-invoice')
-                        <h1>Faktúra - zálohový doklad</h1>
+                        <h1>{{ __t('in.invoice') }} - {{ __t('in.doc.advance_doc') }}</h1>
                     @endif
-                    <h2>Číslo: {{ $invoice->invoice_number }}</h2>
-                    <h4>Variabilný symbol: {{ $invoice->variable_number }}</h4>
+                    <h2>{{ __t('in.doc.number') }}: {{ $invoice->invoice_number }}</h2>
+                    <h4>{{ __t('in.doc.variable_symbol') }}: {{ $invoice->variable_number }}</h4>
                 </div>
             </div>
         </header>
@@ -62,7 +62,7 @@
         <section>
             <div class="supplier">
                 <div class="box" style="width: 500px;">
-                    <h3>Odberateľ:</h3>
+                    <h3>{{ __t('in.doc.customer') }}:</h3>
                     <p>{{ $invoice->client['name'] }}</p>
                     <p>{{ $invoice->client['address'] }}, {{ $invoice->client['city'] }}</p>
                     <p>{{ $invoice->client['postal_code'] }} {{ $invoice->client['country'] }}</p>
@@ -70,51 +70,51 @@
                     <div class="single-row">
                         <span>
                             @isset($invoice->client['ico'])
-                                <span class="highlight">IČO</span>: {{ $invoice->client['ico'] }}
+                                <span class="highlight">{{ __t('in_editor.ico') }}</span>: {{ $invoice->client['ico'] }}
                             @endisset
                             @isset($invoice->client['dic'])
-                                <span class="highlight">DIČ</span>: {{ $invoice->client['dic'] }}
+                                <span class="highlight">{{ __t('in_editor.dic') }}</span>: {{ $invoice->client['dic'] }}
                             @endisset
                             @isset($invoice->client['ic_dph'])
-                                <span class="highlight">IC DPH</span>: {{ $invoice->client['ic_dph'] }}
+                                <span class="highlight">{{ __t('in_editor.ic_dph') }}</span>: {{ $invoice->client['ic_dph'] }}
                             @endisset
                         </span>
                     </div>
                 </div>
                 <div class="dates">
-                    <p>Dátum vystavenia: {{ format_date($invoice->created_at, '%d. %B %Y') }}</p>
-                    <p>Dátum dodania: {{ format_date($invoice->delivery_at, '%d. %B %Y') }}</p>
-                    <p>Dátum splatnosti: {{ format_date($invoice->due_at, '%d. %B %Y') }}</p>
+                    <p>{{ __t('in.doc.date_of_issue') }}: {{ format_date($invoice->created_at, '%d. %B %Y') }}</p>
+                    <p>{{ __t('in.doc.date_of_delivery') }}: {{ format_date($invoice->delivery_at, '%d. %B %Y') }}</p>
+                    <p>{{ __t('in.doc.due_date') }}: {{ format_date($invoice->due_at, '%d. %B %Y') }}</p>
                 </div>
             </div>
 
             <div class="content-box">
-                <h3>Dodávateľ:</h3>
+                <h3>{{ __t('in.doc.supplier') }}:</h3>
                 <p style="padding-bottom: 0">{{ $invoice->user['company'] }}</p>
                 <small>{{ $invoice->user['registration_notes'] }}</small>
             </div>
 
             <div class="content-box">
-                <h3>Sídlo:</h3>
+                <h3>{{ __t('in.doc.headquarters') }}:</h3>
                 <p>{{ $invoice->user['address'] }} {{ $invoice->user['city'] }}</p>
                 <p>{{ $invoice->user['postal_code'] }}, {{ $invoice->user['country'] }}</p>
             </div>
 
             <div class="content-box" style="padding-bottom: 0px">
-                <h3>Faktúračné údaje:</h3>
+                <h3>{{ __t('user_settings.title_billing') }}:</h3>
 
                 @isset($invoice->user['ico'])
-                    <p>IČO: {{ $invoice->user['ico'] }}</p>
+                    <p>{{ __t('in_editor.ico') }}: {{ $invoice->user['ico'] }}</p>
                 @endisset
                 @isset($invoice->user['dic'])
-                    <p>DIČ: {{ $invoice->user['dic'] }}</p>
+                    <p>{{ __t('in_editor.dic') }}: {{ $invoice->user['dic'] }}</p>
                 @endisset
                 @isset($invoice->user['ic_dph'])
-                    <p>IČ DPH: {{ $invoice->user['ic_dph'] }}</p>
+                    <p>{{ __t('in_editor.ic_dph') }}: {{ $invoice->user['ic_dph'] }}</p>
                 @endisset
 
                 <p>{{ $invoice->user['bank'] }}</p>
-                <p>IBAN: {{ $invoice->user['iban'] }}, BIC kód/SWIFT: {{ $invoice->user['swift'] }}</p>
+                <p>{{ __t('in.form.iban') }}: {{ $invoice->user['iban'] }}, {{ __t('in.form.swift_code') }}: {{ $invoice->user['swift'] }}</p>
             </div>
         </section>
 
@@ -122,25 +122,25 @@
         <div class="special-wrapper">
             <div class="special-item">
                 <div class="padding">
-                    <b>Číslo účtu:</b>
+                    <b>{{ __t('in.doc.bank_account_number') }}:</b>
                     <span>{{ $invoice->user['iban'] }}</span>
                 </div>
             </div>
             <div class="special-item">
                 <div class="padding">
-                    <b>Variabilný symbol:</b>
+                    <b>{{ __t('in.doc.variable_symbol') }}:</b>
                     <span>{{ $invoice->variable_number }}</span>
                 </div>
             </div>
             <div class="special-item">
                 <div class="padding">
-                    <b>Dátum splatnosti:</b>
+                    <b>{{ __t('in.doc.due_date') }}:</b>
                     <span>{{ format_date($invoice->due_at, '%d. %h. %Y') }}</span>
                 </div>
             </div>
             <div class="special-item">
                 <div class="padding">
-                    <b>Suma na úhradu:</b>
+                    <b>{{ __t('in.doc.sum_to_pay') }}:</b>
                     <span>{{ format_to_currency($invoice->total_net) }}</span>
                 </div>
             </div>
@@ -151,26 +151,26 @@
             <thead>
                 <tr class="table-row">
                     <td class="table-cell">
-                        <span>Názov produktu</span>
+                        <span>{{ __t('in.doc.item.name') }}</span>
                     </td>
                     <td class="table-cell">
-                        <span>Množstvo</span>
+                        <span>{{ __t('in.doc.item.amount') }}</span>
                     </td>
                     <td class="table-cell">
-                        <span>J. Cena</span>
+                        <span>{{ __t('in.doc.item.price_per_unit') }}</span>
                     </td>
                     <td class="table-cell">
-                        <span>Celkom</span>
+                        <span>{{ __t('in.doc.item.total') }}</span>
                     </td>
                     @if($invoice->user['ic_dph'])
                         <td class="table-cell">
-                            <span>Sadzba DPH</span>
+                            <span>{{ __t('in.doc.item.vat_rate') }}</span>
                         </td>
                         <td class="table-cell">
-                            <span>DPH</span>
+                            <span>{{ __t('in.doc.item.vat') }}</span>
                         </td>
                         <td class="table-cell">
-                            <span>Celkom s DPH</span>
+                            <span>{{ __t('in.doc.item.total_with_vat') }}</span>
                         </td>
                     @endif
                 </tr>
@@ -219,7 +219,7 @@
 
             @if($invoice->discount_type)
                 <li class="row" style="padding-bottom: 8px">
-                    <span>Zlava za doklad:</span>
+                    <span>{{ __t('in.doc.discount') }}:</span>
                     <span>-{{ $invoice->discount_type === 'percent' ? $invoice->discount_rate . '%' : format_to_currency($invoice->discount_rate) }}</span>
                 </li>
             @endif
@@ -229,7 +229,7 @@
                 <div style="padding-bottom: 8px">
                     @foreach(invoice_tax_base($invoice) as $item)
                         <li class="row">
-                            <span>Základ DPH {{ $item['rate'] }}%: </span>
+                            <span>{{ __t('in.doc.vat_base') }} {{ $item['rate'] }}%: </span>
                             <span>{{ format_to_currency($item['total']) }}</span>
                         </li>
                     @endforeach
@@ -241,7 +241,7 @@
                 <div style="padding-bottom: 8px">
                     @foreach(invoice_tax_summary($invoice) as $item)
                         <li class="row">
-                            <span>DPH {{ $item['rate'] }}%: </span>
+                            <span>{{ __t('in.doc.item.vat') }} {{ $item['rate'] }}%: </span>
                             <span>{{ format_to_currency($item['total']) }}</span>
                         </li>
                     @endforeach
@@ -249,21 +249,21 @@
             @endif
 
             <li class="row">
-                <b>Spolu k úhrade:</b>
+                <b>{{ __t('in.doc.sum_to_pay') }}:</b>
                 <b>{{ format_to_currency(invoice_total($invoice)) }}</b>
             </li>
         </ul>
 
         <!--Notes-->
         <div class="notes">
-            <p>Ďakujeme, že ste sa rozhodli pre naše služby.</p>
+            <p>{{ __t('in.doc.thanks') }}</p>
         </div>
 
         {{--Invoice author--}}
         <div class="invoice-author">
             <div class="tax-note">
                 @if(! $invoice->user['ic_dph'])
-                    <p>Nie sme platci DPH</p>
+                    <p>{{ __t('in.doc.not_vat_payer') }}</p>
                 @endif
             </div>
             <div class="sign">
@@ -275,13 +275,13 @@
                     <img src="{{ base64_from_storage_image($user->invoiceProfile->stamp) }}">
                 @endif
 
-                <span class="highlight">Faktúru vystavil:</span> {{ $invoice->user['author'] }}
+                <span class="highlight">{{ __t('in.doc.creator') }}:</span> {{ $invoice->user['author'] }}
             </div>
         </div>
 
         {{--Invoice Footer--}}
         <footer class="invoice-footer">
-            <p>Vygenerované aplikáciou <a href="https://oasisdrive.cz">OasisDrive.cz</a></p>
+            <p>{!! __t('in.doc.created_by_app', ['app_name' => 'OasisDrive.cz', 'url' => 'https://oasisdrive.cz']) !!}</p>
         </footer>
     </div>
 </body>

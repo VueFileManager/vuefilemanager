@@ -4,9 +4,9 @@
         <!--Invoice-->
         <div v-show="isInvoice" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="editItem" title="Edit Invoice" icon="rename" />
-                <Option @click.native="" title="Send Invoice" icon="send" />
-                <Option @click.native="goToCompany" title="Go to Company" icon="user" />
+                <Option @click.native="editItem" :title="$t('in.menu.edit_invoice')" icon="rename" />
+                <Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
+                <Option @click.native="goToCompany" :title="$t('in.menu.show_company')" icon="user" />
                 <Option @click.native="deleteInvoice" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
@@ -19,11 +19,11 @@
         <!--Client-->
         <div v-show="isClient" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="goToCompany" title="Edit" icon="rename" />
-                <Option @click.native="deleteClient" title="Delete" icon="trash" />
+                <Option @click.native="goToCompany" :title="$t('in.menu.edit')" icon="rename" />
+                <Option @click.native="deleteClient" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="goToCompany" title="Go to Profile" icon="user" />
+                <Option @click.native="goToCompany" :title="$t('in.menu.show_company')" icon="user" />
                 <Option @click.native="showDetail" :title="$t('context_menu.detail')" icon="detail" />
             </OptionGroup>
         </div>
@@ -100,8 +100,8 @@ export default {
 		},
         deleteInvoice() {
 			events.$emit('confirm:open', {
-				title: `Are you sure you want to delete invoice number ${this.item.invoice_number}?`,
-				message: 'Your invoice will be permanently deleted.',
+				title: this.$t('in.popup.delete_invoice.title', {number: this.item.invoice_number}),
+				message: this.$t('in.popup.delete_invoice.message'),
 				buttonColor: 'danger-solid',
 				action: {
 					id: this.item.id,
@@ -111,8 +111,8 @@ export default {
         },
 		deleteClient() {
 			events.$emit('confirm:open', {
-				title: `Are you sure you want to delete client ${this.item.name}?`,
-				message: 'Your client will be permanently deleted.',
+				title: this.$t('in.popup.delete_client.title', {name: this.item.name}),
+				message: this.$t('in.popup.delete_client.message'),
 				buttonColor: 'danger-solid',
 				action: {
 					id: this.item.id,

@@ -43,7 +43,7 @@
                 <!--Empty page-->
                 <template v-slot:empty-page>
                     <InfoBox class="form-fixed-width">
-                        <p>Client doesn't have any invoices yet.</p>
+                        <p>{{ $t('in.empty.clients_invoices') }}</p>
                     </InfoBox>
                 </template>
             </DatatableWrapper>
@@ -60,7 +60,7 @@
     import {Edit2Icon, DownloadCloudIcon} from "vue-feather-icons";
 
     export default {
-        name: 'UserInvoices',
+        name: 'ClientInvoices',
         components: {
             EmptyPageContent,
             DatatableWrapper,
@@ -85,7 +85,7 @@
                         sortable: false
                     },
                     {
-                        label: 'Created At',
+                        label: this.$t('file_detail.created_at'),
                         field: 'data.attributes.created_at',
                         sortable: false
                     },

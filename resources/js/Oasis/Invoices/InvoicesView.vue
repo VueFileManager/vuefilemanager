@@ -23,9 +23,6 @@
 			contextMenu(event, item) {
 				events.$emit('contextMenu:show', event, item)
 			},
-		},
-		mounted() {
-
 		}
 	}
 </script>

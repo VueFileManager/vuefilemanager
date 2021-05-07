@@ -86,7 +86,10 @@ return [
     'document_gdpr_policy' => 'Směrnice EU (GDPR)',
 
     // Invoice module
+    'in.invoice' => 'Invoice',
     'in_toaster.success_creation' => 'Invoice was created successfully',
+    'in_toaster.success_invoice_edition' => 'The invoice was successfully edited.',
+    'in_toaster.success_client_creation' => 'Client was created successfully',
 
     'in_editor.page.create_regular_invoice' => 'Create Regular Invoice',
     'in_editor.page.create_advance_invoice' => 'Create Advance Invoice',
@@ -108,7 +111,7 @@ return [
     'in_editor.others' => 'Others',
     'in_editor.summary' => 'Invoice Summary',
 
-    'in_editor.lab_ico' => 'ICO',
+    'in_editor.ico' => 'ICO',
     'in_editor.dic' => 'DIC',
     'in_editor.ic_dph' => 'IC DPH',
     'in_editor.company_name' => 'Company name',
@@ -163,6 +166,115 @@ return [
     'in_editor.submit' => 'Store & Generate Invoice',
     'in_editor.error' => 'There is probably an error, please check it and fix it.',
 
-    'inputs.placeholder_search_invoices' => 'Search invoices...',
-    'inputs.placeholder_search_clients' => 'Search clients...',
+    'inputs.placeholder_search_invoices' => 'Search in invoices...',
+    'inputs.placeholder_search_clients' => 'Search in clients...',
+
+    'in.nav.group.invoicing' => 'Invoicing',
+    'in.nav.group.settings' => 'Settings',
+
+    'in.nav.invoices' => 'Invoices',
+    'in.nav.advance_invoices' => 'Advance Invoices',
+    'in.nav.clients' => 'Clients',
+    'in.nav.my_bill_profile' => 'My Billing Profile',
+
+    'in.create.regular_invoice' => 'Create Invoice',
+    'in.create.advance_invoice' => 'Create Advance Invoice',
+    'in.create.client' => 'Create Client',
+
+    'in.button.setup_bill_profile' => 'Set up Billing Profile',
+    'in.button.store_bill_profile' => 'Store My Billing Profile',
+
+    'in.toaster.success_bill_profile' => 'Your billing profile was successfully stored',
+
+    'in.bill_profile_note' => 'Here you can set your <b class="text-theme">billing profile</b> which will be paste to your every newly generated invoice.',
+
+    'in.empty.bill_profile_title' => "You don't have billing profile",
+    'in.empty.bill_profile_description' => 'Before your first invoice, please set up your billing profile.',
+    'in.empty.clients_invoices' => "Client doesn't have any invoices yet.",
+
+    'in.empty.invoice_page_title' => "Create Your First Invoice",
+    'in.empty.invoice_page_description' => "It's very easy, just click on the button below.",
+
+    'in.empty.client_page_title' => "Create Your First Client",
+
+    'in.form.some_issues' => 'We found some issues in your form. Please check it out and submit again',
+    'in.form.create_client' => 'Create Client',
+    'in.form.delete_invoice' => 'Delete Invoice',
+
+    'in.form.stamp' => 'Stamp',
+    'in.form.author_name' => 'Author Name',
+    'in.form.swift_code' => 'BIC code/SWIFT',
+    'in.form.iban' => 'IBAN',
+    'in.form.bank_name' => 'Bank Name',
+    'in.form.reg_notes' => 'Registration Notes',
+    'in.form.company_name' => 'Company name',
+    'in.form.company_and_logo' => 'Company & Logo',
+    'in.form.company_details' => 'Company Details',
+    'in.form.company_address' => 'Company Address',
+    'in.form.contact_info' => 'Contact Information',
+    'in.form.bank_info' => 'Bank Info',
+    'in.form.author' => 'Author',
+
+    'in.menu.edit_invoice' => 'Edit Invoice',
+    'in.menu.send_invoice' => 'Send Invoice',
+    'in.menu.show_company' => 'Show Company',
+    'in.menu.edit' => 'Edit',
+    'in.menu.delete' => 'Delete',
+
+    'in.popup.delete_single_invoice.title' => 'Are you sure you want to delete this invoice?',
+    'in.popup.delete_single_invoice.message' => 'Your invoice will be permanently deleted.',
+
+    'in.popup.delete_invoice.title' => 'Are you sure you want to delete invoice number {number}?',
+    'in.popup.delete_invoice.message' => 'Your invoice will be permanently deleted.',
+
+    'in.popup.delete_client.title' => 'Are you sure you want to delete client {name}?',
+    'in.popup.delete_client.message' => 'Your client will be permanently deleted.',
+
+    'in.total_net' => 'Total Net',
+    'in.total_invoices' => 'Total Invoices',
+    'in.n-abbreviation' => 'n.',
+
+    'in.doc.taxable_doc' => 'taxable document',
+    'in.doc.advance_doc' => 'zálohový doklad',
+
+    'in.doc.number' => 'Číslo',
+    'in.doc.variable_symbol' => 'Variabilný symbol',
+
+    'in.doc.customer' => 'Customer',
+    'in.doc.supplier' => 'Supplier',
+
+    'in.doc.date_of_issue' => 'Dátum vystavenia',
+    'in.doc.date_of_delivery' => 'Dátum dodania',
+    'in.doc.due_date' => 'Dátum splatnosti',
+
+    'in.doc.headquarters' => 'Headquarters',
+
+    'in.doc.sum_to_pay' => 'Suma na úhradu',
+    'in.doc.bank_account_number' => 'Číslo účtu',
+
+    'in.doc.item.name' => 'Názov produktu',
+    'in.doc.item.amount' => 'Množstvo',
+    'in.doc.item.price_per_unit' => 'J. Cena',
+    'in.doc.item.total' => 'Celkom',
+    'in.doc.item.vat_rate' => 'Sadzba DPH',
+    'in.doc.item.vat' => 'DPH',
+    'in.doc.item.total_with_vat' => 'Celkom s DPH',
+
+    'in.doc.discount' => 'Zlava za doklad',
+    'in.doc.vat_base' => 'Základ DPH',
+
+    'in.doc.thanks' => 'Ďakujeme, že ste sa rozhodli pre naše služby.',
+    'in.doc.not_vat_payer' => 'Nie sme platci DPH',
+
+    'in.doc.creator' => 'Faktúru vystavil',
+
+    'in.doc.created_by_app' => 'Vygenerované aplikáciou <a href=":url">:app_name</a>',
+
+    'in.notify.subject' => 'You have new invoice from company :company',
+    'in.notify.message' => ':company send you invoice. You can find it in attachment of this email.',
+
+    'in.route_title.invoices' => 'Invoices',
+    'in.route_title.client' => 'Client',
+    'in.route_title.client_detail' => 'Client',
+    'in.route_title.client_invoices' => 'Client Invoices',
 ];

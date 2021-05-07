@@ -5,18 +5,17 @@
 			class="headline"
 			icon="file-text"
 			:title="clipboard[0].name"
-			:subtitle="'Invoice - ' + clipboard[0].invoice_number"
+			:subtitle="$t('in.invoice') + ' - ' + clipboard[0].invoice_number"
 		/>
 
 		<!--Trash location-->
         <MenuMobileGroup>
             <OptionGroup class="menu-option-group">
-                <Option @click.native="editInvoice" title="Edit Invoice" icon="rename" />
-                <Option @click.native="" title="Send Invoice" icon="send" />
-                <Option @click.native="goToCompany" title="Go to Company" icon="user" />
+                <Option @click.native="editInvoice" :title="$t('in.menu.edit_invoice')" icon="rename" />
+                <Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
+                <Option @click.native="goToCompany" :title="$t('in.menu.show_company')" icon="user" />
                 <Option @click.native="deleteInvoice" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
-
             <OptionGroup>
                 <Option @click.native="downloadInvoice" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
@@ -35,7 +34,7 @@ import {mapGetters} from 'vuex'
 import {events} from '@/bus'
 
 export default {
-    name: 'FileMenuMobile',
+    name: 'InvoiceMobileMenu',
     components: {
         MenuMobileGroup,
         ThumbnailItem,
@@ -67,8 +66,8 @@ export default {
 		},
 		deleteInvoice() {
 			events.$emit('confirm:open', {
-				title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoice_number}?`,
-				message: 'Your invoice will be permanently deleted.',
+				title: this.$t('in.popup.delete_invoice.title', {number: this.clipboard[0].invoice_number}),
+				message: this.$t('in.popup.delete_invoice.message'),
 				buttonColor: 'danger-solid',
 				action: {
 					id: this.clipboard[0].id,

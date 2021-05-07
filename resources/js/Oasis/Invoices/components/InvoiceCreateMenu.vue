@@ -2,11 +2,11 @@
     <MenuMobile name="invoice-create">
         <MenuMobileGroup>
             <OptionGroup>
-                <Option @click.native="createInvoice('regular-invoice')" title="Create Invoice" icon="file-plus" is-hover-disabled="true" />
-                <Option @click.native="createInvoice('advance-invoice')" title="Create Advance Invoice" icon="clock" is-hover-disabled="true" />
+                <Option @click.native="createInvoice('regular-invoice')" :title="$t('in.create.regular_invoice')" icon="file-plus" is-hover-disabled="true" />
+                <Option @click.native="createInvoice('advance-invoice')" :title="$t('in.create.advance_invoice')" icon="clock" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="createClient" title="Create Client" icon="user-plus" is-hover-disabled="true" />
+                <Option @click.native="createClient" :title="$t('in.create.client')" icon="user-plus" is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>

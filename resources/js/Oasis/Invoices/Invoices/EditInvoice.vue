@@ -1,7 +1,7 @@
 <template>
 	<div id="single-page">
 		<MobileHeader :title="pageTitle" />
-		<PageHeader :title="pageTitle" />
+		<PageHeader :can-back="true" :title="pageTitle" />
 
 		<div id="page-content">
 			<div class="content-page" v-if="! isLoadingPage">
@@ -216,11 +216,11 @@
 						</div>
 
 						<ButtonBase :disabled="isLoading" @click.native="deleteInvoice" button-style="secondary" class="next-submit">
-							Delete Invoice
+							{{ $t('in.form.delete_invoice') }}
 						</ButtonBase>
 
 						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="updateInvoice" button-style="theme-solid" class="next-submit" style="margin-top: 15px">
-							Save Changes
+							{{ $t('popup_share_edit.save') }}
 						</ButtonBase>
 						<p class="error-message" v-if="isError">
 							{{ errorMessage }}
@@ -472,8 +472,8 @@
 			},
 			deleteInvoice() {
 				events.$emit('confirm:open', {
-					title: `Are you sure you want to delete this invoice?`,
-					message: 'Your invoice will be permanently deleted.',
+					title: this.$t('in.popup.delete_single_invoice.title'),
+					message: this.$t('in.popup.delete_single_invoice.message'),
 					buttonColor: 'danger-solid',
 					action: {
 						id: this.$route.params.id,
@@ -514,7 +514,7 @@
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: 'The invoice was successfully edited.',
+							message: this.$t('in_toaster.success_invoice_edition'),
 						})
 					})
 					.catch(error => {

@@ -21,13 +21,13 @@
 
 			<!--Sidebar navigation-->
 			<ContentSidebar>
-				<ContentGroup title="Invoicing" class="navigator menu-list-wrapper vertical">
+				<ContentGroup :title="$t('in.nav.group.invoicing')" class="navigator menu-list-wrapper vertical">
 					<a @click="goTo('regular-invoice')" :class="{'is-active': $isThisLocation(['regular-invoice']) && $route.name === 'InvoicesList'}" class="menu-list-item link">
 						<div class="icon text-theme">
 							<file-text-icon size="17" />
 						</div>
 						<div class="label text-theme">
-							Invoices
+							{{ $t('in.nav.invoices') }}
 						</div>
 					</a>
 					<a @click="goTo('advance-invoice')" :class="{'is-active': $isThisLocation(['advance-invoice']) && $route.name === 'InvoicesList'}" class="menu-list-item link">
@@ -35,7 +35,7 @@
 							<clock-icon size="17" />
 						</div>
 						<div class="label text-theme">
-							Advance Invoices
+							{{ $t('in.nav.advance_invoices') }}
 						</div>
 					</a>
 					<a @click="goTo('clients')" :class="{'is-active': $isThisLocation(['clients']) && $route.name === 'InvoicesList'}" class="menu-list-item link">
@@ -43,17 +43,17 @@
 							<users-icon size="17" />
 						</div>
 						<div class="label text-theme">
-							Clients
+							{{ $t('in.nav.clients') }}
 						</div>
 					</a>
 				</ContentGroup>
-				<ContentGroup title="Settings" class="navigator menu-list-wrapper vertical">
+				<ContentGroup :title="$t('in.nav.group.settings')" class="navigator menu-list-wrapper vertical">
 					<router-link :to="{name: 'BillingProfile'}" class="menu-list-item link">
 						<div class="icon text-theme">
 							<edit2-icon size="17" />
 						</div>
 						<div class="label text-theme">
-							My Billing Profile
+							{{ $t('in.nav.my_bill_profile') }}
 						</div>
 					</router-link>
 				</ContentGroup>
@@ -131,7 +131,7 @@
 			if (! this.currentFolder) {
 
 				this.$store.commit('STORE_CURRENT_FOLDER', {
-					name: 'Invoices',
+					name: this.$t('in.nav.invoices'),
 					id: undefined,
 					location: 'regular-invoice',
 				})

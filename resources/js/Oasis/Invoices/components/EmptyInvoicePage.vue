@@ -5,11 +5,11 @@
 			<!--Invoice message-->
             <div class="text-content" v-if="hasBillingProfile && $isThisLocation(['regular-invoice', 'advance-invoice']) && !isLoading">
                 <h1 class="title">
-					Create Your First Invoice
+					{{ $t('in.empty.invoice_page_title') }}
 				</h1>
 
                 <p class="description">
-					It's very easy, just click on the button below.
+					{{ $t('in.empty.invoice_page_description') }}
 				</p>
 
                 <ButtonBase @click.native="createInvoice" button-style="theme" class="button">
@@ -20,30 +20,30 @@
 			<!--Client Message-->
             <div class="text-content" v-if="hasBillingProfile && $isThisLocation('clients') && !isLoading">
                 <h1 class="title">
-					Create Your First Client
+					{{ $t('in.empty.client_page_title') }}
 				</h1>
 
                 <p class="description">
-					It's very easy, just click on the button below.
+					{{ $t('in.empty.invoice_page_description') }}
 				</p>
 
                 <ButtonBase @click.native="createClient" button-style="theme" class="button">
-					Create Client
+					{{ $t('in.form.create_client') }}
 				</ButtonBase>
             </div>
 
 			<!--Billing Profile Message-->
             <div class="text-content" v-if="! hasBillingProfile">
                 <h1 class="title">
-					You don't have billing profile
+					{{ $t('in.empty.bill_profile_title') }}
 				</h1>
 
                 <p class="description">
-					Before your first invoice, please set up your billing profile.
+					{{ $t('in.empty.bill_profile_description') }}
 				</p>
 
                 <ButtonBase @click.native="createBillingProfile" button-style="theme" class="button">
-					Set up Billing Profile
+					{{ $t('in.button.setup_bill_profile') }}
 				</ButtonBase>
             </div>
 
@@ -81,7 +81,7 @@
 				return this.entries && this.entries.length == 0
 			},
 			buttonTitle() {
-				return this.$isThisLocation('regular-invoice') ? 'Create Regular Invoice' : 'Create Advance Invoice'
+				return this.$isThisLocation('regular-invoice') ? this.$t('in_editor.page.create_regular_invoice') : this.$t('in_editor.page.create_advance_invoice')
 			},
 			hasBillingProfile() {
 				return this.user && this.user.data.attributes.has_billing_profile

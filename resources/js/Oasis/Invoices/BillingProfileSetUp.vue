@@ -1,21 +1,21 @@
 <template>
 	<div id="single-page">
-		<MobileHeader :title="$router.currentRoute.meta.title" />
-		<PageHeader :can-back="true" :title="$router.currentRoute.meta.title" />
+		<MobileHeader :title="$t($router.currentRoute.meta.title)" />
+		<PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)" />
 		<div id="page-content" class="medium-width">
 			<ValidationObserver @submit.prevent="createBillingProfile" ref="createBillingProfile" v-slot="{ invalid }" tag="div" class="content-page form block-form">
-				<FormLabel>Company & Logo</FormLabel>
+				<FormLabel>{{ $t('in.form.company_and_logo') }}</FormLabel>
 				<InfoBox>
-					<p>Here you can set your <b class="text-theme">billing profile</b> which will be paste to your every newly generated invoice.</p>
+					<p v-html="$t('in.bill_profile_note')"></p>
 				</InfoBox>
 				<div class="block-wrapper">
-					<label>Logo (optional):</label>
+					<label>{{ $t('in_editor.client_logo') }} ({{ $t('global.optional') }}):</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="logo" v-slot="{ errors }">
 						<ImageInput :image="$getImage(profile.logo)" v-model="profile.logo" :error="errors[0]" />
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>Company name:</label>
+					<label>{{ $t('in.form.company_name') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="company" rules="required" v-slot="{ errors }">
 						<input v-model="profile.company" placeholder="Type your company name..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -23,7 +23,7 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>Registration Notes (optional):</label>
+					<label>{{ $t('in.form.reg_notes') }} ({{ $t('global.optional') }}):</label>
 					<div class="input-wrapper">
 						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="registration_notes" v-slot="{ errors }">
 							<textarea
@@ -37,9 +37,9 @@
 						</ValidationProvider>
 					</div>
 				</div>
-				<FormLabel class="mt-70">Company Details</FormLabel>
+				<FormLabel class="mt-70">{{ $t('in.form.company_details') }}</FormLabel>
 				<div class="block-wrapper">
-					<label>ICO:</label>
+					<label>{{ $t('in_editor.ico') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ico" rules="required" v-slot="{ errors }">
 						<input v-model="profile.ico" placeholder="Type your company ICO..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -47,7 +47,7 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>DIC:</label>
+					<label>{{ $t('in_editor.dic') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="dic" rules="required" v-slot="{ errors }">
 						<input v-model="profile.dic" placeholder="Type your company DIC..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -55,16 +55,16 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>IC DPH (optional):</label>
+					<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ic_dph" v-slot="{ errors }">
 						<input v-model="profile.ic_dph" placeholder="Type your company IC DPH..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 					</ValidationProvider>
 				</div>
-				<FormLabel class="mt-70">Company Address</FormLabel>
+				<FormLabel class="mt-70">{{ $t('in.form.company_address') }}</FormLabel>
 				<div class="block-wrapper">
-					<label>Address:</label>
+					<label>{{ $t('in_editor.client_address') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="address" rules="required" v-slot="{ errors }">
 						<input v-model="profile.address" placeholder="Type your company address..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -73,7 +73,7 @@
 				</div>
 				<div class="wrapper-inline">
 					<div class="block-wrapper">
-						<label>City:</label>
+						<label>{{ $t('in_editor.client_city') }}:</label>
 						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
 							<input v-model="profile.city" placeholder="Type your company city..." type="text"
 								   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -81,7 +81,7 @@
 						</ValidationProvider>
 					</div>
 					<div class="block-wrapper">
-						<label>Postal Code:</label>
+						<label>{{ $t('in_editor.client_postal_code') }}:</label>
 						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
 							<input v-model="profile.postal_code" placeholder="Type your company postal code..." type="text"
 								   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -90,15 +90,15 @@
 					</div>
 				</div>
 				<div class="block-wrapper">
-					<label>Country:</label>
+					<label>{{ $t('in_editor.client_country') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="country" rules="required" v-slot="{ errors }">
 						<SelectInput v-model="profile.country" :default="profile.country" :options="countries" placeholder="Select your company country" :isError="errors[0]" />
 						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 					</ValidationProvider>
 				</div>
-				<FormLabel class="mt-70">Bank Info</FormLabel>
+				<FormLabel class="mt-70">{{ $t('in.form.bank_info') }}</FormLabel>
 				<div class="block-wrapper">
-					<label>Bank Name:</label>
+					<label>{{ $t('in.form.bank_name') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="bank" rules="required" v-slot="{ errors }">
 						<input v-model="profile.bank" placeholder="Type your bank name..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -106,7 +106,7 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>IBAN:</label>
+					<label>{{ $t('in.form.iban') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="iban" rules="required" v-slot="{ errors }">
 						<input v-model="profile.iban" placeholder="Type your IBAN..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -114,16 +114,16 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>Swift code:</label>
+					<label>{{ $t('in.form.swift_code') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="swift" rules="required" v-slot="{ errors }">
 						<input v-model="profile.swift" placeholder="Type your swift code..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 					</ValidationProvider>
 				</div>
-				<FormLabel class="mt-70">Author</FormLabel>
+				<FormLabel class="mt-70">{{ $t('in.form.author') }}</FormLabel>
 				<div class="block-wrapper">
-					<label>Phone (optional):</label>
+					<label>{{ $t('in_editor.client_phone') }} ({{ $t('global.optional') }}):</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="phone" v-slot="{ errors }">
 						<input v-model="profile.phone" placeholder="Type your phone number..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -131,7 +131,7 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>Email (optional):</label>
+					<label>{{ $t('in_editor.client_email') }} ({{ $t('global.optional') }}):</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" v-slot="{ errors }">
 						<input v-model="profile.email" placeholder="Type your email..." type="email"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -139,7 +139,7 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>Author name:</label>
+					<label>{{ $t('in.form.author_name') }}:</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="author" rules="required" v-slot="{ errors }">
 						<input v-model="profile.author" placeholder="Type the author invoice name..." type="text"
 							   :class="{'is-error': errors[0]}" class="focus-border-theme" />
@@ -147,17 +147,17 @@
 					</ValidationProvider>
 				</div>
 				<div class="block-wrapper">
-					<label>Stamp (optional):</label>
+					<label>{{ $t('in.form.stamp') }} ({{ $t('global.optional') }}):</label>
 					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="stamp" v-slot="{ errors }">
 						<ImageInput v-model="profile.stamp" :error="errors[0]" />
 					</ValidationProvider>
 				</div>
 				<InfoBox v-if="isError" type="error">
-					<p>We found some issues in your form. Please check it out and submit again</p>
+					<p>{{ $t('in.form.some_issues') }}</p>
 				</InfoBox>
 				<div class="block-wrapper">
 					<ButtonBase @click.native="createBillingProfile" :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" style="margin-bottom: 35px">
-						Store My Billing Profile
+						{{ $t('in.button.store_bill_profile') }}
 					</ButtonBase>
 				</div>
 			</ValidationObserver>
@@ -269,7 +269,7 @@
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: 'Your billing profile was successfully stored',
+							message: this.$t('in.toaster.success_bill_profile'),
 						})
 
 						this.$store.dispatch('getAppData')

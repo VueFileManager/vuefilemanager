@@ -7,7 +7,7 @@
                 {{ directoryName }}
             </MobileActionButton>
             <MobileActionButton @click.native="createButton" icon="file-plus">
-                Create
+                {{ $t('create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="showViewOptions" icon="th-list">
                 {{ $t('preview_sorting.preview_sorting_button') }}
@@ -24,7 +24,7 @@
     import {events} from '@/bus'
 
     export default {
-        name: 'FileActionsMobile',
+        name: 'InvoiceActionsMobile',
         components: {
             MobileActionButtonUpload,
             MobileActionButton,
@@ -37,7 +37,7 @@
 			directoryName() {
 				return this.currentFolder
 					? this.currentFolder.name
-					: 'Invoices'
+					: this.$t('in.nav.invoices')
 			},
         },
         data() {

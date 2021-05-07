@@ -7,11 +7,10 @@
 			:title="clipboard[0].name"
 			:subtitle="clipboard[0].email"
 		/>
-
         <MenuMobileGroup>
             <OptionGroup class="menu-option-group">
-                <Option @click.native="goToProfile" title="Edit" icon="rename" />
-                <Option @click.native="deleteItem" title="Delete" icon="trash" />
+                <Option @click.native="goToProfile" :title="$t('in.menu.edit')" icon="rename" />
+                <Option @click.native="deleteItem" :title="$t('in.menu.delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup>
                 <Option @click.native="goToProfile" :title="$t('context_menu.detail')" icon="detail" />
@@ -57,8 +56,8 @@ export default {
 		},
 		deleteItem() {
 			events.$emit('confirm:open', {
-				title: `Are you sure you want to delete client ${this.clipboard[0].name}?`,
-				message: 'Your client will be permanently deleted.',
+				title: this.$t('in.popup.delete_client.title', {name: this.clipboard[0].name}),
+				message: this.$t('in.popup.delete_client.message'),
 				buttonColor: 'danger-solid',
 				action: {
 					id: this.clipboard[0].id,

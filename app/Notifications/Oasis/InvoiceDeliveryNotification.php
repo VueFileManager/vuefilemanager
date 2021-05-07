@@ -44,9 +44,9 @@ class InvoiceDeliveryNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('New invoice')
+            ->subject(__t('in.notify.subject', ['company' => $this->user->invoiceProfile->company]))
             ->greeting(__t('mail_greeting'))
-            ->line($this->user->settings->name . ' sent you an invoice.')
+            ->line(__t('in.notify.message', ['company' => $this->user->invoiceProfile->company]))
             ->salutation(__t('mail_salutation'))
             ->attach(storage_path('app/' . invoice_path($this->invoice)), [
                 'as' => 'name.pdf',

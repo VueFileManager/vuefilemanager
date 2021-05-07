@@ -79,7 +79,7 @@ const routesOasis = [
             import(/* webpackChunkName: "chunks/oasis/invoices" */ './Oasis/Invoices/Invoice'),
         meta: {
             requiresAuth: true,
-            title: 'Faktúry'
+            title: 'in.route_title.invoices'
         },
         children: [
             {
@@ -89,7 +89,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/invoices/list" */ './Oasis/Invoices/InvoicesView'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Invoices'
+                    title: 'in.route_title.invoices'
                 },
             },
             {
@@ -99,7 +99,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Invoices/BillingProfile'),
                 meta: {
                     requiresAuth: true,
-                    title: 'My Billing Profile'
+                    title: 'in.nav.my_bill_profile'
                 },
             },
             {
@@ -109,7 +109,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/invoices/profile" */ './Oasis/Invoices/BillingProfileSetUp'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Set My Billing Profile'
+                    title: 'in.button.setup_bill_profile'
                 },
             },
             {
@@ -119,7 +119,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/invoices/create-client" */ './Oasis/Invoices/Clients/CreateClient'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Create Client'
+                    title: 'in.create.client'
                 },
             },
             {
@@ -147,7 +147,7 @@ const routesOasis = [
                     import(/* webpackChunkName: "chunks/oasis/invoices/client" */ './Oasis/Invoices/Clients/Client'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Client'
+                    title: 'in.route_title.client'
                 },
                 children: [
                     {
@@ -157,7 +157,7 @@ const routesOasis = [
                             import(/* webpackChunkName: "chunks/oasis/invoices/client-detail" */ './Oasis/Invoices/Clients/Tabs/ClientDetail'),
                         meta: {
                             requiresAuth: true,
-                            title: 'Client Detail'
+                            title: 'in.route_title.client_detail'
                         },
                     },
                     {
@@ -167,7 +167,7 @@ const routesOasis = [
                             import(/* webpackChunkName: "chunks/oasis/invoices/client-invoices" */ './Oasis/Invoices/Clients/Tabs/ClientInvoices'),
                         meta: {
                             requiresAuth: true,
-                            title: 'Client Invoices'
+                            title: 'in.route_title.client_invoices'
                         },
                     },
                 ]

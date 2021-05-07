@@ -2,11 +2,11 @@
     <MenuMobile name="invoice-filter">
         <MenuMobileGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('regular-invoice')" :is-active="$isThisLocation('regular-invoice')" title="Invoices" icon="file-text" is-hover-disabled="true" />
-                <Option @click.native="showLocation('advance-invoice')" :is-active="$isThisLocation('advance-invoice')" title="Advance Invoices" icon="clock" is-hover-disabled="true" />
+                <Option @click.native="showLocation('regular-invoice')" :is-active="$isThisLocation('regular-invoice')" :title="$t('in.nav.invoices')" icon="file-text" is-hover-disabled="true" />
+                <Option @click.native="showLocation('advance-invoice')" :is-active="$isThisLocation('advance-invoice')" :title="$t('in.nav.advance_invoices')" icon="clock" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="showLocation('clients')" :is-active="$isThisLocation('clients')" title="Clients" icon="users" is-hover-disabled="true" />
+                <Option @click.native="showLocation('clients')" :is-active="$isThisLocation('clients')" :title="$t('in.nav.clients')" icon="users" is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>

@@ -20,7 +20,7 @@
 
                 <div class="item-info">
                     <span class="item-size">
-						{{ item.created_at }}, n. {{ item.invoice_number }}
+						{{ item.created_at }}, {{ $t('in.n-abbreviation') }} {{ item.invoice_number }}
 					</span>
                 </div>
             </div>

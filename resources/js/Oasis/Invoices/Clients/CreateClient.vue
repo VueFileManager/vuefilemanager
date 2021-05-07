@@ -1,122 +1,122 @@
 <template>
 	<div id="single-page">
-		<MobileHeader :title="$router.currentRoute.meta.title" />
-		<PageHeader :title="$router.currentRoute.meta.title" :can-back="true" />
+		<MobileHeader :title="$t($router.currentRoute.meta.title)" />
+		<PageHeader :title="$t($router.currentRoute.meta.title)" :can-back="true" />
 
 		<div id="page-content" class="medium-width">
 			<div class="content-page">
 				<ValidationObserver @submit.prevent="createClient" ref="createClient" v-slot="{ invalid }" tag="form" class="form block-form">
 					<PageTab>
 						 <PageTabGroup>
-							<FormLabel>Company & Logo</FormLabel>
+							<FormLabel>{{ $t('in.form.company_and_logo') }}</FormLabel>
 
 							<div class="block-wrapper">
-								<label>Logo (optional):</label>
+								<label>{{ $t('in_editor.client_logo') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="avatar" v-slot="{ errors }">
 									<ImageInput v-model="client.avatar" :error="errors[0]" />
 								</ValidationProvider>
 							</div>
 
 							<div class="block-wrapper">
-								<label>Company name:</label>
+								<label>{{ $t('in_editor.company_name') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="name" rules="required" v-slot="{ errors }">
-									<input v-model="client.name" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="client.name" :placeholder="$t('in_editor.plac.client_company')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 						</PageTabGroup>
 						 <PageTabGroup>
-							<FormLabel>Company Details</FormLabel>
+							<FormLabel>{{ $t('in.form.company_details') }}</FormLabel>
 
 							 <div class="wrapper-inline">
 								<div class="block-wrapper">
-									<label>ICO:</label>
+									<label>{{ $t('in_editor.ico') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ico" rules="required" v-slot="{ errors }">
-										<input v-model="client.ico" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="client.ico" :placeholder="$t('in_editor.plac.client_ico')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
 
 								<div class="block-wrapper">
-									<label>DIC (optional):</label>
+									<label>{{ $t('in_editor.dic') }} ({{ $t('global.optional') }}):</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="dic" v-slot="{ errors }">
-										<input v-model="client.dic" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="client.dic" :placeholder="$t('in_editor.plac.client_dic')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
 							 </div>
 
 							<div class="block-wrapper">
-								<label>IC DPH (optional):</label>
+								<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ic_dph" v-slot="{ errors }">
-									<input v-model="client.ic_dph" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="client.ic_dph" :placeholder="$t('in_editor.plac.client_ic_dph')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 						 </PageTabGroup>
 						 <PageTabGroup>
-							<FormLabel>Company Address</FormLabel>
+							<FormLabel>{{ $t('in.form.company_address') }}</FormLabel>
 
 							<div class="block-wrapper">
-								<label>Address:</label>
+								<label>{{ $t('in_editor.client_address') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="address" rules="required" v-slot="{ errors }">
-									<input v-model="client.address" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="client.address" :placeholder="$t('in_editor.plac.client_address')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							 <div class="wrapper-inline">
 								<div class="block-wrapper">
-									<label>City:</label>
+									<label>{{ $t('in_editor.client_city') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
-										<input v-model="client.city" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="client.city" :placeholder="$t('in_editor.plac.client_city')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
 
 								<div class="block-wrapper">
-									<label>Postal Code:</label>
+									<label>{{ $t('in_editor.client_postal_code') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
-										<input v-model="client.postal_code" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+										<input v-model="client.postal_code" :placeholder="$t('in_editor.plac.client_postal_code')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
 								</div>
 							 </div>
 
 							<div class="block-wrapper">
-								<label>Country:</label>
+								<label>{{ $t('in_editor.client_country') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="country" rules="required" v-slot="{ errors }">
-									<SelectInput v-model="client.country" :default="client.country" :options="countries" placeholder="" :isError="errors[0]" />
+									<SelectInput v-model="client.country" :default="client.country" :options="countries" :placeholder="$t('in_editor.plac.client_country')" :isError="errors[0]" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 						 </PageTabGroup>
 						 <PageTabGroup>
-							<FormLabel>Contact Informations</FormLabel>
+							<FormLabel>{{ $t('in.form.contact_info') }}</FormLabel>
 
 							<div class="block-wrapper">
-								<label>Phone (optional):</label>
+								<label>{{ $t('in_editor.client_phone') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="phone_number" v-slot="{ errors }">
-									<input v-model="client.phone_number" placeholder="" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="client.phone_number" :placeholder="$t('in_editor.plac.client_phone')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<div class="block-wrapper">
-								<label>Email (optional):</label>
+								<label>{{ $t('in_editor.client_email') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" v-slot="{ errors }">
-									<input v-model="client.email" placeholder="" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+									<input v-model="client.email" :placeholder="$t('in_editor.plac.client_email')" type="email" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
 
 							<InfoBox v-if="isError" type="error">
-								<p>We found some issues in your form. Please check it out and submit again</p>
+								<p>{{ $t('in.form.some_issues') }}</p>
 							</InfoBox>
 
 							 <div class="block-wrapper">
 								 <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="submit-button">
-									Create Client
+									{{ $t('in.form.create_client') }}
 								</ButtonBase>
 							 </div>
 						 </PageTabGroup>
@@ -170,7 +170,7 @@
 			return {
 				isLoading: false,
 				isError: false,
-				_client: {
+				client: {
 					avatar: undefined,
 					name: undefined,
 					email: undefined,
@@ -182,19 +182,6 @@
 					ico: undefined,
 					dic: undefined,
 					ic_dph: undefined,
-				},
-				client: {
-					avatar: undefined,
-					name: 'MakingCG s.r.o.',
-					email: 'info@makingcg.com',
-					phone_number: '+421950123456',
-					address: 'Karpatske namestie',
-					city: 'Bratislava',
-					postal_code: '04001',
-					country: 'SK',
-					ico: '4153514345',
-					dic: '5346542865',
-					ic_dph: 'SK200543253553',
 				},
 			}
 		},
@@ -231,7 +218,7 @@
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: 'Client was created successfully',
+							message: this.$t('in_toaster.success_client_creation'),
 						})
 
 						// Go to User page

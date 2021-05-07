@@ -16,7 +16,7 @@
             <!--Main navigation-->
             <OptionGroup v-if="!clickedSubmenu">
                 <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" is-hover-disabled="true" />
-                <Option @click.native="goToInvoices" title="Invoices" icon="file-text" is-hover-disabled="true" />
+                <Option @click.native="goToInvoices" :title="$t('in.nav.invoices')" icon="file-text" is-hover-disabled="true" />
                 <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" :is-arrow-right="true" is-hover-disabled="true" />
                 <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" :is-arrow-right="true" is-hover-disabled="true" />
             </OptionGroup>
@@ -86,7 +86,7 @@
 					'admin': this.$t('menu.admin')
 				}
 
-				return 'Go back from ' + location[this.clickedSubmenu]
+				return this.$t('go_back_from') + ' ' + location[this.clickedSubmenu]
 			}
 		},
 		data() {

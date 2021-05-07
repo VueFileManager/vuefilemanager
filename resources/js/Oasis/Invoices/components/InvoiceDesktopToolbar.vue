@@ -14,7 +14,7 @@
 
 				<!--Search bar-->
 				<ToolbarGroup style="margin-left: 0">
-					<SearchBar v-model="query" @reset-query="query = ''" placeholder="Search your invoices..." />
+					<SearchBar v-model="query" @reset-query="query = ''" :placeholder="searchPlaceholder" />
 				</ToolbarGroup>
 
 				<!--Creating controls-->
@@ -23,11 +23,11 @@
                     	<ToolbarButton @click.stop.native="createCreateMenu" source="plus" :action="$t('actions.create_folder')" />
 						<PopoverItem name="desktop-create-invoices">
 							<OptionGroup>
-								<Option @click.stop.native="createInvoice('regular-invoice')" title="Create Regular Invoice" icon="file-plus" />
-								<Option @click.stop.native="createInvoice('advance-invoice')" title="Create Advance Invoice" icon="clock" />
+								<Option @click.stop.native="createInvoice('regular-invoice')" :title="$t('in_editor.page.create_regular_invoice')" icon="file-plus" />
+								<Option @click.stop.native="createInvoice('advance-invoice')" :title="$t('in_editor.page.create_advance_invoice')" icon="clock" />
 							</OptionGroup>
 							<OptionGroup>
-								<Option @click.native="createClient" title="Create Client" icon="user-plus" />
+								<Option @click.native="createClient" :title="$t('in.create.client')" icon="user-plus" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
@@ -94,7 +94,7 @@
 				'clipboard',
 			]),
 			directoryName() {
-				return this.currentFolder ? this.currentFolder.name : 'Invoices'
+				return this.currentFolder ? this.currentFolder.name : this.$t('in.nav.invoices')
 			},
 			canActiveInView() {
 				let locations = [
@@ -103,6 +103,11 @@
 					'clients',
 				]
 				return !this.$isThisLocation(locations) || this.clipboard.length === 0
+			},
+			searchPlaceholder() {
+				return this.currentFolder && ['regular-invoice', 'advance-invoice'].includes(this.currentFolder.location)
+					? this.$t('inputs.placeholder_search_invoices')
+					: this.$t('inputs.placeholder_search_clients')
 			},
 		},
 		data() {
@@ -133,8 +138,8 @@
 				if (this.$isThisLocation(['regular-invoice', 'advance-invoice']) && this.clipboard.length > 0) {
 
 					events.$emit('confirm:open', {
-						title: `Are you sure you want to delete invoice number ${this.clipboard[0].invoice_number}?`,
-						message: 'Your invoice will be permanently deleted.',
+						title: this.$t('in.popup.delete_invoice.title', {number: this.clipboard[0].invoice_number}),
+						message: this.$t('in.popup.delete_invoice.message'),
 						buttonColor: 'danger-solid',
 						action: {
 							id: this.clipboard[0].id,
@@ -145,8 +150,8 @@
 
 				if (this.$isThisLocation('clients') && this.clipboard.length > 0) {
 					events.$emit('confirm:open', {
-						title: `Are you sure you want to delete client ${this.clipboard[0].name}?`,
-						message: 'Your client will be permanently deleted.',
+						title: this.$t('in.popup.delete_client.title', {name: this.clipboard[0].name}),
+						message: this.$t('in.popup.delete_client.message'),
 						buttonColor: 'danger-solid',
 						action: {
 							id: this.clipboard[0].id,

@@ -88,6 +88,7 @@ return [
         'admin_settings.payments.webhook_url' => 'Stripe webhook URL',
         'admin_settings.tabs.billings' => 'Billings',
         'admin_settings.tabs.payments' => 'Payments',
+        'global.pcs' => 'Pcs.',
         'global.monthly_ac' => 'Mo.',
         'global.premium' => 'Premium',
         'global.upgrade_plan' => 'Upgrade Plan',
@@ -675,5 +676,7 @@ return [
         'app_touch_icon' => 'App Touch Icon',
         'app_touch_icon_description' => 'If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156',
         'select_search_placeholder' => 'Search in list...',
+        'go_back_from' => 'Go back from',
+        'create' => 'Create',
     ],
 ];
