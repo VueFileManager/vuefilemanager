@@ -162,4 +162,7 @@ return [
 
     'in_editor.submit' => 'Store & Generate Invoice',
     'in_editor.error' => 'There is probably an error, please check it and fix it.',
+
+    'inputs.placeholder_search_invoices' => 'Search invoices...',
+    'inputs.placeholder_search_clients' => 'Search clients...',
 ];

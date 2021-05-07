@@ -11,7 +11,7 @@
 		<!--Trash location-->
         <MenuMobileGroup>
             <OptionGroup class="menu-option-group">
-                <Option @click.native="" title="Edit Invoice" icon="rename" />
+                <Option @click.native="editInvoice" title="Edit Invoice" icon="rename" />
                 <Option @click.native="" title="Send Invoice" icon="send" />
                 <Option @click.native="goToCompany" title="Go to Company" icon="user" />
                 <Option @click.native="deleteInvoice" :title="$t('context_menu.delete')" icon="trash" />
@@ -56,6 +56,9 @@ export default {
         }
     },
     methods: {
+		editInvoice() {
+			this.$router.push({name: 'EditInvoice', params: {id: this.clipboard[0].id}})
+		},
 		downloadInvoice() {
 			this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
 		},

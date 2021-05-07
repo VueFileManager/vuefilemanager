@@ -28,6 +28,7 @@ import OptionGroup from '@/components/FilesView/OptionGroup'
 import MenuMobile from '@/components/Mobile/MenuMobile'
 import Option from '@/components/FilesView/Option'
 import {mapGetters} from 'vuex'
+import {events} from '@/bus'
 
 export default {
     name: 'FileMenuMobile',
@@ -53,6 +54,17 @@ export default {
     methods: {
 		goToProfile() {
 			this.$router.push({name: 'ClientDetail', params: {id: this.clipboard[0].id}})
+		},
+		deleteItem() {
+			events.$emit('confirm:open', {
+				title: `Are you sure you want to delete client ${this.clipboard[0].name}?`,
+				message: 'Your client will be permanently deleted.',
+				buttonColor: 'danger-solid',
+				action: {
+					id: this.clipboard[0].id,
+					operation: 'delete-client'
+				}
+			})
 		}
     }
 }

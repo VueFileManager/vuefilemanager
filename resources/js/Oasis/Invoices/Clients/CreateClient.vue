@@ -115,7 +115,7 @@
 							</InfoBox>
 
 							 <div class="block-wrapper">
-								 <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
+								 <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="submit-button">
 									Create Client
 								</ButtonBase>
 							 </div>
@@ -269,4 +269,12 @@
     @import '@assets/vuefilemanager/_variables';
 	@import '@assets/vuefilemanager/_mixins';
 	@import '@assets/vuefilemanager/_forms';
+
+	@media only screen and (max-width: 960px) {
+
+		.submit-button {
+			width: 100%;
+			margin-top: 30px;
+		}
+	}
 </style>

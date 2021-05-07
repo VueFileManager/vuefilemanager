@@ -12,7 +12,7 @@
 		>
             <MobileToolbar />
 
-            <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="$t('inputs.placeholder_search_files')" />
+            <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="searchPlaceholder" />
 
 			<!--Mobile Actions-->
             <InvoiceActionsMobile />
@@ -96,12 +96,15 @@
 				'isLoading',
 				'entries',
 			]),
+			searchPlaceholder() {
+				return this.currentFolder && ['regular-invoice', 'advance-invoice'].includes(this.currentFolder.location)
+					? this.$t('inputs.placeholder_search_invoices')
+					: this.$t('inputs.placeholder_search_clients')
+			},
 			isEmpty() {
 				return this.entries.length == 0
 			},
 			draggedItems() {
-				//Set opacity for dragged items
-
 				if (!this.clipboard.includes(this.draggingId)) {
 					return [this.draggingId]
 				}

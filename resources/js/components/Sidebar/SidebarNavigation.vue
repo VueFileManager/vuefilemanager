@@ -14,7 +14,7 @@
                 </div>
             </router-link>
 
-            <a @click="goToInvoice" title="Invoices" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item shared">
+            <a @click="goToInvoice" title="Invoices" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item invoice">
                 <div class="button-icon">
                     <file-text-icon size="19" />
                 </div>
@@ -80,12 +80,14 @@
         data() {
             return {
 				invoiceRoutes: [
-					'InvoicesList',
+					'BillingProfileSetUp',
 					'BillingProfile',
-					'CreateClient',
-					'CreateInvoice',
-					'ClientDetail',
 					'ClientInvoices',
+					'CreateInvoice',
+					'InvoicesList',
+					'CreateClient',
+					'ClientDetail',
+					'EditInvoice',
 				],
                 adminRoutes: [
                     'AppSettings',
@@ -199,6 +201,16 @@
                     }
                 }
             }
+
+			&.invoice {
+				.button-icon {
+					background: rgba($yellow, 0.1);
+
+					path, line, polyline, rect, circle {
+						stroke: $yellow;
+					}
+				}
+			}
 
             &.trash {
                 .button-icon {

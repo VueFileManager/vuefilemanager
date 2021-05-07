@@ -195,7 +195,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        $invoice->delete();
+        //$invoice->delete();
 
         return response('Done', 204);
     }

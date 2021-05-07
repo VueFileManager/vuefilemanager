@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="created-at-wrapper">
-			<p>{{ clipboard[0].filesize }}, {{ clipboard[0].created_at }}</p>
+			<p>{{ clipboard[0].filesize ? clipboard[0].filesize + ', ' : '' }}{{ clipboard[0].created_at }}</p>
 		</div>
 
 		<div class="navigation-icons">

@@ -123,9 +123,12 @@ export default {
         closeAndResetContextMenu() {
             // Close context menu
             this.isVisible = false
+			this.showFromPreview = false
 
             // Reset item container
             this.item = undefined
+
+			events.$emit('file-preview:hide')
         },
         showFolderActionsMenu() {
             let container = document.getElementById('folder-actions')

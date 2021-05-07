@@ -215,12 +215,12 @@
 							</div>
 						</div>
 
-						<ButtonBase :disabled="isLoading" @click.native="deleteInvoice" button-style="danger" class="next-submit">
+						<ButtonBase :disabled="isLoading" @click.native="deleteInvoice" button-style="secondary" class="next-submit">
 							Delete Invoice
 						</ButtonBase>
 
-						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="updateInvoice" button-style="theme-solid" class="next-submit" style="margin-top: 10px">
-							{{ $t('in_editor.submit') }}
+						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="updateInvoice" button-style="theme-solid" class="next-submit" style="margin-top: 15px">
+							Save Changes
 						</ButtonBase>
 						<p class="error-message" v-if="isError">
 							{{ errorMessage }}
