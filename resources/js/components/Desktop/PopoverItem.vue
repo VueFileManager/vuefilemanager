@@ -1,5 +1,5 @@
 <template>
-	<div v-if="isVisible" class="popover-item">
+	<div v-if="isVisible" class="popover-item" :class="side">
 		<slot></slot>
 	</div>
 </template>
@@ -10,7 +10,8 @@
 	export default {
 		name: 'PopoverItem',
 		props: [
-			'name'
+			'side',
+			'name',
 		],
 		data() {
 			return {
@@ -39,8 +40,15 @@
 		background: white;
 		border-radius: 8px;
 		overflow: hidden;
-		right: 0;
 		top: 50px;
+
+		&.left {
+			right: 0;
+		}
+
+		&.right {
+			left: 0;
+		}
 	}
 
 	@media (prefers-color-scheme: dark) {

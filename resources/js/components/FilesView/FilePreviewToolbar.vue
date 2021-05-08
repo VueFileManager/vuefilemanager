@@ -6,9 +6,14 @@
 				<p class="title">{{ clipboard[0].name }}</p>
 				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + files.length }}) </span>
 			</div>
-			<span @click.stop="menuOpen" id="fast-preview-menu" class="fast-menu-icon group">
-				<more-horizontal-icon class="more-icon group-hover-text-theme" size="14" />
-			</span>
+			<PopoverWrapper>
+				<span @click.stop="showItemContextMenu" id="fast-preview-menu" class="fast-menu-icon group">
+					<more-horizontal-icon class="more-icon group-hover-text-theme" size="14" />
+				</span>
+				<PopoverItem name="file-preview-contextmenu" side="right">
+					<p>context menu</p>
+				</PopoverItem>
+			</PopoverWrapper>
 		</div>
 
 		<div class="created-at-wrapper">
@@ -30,6 +35,9 @@
 </template>
 
 <script>
+	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
+	import PopoverItem from '@/components/Desktop/PopoverItem'
+
     import ToolbarButton from '@/components/FilesView/ToolbarButton'
     import {XIcon, MoreHorizontalIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
@@ -38,6 +46,9 @@
     export default {
         name: 'FilePreviewToolbar',
         components: {
+			PopoverWrapper,
+			PopoverItem,
+
             MoreHorizontalIcon,
             ToolbarButton,
             XIcon,
@@ -90,6 +101,13 @@
             },
         },
         methods: {
+			showItemContextMenu() {
+				if (this.$isMobile()) {
+					events.$emit('mobile-menu:show', 'file-menu')
+				} else {
+					events.$emit('popover:open', 'file-preview-contextmenu')
+				}
+			},
             increaseSizeOfPDF() {
                 events.$emit('document-zoom:in')
             },
@@ -121,9 +139,7 @@
                 })
             },
             menuOpen() {
-                if (this.$isMobile()) {
-                    events.$emit('mobile-menu:show', 'file-menu')
-                } else {
+                else {
                     events.$emit('showContextMenuPreview:show', this.clipboard[0])
                 }
             },
