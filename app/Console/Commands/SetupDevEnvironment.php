@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Share;
 use App\Models\Folder;
 use App\Models\Setting;
+use Faker\Generator;
 use Illuminate\Support\Str;
 use App\Services\SetupService;
 use Illuminate\Console\Command;
@@ -31,6 +32,8 @@ class SetupDevEnvironment extends Command
 
     private $setup;
 
+    private Generator $faker;
+
     public function __construct()
     {
         parent::__construct();
@@ -40,6 +43,7 @@ class SetupDevEnvironment extends Command
 
     /**
      * Execute the console command.
+     * return @void
      */
     public function handle(): void
     {
@@ -606,7 +610,7 @@ class SetupDevEnvironment extends Command
             'whaaaaat.jpg',
             'You Are My Sunshine.jpg',
         ])
-            ->each(function ($file) use ($user, $apartments) {
+            ->each(function ($file) use ($user) {
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage

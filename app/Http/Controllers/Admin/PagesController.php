@@ -12,6 +12,8 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PagesController extends Controller
 {
+    private $demo;
+
     public function __construct()
     {
         $this->demo = resolve(DemoService::class);

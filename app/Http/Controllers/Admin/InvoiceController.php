@@ -9,9 +9,8 @@ use App\Http\Resources\InvoiceAdminCollection;
 
 class InvoiceController extends Controller
 {
-    /**
-     * @param StripeService $stripe
-     */
+    private StripeService $stripe;
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;

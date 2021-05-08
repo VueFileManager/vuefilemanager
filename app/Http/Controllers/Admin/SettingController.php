@@ -12,9 +12,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SettingController extends Controller
 {
-    /**
-     * SettingController constructor.
-     */
+    private $demo;
+
     public function __construct()
     {
         $this->demo = resolve(DemoService::class);

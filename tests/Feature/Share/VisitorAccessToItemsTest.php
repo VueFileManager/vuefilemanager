@@ -18,6 +18,8 @@ class VisitorAccessToItemsTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private $setup;
+
     public function __construct()
     {
         parent::__construct();
