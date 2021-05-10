@@ -197,7 +197,9 @@ class StripeService
     public function getPlans()
     {
         // Get stripe plans
-        $stripe_plans = $this->stripe->plans()->all();
+        $stripe_plans = $this->stripe->plans()->all([
+            'limit' => 100,
+        ]);
 
         // Plans container
         $plans = [];
@@ -226,7 +228,9 @@ class StripeService
     public function getActivePlans()
     {
         // Get stripe plans
-        $stripe_plans = $this->stripe->plans()->all();
+        $stripe_plans = $this->stripe->plans()->all([
+            'limit' => 100,
+        ]);
 
         // Plans container
         $plans = [];
