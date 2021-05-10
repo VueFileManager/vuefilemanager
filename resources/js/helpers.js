@@ -1,11 +1,48 @@
 import i18n from '@/i18n/index'
 import store from './store/index'
-import {debounce, includes, isArray} from "lodash";
+import {debounce, isArray} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
 
 const Helpers = {
     install(Vue) {
+
+        Vue.prototype.$renameFileOrFolder = function (entry) {
+            events.$emit('popup:open', {name: 'rename-item', item: entry})
+        }
+
+        Vue.prototype.$moveFileOrFolder = function (entry) {
+            events.$emit('popup:open', {name: 'move', item: [entry]})
+        }
+
+        Vue.prototype.$deleteFileOrFolder = function (entry) {
+            if (!this.$store.getters.clipboard.includes(entry)) {
+                this.$store.dispatch('deleteItem', entry)
+            }
+
+            if (this.$store.getters.clipboard.includes(entry)) {
+                this.$store.dispatch('deleteItem')
+            }
+        }
+
+        Vue.prototype.$restoreFileOrFolder = function (entry) {
+            if (!this.$store.getters.clipboard.includes(entry))
+                this.$store.dispatch('restoreItem', entry)
+
+            if (this.$store.getters.clipboard.includes(entry))
+                this.$store.dispatch('restoreItem', null)
+        }
+
+        Vue.prototype.$shareFileOrFolder = function (entry) {
+            let event = entry.shared
+                ? 'share-edit'
+                : 'share-create'
+
+            events.$emit('popup:open', {
+                name: event,
+                item: entry
+            })
+        }
 
         Vue.prototype.$searchFiles = debounce(function (value) {
 
@@ -227,7 +264,7 @@ const Helpers = {
 
         Vue.prototype.$isThisRoute = function (route, locations) {
 
-            return includes(locations, route.name)
+            return locations.includes(route.name)
         }
 
         Vue.prototype.$isThisLocation = function (location) {
@@ -237,7 +274,7 @@ const Helpers = {
 
             // Check if type is object
             if (typeof location === 'Object' || location instanceof Object) {
-                return includes(location, currentLocation)
+                return location.includes(currentLocation)
 
             } else {
                 return currentLocation === location
@@ -250,7 +287,7 @@ const Helpers = {
 
             // Check if type is object
             if (typeof type === 'Object' || type instanceof Object) {
-                return includes(type, currentPermission)
+                return type.includes(currentPermission)
 
             } else {
                 return currentPermission === type

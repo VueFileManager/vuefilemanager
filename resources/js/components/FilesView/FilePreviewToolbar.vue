@@ -11,7 +11,15 @@
 					<more-horizontal-icon class="more-icon group-hover-text-theme" size="14" />
 				</span>
 				<PopoverItem name="file-preview-contextmenu" side="right">
-					<p>context menu</p>
+					<OptionGroup class="menu-option-group">
+						<Option @click.native="$renameFileOrFolder(clipboard[0])" :title="$t('context_menu.rename')" icon="rename" />
+						<Option @click.native="$moveFileOrFolder(clipboard[0])" :title="$t('context_menu.move')" icon="move-item" />
+						<Option @click.native="$shareFileOrFolder(clipboard[0])" :title="sharingTitle" icon="share" v-if="$checkPermission('master')" />
+						<Option @click.native="$deleteFileOrFolder(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" class="menu-option" />
+					</OptionGroup>
+					<OptionGroup>
+						<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					</OptionGroup>
 				</PopoverItem>
 			</PopoverWrapper>
 		</div>
@@ -27,7 +35,7 @@
 			</div>
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton @click.native="downloadItem" class="mobile-hide" source="download" :action="$t('actions.download')" />
-				<ToolbarButton v-if="canShareItem" @click.native="shareItem" class="mobile-hide" :class="{ 'is-inactive': !canShareItem }" source="share" :action="$t('actions.share')" />
+				<ToolbarButton v-if="canShareItem" @click.native="$shareFileOrFolder(clipboard[0])" class="mobile-hide" :class="{ 'is-inactive': !canShareItem }" source="share" :action="$t('actions.share')" />
 				<ToolbarButton v-if="isImage" @click.native="printMethod()" source="print" :action="$t('actions.print')" />
 			</div>
 		</div>
@@ -37,6 +45,8 @@
 <script>
 	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
 	import PopoverItem from '@/components/Desktop/PopoverItem'
+	import OptionGroup from '@/components/FilesView/OptionGroup'
+	import Option from '@/components/FilesView/Option'
 
     import ToolbarButton from '@/components/FilesView/ToolbarButton'
     import {XIcon, MoreHorizontalIcon} from 'vue-feather-icons'
@@ -48,7 +58,8 @@
         components: {
 			PopoverWrapper,
 			PopoverItem,
-
+			OptionGroup,
+			Option,
             MoreHorizontalIcon,
             ToolbarButton,
             XIcon,
@@ -58,6 +69,11 @@
                 'clipboard',
                 'entries'
             ]),
+			sharingTitle() {
+				return this.clipboard[0].shared
+					? this.$t('context_menu.share_edit')
+					: this.$t('context_menu.share')
+			},
             isImage() {
                 return this.clipboard[0].type === 'image'
             },
@@ -128,24 +144,8 @@
                     this.clipboard[0].name + '.' + this.clipboard[0].mimetype
                 )
             },
-            shareItem() {
-                let event = this.clipboard[0].shared
-                    ? 'share-edit'
-                    : 'share-create'
-
-                events.$emit('popup:open', {
-                    name: event,
-                    item: this.clipboard[0]
-                })
-            },
-            menuOpen() {
-                else {
-                    events.$emit('showContextMenuPreview:show', this.clipboard[0])
-                }
-            },
             closeFullPreview() {
                 events.$emit('file-preview:hide')
-                events.$emit('showContextMenuPreview:hide')
             }
         }
     }

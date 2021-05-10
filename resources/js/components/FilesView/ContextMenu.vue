@@ -1,29 +1,13 @@
 <template>
-    <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" v-show="isVisible || showFromPreview" ref="contextmenu" :class="{ 'filePreviewFixed' : showFromPreview}">
-
-        <!-- File Preview -->
-        <div class="menu-options" id="menu-list" v-if="showFromPreview">
-            <OptionGroup class="menu-option-group">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="shareItem" v-if="$checkPermission('master')" :title="item.shared
-                            ? $t('context_menu.share_edit')
-                            : $t('context_menu.share')" icon="share" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" class="menu-option" />
-            </OptionGroup>
-
-            <OptionGroup>
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
-            </OptionGroup>
-        </div>
+    <div v-show="isVisible" @click="closeAndResetContextMenu" :style="{top: positionY + 'px', left: positionX + 'px'}" class="contextmenu" ref="contextmenu">
 
         <!-- Trash location-->
-        <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')" id="menu-list" class="menu-options">
 
             <!-- Single options -->
             <OptionGroup v-if="isMultiSelectContextMenu">
-                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
-                <Option @click.native="deleteItem" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+                <Option @click.native="$deleteFileOrFolder(item)" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
                 <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
             </OptionGroup>
 
@@ -34,8 +18,8 @@
 
             <!-- Multi options -->
             <OptionGroup v-if="!isMultiSelectContextMenu">
-                <Option @click.native="restoreItem" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                 <Option @click.native="emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
             </OptionGroup>
 
@@ -45,7 +29,7 @@
         </div>
 
         <!-- Shared location with MASTER permission-->
-        <div v-if="$isThisLocation(['shared']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['shared']) && $checkPermission('master')" id="menu-list" class="menu-options">
 
             <!-- Single options -->
             <OptionGroup class="menu-option-group" v-if="item && isFolder && isMultiSelectContextMenu">
@@ -55,9 +39,9 @@
             </OptionGroup>
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="shareItem" :title=" item.shared ? $t('context_menu.share_edit'): $t('context_menu.share')" icon="share" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="$shareFileOrFolder(item)" :title=" item.shared ? $t('context_menu.share_edit'): $t('context_menu.share')" icon="share" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
@@ -75,7 +59,7 @@
 
             <OptionGroup v-if="item && !isMultiSelectContextMenu">
                 <Option @click.native="shareCancel" :title="$t('context_menu.share_cancel')" icon="share" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
@@ -84,7 +68,7 @@
         </div>
 
         <!-- Base location with MASTER permission-->
-        <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master') && !showFromPreview" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')" id="menu-list" class="menu-options">
             
             <!-- No Files options -->
             <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && isMultiSelectContextMenu && !item">
@@ -97,12 +81,10 @@
             </OptionGroup>
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="shareItem" :title="item.shared
-                                                            ? $t('context_menu.share_edit')
-                                                            : $t('context_menu.share')" icon="share" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="$moveFileOrFolder(item)" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup v-if="item && isMultiSelectContextMenu ">
@@ -113,14 +95,12 @@
 
             <!-- Multi options -->
             <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !isMultiSelectContextMenu && item && !hasFile">
-                <Option @click.native="addToFavourites" :title=" isInFavourites
-                                                                                    ? $t('context_menu.remove_from_favourites')
-                                                                                    : $t('context_menu.add_to_favourites')" icon="favourites" />
+                <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
             <OptionGroup v-if="item && !isMultiSelectContextMenu">
-                <Option @click.native="moveItem" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$moveFileOrFolder(item)" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
@@ -129,7 +109,7 @@
         </div>
 
         <!-- Base & Public location with EDITOR permission-->
-        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor') && !showFromPreview " id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor')" id="menu-list" class="menu-options">
 
             <!-- No Files options -->
             <OptionGroup v-if="isMultiSelectContextMenu && !item">
@@ -138,9 +118,9 @@
 
             <!-- Single options -->
             <OptionGroup v-if="item && isMultiSelectContextMenu">
-                <Option @click.native="renameItem" :title=" $t('context_menu.rename')" icon="rename" />
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(item)" :title=" $t('context_menu.rename')" icon="rename" />
+                <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
@@ -151,8 +131,8 @@
 
             <!-- Multi options -->
             <OptionGroup v-if="item && !isMultiSelectContextMenu">
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
@@ -161,7 +141,7 @@
         </div>
 
         <!-- Base & Public location with VISITOR permission-->
-        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor') && !showFromPreview" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')" id="menu-list" class="menu-options">
 
             <!-- Single options -->
             <OptionGroup v-if="item && isMultiSelectContextMenu">
@@ -233,7 +213,6 @@ export default {
     },
     data() {
         return {
-            showFromPreview: false,
             item: undefined,
             isVisible: false,
             positionX: 0,
@@ -247,34 +226,8 @@ export default {
         emptyTrash() {
             this.$store.dispatch('emptyTrash')
         },
-        restoreItem() {
-
-            // If is item not in selected items restore just this single item
-            if (!this.clipboard.includes(this.item))
-                this.$store.dispatch('restoreItem', this.item)
-
-            // If is item in selected items restore all items from clipboard
-            if (this.clipboard.includes(this.item))
-                this.$store.dispatch('restoreItem', null)
-        },
         shareCancel() {
             this.$store.dispatch('shareCancel')
-        },
-        renameItem() {
-            events.$emit('popup:open', {name: 'rename-item', item: this.item})
-        },
-        moveItem() {
-            events.$emit('popup:open', {name: 'move', item: [this.item]})
-        },
-        shareItem() {
-            let event = this.item.shared
-                ? 'share-edit'
-                : 'share-create'
-
-            events.$emit('popup:open', {
-                name: event,
-                item: this.item
-            })
         },
         addToFavourites() {
             // Check if folder is in favourites and then add/remove from favourites
@@ -308,16 +261,6 @@ export default {
 
             // Show panel if is not open
             this.$store.dispatch('fileInfoToggle', true)
-        },
-        deleteItem() {
-            // If is context menu open on non selected item delete this single item
-            if (!this.clipboard.includes(this.item)) {
-                this.$store.dispatch('deleteItem', this.item)
-            }
-            // If is context menu open to multi selected items dele this selected items
-            if (this.clipboard.includes(this.item)) {
-                this.$store.dispatch('deleteItem')
-            }
         },
         createFolder() {
             this.$store.dispatch('createFolder', {
@@ -370,40 +313,9 @@ export default {
 
             // Show context menu
             this.isVisible = true
-        },
-        showFilePreviewMenu() {
-            let container = document.getElementById('fast-preview-menu')
-            if (container) {
-                this.positionX = container.offsetLeft + 16
-                this.positionY = container.offsetTop + 51
-            }
-        }
-    },
-    watch: {
-        item(newValue, oldValue) {
-            if (oldValue != undefined && this.showFromPreview) {
-                this.showFromPreview = false
-            }
         }
     },
     created() {
-        events.$on('showContextMenuPreview:show', (item) => {
-            if (!this.showFromPreview) {
-                this.item = item
-                this.showFromPreview = true
-                this.showFilePreviewMenu()
-            } else if (this.showFromPreview) {
-                this.showFromPreview = false
-                this.item = undefined
-            }
-        })
-
-        events.$on('showContextMenuPreview:hide', () => {
-            this.isVisible = false
-            this.showFromPreview = false
-            this.item = undefined
-        })
-
         events.$on('contextMenu:show', (event, item) => {
             // Store item
             this.item = item
@@ -443,11 +355,6 @@ export default {
     /deep/ circle {
         stroke: $text-muted !important;
     }
-}
-
-.filePreviewFixed {
-    position: fixed !important;
-    display: flex;
 }
 
 .contextmenu {
