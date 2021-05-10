@@ -15,6 +15,10 @@ use App\Http\Requests\Payments\RegisterNewPaymentMethodRequest;
 
 class PaymentMethodsController extends Controller
 {
+    private StripeService $stripe;
+
+    private DemoService $demo;
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;

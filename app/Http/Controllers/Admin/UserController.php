@@ -23,6 +23,8 @@ use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
 
 class UserController extends Controller
 {
+    private StripeService $stripe;
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;

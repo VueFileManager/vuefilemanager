@@ -5,8 +5,8 @@
         <!--Trash location-->
         <MenuMobileGroup v-if="$isThisLocation(['trash', 'trash-root']) && $checkPermission('master')">
             <OptionGroup v-if="clipboard[0]">
-                <Option @click.native="restoreItem" :title="$t('context_menu.restore')" icon="restore" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="delete" />
+                <Option @click.native="$restoreFileOrFolder(clipboard[0])" :title="$t('context_menu.restore')" icon="restore" />
+                <Option @click.native="$deleteFileOrFolder(clipboard[0])" :title="$t('context_menu.delete')" icon="delete" />
             </OptionGroup>
 
             <OptionGroup>
@@ -22,9 +22,9 @@
             </OptionGroup>
 
             <OptionGroup v-if="clipboard[0]">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="shareItem" :title="clipboard[0].shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(clipboard[0])" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="$shareFileOrFolder(clipboard[0])" :title="clipboard[0].shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+                <Option @click.native="$deleteFileOrFolder(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup>
@@ -40,10 +40,10 @@
             </OptionGroup>
 
             <OptionGroup v-if="clipboard[0]">
-                <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="shareItem" :title="clipboard[0].shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(clipboard[0])" :title="$t('context_menu.rename')" icon="rename" />
+                <Option @click.native="$moveFileOrFolder(clipboard[0])" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="$shareFileOrFolder(clipboard[0])" :title="clipboard[0].shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+                <Option @click.native="$deleteFileOrFolder(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup>
@@ -55,9 +55,9 @@
         <!--Base location for guest-->
         <MenuMobileGroup v-if="$isThisLocation(['base', 'public']) && $checkPermission('editor')">
             <OptionGroup>
-                <Option v-if="clipboard[0]" @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename" />
-                <Option v-if="clipboard[0]" @click.native="moveItem" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash" />
+                <Option v-if="clipboard[0]" @click.native="$renameFileOrFolder(clipboard[0])" :title="$t('context_menu.rename')" icon="rename" />
+                <Option v-if="clipboard[0]" @click.native="$moveFileOrFolder(clipboard[0])" :title="$t('context_menu.move')" icon="move-item" />
+                <Option @click.native="$deleteFileOrFolder(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup>
@@ -129,19 +129,6 @@ export default {
         downloadFolder() {
             this.$store.dispatch('downloadFolder', this.clipboard[0])
         },
-        moveItem() {
-            events.$emit('popup:open', {name: 'move', item: [this.clipboard[0]]})
-        },
-        shareItem() {
-            let event = this.clipboard[0].shared
-                ? 'share-edit'
-                : 'share-create'
-
-            events.$emit('popup:open', {
-                name: event,
-                item: this.clipboard[0]
-            })
-        },
         addToFavourites() {
             if (this.favourites && !this.favourites.find(el => el.id === this.clipboard[0].id)) {
                 this.$store.dispatch('addToFavourites', this.clipboard[0])
@@ -154,16 +141,7 @@ export default {
                 this.clipboard[0].file_url,
                 this.clipboard[0].name + '.' + this.clipboard[0].mimetype
             )
-        },
-        deleteItem() {
-            this.$store.dispatch('deleteItem')
-        },
-        restoreItem() {
-            this.$store.dispatch('restoreItem', this.clipboard[0])
-        },
-        renameItem() {
-            events.$emit('popup:open', {name: 'rename-item', item: this.clipboard[0]})
-        },
+        }
     }
 }
 </script>

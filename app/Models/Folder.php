@@ -109,7 +109,7 @@ class Folder extends Model
     /**
      * Format created at date reformat
      *
-     * @return string
+     * @return string|null
      */
     public function getDeletedAtAttribute()
     {
