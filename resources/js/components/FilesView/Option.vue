@@ -36,8 +36,10 @@
         <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
         </div>
-        <div v-if="isArrowRight" class="icon-right group-hover-text-theme">
-            <chevron-right-icon size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+        <div v-if="arrow" class="icon-right group-hover-text-theme">
+            <chevron-right-icon v-if="arrow === 'right'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <arrow-up-icon v-if="arrow === 'up'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <arrow-down-icon v-if="arrow === 'down'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
     </li>
 </template>
@@ -45,6 +47,8 @@
 <script>
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
+	ArrowUpIcon,
+	ArrowDownIcon,
     ChevronRightIcon,
     BoxIcon,
     MonitorIcon,
@@ -81,12 +85,14 @@ import {
         name: 'Option',
         props:[
             'isHoverDisabled',
-            'isArrowRight',
             'isActive',
             'title',
+            'arrow',
             'icon'
         ],
         components: {
+			ArrowUpIcon,
+			ArrowDownIcon,
             BoxIcon,
             MonitorIcon,
             GlobeIcon,
@@ -146,7 +152,7 @@ import {
             @include transform(translateY(3px));
         }
 
-        polyline {
+        polyline, line {
             color: inherit;
         }
     }
