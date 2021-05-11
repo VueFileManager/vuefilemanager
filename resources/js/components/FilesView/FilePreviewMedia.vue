@@ -364,6 +364,16 @@ export default {
     .media-full-preview {
         top: 53px;
     }
+
+	#pdf-wrapper {
+		border-radius: 0;
+		padding: 0;
+
+		.pdf-file {
+			box-shadow: none;
+			border-radius: 0;
+		}
+	}
 }
 
 

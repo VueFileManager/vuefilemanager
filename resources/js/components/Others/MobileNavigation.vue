@@ -15,16 +15,16 @@
 
             <!--Main navigation-->
             <OptionGroup v-if="!clickedSubmenu">
-                <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" is-hover-disabled="true" />
-                <Option @click.native="goToInvoices" :title="$t('in.nav.invoices')" icon="file-text" is-hover-disabled="true" />
-                <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" :is-arrow-right="true" is-hover-disabled="true" />
-                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" :is-arrow-right="true" is-hover-disabled="true" />
+                <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" is-hover-disabled="true"/>
+				<Option @click.native="goToInvoices" :title="$t('in.nav.invoices')" icon="file-text" is-hover-disabled="true" />
+				<Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" arrow="right" is-hover-disabled="true"/>
+                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" arrow="right" is-hover-disabled="true"/>
             </OptionGroup>
             <OptionGroup v-if="!clickedSubmenu">
                 <Option @click.native="logOut" :title="$t('menu.logout')" icon="power" is-hover-disabled="true" />
             </OptionGroup>
 
-			<!--Submenu: User settings-->
+            <!--Submenu: User settings-->
             <OptionGroup v-if="clickedSubmenu === 'settings'">
                 <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" is-hover-disabled="true" />
@@ -36,7 +36,7 @@
                 <Option @click.native="goToRoute('Invoice')" :title="$t('menu.invoices')" icon="file-text" is-hover-disabled="true" />
             </OptionGroup>
 
-			<!--Submenu: Admin settings-->
+            <!--Submenu: Admin settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin'">
                 <Option @click.native="goToRoute('Dashboard')" :title="$t('admin_menu.dashboard')" icon="box" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Users')" :title="$t('admin_menu.users')" icon="users" is-hover-disabled="true" />

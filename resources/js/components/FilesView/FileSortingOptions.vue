@@ -5,13 +5,9 @@
             <Option v-if="isGrid" @click.native="changePreview('list')" :title="$t('preview_sorting.list_view')" icon="list" />
         </OptionGroup>
         <OptionGroup>
-            <Option @click.native.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
-            <Option @click.native.stop="sort('name')" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
+            <Option @click.native.stop="sort('created_at')" :arrow="arrowForCreatedAtField" :title="$t('preview_sorting.sort_date')" icon="calendar" />
+            <Option @click.native.stop="sort('name')" :arrow="arrowForNameField" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
         </OptionGroup>
-
-        <!-- TODO: implementovat sipky
-        <arrow-up-icon size="17" v-if="filter.field === 'created_at'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>
-        <arrow-up-icon size="17" v-if="filter.field === 'name'" :class="{ 'arrow-down': filter.sort === 'ASC' }"/>-->
     </div>
 </template>
 
@@ -38,7 +34,19 @@ export default {
         },
         isList() {
             return this.FilePreviewType === 'list'
-        }
+        },
+		arrowForCreatedAtField() {
+        	if (this.filter.field !== 'created_at')
+        		return undefined
+
+			return this.filter.sort === 'DESC' ? 'up' : 'down'
+		},
+		arrowForNameField() {
+        	if (this.filter.field !== 'name')
+        		return undefined
+
+			return this.filter.sort === 'DESC' ? 'up' : 'down'
+		}
     },
     data() {
         return {
