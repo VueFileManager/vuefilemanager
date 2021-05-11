@@ -21,7 +21,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.30",
         "@fortawesome/free-solid-svg-icons": "^5.14.0",
         "@fortawesome/vue-fontawesome": "^0.1.10",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.21",
         "node-sass": "^4.14.1",
         "pdfvuer": "^1.7.5",
         "twemoji": "^13.0.1",
