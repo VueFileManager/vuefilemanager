@@ -20,8 +20,12 @@ class ClientController extends Controller
      */
     public function index()
     {
+        $clients = Client::sortable()
+            ->whereUserId(Auth::id())
+            ->get();
+
         return response(
-            new OasisViewClientCollection(Auth::user()->clients),
+            new OasisViewClientCollection($clients),
             200
         );
     }

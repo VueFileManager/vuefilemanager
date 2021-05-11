@@ -76,7 +76,6 @@ function invoice_tax_base($invoice)
                 'rate' => $item['tax_rate'],
                 'total' => $item['price'] * $item['amount'],
             ]);
-
         } else {
             $bag->map(function ($bagItem) use ($item) {
                 if ($bagItem['rate'] === $item['tax_rate']) {

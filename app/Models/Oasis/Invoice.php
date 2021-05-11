@@ -1,10 +1,10 @@
 <?php
 namespace App\Models\Oasis;
 
-use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Invoice extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, Sortable;
 
     protected $casts = [
         'items' => 'array',
@@ -22,6 +22,12 @@ class Invoice extends Model
 
     public $guarded = [
         'id',
+    ];
+
+    public $sortable = [
+        'invoice_number',
+        'created_at',
+        'total_net',
     ];
 
     public $incrementing = false;

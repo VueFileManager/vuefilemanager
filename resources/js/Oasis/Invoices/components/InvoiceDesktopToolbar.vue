@@ -44,8 +44,13 @@
 				<ToolbarGroup>
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showSortingMenu" source="preview-sorting" :action="$t('actions.sorting_view')" />
-						<PopoverItem name="desktop-sorting">
-							<OptionGroup>
+						<PopoverItem name="desktop-sorting" side="left">
+							<OptionGroup v-if="$isThisLocation(['regular-invoice', 'advance-invoice'])">
+								<Option @click.native.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
+								<Option @click.native.stop="sort('total_net')" :title="$t('in.sort_by_net')" icon="dollar" />
+								<Option @click.native.stop="sort('invoice_number')" :title="$t('in.sort_by_invoice_number')" icon="file-text" />
+							</OptionGroup>
+							<OptionGroup v-if="$isThisLocation('clients')">
 								<Option @click.native.stop="sort('created_at')" :title="$t('preview_sorting.sort_date')" icon="calendar" />
 								<Option @click.native.stop="sort('name')" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
 							</OptionGroup>
@@ -113,6 +118,10 @@
 		data() {
 			return {
 				query: '',
+				filter: {
+					sort: 'DESC',
+					field: undefined
+				}
 			}
 		},
 		watch: {
@@ -121,6 +130,24 @@
 			}
 		},
 		methods: {
+			sort(field) {
+				this.filter.field = field
+
+				// Set sorting direction
+				if (this.filter.sort === 'DESC')
+					this.filter.sort = 'ASC'
+				else if (this.filter.sort === 'ASC')
+					this.filter.sort = 'DESC'
+
+				// Save to localStorage sorting options
+				localStorage.setItem('sorting-invoices', JSON.stringify({ sort: this.filter.sort, field: this.filter.field }))
+
+				// Update sorting state in vuex
+				this.$store.commit('UPDATE_INVOICE_SORTING')
+
+				// Get data using the application location
+				this.$getInvoiceDataByLocation()
+			},
 			createInvoice(type) {
 				this.$router.push({name: 'CreateInvoice', query: {type: type}})
 			},

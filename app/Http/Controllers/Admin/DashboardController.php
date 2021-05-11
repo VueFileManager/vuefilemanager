@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use DB;
 use App\Models\User;
 use ByteUnits\Metric;
 use App\Services\StripeService;

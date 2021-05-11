@@ -20,7 +20,6 @@ class InvoiceProfileController extends Controller
         $user = Auth::user();
 
         if ($user->invoiceProfile) {
-
             return response(
                 new InvoiceProfileResource($user->invoiceProfile),
                 200

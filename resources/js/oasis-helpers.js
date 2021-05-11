@@ -1,9 +1,25 @@
 import i18n from '@/i18n/index'
 import {debounce} from 'lodash'
 import {events} from './bus'
+import store from "./store";
 
 const OasisHelpers = {
 	install(Vue) {
+
+		Vue.prototype.$getInvoiceDataByLocation = function () {
+
+			let currentLocation = store.getters.currentFolder && store.getters.currentFolder.location
+				? store.getters.currentFolder.location
+				: undefined
+
+			let actions = {
+				'regular-invoice': 'getRegularInvoices',
+				'advance-invoice': 'getAdvanceInvoices',
+				'clients': 'getClients',
+			}
+
+			this.$store.dispatch(actions[currentLocation])
+		}
 
 		Vue.prototype.$shareInvoice = function (entry) {
 			events.$emit('popup:open', {

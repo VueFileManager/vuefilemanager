@@ -2,7 +2,12 @@ import {events} from '@/bus'
 import axios from "axios"
 import Vue from "vue"
 
-const defaultState = {}
+const defaultState = {
+	invoiceSorting: {
+		sort: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).sort : 'DESC',
+		field: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).field : 'created_at',
+	},
+}
 
 const actions = {
 	getRegularInvoices: ({commit, getters}) => {
@@ -15,7 +20,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/oasis/invoices/regular')
+			.get('/api/oasis/invoices/regular' + getters.invoiceSorting.URI)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -36,7 +41,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/oasis/invoices/advance')
+			.get('/api/oasis/invoices/advance' + getters.invoiceSorting.URI)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -57,7 +62,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/oasis/clients')
+			.get('/api/oasis/clients' + getters.invoiceSorting.URI)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -97,17 +102,20 @@ const actions = {
 			})
 			.catch(() => Vue.prototype.$isSomethingWrong())
 	},
-	deleteClient: ({commit, getters}, payload) => {
-		//
-	},
-	sendInvoice: ({commit, getters}, payload) => {
-		//
+}
+
+const mutations = {
+	UPDATE_INVOICE_SORTING(state) {
+		state.invoiceSorting.field = JSON.parse(localStorage.getItem('sorting-invoices')).field
+		state.invoiceSorting.sort = JSON.parse(localStorage.getItem('sorting-invoices')).sort
 	},
 }
 
-const mutations = {}
-
-const getters = {}
+const getters = {
+	invoiceSorting: (state) => {
+		return {sorting: state.invoiceSorting, URI: '?sort=' + state.invoiceSorting.field + '&direction=' + state.invoiceSorting.sort}
+	},
+}
 
 export default {
 	state: defaultState,

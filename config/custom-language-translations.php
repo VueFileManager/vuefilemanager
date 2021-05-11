@@ -192,10 +192,10 @@ return [
     'in.empty.bill_profile_description' => 'Before your first invoice, please set up your billing profile.',
     'in.empty.clients_invoices' => "Client doesn't have any invoices yet.",
 
-    'in.empty.invoice_page_title' => "Create Your First Invoice",
+    'in.empty.invoice_page_title' => 'Create Your First Invoice',
     'in.empty.invoice_page_description' => "It's very easy, just click on the button below.",
 
-    'in.empty.client_page_title' => "Create Your First Client",
+    'in.empty.client_page_title' => 'Create Your First Client',
 
     'in.form.some_issues' => 'We found some issues in your form. Please check it out and submit again',
     'in.form.create_client' => 'Create Client',
@@ -282,4 +282,6 @@ return [
     'in.share.type_email' => 'Type email address...',
     'in.share.submit_share' => 'Send Invoice',
     'in.share.invoice_sended' => 'Your invoice has been sent successfully',
+    'in.sort_by_net' => 'Sort By Total Net',
+    'in.sort_by_invoice_number' => 'Sort By Invoice Number',
 ];

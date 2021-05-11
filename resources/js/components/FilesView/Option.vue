@@ -36,6 +36,7 @@
             <box-icon v-if="icon === 'box'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <clock-icon v-if="icon === 'clock'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <send-icon v-if="icon === 'send'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <dollar-sign-icon v-if="icon === 'dollar'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
         <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
@@ -49,6 +50,7 @@
 <script>
 import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
 import {
+	DollarSignIcon,
 	UserPlusIcon,
 	FilePlusIcon,
 	SendIcon,
@@ -95,6 +97,7 @@ import {
             'icon'
         ],
         components: {
+			DollarSignIcon,
 			UserPlusIcon,
 			FilePlusIcon,
 			SendIcon,

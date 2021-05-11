@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Oasis;
 
 use Illuminate\Foundation\Http\FormRequest;

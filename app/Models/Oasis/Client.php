@@ -3,6 +3,7 @@ namespace App\Models\Oasis;
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use Kyslik\ColumnSortable\Sortable;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -14,13 +15,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Client extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, Sortable;
 
     public $guarded = ['id'];
 
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    public $sortable = [
+        'created_at',
+        'name',
+    ];
 
     /**
      * Format avatar to full url
