@@ -5,6 +5,13 @@ import {events} from './bus'
 const OasisHelpers = {
 	install(Vue) {
 
+		Vue.prototype.$shareInvoice = function (entry) {
+			events.$emit('popup:open', {
+				name: 'share-invoice',
+				item: entry
+			})
+		}
+
 		Vue.prototype.$editInvoice = function (entry) {
 			this.$router.push({name: 'EditInvoice', params: {id: entry.id}})
 			events.$emit('file-preview:hide')

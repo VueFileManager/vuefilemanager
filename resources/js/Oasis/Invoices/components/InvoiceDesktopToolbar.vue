@@ -20,7 +20,7 @@
 				<!--Creating controls-->
 				<ToolbarGroup>
 					<PopoverWrapper>
-                    	<ToolbarButton @click.stop.native="createCreateMenu" source="plus" :action="$t('actions.create_folder')" />
+                    	<ToolbarButton @click.stop.native="createMenu" source="plus" :action="$t('actions.create_folder')" />
 						<PopoverItem name="desktop-create-invoices">
 							<OptionGroup>
 								<Option @click.stop.native="createInvoice('regular-invoice')" :title="$t('in_editor.page.create_regular_invoice')" icon="file-plus" />
@@ -35,7 +35,7 @@
 
 				<!--Invoice Controls-->
 				<ToolbarGroup v-if="! $isMobile()">
-                    <ToolbarButton @click.native="shareInvoice" :class="{'is-inactive': canActiveInView }" source="send" :action="$t('actions.share')" />
+                    <ToolbarButton @click.native="$shareInvoice(clipboard[0])" :class="{'is-inactive': canActiveInView }" source="send" :action="$t('actions.share')" />
                     <ToolbarButton @click.native="editItem" :class="{'is-inactive': canActiveInView }" source="rename" :action="$t('actions.share')" />
                     <ToolbarButton @click.native="deleteItem" :class="{'is-inactive': canActiveInView }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
@@ -130,46 +130,26 @@
 			showSortingMenu() {
 				events.$emit('popover:open', 'desktop-sorting')
 			},
-			createCreateMenu() {
+			createMenu() {
 				events.$emit('popover:open', 'desktop-create-invoices')
 			},
 			deleteItem() {
 
 				if (this.$isThisLocation(['regular-invoice', 'advance-invoice']) && this.clipboard.length > 0) {
-
-					events.$emit('confirm:open', {
-						title: this.$t('in.popup.delete_invoice.title', {number: this.clipboard[0].invoice_number}),
-						message: this.$t('in.popup.delete_invoice.message'),
-						buttonColor: 'danger-solid',
-						action: {
-							id: this.clipboard[0].id,
-							operation: 'delete-invoice'
-						}
-					})
+					this.deleteInvoice(this.clipboard[0])
 				}
 
 				if (this.$isThisLocation('clients') && this.clipboard.length > 0) {
-					events.$emit('confirm:open', {
-						title: this.$t('in.popup.delete_client.title', {name: this.clipboard[0].name}),
-						message: this.$t('in.popup.delete_client.message'),
-						buttonColor: 'danger-solid',
-						action: {
-							id: this.clipboard[0].id,
-							operation: 'delete-client'
-						}
-					})
+					this.deleteClient(this.clipboard[0])
 				}
-			},
-			shareInvoice() {
-				alert('Send Invoice')
 			},
 			editItem() {
 				if (this.$isThisLocation(['regular-invoice', 'advance-invoice'])) {
-					this.$router.push({name: 'EditInvoice', params: {id: this.clipboard[0].id}})
+					this.$editInvoice(this.clipboard[0])
 				}
 
 				if (this.$isThisLocation('clients')) {
-					this.$router.push({name: 'ClientDetail', params: {id: this.clipboard[0].id}})
+					this.$goToCompany(this.clipboard[0])
 				}
 			},
 		},

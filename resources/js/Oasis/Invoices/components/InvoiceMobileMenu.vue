@@ -12,7 +12,7 @@
         <MenuMobileGroup>
             <OptionGroup class="menu-option-group">
                 <Option @click.native="$editInvoice(clipboard[0])" :title="$t('in.menu.edit_invoice')" icon="rename" />
-                <Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
+                <Option @click.native="$shareInvoice(clipboard[0])" :title="$t('in.menu.send_invoice')" icon="send" />
                 <Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.show_company')" icon="user" />
                 <Option @click.native="$deleteInvoice(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
@@ -31,7 +31,6 @@ import OptionGroup from '@/components/FilesView/OptionGroup'
 import MenuMobile from '@/components/Mobile/MenuMobile'
 import Option from '@/components/FilesView/Option'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
 
 export default {
     name: 'InvoiceMobileMenu',

@@ -5,7 +5,7 @@
         <div v-show="isInvoice" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
                 <Option @click.native="$editInvoice(clipboard[0])" :title="$t('in.menu.edit_invoice')" icon="rename" />
-                <Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
+                <Option @click.native="$shareInvoice(clipboard[0])" :title="$t('in.menu.send_invoice')" icon="send" />
                 <Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.show_company')" icon="user" />
                 <Option @click.native="$deleteInvoice(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>

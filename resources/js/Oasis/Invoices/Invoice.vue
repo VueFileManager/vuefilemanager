@@ -6,6 +6,7 @@
 
 		<!--Popups-->
 		<ConfirmPopup />
+		<ShareInvoicePopup />
 
 		<InvoiceMobileMenu />
 		<ClientMobileMenu />
@@ -67,9 +68,10 @@
 <script>
     import InvoiceSortingMobile from '@/Oasis/Invoices/components/InvoiceSortingMobile'
 	import InvoiceFilterMobile from '@/Oasis/Invoices/components/InvoiceFilterMobile'
+    import ShareInvoicePopup from '@/Oasis/Invoices/components/ShareInvoicePopup'
 	import InvoiceMobileMenu from '@/Oasis/Invoices/components/InvoiceMobileMenu'
-	import ClientMobileMenu from '@/Oasis/Invoices/components/ClientMobileMenu'
 	import InvoiceCreateMenu from '@/Oasis/Invoices/components/InvoiceCreateMenu'
+	import ClientMobileMenu from '@/Oasis/Invoices/components/ClientMobileMenu'
 	import ConfirmPopup from '@/components/Others/Popup/ConfirmPopup'
 
 	import {UsersIcon, FileTextIcon, ClockIcon, Edit2Icon} from 'vue-feather-icons'
@@ -93,6 +95,7 @@
 			InvoiceSortingMobile,
 			InvoiceFilterMobile,
 			InvoiceCreateMenu,
+			ShareInvoicePopup,
 			InvoiceMobileMenu,
 			SidebarNavigation,
 			ClientMobileMenu,

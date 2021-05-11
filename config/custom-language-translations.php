@@ -277,4 +277,9 @@ return [
     'in.route_title.client' => 'Client',
     'in.route_title.client_detail' => 'Client',
     'in.route_title.client_invoices' => 'Client Invoices',
+
+    'in.share.share_invoice' => 'Share Your Invoice',
+    'in.share.type_email' => 'Type email address...',
+    'in.share.submit_share' => 'Send Invoice',
+    'in.share.invoice_sended' => 'Your invoice has been sent successfully',
 ];
