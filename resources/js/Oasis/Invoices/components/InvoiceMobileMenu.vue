@@ -11,13 +11,13 @@
 		<!--Trash location-->
         <MenuMobileGroup>
             <OptionGroup class="menu-option-group">
-                <Option @click.native="editInvoice" :title="$t('in.menu.edit_invoice')" icon="rename" />
+                <Option @click.native="$editInvoice(clipboard[0])" :title="$t('in.menu.edit_invoice')" icon="rename" />
                 <Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
-                <Option @click.native="goToCompany" :title="$t('in.menu.show_company')" icon="user" />
-                <Option @click.native="deleteInvoice" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.show_company')" icon="user" />
+                <Option @click.native="$deleteInvoice(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="downloadInvoice" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="$downloadInvoice(clipboard[0])" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
@@ -53,28 +53,6 @@ export default {
         return {
             isVisible: false,
         }
-    },
-    methods: {
-		editInvoice() {
-			this.$router.push({name: 'EditInvoice', params: {id: this.clipboard[0].id}})
-		},
-		downloadInvoice() {
-			this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
-		},
-		goToCompany() {
-			this.$router.push({name: 'ClientDetail', params: {id: this.clipboard[0].client_id}})
-		},
-		deleteInvoice() {
-			events.$emit('confirm:open', {
-				title: this.$t('in.popup.delete_invoice.title', {number: this.clipboard[0].invoice_number}),
-				message: this.$t('in.popup.delete_invoice.message'),
-				buttonColor: 'danger-solid',
-				action: {
-					id: this.clipboard[0].id,
-					operation: 'delete-invoice'
-				}
-			})
-		},
     }
 }
 </script>

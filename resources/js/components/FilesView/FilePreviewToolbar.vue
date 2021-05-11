@@ -10,7 +10,7 @@
 				<span @click.stop="showItemContextMenu" id="fast-preview-menu" class="fast-menu-icon group">
 					<more-horizontal-icon class="more-icon group-hover-text-theme" size="14" />
 				</span>
-				<PopoverItem name="file-preview-contextmenu" side="right">
+				<PopoverItem v-if="! isInvoice" name="file-preview-contextmenu" side="right">
 					<OptionGroup class="menu-option-group">
 						<Option @click.native="$renameFileOrFolder(clipboard[0])" :title="$t('context_menu.rename')" icon="rename" />
 						<Option @click.native="$moveFileOrFolder(clipboard[0])" :title="$t('context_menu.move')" icon="move-item" />
@@ -19,6 +19,18 @@
 					</OptionGroup>
 					<OptionGroup>
 						<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					</OptionGroup>
+				</PopoverItem>
+				<PopoverItem v-if="isInvoice" name="file-preview-contextmenu" side="right">
+					<OptionGroup class="menu-option-group">
+						<Option @click.native="$editInvoice(clipboard[0])" :title="$t('in.menu.edit_invoice')" icon="rename" />
+						<Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
+						<Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.show_company')" icon="user" />
+						<Option @click.native="$deleteInvoice(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
+					</OptionGroup>
+
+					<OptionGroup>
+						<Option @click.native="$downloadInvoice(clipboard[0])" :title="$t('context_menu.download')" icon="download" />
 					</OptionGroup>
 				</PopoverItem>
 			</PopoverWrapper>
@@ -69,6 +81,9 @@
                 'clipboard',
                 'entries'
             ]),
+			isInvoice() {
+				return this.clipboard[0].type === 'invoice'
+			},
 			sharingTitle() {
 				return this.clipboard[0].shared
 					? this.$t('context_menu.share_edit')
@@ -119,7 +134,13 @@
         methods: {
 			showItemContextMenu() {
 				if (this.$isMobile()) {
-					events.$emit('mobile-menu:show', 'file-menu')
+
+					if (this.isInvoice) {
+						events.$emit('mobile-menu:show', 'invoice-menu')
+					} else {
+						events.$emit('mobile-menu:show', 'file-menu')
+					}
+
 				} else {
 					events.$emit('popover:open', 'file-preview-contextmenu')
 				}

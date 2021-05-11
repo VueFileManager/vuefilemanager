@@ -7,6 +7,7 @@ import App from "./App.vue";
 import store from "./store";
 import {events} from "./bus";
 import Helpers from "./helpers";
+import OasisHelpers from "./oasis-helpers";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -85,6 +86,7 @@ library.add(
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 Vue.use(VueRouter);
+Vue.use(OasisHelpers);
 Vue.use(Helpers);
 
 Vue.config.productionTip = false;

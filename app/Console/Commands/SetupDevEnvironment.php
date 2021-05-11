@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Share;
 use App\Models\Folder;
 use App\Models\Setting;
-use Faker\Generator;
 use Illuminate\Support\Str;
 use App\Services\SetupService;
 use Illuminate\Console\Command;
@@ -33,8 +32,6 @@ class SetupDevEnvironment extends Command
     protected $description = 'Set up development environment with demo data';
 
     private $setup;
-
-    private Generator $faker;
 
     public function __construct()
     {

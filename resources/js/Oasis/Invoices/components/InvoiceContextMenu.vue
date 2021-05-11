@@ -1,30 +1,30 @@
 <template>
-    <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" v-show="isVisible || showFromPreview" ref="contextmenu" :class="{'filePreviewFixed': showFromPreview}">
+    <div :style="{ top: positionY + 'px', left: positionX + 'px' }" @click="closeAndResetContextMenu" class="contextmenu" v-show="isVisible" ref="contextmenu">
 
         <!--Invoice-->
         <div v-show="isInvoice" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="editItem" :title="$t('in.menu.edit_invoice')" icon="rename" />
+                <Option @click.native="$editInvoice(clipboard[0])" :title="$t('in.menu.edit_invoice')" icon="rename" />
                 <Option @click.native="" :title="$t('in.menu.send_invoice')" icon="send" />
-                <Option @click.native="goToCompany" :title="$t('in.menu.show_company')" icon="user" />
-                <Option @click.native="deleteInvoice" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.show_company')" icon="user" />
+                <Option @click.native="$deleteInvoice(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup>
                 <Option @click.native="showDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="$downloadInvoice(clipboard[0])" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
 
         <!--Client-->
         <div v-show="isClient" class="menu-options" id="menu-list">
             <OptionGroup class="menu-option-group">
-                <Option @click.native="goToCompany" :title="$t('in.menu.edit')" icon="rename" />
-                <Option @click.native="deleteClient" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.edit')" icon="rename" />
+                <Option @click.native="$deleteClient(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="goToCompany" :title="$t('in.menu.show_company')" icon="user" />
-                <Option @click.native="showDetail" :title="$t('context_menu.detail')" icon="detail" />
+                <Option @click.native="$goToCompany(clipboard[0])" :title="$t('in.menu.show_company')" icon="user" />
+                <Option @click.native="$showSidebarPreview(clipboard[0])" :title="$t('context_menu.detail')" icon="detail" />
             </OptionGroup>
         </div>
     </div>
@@ -44,8 +44,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-			'user',
-			'clipboard'
+			'clipboard',
 		]),
 		isInvoice() {
 			return this.clipboard[0] && this.clipboard[0].type === 'invoice'
@@ -53,20 +52,9 @@ export default {
 		isClient() {
 			return this.clipboard[0] && this.clipboard[0].type === 'client'
 		},
-        isMultiSelectContextMenu() {
-
-            // If is context Menu open on multi selected items open just options for the multi selected items
-            if (this.clipboard.length > 1 && this.clipboard.includes(this.item))
-                return false
-
-            // If is context Menu open for the non selected item open options for the single item
-            if (this.clipboard.length < 2 || !this.clipboard.includes(this.item))
-                return true
-        },
     },
     data() {
         return {
-            showFromPreview: false,
             item: undefined,
             isVisible: false,
             positionX: 0,
@@ -74,70 +62,12 @@ export default {
         }
     },
     methods: {
-		goToCompany() {
-			this.$router.push({name: 'ClientDetail', params: {id: this.item.client_id ?? this.item.id}})
-
-			events.$emit('file-preview:hide')
-
-			this.isVisible = false
-		},
-        downloadItem() {
-            if (this.clipboard.length > 1)
-                this.$store.dispatch('downloadFiles')
-            else {
-                this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
-            }
-        },
-		showDetail() {
-            // Dispatch load file info detail
-            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
-
-            // Show panel if is not open
-            this.$store.dispatch('fileInfoToggle', true)
-        },
-		editItem() {
-			this.$router.push({name: 'EditInvoice', params: {id: this.item.id}})
-		},
-        deleteInvoice() {
-			events.$emit('confirm:open', {
-				title: this.$t('in.popup.delete_invoice.title', {number: this.item.invoice_number}),
-				message: this.$t('in.popup.delete_invoice.message'),
-				buttonColor: 'danger-solid',
-				action: {
-					id: this.item.id,
-					operation: 'delete-invoice'
-				}
-			})
-        },
-		deleteClient() {
-			events.$emit('confirm:open', {
-				title: this.$t('in.popup.delete_client.title', {name: this.item.name}),
-				message: this.$t('in.popup.delete_client.message'),
-				buttonColor: 'danger-solid',
-				action: {
-					id: this.item.id,
-					operation: 'delete-client'
-				}
-			})
-        },
         closeAndResetContextMenu() {
             // Close context menu
             this.isVisible = false
-			this.showFromPreview = false
 
             // Reset item container
             this.item = undefined
-
-			events.$emit('file-preview:hide')
-        },
-        showFolderActionsMenu() {
-            let container = document.getElementById('folder-actions')
-
-            this.positionX = container.offsetLeft + 16
-            this.positionY = container.offsetTop + 30
-
-            // Show context menu
-            this.isVisible = true
         },
         showContextMenu(event) {
             let parent = document.getElementById('menu-list')
@@ -170,31 +100,8 @@ export default {
             // Show context menu
             this.isVisible = true
         },
-        showFilePreviewMenu() {
-            let container = document.getElementById('fast-preview-menu')
-            if (container) {
-                this.positionX = container.offsetLeft + 16
-                this.positionY = container.offsetTop + 51
-            }
-        }
     },
     created() {
-        events.$on('showContextMenuPreview:show', (item) => {
-            if (!this.showFromPreview) {
-                this.item = item
-                this.showFromPreview = true
-                this.showFilePreviewMenu()
-            } else if (this.showFromPreview) {
-                this.showFromPreview = false
-                this.item = undefined
-            }
-        })
-
-        events.$on('showContextMenuPreview:hide', () => {
-            this.isVisible = false
-            this.showFromPreview = false
-            this.item = undefined
-        })
 
         events.$on('contextMenu:show', (event, item) => {
             // Store item
@@ -205,14 +112,6 @@ export default {
         })
 
         events.$on('unClick', () => this.closeAndResetContextMenu())
-
-        events.$on('folder:actions', (folder) => {
-            // Store item
-            this.item = folder
-
-            if (this.isVisible) this.isVisible = false
-            else this.showFolderActionsMenu()
-        })
     }
 }
 </script>
@@ -235,11 +134,6 @@ export default {
     /deep/ circle {
         stroke: $text-muted !important;
     }
-}
-
-.filePreviewFixed {
-    position: fixed !important;
-    display: flex;
 }
 
 .contextmenu {
