@@ -37,6 +37,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/api/oasis'], function () {
         Route::get('/{invoice}', [InvoiceController::class, 'get_single_invoice']);
         Route::delete('/{invoice}', [InvoiceController::class, 'destroy']);
         Route::post('/{invoice}', [InvoiceController::class, 'update']);
+        Route::post('/{invoice}/share', [InvoiceController::class, 'share']);
         Route::post('/', [InvoiceController::class, 'store']);
     });
 

@@ -770,4 +770,33 @@ class OasisInvoiceTest extends TestCase
                 'recommendedInvoiceNumber' => 20210002,
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function it_send_single_invoice_on_email()
+    {
+        Notification::fake();
+
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        $profile = InvoiceProfile::factory(InvoiceProfile::class)
+            ->create(['user_id' => $user->id]);
+
+        Sanctum::actingAs($user);
+
+        $invoice = Invoice::factory(Invoice::class)
+            ->create([
+                'user_id'      => $user->id,
+                'invoice_type' => 'regular-invoice',
+                'user'         => $profile->toArray(),
+            ]);
+
+        $this->postJson("/api/oasis/invoices/$invoice->id/share", [
+            'email' => 'john@doe.com',
+        ])->assertStatus(204);
+
+        Notification::assertTimesSent(1, InvoiceDeliveryNotification::class);
+    }
 }
