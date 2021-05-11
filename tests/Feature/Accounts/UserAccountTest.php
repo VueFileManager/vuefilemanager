@@ -105,6 +105,7 @@ class UserAccountTest extends TestCase
                     "attributes"    => [
                         "storage_capacity"     => "5",
                         "subscription"         => false,
+                        "has_billing_profile"  => false,
                         "incomplete_payment"   => null,
                         "stripe_customer"      => false,
                         "email"                => $user->email,
