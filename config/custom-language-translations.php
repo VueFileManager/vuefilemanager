@@ -284,4 +284,6 @@ return [
     'in.share.invoice_sended' => 'Your invoice has been sent successfully',
     'in.sort_by_net' => 'Sort By Total Net',
     'in.sort_by_invoice_number' => 'Sort By Invoice Number',
+
+    'in.button_sorting' => 'Sorting',
 ];

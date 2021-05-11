@@ -20,7 +20,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::sortable()
+        $clients = Client::sortable(['created_at', 'DESC'])
             ->whereUserId(Auth::id())
             ->get();
 

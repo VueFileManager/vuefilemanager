@@ -10,7 +10,7 @@
                 {{ $t('create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="showViewOptions" icon="th-list">
-                {{ $t('preview_sorting.preview_sorting_button') }}
+                {{ $t('in.button_sorting') }}
             </MobileActionButton>
         </div>
     </div>

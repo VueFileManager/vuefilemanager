@@ -100,7 +100,7 @@ class SetupOasisEnvironment extends Command
                 ['client_id' => $clients[3]->id],
                 ['client_id' => $clients[4]->id],
                 ['client_id' => $clients[5]->id],
-            ))->count(2)
+            ))->count(8)
             ->create([
                 'user_id' => $user->id,
                 'invoice_type' => 'regular-invoice',
@@ -109,7 +109,7 @@ class SetupOasisEnvironment extends Command
             ]);
 
         $advance_invoices = Invoice::factory(Invoice::class)
-            ->count(2)
+            ->count(6)
             ->state(new Sequence(
                 ['client_id' => $clients[0]->id],
                 ['client_id' => $clients[1]->id],

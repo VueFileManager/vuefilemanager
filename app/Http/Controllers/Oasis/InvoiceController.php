@@ -27,7 +27,7 @@ class InvoiceController extends Controller
      */
     public function get_all_regular_invoices()
     {
-        $invoices = Invoice::sortable()
+        $invoices = Invoice::sortable(['created_at', 'DESC'])
             ->whereUserId(Auth::id())
             ->whereInvoiceType('regular-invoice')
             ->get();
@@ -43,7 +43,7 @@ class InvoiceController extends Controller
      */
     public function get_all_advance_invoices()
     {
-        $invoices = Invoice::sortable()
+        $invoices = Invoice::sortable(['created_at', 'DESC'])
             ->whereUserId(Auth::id())
             ->whereInvoiceType('advance-invoice')
             ->get();
