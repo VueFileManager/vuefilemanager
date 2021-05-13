@@ -35,7 +35,8 @@
         "spatie/laravel-backup": "^6.15",
         "spatie/laravel-tail": "^4.3",
         "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0",
-        "vimeo/psalm": "^4.7"
+        "vimeo/psalm": "^4.7",
+        "makingcg/vuefilemanager-invoicing": "dev-master"
     },
     "require-dev": {
         "ext-json": "*",
@@ -46,6 +47,11 @@
         "nunomaduro/collision": "^5.3.0",
         "phpunit/phpunit": "^9.5.2"
     },
+    "repositories": [{
+        "type": "path",
+        "url": "../vuefilemanager-invoicing"
+    }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
