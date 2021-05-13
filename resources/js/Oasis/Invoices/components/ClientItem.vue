@@ -349,7 +349,7 @@ export default {
         }
 
         .image {
-            object-fit: cover;
+            object-fit: contain;
             user-select: none;
             max-width: 100%;
             border-radius: 5px;

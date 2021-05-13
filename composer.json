@@ -10,23 +10,20 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "barryvdh/laravel-snappy": "^0.4.8",
         "brianium/paratest": "^6.2",
         "cartalyst/stripe-laravel": "^13.1",
         "doctrine/dbal": "^2.12.1",
         "fideloper/proxy": "^4.4.1",
-        "friendsofphp/php-cs-fixer": "^2.18",
         "fruitcake/laravel-cors": "^2.0.3",
         "gabrielelana/byte-units": "^0.5.0",
         "guzzlehttp/guzzle": "^7.2.0",
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "intervention/image": "^2.5.1",
         "jaybizzle/laravel-crawler-detect": "^1.2",
         "kyslik/column-sortable": "^6.4",
         "laravel/cashier": "^12.9.1",
         "laravel/fortify": "^1.7.7",
         "laravel/framework": "^8.30.1",
-        "laravel/sanctum": "^2.9",
+        "laravel/sanctum": "^2.11.0",
         "laravel/tinker": "^2.6.1",
         "laravel/ui": "^3.2.0",
         "league/flysystem-aws-s3-v3": "^1.0.29",
@@ -39,6 +36,7 @@
         "makingcg/vuefilemanager-invoicing": "dev-master"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.18",
         "ext-json": "*",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5.14",
@@ -73,8 +71,7 @@
             "database/factories"
         ],
         "files": [
-            "app/Http/helpers.php",
-            "app/Http/custom-helpers.php"
+            "app/Http/helpers.php"
         ]
     },
     "autoload-dev": {

@@ -74,7 +74,7 @@
 		},
 		methods: {
 			fetchUser() {
-				axios.get(`/api/oasis/clients/${this.$route.params.id}`)
+				axios.get(`/api/clients/${this.$route.params.id}`)
 					.then(response => {
 						this.client = response.data
 					})
@@ -111,6 +111,7 @@
 				border-radius: 12px;
 				z-index: 1;
 				position: relative;
+				object-fit: contain;
 
 				&.blurred {
 					@include blurred-image;

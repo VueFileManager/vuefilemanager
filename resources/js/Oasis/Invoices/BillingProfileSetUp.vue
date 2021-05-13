@@ -260,7 +260,7 @@
 
 				// Send request to get user token
 				axios
-					.post('/api/oasis/invoices/profile', formData, {
+					.post('/api/invoices/profile', formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						}

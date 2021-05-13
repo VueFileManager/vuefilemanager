@@ -86,7 +86,7 @@ export default {
 
             // Send request to get share link
             axios
-                .post(`/api/oasis/invoices/${this.pickedItem.id}/share`,
+                .post(`/api/invoices/${this.pickedItem.id}/share`,
                     this.shareOptions
                 )
                 .then(() => {

@@ -615,7 +615,7 @@
 
 				// Send request to get user token
 				axios
-					.post('/api/oasis/invoices', formData, {
+					.post('/api/invoices', formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						}
@@ -690,7 +690,7 @@
 		mounted() {
 			this.invoice.invoice_type = this.$route.query.type
 
-			axios.get('/api/oasis/invoices/editor')
+			axios.get('/api/invoices/editor')
 				.then(response => {
 					this.isVatPayer = response.data.isVatPayer
 					this.clients = response.data.clients

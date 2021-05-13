@@ -150,7 +150,7 @@
 			events.$on('action:confirmed', data => {
 				if (data.operation === 'delete-invoice') {
 
-					axios.delete(`/api/oasis/invoices/${data.id}`)
+					axios.delete(`/api/invoices/${data.id}`)
 						.then(() => this.goTo(this.currentFolder.location))
 						.catch(() => this.$isSomethingWrong())
 				}
@@ -159,7 +159,7 @@
 			events.$on('action:confirmed', data => {
 				if (data.operation === 'delete-client') {
 
-					axios.delete(`/api/oasis/clients/${data.id}`)
+					axios.delete(`/api/clients/${data.id}`)
 						.then(() => this.goTo(this.currentFolder.location))
 						.catch(() => this.$isSomethingWrong())
 				}

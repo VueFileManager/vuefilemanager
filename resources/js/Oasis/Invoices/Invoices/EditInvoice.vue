@@ -509,7 +509,7 @@
 
 				// Send request to get user token
 				axios
-					.post(`/api/oasis/invoices/${this.$route.params.id}`, formData)
+					.post(`/api/invoices/${this.$route.params.id}`, formData)
 					.then(() => {
 
 						events.$emit('toaster', {
@@ -560,12 +560,12 @@
 			}
 		},
 		mounted() {
-			axios.get('/api/oasis/invoices/editor')
+			axios.get('/api/invoices/editor')
 				.then(response => {
 					this.isVatPayer = response.data.isVatPayer
 				})
 
-			axios.get(`/api/oasis/invoices/${this.$route.params.id}`)
+			axios.get(`/api/invoices/${this.$route.params.id}`)
 				.then(response => {
 					this.invoice.invoice_number = response.data.data.attributes.invoice_number
 					this.invoice.variable_number = response.data.data.attributes.variable_number

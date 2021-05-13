@@ -286,4 +286,6 @@ return [
     'in.sort_by_invoice_number' => 'Sort By Invoice Number',
 
     'in.button_sorting' => 'Sorting',
+
+    'in.billing_info' => 'Billing Information',
 ];

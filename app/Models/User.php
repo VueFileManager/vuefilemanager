@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Makingcg\Invoice\Http\Traits\Invoiceable;
 
 class User extends Authenticatable
 {
     use Notifiable, Billable, Sortable, HasFactory, HasApiTokens;
-    use Oasis;
+    use Oasis, Invoiceable;
 
     protected $guarded = [
         'id',

@@ -3,7 +3,7 @@
         <PageTabGroup>
             <DatatableWrapper
                 @init="isLoading = false"
-                :api="`/api/oasis/clients/${$route.params.id}/invoices`"
+                :api="`/api/clients/${$route.params.id}/invoices`"
                 :paginator="false"
                 :columns="columns"
                 class="table"
