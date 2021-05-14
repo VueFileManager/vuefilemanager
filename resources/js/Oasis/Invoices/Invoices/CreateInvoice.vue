@@ -308,7 +308,7 @@
 							</div>
 						</div>
 
-						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="createInvoice" button-style="theme-solid" class="next-submit">
+						<ButtonBase :disabled="isLoading" :loading="isLoading" @click.native="createInvoice" button-style="theme" class="next-submit">
 							{{ $t('in_editor.submit') }}
 						</ButtonBase>
 						<p class="error-message" v-if="isError">
@@ -615,7 +615,7 @@
 
 				// Send request to get user token
 				axios
-					.post('/api/invoices', formData, {
+					.post('/api/v1/invoicing/invoices', formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						}
@@ -690,7 +690,7 @@
 		mounted() {
 			this.invoice.invoice_type = this.$route.query.type
 
-			axios.get('/api/invoices/editor')
+			axios.get('/api/v1/invoicing/editor')
 				.then(response => {
 					this.isVatPayer = response.data.isVatPayer
 					this.clients = response.data.clients

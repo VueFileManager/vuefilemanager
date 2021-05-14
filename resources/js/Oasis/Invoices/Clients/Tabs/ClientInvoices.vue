@@ -3,7 +3,7 @@
         <PageTabGroup>
             <DatatableWrapper
                 @init="isLoading = false"
-                :api="`/api/clients/${$route.params.id}/invoices`"
+                :api="`/api/v1/invoicing/clients/${$route.params.id}/invoices`"
                 :paginator="false"
                 :columns="columns"
                 class="table"

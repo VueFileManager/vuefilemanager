@@ -16,14 +16,14 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client_logo') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="logo" v-slot="{ errors }">
-									<ImageInput @input="$updateImage('/invoices/profile', 'logo', profile.logo)" :image="$getImage(profile.logo)" v-model="profile.logo" :error="errors[0]" />
+									<ImageInput @input="$updateImage('/v1/invoicing/profile', 'logo', profile.logo)" :image="$getImage(profile.logo)" v-model="profile.logo" :error="errors[0]" />
 								</ValidationProvider>
 							</div>
 
 							<div class="block-wrapper">
 								<label>{{ $t('in.form.company_name') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="company" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'company', profile.company)" v-model="profile.company" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'company', profile.company)" v-model="profile.company" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -35,7 +35,7 @@
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="registration_notes" rules="required" v-slot="{ errors }">
                         			<textarea
 										rows="2"
-										@input="$updateText('/invoices/profile', 'registration_notes', profile.registration_notes)"
+										@input="$updateText('/v1/invoicing/profile', 'registration_notes', profile.registration_notes)"
 										v-model="profile.registration_notes"
 										placeholder=""
 										:class="{'is-error': errors[0]}"
@@ -55,7 +55,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.ico') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ico" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'ico', profile.ico)" v-model="profile.ico" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'ico', profile.ico)" v-model="profile.ico" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -64,7 +64,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.dic') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="dic" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'dic', profile.dic)" v-model="profile.dic" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'dic', profile.dic)" v-model="profile.dic" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -73,7 +73,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ic_dph" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'ic_dph', profile.ic_dph)" v-model="profile.ic_dph" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'ic_dph', profile.ic_dph)" v-model="profile.ic_dph" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -87,7 +87,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client_address') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="address" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'address', profile.address)" v-model="profile.address" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'address', profile.address)" v-model="profile.address" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -97,7 +97,7 @@
 								<div class="block-wrapper">
 									<label>{{ $t('in_editor.client_city') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="city" rules="required" v-slot="{ errors }">
-										<input @input="$updateText('/invoices/profile', 'city', profile.city)" v-model="profile.city" placeholder="" type="text"
+										<input @input="$updateText('/v1/invoicing/profile', 'city', profile.city)" v-model="profile.city" placeholder="" type="text"
 											   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
@@ -106,7 +106,7 @@
 								<div class="block-wrapper">
 									<label>{{ $t('in_editor.client_postal_code') }}:</label>
 									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="postal_code" rules="required" v-slot="{ errors }">
-										<input @input="$updateText('/invoices/profile', 'postal_code', profile.postal_code)" v-model="profile.postal_code" placeholder="" type="text"
+										<input @input="$updateText('/v1/invoicing/profile', 'postal_code', profile.postal_code)" v-model="profile.postal_code" placeholder="" type="text"
 											   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 									</ValidationProvider>
@@ -116,7 +116,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client_country') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="country" rules="required" v-slot="{ errors }">
-									<SelectInput @input="$updateText('/invoices/profile', 'country', profile.country)" v-model="profile.country" :default="profile.country" :options="countries" placeholder="" :isError="errors[0]"/>
+									<SelectInput @input="$updateText('/v1/invoicing/profile', 'country', profile.country)" v-model="profile.country" :default="profile.country" :options="countries" placeholder="" :isError="errors[0]"/>
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
 							</div>
@@ -129,7 +129,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in.form.bank_name') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="bank" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'bank', profile.bank)" v-model="profile.bank" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'bank', profile.bank)" v-model="profile.bank" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -138,7 +138,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in.form.iban') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="iban" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'iban', profile.iban)" v-model="profile.iban" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'iban', profile.iban)" v-model="profile.iban" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -147,7 +147,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in.form.swift_code') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="swift" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'swift', profile.swift)" v-model="profile.swift" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'swift', profile.swift)" v-model="profile.swift" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -161,7 +161,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client_phone') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="phone" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'phone', profile.phone)" v-model="profile.phone" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'phone', profile.phone)" v-model="profile.phone" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -170,7 +170,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client_email') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'email', profile.email)" v-model="profile.email" placeholder="" type="email"
+									<input @input="$updateText('/v1/invoicing/profile', 'email', profile.email)" v-model="profile.email" placeholder="" type="email"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -179,7 +179,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in.form.author_name') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="author" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/invoices/profile', 'author', profile.author)" v-model="profile.author" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'author', profile.author)" v-model="profile.author" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
@@ -188,7 +188,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in.form.stamp') }}:</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="stamp" v-slot="{ errors }">
-									<ImageInput @input="$updateImage('/invoices/profile', 'stamp', profile.stamp)" :image="$getImage(profile.stamp)" v-model="profile.stamp" :error="errors[0]" />
+									<ImageInput @input="$updateImage('/v1/invoicing/profile', 'stamp', profile.stamp)" :image="$getImage(profile.stamp)" v-model="profile.stamp" :error="errors[0]" />
 								</ValidationProvider>
 							</div>
 						</div>
@@ -265,7 +265,7 @@
 		},
 		methods: {},
 		created() {
-			axios.get('/api/invoices/profile')
+			axios.get('/api/v1/invoicing/profile')
 				.then(response => {
 					this.profile = response.data.data.attributes
 				})

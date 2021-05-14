@@ -14,7 +14,7 @@
                 </div>
             </router-link>
 
-            <a @click="goToInvoice" :title="$t('in.nav.invoices')" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item invoice">
+            <a @click="$goToInvoice" :title="$t('in.nav.invoices')" :class="{'is-active': $isThisRoute($route, invoiceRoutes)}" class="icon-navigation-item invoice">
                 <div class="button-icon">
                     <file-text-icon size="19" />
                 </div>
@@ -121,19 +121,6 @@
                 ]
             }
         },
-		methods: {
-			goToInvoice() {
-				this.$router.push({name: 'InvoicesList'})
-
-				this.$store.commit('STORE_CURRENT_FOLDER', {
-					name: 'Invoices',
-					id: undefined,
-					location: 'regular-invoice',
-				})
-
-				this.$store.dispatch('getRegularInvoices')
-			}
-		},
         mounted() {
             this.$store.dispatch('getAppData')
         }

@@ -33,7 +33,7 @@
             </div>
 
 			<!--Billing Profile Message-->
-            <div class="text-content" v-if="! hasBillingProfile">
+            <div class="text-content" v-if="! hasBillingProfile && ! isLoading">
                 <h1 class="title">
 					{{ $t('in.empty.bill_profile_title') }}
 				</h1>

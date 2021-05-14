@@ -18,7 +18,7 @@
         <MobileNavigation />
         <SidebarNavigation />
 
-		<div id="viewport">
+		<div id="viewport" :class="{'is-scaled-down': isScaledDown}">
 
 			<!--Sidebar navigation-->
 			<ContentSidebar>
@@ -60,7 +60,7 @@
 				</ContentGroup>
 			</ContentSidebar>
 
-			<router-view :class="{'is-scaled-down': isScaledDown}" />
+			<router-view />
 		</div>
     </div>
 </template>
@@ -150,7 +150,7 @@
 			events.$on('action:confirmed', data => {
 				if (data.operation === 'delete-invoice') {
 
-					axios.delete(`/api/invoices/${data.id}`)
+					axios.delete(`/api/v1/invoicing/invoices/${data.id}`)
 						.then(() => this.goTo(this.currentFolder.location))
 						.catch(() => this.$isSomethingWrong())
 				}
@@ -159,7 +159,7 @@
 			events.$on('action:confirmed', data => {
 				if (data.operation === 'delete-client') {
 
-					axios.delete(`/api/clients/${data.id}`)
+					axios.delete(`/api/v1/invoicing/clients/${data.id}`)
 						.then(() => this.goTo(this.currentFolder.location))
 						.catch(() => this.$isSomethingWrong())
 				}

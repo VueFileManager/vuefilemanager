@@ -45,10 +45,11 @@
         "nunomaduro/collision": "^5.3.0",
         "phpunit/phpunit": "^9.5.2"
     },
-    "repositories": [{
-        "type": "path",
-        "url": "../vuefilemanager-invoicing"
-    }
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../vuefilemanager-invoicing"
+        }
     ],
     "config": {
         "optimize-autoloader": true,

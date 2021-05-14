@@ -3754,7 +3754,7 @@
             "dist": {
                 "type": "path",
                 "url": "../vuefilemanager-invoicing",
-                "reference": "7f653076b230177b3bade06d99f182d42b5467ab"
+                "reference": "0af0ee5b9407e2fd237aecb2e91b240a133c61b8"
             },
             "require": {
                 "barryvdh/laravel-snappy": "^0.4.8",
@@ -3763,6 +3763,7 @@
                 "intervention/image": "^2.5",
                 "kyslik/column-sortable": "^6.4",
                 "laravel/cashier": "^12.13",
+                "laravel/sanctum": "^2.11",
                 "php": "^8.0",
                 "spatie/laravel-package-tools": "^1.4.3",
                 "teamtnt/laravel-scout-tntsearch-driver": "^11.3"

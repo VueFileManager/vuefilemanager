@@ -12,10 +12,10 @@
 		>
             <MobileToolbar />
 
-            <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="searchPlaceholder" />
+            <SearchBar v-if="hasBillingProfile" v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="searchPlaceholder" />
 
 			<!--Mobile Actions-->
-            <InvoiceActionsMobile />
+            <InvoiceActionsMobile v-if="hasBillingProfile" />
 
 			<!--Item previews list-->
             <div class="file-list-wrapper">
@@ -95,6 +95,7 @@
 				'clipboard',
 				'isLoading',
 				'entries',
+				'user',
 			]),
 			searchPlaceholder() {
 				return this.currentFolder && ['regular-invoice', 'advance-invoice'].includes(this.currentFolder.location)
@@ -112,6 +113,9 @@
 				if (this.clipboard.includes(this.draggingId)) {
 					return this.clipboard
 				}
+			},
+			hasBillingProfile() {
+				return this.user && this.user.data.attributes.has_billing_profile
 			}
 		},
 		watch: {

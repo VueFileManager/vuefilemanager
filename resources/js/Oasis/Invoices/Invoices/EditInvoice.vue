@@ -50,7 +50,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.client') }}:</label>
 								<div class="input-wrapper">
-									<input v-model.number="invoice.client['name']" type="text" disabled />
+									<input v-model.number="client['name']" type="text" disabled />
 								</div>
 							</div>
 						</PageTabGroup>
@@ -412,9 +412,6 @@
 					this.invoice.discount_type = null
 				}
 			},
-			'invoice.invoice_number': function (val) {
-				this.invoice.variable_number = val
-			},
 		},
 		data() {
 			return {
@@ -442,9 +439,9 @@
 					],
 					discount_type: undefined,
 					discount_rate: undefined,
-					client: '',
 					send_invoice: false,
 				},
+				client: '',
 				discountTypeList: [
 					{
 						label: this.$t('in_editor.discount_type_percent'),
@@ -493,25 +490,14 @@
 				// Start loading
 				this.isLoading = true
 
-				// Create form
-				let formData = new FormData()
+				let payload = this.invoice
 
-				// Append data to form
-				Object.keys(this.invoice).forEach(key => {
-
-					if (key === 'items') {
-						formData.append(key, JSON.stringify(this.invoice[key]))
-					} else {
-						if (this.invoice[key])
-							formData.append(key, this.invoice[key])
-					}
-				})
+				//payload.items = JSON.stringify(this.invoice.items)
 
 				// Send request to get user token
 				axios
-					.post(`/api/invoices/${this.$route.params.id}`, formData)
+					.put(`/api/v1/invoicing/invoices/${this.$route.params.id}`, payload)
 					.then(() => {
-
 						events.$emit('toaster', {
 							type: 'success',
 							message: this.$t('in_toaster.success_invoice_edition'),
@@ -560,12 +546,12 @@
 			}
 		},
 		mounted() {
-			axios.get('/api/invoices/editor')
+			axios.get('/api/v1/invoicing/editor')
 				.then(response => {
 					this.isVatPayer = response.data.isVatPayer
 				})
 
-			axios.get(`/api/invoices/${this.$route.params.id}`)
+			axios.get(`/api/v1/invoicing/invoices/${this.$route.params.id}`)
 				.then(response => {
 					this.invoice.invoice_number = response.data.data.attributes.invoice_number
 					this.invoice.variable_number = response.data.data.attributes.variable_number
@@ -574,7 +560,8 @@
 					this.invoice.items = response.data.data.attributes.items
 					this.invoice.discount_type = response.data.data.attributes.discount_type
 					this.invoice.discount_rate = response.data.data.attributes.discount_rate
-					this.invoice.client = response.data.data.attributes.client
+
+					this.client = response.data.data.attributes.client
 
 					if (this.invoice.discount_type && this.invoice.discount_rate) {
 						this.isDiscount = true

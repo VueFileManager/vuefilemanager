@@ -74,7 +74,7 @@
 		},
 		methods: {
 			fetchUser() {
-				axios.get(`/api/clients/${this.$route.params.id}`)
+				axios.get(`/api/v1/invoicing/clients/${this.$route.params.id}`)
 					.then(response => {
 						this.client = response.data
 					})
@@ -97,8 +97,6 @@
 		display: flex;
 		align-items: center;
 		cursor: pointer;
-		padding-bottom: 10px;
-		padding-top: 15px;
 
 		.avatar {
 			margin-right: 20px;

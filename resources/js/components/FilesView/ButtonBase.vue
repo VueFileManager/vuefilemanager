@@ -1,7 +1,7 @@
 <template>
     <button class="button-base" :class="buttonStyle" type="button">
         <div v-if="loading" class="icon">
-            <refresh-cw-icon size="16" class="sync-alt" />
+            <refresh-cw-icon size="16" class="sync-alt" :class="{'text-theme': buttonStyle === 'theme'}" />
 		</div>
         <div class="content">
             <slot v-if="! loading"></slot>
@@ -41,6 +41,10 @@
         .icon {
             line-height: 1;
             margin-right: 10px;
+
+			polyline, path {
+				color: inherit;
+			}
         }
 
         &:active {
@@ -52,6 +56,11 @@
             .content {
                 color: white;
             }
+
+			polyline, path {
+				color: white;
+				stroke: white;
+			}
         }
 
         &.danger {
@@ -63,6 +72,7 @@
 
             polyline, path {
                 stroke: $danger;
+                color: $danger;
             }
         }
 
@@ -75,6 +85,7 @@
 
             polyline, path {
                 stroke: white;
+                color: white;
             }
         }
 
@@ -87,6 +98,7 @@
 
             polyline, path {
                 stroke: $text;
+                color: $text;
             }
         }
     }

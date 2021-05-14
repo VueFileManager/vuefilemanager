@@ -156,7 +156,7 @@
 					<p>{{ $t('in.form.some_issues') }}</p>
 				</InfoBox>
 				<div class="block-wrapper">
-					<ButtonBase @click.native="createBillingProfile" :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" style="margin-bottom: 35px">
+					<ButtonBase @click.native="createBillingProfile" :disabled="isLoading" :loading="isLoading" button-style="theme" class="submit-button" type="submit" style="margin-bottom: 35px">
 						{{ $t('in.button.store_bill_profile') }}
 					</ButtonBase>
 				</div>
@@ -260,7 +260,7 @@
 
 				// Send request to get user token
 				axios
-					.post('/api/invoices/profile', formData, {
+					.post('/api/v1/invoicing/profile', formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						}
@@ -273,7 +273,7 @@
 						})
 
 						this.$store.dispatch('getAppData')
-						this.$router.push({name: 'BillingProfile'})
+						this.$goToInvoice()
 					})
 					.catch(error => {
 						this.isError = true
@@ -308,6 +308,12 @@
 
 	.block-form {
 		max-width: 100%;
+	}
+
+	@media only screen and (max-width: 960px) {
+		.submit-button {
+			width: 100%;
+		}
 	}
 
 </style>

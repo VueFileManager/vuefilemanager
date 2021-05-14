@@ -20,7 +20,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/invoices/regular' + getters.invoiceSorting.URI)
+			.get('/api/v1/invoicing/invoices/regular' + getters.invoiceSorting.URI)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -41,7 +41,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/invoices/advance' + getters.invoiceSorting.URI)
+			.get('/api/v1/invoicing/invoices/advance' + getters.invoiceSorting.URI)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -62,7 +62,7 @@ const actions = {
 		})
 
 		axios
-			.get('/api/clients' + getters.invoiceSorting.URI)
+			.get('/api/v1/invoicing/clients' + getters.invoiceSorting.URI)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -78,7 +78,7 @@ const actions = {
 		commit('CHANGE_SEARCHING_STATE', true)
 
 		axios
-			.get('/api/invoices/search', {
+			.get('/api/v1/invoicing/invoices/search', {
 				params: {
 					query: query,
 					type: getters.currentFolder.location,
@@ -94,7 +94,7 @@ const actions = {
 		commit('CHANGE_SEARCHING_STATE', true)
 
 		axios
-			.get('/api/clients/search', {
+			.get('/api/v1/invoicing/clients/search', {
 				params: {query: query}
 			})
 			.then(response => {
