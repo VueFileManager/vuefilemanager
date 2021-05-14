@@ -179,7 +179,7 @@ class SetupProdEnvironment extends Command
     {
         $user = User::forceCreate([
             'role' => 'admin',
-            'email' => 'admin@vuefilemanager.com',
+            'email' => 'howdy@hi5ve.digital',
             'password' => bcrypt('vuefilemanager'),
         ]);
 
@@ -191,7 +191,7 @@ class SetupProdEnvironment extends Command
             ]);
 
         // Show user credentials
-        $this->info('Default admin account created. Email: admin@vuefilemanager.com and Password: vuefilemanager');
+        $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
     }
 
     /**
