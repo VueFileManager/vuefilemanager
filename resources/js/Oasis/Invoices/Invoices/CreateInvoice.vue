@@ -367,6 +367,7 @@
 			...mapGetters([
 				'countries',
 				'config',
+				'user',
 			]),
 			pageTitle() {
 				return {
@@ -689,6 +690,10 @@
 		},
 		mounted() {
 			this.invoice.invoice_type = this.$route.query.type
+
+			if (this.user && ! this.user.data.attributes.has_billing_profile) {
+				this.$router.push({name: 'BillingProfileSetUp'})
+			}
 
 			axios.get('/api/v1/invoicing/editor')
 				.then(response => {
