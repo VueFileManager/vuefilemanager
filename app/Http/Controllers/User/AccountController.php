@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\DemoService;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserStorageResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Requests\User\UpdateUserPasswordRequest;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AccountController extends Controller
 {
@@ -158,10 +160,50 @@ class AccountController extends Controller
      * @param $id
      * @return  ResponseFactory|\Illuminate\Http\Response
      */
-    public function revoke_token($id)
+    public function revoke_token(PersonalAccessToken $token)
     {
-        Auth::user()->tokens()->whereId($id)->delete();
+        if(Auth::user()->id !== $token->tokenable_id) {
+            return response('Unauthorized', 401);
+        }
+
+        $token->delete();
 
         return response('Deleted!', 204);
+    }
+
+    /**
+     * Email verification
+     *
+     * @param Request $request
+     * @param User $user
+     * @return ResponseFactory|\Illuminate\Http\Response
+     */
+    public function email_verify(User $user, Request $request)
+    {
+        if (!$request->hasValidSignature()) {
+            return response("Invalid/Expired url provided.", 401);
+        }
+        
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+    
+        return redirect()->to('/');
+    }
+
+     /**
+     * Resend verification email
+     *
+     * @return ResponseFactory|\Illuminate\Http\Response
+     */
+    public function resend_verify_email() 
+    {
+        if (Auth::user()->hasVerifiedEmail()) {
+            return response("Email already verified.", 204);
+        }
+    
+        Auth::user()->sendEmailVerificationNotification();
+    
+        return response("Email verification link sent on your email", 200);
     }
 }

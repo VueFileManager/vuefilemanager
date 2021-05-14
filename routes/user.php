@@ -7,10 +7,14 @@ use App\Http\Controllers\User\PaymentMethodsController;
 
 Route::post('/check', [AuthController::class, 'check_account']);
 
+// Email verification
+Route::get('email/verify/{user}', [AccountController::class, 'email_verify'])->name('verification.verify');
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Account
     Route::patch('/relationships/settings', [AccountController::class, 'update_user_settings']);
-    Route::delete('/token/revoke/{id}', [AccountController::class, 'revoke_token']);
+    Route::post('/email/resend/verify', [AccountController::class, 'resend_verify_email']);
+    Route::delete('/token/revoke/{token}', [AccountController::class, 'revoke_token']);
     Route::post('/token/create', [AccountController::class, 'create_token']);
     Route::post('/password', [AccountController::class, 'change_password']);
     Route::get('/subscription', [SubscriptionController::class, 'show']);

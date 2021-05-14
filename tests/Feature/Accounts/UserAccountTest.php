@@ -6,10 +6,12 @@ use App\Models\User;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
+use Notification;
 use Tests\TestCase;
 use App\Models\Folder;
 
@@ -191,7 +193,6 @@ class UserAccountTest extends TestCase
         $this->assertDatabaseMissing('personal_access_tokens', [
             'id' => $token_id
         ]);
-
     }
 
     /**
@@ -225,7 +226,7 @@ class UserAccountTest extends TestCase
     public function it_use_user_token_to_request()
     {
         $user = User::factory(User::class)
-        ->create();
+            ->create();
         
         $folder = Folder::factory(Folder::class)
             ->create([
@@ -256,7 +257,39 @@ class UserAccountTest extends TestCase
         //     'user_id' => $user->id,
         // ]);
 
-        dd($response);
+        // dd($response);
+    }
 
+    /**
+     * @test
+     */
+    public function it_user_email_verify()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $this->getJson("/api/user/email/verify/$user->id");
+
+        $this->assertNotNull($user->email_verified_at);
+    }
+
+    /**
+     * @test
+     */
+    public function it_resend_user_verify_email()
+    {
+        Notification::fake();
+        
+        $user = User::factory(User::class)
+            ->create([
+                'email_verified_at' => null
+            ]);
+            
+        Sanctum::actingAs($user);
+            
+        $this->postJson('/api/user/email/resend/verify')
+            ->assertStatus(200);
+        
+        Notification::assertTimesSent(1, VerifyEmail::class);
     }
 }
