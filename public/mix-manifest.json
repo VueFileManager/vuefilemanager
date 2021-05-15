@@ -42,7 +42,7 @@
     "/chunks/files~chunks/oasis/invoices/list~chunks/shared/file-browser.js": "/chunks/files~chunks/oasis/invoices/list~chunks/shared/file-browser.js?id=2d5163fd2869304720da",
     "/chunks/files~chunks/oasis/invoices~chunks/oasis/invoices/list~chunks/platform~chunks/shared~chunks/s~40cda2f4.js": "/chunks/files~chunks/oasis/invoices~chunks/oasis/invoices/list~chunks/platform~chunks/shared~chunks/s~40cda2f4.js?id=25a8f2ba10196cc72353",
     "/chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/s~3fd62fd8.js": "/chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/s~3fd62fd8.js?id=d39c8f198b09bb094e80",
-    "/chunks/files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared/file-browser.js?id=5e4f31eae3364c4e9976",
+    "/chunks/files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared/file-browser.js?id=063267aa542a652378d2",
     "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js?id=7a6b6c8b23774249d5b2",
     "/chunks/forgotten-password.js": "/chunks/forgotten-password.js?id=877a9289b77ac3885042",
     "/chunks/homepage.js": "/chunks/homepage.js?id=48e0e9b3c870c46218ce",
@@ -261,5 +261,10 @@
     "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~2fac28cc.js": "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~2fac28cc.js?id=57c854adb91ed9a9d088",
     "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~d5e36d91.js": "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~d5e36d91.js?id=170765b4fd923b62195c",
     "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js?id=ca01bfe1656f58710763",
-    "/vendors~chunks/platform~chunks/shared.js": "/vendors~chunks/platform~chunks/shared.js?id=eb141834bc24b72d8e92"
+    "/vendors~chunks/platform~chunks/shared.js": "/vendors~chunks/platform~chunks/shared.js?id=eb141834bc24b72d8e92",
+    "/js/main.cbf5194e183ab420137f.hot-update.js": "/js/main.cbf5194e183ab420137f.hot-update.js",
+    "/js/main.6644cc84ea25fa63f61c.hot-update.js": "/js/main.6644cc84ea25fa63f61c.hot-update.js",
+    "/chunks/files~chunks/shared/file-browser.3943bb43c1513dc42d9b.hot-update.js": "/chunks/files~chunks/shared/file-browser.3943bb43c1513dc42d9b.hot-update.js",
+    "/js/main.c7d922233b7f5838e35d.hot-update.js": "/js/main.c7d922233b7f5838e35d.hot-update.js",
+    "/js/main.d49da45e4e3c518ef2bb.hot-update.js": "/js/main.d49da45e4e3c518ef2bb.hot-update.js"
 }
