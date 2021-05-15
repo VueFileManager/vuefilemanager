@@ -212,9 +212,16 @@ const Helpers = {
             // Set Data
             let formData = new FormData(),
                 uploadedSize = 0,
+
                 isNotGeneralError = true,
-                striped_name = item.file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
-                filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
+
+                striped_name = item.file.name
+                    .replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
+
+                filename = Array(16)
+                    .fill(0)
+                    .map(x => Math.random().toString(36).charAt(2))
+                    .join('') + '-' + striped_name + '.part'
 
             do {
                 let isLast = chunks.length === 1,
