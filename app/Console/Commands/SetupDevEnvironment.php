@@ -1,20 +1,21 @@
 <?php
 namespace App\Console\Commands;
 
-use Faker;
 use App\Models\File;
 use App\Models\User;
 use App\Models\Share;
 use App\Models\Folder;
 use App\Models\Setting;
-use Faker\Generator;
 use Illuminate\Support\Str;
 use App\Services\SetupService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class SetupDevEnvironment extends Command
 {
+    use WithFaker;
+
     /**
      * The name and signature of the console command.
      *
@@ -32,12 +33,10 @@ class SetupDevEnvironment extends Command
 
     private $setup;
 
-    private Generator $faker;
-
     public function __construct()
     {
         parent::__construct();
-        $this->faker = Faker\Factory::create();
+        $this->setUpFaker();
         $this->setup = resolve(SetupService::class);
     }
 
