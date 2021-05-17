@@ -12,7 +12,6 @@ use App\Models\File as UserFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Madnest\Madzipper\Facades\Madzipper;
 use League\Flysystem\FileNotFoundException;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -63,7 +62,8 @@ class FileManagerService
         $zip_name = Str::random(16) . '-' . Str::slug($requested_folder->name) . '.zip';
 
         // Create zip
-        $zip = Madzipper::make($disk_local->path("zip/$zip_name"));
+        $zipper = new \Madnest\Madzipper\Madzipper;
+        $zip = $zipper->make($disk_local->path("zip/$zip_name"));
 
         // Add files to zip
         foreach ($files as $file) {
@@ -77,7 +77,7 @@ class FileManagerService
         }
 
         // Close zip
-        $zip->close();
+        //$zip->close();
 
         // Delete temporary files
         if (! is_storage_driver('local')) {
@@ -122,7 +122,8 @@ class FileManagerService
         $zip_name = Str::random(16) . '.zip';
 
         // Create zip
-        $zip = Madzipper::make($disk_local->path("zip/$zip_name"));
+        $zipper = new \Madnest\Madzipper\Madzipper;
+        $zip = $zipper->make($disk_local->path("zip/$zip_name"));
 
         // Add files to zip
         $files->each(function ($file) use ($zip, $disk_local) {
@@ -134,7 +135,7 @@ class FileManagerService
         });
 
         // Close zip
-        $zip->close();
+        //$zip->close();
 
         // Delete temporary files
         if (! is_storage_driver('local')) {
