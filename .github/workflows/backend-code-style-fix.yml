@@ -1,7 +1,12 @@
 name: Code Style Fix
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
+  workflow_dispatch:
 
 jobs:
   php-cs-fixer:

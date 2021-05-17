@@ -14,7 +14,6 @@
         "cartalyst/stripe-laravel": "^13.1",
         "doctrine/dbal": "^2.12.1",
         "fideloper/proxy": "^4.4.1",
-        "friendsofphp/php-cs-fixer": "^2.18",
         "fruitcake/laravel-cors": "^2.0.3",
         "gabrielelana/byte-units": "^0.5.0",
         "guzzlehttp/guzzle": "^7.2.0",
@@ -37,6 +36,7 @@
     },
     "require-dev": {
         "ext-json": "*",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5.14",
         "fakerphp/faker": "^1.14.1",

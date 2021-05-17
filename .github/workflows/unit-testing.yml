@@ -2,9 +2,11 @@ name: Unit Testing
 
 on:
   push:
-    branches: [ master, oasis ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, oasis ]
+    branches: [ master ]
+
+  workflow_dispatch:
 
 jobs:
   test:
