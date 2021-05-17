@@ -215,7 +215,7 @@
 							</div>
 						</div>
 
-						<ButtonBase :disabled="isLoading" @click.native="deleteInvoice" button-style="secondary" class="next-submit">
+						<ButtonBase :disabled="isLoading" @click.native="deleteInvoice" button-style="secondary" class="next-submit delete-dark">
 							{{ $t('in.form.delete_invoice') }}
 						</ButtonBase>
 
@@ -682,6 +682,27 @@
 			grid-template-columns: 1fr;
 			margin-bottom: 30px;
 			gap: 0;
+		}
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.summary-list {
+			background: $dark_mode_foreground;
+
+			.delete-dark {
+				background: lighten($dark_mode_foreground, 5%);
+			}
+
+			.is-offset {
+				border-top: 1px solid lighten($dark_mode_foreground, 5%);
+			}
+
+			.row {
+
+				&.row-summary {
+					border-top: 1px solid lighten($dark_mode_foreground, 5%);
+				}
+			}
 		}
 	}
 </style>

@@ -132,12 +132,12 @@
 			},
 			deleteItem() {
 
-				if (this.$isThisLocation(['regular-invoice', 'advance-invoice']) && this.clipboard.length > 0) {
-					this.deleteInvoice(this.clipboard[0])
+				if (this.$isThisLocation(['regular-invoice', 'advance-invoice'])) {
+					this.$deleteInvoice(this.clipboard[0])
 				}
 
-				if (this.$isThisLocation('clients') && this.clipboard.length > 0) {
-					this.deleteClient(this.clipboard[0])
+				if (this.$isThisLocation('clients')) {
+					this.$deleteClient(this.clipboard[0])
 				}
 			},
 			editItem() {

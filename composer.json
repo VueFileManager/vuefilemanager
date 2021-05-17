@@ -47,8 +47,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../vuefilemanager-invoicing"
+            "type": "github",
+            "url": "https://github.com/MakingCG/vuefilemanager-invoicing"
         }
     ],
     "config": {

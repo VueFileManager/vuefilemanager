@@ -827,4 +827,21 @@
 			gap: 0;
 		}
 	}
+
+	@media (prefers-color-scheme: dark) {
+		.summary-list {
+			background: $dark_mode_foreground;
+
+			.is-offset {
+				border-top: 1px solid lighten($dark_mode_foreground, 5%);
+			}
+
+			.row {
+
+				&.row-summary {
+					border-top: 1px solid lighten($dark_mode_foreground, 5%);
+				}
+			}
+		}
+	}
 </style>
