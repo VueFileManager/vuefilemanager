@@ -12,9 +12,9 @@ use Kyslik\ColumnSortable\Sortable;
 use App\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Makingcg\Invoice\Http\Traits\Invoiceable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Makingcg\Invoice\Http\Traits\Invoiceable;
 
 class User extends Authenticatable
 {
