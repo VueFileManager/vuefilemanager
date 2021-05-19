@@ -168,7 +168,7 @@
 										<div class="block-wrapper">
 											<label>{{ $t('in_editor.amount') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="amount" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.amount" :placeholder="$t('in_editor.plac.item_amount')" type="number" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model="item.amount" :placeholder="$t('in_editor.plac.item_amount')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
@@ -176,7 +176,7 @@
 										<div class="block-wrapper">
 											<label>{{ $t('in_editor.unit') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="unit" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.unit" :placeholder="$t('in_editor.plac.item_unit')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model="item.unit" :placeholder="$t('in_editor.plac.item_unit')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
@@ -184,7 +184,7 @@
 										<div v-if="isVatPayer" class="block-wrapper">
 											<label>{{ $t('in_editor.tax_rate') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.tax_rate" :placeholder="$t('in_editor.plac.item_tax_rate')" type="number" step="1" min="1" max="100" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model="item.tax_rate" :placeholder="$t('in_editor.plac.item_tax_rate')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
@@ -192,7 +192,7 @@
 										<div class="block-wrapper">
 											<label>{{ $t('in_editor.price') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="price" rules="required" v-slot="{ errors }">
-												<input v-model.number="item.price" :placeholder="$t('in_editor.plac.item_price')" type="text" pattern="[0-9]{1,4}(\.[0-9]{2})?" step="0.01" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<input v-model="item.price" :placeholder="$t('in_editor.plac.item_price')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
 												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 											</ValidationProvider>
 										</div>
@@ -397,14 +397,14 @@
 
 							bag.push({
 								rate: item.tax_rate,
-								total: (item.price * item.amount),
+								total: (this.$parseFloat(item.price) * this.$parseFloat(item.amount)),
 							})
 						} else {
 							bag.find(bagItem => {
 
 								// Count total tax rate for percentage
 								if (bagItem.rate === item.tax_rate) {
-									bagItem.total += (item.price * item.amount)
+									bagItem.total += (this.$parseFloat(item.price) * this.$parseFloat(item.amount))
 								}
 							})
 						}
@@ -440,7 +440,7 @@
 
 							bag.push({
 								rate: item.tax_rate,
-								total: (item.price * item.amount) * (item.tax_rate / 100),
+								total: (this.$parseFloat(item.price) * this.$parseFloat(item.amount)) * (item.tax_rate / 100),
 							})
 
 						} else {
@@ -449,7 +449,7 @@
 
 								// Count total tax rate for percentage
 								if (bagItem.rate === item.tax_rate) {
-									bagItem.total += (item.price * item.amount) * (item.tax_rate / 100)
+									bagItem.total += (this.$parseFloat(item.price) * this.$parseFloat(item.amount)) * (item.tax_rate / 100)
 								}
 							})
 						}
@@ -480,7 +480,7 @@
 				this.invoice.items.forEach(item => {
 					if (item.price && item.amount) {
 
-						let total_without_tax = (item.price * item.amount)
+						let total_without_tax = (this.$parseFloat(item.price) * this.$parseFloat(item.amount))
 
 						// Count tax
 						if (this.isVatPayer && item.tax_rate) {
@@ -545,8 +545,8 @@
 							price: undefined,
 						}
 					],
-					discount_type: 'percent',
-					discount_rate: 10,
+					discount_type: undefined,
+					discount_rate: undefined,
 					client: '',
 					client_avatar: '',
 					client_name: '',
@@ -693,13 +693,15 @@
 
 				let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(delivery_time),
 					month = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(delivery_time),
-					day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(delivery_time)
+					day = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(delivery_time)
 
 				this.invoice.delivery_at = `${year}-${month}-${day}`
 			}
 		},
 		mounted() {
 			this.invoice.invoice_type = this.$route.query.type
+
+			this.get_recommended_delivery_date()
 
 			if (this.user && ! this.user.data.attributes.has_billing_profile) {
 				this.$router.push({name: 'BillingProfileSetUp'})
@@ -718,7 +720,6 @@
 					this.invoice.invoice_number = response.data.recommendedInvoiceNumber
 					this.latestInvoiceNumber = response.data.latestInvoiceNumber
 
-					this.get_recommended_delivery_date()
 				})
 				.finally(() => {
 					this.isLoadingPage = false

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ca10173373af1fde3bc88514b683485",
+    "content-hash": "05f5fbce0a8edb0f0342958e997d87bc",
     "packages": [
         {
             "name": "amphp/amp",
@@ -230,16 +230,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.181.2",
+            "version": "3.183.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ca4839367aa57de005d52593081eab777b87a6b0"
+                "reference": "bf4a4e56859b89ab307033bf695467f6d6042dda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ca4839367aa57de005d52593081eab777b87a6b0",
-                "reference": "ca4839367aa57de005d52593081eab777b87a6b0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/bf4a4e56859b89ab307033bf695467f6d6042dda",
+                "reference": "bf4a4e56859b89ab307033bf695467f6d6042dda",
                 "shasum": ""
             },
             "require": {
@@ -314,9 +314,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.181.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.183.0"
             },
-            "time": "2021-05-14T18:16:31+00:00"
+            "time": "2021-05-18T18:13:37+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -370,6 +370,71 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.3"
             },
             "time": "2020-10-30T02:02:47+00:00"
+        },
+        {
+            "name": "barryvdh/laravel-snappy",
+            "version": "v0.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-snappy.git",
+                "reference": "1903ab84171072b6bff8d98eb58d38b2c9aaf645"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-snappy/zipball/1903ab84171072b6bff8d98eb58d38b2c9aaf645",
+                "reference": "1903ab84171072b6bff8d98eb58d38b2c9aaf645",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "^5.5|^6|^7|^8",
+                "illuminate/support": "^5.5|^6|^7|^8",
+                "knplabs/knp-snappy": "^1",
+                "php": ">=7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Barryvdh\\Snappy\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "PDF": "Barryvdh\\Snappy\\Facades\\SnappyPdf",
+                        "SnappyImage": "Barryvdh\\Snappy\\Facades\\SnappyImage"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Barryvdh\\Snappy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Snappy PDF/Image for Laravel",
+            "keywords": [
+                "image",
+                "laravel",
+                "pdf",
+                "snappy",
+                "wkhtmltoimage",
+                "wkhtmltopdf"
+            ],
+            "support": {
+                "issues": "https://github.com/barryvdh/laravel-snappy/issues",
+                "source": "https://github.com/barryvdh/laravel-snappy/tree/master"
+            },
+            "time": "2020-09-07T12:33:10+00:00"
         },
         {
             "name": "brianium/paratest",
@@ -949,16 +1014,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "a9c1b59eba5a08ca2770a76eddb88922f504e8e0"
+                "reference": "163074496dc7c3c7b8ccbf3d4376c0187424ed81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/a9c1b59eba5a08ca2770a76eddb88922f504e8e0",
-                "reference": "a9c1b59eba5a08ca2770a76eddb88922f504e8e0",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/163074496dc7c3c7b8ccbf3d4376c0187424ed81",
+                "reference": "163074496dc7c3c7b8ccbf3d4376c0187424ed81",
                 "shasum": ""
             },
             "require": {
@@ -1028,7 +1093,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.11.0"
+                "source": "https://github.com/doctrine/cache/tree/1.11.1"
             },
             "funding": [
                 {
@@ -1044,7 +1109,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-13T14:46:17+00:00"
+            "time": "2021-05-18T16:45:32+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -2572,6 +2637,76 @@
             "time": "2017-06-01T20:29:30+00:00"
         },
         {
+            "name": "knplabs/knp-snappy",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/snappy.git",
+                "reference": "7bac60fb729147b7ccd8532c07df3f52a4afa8a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/7bac60fb729147b7ccd8532c07df3f52a4afa8a4",
+                "reference": "7bac60fb729147b7ccd8532c07df3f52a4afa8a4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "psr/log": "^1.0",
+                "symfony/process": "~3.4||~4.3||~5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~7.4"
+            },
+            "suggest": {
+                "h4cc/wkhtmltoimage-amd64": "Provides wkhtmltoimage-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "h4cc/wkhtmltoimage-i386": "Provides wkhtmltoimage-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "h4cc/wkhtmltopdf-amd64": "Provides wkhtmltopdf-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "h4cc/wkhtmltopdf-i386": "Provides wkhtmltopdf-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "wemersonjanuario/wkhtmltopdf-windows": "Provides wkhtmltopdf executable for Windows, use version `~0.12` as dependency"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Snappy\\": "src/Knp/Snappy"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://github.com/KnpLabs/snappy/contributors"
+                }
+            ],
+            "description": "PHP5 library allowing thumbnail, snapshot or PDF generation from a url or a html page. Wrapper for wkhtmltopdf/wkhtmltoimage.",
+            "homepage": "http://github.com/KnpLabs/snappy",
+            "keywords": [
+                "knp",
+                "knplabs",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "support": {
+                "issues": "https://github.com/KnpLabs/snappy/issues",
+                "source": "https://github.com/KnpLabs/snappy/tree/master"
+            },
+            "time": "2020-01-20T08:30:30+00:00"
+        },
+        {
             "name": "kyslik/column-sortable",
             "version": "6.4.0",
             "source": {
@@ -2775,16 +2910,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.41.0",
+            "version": "v8.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "05417155d886df8710e55c84e12622b52d83c47c"
+                "reference": "55b886683e0a019bcad0d9d70bb781a3de1a6755"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/05417155d886df8710e55c84e12622b52d83c47c",
-                "reference": "05417155d886df8710e55c84e12622b52d83c47c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/55b886683e0a019bcad0d9d70bb781a3de1a6755",
+                "reference": "55b886683e0a019bcad0d9d70bb781a3de1a6755",
                 "shasum": ""
             },
             "require": {
@@ -2939,7 +3074,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-05-11T14:00:02+00:00"
+            "time": "2021-05-18T15:37:44+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -3612,6 +3747,98 @@
                 "source": "https://github.com/madnest/madzipper/tree/v1.1.0"
             },
             "time": "2020-12-01T23:44:14+00:00"
+        },
+        {
+            "name": "makingcg/vuefilemanager-invoicing",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../vuefilemanager-invoicing",
+                "reference": "bd08d17e34d1afe61d9a5b991825139591bfc61a"
+            },
+            "require": {
+                "barryvdh/laravel-snappy": "^0.4.8",
+                "ext-json": "*",
+                "illuminate/contracts": "^8.37",
+                "intervention/image": "^2.5",
+                "kyslik/column-sortable": "^6.4",
+                "laravel/cashier": "^12.13",
+                "laravel/sanctum": "^2.11",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.4.3",
+                "teamtnt/laravel-scout-tntsearch-driver": "^11.3"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.2",
+                "ext-json": "*",
+                "friendsofphp/php-cs-fixer": "^2.19",
+                "nunomaduro/collision": "^5.3",
+                "orchestra/testbench": "^6.15",
+                "phpunit/phpunit": "^9.3",
+                "spatie/laravel-ray": "^1.9",
+                "vimeo/psalm": "^4.7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Makingcg\\Invoice\\InvoiceServiceProvider",
+                        "Kyslik\\ColumnSortable\\ColumnSortableServiceProvider"
+                    ],
+                    "aliases": {
+                        "Invoice": "Makingcg\\Invoice\\InvoiceFacade",
+                        "PDF": "Barryvdh\\Snappy\\Facades\\SnappyPdf"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Makingcg\\Invoice\\": "src",
+                    "Makingcg\\Invoice\\Database\\Factories\\": "database/factories"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Makingcg\\Invoice\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "psalm": [
+                    "vendor/bin/psalm"
+                ],
+                "format": [
+                    "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+                ],
+                "test": [
+                    "./vendor/bin/testbench package:test --parallel --no-coverage"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html coverage"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Papp",
+                    "email": "peterpapp@makingcg.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The invoice system for VueFileManager app",
+            "homepage": "https://github.com/makingcg/vuefilemanager-invoicing",
+            "keywords": [
+                "MakingCG",
+                "laravel",
+                "vuefilemanager-invoicing"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "mockery/mockery",
@@ -10618,12 +10845,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "5456cf81971b897ee82f75e82d2bcc3ad0bc6b84"
+                "reference": "5bf614a7625c40db6330d42863a2a61d7aadb5b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/5456cf81971b897ee82f75e82d2bcc3ad0bc6b84",
-                "reference": "5456cf81971b897ee82f75e82d2bcc3ad0bc6b84",
+                "url": "https://api.github.com/repos/composer/composer/zipball/5bf614a7625c40db6330d42863a2a61d7aadb5b6",
+                "reference": "5bf614a7625c40db6330d42863a2a61d7aadb5b6",
                 "shasum": ""
             },
             "require": {
@@ -10709,7 +10936,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-12T13:19:52+00:00"
+            "time": "2021-05-17T20:35:56+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -11917,7 +12144,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "makingcg/vuefilemanager-invoicing": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

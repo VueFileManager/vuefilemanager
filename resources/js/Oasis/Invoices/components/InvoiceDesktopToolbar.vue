@@ -21,7 +21,7 @@
 				<ToolbarGroup>
 					<PopoverWrapper>
                     	<ToolbarButton @click.stop.native="createMenu" source="plus" :action="$t('actions.create_folder')" />
-						<PopoverItem name="desktop-create-invoices">
+						<PopoverItem name="desktop-create-invoices" side="left">
 							<OptionGroup>
 								<Option @click.stop.native="createInvoice('regular-invoice')" :title="$t('in_editor.page.create_regular_invoice')" icon="file-plus" />
 								<Option @click.stop.native="createInvoice('advance-invoice')" :title="$t('in_editor.page.create_advance_invoice')" icon="clock" />

@@ -7,6 +7,12 @@ import router from "./router";
 const OasisHelpers = {
 	install(Vue) {
 
+		Vue.prototype.$parseFloat = function (val) {
+			let number = val.toString().replace(',', '.')
+
+			return parseFloat(number)
+		}
+
 		Vue.prototype.$goToInvoice = function () {
 			router.push({name: 'InvoicesList'})
 
