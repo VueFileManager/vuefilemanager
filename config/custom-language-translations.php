@@ -291,4 +291,7 @@ return [
     'in.button_sorting' => 'Sorting',
 
     'in.billing_info' => 'Billing Information',
+
+    'in.doc.revers_charge'                   => 'Revers Charge',
+    'in.doc.tax_transfer_liability'          => 'Transfer of tax liability',
 ];
