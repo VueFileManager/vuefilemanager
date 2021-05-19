@@ -38,6 +38,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
         "ext-json": "*",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5.14",
         "fakerphp/faker": "^1.14.1",

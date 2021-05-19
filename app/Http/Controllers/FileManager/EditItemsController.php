@@ -149,6 +149,7 @@ class EditItemsController extends Controller
      *
      * @param Request $request
      * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function zip_multiple_files(Request $request)
     {
