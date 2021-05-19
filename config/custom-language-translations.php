@@ -125,6 +125,7 @@ return [
     'in_editor.client_logo' => 'Logo',
     'in_editor.description' => 'Description',
     'in_editor.amount' => 'Amount',
+    'in_editor.unit' => 'Unit',
     'in_editor.tax_rate' => 'Tax Rate',
     'in_editor.price' => 'Price',
     'in_editor.add_item' => 'Add New Item',
@@ -138,6 +139,7 @@ return [
     'in_editor.store_client_notes' => 'Client will be stored to your list and will be ready to reuse again when you create new invoice.',
     'in_editor.send' => "Send invoice on client's email",
     'in_editor.send_notes' => 'Invoice will be sent to client immediately after invoice generate.',
+    'in_editor.default_unit' => 'Pcs.',
 
     'in_editor.plac.invoice_number' => 'Type invoice number...',
     'in_editor.plac.variable_number' => 'Type variable number...',
@@ -154,6 +156,7 @@ return [
     'in_editor.plac.client_email' => "Type client's email address...",
     'in_editor.plac.item_desc' => 'Type item description...',
     'in_editor.plac.item_amount' => 'The amount in Pcs.',
+    'in_editor.plac.item_unit' => 'The unit',
     'in_editor.plac.item_tax_rate' => 'Type item tax rate in %...',
     'in_editor.plac.item_price' => 'Type the item price...',
     'in_editor.plac.discount_type' => 'Select discount type',

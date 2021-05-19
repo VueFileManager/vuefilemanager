@@ -173,6 +173,14 @@
 											</ValidationProvider>
 										</div>
 
+										<div class="block-wrapper">
+											<label>{{ $t('in_editor.unit') }}:</label>
+											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="unit" rules="required" v-slot="{ errors }">
+												<input v-model.number="item.unit" :placeholder="$t('in_editor.plac.item_unit')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
+												<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+											</ValidationProvider>
+										</div>
+
 										<div v-if="isVatPayer" class="block-wrapper">
 											<label>{{ $t('in_editor.tax_rate') }}:</label>
 											<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="tax_rate" rules="required" v-slot="{ errors }">
@@ -532,6 +540,7 @@
 							id: Math.floor(Math.random() * 10000000),
 							description: '',
 							amount: 1,
+							unit: this.$t('in_editor.default_unit'),
 							tax_rate: 21,
 							price: undefined,
 						}
@@ -661,13 +670,14 @@
 					})
 			},
 			addRow() {
-				let lastTaxRate = this.invoice.items.slice(-1).pop()
+				let lastItem = this.invoice.items.slice(-1).pop()
 
 				this.invoice.items.push({
 					id: Math.floor(Math.random() * 10000000),
 					description: '',
 					amount: 1,
-					tax_rate: lastTaxRate?.tax_rate || 21,
+					unit: lastItem?.unit || this.$t('in_editor.default_unit'),
+					tax_rate: lastItem?.tax_rate || 21,
 					price: 1,
 				})
 
