@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Invoice;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Share;
 use ByteUnits\Metric;
+use App\Models\Invoice;
 use App\Models\Setting;
 use App\Models\Language;
 use Illuminate\Support\Str;
@@ -168,7 +168,6 @@ if (! function_exists('get_invoice_number')) {
         return (int) $invoices->last()->order + 1;
     }
 }
-
 
 if (! function_exists('cache_forget_many')) {
     /**
@@ -342,7 +341,6 @@ if (! function_exists('store_avatar')) {
         return "avatars/$image_path";
     }
 }
-
 
 if (! function_exists('store_system_image')) {
     /**

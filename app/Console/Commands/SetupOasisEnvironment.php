@@ -1,14 +1,9 @@
 <?php
 namespace App\Console\Commands;
 
-use App\Models\User;
 use App\Models\Setting;
-use Illuminate\Support\Str;
-use App\Models\Oasis\Client;
-use App\Models\Oasis\Invoice;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class SetupOasisEnvironment extends Command
 {
