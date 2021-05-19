@@ -292,6 +292,6 @@ return [
 
     'in.billing_info' => 'Billing Information',
 
-    'in.doc.revers_charge'                   => 'Revers Charge',
-    'in.doc.tax_transfer_liability'          => 'Transfer of tax liability',
+    'in.doc.revers_charge' => 'Revers Charge',
+    'in.doc.tax_transfer_liability' => 'Transfer of tax liability',
 ];
