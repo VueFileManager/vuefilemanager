@@ -239,6 +239,10 @@
 			<div id="loader" v-if="isLoadingPage">
 				<Spinner />
 			</div>
+			<div v-if="!isLoadingPage && total > 0" class="total-wrapper bg-theme-100">
+				<b>{{ $t('in.doc.sum_to_pay') }}:</b>
+				<b>{{ formatCurrency(total) }}</b>
+			</div>
 		</div>
 	</div>
 </template>
@@ -590,6 +594,10 @@
 	@import '@assets/vuefilemanager/_mixins';
 	@import '@assets/vuefilemanager/_forms';
 
+	.total-wrapper {
+		display: none;
+	}
+
 	#page-content {
 		max-width: 1100px;
 	}
@@ -654,7 +662,7 @@
 			}
 
 			&.row-summary {
-				border-top: 1px solid $light_mode_border;
+				//border-top: 1px solid $light_mode_border;
 				padding-bottom: 0;
 
 				b {
@@ -691,12 +699,36 @@
 	@media only screen and (max-width: 970px) {
 		.content-page {
 			grid-template-columns: 1fr;
-			margin-bottom: 30px;
+			margin-bottom: 80px;
 			gap: 0;
+		}
+
+		.total-wrapper {
+			box-shadow: 0 0 20px 5px hsla(220, 36%, 16%, 0.06);
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+			display: flex;
+			justify-content: space-between;
+			padding: 15px;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 9;
+			background: white;
+
+			b {
+				@include font-size(14);
+			}
 		}
 	}
 
 	@media (prefers-color-scheme: dark) {
+		.total-wrapper {
+			background: $dark_mode_foreground;
+			box-shadow: 0 0 20px 5px hsla(0, 0%, 0%, 0.25);
+		}
+
 		.summary-list {
 			background: $dark_mode_foreground;
 
