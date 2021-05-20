@@ -178,8 +178,10 @@ class AccountController extends Controller
      * @param User $user
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function email_verify(User $user, Request $request)
+    public function email_verify($id, Request $request)
     {
+        $user = User::find($id);
+
         if (!$request->hasValidSignature()) {
             return response("Invalid/Expired url provided.", 401);
         }
@@ -188,7 +190,7 @@ class AccountController extends Controller
             $user->markEmailAsVerified();
         }
     
-        return redirect()->to('/');
+        return redirect()->to('/sign-in');
     }
 
      /**
@@ -196,13 +198,15 @@ class AccountController extends Controller
      *
      * @return ResponseFactory|\Illuminate\Http\Response
      */
-    public function resend_verify_email() 
+    public function resend_verify_email(Request $request) 
     {
-        if (Auth::user()->hasVerifiedEmail()) {
+        $user = User::whereEmail($request->input('email'))->first();
+
+        if ($user->hasVerifiedEmail()) {
             return response("Email already verified.", 204);
         }
     
-        Auth::user()->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
     
         return response("Email verification link sent on your email", 200);
     }

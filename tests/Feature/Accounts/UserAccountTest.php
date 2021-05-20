@@ -14,6 +14,7 @@ use Storage;
 use Notification;
 use Tests\TestCase;
 use App\Models\Folder;
+use Illuminate\Support\Facades\URL;
 
 class UserAccountTest extends TestCase
 {
@@ -265,10 +266,19 @@ class UserAccountTest extends TestCase
      */
     public function it_user_email_verify()
     {
+        // TODO:make request with signature 
         $user = User::factory(User::class)
-            ->create();
+            ->create([
+                'email_verified_at' => null
+            ]);
 
-        $this->getJson("/api/user/email/verify/$user->id");
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+        
+        $this->getJson($verificationUrl);
 
         $this->assertNotNull($user->email_verified_at);
     }

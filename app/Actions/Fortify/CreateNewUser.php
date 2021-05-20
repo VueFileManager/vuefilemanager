@@ -54,6 +54,10 @@ class CreateNewUser implements CreatesNewUsers
                 'storage_capacity' => $settings['storage_default'],
             ]);
 
+        if(!get_setting('user_verification')) {
+            $user->markEmailAsVerified();
+        }
+        
         UserSettings::reguard();
 
         return $user;

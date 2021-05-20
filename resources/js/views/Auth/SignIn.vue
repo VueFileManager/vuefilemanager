@@ -61,6 +61,19 @@
                 </router-link>
             </span>
         </AuthContent>
+
+        <AuthContent name="not-verified" :visible="false">
+
+            <div class="user" v-if="checkedAccount">
+                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <h1>{{ checkedAccount.name }}</h1>
+                <h2>{{ $t('page_not_verified.subtitle') }}</h2>
+            </div>
+
+            <span class="additional-link"> {{ $t('page_not_verified.resend_text') }} 
+                <a @click="resendEmail" class="text-theme">{{ $t('page_not_verified.resend_button') }} </a>
+            </span>
+        </AuthContent>
     </AuthContentWrapper>
 </template>
 
@@ -109,6 +122,13 @@
                         page.isVisible = true
                     }
                 })
+            },
+            resendEmail() {
+                axios.
+                    post('/api/user/email/resend/verify', {
+                        email: this.loginEmail
+                    })
+                    .then(console.log('send'))
             },
             async logIn() {
 
@@ -163,6 +183,13 @@
                 const isValid = await this.$refs.sign_in.validate();
 
                 if (!isValid) return;
+
+                if(!this.checkedAccount.verified) {
+
+                    this.goToAuthPage('not-verified')
+
+                    return
+                }
 
                 // Start loading
                 this.isLoading = true
