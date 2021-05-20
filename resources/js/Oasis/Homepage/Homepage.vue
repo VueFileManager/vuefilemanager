@@ -18,6 +18,7 @@
     import OasisContact from '@/Oasis/Homepage/Components/OasisContact'
     import OasisHeader from '@/Oasis/Homepage/Components/OasisHeader'
     import OasisFooter from '@/Oasis/Homepage/Components/OasisFooter'
+	import {mapGetters} from "vuex";
 
     export default {
         name: 'Homepage',
@@ -30,7 +31,14 @@
             OasisHeader,
             OasisFooter,
         },
-    }
+		computed: {
+			...mapGetters(['config']),
+		},
+		mounted() {
+			if (! this.config.allowHomepage)
+				this.$router.push({name: 'SignIn'})
+		}
+	}
 </script>
 
 <style lang="scss">
