@@ -33,7 +33,7 @@
         "spatie/laravel-tail": "^4.3",
         "teamtnt/laravel-scout-tntsearch-driver": "^11.1.0",
         "vimeo/psalm": "^4.7",
-        "makingcg/vuefilemanager-invoicing": "dev-master"
+        "makingcg/vuefilemanager-invoicing": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
