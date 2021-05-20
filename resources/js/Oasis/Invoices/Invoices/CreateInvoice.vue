@@ -511,12 +511,6 @@
 			}
 		},
 		watch: {
-			isDiscount(val) {
-				if (!val) {
-					this.invoice.discount_rate = 10
-					this.invoice.discount_type = 'percent'
-				}
-			},
 			'invoice.invoice_number': function (val) {
 				this.invoice.variable_number = val
 			},

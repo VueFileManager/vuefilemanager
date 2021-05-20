@@ -416,14 +416,6 @@
 				return total
 			}
 		},
-		watch: {
-			isDiscount(val) {
-				if (!val) {
-					this.invoice.discount_rate = null
-					this.invoice.discount_type = null
-				}
-			},
-		},
 		data() {
 			return {
 				fullDetails: undefined,
@@ -543,13 +535,14 @@
 					})
 			},
 			addRow() {
-				let lastTaxRate = this.invoice.items.slice(-1).pop()
+				let lastItem = this.invoice.items.slice(-1).pop()
 
 				this.invoice.items.push({
 					id: Math.floor(Math.random() * 10000000),
 					description: '',
 					amount: 1,
-					tax_rate: lastTaxRate?.tax_rate || 21,
+					unit: lastItem?.unit || this.$t('in_editor.default_unit'),
+					tax_rate: lastItem?.tax_rate || 21,
 					price: 1,
 				})
 
