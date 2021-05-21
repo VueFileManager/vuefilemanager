@@ -587,7 +587,7 @@
 				return new Intl
 					.NumberFormat('cs-CS', {
 						style: 'currency',
-						currency: 'CZK'
+						currency: this.config.invoicingCurrency
 					})
 					.format(value)
 			},
@@ -733,6 +733,10 @@
 
 	#page-content {
 		max-width: 1100px;
+	}
+
+	.total-wrapper {
+		display: none;
 	}
 
 	.content-page {

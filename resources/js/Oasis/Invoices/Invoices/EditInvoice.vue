@@ -462,7 +462,7 @@
 				return new Intl
 					.NumberFormat('cs-CS', {
 						style: 'currency',
-						currency: 'CZK'
+						currency: this.config.invoicingCurrency
 					})
 					.format(value)
 			},

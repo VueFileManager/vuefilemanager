@@ -72,6 +72,9 @@
             legal: {!! $legal ?? 'undefined' !!},
 
             installation: '{{ $installation ?? 'initial' }}',
+
+            // oasis
+            invoicingCurrency: '{{ config('vuefilemanager-invoicing.currency') ?? 'EUR' }}',
         }
     </script>
 
