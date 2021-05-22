@@ -65,7 +65,7 @@ class AuthTest extends TestCase
             ]);
         });
 
-        $this->postJson('/register', [
+        $this->postJson('api/register', [
             'email'                 => 'john@doe.com',
             'password'              => 'SecretPassword',
             'password_confirmation' => 'SecretPassword',

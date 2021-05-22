@@ -190,7 +190,7 @@ class AccountController extends Controller
             $user->markEmailAsVerified();
         }
     
-        return redirect()->to('/sign-in');
+        return redirect()->to('/successfully-verified');
     }
 
      /**

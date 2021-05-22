@@ -279,7 +279,7 @@ class UserAccountTest extends TestCase
         
         $response = $this->getJson($verificationUrl);
 
-        $response->assertRedirect('sign-in');
+        $response->assertRedirect('successfully-verified');
 
         $this->assertNotNull(User::find($user->id)->get('email_verified_at'));
     }

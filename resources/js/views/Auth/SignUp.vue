@@ -132,17 +132,23 @@
 
                 // Send request to get user token
                 axios
-                    .post('/register', this.register)
+                    .post('/api/register', this.register)
                     .then(() => {
 
                         // End loading
                         this.isLoading = false
 
-                        // Set login state
-                        this.$store.commit('SET_AUTHORIZED', true)
-
-                        // Go to files page
-                        this.$router.push({name: 'Files'})
+                        if(! config.userVerification) {
+                            // Set login state
+                            this.$store.commit('SET_AUTHORIZED', true)
+    
+                            // Go to files page
+                            this.$router.push({name: 'Files'})
+                        } else {
+                             // Go to sign-in page
+                            this.$router.push({name: 'SignIn'})
+                        }
+                        
                     })
                     .catch(error => {
 

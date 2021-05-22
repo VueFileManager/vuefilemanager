@@ -477,6 +477,7 @@ return [
         'page_not_verified.subtitle' => 'Your account is not verified. Before login, verify your account please.',
         'page_not_verified.resend_text' => 'Do you want resend verification email?',
         'page_not_verified.resend_button' => 'Resend verification email.',
+        'page_email_successfully_verified' => 'Your account was successfully verified.',
         'popup_create_folder.folder_default_name' => 'New Folder',
         'popup_create_folder.label' => 'Type Name',
         'popup_create_folder.placeholder' => 'Type your name',
