@@ -41,6 +41,10 @@ class Kernel extends ConsoleKernel
             }
         })->everySixHours();
 
+        $schedule->call(function () use ($scheduler) {
+            $scheduler->delete_unverified_users();
+        })->everySixHours();
+
         // Run queue jobs every minute
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()

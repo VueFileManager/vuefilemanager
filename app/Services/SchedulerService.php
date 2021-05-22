@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\Zip;
+use App\Models\User;
 use App\Models\Share;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -73,5 +74,20 @@ class SchedulerService
                 $local_disk->delete($file);
             }
         });
+    }
+
+    /**
+     * Delete unverified users older as 30 days
+     */
+    public function delete_unverified_users(): void
+    {
+        User::where('created_at', '<=', now()->subDay(30)->toDateString())
+            ->where('email_verified_at', null)
+            ->get()
+            ->each(function ($user) {
+
+                // Delete users
+                $user->delete();
+            });
     }
 }

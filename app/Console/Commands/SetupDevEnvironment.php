@@ -9,7 +9,6 @@ use App\Models\Folder;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 use App\Services\SetupService;
-use Illuminate\Support\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -88,7 +87,7 @@ class SetupDevEnvironment extends Command
             'role' => 'admin',
             'email' => 'howdy@hi5ve.digital',
             'password' => bcrypt('vuefilemanager'),
-            'email_verified_at' => Carbon::now(),
+            'email_verified_at' => now(),
         ]);
 
         $user
@@ -129,7 +128,7 @@ class SetupDevEnvironment extends Command
                 'role' => 'user',
                 'email' => $this->faker->email,
                 'password' => bcrypt('vuefilemanager'),
-                'email_verified_at' => Carbon::now(),
+                'email_verified_at' => now(),
             ]);
 
             $newbie
