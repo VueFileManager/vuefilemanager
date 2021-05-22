@@ -266,7 +266,6 @@ class UserAccountTest extends TestCase
      */
     public function it_user_email_verify()
     {
-        // TODO:make request with signature 
         $user = User::factory(User::class)
             ->create([
                 'email_verified_at' => null
@@ -278,9 +277,11 @@ class UserAccountTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
         
-        $this->getJson($verificationUrl);
+        $response = $this->getJson($verificationUrl);
 
-        $this->assertNotNull($user->email_verified_at);
+        $response->assertRedirect('sign-in');
+
+        $this->assertNotNull(User::find($user->id)->get('email_verified_at'));
     }
 
     /**
@@ -294,10 +295,10 @@ class UserAccountTest extends TestCase
             ->create([
                 'email_verified_at' => null
             ]);
-            
-        Sanctum::actingAs($user);
-            
-        $this->postJson('/api/user/email/resend/verify')
+                  
+        $this->postJson('/api/user/email/resend/verify', [
+                'email' => $user->email,
+            ])
             ->assertStatus(200);
         
         Notification::assertTimesSent(1, VerifyEmail::class);

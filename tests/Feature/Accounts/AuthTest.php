@@ -54,6 +54,10 @@ class AuthTest extends TestCase
                 'name'  => 'registration',
                 'value' => 1,
             ],
+            [
+                'name'  => 'user_verification',
+                'value' => 1,
+            ]
         ])->each(function ($setting) {
             Setting::create([
                 'name'  => $setting['name'],
@@ -70,6 +74,7 @@ class AuthTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'john@doe.com',
+            'email_verified_at' => null,
         ]);
 
         $this->assertDatabaseHas('user_settings', [
