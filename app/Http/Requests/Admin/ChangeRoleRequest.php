@@ -23,7 +23,7 @@ class ChangeRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'required|array',
+            'attributes'      => 'required|array',
             'attributes.role' => 'required|string',
         ];
     }

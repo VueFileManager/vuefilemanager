@@ -24,8 +24,8 @@ class DeleteItemRequest extends FormRequest
     {
         return [
             'data[*].force_delete' => 'required|boolean',
-            'data[*].type' => 'required|string',
-            'data[*].id' => 'required|integer',
+            'data[*].type'         => 'required|string',
+            'data[*].id'           => 'required|integer',
         ];
     }
 }

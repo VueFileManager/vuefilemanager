@@ -20,15 +20,15 @@ class DemoService
     public function create_folder($request)
     {
         return [
-            'user_id' => 1,
-            'id' => Str::uuid(),
-            'parent_id' => random_int(1000, 9999),
-            'name' => $request->name,
-            'type' => 'folder',
-            'author' => $request->user() ? 'user' : 'visitor',
-            'items' => '0',
-            'color' => isset($request->icon['color']) ? $request->icon['color'] : null,
-            'emoji' => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
+            'user_id'    => 1,
+            'id'         => Str::uuid(),
+            'parent_id'  => random_int(1000, 9999),
+            'name'       => $request->name,
+            'type'       => 'folder',
+            'author'     => $request->user() ? 'user' : 'visitor',
+            'items'      => '0',
+            'color'      => isset($request->icon['color']) ? $request->icon['color'] : null,
+            'emoji'      => isset($request->icon['emoji']) ? $request->icon['emoji'] : null,
             'updated_at' => now()->format('j M Y \a\t H:i'),
             'created_at' => now()->format('j M Y \a\t H:i'),
         ];
@@ -63,7 +63,7 @@ class DemoService
         }
 
         return [
-            'id' => $request->id,
+            'id'   => $request->id,
             'name' => $request->name,
             'type' => $request->type,
         ];
@@ -86,16 +86,16 @@ class DemoService
         $filetype = get_file_type($file->getMimeType());
 
         return [
-            'id' => Str::uuid(),
-            'folder_id' => $request->parent_id,
-            'thumbnail' => 'data:' . $request->file('file')->getMimeType() . ';base64, ' . base64_encode(file_get_contents($request->file('file'))),
-            'name' => $file->getClientOriginalName(),
-            'basename' => $filename,
-            'mimetype' => $file->getClientOriginalExtension(),
-            'filesize' => Metric::bytes($filesize)->format(),
-            'type' => $filetype,
-            'file_url' => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
-            'author' => $request->user() ? 'user' : 'visitor',
+            'id'         => Str::uuid(),
+            'folder_id'  => $request->parent_id,
+            'thumbnail'  => 'data:' . $request->file('file')->getMimeType() . ';base64, ' . base64_encode(file_get_contents($request->file('file'))),
+            'name'       => $file->getClientOriginalName(),
+            'basename'   => $filename,
+            'mimetype'   => $file->getClientOriginalExtension(),
+            'filesize'   => Metric::bytes($filesize)->format(),
+            'type'       => $filetype,
+            'file_url'   => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
+            'author'     => $request->user() ? 'user' : 'visitor',
             'created_at' => now()->format('j M Y \a\t H:i'),
             'updated_at' => now()->format('j M Y \a\t H:i'),
         ];

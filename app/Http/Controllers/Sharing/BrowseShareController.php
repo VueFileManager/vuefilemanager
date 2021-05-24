@@ -72,7 +72,7 @@ class BrowseShareController extends Controller
         // Check password
         if (Hash::check($request->password, $shared->password)) {
             $cookie = json_encode([
-                'token' => $shared->token,
+                'token'         => $shared->token,
                 'authenticated' => true,
             ]);
 
@@ -188,10 +188,10 @@ class BrowseShareController extends Controller
 
         return [
             [
-                'id' => $shared->item_id,
-                'name' => __t('home'),
+                'id'       => $shared->item_id,
+                'name'     => __t('home'),
                 'location' => 'public',
-                'folders' => $folders,
+                'folders'  => $folders,
             ],
         ];
     }
@@ -239,10 +239,10 @@ class BrowseShareController extends Controller
         }
 
         return Storage::response($path, $file_pretty_name, [
-            'Content-Type' => Storage::mimeType($path),
+            'Content-Type'   => Storage::mimeType($path),
             'Content-Length' => Storage::size($path),
-            'Accept-Ranges' => 'bytes',
-            'Content-Range' => 'bytes 0-600/' . Storage::size($path),
+            'Accept-Ranges'  => 'bytes',
+            'Content-Range'  => 'bytes 0-600/' . Storage::size($path),
         ]);
     }
 }

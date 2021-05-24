@@ -177,8 +177,8 @@ class UserController extends Controller
     {
         // Create user
         $user = User::forceCreate([
-            'role' => $request->role,
-            'email' => $request->email,
+            'role'     => $request->role,
+            'email'    => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
@@ -187,8 +187,8 @@ class UserController extends Controller
         $user
             ->settings()
             ->create([
-                'name' => $request->name,
-                'avatar' => store_avatar($request, 'avatar'),
+                'name'             => $request->name,
+                'avatar'           => store_avatar($request, 'avatar'),
                 'storage_capacity' => $request->storage_capacity,
             ]);
 

@@ -24,7 +24,7 @@ class AuthController extends Controller
         }
 
         return [
-            'name' => $user->settings->name,
+            'name'   => $user->settings->name,
             'avatar' => $user->settings->avatar,
         ];
     }

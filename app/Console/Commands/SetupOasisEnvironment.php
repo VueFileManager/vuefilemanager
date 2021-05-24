@@ -66,27 +66,27 @@ class SetupOasisEnvironment extends Command
 
         collect([
             [
-                'name' => 'app_title',
+                'name'  => 'app_title',
                 'value' => 'Oasis',
             ],
             [
-                'name' => 'app_description',
+                'name'  => 'app_description',
                 'value' => 'Chytrý, bezpečný, pohodlný šanon vždy s Vámi.',
             ],
             [
-                'name' => 'app_logo',
+                'name'  => 'app_logo',
                 'value' => 'system/logo.png',
             ],
             [
-                'name' => 'app_logo_horizontal',
+                'name'  => 'app_logo_horizontal',
                 'value' => 'system/logo-horizontal.png',
             ],
             [
-                'name' => 'app_favicon',
+                'name'  => 'app_favicon',
                 'value' => 'system/favicon.png',
             ],
             [
-                'name' => 'app_og_image',
+                'name'  => 'app_og_image',
                 'value' => 'system/oasis-og-image.jpg',
             ],
         ])->each(function ($option) {

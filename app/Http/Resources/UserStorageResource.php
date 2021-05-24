@@ -53,32 +53,32 @@ class UserStorageResource extends JsonResource
 
         return [
             'data' => [
-                'id' => (string) $this->id,
-                'type' => 'storage',
+                'id'         => (string) $this->id,
+                'type'       => 'storage',
                 'attributes' => [
-                    'used' => Metric::bytes($this->used_capacity)->format(),
-                    'capacity' => format_gigabytes($this->settings->storage_capacity),
+                    'used'       => Metric::bytes($this->used_capacity)->format(),
+                    'capacity'   => format_gigabytes($this->settings->storage_capacity),
                     'percentage' => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
                 ],
                 'meta' => [
                     'images' => [
-                        'used' => Metric::bytes($images)->format(),
+                        'used'       => Metric::bytes($images)->format(),
                         'percentage' => (float) get_storage_fill_percentage($images, $this->settings->storage_capacity),
                     ],
                     'audios' => [
-                        'used' => Metric::bytes($audios)->format(),
+                        'used'       => Metric::bytes($audios)->format(),
                         'percentage' => (float) get_storage_fill_percentage($audios, $this->settings->storage_capacity),
                     ],
                     'videos' => [
-                        'used' => Metric::bytes($videos)->format(),
+                        'used'       => Metric::bytes($videos)->format(),
                         'percentage' => (float) get_storage_fill_percentage($videos, $this->settings->storage_capacity),
                     ],
                     'documents' => [
-                        'used' => Metric::bytes($documents)->format(),
+                        'used'       => Metric::bytes($documents)->format(),
                         'percentage' => (float) get_storage_fill_percentage($documents, $this->settings->storage_capacity),
                     ],
                     'others' => [
-                        'used' => Metric::bytes($others)->format(),
+                        'used'       => Metric::bytes($others)->format(),
                         'percentage' => (float) get_storage_fill_percentage($others, $this->settings->storage_capacity),
                     ],
                 ],

@@ -96,7 +96,7 @@ class SubscriptionController extends Controller
         $user
             ->settings()
             ->update([
-                'storage_capacity' => $plan['product']['metadata']['capacity'],
+                'storage_capacity'   => $plan['product']['metadata']['capacity'],
                 'payment_activation' => 1,
             ]);
 

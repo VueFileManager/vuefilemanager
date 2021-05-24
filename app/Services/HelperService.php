@@ -145,7 +145,7 @@ class HelperService
             // TODO: replace local files with temp folder
             $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . "/files/$user_id/$file", [
                 'bucket' => $adapter->getBucket(),
-                'key' => "files/$user_id/$file",
+                'key'    => "files/$user_id/$file",
             ]);
 
             try {
@@ -228,10 +228,10 @@ class HelperService
 
         return response()
             ->download(Storage::path($path), $pretty_name, [
-                'Accept-Ranges' => 'bytes',
-                'Content-Type' => Storage::mimeType($path),
-                'Content-Length' => Storage::size($path),
-                'Content-Range' => 'bytes 0-600/' . Storage::size($path),
+                'Accept-Ranges'       => 'bytes',
+                'Content-Type'        => Storage::mimeType($path),
+                'Content-Length'      => Storage::size($path),
+                'Content-Range'       => 'bytes 0-600/' . Storage::size($path),
                 'Content-Disposition' => "attachment; filename=$pretty_name",
             ]);
     }

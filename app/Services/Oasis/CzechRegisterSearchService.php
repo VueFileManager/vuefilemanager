@@ -154,7 +154,7 @@ class CzechRegisterSearchService
 
         $tidy = new \tidy();
         $html = $tidy->repairString($html, [
-            'output-xhtml' => true,
+            'output-xhtml'   => true,
             'show-body-only' => true,
         ], 'utf8');
 
@@ -227,11 +227,11 @@ class CzechRegisterSearchService
 
                 $out[] = [
                     'name' => self::trimQuotes($name),
-                    'ico' => preg_replace('/[^\d]/', '', $ico),
+                    'ico'  => preg_replace('/[^\d]/', '', $ico),
                     'city' => self::trimQuotes($city),
                     // pre polia s adresou konzistentne so smartform naseptavacem
-                    'addr_city' => self::trimQuotes($addr_city),
-                    'addr_zip' => preg_replace('/[^\d]/', '', $addr_zip),
+                    'addr_city'     => self::trimQuotes($addr_city),
+                    'addr_zip'      => preg_replace('/[^\d]/', '', $addr_zip),
                     'addr_streetnr' => self::trimQuotes($addr_streetnr),
                     // len pre kontrolu - plna povodna adresa
                     'addr_full' => self::trimQuotes($addr),

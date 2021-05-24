@@ -40,10 +40,10 @@ class FileSharedAccessController extends Controller
 
         return $disk
             ->download("zip/$zip->basename", $zip->basename, [
-                'Content-Type' => 'application/zip',
-                'Content-Length' => $disk->size("zip/$zip->basename"),
-                'Accept-Ranges' => 'bytes',
-                'Content-Range' => 'bytes 0-600/' . $disk->size("zip/$zip->basename"),
+                'Content-Type'        => 'application/zip',
+                'Content-Length'      => $disk->size("zip/$zip->basename"),
+                'Accept-Ranges'       => 'bytes',
+                'Content-Range'       => 'bytes 0-600/' . $disk->size("zip/$zip->basename"),
                 'Content-Disposition' => 'attachment; filename=' . $zip->basename,
             ]);
     }

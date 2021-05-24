@@ -23,16 +23,16 @@ class CreateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'ico' => 'sometimes|nullable',
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'ico'          => 'sometimes|nullable',
+            'name'         => 'required|string',
+            'email'        => 'required|email|unique:users',
             'phone_number' => 'string|nullable',
-            'address' => 'required|string',
-            'state' => 'required|string',
-            'city' => 'required|string',
-            'postal_code' => 'required|string',
-            'country' => 'required|string',
-            'plan' => 'required|string',
+            'address'      => 'required|string',
+            'state'        => 'required|string',
+            'city'         => 'required|string',
+            'postal_code'  => 'required|string',
+            'country'      => 'required|string',
+            'plan'         => 'required|string',
         ];
     }
 }

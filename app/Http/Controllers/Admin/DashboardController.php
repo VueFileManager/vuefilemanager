@@ -34,10 +34,10 @@ class DashboardController extends Controller
         )->format();
 
         return [
-            'license' => get_setting('license'),
-            'app_version' => config('vuefilemanager.version'),
-            'total_users' => User::count(),
-            'total_used_space' => $storage_usage,
+            'license'             => get_setting('license'),
+            'app_version'         => config('vuefilemanager.version'),
+            'total_users'         => User::count(),
+            'total_used_space'    => $storage_usage,
             'total_premium_users' => $premium_users,
         ];
     }

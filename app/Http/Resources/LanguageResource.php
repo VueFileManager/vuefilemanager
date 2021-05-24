@@ -15,14 +15,14 @@ class LanguageResource extends JsonResource
     {
         return [
             'data' => [
-                'id' => $this->id,
-                'type' => 'languages',
+                'id'         => $this->id,
+                'type'       => 'languages',
                 'attributes' => [
-                    'name' => $this->name,
-                    'locale' => $this->locale,
+                    'name'         => $this->name,
+                    'locale'       => $this->locale,
                     'translations' => map_language_translations($this->languageTranslations),
-                    'updated_at' => $this->updated_at,
-                    'created_at' => $this->created_at,
+                    'updated_at'   => $this->updated_at,
+                    'created_at'   => $this->created_at,
                 ],
             ],
         ];

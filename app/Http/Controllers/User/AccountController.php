@@ -70,8 +70,8 @@ class AccountController extends Controller
         // TODO: pridat validator do requestu
         $validator = Validator::make($request->all(), [
             'avatar' => 'sometimes|file',
-            'name' => 'string',
-            'value' => 'string',
+            'name'   => 'string',
+            'value'  => 'string',
         ]);
 
         // Return error

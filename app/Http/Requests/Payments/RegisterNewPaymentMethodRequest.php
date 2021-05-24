@@ -23,7 +23,7 @@ class RegisterNewPaymentMethodRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => 'required|string',
+            'token'   => 'required|string',
             'default' => 'required|boolean',
         ];
     }

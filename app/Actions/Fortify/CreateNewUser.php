@@ -29,7 +29,7 @@ class CreateNewUser implements CreatesNewUsers
         }
 
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'name'  => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -41,7 +41,7 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         $user = User::create([
-            'email' => $input['email'],
+            'email'    => $input['email'],
             'password' => bcrypt($input['password']),
         ]);
 
@@ -50,7 +50,7 @@ class CreateNewUser implements CreatesNewUsers
         $user
             ->settings()
             ->create([
-                'name' => $input['name'],
+                'name'             => $input['name'],
                 'storage_capacity' => $settings['storage_default'],
             ]);
 

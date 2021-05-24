@@ -136,10 +136,10 @@ class File extends Model
                 : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);
 
             $header = [
-                'ResponseAcceptRanges' => 'bytes',
-                'ResponseContentType' => $this->attributes['mimetype'],
-                'ResponseContentLength' => $this->attributes['filesize'],
-                'ResponseContentRange' => 'bytes 0-600/' . $this->attributes['filesize'],
+                'ResponseAcceptRanges'       => 'bytes',
+                'ResponseContentType'        => $this->attributes['mimetype'],
+                'ResponseContentLength'      => $this->attributes['filesize'],
+                'ResponseContentRange'       => 'bytes 0-600/' . $this->attributes['filesize'],
                 'ResponseContentDisposition' => 'attachment; filename=' . $file_pretty_name,
             ];
 
@@ -167,8 +167,8 @@ class File extends Model
         $name = Str::slug($array['name'], ' ');
 
         return [
-            'id' => $this->id,
-            'name' => $name,
+            'id'         => $this->id,
+            'name'       => $name,
             'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
         ];
     }

@@ -139,7 +139,7 @@ class EditItemsController extends Controller
         $zip = $this->filemanager->zip_folder($id);
 
         return response([
-            'url' => route('zip', $zip->id),
+            'url'  => route('zip', $zip->id),
             'name' => $zip->basename,
         ], 201);
     }
@@ -160,7 +160,7 @@ class EditItemsController extends Controller
         $zip = $this->filemanager->zip_files($files);
 
         return response([
-            'url' => route('zip', $zip->id),
+            'url'  => route('zip', $zip->id),
             'name' => $zip->basename,
         ], 201);
     }
