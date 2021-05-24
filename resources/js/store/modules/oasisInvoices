@@ -10,38 +10,19 @@ const defaultState = {
 }
 
 const actions = {
-	getRegularInvoices: ({commit, getters}) => {
+	getInvoices: ({commit, getters}, type) => {
 		commit('LOADING_STATE', {loading: true, data: []})
 
 		commit('STORE_CURRENT_FOLDER', {
 			name: 'Invoices',
 			id: undefined,
-			location: 'regular-invoice',
+			location: type,
 		})
 
-		axios
-			.get('/api/v1/invoicing/invoices/regular' + getters.invoiceSorting.URI)
-			.then(response => {
-				commit('LOADING_STATE', {loading: false, data: response.data})
-			})
-			.catch(() => {
-				Vue.prototype.$isSomethingWrong()
-			})
-			.finally(() => {
-				events.$emit('scrollTop')
-			})
-	},
-	getAdvanceInvoices: ({commit, getters}) => {
-		commit('LOADING_STATE', {loading: true, data: []})
-
-		commit('STORE_CURRENT_FOLDER', {
-			name: 'Advance Invoices',
-			id: undefined,
-			location: 'advance-invoice',
-		})
+		let order = getters.invoiceSorting.sorting.sort === 'DESC' ? '-' : ''
 
 		axios
-			.get('/api/v1/invoicing/invoices/advance' + getters.invoiceSorting.URI)
+			.get(`/api/v1/invoicing/invoices?filter[invoice_type]=${type}&sort=${order}${getters.invoiceSorting.sorting.field}`)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})
@@ -61,8 +42,10 @@ const actions = {
 			location: 'clients',
 		})
 
+		let order = getters.invoiceSorting.sorting.sort === 'DESC' ? '-' : ''
+
 		axios
-			.get('/api/v1/invoicing/clients' + getters.invoiceSorting.URI)
+			.get(`/api/v1/invoicing/clients?sort=${order}${getters.invoiceSorting.sorting.field}`)
 			.then(response => {
 				commit('LOADING_STATE', {loading: false, data: response.data})
 			})

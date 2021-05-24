@@ -416,6 +416,14 @@
 				return total
 			}
 		},
+		watch: {
+			'isDiscount': function (val) {
+				if (!val) {
+					this.invoice.discount_type = undefined
+					this.invoice.discount_rate = undefined
+				}
+			}
+		},
 		data() {
 			return {
 				fullDetails: undefined,
@@ -498,10 +506,7 @@
 					.put(`/api/v1/invoicing/invoices/${this.$route.params.id}`, this.invoice)
 					.then(() => {
 
-						this.$store.dispatch({
-							'regular-invoice': 'getRegularInvoices',
-							'advance-invoice': 'getAdvanceInvoices',
-						}[this.invoice.invoice_type])
+						this.$store.dispatch('getInvoices', this.invoice.invoice_type)
 
 						this.$router.push({name: 'InvoicesList'})
 

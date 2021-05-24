@@ -117,29 +117,22 @@
 		methods: {
 			goTo(location) {
 				let routes = {
-					'regular-invoice': 'getRegularInvoices',
-					'advance-invoice': 'getAdvanceInvoices',
-					'clients': 'getClients',
+					'regular-invoice': ['getInvoices', 'regular-invoice'],
+					'advance-invoice': ['getInvoices', 'advance-invoice'],
+					'clients': ['getClients'],
 				}
 
 				if (this.$route.name !== 'InvoicesList') {
 					this.$router.push({name: 'InvoicesList'})
 				}
 
-				this.$store.dispatch(routes[location])
+				this.$store.dispatch(...routes[location])
 			},
 		},
 		mounted() {
 
 			if (! this.currentFolder) {
-
-				this.$store.commit('STORE_CURRENT_FOLDER', {
-					name: this.$t('in.nav.invoices'),
-					id: undefined,
-					location: 'regular-invoice',
-				})
-
-				this.$store.dispatch('getRegularInvoices')
+				this.$store.dispatch('getInvoices', 'regular-invoice')
 			}
 
 			events.$on('mobile-menu:show', () => this.isScaledDown = true)

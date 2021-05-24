@@ -35,11 +35,11 @@ export default {
     methods: {
 		showLocation(location) {
 			let routes = {
-				'regular-invoice': 'getRegularInvoices',
-				'advance-invoice': 'getAdvanceInvoices',
-				'clients': 'getClients',
+				'regular-invoice': ['getInvoices', 'regular-invoice'],
+				'advance-invoice': ['getInvoices', 'advance-invoice'],
+				'clients': ['getClients'],
 			}
-			this.$store.dispatch(routes[location])
+			this.$store.dispatch(...routes[location])
 		}
     }
 }

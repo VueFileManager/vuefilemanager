@@ -22,7 +22,7 @@ const OasisHelpers = {
 				location: 'regular-invoice',
 			})
 
-			store.dispatch('getRegularInvoices')
+			store.dispatch('getInvoices', 'regular-invoice')
 		}
 
 		Vue.prototype.$getInvoiceDataByLocation = function () {
@@ -32,12 +32,12 @@ const OasisHelpers = {
 				: undefined
 
 			let actions = {
-				'regular-invoice': 'getRegularInvoices',
-				'advance-invoice': 'getAdvanceInvoices',
-				'clients': 'getClients',
+				'regular-invoice': ['getInvoices', 'regular-invoice'],
+				'advance-invoice': ['getInvoices', 'advance-invoice'],
+				'clients': ['getClients'],
 			}
 
-			store.dispatch(actions[currentLocation])
+			store.dispatch(...actions[currentLocation])
 		}
 
 		Vue.prototype.$shareInvoice = function (entry) {
@@ -98,12 +98,12 @@ const OasisHelpers = {
 			} else if (typeof value !== 'undefined') {
 
 				let locations = {
-					'regular-invoice': 'getRegularInvoices',
-					'advance-invoice': 'getAdvanceInvoices',
-					'clients': 'getClients',
+					'regular-invoice': ['getInvoices', 'regular-invoice'],
+					'advance-invoice': ['getInvoices', 'advance-invoice'],
+					'clients': ['getClients'],
 				}
 
-				store.dispatch(locations[store.getters.currentFolder.location])
+				store.dispatch(...locations[store.getters.currentFolder.location])
 
 				store.commit('CHANGE_SEARCHING_STATE', false)
 			}

@@ -516,6 +516,12 @@
 			},
 			'invoice.client_ico': function (val) {
 				this.getCompanyDetails(val)
+			},
+			'isDiscount': function (val) {
+				if (!val) {
+					this.invoice.discount_type = undefined
+					this.invoice.discount_rate = undefined
+				}
 			}
 		},
 		data() {
@@ -636,10 +642,7 @@
 						})
 
 						// Reload invoices and go to invoice page
-						this.$store.dispatch({
-							'regular-invoice': 'getRegularInvoices',
-							'advance-invoice': 'getAdvanceInvoices',
-						}[this.invoice.invoice_type])
+						this.$store.dispatch('getInvoices', this.invoice.invoice_type)
 
 						this.$router.push({name: 'InvoicesList'})
 					})
