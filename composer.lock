@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2d7f59659d26dffc608d84a947ed897",
+    "content-hash": "05f5fbce0a8edb0f0342958e997d87bc",
     "packages": [
         {
             "name": "amphp/amp",
@@ -230,16 +230,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.183.1",
+            "version": "3.183.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4ba06057844425c4095ad72095beaea278c9778b"
+                "reference": "b790a4cea9592a7df51da3a4affde0945248c24d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4ba06057844425c4095ad72095beaea278c9778b",
-                "reference": "4ba06057844425c4095ad72095beaea278c9778b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b790a4cea9592a7df51da3a4affde0945248c24d",
+                "reference": "b790a4cea9592a7df51da3a4affde0945248c24d",
                 "shasum": ""
             },
             "require": {
@@ -314,9 +314,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.183.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.183.3"
             },
-            "time": "2021-05-19T18:14:26+00:00"
+            "time": "2021-05-21T18:14:34+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1014,16 +1014,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.11.1",
+            "version": "1.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "163074496dc7c3c7b8ccbf3d4376c0187424ed81"
+                "reference": "9c53086695937c50c47936ed86d96150ffbcf60d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/163074496dc7c3c7b8ccbf3d4376c0187424ed81",
-                "reference": "163074496dc7c3c7b8ccbf3d4376c0187424ed81",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/9c53086695937c50c47936ed86d96150ffbcf60d",
+                "reference": "9c53086695937c50c47936ed86d96150ffbcf60d",
                 "shasum": ""
             },
             "require": {
@@ -1093,7 +1093,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.11.1"
+                "source": "https://github.com/doctrine/cache/tree/1.11.2"
             },
             "funding": [
                 {
@@ -1109,7 +1109,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-18T16:45:32+00:00"
+            "time": "2021-05-20T14:57:29+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -3750,17 +3750,11 @@
         },
         {
             "name": "makingcg/vuefilemanager-invoicing",
-            "version": "v1.0",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:MakingCG/vuefilemanager-invoicing.git",
-                "reference": "0ee532b2277f37e7102442598c8d0ab9b6dba27e"
-            },
+            "version": "dev-master",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MakingCG/vuefilemanager-invoicing/zipball/0ee532b2277f37e7102442598c8d0ab9b6dba27e",
-                "reference": "0ee532b2277f37e7102442598c8d0ab9b6dba27e",
-                "shasum": ""
+                "type": "path",
+                "url": "../vuefilemanager-invoicing",
+                "reference": "397ccf463f15abaef111501681fa69d5785c4d73"
             },
             "require": {
                 "barryvdh/laravel-snappy": "^0.4.8",
@@ -3772,6 +3766,7 @@
                 "laravel/sanctum": "^2.11",
                 "php": "^8.0",
                 "spatie/laravel-package-tools": "^1.4.3",
+                "spatie/laravel-queueable-action": "^2.11",
                 "teamtnt/laravel-scout-tntsearch-driver": "^11.3"
             },
             "require-dev": {
@@ -3812,9 +3807,6 @@
                 }
             },
             "scripts": {
-                "psalm": [
-                    "vendor/bin/psalm"
-                ],
                 "format": [
                     "vendor/bin/php-cs-fixer fix --allow-risky=yes"
                 ],
@@ -3842,17 +3834,9 @@
                 "laravel",
                 "vuefilemanager-invoicing"
             ],
-            "support": {
-                "source": "https://github.com/MakingCG/vuefilemanager-invoicing/tree/v1.0",
-                "issues": "https://github.com/MakingCG/vuefilemanager-invoicing/issues"
-            },
-            "funding": [
-                {
-                    "type": "github",
-                    "url": "https://github.com/MakingCG"
-                }
-            ],
-            "time": "2021-05-20T09:13:13+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "mockery/mockery",
@@ -7440,6 +7424,90 @@
             "time": "2021-05-06T21:49:32+00:00"
         },
         {
+            "name": "spatie/laravel-queueable-action",
+            "version": "2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-queueable-action.git",
+                "reference": "0f02b8cbf96d2d10be3d52029df19e097c5cfb59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-queueable-action/zipball/0f02b8cbf96d2d10be3d52029df19e097c5cfb59",
+                "reference": "0f02b8cbf96d2d10be3d52029df19e097c5cfb59",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.4|^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\QueueableAction\\QueueableActionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\QueueableAction\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Queueable action support in Laravel",
+            "homepage": "https://github.com/spatie/laravel-queueable-action",
+            "keywords": [
+                "laravel-queueable-action",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-queueable-action/issues",
+                "source": "https://github.com/spatie/laravel-queueable-action/tree/2.11.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2021-04-21T11:10:17+00:00"
+        },
+        {
             "name": "spatie/laravel-tail",
             "version": "4.3.2",
             "source": {
@@ -10855,16 +10923,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "dev-master",
+            "version": "2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "458bd41d8fe8df7e3da7dad8cfd09ea4dfc0d3cd"
+                "reference": "92b2ccbef65292ba9f2004271ef47c7231e2eed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/458bd41d8fe8df7e3da7dad8cfd09ea4dfc0d3cd",
-                "reference": "458bd41d8fe8df7e3da7dad8cfd09ea4dfc0d3cd",
+                "url": "https://api.github.com/repos/composer/composer/zipball/92b2ccbef65292ba9f2004271ef47c7231e2eed5",
+                "reference": "92b2ccbef65292ba9f2004271ef47c7231e2eed5",
                 "shasum": ""
             },
             "require": {
@@ -10893,14 +10961,13 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
-            "default-branch": true,
             "bin": [
                 "bin/composer"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -10934,7 +11001,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/master"
+                "source": "https://github.com/composer/composer/tree/2.0.14"
             },
             "funding": [
                 {
@@ -10950,7 +11017,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-20T14:11:51+00:00"
+            "time": "2021-05-21T15:03:37+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -12158,7 +12225,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "makingcg/vuefilemanager-invoicing": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

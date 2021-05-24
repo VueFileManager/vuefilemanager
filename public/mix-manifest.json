@@ -110,10 +110,5 @@
     "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~4509a016.js": "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~4509a016.js?id=c708d0d8324c04a73bff",
     "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~66c4fa45.js": "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~66c4fa45.js?id=a90d02375626aeb98cba",
     "/vendors~chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared/file-browser~~b42d96c6.js": "/vendors~chunks/files~chunks/oasis/invoices~chunks/platform~chunks/shared~chunks/shared/file-browser~~b42d96c6.js?id=052d693d0460936fcf73",
-    "/vendors~chunks/oasis/invoices~chunks/platform~chunks/shared.js": "/vendors~chunks/oasis/invoices~chunks/platform~chunks/shared.js?id=9b089a73923448db1f5f",
-    "/chunks/sign-in.b9abdb2d653bbfe57c85.hot-update.js": "/chunks/sign-in.b9abdb2d653bbfe57c85.hot-update.js",
-    "/chunks/oasis/homepage.ec23ab036dacd472e28b.hot-update.js": "/chunks/oasis/homepage.ec23ab036dacd472e28b.hot-update.js",
-    "/chunks/oasis/invoices/create-invoice.c7a80002512cbfef98d3.hot-update.js": "/chunks/oasis/invoices/create-invoice.c7a80002512cbfef98d3.hot-update.js",
-    "/chunks/oasis/invoices/edit-invoice.c98050c5064574fe0f1c.hot-update.js": "/chunks/oasis/invoices/edit-invoice.c98050c5064574fe0f1c.hot-update.js",
-    "/chunks/oasis/invoices/create-invoice.8fe426b86e3f3bdfc214.hot-update.js": "/chunks/oasis/invoices/create-invoice.8fe426b86e3f3bdfc214.hot-update.js"
+    "/vendors~chunks/oasis/invoices~chunks/platform~chunks/shared.js": "/vendors~chunks/oasis/invoices~chunks/platform~chunks/shared.js?id=9b089a73923448db1f5f"
 }

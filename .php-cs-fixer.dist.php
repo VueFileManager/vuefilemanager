@@ -42,7 +42,7 @@ return $config->setRules([
     'trailing_comma_in_multiline'                => ['elements' => ['arrays']],
     'phpdoc_scalar'                              => true,
     'unary_operator_spaces'                      => true,
-    'binary_operator_spaces'                     => true,
+    'binary_operator_spaces'                     => ['operators' => ['=>' => 'align']],
     'single_trait_insert_per_statement'          => false,
     'method_chaining_indentation'                => true,
     'array_indentation'                          => true,
