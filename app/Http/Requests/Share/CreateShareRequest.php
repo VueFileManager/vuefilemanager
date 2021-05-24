@@ -25,11 +25,11 @@ class CreateShareRequest extends FormRequest
     {
         return [
             'isPassword' => 'required|boolean',
-            'type' => 'required|string',
+            'type'       => 'required|string',
             'expiration' => 'integer|nullable',
             'permission' => 'string',
-            'password' => 'string',
-            'emails.*' => 'email',
+            'password'   => 'string',
+            'emails.*'   => 'email',
         ];
     }
 }

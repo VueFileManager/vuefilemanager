@@ -50,7 +50,7 @@ class AdminController extends Controller
     {
         // Create user
         $newbie = User::create([
-            'email' => $request->email,
+            'email'    => $request->email,
             'password' => Hash::make(Str::random()),
         ]);
 
@@ -61,15 +61,15 @@ class AdminController extends Controller
             ->settings()
             ->create([
                 'storage_capacity' => 0,
-                'ico' => $request->ico ?? null,
-                'name' => $request->name,
-                'address' => $request->address,
-                'state' => $request->state,
-                'city' => $request->city,
-                'postal_code' => $request->postal_code,
-                'country' => $request->country,
-                'phone_number' => $request->phone_number ?? null,
-                'timezone' => '1.0',
+                'ico'              => $request->ico ?? null,
+                'name'             => $request->name,
+                'address'          => $request->address,
+                'state'            => $request->state,
+                'city'             => $request->city,
+                'postal_code'      => $request->postal_code,
+                'country'          => $request->country,
+                'phone_number'     => $request->phone_number ?? null,
+                'timezone'         => '1.0',
             ]);
 
         // Store subscription request
@@ -104,8 +104,8 @@ class AdminController extends Controller
     {
         // Create user
         $user = User::forceCreate([
-            'role' => $request->role,
-            'email' => $request->email,
+            'role'     => $request->role,
+            'email'    => $request->email,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
         ]);
 
@@ -114,9 +114,9 @@ class AdminController extends Controller
         $user
             ->settings()
             ->create([
-                'name' => $request->name,
-                'avatar' => store_avatar($request, 'avatar'),
-                'storage_capacity' => $request->storage_capacity,
+                'name'               => $request->name,
+                'avatar'             => store_avatar($request, 'avatar'),
+                'storage_capacity'   => $request->storage_capacity,
                 'payment_activation' => 1,
             ]);
 

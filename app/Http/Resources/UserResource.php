@@ -16,20 +16,20 @@ class UserResource extends JsonResource
         // TODO: zrefaktorovat
         return [
             'data' => [
-                'id' => $this->id,
-                'type' => 'user',
+                'id'         => $this->id,
+                'type'       => 'user',
                 'attributes' => [
-                    'storage_capacity' => $this->settings->storage_capacity,
-                    'subscription' => $this->subscribed('main'),
-                    'incomplete_payment' => $this->hasIncompletePayment('main') ? route('cashier.payment', $this->subscription('main')->latestPayment()->id) : null,
-                    'stripe_customer' => is_null($this->stripe_id) ? false : true,
-                    'email' => is_demo() ? obfuscate_email($this->email) : $this->email,
-                    'role' => $this->role,
-                    'folders' => $this->folder_tree,
-                    'storage' => $this->storage,
+                    'storage_capacity'     => $this->settings->storage_capacity,
+                    'subscription'         => $this->subscribed('main'),
+                    'incomplete_payment'   => $this->hasIncompletePayment('main') ? route('cashier.payment', $this->subscription('main')->latestPayment()->id) : null,
+                    'stripe_customer'      => is_null($this->stripe_id) ? false : true,
+                    'email'                => is_demo() ? obfuscate_email($this->email) : $this->email,
+                    'role'                 => $this->role,
+                    'folders'              => $this->folder_tree,
+                    'storage'              => $this->storage,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
-                    'created_at' => $this->created_at,
-                    'updated_at' => $this->updated_at,
+                    'created_at'           => $this->created_at,
+                    'updated_at'           => $this->updated_at,
 
                     // OasisDrive
                     'has_billing_profile' => $this->invoiceProfile ? true : false,
@@ -37,18 +37,18 @@ class UserResource extends JsonResource
                 'relationships' => [
                     'settings' => [
                         'data' => [
-                            'id' => $this->id,
-                            'type' => 'settings',
+                            'id'         => $this->id,
+                            'type'       => 'settings',
                             'attributes' => [
-                                'avatar' => $this->settings->avatar,
-                                'name' => $this->settings->name,
-                                'address' => $this->settings->address,
-                                'state' => $this->settings->state,
-                                'city' => $this->settings->city,
-                                'postal_code' => $this->settings->postal_code,
-                                'country' => $this->settings->country,
+                                'avatar'       => $this->settings->avatar,
+                                'name'         => $this->settings->name,
+                                'address'      => $this->settings->address,
+                                'state'        => $this->settings->state,
+                                'city'         => $this->settings->city,
+                                'postal_code'  => $this->settings->postal_code,
+                                'country'      => $this->settings->country,
                                 'phone_number' => $this->settings->phone_number,
-                                'timezone' => $this->settings->timezone,
+                                'timezone'     => $this->settings->timezone,
 
                                 // OasisDrive
                                 'payment_activation' => (integer) $this->settings->payment_activation,
@@ -57,8 +57,8 @@ class UserResource extends JsonResource
                     ],
                     'favourites' => [
                         'data' => [
-                            'id' => $this->id,
-                            'type' => 'favourite_folders',
+                            'id'         => $this->id,
+                            'type'       => 'favourite_folders',
                             'attributes' => [
                                 'folders' => $this->favouriteFolders->makeHidden(['pivot']),
                             ],

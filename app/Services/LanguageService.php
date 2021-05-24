@@ -28,9 +28,9 @@ class LanguageService
         $translations = $translations[strtolower($license)]
             ->map(function ($value, $key) use ($locale) {
                 return [
-                    'lang' => $locale,
+                    'lang'  => $locale,
                     'value' => $value,
-                    'key' => $key,
+                    'key'   => $key,
                 ];
             })->toArray();
 
@@ -75,9 +75,9 @@ class LanguageService
             $translations = $newbies
                 ->map(function ($value, $key) use ($locale) {
                     return [
-                        'lang' => $locale,
+                        'lang'  => $locale,
                         'value' => $value,
-                        'key' => $key,
+                        'key'   => $key,
                     ];
                 })->toArray();
 

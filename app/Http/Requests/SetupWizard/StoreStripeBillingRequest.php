@@ -24,13 +24,13 @@ class StoreStripeBillingRequest extends FormRequest
     {
         return [
             'billing_phone_number' => 'sometimes|nullable|string',
-            'billing_postal_code' => 'required|string',
-            'billing_vat_number' => 'required|string',
-            'billing_address' => 'required|string',
-            'billing_country' => 'required|string',
-            'billing_state' => 'required|string',
-            'billing_city' => 'required|string',
-            'billing_name' => 'required|string',
+            'billing_postal_code'  => 'required|string',
+            'billing_vat_number'   => 'required|string',
+            'billing_address'      => 'required|string',
+            'billing_country'      => 'required|string',
+            'billing_state'        => 'required|string',
+            'billing_city'         => 'required|string',
+            'billing_name'         => 'required|string',
         ];
     }
 }

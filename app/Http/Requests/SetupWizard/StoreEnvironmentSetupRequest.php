@@ -23,20 +23,20 @@ class StoreEnvironmentSetupRequest extends FormRequest
     public function rules()
     {
         return [
-            'storage' => 'required|array',
-            'storage.driver' => 'required|string',
-            'storage.key' => 'sometimes|nullable|string',
-            'storage.secret' => 'sometimes|nullable|string',
+            'storage'          => 'required|array',
+            'storage.driver'   => 'required|string',
+            'storage.key'      => 'sometimes|nullable|string',
+            'storage.secret'   => 'sometimes|nullable|string',
             'storage.endpoint' => 'sometimes|nullable|string',
-            'storage.region' => 'sometimes|nullable|string',
-            'storage.bucket' => 'sometimes|nullable|string',
-            'mail' => 'required|array',
-            'mail.driver' => 'required|string',
-            'mail.host' => 'required|string',
-            'mail.port' => 'required|string',
-            'mail.username' => 'required|string',
-            'mail.password' => 'required|string',
-            'mail.encryption' => 'required|string',
+            'storage.region'   => 'sometimes|nullable|string',
+            'storage.bucket'   => 'sometimes|nullable|string',
+            'mail'             => 'required|array',
+            'mail.driver'      => 'required|string',
+            'mail.host'        => 'required|string',
+            'mail.port'        => 'required|string',
+            'mail.username'    => 'required|string',
+            'mail.password'    => 'required|string',
+            'mail.encryption'  => 'required|string',
         ];
     }
 }

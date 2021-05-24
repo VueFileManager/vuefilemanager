@@ -40,13 +40,13 @@ class ShareController extends Controller
     {
         // Create shared options
         $shared = Share::create([
-            'password' => $request->has('password') ? bcrypt($request->password) : null,
-            'type' => $request->type === 'folder' ? 'folder' : 'file',
+            'password'     => $request->has('password') ? bcrypt($request->password) : null,
+            'type'         => $request->type === 'folder' ? 'folder' : 'file',
             'is_protected' => $request->isPassword,
-            'permission' => $request->permission ?? null,
-            'item_id' => $id,
-            'expire_in' => $request->expiration ?? null,
-            'user_id' => Auth::id(),
+            'permission'   => $request->permission ?? null,
+            'item_id'      => $id,
+            'expire_in'    => $request->expiration ?? null,
+            'user_id'      => Auth::id(),
         ]);
 
         // Send shared link via email
@@ -78,10 +78,10 @@ class ShareController extends Controller
 
         // Update sharing record
         $shared->update([
-            'permission' => $request->permission,
+            'permission'   => $request->permission,
             'is_protected' => $request->protected,
-            'expire_in' => $request->expiration,
-            'password' => $request->password ? bcrypt($request->password) : $shared->password,
+            'expire_in'    => $request->expiration,
+            'password'     => $request->password ? bcrypt($request->password) : $shared->password,
         ]);
 
         // Return shared record
