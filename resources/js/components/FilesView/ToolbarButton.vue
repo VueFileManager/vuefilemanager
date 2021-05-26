@@ -68,15 +68,7 @@
 @import "@assets/vuefilemanager/_mixins";
 
 .preview-sorting {
-    svg {
-        width: 19px;
-        height: 19px;
-
-    }
-
-    rect, line {
-        @include transition(150ms);
-    }
+	transform: scale(1.3);
 }
 
 .button {

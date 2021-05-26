@@ -38,7 +38,7 @@
 				<ToolbarGroup>
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showSortingMenu" source="preview-sorting" :action="$t('actions.sorting_view')" />
-						<PopoverItem name="desktop-sorting">
+						<PopoverItem name="desktop-sorting" side="left">
 							<FileSortingOptions />
 						</PopoverItem>
 					</PopoverWrapper>
@@ -319,7 +319,7 @@
 		color: $dark_mode_text_primary;
 	}
 
-	.toolbar-go-back {
+	.location {
 		.location-title {
 			color: $dark_mode_text_primary;
 		}

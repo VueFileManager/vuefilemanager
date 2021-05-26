@@ -74,7 +74,7 @@ class File extends Model
     /**
      * Form\a\t created at date reformat
      *
-     * @return string
+     * @return string|null
      */
     public function getDeletedAtAttribute()
     {
@@ -98,7 +98,7 @@ class File extends Model
     /**
      * Format thumbnail url
      *
-     * @return string
+     * @return string|null
      */
     public function getThumbnailAttribute()
     {

@@ -13,6 +13,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StripeService
 {
+    private \Cartalyst\Stripe\Stripe $stripe;
+
     /**
      * Stripe Service constructor.
      */
@@ -115,9 +117,8 @@ class StripeService
      *
      * @param $request
      * @param $user
-     * @return mixed
      */
-    public function registerNewPaymentMethod($request, $user)
+    public function registerNewPaymentMethod($request, $user): void
     {
         // Clear cached payment methods
         cache_forget_many([
@@ -139,10 +140,8 @@ class StripeService
      *
      * @param $request
      * @param $user
-     * @param $paymentMethod
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function createOrReplaceSubscription($request, $user)
+    public function createOrReplaceSubscription($request, $user): void
     {
         try {
             // Get payment method
@@ -198,7 +197,9 @@ class StripeService
     public function getPlans()
     {
         // Get stripe plans
-        $stripe_plans = $this->stripe->plans()->all();
+        $stripe_plans = $this->stripe->plans()->all([
+            'limit' => 100,
+        ]);
 
         // Plans container
         $plans = [];
@@ -227,7 +228,9 @@ class StripeService
     public function getActivePlans()
     {
         // Get stripe plans
-        $stripe_plans = $this->stripe->plans()->all();
+        $stripe_plans = $this->stripe->plans()->all([
+            'limit' => 100,
+        ]);
 
         // Plans container
         $plans = [];

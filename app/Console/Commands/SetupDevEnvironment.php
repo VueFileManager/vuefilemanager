@@ -1,7 +1,6 @@
 <?php
 namespace App\Console\Commands;
 
-use Faker;
 use App\Models\File;
 use App\Models\User;
 use App\Models\Share;
@@ -11,9 +10,12 @@ use Illuminate\Support\Str;
 use App\Services\SetupService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class SetupDevEnvironment extends Command
 {
+    use WithFaker;
+
     /**
      * The name and signature of the console command.
      *
@@ -34,12 +36,13 @@ class SetupDevEnvironment extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->faker = Faker\Factory::create();
+        $this->setUpFaker();
         $this->setup = resolve(SetupService::class);
     }
 
     /**
      * Execute the console command.
+     * return @void
      */
     public function handle(): void
     {
@@ -608,7 +611,7 @@ class SetupDevEnvironment extends Command
             'whaaaaat.jpg',
             'You Are My Sunshine.jpg',
         ])
-            ->each(function ($file) use ($user, $apartments) {
+            ->each(function ($file) use ($user) {
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage

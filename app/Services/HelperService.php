@@ -125,7 +125,7 @@ class HelperService
      */
     public function move_file_to_external_storage($file, $user_id): void
     {
-        $disk_local = Storage::disk('local');
+        $disk_local = \Storage::disk('local');
 
         // Get file size
         $filesize = $disk_local->size("files/$user_id/$file");
@@ -145,7 +145,7 @@ class HelperService
             // TODO: replace local files with temp folder
             $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . "/files/$user_id/$file", [
                 'bucket' => $adapter->getBucket(),
-                'key' => "/files/$user_id/$file",
+                'key' => "files/$user_id/$file",
             ]);
 
             try {
@@ -156,7 +156,7 @@ class HelperService
                 Log::error($e->getMessage());
 
                 // Delete file after error
-                $disk_local->delete("/files/$user_id/$file");
+                $disk_local->delete("files/$user_id/$file");
 
                 throw new HttpException(409, $e->getMessage());
             }
@@ -167,7 +167,7 @@ class HelperService
         }
 
         // Delete file after upload
-        $disk_local->delete("/files/$user_id/$file");
+        $disk_local->delete("files/$user_id/$file");
     }
 
     /**

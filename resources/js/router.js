@@ -397,15 +397,6 @@ const routesUser = [
                 },
             },
             {
-                name: 'SharedFiles',
-                path: '/platform/shared-files',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/shared-files" */ './views/FilePages/SharedFiles'),
-                meta: {
-                    requiresAuth: true
-                },
-            },
-            {
                 name: 'Settings',
                 path: '/platform/settings',
                 component: () =>

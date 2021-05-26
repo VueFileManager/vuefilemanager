@@ -18,12 +18,13 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PlanController extends Controller
 {
-    /**
-     * @param StripeService $stripe
-     */
-    public function __construct(StripeService $stripe)
+    private StripeService $stripe;
+
+    private DemoService $demo;
+
+    public function __construct()
     {
-        $this->stripe = $stripe;
+        $this->stripe = resolve(StripeService::class);
         $this->demo = resolve(DemoService::class);
     }
 

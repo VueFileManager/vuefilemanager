@@ -25,10 +25,12 @@ class AppFunctionsController extends Controller
      *
      * @var array
      */
-    private $blacklist = [
+    private array $blacklist = [
         'purchase_code',
         'license',
     ];
+
+    private StripeService $stripe;
 
     public function __construct(StripeService $stripe)
     {

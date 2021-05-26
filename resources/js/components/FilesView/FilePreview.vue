@@ -32,8 +32,6 @@
         methods: {
             closeFilePreview() {
                 this.isFullPreview = false
-
-                events.$emit('showContextMenuPreview:hide')
             },
             next() {
                 events.$emit('file-preview:next')

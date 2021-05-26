@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @method static whereNotNull(string $string)
+ */
 class Share extends Model
 {
     use Notifiable, HasFactory;

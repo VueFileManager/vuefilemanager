@@ -1,11 +1,48 @@
 import i18n from '@/i18n/index'
 import store from './store/index'
-import {debounce, includes, isArray} from "lodash";
+import {debounce, isArray} from "lodash";
 import {events} from './bus'
 import axios from 'axios'
 
 const Helpers = {
     install(Vue) {
+
+        Vue.prototype.$renameFileOrFolder = function (entry) {
+            events.$emit('popup:open', {name: 'rename-item', item: entry})
+        }
+
+        Vue.prototype.$moveFileOrFolder = function (entry) {
+            events.$emit('popup:open', {name: 'move', item: [entry]})
+        }
+
+        Vue.prototype.$deleteFileOrFolder = function (entry) {
+            if (!this.$store.getters.clipboard.includes(entry)) {
+                this.$store.dispatch('deleteItem', entry)
+            }
+
+            if (this.$store.getters.clipboard.includes(entry)) {
+                this.$store.dispatch('deleteItem')
+            }
+        }
+
+        Vue.prototype.$restoreFileOrFolder = function (entry) {
+            if (!this.$store.getters.clipboard.includes(entry))
+                this.$store.dispatch('restoreItem', entry)
+
+            if (this.$store.getters.clipboard.includes(entry))
+                this.$store.dispatch('restoreItem', null)
+        }
+
+        Vue.prototype.$shareFileOrFolder = function (entry) {
+            let event = entry.shared
+                ? 'share-edit'
+                : 'share-create'
+
+            events.$emit('popup:open', {
+                name: event,
+                item: entry
+            })
+        }
 
         Vue.prototype.$searchFiles = debounce(function (value) {
 
@@ -29,11 +66,9 @@ const Helpers = {
             }
         }, 300)
 
-        Vue.prototype.$updateText = debounce(function (route, name, value) {
+        Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
 
-            let enableEmptyInput = ['mimetypes_blacklist', 'google_analytics', 'upload_limit']
-
-            if (value === '' || value === ' ' && !enableEmptyInput.includes(name)) return
+            if ((value === '' || value === ' ') && !allowEmpty) return
 
             axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
                 .catch(() => {
@@ -171,9 +206,16 @@ const Helpers = {
             // Set Data
             let formData = new FormData(),
                 uploadedSize = 0,
+
                 isNotGeneralError = true,
-                striped_name = item.file.name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
-                filename = Array(16).fill(0).map(x => Math.random().toString(36).charAt(2)).join('') + '-' + striped_name + '.part'
+
+                striped_name = item.file.name
+                    .replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
+
+                filename = Array(16)
+                    .fill(0)
+                    .map(x => Math.random().toString(36).charAt(2))
+                    .join('') + '-' + striped_name + '.part'
 
             do {
                 let isLast = chunks.length === 1,
@@ -229,7 +271,7 @@ const Helpers = {
 
         Vue.prototype.$isThisRoute = function (route, locations) {
 
-            return includes(locations, route.name)
+            return locations.includes(route.name)
         }
 
         Vue.prototype.$isThisLocation = function (location) {
@@ -239,7 +281,7 @@ const Helpers = {
 
             // Check if type is object
             if (typeof location === 'Object' || location instanceof Object) {
-                return includes(location, currentLocation)
+                return location.includes(currentLocation)
 
             } else {
                 return currentLocation === location
@@ -252,7 +294,7 @@ const Helpers = {
 
             // Check if type is object
             if (typeof type === 'Object' || type instanceof Object) {
-                return includes(type, currentPermission)
+                return type.includes(currentPermission)
 
             } else {
                 return currentPermission === type

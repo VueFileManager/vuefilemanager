@@ -9,10 +9,12 @@ class ResetPassword extends Notification
 {
     use Queueable;
 
+    private $token;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $token
      */
     public function __construct($token)
     {

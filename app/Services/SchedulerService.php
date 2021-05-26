@@ -19,7 +19,7 @@ class SchedulerService
             ->get()
             ->each(function ($zip) {
                 // Delete zip file
-                \Storage::disk('local')->delete("zip/$zip->basename");
+                Storage::disk('local')->delete("zip/$zip->basename");
 
                 // Delete zip record
                 $zip->delete();

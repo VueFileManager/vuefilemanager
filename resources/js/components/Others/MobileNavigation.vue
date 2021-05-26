@@ -16,8 +16,8 @@
             <!--Main navigation-->
             <OptionGroup v-if="!clickedSubmenu">
                 <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" is-hover-disabled="true"/>
-                <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" :is-arrow-right="true" is-hover-disabled="true"/>
-                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" :is-arrow-right="true" is-hover-disabled="true"/>
+                <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" arrow="right" is-hover-disabled="true"/>
+                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" arrow="right" is-hover-disabled="true"/>
             </OptionGroup>
             <OptionGroup v-if="!clickedSubmenu">
                 <Option @click.native="logOut" :title="$t('menu.logout')" icon="power" is-hover-disabled="true" />

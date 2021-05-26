@@ -10,26 +10,26 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.19",
+        "axios": "^0.21",
         "cross-env": "^5.1",
-        "laravel-mix": "^5.0.4",
+        "laravel-mix": "^5.0.9",
         "resolve-url-loader": "^2.3.1",
         "sass-loader": "^8.0.2",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.30",
-        "@fortawesome/free-solid-svg-icons": "^5.14.0",
+        "@fortawesome/fontawesome-svg-core": "^1.2.35",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
         "@fortawesome/vue-fontawesome": "^0.1.10",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.21",
         "node-sass": "^4.14.1",
-        "pdfvuer": "^1.7.5",
-        "twemoji": "^13.0.1",
-        "vee-validate": "^3.3.9",
-        "vue": "^2.6.11",
+        "pdfvuer": "1.7.5",
+        "twemoji": "^13.0.2",
+        "vee-validate": "^3.4.5",
+        "vue": "^2.6.12",
         "vue-feather-icons": "^5.1.0",
-        "vue-i18n": "^8.21.0",
-        "vue-router": "^3.4.3",
-        "vuex": "^3.5.1"
+        "vue-i18n": "^8.24.4",
+        "vue-router": "^3.5.1",
+        "vuex": "^3.6.2"
     }
 }

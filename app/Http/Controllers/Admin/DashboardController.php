@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use DB;
 use App\Models\User;
 use ByteUnits\Metric;
 use App\Services\StripeService;
@@ -11,9 +10,8 @@ use App\Http\Resources\UsersCollection;
 
 class DashboardController extends Controller
 {
-    /**
-     * @param StripeService $stripe
-     */
+    private StripeService $stripe;
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
@@ -32,7 +30,7 @@ class DashboardController extends Controller
 
         // Get total storage usage
         $storage_usage = Metric::bytes(
-            DB::table('files')->sum('filesize')
+            \DB::table('files')->sum('filesize')
         )->format();
 
         return [
