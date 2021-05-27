@@ -202,10 +202,10 @@
             this.$scrollTop()
             this.$store.commit('PROCESSING_POPUP', undefined)
 
-            //if (this.config.isDemo) {
-                //this.loginEmail = 'howdy@hi5ve.digital'
-                //this.loginPassword = 'vuefilemanager'
-            //}
+            if (this.config.isDev) {
+                this.loginEmail = 'howdy@hi5ve.digital'
+                this.loginPassword = 'vuefilemanager'
+            }
         }
     }
 </script>

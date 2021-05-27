@@ -718,9 +718,15 @@
 						value: 'new-client'
 					})
 
-					this.invoice.invoice_number = response.data.recommendedInvoiceNumber
-					this.latestInvoiceNumber = response.data.latestInvoiceNumber
+					if (this.$route.query.type === 'regular-invoice') {
+						this.invoice.invoice_number = response.data.recommendedRegularInvoiceNumber
+						this.latestInvoiceNumber = response.data.latestRegularInvoiceNumber
+					}
 
+					if (this.$route.query.type === 'advance-invoice') {
+						this.invoice.invoice_number = response.data.recommendedAdvanceInvoiceNumber
+						this.latestInvoiceNumber = response.data.latestAdvanceInvoiceNumber
+					}
 				})
 				.finally(() => {
 					this.isLoadingPage = false
