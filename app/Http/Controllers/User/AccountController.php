@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserStorageResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Requests\User\UpdateUserPasswordRequest;
+use App\Http\Requests\User\UserCreateAccessTokenRequest;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class AccountController extends Controller
@@ -144,12 +145,13 @@ class AccountController extends Controller
     /**
      * Create token
      * 
+     * @param Request $request
      * @return Collection
      */
-    public function create_token()
+    public function create_token(UserCreateAccessTokenRequest $request)
     {
         return response(
-            Auth::user()->createToken('token'),
+            Auth::user()->createToken($request->input('name')),
             201
         );
     }

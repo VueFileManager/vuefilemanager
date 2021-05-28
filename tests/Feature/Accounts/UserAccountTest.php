@@ -166,11 +166,13 @@ class UserAccountTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $this->postJson('/api/user/token/create')
-            ->assertStatus(201);
+        $this->postJson('/api/user/token/create', [
+            'name' => 'token'
+        ])->assertStatus(201);
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,
+            'name' => 'token'
         ]);
     }
 
