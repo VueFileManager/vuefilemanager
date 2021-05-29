@@ -794,6 +794,10 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
+                'name' => 'user_verification',
+                'value' => 1,
+            ],
+            [
                 'name' => 'payments_active',
                 'value' => 1,
             ],
