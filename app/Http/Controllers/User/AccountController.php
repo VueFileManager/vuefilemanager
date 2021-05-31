@@ -150,6 +150,9 @@ class AccountController extends Controller
      */
     public function create_token(UserCreateAccessTokenRequest $request)
     {
+        // Check if is demo
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
+
         return response(
             Auth::user()->createToken($request->input('name')),
             201
@@ -164,6 +167,9 @@ class AccountController extends Controller
      */
     public function revoke_token(PersonalAccessToken $token)
     {
+        // Check if is demo
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
+
         if(Auth::user()->id !== $token->tokenable_id) {
             return response('Unauthorized', 401);
         }

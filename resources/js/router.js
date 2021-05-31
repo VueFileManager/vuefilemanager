@@ -344,6 +344,15 @@ const routesAuth = [
         },
     },
     {
+        name: 'SuccessfullySend',
+        path: '/successfully-send',
+        component: () => 
+            import(/* webpackChunkName: "chunks/email-verified" */ './views/Auth/SuccessfullySendEmail'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
         name: 'SignIn',
         path: '/sign-in',
         component: () =>

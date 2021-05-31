@@ -480,6 +480,8 @@ return [
         'page_not_verified.resend_button' => 'Resend verification email.',
         'page_email_successfully_verified.title' => 'Your account was successfully verified!',
         'page_email_successfully_verified.subtitle' => 'Now you can log in.',
+        'page_email_successfully_send.title' => 'Email was successfully send!',
+        'page_email_successfully_send.subtitle' => 'Check your email address where was the email send.',
         'popup_create_folder.folder_default_name' => 'New Folder',
         'popup_create_folder.label' => 'Type Name',
         'popup_create_folder.placeholder' => 'Type your name',

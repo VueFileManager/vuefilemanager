@@ -128,7 +128,12 @@
                     post('/api/user/email/resend/verify', {
                         email: this.loginEmail
                     })
-                    .then(console.log('send'))
+                    .then( 
+                        this.$router.push({name: 'SuccessfullySend'}) 
+                    )
+                    .catch(() => {
+                        this.$isSomethingWrong()
+                    })
             },
             async logIn() {
 
