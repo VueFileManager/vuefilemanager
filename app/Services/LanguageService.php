@@ -34,8 +34,12 @@ class LanguageService
                 ];
             })->toArray();
 
-        DB::table('language_translations')
-            ->insert($translations);
+        $chunks = array_chunk($translations, 100);
+
+        foreach ($chunks as $chunk) {
+            DB::table('language_translations')
+                ->insert($chunk);
+        }
     }
 
     /**
@@ -81,9 +85,14 @@ class LanguageService
                     ];
                 })->toArray();
 
-            // Store translations into database
-            DB::table('language_translations')
-                ->insert($translations);
+            $chunks = array_chunk($translations, 100);
+
+            foreach ($chunks as $chunk) {
+
+                // Store translations into database
+                DB::table('language_translations')
+                    ->insert($chunk);
+            }
 
             // Flush cache
             cache()->forget("language-translations-$locale");
