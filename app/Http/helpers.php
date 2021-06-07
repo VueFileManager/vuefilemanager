@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Obfuscate email
@@ -532,7 +533,7 @@ function get_file_type($file_mimetype)
  * @param $translations
  * @return mixed
  */
-function map_language_translations($translations)
+function map_language_translations($translations): Collection
 {
     return $translations->map(function ($string) {
         return [$string->key => $string->value];
@@ -594,7 +595,7 @@ function get_image_meta_data($file)
 /**
  * @return Collection
  */
-function get_default_language_translations()
+function get_default_language_translations(): Collection
 {
     return collect([
         config('language-translations.extended'),
@@ -855,12 +856,12 @@ function set_time_by_user_timezone($time)
 
 /**
  * Translate the given message.
- *
  * @param $key
  * @param null $values
- * @return string|string[]
+ * @return string
+ * @throws Exception
  */
-function __t($key, $values = null)
+function __t($key, $values = null): string
 {
     // Get current locale
     $locale = cache()->rememberForever('language', function () {
@@ -874,16 +875,14 @@ function __t($key, $values = null)
     // Get language strings
     $strings = cache()->rememberForever("language-translations-$locale", function () use ($locale) {
         try {
-            return Language::whereLocale($locale)->first()->languageTranslations ?? get_default_language_translations();
-        } catch (QueryException $e) {
-            return get_default_language_translations();
+            return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
+        } catch (QueryException | ModelNotFoundException $e) {
+            return null;
         }
-    });
+    }) ?? get_default_language_translations();
 
     // Find the string by key
-    $string = $strings->get($key)
-        ? $strings->get($key)
-        : $strings->firstWhere('key', $key)->value;
+    $string = $strings->firstWhere('key', $key)->value ?? $strings->get($key);
 
     if ($values) {
         return replace_occurrence($string, collect($values));

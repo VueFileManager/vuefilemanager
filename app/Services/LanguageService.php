@@ -88,7 +88,6 @@ class LanguageService
             $chunks = array_chunk($translations, 100);
 
             foreach ($chunks as $chunk) {
-
                 // Store translations into database
                 DB::table('language_translations')
                     ->insert($chunk);

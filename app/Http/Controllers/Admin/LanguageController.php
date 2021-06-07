@@ -111,18 +111,15 @@ class LanguageController extends Controller
 
     /**
      * Delete the language with all children strings
-     *
      * @param Language $language
-     * @return ResponseFactory|Response
+     * @return Response
      */
-    public function delete_language(Language $language)
+    public function delete_language(Language $language): Response
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        if ($language->locale === 'en') {
-            abort(401, "Sorry, you can't delete default language.");
-        }
+        abort_if($language->locale === 'en', 401, "Sorry, you can't delete default language.");
 
         // If user try to delete language used as default,
         // then set en language as default

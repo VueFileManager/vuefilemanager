@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Mail\SendContactMessage;
 use Illuminate\Support\Facades\Cache;
 use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Database\QueryException;
 use App\Http\Resources\PricingCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\PublicPages\SendContactMessageRequest;
 
 class AppFunctionsController extends Controller
@@ -178,18 +181,22 @@ class AppFunctionsController extends Controller
 
     /**
      * Get language translations for frontend app
-     *
-     * @param $lang
-     * @return array
      */
     public function get_translations($lang)
     {
-        $translations = Cache::rememberForever("language-translations-$lang", function () use ($lang) {
-            return Language::whereLocale($lang)
-                ->firstOrFail()
-                ->languageTranslations;
-        });
+        $translations = cache()
+            ->rememberForever("language-translations-$lang", function () use ($lang) {
+                try {
+                    return Language::whereLocale($lang)
+                        ->firstOrFail()
+                        ->languageTranslations;
+                } catch (QueryException | ModelNotFoundException $e) {
+                    return null;
+                }
+            });
 
-        return map_language_translations($translations);
+        return $translations
+            ? map_language_translations($translations)
+            : get_default_language_translations();
     }
 }
