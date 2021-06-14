@@ -188,11 +188,11 @@ class AccountController extends Controller
      */
     public function email_verify($id, Request $request)
     {
-        $user = User::find($id);
-
         if (!$request->hasValidSignature()) {
             return response("Invalid/Expired url provided.", 401);
         }
+
+        $user = User::find($id);
         
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
