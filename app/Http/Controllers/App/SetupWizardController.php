@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\App;
 
 use Schema;
@@ -64,7 +65,7 @@ class SetupWizardController extends Controller
      */
     public function setup_database(StoreDatabaseCredentialsRequest $request)
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             try {
                 // Set temporary database connection
                 config(['database.connections.test.driver' => $request->connection]);
@@ -84,11 +85,11 @@ class SetupWizardController extends Controller
 
             setEnvironmentValue([
                 'DB_CONNECTION' => $request->connection,
-                'DB_HOST' => $request->host,
-                'DB_PORT' => $request->port,
-                'DB_DATABASE' => $request->name,
-                'DB_USERNAME' => $request->username,
-                'DB_PASSWORD' => $request->password,
+                'DB_HOST'       => $request->host,
+                'DB_PORT'       => $request->port,
+                'DB_DATABASE'   => $request->name,
+                'DB_USERNAME'   => $request->username,
+                'DB_PASSWORD'   => $request->password,
             ]);
 
             Artisan::call('config:cache');
@@ -104,7 +105,7 @@ class SetupWizardController extends Controller
 
         // Store setup wizard progress
         Setting::forceCreate([
-            'name' => 'setup_wizard_database',
+            'name'  => 'setup_wizard_database',
             'value' => 1,
         ]);
 
@@ -119,7 +120,7 @@ class SetupWizardController extends Controller
      */
     public function store_stripe_credentials(StoreStripeCredentialsRequest $request)
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             // Create stripe instance
             $stripe = Stripe::make($request->secret, '2020-03-02');
 
@@ -134,30 +135,30 @@ class SetupWizardController extends Controller
         // Set settings
         collect([
             [
-                'name' => 'stripe_currency',
+                'name'  => 'stripe_currency',
                 'value' => $request->currency,
             ],
             [
-                'name' => 'payments_configured',
+                'name'  => 'payments_configured',
                 'value' => 1,
             ],
             [
-                'name' => 'payments_active',
+                'name'  => 'payments_active',
                 'value' => 1,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name' => $col['name'],
+                'name'  => $col['name'],
                 'value' => $col['value'],
             ]);
         });
 
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             // Set stripe credentials to .env
             setEnvironmentValue([
-                'CASHIER_CURRENCY' => $request->currency,
-                'STRIPE_KEY' => $request->key,
-                'STRIPE_SECRET' => $request->secret,
+                'CASHIER_CURRENCY'      => $request->currency,
+                'STRIPE_KEY'            => $request->key,
+                'STRIPE_SECRET'         => $request->secret,
                 'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
             ]);
 
@@ -179,45 +180,45 @@ class SetupWizardController extends Controller
         // Get options
         collect([
             [
-                'name' => 'billing_phone_number',
+                'name'  => 'billing_phone_number',
                 'value' => $request->billing_phone_number,
             ],
             [
-                'name' => 'billing_postal_code',
+                'name'  => 'billing_postal_code',
                 'value' => $request->billing_postal_code,
             ],
             [
-                'name' => 'billing_vat_number',
+                'name'  => 'billing_vat_number',
                 'value' => $request->billing_vat_number,
             ],
             [
-                'name' => 'billing_address',
+                'name'  => 'billing_address',
                 'value' => $request->billing_address,
             ],
             [
-                'name' => 'billing_country',
+                'name'  => 'billing_country',
                 'value' => $request->billing_country,
             ],
             [
-                'name' => 'billing_state',
+                'name'  => 'billing_state',
                 'value' => $request->billing_state,
             ],
             [
-                'name' => 'billing_city',
+                'name'  => 'billing_city',
                 'value' => $request->billing_city,
             ],
             [
-                'name' => 'billing_name',
+                'name'  => 'billing_name',
                 'value' => $request->billing_name,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name' => $col['name'],
+                'name'  => $col['name'],
                 'value' => $col['value'],
             ]);
         });
 
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             Artisan::call('config:cache');
         }
 
@@ -247,41 +248,49 @@ class SetupWizardController extends Controller
      */
     public function store_environment_setup(StoreEnvironmentSetupRequest $request)
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             $drivers = [
-                'local' => [
+                'local'     => [
                     'FILESYSTEM_DRIVER' => 'local',
                 ],
-                's3' => [
-                    'FILESYSTEM_DRIVER' => $request->storage['driver'] ?? null,
-                    'AWS_ACCESS_KEY_ID' => $request->storage['key'] ?? null,
+                's3'        => [
+                    'FILESYSTEM_DRIVER'     => $request->storage['driver'] ?? null,
+                    'AWS_ACCESS_KEY_ID'     => $request->storage['key'] ?? null,
                     'AWS_SECRET_ACCESS_KEY' => $request->storage['secret'] ?? null,
-                    'AWS_DEFAULT_REGION' => $request->storage['region'] ?? null,
-                    'AWS_BUCKET' => $request->storage['bucket'] ?? null,
+                    'AWS_DEFAULT_REGION'    => $request->storage['region'] ?? null,
+                    'AWS_BUCKET'            => $request->storage['bucket'] ?? null,
                 ],
-                'spaces' => [
-                    'FILESYSTEM_DRIVER' => $request->storage['driver'] ?? null,
-                    'DO_SPACES_KEY' => $request->storage['key'] ?? null,
-                    'DO_SPACES_SECRET' => $request->storage['secret'] ?? null,
+                'spaces'    => [
+                    'FILESYSTEM_DRIVER'  => $request->storage['driver'] ?? null,
+                    'DO_SPACES_KEY'      => $request->storage['key'] ?? null,
+                    'DO_SPACES_SECRET'   => $request->storage['secret'] ?? null,
                     'DO_SPACES_ENDPOINT' => $request->storage['endpoint'] ?? null,
-                    'DO_SPACES_REGION' => $request->storage['region'] ?? null,
-                    'DO_SPACES_BUCKET' => $request->storage['bucket'] ?? null,
+                    'DO_SPACES_REGION'   => $request->storage['region'] ?? null,
+                    'DO_SPACES_BUCKET'   => $request->storage['bucket'] ?? null,
                 ],
-                'wasabi' => [
+                'wasabi'    => [
                     'FILESYSTEM_DRIVER' => $request->storage['driver'] ?? null,
-                    'WASABI_KEY' => $request->storage['key'] ?? null,
-                    'WASABI_SECRET' => $request->storage['secret'] ?? null,
-                    'WASABI_ENDPOINT' => $request->storage['endpoint'] ?? null,
-                    'WASABI_REGION' => $request->storage['region'] ?? null,
-                    'WASABI_BUCKET' => $request->storage['bucket'] ?? null,
+                    'WASABI_KEY'        => $request->storage['key'] ?? null,
+                    'WASABI_SECRET'     => $request->storage['secret'] ?? null,
+                    'WASABI_ENDPOINT'   => $request->storage['endpoint'] ?? null,
+                    'WASABI_REGION'     => $request->storage['region'] ?? null,
+                    'WASABI_BUCKET'     => $request->storage['bucket'] ?? null,
                 ],
                 'backblaze' => [
-                    'FILESYSTEM_DRIVER' => $request->storage['driver'] ?? null,
-                    'BACKBLAZE_KEY' => $request->storage['key'] ?? null,
-                    'BACKBLAZE_SECRET' => $request->storage['secret'] ?? null,
+                    'FILESYSTEM_DRIVER'  => $request->storage['driver'] ?? null,
+                    'BACKBLAZE_KEY'      => $request->storage['key'] ?? null,
+                    'BACKBLAZE_SECRET'   => $request->storage['secret'] ?? null,
                     'BACKBLAZE_ENDPOINT' => $request->storage['endpoint'] ?? null,
-                    'BACKBLAZE_REGION' => $request->storage['region'] ?? null,
-                    'BACKBLAZE_BUCKET' => $request->storage['bucket'] ?? null,
+                    'BACKBLAZE_REGION'   => $request->storage['region'] ?? null,
+                    'BACKBLAZE_BUCKET'   => $request->storage['bucket'] ?? null,
+                ],
+                'oss'       => [
+                    'FILESYSTEM_DRIVER'     => $request->storage['driver'] ?? null,
+                    'OSS_ACCESS_KEY_ID'     => $request->storage['key'] ?? null,
+                    'OSS_SECRET_ACCESS_KEY' => $request->storage['secret'] ?? null,
+                    'OSS_ENDPOINT'          => $request->storage['endpoint'] ?? null,
+                    'OSS_REGION'            => $request->storage['region'] ?? null,
+                    'OSS_BUCKET'            => $request->storage['bucket'] ?? null,
                 ],
             ];
 
@@ -293,11 +302,11 @@ class SetupWizardController extends Controller
             // Store credentials for mail
             // TODO: add options for mailgun
             setEnvironmentValue([
-                'MAIL_DRIVER' => $request->mail['driver'],
-                'MAIL_HOST' => $request->mail['host'],
-                'MAIL_PORT' => $request->mail['port'],
-                'MAIL_USERNAME' => $request->mail['username'],
-                'MAIL_PASSWORD' => $request->mail['password'],
+                'MAIL_DRIVER'     => $request->mail['driver'],
+                'MAIL_HOST'       => $request->mail['host'],
+                'MAIL_PORT'       => $request->mail['port'],
+                'MAIL_USERNAME'   => $request->mail['username'],
+                'MAIL_PASSWORD'   => $request->mail['password'],
                 'MAIL_ENCRYPTION' => $request->mail['encryption'],
             ]);
 
@@ -317,61 +326,61 @@ class SetupWizardController extends Controller
         // Get options
         collect([
             [
-                'name' => 'app_title',
+                'name'  => 'app_title',
                 'value' => $request->title,
             ],
             [
-                'name' => 'app_description',
+                'name'  => 'app_description',
                 'value' => $request->description,
             ],
             [
-                'name' => 'app_logo',
+                'name'  => 'app_logo',
                 'value' => store_system_image($request, 'logo'),
             ],
             [
-                'name' => 'app_logo_horizontal',
+                'name'  => 'app_logo_horizontal',
                 'value' => store_system_image($request, 'logo_horizontal'),
             ],
             [
-                'name' => 'app_favicon',
+                'name'  => 'app_favicon',
                 'value' => store_system_image($request, 'favicon'),
             ],
             [
-                'name' => 'app_og_image',
+                'name'  => 'app_og_image',
                 'value' => store_system_image($request, 'og_image'),
             ],
             [
-                'name' => 'app_touch_icon',
+                'name'  => 'app_touch_icon',
                 'value' => store_system_image($request, 'touch_icon'),
             ],
             [
-                'name' => 'google_analytics',
+                'name'  => 'google_analytics',
                 'value' => $request->googleAnalytics,
             ],
             [
-                'name' => 'contact_email',
+                'name'  => 'contact_email',
                 'value' => $request->contactMail,
             ],
             [
-                'name' => 'registration',
+                'name'  => 'registration',
                 'value' => $request->userRegistration,
             ],
             [
-                'name' => 'storage_limitation',
+                'name'  => 'storage_limitation',
                 'value' => $request->storageLimitation,
             ],
             [
-                'name' => 'storage_default',
+                'name'  => 'storage_default',
                 'value' => $request->defaultStorage ?? 5,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name' => $col['name'],
+                'name'  => $col['name'],
                 'value' => $col['value'],
             ]);
         });
 
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             setEnvironmentValue([
                 'APP_NAME' => Str::camel($request->title),
             ]);
@@ -391,18 +400,18 @@ class SetupWizardController extends Controller
         // Validate request
         // TODO: validator do requestu
         $request->validate([
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'name' => 'required|string',
+            'email'         => 'required|string|email|unique:users',
+            'password'      => 'required|string|min:6|confirmed',
+            'name'          => 'required|string',
             'purchase_code' => 'required|string',
-            'license' => 'required|string',
-            'avatar' => 'sometimes|file',
+            'license'       => 'required|string',
+            'avatar'        => 'sometimes|file',
         ]);
 
         // Create user
         $user = User::forceCreate([
-            'role' => 'admin',
-            'email' => $request->email,
+            'role'     => 'admin',
+            'email'    => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
@@ -410,26 +419,26 @@ class SetupWizardController extends Controller
             ->settings()
             ->create([
                 'storage_capacity' => get_setting('storage_default') ?? 5,
-                'avatar' => store_avatar($request, 'avatar'),
-                'name' => $request->name,
+                'avatar'           => store_avatar($request, 'avatar'),
+                'name'             => $request->name,
             ]);
 
         collect([
             [
-                'name' => 'setup_wizard_success',
+                'name'  => 'setup_wizard_success',
                 'value' => 1,
             ],
             [
-                'name' => 'license',
+                'name'  => 'license',
                 'value' => $request->license,
             ],
             [
-                'name' => 'purchase_code',
+                'name'  => 'purchase_code',
                 'value' => $request->purchase_code,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name' => $col['name'],
+                'name'  => $col['name'],
                 'value' => $col['value'],
             ]);
         });
