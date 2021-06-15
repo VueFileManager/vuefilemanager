@@ -22,10 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $get_time_locale = App::getLocale() . '_' . mb_strtoupper(App::getLocale());
+        $app_locale = get_setting('language') ?? 'en';
+
+        // Set locale for application
+        app()->setLocale($app_locale);
 
         // Set locale for carbon dates
-        setlocale(LC_TIME, $get_time_locale);
+        setlocale(LC_TIME, $app_locale . '_' . mb_strtoupper($app_locale));
 
         // Get all migrations with all directories
         $this->loadMigrationsFrom(
