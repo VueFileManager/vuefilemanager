@@ -22,7 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $app_locale = get_setting('language') ?? 'en';
+        try {
+            $app_locale = get_setting('language') ?? 'en';
+        } catch (\PDOException $exception) {
+            $app_locale = 'en';
+        }
 
         // Set locale for application
         app()->setLocale($app_locale);

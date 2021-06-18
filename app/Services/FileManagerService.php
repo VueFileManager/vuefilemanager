@@ -402,7 +402,7 @@ class FileManagerService
                 'type' => get_file_type($file_mimetype),
                 'folder_id' => $request->folder_id,
                 'metadata' => $metadata,
-                'name' => $user_file_name,
+                'name' => $request->filename,
                 'basename' => $disk_file_name,
                 'author' => $shared ? 'visitor' : 'user',
                 'thumbnail' => $thumbnail,
