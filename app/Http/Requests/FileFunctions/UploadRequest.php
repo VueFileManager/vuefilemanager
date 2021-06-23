@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\FileFunctions;
 
 use App\Rules\DisabledMimetypes;
@@ -25,9 +24,9 @@ class UploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'filename'  => 'required|string',
+            'filename' => 'required|string',
             'folder_id' => 'nullable|uuid',
-            'file'      => ['required', 'file', new DisabledMimetypes],
+            'file' => ['required', 'file', new DisabledMimetypes],
         ];
     }
 }
