@@ -215,13 +215,13 @@ const Helpers = {
 
                 isNotGeneralError = true,
 
-                striped_name = item.file.name
-                    .replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''),
+                striped_spaces = item.file.name.replace(/\s/g, '-'),
+                striped_to_safe_characters = striped_spaces.match(/^[A-Za-z0-9._~()'!*:@,;+?-\W]*$/g),
 
-                filename = Array(16)
+                source_name = Array(16)
                     .fill(0)
                     .map(x => Math.random().toString(36).charAt(2))
-                    .join('') + '-' + striped_name + '.part'
+                    .join('') + '-' + striped_to_safe_characters + '.part'
 
             do {
                 let isLast = chunks.length === 1,
@@ -229,7 +229,8 @@ const Helpers = {
                     attempts = 0
 
                 // Set form data
-                formData.set('file', chunk, filename);
+                formData.set('filename', item.file.name);
+                formData.set('file', chunk, source_name);
                 formData.set('folder_id', item.folder_id)
                 formData.set('is_last', isLast);
 

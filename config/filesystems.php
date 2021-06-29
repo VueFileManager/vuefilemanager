@@ -53,6 +53,16 @@ return [
             'visibility' => 'public',
         ],
 
+        'oss' => [
+            'driver' => 's3',
+            'key' => env('OSS_ACCESS_KEY_ID'),
+            'secret' => env('OSS_SECRET_ACCESS_KEY'),
+            'region' => env('OSS_REGION'),
+            'bucket' => env('OSS_BUCKET'),
+            'endpoint' => env('OSS_ENDPOINT'),
+            'url' => env('OSS_URL'),
+        ],
+
         's3' => [
             'driver'   => 's3',
             'key'      => env('AWS_ACCESS_KEY_ID'),

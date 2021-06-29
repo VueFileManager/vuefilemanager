@@ -55,6 +55,7 @@ class FileTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/upload', [
+            'filename'  => $file->name,
             'file'      => $file,
             'folder_id' => null,
             'is_last'   => true,
@@ -97,6 +98,7 @@ class FileTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/upload', [
+            'filename'  => $file->name,
             'file'      => $file,
             'folder_id' => null,
             'is_last'   => true,
@@ -266,6 +268,7 @@ class FileTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
+                    'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => null,
                     'is_last'   => true,
@@ -324,6 +327,7 @@ class FileTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
+                    'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => null,
                     'is_last'   => true,

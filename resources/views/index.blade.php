@@ -40,8 +40,7 @@
         let config = {
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
-            locale: '{{ \Illuminate\Support\Facades\App::getLocale() }}',
-            language: '{{ $settings->language ?? 'en' }}',
+            locale: '{{ app()->getLocale() }}',
 
             app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
             app_logo: '{{ $settings->app_logo ?? null }}',

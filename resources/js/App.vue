@@ -60,7 +60,7 @@ export default {
             this.$router.push({name: 'InstallationDisclaimer'})
 
         if (installation === 'setup-done')
-            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.language)
+            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale)
                 .then(() => {
                     this.isLoaded = true
 

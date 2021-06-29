@@ -248,18 +248,18 @@ class LanguageEditorTest extends TestCase
             ]);
 
         $this->assertEquals(
-            __t('actions.close'),
-            'Close'
+            'Close',
+            __t('actions.close')
         );
 
         $this->assertEquals(
-            __t('shared_link_email_subject', ['user' => 'John']),
-            '🙋 John share some files with you. Look at it!'
+            '🙋 John share some files with you. Look at it!',
+            __t('shared_link_email_subject', ['user' => 'John'])
         );
 
         $this->assertEquals(
-            __t('test', ['name' => 'John', 'surname' => 'Doe']),
-            'Hi, my name is John Doe'
+            'Hi, my name is John Doe',
+            __t('test', ['name' => 'John', 'surname' => 'Doe'])
         );
     }
 
