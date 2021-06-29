@@ -139,10 +139,10 @@ function setEnvironmentValue(array $values)
 
     $str = substr($str, 0, -1);
 
-    return !(!file_put_contents($envFile, $str));
+    return ! (! file_put_contents($envFile, $str));
 }
 
-if (!function_exists('get_invoice_number')) {
+if (! function_exists('get_invoice_number')) {
     /**
      * Get invoice number
      *
@@ -156,7 +156,7 @@ if (!function_exists('get_invoice_number')) {
             return now()->year . '001';
         }
 
-        return (int)$invoices->last()->order + 1;
+        return (int) $invoices->last()->order + 1;
     }
 }
 
@@ -283,7 +283,7 @@ function is_visitor($shared)
  */
 function store_avatar($request, $name)
 {
-    if (!$request->hasFile($name)) {
+    if (! $request->hasFile($name)) {
         return null;
     }
 
@@ -320,7 +320,7 @@ function store_avatar($request, $name)
  */
 function store_system_image($request, $name)
 {
-    if (!$request->hasFile($name)) {
+    if (! $request->hasFile($name)) {
         return null;
     }
 
@@ -419,7 +419,7 @@ function get_storage_fill_percentage($used, $capacity)
     }
 
     // Return in 2 decimal
-    return number_format((float)$progress, 2, '.', '');
+    return number_format((float) $progress, 2, '.', '');
 }
 
 /**
@@ -528,7 +528,7 @@ function get_file_type($file_mimetype)
     return 'file';
 }
 
-if (!function_exists('map_language_translations')) {
+if (! function_exists('map_language_translations')) {
     /**
      * It map language translations as language key and language value
      *
@@ -595,7 +595,7 @@ function get_image_meta_data($file)
     }
 }
 
-if (!function_exists('get_default_language_translations')) {
+if (! function_exists('get_default_language_translations')) {
     /**
      * @return Collection
      */
@@ -672,7 +672,7 @@ function seems_utf8($str)
  */
 function remove_accents($string)
 {
-    if (!preg_match('/[\x80-\xff]/', $string)) {
+    if (! preg_match('/[\x80-\xff]/', $string)) {
         return $string;
     }
 
@@ -775,7 +775,7 @@ function remove_accents($string)
             // Euro Sign
             chr(226) . chr(130) . chr(172) => 'E',
             // GBP (Pound) Sign
-            chr(194) . chr(163)            => '',];
+            chr(194) . chr(163)            => '', ];
 
         $string = strtr($string, $chars);
     } else {
@@ -813,7 +813,7 @@ function remove_accents($string)
 function get_files_for_zip($folders, $files, $path = [])
 {
     // Return file list
-    if (!isset($folders->folders)) {
+    if (! isset($folders->folders)) {
         return $files->unique()->values()->all();
     }
 
@@ -859,7 +859,7 @@ function set_time_by_user_timezone($time)
     return Carbon::parse($time);
 }
 
-if (!function_exists('__t')) {
+if (! function_exists('__t')) {
     /**
      * Translate the given message.
      * @param $key
@@ -880,12 +880,12 @@ if (!function_exists('__t')) {
 
         // Get language strings
         $strings = cache()->rememberForever("language-translations-$locale", function () use ($locale) {
-                try {
-                    return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
-                } catch (QueryException | ModelNotFoundException $e) {
-                    return null;
-                }
-            }) ?? get_default_language_translations();
+            try {
+                return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
+            } catch (QueryException | ModelNotFoundException $e) {
+                return null;
+            }
+        }) ?? get_default_language_translations();
 
         // Find the string by key
         $string = $strings->firstWhere('key', $key)->value ?? $strings->get($key);
@@ -898,7 +898,7 @@ if (!function_exists('__t')) {
     }
 }
 
-if (!function_exists('replace_occurrence')) {
+if (! function_exists('replace_occurrence')) {
     /**
      * Replace string occurrence in __t() by their values
      *

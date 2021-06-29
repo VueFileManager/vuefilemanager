@@ -146,9 +146,9 @@ class FileManagerService
 
         // Store zip record
         return Zip::create([
-            'user_id' => $shared->user_id ?? Auth::id(),
+            'user_id'      => $shared->user_id ?? Auth::id(),
             'shared_token' => $shared->token ?? null,
-            'basename' => $zip_name,
+            'basename'     => $zip_name,
         ]);
     }
 
@@ -163,11 +163,11 @@ class FileManagerService
     {
         return Folder::create([
             'parent_id' => $request->parent_id,
-            'author' => $shared ? 'visitor' : 'user',
-            'user_id' => $shared ? $shared->user_id : Auth::id(),
-            'name' => $request->name,
-            'color' => $request->color ?? null,
-            'emoji' => $request->emoji ?? null,
+            'author'    => $shared ? 'visitor' : 'user',
+            'user_id'   => $shared ? $shared->user_id : Auth::id(),
+            'name'      => $request->name,
+            'color'     => $request->color ?? null,
+            'emoji'     => $request->emoji ?? null,
         ]);
     }
 
@@ -398,16 +398,16 @@ class FileManagerService
 
             // Return new file
             return UserFile::create([
-                'mimetype' => get_file_type_from_mimetype($file_mimetype),
-                'type' => get_file_type($file_mimetype),
+                'mimetype'  => get_file_type_from_mimetype($file_mimetype),
+                'type'      => get_file_type($file_mimetype),
                 'folder_id' => $request->folder_id,
-                'metadata' => $metadata,
-                'name' => $request->filename,
-                'basename' => $disk_file_name,
-                'author' => $shared ? 'visitor' : 'user',
+                'metadata'  => $metadata,
+                'name'      => $request->filename,
+                'basename'  => $disk_file_name,
+                'author'    => $shared ? 'visitor' : 'user',
                 'thumbnail' => $thumbnail,
-                'filesize' => $file_size,
-                'user_id' => $user_id,
+                'filesize'  => $file_size,
+                'user_id'   => $user_id,
             ]);
         }
     }
