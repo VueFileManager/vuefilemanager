@@ -67,15 +67,15 @@
 
            <div class="user" v-if="checkedAccount">
                 <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
-                <h1> Welcome {{ checkedAccount.name }} </h1>
-                <h2> Confirm you by 2FA code :</h2>
+                <h1> {{ $t('page_sign_in_2fa_title', {name: checkedAccount.name}) }} </h1>
+                <h2> {{ $t('page_sign_in_2fa_subtitle') }}:</h2>
             </div>
 
             <ValidationObserver ref="two_factor_authentication" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Two Factor Authentication" rules="required"
                                     v-slot="{ errors }">
-                    <input v-model="twoFactorCode" placeholder="Type your 2FA code"
+                    <input v-model="twoFactorCode" :placeholder="$t('page_sign_in.placeholder_2fa')"
                             @input="twoFactorChallenge(false)"
                            type="text"
                            maxlength="6"
@@ -86,9 +86,9 @@
 
             </ValidationObserver>
 
-             <span class="additional-link"> You don't know your 2fa code?
+             <span class="additional-link"> {{ $t('page_sign_in.2fa_recovery_text') }}
                 <a @click="goToAuthPage('two-factor-recovery')" class="text-theme">
-                    Use recovery code.
+                   {{ $t('page_sign_in.2fa_recovery_button') }}
                 </a>
             </span>
 
@@ -103,15 +103,15 @@
 
            <div class="user" v-if="checkedAccount">
                 <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
-                <h1> Welcome {{ checkedAccount.name }} </h1>
-                <h2> Confirm you by 2FA code :</h2>
+                <h1> {{ checkedAccount.name }} </h1>
+                <h2>{{ $t('page_sign_in.2fa_recovery_subtitle') }}:</h2>
             </div>
 
             <ValidationObserver ref="two_factor_recovery" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Two Factor Recovery" rules="required"
                                     v-slot="{ errors }">
-                    <input v-model="twoFactorRecoveryCode" placeholder="Type your recovery code"
+                    <input v-model="twoFactorRecoveryCode" :placeholder="$t('page_sign_in.placeholder_2fa_recovery')"
                             @input="twoFactorChallenge(true)"
                            type="text"
                            maxlength="21"
