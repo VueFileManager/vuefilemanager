@@ -11,12 +11,13 @@ use Kyslik\ColumnSortable\Sortable;
 use App\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, Billable, Sortable, HasFactory, HasApiTokens;
+    use Notifiable, Billable, Sortable, HasFactory, HasApiTokens, TwoFactorAuthenticatable;
 
     protected $guarded = [
         'id',

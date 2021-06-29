@@ -61,6 +61,72 @@
                 </router-link>
             </span>
         </AuthContent>
+
+        <!-- Log in by 2fa -->
+        <AuthContent name="two-factor-authentication" :visible="false">
+
+           <div class="user" v-if="checkedAccount">
+                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <h1> Welcome {{ checkedAccount.name }} </h1>
+                <h2> Confirm you by 2FA code :</h2>
+            </div>
+
+            <ValidationObserver ref="two_factor_authentication" v-slot="{ invalid }" tag="form"
+                                class="form inline-form">
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Two Factor Authentication" rules="required"
+                                    v-slot="{ errors }">
+                    <input v-model="twoFactorCode" placeholder="Type your 2FA code"
+                            @input="twoFactorChallenge(false)"
+                           type="text"
+                           maxlength="6"
+                           class="focus-border-theme"
+                           :class="{'is-error': errors[0]}" />
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+
+            </ValidationObserver>
+
+             <span class="additional-link"> You don't know your 2fa code?
+                <a @click="goToAuthPage('two-factor-recovery')" class="text-theme">
+                    Use recovery code.
+                </a>
+            </span>
+
+            <div class="spinner-wrapper">
+                <Spinner v-if="isLoading" class="spinner"/>
+            </div>
+
+        </AuthContent>
+
+        <!-- Log in by 2fa recovery code -->
+        <AuthContent name="two-factor-recovery" :visible="false">
+
+           <div class="user" v-if="checkedAccount">
+                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <h1> Welcome {{ checkedAccount.name }} </h1>
+                <h2> Confirm you by 2FA code :</h2>
+            </div>
+
+            <ValidationObserver ref="two_factor_recovery" v-slot="{ invalid }" tag="form"
+                                class="form inline-form">
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Two Factor Recovery" rules="required"
+                                    v-slot="{ errors }">
+                    <input v-model="twoFactorRecoveryCode" placeholder="Type your recovery code"
+                            @input="twoFactorChallenge(true)"
+                           type="text"
+                           maxlength="21"
+                           class="focus-border-theme"
+                           :class="{'is-error': errors[0]}" />
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+
+            </ValidationObserver>
+
+             <div class="spinner-wrapper">
+                <Spinner v-if="isLoading" class="spinner"/>
+            </div>
+
+        </AuthContent>
     </AuthContentWrapper>
 </template>
 
@@ -69,6 +135,7 @@
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import AuthContent from '@/components/Auth/AuthContent'
     import AuthButton from '@/components/Auth/AuthButton'
+    import Spinner from '@/components/FilesView/Spinner'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import {events} from "@/bus"
@@ -83,6 +150,7 @@
             AuthContent,
             AuthButton,
             required,
+            Spinner,
         },
         computed: {
             ...mapGetters(['config']),
@@ -93,6 +161,8 @@
                 checkedAccount: undefined,
                 loginPassword: '',
                 loginEmail: '',
+                twoFactorCode: '',
+                twoFactorRecoveryCode: '',
             }
         },
         methods: {
@@ -173,16 +243,22 @@
                         email: this.loginEmail,
                         password: this.loginPassword,
                     })
-                    .then(() => {
+                    .then((response) => {
 
                         // End loading
                         this.isLoading = false
 
-                        // Set login state
-                        this.$store.commit('SET_AUTHORIZED', true)
+                        if(response.data.two_factor) {
 
-                        // Go to files page
-                        this.$router.push({name: 'Files'})
+                           this.goToAuthPage('two-factor-authentication')
+                        } else {
+
+                            // Set login state
+                            this.$store.commit('SET_AUTHORIZED', true)
+
+                            // Go to files page
+                            this.$router.push({name: 'Files'})
+                        }
                     })
                     .catch(error => {
 
@@ -196,6 +272,54 @@
                         // End loading
                         this.isLoading = false
                     })
+            },
+             async twoFactorChallenge(recovery) {
+
+                 // Check if is normal authentication or recovery 
+                if( !recovery && this.twoFactorCode.length === 6 || recovery && this.twoFactorRecoveryCode.length === 21) {
+
+                    this.isLoading = true
+
+                    axios.
+                        post('/two-factor-challenge', {
+                            ...(!recovery && {code: this.twoFactorCode}),
+                            ...(recovery && { recovery_code: this.twoFactorRecoveryCode})
+                        })
+                        .then(() => {
+    
+                            this.isLoading = false
+    
+                            // Set login state
+                            this.$store.commit('SET_AUTHORIZED', true)
+    
+                            // Go to files page
+                            this.$router.push({name: 'Files'})
+                        })
+                        .catch(error => {
+                                
+                            if (error.response.status == 422) {
+
+                                //Authentication bad input
+                                if(! recovery) {
+
+                                    this.$refs.two_factor_authentication.setErrors({
+                                        'Two Factor Authentication' : 'Incorrect code' 
+                                    })
+                                } 
+                                
+                                // Recovery bad input
+                                if(recovery) {
+                                    
+                                    this.$refs.two_factor_recovery.setErrors({
+                                        'Two Factor Recovery' : 'Incorrect recovery code' 
+                                    })
+                                }
+                            }
+    
+                            this.isLoading = false
+                        })
+                }
+
             },
         },
         created() {
@@ -213,4 +337,11 @@
 <style scoped lang="scss">
     @import '@assets/vuefilemanager/_auth-form';
     @import '@assets/vuefilemanager/_auth';
+
+    .spinner-wrapper {
+        width: 100%;
+        height: 50px;
+        position: relative;
+        top: 50px;
+    }
 </style>
