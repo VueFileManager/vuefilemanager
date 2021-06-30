@@ -108,6 +108,9 @@ const actions = {
 }
 
 const mutations = {
+    CHANGE_TWO_FACTOR_AUTHENTICATION_STATE(state, condition) {
+        state.user.data.attributes.two_factor_authentication = condition
+    },
     RETRIEVE_USER(state, user) {
         state.user = user
     },

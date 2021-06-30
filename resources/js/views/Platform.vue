@@ -29,12 +29,15 @@
 
         <!--Others-->
         <DragUI />
+        <TwoFactorAuthenticationConfirm />
+
 
         <router-view :class="{'is-scaled-down': isScaledDown}" />
     </div>
 </template>
 
 <script>
+    import TwoFactorAuthenticationConfirm from '@/components/Others/TwoFactorAuthenticationConfirm'
     import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
@@ -56,6 +59,7 @@
     export default {
         name: 'Platform',
         components: {
+            TwoFactorAuthenticationConfirm,
             MultiSelectToolbarMobile,
             CreateFolderPopup,
             FileSortingMobile,

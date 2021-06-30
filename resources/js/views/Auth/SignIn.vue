@@ -303,7 +303,7 @@
                                 if(! recovery) {
 
                                     this.$refs.two_factor_authentication.setErrors({
-                                        'Two Factor Authentication' : 'Incorrect code' 
+                                        'Two Factor Authentication' : this.$t('validation_errors.incorrect_2fa_code')
                                     })
                                 } 
                                 
@@ -311,7 +311,7 @@
                                 if(recovery) {
                                     
                                     this.$refs.two_factor_recovery.setErrors({
-                                        'Two Factor Recovery' : 'Incorrect recovery code' 
+                                        'Two Factor Recovery' : this.$t('validation_errors.incorrect_2fa_recovery_code')
                                     })
                                 }
                             }

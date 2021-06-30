@@ -32,6 +32,27 @@
                 </div>
             </ValidationObserver>
         </PageTabGroup>
+
+        <PageTabGroup class="form block-form">
+            <FormLabel> Two Factor Authentication </FormLabel>
+
+            <div class="block-wrapper">
+                    <div class="input-wrapper">
+                        <div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">
+                                    Enable / Disable Two factor authentication
+                                </label>
+                                <small class="input-help" v-html="$t('admin_settings.others.allow_registration_help')"></small>
+                            </div>
+                            <SwitchInput @click.native.prevent.stop="open2faPopup"
+                                         class="switch"
+                                         :state="user.data.attributes.two_factor_authentication"
+                            />
+                        </div>
+                    </div>
+                </div>
+        </PageTabGroup>
     </PageTab>
 </template>
 
@@ -45,6 +66,8 @@
     import PageTab from '@/components/Others/Layout/PageTab'
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
+    import {mapGetters} from 'vuex'
     import {required} from 'vee-validate/dist/rules'
     import {events} from '@/bus'
     import axios from 'axios'
@@ -58,11 +81,15 @@
             ValidationProvider,
             ValidationObserver,
             UserImageInput,
+            SwitchInput,
             MobileHeader,
             PageHeader,
             ButtonBase,
             ThemeLabel,
             required,
+        },
+        computed: {
+            ...mapGetters(['user'])
         },
         data() {
             return {
@@ -112,6 +139,9 @@
                             }
                         }
                     })
+            },
+            open2faPopup() {
+                events.$emit('popup:open', {name: 'two-factor-authentication-confirm'})
             }
         }
     }
