@@ -158,6 +158,7 @@
         data() {
             return {
                 isLoading: false,
+                validSignIn: false,
                 checkedAccount: undefined,
                 loginPassword: '',
                 loginEmail: '',
@@ -230,7 +231,7 @@
             async singIn() {
 
                 // Validate fields
-                const isValid = await this.$refs.sign_in.validate();
+                const isValid = this.validSignIn ? this.validSignIn : await this.$refs.sign_in.validate();
 
                 if (!isValid) return;
 
@@ -248,10 +249,16 @@
                         // End loading
                         this.isLoading = false
 
-                        if(response.data.two_factor) {
+                        // If is enabled two factor authentication 
+                        if(response.data.two_factor && ! this.validSignIn) {
 
-                           this.goToAuthPage('two-factor-authentication')
-                        } else {
+                            this.validSignIn = true
+
+                            this.goToAuthPage('two-factor-authentication')
+                        } 
+                        
+                        // If is disabled two factor authentication 
+                        if(! response.data.two_factor ) {
 
                             // Set login state
                             this.$store.commit('SET_AUTHORIZED', true)
@@ -314,7 +321,11 @@
                                         'Two Factor Recovery' : this.$t('validation_errors.incorrect_2fa_recovery_code')
                                     })
                                 }
+
                             }
+
+                            // Repeat the login for next try to type right 2fa code / recovery code
+                            this.singIn()
     
                             this.isLoading = false
                         })
