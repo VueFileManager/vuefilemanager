@@ -73,7 +73,7 @@
 							<div class="block-wrapper">
 								<label>{{ $t('in_editor.ic_dph') }} ({{ $t('global.optional') }}):</label>
 								<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="ic_dph" rules="required" v-slot="{ errors }">
-									<input @input="$updateText('/v1/invoicing/profile', 'ic_dph', profile.ic_dph)" v-model="profile.ic_dph" placeholder="" type="text"
+									<input @input="$updateText('/v1/invoicing/profile', 'ic_dph', profile.ic_dph, true)" v-model="profile.ic_dph" placeholder="" type="text"
 										   :class="{'is-error': errors[0]}" class="focus-border-theme" />
 									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 								</ValidationProvider>
