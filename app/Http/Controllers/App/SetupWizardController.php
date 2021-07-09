@@ -284,12 +284,12 @@ class SetupWizardController extends Controller
                     'BACKBLAZE_BUCKET'   => $request->storage['bucket'] ?? null,
                 ],
                 'oss' => [
-                    'FILESYSTEM_DRIVER' => $request->storage['driver'] ?? null,
-                    'OSS_ACCESS_KEY_ID' => $request->storage['key'] ?? null,
+                    'FILESYSTEM_DRIVER'     => $request->storage['driver'] ?? null,
+                    'OSS_ACCESS_KEY_ID'     => $request->storage['key'] ?? null,
                     'OSS_SECRET_ACCESS_KEY' => $request->storage['secret'] ?? null,
-                    'OSS_ENDPOINT' => $request->storage['endpoint'] ?? null,
-                    'OSS_REGION' => $request->storage['region'] ?? null,
-                    'OSS_BUCKET' => $request->storage['bucket'] ?? null,
+                    'OSS_ENDPOINT'          => $request->storage['endpoint'] ?? null,
+                    'OSS_REGION'            => $request->storage['region'] ?? null,
+                    'OSS_BUCKET'            => $request->storage['bucket'] ?? null,
                 ],
             ];
 
