@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-if (!function_exists('obfuscate_email')) {
+if (! function_exists('obfuscate_email')) {
     /**
      * Obfuscate email
      *
@@ -33,7 +33,7 @@ if (!function_exists('obfuscate_email')) {
     }
 }
 
-if (!function_exists('get_setting')) {
+if (! function_exists('get_setting')) {
     /**
      * Get single value from settings table
      *
@@ -46,7 +46,7 @@ if (!function_exists('get_setting')) {
     }
 }
 
-if (!function_exists('get_settings_in_json')) {
+if (! function_exists('get_settings_in_json')) {
     /**
      * Get all app settings and return them as json
      */
@@ -60,7 +60,7 @@ if (!function_exists('get_settings_in_json')) {
     }
 }
 
-if (!function_exists('get_setup_status')) {
+if (! function_exists('get_setup_status')) {
     /**
      * Check if setup wizard was passed
      *
@@ -74,7 +74,7 @@ if (!function_exists('get_setup_status')) {
     }
 }
 
-if (!function_exists('add_paragraphs')) {
+if (! function_exists('add_paragraphs')) {
     /**
      * Create paragraph from text
      *
@@ -123,7 +123,7 @@ if (!function_exists('add_paragraphs')) {
     }
 }
 
-if (!function_exists('setEnvironmentValue')) {
+if (! function_exists('setEnvironmentValue')) {
     /**
      * Set environment value
      *
@@ -150,11 +150,11 @@ if (!function_exists('setEnvironmentValue')) {
 
         $str = substr($str, 0, -1);
 
-        return !(!file_put_contents($envFile, $str));
+        return ! (! file_put_contents($envFile, $str));
     }
 }
 
-if (!function_exists('get_invoice_number')) {
+if (! function_exists('get_invoice_number')) {
     /**
      * Get invoice number
      *
@@ -168,11 +168,11 @@ if (!function_exists('get_invoice_number')) {
             return now()->year . '001';
         }
 
-        return (int)$invoices->last()->order + 1;
+        return (int) $invoices->last()->order + 1;
     }
 }
 
-if (!function_exists('cache_forget_many')) {
+if (! function_exists('cache_forget_many')) {
     /**
      * Forget many cache keys at once
      * @param $cache
@@ -185,7 +185,7 @@ if (!function_exists('cache_forget_many')) {
     }
 }
 
-if (!function_exists('get_storage')) {
+if (! function_exists('get_storage')) {
     /**
      * Get app version from config
      *
@@ -197,7 +197,7 @@ if (!function_exists('get_storage')) {
     }
 }
 
-if (!function_exists('is_storage_driver')) {
+if (! function_exists('is_storage_driver')) {
     /**
      * Check if is running AWS s3 as storage
      *
@@ -213,7 +213,7 @@ if (!function_exists('is_storage_driver')) {
     }
 }
 
-if (!function_exists('get_version')) {
+if (! function_exists('get_version')) {
     /**
      * Get app version from config
      *
@@ -225,7 +225,7 @@ if (!function_exists('get_version')) {
     }
 }
 
-if (!function_exists('is_demo')) {
+if (! function_exists('is_demo')) {
     /**
      * Check if is demo
      *
@@ -237,7 +237,7 @@ if (!function_exists('is_demo')) {
     }
 }
 
-if (!function_exists('is_demo_account')) {
+if (! function_exists('is_demo_account')) {
     /**
      * Check if is demo
      *
@@ -250,7 +250,7 @@ if (!function_exists('is_demo_account')) {
     }
 }
 
-if (!function_exists('get_item')) {
+if (! function_exists('get_item')) {
     /**
      * Get folder or file item
      *
@@ -266,7 +266,7 @@ if (!function_exists('get_item')) {
     }
 }
 
-if (!function_exists('get_shared')) {
+if (! function_exists('get_shared')) {
     /**
      * Get shared token
      *
@@ -280,7 +280,7 @@ if (!function_exists('get_shared')) {
     }
 }
 
-if (!function_exists('is_editor')) {
+if (! function_exists('is_editor')) {
     /**
      * Check if shared permission is editor
      *
@@ -293,7 +293,7 @@ if (!function_exists('is_editor')) {
     }
 }
 
-if (!function_exists('is_visitor')) {
+if (! function_exists('is_visitor')) {
     /**
      * Check if shared permission is visitor
      *
@@ -306,7 +306,7 @@ if (!function_exists('is_visitor')) {
     }
 }
 
-if (!function_exists('store_avatar')) {
+if (! function_exists('store_avatar')) {
     /**
      * Store user avatar to storage
      *
@@ -316,7 +316,7 @@ if (!function_exists('store_avatar')) {
      */
     function store_avatar($request, $name)
     {
-        if (!$request->hasFile($name)) {
+        if (! $request->hasFile($name)) {
             return null;
         }
 
@@ -345,7 +345,7 @@ if (!function_exists('store_avatar')) {
     }
 }
 
-if (!function_exists('store_system_image')) {
+if (! function_exists('store_system_image')) {
     /**
      * Store system image
      *
@@ -355,7 +355,7 @@ if (!function_exists('store_system_image')) {
      */
     function store_system_image($request, $name)
     {
-        if (!$request->hasFile($name)) {
+        if (! $request->hasFile($name)) {
             return null;
         }
 
@@ -372,7 +372,7 @@ if (!function_exists('store_system_image')) {
     }
 }
 
-if (!function_exists('make_single_input')) {
+if (! function_exists('make_single_input')) {
     /**
      * Make input from request
      *
@@ -392,7 +392,7 @@ if (!function_exists('make_single_input')) {
     }
 }
 
-if (!function_exists('format_gigabytes')) {
+if (! function_exists('format_gigabytes')) {
     /**
      * Format integer to gigabytes
      *
@@ -409,7 +409,7 @@ if (!function_exists('format_gigabytes')) {
     }
 }
 
-if (!function_exists('format_megabytes')) {
+if (! function_exists('format_megabytes')) {
     /**
      * Format string to formated megabytes string
      *
@@ -430,7 +430,7 @@ if (!function_exists('format_megabytes')) {
     }
 }
 
-if (!function_exists('format_bytes')) {
+if (! function_exists('format_bytes')) {
     /**
      * Convert megabytes to bytes
      *
@@ -443,7 +443,7 @@ if (!function_exists('format_bytes')) {
     }
 }
 
-if (!function_exists('get_storage_fill_percentage')) {
+if (! function_exists('get_storage_fill_percentage')) {
     /**
      * Get storage usage in percent
      *
@@ -464,11 +464,11 @@ if (!function_exists('get_storage_fill_percentage')) {
         }
 
         // Return in 2 decimal
-        return number_format((float)$progress, 2, '.', '');
+        return number_format((float) $progress, 2, '.', '');
     }
 }
 
-if (!function_exists('user_storage_percentage')) {
+if (! function_exists('user_storage_percentage')) {
     /**
      * Get user capacity fill by percentage
      *
@@ -490,7 +490,7 @@ if (!function_exists('user_storage_percentage')) {
     }
 }
 
-if (!function_exists('recursiveFind')) {
+if (! function_exists('recursiveFind')) {
     /**
      * Find all key values in recursive array
      *
@@ -514,7 +514,7 @@ if (!function_exists('recursiveFind')) {
     }
 }
 
-if (!function_exists('appeared_once')) {
+if (! function_exists('appeared_once')) {
     /**
      * Get values which appears only once in array
      * @param $arr
@@ -536,7 +536,7 @@ if (!function_exists('appeared_once')) {
     }
 }
 
-if (!function_exists('filter_folders_ids')) {
+if (! function_exists('filter_folders_ids')) {
     /**
      * @param $folders
      * @param string $by_column
@@ -550,7 +550,7 @@ if (!function_exists('filter_folders_ids')) {
     }
 }
 
-if (!function_exists('format_date')) {
+if (! function_exists('format_date')) {
     /**
      * Format localized date
      *
@@ -566,7 +566,7 @@ if (!function_exists('format_date')) {
     }
 }
 
-if (!function_exists('get_file_type')) {
+if (! function_exists('get_file_type')) {
     /**
      * Get file type from mimetype
      *
@@ -586,7 +586,7 @@ if (!function_exists('get_file_type')) {
     }
 }
 
-if (!function_exists('map_language_translations')) {
+if (! function_exists('map_language_translations')) {
     /**
      * It map language translations as language key and language value
      *
@@ -601,7 +601,7 @@ if (!function_exists('map_language_translations')) {
     }
 }
 
-if (!function_exists('get_file_type_from_mimetype')) {
+if (! function_exists('get_file_type_from_mimetype')) {
     /**
      * Get file type from mimetype
      *
@@ -614,7 +614,7 @@ if (!function_exists('get_file_type_from_mimetype')) {
     }
 }
 
-if (!function_exists('get_pretty_name')) {
+if (! function_exists('get_pretty_name')) {
     /**
      * Format pretty name file
      *
@@ -639,7 +639,7 @@ if (!function_exists('get_pretty_name')) {
     }
 }
 
-if (!function_exists('get_image_meta_data')) {
+if (! function_exists('get_image_meta_data')) {
     /**
      * Get exif data from jpeg image
      *
@@ -659,7 +659,7 @@ if (!function_exists('get_image_meta_data')) {
     }
 }
 
-if (!function_exists('get_default_language_translations')) {
+if (! function_exists('get_default_language_translations')) {
     /**
      * @return Collection
      */
@@ -673,7 +673,7 @@ if (!function_exists('get_default_language_translations')) {
     }
 }
 
-if (!function_exists('is_dev')) {
+if (! function_exists('is_dev')) {
     /**
      * Check if app is in dev mode
      *
@@ -685,7 +685,7 @@ if (!function_exists('is_dev')) {
     }
 }
 
-if (!function_exists('seems_utf8')) {
+if (! function_exists('seems_utf8')) {
     /**
      * @param $str
      * @return bool
@@ -730,7 +730,7 @@ if (!function_exists('seems_utf8')) {
     }
 }
 
-if (!function_exists('remove_accents')) {
+if (! function_exists('remove_accents')) {
     /**
      * Converts all accent characters to ASCII characters.
      *
@@ -741,7 +741,7 @@ if (!function_exists('remove_accents')) {
      */
     function remove_accents($string)
     {
-        if (!preg_match('/[\x80-\xff]/', $string)) {
+        if (! preg_match('/[\x80-\xff]/', $string)) {
             return $string;
         }
 
@@ -844,7 +844,7 @@ if (!function_exists('remove_accents')) {
                 // Euro Sign
                 chr(226) . chr(130) . chr(172) => 'E',
                 // GBP (Pound) Sign
-                chr(194) . chr(163)            => '',];
+                chr(194) . chr(163)            => '', ];
 
             $string = strtr($string, $chars);
         } else {
@@ -872,8 +872,7 @@ if (!function_exists('remove_accents')) {
     }
 }
 
-if (!function_exists('get_files_for_zip')) {
-
+if (! function_exists('get_files_for_zip')) {
     /**
      * Get all files from folder and get their folder location in VueFileManager directories
      *
@@ -885,7 +884,7 @@ if (!function_exists('get_files_for_zip')) {
     function get_files_for_zip($folders, $files, $path = [])
     {
         // Return file list
-        if (!isset($folders->folders)) {
+        if (! isset($folders->folders)) {
             return $files->unique()->values()->all();
         }
 
@@ -913,7 +912,7 @@ if (!function_exists('get_files_for_zip')) {
     }
 }
 
-if (!function_exists('set_time_by_user_timezone')) {
+if (! function_exists('set_time_by_user_timezone')) {
     /**
      * Set time by user timezone GMT
      *
@@ -934,7 +933,7 @@ if (!function_exists('set_time_by_user_timezone')) {
     }
 }
 
-if (!function_exists('__t')) {
+if (! function_exists('__t')) {
     /**
      * Translate the given message.
      * @param $key
@@ -955,12 +954,12 @@ if (!function_exists('__t')) {
 
         // Get language strings
         $strings = cache()->rememberForever("language-translations-$locale", function () use ($locale) {
-                try {
-                    return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
-                } catch (QueryException | ModelNotFoundException $e) {
-                    return null;
-                }
-            }) ?? get_default_language_translations();
+            try {
+                return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
+            } catch (QueryException | ModelNotFoundException $e) {
+                return null;
+            }
+        }) ?? get_default_language_translations();
 
         // Find the string by key
         $string = $strings->firstWhere('key', $key)->value ?? $strings->get($key);
@@ -973,7 +972,7 @@ if (!function_exists('__t')) {
     }
 }
 
-if (!function_exists('replace_occurrence')) {
+if (! function_exists('replace_occurrence')) {
     /**
      * Replace string occurrence in __t() by their values
      *
