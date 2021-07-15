@@ -113,6 +113,10 @@ class SetupProdEnvironment extends Command
                 'value' => 0,
             ],
             [
+                'name' => 'user_verification',
+                'value' => 1,
+            ],
+            [
                 'name' => 'storage_limitation',
                 'value' => 1,
             ],
@@ -181,6 +185,8 @@ class SetupProdEnvironment extends Command
             'role' => 'admin',
             'email' => 'howdy@hi5ve.digital',
             'password' => bcrypt('vuefilemanager'),
+            'email_verified_at' => now(),
+
         ]);
 
         $user

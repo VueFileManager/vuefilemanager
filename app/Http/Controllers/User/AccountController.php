@@ -1,16 +1,23 @@
 <?php
+
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Services\DemoService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\InvoiceCollection;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserStorageResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Requests\User\UpdateUserPasswordRequest;
+use App\Http\Requests\User\UserCreateAccessTokenRequest;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AccountController extends Controller
 {
@@ -70,8 +77,8 @@ class AccountController extends Controller
         // TODO: pridat validator do requestu
         $validator = Validator::make($request->all(), [
             'avatar' => 'sometimes|file',
-            'name' => 'string',
-            'value' => 'string',
+            'name'   => 'string',
+            'value'  => 'string',
         ]);
 
         // Return error
@@ -124,5 +131,76 @@ class AccountController extends Controller
         $user->save();
 
         return response('Changed!', 204);
+    }
+
+    /**
+     * Get all user tokens
+     */
+    public function tokens(): Response
+    {
+        return response(
+            Auth::user()->tokens()->get(),
+            200
+        );
+    }
+
+    public function create_token(UserCreateAccessTokenRequest $request): Response
+    {
+        // Check if is demo
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 201, [
+            "name"           => "token",
+            "token"          => Str::random(40),
+            "abilities"      => '["*"]',
+            "tokenable_id"   => Str::uuid(),
+            "updated_at"     => now(),
+            "created_at"     => now(),
+            "id"             => Str::random(40),
+        ]);
+
+        $token = Auth::user()->createToken($request->input('name'));
+
+        return response($token, 201);
+    }
+
+    public function revoke_token(PersonalAccessToken $token): Response
+    {
+        // Check if is demo
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Deleted!');
+
+        if (Auth::id() !== $token->tokenable_id) {
+            return response('Unauthorized', 401);
+        }
+
+        $token->delete();
+
+        return response('Deleted!', 204);
+    }
+
+    public function email_verification(string $id, Request $request): RedirectResponse|Response
+    {
+        if (!$request->hasValidSignature()) {
+            return response("Invalid or expired url provided.", 401);
+        }
+
+        $user = User::find($id);
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        return redirect()->to('/successfully-verified');
+    }
+
+    public function resend_verification_email(Request $request): Response
+    {
+        $user = User::whereEmail($request->input('email'))->first();
+
+        if ($user->hasVerifiedEmail()) {
+            return response("Email was already verified.", 204);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response("Email verification link sent to your email", 204);
     }
 }

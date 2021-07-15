@@ -58,6 +58,24 @@
                     </div>
                 </div>
 
+                <div class="block-wrapper">
+                    <div class="input-wrapper">
+                        <div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">
+                                    {{ $t('admin_settings.others.allow_user_verification') }}:
+                                </label>
+                                <small class="input-help" v-html="$t('admin_settings.others.allow_user_verification_help')"></small>
+                            </div>
+                            <SwitchInput @input="$updateText('/admin/settings', 'user_verification', app.userVerification)"
+                                         v-model="app.userVerification"
+                                         class="switch"
+                                         :state="app.userVerification"
+                            />
+                        </div>
+                    </div>
+                </div>
+
                 <FormLabel class="mt-70">
                     {{ $t('admin_settings.others.section_others') }}
                 </FormLabel>
@@ -173,7 +191,7 @@
         mounted() {
             axios.get('/api/admin/settings', {
                 params: {
-                    column: 'contact_email|google_analytics|storage_default|registration|storage_limitation|mimetypes_blacklist|upload_limit'
+                    column: 'contact_email|google_analytics|storage_default|registration|storage_limitation|mimetypes_blacklist|upload_limit|user_verification'
                 }
             })
                 .then(response => {
@@ -186,7 +204,8 @@
                         userRegistration: parseInt(response.data.registration),
                         storageLimitation: parseInt(response.data.storage_limitation),
                         mimetypesBlacklist : response.data.mimetypes_blacklist,
-                        uploadLimit: response.data.upload_limit
+                        uploadLimit: response.data.upload_limit,
+                        userVerification: parseInt(response.data.user_verification)
                     }
                 })
         }

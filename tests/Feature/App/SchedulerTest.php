@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\App;
 
-use App\Models\File;
 use App\Models\Share;
+use App\Models\User;
 use App\Models\Zip;
 use App\Services\SchedulerService;
 use App\Services\SetupService;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Storage;
@@ -20,8 +19,8 @@ class SchedulerTest extends TestCase
     public function __construct()
     {
         parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-        $this->scheduler = app()->make(SchedulerService::class);
+        $this->setup = resolve(SetupService::class);
+        $this->scheduler = resolve(SchedulerService::class);
     }
 
     /**
@@ -98,5 +97,43 @@ class SchedulerTest extends TestCase
                     ->assertMissing("$folder/fake-file.zip");
             });
 
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_non_verified_users_after_30_days()
+    {
+        $expiredUser = User::factory(User::class)
+            ->create([
+                'email_verified_at' => null,
+                'created_at'        => now()->subDays(31)
+            ]);
+
+        $nonExpiredUser = User::factory(User::class)
+            ->create([
+                'email_verified_at' => null,
+                'created_at'        => now()->subDays(14)
+            ]);
+
+        $verifiedUser = User::factory(User::class)
+            ->create([
+                'email_verified_at' => now()->subDays(15),
+                'created_at'        => now()->subDays(31)
+            ]);
+
+        $this->scheduler->delete_unverified_users();
+
+        $this->assertDatabaseMissing('users', [
+            'id' => $expiredUser->id,
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $nonExpiredUser->id,
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $verifiedUser->id,
+        ]);
     }
 }

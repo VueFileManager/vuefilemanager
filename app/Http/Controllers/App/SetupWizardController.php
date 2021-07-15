@@ -412,6 +412,7 @@ class SetupWizardController extends Controller
             'role' => 'admin',
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'email_verified_at' => now(),
         ]);
 
         $user

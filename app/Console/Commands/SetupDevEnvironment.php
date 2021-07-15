@@ -90,6 +90,7 @@ class SetupDevEnvironment extends Command
             'role' => 'admin',
             'email' => 'howdy@hi5ve.digital',
             'password' => bcrypt('vuefilemanager'),
+            'email_verified_at' => now(),
         ]);
 
         $user
@@ -130,6 +131,7 @@ class SetupDevEnvironment extends Command
                 'role' => 'user',
                 'email' => $this->faker->email,
                 'password' => bcrypt('vuefilemanager'),
+                'email_verified_at' => now(),
             ]);
 
             $newbie
@@ -789,6 +791,10 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name' => 'registration',
+                'value' => 1,
+            ],
+            [
+                'name' => 'user_verification',
                 'value' => 1,
             ],
             [

@@ -7,11 +7,7 @@
             <div class="icon-item">
 
                 <!-- MultiSelecting for the mobile version -->
-                <div :class="{'check-select-folder' : this.item.type === 'folder', 'check-select' : this.item.type !== 'folder'}" v-if="mobileMultiSelect">
-                    <div class="select-box" :class="{'select-box-active' : isClicked } ">
-                        <CheckIcon v-if="isClicked" class="icon" size="17" />
-                    </div>
-                </div>
+                <CheckBox v-if="mobileMultiSelect" :is-clicked="isClicked" class="check-box"/>
 
                 <!--If is file or image, then link item-->
                 <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
@@ -65,8 +61,9 @@
 </template>
 
 <script>
-import {LinkIcon, UserPlusIcon, CheckIcon, MoreHorizontalIcon} from 'vue-feather-icons'
+import {LinkIcon, UserPlusIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
+import CheckBox from '@/components/FilesView/CheckBox'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
 import {events} from '@/bus'
@@ -77,9 +74,9 @@ export default {
     components: {
         MoreHorizontalIcon,
         UserPlusIcon,
-        CheckIcon,
-        LinkIcon,
         FolderIcon,
+        CheckBox,
+        LinkIcon,
     },
     computed: {
         ...mapGetters([
@@ -308,7 +305,7 @@ export default {
 @import '@assets/vuefilemanager/_variables';
 @import '@assets/vuefilemanager/_mixins';
 
-.check-select {
+.check-box {
     margin-right: 10px;
     margin-left: 3px;
     position: absolute;
@@ -316,35 +313,6 @@ export default {
     z-index: 5;
     left: 0px;
 }
-
-.check-select-folder {
-    margin-right: 10px;
-    margin-left: 3px;
-    position: absolute;
-    top: 8px;
-    z-index: 5;
-    left: 10px;
-}
-
-.select-box {
-    width: 20px;
-    height: 20px;
-    background-color: $light_background;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    box-shadow: 0 3px 15px 2px hsla(220, 36%, 16%, 0.05);
-}
-
-.select-box-active {
-    background-color: $theme;
-
-    .icon {
-        stroke: white;
-    }
-}
-
 
 .show-actions {
     cursor: pointer;
@@ -581,18 +549,6 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-
-    .select-box {
-        background-color: lighten($dark_mode_foreground, 10%);
-    }
-
-    .select-box-active {
-        background-color: lighten($theme, 5%);
-
-        .icon {
-            stroke: white;
-        }
-    }
 
     .file-wrapper {
 

@@ -32,6 +32,15 @@
                             {{ $t('menu.password') }}
                         </div>
                     </router-link>
+
+                     <router-link replace :to="{name: 'Token'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <key-icon size="17"></key-icon>
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('menu.token') }}
+                        </div>
+                    </router-link>
                 </div>
             </ContentGroup>
             <ContentGroup title="Subscription" class="navigator" v-if="canShowSubscriptionSettings">
@@ -142,6 +151,7 @@
         CloudIcon,
         UserIcon,
         LockIcon,
+        KeyIcon,
     } from 'vue-feather-icons'
 
     export default {
@@ -162,6 +172,7 @@
             LockIcon,
             Spinner,
             InfoBox,
+            KeyIcon,
         },
         computed: {
             ...mapGetters(['user', 'config']),

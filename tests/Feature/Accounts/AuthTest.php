@@ -5,6 +5,7 @@ namespace Tests\Feature\Accounts;
 use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\Sanctum;
@@ -42,6 +43,8 @@ class AuthTest extends TestCase
      */
     public function it_register_user()
     {
+        Notification::fake();
+
         collect([
             [
                 'name'  => 'storage_default',
@@ -51,6 +54,10 @@ class AuthTest extends TestCase
                 'name'  => 'registration',
                 'value' => 1,
             ],
+            [
+                'name'  => 'user_verification',
+                'value' => 1,
+            ]
         ])->each(function ($setting) {
             Setting::create([
                 'name'  => $setting['name'],
@@ -58,7 +65,7 @@ class AuthTest extends TestCase
             ]);
         });
 
-        $this->postJson('/register', [
+        $this->postJson('api/register', [
             'email'                 => 'john@doe.com',
             'password'              => 'SecretPassword',
             'password_confirmation' => 'SecretPassword',
@@ -67,6 +74,7 @@ class AuthTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'john@doe.com',
+            'email_verified_at' => null,
         ]);
 
         $this->assertDatabaseHas('user_settings', [
@@ -76,6 +84,8 @@ class AuthTest extends TestCase
 
         Storage::disk('local')
             ->assertExists('files/' . User::first()->id);
+
+        Notification::assertTimesSent(1, VerifyEmail::class);
     }
 
     /**

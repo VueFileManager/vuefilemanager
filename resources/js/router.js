@@ -335,6 +335,24 @@ const routesShared = [
 ]
 const routesAuth = [
     {
+        name: 'SuccessfullyVerified',
+        path: '/successfully-verified',
+        component: () => 
+            import(/* webpackChunkName: "chunks/email-verified" */ './views/Auth/SuccessfullyEmailVerified'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
+        name: 'SuccessfullySend',
+        path: '/successfully-send',
+        component: () => 
+            import(/* webpackChunkName: "chunks/email-verified" */ './views/Auth/SuccessfullySendEmail'),
+        meta: {
+            requiresAuth: false
+        },
+    },
+    {
         name: 'SignIn',
         path: '/sign-in',
         component: () =>
@@ -414,6 +432,16 @@ const routesUser = [
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.settings_password'
+                        },
+                    },
+                    {
+                        name: 'Token',
+                        path: '/platform/token',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/settings-password" */ './views/User/AccessToken'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'routes_title.token'
                         },
                     },
                     {

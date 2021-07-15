@@ -54,6 +54,7 @@
 
 			allowHomepage: {{ $settings->allow_homepage ?? 1 }},
             userRegistration: {{ $settings->registration ?? 1 }},
+            userVerification: {{ $settings->user_verification ?? 0 }},
             storageLimit: {{ $settings->storage_limitation ?? 1 }},
             storageDefaultSpace: {{ $settings->storage_default ?? 5 }},
             storageDefaultSpaceFormatted: '{{ isset($settings->storage_default) ? format_gigabytes($settings->storage_default) : format_gigabytes(5) }}',

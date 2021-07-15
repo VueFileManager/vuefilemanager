@@ -180,6 +180,7 @@ class UserController extends Controller
             'role' => $request->role,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'email_verified_at' => now(),
         ]);
 
         UserSettings::unguard();

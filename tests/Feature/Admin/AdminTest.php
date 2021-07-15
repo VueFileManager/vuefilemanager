@@ -308,6 +308,9 @@ class AdminTest extends TestCase
             'email' => 'john@doe.com'
         ]);
 
+        $this->assertNotNull(User::whereEmail('john@doe.com')
+            ->get('email_verified_at'));
+
         $this->assertDatabaseHas('user_settings', [
             'name' => 'John Doe'
         ]);

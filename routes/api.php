@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Fortify\CreateNewUserAction;
 use App\Http\Controllers\App\AppFunctionsController;
 use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\FileManager\TrashController;
@@ -20,6 +21,9 @@ Route::group(['prefix' => 'password'], function () {
     Route::post('/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/reset', [ResetPasswordController::class, 'reset']);
 });
+
+// Register user
+Route::post('/register', CreateNewUserAction::class);
 
 // User master Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

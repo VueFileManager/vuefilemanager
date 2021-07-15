@@ -10,11 +10,7 @@
         >
             <!-- MultiSelecting for the mobile version -->
             <transition name="slide-from-left">
-                <div class="check-select" v-if="mobileMultiSelect">
-                    <div class="select-box" :class="{'select-box-active' : isClicked } ">
-                        <CheckIcon v-if="isClicked" class="icon" size="17" />
-                    </div>
-                </div>
+                <CheckBox v-if="mobileMultiSelect" :is-clicked="isClicked" class="check-box"/>
             </transition>
 
             <!--Thumbnail for item-->
@@ -72,8 +68,9 @@
 </template>
 
 <script>
-import {LinkIcon, UserPlusIcon, CheckIcon, MoreVerticalIcon} from 'vue-feather-icons'
+import {LinkIcon, UserPlusIcon, MoreVerticalIcon} from 'vue-feather-icons'
 import FolderIcon from '@/components/FilesView/FolderIcon'
+import CheckBox from '@/components/FilesView/CheckBox'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
 import {events} from '@/bus'
@@ -87,7 +84,7 @@ export default {
         MoreVerticalIcon,
         UserPlusIcon,
         FolderIcon,
-        CheckIcon,
+        CheckBox,
         LinkIcon,
     },
     computed: {
@@ -335,28 +332,9 @@ export default {
     transform: translateX(100%);
 }
 
-
-.check-select {
+.check-box {
     margin-right: 15px;
     margin-left: 6px;
-
-    .select-box {
-        width: 20px;
-        height: 20px;
-        background-color: darken($light_background, 5%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 5px;
-    }
-
-    .select-box-active {
-        background-color: $theme;
-
-        .icon {
-            stroke: white;
-        }
-    }
 }
 
 .file-wrapper {
@@ -543,20 +521,6 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-    .check-select {
-
-        .select-box {
-            background-color: lighten($dark_mode_foreground, 10%);
-        }
-
-        .select-box-active {
-            background-color: $theme;
-
-            .icon {
-                stroke: white;
-            }
-        }
-    }
 
     .file-wrapper {
         .icon-item {

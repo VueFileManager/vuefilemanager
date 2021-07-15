@@ -6,11 +6,15 @@ use App\Models\User;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
+use Notification;
 use Tests\TestCase;
+use App\Models\Folder;
+use Illuminate\Support\Facades\URL;
 
 class UserAccountTest extends TestCase
 {
@@ -150,5 +154,155 @@ class UserAccountTest extends TestCase
                     ]
                 ],
             ]);
+    }
+
+     /**
+     * @test
+     */
+    public function it_create_user_token()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/user/token/create', [
+            'name' => 'token'
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_id' => $user->id,
+            'name' => 'token'
+        ]);
+    }
+
+     /**
+     * @test
+     */
+    public function it_revoke_user_token()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+            
+        $user->createToken('token');
+
+        $token_id = $user->tokens()->first()->id;
+
+        $this->deleteJson("/api/user/token/revoke/$token_id")
+            ->assertStatus(204);
+
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'id' => $token_id
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_user_tokens()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        Sanctum::actingAs($user);
+
+        $user->createToken('token');
+
+        $token = $user->tokens()->first();
+
+        $this->getJson('/api/user/tokens')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                "id"             => $token->id,        
+                "tokenable_type" => $token->tokenable_type,  
+                "tokenable_id"   => $user->id,     
+                "name"           => $token->name,
+                "abilities"      => $token->abilities
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_use_user_token_to_request()
+    {
+        $user = User::factory(User::class)
+            ->create();
+        
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+        
+        $token = $user->createToken('token')->plainTextToken;
+
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_id' => $user->id
+        ]);
+
+        $this->assertDatabaseHas('folders', [
+            'id' => $folder->id,
+            'user_id' => $user->id
+        ]);
+
+        $response = $this->call('GET', "api/browse/folders/$folder->id", 
+            [], [], [], [
+                'Content-type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' .$token,    
+            ]);
+
+    
+        // $response->assertJsonFragment([
+        //     'id' => $folder->id,
+        //     'user_id' => $user->id,
+        // ]);
+
+        // dd($response);
+    }
+
+    /**
+     * @test
+     */
+    public function it_verify_user_email()
+    {
+        $user = User::factory(User::class)
+            ->create([
+                'email_verified_at' => null
+            ]);
+
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+        
+        $this
+            ->getJson($verificationUrl)
+            ->assertRedirect('successfully-verified');
+
+        $this->assertNotNull(User::find($user->id)->get('email_verified_at'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_resend_user_verify_email()
+    {
+        Notification::fake();
+        
+        $user = User::factory(User::class)
+            ->create([
+                'email_verified_at' => null
+            ]);
+                  
+        $this->postJson('/api/user/email/resend/verify', [
+                'email' => $user->email,
+            ])
+            ->assertStatus(200);
+        
+        Notification::assertTimesSent(1, VerifyEmail::class);
     }
 }
