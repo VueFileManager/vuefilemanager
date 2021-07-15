@@ -1,6 +1,6 @@
 <?php
 
-use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\CreateNewUserAction;
 use App\Http\Controllers\App\AppFunctionsController;
 use App\Http\Controllers\FileManager\ShareController;
 use App\Http\Controllers\FileManager\TrashController;
@@ -23,7 +23,7 @@ Route::group(['prefix' => 'password'], function () {
 });
 
 // Register user
-Route::post('/register', [CreateNewUser::class, 'store']);
+Route::post('/register', CreateNewUserAction::class);
 
 // User master Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

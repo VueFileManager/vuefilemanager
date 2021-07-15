@@ -77,17 +77,13 @@ class SchedulerService
     }
 
     /**
-     * Delete unverified users older as 30 days
+     * Delete unverified users older than 30 days
      */
     public function delete_unverified_users(): void
     {
-        User::where('created_at', '<=', now()->subDay(30)->toDateString())
+        User::where('created_at', '<=', now()->subDays(30)->toDateString())
             ->where('email_verified_at', null)
             ->get()
-            ->each(function ($user) {
-
-                // Delete users
-                $user->delete();
-            });
+            ->each(fn ($user) => $user->delete());
     }
 }

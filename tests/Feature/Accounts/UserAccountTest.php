@@ -266,7 +266,7 @@ class UserAccountTest extends TestCase
     /**
      * @test
      */
-    public function it_user_email_verify()
+    public function it_verify_user_email()
     {
         $user = User::factory(User::class)
             ->create([
@@ -279,9 +279,9 @@ class UserAccountTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
         
-        $response = $this->getJson($verificationUrl);
-
-        $response->assertRedirect('successfully-verified');
+        $this
+            ->getJson($verificationUrl)
+            ->assertRedirect('successfully-verified');
 
         $this->assertNotNull(User::find($user->id)->get('email_verified_at'));
     }

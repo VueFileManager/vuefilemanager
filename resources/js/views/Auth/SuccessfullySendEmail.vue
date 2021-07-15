@@ -6,6 +6,12 @@
           
             <h1>{{ $t('page_email_successfully_send.title') }}</h1>
             <h2>{{ $t('page_email_successfully_send.subtitle') }}</h2>
+
+			<span class="additional-link">
+                <router-link :to="{name: 'Homepage'}" class="text-theme">
+                    {{ $t('go_home') }}
+                </router-link>
+            </span>
            
         </AuthContent>
     </AuthContentWrapper>

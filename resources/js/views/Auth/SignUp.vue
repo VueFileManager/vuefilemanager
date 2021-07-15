@@ -138,16 +138,16 @@
                         // End loading
                         this.isLoading = false
 
-                        if(! config.userVerification) {
+                        if(! this.config.userVerification) {
                             // Set login state
                             this.$store.commit('SET_AUTHORIZED', true)
     
                             // Go to files page
                             this.$router.push({name: 'Files'})
                         } else {
-                             // Go to sign-in page
-                            this.$router.push({name: 'SignIn'})
-                        }
+                             // Go to SuccessfullySend page
+							this.$router.push({name: 'SuccessfullySend'})
+						}
                         
                     })
                     .catch(error => {

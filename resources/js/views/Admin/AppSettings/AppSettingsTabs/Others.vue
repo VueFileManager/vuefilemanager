@@ -205,7 +205,7 @@
                         storageLimitation: parseInt(response.data.storage_limitation),
                         mimetypesBlacklist : response.data.mimetypes_blacklist,
                         uploadLimit: response.data.upload_limit,
-                        userVerification: response.data.user_verification
+                        userVerification: parseInt(response.data.user_verification)
                     }
                 })
         }
