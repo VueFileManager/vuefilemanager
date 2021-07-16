@@ -122,8 +122,14 @@
 
             </ValidationObserver>
 
-             <div class="spinner-wrapper">
-                <Spinner v-if="isLoading" class="spinner"/>
+			 <span class="additional-link">
+                <a @click="goToAuthPage('two-factor-authentication')" class="text-theme">
+                   {{ $t('2fa.i_have_2fa_app') }}
+                </a>
+            </span>
+
+             <div v-if="isLoading" class="spinner-wrapper">
+                <Spinner class="spinner"/>
             </div>
 
         </AuthContent>
@@ -249,15 +255,15 @@
                         // End loading
                         this.isLoading = false
 
-                        // If is enabled two factor authentication 
+                        // If is enabled two factor authentication
                         if(response.data.two_factor && ! this.validSignIn) {
 
                             this.validSignIn = true
 
                             this.goToAuthPage('two-factor-authentication')
-                        } 
-                        
-                        // If is disabled two factor authentication 
+                        }
+
+                        // If is disabled two factor authentication
                         if(! response.data.two_factor ) {
 
                             // Set login state

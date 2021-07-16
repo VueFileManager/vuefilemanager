@@ -85,12 +85,9 @@ export default {
 			let copyText = this.$refs.codes
 
 			copyText.select()
+			copyText.setSelectionRange(0, 99999)
 
 			document.execCommand('copy')
-
-			copyText.setAttribute('type', 'hidden')
-
-			window.getSelection().removeAllRanges()
 
 			events.$emit('toaster', {
 				type: 'success',
@@ -146,11 +143,6 @@ export default {
 			if ('two-factor-recovery-codes' === name)
 				this.getRecoveryCodes()
 		})
-
-		axios.get('/api/user/secret')
-			.then(response => {
-				console.log(response.data);
-			})
 	},
 	destroyed() {
 		events.off('popup:open')

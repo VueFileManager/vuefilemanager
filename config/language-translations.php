@@ -685,6 +685,7 @@ return [
         'app_touch_icon_description' => 'If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156',
         'select_search_placeholder' => 'Search in list...',
         '2fa.settings.title' => 'Two Factor Authentication',
+        '2fa.i_have_2fa_app' => 'I have already 2FA app',
         'popup_2fa.title' => 'Confirm Your Password',
         'popup_2fa.input_label' => 'Password',
         'popup_2fa.placeholder' => 'Type your password',
