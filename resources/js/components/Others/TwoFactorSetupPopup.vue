@@ -184,6 +184,11 @@ export default {
 				this.qrCode = undefined
 				this.isConfirmedClose = false
 
+				axios.get('/user/two-factor-recovery-codes')
+					.then(response => {
+						console.log(response.data);
+					})
+
 				this.$closePopup()
 			}
 		}

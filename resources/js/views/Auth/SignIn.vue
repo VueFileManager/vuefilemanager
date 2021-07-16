@@ -280,58 +280,57 @@
                         this.isLoading = false
                     })
             },
-             async twoFactorChallenge(recovery) {
+			async twoFactorChallenge(recovery) {
+				// Check if is normal authentication or recovery
+				if (!recovery && this.twoFactorCode.length === 6 || recovery && this.twoFactorRecoveryCode.length === 21) {
 
-                 // Check if is normal authentication or recovery 
-                if( !recovery && this.twoFactorCode.length === 6 || recovery && this.twoFactorRecoveryCode.length === 21) {
+					this.isLoading = true
 
-                    this.isLoading = true
+					let payload = recovery
+						? {recovery_code: this.twoFactorRecoveryCode}
+						: {code: this.twoFactorCode}
 
-                    axios.
-                        post('/two-factor-challenge', {
-                            ...(!recovery && {code: this.twoFactorCode}),
-                            ...(recovery && { recovery_code: this.twoFactorRecoveryCode})
-                        })
-                        .then(() => {
-    
-                            this.isLoading = false
-    
-                            // Set login state
-                            this.$store.commit('SET_AUTHORIZED', true)
-    
-                            // Go to files page
-                            this.$router.push({name: 'Files'})
-                        })
-                        .catch(error => {
-                                
-                            if (error.response.status == 422) {
+					axios.post('/two-factor-challenge', payload)
+						.then(() => {
 
-                                //Authentication bad input
-                                if(! recovery) {
+							this.isLoading = false
 
-                                    this.$refs.two_factor_authentication.setErrors({
-                                        'Two Factor Authentication' : this.$t('validation_errors.incorrect_2fa_code')
-                                    })
-                                } 
-                                
-                                // Recovery bad input
-                                if(recovery) {
-                                    
-                                    this.$refs.two_factor_recovery.setErrors({
-                                        'Two Factor Recovery' : this.$t('validation_errors.incorrect_2fa_recovery_code')
-                                    })
-                                }
+							// Set login state
+							this.$store.commit('SET_AUTHORIZED', true)
 
-                            }
+							// Go to files page
+							this.$router.push({name: 'Files'})
+						})
+						.catch(error => {
 
-                            // Repeat the login for next try to type right 2fa code / recovery code
-                            this.singIn()
-    
-                            this.isLoading = false
-                        })
-                }
+							if (error.response.status == 422) {
 
-            },
+								//Authentication bad input
+								if (!recovery) {
+
+									this.$refs.two_factor_authentication.setErrors({
+										'Two Factor Authentication': this.$t('validation_errors.incorrect_2fa_code')
+									})
+								}
+
+								// Recovery bad input
+								if (recovery) {
+
+									this.$refs.two_factor_recovery.setErrors({
+										'Two Factor Recovery': this.$t('validation_errors.incorrect_2fa_recovery_code')
+									})
+								}
+
+							}
+
+							// Repeat the login for next try to type right 2fa code / recovery code
+							this.singIn()
+
+							this.isLoading = false
+						})
+				}
+
+			},
         },
         created() {
             this.$scrollTop()
