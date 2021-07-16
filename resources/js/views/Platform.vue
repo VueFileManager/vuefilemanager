@@ -14,6 +14,8 @@
         <CreateFolderPopup />
         <RenameItemPopup />
 
+		<TwoFactorSetupPopup />
+
         <MoveItemPopup />
 
         <!--Mobile components-->
@@ -29,15 +31,13 @@
 
         <!--Others-->
         <DragUI />
-        <TwoFactorAuthenticationConfirm />
-
 
         <router-view :class="{'is-scaled-down': isScaledDown}" />
     </div>
 </template>
 
 <script>
-    import TwoFactorAuthenticationConfirm from '@/components/Others/TwoFactorAuthenticationConfirm'
+    import TwoFactorSetupPopup from '@/components/Others/TwoFactorSetupPopup'
     import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
@@ -59,7 +59,7 @@
     export default {
         name: 'Platform',
         components: {
-            TwoFactorAuthenticationConfirm,
+            TwoFactorSetupPopup,
             MultiSelectToolbarMobile,
             CreateFolderPopup,
             FileSortingMobile,

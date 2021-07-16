@@ -41,9 +41,9 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">
-                                    Enable / Disable Two factor authentication
+                                    Enable / Disable Two Factor Authentication
                                 </label>
-                                <small class="input-help" v-html="$t('admin_settings.others.allow_registration_help')"></small>
+                                <small class="input-help" v-html="$t('popup_2fa.switch_info')"></small>
                             </div>
                             <SwitchInput @click.native.prevent.stop="open2faPopup"
                                          class="switch"
