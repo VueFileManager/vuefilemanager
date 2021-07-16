@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\App;
 
+use Illuminate\Http\Response;
 use Schema;
 use Stripe;
 use Artisan;
@@ -460,8 +461,6 @@ class SetupWizardController extends Controller
 
     /**
      * Get setup wizard status
-     *
-     * @return false | null
      */
     private function check_setup_status()
     {

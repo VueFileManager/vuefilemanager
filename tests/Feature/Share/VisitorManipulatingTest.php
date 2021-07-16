@@ -313,8 +313,6 @@ class VisitorManipulatingTest extends TestCase
      */
     public function editor_upload_file_into_shared_folder()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         // check private or public share record
@@ -353,6 +351,7 @@ class VisitorManipulatingTest extends TestCase
                     $this
                         ->withUnencryptedCookies($cookie)
                         ->post("/api/editor/upload/$share->token", [
+                            'filename'  => $file->name,
                             'file'      => $file,
                             'folder_id' => $folder->id,
                             'is_last'   => true,
@@ -363,6 +362,7 @@ class VisitorManipulatingTest extends TestCase
                 if (!$is_protected) {
 
                     $this->postJson("/api/editor/upload/$share->token", [
+                        'filename'  => $file->name,
                         'file'      => $file,
                         'folder_id' => $folder->id,
                         'is_last'   => true,

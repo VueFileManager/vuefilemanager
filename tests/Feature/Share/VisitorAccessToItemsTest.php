@@ -31,8 +31,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_download_file()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         collect([true, false])
@@ -108,8 +106,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_get_shared_image()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         collect([true, false])
@@ -167,8 +163,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_get_public_thumbnail()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         collect([true, false])
@@ -229,8 +223,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_download_publicly_zipped_files()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         collect([true, false])

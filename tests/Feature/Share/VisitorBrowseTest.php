@@ -146,8 +146,6 @@ class VisitorBrowseTest extends TestCase
      */
     public function visitor_zip_shared_multiple_files()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         // check private or public share record
@@ -284,8 +282,6 @@ class VisitorBrowseTest extends TestCase
      */
     public function visitor_zip_shared_folder()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         // check private or public share record
@@ -369,8 +365,6 @@ class VisitorBrowseTest extends TestCase
      */
     public function visitor_try_zip_not_shared_folder()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         // check private or public share record

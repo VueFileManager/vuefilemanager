@@ -42,8 +42,6 @@ class FileTest extends TestCase
      */
     public function it_upload_image_file_and_create_thumbnail()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $file = UploadedFile::fake()
@@ -85,8 +83,6 @@ class FileTest extends TestCase
      */
     public function it_upload_new_file()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $file = UploadedFile::fake()
@@ -124,8 +120,6 @@ class FileTest extends TestCase
      */
     public function it_upload_blacklisted_mimetype_file()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         Setting::create([
@@ -252,8 +246,6 @@ class FileTest extends TestCase
      */
     public function it_delete_multiple_files_hardly()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -311,8 +303,6 @@ class FileTest extends TestCase
      */
     public function it_zip_multiple_files_and_download_it()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)

@@ -151,8 +151,6 @@ class UserShareTest extends TestCase
      */
     public function it_share_folder_and_send_link_for_multiple_email()
     {
-        Notification::fake();
-
         $folder = Folder::factory(Folder::class)
             ->create();
 
@@ -179,8 +177,6 @@ class UserShareTest extends TestCase
      */
     public function it_send_existing_shared_folder_for_multiple_email_once_again()
     {
-        Notification::fake();
-
         $folder = Folder::factory(Folder::class)
             ->create();
 

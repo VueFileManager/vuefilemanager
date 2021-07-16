@@ -46,8 +46,6 @@ class SchedulerTest extends TestCase
      */
     public function it_delete_zips_older_than_one_day()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $file = UploadedFile::fake()
@@ -75,8 +73,6 @@ class SchedulerTest extends TestCase
      */
     public function it_delete_failed_files_older_than_one_day()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $this->travel(-26)->hours();

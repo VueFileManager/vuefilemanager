@@ -216,8 +216,6 @@ class AdminTest extends TestCase
      */
     public function it_send_reset_password_for_user()
     {
-        Notification::fake();
-
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
 
@@ -284,8 +282,6 @@ class AdminTest extends TestCase
      */
     public function it_create_new_user_with_avatar()
     {
-        Storage::fake('local');
-
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
@@ -326,8 +322,6 @@ class AdminTest extends TestCase
      */
     public function it_delete_user_with_all_data()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         // Create and login user
@@ -549,8 +543,6 @@ class AdminTest extends TestCase
      */
     public function it_update_settings_image()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         Setting::forceCreate([

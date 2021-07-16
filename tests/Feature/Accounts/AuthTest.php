@@ -43,8 +43,6 @@ class AuthTest extends TestCase
      */
     public function it_register_user()
     {
-        Notification::fake();
-
         collect([
             [
                 'name'  => 'storage_default',
@@ -144,8 +142,6 @@ class AuthTest extends TestCase
      */
     public function it_send_reset_link_to_email()
     {
-        Notification::fake();
-
         $user = User::factory(User::class)
             ->create(['email' => 'john@doe.com']);
 

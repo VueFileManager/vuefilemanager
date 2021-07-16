@@ -5,6 +5,7 @@ namespace Tests;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -18,6 +19,6 @@ abstract class TestCase extends BaseTestCase
 
         Notification::fake();
 
-        $this->withoutExceptionHandling();
+        Storage::fake('local');
     }
 }

@@ -343,7 +343,6 @@ class FileManagerService
         $file = $request->file('file');
 
         // File name
-        $user_file_name = basename('chunks/' . substr($file->getClientOriginalName(), 17), '.part');
         $disk_file_name = basename('chunks/' . $file->getClientOriginalName(), '.part');
         $temp_filename = $file->getClientOriginalName();
 

@@ -71,8 +71,6 @@ class TrashTest extends TestCase
      */
     public function it_dump_trash()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)

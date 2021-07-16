@@ -30,8 +30,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_public_user_avatar()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $avatar = UploadedFile::fake()
@@ -50,8 +48,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_public_system_image()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $system = UploadedFile::fake()
@@ -70,8 +66,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_file()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -100,8 +94,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_image_thumbnail()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -130,8 +122,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_zip()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -158,8 +148,6 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_image_thumbnail()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $users = User::factory(User::class)
@@ -189,8 +177,6 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_file()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $users = User::factory(User::class)
@@ -220,8 +206,6 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_zip()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -278,6 +262,6 @@ class ContentAccessTest extends TestCase
             ->create();
 
         $this->getJson("/api/browse/folders/$folder->id")
-            ->assertStatus(401);
+            ->assertUnauthorized();
     }
 }

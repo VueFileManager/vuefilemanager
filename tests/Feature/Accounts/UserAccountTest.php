@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Accounts;
 
+use App\Models\File;
 use App\Models\User;
 use App\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -70,8 +71,6 @@ class UserAccountTest extends TestCase
      */
     public function it_update_user_avatar()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -130,7 +129,7 @@ class UserAccountTest extends TestCase
                                 "id"         => (string)$user->id,
                                 "type"       => "settings",
                                 "attributes" => [
-                                    'avatar'               => $user->settings->avatar,
+                                    'avatar'       => $user->settings->avatar,
                                     'name'         => $user->settings->name,
                                     'address'      => $user->settings->address,
                                     'state'        => $user->settings->state,
@@ -138,7 +137,7 @@ class UserAccountTest extends TestCase
                                     'postal_code'  => $user->settings->postal_code,
                                     'country'      => $user->settings->country,
                                     'phone_number' => $user->settings->phone_number,
-                                    'timezone'             => $user->settings->timezone
+                                    'timezone'     => $user->settings->timezone
                                 ]
                             ]
                         ],
@@ -156,7 +155,7 @@ class UserAccountTest extends TestCase
             ]);
     }
 
-     /**
+    /**
      * @test
      */
     public function it_create_user_token()
@@ -172,11 +171,11 @@ class UserAccountTest extends TestCase
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,
-            'name' => 'token'
+            'name'         => 'token'
         ]);
     }
 
-     /**
+    /**
      * @test
      */
     public function it_revoke_user_token()
@@ -185,7 +184,7 @@ class UserAccountTest extends TestCase
             ->create();
 
         Sanctum::actingAs($user);
-            
+
         $user->createToken('token');
 
         $token_id = $user->tokens()->first()->id;
@@ -206,18 +205,18 @@ class UserAccountTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $user->createToken('token');
 
         $token = $user->tokens()->first();
 
-        $this->getJson('/api/user/tokens')
+        $this
+            ->actingAs($user)
+            ->getJson('/api/user/tokens')
             ->assertStatus(200)
             ->assertJsonFragment([
-                "id"             => $token->id,        
-                "tokenable_type" => $token->tokenable_type,  
-                "tokenable_id"   => $user->id,     
+                "id"             => $token->id,
+                "tokenable_type" => $token->tokenable_type,
+                "tokenable_id"   => $user->id,
                 "name"           => $token->name,
                 "abilities"      => $token->abilities
             ]);
@@ -226,16 +225,22 @@ class UserAccountTest extends TestCase
     /**
      * @test
      */
-    public function it_use_user_token_to_request()
+    public function it_use_user_token_in_public_api_request()
     {
         $user = User::factory(User::class)
             ->create();
-        
+
         $folder = Folder::factory(Folder::class)
             ->create([
                 'user_id' => $user->id,
             ]);
-        
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id' => $user->id,
+                'folder_id' => $folder->id
+            ]);
+
         $token = $user->createToken('token')->plainTextToken;
 
         $this->assertDatabaseHas('personal_access_tokens', [
@@ -243,24 +248,17 @@ class UserAccountTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('folders', [
-            'id' => $folder->id,
+            'id'      => $folder->id,
             'user_id' => $user->id
         ]);
 
-        $response = $this->call('GET', "api/browse/folders/$folder->id", 
-            [], [], [], [
-                'Content-type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' .$token,    
+        $this
+            ->withToken($token)
+            ->getJson("/api/browse/folders/$folder->id")
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $file->id,
             ]);
-
-    
-        // $response->assertJsonFragment([
-        //     'id' => $folder->id,
-        //     'user_id' => $user->id,
-        // ]);
-
-        // dd($response);
     }
 
     /**
@@ -278,7 +276,7 @@ class UserAccountTest extends TestCase
             now()->addMinutes(60),
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
-        
+
         $this
             ->getJson($verificationUrl)
             ->assertRedirect('successfully-verified');
@@ -291,18 +289,16 @@ class UserAccountTest extends TestCase
      */
     public function it_resend_user_verify_email()
     {
-        Notification::fake();
-        
         $user = User::factory(User::class)
             ->create([
                 'email_verified_at' => null
             ]);
-                  
+
         $this->postJson('/api/user/email/resend/verify', [
-                'email' => $user->email,
-            ])
-            ->assertStatus(200);
-        
+            'email' => $user->email,
+        ])
+            ->assertStatus(204);
+
         Notification::assertTimesSent(1, VerifyEmail::class);
     }
 }

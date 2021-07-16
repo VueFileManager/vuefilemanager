@@ -388,8 +388,6 @@ class FolderTest extends TestCase
      */
     public function it_delete_folder_with_their_content_within_hardly()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)
@@ -463,8 +461,6 @@ class FolderTest extends TestCase
      */
     public function it_zip_folder_with_content_within_and_download()
     {
-        Storage::fake('local');
-
         $this->setup->create_directories();
 
         $user = User::factory(User::class)

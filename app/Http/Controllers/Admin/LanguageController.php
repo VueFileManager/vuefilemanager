@@ -119,7 +119,9 @@ class LanguageController extends Controller
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        abort_if($language->locale === 'en', 401, "Sorry, you can't delete default language.");
+        if ($language->locale === 'en') {
+            return response("Sorry, you can't delete default language.", 401);
+        }
 
         // If user try to delete language used as default,
         // then set en language as default
