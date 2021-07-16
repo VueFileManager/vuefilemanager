@@ -14,8 +14,6 @@
         <CreateFolderPopup />
         <RenameItemPopup />
 
-		<TwoFactorSetupPopup />
-
         <MoveItemPopup />
 
         <!--Mobile components-->
@@ -37,7 +35,6 @@
 </template>
 
 <script>
-    import TwoFactorSetupPopup from '@/components/Others/TwoFactorSetupPopup'
     import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
@@ -59,7 +56,6 @@
     export default {
         name: 'Platform',
         components: {
-            TwoFactorSetupPopup,
             MultiSelectToolbarMobile,
             CreateFolderPopup,
             FileSortingMobile,

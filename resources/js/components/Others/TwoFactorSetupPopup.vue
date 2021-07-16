@@ -18,7 +18,9 @@
                     <div v-html="qrCode"></div>
                 </div>
 
-                <small class="input-help" v-html="$t('popup_2fa.help')"></small>
+				<InfoBox style="margin-bottom: 0">
+                	<p v-html="$t('popup_2fa.help')"></p>
+            	</InfoBox>
             </div>
         </PopupContent>
 
@@ -60,6 +62,7 @@ import PopupActions from '@/components/Others/Popup/PopupActions'
 import PopupContent from '@/components/Others/Popup/PopupContent'
 import PopupHeader from '@/components/Others/Popup/PopupHeader'
 import ButtonBase from '@/components/FilesView/ButtonBase'
+import InfoBox from '@/components/Others/Forms/InfoBox'
 import {required} from 'vee-validate/dist/rules'
 import {mapGetters} from 'vuex'
 import {events} from '@/bus'
@@ -76,12 +79,13 @@ export default {
 		PopupHeader,
 		ButtonBase,
 		required,
+		InfoBox,
 	},
 	computed: {
 		...mapGetters(['user']),
 		closeQrButtonText() {
 			return this.isConfirmedClose
-				? 'Really disappear this QR code?'
+				? this.$t('popup_2fa.disappear_qr')
 				: this.$t('shared_form.button_done')
 		},
 		closeQrButtonStyle() {
@@ -183,11 +187,6 @@ export default {
 
 				this.qrCode = undefined
 				this.isConfirmedClose = false
-
-				axios.get('/user/two-factor-recovery-codes')
-					.then(response => {
-						console.log(response.data);
-					})
 
 				this.$closePopup()
 			}

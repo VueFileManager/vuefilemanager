@@ -1,6 +1,5 @@
 <template>
     <section id="viewport">
-
         <ContentSidebar>
 
             <!--Settings-->
@@ -34,6 +33,8 @@
                     </router-link>
                 </div>
             </ContentGroup>
+
+			<!--Subscription-->
             <ContentGroup title="Subscription" class="navigator" v-if="canShowSubscriptionSettings">
                 <div class="menu-list-wrapper vertical">
                     <router-link replace :to="{name: 'Subscription'}" class="menu-list-item link">
@@ -66,7 +67,7 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <div id="single-page" v-if="user">
+        <div v-if="user" id="single-page">
             <div id="page-content" class="medium-width" v-if="! isLoading">
                 <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
@@ -120,11 +121,16 @@
                 <Spinner></Spinner>
             </div>
         </div>
-    </section>
 
+		<!--2FA popups-->
+		<TwoFactorRecoveryCodesPopup />
+		<TwoFactorSetupPopup />
+    </section>
 </template>
 
 <script>
+	import TwoFactorRecoveryCodesPopup from '@/components/Others/TwoFactorRecoveryCodesPopup'
+	import TwoFactorSetupPopup from '@/components/Others/TwoFactorSetupPopup'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
     import UserImageInput from '@/components/Others/UserImageInput'
@@ -147,6 +153,8 @@
     export default {
         name: 'Settings',
         components: {
+			TwoFactorRecoveryCodesPopup,
+			TwoFactorSetupPopup,
             ContentSidebar,
             CreditCardIcon,
             UserImageInput,
