@@ -56,12 +56,12 @@ class SetupService
     public function seed_default_language()
     {
         Language::create([
-            'name' => 'English',
+            'name'   => 'English',
             'locale' => 'en',
         ]);
 
         Setting::create([
-            'name' => 'language',
+            'name'  => 'language',
             'value' => 'en',
         ]);
     }

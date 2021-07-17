@@ -33,7 +33,7 @@ class TrashController extends Controller
         // TODO: zrefaktorovat validator do requestu
         $validator = Validator::make($request->input('items'), [
             '*.type' => 'required|string',
-            '*.id' => 'string',
+            '*.id'   => 'string',
         ]);
 
         // Return error

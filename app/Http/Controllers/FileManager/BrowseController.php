@@ -180,9 +180,9 @@ class BrowseController extends Controller
 
         return [
             [
-                'name' => __t('home'),
+                'name'     => __t('home'),
                 'location' => 'base',
-                'folders' => $folders,
+                'folders'  => $folders,
             ],
         ];
     }

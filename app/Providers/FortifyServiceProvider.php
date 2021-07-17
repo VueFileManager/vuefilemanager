@@ -3,7 +3,6 @@ namespace App\Providers;
 
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
-use App\Actions\Fortify\CreateNewUserAction;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use App\Actions\Fortify\ResetUserPassword;

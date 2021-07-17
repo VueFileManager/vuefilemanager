@@ -69,10 +69,10 @@ class StripeService
             $tax = $amount * ($rate['percentage'] / 100);
 
             array_push($rates_public, [
-                'id' => $rate['id'],
-                'active' => $rate['active'],
-                'country' => $rate['country'],
-                'percentage' => $rate['percentage'],
+                'id'                   => $rate['id'],
+                'active'               => $rate['active'],
+                'country'              => $rate['country'],
+                'percentage'           => $rate['percentage'],
                 'plan_price_formatted' => Cashier::formatAmount(round($amount + $tax)),
             ]);
         }
@@ -174,14 +174,14 @@ class StripeService
     public function updateCustomerDetails($user)
     {
         $user->updateStripeCustomer([
-            'name' => $user->settings->name,
-            'phone' => $user->settings->phone_number,
+            'name'    => $user->settings->name,
+            'phone'   => $user->settings->phone_number,
             'address' => [
-                'line1' => $user->settings->address,
-                'city' => $user->settings->city,
-                'country' => $user->settings->country,
+                'line1'       => $user->settings->address,
+                'city'        => $user->settings->city,
+                'country'     => $user->settings->country,
                 'postal_code' => $user->settings->postal_code,
-                'state' => $user->settings->state,
+                'state'       => $user->settings->state,
             ],
             'preferred_locales' => [
                 $user->settings->country, 'en',
@@ -211,7 +211,7 @@ class StripeService
             // Push data to $plan container
             if ($product['active'] && isset($product['metadata']['capacity'])) {
                 array_push($plans, [
-                    'plan' => $plan,
+                    'plan'    => $plan,
                     'product' => $product,
                 ]);
             }
@@ -243,7 +243,7 @@ class StripeService
                 // Push data to $plan container
                 if ($product['active'] && isset($product['metadata']['capacity'])) {
                     array_push($plans, [
-                        'plan' => $plan,
+                        'plan'    => $plan,
                         'product' => $product,
                     ]);
                 }
@@ -270,7 +270,7 @@ class StripeService
             $product = $this->stripe->products()->find($plan['product']);
 
             return [
-                'plan' => $plan,
+                'plan'    => $plan,
                 'product' => $product,
             ];
         });
@@ -286,34 +286,34 @@ class StripeService
     {
         if ($data instanceof Request) {
             $plan = [
-                'name' => $data->input('attributes.name'),
+                'name'        => $data->input('attributes.name'),
                 'description' => $data->input('attributes.description'),
-                'price' => $data->input('attributes.price'),
-                'capacity' => $data->input('attributes.capacity'),
+                'price'       => $data->input('attributes.price'),
+                'capacity'    => $data->input('attributes.capacity'),
             ];
         } else {
             $plan = [
-                'name' => $data['attributes']['name'],
+                'name'        => $data['attributes']['name'],
                 'description' => $data['attributes']['description'],
-                'price' => $data['attributes']['price'],
-                'capacity' => $data['attributes']['capacity'],
+                'price'       => $data['attributes']['price'],
+                'capacity'    => $data['attributes']['capacity'],
             ];
         }
 
         $product = $this->stripe->products()->create([
-            'name' => $plan['name'],
+            'name'        => $plan['name'],
             'description' => $plan['description'],
-            'metadata' => [
+            'metadata'    => [
                 'capacity' => $plan['capacity'],
             ],
         ]);
 
         $plan = $this->stripe->plans()->create([
-            'id' => Str::slug($plan['name']),
-            'amount' => $plan['price'],
+            'id'       => Str::slug($plan['name']),
+            'amount'   => $plan['price'],
             'currency' => config('cashier.currency'),
             'interval' => 'month',
-            'product' => $product['id'],
+            'product'  => $product['id'],
         ]);
 
         return compact('plan', 'product');

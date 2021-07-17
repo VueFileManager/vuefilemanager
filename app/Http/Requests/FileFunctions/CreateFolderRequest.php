@@ -24,7 +24,7 @@ class CreateFolderRequest extends FormRequest
     {
         return [
             'parent_id' => 'nullable|uuid',
-            'name' => 'required|string',
+            'name'      => 'required|string',
         ];
     }
 }

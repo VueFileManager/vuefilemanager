@@ -894,9 +894,9 @@ if (! function_exists('get_files_for_zip')) {
         // Push file to collection
         $folders->files->each(function ($file) use ($files, $path) {
             $files->push([
-                'name' => $file->name,
-                'basename' => $file->basename,
-                'mimetype' => $file->mimetype,
+                'name'        => $file->name,
+                'basename'    => $file->basename,
+                'mimetype'    => $file->mimetype,
                 'folder_path' => implode('/', $path),
             ]);
         });
@@ -984,7 +984,7 @@ if (! function_exists('replace_occurrence')) {
     {
         $occurrences = $values->map(function ($message, $key) {
             return [
-                'key' => ":$key",
+                'key'     => ":$key",
                 'message' => $message,
             ];
         });

@@ -84,11 +84,11 @@ class SettingController extends Controller
 
         if (! app()->runningUnitTests()) {
             setEnvironmentValue([
-                'MAIL_DRIVER' => $request->driver,
-                'MAIL_HOST' => $request->host,
-                'MAIL_PORT' => $request->port,
-                'MAIL_USERNAME' => $request->username,
-                'MAIL_PASSWORD' => $request->password,
+                'MAIL_DRIVER'     => $request->driver,
+                'MAIL_HOST'       => $request->host,
+                'MAIL_PORT'       => $request->port,
+                'MAIL_USERNAME'   => $request->username,
+                'MAIL_PASSWORD'   => $request->password,
                 'MAIL_ENCRYPTION' => $request->encryption,
             ]);
 
@@ -127,20 +127,20 @@ class SettingController extends Controller
         // Get options
         collect([
             [
-                'name' => 'stripe_currency',
+                'name'  => 'stripe_currency',
                 'value' => $request->currency,
             ],
             [
-                'name' => 'payments_configured',
+                'name'  => 'payments_configured',
                 'value' => 1,
             ],
             [
-                'name' => 'payments_active',
+                'name'  => 'payments_active',
                 'value' => 1,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([
-                'name' => $col['name'],
+                'name'  => $col['name'],
                 'value' => $col['value'],
             ]);
         });
@@ -148,9 +148,9 @@ class SettingController extends Controller
         if (! app()->runningUnitTests()) {
             // Set stripe credentials to .env
             setEnvironmentValue([
-                'CASHIER_CURRENCY' => $request->currency,
-                'STRIPE_KEY' => $request->key,
-                'STRIPE_SECRET' => $request->secret,
+                'CASHIER_CURRENCY'      => $request->currency,
+                'STRIPE_KEY'            => $request->key,
+                'STRIPE_SECRET'         => $request->secret,
                 'STRIPE_WEBHOOK_SECRET' => $request->webhookSecret,
             ]);
 

@@ -24,11 +24,11 @@ class StoreDatabaseCredentialsRequest extends FormRequest
     {
         return [
             'connection' => 'required|string',
-            'host' => 'required|string',
-            'port' => 'required|string',
-            'name' => 'required|string',
-            'username' => 'required|string',
-            'password' => 'required|string',
+            'host'       => 'required|string',
+            'port'       => 'required|string',
+            'name'       => 'required|string',
+            'username'   => 'required|string',
+            'password'   => 'required|string',
         ];
     }
 }
