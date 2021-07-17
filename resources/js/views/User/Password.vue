@@ -32,13 +32,56 @@
                 </div>
             </ValidationObserver>
         </PageTabGroup>
+        <PageTabGroup class="form block-form">
+            <FormLabel>{{ $t('2fa.settings.title') }}</FormLabel>
+            <div class="block-wrapper">
+				<div class="input-wrapper">
+					<div class="inline-wrapper">
+						<div class="switch-label">
+							<label class="input-label">
+								{{ $t('popup_2fa.switch_title') }}
+							</label>
+							<small class="input-help" v-html="$t('popup_2fa.switch_info')"></small>
+						</div>
+						<SwitchInput @click.native.prevent.stop="open2faPopup"
+									 class="switch"
+									 :state="user.data.attributes.two_factor_authentication"
+						/>
+					</div>
+				</div>
+			</div>
+
+            <div v-if="user && user.data.attributes.two_factor_authentication" class="block-wrapper">
+				<div class="input-wrapper">
+					<div class="inline-wrapper button-block">
+						<div class="switch-label">
+							<label class="input-label">
+								{{ $t('popup_2fa.codes_title') }}
+							</label>
+							<small class="input-help">
+								{{ $t('popup_2fa.codes_info') }}
+							</small>
+						</div>
+						<ButtonBase
+							class="popup-button"
+							button-style="secondary"
+							@click.native="showRecoveryCodes"
+						>
+							{{ $t('popup_2fa.codes_button') }}
+						</ButtonBase>
+					</div>
+				</div>
+			</div>
+        </PageTabGroup>
     </PageTab>
 </template>
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+
     import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
     import UserImageInput from '@/components/Others/UserImageInput'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -46,6 +89,7 @@
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
     import {required} from 'vee-validate/dist/rules'
+    import {mapGetters} from 'vuex'
     import {events} from '@/bus'
     import axios from 'axios'
 
@@ -58,11 +102,15 @@
             ValidationProvider,
             ValidationObserver,
             UserImageInput,
+            SwitchInput,
             MobileHeader,
             PageHeader,
             ButtonBase,
             ThemeLabel,
             required,
+        },
+        computed: {
+            ...mapGetters(['user'])
         },
         data() {
             return {
@@ -112,6 +160,12 @@
                             }
                         }
                     })
+            },
+            open2faPopup() {
+                events.$emit('popup:open', {name: 'two-factor-authentication-confirm'})
+            },
+            showRecoveryCodes() {
+                events.$emit('popup:open', {name: 'two-factor-recovery-codes'})
             }
         }
     }
@@ -136,6 +190,17 @@
             }
         }
     }
+
+	@media only screen and (max-width: 690px) {
+
+		.form .button-block {
+			display: block;
+
+			.popup-button {
+				margin-top: 15px;
+			}
+		}
+	}
 
     @media (prefers-color-scheme: dark) {
 

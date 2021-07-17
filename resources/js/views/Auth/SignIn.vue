@@ -70,9 +70,81 @@
                 <h2>{{ $t('page_not_verified.subtitle') }}</h2>
             </div>
 
-            <span class="additional-link"> {{ $t('page_not_verified.resend_text') }} 
+            <span class="additional-link"> {{ $t('page_not_verified.resend_text') }}
                 <a @click="resendEmail" class="text-theme">{{ $t('page_not_verified.resend_button') }} </a>
             </span>
+        </AuthContent>
+
+        <!-- Log in by 2fa -->
+        <AuthContent name="two-factor-authentication" :visible="false">
+
+           <div class="user" v-if="checkedAccount">
+                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <h1> {{ $t('page_sign_in_2fa_title', {name: checkedAccount.name}) }} </h1>
+                <h2> {{ $t('page_sign_in_2fa_subtitle') }}:</h2>
+            </div>
+
+            <ValidationObserver ref="two_factor_authentication" v-slot="{ invalid }" tag="form"
+                                class="form inline-form">
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Two Factor Authentication" rules="required"
+                                    v-slot="{ errors }">
+                    <input v-model="twoFactorCode" :placeholder="$t('page_sign_in.placeholder_2fa')"
+                            @input="twoFactorChallenge(false)"
+                           type="text"
+                           maxlength="6"
+                           class="focus-border-theme"
+                           :class="{'is-error': errors[0]}" />
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+
+            </ValidationObserver>
+
+             <span class="additional-link"> {{ $t('page_sign_in.2fa_recovery_text') }}
+                <a @click="goToAuthPage('two-factor-recovery')" class="text-theme">
+                   {{ $t('page_sign_in.2fa_recovery_button') }}
+                </a>
+            </span>
+
+            <div class="spinner-wrapper">
+                <Spinner v-if="isLoading" class="spinner"/>
+            </div>
+
+        </AuthContent>
+
+        <!-- Log in by 2fa recovery code -->
+        <AuthContent name="two-factor-recovery" :visible="false">
+
+           <div class="user" v-if="checkedAccount">
+                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <h1> {{ checkedAccount.name }} </h1>
+                <h2>{{ $t('page_sign_in.2fa_recovery_subtitle') }}:</h2>
+            </div>
+
+            <ValidationObserver ref="two_factor_recovery" v-slot="{ invalid }" tag="form"
+                                class="form inline-form">
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Two Factor Recovery" rules="required"
+                                    v-slot="{ errors }">
+                    <input v-model="twoFactorRecoveryCode" :placeholder="$t('page_sign_in.placeholder_2fa_recovery')"
+                            @input="twoFactorChallenge(true)"
+                           type="text"
+                           maxlength="21"
+                           class="focus-border-theme"
+                           :class="{'is-error': errors[0]}" />
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+
+            </ValidationObserver>
+
+			 <span class="additional-link">
+                <a @click="goToAuthPage('two-factor-authentication')" class="text-theme">
+                   {{ $t('2fa.i_have_2fa_app') }}
+                </a>
+            </span>
+
+             <div v-if="isLoading" class="spinner-wrapper">
+                <Spinner class="spinner"/>
+            </div>
+
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -82,6 +154,7 @@
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import AuthContent from '@/components/Auth/AuthContent'
     import AuthButton from '@/components/Auth/AuthButton'
+    import Spinner from '@/components/FilesView/Spinner'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import {events} from "@/bus"
@@ -96,6 +169,7 @@
             AuthContent,
             AuthButton,
             required,
+            Spinner,
         },
         computed: {
             ...mapGetters(['config']),
@@ -103,9 +177,12 @@
         data() {
             return {
                 isLoading: false,
+                validSignIn: false,
                 checkedAccount: undefined,
                 loginPassword: '',
                 loginEmail: '',
+                twoFactorCode: '',
+                twoFactorRecoveryCode: '',
             }
         },
         methods: {
@@ -128,8 +205,8 @@
                     post('/api/user/email/resend/verify', {
                         email: this.loginEmail
                     })
-                    .then( 
-                        this.$router.push({name: 'SuccessfullySend'}) 
+                    .then(
+                        this.$router.push({name: 'SuccessfullySend'})
                     )
                     .catch(() => {
                         this.$isSomethingWrong()
@@ -185,7 +262,7 @@
             async singIn() {
 
                 // Validate fields
-                const isValid = await this.$refs.sign_in.validate();
+                const isValid = this.validSignIn ? this.validSignIn : await this.$refs.sign_in.validate();
 
                 if (!isValid) return;
 
@@ -205,16 +282,28 @@
                         email: this.loginEmail,
                         password: this.loginPassword,
                     })
-                    .then(() => {
+                    .then((response) => {
 
                         // End loading
                         this.isLoading = false
 
-                        // Set login state
-                        this.$store.commit('SET_AUTHORIZED', true)
+                        // If is enabled two factor authentication
+                        if(response.data.two_factor && ! this.validSignIn) {
 
-                        // Go to files page
-                        this.$router.push({name: 'Files'})
+                            this.validSignIn = true
+
+                            this.goToAuthPage('two-factor-authentication')
+                        }
+
+                        // If is disabled two factor authentication
+                        if(! response.data.two_factor ) {
+
+                            // Set login state
+                            this.$store.commit('SET_AUTHORIZED', true)
+
+                            // Go to files page
+                            this.$router.push({name: 'Files'})
+                        }
                     })
                     .catch(error => {
 
@@ -229,6 +318,57 @@
                         this.isLoading = false
                     })
             },
+			async twoFactorChallenge(recovery) {
+				// Check if is normal authentication or recovery
+				if (!recovery && this.twoFactorCode.length === 6 || recovery && this.twoFactorRecoveryCode.length === 21) {
+
+					this.isLoading = true
+
+					let payload = recovery
+						? {recovery_code: this.twoFactorRecoveryCode}
+						: {code: this.twoFactorCode}
+
+					axios.post('/two-factor-challenge', payload)
+						.then(() => {
+
+							this.isLoading = false
+
+							// Set login state
+							this.$store.commit('SET_AUTHORIZED', true)
+
+							// Go to files page
+							this.$router.push({name: 'Files'})
+						})
+						.catch(error => {
+
+							if (error.response.status == 422) {
+
+								//Authentication bad input
+								if (!recovery) {
+
+									this.$refs.two_factor_authentication.setErrors({
+										'Two Factor Authentication': this.$t('validation_errors.incorrect_2fa_code')
+									})
+								}
+
+								// Recovery bad input
+								if (recovery) {
+
+									this.$refs.two_factor_recovery.setErrors({
+										'Two Factor Recovery': this.$t('validation_errors.incorrect_2fa_recovery_code')
+									})
+								}
+
+							}
+
+							// Repeat the login for next try to type right 2fa code / recovery code
+							this.singIn()
+
+							this.isLoading = false
+						})
+				}
+
+			},
         },
         created() {
             this.$scrollTop()
@@ -245,4 +385,11 @@
 <style scoped lang="scss">
     @import '@assets/vuefilemanager/_auth-form';
     @import '@assets/vuefilemanager/_auth';
+
+    .spinner-wrapper {
+        width: 100%;
+        height: 50px;
+        position: relative;
+        top: 50px;
+    }
 </style>

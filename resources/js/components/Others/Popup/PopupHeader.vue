@@ -4,6 +4,7 @@
             <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon text-theme" />
             <share-icon v-if="icon === 'share'" size="17" class="title-icon text-theme" />
             <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon text-theme" />
+            <key-icon v-if="icon === 'key'" size="17" class="title-icon text-theme" />
         </div>
         <div class="label">
             <h1 class="title">{{ title }}</h1>
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-    import {CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon, ShareIcon} from 'vue-feather-icons'
+    import {KeyIcon, CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon, ShareIcon} from 'vue-feather-icons'
     import {events} from '@/bus'
 
     export default {
@@ -26,6 +27,7 @@
             ShareIcon,
             Edit2Icon,
             LinkIcon,
+			KeyIcon,
             XIcon,
         },
         methods: {

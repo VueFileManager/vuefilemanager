@@ -152,11 +152,11 @@
                     return this.$t('popup_share_edit.go_back')
             },
             destroyButtonStyle() {
-                    if(! this.sendToRecipientsMenu)
-                        return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
+				if(! this.sendToRecipientsMenu)
+					return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
 
-                    if(this.sendToRecipientsMenu)
-                        return 'secondary'
+				if(this.sendToRecipientsMenu)
+					return 'secondary'
             },
             secondButtonText(){
                 if(! this.sendToRecipientsMenu)

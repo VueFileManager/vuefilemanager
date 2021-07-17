@@ -1,6 +1,9 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
+            <refresh-cw-icon v-if="icon === 'refresh'" size="15" class="icon dark-text-theme" />
+            <download-icon v-if="icon === 'download'" size="15" class="icon dark-text-theme" />
+            <copy-icon v-if="icon === 'copy'" size="15" class="icon dark-text-theme" />
             <filter-icon v-if="icon === 'filter'" size="15" class="icon dark-text-theme" />
             <credit-card-icon v-if="icon === 'credit-card'" size="15" class="icon dark-text-theme" />
             <folder-plus-icon v-if="icon === 'folder-plus'" size="15" class="icon dark-text-theme" />
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-    import { FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import { RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
     import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
 
     export default {
@@ -31,17 +34,20 @@
             'icon'
         ],
         components: {
-            SortingIcon,
             CheckSquareIcon,
             DollarSignIcon,
             CreditCardIcon,
             FolderPlusIcon,
+			RefreshCwIcon,
             UserPlusIcon,
+			DownloadIcon,
+            SortingIcon,
             XSquareIcon,
             FilterIcon,
             CheckIcon,
             TrashIcon,
             PlusIcon,
+			CopyIcon,
             ListIcon,
             GridIcon,
         }
