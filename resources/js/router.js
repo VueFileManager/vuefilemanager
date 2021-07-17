@@ -435,16 +435,6 @@ const routesUser = [
                         },
                     },
                     {
-                        name: 'Token',
-                        path: '/platform/token',
-                        component: () =>
-                            import(/* webpackChunkName: "chunks/settings-password" */ './views/User/AccessToken'),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'routes_title.token'
-                        },
-                    },
-                    {
                         name: 'Storage',
                         path: '/platform/settings/storage',
                         component: () =>

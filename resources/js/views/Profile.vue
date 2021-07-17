@@ -31,15 +31,6 @@
                             {{ $t('menu.password') }}
                         </div>
                     </router-link>
-
-                     <router-link replace :to="{name: 'Token'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <key-icon size="17"></key-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.token') }}
-                        </div>
-                    </router-link>
                 </div>
             </ContentGroup>
 
