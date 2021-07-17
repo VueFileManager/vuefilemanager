@@ -12,9 +12,9 @@ use App\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $casts = [
-        'id' => 'string',
+        'id'                => 'string',
         'email_verified_at' => 'datetime',
     ];
 
@@ -87,15 +87,15 @@ class User extends Authenticatable implements MustVerifyEmail
         // Get user storage usage
         if (! $is_storage_limit) {
             return [
-                'used' => $this->used_capacity,
+                'used'           => $this->used_capacity,
                 'used_formatted' => Metric::bytes($this->used_capacity)->format(),
             ];
         }
 
         return [
-            'used' => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
-            'used_formatted' => get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity) . '%',
-            'capacity' => $this->settings->storage_capacity,
+            'used'               => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
+            'used_formatted'     => get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity) . '%',
+            'capacity'           => $this->settings->storage_capacity,
             'capacity_formatted' => format_gigabytes($this->settings->storage_capacity),
         ];
     }
@@ -137,13 +137,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setBilling($billing)
     {
         $this->settings()->update([
-            'address' => $billing['billing_address'],
-            'city' => $billing['billing_city'],
-            'country' => $billing['billing_country'],
-            'name' => $billing['billing_name'],
+            'address'      => $billing['billing_address'],
+            'city'         => $billing['billing_city'],
+            'country'      => $billing['billing_country'],
+            'name'         => $billing['billing_name'],
             'phone_number' => $billing['billing_phone_number'],
-            'postal_code' => $billing['billing_postal_code'],
-            'state' => $billing['billing_state'],
+            'postal_code'  => $billing['billing_postal_code'],
+            'state'        => $billing['billing_state'],
         ]);
 
         return $this->settings;

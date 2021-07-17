@@ -53,7 +53,7 @@ class LanguageController extends Controller
         abort_if(is_demo(), 204, 'Done.');
 
         $language = Language::create([
-            'name' => $request->input('name'),
+            'name'   => $request->input('name'),
             'locale' => $request->input('locale'),
         ]);
 

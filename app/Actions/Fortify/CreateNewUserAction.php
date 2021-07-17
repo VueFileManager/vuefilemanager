@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Actions\Fortify;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\UserSettings;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -19,7 +18,8 @@ class CreateNewUserAction extends Controller
 
     public function __construct(
         protected StatefulGuard $guard
-    ) {}
+    ) {
+    }
 
     /**
      * Validate and create a newly registered user.
@@ -27,12 +27,12 @@ class CreateNewUserAction extends Controller
     public function __invoke(Request $request): Response
     {
         $settings = Setting::whereIn('name', [
-            'storage_default', 'registration'
+            'storage_default', 'registration',
         ])
             ->pluck('value', 'name');
 
         // Check if account registration is enabled
-        if (!intval($settings['registration'])) {
+        if (! intval($settings['registration'])) {
             abort(401);
         }
 
@@ -62,7 +62,7 @@ class CreateNewUserAction extends Controller
                 'storage_capacity' => $settings['storage_default'],
             ]);
 
-        if (!get_setting('user_verification')) {
+        if (! get_setting('user_verification')) {
             $user->markEmailAsVerified();
         }
 
@@ -70,7 +70,7 @@ class CreateNewUserAction extends Controller
 
         event(new Registered($user));
 
-        if (!get_setting('user_verification')) {
+        if (! get_setting('user_verification')) {
             $this->guard->login($user);
         }
 

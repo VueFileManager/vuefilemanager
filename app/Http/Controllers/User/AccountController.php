@@ -1,23 +1,22 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\DemoService;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Laravel\Sanctum\PersonalAccessToken;
 use App\Http\Resources\InvoiceCollection;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserStorageResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Http\Requests\User\UserCreateAccessTokenRequest;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AccountController extends Controller
 {
@@ -148,13 +147,13 @@ class AccountController extends Controller
     {
         // Check if is demo
         abort_if(is_demo_account('howdy@hi5ve.digital'), 201, [
-            "name"           => "token",
-            "token"          => Str::random(40),
-            "abilities"      => '["*"]',
-            "tokenable_id"   => Str::uuid(),
-            "updated_at"     => now(),
-            "created_at"     => now(),
-            "id"             => Str::random(40),
+            'name'           => 'token',
+            'token'          => Str::random(40),
+            'abilities'      => '["*"]',
+            'tokenable_id'   => Str::uuid(),
+            'updated_at'     => now(),
+            'created_at'     => now(),
+            'id'             => Str::random(40),
         ]);
 
         $token = Auth::user()->createToken($request->input('name'));
@@ -176,15 +175,15 @@ class AccountController extends Controller
         return response('Deleted!', 204);
     }
 
-    public function email_verification(string $id, Request $request): RedirectResponse|Response
+    public function email_verification(string $id, Request $request): RedirectResponse | Response
     {
-        if (!$request->hasValidSignature()) {
-            return response("Invalid or expired url provided.", 401);
+        if (! $request->hasValidSignature()) {
+            return response('Invalid or expired url provided.', 401);
         }
 
         $user = User::find($id);
 
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
         }
 
@@ -196,11 +195,11 @@ class AccountController extends Controller
         $user = User::whereEmail($request->input('email'))->first();
 
         if ($user->hasVerifiedEmail()) {
-            return response("Email was already verified.", 204);
+            return response('Email was already verified.', 204);
         }
 
         $user->sendEmailVerificationNotification();
 
-        return response("Email verification link sent to your email", 204);
+        return response('Email verification link sent to your email', 204);
     }
 }

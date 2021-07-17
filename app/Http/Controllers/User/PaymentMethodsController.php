@@ -70,7 +70,7 @@ class PaymentMethodsController extends Controller
         if (! $user->card_brand || ! $user->stripe_id || is_null($paymentMethodsMapped) && is_null($paymentMethodsMapped)) {
             return [
                 'default' => null,
-                'others' => [],
+                'others'  => [],
             ];
         }
 

@@ -15,18 +15,18 @@ class ShareResource extends JsonResource
     {
         return [
             'data' => [
-                'id' => (string) $this->id,
-                'type' => 'shares',
+                'id'         => (string) $this->id,
+                'type'       => 'shares',
                 'attributes' => [
-                    'permission' => $this->permission,
+                    'permission'   => $this->permission,
                     'is_protected' => $this->is_protected,
-                    'item_id' => $this->item_id,
-                    'expire_in' => (int) $this->expire_in,
-                    'token' => $this->token,
-                    'link' => $this->link,
-                    'type' => $this->type,
-                    'created_at' => $this->created_at,
-                    'updated_at' => $this->updated_at,
+                    'item_id'      => $this->item_id,
+                    'expire_in'    => (int) $this->expire_in,
+                    'token'        => $this->token,
+                    'link'         => $this->link,
+                    'type'         => $this->type,
+                    'created_at'   => $this->created_at,
+                    'updated_at'   => $this->updated_at,
                 ],
             ],
         ];

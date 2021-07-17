@@ -12,7 +12,7 @@ class Invoice extends Model
     protected $casts = [
         'seller' => 'array',
         'client' => 'array',
-        'bag' => 'array',
+        'bag'    => 'array',
     ];
 
     /**

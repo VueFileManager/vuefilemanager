@@ -64,8 +64,8 @@ class Folder extends Model
         $name = Str::slug($array['name'], ' ');
 
         return [
-            'id' => $this->id,
-            'name' => $name,
+            'id'         => $this->id,
+            'name'       => $name,
             'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
         ];
     }

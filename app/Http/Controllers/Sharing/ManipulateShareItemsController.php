@@ -252,7 +252,7 @@ class ManipulateShareItemsController extends Controller
         // Get file
         return response([
             'url' => route('zip_public', [
-                'id' => $zip->id,
+                'id'    => $zip->id,
                 'token' => $shared->token,
             ]),
             'name' => $zip->basename,
@@ -291,7 +291,7 @@ class ManipulateShareItemsController extends Controller
         // Get file
         return response([
             'url' => route('zip_public', [
-                'id' => $zip->id,
+                'id'    => $zip->id,
                 'token' => $shared->token,
             ]),
             'name' => $zip->basename,
