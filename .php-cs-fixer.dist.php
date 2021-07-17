@@ -19,22 +19,17 @@ return $config->setRules([
         'syntax' => 'short'
     ],
     'ordered_imports'                            => [
-        'sortAlgorithm' => 'length'
+        'sort_algorithm' => 'length'
     ],
     'blank_line_before_statement'                => [
-        'statements' => ['break', 'case', 'continue', 'declare', 'default', 'die', 'do', 'exit', 'for', 'foreach', 'goto', 'if', 'include', 'include_once', 'require', 'require_once', 'return', 'switch', 'throw', 'try', 'while', 'yield', 'yield_from'],
-    ],
-    'class_attributes_separation'                => [
-        'elements' => [
-            'method',
-        ],
+        'statements' => ['break', 'case', 'continue', 'declare', 'default', 'do', 'exit', 'for', 'foreach', 'goto', 'if', 'include', 'include_once', 'require', 'require_once', 'return', 'switch', 'throw', 'try', 'while', 'yield', 'yield_from'],
     ],
     'method_argument_space'                      => [
         'on_multiline'                     => 'ensure_fully_multiline',
         'keep_multiple_spaces_after_comma' => true,
     ],
     'no_extra_blank_lines'                       => [
-        'break', 'case', 'continue', 'curly_brace_block', 'default', 'extra', 'parenthesis_brace_block', 'return', 'square_brace_block', 'switch', 'throw', 'use', 'useTrait', 'use_trait'
+        'tokens' => ['break', 'case', 'continue', 'curly_brace_block', 'default', 'extra', 'parenthesis_brace_block', 'return', 'square_brace_block', 'switch', 'throw', 'use', 'use_trait'],
     ],
     'cast_spaces'                                => [
         'space' => 'single'
@@ -45,12 +40,11 @@ return $config->setRules([
     'single_line_after_imports'                  => true,
     'no_unused_imports'                          => true,
     'not_operator_with_successor_space'          => true,
-    'trailing_comma_in_multiline_array'          => true,
+    'trailing_comma_in_multiline'                => ['elements' => ['arrays']],
     'phpdoc_scalar'                              => true,
     'unary_operator_spaces'                      => true,
-    'binary_operator_spaces'                     => true,
+    'binary_operator_spaces'                     => ['operators' => ['=>' => 'align']],
     'single_trait_insert_per_statement'          => false,
-    'no_spaces_around_offset'                    => true,
     'method_chaining_indentation'                => true,
     'array_indentation'                          => true,
     'single_quote'                               => true,
