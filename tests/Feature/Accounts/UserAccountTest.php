@@ -1,21 +1,18 @@
 <?php
-
 namespace Tests\Feature\Accounts;
 
-use App\Models\File;
-use App\Models\User;
-use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
-use Laravel\Sanctum\Sanctum;
 use Storage;
 use Notification;
 use Tests\TestCase;
+use App\Models\File;
+use App\Models\User;
 use App\Models\Folder;
+use Laravel\Sanctum\Sanctum;
+use App\Services\SetupService;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserAccountTest extends TestCase
 {
@@ -97,38 +94,39 @@ class UserAccountTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->getJson('/api/user')
+        $this
+            ->actingAs($user)
+            ->getJson('/api/user')
             ->assertStatus(200)
             ->assertExactJson([
-                "data" => [
-                    "id"            => (string)$user->id,
-                    "type"          => "user",
-                    "attributes"    => [
-                        "storage_capacity"     => "5",
-                        "subscription"         => false,
-                        "incomplete_payment"   => null,
-                        "stripe_customer"      => false,
-                        "email"                => $user->email,
-                        "role"                 => $user->role,
-                        "folders"              => [],
-                        "storage"              => [
-                            "used"               => 0,
-                            "used_formatted"     => "0.00%",
-                            "capacity"           => "5",
-                            "capacity_formatted" => "5GB",
+                'data' => [
+                    'id'            => (string) $user->id,
+                    'type'          => 'user',
+                    'attributes'    => [
+                        'storage_capacity'          => '5',
+                        'subscription'              => false,
+                        'incomplete_payment'        => null,
+                        'stripe_customer'           => false,
+                        'email'                     => $user->email,
+                        'role'                      => $user->role,
+                        'two_factor_authentication' => false,
+                        'folders'                   => [],
+                        'storage'                   => [
+                            'used'               => 0,
+                            'used_formatted'     => '0.00%',
+                            'capacity'           => '5',
+                            'capacity_formatted' => '5GB',
                         ],
-                        "created_at_formatted" => format_date($user->created_at, '%d. %B. %Y'),
-                        "created_at"           => $user->created_at->toJson(),
-                        "updated_at"           => $user->updated_at->toJson(),
+                        'created_at_formatted' => format_date($user->created_at, '%d. %B. %Y'),
+                        'created_at'           => $user->created_at->toJson(),
+                        'updated_at'           => $user->updated_at->toJson(),
                     ],
-                    "relationships" => [
-                        "settings"   => [
-                            "data" => [
-                                "id"         => (string)$user->id,
-                                "type"       => "settings",
-                                "attributes" => [
+                    'relationships' => [
+                        'settings'   => [
+                            'data' => [
+                                'id'         => (string) $user->id,
+                                'type'       => 'settings',
+                                'attributes' => [
                                     'avatar'       => $user->settings->avatar,
                                     'name'         => $user->settings->name,
                                     'address'      => $user->settings->address,
@@ -137,20 +135,20 @@ class UserAccountTest extends TestCase
                                     'postal_code'  => $user->settings->postal_code,
                                     'country'      => $user->settings->country,
                                     'phone_number' => $user->settings->phone_number,
-                                    'timezone'     => $user->settings->timezone
-                                ]
-                            ]
+                                    'timezone'     => $user->settings->timezone,
+                                ],
+                            ],
                         ],
-                        "favourites" => [
-                            "data" => [
-                                "id"         => (string)$user->id,
-                                "type"       => "favourite_folders",
-                                "attributes" => [
-                                    "folders" => []
-                                ]
-                            ]
+                        'favourites' => [
+                            'data' => [
+                                'id'         => (string) $user->id,
+                                'type'       => 'favourite_folders',
+                                'attributes' => [
+                                    'folders' => [],
+                                ],
+                            ],
                         ],
-                    ]
+                    ],
                 ],
             ]);
     }
@@ -166,12 +164,12 @@ class UserAccountTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->postJson('/api/user/token/create', [
-            'name' => 'token'
+            'name' => 'token',
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,
-            'name'         => 'token'
+            'name'         => 'token',
         ]);
     }
 
@@ -193,7 +191,7 @@ class UserAccountTest extends TestCase
             ->assertStatus(204);
 
         $this->assertDatabaseMissing('personal_access_tokens', [
-            'id' => $token_id
+            'id' => $token_id,
         ]);
     }
 
@@ -214,11 +212,11 @@ class UserAccountTest extends TestCase
             ->getJson('/api/user/tokens')
             ->assertStatus(200)
             ->assertJsonFragment([
-                "id"             => $token->id,
-                "tokenable_type" => $token->tokenable_type,
-                "tokenable_id"   => $user->id,
-                "name"           => $token->name,
-                "abilities"      => $token->abilities
+                'id'             => $token->id,
+                'tokenable_type' => $token->tokenable_type,
+                'tokenable_id'   => $user->id,
+                'name'           => $token->name,
+                'abilities'      => $token->abilities,
             ]);
     }
 
@@ -237,19 +235,19 @@ class UserAccountTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'user_id' => $user->id,
-                'folder_id' => $folder->id
+                'user_id'   => $user->id,
+                'folder_id' => $folder->id,
             ]);
 
         $token = $user->createToken('token')->plainTextToken;
 
         $this->assertDatabaseHas('personal_access_tokens', [
-            'tokenable_id' => $user->id
+            'tokenable_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('folders', [
             'id'      => $folder->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this
@@ -268,7 +266,7 @@ class UserAccountTest extends TestCase
     {
         $user = User::factory(User::class)
             ->create([
-                'email_verified_at' => null
+                'email_verified_at' => null,
             ]);
 
         $verificationUrl = URL::temporarySignedRoute(
@@ -291,7 +289,7 @@ class UserAccountTest extends TestCase
     {
         $user = User::factory(User::class)
             ->create([
-                'email_verified_at' => null
+                'email_verified_at' => null,
             ]);
 
         $this->postJson('/api/user/email/resend/verify', [
