@@ -203,7 +203,7 @@ return [
         'col_amount'                                          => 'Amount',
         'total'                                               => 'Total',
     ],
-    'regular' => [
+    'regular'  => [
         'actions.close'                                      => 'Close',
         'actions.create_folder'                              => 'Create folder',
         'actions.delete'                                     => 'Delete item',
@@ -714,5 +714,18 @@ return [
         'popup_2fa.toaster_codes_copied'                     => 'Your codes was copied!',
         'popup_2fa.toaster_codes_regenerated'                => 'Your codes was regenerated!',
         'go_home'                                            => 'Go to the homepage',
+        'never'                                              => 'Never',
+        'last_used'                                          => 'Last Used',
+        'personal_token.section_title'                       => 'Personal Access Token',
+        'personal_token.section_description'                 => "You don't have any created personal access tokens yet.",
+        'personal_token.create_token'                        => 'Create Token',
+        'popup_personal_token.title'                         => 'Create Personal Token',
+        'popup_personal_token.label'                         => 'Token Name',
+        'popup_personal_token.plc'                           => 'Type token name...',
+        'popup_personal_token.your_token'                    => 'Your Personal Access Token',
+        'popup_personal_token.copy_token'                    => "Make sure to <b class='text-theme'>copy your personal access token now</b>. You won’t be able to see it again!",
+        'popup_delete_personal_token.title'                  => 'Are you sure you want to delete this token?',
+        'popup_delete_personal_token.description'            => 'Any applications or scripts using this token will no longer be able to access into your account. You cannot undo this action.',
+        'personal_token.token_deleted'                       => 'Token was successfully deleted!',
     ],
 ];

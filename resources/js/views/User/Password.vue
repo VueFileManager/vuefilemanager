@@ -73,9 +73,9 @@
 			</div>
         </PageTabGroup>
 		<PageTabGroup class="form block-form">
-            <FormLabel icon="key">{{ $t('Personal Access Token') }}</FormLabel>
+            <FormLabel icon="key">{{ $t('personal_token.section_title') }}</FormLabel>
 			<InfoBox v-if="tokens.length === 0">
-				<p>{{ $t("You don't have any created personal access tokens yet.") }}</p>
+				<p>{{ $t("personal_token.section_description") }}</p>
 			</InfoBox>
 
 			<InfoBox v-if="tokens.length > 0">
@@ -83,7 +83,7 @@
 					<li class="token-item" v-for="token in tokens" :key="token.id">
 						<div class="tokens-details">
 							<b class="name">{{ token.name}}</b>
-							<time class="last-used">{{ $t('Last Used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('Never') }}</time>
+							<time class="last-used">{{ $t('last_used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}</time>
 						</div>
 						<div @click="confirmDeleteToken(token)" class="tokens-destroyer">
 							<x-icon size="16" class="close-icon hover-text-theme" />
@@ -93,7 +93,7 @@
 			</InfoBox>
 
 			<ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="confirm-form">
-				{{ $t('Create Token') }}
+				{{ $t('personal_token.create_token') }}
 			</ButtonBase>
         </PageTabGroup>
     </PageTab>
@@ -152,8 +152,8 @@
 			},
 			confirmDeleteToken(token) {
 				events.$emit('confirm:open', {
-					title: this.$t('Are you sure you want to delete this token?'),
-					message: this.$t('Any applications or scripts using this token will no longer be able to access into your account. You cannot undo this action.'),
+					title: this.$t('popup_delete_personal_token.title'),
+					message: this.$t('popup_delete_personal_token.description'),
 					action: {
 						id: token.id,
 						operation: 'delete-personal-access-token'
@@ -168,7 +168,7 @@
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: this.$t('Token was successfully deleted!'),
+							message: this.$t('personal_token.token_deleted'),
 						})
 					})
 					.catch(() => this.$isSomethingWrong())

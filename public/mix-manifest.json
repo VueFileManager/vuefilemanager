@@ -60,10 +60,10 @@
     "/chunks/profile.js": "/chunks/profile.js?id=41b536880e846017d2d0",
     "/chunks/profile~chunks/settings-password.js": "/chunks/profile~chunks/settings-password.js?id=fd25990d1ccec0294602",
     "/chunks/purchase-code.js": "/chunks/purchase-code.js?id=b35e751cdc1946a4fb60",
-    "/chunks/settings.js": "/chunks/settings.js?id=03e8ad7276ef26cb279e",
+    "/chunks/settings.js": "/chunks/settings.js?id=b7d5d142d6e4cae354b0",
     "/chunks/settings-create-payment-methods.js": "/chunks/settings-create-payment-methods.js?id=0e818baec7f92c7fa542",
     "/chunks/settings-invoices.js": "/chunks/settings-invoices.js?id=eab2781e9935230c6971",
-    "/chunks/settings-password.js": "/chunks/settings-password.js?id=b6d2bfbdff952d9e60b3",
+    "/chunks/settings-password.js": "/chunks/settings-password.js?id=b01b17b523e99064d8ca",
     "/chunks/settings-payment-methods.js": "/chunks/settings-payment-methods.js?id=1a1c7f6e9c2857ec941f",
     "/chunks/settings-storage.js": "/chunks/settings-storage.js?id=682f4f690ac252a78a3a",
     "/chunks/settings-subscription.js": "/chunks/settings-subscription.js?id=4f1793d53633a2c4cc18",
@@ -267,5 +267,7 @@
     "/chunks/settings-password.a1ad87b73322e03760e1.hot-update.js": "/chunks/settings-password.a1ad87b73322e03760e1.hot-update.js",
     "/chunks/settings-password.b0506a2ed51f1ae20fe9.hot-update.js": "/chunks/settings-password.b0506a2ed51f1ae20fe9.hot-update.js",
     "/chunks/settings-password.0188e6bd0c54da3e5622.hot-update.js": "/chunks/settings-password.0188e6bd0c54da3e5622.hot-update.js",
-    "/chunks/settings.785b8b09d065036f22c3.hot-update.js": "/chunks/settings.785b8b09d065036f22c3.hot-update.js"
+    "/chunks/settings.785b8b09d065036f22c3.hot-update.js": "/chunks/settings.785b8b09d065036f22c3.hot-update.js",
+    "/chunks/settings.cd58b80e4d16e8317220.hot-update.js": "/chunks/settings.cd58b80e4d16e8317220.hot-update.js",
+    "/chunks/settings-password.cd58b80e4d16e8317220.hot-update.js": "/chunks/settings-password.cd58b80e4d16e8317220.hot-update.js"
 }

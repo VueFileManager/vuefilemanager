@@ -1,13 +1,13 @@
 <template>
     <PopupWrapper name="create-personal-token">
 
-        <PopupHeader :title="$t('Create Personal Token')" icon="key" />
+        <PopupHeader :title="$t('popup_personal_token.title')" icon="key" />
 
         <PopupContent>
              <ValidationObserver v-if="! token" @submit.prevent="createTokenForm" ref="createToken" v-slot="{ invalid }" tag="form" class="form-wrapper">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Token Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label"> {{ $t('Token Name') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" :placeholder="$t('Type token name...')">
+                    <label class="input-label"> {{ $t('popup_personal_token.label') }}:</label>
+                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" :placeholder="$t('popup_personal_token.plc')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
@@ -15,12 +15,12 @@
             <div v-if="token" class="form-wrapper">
 				<div v-if="token">
 					<div class="input-wrapper">
-						<label class="input-label">{{ $t('Your Personal Access Token') }}:</label>
+						<label class="input-label">{{ $t('popup_personal_token.your_token') }}:</label>
 						<CopyInput size="small" :str="token['plainTextToken']" />
 					</div>
 				</div>
 				<InfoBox style="margin-bottom: 0; margin-top: 20px">
-                	<p v-html="$t('Make sure to <b class=\'text-theme\'>copy your personal access token now</b>. You won’t be able to see it again!')"></p>
+                	<p v-html="$t('popup_personal_token.copy_token')"></p>
             	</InfoBox>
             </div>
         </PopupContent>
@@ -40,7 +40,7 @@
 				:loading="isLoading"
 				:disabled="isLoading"
 			>
-               {{ $t('Create Token') }}
+               {{ $t('personal_token.create_token') }}
             </ButtonBase>
         </PopupActions>
 
