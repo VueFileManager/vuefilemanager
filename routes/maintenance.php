@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\App\Maintenance;
+use App\Http\Controllers\App\MaintenanceController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/down', [Maintenance::class, 'down']);
-    Route::get('/up', [Maintenance::class, 'up']);
+    Route::get('/down', [MaintenanceController::class, 'down']);
+    Route::get('/up', [MaintenanceController::class, 'up']);
 
     Route::group(['prefix' => 'upgrade'], function () {
-        Route::get('/translations', [Maintenance::class, 'upgrade_translations']);
-        Route::get('/database', [Maintenance::class, 'upgrade_database']);
+        Route::get('/translations', [MaintenanceController::class, 'upgrade_translations']);
+        Route::get('/database', [MaintenanceController::class, 'upgrade_database']);
     });
 });

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\PlansController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\InvoiceController;
@@ -30,12 +30,12 @@ Route::group(['prefix' => 'users'], function () {
 
 // Plans
 Route::group(['prefix' => 'plans'], function () {
-    Route::get('/{id}/subscribers', [PlanController::class, 'subscribers']);
-    Route::delete('/{id}', [PlanController::class, 'delete']);
-    Route::patch('/{id}', [PlanController::class, 'update']);
-    Route::get('/{id}', [PlanController::class, 'show']);
-    Route::post('/', [PlanController::class, 'store']);
-    Route::get('/', [PlanController::class, 'index']);
+    Route::get('/{id}/subscribers', [PlansController::class, 'subscribers']);
+    Route::delete('/{id}', [PlansController::class, 'delete']);
+    Route::patch('/{id}', [PlansController::class, 'update']);
+    Route::get('/{id}', [PlansController::class, 'show']);
+    Route::post('/', [PlansController::class, 'store']);
+    Route::get('/', [PlansController::class, 'index']);
 });
 
 // Pages
