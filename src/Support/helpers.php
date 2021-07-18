@@ -2,17 +2,15 @@
 
 use Carbon\Carbon;
 use ByteUnits\Metric;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use Domain\Sharing\Models\Share;
 use Illuminate\Support\Collection;
 use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Language;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
+use Domain\Localization\Models\Language;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

@@ -2,12 +2,12 @@
 namespace Domain\Pages\Controllers;
 
 use Illuminate\Http\Request;
+use Domain\Pages\Models\Page;
 use Illuminate\Http\Response;
-use Domain\Settings\Models\Page;
 use App\Http\Controllers\Controller;
-use Domain\Admin\Resources\PageResource;
-use Domain\Admin\Resources\PageCollection;
-use Domain\SetupWizard\Services\DemoService;
+use Support\Demo\Actions\DemoService;
+use Domain\Pages\Resources\PageResource;
+use Domain\Pages\Resources\PageCollection;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PagesController extends Controller

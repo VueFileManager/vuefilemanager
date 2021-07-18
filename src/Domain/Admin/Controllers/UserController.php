@@ -1,22 +1,21 @@
 <?php
 namespace Domain\Admin\Controllers;
 
-use Storage;
+use App\Users\Models\User;
 use Illuminate\Http\Response;
-use Domain\Settings\Models\User;
+use App\Users\Models\UserSettings;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Domain\Admin\Resources\UserResource;
-use Domain\Settings\Models\UserSettings;
+use App\Users\Resources\UserResource;
+use App\Users\Resources\UsersCollection;
 use Illuminate\Support\Facades\Password;
-use Domain\Admin\Resources\UsersCollection;
+use App\Users\Resources\UserSubscription;
+use App\Users\Resources\UserStorageResource;
 use Domain\Admin\Requests\ChangeRoleRequest;
 use Domain\Admin\Requests\CreateUserByAdmin;
 use Domain\Admin\Requests\DeleteUserRequest;
-use Domain\Admin\Resources\UserSubscription;
-use Domain\Admin\Resources\InvoiceCollection;
-use Domain\SetupWizard\Services\StripeService;
-use Domain\Admin\Resources\UserStorageResource;
+use Domain\Invoices\Resources\InvoiceCollection;
+use Domain\Subscriptions\Services\StripeService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Admin\Requests\ChangeStorageCapacityRequest;

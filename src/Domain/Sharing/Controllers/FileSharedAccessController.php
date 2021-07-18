@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Domain\Settings\Models\Zip;
-use Domain\Settings\Models\Share;
+use Domain\Zipping\Models\Zip;
+use Domain\Sharing\Models\Share;
+use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Domain\Settings\Models\File as UserFile;
-use Domain\SetupWizard\Services\HelperService;
+use Domain\Files\Models\File as UserFile;
 
 class FileSharedAccessController extends Controller
 {

@@ -2,8 +2,8 @@
 namespace Tests\Domain\Settings;
 
 use Tests\TestCase;
+use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Domain\Settings\Models\User;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
 

@@ -3,9 +3,9 @@ namespace Support\Demo\Actions;
 
 use ByteUnits\Metric;
 use Illuminate\Support\Str;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Files\Requests\RenameItemRequest;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
+use Domain\Items\Requests\RenameItemRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class DemoService

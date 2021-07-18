@@ -6,7 +6,7 @@ use Artisan;
 use Illuminate\Http\Request;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
-use Domain\SetupWizard\Services\DemoService;
+use Support\Demo\Actions\DemoService;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

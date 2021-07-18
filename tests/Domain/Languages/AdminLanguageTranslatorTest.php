@@ -1,9 +1,9 @@
 <?php
 namespace Tests\Domain\Languages;
 
-use Domain\Settings\Models\User;
+use App\Users\Models\User;
 use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Language;
+use Domain\Localization\Models\Language;
 
 class AdminLanguageTranslatorTest
 {

@@ -1,11 +1,11 @@
 <?php
-namespace App\Services;
+namespace Domain\Subscriptions\Services;
 
 use Stripe;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;
-use Domain\Settings\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;

@@ -2,12 +2,12 @@
 namespace Tests\Domain\Browsing;
 
 use Tests\TestCase;
+use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Domain\Files\Models\File;
 use Illuminate\Bus\Queueable;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BrowseTest extends TestCase

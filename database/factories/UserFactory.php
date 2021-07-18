@@ -1,10 +1,9 @@
 <?php
-
 namespace Database\Factories;
 
-use Domain\Settings\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
 {
@@ -31,7 +30,9 @@ class UserFactory extends Factory
             'password'          => bcrypt('secret'),
             'remember_token'    => Str::random(10),
             'created_at'        => $this->faker->dateTimeBetween(
-                $startDate = '-36 months', $endDate = 'now', $timezone = null
+                $startDate = '-36 months',
+                $endDate = 'now',
+                $timezone = null
             ),
         ];
     }

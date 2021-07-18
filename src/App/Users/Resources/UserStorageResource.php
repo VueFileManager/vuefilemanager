@@ -2,7 +2,7 @@
 namespace App\Users\Resources;
 
 use ByteUnits\Metric;
-use Domain\Settings\Models\File;
+use Domain\Files\Models\File;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserStorageResource extends JsonResource

@@ -1,6 +1,6 @@
 <?php
 
-use Domain\Browsing\Controllers\ShareController;
+use Domain\Sharing\Controllers\ShareController;
 use Domain\Sharing\Controllers\BrowseShareController;
 use Domain\Homepage\Controllers\AppFunctionsController;
 use Domain\Sharing\Controllers\ManipulateShareItemsController;

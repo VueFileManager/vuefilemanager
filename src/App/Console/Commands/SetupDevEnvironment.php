@@ -1,12 +1,12 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
+use Domain\Files\Models\File;
 use Illuminate\Console\Command;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;

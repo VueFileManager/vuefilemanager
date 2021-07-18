@@ -2,17 +2,21 @@
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
+use Database\Factories\UserFactory;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
+use Domain\Traffic\Models\Traffic;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
+use Support\Services\HelperService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use App\Users\Notifications\ResetPassword;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Domain\SetupWizard\Services\HelperService;
-use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Domain\Sharing\Notifications\ResetPassword;
+use Domain\Subscriptions\Services\StripeService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -59,6 +63,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
 
     /**
      * Get tax rate id for user

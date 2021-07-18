@@ -3,11 +3,11 @@ namespace Domain\Sharing\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use Domain\Settings\Models\Zip;
-use Domain\Settings\Models\Share;
+use Domain\Zipping\Models\Zip;
+use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Domain\Admin\Resources\ShareResource;
+use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Support\Facades\Notification;
 use Domain\Sharing\Requests\CreateShareRequest;
 use Domain\Sharing\Requests\UpdateShareRequest;

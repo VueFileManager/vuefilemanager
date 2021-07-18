@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'model' => env('CASHIER_MODEL', Domain\Settings\Models\User::class),
+    'model' => env('CASHIER_MODEL', Domain\Traffic\Models\User::class),
 
     /*
     |--------------------------------------------------------------------------

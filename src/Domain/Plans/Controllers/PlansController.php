@@ -1,18 +1,17 @@
 <?php
 namespace Domain\Plans\Controllers;
 
+use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Domain\Settings\Models\Plan;
-use Domain\Settings\Models\User;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use Domain\Admin\Resources\PlanResource;
-use Domain\Admin\Resources\PlanCollection;
-use Domain\Admin\Resources\UsersCollection;
-use Domain\SetupWizard\Services\DemoService;
-use Domain\SetupWizard\Services\StripeService;
+use Support\Demo\Actions\DemoService;
+use App\Users\Resources\UsersCollection;
+use Domain\Plans\Resources\PlanResource;
+use Domain\Plans\Resources\PlanCollection;
+use Domain\Subscriptions\Services\StripeService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 

@@ -2,9 +2,9 @@
 namespace Support\Scheduler\Actions;
 
 use Carbon\Carbon;
-use Domain\Settings\Models\Zip;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
+use App\Users\Models\User;
+use Domain\Zipping\Models\Zip;
+use Domain\Sharing\Models\Share;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 

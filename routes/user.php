@@ -1,9 +1,9 @@
 <?php
 
 use App\Users\Controllers\AuthController;
-use Domain\Subscriptions\Controllers\AccountController;
+use App\Users\Controllers\AccountController;
+use Domain\Payments\Controllers\PaymentMethodsController;
 use Domain\Subscriptions\Controllers\SubscriptionController;
-use Domain\Subscriptions\Controllers\PaymentMethodsController;
 
 Route::post('/check', [AuthController::class, 'check_account']);
 

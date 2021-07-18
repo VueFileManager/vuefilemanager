@@ -3,12 +3,12 @@ namespace Tests\Domain\Zipping;
 
 use Storage;
 use Tests\TestCase;
+use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Domain\Settings\Models\Zip;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
+use Domain\Files\Models\File;
+use Domain\Zipping\Models\Zip;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\Settings\Models\Folder;
 
 class UserZippingTest extends TestCase
 {

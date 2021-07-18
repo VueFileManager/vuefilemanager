@@ -2,6 +2,9 @@
 namespace Domain\Files\Models;
 
 use ByteUnits\Metric;
+use Database\Factories\FileFactory;
+use Domain\Folders\Models\Folder;
+use Domain\Sharing\Models\Share;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Kyslik\ColumnSortable\Sortable;
@@ -50,6 +53,11 @@ class File extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected static function newFactory(): FileFactory
+    {
+        return FileFactory::new();
+    }
 
     /**
      * Set routes with public access

@@ -1,8 +1,8 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Users\Models\User;
 use Illuminate\Console\Command;
-use Domain\Settings\Models\User;
 use Domain\Settings\Models\Setting;
 use Domain\SetupWizard\Services\SetupService;
 

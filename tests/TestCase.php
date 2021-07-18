@@ -24,5 +24,7 @@ abstract class TestCase extends BaseTestCase
         Storage::fake('local');
 
         resolve(SetupService::class)->create_directories();
+
+        $this->withoutExceptionHandling();
     }
 }

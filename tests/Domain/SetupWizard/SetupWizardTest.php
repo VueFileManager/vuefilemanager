@@ -2,7 +2,7 @@
 namespace Tests\Domain\SetupWizard;
 
 use Tests\TestCase;
-use Domain\Settings\Models\User;
+use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Http;

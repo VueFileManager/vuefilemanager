@@ -3,20 +3,20 @@ namespace Domain\Items\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
+use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Support\Demo\Actions\DemoService;
 use Illuminate\Database\Eloquent\Model;
 use Domain\Files\Requests\UploadRequest;
-use Domain\Files\Requests\MoveItemRequest;
-use Domain\Files\Requests\DeleteItemRequest;
-use Domain\Files\Requests\RenameItemRequest;
-use Domain\SetupWizard\Services\DemoService;
-use Domain\Files\Requests\CreateFolderRequest;
-use Domain\SetupWizard\Services\HelperService;
+use Support\Services\FileManagerService;
+use Domain\Items\Requests\MoveItemRequest;
+use Domain\Items\Requests\DeleteItemRequest;
+use Domain\Items\Requests\RenameItemRequest;
+use Domain\Folders\Requests\CreateFolderRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Domain\SetupWizard\Services\FileManagerService;
 
 class EditItemsController extends Controller
 {

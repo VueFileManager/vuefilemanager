@@ -3,11 +3,11 @@ namespace Tests\Domain\Files;
 
 use Storage;
 use Tests\TestCase;
+use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\Settings\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Domain\SetupWizard\Services\SetupService;
 

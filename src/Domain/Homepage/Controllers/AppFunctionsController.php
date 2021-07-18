@@ -2,20 +2,20 @@
 namespace Domain\Homepage\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Domain\Pages\Models\Page;
+use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
-use Domain\Languages\Models\Language;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Database\QueryException;
+use Domain\Localization\Models\Language;
 use Domain\Pages\Resources\PageResource;
 use Domain\Homepage\Mail\SendContactMessage;
-use Domain\Subscriptions\Resources\PricingCollection;
-use Domain\SetupWizard\Services\StripeService;
+use Domain\Plans\Resources\PricingCollection;
+use Domain\Subscriptions\Services\StripeService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Homepage\Requests\SendContactMessageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

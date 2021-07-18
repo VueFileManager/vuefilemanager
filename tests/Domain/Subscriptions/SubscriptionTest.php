@@ -2,8 +2,8 @@
 namespace Tests\Domain\Subscriptions;
 
 use Tests\TestCase;
+use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Domain\Settings\Models\User;
 
 class SubscriptionTest extends TestCase
 {

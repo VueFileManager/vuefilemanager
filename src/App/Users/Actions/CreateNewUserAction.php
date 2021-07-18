@@ -1,14 +1,14 @@
 <?php
 namespace App\Users\Actions;
 
+use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
-use Domain\Settings\Models\User;
+use App\Users\Models\UserSettings;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
-use Domain\Settings\Models\UserSettings;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Auth\StatefulGuard;
 

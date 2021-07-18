@@ -2,7 +2,7 @@
 namespace Tests\Domain\Subscriptions;
 
 use Tests\TestCase;
-use Domain\Settings\Models\User;
+use App\Users\Models\User;
 
 class AdminSubscriptionTest extends TestCase
 {

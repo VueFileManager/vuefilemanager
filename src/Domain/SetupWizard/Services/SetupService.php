@@ -1,10 +1,10 @@
 <?php
 namespace Domain\SetupWizard\Services;
 
-use Domain\Settings\Models\Page;
+use Domain\Pages\Models\Page;
 use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Language;
 use Illuminate\Support\Facades\Storage;
+use Domain\Localization\Models\Language;
 
 class SetupService
 {

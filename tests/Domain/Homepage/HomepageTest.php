@@ -3,10 +3,10 @@ namespace Tests\Domain\Homepage;
 
 use Mail;
 use Tests\TestCase;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use App\Users\Models\User;
+use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Domain\Homepage\Mail\SendContactMessage;
 use Domain\SetupWizard\Services\SetupService;

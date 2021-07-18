@@ -2,9 +2,9 @@
 namespace Tests\Domain\Plans;
 
 use Tests\TestCase;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
-use Domain\Settings\Models\User;
 
 class AdminPlansTest extends TestCase
 {

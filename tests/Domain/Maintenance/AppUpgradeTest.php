@@ -3,8 +3,8 @@ namespace Tests\Domain\Maintenance;
 
 use DB;
 use Tests\TestCase;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Domain\Settings\Models\User;
 
 class AppUpgradeTest extends TestCase
 {

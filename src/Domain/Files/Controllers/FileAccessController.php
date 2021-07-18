@@ -2,12 +2,12 @@
 namespace Domain\Files\Controllers;
 
 use Illuminate\Http\Request;
-use Domain\Settings\Models\Zip;
+use Domain\Zipping\Models\Zip;
+use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Domain\Settings\Models\File as UserFile;
-use Domain\SetupWizard\Services\HelperService;
+use Domain\Files\Models\File as UserFile;
 
 class FileAccessController extends Controller
 {

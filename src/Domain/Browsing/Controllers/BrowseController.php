@@ -1,11 +1,11 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
+use App\Users\Models\User;
 use Illuminate\Http\Request;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

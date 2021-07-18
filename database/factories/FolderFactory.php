@@ -1,8 +1,7 @@
 <?php
-
 namespace Database\Factories;
 
-use Domain\Settings\Models\Folder;
+use Domain\Folders\Models\Folder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FolderFactory extends Factory
@@ -25,11 +24,13 @@ class FolderFactory extends Factory
             'id'         => $this->faker->uuid,
             'user_id'    => $this->faker->uuid,
             'name'       => $this->faker->word,
-            'author' => $this->faker->randomElement(
+            'author'     => $this->faker->randomElement(
                 ['user', 'member', 'visitor']
             ),
             'created_at' => $this->faker->dateTimeBetween(
-                $startDate = '-36 months', $endDate = 'now', $timezone = null
+                $startDate = '-36 months',
+                $endDate = 'now',
+                $timezone = null
             ),
         ];
     }

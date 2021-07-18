@@ -1,13 +1,13 @@
 <?php
 
 use App\Users\Actions\CreateNewUserAction;
-use Domain\Browsing\Controllers\ShareController;
-use Domain\Browsing\Controllers\TrashController;
+use Domain\Trash\Controllers\TrashController;
+use Domain\Sharing\Controllers\ShareController;
 use Domain\Browsing\Controllers\BrowseController;
+use Domain\Items\Controllers\EditItemsController;
 use App\Users\Controllers\ResetPasswordController;
 use App\Users\Controllers\ForgotPasswordController;
-use Domain\Browsing\Controllers\EditItemsController;
-use Domain\Browsing\Controllers\FavouriteController;
+use Domain\Folders\Controllers\FavouriteController;
 use Domain\Homepage\Controllers\AppFunctionsController;
 
 // Pages

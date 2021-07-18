@@ -2,18 +2,18 @@
 namespace Support\Services;
 
 use DB;
+use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Domain\Settings\Models\Zip;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use Domain\Zipping\Models\Zip;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Domain\Files\Models\File as UserFile;
 use League\Flysystem\FileNotFoundException;
-use Domain\Files\Requests\RenameItemRequest;
-use Domain\Settings\Models\File as UserFile;
+use Domain\Items\Requests\RenameItemRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FileManagerService

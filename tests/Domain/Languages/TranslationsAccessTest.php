@@ -2,7 +2,7 @@
 namespace Tests\Domain\Languages;
 
 use Tests\TestCase;
-use Domain\Settings\Models\Language;
+use Domain\Localization\Models\Language;
 use Domain\SetupWizard\Services\SetupService;
 
 class TranslationsAccessTest extends TestCase

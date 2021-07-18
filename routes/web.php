@@ -2,8 +2,8 @@
 
 use Domain\Admin\Controllers\InvoiceController;
 use Domain\Sharing\Controllers\BrowseShareController;
-use Domain\Homepage\Controllers\SetupWizardController;
 use Domain\Homepage\Controllers\AppFunctionsController;
+use Domain\SetupWizard\Controllers\SetupWizardController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;
 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);

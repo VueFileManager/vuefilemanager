@@ -2,13 +2,13 @@
 namespace Tests\Domain\Zipping;
 
 use Tests\TestCase;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Domain\Settings\Models\Zip;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
+use Domain\Files\Models\File;
+use Domain\Zipping\Models\Zip;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\Settings\Models\Folder;
 
 class SharedZippingTest extends TestCase
 {

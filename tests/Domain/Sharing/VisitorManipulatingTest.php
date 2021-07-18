@@ -3,11 +3,11 @@ namespace Tests\Domain\Sharing;
 
 use Storage;
 use Tests\TestCase;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Share;
+use App\Users\Models\User;
+use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\Settings\Models\Folder;
 use Domain\SetupWizard\Services\SetupService;
 
 class VisitorManipulatingTest extends TestCase

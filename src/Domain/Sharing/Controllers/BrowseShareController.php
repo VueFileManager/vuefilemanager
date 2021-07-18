@@ -3,16 +3,16 @@ namespace Domain\Sharing\Controllers;
 
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Folder;
+use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
+use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Domain\Admin\Resources\FileResource;
-use Domain\Admin\Resources\ShareResource;
-use Domain\SetupWizard\Services\HelperService;
+use Domain\Files\Resources\FileResource;
+use Domain\Sharing\Resources\ShareResource;
 use Domain\Sharing\Requests\AuthenticateShareRequest;
 
 class BrowseShareController extends Controller

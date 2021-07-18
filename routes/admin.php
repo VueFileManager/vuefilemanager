@@ -1,12 +1,12 @@
 <?php
 
 use Domain\Admin\Controllers\UserController;
-use Domain\Admin\Controllers\PagesController;
-use Domain\Admin\Controllers\PlansController;
+use Domain\Pages\Controllers\PagesController;
+use Domain\Plans\Controllers\PlansController;
 use Domain\Admin\Controllers\InvoiceController;
-use Domain\Admin\Controllers\SettingController;
-use Domain\Admin\Controllers\LanguageController;
 use Domain\Admin\Controllers\DashboardController;
+use Domain\Settings\Controllers\SettingController;
+use Domain\Localization\Controllers\LanguageController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {

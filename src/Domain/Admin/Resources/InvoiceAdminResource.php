@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Admin\Resources;
 
+use App\Users\Models\User;
 use Laravel\Cashier\Cashier;
-use Domain\Settings\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvoiceAdminResource extends JsonResource

@@ -4,7 +4,7 @@ namespace Tests\Feature\Accounts;
 use Storage;
 use Notification;
 use Tests\TestCase;
-use Domain\Settings\Models\User;
+use App\Users\Models\User;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Notifications\VerifyEmail;

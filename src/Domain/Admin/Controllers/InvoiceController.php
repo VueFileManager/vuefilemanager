@@ -1,10 +1,9 @@
 <?php
 namespace Domain\Admin\Controllers;
 
-use Domain\Settings\Models\Invoice;
 use App\Http\Controllers\Controller;
-use Domain\Admin\Resources\InvoiceResource;
-use Domain\SetupWizard\Services\StripeService;
+use Domain\Invoices\Resources\InvoiceResource;
+use Domain\Subscriptions\Services\StripeService;
 use Domain\Admin\Resources\InvoiceAdminCollection;
 
 class InvoiceController extends Controller

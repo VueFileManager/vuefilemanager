@@ -1,19 +1,19 @@
 <?php
 namespace App\Users\Controllers;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Users\Resources\UserResource;
 use Illuminate\Http\RedirectResponse;
-use Domain\Admin\Resources\UserResource;
+use Support\Demo\Actions\DemoService;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
-use Domain\SetupWizard\Services\DemoService;
-use Domain\Admin\Resources\InvoiceCollection;
-use Domain\Admin\Resources\UserStorageResource;
+use App\Users\Resources\UserStorageResource;
+use Domain\Invoices\Resources\InvoiceCollection;
 use App\Users\Requests\UpdateUserPasswordRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Users\Requests\UserCreateAccessTokenRequest;

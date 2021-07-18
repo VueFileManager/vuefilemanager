@@ -4,7 +4,7 @@ namespace Tests\Domain\SetupWizard;
 use Storage;
 use Tests\TestCase;
 use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Language;
+use Domain\Localization\Models\Language;
 use Domain\SetupWizard\Services\SetupService;
 
 class SetupServiceTest extends TestCase

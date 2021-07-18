@@ -5,9 +5,8 @@ use Gate;
 use Artisan;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Domain\Settings\Models\Language;
-use Domain\SetupWizard\Services\LanguageService;
 use Illuminate\Contracts\Foundation\Application;
+use Domain\Localization\Services\LanguageService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class MaintenanceController extends Controller

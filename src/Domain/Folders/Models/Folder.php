@@ -1,6 +1,9 @@
 <?php
 namespace Domain\Folders\Models;
 
+use Database\Factories\FolderFactory;
+use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Kyslik\ColumnSortable\Sortable;
@@ -47,6 +50,11 @@ class Folder extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected static function newFactory(): FolderFactory
+    {
+        return FolderFactory::new();
+    }
 
     public function getTypeAttribute()
     {

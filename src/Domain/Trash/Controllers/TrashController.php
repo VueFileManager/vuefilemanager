@@ -2,13 +2,13 @@
 namespace Domain\Trash\Controllers;
 
 use Illuminate\Http\Request;
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Support\Demo\Actions\DemoService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class TrashController extends Controller

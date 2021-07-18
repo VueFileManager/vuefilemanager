@@ -3,13 +3,13 @@ namespace Domain\Subscriptions\Controllers;
 
 use Auth;
 use Stripe\SetupIntent;
+use App\Users\Models\User;
 use Illuminate\Http\Response;
-use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use Domain\Admin\Resources\UserSubscription;
-use Domain\SetupWizard\Services\DemoService;
-use Domain\SetupWizard\Services\StripeService;
+use Support\Demo\Actions\DemoService;
+use App\Users\Resources\UserSubscription;
+use Domain\Subscriptions\Services\StripeService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Subscriptions\Requests\StoreUpgradeAccountRequest;

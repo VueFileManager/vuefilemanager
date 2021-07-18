@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Sharing\Models;
 
+use Database\Factories\ShareFactory;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -26,6 +27,11 @@ class Share extends Model
     protected $casts = [
         'is_protected' => 'boolean',
     ];
+
+    protected static function newFactory(): ShareFactory
+    {
+        return ShareFactory::new();
+    }
 
     /**
      * Generate share link

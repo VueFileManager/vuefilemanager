@@ -1,6 +1,6 @@
 <?php
 
-use Domain\Homepage\Controllers\MaintenanceController;
+use Domain\Maintenance\Controllers\MaintenanceController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/down', [MaintenanceController::class, 'down']);

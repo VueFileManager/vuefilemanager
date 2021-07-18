@@ -4,7 +4,7 @@ namespace Tests\Feature\Accounts;
 use Storage;
 use Notification;
 use Tests\TestCase;
-use Domain\Settings\Models\User;
+use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
 use Domain\SetupWizard\Services\SetupService;
