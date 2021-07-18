@@ -13,7 +13,7 @@ use Mail;
 use ScssPhp\ScssPhp\Compiler;
 use Tests\TestCase;
 
-class AppTest extends TestCase
+class HomepageTest extends TestCase
 {
     public function __construct()
     {

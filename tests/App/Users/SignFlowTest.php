@@ -12,29 +12,8 @@ use Notification;
 use Storage;
 use Tests\TestCase;
 
-class AuthTest extends TestCase
+class SignFlowTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function it_generate_and_store_user()
-    {
-        $user = User::factory(User::class)
-            ->create(['role' => 'user']);
-
-        $this->assertDatabaseHas('users', [
-            'id'   => $user->id,
-            'role' => 'user',
-        ]);
-
-        $this->assertDatabaseHas('user_settings', [
-            'user_id' => $user->id,
-        ]);
-
-        Storage::disk('local')
-            ->assertExists('files/' . User::first()->id);
-    }
-
     /**
      * @test
      */

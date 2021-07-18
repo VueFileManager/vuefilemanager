@@ -9,7 +9,7 @@ use App\Services\SetupService;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class LanguageEditorTest extends TestCase
+class LanguagesTest extends TestCase
 {
     protected $setup;
 
