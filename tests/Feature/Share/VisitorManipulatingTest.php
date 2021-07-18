@@ -7,15 +7,12 @@ use App\Models\Folder;
 use App\Models\Share;
 use App\Models\User;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\TestCase;
 
 class VisitorManipulatingTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

@@ -7,17 +7,13 @@ use App\Models\Share;
 use App\Models\User;
 use App\Models\Zip;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Storage;
 use Tests\TestCase;
 
 class VisitorAccessToItemsTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $setup;
 
     public function __construct()

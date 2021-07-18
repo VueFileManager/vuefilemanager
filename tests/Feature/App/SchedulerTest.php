@@ -7,15 +7,12 @@ use App\Models\User;
 use App\Models\Zip;
 use App\Services\SchedulerService;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\TestCase;
 
 class SchedulerTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

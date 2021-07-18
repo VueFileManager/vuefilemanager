@@ -6,8 +6,6 @@ use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
 use App\Models\Zip;
-use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -17,8 +15,6 @@ use Tests\TestCase;
 
 class ContentAccessTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

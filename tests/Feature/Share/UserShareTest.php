@@ -4,20 +4,14 @@ namespace Tests\Feature\Share;
 
 use App\Models\File;
 use App\Models\Folder;
-use App\Models\Share;
 use App\Models\User;
 use App\Notifications\SharedSendViaEmail;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserShareTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * @test
      */

@@ -2,18 +2,14 @@
 
 namespace Tests\Feature\App;
 
-use App\Models\LanguageTranslation;
 use App\Models\User;
 use DB;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class AppUpgradeTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

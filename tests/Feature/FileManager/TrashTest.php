@@ -6,8 +6,6 @@ use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
 use App\Services\SetupService;
-use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
@@ -15,8 +13,6 @@ use Tests\TestCase;
 
 class TrashTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

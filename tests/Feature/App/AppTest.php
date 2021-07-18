@@ -9,15 +9,12 @@ use App\Models\Setting;
 use App\Models\Share;
 use App\Models\User;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Mail;
 use ScssPhp\ScssPhp\Compiler;
 use Tests\TestCase;
 
 class AppTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

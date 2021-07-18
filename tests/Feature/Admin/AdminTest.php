@@ -11,7 +11,6 @@ use App\Models\Zip;
 use App\Notifications\ResetPassword;
 use App\Services\SetupService;
 use DB;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Notification;
 use Laravel\Sanctum\Sanctum;
@@ -20,8 +19,6 @@ use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

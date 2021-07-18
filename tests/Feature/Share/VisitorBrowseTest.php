@@ -7,8 +7,6 @@ use App\Models\Folder;
 use App\Models\Share;
 use App\Models\User;
 use App\Models\Zip;
-use Hash;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -17,8 +15,6 @@ use Tests\TestCase;
 
 class VisitorBrowseTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

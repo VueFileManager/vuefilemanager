@@ -3,16 +3,12 @@
 namespace Tests\Feature\External;
 
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class SubscriptionTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $user;
 
     private $plan;

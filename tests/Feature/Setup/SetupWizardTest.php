@@ -4,7 +4,6 @@ namespace Tests\Feature\Setup;
 
 use App\Models\Setting;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -12,8 +11,6 @@ use Tests\TestCase;
 
 class SetupWizardTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * CAVEAT:
      *

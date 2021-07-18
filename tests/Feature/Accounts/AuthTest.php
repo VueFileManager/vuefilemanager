@@ -6,7 +6,6 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\Sanctum;
 use Notification;
@@ -15,8 +14,6 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * @test
      */

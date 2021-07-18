@@ -3,17 +3,13 @@
 namespace Tests\Feature\Setup;
 
 use App\Models\Language;
-use App\Models\LanguageTranslation;
 use App\Models\Setting;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Storage;
 use Tests\TestCase;
 
 class SetupServiceTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();

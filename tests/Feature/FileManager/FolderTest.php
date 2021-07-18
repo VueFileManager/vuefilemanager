@@ -7,7 +7,6 @@ use App\Models\Folder;
 use App\Models\User;
 use App\Models\Zip;
 use App\Services\SetupService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
@@ -17,8 +16,6 @@ use Tests\TestCase;
 
 class FolderTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function __construct()
     {
         parent::__construct();
