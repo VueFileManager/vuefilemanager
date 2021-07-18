@@ -16,7 +16,7 @@
 
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
                 <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
-                <CopyInput size="small" :item="pickedItem" />
+                <CopyShareLink size="small" :item="pickedItem" />
             </div>
 
             <ValidationObserver @submit.prevent v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
@@ -106,7 +106,7 @@
     import MultiEmailInput from '@/components/Others/Forms/MultiEmailInput'
     import ThumbnailItem from '@/components/Others/ThumbnailItem'
     import ActionButton from '@/components/Others/ActionButton'
-    import CopyInput from '@/components/Others/Forms/CopyInput'
+    import CopyShareLink from '@/components/Others/Forms/CopyShareLink'
     import ButtonBase from '@/components/FilesView/ButtonBase'
     import InfoBox from '@/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
@@ -130,7 +130,7 @@
             MultiEmailInput,
             SwitchInput,
             ButtonBase,
-            CopyInput,
+            CopyShareLink,
             required,
             InfoBox,
         },

@@ -1,10 +1,10 @@
 <?php
+
 namespace Tests\Feature\Accounts;
 
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class PersonalAccessTokenTest extends TestCase
@@ -17,11 +17,14 @@ class PersonalAccessTokenTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
+        $response = $this
+            ->actingAs($user)
+            ->postJson('/api/user/token/create', [
+                'name' => 'token',
+            ])
+            ->assertStatus(201);
 
-        $this->postJson('/api/user/token/create', [
-            'name' => 'token',
-        ])->assertStatus(201);
+        dd(json_decode($response->content(), true));
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,
@@ -37,13 +40,13 @@ class PersonalAccessTokenTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $user->createToken('token');
 
         $token_id = $user->tokens()->first()->id;
 
-        $this->deleteJson("/api/user/token/revoke/$token_id")
+        $this
+            ->actingAs($user)
+            ->deleteJson("/api/user/token/revoke/$token_id")
             ->assertStatus(204);
 
         $this->assertDatabaseMissing('personal_access_tokens', [

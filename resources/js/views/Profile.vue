@@ -125,11 +125,15 @@
 		<!--2FA popups-->
 		<TwoFactorRecoveryCodesPopup />
 		<TwoFactorSetupPopup />
+
+		<!--Access Token Popup-->
+		<CreatePersonaTokenPopup />
     </section>
 </template>
 
 <script>
 	import TwoFactorRecoveryCodesPopup from '@/components/Others/TwoFactorRecoveryCodesPopup'
+	import CreatePersonaTokenPopup from '@/components/Others/CreatePersonaTokenPopup'
 	import TwoFactorSetupPopup from '@/components/Others/TwoFactorSetupPopup'
     import ContentSidebar from '@/components/Sidebar/ContentSidebar'
     import ContentGroup from '@/components/Sidebar/ContentGroup'
@@ -155,6 +159,7 @@
         name: 'Settings',
         components: {
 			TwoFactorRecoveryCodesPopup,
+			CreatePersonaTokenPopup,
 			TwoFactorSetupPopup,
             ContentSidebar,
             CreditCardIcon,

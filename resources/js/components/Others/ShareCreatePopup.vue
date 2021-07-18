@@ -71,7 +71,7 @@
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
                     <label class="input-label">{{ this.sharedViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
-                    <CopyInput size="small" :item="pickedItem" />
+                    <CopyShareLink size="small" :item="pickedItem" />
                 </div>
             </div>
         </PopupContent>
@@ -100,7 +100,7 @@ import SwitchInput from '@/components/Others/Forms/SwitchInput'
 import SelectInput from '@/components/Others/Forms/SelectInput'
 import ThumbnailItem from '@/components/Others/ThumbnailItem'
 import ActionButton from '@/components/Others/ActionButton'
-import CopyInput from '@/components/Others/Forms/CopyInput'
+import CopyShareLink from '@/components/Others/Forms/CopyShareLink'
 import TabWrapper from '@/components/Others/TabWrapper'
 import TabOption from '@/components/Others/TabOption'
 import ButtonBase from '@/components/FilesView/ButtonBase'
@@ -129,7 +129,7 @@ export default {
         SelectInput,
         SwitchInput,
         ButtonBase,
-        CopyInput,
+        CopyShareLink,
         MailIcon,
         required,
         LinkIcon,

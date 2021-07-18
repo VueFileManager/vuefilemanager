@@ -74,7 +74,7 @@
                 <div class="share-link">
                     <lock-icon v-if="isLocked" @click="openShareOptions" class="lock-icon" size="17" />
                     <unlock-icon v-if="! isLocked" @click="openShareOptions" class="lock-icon" size="17" />
-                    <CopyInput :item="singleFile" class="copy-share-link" size="small" />
+                    <CopyShareLink :item="singleFile" class="copy-share-link" size="small" />
                 </div>
             </ListInfoItem>
 
@@ -95,7 +95,7 @@
 	import ImageMetaData from '@/components/FilesView/ImageMetaData'
     import EmptyMessage from '@/components/FilesView/EmptyMessage'
 	import TitlePreview from '@/components/FilesView/TitlePreview'
-	import CopyInput from '@/components/Others/Forms/CopyInput'
+	import CopyShareLink from '@/components/Others/Forms/CopyShareLink'
 	import ListInfoItem from '@/components/Others/ListInfoItem'
 	import ListInfo from '@/components/Others/ListInfo'
 	import {mapGetters} from 'vuex'
@@ -110,7 +110,7 @@
 			TitlePreview,
 			ListInfoItem,
 			UnlockIcon,
-			CopyInput,
+			CopyShareLink,
 			Edit2Icon,
 			LockIcon,
 			ListInfo,

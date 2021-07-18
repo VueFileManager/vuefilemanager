@@ -1,27 +1,28 @@
 <template>
     <div class="inline-wrapper icon-append copy-input" :class="size" @click="copyUrl">
-        <input ref="sel" :value="str" id="link-input" type="text" class="input-text" readonly>
+        <input ref="sel" :value="item.shared.link" id="link-input" type="text" class="input-text" readonly>
         <div class="multi-icon">
             <div class="icon-item group hover-bg-theme-100">
-                <copy-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
+                <link-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
                 <check-icon v-if="isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
+            </div>
+            <div class="icon-item group hover-bg-theme-100" @click.stop.prevent="menuForEmail">
+                <send-icon size="14" class="group-hover-text-theme hover-text-theme" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { CopyIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
+import { LinkIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
+import { events } from '@/bus'
 
 export default {
-    name: 'CopyInput',
-    props: [
-		'size',
-		'str'
-	],
+    name: 'CopyShareLink',
+    props: ['size', 'item'],
     components: {
         CheckIcon,
-        CopyIcon,
+        LinkIcon,
         SendIcon
     },
     data() {
@@ -30,6 +31,13 @@ export default {
         }
     },
     methods: {
+        menuForEmail() {
+            events.$emit('popup:open', {
+                name: 'share-edit',
+                item: this.item,
+                sentToEmail: true,
+            })
+        },
         copyUrl() {
 
             // Get input value
@@ -68,7 +76,6 @@ export default {
     border-top-right-radius: 8px;
 
     line,
-	rect,
     path,
     polygon {
         color: $text;
@@ -86,7 +93,6 @@ export default {
             line,
             polyline,
             path,
-			rect,
             polygon {
                 color: inherit;
             }
@@ -152,7 +158,6 @@ export default {
 
         line,
         path,
-		rect,
         polygon {
             color: inherit !important;
         }
@@ -160,6 +165,8 @@ export default {
         .icon-item {
             border-color: #333333;
         }
+
+
     }
 
     .copy-input {
