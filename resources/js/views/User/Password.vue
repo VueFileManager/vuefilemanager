@@ -1,15 +1,5 @@
 <template>
     <PageTab>
-		<PageTabGroup class="form block-form">
-            <FormLabel>{{ $t('Personal Access Token') }}</FormLabel>
-			<InfoBox v-if="tokens.length === 0">
-				<p>{{ $t("You don't have any created personal access tokens yet.") }}</p>
-			</InfoBox>
-
-			<ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="confirm-form">
-				{{ $t('Create Token') }}
-			</ButtonBase>
-        </PageTabGroup>
         <PageTabGroup>
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
                 <FormLabel>{{ $t('user_password.title') }}</FormLabel>
@@ -43,7 +33,7 @@
             </ValidationObserver>
         </PageTabGroup>
         <PageTabGroup class="form block-form">
-            <FormLabel>{{ $t('2fa.settings.title') }}</FormLabel>
+            <FormLabel icon="smartphone">{{ $t('2fa.settings.title') }}</FormLabel>
             <div class="block-wrapper">
 				<div class="input-wrapper">
 					<div class="inline-wrapper">
@@ -82,6 +72,30 @@
 				</div>
 			</div>
         </PageTabGroup>
+		<PageTabGroup class="form block-form">
+            <FormLabel icon="key">{{ $t('Personal Access Token') }}</FormLabel>
+			<InfoBox v-if="tokens.length === 0">
+				<p>{{ $t("You don't have any created personal access tokens yet.") }}</p>
+			</InfoBox>
+
+			<InfoBox v-if="tokens.length > 0">
+				<ul class="tokens-wrapper">
+					<li class="token-item" v-for="token in tokens" :key="token.id">
+						<div class="tokens-details">
+							<b class="name">{{ token.name}}</b>
+							<time class="last-used">{{ $t('Last Used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('Never') }}</time>
+						</div>
+						<div @click="confirmDeleteToken(token)" class="tokens-destroyer">
+							<x-icon size="16" class="close-icon hover-text-theme" />
+						</div>
+					</li>
+				</ul>
+			</InfoBox>
+
+			<ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="confirm-form">
+				{{ $t('Create Token') }}
+			</ButtonBase>
+        </PageTabGroup>
     </PageTab>
 </template>
 
@@ -98,6 +112,7 @@
 	import PageHeader from '@/components/Others/PageHeader'
 	import ThemeLabel from '@/components/Others/ThemeLabel'
 	import {required} from 'vee-validate/dist/rules'
+	import { XIcon } from 'vue-feather-icons'
 	import {mapGetters} from 'vuex'
 	import {events} from '@/bus'
 	import axios from 'axios'
@@ -109,6 +124,7 @@
 			FormLabel,
 			PageTab,
 			InfoBox,
+			XIcon,
 			ValidationProvider,
 			ValidationObserver,
 			UserImageInput,
@@ -131,6 +147,32 @@
 			}
 		},
 		methods: {
+			formatDate(date) {
+				return new Intl.DateTimeFormat('en').format(new Date(date))
+			},
+			confirmDeleteToken(token) {
+				events.$emit('confirm:open', {
+					title: this.$t('Are you sure you want to delete this token?'),
+					message: this.$t('Any applications or scripts using this token will no longer be able to access into your account. You cannot undo this action.'),
+					action: {
+						id: token.id,
+						operation: 'delete-personal-access-token'
+					}
+				})
+			},
+			deleteToken(id) {
+				axios.delete(`/api/user/token/revoke/${id}`)
+					.then(() => {
+
+						this.tokens = this.tokens.filter(tokenItem => tokenItem.id !== id)
+
+						events.$emit('toaster', {
+							type: 'success',
+							message: this.$t('Token was successfully deleted!'),
+						})
+					})
+					.catch(() => this.$isSomethingWrong())
+			},
 			async resetPassword() {
 
 				// Validate fields
@@ -191,6 +233,16 @@
 		},
 		created() {
 			this.getPersonalAccessTokens()
+
+			// Delete personal access token
+			events.$on('action:confirmed', data => {
+
+				if (data.operation === 'delete-personal-access-token') {
+					this.deleteToken(data.id)
+				}
+			})
+
+			events.$on('reload-personal-access-tokens', () => this.getPersonalAccessTokens())
 		}
 	}
 </script>
@@ -200,8 +252,59 @@
 	@import '@assets/vuefilemanager/_mixins';
 	@import '@assets/vuefilemanager/_forms';
 
-	.block-form {
-		max-width: 100%;
+	.tokens-wrapper {
+		margin-top: 0 !important;
+
+		.token-item {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			padding: 10px 0;
+			border-bottom: 1px solid darken($light_mode_border, 5%);
+			align-items: center;
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			&:last-child {
+				border-bottom: 0 solid transparent;
+				padding-bottom: 0;
+			}
+		}
+
+		.tokens-details {
+			.name {
+				@include font-size(16);
+			}
+
+			.last-used {
+				@include font-size(12);
+				color: $text-muted;
+				line-height: 1.35;
+				display: block;
+			}
+		}
+
+		.tokens-destroyer {
+			margin-top: 10px;
+
+			.close-icon {
+				opacity: 0.2;
+
+				&:hover {
+					opacity: 1;
+
+					line {
+						color: inherit;
+					}
+				}
+			}
+		}
+
+		.tokens-destroyer {
+			cursor: pointer;
+		}
 	}
 
 	@media only screen and (max-width: 960px) {
@@ -227,7 +330,20 @@
 	}
 
 	@media (prefers-color-scheme: dark) {
+		.tokens-wrapper {
+			margin-top: 0 !important;
 
+			.token-item {
+				border-color: lighten($dark_mode_foreground, 3%);
+			}
+
+			.tokens-details {
+
+				.last-used {
+					color: $dark_mode_text_secondary;
+				}
+			}
+		}
 	}
 
 </style>

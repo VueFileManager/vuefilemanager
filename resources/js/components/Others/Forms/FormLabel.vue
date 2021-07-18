@@ -2,6 +2,8 @@
     <div class="form-label">
         <edit-2-icon v-if="!icon" size="22" class="icon text-theme" />
         <settings-icon v-if="icon === 'settings'" size="22" class="icon text-theme" />
+        <smartphone-icon v-if="icon === 'smartphone'" size="22" class="icon text-theme" />
+        <key-icon v-if="icon === 'key'" size="22" class="icon text-theme" />
         <b class="label">
             <slot></slot>
         </b>
@@ -9,14 +11,21 @@
 </template>
 
 <script>
-    import { Edit2Icon, SettingsIcon } from 'vue-feather-icons'
+    import {
+		KeyIcon,
+		Edit2Icon,
+		SettingsIcon,
+		SmartphoneIcon,
+	} from 'vue-feather-icons'
 
     export default {
         name: 'FormLabel',
         props: ['icon'],
         components: {
+			KeyIcon,
             Edit2Icon,
-            SettingsIcon
+            SettingsIcon,
+			SmartphoneIcon,
         }
     }
 </script>
@@ -33,7 +42,7 @@
         .icon {
             margin-right: 10px;
 
-            path, circle {
+            path, circle, rect, line {
                 color: inherit;
             }
         }

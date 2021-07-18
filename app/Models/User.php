@@ -18,7 +18,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, Billable, Sortable, HasFactory, HasApiTokens, TwoFactorAuthenticatable;
+    use TwoFactorAuthenticatable;
+    use HasApiTokens;
+    use Notifiable;
+    use HasFactory;
+    use Billable;
+    use Sortable;
 
     protected $guarded = [
         'id',

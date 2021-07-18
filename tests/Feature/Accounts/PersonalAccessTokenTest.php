@@ -17,14 +17,12 @@ class PersonalAccessTokenTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($user)
             ->postJson('/api/user/token/create', [
                 'name' => 'token',
             ])
             ->assertStatus(201);
-
-        dd(json_decode($response->content(), true));
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,

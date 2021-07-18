@@ -66,6 +66,7 @@ import CopyInput from '@/components/Others/Forms/CopyInput'
 import ButtonBase from '@/components/FilesView/ButtonBase'
 import InfoBox from '@/components/Others/Forms/InfoBox'
 import {required} from 'vee-validate/dist/rules'
+import {events} from '@/bus'
 import axios from 'axios'
 
 export default {
@@ -104,6 +105,8 @@ export default {
 				})
 				.then(response => {
 					this.token = response.data
+
+					events.$emit('reload-personal-access-tokens')
 				})
 				.catch(() => this.$isSomethingWrong())
 				.finally(() => {
@@ -122,4 +125,12 @@ export default {
 <style lang="scss" scoped>
 	@import "@assets/vuefilemanager/_inapp-forms.scss";
 	@import '@assets/vuefilemanager/_forms';
+
+	@media (prefers-color-scheme: dark) {
+
+		.info-box {
+			background: lighten($dark_mode_foreground, 3%);
+		}
+	}
+
 </style>

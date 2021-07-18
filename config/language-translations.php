@@ -398,7 +398,7 @@ return [
         'menu.files'                                         => 'Files',
         'menu.latest'                                        => 'Recent Uploads',
         'menu.logout'                                        => 'Log Out',
-        'menu.password'                                      => 'Account Security',
+        'menu.password'                                      => 'Security & API',
         'menu.profile'                                       => 'Profile Settings',
         'menu.settings'                                      => 'Settings',
         'menu.shared'                                        => 'Shared Files',
