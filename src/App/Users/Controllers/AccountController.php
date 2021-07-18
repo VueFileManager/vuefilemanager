@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\User;
 
-use App\Models\User;
+use Domain\Settings\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
+use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;

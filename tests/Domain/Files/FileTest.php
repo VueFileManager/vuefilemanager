@@ -1,13 +1,12 @@
 <?php
 
-namespace Tests\Feature\FileManager;
+namespace Tests\Domain\Files;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\Setting;
-use App\Models\User;
-use App\Models\Zip;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\User;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
@@ -39,17 +38,15 @@ class FileTest extends TestCase
      */
     public function it_upload_image_file_and_create_thumbnail()
     {
-        $this->setup->create_directories();
-
         $file = UploadedFile::fake()
             ->image('fake-image.jpg');
 
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/upload', [
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
             'filename'  => $file->name,
             'file'      => $file,
             'folder_id' => null,
@@ -80,17 +77,15 @@ class FileTest extends TestCase
      */
     public function it_upload_new_file()
     {
-        $this->setup->create_directories();
-
         $file = UploadedFile::fake()
             ->create('fake-file.pdf', 1200, 'application/pdf');
 
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/upload', [
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
             'filename'  => $file->name,
             'file'      => $file,
             'folder_id' => null,
@@ -117,8 +112,6 @@ class FileTest extends TestCase
      */
     public function it_upload_blacklisted_mimetype_file()
     {
-        $this->setup->create_directories();
-
         Setting::create([
             'name'  => 'mimetypes_blacklist',
             'value' => 'pdf',
@@ -130,9 +123,9 @@ class FileTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/upload', [
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
             'file'      => $file,
             'folder_id' => null,
             'is_last'   => true,
@@ -153,9 +146,9 @@ class FileTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->patchJson("/api/rename/{$file->id}", [
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/rename/{$file->id}", [
             'name' => 'Renamed Item',
             'type' => 'file',
         ])
@@ -183,9 +176,9 @@ class FileTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/move", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/move", [
             'to_id' => $folder->id,
             'items' => [
                 [
@@ -213,9 +206,9 @@ class FileTest extends TestCase
             ->count(2)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/remove", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/remove", [
             'items' => [
                 [
                     'id'           => $files[0]->id,
@@ -243,8 +236,6 @@ class FileTest extends TestCase
      */
     public function it_delete_multiple_files_hardly()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
 
@@ -293,47 +284,5 @@ class FileTest extends TestCase
                         "files/$user->id/fake-file-$index.pdf"
                     );
             });
-    }
-
-    /**
-     * @test
-     */
-    public function it_zip_multiple_files_and_download_it()
-    {
-        $this->setup->create_directories();
-
-        $user = User::factory(User::class)
-            ->create();
-
-        Sanctum::actingAs($user);
-
-        collect([0, 1])
-            ->each(function ($index) {
-
-                $file = UploadedFile::fake()
-                    ->create("fake-file-$index.pdf", 1200, 'application/pdf');
-
-                $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
-                    'file'      => $file,
-                    'folder_id' => null,
-                    'is_last'   => true,
-                ])->assertStatus(201);
-            });
-
-        $file_ids = File::all()->pluck('id');
-
-        $this->postJson("/api/zip/files", [
-            'items' => $file_ids,
-        ])->assertStatus(201);
-
-        $this->assertDatabaseHas('zips', [
-            'user_id' => $user->id
-        ]);
-
-        Storage::disk('local')
-            ->assertExists(
-                'zip/' . Zip::first()->basename
-            );
     }
 }

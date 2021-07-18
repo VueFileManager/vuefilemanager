@@ -2,10 +2,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Storage;
-use App\Models\User;
-use App\Models\UserSettings;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\UserSettings;
 use Illuminate\Http\Response;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\StripeService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;

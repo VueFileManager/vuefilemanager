@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\FileManager;
 
-use App\Models\File;
-use App\Models\Folder;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
+use Domain\SetupWizard\Services\DemoService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;

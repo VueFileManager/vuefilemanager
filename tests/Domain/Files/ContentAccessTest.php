@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\FileManager;
+namespace Tests\Domain\Files;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\User;
-use App\Models\Zip;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Zip;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
@@ -26,8 +26,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_public_user_avatar()
     {
-        $this->setup->create_directories();
-
         $avatar = UploadedFile::fake()
             ->image('fake-avatar.jpg');
 
@@ -44,8 +42,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_public_system_image()
     {
-        $this->setup->create_directories();
-
         $system = UploadedFile::fake()
             ->image('fake-logo.jpg');
 
@@ -62,8 +58,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_file()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
 
@@ -79,9 +73,9 @@ class ContentAccessTest extends TestCase
                 'name'     => 'fake-file.pdf',
             ]);
 
-        Sanctum::actingAs($user);
-
-        $this->get("file/$file->name")
+        $this
+            ->actingAs($user)
+            ->get("file/$file->name")
             ->assertOk();
     }
 
@@ -90,8 +84,6 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_image_thumbnail()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
 
@@ -107,9 +99,9 @@ class ContentAccessTest extends TestCase
                 'name'      => 'fake-thumbnail.jpg',
             ]);
 
-        Sanctum::actingAs($user);
-
-        $this->get("thumbnail/$thumbnail->name")
+        $this
+            ->actingAs($user)
+            ->get("thumbnail/$thumbnail->name")
             ->assertStatus(200);
     }
 
@@ -118,12 +110,8 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_zip()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
-
-        Sanctum::actingAs($user);
 
         $file = UploadedFile::fake()
             ->create('archive.zip', 2000, 'application/zip');
@@ -135,7 +123,9 @@ class ContentAccessTest extends TestCase
             'user_id'  => $user->id,
         ]);
 
-        $this->get("zip/$zip->id")
+        $this
+            ->actingAs($user)
+            ->get("zip/$zip->id")
             ->assertOk();
     }
 
@@ -144,8 +134,6 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_image_thumbnail()
     {
-        $this->setup->create_directories();
-
         $users = User::factory(User::class)
             ->count(2)
             ->create();
@@ -173,8 +161,6 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_file()
     {
-        $this->setup->create_directories();
-
         $users = User::factory(User::class)
             ->count(2)
             ->create();
@@ -202,12 +188,8 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_zip()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
-
-        Sanctum::actingAs($user);
 
         $file = UploadedFile::fake()
             ->create('archive.zip', 2000, 'application/zip');
@@ -218,7 +200,9 @@ class ContentAccessTest extends TestCase
             'basename' => 'EHWKcuvKzA4Gv29v-archive.zip',
         ]);
 
-        $this->get("zip/$zip->id")
+        $this
+            ->actingAs($user)
+            ->get("zip/$zip->id")
             ->assertNotFound();
     }
 

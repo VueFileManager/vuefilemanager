@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Feature\App;
+namespace Tests\Domain\Homepage;
 
 use App\Http\Mail\SendContactMessage;
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\Setting;
-use App\Models\Share;
-use App\Models\User;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\User;
+use Domain\SetupWizard\Services\SetupService;
 use Mail;
 use ScssPhp\ScssPhp\Compiler;
 use Tests\TestCase;
@@ -147,20 +147,6 @@ class HomepageTest extends TestCase
     /**
      * @test
      */
-    public function it_get_legal_page()
-    {
-        $this->setup->seed_default_pages();
-
-        $this->getJson('/api/page/terms-of-service')
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'title' => 'Terms of Service',
-            ]);
-    }
-
-    /**
-     * @test
-     */
     public function it_send_contact_form()
     {
         Mail::fake();
@@ -177,42 +163,5 @@ class HomepageTest extends TestCase
             ->assertStatus(201);
 
         Mail::assertSent(SendContactMessage::class);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_settings()
-    {
-        Setting::create([
-            'name'  => 'get_started_title',
-            'value' => 'Hello World!',
-        ]);
-
-        Setting::create([
-            'name'  => 'pricing_description',
-            'value' => 'Give me a money!',
-        ]);
-
-        $this->getJson('/api/content?column=get_started_title|pricing_description')
-            ->assertStatus(200)
-            ->assertExactJson([
-                "get_started_title"   => "Hello World!",
-                "pricing_description" => "Give me a money!",
-            ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_try_get_secured_settings_via_public_api()
-    {
-        Setting::create([
-            'name'  => 'purchase_code',
-            'value' => '15a53561-d387-4e0a-8de1-5d1bff34c1ed',
-        ]);
-
-        $this->getJson('/api/content?column=purchase_code')
-            ->assertStatus(401);
     }
 }

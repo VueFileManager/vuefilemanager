@@ -2,13 +2,13 @@
 namespace App\Http\Controllers\FileManager;
 
 use Exception;
-use App\Models\File;
-use App\Models\Folder;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
-use App\Services\HelperService;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\SetupWizard\Services\HelperService;
 use App\Http\Controllers\Controller;
-use App\Services\FileManagerService;
+use Domain\SetupWizard\Services\FileManagerService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Routing\ResponseFactory;

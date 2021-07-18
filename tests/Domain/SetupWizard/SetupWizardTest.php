@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature\Setup;
+namespace Tests\Domain\SetupWizard;
 
-use App\Models\Setting;
-use App\Models\User;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;

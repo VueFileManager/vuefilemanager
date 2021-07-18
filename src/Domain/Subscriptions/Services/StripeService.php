@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use Stripe;
-use App\Models\User;
+use Domain\Settings\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;

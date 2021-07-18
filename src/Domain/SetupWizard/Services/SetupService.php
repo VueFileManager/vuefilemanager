@@ -1,9 +1,9 @@
 <?php
-namespace App\Services;
+namespace Domain\SetupWizard\Services;
 
-use App\Models\Page;
-use App\Models\Setting;
-use App\Models\Language;
+use Domain\Settings\Models\Page;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Language;
 use Illuminate\Support\Facades\Storage;
 
 class SetupService

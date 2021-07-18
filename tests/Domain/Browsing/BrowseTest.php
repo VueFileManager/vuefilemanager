@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\FileManager;
+namespace Tests\Domain\Browsing;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\Share;
-use App\Models\User;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Sanctum\Sanctum;
@@ -22,8 +22,6 @@ class BrowseTest extends TestCase
     {
         $user = User::factory(User::class)
             ->create();
-
-        Sanctum::actingAs($user);
 
         $folder_level_1 = Folder::factory(Folder::class)
             ->create([
@@ -56,7 +54,9 @@ class BrowseTest extends TestCase
                 'user_id'   => $user->id,
             ]);
 
-        $this->getJson("/api/browse/navigation")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/navigation")
             ->assertStatus(200)
             ->assertExactJson([
                 [
@@ -121,8 +121,6 @@ class BrowseTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $root = Folder::factory(Folder::class)
             ->create([
                 'name'    => 'root',
@@ -148,7 +146,9 @@ class BrowseTest extends TestCase
                 'user_id'   => $user->id,
             ]);
 
-        $this->getJson("/api/browse/folders/$root->id")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/folders/$root->id")
             ->assertStatus(200)
             ->assertExactJson([
                 [
@@ -210,8 +210,6 @@ class BrowseTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $root = Folder::factory(Folder::class)
             ->create([
                 'name'    => 'root',
@@ -244,7 +242,9 @@ class BrowseTest extends TestCase
                 'created_at' => now(),
             ]);
 
-        $this->getJson("/api/browse/latest")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/latest")
             ->assertStatus(200)
             ->assertExactJson([
                 [
@@ -306,8 +306,6 @@ class BrowseTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $file = File::factory(File::class)
             ->create([
                 "author"  => "visitor",
@@ -315,7 +313,9 @@ class BrowseTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $this->getJson("/api/browse/participants")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/participants")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $file->id
@@ -329,8 +329,6 @@ class BrowseTest extends TestCase
     {
         $user = User::factory(User::class)
             ->create();
-
-        Sanctum::actingAs($user);
 
         $folder = Folder::factory(Folder::class)
             ->create([
@@ -360,7 +358,9 @@ class BrowseTest extends TestCase
                 'deleted_at' => now(),
             ]);
 
-        $this->getJson("/api/browse/trash")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/trash")
             ->assertStatus(200)
             ->assertExactJson([
                 [
@@ -448,15 +448,15 @@ class BrowseTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $file = File::factory(File::class)
             ->create([
                 'name'    => 'Document',
                 'user_id' => $user->id,
             ]);
 
-        $this->getJson("/api/browse/search?query=doc")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/search?query=doc")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $file->id
@@ -471,15 +471,15 @@ class BrowseTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $folder = Folder::factory(Folder::class)
             ->create([
                 'name'    => 'Documents',
                 'user_id' => $user->id,
             ]);
 
-        $this->getJson("/api/browse/search?query=doc")
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/search?query=doc")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $folder->id

@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Page;
+use Domain\Settings\Models\Page;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
+use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PageResource;

@@ -1,25 +1,18 @@
 <?php
 
-namespace Tests\Feature\App;
+namespace Tests\Support\Scheduler;
 
-use App\Models\Share;
-use App\Models\User;
-use App\Models\Zip;
-use App\Services\SchedulerService;
-use App\Services\SetupService;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Zip;
+use Domain\SetupWizard\Services\SchedulerService;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\TestCase;
 
 class SchedulerTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = resolve(SetupService::class);
-        $this->scheduler = resolve(SchedulerService::class);
-    }
-
     /**
      * @test
      */
@@ -31,7 +24,8 @@ class SchedulerTest extends TestCase
                 'created_at' => now()->subDay(),
             ]);
 
-        $this->scheduler->delete_expired_shared_links();
+        resolve(SchedulerService::class)
+            ->delete_expired_shared_links();
 
         $this->assertDatabaseMissing('shares', [
             'id' => $share->id
@@ -43,8 +37,6 @@ class SchedulerTest extends TestCase
      */
     public function it_delete_zips_older_than_one_day()
     {
-        $this->setup->create_directories();
-
         $file = UploadedFile::fake()
             ->create('archive.zip', 2000, 'application/zip');
 
@@ -55,7 +47,8 @@ class SchedulerTest extends TestCase
             'created_at' => now()->subDay(),
         ]);
 
-        $this->scheduler->delete_old_zips();
+        resolve(SchedulerService::class)
+            ->delete_old_zips();
 
         $this->assertDatabaseMissing('zips', [
             'id' => $zip->id
@@ -70,8 +63,6 @@ class SchedulerTest extends TestCase
      */
     public function it_delete_failed_files_older_than_one_day()
     {
-        $this->setup->create_directories();
-
         $this->travel(-26)->hours();
 
         $file = UploadedFile::fake()
@@ -82,7 +73,8 @@ class SchedulerTest extends TestCase
                 Storage::putFileAs($folder, $file, 'fake-file.zip');
             });
 
-        $this->scheduler->delete_failed_files();
+        resolve(SchedulerService::class)
+            ->delete_failed_files();
 
         collect(['chunks'])
             ->each(function ($folder) {
@@ -115,7 +107,8 @@ class SchedulerTest extends TestCase
                 'created_at'        => now()->subDays(31)
             ]);
 
-        $this->scheduler->delete_unverified_users();
+        resolve(SchedulerService::class)
+            ->delete_unverified_users();
 
         $this->assertDatabaseMissing('users', [
             'id' => $expiredUser->id,

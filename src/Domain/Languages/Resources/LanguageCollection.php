@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Resources;
 
-use App\Models\Language;
+use Domain\Settings\Models\Language;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class LanguageCollection extends ResourceCollection

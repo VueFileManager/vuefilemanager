@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Controllers\Sharing;
 
-use App\Models\File;
-use App\Models\Share;
-use App\Models\Folder;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Folder;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use App\Services\HelperService;
+use Domain\SetupWizard\Services\HelperService;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;

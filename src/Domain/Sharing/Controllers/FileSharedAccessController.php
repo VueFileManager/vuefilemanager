@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\Sharing;
 
-use App\Models\Zip;
-use App\Models\Share;
-use App\Services\HelperService;
-use App\Models\File as UserFile;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\Share;
+use Domain\SetupWizard\Services\HelperService;
+use Domain\Settings\Models\File as UserFile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 

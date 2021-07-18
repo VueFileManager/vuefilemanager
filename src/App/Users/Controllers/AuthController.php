@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CheckAccountRequest;
 

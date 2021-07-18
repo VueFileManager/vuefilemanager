@@ -3,9 +3,9 @@ namespace App\Http\Controllers\Admin;
 
 use Stripe;
 use Artisan;
-use App\Models\Setting;
+use Domain\Settings\Models\Setting;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
+use Domain\SetupWizard\Services\DemoService;
 use App\Http\Controllers\Controller;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;

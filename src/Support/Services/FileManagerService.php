@@ -2,13 +2,13 @@
 namespace App\Services;
 
 use DB;
-use App\Models\Zip;
-use App\Models\User;
-use App\Models\Share;
-use App\Models\Folder;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Folder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use App\Models\File as UserFile;
+use Domain\Settings\Models\File as UserFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;

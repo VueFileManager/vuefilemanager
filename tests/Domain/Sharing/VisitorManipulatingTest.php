@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Share;
+namespace Tests\Domain\Sharing;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\Share;
-use App\Models\User;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\User;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\TestCase;
@@ -310,8 +310,6 @@ class VisitorManipulatingTest extends TestCase
      */
     public function editor_upload_file_into_shared_folder()
     {
-        $this->setup->create_directories();
-
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {

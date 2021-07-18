@@ -1,13 +1,13 @@
 <?php
 namespace App\Http\Controllers\App;
 
-use App\Models\Page;
-use App\Models\Share;
-use App\Models\Setting;
-use App\Models\Language;
+use Domain\Settings\Models\Page;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\StripeService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PageResource;
 use Illuminate\Support\Facades\Mail;

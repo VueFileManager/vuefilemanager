@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Domain\SetupWizard\Services\SetupService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -22,5 +23,7 @@ abstract class TestCase extends BaseTestCase
         Notification::fake();
 
         Storage::fake('local');
+
+        resolve(SetupService::class)->create_directories();
     }
 }

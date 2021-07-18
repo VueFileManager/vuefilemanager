@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature\Share;
+namespace Tests\Domain\Sharing;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\User;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\User;
 use App\Notifications\SharedSendViaEmail;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
@@ -23,9 +23,9 @@ class UserShareTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/share/$file->id", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/share/$file->id", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'file',
@@ -55,9 +55,9 @@ class UserShareTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/share/$folder->id", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/share/$folder->id", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',
@@ -87,9 +87,9 @@ class UserShareTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/share/$folder->id", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/share/$folder->id", [
             'isPassword' => true,
             'password'   => 'secret',
             'permission' => 'editor',
@@ -125,9 +125,9 @@ class UserShareTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/share/$folder->id", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/share/$folder->id", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',
@@ -151,9 +151,9 @@ class UserShareTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/share/$folder->id", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/share/$folder->id", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',

@@ -1,9 +1,9 @@
 <?php
 namespace App\Console\Commands;
 
-use App\Models\User;
-use App\Models\Setting;
-use App\Services\SetupService;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Setting;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Console\Command;
 
 class SetupProdEnvironment extends Command

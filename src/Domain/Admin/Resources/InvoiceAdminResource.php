@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Resources;
 
-use App\Models\User;
+use Domain\Settings\Models\User;
 use Laravel\Cashier\Cashier;
 use Illuminate\Http\Resources\Json\JsonResource;
 

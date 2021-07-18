@@ -4,9 +4,9 @@ namespace Tests\Feature\Accounts;
 use Storage;
 use Notification;
 use Tests\TestCase;
-use App\Models\User;
+use Domain\Settings\Models\User;
 use Laravel\Sanctum\Sanctum;
-use App\Services\SetupService;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -48,9 +48,9 @@ class UserAccountTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/user/password', [
+        $this
+            ->actingAs($user)
+            ->postJson('/api/user/password', [
             'current_password'      => 'secret',
             'password'              => 'VerySecretPassword',
             'password_confirmation' => 'VerySecretPassword',
@@ -67,9 +67,9 @@ class UserAccountTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->patchJson('/api/user/relationships/settings', [
+        $this
+            ->actingAs($user)
+            ->patchJson('/api/user/relationships/settings', [
             'name'  => 'address',
             'value' => 'Jantar',
         ])->assertStatus(204);
@@ -84,17 +84,15 @@ class UserAccountTest extends TestCase
      */
     public function it_update_user_avatar()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
-
-        Sanctum::actingAs($user);
 
         $avatar = UploadedFile::fake()
             ->image('fake-image.jpg');
 
-        $this->patchJson('/api/user/relationships/settings', [
+        $this
+            ->actingAs($user)
+            ->patchJson('/api/user/relationships/settings', [
             'avatar' => $avatar,
         ])->assertStatus(204);
 

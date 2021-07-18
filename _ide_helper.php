@@ -1769,7 +1769,7 @@
                     /**
          * Get the currently authenticated user.
          *
-         * @return \App\Models\User|null 
+         * @return \Domain\Settings\Models\User|null
          * @static 
          */ 
         public static function user()
@@ -1804,7 +1804,7 @@
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \App\Models\User|false 
+         * @return \Domain\Settings\Models\User|false
          * @static 
          */ 
         public static function onceUsingId($id)
@@ -1882,7 +1882,7 @@
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\Models\User|false 
+         * @return \Domain\Settings\Models\User|false
          * @static 
          */ 
         public static function loginUsingId($id, $remember = false)
@@ -1958,7 +1958,7 @@
                     /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\Models\User 
+         * @return \Domain\Settings\Models\User
          * @static 
          */ 
         public static function getLastAttempted()
@@ -2060,7 +2060,7 @@
                     /**
          * Return the currently cached user.
          *
-         * @return \App\Models\User|null 
+         * @return \Domain\Settings\Models\User|null
          * @static 
          */ 
         public static function getUser()
@@ -2106,7 +2106,7 @@
                     /**
          * Determine if the current user is authenticated. If not, throw an exception.
          *
-         * @return \App\Models\User 
+         * @return \Domain\Settings\Models\User
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */ 

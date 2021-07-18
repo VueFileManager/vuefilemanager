@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Accounts;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\User;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\User;
 use Tests\TestCase;
 
 class PersonalAccessTokenTest extends TestCase

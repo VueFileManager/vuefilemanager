@@ -2,9 +2,9 @@
 namespace App\Services;
 
 use DB;
-use App\Models\File;
-use App\Models\Share;
-use App\Models\Folder;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Folder;
 use Illuminate\Support\Arr;
 use Aws\S3\MultipartUploader;
 use Illuminate\Support\Facades\Log;

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Subscription;
 
-use App\Models\User;
-use App\Services\StripeService;
+use Domain\Settings\Models\User;
+use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
 class StripeWebhookController extends CashierController

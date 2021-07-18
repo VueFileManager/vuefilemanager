@@ -2,7 +2,7 @@
 namespace App\Http\Resources;
 
 use Laravel\Cashier\Cashier;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PricingResource extends JsonResource

@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Domain\Admin;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\Setting;
-use App\Models\Share;
-use App\Models\User;
-use App\Models\Zip;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Zip;
 use App\Notifications\ResetPassword;
-use App\Services\SetupService;
+use Domain\SetupWizard\Services\SetupService;
 use DB;
 use Illuminate\Http\UploadedFile;
 use Notification;
@@ -50,9 +50,9 @@ class AdminTest extends TestCase
                 'stripe_status' => 'active',
             ]);
 
-        Sanctum::actingAs($user);
-
-        $this->getJson('/api/admin/dashboard')
+        $this
+            ->actingAs($user)
+            ->getJson('/api/admin/dashboard')
             ->assertStatus(200)
             ->assertExactJson([
                 "license"             => 'Regular',
@@ -120,10 +120,10 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
         // TODO: pridat exactjson po refaktorovani userresource
-        $this->getJson("/api/admin/users/$user->id/detail")
+        $this
+            ->actingAs($admin)
+            ->getJson("/api/admin/users/$user->id/detail")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $user->id,
@@ -141,9 +141,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->getJson("/api/admin/users/$user->id/subscription")
+        $this
+            ->actingAs($admin)
+            ->getJson("/api/admin/users/$user->id/subscription")
             ->assertStatus(404);
     }
 
@@ -169,9 +169,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->getJson("/api/admin/users/$user->id/storage")
+        $this
+            ->actingAs($admin)
+            ->getJson("/api/admin/users/$user->id/storage")
             ->assertStatus(200)
             ->assertExactJson([
                 "data" => [
@@ -219,9 +219,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->postJson("/api/admin/users/$user->id/reset-password")
+        $this
+            ->actingAs($admin)
+            ->postJson("/api/admin/users/$user->id/reset-password")
             ->assertStatus(204);
 
         Notification::assertTimesSent(1, ResetPassword::class);
@@ -238,9 +238,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->patchJson("/api/admin/users/$user->id/capacity", [
+        $this
+            ->actingAs($admin)
+            ->patchJson("/api/admin/users/$user->id/capacity", [
             'attributes' => [
                 'storage_capacity' => 10
             ]
@@ -263,9 +263,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->patchJson("/api/admin/users/$user->id/role", [
+        $this
+            ->actingAs($admin)
+            ->patchJson("/api/admin/users/$user->id/role", [
             'attributes' => [
                 'role' => 'admin'
             ]
@@ -282,12 +282,12 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
         $avatar = UploadedFile::fake()
             ->image('fake-image.jpg');
 
-        $this->postJson("/api/admin/users/create", [
+        $this
+            ->actingAs($admin)
+            ->postJson("/api/admin/users/create", [
             'name'                  => 'John Doe',
             'role'                  => 'user',
             'email'                 => 'john@doe.com',
@@ -319,8 +319,6 @@ class AdminTest extends TestCase
      */
     public function it_delete_user_with_all_data()
     {
-        $this->setup->create_directories();
-
         // Create and login user
         $user = User::factory(User::class)
             ->create(['role' => 'user']);
@@ -462,9 +460,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->getJson('/api/admin/pages/terms-of-service')
+        $this
+            ->actingAs($admin)
+            ->getJson('/api/admin/pages/terms-of-service')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'slug' => 'terms-of-service'
@@ -481,9 +479,9 @@ class AdminTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->patchJson('/api/admin/pages/terms-of-service', [
+        $this
+            ->actingAs($admin)
+            ->patchJson('/api/admin/pages/terms-of-service', [
             'name'  => 'title',
             'value' => 'New Title'
         ])->assertStatus(204);
@@ -491,148 +489,5 @@ class AdminTest extends TestCase
         $this->assertDatabaseHas('pages', [
             'title' => 'New Title'
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_settings()
-    {
-        $this->setup->seed_default_settings('Extended');
-
-        $admin = User::factory(User::class)
-            ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
-
-        $this->getJson('/api/admin/settings?column=section_features|section_feature_boxes')
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'section_features'      => '1',
-                'section_feature_boxes' => '1',
-            ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_update_settings()
-    {
-        $this->setup->seed_default_settings('Extended');
-
-        $admin = User::factory(User::class)
-            ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
-
-        $this->patchJson('/api/admin/settings', [
-            'name'  => 'header_title',
-            'value' => 'New Header Title'
-        ])->assertStatus(204);
-
-        $this->assertDatabaseHas('settings', [
-            'value' => 'New Header Title'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_update_settings_image()
-    {
-        $this->setup->create_directories();
-
-        Setting::forceCreate([
-            'name'  => 'app_logo',
-            'value' => null,
-        ]);
-
-        $logo = UploadedFile::fake()
-            ->image('fake-image.jpg');
-
-        $admin = User::factory(User::class)
-            ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
-
-        $this->patchJson('/api/admin/settings', [
-            'name'     => 'app_logo',
-            'app_logo' => $logo
-        ])->assertStatus(204);
-
-        $this->assertDatabaseMissing('settings', [
-            'app_logo' => null
-        ]);
-
-        Storage::assertExists(
-            get_setting('app_logo')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function it_flush_cache()
-    {
-        $admin = User::factory(User::class)
-            ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
-
-        $this->getJson('/api/admin/settings/flush-cache')
-            ->assertStatus(204);
-    }
-
-    /**
-     * @test
-     */
-    public function it_set_stripe()
-    {
-        $admin = User::factory(User::class)
-            ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
-
-        $this->postJson('/api/admin/settings/stripe', [
-            'currency'      => 'EUR',
-            'key'           => '123456789',
-            'secret'        => '123456789',
-            'webhookSecret' => '123456789',
-        ])->assertStatus(204);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'stripe_currency',
-            'value' => 'EUR',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'payments_configured',
-            'value' => 1,
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'payments_active',
-            'value' => 1,
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_set_email()
-    {
-        $admin = User::factory(User::class)
-            ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
-
-        $this->postJson('/api/admin/settings/email', [
-            'driver'     => 'smtp',
-            'host'       => 'smtp.email.com',
-            'port'       => 25,
-            'username'   => 'john@doe.com',
-            'password'   => 'secret',
-            'encryption' => 'tls',
-        ])->assertStatus(204);
     }
 }

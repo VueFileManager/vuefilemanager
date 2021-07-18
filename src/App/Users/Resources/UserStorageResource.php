@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Resources;
 
-use App\Models\File;
+use Domain\Settings\Models\File;
 use ByteUnits\Metric;
 use Illuminate\Http\Resources\Json\JsonResource;
 

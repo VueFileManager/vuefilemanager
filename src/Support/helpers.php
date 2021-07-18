@@ -1,13 +1,13 @@
 <?php
 
 use Carbon\Carbon;
-use App\Models\File;
-use App\Models\User;
-use App\Models\Share;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
 use ByteUnits\Metric;
-use App\Models\Folder;
-use App\Models\Setting;
-use App\Models\Language;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Language;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;

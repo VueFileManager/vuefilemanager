@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
-use App\Services\LanguageService;
+use Domain\SetupWizard\Services\LanguageService;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;

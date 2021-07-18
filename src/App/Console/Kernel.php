@@ -1,7 +1,7 @@
 <?php
 namespace App\Console;
 
-use App\Services\SchedulerService;
+use Domain\SetupWizard\Services\SchedulerService;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;

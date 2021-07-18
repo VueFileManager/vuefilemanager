@@ -1,9 +1,9 @@
 <?php
 namespace App\Services;
 
-use App\Models\File;
+use Domain\Settings\Models\File;
 use ByteUnits\Metric;
-use App\Models\Folder;
+use Domain\Settings\Models\Folder;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use App\Http\Requests\FileFunctions\RenameItemRequest;

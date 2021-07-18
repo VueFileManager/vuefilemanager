@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Accounts;
 
-use App\Models\Setting;
-use App\Models\User;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\User;
 use App\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Password;
@@ -107,9 +107,9 @@ class SignFlowTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson('/logout')
+        $this
+            ->actingAs($user)
+            ->postJson('/logout')
             ->assertStatus(204);
     }
 

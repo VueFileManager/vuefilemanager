@@ -2,9 +2,9 @@
 namespace App\Services;
 
 use Carbon\Carbon;
-use App\Models\Zip;
-use App\Models\User;
-use App\Models\Share;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 

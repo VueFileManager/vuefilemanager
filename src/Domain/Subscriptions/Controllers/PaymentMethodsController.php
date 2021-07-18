@@ -3,8 +3,8 @@ namespace App\Http\Controllers\User;
 
 use Auth;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\PaymentMethod;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;

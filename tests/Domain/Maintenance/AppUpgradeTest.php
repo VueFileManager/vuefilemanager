@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\App;
+namespace Tests\Domain\Maintenance;
 
-use App\Models\User;
+use Domain\Settings\Models\User;
 use DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
@@ -10,11 +10,6 @@ use Tests\TestCase;
 
 class AppUpgradeTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @test
      */
@@ -22,8 +17,6 @@ class AppUpgradeTest extends TestCase
     {
         $user = User::factory(User::class)
             ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($user);
 
         DB::table('settings')
             ->insert([
@@ -61,7 +54,9 @@ class AppUpgradeTest extends TestCase
                     ]);
             });
 
-        $this->get('/upgrade/translations')
+        $this
+            ->actingAs($user)
+            ->get('/upgrade/translations')
             ->assertStatus(201);
 
         collect(['en', 'sk'])

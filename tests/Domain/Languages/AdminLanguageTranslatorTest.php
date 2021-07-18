@@ -1,23 +1,16 @@
 <?php
 
-namespace Tests\Feature\Admin;
 
-use App\Models\Language;
-use App\Models\Setting;
-use App\Models\User;
-use App\Services\SetupService;
+namespace Tests\Domain\Languages;
+
+
+use Domain\Settings\Models\Language;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class LanguagesTest extends TestCase
+class AdminLanguageTranslatorTest
 {
-    protected $setup;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
 
     /**
      * @test
@@ -32,9 +25,9 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->postJson('/api/admin/languages', [
+        $this
+            ->actingAs($admin)
+            ->postJson('/api/admin/languages', [
             'name'   => 'Slovenčina',
             'locale' => 'sk',
         ])
@@ -66,11 +59,11 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
         $language = Language::first();
 
-        $this->patchJson("/api/admin/languages/$language->id", [
+        $this
+            ->actingAs($admin)
+            ->patchJson("/api/admin/languages/$language->id", [
             'name'  => 'name',
             'value' => 'Slovenčina',
         ])
@@ -98,9 +91,9 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->deleteJson("/api/admin/languages/$language->id")
+        $this
+            ->actingAs($admin)
+            ->deleteJson("/api/admin/languages/$language->id")
             ->assertStatus(204);
 
         $this->assertDatabaseMissing('languages', [
@@ -125,11 +118,11 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
         $language = Language::first();
 
-        $this->deleteJson("/api/admin/languages/$language->id")
+        $this
+            ->actingAs($admin)
+            ->deleteJson("/api/admin/languages/$language->id")
             ->assertStatus(401);
     }
 
@@ -143,9 +136,9 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $this->getJson('/api/admin/languages')
+        $this
+            ->actingAs($admin)
+            ->getJson('/api/admin/languages')
             ->assertStatus(200)
             ->assertJsonFragment([
                 "locale"        => "en",
@@ -163,11 +156,11 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
         $language = Language::first();
 
-        $this->patchJson("/api/admin/languages/$language->id/strings", [
+        $this
+            ->actingAs($admin)
+            ->patchJson("/api/admin/languages/$language->id/strings", [
             'name'  => 'actions.close',
             'value' => 'Close It, now!',
         ]);
@@ -189,86 +182,15 @@ class LanguagesTest extends TestCase
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
         $language = Language::first();
 
-        $this->getJson("/api/admin/languages/$language->id")
+        $this
+            ->actingAs($admin)
+            ->getJson("/api/admin/languages/$language->id")
             ->assertStatus(200)
             ->assertJsonFragment([
                 "actions.close" => "Close",
                 "locale"        => "en",
             ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_language_translations_for_frontend()
-    {
-        $this->setup->seed_default_language();
-
-        $this->getJson("/translations/en")
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                "actions.close" => "Close",
-            ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_custom_translations_from_file_config()
-    {
-        $this->setup->seed_default_language();
-
-        $this->assertDatabaseHas('language_translations', [
-            'key'   => 'custom',
-            'value' => 'translation',
-            'lang'  => 'en',
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_translated_string_from_t_helper_function()
-    {
-        $this->setup->seed_default_language();
-
-        Language::first()
-            ->languageTranslations()
-            ->forceCreate([
-                "key"   => "test",
-                "value" => "Hi, my name is :name :surname",
-                "lang"  => "en",
-            ]);
-
-        $this->assertEquals(
-            'Close',
-            __t('actions.close')
-        );
-
-        $this->assertEquals(
-            '🙋 John share some files with you. Look at it!',
-            __t('shared_link_email_subject', ['user' => 'John'])
-        );
-
-        $this->assertEquals(
-            'Hi, my name is John Doe',
-            __t('test', ['name' => 'John', 'surname' => 'Doe'])
-        );
-    }
-
-
-    /**
-     * @test
-     */
-    public function it_get_translated_string_from_t_helper_without_database_connection()
-    {
-        $this->assertEquals(
-            __t('actions.close'),
-            'Close'
-        );
     }
 }

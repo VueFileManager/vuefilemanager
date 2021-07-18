@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Invoice;
-use App\Services\StripeService;
+use Domain\Settings\Models\Invoice;
+use Domain\SetupWizard\Services\StripeService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InvoiceResource;
 use App\Http\Resources\InvoiceAdminCollection;

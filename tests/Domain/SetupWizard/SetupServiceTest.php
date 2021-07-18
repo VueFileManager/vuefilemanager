@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature\Setup;
+namespace Tests\Domain\SetupWizard;
 
-use App\Models\Language;
-use App\Models\Setting;
-use App\Services\SetupService;
+use Domain\Settings\Models\Language;
+use Domain\Settings\Models\Setting;
+use Domain\SetupWizard\Services\SetupService;
 use Storage;
 use Tests\TestCase;
 
@@ -21,7 +21,7 @@ class SetupServiceTest extends TestCase
      */
     public function it_create_system_folders()
     {
-        $this->setup->create_directories();
+        // folders are created in TestCase
 
         collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip'])
             ->each(function ($directory) {

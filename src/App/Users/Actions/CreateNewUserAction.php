@@ -1,9 +1,9 @@
 <?php
 namespace App\Actions\Fortify;
 
-use App\Models\User;
-use App\Models\Setting;
-use App\Models\UserSettings;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\UserSettings;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;

@@ -2,8 +2,8 @@
 namespace App\Services;
 
 use DB;
-use App\Models\Language;
-use App\Models\LanguageTranslation;
+use Domain\Settings\Models\Language;
+use Domain\Settings\Models\LanguageTranslation;
 
 class LanguageService
 {

@@ -2,11 +2,11 @@
 namespace App\Http\Controllers\User;
 
 use Auth;
-use App\Models\User;
+use Domain\Settings\Models\User;
 use Stripe\SetupIntent;
-use App\Services\DemoService;
+use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\StripeService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\UserSubscription;

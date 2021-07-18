@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\FileManager;
 
 use Validator;
-use App\Models\Zip;
-use App\Models\Share;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\Share;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

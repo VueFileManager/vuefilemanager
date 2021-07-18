@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Plan;
-use App\Models\User;
+use Domain\Settings\Models\Plan;
+use Domain\Settings\Models\User;
 use Illuminate\Http\Request;
-use App\Services\DemoService;
+use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PlanResource;

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Setting;
-use App\Models\Language;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Language;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LanguageResource;

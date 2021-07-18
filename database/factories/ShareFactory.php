@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Share;
+use Domain\Settings\Models\Share;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

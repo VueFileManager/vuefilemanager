@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
+use Domain\Settings\Models\User;
 use ByteUnits\Metric;
-use App\Services\StripeService;
+use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsersCollection;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\FileManager;
+namespace Tests\Domain\Folders;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\User;
-use App\Models\Zip;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Zip;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
@@ -43,9 +43,9 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/create-folder', [
+        $this
+            ->actingAs($user)
+            ->postJson('/api/create-folder', [
             'name'      => 'New Folder',
             'parent_id' => null,
         ])
@@ -70,9 +70,9 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->patchJson("/api/rename/{$folder->id}", [
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/rename/{$folder->id}", [
             'name' => 'Renamed Folder',
             'type' => 'folder',
         ])
@@ -97,15 +97,15 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $emoji_fragment = [
             'category' => 'Smileys & Emotion (face-smiling)',
             'char'     => '😁',
             'name'     => 'beaming face with smiling eyes',
         ];
 
-        $this->patchJson("/api/rename/{$folder->id}", [
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/rename/{$folder->id}", [
             'name'  => 'Renamed Folder',
             'type'  => 'folder',
             'emoji' => $emoji_fragment
@@ -133,9 +133,9 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->patchJson("/api/rename/{$folder->id}", [
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/rename/{$folder->id}", [
             'name'  => 'Folder Name',
             'type'  => 'folder',
             'color' => '#AD6FFE'
@@ -164,9 +164,9 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/folders/favourites", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/folders/favourites", [
             'folders' => [
                 $folder->id
             ],
@@ -189,13 +189,13 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $user
             ->favouriteFolders()
             ->attach($folder->id);
 
-        $this->deleteJson("/api/folders/favourites/$folder->id")
+        $this
+            ->actingAs($user)
+            ->deleteJson("/api/folders/favourites/$folder->id")
             ->assertStatus(204);
 
         $this->assertDatabaseMissing('favourite_folder', [
@@ -218,9 +218,9 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/move", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/move", [
             'to_id' => $root->id,
             'items' => [
                 [
@@ -252,9 +252,9 @@ class FolderTest extends TestCase
         $user->favouriteFolders()->attach($folder_1->id);
         $user->favouriteFolders()->attach($folder_2->id);
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/remove", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/remove", [
             'items' => [
                 [
                     'id'           => $folder_1->id,
@@ -296,9 +296,9 @@ class FolderTest extends TestCase
         $folder_2 = Folder::factory(Folder::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
-        $this->postJson("/api/remove", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/remove", [
             'items' => [
                 [
                     'id'           => $folder_1->id,
@@ -330,8 +330,6 @@ class FolderTest extends TestCase
         $user = User::factory(User::class)
             ->create();
 
-        Sanctum::actingAs($user);
-
         $folder_root = Folder::factory(Folder::class)
             ->create([
                 'user_id' => $user->id
@@ -355,7 +353,9 @@ class FolderTest extends TestCase
                 'user_id'   => $user->id,
             ]);
 
-        $this->postJson("/api/remove", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/remove", [
             'items' => [
                 [
                     'id'           => $folder_root->id,
@@ -385,8 +385,6 @@ class FolderTest extends TestCase
      */
     public function it_delete_folder_with_their_content_within_hardly()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
 
@@ -451,49 +449,5 @@ class FolderTest extends TestCase
                     'id' => $id,
                 ]);
             });
-    }
-
-    /**
-     * @test
-     */
-    public function it_zip_folder_with_content_within_and_download()
-    {
-        $this->setup->create_directories();
-
-        $user = User::factory(User::class)
-            ->create();
-
-        Sanctum::actingAs($user);
-
-        $folder = Folder::factory(Folder::class)
-            ->create([
-                'user_id' => $user->id
-            ]);
-
-        collect([0, 1])
-            ->each(function ($index) use ($folder) {
-
-                $file = UploadedFile::fake()
-                    ->create("fake-file-$index.pdf", 1200, 'application/pdf');
-
-                $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
-                    'file'      => $file,
-                    'folder_id' => $folder->id,
-                    'is_last'   => true,
-                ])->assertStatus(201);
-            });
-
-        $this->getJson("/api/zip/folder/$folder->id")
-            ->assertStatus(201);
-
-        $this->assertDatabaseHas('zips', [
-            'user_id' => $user->id
-        ]);
-
-        Storage::disk('local')
-            ->assertExists(
-                'zip/' . Zip::first()->basename
-            );
     }
 }

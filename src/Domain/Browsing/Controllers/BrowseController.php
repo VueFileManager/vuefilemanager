@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\FileManager;
 
-use App\Models\File;
-use App\Models\User;
-use App\Models\Share;
-use App\Models\Folder;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;

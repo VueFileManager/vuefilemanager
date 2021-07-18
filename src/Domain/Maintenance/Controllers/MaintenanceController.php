@@ -3,9 +3,9 @@ namespace App\Http\Controllers\App;
 
 use Gate;
 use Artisan;
-use App\Models\Language;
+use Domain\Settings\Models\Language;
 use Illuminate\Http\Response;
-use App\Services\LanguageService;
+use Domain\SetupWizard\Services\LanguageService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;

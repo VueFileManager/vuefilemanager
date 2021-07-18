@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\FileManager;
 
-use App\Models\Zip;
+use Domain\Settings\Models\Zip;
 use Illuminate\Http\Request;
-use App\Services\HelperService;
-use App\Models\File as UserFile;
+use Domain\SetupWizard\Services\HelperService;
+use Domain\Settings\Models\File as UserFile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;

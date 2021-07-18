@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\FileManager;
+namespace Tests\Domain\Trash;
 
-use App\Models\File;
-use App\Models\Folder;
-use App\Models\User;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\User;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use Storage;
@@ -13,12 +13,6 @@ use Tests\TestCase;
 
 class TrashTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */
@@ -26,8 +20,6 @@ class TrashTest extends TestCase
     {
         $user = User::factory(User::class)
             ->create();
-
-        Sanctum::actingAs($user);
 
         $attributes = [
             'user_id'    => $user->id,
@@ -40,7 +32,9 @@ class TrashTest extends TestCase
         $file = File::factory(File::class)
             ->create($attributes);
 
-        $this->postJson("/api/trash/restore", [
+        $this
+            ->actingAs($user)
+            ->postJson("/api/trash/restore", [
             'items' => [
                 [
                     'id'   => $file->id,
@@ -67,8 +61,6 @@ class TrashTest extends TestCase
      */
     public function it_dump_trash()
     {
-        $this->setup->create_directories();
-
         $user = User::factory(User::class)
             ->create();
 

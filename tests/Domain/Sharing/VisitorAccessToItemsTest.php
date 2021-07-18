@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Share;
+namespace Tests\Domain\Sharing;
 
-use App\Models\File;
-use App\Models\Share;
-use App\Models\User;
-use App\Models\Zip;
-use App\Services\SetupService;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Zip;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Storage;
@@ -27,8 +27,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_download_file()
     {
-        $this->setup->create_directories();
-
         collect([true, false])
             ->each(function ($is_protected) {
 
@@ -102,8 +100,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_get_shared_image()
     {
-        $this->setup->create_directories();
-
         collect([true, false])
             ->each(function ($is_protected) {
 
@@ -159,8 +155,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_get_public_thumbnail()
     {
-        $this->setup->create_directories();
-
         collect([true, false])
             ->each(function ($is_protected) {
 
@@ -219,8 +213,6 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_download_publicly_zipped_files()
     {
-        $this->setup->create_directories();
-
         collect([true, false])
             ->each(function ($is_protected) {
 
