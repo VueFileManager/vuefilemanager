@@ -1,15 +1,14 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\TestCase;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
+use Domain\SetupWizard\Services\SetupService;
 
 class VisitorManipulatingTest extends TestCase
 {
@@ -27,18 +26,17 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 $file = File::factory(File::class)
                     ->create([
-                        'folder_id' => $folder->id
+                        'folder_id' => $folder->id,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -52,7 +50,6 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -71,7 +68,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->patchJson("/api/editor/rename/{$file->id}/$share->token", [
                         'name' => 'Renamed Item',
                         'type' => 'file',
@@ -97,19 +94,18 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $root = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 $children = Folder::factory(Folder::class)
                     ->create([
                         'user_id'   => $user->id,
-                        'parent_id' => $root->id
+                        'parent_id' => $root->id,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -123,7 +119,6 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -142,8 +137,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->patchJson("/api/editor/rename/{$children->id}/$share->token", [
                         'name' => 'Renamed Folder',
                         'type' => 'folder',
@@ -156,7 +150,7 @@ class VisitorManipulatingTest extends TestCase
 
                 $this->assertDatabaseHas('folders', [
                     'name' => 'Renamed Folder',
-                    'id'   => $children->id
+                    'id'   => $children->id,
                 ]);
             });
     }
@@ -169,7 +163,6 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -189,7 +182,6 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -208,8 +200,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->postJson("/api/editor/create-folder/$share->token", [
                         'name'      => 'Awesome New Folder',
                         'parent_id' => $folder->id,
@@ -236,7 +227,6 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -257,7 +247,7 @@ class VisitorManipulatingTest extends TestCase
                 $files = File::factory(File::class)
                     ->count(2)
                     ->create([
-                        'folder_id' => $folder->id
+                        'folder_id' => $folder->id,
                     ]);
 
                 $payload = [
@@ -277,7 +267,6 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -290,8 +279,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->postJson("/api/editor/remove/$share->token", $payload)
                         ->assertStatus(204);
                 }
@@ -313,7 +301,6 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -337,7 +324,6 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -354,8 +340,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->postJson("/api/editor/upload/$share->token", [
                         'filename'  => $file->name,
                         'file'      => $file,
@@ -387,13 +372,12 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $root = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 $children = Folder::factory(Folder::class)
@@ -405,7 +389,7 @@ class VisitorManipulatingTest extends TestCase
                 $file = File::factory(File::class)
                     ->create([
                         'user_id'   => $user->id,
-                        'folder_id' => $root->id
+                        'folder_id' => $root->id,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -423,13 +407,12 @@ class VisitorManipulatingTest extends TestCase
                         [
                             'type' => 'file',
                             'id'   => $file->id,
-                        ]
+                        ],
                     ],
                 ];
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -442,8 +425,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->postJson("/api/editor/move/$share->token", $payload)
                         ->assertStatus(204);
                 }
@@ -463,13 +445,12 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $root = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 $brother = Folder::factory(Folder::class)
@@ -499,13 +480,12 @@ class VisitorManipulatingTest extends TestCase
                         [
                             'type' => 'folder',
                             'id'   => $sister->id,
-                        ]
+                        ],
                     ],
                 ];
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -518,8 +498,7 @@ class VisitorManipulatingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->postJson("/api/editor/move/$share->token", $payload)
                         ->assertStatus(204);
                 }

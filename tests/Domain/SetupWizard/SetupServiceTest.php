@@ -1,12 +1,11 @@
 <?php
-
 namespace Tests\Domain\SetupWizard;
 
-use Domain\Settings\Models\Language;
-use Domain\Settings\Models\Setting;
-use Domain\SetupWizard\Services\SetupService;
 use Storage;
 use Tests\TestCase;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Language;
+use Domain\SetupWizard\Services\SetupService;
 
 class SetupServiceTest extends TestCase
 {
@@ -41,7 +40,7 @@ class SetupServiceTest extends TestCase
 
         Language::create([
             'name'   => 'English',
-            'locale' => 'en'
+            'locale' => 'en',
         ]);
 
         $this->assertDatabaseHas('languages', [

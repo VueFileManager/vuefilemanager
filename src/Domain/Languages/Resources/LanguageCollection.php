@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Resources;
+namespace Domain\Languages\Resources;
 
 use Domain\Settings\Models\Language;
 use Illuminate\Http\Resources\Json\ResourceCollection;

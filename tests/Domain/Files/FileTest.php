@@ -1,16 +1,15 @@
 <?php
-
 namespace Tests\Domain\Files;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\User;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
+use Domain\Settings\Models\Setting;
+use Domain\SetupWizard\Services\SetupService;
 
 class FileTest extends TestCase
 {
@@ -29,7 +28,7 @@ class FileTest extends TestCase
             ->create();
 
         $this->assertDatabaseHas('files', [
-            'id' => $file->id
+            'id' => $file->id,
         ]);
     }
 
@@ -47,16 +46,16 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-            'filename'  => $file->name,
-            'file'      => $file,
-            'folder_id' => null,
-            'is_last'   => true,
-        ])->assertStatus(201);
+                'filename'  => $file->name,
+                'file'      => $file,
+                'folder_id' => null,
+                'is_last'   => true,
+            ])->assertStatus(201);
 
         $disk = Storage::disk('local');
 
         $disk->assertMissing(
-            "chunks/fake-image.jpg"
+            'chunks/fake-image.jpg'
         );
 
         $disk->assertExists(
@@ -86,16 +85,16 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-            'filename'  => $file->name,
-            'file'      => $file,
-            'folder_id' => null,
-            'is_last'   => true,
-        ])->assertStatus(201);
+                'filename'  => $file->name,
+                'file'      => $file,
+                'folder_id' => null,
+                'is_last'   => true,
+            ])->assertStatus(201);
 
         $disk = Storage::disk('local');
 
         $disk->assertMissing(
-            "chunks/fake-file.pdf"
+            'chunks/fake-file.pdf'
         );
 
         $disk->assertExists(
@@ -126,10 +125,10 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-            'file'      => $file,
-            'folder_id' => null,
-            'is_last'   => true,
-        ])->assertStatus(422);
+                'file'      => $file,
+                'folder_id' => null,
+                'is_last'   => true,
+            ])->assertStatus(422);
 
         Storage::disk('local')
             ->assertMissing("files/$user->id/fake-file.pdf");
@@ -149,16 +148,16 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/rename/{$file->id}", [
-            'name' => 'Renamed Item',
-            'type' => 'file',
-        ])
+                'name' => 'Renamed Item',
+                'type' => 'file',
+            ])
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name' => 'Renamed Item',
             ]);
 
         $this->assertDatabaseHas('files', [
-            'name' => 'Renamed Item'
+            'name' => 'Renamed Item',
         ]);
     }
 
@@ -178,15 +177,15 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/move", [
-            'to_id' => $folder->id,
-            'items' => [
-                [
-                    'type' => 'file',
-                    'id'   => $file->id,
-                ]
-            ],
-        ])->assertStatus(204);
+            ->postJson('/api/move', [
+                'to_id' => $folder->id,
+                'items' => [
+                    [
+                        'type' => 'file',
+                        'id'   => $file->id,
+                    ],
+                ],
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('files', [
             'id'        => $file->id,
@@ -208,20 +207,20 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/remove", [
-            'items' => [
-                [
-                    'id'           => $files[0]->id,
-                    'type'         => 'file',
-                    'force_delete' => false,
+            ->postJson('/api/remove', [
+                'items' => [
+                    [
+                        'id'           => $files[0]->id,
+                        'type'         => 'file',
+                        'force_delete' => false,
+                    ],
+                    [
+                        'id'           => $files[1]->id,
+                        'type'         => 'file',
+                        'force_delete' => false,
+                    ],
                 ],
-                [
-                    'id'           => $files[1]->id,
-                    'type'         => 'file',
-                    'force_delete' => false,
-                ],
-            ],
-        ])->assertStatus(204);
+            ])->assertStatus(204);
 
         $files
             ->each(function ($file) {
@@ -243,7 +242,6 @@ class FileTest extends TestCase
 
         collect([0, 1])
             ->each(function ($index) {
-
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
@@ -257,7 +255,7 @@ class FileTest extends TestCase
 
         $file_ids = File::all()->pluck('id');
 
-        $this->postJson("/api/remove", [
+        $this->postJson('/api/remove', [
             'items' => [
                 [
                     'id'           => $file_ids->first(),
@@ -274,7 +272,6 @@ class FileTest extends TestCase
 
         $file_ids
             ->each(function ($id, $index) use ($user) {
-
                 $this->assertDatabaseMissing('files', [
                     'id' => $id,
                 ]);

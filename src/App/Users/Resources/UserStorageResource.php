@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Resources;
+namespace App\Users\Resources;
 
-use Domain\Settings\Models\File;
 use ByteUnits\Metric;
+use Domain\Settings\Models\File;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserStorageResource extends JsonResource

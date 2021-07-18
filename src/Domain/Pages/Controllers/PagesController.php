@@ -1,22 +1,20 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Pages\Controllers;
 
-use Domain\Settings\Models\Page;
 use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
+use Domain\Settings\Models\Page;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PageResource;
-use App\Http\Resources\PageCollection;
+use Domain\Admin\Resources\PageResource;
+use Domain\Admin\Resources\PageCollection;
+use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PagesController extends Controller
 {
-    private $demo;
-
-    public function __construct()
-    {
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        private DemoService $demo,
+    ) {
     }
 
     /**

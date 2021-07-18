@@ -1,17 +1,16 @@
 <?php
-
 namespace Tests\Domain\Files;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
+use Domain\SetupWizard\Services\SetupService;
 
 class ContentAccessTest extends TestCase
 {
@@ -211,7 +210,7 @@ class ContentAccessTest extends TestCase
      */
     public function guest_try_to_get_private_user_file()
     {
-        $this->get("file/fake-file.pdf")
+        $this->get('file/fake-file.pdf')
             ->assertRedirect();
     }
 
@@ -220,7 +219,7 @@ class ContentAccessTest extends TestCase
      */
     public function guest_try_to_get_private_user_zip()
     {
-        $this->get("zip/EHWKcuvKzA4Gv29v-archive.zip")
+        $this->get('zip/EHWKcuvKzA4Gv29v-archive.zip')
             ->assertRedirect();
     }
 
@@ -229,7 +228,7 @@ class ContentAccessTest extends TestCase
      */
     public function guest_try_to_get_private_user_image_thumbnail()
     {
-        $this->get("thumbnail/fake-thumbnail.jpg")
+        $this->get('thumbnail/fake-thumbnail.jpg')
             ->assertRedirect();
     }
 

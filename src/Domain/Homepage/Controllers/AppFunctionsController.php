@@ -1,25 +1,24 @@
 <?php
-namespace App\Http\Controllers\App;
+namespace Domain\Homepage\Controllers;
 
-use Domain\Settings\Models\Page;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Domain\SetupWizard\Services\StripeService;
+use Domain\Pages\Models\Page;
+use Domain\Sharing\Models\Share;
+use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PageResource;
+use Domain\Languages\Models\Language;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Mail\SendContactMessage;
 use Illuminate\Support\Facades\Cache;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Database\QueryException;
-use App\Http\Resources\PricingCollection;
-use Illuminate\Database\Eloquent\Collection;
+use Domain\Pages\Resources\PageResource;
+use Domain\Homepage\Mail\SendContactMessage;
+use Domain\Subscriptions\Resources\PricingCollection;
+use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Domain\Homepage\Requests\SendContactMessageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Requests\PublicPages\SendContactMessageRequest;
 
 class AppFunctionsController extends Controller
 {
@@ -33,11 +32,9 @@ class AppFunctionsController extends Controller
         'license',
     ];
 
-    private StripeService $stripe;
-
-    public function __construct(StripeService $stripe)
-    {
-        $this->stripe = $stripe;
+    public function __construct(
+        private StripeService $stripe
+    ) {
     }
 
     /**

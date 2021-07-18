@@ -1,13 +1,9 @@
 <?php
-
 namespace Tests\Domain\Languages;
 
-use Domain\Settings\Models\Language;
-use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\User;
-use Domain\SetupWizard\Services\SetupService;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use Domain\Settings\Models\Language;
+use Domain\SetupWizard\Services\SetupService;
 
 class TranslationsAccessTest extends TestCase
 {
@@ -26,10 +22,10 @@ class TranslationsAccessTest extends TestCase
     {
         $this->setup->seed_default_language();
 
-        $this->getJson("/translations/en")
+        $this->getJson('/translations/en')
             ->assertStatus(200)
             ->assertJsonFragment([
-                "actions.close" => "Close",
+                'actions.close' => 'Close',
             ]);
     }
 
@@ -57,9 +53,9 @@ class TranslationsAccessTest extends TestCase
         Language::first()
             ->languageTranslations()
             ->forceCreate([
-                "key"   => "test",
-                "value" => "Hi, my name is :name :surname",
-                "lang"  => "en",
+                'key'   => 'test',
+                'value' => 'Hi, my name is :name :surname',
+                'lang'  => 'en',
             ]);
 
         $this->assertEquals(
@@ -77,7 +73,6 @@ class TranslationsAccessTest extends TestCase
             __t('test', ['name' => 'John', 'surname' => 'Doe'])
         );
     }
-
 
     /**
      * @test

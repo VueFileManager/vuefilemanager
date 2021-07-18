@@ -1,10 +1,10 @@
 <?php
 namespace App\Console;
 
-use Domain\SetupWizard\Services\SchedulerService;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
+use Domain\SetupWizard\Services\SchedulerService;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel

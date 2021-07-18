@@ -1,8 +1,8 @@
 <?php
 
 // Get avatars and system images
-use App\Http\Controllers\FileManager\FileAccessController;
-use App\Http\Controllers\Sharing\FileSharedAccessController;
+use Domain\Browsing\Controllers\FileAccessController;
+use Domain\Sharing\Controllers\FileSharedAccessController;
 
 Route::get('/avatars/{avatar}', [FileAccessController::class, 'get_avatar'])->name('avatar');
 Route::get('/system/{image}', [FileAccessController::class, 'get_system_image']);

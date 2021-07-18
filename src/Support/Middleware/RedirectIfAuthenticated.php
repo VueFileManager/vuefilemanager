@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Middleware;
+namespace Support\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

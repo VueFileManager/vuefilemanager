@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\PlansController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PagesController;
-use App\Http\Controllers\Admin\InvoiceController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\LanguageController;
-use App\Http\Controllers\Admin\DashboardController;
+use Domain\Admin\Controllers\UserController;
+use Domain\Admin\Controllers\PagesController;
+use Domain\Admin\Controllers\PlansController;
+use Domain\Admin\Controllers\InvoiceController;
+use Domain\Admin\Controllers\SettingController;
+use Domain\Admin\Controllers\LanguageController;
+use Domain\Admin\Controllers\DashboardController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {

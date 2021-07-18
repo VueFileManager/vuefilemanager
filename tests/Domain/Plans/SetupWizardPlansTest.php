@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Tests\Domain\Plans;
 
-
-use Illuminate\Support\Str;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 
 class SetupWizardPlansTest extends TestCase
 {
@@ -20,7 +17,7 @@ class SetupWizardPlansTest extends TestCase
                     'type'       => 'plan',
                     'attributes' => [
                         'name'        => 'test-plan-' . Str::random(),
-                        'price'       => (string)rand(1, 99),
+                        'price'       => (string) rand(1, 99),
                         'description' => 'Some random description',
                         'capacity'    => rand(1, 999),
                     ],
@@ -29,12 +26,12 @@ class SetupWizardPlansTest extends TestCase
                     'type'       => 'plan',
                     'attributes' => [
                         'name'        => 'test-plan-' . Str::random(),
-                        'price'       => (string)rand(1, 99),
+                        'price'       => (string) rand(1, 99),
                         'description' => 'Some random description',
                         'capacity'    => rand(1, 999),
                     ],
                 ],
-            ]
+            ],
         ])->assertStatus(204);
     }
 }

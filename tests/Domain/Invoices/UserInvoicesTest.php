@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Tests\Domain\Invoices;
 
-
-use Domain\Settings\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\User;
 
 class UserInvoicesTest extends TestCase
 {
@@ -31,7 +28,7 @@ class UserInvoicesTest extends TestCase
         $this->getJson('/api/user/invoices')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'customer' => $this->user['stripe_id']
+                'customer' => $this->user['stripe_id'],
             ]);
     }
 }

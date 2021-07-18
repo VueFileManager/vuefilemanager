@@ -1,17 +1,17 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Languages\Controllers;
 
-use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Language;
 use Illuminate\Http\Response;
+use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\LanguageResource;
-use App\Http\Resources\LanguageCollection;
+use Domain\Settings\Models\Language;
+use Domain\Admin\Resources\LanguageResource;
+use Domain\Admin\Resources\LanguageCollection;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Requests\Languages\UpdateStringRequest;
-use App\Http\Requests\Languages\CreateLanguageRequest;
-use App\Http\Requests\Languages\UpdateLanguageRequest;
+use Domain\Languages\Requests\UpdateStringRequest;
+use Domain\Languages\Requests\CreateLanguageRequest;
+use Domain\Languages\Requests\UpdateLanguageRequest;
 
 class LanguageController extends Controller
 {

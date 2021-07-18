@@ -1,33 +1,31 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Admin\Controllers;
 
 use Storage;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\UserSettings;
 use Illuminate\Http\Response;
-use Domain\SetupWizard\Services\StripeService;
+use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\UsersCollection;
-use App\Http\Resources\UserSubscription;
+use Domain\Admin\Resources\UserResource;
+use Domain\Settings\Models\UserSettings;
 use Illuminate\Support\Facades\Password;
-use App\Http\Resources\InvoiceCollection;
-use App\Http\Resources\UserStorageResource;
-use App\Http\Requests\Admin\ChangeRoleRequest;
-use App\Http\Requests\Admin\CreateUserByAdmin;
-use App\Http\Requests\Admin\DeleteUserRequest;
+use Domain\Admin\Resources\UsersCollection;
+use Domain\Admin\Requests\ChangeRoleRequest;
+use Domain\Admin\Requests\CreateUserByAdmin;
+use Domain\Admin\Requests\DeleteUserRequest;
+use Domain\Admin\Resources\UserSubscription;
+use Domain\Admin\Resources\InvoiceCollection;
+use Domain\SetupWizard\Services\StripeService;
+use Domain\Admin\Resources\UserStorageResource;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Requests\Admin\ChangeStorageCapacityRequest;
+use Domain\Admin\Requests\ChangeStorageCapacityRequest;
 
 class UserController extends Controller
 {
-    private StripeService $stripe;
-
-    public function __construct(StripeService $stripe)
-    {
-        $this->stripe = $stripe;
+    public function __construct(
+        private StripeService $stripe
+    ) {
     }
 
     /**

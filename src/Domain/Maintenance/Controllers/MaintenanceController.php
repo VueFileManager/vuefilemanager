@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Controllers\App;
+namespace Domain\Maintenance\Controllers;
 
 use Gate;
 use Artisan;
-use Domain\Settings\Models\Language;
 use Illuminate\Http\Response;
-use Domain\SetupWizard\Services\LanguageService;
 use App\Http\Controllers\Controller;
+use Domain\Settings\Models\Language;
+use Domain\SetupWizard\Services\LanguageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 

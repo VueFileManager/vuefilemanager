@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace Domain\Files\Models;
 
 use ByteUnits\Metric;
 use Illuminate\Support\Str;

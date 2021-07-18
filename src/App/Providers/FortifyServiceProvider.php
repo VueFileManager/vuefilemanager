@@ -4,11 +4,11 @@ namespace App\Providers;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\ServiceProvider;
+use App\Users\Actions\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
-use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
+use App\Users\Actions\UpdateUserPassword;
 use Illuminate\Support\Facades\RateLimiter;
-use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Users\Actions\UpdateUserProfileInformation;
 
 class FortifyServiceProvider extends ServiceProvider
 {

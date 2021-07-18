@@ -1,17 +1,12 @@
 <?php
-
-
 namespace Tests\Domain\Languages;
 
-
-use Domain\Settings\Models\Language;
-use Domain\Settings\Models\Setting;
 use Domain\Settings\Models\User;
-use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Models\Language;
 
 class AdminLanguageTranslatorTest
 {
-
     /**
      * @test
      */
@@ -28,9 +23,9 @@ class AdminLanguageTranslatorTest
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/languages', [
-            'name'   => 'Slovenčina',
-            'locale' => 'sk',
-        ])
+                'name'   => 'Slovenčina',
+                'locale' => 'sk',
+            ])
             ->assertStatus(201)
             ->assertJsonFragment([
                 'name'   => 'Slovenčina',
@@ -64,9 +59,9 @@ class AdminLanguageTranslatorTest
         $this
             ->actingAs($admin)
             ->patchJson("/api/admin/languages/$language->id", [
-            'name'  => 'name',
-            'value' => 'Slovenčina',
-        ])
+                'name'  => 'name',
+                'value' => 'Slovenčina',
+            ])
             ->assertStatus(201)
             ->assertJsonFragment([
                 'name' => 'Slovenčina',
@@ -85,7 +80,7 @@ class AdminLanguageTranslatorTest
     {
         $language = Language::create([
             'name'   => 'Slovenčina',
-            'locale' => 'sk'
+            'locale' => 'sk',
         ]);
 
         $admin = User::factory(User::class)
@@ -141,8 +136,8 @@ class AdminLanguageTranslatorTest
             ->getJson('/api/admin/languages')
             ->assertStatus(200)
             ->assertJsonFragment([
-                "locale"        => "en",
-                "actions.close" => "Close",
+                'locale'        => 'en',
+                'actions.close' => 'Close',
             ]);
     }
 
@@ -161,9 +156,9 @@ class AdminLanguageTranslatorTest
         $this
             ->actingAs($admin)
             ->patchJson("/api/admin/languages/$language->id/strings", [
-            'name'  => 'actions.close',
-            'value' => 'Close It, now!',
-        ]);
+                'name'  => 'actions.close',
+                'value' => 'Close It, now!',
+            ]);
 
         $this->assertDatabaseHas('language_translations', [
             'key'   => 'actions.close',
@@ -189,8 +184,8 @@ class AdminLanguageTranslatorTest
             ->getJson("/api/admin/languages/$language->id")
             ->assertStatus(200)
             ->assertJsonFragment([
-                "actions.close" => "Close",
-                "locale"        => "en",
+                'actions.close' => 'Close',
+                'locale'        => 'en',
             ]);
     }
 }

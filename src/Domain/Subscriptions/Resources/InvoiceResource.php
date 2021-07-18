@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Resources;
+namespace Domain\Subscriptions\Resources;
 
 use Domain\Settings\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;

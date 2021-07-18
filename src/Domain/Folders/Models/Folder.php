@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace Domain\Folders\Models;
 
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;

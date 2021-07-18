@@ -1,14 +1,14 @@
 <?php
-namespace App\Http\Controllers\FileManager;
+namespace Domain\Trash\Controllers;
 
+use Illuminate\Http\Request;
 use Domain\Settings\Models\File;
 use Domain\Settings\Models\Folder;
-use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class TrashController extends Controller
@@ -16,9 +16,9 @@ class TrashController extends Controller
     /**
      * TrashController constructor.
      */
-    public function __construct()
-    {
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        public DemoService $demo,
+    ) {
     }
 
     /**

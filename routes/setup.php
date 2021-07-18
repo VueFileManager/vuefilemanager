@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\App\SetupWizardController;
+use Domain\Homepage\Controllers\SetupWizardController;
 
 Route::post('/purchase-code', [SetupWizardController::class, 'verify_purchase_code']);
 Route::post('/database', [SetupWizardController::class, 'setup_database']);

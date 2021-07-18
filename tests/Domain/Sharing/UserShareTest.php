@@ -1,14 +1,13 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\User;
-use App\Notifications\SharedSendViaEmail;
-use Illuminate\Support\Facades\Notification;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Folder;
+use Illuminate\Support\Facades\Notification;
+use Domain\Sharing\Notifications\SharedSendViaEmail;
 
 class UserShareTest extends TestCase
 {
@@ -26,13 +25,13 @@ class UserShareTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("/api/share/$file->id", [
-            'isPassword' => false,
-            'permission' => 'editor',
-            'type'       => 'file',
-        ])->assertStatus(201)->assertJsonFragment([
-            'item_id' => $file->id,
-            'type'    => 'file',
-        ]);
+                'isPassword' => false,
+                'permission' => 'editor',
+                'type'       => 'file',
+            ])->assertStatus(201)->assertJsonFragment([
+                'item_id' => $file->id,
+                'type'    => 'file',
+            ]);
 
         $this->assertDatabaseHas('shares', [
             'user_id'      => $user->id,
@@ -58,13 +57,13 @@ class UserShareTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("/api/share/$folder->id", [
-            'isPassword' => false,
-            'permission' => 'editor',
-            'type'       => 'folder',
-        ])->assertStatus(201)->assertJsonFragment([
-            'item_id' => $folder->id,
-            'type'    => 'folder',
-        ]);
+                'isPassword' => false,
+                'permission' => 'editor',
+                'type'       => 'folder',
+            ])->assertStatus(201)->assertJsonFragment([
+                'item_id' => $folder->id,
+                'type'    => 'folder',
+            ]);
 
         $this->assertDatabaseHas('shares', [
             'user_id'      => $user->id,
@@ -90,11 +89,11 @@ class UserShareTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("/api/share/$folder->id", [
-            'isPassword' => true,
-            'password'   => 'secret',
-            'permission' => 'editor',
-            'type'       => 'folder',
-        ])
+                'isPassword' => true,
+                'password'   => 'secret',
+                'permission' => 'editor',
+                'type'       => 'folder',
+            ])
             ->assertStatus(201)
             ->assertJsonFragment([
                 'item_id' => $folder->id,
@@ -128,11 +127,11 @@ class UserShareTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("/api/share/$folder->id", [
-            'isPassword' => false,
-            'permission' => 'editor',
-            'type'       => 'folder',
-            'expiration' => 12,
-        ])
+                'isPassword' => false,
+                'permission' => 'editor',
+                'type'       => 'folder',
+                'expiration' => 12,
+            ])
             ->assertStatus(201)
             ->assertJsonFragment([
                 'item_id'   => $folder->id,
@@ -154,14 +153,14 @@ class UserShareTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("/api/share/$folder->id", [
-            'isPassword' => false,
-            'permission' => 'editor',
-            'type'       => 'folder',
-            'emails'     => [
-                'john@doe.com',
-                'jane@doe.com',
-            ],
-        ])->assertStatus(201);
+                'isPassword' => false,
+                'permission' => 'editor',
+                'type'       => 'folder',
+                'emails'     => [
+                    'john@doe.com',
+                    'jane@doe.com',
+                ],
+            ])->assertStatus(201);
 
         Notification::assertTimesSent(2, SharedSendViaEmail::class);
     }
@@ -216,14 +215,14 @@ class UserShareTest extends TestCase
             'type'       => 'folder',
         ])->assertStatus(201);
 
-        $this->deleteJson("/api/share/revoke", [
+        $this->deleteJson('/api/share/revoke', [
             'tokens' => [
-                $folder->shared->token
+                $folder->shared->token,
             ],
         ])->assertStatus(204);
 
         $this->assertDatabaseMissing('shares', [
-            'item_id' => $folder->id
+            'item_id' => $folder->id,
         ]);
     }
 }

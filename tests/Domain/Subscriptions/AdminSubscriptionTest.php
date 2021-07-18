@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Tests\Domain\Subscriptions;
 
-
-use Domain\Settings\Models\User;
 use Tests\TestCase;
+use Domain\Settings\Models\User;
 
 class AdminSubscriptionTest extends TestCase
 {
@@ -20,12 +17,12 @@ class AdminSubscriptionTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/user/subscription/upgrade', [
-            'billing' => $this->billing,
-            'plan'    => $this->plan,
-            'payment' => [
-                'type' => 'stripe',
-            ],
-        ])->assertStatus(204);
+                'billing' => $this->billing,
+                'plan'    => $this->plan,
+                'payment' => [
+                    'type' => 'stripe',
+                ],
+            ])->assertStatus(204);
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -35,22 +32,22 @@ class AdminSubscriptionTest extends TestCase
             ->getJson("/api/admin/users/$user->id/subscription")
             ->assertStatus(200)
             ->assertExactJson([
-                "data" => [
-                    "id"         => "business-pack",
-                    "type"       => "subscription",
-                    "attributes" => [
-                        "incomplete"         => false,
-                        "active"             => true,
-                        "canceled"           => false,
-                        "name"               => "Business Packs",
-                        "capacity"           => 1000,
-                        "capacity_formatted" => "1TB",
-                        "slug"               => "business-pack",
-                        "canceled_at"        => format_date(now(), '%d. %B. %Y'),
-                        "created_at"         => format_date(now(), '%d. %B. %Y'),
-                        "ends_at"            => format_date(now()->addMonth(), '%d. %B. %Y'),
-                    ]
-                ]
+                'data' => [
+                    'id'         => 'business-pack',
+                    'type'       => 'subscription',
+                    'attributes' => [
+                        'incomplete'         => false,
+                        'active'             => true,
+                        'canceled'           => false,
+                        'name'               => 'Business Packs',
+                        'capacity'           => 1000,
+                        'capacity_formatted' => '1TB',
+                        'slug'               => 'business-pack',
+                        'canceled_at'        => format_date(now(), '%d. %B. %Y'),
+                        'created_at'         => format_date(now(), '%d. %B. %Y'),
+                        'ends_at'            => format_date(now()->addMonth(), '%d. %B. %Y'),
+                    ],
+                ],
             ]);
     }
 }

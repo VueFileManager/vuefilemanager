@@ -1,22 +1,20 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Settings\Controllers;
 
 use Stripe;
 use Artisan;
-use Domain\Settings\Models\Setting;
 use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
+use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
+use Domain\SetupWizard\Services\DemoService;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SettingController extends Controller
 {
-    private $demo;
-
-    public function __construct()
-    {
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        private DemoService $demo
+    ) {
     }
 
     /**

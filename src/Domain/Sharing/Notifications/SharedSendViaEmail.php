@@ -1,5 +1,5 @@
 <?php
-namespace App\Notifications;
+namespace Domain\Sharing\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Auth;

@@ -1,18 +1,18 @@
 <?php
-namespace App\Models;
+namespace App\Users\Models;
 
 use ByteUnits\Metric;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
-use Domain\SetupWizard\Services\HelperService;
-use Domain\SetupWizard\Services\StripeService;
 use Laravel\Sanctum\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
-use App\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Domain\SetupWizard\Services\HelperService;
+use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Domain\Sharing\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

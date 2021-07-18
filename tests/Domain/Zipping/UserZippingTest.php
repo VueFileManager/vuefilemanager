@@ -1,18 +1,14 @@
 <?php
-
-
 namespace Tests\Domain\Zipping;
 
-
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
 
 class UserZippingTest extends TestCase
 {
@@ -28,7 +24,6 @@ class UserZippingTest extends TestCase
 
         collect([0, 1])
             ->each(function ($index) {
-
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
@@ -42,12 +37,12 @@ class UserZippingTest extends TestCase
 
         $file_ids = File::all()->pluck('id');
 
-        $this->postJson("/api/zip/files", [
+        $this->postJson('/api/zip/files', [
             'items' => $file_ids,
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('zips', [
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         Storage::disk('local')
@@ -68,12 +63,11 @@ class UserZippingTest extends TestCase
 
         $folder = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
 
         collect([0, 1])
             ->each(function ($index) use ($folder) {
-
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
@@ -89,7 +83,7 @@ class UserZippingTest extends TestCase
             ->assertStatus(201);
 
         $this->assertDatabaseHas('zips', [
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         Storage::disk('local')

@@ -1,18 +1,18 @@
 <?php
-namespace App\Http\Controllers\FileManager;
+namespace Domain\Sharing\Controllers;
 
 use Validator;
+use Illuminate\Http\Request;
 use Domain\Settings\Models\Zip;
 use Domain\Settings\Models\Share;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\ShareResource;
-use App\Notifications\SharedSendViaEmail;
+use Domain\Admin\Resources\ShareResource;
 use Illuminate\Support\Facades\Notification;
-use App\Http\Requests\Share\CreateShareRequest;
-use App\Http\Requests\Share\UpdateShareRequest;
+use Domain\Sharing\Requests\CreateShareRequest;
+use Domain\Sharing\Requests\UpdateShareRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Domain\Sharing\Notifications\SharedSendViaEmail;
 
 class ShareController extends Controller
 {

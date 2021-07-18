@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace Domain\Languages\Services;
 
 use DB;
 use Domain\Settings\Models\Language;

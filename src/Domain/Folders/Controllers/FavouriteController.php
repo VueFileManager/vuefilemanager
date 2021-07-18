@@ -1,21 +1,21 @@
 <?php
-namespace App\Http\Controllers\FileManager;
+namespace Domain\Folders\Controllers;
 
-use Domain\Settings\Models\Folder;
 use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
+use Domain\Settings\Models\Folder;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Domain\SetupWizard\Services\DemoService;
 
 class FavouriteController extends Controller
 {
     /**
      * FavouriteController constructor.
      */
-    public function __construct()
-    {
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        public DemoService $demo,
+    ) {
     }
 
     /**

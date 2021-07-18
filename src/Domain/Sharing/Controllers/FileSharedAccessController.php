@@ -1,20 +1,18 @@
 <?php
-namespace App\Http\Controllers\Sharing;
+namespace Domain\Sharing\Controllers;
 
 use Domain\Settings\Models\Zip;
 use Domain\Settings\Models\Share;
-use Domain\SetupWizard\Services\HelperService;
-use Domain\Settings\Models\File as UserFile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Domain\Settings\Models\File as UserFile;
+use Domain\SetupWizard\Services\HelperService;
 
 class FileSharedAccessController extends Controller
 {
-    private $helper;
-
-    public function __construct()
-    {
-        $this->helper = resolve(HelperService::class);
+    public function __construct(
+        private HelperService $helper,
+    ) {
     }
 
     /**

@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Tests\Domain\Plans;
 
-
-use Domain\Settings\Models\User;
+use Tests\TestCase;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Domain\Settings\Models\User;
 
 class PlansTest extends TestCase
 {
@@ -36,17 +33,17 @@ class PlansTest extends TestCase
             'type'       => 'plan',
             'attributes' => [
                 'name'        => $plan_name,
-                'price'       => (string)rand(1, 99),
+                'price'       => (string) rand(1, 99),
                 'description' => 'Some random description',
                 'capacity'    => rand(1, 999),
             ],
         ])
             ->assertStatus(201)
             ->assertJsonFragment([
-                'name' => $plan_name
+                'name' => $plan_name,
             ]);
 
-        $this->deleteJson("/api/admin/plans/" . strtolower($plan_name))
+        $this->deleteJson('/api/admin/plans/' . strtolower($plan_name))
             ->assertStatus(204);
     }
 }

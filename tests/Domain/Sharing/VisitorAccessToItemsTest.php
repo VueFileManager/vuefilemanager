@@ -1,16 +1,15 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Storage;
 use Tests\TestCase;
+use Illuminate\Support\Str;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Illuminate\Http\UploadedFile;
+use Domain\SetupWizard\Services\SetupService;
 
 class VisitorAccessToItemsTest extends TestCase
 {
@@ -29,7 +28,6 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -55,7 +53,6 @@ class VisitorAccessToItemsTest extends TestCase
                     ]);
 
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -66,8 +63,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     // Get shared file
                     $this->get("/file/$document->name/$share->token")
                         ->assertStatus(200);
@@ -102,7 +98,6 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -130,12 +125,11 @@ class VisitorAccessToItemsTest extends TestCase
                     ]);
 
                 if ($is_protected) {
-
                     $cookie = [
                         'share_session' => json_encode([
                             'token'         => $share->token,
                             'authenticated' => true,
-                        ])
+                        ]),
                     ];
 
                     $this->withCookies($cookie)
@@ -143,7 +137,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->get("/share/$share->token")
                         ->assertStatus(200);
                 }
@@ -157,7 +151,6 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -183,12 +176,11 @@ class VisitorAccessToItemsTest extends TestCase
 
                 // Get thumbnail file
                 if ($is_protected) {
-
                     $cookie = [
                         'share_session' => json_encode([
                             'token'         => $share->token,
                             'authenticated' => true,
-                        ])
+                        ]),
                     ];
 
                     $this->withCookies($cookie)
@@ -196,7 +188,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->get("/thumbnail/$thumbnail->name/$share->token")
                         ->assertStatus(200);
                 }
@@ -215,7 +207,6 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -235,15 +226,14 @@ class VisitorAccessToItemsTest extends TestCase
                 $file = UploadedFile::fake()
                     ->create($zip->basename, 1000, 'application/zip');
 
-                Storage::putFileAs("zip", $file, $file->name);
+                Storage::putFileAs('zip', $file, $file->name);
 
                 if ($is_protected) {
-
                     $cookie = [
                         'share_session' => json_encode([
                             'token'         => $share->token,
                             'authenticated' => true,
-                        ])
+                        ]),
                     ];
 
                     $this->withCookies($cookie)
@@ -251,7 +241,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->get("/zip/$zip->id/$share->token")
                         ->assertStatus(200);
                 }

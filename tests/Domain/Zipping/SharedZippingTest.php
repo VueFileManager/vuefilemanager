@@ -1,18 +1,14 @@
 <?php
-
-
 namespace Tests\Domain\Zipping;
 
-
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Tests\TestCase;
+use Illuminate\Support\Str;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
 
 class SharedZippingTest extends TestCase
 {
@@ -24,18 +20,16 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 collect([0, 1])
                     ->each(function ($index) use ($folder, $user) {
-
                         $file = UploadedFile::fake()
                             ->create(Str::random() . "-fake-file-$index.pdf", 1000, 'application/pdf');
 
@@ -61,7 +55,6 @@ class SharedZippingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -70,14 +63,14 @@ class SharedZippingTest extends TestCase
                     $this
                         ->withUnencryptedCookies($cookie)
                         ->post("/api/zip/files/$share->token", [
-                            'items' => File::all()->pluck('id')
+                            'items' => File::all()->pluck('id'),
                         ])->assertStatus(201);
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->postJson("/api/zip/files/$share->token", [
-                        'items' => File::all()->pluck('id')
+                        'items' => File::all()->pluck('id'),
                     ])->assertStatus(201);
                 }
 
@@ -86,7 +79,7 @@ class SharedZippingTest extends TestCase
                     'shared_token' => $share->token,
                 ]);
 
-                Storage::assertExists("zip/" . Zip::first()->basename);
+                Storage::assertExists('zip/' . Zip::first()->basename);
             });
     }
 
@@ -98,13 +91,12 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 File::factory(File::class)
@@ -128,7 +120,6 @@ class SharedZippingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -137,14 +128,14 @@ class SharedZippingTest extends TestCase
                     $this
                         ->withUnencryptedCookies($cookie)
                         ->post("/api/zip/files/$share->token", [
-                            'items' => File::all()->pluck('id')
+                            'items' => File::all()->pluck('id'),
                         ])->assertStatus(403);
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->postJson("/api/zip/files/$share->token", [
-                        'items' => File::all()->pluck('id')
+                        'items' => File::all()->pluck('id'),
                     ])->assertStatus(403);
                 }
             });
@@ -158,24 +149,22 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $root = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 $children = Folder::factory(Folder::class)
                     ->create([
                         'user_id'   => $user->id,
-                        'parent_id' => $root->id
+                        'parent_id' => $root->id,
                     ]);
 
                 collect([0, 1])
                     ->each(function ($index) use ($children, $user) {
-
                         $file = UploadedFile::fake()
                             ->create(Str::random() . "-fake-file-$index.pdf", 1000, 'application/pdf');
 
@@ -201,7 +190,6 @@ class SharedZippingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -214,7 +202,7 @@ class SharedZippingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/zip/folder/$children->id/$share->token")
                         ->assertStatus(201);
                 }
@@ -239,13 +227,12 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
                     ->create([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -257,7 +244,6 @@ class SharedZippingTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -270,7 +256,7 @@ class SharedZippingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/zip/folder/$folder->id/$share->token")
                         ->assertStatus(403);
                 }

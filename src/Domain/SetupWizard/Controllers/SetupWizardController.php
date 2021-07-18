@@ -1,41 +1,40 @@
 <?php
-namespace App\Http\Controllers\App;
+namespace Domain\SetupWizard\Controllers;
 
 use Schema;
 use Stripe;
 use Artisan;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Domain\SetupWizard\Services\SetupService;
-use Domain\SetupWizard\Services\StripeService;
+use Domain\Settings\Models\User;
 use Illuminate\Support\Facades\DB;
+use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Doctrine\DBAL\Driver\PDOException;
+use Domain\SetupWizard\Services\SetupService;
+use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
-use App\Http\Requests\SetupWizard\StoreAppSetupRequest;
+use Domain\SetupWizard\Requests\StoreAppSetupRequest;
+use Domain\SetupWizard\Requests\StoreStripePlansRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Http\Requests\SetupWizard\StoreStripePlansRequest;
-use App\Http\Requests\SetupWizard\StoreStripeBillingRequest;
-use App\Http\Requests\SetupWizard\StoreEnvironmentSetupRequest;
-use App\Http\Requests\SetupWizard\StoreStripeCredentialsRequest;
-use App\Http\Requests\SetupWizard\StoreDatabaseCredentialsRequest;
+use Domain\SetupWizard\Requests\StoreStripeBillingRequest;
+use Domain\SetupWizard\Requests\StoreEnvironmentSetupRequest;
+use Domain\SetupWizard\Requests\StoreStripeCredentialsRequest;
+use Domain\SetupWizard\Requests\StoreDatabaseCredentialsRequest;
 
 class SetupWizardController extends Controller
 {
     /**
      * Inject Stripe Service
      */
-    public function __construct()
-    {
-        $this->stripe = resolve(StripeService::class);
-        $this->setup = resolve(SetupService::class);
-
+    public function __construct(
+        public StripeService $stripe,
+        public SetupService $setup,
+    ) {
         $this->check_setup_status();
     }
 

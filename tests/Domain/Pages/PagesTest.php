@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Tests\Domain\Pages;
 
-
-use Domain\SetupWizard\Services\SetupService;
 use Tests\TestCase;
+use Domain\SetupWizard\Services\SetupService;
 
 class PagesTest extends TestCase
 {

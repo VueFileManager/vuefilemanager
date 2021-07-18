@@ -1,15 +1,15 @@
 <?php
-namespace App\Http\Controllers\FileManager;
+namespace Domain\Browsing\Controllers;
 
+use Illuminate\Http\Request;
 use Domain\Settings\Models\File;
 use Domain\Settings\Models\User;
 use Domain\Settings\Models\Share;
 use Domain\Settings\Models\Folder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\FileBrowser\SearchRequest;
+use Domain\Items\Requests\SearchRequest;
 
 class BrowseController extends Controller
 {

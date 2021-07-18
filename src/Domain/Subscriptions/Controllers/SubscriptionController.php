@@ -1,28 +1,25 @@
 <?php
-namespace App\Http\Controllers\User;
+namespace Domain\Subscriptions\Controllers;
 
 use Auth;
-use Domain\Settings\Models\User;
 use Stripe\SetupIntent;
-use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
-use Domain\SetupWizard\Services\StripeService;
+use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\UserSubscription;
+use Domain\Admin\Resources\UserSubscription;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
+use Domain\Subscriptions\Requests\StoreUpgradeAccountRequest;
 
 class SubscriptionController extends Controller
 {
-    private $stripe;
-    private $demo;
-
-    public function __construct()
-    {
-        $this->stripe = resolve(StripeService::class);
-        $this->demo = DemoService::class;
+    public function __construct(
+        private StripeService $stripe,
+        private DemoService $demo,
+    ) {
     }
 
     /**

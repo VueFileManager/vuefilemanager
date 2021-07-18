@@ -1,14 +1,11 @@
 <?php
-
-
 namespace Tests\Domain\Settings;
 
-
-use Domain\Settings\Models\Setting;
+use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
 use Domain\Settings\Models\User;
 use Illuminate\Http\UploadedFile;
-use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Domain\Settings\Models\Setting;
 
 class SettingsTest extends TestCase
 {
@@ -30,8 +27,8 @@ class SettingsTest extends TestCase
         $this->getJson('/api/content?column=get_started_title|pricing_description')
             ->assertStatus(200)
             ->assertExactJson([
-                "get_started_title"   => "Hello World!",
-                "pricing_description" => "Give me a money!",
+                'get_started_title'   => 'Hello World!',
+                'pricing_description' => 'Give me a money!',
             ]);
     }
 
@@ -82,12 +79,12 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->patchJson('/api/admin/settings', [
-            'name'  => 'header_title',
-            'value' => 'New Header Title'
-        ])->assertStatus(204);
+                'name'  => 'header_title',
+                'value' => 'New Header Title',
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('settings', [
-            'value' => 'New Header Title'
+            'value' => 'New Header Title',
         ]);
     }
 
@@ -112,12 +109,12 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->patchJson('/api/admin/settings', [
-            'name'     => 'app_logo',
-            'app_logo' => $logo
-        ])->assertStatus(204);
+                'name'     => 'app_logo',
+                'app_logo' => $logo,
+            ])->assertStatus(204);
 
         $this->assertDatabaseMissing('settings', [
-            'app_logo' => null
+            'app_logo' => null,
         ]);
 
         Storage::assertExists(
@@ -150,11 +147,11 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/settings/stripe', [
-            'currency'      => 'EUR',
-            'key'           => '123456789',
-            'secret'        => '123456789',
-            'webhookSecret' => '123456789',
-        ])->assertStatus(204);
+                'currency'      => 'EUR',
+                'key'           => '123456789',
+                'secret'        => '123456789',
+                'webhookSecret' => '123456789',
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('settings', [
             'name'  => 'stripe_currency',
@@ -183,12 +180,12 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/settings/email', [
-            'driver'     => 'smtp',
-            'host'       => 'smtp.email.com',
-            'port'       => 25,
-            'username'   => 'john@doe.com',
-            'password'   => 'secret',
-            'encryption' => 'tls',
-        ])->assertStatus(204);
+                'driver'     => 'smtp',
+                'host'       => 'smtp.email.com',
+                'port'       => 25,
+                'username'   => 'john@doe.com',
+                'password'   => 'secret',
+                'encryption' => 'tls',
+            ])->assertStatus(204);
     }
 }

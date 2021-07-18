@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Notifications;
+namespace Domain\Subscriptions\Notifications;
 
 use Laravel\Cashier\Payment;
 use Illuminate\Bus\Queueable;

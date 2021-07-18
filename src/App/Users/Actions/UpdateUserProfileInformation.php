@@ -1,5 +1,5 @@
 <?php
-namespace App\Actions\Fortify;
+namespace App\Users\Actions;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;

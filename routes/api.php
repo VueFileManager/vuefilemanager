@@ -1,14 +1,14 @@
 <?php
 
-use App\Actions\Fortify\CreateNewUserAction;
-use App\Http\Controllers\App\AppFunctionsController;
-use App\Http\Controllers\FileManager\ShareController;
-use App\Http\Controllers\FileManager\TrashController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\FileManager\BrowseController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\FileManager\EditItemsController;
-use App\Http\Controllers\FileManager\FavouriteController;
+use App\Users\Actions\CreateNewUserAction;
+use Domain\Browsing\Controllers\ShareController;
+use Domain\Browsing\Controllers\TrashController;
+use Domain\Browsing\Controllers\BrowseController;
+use App\Users\Controllers\ResetPasswordController;
+use App\Users\Controllers\ForgotPasswordController;
+use Domain\Browsing\Controllers\EditItemsController;
+use Domain\Browsing\Controllers\FavouriteController;
+use Domain\Homepage\Controllers\AppFunctionsController;
 
 // Pages
 Route::get('/content', [AppFunctionsController::class, 'get_setting_columns']);

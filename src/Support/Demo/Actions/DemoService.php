@@ -1,12 +1,12 @@
 <?php
-namespace App\Services;
+namespace Support\Demo\Actions;
 
-use Domain\Settings\Models\File;
 use ByteUnits\Metric;
-use Domain\Settings\Models\Folder;
 use Illuminate\Support\Str;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\Folder;
+use Domain\Files\Requests\RenameItemRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Requests\FileFunctions\RenameItemRequest;
 
 class DemoService
 {

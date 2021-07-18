@@ -1,16 +1,14 @@
 <?php
-
 namespace Tests\Domain\Folders;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
+use Domain\SetupWizard\Services\SetupService;
 
 // TODO: pridat foldre do api skupiny
 
@@ -31,7 +29,7 @@ class FolderTest extends TestCase
             ->create();
 
         $this->assertDatabaseHas('folders', [
-            'id' => $folder->id
+            'id' => $folder->id,
         ]);
     }
 
@@ -46,16 +44,16 @@ class FolderTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/create-folder', [
-            'name'      => 'New Folder',
-            'parent_id' => null,
-        ])
+                'name'      => 'New Folder',
+                'parent_id' => null,
+            ])
             ->assertStatus(201)
             ->assertJsonFragment([
                 'name' => 'New Folder',
             ]);
 
         $this->assertDatabaseHas('folders', [
-            'name' => 'New Folder'
+            'name' => 'New Folder',
         ]);
     }
 
@@ -73,16 +71,16 @@ class FolderTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/rename/{$folder->id}", [
-            'name' => 'Renamed Folder',
-            'type' => 'folder',
-        ])
+                'name' => 'Renamed Folder',
+                'type' => 'folder',
+            ])
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name' => 'Renamed Folder',
             ]);
 
         $this->assertDatabaseHas('folders', [
-            'name' => 'Renamed Folder'
+            'name' => 'Renamed Folder',
         ]);
     }
 
@@ -106,19 +104,19 @@ class FolderTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/rename/{$folder->id}", [
-            'name'  => 'Renamed Folder',
-            'type'  => 'folder',
-            'emoji' => $emoji_fragment
-        ])
+                'name'  => 'Renamed Folder',
+                'type'  => 'folder',
+                'emoji' => $emoji_fragment,
+            ])
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name'  => 'Renamed Folder',
-                'emoji' => $emoji_fragment
+                'emoji' => $emoji_fragment,
             ]);
 
         $this->assertDatabaseHas('folders', [
             'color' => null,
-            'emoji' => json_encode($emoji_fragment)
+            'emoji' => json_encode($emoji_fragment),
         ]);
     }
 
@@ -136,10 +134,10 @@ class FolderTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/rename/{$folder->id}", [
-            'name'  => 'Folder Name',
-            'type'  => 'folder',
-            'color' => '#AD6FFE'
-        ])
+                'name'  => 'Folder Name',
+                'type'  => 'folder',
+                'color' => '#AD6FFE',
+            ])
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name'  => 'Folder Name',
@@ -166,11 +164,11 @@ class FolderTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/folders/favourites", [
-            'folders' => [
-                $folder->id
-            ],
-        ])->assertStatus(204);
+            ->postJson('/api/folders/favourites', [
+                'folders' => [
+                    $folder->id,
+                ],
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('favourite_folder', [
             'user_id'   => $user->id,
@@ -220,18 +218,19 @@ class FolderTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/move", [
-            'to_id' => $root->id,
-            'items' => [
-                [
-                    'type' => 'folder',
-                    'id'   => $children->id,
-                ]
-            ],
-        ])->assertStatus(204);
+            ->postJson('/api/move', [
+                'to_id' => $root->id,
+                'items' => [
+                    [
+                        'type' => 'folder',
+                        'id'   => $children->id,
+                    ],
+                ],
+            ])->assertStatus(204);
 
         $this->assertEquals(
-            $root->id, Folder::find($children->id)->parent_id
+            $root->id,
+            Folder::find($children->id)->parent_id
         );
     }
 
@@ -254,24 +253,23 @@ class FolderTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/remove", [
-            'items' => [
-                [
-                    'id'           => $folder_1->id,
-                    'type'         => 'folder',
-                    'force_delete' => false,
+            ->postJson('/api/remove', [
+                'items' => [
+                    [
+                        'id'           => $folder_1->id,
+                        'type'         => 'folder',
+                        'force_delete' => false,
+                    ],
+                    [
+                        'id'           => $folder_2->id,
+                        'type'         => 'folder',
+                        'force_delete' => false,
+                    ],
                 ],
-                [
-                    'id'           => $folder_2->id,
-                    'type'         => 'folder',
-                    'force_delete' => false,
-                ],
-            ],
-        ])->assertStatus(204);
+            ])->assertStatus(204);
 
         collect([$folder_1, $folder_2])
             ->each(function ($folder) {
-
                 $this->assertSoftDeleted('folders', [
                     'id' => $folder->id,
                 ]);
@@ -298,20 +296,20 @@ class FolderTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/remove", [
-            'items' => [
-                [
-                    'id'           => $folder_1->id,
-                    'type'         => 'folder',
-                    'force_delete' => true,
+            ->postJson('/api/remove', [
+                'items' => [
+                    [
+                        'id'           => $folder_1->id,
+                        'type'         => 'folder',
+                        'force_delete' => true,
+                    ],
+                    [
+                        'id'           => $folder_2->id,
+                        'type'         => 'folder',
+                        'force_delete' => true,
+                    ],
                 ],
-                [
-                    'id'           => $folder_2->id,
-                    'type'         => 'folder',
-                    'force_delete' => true,
-                ],
-            ],
-        ])->assertStatus(204);
+            ])->assertStatus(204);
 
         $this->assertDatabaseMissing('folders', [
             'id' => $folder_1->id,
@@ -332,7 +330,7 @@ class FolderTest extends TestCase
 
         $folder_root = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
 
         $folder_children = Folder::factory(Folder::class)
@@ -355,15 +353,15 @@ class FolderTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/remove", [
-            'items' => [
-                [
-                    'id'           => $folder_root->id,
-                    'type'         => 'folder',
-                    'force_delete' => false,
+            ->postJson('/api/remove', [
+                'items' => [
+                    [
+                        'id'           => $folder_root->id,
+                        'type'         => 'folder',
+                        'force_delete' => false,
+                    ],
                 ],
-            ],
-        ])->assertStatus(204);
+            ])->assertStatus(204);
 
         collect([$file_1, $file_2])
             ->each(function ($file) {
@@ -392,7 +390,7 @@ class FolderTest extends TestCase
 
         $folder_root = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
 
         $folder_children = Folder::factory(Folder::class)
@@ -403,7 +401,6 @@ class FolderTest extends TestCase
 
         collect([$folder_root, $folder_children])
             ->each(function ($folder, $index) {
-
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
@@ -419,7 +416,7 @@ class FolderTest extends TestCase
 
         collect([0, 1])
             ->each(function ($index) use ($folder_root) {
-                $this->postJson("/api/remove", [
+                $this->postJson('/api/remove', [
                     'items' => [
                         [
                             'id'           => $folder_root->id,
@@ -432,7 +429,6 @@ class FolderTest extends TestCase
 
         $uploaded_files
             ->each(function ($file, $index) use ($user) {
-
                 $this->assertDatabaseMissing('files', [
                     'id' => $file->id,
                 ]);

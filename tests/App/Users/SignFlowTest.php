@@ -1,16 +1,14 @@
 <?php
-
 namespace Tests\Feature\Accounts;
 
-use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\User;
-use App\Notifications\ResetPassword;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Support\Facades\Password;
-use Laravel\Sanctum\Sanctum;
-use Notification;
 use Storage;
+use Notification;
 use Tests\TestCase;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Setting;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Domain\Sharing\Notifications\ResetPassword;
 
 class SignFlowTest extends TestCase
 {
@@ -31,7 +29,7 @@ class SignFlowTest extends TestCase
             [
                 'name'  => 'user_verification',
                 'value' => 1,
-            ]
+            ],
         ])->each(function ($setting) {
             Setting::create([
                 'name'  => $setting['name'],
@@ -47,7 +45,7 @@ class SignFlowTest extends TestCase
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'john@doe.com',
+            'email'             => 'john@doe.com',
             'email_verified_at' => null,
         ]);
 

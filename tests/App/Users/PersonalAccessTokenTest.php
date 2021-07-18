@@ -1,11 +1,10 @@
 <?php
-
 namespace Tests\Feature\Accounts;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\User;
 use Tests\TestCase;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Folder;
 
 class PersonalAccessTokenTest extends TestCase
 {

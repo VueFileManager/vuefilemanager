@@ -1,28 +1,24 @@
 <?php
-namespace App\Http\Controllers\User;
+namespace Domain\Subscriptions\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
-use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\PaymentMethod;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\PaymentCardResource;
-use App\Http\Resources\PaymentCardCollection;
-use App\Http\Resources\PaymentDefaultCardResource;
-use App\Http\Requests\Payments\RegisterNewPaymentMethodRequest;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\SetupWizard\Services\StripeService;
+use Domain\Admin\Resources\PaymentCardResource;
+use Domain\Admin\Resources\PaymentCardCollection;
+use Domain\Admin\Resources\PaymentDefaultCardResource;
+use Domain\Subscriptions\Requests\RegisterNewPaymentMethodRequest;
 
 class PaymentMethodsController extends Controller
 {
-    private StripeService $stripe;
-
-    private DemoService $demo;
-
-    public function __construct(StripeService $stripe)
-    {
-        $this->stripe = $stripe;
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        private StripeService $stripe,
+        private DemoService $demo,
+    ) {
     }
 
     /**

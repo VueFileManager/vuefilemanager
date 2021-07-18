@@ -1,21 +1,20 @@
 <?php
-
 namespace Tests\Domain\Admin;
 
+use DB;
+use Storage;
+use Notification;
+use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\Zip;
 use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Folder;
 use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use App\Notifications\ResetPassword;
 use Domain\SetupWizard\Services\SetupService;
-use DB;
-use Illuminate\Http\UploadedFile;
-use Notification;
-use Laravel\Sanctum\Sanctum;
-use Storage;
-use Tests\TestCase;
+use Domain\Sharing\Notifications\ResetPassword;
 
 class AdminTest extends TestCase
 {
@@ -39,7 +38,7 @@ class AdminTest extends TestCase
 
         Setting::forceCreate([
             'name'  => 'license',
-            'value' => 'Regular'
+            'value' => 'Regular',
         ]);
 
         DB::table('subscriptions')
@@ -55,11 +54,11 @@ class AdminTest extends TestCase
             ->getJson('/api/admin/dashboard')
             ->assertStatus(200)
             ->assertExactJson([
-                "license"             => 'Regular',
-                "app_version"         => config('vuefilemanager.version'),
-                "total_users"         => 1,
-                "total_used_space"    => '2.00MB',
-                "total_premium_users" => 1,
+                'license'             => 'Regular',
+                'app_version'         => config('vuefilemanager.version'),
+                'total_users'         => 1,
+                'total_used_space'    => '2.00MB',
+                'total_premium_users' => 1,
             ]);
     }
 
@@ -174,37 +173,37 @@ class AdminTest extends TestCase
             ->getJson("/api/admin/users/$user->id/storage")
             ->assertStatus(200)
             ->assertExactJson([
-                "data" => [
-                    "id"         => $user->id,
-                    "type"       => "storage",
-                    "attributes" => [
-                        "used"       => "5.00MB",
-                        "capacity"   => "5GB",
-                        "percentage" => 0.1,
+                'data' => [
+                    'id'         => $user->id,
+                    'type'       => 'storage',
+                    'attributes' => [
+                        'used'       => '5.00MB',
+                        'capacity'   => '5GB',
+                        'percentage' => 0.1,
                     ],
-                    "meta"       => [
-                        "images"    => [
-                            "used"       => '1.00MB',
-                            "percentage" => 0.02,
+                    'meta'       => [
+                        'images'    => [
+                            'used'       => '1.00MB',
+                            'percentage' => 0.02,
                         ],
-                        "audios"    => [
-                            "used"       => '1.00MB',
-                            "percentage" => 0.02,
+                        'audios'    => [
+                            'used'       => '1.00MB',
+                            'percentage' => 0.02,
                         ],
-                        "videos"    => [
-                            "used"       => '1.00MB',
-                            "percentage" => 0.02,
+                        'videos'    => [
+                            'used'       => '1.00MB',
+                            'percentage' => 0.02,
                         ],
-                        "documents" => [
-                            "used"       => '1.00MB',
-                            "percentage" => 0.02,
+                        'documents' => [
+                            'used'       => '1.00MB',
+                            'percentage' => 0.02,
                         ],
-                        "others"    => [
-                            "used"       => '1.00MB',
-                            "percentage" => 0.02,
-                        ]
-                    ]
-                ]
+                        'others'    => [
+                            'used'       => '1.00MB',
+                            'percentage' => 0.02,
+                        ],
+                    ],
+                ],
             ]);
     }
 
@@ -241,10 +240,10 @@ class AdminTest extends TestCase
         $this
             ->actingAs($admin)
             ->patchJson("/api/admin/users/$user->id/capacity", [
-            'attributes' => [
-                'storage_capacity' => 10
-            ]
-        ])->assertStatus(200);
+                'attributes' => [
+                    'storage_capacity' => 10,
+                ],
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('user_settings', [
             'user_id'          => $user->id,
@@ -266,10 +265,10 @@ class AdminTest extends TestCase
         $this
             ->actingAs($admin)
             ->patchJson("/api/admin/users/$user->id/role", [
-            'attributes' => [
-                'role' => 'admin'
-            ]
-        ])->assertStatus(200);
+                'attributes' => [
+                    'role' => 'admin',
+                ],
+            ])->assertStatus(200);
 
         $this->assertTrue(User::find($user->id)->role === 'admin');
     }
@@ -287,25 +286,25 @@ class AdminTest extends TestCase
 
         $this
             ->actingAs($admin)
-            ->postJson("/api/admin/users/create", [
-            'name'                  => 'John Doe',
-            'role'                  => 'user',
-            'email'                 => 'john@doe.com',
-            'password'              => 'VerySecretPassword',
-            'storage_capacity'      => 15,
-            'password_confirmation' => 'VerySecretPassword',
-            'avatar'                => $avatar,
-        ])->assertStatus(201);
+            ->postJson('/api/admin/users/create', [
+                'name'                  => 'John Doe',
+                'role'                  => 'user',
+                'email'                 => 'john@doe.com',
+                'password'              => 'VerySecretPassword',
+                'storage_capacity'      => 15,
+                'password_confirmation' => 'VerySecretPassword',
+                'avatar'                => $avatar,
+            ])->assertStatus(201);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'john@doe.com'
+            'email' => 'john@doe.com',
         ]);
 
         $this->assertNotNull(User::whereEmail('john@doe.com')
             ->get('email_verified_at'));
 
         $this->assertDatabaseHas('user_settings', [
-            'name' => 'John Doe'
+            'name' => 'John Doe',
         ]);
 
         Storage::disk('local')
@@ -348,7 +347,6 @@ class AdminTest extends TestCase
         // Upload files
         collect([0, 1])
             ->each(function ($index) {
-
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
@@ -382,7 +380,7 @@ class AdminTest extends TestCase
 
         // Delete user
         $this->deleteJson("/api/admin/users/$user->id/delete", [
-            'name' => $user->settings->name
+            'name' => $user->settings->name,
         ])
             ->assertStatus(204);
 
@@ -412,7 +410,6 @@ class AdminTest extends TestCase
 
         $file_ids
             ->each(function ($id, $index) use ($user) {
-
                 Storage::disk('local')
                     ->assertMissing(
                         "files/$user->id/fake-file-$index.pdf"
@@ -445,7 +442,7 @@ class AdminTest extends TestCase
                 $this->getJson('/api/admin/pages')
                     ->assertStatus(200)
                     ->assertJsonFragment([
-                        'slug' => $slug
+                        'slug' => $slug,
                     ]);
             });
     }
@@ -465,7 +462,7 @@ class AdminTest extends TestCase
             ->getJson('/api/admin/pages/terms-of-service')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'slug' => 'terms-of-service'
+                'slug' => 'terms-of-service',
             ]);
     }
 
@@ -482,12 +479,12 @@ class AdminTest extends TestCase
         $this
             ->actingAs($admin)
             ->patchJson('/api/admin/pages/terms-of-service', [
-            'name'  => 'title',
-            'value' => 'New Title'
-        ])->assertStatus(204);
+                'name'  => 'title',
+                'value' => 'New Title',
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('pages', [
-            'title' => 'New Title'
+            'title' => 'New Title',
         ]);
     }
 }

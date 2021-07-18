@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Tests\Domain\Plans;
 
-
-use Domain\Settings\Models\User;
+use Tests\TestCase;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Domain\Settings\Models\User;
 
 class AdminPlansTest extends TestCase
 {
@@ -38,17 +35,17 @@ class AdminPlansTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/plans', [
-            'type'       => 'plan',
-            'attributes' => [
-                'name'        => $plan_name,
-                'price'       => (string)rand(1, 99),
-                'description' => 'Some random description',
-                'capacity'    => rand(1, 999),
-            ],
-        ])
+                'type'       => 'plan',
+                'attributes' => [
+                    'name'        => $plan_name,
+                    'price'       => (string) rand(1, 99),
+                    'description' => 'Some random description',
+                    'capacity'    => rand(1, 999),
+                ],
+            ])
             ->assertStatus(201)
             ->assertJsonFragment([
-                'name' => $plan_name
+                'name' => $plan_name,
             ]);
     }
 
@@ -68,19 +65,19 @@ class AdminPlansTest extends TestCase
             'type'       => 'plan',
             'attributes' => [
                 'name'        => $plan_name,
-                'price'       => (string)rand(1, 99),
+                'price'       => (string) rand(1, 99),
                 'description' => 'Some random description',
                 'capacity'    => rand(1, 999),
             ],
         ])
             ->assertStatus(201)
             ->assertJsonFragment([
-                'name' => $plan_name
+                'name' => $plan_name,
             ]);
 
-        $this->patchJson("/api/admin/plans/" . strtolower($plan_name), [
+        $this->patchJson('/api/admin/plans/' . strtolower($plan_name), [
             'name'  => 'description',
-            'value' => 'updated description'
+            'value' => 'updated description',
         ])->assertStatus(201);
     }
 
@@ -95,12 +92,12 @@ class AdminPlansTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/user/subscription/upgrade', [
-            'billing' => $this->billing,
-            'plan'    => $this->plan,
-            'payment' => [
-                'type' => 'stripe',
-            ],
-        ])->assertStatus(204);
+                'billing' => $this->billing,
+                'plan'    => $this->plan,
+                'payment' => [
+                    'type' => 'stripe',
+                ],
+            ])->assertStatus(204);
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -110,7 +107,7 @@ class AdminPlansTest extends TestCase
             ->getJson('/api/admin/plans/' . $this->plan['data']['id'] . '/subscribers')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'id' => $user->id
+                'id' => $user->id,
             ]);
     }
 
@@ -124,7 +121,7 @@ class AdminPlansTest extends TestCase
 
         $this
             ->actingAs($admin)
-            ->getJson("/api/admin/invoices")
+            ->getJson('/api/admin/invoices')
             ->assertStatus(200);
     }
 
@@ -141,7 +138,7 @@ class AdminPlansTest extends TestCase
             ->getJson('/api/user/invoices')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'customer' => $this->user['stripe_id']
+                'customer' => $this->user['stripe_id'],
             ]);
 
         $admin = User::factory(User::class)
@@ -172,7 +169,7 @@ class AdminPlansTest extends TestCase
             ->getJson("/api/admin/users/$user->id/invoices")
             ->assertStatus(200)
             ->assertJsonFragment([
-                'customer' => $this->user['stripe_id']
+                'customer' => $this->user['stripe_id'],
             ]);
     }
 

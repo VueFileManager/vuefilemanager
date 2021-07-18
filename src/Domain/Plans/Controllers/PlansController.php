@@ -1,31 +1,27 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Plans\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Domain\Settings\Models\Plan;
 use Domain\Settings\Models\User;
-use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
-use Illuminate\Http\Response;
-use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PlanResource;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\PlanCollection;
-use App\Http\Resources\UsersCollection;
+use Domain\Admin\Resources\PlanResource;
+use Domain\Admin\Resources\PlanCollection;
+use Domain\Admin\Resources\UsersCollection;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\SetupWizard\Services\StripeService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PlansController extends Controller
 {
-    private StripeService $stripe;
-
-    private DemoService $demo;
-
-    public function __construct()
-    {
-        $this->stripe = resolve(StripeService::class);
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        private StripeService $stripe,
+        private DemoService $demo,
+    ) {
     }
 
     /**

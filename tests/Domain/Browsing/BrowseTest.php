@@ -1,15 +1,14 @@
 <?php
-
 namespace Tests\Domain\Browsing;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Bus\Queueable;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Folder;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BrowseTest extends TestCase
 {
@@ -56,60 +55,60 @@ class BrowseTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/navigation")
+            ->getJson('/api/browse/navigation')
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    "name"     => "Home",
-                    "location" => "base",
-                    "folders"  => [
+                    'name'     => 'Home',
+                    'location' => 'base',
+                    'folders'  => [
                         [
-                            "id"            => $folder_level_1->id,
-                            "parent_id"     => null,
-                            "name"          => "level 1",
-                            "items"         => 2,
-                            "trashed_items" => 2,
-                            "type"          => "folder",
-                            "folders"       => [
+                            'id'            => $folder_level_1->id,
+                            'parent_id'     => null,
+                            'name'          => 'level 1',
+                            'items'         => 2,
+                            'trashed_items' => 2,
+                            'type'          => 'folder',
+                            'folders'       => [
                                 [
-                                    "id"            => $folder_level_2->id,
-                                    "parent_id"     => $folder_level_1->id,
-                                    "name"          => "level 2",
-                                    "items"         => 1,
-                                    "trashed_items" => 1,
-                                    "type"          => "folder",
-                                    "folders"       => [
+                                    'id'            => $folder_level_2->id,
+                                    'parent_id'     => $folder_level_1->id,
+                                    'name'          => 'level 2',
+                                    'items'         => 1,
+                                    'trashed_items' => 1,
+                                    'type'          => 'folder',
+                                    'folders'       => [
                                         [
-                                            "id"            => $folder_level_3->id,
-                                            "user_id"       => $user->id,
-                                            "parent_id"     => $folder_level_2->id,
-                                            "name"          => "level 3",
-                                            "color"         => null,
-                                            "emoji"         => null,
-                                            "author"        => "user",
-                                            "deleted_at"    => null,
-                                            "created_at"    => $folder_level_3->created_at,
-                                            "updated_at"    => $folder_level_3->updated_at->toJson(),
-                                            "items"         => 0,
-                                            "trashed_items" => 0,
-                                            "type"          => "folder",
-                                            "folders"       => [],
+                                            'id'            => $folder_level_3->id,
+                                            'user_id'       => $user->id,
+                                            'parent_id'     => $folder_level_2->id,
+                                            'name'          => 'level 3',
+                                            'color'         => null,
+                                            'emoji'         => null,
+                                            'author'        => 'user',
+                                            'deleted_at'    => null,
+                                            'created_at'    => $folder_level_3->created_at,
+                                            'updated_at'    => $folder_level_3->updated_at->toJson(),
+                                            'items'         => 0,
+                                            'trashed_items' => 0,
+                                            'type'          => 'folder',
+                                            'folders'       => [],
                                         ],
                                     ],
                                 ],
                                 [
-                                    "id"            => $folder_level_2_sibling->id,
-                                    "parent_id"     => $folder_level_1->id,
-                                    "name"          => "level 2 Sibling",
-                                    "items"         => 0,
-                                    "trashed_items" => 0,
-                                    "type"          => "folder",
-                                    "folders"       => []
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    'id'            => $folder_level_2_sibling->id,
+                                    'parent_id'     => $folder_level_1->id,
+                                    'name'          => 'level 2 Sibling',
+                                    'items'         => 0,
+                                    'trashed_items' => 0,
+                                    'type'          => 'folder',
+                                    'folders'       => [],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]);
     }
 
@@ -131,7 +130,7 @@ class BrowseTest extends TestCase
             ->create([
                 'parent_id' => $root->id,
                 'name'      => 'Documents',
-                "author"    => "user",
+                'author'    => 'user',
                 'user_id'   => $user->id,
             ]);
 
@@ -140,9 +139,9 @@ class BrowseTest extends TestCase
                 'folder_id' => $root->id,
                 'name'      => 'Document',
                 'basename'  => 'document.pdf',
-                "mimetype"  => "application/pdf",
-                "author"    => "user",
-                "type"      => "file",
+                'mimetype'  => 'application/pdf',
+                'author'    => 'user',
+                'type'      => 'file',
                 'user_id'   => $user->id,
             ]);
 
@@ -152,53 +151,53 @@ class BrowseTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    "id"            => $folder->id,
-                    "user_id"       => $user->id,
-                    "parent_id"     => $root->id,
-                    "name"          => "Documents",
-                    "color"         => null,
-                    "emoji"         => null,
-                    "author"        => "user",
-                    "deleted_at"    => null,
-                    "created_at"    => $folder->created_at,
-                    "updated_at"    => $folder->updated_at->toJson(),
-                    "items"         => 0,
-                    "trashed_items" => 0,
-                    "type"          => "folder",
-                    "parent"        => [
-                        "id"            => $root->id,
-                        "name"          => "root",
-                        "items"         => 2,
-                        "trashed_items" => 2,
-                        "type"          => "folder",
+                    'id'            => $folder->id,
+                    'user_id'       => $user->id,
+                    'parent_id'     => $root->id,
+                    'name'          => 'Documents',
+                    'color'         => null,
+                    'emoji'         => null,
+                    'author'        => 'user',
+                    'deleted_at'    => null,
+                    'created_at'    => $folder->created_at,
+                    'updated_at'    => $folder->updated_at->toJson(),
+                    'items'         => 0,
+                    'trashed_items' => 0,
+                    'type'          => 'folder',
+                    'parent'        => [
+                        'id'            => $root->id,
+                        'name'          => 'root',
+                        'items'         => 2,
+                        'trashed_items' => 2,
+                        'type'          => 'folder',
                     ],
-                    "shared"        => null,
+                    'shared'        => null,
                 ],
                 [
-                    "id"         => $file->id,
-                    "user_id"    => $user->id,
-                    "folder_id"  => $root->id,
-                    "thumbnail"  => null,
-                    "name"       => "Document",
-                    "basename"   => "document.pdf",
-                    "mimetype"   => "application/pdf",
-                    "filesize"   => $file->filesize,
-                    "type"       => "file",
-                    "metadata"   => null,
-                    "author"     => "user",
-                    "deleted_at" => null,
-                    "created_at" => $file->created_at,
-                    "updated_at" => $file->updated_at->toJson(),
-                    "file_url"   => "http://localhost/file/document.pdf",
-                    "parent"     => [
-                        "id"            => $root->id,
-                        "name"          => "root",
-                        "items"         => 2,
-                        "trashed_items" => 2,
-                        "type"          => "folder",
+                    'id'         => $file->id,
+                    'user_id'    => $user->id,
+                    'folder_id'  => $root->id,
+                    'thumbnail'  => null,
+                    'name'       => 'Document',
+                    'basename'   => 'document.pdf',
+                    'mimetype'   => 'application/pdf',
+                    'filesize'   => $file->filesize,
+                    'type'       => 'file',
+                    'metadata'   => null,
+                    'author'     => 'user',
+                    'deleted_at' => null,
+                    'created_at' => $file->created_at,
+                    'updated_at' => $file->updated_at->toJson(),
+                    'file_url'   => 'http://localhost/file/document.pdf',
+                    'parent'     => [
+                        'id'            => $root->id,
+                        'name'          => 'root',
+                        'items'         => 2,
+                        'trashed_items' => 2,
+                        'type'          => 'folder',
                     ],
-                    "shared"     => null,
-                ]
+                    'shared'     => null,
+                ],
             ]);
     }
 
@@ -221,9 +220,9 @@ class BrowseTest extends TestCase
                 'folder_id'  => $root->id,
                 'name'       => 'Document 1',
                 'basename'   => 'document-1.pdf',
-                "mimetype"   => "application/pdf",
-                "author"     => "user",
-                "type"       => "file",
+                'mimetype'   => 'application/pdf',
+                'author'     => 'user',
+                'type'       => 'file',
                 'user_id'    => $user->id,
                 'created_at' => now(),
             ]);
@@ -235,64 +234,64 @@ class BrowseTest extends TestCase
                 'folder_id'  => $root->id,
                 'name'       => 'Document 2',
                 'basename'   => 'document-2.pdf',
-                "mimetype"   => "application/pdf",
-                "author"     => "user",
-                "type"       => "file",
+                'mimetype'   => 'application/pdf',
+                'author'     => 'user',
+                'type'       => 'file',
                 'user_id'    => $user->id,
                 'created_at' => now(),
             ]);
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/latest")
+            ->getJson('/api/browse/latest')
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    "id"         => $file_2->id,
-                    "user_id"    => $user->id,
-                    "folder_id"  => $root->id,
-                    "thumbnail"  => null,
-                    "name"       => "Document 2",
-                    "basename"   => "document-2.pdf",
-                    "mimetype"   => "application/pdf",
-                    "filesize"   => $file_2->filesize,
-                    "type"       => "file",
-                    "metadata"   => null,
-                    "author"     => "user",
-                    "deleted_at" => null,
-                    "created_at" => $file_2->created_at,
-                    "updated_at" => $file_2->updated_at->toJson(),
-                    "file_url"   => "http://localhost/file/document-2.pdf",
-                    "parent"     => [
-                        "id"            => $root->id,
-                        "name"          => "root",
-                        "items"         => 2,
-                        "trashed_items" => 2,
-                        "type"          => "folder",
+                    'id'         => $file_2->id,
+                    'user_id'    => $user->id,
+                    'folder_id'  => $root->id,
+                    'thumbnail'  => null,
+                    'name'       => 'Document 2',
+                    'basename'   => 'document-2.pdf',
+                    'mimetype'   => 'application/pdf',
+                    'filesize'   => $file_2->filesize,
+                    'type'       => 'file',
+                    'metadata'   => null,
+                    'author'     => 'user',
+                    'deleted_at' => null,
+                    'created_at' => $file_2->created_at,
+                    'updated_at' => $file_2->updated_at->toJson(),
+                    'file_url'   => 'http://localhost/file/document-2.pdf',
+                    'parent'     => [
+                        'id'            => $root->id,
+                        'name'          => 'root',
+                        'items'         => 2,
+                        'trashed_items' => 2,
+                        'type'          => 'folder',
                     ],
                 ],
                 [
-                    "id"         => $file_1->id,
-                    "user_id"    => $user->id,
-                    "folder_id"  => $root->id,
-                    "thumbnail"  => null,
-                    "name"       => "Document 1",
-                    "basename"   => "document-1.pdf",
-                    "mimetype"   => "application/pdf",
-                    "filesize"   => $file_1->filesize,
-                    "type"       => "file",
-                    "metadata"   => null,
-                    "author"     => "user",
-                    "deleted_at" => null,
-                    "created_at" => $file_1->created_at,
-                    "updated_at" => $file_1->updated_at->toJson(),
-                    "file_url"   => "http://localhost/file/document-1.pdf",
-                    "parent"     => [
-                        "id"            => $root->id,
-                        "name"          => "root",
-                        "items"         => 2,
-                        "trashed_items" => 2,
-                        "type"          => "folder",
+                    'id'         => $file_1->id,
+                    'user_id'    => $user->id,
+                    'folder_id'  => $root->id,
+                    'thumbnail'  => null,
+                    'name'       => 'Document 1',
+                    'basename'   => 'document-1.pdf',
+                    'mimetype'   => 'application/pdf',
+                    'filesize'   => $file_1->filesize,
+                    'type'       => 'file',
+                    'metadata'   => null,
+                    'author'     => 'user',
+                    'deleted_at' => null,
+                    'created_at' => $file_1->created_at,
+                    'updated_at' => $file_1->updated_at->toJson(),
+                    'file_url'   => 'http://localhost/file/document-1.pdf',
+                    'parent'     => [
+                        'id'            => $root->id,
+                        'name'          => 'root',
+                        'items'         => 2,
+                        'trashed_items' => 2,
+                        'type'          => 'folder',
                     ],
                 ],
             ]);
@@ -308,17 +307,17 @@ class BrowseTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                "author"  => "visitor",
-                "type"    => "file",
+                'author'  => 'visitor',
+                'type'    => 'file',
                 'user_id' => $user->id,
             ]);
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/participants")
+            ->getJson('/api/browse/participants')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'id' => $file->id
+                'id' => $file->id,
             ]);
     }
 
@@ -335,7 +334,7 @@ class BrowseTest extends TestCase
                 'parent_id'  => null,
                 'name'       => 'root',
                 'user_id'    => $user->id,
-                "author"     => "user",
+                'author'     => 'user',
                 'deleted_at' => now(),
             ]);
 
@@ -344,9 +343,9 @@ class BrowseTest extends TestCase
                 'folder_id'  => null,
                 'name'       => 'Document',
                 'basename'   => 'document.pdf',
-                "mimetype"   => "application/pdf",
-                "author"     => "user",
-                "type"       => "file",
+                'mimetype'   => 'application/pdf',
+                'author'     => 'user',
+                'type'       => 'file',
                 'user_id'    => $user->id,
                 'deleted_at' => now(),
             ]);
@@ -360,42 +359,42 @@ class BrowseTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/trash")
+            ->getJson('/api/browse/trash')
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    "id"            => $folder->id,
-                    "user_id"       => $user->id,
-                    "parent_id"     => null,
-                    "name"          => "root",
-                    "color"         => null,
-                    "emoji"         => null,
-                    "author"        => "user",
-                    "deleted_at"    => $folder->deleted_at,
-                    "created_at"    => $folder->created_at,
-                    "updated_at"    => $folder->updated_at->toJson(),
-                    "items"         => 0,
-                    "trashed_items" => 1,
-                    "type"          => "folder",
-                    "parent"        => null,
+                    'id'            => $folder->id,
+                    'user_id'       => $user->id,
+                    'parent_id'     => null,
+                    'name'          => 'root',
+                    'color'         => null,
+                    'emoji'         => null,
+                    'author'        => 'user',
+                    'deleted_at'    => $folder->deleted_at,
+                    'created_at'    => $folder->created_at,
+                    'updated_at'    => $folder->updated_at->toJson(),
+                    'items'         => 0,
+                    'trashed_items' => 1,
+                    'type'          => 'folder',
+                    'parent'        => null,
                 ],
                 [
-                    "id"         => $file->id,
-                    "user_id"    => $user->id,
-                    "folder_id"  => null,
-                    "thumbnail"  => null,
-                    "name"       => "Document",
-                    "basename"   => "document.pdf",
-                    "mimetype"   => "application/pdf",
-                    "filesize"   => $file->filesize,
-                    "type"       => "file",
-                    "metadata"   => null,
-                    "author"     => "user",
-                    "deleted_at" => $file->deleted_at,
-                    "created_at" => $file->created_at,
-                    "updated_at" => $file->updated_at->toJson(),
-                    "file_url"   => "http://localhost/file/document.pdf",
-                    "parent"     => null
+                    'id'         => $file->id,
+                    'user_id'    => $user->id,
+                    'folder_id'  => null,
+                    'thumbnail'  => null,
+                    'name'       => 'Document',
+                    'basename'   => 'document.pdf',
+                    'mimetype'   => 'application/pdf',
+                    'filesize'   => $file->filesize,
+                    'type'       => 'file',
+                    'metadata'   => null,
+                    'author'     => 'user',
+                    'deleted_at' => $file->deleted_at,
+                    'created_at' => $file->created_at,
+                    'updated_at' => $file->updated_at->toJson(),
+                    'file_url'   => 'http://localhost/file/document.pdf',
+                    'parent'     => null,
                 ],
             ]);
     }
@@ -424,18 +423,18 @@ class BrowseTest extends TestCase
             ->each(function ($item) use ($user) {
                 Share::factory(Share::class)
                     ->create([
-                        "type"    => $item->type === 'folder' ? 'folder' : 'file',
-                        "item_id" => $item->id,
+                        'type'    => $item->type === 'folder' ? 'folder' : 'file',
+                        'item_id' => $item->id,
                         'user_id' => $user->id,
                     ]);
             });
 
         collect([$folder, $file])
             ->each(function ($item) use ($user) {
-                $this->getJson("/api/browse/share")
+                $this->getJson('/api/browse/share')
                     ->assertStatus(200)
                     ->assertJsonFragment([
-                        'id' => $item->id
+                        'id' => $item->id,
                     ]);
             });
     }
@@ -456,10 +455,10 @@ class BrowseTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/search?query=doc")
+            ->getJson('/api/browse/search?query=doc')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'id' => $file->id
+                'id' => $file->id,
             ]);
     }
 
@@ -479,10 +478,10 @@ class BrowseTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/search?query=doc")
+            ->getJson('/api/browse/search?query=doc')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'id' => $folder->id
+                'id' => $folder->id,
             ]);
     }
 }

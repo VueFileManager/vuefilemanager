@@ -1,14 +1,14 @@
 <?php
-namespace App\Actions\Fortify;
+namespace App\Users\Actions;
 
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\UserSettings;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
+use Domain\Settings\Models\UserSettings;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Auth\StatefulGuard;
 

@@ -1,28 +1,26 @@
 <?php
-namespace App\Services;
+namespace Support\Services;
 
 use DB;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Domain\Settings\Models\Zip;
 use Domain\Settings\Models\User;
 use Domain\Settings\Models\Share;
 use Domain\Settings\Models\Folder;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Domain\Settings\Models\File as UserFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileNotFoundException;
-use App\Http\Requests\FileFunctions\RenameItemRequest;
+use Domain\Files\Requests\RenameItemRequest;
+use Domain\Settings\Models\File as UserFile;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FileManagerService
 {
-    private $helper;
-
-    public function __construct()
-    {
-        $this->helper = resolve(HelperService::class);
+    public function __construct(
+        private HelperService $helper,
+    ) {
     }
 
     /**

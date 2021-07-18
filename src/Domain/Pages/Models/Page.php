@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace Domain\Pages\Models;
 
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;

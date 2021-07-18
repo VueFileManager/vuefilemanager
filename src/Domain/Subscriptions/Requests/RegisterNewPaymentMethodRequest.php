@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\Payments;
+namespace Domain\Subscriptions\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

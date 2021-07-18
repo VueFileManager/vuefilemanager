@@ -1,19 +1,17 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Admin\Controllers;
 
 use Domain\Settings\Models\Invoice;
-use Domain\SetupWizard\Services\StripeService;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\InvoiceResource;
-use App\Http\Resources\InvoiceAdminCollection;
+use Domain\Admin\Resources\InvoiceResource;
+use Domain\SetupWizard\Services\StripeService;
+use Domain\Admin\Resources\InvoiceAdminCollection;
 
 class InvoiceController extends Controller
 {
-    private StripeService $stripe;
-
-    public function __construct(StripeService $stripe)
-    {
-        $this->stripe = $stripe;
+    public function __construct(
+        private StripeService $stripe
+    ) {
     }
 
     /**

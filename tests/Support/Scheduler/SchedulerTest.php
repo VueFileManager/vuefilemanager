@@ -1,15 +1,13 @@
 <?php
-
 namespace Tests\Support\Scheduler;
 
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Domain\Settings\Models\Zip;
-use Domain\SetupWizard\Services\SchedulerService;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
 use Storage;
 use Tests\TestCase;
+use Domain\Settings\Models\Zip;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Illuminate\Http\UploadedFile;
+use Domain\SetupWizard\Services\SchedulerService;
 
 class SchedulerTest extends TestCase
 {
@@ -20,7 +18,7 @@ class SchedulerTest extends TestCase
     {
         $share = Share::factory(Share::class)
             ->create([
-                'expire_in' => 24,
+                'expire_in'  => 24,
                 'created_at' => now()->subDay(),
             ]);
 
@@ -28,7 +26,7 @@ class SchedulerTest extends TestCase
             ->delete_expired_shared_links();
 
         $this->assertDatabaseMissing('shares', [
-            'id' => $share->id
+            'id' => $share->id,
         ]);
     }
 
@@ -51,7 +49,7 @@ class SchedulerTest extends TestCase
             ->delete_old_zips();
 
         $this->assertDatabaseMissing('zips', [
-            'id' => $zip->id
+            'id' => $zip->id,
         ]);
 
         Storage::disk('local')
@@ -69,7 +67,7 @@ class SchedulerTest extends TestCase
             ->create('fake-file.zip', 2000, 'application/zip');
 
         collect(['chunks'])
-            ->each(function ($folder) use ($file){
+            ->each(function ($folder) use ($file) {
                 Storage::putFileAs($folder, $file, 'fake-file.zip');
             });
 
@@ -81,7 +79,6 @@ class SchedulerTest extends TestCase
                 Storage::disk('local')
                     ->assertMissing("$folder/fake-file.zip");
             });
-
     }
 
     /**
@@ -92,19 +89,19 @@ class SchedulerTest extends TestCase
         $expiredUser = User::factory(User::class)
             ->create([
                 'email_verified_at' => null,
-                'created_at'        => now()->subDays(31)
+                'created_at'        => now()->subDays(31),
             ]);
 
         $nonExpiredUser = User::factory(User::class)
             ->create([
                 'email_verified_at' => null,
-                'created_at'        => now()->subDays(14)
+                'created_at'        => now()->subDays(14),
             ]);
 
         $verifiedUser = User::factory(User::class)
             ->create([
                 'email_verified_at' => now()->subDays(15),
-                'created_at'        => now()->subDays(31)
+                'created_at'        => now()->subDays(31),
             ]);
 
         resolve(SchedulerService::class)

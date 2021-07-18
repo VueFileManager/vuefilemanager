@@ -1,8 +1,10 @@
 <?php
-namespace App\Models;
+namespace Domain\Zipping;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Zip extends Model
@@ -15,14 +17,11 @@ class Zip extends Model
 
     protected $keyType = 'string';
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    /**
-     * Model events
-     */
     protected static function boot()
     {
         parent::boot();

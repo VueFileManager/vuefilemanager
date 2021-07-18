@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\InvoiceController;
-use App\Http\Controllers\App\SetupWizardController;
-use App\Http\Controllers\App\AppFunctionsController;
-use App\Http\Controllers\Sharing\BrowseShareController;
-use App\Http\Controllers\Subscription\StripeWebhookController;
+use Domain\Admin\Controllers\InvoiceController;
+use Domain\Sharing\Controllers\BrowseShareController;
+use Domain\Homepage\Controllers\SetupWizardController;
+use Domain\Homepage\Controllers\AppFunctionsController;
+use Domain\Subscriptions\Controllers\StripeWebhookController;
 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);

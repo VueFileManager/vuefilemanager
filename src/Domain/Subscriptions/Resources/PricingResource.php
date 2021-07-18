@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Resources;
+namespace Domain\Subscriptions\Resources;
 
 use Laravel\Cashier\Cashier;
 use Domain\SetupWizard\Services\StripeService;

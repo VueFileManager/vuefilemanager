@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace Support\Scheduler\Actions;
 
 use Carbon\Carbon;
 use Domain\Settings\Models\Zip;

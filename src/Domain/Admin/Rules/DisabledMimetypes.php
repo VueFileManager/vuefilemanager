@@ -1,5 +1,5 @@
 <?php
-namespace App\Rules;
+namespace Domain\Admin\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 

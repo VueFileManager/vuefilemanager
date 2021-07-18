@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\Share;
+namespace Domain\Sharing\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

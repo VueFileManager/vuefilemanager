@@ -1,12 +1,10 @@
 <?php
-
 namespace Tests\Domain\Maintenance;
 
-use Domain\Settings\Models\User;
 use DB;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use Illuminate\Support\Str;
+use Domain\Settings\Models\User;
 
 class AppUpgradeTest extends TestCase
 {
@@ -27,17 +25,16 @@ class AppUpgradeTest extends TestCase
                 [
                     'name'  => 'license',
                     'value' => 'Extended',
-                ]
+                ],
             ]);
 
         collect(['en', 'sk'])
             ->map(function ($locale) {
-
                 DB::table('languages')
                     ->insert([
                         'id'     => Str::uuid(),
                         'name'   => 'English',
-                        'locale' => $locale
+                        'locale' => $locale,
                     ]);
 
                 DB::table('language_translations')
@@ -45,12 +42,12 @@ class AppUpgradeTest extends TestCase
                         [
                             'key'   => 'activation.stripe.button',
                             'value' => 'Set up your Stripe account',
-                            'lang'  => $locale
+                            'lang'  => $locale,
                         ], [
                             'key'   => 'activation.stripe.description',
                             'value' => 'This is original test description',
-                            'lang'  => $locale
-                        ]
+                            'lang'  => $locale,
+                        ],
                     ]);
             });
 
@@ -61,7 +58,6 @@ class AppUpgradeTest extends TestCase
 
         collect(['en', 'sk'])
             ->map(function ($locale) {
-
                 $this->assertDatabaseHas('language_translations', [
                     'key'   => 'activation.stripe.title',
                     'value' => 'Your Stripe account is not set',

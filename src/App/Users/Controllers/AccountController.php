@@ -1,31 +1,28 @@
 <?php
-namespace App\Http\Controllers\User;
+namespace App\Users\Controllers;
 
-use Domain\Settings\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
 use Illuminate\Http\Response;
+use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Domain\Admin\Resources\UserResource;
 use Laravel\Sanctum\PersonalAccessToken;
-use App\Http\Resources\InvoiceCollection;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\UserStorageResource;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\Admin\Resources\InvoiceCollection;
+use Domain\Admin\Resources\UserStorageResource;
+use App\Users\Requests\UpdateUserPasswordRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Requests\User\UpdateUserPasswordRequest;
-use App\Http\Requests\User\UserCreateAccessTokenRequest;
+use App\Users\Requests\UserCreateAccessTokenRequest;
 
 class AccountController extends Controller
 {
-    /**
-     * AccountController constructor.
-     */
-    public function __construct()
-    {
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        public DemoService $demo,
+    ) {
     }
 
     /**

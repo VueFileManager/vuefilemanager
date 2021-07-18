@@ -1,16 +1,16 @@
 <?php
 namespace App\Console\Commands;
 
+use Illuminate\Support\Str;
+use Illuminate\Console\Command;
 use Domain\Settings\Models\File;
 use Domain\Settings\Models\User;
 use Domain\Settings\Models\Share;
 use Domain\Settings\Models\Folder;
 use Domain\Settings\Models\Setting;
-use Illuminate\Support\Str;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
+use Domain\SetupWizard\Services\SetupService;
 
 class SetupDevEnvironment extends Command
 {

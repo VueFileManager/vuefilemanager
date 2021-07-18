@@ -1,15 +1,13 @@
 <?php
-
 namespace Tests\Domain\Trash;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\User;
-use Domain\SetupWizard\Services\SetupService;
-use Illuminate\Http\UploadedFile;
-use Laravel\Sanctum\Sanctum;
 use Storage;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Folder;
 
 class TrashTest extends TestCase
 {
@@ -34,25 +32,25 @@ class TrashTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/trash/restore", [
-            'items' => [
-                [
-                    'id'   => $file->id,
-                    'type' => 'file',
+            ->postJson('/api/trash/restore', [
+                'items' => [
+                    [
+                        'id'   => $file->id,
+                        'type' => 'file',
+                    ],
+                    [
+                        'id'   => $folder->id,
+                        'type' => 'folder',
+                    ],
                 ],
-                [
-                    'id'   => $folder->id,
-                    'type' => 'folder',
-                ],
-            ],
-        ])->assertStatus(204);
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('files', [
-            'deleted_at' => null
+            'deleted_at' => null,
         ]);
 
         $this->assertDatabaseHas('folders', [
-            'deleted_at' => null
+            'deleted_at' => null,
         ]);
     }
 
@@ -68,7 +66,7 @@ class TrashTest extends TestCase
 
         $folder = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
 
         $image = UploadedFile::fake()
@@ -83,7 +81,7 @@ class TrashTest extends TestCase
 
         $file = File::first();
 
-        $this->postJson("/api/remove", [
+        $this->postJson('/api/remove', [
             'items' => [
                 [
                     'id'           => $file->id,
@@ -98,15 +96,15 @@ class TrashTest extends TestCase
             ],
         ])->assertStatus(204);
 
-        $this->deleteJson("/api/trash/dump")
+        $this->deleteJson('/api/trash/dump')
             ->assertStatus(204);
 
         $this->assertDatabaseMissing('files', [
-            'id' => $file->id
+            'id' => $file->id,
         ]);
 
         $this->assertDatabaseMissing('folders', [
-            'id' => $folder->id
+            'id' => $folder->id,
         ]);
 
         $disk = Storage::disk('local');

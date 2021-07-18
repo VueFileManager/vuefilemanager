@@ -1,11 +1,11 @@
 <?php
-namespace App\Models;
+namespace Domain\Languages\Models;
 
 use Illuminate\Support\Str;
-use Domain\SetupWizard\Services\LanguageService;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Domain\SetupWizard\Services\LanguageService;
 
 /**
  * @method static whereLocale(string $param)

@@ -1,13 +1,12 @@
 <?php
-
 namespace Tests\Domain\SetupWizard;
 
-use Domain\Settings\Models\Setting;
+use Tests\TestCase;
 use Domain\Settings\Models\User;
 use Illuminate\Http\UploadedFile;
+use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
 class SetupWizardTest extends TestCase
 {
@@ -29,7 +28,7 @@ class SetupWizardTest extends TestCase
         ]);
 
         $this->postJson('/api/setup/purchase-code', [
-            'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb'
+            'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb',
         ])->assertStatus(204);
     }
 
@@ -43,7 +42,7 @@ class SetupWizardTest extends TestCase
         ]);
 
         $this->postJson('/api/setup/purchase-code', [
-            'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb'
+            'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb',
         ])->assertStatus(400);
     }
 
@@ -128,7 +127,6 @@ class SetupWizardTest extends TestCase
      */
     public function it_store_stripe_plans()
     {
-
     }
 
     /**
@@ -196,7 +194,6 @@ class SetupWizardTest extends TestCase
 
         collect(['app_logo', 'app_logo_horizontal', 'app_favicon'])
             ->each(function ($file) {
-
                 $path = get_setting($file);
 
                 $this->assertNotNull($path);

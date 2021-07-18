@@ -1,34 +1,30 @@
 <?php
-namespace App\Http\Controllers\FileManager;
+namespace Domain\Items\Controllers;
 
 use Exception;
+use Illuminate\Http\Request;
 use Domain\Settings\Models\File;
 use Domain\Settings\Models\Folder;
-use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\DemoService;
-use Domain\SetupWizard\Services\HelperService;
 use App\Http\Controllers\Controller;
-use Domain\SetupWizard\Services\FileManagerService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Requests\MoveItemRequest;
+use Domain\Files\Requests\DeleteItemRequest;
+use Domain\Files\Requests\RenameItemRequest;
+use Domain\SetupWizard\Services\DemoService;
+use Domain\Files\Requests\CreateFolderRequest;
+use Domain\SetupWizard\Services\HelperService;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use App\Http\Requests\FileFunctions\UploadRequest;
-use App\Http\Requests\FileFunctions\MoveItemRequest;
-use App\Http\Requests\FileFunctions\DeleteItemRequest;
-use App\Http\Requests\FileFunctions\RenameItemRequest;
-use App\Http\Requests\FileFunctions\CreateFolderRequest;
+use Domain\SetupWizard\Services\FileManagerService;
 
 class EditItemsController extends Controller
 {
-    private $filemanager;
-    private $helper;
-    private $demo;
-
-    public function __construct()
-    {
-        $this->filemanager = resolve(FileManagerService::class);
-        $this->helper = resolve(HelperService::class);
-        $this->demo = resolve(DemoService::class);
+    public function __construct(
+        private FileManagerService $filemanager,
+        private HelperService $helper,
+        private DemoService $demo,
+    ) {
     }
 
     /**

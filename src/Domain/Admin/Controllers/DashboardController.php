@@ -1,21 +1,20 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace Domain\Admin\Controllers;
 
 use Domain\Settings\Models\User;
 use ByteUnits\Metric;
 use Domain\SetupWizard\Services\StripeService;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UsersCollection;
+use Domain\Admin\Resources\UsersCollection;
 
 class DashboardController extends Controller
 {
-    private StripeService $stripe;
+    ;
 
-    public function __construct(StripeService $stripe)
-    {
-        $this->stripe = $stripe;
-    }
+    public function __construct(
+        private StripeService $stripe
+    ) {}
 
     /**
      * Get data for dashboard

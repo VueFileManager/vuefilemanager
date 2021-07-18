@@ -1,27 +1,25 @@
 <?php
-namespace App\Http\Controllers\Sharing;
+namespace Domain\Sharing\Controllers;
 
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use Domain\Settings\Models\File;
 use Domain\Settings\Models\Share;
 use Domain\Settings\Models\Folder;
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\HelperService;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FileResource;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\ShareResource;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\Share\AuthenticateShareRequest;
+use Domain\Admin\Resources\FileResource;
+use Domain\Admin\Resources\ShareResource;
+use Domain\SetupWizard\Services\HelperService;
+use Domain\Sharing\Requests\AuthenticateShareRequest;
 
 class BrowseShareController extends Controller
 {
-    private $helper;
-
-    public function __construct()
-    {
-        $this->helper = resolve(HelperService::class);
+    public function __construct(
+        private HelperService $helper,
+    ) {
     }
 
     /**

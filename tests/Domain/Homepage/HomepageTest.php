@@ -1,17 +1,15 @@
 <?php
-
 namespace Tests\Domain\Homepage;
 
-use App\Http\Mail\SendContactMessage;
+use Mail;
+use Tests\TestCase;
 use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
 use Domain\Settings\Models\Folder;
 use Domain\Settings\Models\Setting;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
+use Domain\Homepage\Mail\SendContactMessage;
 use Domain\SetupWizard\Services\SetupService;
-use Mail;
-use ScssPhp\ScssPhp\Compiler;
-use Tests\TestCase;
 
 class HomepageTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\FileBrowser;
+namespace Domain\Items\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

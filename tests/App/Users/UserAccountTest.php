@@ -5,10 +5,9 @@ use Storage;
 use Notification;
 use Tests\TestCase;
 use Domain\Settings\Models\User;
-use Laravel\Sanctum\Sanctum;
-use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
+use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Auth\Notifications\VerifyEmail;
 
 class UserAccountTest extends TestCase
@@ -51,10 +50,10 @@ class UserAccountTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/user/password', [
-            'current_password'      => 'secret',
-            'password'              => 'VerySecretPassword',
-            'password_confirmation' => 'VerySecretPassword',
-        ])->assertStatus(204);
+                'current_password'      => 'secret',
+                'password'              => 'VerySecretPassword',
+                'password_confirmation' => 'VerySecretPassword',
+            ])->assertStatus(204);
 
         // TODO: login s novym heslom
     }
@@ -70,9 +69,9 @@ class UserAccountTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson('/api/user/relationships/settings', [
-            'name'  => 'address',
-            'value' => 'Jantar',
-        ])->assertStatus(204);
+                'name'  => 'address',
+                'value' => 'Jantar',
+            ])->assertStatus(204);
 
         $this->assertDatabaseHas('user_settings', [
             'address' => 'Jantar',
@@ -93,8 +92,8 @@ class UserAccountTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson('/api/user/relationships/settings', [
-            'avatar' => $avatar,
-        ])->assertStatus(204);
+                'avatar' => $avatar,
+            ])->assertStatus(204);
 
         Storage::disk('local')
             ->assertExists($user->settings->getRawOriginal('avatar'));

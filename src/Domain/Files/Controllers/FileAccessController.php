@@ -1,21 +1,19 @@
 <?php
-namespace App\Http\Controllers\FileManager;
+namespace Domain\Files\Controllers;
 
-use Domain\Settings\Models\Zip;
 use Illuminate\Http\Request;
-use Domain\SetupWizard\Services\HelperService;
-use Domain\Settings\Models\File as UserFile;
+use Domain\Settings\Models\Zip;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Domain\Settings\Models\File as UserFile;
+use Domain\SetupWizard\Services\HelperService;
 
 class FileAccessController extends Controller
 {
-    private $helper;
-
-    public function __construct()
-    {
-        $this->helper = resolve(HelperService::class);
+    public function __construct(
+        public HelperService $helper,
+    ) {
     }
 
     /**

@@ -1,13 +1,12 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
-use Domain\Settings\Models\File;
-use Domain\Settings\Models\Folder;
-use Domain\Settings\Models\Share;
-use Domain\Settings\Models\User;
-use Domain\SetupWizard\Services\SetupService;
 use Tests\TestCase;
+use Domain\Settings\Models\File;
+use Domain\Settings\Models\User;
+use Domain\Settings\Models\Share;
+use Domain\Settings\Models\Folder;
+use Domain\SetupWizard\Services\SetupService;
 
 class VisitorBrowseTest extends TestCase
 {
@@ -44,7 +43,7 @@ class VisitorBrowseTest extends TestCase
                         'created_at'   => $share->created_at->toJson(),
                         'updated_at'   => $share->updated_at->toJson(),
                     ],
-                ]
+                ],
             ]);
     }
 
@@ -69,7 +68,7 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_try_to_get_deleted_share_record()
     {
-        $this->get("/api/browse/share/19ZMPNiass4ZqWwQ")
+        $this->get('/api/browse/share/19ZMPNiass4ZqWwQ')
             ->assertNotFound();
     }
 
@@ -100,7 +99,7 @@ class VisitorBrowseTest extends TestCase
             ]);
 
         $this->postJson("/api/browse/authenticate/$share->token", [
-            'password' => 'secret'
+            'password' => 'secret',
         ])
             ->assertStatus(200)
             ->assertCookie('share_session', json_encode([
@@ -127,7 +126,7 @@ class VisitorBrowseTest extends TestCase
             ]);
 
         $this->postJson("/api/browse/authenticate/$share->token", [
-            'password' => 'bad-password'
+            'password' => 'bad-password',
         ])
             ->assertStatus(401)
             ->assertCookieMissing('share_session');
@@ -141,7 +140,6 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -164,7 +162,7 @@ class VisitorBrowseTest extends TestCase
                     ->create([
                         'parent_id' => $root->id,
                         'name'      => 'Documents',
-                        "author"    => "user",
+                        'author'    => 'user',
                         'user_id'   => $user->id,
                     ]);
 
@@ -173,50 +171,49 @@ class VisitorBrowseTest extends TestCase
                         'folder_id' => $root->id,
                         'name'      => 'Document',
                         'basename'  => 'document.pdf',
-                        "mimetype"  => "application/pdf",
-                        "author"    => "user",
-                        "type"      => "file",
+                        'mimetype'  => 'application/pdf',
+                        'author'    => 'user',
+                        'type'      => 'file',
                         'user_id'   => $user->id,
                     ]);
 
                 $json = [
                     [
-                        "id"            => $folder->id,
-                        "user_id"       => $user->id,
-                        "parent_id"     => $root->id,
-                        "name"          => "Documents",
-                        "color"         => null,
-                        "emoji"         => null,
-                        "author"        => "user",
-                        "deleted_at"    => null,
-                        "created_at"    => $folder->created_at,
-                        "updated_at"    => $folder->updated_at->toJson(),
-                        "items"         => 0,
-                        "trashed_items" => 0,
-                        "type"          => "folder",
+                        'id'            => $folder->id,
+                        'user_id'       => $user->id,
+                        'parent_id'     => $root->id,
+                        'name'          => 'Documents',
+                        'color'         => null,
+                        'emoji'         => null,
+                        'author'        => 'user',
+                        'deleted_at'    => null,
+                        'created_at'    => $folder->created_at,
+                        'updated_at'    => $folder->updated_at->toJson(),
+                        'items'         => 0,
+                        'trashed_items' => 0,
+                        'type'          => 'folder',
                     ],
                     [
-                        "id"         => $file->id,
-                        "user_id"    => $user->id,
-                        "folder_id"  => $root->id,
-                        "thumbnail"  => null,
-                        "name"       => "Document",
-                        "basename"   => "document.pdf",
-                        "mimetype"   => "application/pdf",
-                        "filesize"   => $file->filesize,
-                        "type"       => "file",
-                        "metadata"   => null,
-                        "author"     => "user",
-                        "deleted_at" => null,
-                        "created_at" => $file->created_at,
-                        "updated_at" => $file->updated_at->toJson(),
-                        "file_url"   => "http://localhost/file/document.pdf/$share->token",
-                    ]
+                        'id'         => $file->id,
+                        'user_id'    => $user->id,
+                        'folder_id'  => $root->id,
+                        'thumbnail'  => null,
+                        'name'       => 'Document',
+                        'basename'   => 'document.pdf',
+                        'mimetype'   => 'application/pdf',
+                        'filesize'   => $file->filesize,
+                        'type'       => 'file',
+                        'metadata'   => null,
+                        'author'     => 'user',
+                        'deleted_at' => null,
+                        'created_at' => $file->created_at,
+                        'updated_at' => $file->updated_at->toJson(),
+                        'file_url'   => "http://localhost/file/document.pdf/$share->token",
+                    ],
                 ];
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -230,7 +227,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
                         ->assertExactJson($json);
@@ -246,7 +243,6 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $user = User::factory(User::class)
                     ->create();
 
@@ -294,44 +290,43 @@ class VisitorBrowseTest extends TestCase
                 $tree = [
                     [
                         'id'       => $share->item_id,
-                        "name"     => "Home",
-                        "location" => "public",
-                        "folders"  => [
+                        'name'     => 'Home',
+                        'location' => 'public',
+                        'folders'  => [
                             [
-                                "id"            => $folder_level_2->id,
-                                "parent_id"     => $folder_level_1->id,
-                                "name"          => "level 2",
-                                "items"         => 1,
-                                "trashed_items" => 1,
-                                "type"          => "folder",
-                                "folders"       => [
+                                'id'            => $folder_level_2->id,
+                                'parent_id'     => $folder_level_1->id,
+                                'name'          => 'level 2',
+                                'items'         => 1,
+                                'trashed_items' => 1,
+                                'type'          => 'folder',
+                                'folders'       => [
                                     [
-                                        "id"            => $folder_level_3->id,
-                                        "parent_id"     => $folder_level_2->id,
-                                        "name"          => "level 3",
-                                        "items"         => 0,
-                                        "trashed_items" => 0,
-                                        "type"          => "folder",
-                                        "folders"       => [],
+                                        'id'            => $folder_level_3->id,
+                                        'parent_id'     => $folder_level_2->id,
+                                        'name'          => 'level 3',
+                                        'items'         => 0,
+                                        'trashed_items' => 0,
+                                        'type'          => 'folder',
+                                        'folders'       => [],
                                     ],
                                 ],
                             ],
                             [
-                                "id"            => $folder_level_2_sibling->id,
-                                "parent_id"     => $folder_level_1->id,
-                                "name"          => "level 2 Sibling",
-                                "items"         => 0,
-                                "trashed_items" => 0,
-                                "type"          => "folder",
-                                "folders"       => []
-                            ]
-                        ]
-                    ]
+                                'id'            => $folder_level_2_sibling->id,
+                                'parent_id'     => $folder_level_1->id,
+                                'name'          => 'level 2 Sibling',
+                                'items'         => 0,
+                                'trashed_items' => 0,
+                                'type'          => 'folder',
+                                'folders'       => [],
+                            ],
+                        ],
+                    ],
                 ];
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -345,8 +340,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->getJson("/api/browse/navigation/$share->token")
                         ->assertStatus(200)
                         ->assertExactJson($tree);
@@ -362,7 +356,6 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $folder = Folder::factory(Folder::class)
                     ->create();
 
@@ -385,7 +378,6 @@ class VisitorBrowseTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -395,17 +387,16 @@ class VisitorBrowseTest extends TestCase
                         ->get("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
-                            'id' => $file->id
+                            'id' => $file->id,
                         ]);
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
-                            'id' => $file->id
+                            'id' => $file->id,
                         ]);
                 }
             });
@@ -419,7 +410,6 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $folder = Folder::factory(Folder::class)
                     ->create();
 
@@ -441,7 +431,6 @@ class VisitorBrowseTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -454,8 +443,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
-
+                if (! $is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([]);
@@ -471,7 +459,6 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-
                 $file = File::factory(File::class)
                     ->create([
                         'name' => 'Document',
@@ -489,7 +476,6 @@ class VisitorBrowseTest extends TestCase
 
                 // Check shared item protected by password
                 if ($is_protected) {
-
                     $cookie = ['share_session' => json_encode([
                         'token'         => $share->token,
                         'authenticated' => true,
@@ -499,16 +485,16 @@ class VisitorBrowseTest extends TestCase
                         ->get("/api/browse/file/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([
-                            'name' => 'Document'
+                            'name' => 'Document',
                         ]);
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/file/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([
-                            'name' => 'Document'
+                            'name' => 'Document',
                         ]);
                 }
             });

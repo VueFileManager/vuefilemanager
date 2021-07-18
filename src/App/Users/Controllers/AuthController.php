@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Controllers\Auth;
+namespace App\Users\Controllers;
 
 use Domain\Settings\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\CheckAccountRequest;
+use App\Users\Requests\CheckAccountRequest;
 
 class AuthController extends Controller
 {
