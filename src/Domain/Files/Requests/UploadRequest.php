@@ -26,7 +26,7 @@ class UploadRequest extends FormRequest
         return [
             'filename'  => 'required|string',
             'folder_id' => 'nullable|uuid',
-            'is_last'   => 'sometimes|boolean',
+            'is_last'   => 'sometimes|string',
             'file'      => ['required', 'file', new DisabledMimetypes],
         ];
     }

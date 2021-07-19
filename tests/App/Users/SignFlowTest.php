@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Feature\Accounts;
+namespace Tests\App\Users;
 
 use Storage;
 use Notification;
@@ -7,8 +7,8 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Password;
+use App\Users\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Domain\Sharing\Notifications\ResetPassword;
 
 class SignFlowTest extends TestCase
 {

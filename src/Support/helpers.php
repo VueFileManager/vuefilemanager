@@ -258,9 +258,12 @@ if (! function_exists('get_item')) {
      */
     function get_item($type, $id)
     {
-        $model = strtolower($type) === 'folder' ? 'Folder' : 'File';
+        $namespace = match ($type) {
+            'folder' => 'Domain\\Folders\\Models\\Folder',
+            'file'   => 'Domain\\Files\\Models\\File',
+        };
 
-        return ("App\\Models\\$model")::find($id);
+        return ($namespace)::find($id);
     }
 }
 

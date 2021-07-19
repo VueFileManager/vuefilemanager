@@ -31,7 +31,7 @@ class UserZippingTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => null,
-                    'is_last'   => true,
+                    'is_last'   => 'true',
                 ])->assertStatus(201);
             });
 
@@ -75,7 +75,7 @@ class UserZippingTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => $folder->id,
-                    'is_last'   => true,
+                    'is_last'   => 'true',
                 ])->assertStatus(201);
             });
 

@@ -13,8 +13,8 @@ use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
+use App\Users\Notifications\ResetPassword;
 use Domain\SetupWizard\Services\SetupService;
-use Domain\Sharing\Notifications\ResetPassword;
 
 class AdminTest extends TestCase
 {
@@ -354,7 +354,7 @@ class AdminTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => null,
-                    'is_last'   => true,
+                    'is_last'   => 'true',
                 ])->assertStatus(201);
             });
 

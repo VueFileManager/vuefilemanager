@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Folders\Models;
 
-use Database\Factories\FolderFactory;
-use Domain\Files\Models\File;
-use Domain\Sharing\Models\Share;
 use Illuminate\Support\Str;
+use Domain\Files\Models\File;
 use Laravel\Scout\Searchable;
+use Domain\Sharing\Models\Share;
 use Kyslik\ColumnSortable\Sortable;
+use Database\Factories\FolderFactory;
 use Illuminate\Database\Eloquent\Model;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;

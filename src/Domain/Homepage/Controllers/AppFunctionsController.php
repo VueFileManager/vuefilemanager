@@ -74,11 +74,15 @@ class AppFunctionsController extends Controller
      */
     public function og_site(Share $shared)
     {
+        $namespace = match ($shared->type) {
+            'folder' => 'Domain\\Folders\\Models\\Folder',
+            'file'   => 'Domain\\Files\\Models\\File',
+        };
+
         // Get file/folder record
-        $item = ('App\\Models\\' . ucfirst($shared->type))
-            ::where('user_id', $shared->user->id)
-                ->where('id', $shared->item_id)
-                ->first();
+        $item = ($namespace)::where('user_id', $shared->user->id)
+            ->where('id', $shared->item_id)
+            ->first();
 
         if ($item->thumbnail) {
             $item->setPublicUrl($shared->token);

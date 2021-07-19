@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Zipping;
 
+use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Support\Str;

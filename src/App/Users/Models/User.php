@@ -2,13 +2,13 @@
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
-use Database\Factories\UserFactory;
-use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
-use Domain\Traffic\Models\Traffic;
 use Illuminate\Support\Str;
+use Domain\Files\Models\File;
 use Laravel\Cashier\Billable;
+use Domain\Folders\Models\Folder;
 use Laravel\Sanctum\HasApiTokens;
+use Domain\Traffic\Models\Traffic;
+use Database\Factories\UserFactory;
 use Kyslik\ColumnSortable\Sortable;
 use Support\Services\HelperService;
 use Illuminate\Support\Facades\Storage;

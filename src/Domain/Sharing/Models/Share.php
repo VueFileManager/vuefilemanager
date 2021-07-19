@@ -1,8 +1,9 @@
 <?php
 namespace Domain\Sharing\Models;
 
-use Database\Factories\ShareFactory;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
+use Database\Factories\ShareFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

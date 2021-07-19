@@ -49,7 +49,7 @@ class FileTest extends TestCase
                 'filename'  => $file->name,
                 'file'      => $file,
                 'folder_id' => null,
-                'is_last'   => true,
+                'is_last'   => 'true',
             ])->assertStatus(201);
 
         $disk = Storage::disk('local');
@@ -88,7 +88,7 @@ class FileTest extends TestCase
                 'filename'  => $file->name,
                 'file'      => $file,
                 'folder_id' => null,
-                'is_last'   => true,
+                'is_last'   => 'true',
             ])->assertStatus(201);
 
         $disk = Storage::disk('local');
@@ -249,7 +249,7 @@ class FileTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => null,
-                    'is_last'   => true,
+                    'is_last'   => 'true',
                 ])->assertStatus(201);
             });
 

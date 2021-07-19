@@ -2,8 +2,8 @@
 namespace Domain\Zipping\Models;
 
 use App\Users\Models\User;
-use Database\Factories\ZipFactory;
 use Illuminate\Support\Str;
+use Database\Factories\ZipFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

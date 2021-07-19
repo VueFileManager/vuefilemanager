@@ -1,11 +1,12 @@
 <?php
 namespace Tests\Domain\Settings;
 
+use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
+use Domain\SetupWizard\Services\SetupService;
 
 class SettingsTest extends TestCase
 {
@@ -37,7 +38,7 @@ class SettingsTest extends TestCase
      */
     public function it_get_admin_settings()
     {
-        $this->setup->seed_default_settings('Extended');
+        resolve(SetupService::class)->seed_default_settings('Extended');
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -71,7 +72,7 @@ class SettingsTest extends TestCase
      */
     public function it_update_settings()
     {
-        $this->setup->seed_default_settings('Extended');
+        resolve(SetupService::class)->seed_default_settings('Extended');
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -103,8 +104,6 @@ class SettingsTest extends TestCase
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
-
-        Sanctum::actingAs($admin);
 
         $this
             ->actingAs($admin)

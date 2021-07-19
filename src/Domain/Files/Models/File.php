@@ -2,11 +2,11 @@
 namespace Domain\Files\Models;
 
 use ByteUnits\Metric;
-use Database\Factories\FileFactory;
-use Domain\Folders\Models\Folder;
-use Domain\Sharing\Models\Share;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
+use Database\Factories\FileFactory;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;

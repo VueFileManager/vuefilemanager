@@ -408,7 +408,7 @@ class FolderTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'folder_id' => $folder->id,
-                    'is_last'   => true,
+                    'is_last'   => 'true',
                 ])->assertStatus(201);
             });
 

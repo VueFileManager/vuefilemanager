@@ -7,7 +7,7 @@ use App\Users\Models\User;
 use Domain\Zipping\Models\Zip;
 use Domain\Sharing\Models\Share;
 use Illuminate\Http\UploadedFile;
-use Domain\SetupWizard\Services\SchedulerService;
+use Support\Scheduler\Actions\SchedulerService;
 
 class SchedulerTest extends TestCase
 {

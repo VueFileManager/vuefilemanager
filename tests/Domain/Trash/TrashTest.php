@@ -76,7 +76,7 @@ class TrashTest extends TestCase
             'filename'  => $image->name,
             'file'      => $image,
             'folder_id' => null,
-            'is_last'   => true,
+            'is_last'   => 'true',
         ])->assertStatus(201);
 
         $file = File::first();
