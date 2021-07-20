@@ -57,7 +57,7 @@
     "/chunks/plans.js": "/chunks/plans.js?id=2b26173a02ed9f86e875",
     "/chunks/platform.js": "/chunks/platform.js?id=b7b13093369e09fcb1cb",
     "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=be3d7cf51585313cf53b",
-    "/chunks/profile.js": "/chunks/profile.js?id=41b536880e846017d2d0",
+    "/chunks/profile.js": "/chunks/profile.js?id=03526296e71df827ff47",
     "/chunks/profile~chunks/settings-password.js": "/chunks/profile~chunks/settings-password.js?id=fd25990d1ccec0294602",
     "/chunks/purchase-code.js": "/chunks/purchase-code.js?id=b35e751cdc1946a4fb60",
     "/chunks/settings.js": "/chunks/settings.js?id=7070921d97a2510445ac",
@@ -67,7 +67,7 @@
     "/chunks/settings-payment-methods.js": "/chunks/settings-payment-methods.js?id=323729734ffc814a48d2",
     "/chunks/settings-storage.js": "/chunks/settings-storage.js?id=682f4f690ac252a78a3a",
     "/chunks/settings-subscription.js": "/chunks/settings-subscription.js?id=4f1793d53633a2c4cc18",
-    "/chunks/settings~chunks/settings-password.js": "/chunks/settings~chunks/settings-password.js?id=f5aaffe3aa073cb2ee19",
+    "/chunks/settings~chunks/settings-password.js": "/chunks/settings~chunks/settings-password.js?id=1c49c2c5bcef4395dedb",
     "/chunks/setup-wizard.js": "/chunks/setup-wizard.js?id=41d3478184ec24644a1c",
     "/chunks/shared.js": "/chunks/shared.js?id=7524b7a783d4aed23794",
     "/chunks/shared/authenticate.js": "/chunks/shared/authenticate.js?id=bfdf9bb904d354bdcbd1",
@@ -284,5 +284,7 @@
     "/chunks/settings-create-payment-methods.3c553438a1090569af54.hot-update.js": "/chunks/settings-create-payment-methods.3c553438a1090569af54.hot-update.js",
     "/chunks/settings-payment-methods.3c553438a1090569af54.hot-update.js": "/chunks/settings-payment-methods.3c553438a1090569af54.hot-update.js",
     "/chunks/upgrade-billing.3c553438a1090569af54.hot-update.js": "/chunks/upgrade-billing.3c553438a1090569af54.hot-update.js",
-    "/chunks/settings-invoices.4ab4d27b8447516929d2.hot-update.js": "/chunks/settings-invoices.4ab4d27b8447516929d2.hot-update.js"
+    "/chunks/settings-invoices.4ab4d27b8447516929d2.hot-update.js": "/chunks/settings-invoices.4ab4d27b8447516929d2.hot-update.js",
+    "/chunks/profile.5902d31a95da744acd2b.hot-update.js": "/chunks/profile.5902d31a95da744acd2b.hot-update.js",
+    "/chunks/settings~chunks/settings-password.5902d31a95da744acd2b.hot-update.js": "/chunks/settings~chunks/settings-password.5902d31a95da744acd2b.hot-update.js"
 }

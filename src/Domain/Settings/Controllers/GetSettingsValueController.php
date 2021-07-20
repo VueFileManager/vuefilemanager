@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Domain\Settings\Models\Setting;
 
-class SettingsController
+class GetSettingsValueController
 {
     /**
      * List of allowed settings to get from public request

@@ -11,7 +11,7 @@ use App\Users\Controllers\ForgotPasswordController;
 use Domain\Files\Controllers\UploadFilesController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Plans\Controllers\ActivePlansController;
-use Domain\Settings\Controllers\SettingsController;
+use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Zipping\Controllers\ZipFolderController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
@@ -31,7 +31,7 @@ Route::apiResource('/page', PagesController::class);
 // Homepage
 Route::post('/contact', SendContactMessageController::class);
 Route::get('/pricing', ActivePlansController::class);
-Route::get('/settings', SettingsController::class);
+Route::get('/settings', GetSettingsValueController::class);
 
 // Register user
 Route::post('/register', CreateNewUserAction::class);
