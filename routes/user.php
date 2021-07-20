@@ -1,39 +1,49 @@
 <?php
 
-use App\Users\Controllers\AccessTokenController;
+use App\Users\Controllers\Account\AccountDetailsController;
+use App\Users\Controllers\Account\StorageCapacityController;
+use App\Users\Controllers\Account\UpdatePasswordController;
+use App\Users\Controllers\Account\UpdateProfileSettingsController;
 use App\Users\Controllers\AuthController;
-use App\Users\Controllers\AccountController;
+use App\Users\Controllers\Authentication\AccountAccessTokenController;
+use App\Users\Controllers\Authentication\CheckAccountController;
+use App\Users\Controllers\Verification\ResendVerificationEmail;
+use App\Users\Controllers\Verification\VerifyEmailController;
+use Domain\Invoices\Controllers\UserInvoicesController;
 use Domain\Payments\Controllers\PaymentMethodsController;
 use Domain\Subscriptions\Controllers\GetSetupIntentController;
 use Domain\Subscriptions\Controllers\SubscriptionCancelController;
-use Domain\Subscriptions\Controllers\SubscriptionController;
+use Domain\Subscriptions\Controllers\SubscriptionDetailsController;
 use Domain\Subscriptions\Controllers\SubscriptionResumeController;
 use Domain\Subscriptions\Controllers\SubscriptionUpgradeController;
 
-Route::post('/check', [AuthController::class, 'check_account']);
+Route::post('/check', CheckAccountController::class);
 
 // Email verification
-Route::get('/email/verify/{id}', [AccountController::class, 'email_verification'])->name('verification.verify');
-Route::post('/email/resend/verify', [AccountController::class, 'resend_verification_email'])->name('verification.send');
+Route::get('/email/verify/{id}', VerifyEmailController::class)
+    ->name('verification.verify');
+
+Route::post('/email/verify/resend', ResendVerificationEmail::class)
+    ->name('verification.send');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Account
-    Route::patch('/relationships/settings', [AccountController::class, 'update_user_settings']);
-    Route::post('/password', [AccountController::class, 'change_password']);
-    Route::get('/subscription', [SubscriptionController::class, 'show']);
-    Route::get('/invoices', [AccountController::class, 'invoices']);
-    Route::get('/storage', [AccountController::class, 'storage']);
-    Route::get('/', [AccountController::class, 'user']);
+    Route::patch('/relationships/settings', UpdateProfileSettingsController::class);
+    Route::post('/password', UpdatePasswordController::class);
+    Route::get('/storage', StorageCapacityController::class);
+    Route::get('/', AccountDetailsController::class);
 
     // User Access Token
-    Route::apiResource('/tokens', AccessTokenController::class);
-
-    // Payment cards
-    Route::apiResource('/payment-cards', PaymentMethodsController::class);
+    Route::apiResource('/tokens', AccountAccessTokenController::class);
 
     // Subscription
     Route::group(['prefix' => 'subscription'], function () {
         Route::get('/setup-intent', GetSetupIntentController::class);
+
+        Route::apiResource('/payment-cards', PaymentMethodsController::class);
+        Route::get('/invoices', UserInvoicesController::class);
+        Route::get('/', SubscriptionDetailsController::class);
+
         Route::post('/upgrade', SubscriptionUpgradeController::class);
         Route::post('/cancel', SubscriptionCancelController::class);
         Route::post('/resume', SubscriptionResumeController::class);

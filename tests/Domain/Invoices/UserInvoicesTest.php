@@ -25,7 +25,7 @@ class UserInvoicesTest extends TestCase
             ],
         ])->assertStatus(204);
 
-        $this->getJson('/api/user/invoices')
+        $this->getJson('/api/user/subscription/invoices')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'customer' => $this->user['stripe_id'],

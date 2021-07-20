@@ -202,7 +202,7 @@
             },
             resendEmail() {
                 axios.
-                    post('/api/user/email/resend/verify', {
+                    post('/api/user/email/verify/resend', {
                         email: this.loginEmail
                     })
                     .then(

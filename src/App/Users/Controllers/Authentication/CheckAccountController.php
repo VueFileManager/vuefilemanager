@@ -1,22 +1,21 @@
 <?php
-namespace App\Users\Controllers;
+namespace App\Users\Controllers\Authentication;
 
 use App\Users\Models\User;
 use App\Http\Controllers\Controller;
 use App\Users\Requests\CheckAccountRequest;
+use Illuminate\Http\Response;
 
-class AuthController extends Controller
+class CheckAccountController extends Controller
 {
     /**
      * Check if user account exist
-     *
-     * @param CheckAccountRequest $request
-     * @return mixed
      */
-    public function check_account(CheckAccountRequest $request)
-    {
-        // Get User
-        $user = User::whereEmail($request->email)
+    public function __invoke(
+        CheckAccountRequest $request
+    ): array|Response {
+
+        $user = User::whereEmail($request->input('email'))
             ->first();
 
         if (! $user) {

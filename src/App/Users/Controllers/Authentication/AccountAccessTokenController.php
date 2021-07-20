@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Users\Controllers;
+namespace App\Users\Controllers\Authentication;
 
 
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class AccessTokenController extends Controller
+class AccountAccessTokenController extends Controller
 {
     /**
      * Get all user tokens

@@ -199,7 +199,7 @@ class UserAccountTest extends TestCase
                 'email_verified_at' => null,
             ]);
 
-        $this->postJson('/api/user/email/resend/verify', [
+        $this->postJson('/api/user/email/verify/resend', [
             'email' => $user->email,
         ])
             ->assertStatus(204);

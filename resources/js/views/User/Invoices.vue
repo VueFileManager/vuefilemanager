@@ -2,7 +2,7 @@
     <PageTab :is-loading="isLoading">
         <PageTabGroup v-show="! isLoading">
             <FormLabel>{{ $t('user_invoices.title') }}</FormLabel>
-            <DatatableWrapper @init="isLoading = false" api="/api/user/invoices" :paginator="false" :columns="columns" class="table">
+            <DatatableWrapper @init="isLoading = false" api="/api/user/subscription/invoices" :paginator="false" :columns="columns" class="table">
 
                 <!--Table data content-->
                 <template slot-scope="{ row }">

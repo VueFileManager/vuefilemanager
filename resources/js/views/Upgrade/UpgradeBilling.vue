@@ -490,7 +490,7 @@
                     this.$isSomethingWrong()
                 })
 
-            axios.get('/api/user/payment-cards')
+            axios.get('/api/user/subscription/payment-cards')
                 .then(response => {
 
                     this.defaultPaymentMethod = response.data.default

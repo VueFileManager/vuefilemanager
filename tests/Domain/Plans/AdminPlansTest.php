@@ -135,7 +135,7 @@ class AdminPlansTest extends TestCase
 
         $invoices = $this
             ->actingAs($user)
-            ->getJson('/api/user/invoices')
+            ->getJson('/api/user/subscription/invoices')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'customer' => $this->user['stripe_id'],

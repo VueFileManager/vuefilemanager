@@ -104,7 +104,7 @@
                 if (setupIntent) {
 
                     axios
-                        .post('/api/user/payment-cards', {
+                        .post('/api/user/subscription/payment-cards', {
                             token: setupIntent.payment_method,
                             default: this.defaultPaymentMethod,
                         })

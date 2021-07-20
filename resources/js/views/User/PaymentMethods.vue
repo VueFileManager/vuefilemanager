@@ -151,7 +151,7 @@
                 })
             },
             fetchPaymentMethods() {
-                axios.get('/api/user/payment-cards')
+                axios.get('/api/user/subscription/payment-cards')
                     .then(response => {
 
                         if (response.status == 204) {
@@ -182,7 +182,7 @@
 
                     this.deletingID = data.id
 
-                    axios.post('/api/user/payment-cards/' + data.id, {
+                    axios.post('/api/user/subscription/payment-cards/' + data.id, {
                         _method: 'delete'
                     })
                         .then(() => {
@@ -206,7 +206,7 @@
 
                 if (data.operation === 'set-as-default-credit-card') {
 
-                    axios.post('/api/user/payment-cards/' + data.id, {
+                    axios.post('/api/user/subscription/payment-cards/' + data.id, {
                         default: 1,
                         _method: 'patch'
                     })
