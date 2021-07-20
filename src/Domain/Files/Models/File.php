@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -20,9 +22,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class File extends Model
 {
-    use Searchable, SoftDeletes, Sortable, HasFactory;
+    use Searchable;
+    use SoftDeletes;
+    use Sortable;
+    use HasFactory;
 
-    public $public_access = null;
+    public ?string $public_access = null;
 
     protected $guarded = [
         'id',
@@ -40,11 +45,6 @@ class File extends Model
         'author_id',
     ];
 
-    /**
-     * Sortable columns
-     *
-     * @var string[]
-     */
     public $sortable = [
         'name',
         'created_at',
@@ -61,54 +61,50 @@ class File extends Model
 
     /**
      * Set routes with public access
-     *
-     * @param $token
      */
-    public function setPublicUrl($token)
+    public function setPublicUrl(string $token)
     {
         $this->public_access = $token;
     }
 
     /**
      * Format created at date
-     *
-     * @return string
      */
-    public function getCreatedAtAttribute()
+    public function getCreatedAtAttribute(): string
     {
-        return format_date(set_time_by_user_timezone($this->attributes['created_at']), __t('time'));
+        return format_date(
+            set_time_by_user_timezone($this->attributes['created_at']),
+            __t('time')
+        );
     }
 
     /**
-     * Form\a\t created at date reformat
-     *
-     * @return string|null
+     * Format deleted at date reformat
      */
-    public function getDeletedAtAttribute()
+    public function getDeletedAtAttribute(): string | null
     {
         if (! $this->attributes['deleted_at']) {
             return null;
         }
 
-        return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'));
+        return format_date(
+            set_time_by_user_timezone($this->attributes['deleted_at']),
+            __t('time')
+        );
     }
 
     /**
      * Format fileSize
-     *
-     * @return string
      */
-    public function getFilesizeAttribute()
+    public function getFilesizeAttribute(): string
     {
         return Metric::bytes($this->attributes['filesize'])->format();
     }
 
     /**
      * Format thumbnail url
-     *
-     * @return string|null
      */
-    public function getThumbnailAttribute()
+    public function getThumbnailAttribute(): string | null
     {
         // Get thumbnail from external storage
         if ($this->attributes['thumbnail'] && ! is_storage_driver(['local'])) {
@@ -132,10 +128,8 @@ class File extends Model
 
     /**
      * Format file url
-     *
-     * @return string
      */
-    public function getFileUrlAttribute()
+    public function getFileUrlAttribute(): string
     {
         // Get file from external storage
         if (! is_storage_driver(['local'])) {
@@ -166,10 +160,8 @@ class File extends Model
 
     /**
      * Index file
-     *
-     * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
         $name = Str::slug($array['name'], ' ');
@@ -181,33 +173,21 @@ class File extends Model
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Folder::class, 'folder_id', 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function folder()
+    public function folder(): HasOne
     {
         return $this->hasOne(Folder::class, 'id', 'folder_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function shared()
+    public function shared(): HasOne
     {
         return $this->hasOne(Share::class, 'item_id', 'id');
     }
 
-    /**
-     * Model events
-     */
     protected static function boot()
     {
         parent::boot();

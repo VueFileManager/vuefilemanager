@@ -45,7 +45,7 @@ class BrowseShareController extends Controller
                 // Store user download size
                 $shared
                     ->user
-                    ->record_download(
+                    ->recordDownload(
                         (int) $image->getRawOriginal('filesize')
                     );
 

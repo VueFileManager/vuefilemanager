@@ -212,10 +212,10 @@
                             </div>
                             <div class="row" v-if="taxRates">
                                 <div class="cell">
-                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ taxRates.country }} {{ taxRates.percentage }}%)</b>
+                                    <b>{{ $t('page_upgrade_account.summary.vat') }} - ({{ userTaxRates.country }} {{ userTaxRates.percentage }}%)</b>
                                 </div>
                                 <div class="cell">
-                                    <b>{{ taxRates.plan_price_formatted }}</b>
+                                    <b>{{ userTaxRates.plan_price_formatted }}</b>
                                 </div>
                             </div>
 
@@ -235,7 +235,7 @@
                                     <b>{{ $t('page_upgrade_account.summary.total_with_vat') }}</b>
                                 </div>
                                 <div class="cell">
-                                    <b>{{ taxRates.plan_price_formatted }}</b>
+                                    <b>{{ userTaxRates.plan_price_formatted }}</b>
                                 </div>
                             </div>
 

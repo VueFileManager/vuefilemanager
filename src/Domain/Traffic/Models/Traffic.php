@@ -5,6 +5,9 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @method static whereYear(string $string, string $string1, int $year)
+ */
 class Traffic extends Model
 {
     use HasFactory;
@@ -19,9 +22,6 @@ class Traffic extends Model
 
     protected $keyType = 'string';
 
-    /**
-     * Model events
-     */
     protected static function boot()
     {
         parent::boot();

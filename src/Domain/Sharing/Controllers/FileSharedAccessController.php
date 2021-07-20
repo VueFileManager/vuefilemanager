@@ -32,7 +32,7 @@ class FileSharedAccessController extends Controller
 
         $zip
             ->user
-            ->record_download(
+            ->recordDownload(
                 $disk->size("zip/$zip->basename")
             );
 
@@ -69,7 +69,7 @@ class FileSharedAccessController extends Controller
         // Store user download size
         $shared
             ->user
-            ->record_download(
+            ->recordDownload(
                 (int) $file->getRawOriginal('filesize')
             );
 
@@ -99,7 +99,7 @@ class FileSharedAccessController extends Controller
         // Store user download size
         $shared
             ->user
-            ->record_download(
+            ->recordDownload(
                 (int) $file->getRawOriginal('filesize')
             );
 

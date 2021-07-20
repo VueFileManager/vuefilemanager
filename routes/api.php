@@ -1,6 +1,13 @@
 <?php
 
 use App\Users\Actions\CreateNewUserAction;
+use Domain\Browsing\Controllers\BrowseFolderContentController;
+use Domain\Browsing\Controllers\BrowseLatestFilesController;
+use Domain\Browsing\Controllers\BrowseParticipantsUploadsController;
+use Domain\Browsing\Controllers\BrowseSharedItemsController;
+use Domain\Browsing\Controllers\BrowseTrashContentController;
+use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
+use Domain\Folders\Controllers\NavigationFolderTreeController;
 use Domain\Trash\Controllers\TrashController;
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Browsing\Controllers\BrowseController;
@@ -29,13 +36,13 @@ Route::post('/register', CreateNewUserAction::class);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Browse
     Route::group(['prefix' => 'browse'], function () {
-        Route::get('/participants', [BrowseController::class, 'participant_uploads']);
-        Route::get('/navigation', [BrowseController::class, 'navigation_tree']);
-        Route::get('/folders/{id}', [BrowseController::class, 'folder']);
-        Route::get('/share', [BrowseController::class, 'shared']);
-        Route::get('/latest', [BrowseController::class, 'latest']);
-        Route::get('/search', [BrowseController::class, 'search']);
-        Route::get('/trash', [BrowseController::class, 'trash']);
+        Route::get('/participants', BrowseParticipantsUploadsController::class);
+        Route::get('/navigation', NavigationFolderTreeController::class);
+        Route::get('/folders/{id}', BrowseFolderContentController::class);
+        Route::get('/share', BrowseSharedItemsController::class);
+        Route::get('/latest', BrowseLatestFilesController::class);
+        Route::get('/search', SearchFilesAndFoldersController::class);
+        Route::get('/trash', BrowseTrashContentController::class);
     });
 
     // Trash

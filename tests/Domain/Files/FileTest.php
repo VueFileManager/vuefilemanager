@@ -127,7 +127,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'file'      => $file,
                 'folder_id' => null,
-                'is_last'   => true,
+                'is_last'   => 'true',
             ])->assertStatus(422);
 
         Storage::disk('local')

@@ -236,7 +236,7 @@ class FileManagerService
             // Force delete children files
             if ($item['force_delete']) {
                 // Get children folder ids
-                $child_folders = filter_folders_ids($folder->trashed_folders, 'id');
+                $child_folders = filter_folders_ids($folder->trashedFolders, 'id');
 
                 // Get children files
                 $files = UserFile::onlyTrashed()
@@ -391,7 +391,7 @@ class FileManagerService
 
             // Store user upload size
             User::find($user_id)
-                ->record_upload($file_size);
+                ->recordUpload($file_size);
 
             // Return new file
             return UserFile::create([

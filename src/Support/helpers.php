@@ -481,10 +481,10 @@ if (! function_exists('user_storage_percentage')) {
     {
         $user = User::findOrFail($id);
 
-        $used = $user->used_capacity;
+        $used = $user->usedCapacity;
 
         if ($additionals) {
-            $used = $user->used_capacity + $additionals;
+            $used = $user->usedCapacity + $additionals;
         }
 
         return get_storage_fill_percentage($used, $user->settings->storage_capacity);

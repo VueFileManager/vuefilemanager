@@ -79,7 +79,7 @@ class FileAccessController extends Controller
         }*/
 
         // Store user download size
-        $request->user()->record_download(
+        $request->user()->recordDownload(
             (int) $file->getRawOriginal('filesize')
         );
 
@@ -102,7 +102,7 @@ class FileAccessController extends Controller
 
         $zip
             ->user
-            ->record_download(
+            ->recordDownload(
                 $disk->size("zip/$zip->basename")
             );
 

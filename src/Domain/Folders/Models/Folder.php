@@ -10,6 +10,9 @@ use Database\Factories\FolderFactory;
 use Illuminate\Database\Eloquent\Model;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -37,11 +40,6 @@ class Folder extends Model
         'author_id',
     ];
 
-    /**
-     * Sortable columns
-     *
-     * @var string[]
-     */
     public $sortable = [
         'name',
         'created_at',
@@ -56,17 +54,15 @@ class Folder extends Model
         return FolderFactory::new();
     }
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return 'folder';
     }
 
     /**
      * Index folder
-     *
-     * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
         $name = Str::slug($array['name'], ' ');
@@ -80,135 +76,130 @@ class Folder extends Model
 
     /**
      * Counts how many folder have items
-     *
-     * @return int
      */
-    public function getItemsAttribute()
+    public function getItemsAttribute(): int
     {
-        $folders = $this->folders()->count();
-        $files = $this->files()->count();
+        $folders = $this->folders()
+            ->count();
+
+        $files = $this->files()
+            ->count();
 
         return $folders + $files;
     }
 
     /**
      * Counts how many folder have items
-     *
-     * @return int
      */
-    public function getTrashedItemsAttribute()
+    public function getTrashedItemsAttribute(): int
     {
-        $folders = $this->trashed_folders()->count();
-        $files = $this->trashed_files()->count();
+        $folders = $this->trashedFolders()
+            ->count();
+
+        $files = $this->trashedFiles()
+            ->count();
 
         return $folders + $files;
     }
 
     /**
      * Format created at date reformat
-     *
-     * @return string
      */
-    public function getCreatedAtAttribute()
+    public function getCreatedAtAttribute(): string
     {
-        return format_date(set_time_by_user_timezone($this->attributes['created_at']), __t('time'));
+        return format_date(
+            set_time_by_user_timezone($this->attributes['created_at']),
+            __t('time')
+        );
     }
 
     /**
-     * Format created at date reformat
-     *
-     * @return string|null
+     * Format deleted at date reformat
      */
-    public function getDeletedAtAttribute()
+    public function getDeletedAtAttribute(): string | null
     {
         if (! $this->attributes['deleted_at']) {
             return null;
         }
 
-        return format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'));
+        return format_date(
+            set_time_by_user_timezone($this->attributes['deleted_at']),
+            __t('time')
+        );
     }
 
     /**
      * Get parent
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Folder::class, 'parent_id', 'id');
     }
 
     public function folderIds()
     {
-        return $this->children()->with('folderIds')->select(['id', 'parent_id']);
+        return $this->children()
+            ->with('folderIds')
+            ->select(['id', 'parent_id']);
     }
 
     /**
      * Get all files
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function files()
+    public function files(): HasMany
     {
         return $this->hasMany(File::class, 'folder_id', 'id');
     }
 
     /**
      * Get all trashed files
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function trashed_files()
+    public function trashedFiles(): HasMany
     {
-        return $this->hasMany(File::class, 'folder_id', 'id')->withTrashed();
+        return $this->hasMany(File::class, 'folder_id', 'id')
+            ->withTrashed();
     }
 
     /**
      * Get all folders
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function folders()
+    public function folders(): HasMany
     {
         return $this->children()->with('folders');
     }
 
     /**
      * Get all trashed folders
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function trashed_folders()
+    public function trashedFolders(): HasMany
     {
-        return $this->children()->with('trashed_folders')->withTrashed()->select(['parent_id', 'id', 'name']);
+        return $this->children()
+            ->with('trashedFolders')
+            ->withTrashed()
+            ->select(['parent_id', 'id', 'name']);
     }
 
     /**
-     * Get childrens
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Get children
      */
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(Folder::class, 'parent_id', 'id');
     }
 
     /**
-     * Get trashed childrens
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Get trashed children
      */
-    public function trashed_children()
+    public function trashedChildren(): HasMany
     {
-        return $this->hasMany(Folder::class, 'parent_id', 'id')->withTrashed();
+        return $this->hasMany(Folder::class, 'parent_id', 'id')
+            ->withTrashed();
     }
 
     /**
      * Get sharing attributes
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function shared()
+    public function shared(): HasOne
     {
         return $this->hasOne(Share::class, 'item_id', 'id');
     }
@@ -224,7 +215,7 @@ class Folder extends Model
 
         static::deleting(function ($item) {
             if ($item->isForceDeleting()) {
-                $item->trashed_children()->each(function ($folder) {
+                $item->trashedChildren()->each(function ($folder) {
                     $folder->forceDelete();
                 });
             } else {
@@ -240,12 +231,12 @@ class Folder extends Model
 
         static::restoring(function ($item) {
             // Restore children folders
-            $item->trashed_children()->each(function ($folder) {
+            $item->trashedChildren()->each(function ($folder) {
                 $folder->restore();
             });
 
             // Restore children files
-            $item->trashed_files()->each(function ($files) {
+            $item->trashedFiles()->each(function ($files) {
                 $files->restore();
             });
         });

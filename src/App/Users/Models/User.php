@@ -7,22 +7,27 @@ use Domain\Files\Models\File;
 use Laravel\Cashier\Billable;
 use Domain\Folders\Models\Folder;
 use Laravel\Sanctum\HasApiTokens;
-use Domain\Traffic\Models\Traffic;
+use Illuminate\Support\Collection;
 use Database\Factories\UserFactory;
 use Kyslik\ColumnSortable\Sortable;
 use Support\Services\HelperService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use App\Users\Notifications\ResetPassword;
+use Domain\Subscriptions\Traits\Subscription;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Domain\Subscriptions\Services\StripeService;
+use Domain\Traffic\Models\Traffic as TrafficModel;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use TwoFactorAuthenticatable;
+    use Subscription;
     use HasApiTokens;
     use Notifiable;
     use HasFactory;
@@ -35,11 +40,13 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $fillable = [
-        'email', 'password',
+        'email',
+        'password',
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
@@ -48,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $appends = [
-        'used_capacity',
+        'usedCapacity',
         'storage',
     ];
 
@@ -70,45 +77,22 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get tax rate id for user
-     *
-     * @return array
-     */
-    public function taxRates()
-    {
-        // Get tax rates
-        $rates = collect(resolve(StripeService::class)->getTaxRates());
-
-        // Find tax rate
-        $user_tax_rate = $rates->first(function ($item) {
-            return $item['country'] === $this->settings->country && $item['active'];
-        });
-
-        return $user_tax_rate ? [$user_tax_rate['id']] : [];
-    }
-
-    /**
      * Get user used storage details
-     *
-     * @return mixed
      */
-    public function getStorageAttribute()
+    public function getStorageAttribute(): array
     {
-        // Get storage limitation setup
-        $storage_limitation = get_setting('storage_limitation');
-        $is_storage_limit = $storage_limitation ? $storage_limitation : 1;
+        $is_storage_limit = get_setting('storage_limitation') ?? 1;
 
-        // Get user storage usage
         if (! $is_storage_limit) {
             return [
-                'used'           => $this->used_capacity,
-                'used_formatted' => Metric::bytes($this->used_capacity)->format(),
+                'used'           => $this->usedCapacity,
+                'used_formatted' => Metric::bytes($this->usedCapacity)->format(),
             ];
         }
 
         return [
-            'used'               => (float) get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity),
-            'used_formatted'     => get_storage_fill_percentage($this->used_capacity, $this->settings->storage_capacity) . '%',
+            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->settings->storage_capacity),
+            'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->settings->storage_capacity) . '%',
             'capacity'           => $this->settings->storage_capacity,
             'capacity_formatted' => format_gigabytes($this->settings->storage_capacity),
         ];
@@ -116,24 +100,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Get user used storage capacity in bytes
-     *
-     * @return mixed
      */
-    public function getUsedCapacityAttribute()
+    public function getUsedCapacityAttribute(): int
     {
-        $user_capacity = $this->files_with_trashed->map(function ($item) {
-            return $item->getRawOriginal();
-        })->sum('filesize');
-
-        return $user_capacity;
+        return $this->filesWithTrashed
+            ->map(function ($item) {
+                return $item->getRawOriginal();
+            })->sum('filesize');
     }
 
     /**
      * Get user full folder tree
-     *
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getFolderTreeAttribute()
+    public function getFolderTreeAttribute(): Collection
     {
         return Folder::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('parent_id', null)
@@ -143,48 +122,20 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Set user billing info
-     *
-     * @param $billing
-     * @return UserSettings
+     * Get user attributes
      */
-    public function setBilling($billing)
+    public function settings(): HasOne
     {
-        $this->settings()->update([
-            'address'      => $billing['billing_address'],
-            'city'         => $billing['billing_city'],
-            'country'      => $billing['billing_country'],
-            'name'         => $billing['billing_name'],
-            'phone_number' => $billing['billing_phone_number'],
-            'postal_code'  => $billing['billing_postal_code'],
-            'state'        => $billing['billing_state'],
-        ]);
-
-        return $this->settings;
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param string $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ResetPassword($token));
+        return $this->hasOne(UserSettings::class);
     }
 
     /**
      * Record user upload filesize
-     *
-     * @param $file_size
      */
-    public function record_upload($file_size)
+    public function recordUpload(int $file_size): void
     {
-        $now = now();
-
-        $record = Traffic::whereYear('created_at', '=', $now->year)
-            ->whereMonth('created_at', '=', $now->month)
+        $record = TrafficModel::whereYear('created_at', '=', now()->year)
+            ->whereMonth('created_at', '=', now()->month)
             ->firstOrCreate([
                 'user_id' => $this->id,
             ]);
@@ -196,15 +147,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Record user download filesize
-     *
-     * @param $file_size
      */
-    public function record_download($file_size)
+    public function recordDownload(int $file_size): void
     {
-        $now = now();
-
-        $record = Traffic::whereYear('created_at', '=', $now->year)
-            ->whereMonth('created_at', '=', $now->month)
+        $record = TrafficModel::whereYear('created_at', '=', now()->year)
+            ->whereMonth('created_at', '=', now()->month)
             ->firstOrCreate([
                 'user_id' => $this->id,
             ]);
@@ -216,58 +163,48 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Get user favourites folder
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function favouriteFolders()
+    public function favouriteFolders(): BelongsToMany
     {
         return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')
             ->with('shared:token,id,item_id,permission,is_protected,expire_in');
     }
 
     /**
-     * Get 5 latest uploads
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Query\Builder
+     * Get all user files
      */
-    public function latest_uploads()
+    public function filesWithTrashed(): HasMany
     {
-        return $this->hasMany(File::class)->with(['parent:id,name'])->take(40);
+        return $this->hasMany(File::class)
+            ->withTrashed();
+    }
+
+    /**
+     * Get 5 latest uploads
+     */
+    public function latestUploads(): HasMany
+    {
+        return $this->hasMany(File::class)
+            ->with(['parent:id,name'])
+            ->take(40);
     }
 
     /**
      * Get all user files
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function files()
+    public function files(): HasMany
     {
         return $this->hasMany(File::class);
     }
 
     /**
-     * Get all user files
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Send the password reset notification.
      */
-    public function files_with_trashed()
+    public function sendPasswordResetNotification($token): void
     {
-        return $this->hasMany(File::class)->withTrashed();
+        $this->notify(new ResetPassword($token));
     }
 
-    /**
-     * Get user attributes
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function settings()
-    {
-        return $this->hasOne(UserSettings::class);
-    }
-
-    /**
-     * Model Events
-     */
     protected static function boot()
     {
         parent::boot();
