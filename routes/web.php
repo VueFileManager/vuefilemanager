@@ -1,6 +1,8 @@
 <?php
 
 use Domain\Admin\Controllers\InvoiceController;
+use Domain\Homepage\Controllers\IndexController;
+use Domain\Localization\Controllers\CurrentLocalizationController;
 use Domain\Sharing\Controllers\BrowseShareController;
 use Domain\Homepage\Controllers\AppFunctionsController;
 use Domain\SetupWizard\Controllers\SetupWizardController;
@@ -9,7 +11,7 @@ use Domain\Subscriptions\Controllers\StripeWebhookController;
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);
 
-Route::get('/translations/{lang}', [AppFunctionsController::class, 'get_translations']);
+Route::get('/translations/{lang}', CurrentLocalizationController::class);
 
 // Get user invoice from stripe service
 Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
@@ -22,4 +24,5 @@ if (Crawler::isCrawler()) {
 }
 
 // Show index.blade
-Route::get('/{any?}', [AppFunctionsController::class, 'index'])->where('any', '.*');
+Route::get('/{any?}', IndexController::class)
+    ->where('any', '.*');

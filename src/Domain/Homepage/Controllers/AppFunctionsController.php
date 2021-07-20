@@ -38,35 +38,6 @@ class AppFunctionsController extends Controller
     }
 
     /**
-     * Show index page
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
-    {
-        try {
-            // Try to connect to database
-            \DB::getPdo();
-
-            // Get setup status
-            $setup_status = get_setup_status();
-
-            // Get app pages
-            $pages = Page::all();
-
-            // Get all settings
-            $settings = get_settings_in_json();
-        } catch (PDOException $e) {
-            $setup_status = 'setup-database';
-        }
-
-        return view('index')
-            ->with('settings', $settings ?? null)
-            ->with('legal', $pages ?? null)
-            ->with('installation', $setup_status);
-    }
-
-    /**
      * Get og site for web crawlers
      *
      * @param Share $shared
@@ -100,23 +71,6 @@ class AppFunctionsController extends Controller
                     : $item->filesize,
                 'thumbnail' => $item->thumbnail ?? null,
             ]);
-    }
-
-    /**
-     * Send contact message from pages
-     *
-     * @param SendContactMessageRequest $request
-     * @return ResponseFactory|Response
-     */
-    public function contact_form(SendContactMessageRequest $request)
-    {
-        Mail::to(
-            get_setting('contact_email')
-        )->send(
-            new SendContactMessage($request->all())
-        );
-
-        return response('Done', 201);
     }
 
     /**
@@ -178,26 +132,5 @@ class AppFunctionsController extends Controller
             ->sortBy('product.metadata.capacity')
             ->values()
             ->all();
-    }
-
-    /**
-     * Get language translations for frontend app
-     */
-    public function get_translations($lang)
-    {
-        $translations = cache()
-            ->rememberForever("language-translations-$lang", function () use ($lang) {
-                try {
-                    return Language::whereLocale($lang)
-                        ->firstOrFail()
-                        ->languageTranslations;
-                } catch (QueryException | ModelNotFoundException $e) {
-                    return null;
-                }
-            });
-
-        return $translations
-            ? map_language_translations($translations)
-            : get_default_language_translations();
     }
 }
