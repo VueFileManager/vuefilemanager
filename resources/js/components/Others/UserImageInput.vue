@@ -52,7 +52,7 @@
                     reader.readAsDataURL(file)
 
                     // Update user avatar
-                    this.$updateImage('/user/relationships/settings', 'avatar', event.target.files[0])
+                    this.$updateImage('/user/settings', 'avatar', event.target.files[0])
                 } else {
                     alert( this.$t('validation_errors.wrong_image') )
                 }

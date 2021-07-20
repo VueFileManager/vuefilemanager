@@ -27,14 +27,14 @@ Route::post('/email/verify/resend', ResendVerificationEmail::class)
     ->name('verification.send');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // User Access Token
+    Route::apiResource('/tokens', AccountAccessTokenController::class);
+    
     // Account
-    Route::patch('/relationships/settings', UpdateProfileSettingsController::class);
+    Route::patch('/settings', UpdateProfileSettingsController::class);
     Route::post('/password', UpdatePasswordController::class);
     Route::get('/storage', StorageCapacityController::class);
     Route::get('/', AccountDetailsController::class);
-
-    // User Access Token
-    Route::apiResource('/tokens', AccountAccessTokenController::class);
 
     // Subscription
     Route::group(['prefix' => 'subscription'], function () {

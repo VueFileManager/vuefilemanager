@@ -365,7 +365,7 @@ class AdminTest extends TestCase
         $avatar = UploadedFile::fake()
             ->image('fake-image.jpg');
 
-        $this->patchJson('/api/user/relationships/settings', [
+        $this->patchJson('/api/user/settings', [
             'avatar' => $avatar,
         ])->assertStatus(204);
 

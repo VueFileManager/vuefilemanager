@@ -68,7 +68,7 @@ class UserAccountTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->patchJson('/api/user/relationships/settings', [
+            ->patchJson('/api/user/settings', [
                 'name'  => 'address',
                 'value' => 'Jantar',
             ])->assertStatus(204);
@@ -91,7 +91,7 @@ class UserAccountTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->patchJson('/api/user/relationships/settings', [
+            ->patchJson('/api/user/settings', [
                 'avatar' => $avatar,
             ])->assertStatus(204);
 

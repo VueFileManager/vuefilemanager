@@ -33,7 +33,7 @@
                 <div class="block-wrapper">
                     <label>GMT:</label>
                     <div class="input-wrapper">
-                        <SelectInput @input="$updateText('/user/relationships/settings', 'timezone', userInfo.timezone)"
+                        <SelectInput @input="$updateText('/user/settings', 'timezone', userInfo.timezone)"
                                     v-model="userInfo.timezone"
                                     :default="userInfo.timezone"
                                     :options="timezones"
@@ -49,7 +49,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'name', billingInfo.name)"
+                        <input @keyup="$updateText('/user/settings', 'name', billingInfo.name)"
                                v-model="billingInfo.name"
                                :placeholder="$t('user_settings.name_plac')"
                                type="text"
@@ -60,7 +60,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'address', billingInfo.address)"
+                        <input @keyup="$updateText('/user/settings', 'address', billingInfo.address)"
                                v-model="billingInfo.address"
                                :placeholder="$t('user_settings.address_plac')"
                                type="text"
@@ -72,7 +72,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
-                            <input @keyup="$updateText('/user/relationships/settings', 'city', billingInfo.city)"
+                            <input @keyup="$updateText('/user/settings', 'city', billingInfo.city)"
                                    v-model="billingInfo.city"
                                    :placeholder="$t('user_settings.city_plac')"
                                    type="text"
@@ -83,7 +83,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
-                            <input @keyup="$updateText('/user/relationships/settings', 'postal_code', billingInfo.postal_code)"
+                            <input @keyup="$updateText('/user/settings', 'postal_code', billingInfo.postal_code)"
                                    v-model="billingInfo.postal_code"
                                    :placeholder="$t('user_settings.postal_code_plac')"
                                    type="text"
@@ -95,7 +95,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
-                        <SelectInput @input="$updateText('/user/relationships/settings', 'country', billingInfo.country)"
+                        <SelectInput @input="$updateText('/user/settings', 'country', billingInfo.country)"
                                      v-model="billingInfo.country"
                                      :default="billingInfo.country"
                                      :options="countries"
@@ -106,7 +106,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'state', billingInfo.state)"
+                        <input @keyup="$updateText('/user/settings', 'state', billingInfo.state)"
                                v-model="billingInfo.state"
                                :placeholder="$t('user_settings.state_plac')"
                                type="text"
@@ -120,7 +120,7 @@
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
-                        <input @keyup="$updateText('/user/relationships/settings', 'phone_number', billingInfo.phone_number)"
+                        <input @keyup="$updateText('/user/settings', 'phone_number', billingInfo.phone_number)"
                                v-model="billingInfo.phone_number"
                                :placeholder="$t('user_settings.phone_number_plac')"
                                type="text"
@@ -178,7 +178,7 @@
         methods: {
             changeUserName() {
                 this.$store.commit('UPDATE_NAME', this.userInfo.name)
-                this.$updateText('/user/relationships/settings', 'name', this.userInfo.name)
+                this.$updateText('/user/settings', 'name', this.userInfo.name)
             }
         },
         created() {
