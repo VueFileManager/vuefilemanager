@@ -8,13 +8,16 @@ use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\SetupWizard\Controllers\CreateAdminAccountController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
 
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+
+// Setup Wizard
 Route::post('/admin-setup', CreateAdminAccountController::class);
 
-Route::get('/translations/{lang}', CurrentLocalizationController::class);
-
-// Get user invoice from stripe service
+// Subscription Services
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
+
+// Translations
+Route::get('/translations/{lang}', CurrentLocalizationController::class);
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {
@@ -23,6 +26,6 @@ if (Crawler::isCrawler()) {
     Route::get('/share/{shared}', SharePublicIndexController::class);
 }
 
-// Show index.blade
+// Index
 Route::get('/{any?}', IndexController::class)
     ->where('any', '.*');

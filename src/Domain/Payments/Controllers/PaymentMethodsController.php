@@ -3,10 +3,10 @@ namespace Domain\Payments\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laravel\Cashier\PaymentMethod;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use Support\Demo\Actions\DemoService;
 use Domain\Subscriptions\Services\StripeService;
 use Domain\Payments\Resources\PaymentCardResource;
 use Domain\Payments\Resources\PaymentCardCollection;
@@ -17,16 +17,12 @@ class PaymentMethodsController extends Controller
 {
     public function __construct(
         private StripeService $stripe,
-        private DemoService $demo,
-    ) {
-    }
+    ) {}
 
     /**
      * Get user payment methods grouped by default and others
-     *
-     * @return array
      */
-    public function index()
+    public function index(): array
     {
         $user = Auth::user();
 
@@ -80,12 +76,8 @@ class PaymentMethodsController extends Controller
 
     /**
      * Update default payment method
-     *
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(string $id): Response
     {
         $user = Auth::user();
 
@@ -100,8 +92,8 @@ class PaymentMethodsController extends Controller
 
         // Clear cached payment methods
         cache_forget_many([
-            'payment-methods-user-' . $user->id,
-            'default-payment-methods-user-' . $user->id,
+            "payment-methods-user-{$user->id}",
+            "default-payment-methods-user-{$user->id}",
         ]);
 
         return response('Done', 204);
@@ -109,17 +101,14 @@ class PaymentMethodsController extends Controller
 
     /**
      * Register new payment method for user
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function store(RegisterNewPaymentMethodRequest $request)
+    public function store(RegisterNewPaymentMethodRequest $request): Response
     {
         // Get user
         $user = Auth::user();
 
         // Check if is demo
-        if (is_demo($user->id)) {
+        if (is_demo_account($user->email)) {
             return response('Done', 201);
         }
 
@@ -131,14 +120,13 @@ class PaymentMethodsController extends Controller
 
     /**
      * Delete user payment method
-     *
      */
-    public function delete($id)
+    public function delete($id): Response
     {
         $user = Auth::user();
 
         // Check if is demo
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
+        abort_if(is_demo_account($user->email), 204, 'Done.');
 
         // Get payment method
         $paymentMethod = $user->findPaymentMethod($id);
@@ -151,8 +139,8 @@ class PaymentMethodsController extends Controller
 
         // Clear cached payment methods
         cache_forget_many([
-            'payment-methods-user-' . $user->id,
-            'default-payment-methods-user-' . $user->id,
+            "payment-methods-user-{$user->id}",
+            "default-payment-methods-user-{$user->id}",
         ]);
 
         return response('Done!', 204);

@@ -151,7 +151,7 @@
                 })
             },
             fetchPaymentMethods() {
-                axios.get('/api/user/payments')
+                axios.get('/api/user/payment-cards')
                     .then(response => {
 
                         if (response.status == 204) {
