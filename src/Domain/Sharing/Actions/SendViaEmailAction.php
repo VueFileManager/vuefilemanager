@@ -4,7 +4,7 @@ namespace Domain\Sharing\Actions;
 use Illuminate\Support\Facades\Notification;
 use Domain\Sharing\Notifications\SharedSendViaEmail;
 
-class SendLinkToEmailAction
+class SendViaEmailAction
 {
     public function __invoke(
         array $emails,

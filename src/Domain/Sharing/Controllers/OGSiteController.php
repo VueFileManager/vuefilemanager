@@ -1,19 +1,18 @@
 <?php
-namespace Domain\Homepage\Controllers;
+namespace Domain\Sharing\Controllers;
 
+use Illuminate\View\View;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 
-class AppFunctionsController extends Controller
+class OGSiteController extends Controller
 {
     /**
      * Get og site for web crawlers
-     *
-     * @param Share $shared
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function og_site(Share $shared)
-    {
+    public function __invoke(
+        Share $shared
+    ): View {
         $namespace = match ($shared->type) {
             'folder' => 'Domain\\Folders\\Models\\Folder',
             'file'   => 'Domain\\Files\\Models\\File',

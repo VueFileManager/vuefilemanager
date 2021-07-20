@@ -11,8 +11,6 @@ use App\Http\Controllers\Controller;
 use Support\Demo\Actions\DemoService;
 use Support\Services\FileManagerService;
 use Domain\Items\Requests\MoveItemRequest;
-use Domain\Zipping\Actions\ZipFilesAction;
-use Domain\Zipping\Actions\ZipFolderAction;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Requests\RenameItemRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;

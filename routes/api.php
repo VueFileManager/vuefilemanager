@@ -2,9 +2,8 @@
 
 use App\Users\Actions\CreateNewUserAction;
 use Domain\Pages\Controllers\PagesController;
-use Domain\Items\Controllers\EditItemsController;
 use Domain\Sharing\Controllers\ShareController;
-use Domain\Sharing\Controllers\ShareViaEmailController;
+use Domain\Items\Controllers\EditItemsController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Zipping\Controllers\ZipFilesController;
@@ -15,11 +14,12 @@ use Domain\Plans\Controllers\ActivePlansController;
 use Domain\Settings\Controllers\SettingsController;
 use Domain\Zipping\Controllers\ZipFolderController;
 use Domain\Folders\Controllers\CreateFolderController;
+use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Trash\Controllers\RestoreTrashContentController;
 use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
-use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
+use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Browsing\Controllers\BrowseFolderContentController;
 use Domain\Folders\Controllers\NavigationFolderTreeController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;

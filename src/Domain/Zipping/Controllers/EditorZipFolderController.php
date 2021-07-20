@@ -1,15 +1,12 @@
 <?php
-
-
 namespace Domain\Zipping\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Folders\Models\Folder;
-use Domain\Sharing\Models\Share;
-use Domain\Zipping\Actions\ZipFolderAction;
 use Illuminate\Http\Response;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Support\Services\HelperService;
+use App\Http\Controllers\Controller;
+use Domain\Zipping\Actions\ZipFolderAction;
 
 /**
  * Guest download folder via zip
@@ -18,7 +15,8 @@ class EditorZipFolderController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         ZipFolderAction $zipFolder,

@@ -1,13 +1,17 @@
 <?php
 
-use Domain\Files\Controllers\EditorUploadFilesController;
-use Domain\Homepage\Controllers\AppFunctionsController;
-use Domain\Folders\Controllers\EditorCreateFolderController;
-use Domain\Sharing\Controllers\BrowseShareController;
-use Domain\Sharing\Controllers\ManipulateShareItemsController;
 use Domain\Sharing\Controllers\ShareController;
+use Domain\Sharing\Controllers\OGSiteController;
 use Domain\Zipping\Controllers\EditorZipFilesController;
+use Domain\Files\Controllers\EditorUploadFilesController;
 use Domain\Zipping\Controllers\EditorZipFolderController;
+use Domain\Folders\Controllers\EditorCreateFolderController;
+use Domain\Sharing\Controllers\ManipulateShareItemsController;
+use Domain\Files\Controllers\VisitorGetSingleFileResourceController;
+use Domain\Browsing\Controllers\VisitorBrowseFolderContentController;
+use Domain\Folders\Controllers\VisitorNavigationFolderTreeController;
+use Domain\Browsing\Controllers\VisitorSearchFilesAndFoldersController;
+use Domain\Sharing\Controllers\AuthenticateProtectedSharedItemController;
 
 // Browse functions
 Route::group(['prefix' => 'editor'], function () {
@@ -27,12 +31,12 @@ Route::group(['prefix' => 'zip'], function () {
 
 // Browse share content
 Route::group(['prefix' => 'browse'], function () {
-    Route::post('/authenticate/{shared}', [BrowseShareController::class, 'authenticate']);
-    Route::get('/navigation/{shared}', [BrowseShareController::class, 'navigation_tree']);
-    Route::get('/folders/{id}/{shared}', [BrowseShareController::class, 'browse_folder']);
-    Route::get('/file/{shared}', [BrowseShareController::class, 'get_single_file']);
-    Route::get('/search/{shared}', [BrowseShareController::class, 'search']);
+    Route::post('/authenticate/{shared}', AuthenticateProtectedSharedItemController::class);
+    Route::get('/folders/{id}/{shared}', VisitorBrowseFolderContentController::class);
+    Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
+    Route::get('/file/{shared}', VisitorGetSingleFileResourceController::class);
+    Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
     Route::get('/share/{shared}', [ShareController::class, 'show']);
 });
 
-Route::get('/og-site/{shared}', [AppFunctionsController::class, 'og_site']);
+Route::get('/og-site/{shared}', OGSiteController::class);

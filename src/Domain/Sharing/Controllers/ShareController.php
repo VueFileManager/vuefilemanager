@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Domain\Sharing\Resources\ShareResource;
 use Domain\Sharing\Requests\CreateShareRequest;
 use Domain\Sharing\Requests\UpdateShareRequest;
-use Domain\Sharing\Actions\SendLinkToEmailAction;
+use Domain\Sharing\Actions\SendViaEmailAction;
 
 class ShareController extends Controller
 {
@@ -28,7 +28,7 @@ class ShareController extends Controller
      */
     public function store(
         CreateShareRequest $request,
-        SendLinkToEmailAction $sendLinkToEmailAction,
+        SendViaEmailAction $sendLinkToEmailAction,
     ): ShareResource {
         $shared = Share::create([
             'password'     => $request->has('password')
