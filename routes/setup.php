@@ -1,11 +1,18 @@
 <?php
 
-use Domain\SetupWizard\Controllers\SetupWizardController;
+use Domain\SetupWizard\Controllers\StorePlansController;
+use Domain\SetupWizard\Controllers\StoreBillingsController;
+use Domain\SetupWizard\Controllers\StoreAppSettingsController;
+use Domain\SetupWizard\Controllers\VerifyPurchaseCodeController;
+use Domain\SetupWizard\Controllers\StoreDatabaseCredentialsController;
+use Domain\SetupWizard\Controllers\StoreEnvironmentSettingsController;
+use Domain\SetupWizard\Controllers\StoreSubscriptionServiceCredentialsController;
 
-Route::post('/purchase-code', [SetupWizardController::class, 'verify_purchase_code']);
-Route::post('/database', [SetupWizardController::class, 'setup_database']);
-Route::post('/stripe-credentials', [SetupWizardController::class, 'store_stripe_credentials']);
-Route::post('/stripe-billings', [SetupWizardController::class, 'store_stripe_billings']);
-Route::post('/stripe-plans', [SetupWizardController::class, 'store_stripe_plans']);
-Route::post('/environment-setup', [SetupWizardController::class, 'store_environment_setup']);
-Route::post('/app-setup', [SetupWizardController::class, 'store_app_settings']);
+// TODO: create middleware for setup wizard protection after successfull installation
+Route::post('/stripe-credentials', StoreSubscriptionServiceCredentialsController::class);
+Route::post('/environment-setup', StoreEnvironmentSettingsController::class);
+Route::post('/database', StoreDatabaseCredentialsController::class);
+Route::post('/purchase-code', VerifyPurchaseCodeController::class);
+Route::post('/stripe-billings', StoreBillingsController::class);
+Route::post('/app-setup', StoreAppSettingsController::class);
+Route::post('/stripe-plans', StorePlansController::class);

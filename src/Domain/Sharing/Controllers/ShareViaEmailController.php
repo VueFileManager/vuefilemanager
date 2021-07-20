@@ -13,7 +13,6 @@ class ShareViaEmailController extends Controller
         Request $request,
         string $token,
     ): Response {
-
         ($sendLinkToEmailAction)(
             $request->input('emails'),
             $token

@@ -8,24 +8,16 @@ use Illuminate\Queue\SerializesModels;
 class SendContactMessage extends Mailable
 {
     use Queueable, SerializesModels;
-    private $request;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($request)
-    {
-        $this->request = $request;
+    public function __construct(
+        private array $request
+    ) {
     }
 
     /**
      * Build the message.
-     *
-     * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->from(config('mail.from')['address'])
             ->replyTo($this->request['email'])

@@ -1,26 +1,21 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
+use Illuminate\View\View;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class BrowseShareController extends Controller
+class SharePublicIndexController extends Controller
 {
-    public function __construct(
-        private HelperService $helper,
-    ) {
-    }
-
     /**
-     * Show page index and delete access_token & shared_token cookie
-     * @param Share $shared
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Symfony\Component\HttpFoundation\StreamedResponse
+     * Show page index and delete share_session cookie
      */
-    public function index(Share $shared)
-    {
+    public function __invoke(
+        Share $shared
+    ): View | StreamedResponse {
         // Delete share_session if exist
         if ($shared->is_protected) {
             cookie()->queue('share_session', '', -1);
@@ -52,16 +47,9 @@ class BrowseShareController extends Controller
 
     /**
      * Get image from storage and show it
-     *
-     * @param $file
-     * @param $user_id
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
-    private function get_single_image($file, $user_id)
+    private function get_single_image(File $file, string $user_id): StreamedResponse
     {
-        // Format pretty filename
-        $file_pretty_name = $file->name . '.' . $file->mimetype;
-
         // Get file path
         $path = "/files/$user_id/$file->basename";
 
@@ -70,7 +58,7 @@ class BrowseShareController extends Controller
             abort(404);
         }
 
-        return Storage::response($path, $file_pretty_name, [
+        return Storage::response($path, "{$file->name}.{$file->mimetype}", [
             'Content-Type'   => Storage::mimeType($path),
             'Content-Length' => Storage::size($path),
             'Accept-Ranges'  => 'bytes',

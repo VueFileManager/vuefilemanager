@@ -8,9 +8,9 @@ use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Sharing\Resources\ShareResource;
+use Domain\Sharing\Actions\SendViaEmailAction;
 use Domain\Sharing\Requests\CreateShareRequest;
 use Domain\Sharing\Requests\UpdateShareRequest;
-use Domain\Sharing\Actions\SendViaEmailAction;
 
 class ShareController extends Controller
 {
