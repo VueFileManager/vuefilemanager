@@ -4,7 +4,6 @@ namespace Domain\Items\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Support\Demo\Actions\DemoService;
@@ -14,7 +13,6 @@ use Support\Services\FileManagerService;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Requests\RenameItemRequest;
-use Domain\Folders\Requests\CreateFolderRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class EditItemsController extends Controller
@@ -24,23 +22,6 @@ class EditItemsController extends Controller
         private HelperService $helper,
         private DemoService $demo,
     ) {
-    }
-
-    /**
-     * Create new folder for authenticated master|editor user
-     *
-     * @param CreateFolderRequest $request
-     * @return Folder|array|Model
-     * @throws Exception
-     */
-    public function create_folder(CreateFolderRequest $request)
-    {
-        if (is_demo_account('howdy@hi5ve.digital')) {
-            return $this->demo->create_folder($request);
-        }
-
-        // Create new folder
-        return $this->filemanager->create_folder($request);
     }
 
     /**
@@ -82,22 +63,6 @@ class EditItemsController extends Controller
         }
 
         return response('Done', 204);
-    }
-
-    /**
-     * Upload file for authenticated master|editor user
-     *
-     * @param UploadRequest $request
-     * @return array|Model|\Illuminate\Support\Facades\File
-     * @throws Exception
-     */
-    public function upload(UploadRequest $request)
-    {
-        if (is_demo_account('howdy@hi5ve.digital')) {
-            return $this->demo->upload($request);
-        }
-
-        return $this->filemanager->upload($request);
     }
 
     /**

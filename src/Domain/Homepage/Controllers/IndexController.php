@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Homepage\Controllers;
 
-
-use Doctrine\DBAL\Driver\PDOException;
-use Domain\Pages\Models\Page;
 use Illuminate\View\View;
+use Domain\Pages\Models\Page;
+use Doctrine\DBAL\Driver\PDOException;
 
 class IndexController
 {

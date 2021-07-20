@@ -25,7 +25,7 @@ class SettingsTest extends TestCase
             'value' => 'Give me a money!',
         ]);
 
-        $this->getJson('/api/content?column=get_started_title|pricing_description')
+        $this->getJson('/api/settings?column=get_started_title|pricing_description')
             ->assertStatus(200)
             ->assertExactJson([
                 'get_started_title'   => 'Hello World!',
@@ -63,7 +63,7 @@ class SettingsTest extends TestCase
             'value' => '15a53561-d387-4e0a-8de1-5d1bff34c1ed',
         ]);
 
-        $this->getJson('/api/content?column=purchase_code')
+        $this->getJson('/api/settings?column=purchase_code')
             ->assertStatus(401);
     }
 

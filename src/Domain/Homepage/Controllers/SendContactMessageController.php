@@ -1,14 +1,11 @@
 <?php
-
-
 namespace Domain\Homepage\Controllers;
 
-
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Domain\Homepage\Mail\SendContactMessage;
 use Domain\Homepage\Requests\SendContactMessageRequest;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Mail;
 
 class SendContactMessageController extends Controller
 {

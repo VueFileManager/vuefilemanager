@@ -10,7 +10,7 @@ use Support\Demo\Actions\DemoService;
 use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class SettingController extends Controller
+class AdminSettingsController extends Controller
 {
     public function __construct(
         private DemoService $demo

@@ -1,12 +1,12 @@
 <?php
 
 use Domain\Admin\Controllers\UserController;
-use Domain\Pages\Controllers\PagesController;
 use Domain\Plans\Controllers\PlansController;
 use Domain\Admin\Controllers\InvoiceController;
 use Domain\Admin\Controllers\DashboardController;
-use Domain\Settings\Controllers\SettingController;
+use Domain\Pages\Controllers\AdminPagesController;
 use Domain\Localization\Controllers\LanguageController;
+use Domain\Settings\Controllers\AdminSettingsController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
@@ -40,9 +40,9 @@ Route::group(['prefix' => 'plans'], function () {
 
 // Pages
 Route::group(['prefix' => 'pages'], function () {
-    Route::patch('/{page}', [PagesController::class, 'update']);
-    Route::get('/{page}', [PagesController::class, 'show']);
-    Route::get('/', [PagesController::class, 'index']);
+    Route::patch('/{page}', [AdminPagesController::class, 'update']);
+    Route::get('/{page}', [AdminPagesController::class, 'show']);
+    Route::get('/', [AdminPagesController::class, 'index']);
 });
 
 // Invoices
@@ -50,11 +50,11 @@ Route::get('/invoices', [InvoiceController::class, 'index']);
 
 // Settings
 Route::group(['prefix' => 'settings'], function () {
-    Route::get('/flush-cache', [SettingController::class, 'flush_cache']);
-    Route::post('/stripe', [SettingController::class, 'set_stripe']);
-    Route::post('/email', [SettingController::class, 'set_email']);
-    Route::patch('/', [SettingController::class, 'update']);
-    Route::get('/', [SettingController::class, 'show']);
+    Route::get('/flush-cache', [AdminSettingsController::class, 'flush_cache']);
+    Route::post('/stripe', [AdminSettingsController::class, 'set_stripe']);
+    Route::post('/email', [AdminSettingsController::class, 'set_email']);
+    Route::patch('/', [AdminSettingsController::class, 'update']);
+    Route::get('/', [AdminSettingsController::class, 'show']);
 });
 
 // Language

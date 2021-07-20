@@ -43,7 +43,7 @@
     "/chunks/files~chunks/shared/file-browser.js": "/chunks/files~chunks/shared/file-browser.js?id=87253c5f59242e420579",
     "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js": "/chunks/files~chunks/shared/file-browser~chunks/shared/single-file.js?id=a6be7116bbdadfb8b1cc",
     "/chunks/forgotten-password.js": "/chunks/forgotten-password.js?id=96019e230f0c5b59478a",
-    "/chunks/homepage.js": "/chunks/homepage.js?id=5a299216398f59a4947b",
+    "/chunks/homepage.js": "/chunks/homepage.js?id=6de293d9d23648923ca8",
     "/chunks/installation-disclaimer.js": "/chunks/installation-disclaimer.js?id=0fe6c45de3fe3c75bd04",
     "/chunks/invoices.js": "/chunks/invoices.js?id=35179ba2b74cdaf74492",
     "/chunks/not-found.js": "/chunks/not-found.js?id=3f0c127b00d113541acc",
@@ -274,5 +274,6 @@
     "/chunks/upgrade-billing.8805b4393b5aceb393ab.hot-update.js": "/chunks/upgrade-billing.8805b4393b5aceb393ab.hot-update.js",
     "/chunks/platform.13a7c4eb981e304dd11c.hot-update.js": "/chunks/platform.13a7c4eb981e304dd11c.hot-update.js",
     "/chunks/platform.1dc9a86f8f195ad336c8.hot-update.js": "/chunks/platform.1dc9a86f8f195ad336c8.hot-update.js",
-    "/chunks/platform.c72b7ed144ae27e09ac0.hot-update.js": "/chunks/platform.c72b7ed144ae27e09ac0.hot-update.js"
+    "/chunks/platform.c72b7ed144ae27e09ac0.hot-update.js": "/chunks/platform.c72b7ed144ae27e09ac0.hot-update.js",
+    "/chunks/homepage.e80d5d3c53decab802d5.hot-update.js": "/chunks/homepage.e80d5d3c53decab802d5.hot-update.js"
 }

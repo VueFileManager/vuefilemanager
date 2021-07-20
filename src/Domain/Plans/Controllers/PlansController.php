@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use Support\Demo\Actions\DemoService;
 use App\Users\Resources\UsersCollection;
 use Domain\Plans\Resources\PlanResource;
 use Domain\Plans\Resources\PlanCollection;
@@ -19,7 +18,6 @@ class PlansController extends Controller
 {
     public function __construct(
         private StripeService $stripe,
-        private DemoService $demo,
     ) {
     }
 

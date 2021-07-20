@@ -1,42 +1,11 @@
 <?php
 namespace Domain\Homepage\Controllers;
 
-use Illuminate\Http\Request;
-use Domain\Pages\Models\Page;
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Cache;
-use Doctrine\DBAL\Driver\PDOException;
-use Illuminate\Database\QueryException;
-use Domain\Localization\Models\Language;
-use Domain\Pages\Resources\PageResource;
-use Domain\Homepage\Mail\SendContactMessage;
-use Domain\Plans\Resources\PricingCollection;
-use Domain\Subscriptions\Services\StripeService;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Domain\Homepage\Requests\SendContactMessageRequest;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AppFunctionsController extends Controller
 {
-    /**
-     * List of allowed settings to get from public request
-     *
-     * @var array
-     */
-    private array $blacklist = [
-        'purchase_code',
-        'license',
-    ];
-
-    public function __construct(
-        private StripeService $stripe
-    ) {
-    }
-
     /**
      * Get og site for web crawlers
      *
@@ -71,66 +40,5 @@ class AppFunctionsController extends Controller
                     : $item->filesize,
                 'thumbnail' => $item->thumbnail ?? null,
             ]);
-    }
-
-    /**
-     * Get single page content
-     *
-     * @param Page $page
-     * @return PageResource
-     */
-    public function get_page(Page $page)
-    {
-        return new PageResource($page);
-    }
-
-    /**
-     * Get selected settings from public route
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function get_setting_columns(Request $request)
-    {
-        if (strpos($request->column, '|') !== false) {
-            $columns = collect(explode('|', $request->column))
-                ->each(function ($column) {
-                    if (in_array($column, $this->blacklist)) {
-                        abort(401);
-                    }
-                });
-
-            return Setting::whereIn('name', $columns)
-                ->pluck('value', 'name');
-        }
-
-        if (in_array($request->column, $this->blacklist)) {
-            abort(401);
-        }
-
-        return Setting::where('name', $request->column)
-            ->pluck('value', 'name');
-    }
-
-    /**
-     * Get all active storage plans
-     *
-     * @return PricingCollection
-     */
-    public function get_storage_plans()
-    {
-        // Get pricing from cache
-        $pricing = Cache::rememberForever('pricing', function () {
-            return $this->stripe->getActivePlans();
-        });
-
-        // Format pricing to collection
-        $collection = new PricingCollection($pricing);
-
-        // Sort and return pricing
-        return $collection
-            ->sortBy('product.metadata.capacity')
-            ->values()
-            ->all();
     }
 }

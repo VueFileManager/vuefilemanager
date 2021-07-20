@@ -2,11 +2,11 @@
 
 use Domain\Admin\Controllers\InvoiceController;
 use Domain\Homepage\Controllers\IndexController;
-use Domain\Localization\Controllers\CurrentLocalizationController;
 use Domain\Sharing\Controllers\BrowseShareController;
 use Domain\Homepage\Controllers\AppFunctionsController;
 use Domain\SetupWizard\Controllers\SetupWizardController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;
+use Domain\Localization\Controllers\CurrentLocalizationController;
 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::post('/admin-setup', [SetupWizardController::class, 'create_admin_account']);

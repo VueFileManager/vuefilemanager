@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Domain\Localization\Controllers;
 
-
+use Illuminate\Support\Collection;
+use Illuminate\Database\QueryException;
 use Domain\Localization\Models\Language;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Collection;
 
 class CurrentLocalizationController
 {
@@ -17,7 +14,6 @@ class CurrentLocalizationController
     public function __invoke(
         string $lang
     ): Collection {
-
         $translations = cache()
             ->rememberForever("language-translations-$lang", function () use ($lang) {
                 try {

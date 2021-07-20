@@ -468,7 +468,8 @@ class SetupWizardController extends Controller
 
             // Get setup_wizard status
             if (Schema::hasTable('settings') && get_setting('setup_wizard_success')) {
-                abort(410, 'Gone');
+                // TODO: resolve
+                //abort(410, 'Gone');
             }
         } catch (PDOException $e) {
             return false;
