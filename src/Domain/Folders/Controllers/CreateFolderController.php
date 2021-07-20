@@ -11,7 +11,8 @@ class CreateFolderController extends Controller
 {
     public function __construct(
         public DemoService $demo
-    ) {}
+    ) {
+    }
 
     /**
      * Create new folder for authenticated master|editor user

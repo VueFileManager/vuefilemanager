@@ -1,20 +1,20 @@
 <?php
 
 use App\Users\Actions\CreateNewUserAction;
-use Domain\Files\Controllers\UploadFilesController;
 use Domain\Pages\Controllers\PagesController;
-use Domain\Sharing\Controllers\ShareController;
 use Domain\Items\Controllers\EditItemsController;
+use Domain\Sharing\Controllers\ShareController;
+use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Zipping\Controllers\ZipFilesController;
 use App\Users\Controllers\ForgotPasswordController;
+use Domain\Files\Controllers\UploadFilesController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Plans\Controllers\ActivePlansController;
 use Domain\Settings\Controllers\SettingsController;
 use Domain\Zipping\Controllers\ZipFolderController;
 use Domain\Folders\Controllers\CreateFolderController;
-use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Trash\Controllers\RestoreTrashContentController;
 use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;

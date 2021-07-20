@@ -1,23 +1,28 @@
 <?php
 
-use Domain\Sharing\Controllers\ShareController;
-use Domain\Sharing\Controllers\BrowseShareController;
+use Domain\Files\Controllers\EditorUploadFilesController;
 use Domain\Homepage\Controllers\AppFunctionsController;
+use Domain\Folders\Controllers\EditorCreateFolderController;
+use Domain\Sharing\Controllers\BrowseShareController;
 use Domain\Sharing\Controllers\ManipulateShareItemsController;
+use Domain\Sharing\Controllers\ShareController;
+use Domain\Zipping\Controllers\EditorZipFilesController;
+use Domain\Zipping\Controllers\EditorZipFolderController;
 
 // Browse functions
 Route::group(['prefix' => 'editor'], function () {
-    Route::post('/create-folder/{shared}', [ManipulateShareItemsController::class, 'create_folder']);
+    Route::post('/create-folder/{shared}', EditorCreateFolderController::class);
+    Route::post('/upload/{shared}', EditorUploadFilesController::class);
+
     Route::patch('/rename/{id}/{shared}', [ManipulateShareItemsController::class, 'rename_item']);
     Route::post('/remove/{shared}', [ManipulateShareItemsController::class, 'delete_item']);
-    Route::post('/upload/{shared}', [ManipulateShareItemsController::class, 'upload']);
     Route::post('/move/{shared}', [ManipulateShareItemsController::class, 'move']);
 });
 
 // Zip shared items
 Route::group(['prefix' => 'zip'], function () {
-    Route::post('/files/{shared}', [ManipulateShareItemsController::class, 'zip_multiple_files']);
-    Route::get('/folder/{id}/{shared}', [ManipulateShareItemsController::class, 'zip_folder']);
+    Route::post('/files/{shared}', EditorZipFilesController::class);
+    Route::get('/folder/{id}/{shared}', EditorZipFolderController::class);
 });
 
 // Browse share content

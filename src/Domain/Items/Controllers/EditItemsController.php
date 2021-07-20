@@ -3,12 +3,9 @@ namespace Domain\Items\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Domain\Files\Models\File;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Support\Demo\Actions\DemoService;
-use Illuminate\Database\Eloquent\Model;
-use Domain\Files\Requests\UploadRequest;
 use Support\Services\FileManagerService;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Items\Requests\DeleteItemRequest;

@@ -2,7 +2,7 @@
 
 use Domain\Admin\Controllers\InvoiceController;
 use Domain\Homepage\Controllers\IndexController;
-use Domain\Sharing\Controllers\BrowseShareController;
+use Domain\Folders\Controllers\BrowseShareController;
 use Domain\Homepage\Controllers\AppFunctionsController;
 use Domain\SetupWizard\Controllers\SetupWizardController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;

@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Domain\Files\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Files\Actions\UploadFilesAction;
 use Domain\Files\Models\File;
+use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Actions\UploadFilesAction;
 
 class UploadFilesController extends Controller
 {

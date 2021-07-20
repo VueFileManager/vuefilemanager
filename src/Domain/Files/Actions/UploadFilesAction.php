@@ -1,23 +1,21 @@
 <?php
-
-
 namespace Domain\Files\Actions;
 
-
 use App\Users\Models\User;
-use Domain\Files\Models\File as UserFile;
-use Domain\Files\Requests\UploadRequest;
 use Domain\Sharing\Models\Share;
+use Support\Services\HelperService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Support\Services\HelperService;
+use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Models\File as UserFile;
 
 class UploadFilesAction
 {
     public function __construct(
         public HelperService $helper,
-    ) {}
+    ) {
+    }
 
     /**
      * Upload new file

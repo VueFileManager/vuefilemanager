@@ -9,15 +9,12 @@ use Domain\Folders\Models\Folder;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Support\Demo\Actions\DemoService;
-use Illuminate\Database\Eloquent\Model;
-use Domain\Files\Requests\UploadRequest;
 use Support\Services\FileManagerService;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Zipping\Actions\ZipFilesAction;
 use Domain\Zipping\Actions\ZipFolderAction;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Requests\RenameItemRequest;
-use Domain\Folders\Requests\CreateFolderRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class ManipulateShareItemsController extends Controller
@@ -27,37 +24,6 @@ class ManipulateShareItemsController extends Controller
         private HelperService $helper,
         private DemoService $demo,
     ) {
-    }
-
-    /**
-     * Create new folder for guest user with edit permission
-     *
-     * @param CreateFolderRequest $request
-     * @param Share $shared
-     * @return array|\Illuminate\Contracts\Foundation\Application|ResponseFactory|\Illuminate\Http\Response
-     * @throws \Exception
-     */
-    public function create_folder(CreateFolderRequest $request, Share $shared)
-    {
-        if (is_demo_account($shared->user->email)) {
-            return $this->demo->create_folder($request);
-        }
-
-        // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
-
-        // Check shared permission
-        if (is_visitor($shared)) {
-            abort(403);
-        }
-
-        // Check access to requested directory
-        $this->helper->check_item_access($request->parent_id, $shared);
-
-        // Create folder
-        $folder = $this->filemanager->create_folder($request, $shared);
-
-        return response($folder, 201);
     }
 
     /**
@@ -148,40 +114,6 @@ class ManipulateShareItemsController extends Controller
     }
 
     /**
-     * Delete file for guest user with edit permission
-     *
-     * @param UploadRequest $request
-     * @param Share $shared
-     * @return File|\Illuminate\Contracts\Foundation\Application|ResponseFactory|Model|\Illuminate\Http\Response
-     * @throws \Exception
-     */
-    public function upload(UploadRequest $request, Share $shared)
-    {
-        if (is_demo_account($shared->user->email)) {
-            return $this->demo->upload($request);
-        }
-
-        // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
-
-        // Check shared permission
-        if (is_visitor($shared)) {
-            abort(403);
-        }
-
-        // Check access to requested directory
-        $this->helper->check_item_access($request->folder_id, $shared);
-
-        // Return new uploaded file
-        $new_file = $this->filemanager->upload($request, $shared);
-
-        // Set public access url
-        $new_file->setPublicUrl($shared->token);
-
-        return response($new_file, 201);
-    }
-
-    /**
      * Move item for guest user with edit permission
      *
      * @param MoveItemRequest $request
@@ -221,76 +153,5 @@ class ManipulateShareItemsController extends Controller
         $this->filemanager->move($request, $request->to_id);
 
         return response('Done!', 204);
-    }
-
-    /**
-     * Guest download folder via zip
-     */
-    public function zip_folder(
-        string $id,
-        Share $shared,
-        ZipFolderAction $zipFolder,
-    ): Response {
-        // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
-
-        // Check access to requested folder
-        $this->helper->check_item_access($id, $shared);
-
-        // Get folder
-        $folder = Folder::whereUserId($shared->user_id)
-            ->where('id', $id);
-
-        if (! $folder->exists()) {
-            abort(404, 'Requested folder doesn\'t exists.');
-        }
-
-        $zip = ($zipFolder)($id, $shared);
-
-        // Get file
-        return response([
-            'url' => route('zip_public', [
-                'id'    => $zip->id,
-                'token' => $shared->token,
-            ]),
-            'name' => $zip->basename,
-        ], 201);
-    }
-
-    /**
-     * Guest download multiple files via zip
-     */
-    public function zip_multiple_files(
-        Request $request,
-        Share $shared,
-        ZipFilesAction $zipFiles,
-    ): Response {
-        // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
-
-        $file_parent_folders = File::whereUserId($shared->user_id)
-            ->whereIn('id', $request->items)
-            ->get()
-            ->pluck('folder_id')
-            ->toArray();
-
-        // Check access to requested directory
-        $this->helper->check_item_access($file_parent_folders, $shared);
-
-        // Get requested files
-        $files = File::whereUserId($shared->user_id)
-            ->whereIn('id', $request->items)
-            ->get();
-
-        $zip = ($zipFiles)($files, $shared);
-
-        // Get file
-        return response([
-            'url' => route('zip_public', [
-                'id'    => $zip->id,
-                'token' => $shared->token,
-            ]),
-            'name' => $zip->basename,
-        ], 201);
     }
 }
