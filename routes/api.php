@@ -5,8 +5,10 @@ use Domain\Sharing\Controllers\ShareController;
 use Domain\Items\Controllers\EditItemsController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
+use Domain\Zipping\Controllers\ZipFilesController;
 use App\Users\Controllers\ForgotPasswordController;
 use Domain\Folders\Controllers\FavouriteController;
+use Domain\Zipping\Controllers\ZipFolderController;
 use Domain\Homepage\Controllers\AppFunctionsController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Trash\Controllers\RestoreTrashContentController;
@@ -68,8 +70,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/upload', [EditItemsController::class, 'upload']);
     Route::post('/move', [EditItemsController::class, 'move']);
 
-    Route::group(['prefix' => 'zip'], function () {
-        Route::post('/files', [EditItemsController::class, 'zip_multiple_files']);
-        Route::get('/folder/{id}', [EditItemsController::class, 'zip_folder']);
+    Route::group(['prefix' => ''], function () {
+        Route::post('/files', ZipFilesController::class);
+        Route::get('/folder/{id}', ZipFolderController::class);
     });
 });

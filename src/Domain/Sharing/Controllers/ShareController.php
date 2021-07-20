@@ -30,12 +30,13 @@ class ShareController extends Controller
         CreateShareRequest $request,
         SendLinkToEmailAction $sendLinkToEmailAction,
     ): ShareResource {
-
         $shared = Share::create([
             'password'     => $request->has('password')
                 ? bcrypt($request->input('password'))
                 : null,
-            'type'         => $request->input('type') === 'folder' ? 'folder' : 'file',
+            'type'         => $request->input('type') === 'folder'
+                ? 'folder'
+                : 'file',
             'is_protected' => $request->input('isPassword'),
             'permission'   => $request->input('permission') ?? null,
             'expire_in'    => $request->input('expiration') ?? null,
@@ -60,13 +61,8 @@ class ShareController extends Controller
      */
     public function update(
         UpdateShareRequest $request,
-        string $id,
+        Share $shared,
     ): ShareResource {
-        // Get sharing record
-        $shared = Share::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
-
         // Update sharing record
         $shared->update([
             'permission'   => $request->input('permission'),

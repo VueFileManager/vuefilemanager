@@ -22,10 +22,11 @@ class CreateNewUserAction extends Controller
     }
 
     /**
-     * Validate and create a newly registered user.
+     * Validate and create a new user.
      */
-    public function __invoke(Request $request): Response
-    {
+    public function __invoke(
+        Request $request
+    ): Response {
         $settings = Setting::whereIn('name', [
             'storage_default', 'registration',
         ])

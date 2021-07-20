@@ -25,6 +25,6 @@ abstract class TestCase extends BaseTestCase
 
         resolve(SetupService::class)->create_directories();
 
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
     }
 }

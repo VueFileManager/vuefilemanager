@@ -3,6 +3,7 @@ namespace Domain\Sharing\Controllers;
 
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
+use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Support\Services\HelperService;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Domain\Files\Requests\UploadRequest;
 use Support\Services\FileManagerService;
 use Domain\Items\Requests\MoveItemRequest;
+use Domain\Zipping\Actions\ZipFilesAction;
+use Domain\Zipping\Actions\ZipFolderAction;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Folders\Requests\CreateFolderRequest;
@@ -222,14 +225,12 @@ class ManipulateShareItemsController extends Controller
 
     /**
      * Guest download folder via zip
-     *
-     * @param $id
-     * @param Share $shared
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function zip_folder($id, Share $shared)
-    {
+    public function zip_folder(
+        string $id,
+        Share $shared,
+        ZipFolderAction $zipFolder,
+    ): Response {
         // Check ability to access protected share record
         $this->helper->check_protected_share_record($shared);
 
@@ -244,7 +245,7 @@ class ManipulateShareItemsController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = $this->filemanager->zip_folder($id, $shared);
+        $zip = ($zipFolder)($id, $shared);
 
         // Get file
         return response([
@@ -258,14 +259,12 @@ class ManipulateShareItemsController extends Controller
 
     /**
      * Guest download multiple files via zip
-     *
-     * @param Request $request
-     * @param Share $shared
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function zip_multiple_files(Request $request, Share $shared)
-    {
+    public function zip_multiple_files(
+        Request $request,
+        Share $shared,
+        ZipFilesAction $zipFiles,
+    ): Response {
         // Check ability to access protected share record
         $this->helper->check_protected_share_record($shared);
 
@@ -283,7 +282,7 @@ class ManipulateShareItemsController extends Controller
             ->whereIn('id', $request->items)
             ->get();
 
-        $zip = $this->filemanager->zip_files($files, $shared);
+        $zip = ($zipFiles)($files, $shared);
 
         // Get file
         return response([

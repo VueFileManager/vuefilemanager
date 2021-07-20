@@ -7,7 +7,6 @@ use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Support\Demo\Actions\DemoService;
 use Illuminate\Database\Eloquent\Model;
 use Domain\Files\Requests\UploadRequest;
@@ -114,50 +113,5 @@ class EditItemsController extends Controller
         $this->filemanager->move($request, $request->to_id);
 
         return response('Done!', 204);
-    }
-
-    /**
-     * User download folder via zip
-     *
-     * @param $id
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function zip_folder($id)
-    {
-        $folder = Folder::whereUserId(Auth::id())
-            ->where('id', $id);
-
-        if (! $folder->exists()) {
-            abort(404, "Requested folder doesn't exists.");
-        }
-
-        $zip = $this->filemanager->zip_folder($id);
-
-        return response([
-            'url'  => route('zip', $zip->id),
-            'name' => $zip->basename,
-        ], 201);
-    }
-
-    /**
-     * User download multiple files via zip
-     *
-     * @param Request $request
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function zip_multiple_files(Request $request)
-    {
-        $files = File::whereUserId(Auth::id())
-            ->whereIn('id', $request->input('items'))
-            ->get();
-
-        $zip = $this->filemanager->zip_files($files);
-
-        return response([
-            'url'  => route('zip', $zip->id),
-            'name' => $zip->basename,
-        ], 201);
     }
 }
