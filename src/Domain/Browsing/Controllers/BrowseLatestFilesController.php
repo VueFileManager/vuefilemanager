@@ -10,7 +10,7 @@ class BrowseLatestFilesController
     public function __invoke(): Collection
     {
         $user = User::with([
-            'latestUploads' => fn ($query) => $query->sortable(['created_at' => 'desc'])
+            'latestUploads' => fn ($query) => $query->sortable(['created_at' => 'desc']),
         ])
             ->where('id', Auth::id())
             ->first();

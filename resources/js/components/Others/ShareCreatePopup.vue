@@ -196,9 +196,7 @@ export default {
 
             // Send request to get share link
             axios
-                .post(`/api/share/${this.shareOptions.id}`,
-                    this.shareOptions
-                )
+                .post(`/api/share`, this.shareOptions)
                 .then(response => {
 
                     // Show infobox and reset emails container

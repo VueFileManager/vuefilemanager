@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @method static whereNotNull(string $string)
+ * @method static where(string $string, string $token)
  */
 class Share extends Model
 {

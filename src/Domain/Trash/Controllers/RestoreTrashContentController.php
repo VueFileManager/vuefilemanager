@@ -3,33 +3,19 @@ namespace Domain\Trash\Controllers;
 
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
+use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Support\Demo\Actions\DemoService;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
-class TrashController extends Controller
+class RestoreTrashContentController extends Controller
 {
-    /**
-     * TrashController constructor.
-     */
-    public function __construct(
-        public DemoService $demo,
-    ) {
-    }
+    public function __invoke(
+        Request $request
+    ): Response {
+        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
-    /**
-     * Restore item from trash
-     *
-     * @param Request $request
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function restore(Request $request)
-    {
-        // Validate request
         // TODO: zrefaktorovat validator do requestu
         $validator = Validator::make($request->input('items'), [
             '*.type' => 'required|string',
@@ -43,8 +29,6 @@ class TrashController extends Controller
 
         // Get user id
         $user_id = Auth::id();
-
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
 
         foreach ($request->input('items') as $restore) {
             // Get folder
@@ -76,43 +60,6 @@ class TrashController extends Controller
 
             // Restore Item
             $item->restore();
-        }
-
-        // Return response
-        return response('Done!', 204);
-    }
-
-    /**
-     * Empty user trash
-     *
-     * @return ResponseFactory|\Illuminate\Http\Response
-     */
-    public function dump()
-    {
-        // Get user id
-        $user_id = Auth::id();
-
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
-
-        // Get files and folders
-        $folders = Folder::onlyTrashed()->where('user_id', $user_id)->get();
-        $files = File::onlyTrashed()->where('user_id', $user_id)->get();
-
-        // Force delete folder
-        $folders->each->forceDelete();
-
-        // Force delete files
-        foreach ($files as $file) {
-            // Delete file
-            Storage::delete("/files/$user_id/{$file->basename}");
-
-            // Delete thumbnail if exist
-            if ($file->thumbnail) {
-                Storage::delete("/files/$user_id/{$file->getRawOriginal('thumbnail')}");
-            }
-
-            // Delete file permanently
-            $file->forceDelete();
         }
 
         // Return response

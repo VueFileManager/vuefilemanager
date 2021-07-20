@@ -226,10 +226,8 @@ if (! function_exists('get_version')) {
 if (! function_exists('is_demo')) {
     /**
      * Check if is demo
-     *
-     * @return bool
      */
-    function is_demo()
+    function is_demo(): bool
     {
         return config('vuefilemanager.is_demo');
     }
