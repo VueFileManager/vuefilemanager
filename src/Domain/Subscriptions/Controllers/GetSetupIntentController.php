@@ -18,7 +18,7 @@ class GetSetupIntentController extends Controller
         public StripeService $stripe,
     ) {}
 
-    public function setup_intent(): Response
+    public function __invoke(): Response
     {
         return response(
             $this->stripe->getSetupIntent(Auth::user()), 201

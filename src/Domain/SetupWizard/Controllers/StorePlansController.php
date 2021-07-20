@@ -16,7 +16,7 @@ class StorePlansController extends Controller
     ) {
     }
 
-    public function store_stripe_plans(
+    public function __invoke(
         StoreStripePlansRequest $request
     ): Response {
         foreach ($request->input('plans') as $plan) {

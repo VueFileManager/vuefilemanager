@@ -129,49 +129,6 @@ class AccountController extends Controller
         return response('Changed!', 204);
     }
 
-    /**
-     * Get all user tokens
-     */
-    public function tokens(): Response
-    {
-        return response(
-            Auth::user()->tokens()->get(),
-            200
-        );
-    }
-
-    public function create_token(UserCreateAccessTokenRequest $request): Response
-    {
-        // Check if is demo
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 201, [
-            'name'           => 'token',
-            'token'          => Str::random(40),
-            'abilities'      => '["*"]',
-            'tokenable_id'   => Str::uuid(),
-            'updated_at'     => now(),
-            'created_at'     => now(),
-            'id'             => Str::random(40),
-        ]);
-
-        $token = Auth::user()->createToken($request->input('name'));
-
-        return response($token, 201);
-    }
-
-    public function revoke_token(PersonalAccessToken $token): Response
-    {
-        // Check if is demo
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Deleted!');
-
-        if (Auth::id() !== $token->tokenable_id) {
-            return response('Unauthorized', 401);
-        }
-
-        $token->delete();
-
-        return response('Deleted!', 204);
-    }
-
     public function email_verification(string $id, Request $request): RedirectResponse | Response
     {
         if (! $request->hasValidSignature()) {

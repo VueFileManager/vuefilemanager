@@ -100,7 +100,7 @@ export default {
 			this.isLoading = true
 
 			axios
-				.post('/api/user/token/create', {
+				.post('/api/user/tokens', {
 					name: this.name
 				})
 				.then(response => {

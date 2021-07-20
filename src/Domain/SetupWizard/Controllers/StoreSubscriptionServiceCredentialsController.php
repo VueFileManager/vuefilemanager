@@ -15,7 +15,7 @@ class StoreSubscriptionServiceCredentialsController extends Controller
     /**
      * Store and test stripe credentials
      */
-    public function store_stripe_credentials(
+    public function __invoke(
         StoreStripeCredentialsRequest $request
     ): Response {
         if (! app()->runningUnitTests()) {

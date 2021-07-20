@@ -161,7 +161,7 @@
 				})
 			},
 			deleteToken(id) {
-				axios.delete(`/api/user/token/revoke/${id}`)
+				axios.delete(`/api/user/tokens/${id}`)
 					.then(() => {
 
 						this.tokens = this.tokens.filter(tokenItem => tokenItem.id !== id)
