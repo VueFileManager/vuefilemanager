@@ -17,37 +17,30 @@ class LanguageController extends Controller
 {
     /**
      * Get all languages for admin translate
-     *
-     * @return array|Application|ResponseFactory|Response
      */
-    public function get_languages()
+    public function index(): Response
     {
         return response(
-            new LanguageCollection(Language::sortable(['created_at', 'DESC'])->get()),
-            200
+            new LanguageCollection(
+                Language::sortable(['created_at', 'DESC'])->get()
+            ), 200
         );
     }
 
     /**
      * Get all language strings for admin translate
-     *
-     * @param Language $language
      */
-    public function get_language(Language $language)
+    public function show(Language $language): Response
     {
         return response(
-            new LanguageResource($language),
-            200
+            new LanguageResource($language), 200
         );
     }
 
     /**
      * Create new language
-     *
-     * @param CreateLanguageRequest $request
-     * @return string
      */
-    public function create_language(CreateLanguageRequest $request)
+    public function store(CreateLanguageRequest $request): Response
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
@@ -65,16 +58,16 @@ class LanguageController extends Controller
 
     /**
      * Update language
-     *
-     * @param UpdateLanguageRequest $request
-     * @param Language $language
      */
-    public function update_language(UpdateLanguageRequest $request, Language $language)
-    {
+    public function update(
+        UpdateLanguageRequest $request, Language $language
+    ): Response {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        $language->update(make_single_input($request));
+        $language->update(
+            make_single_input($request)
+        );
 
         return response(
             new LanguageResource($language),
@@ -83,38 +76,9 @@ class LanguageController extends Controller
     }
 
     /**
-     * Update string for language
-     *
-     * @param UpdateStringRequest $request
-     * @param Language $language
-     * @return Application|ResponseFactory|Response
-     */
-    public function update_string(UpdateStringRequest $request, Language $language)
-    {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
-
-        $language
-            ->languageTranslations()
-            ->where('key', $request->name)
-            ->update([
-                'value' => $request->value,
-            ]);
-
-        cache()->forget("language-translations-{$language->locale}");
-
-        return response(
-            'Done',
-            204
-        );
-    }
-
-    /**
      * Delete the language with all children strings
-     * @param Language $language
-     * @return Response
      */
-    public function delete_language(Language $language): Response
+    public function destroy(Language $language): Response
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
@@ -133,8 +97,7 @@ class LanguageController extends Controller
         $language->delete();
 
         return response(
-            'Done',
-            204
+            'Done', 204
         );
     }
 }

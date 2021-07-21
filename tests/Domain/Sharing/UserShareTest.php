@@ -222,7 +222,7 @@ class UserShareTest extends TestCase
             'id'         => $folder->id,
         ])->assertStatus(201);
 
-        $this->delete('/api/share', [
+        $this->deleteJson('/api/share', [
             'tokens' => [
                 $folder->shared->token,
             ],

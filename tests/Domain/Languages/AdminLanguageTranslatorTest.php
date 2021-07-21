@@ -4,8 +4,10 @@ namespace Tests\Domain\Languages;
 use App\Users\Models\User;
 use Domain\Settings\Models\Setting;
 use Domain\Localization\Models\Language;
+use Domain\SetupWizard\Services\SetupService;
+use Tests\TestCase;
 
-class AdminLanguageTranslatorTest
+class AdminLanguageTranslatorTest extends TestCase
 {
     /**
      * @test
@@ -49,7 +51,7 @@ class AdminLanguageTranslatorTest
      */
     public function it_update_language()
     {
-        $this->setup->seed_default_language();
+        resolve(SetupService::class)->seed_default_language();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -108,7 +110,7 @@ class AdminLanguageTranslatorTest
      */
     public function it_try_to_delete_default_language()
     {
-        $this->setup->seed_default_language();
+        resolve(SetupService::class)->seed_default_language();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -126,7 +128,7 @@ class AdminLanguageTranslatorTest
      */
     public function it_get_all_languages()
     {
-        $this->setup->seed_default_language();
+        resolve(SetupService::class)->seed_default_language();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -146,7 +148,7 @@ class AdminLanguageTranslatorTest
      */
     public function it_update_language_string()
     {
-        $this->setup->seed_default_language();
+        resolve(SetupService::class)->seed_default_language();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -172,7 +174,7 @@ class AdminLanguageTranslatorTest
      */
     public function it_get_language_with_strings_by_selected_language_id()
     {
-        $this->setup->seed_default_language();
+        resolve(SetupService::class)->seed_default_language();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);

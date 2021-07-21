@@ -62,10 +62,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     // Share
-    Route::group(['prefix' => 'share'], function () {
-        Route::post('/{token}/email', ShareViaEmailController::class);
-        Route::apiResource('/', ShareController::class);
-    });
+    Route::post('/share/{token}/email', ShareViaEmailController::class);
+    Route::apiResource('/share', ShareController::class);
 
     // Favourites
     Route::apiResource('/folders/favourites', FavouriteController::class);

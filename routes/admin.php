@@ -1,6 +1,7 @@
 <?php
 
 use Domain\Admin\Controllers\UserController;
+use Domain\Localization\Controllers\UpdateLanguageStringController;
 use Domain\Plans\Controllers\PlansController;
 use Domain\Admin\Controllers\InvoiceController;
 use Domain\Admin\Controllers\DashboardController;
@@ -60,11 +61,5 @@ Route::group(['prefix' => 'settings'], function () {
 });
 
 // Language
-Route::group(['prefix' => 'languages'], function () {
-    Route::get('/{language}', [LanguageController::class, 'get_language']);
-    Route::patch('/{language}/strings', [LanguageController::class, 'update_string']);
-    Route::delete('/{language}', [LanguageController::class, 'delete_language']);
-    Route::patch('/{language}', [LanguageController::class, 'update_language']);
-    Route::post('/', [LanguageController::class, 'create_language']);
-    Route::get('/', [LanguageController::class, 'get_languages']);
-});
+Route::patch('/languages/{language}/strings', UpdateLanguageStringController::class);
+Route::apiResource('/languages', LanguageController::class);

@@ -50,8 +50,6 @@ class SetupService
 
     /**
      * Store default VueFileManager settings into database
-     *
-     * @param $license
      */
     public function seed_default_language()
     {
