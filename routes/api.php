@@ -1,6 +1,9 @@
 <?php
 
 use App\Users\Actions\CreateNewUserAction;
+use Domain\Items\Controllers\DeleteFileOrFolderController;
+use Domain\Items\Controllers\MoveFileOrFolderController;
+use Domain\Items\Controllers\RenameFileOrFolderController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Items\Controllers\EditItemsController;
@@ -74,9 +77,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/create-folder', CreateFolderController::class);
     Route::post('/upload', UploadFileController::class);
 
-    Route::patch('/rename/{id}', [EditItemsController::class, 'rename_item']);
-    Route::post('/remove', [EditItemsController::class, 'delete_item']);
-    Route::post('/move', [EditItemsController::class, 'move']);
+    Route::patch('/rename/{id}', RenameFileOrFolderController::class);
+    Route::post('/remove', DeleteFileOrFolderController::class);
+    Route::post('/move', MoveFileOrFolderController::class);
 
     Route::get('/zip/folder/{id}', ZipFolderController::class);
     Route::post('/zip/files', ZipFilesController::class);
