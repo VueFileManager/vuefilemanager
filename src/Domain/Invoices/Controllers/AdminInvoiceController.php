@@ -1,12 +1,12 @@
 <?php
-namespace Domain\Admin\Controllers;
+namespace Domain\Invoices\Controllers;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
-use Domain\Invoices\Resources\InvoiceResource;
 use Domain\Subscriptions\Services\StripeService;
 use Domain\Admin\Resources\InvoiceAdminCollection;
 
-class InvoiceController extends Controller
+class AdminInvoiceController extends Controller
 {
     public function __construct(
         private StripeService $stripe
@@ -15,10 +15,8 @@ class InvoiceController extends Controller
 
     /**
      * Get all invoices
-     *
-     * @return InvoiceAdminCollection
      */
-    public function index()
+    public function index(): InvoiceAdminCollection
     {
         return new InvoiceAdminCollection(
             $this->stripe->getInvoices()['data']
@@ -27,12 +25,8 @@ class InvoiceController extends Controller
 
     /**
      * Get single invoice by invoice $token
-     *
-     * @param $customer
-     * @param $token
-     * @return InvoiceResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($customer, $token)
+    public function show(string $customer, string $token): View
     {
         return view('vuefilemanager.invoice')
             ->with('settings', get_settings_in_json())

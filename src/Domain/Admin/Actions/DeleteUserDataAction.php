@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Domain\Admin\Actions;
 
-
-use App\Users\Models\User;
 use DB;
+use App\Users\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteUserDataAction

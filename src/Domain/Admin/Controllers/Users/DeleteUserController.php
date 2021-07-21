@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Admin\Controllers\Users;
 
-use App\Http\Controllers\Controller;
 use App\Users\Models\User;
-use Domain\Admin\Actions\DeleteUserDataAction;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Admin\Requests\DeleteUserRequest;
+use Domain\Admin\Actions\DeleteUserDataAction;
 
 class DeleteUserController extends Controller
 {
@@ -18,7 +18,6 @@ class DeleteUserController extends Controller
         User $user,
         DeleteUserDataAction $deleteUserData,
     ): Response {
-
         if (is_demo()) {
             return response('Done!', 204);
         }

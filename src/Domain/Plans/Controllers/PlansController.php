@@ -1,18 +1,12 @@
 <?php
 namespace Domain\Plans\Controllers;
 
-use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
-use App\Users\Resources\UsersCollection;
 use Domain\Plans\Resources\PlanResource;
 use Domain\Plans\Resources\PlanCollection;
 use Domain\Subscriptions\Services\StripeService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class PlansController extends Controller
 {
@@ -23,60 +17,43 @@ class PlansController extends Controller
 
     /**
      * Get all plans
-     *
-     * @return PlanCollection|Application|ResponseFactory|Response
      */
-    public function index()
+    public function index(): Response
     {
         // Store or Get plans to cache
-        if (Cache::has('plans')) {
-            $plans = Cache::get('plans');
-        } else {
-            $plans = Cache::rememberForever('plans', function () {
+        $plans = cache()
+            ->rememberForever('plans', function () {
                 return $this->stripe->getPlans();
             });
-        }
 
         return response(new PlanCollection($plans), 200);
     }
 
     /**
      * Get plan record
-     *
-     * @param $id
-     * @return PlanResource|Application|ResponseFactory|Response
      */
-    public function show($id)
+    public function show(string $id): Response
     {
         // Store or Get plan to cache
-        if (Cache::has('plan-' . $id)) {
-            $plan = Cache::get('plan-' . $id);
-        } else {
-            $plan = Cache::rememberForever('plan-' . $id, function () use ($id) {
+        $plan = cache()
+            ->rememberForever("plan-$id", function () use ($id) {
                 return $this->stripe->getPlan($id);
             });
-        }
 
         return response(new PlanResource($plan), 200);
     }
 
     /**
      * Create new plan
-     *
-     * @param Request $request
-     * @return PlanResource|Application|ResponseFactory|Response
+     * TODO: store request
      */
-    public function store(Request $request)
+    public function store(Request $request): Response | PlanResource
     {
-        // TODO: inline request
         if (is_demo()) {
-            if (Cache::has('plan-starter-pack')) {
-                $plan = Cache::get('plan-starter-pack');
-            } else {
-                $plan = Cache::rememberForever('plan-starter-pack', function () {
+            $plan = cache()
+                ->rememberForever('plan-starter-pack', function () {
                     return $this->stripe->getPlan('starter-pack');
                 });
-            }
 
             return new PlanResource($plan);
         }
@@ -93,12 +70,8 @@ class PlansController extends Controller
 
     /**
      * Update plan attribute
-     *
-     * @param Request $request
-     * @param $id
-     * @return ResponseFactory|Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id): Response
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
@@ -107,18 +80,15 @@ class PlansController extends Controller
         $this->stripe->updatePlan($request, $id);
 
         // Clear cached plans
-        cache_forget_many(['plans', 'pricing', 'plan-' . $id]);
+        cache_forget_many(['plans', 'pricing', "plan-$id"]);
 
         return response('Saved!', 201);
     }
 
     /**
      * Delete plan
-     *
-     * @param $id
-     * @return ResponseFactory|Response
      */
-    public function delete($id)
+    public function delete($id): Response
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
@@ -130,22 +100,5 @@ class PlansController extends Controller
         cache_forget_many(['plans', 'pricing']);
 
         return response('Done!', 204);
-    }
-
-    /**
-     * Get subscriptions
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function subscribers($id)
-    {
-        $subscribers = Subscription::whereStripePlan($id)
-            ->pluck('user_id');
-
-        return new UsersCollection(
-            User::sortable()
-                ->findMany($subscribers)
-        );
     }
 }

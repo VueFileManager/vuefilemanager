@@ -1,11 +1,11 @@
 <?php
 
-use Domain\Invoices\Controllers\UserInvoicesController;
 use Domain\Payments\Controllers\PaymentMethodsController;
 use App\Users\Controllers\Account\AccountDetailsController;
 use App\Users\Controllers\Account\UpdatePasswordController;
 use App\Users\Controllers\Account\StorageCapacityController;
 use App\Users\Controllers\Verification\VerifyEmailController;
+use Domain\Invoices\Controllers\UserProfileInvoiceController;
 use Domain\Subscriptions\Controllers\GetSetupIntentController;
 use App\Users\Controllers\Verification\ResendVerificationEmail;
 use App\Users\Controllers\Authentication\CheckAccountController;
@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/setup-intent', GetSetupIntentController::class);
 
         Route::apiResource('/payment-cards', PaymentMethodsController::class);
-        Route::get('/invoices', UserInvoicesController::class);
+        Route::get('/invoices', UserProfileInvoiceController::class);
         Route::get('/', SubscriptionDetailsController::class);
 
         Route::post('/upgrade', SubscriptionUpgradeController::class);

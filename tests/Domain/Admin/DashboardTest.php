@@ -1,15 +1,12 @@
 <?php
-
-
 namespace Tests\Domain\Admin;
 
-
-use App\Users\Models\User;
 use DB;
+use Tests\TestCase;
+use App\Users\Models\User;
+use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Settings\Models\Setting;
-use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {

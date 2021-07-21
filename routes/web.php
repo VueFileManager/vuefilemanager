@@ -1,8 +1,8 @@
 <?php
 
-use Domain\Admin\Controllers\InvoiceController;
 use Domain\Homepage\Controllers\IndexController;
 use Domain\Sharing\Controllers\OGSiteController;
+use Domain\Admin\Controllers\AdminInvoiceController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\SetupWizard\Controllers\CreateAdminAccountController;
@@ -13,7 +13,7 @@ Route::post('/admin-setup', CreateAdminAccountController::class);
 
 // Subscription Services
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
-Route::get('/invoice/{customer}/{token}', [InvoiceController::class, 'show'])->middleware(['auth:sanctum']);
+Route::get('/invoice/{customer}/{token}', [AdminInvoiceController::class, 'show'])->middleware(['auth:sanctum']);
 
 // Translations
 Route::get('/translations/{lang}', CurrentLocalizationController::class);

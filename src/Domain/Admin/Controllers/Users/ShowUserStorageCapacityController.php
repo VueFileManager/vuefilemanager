@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Admin\Controllers\Users;
 
-use App\Http\Controllers\Controller;
 use App\Users\Models\User;
+use App\Http\Controllers\Controller;
 use App\Users\Resources\UserStorageResource;
 
 class ShowUserStorageCapacityController extends Controller

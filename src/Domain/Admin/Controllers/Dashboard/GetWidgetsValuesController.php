@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Domain\Admin\Controllers\Dashboard;
 
-
-use App\Http\Controllers\Controller;
-use App\Users\Models\User;
 use ByteUnits\Metric;
+use App\Users\Models\User;
 use Laravel\Cashier\Subscription;
+use App\Http\Controllers\Controller;
 
 class GetWidgetsValuesController extends Controller
 {

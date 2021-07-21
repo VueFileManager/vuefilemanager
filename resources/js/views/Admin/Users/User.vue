@@ -131,7 +131,7 @@
         },
         methods: {
             fetchUser() {
-                axios.get('/api/admin/users/' + this.$route.params.id + '/detail')
+                axios.get('/api/admin/users/' + this.$route.params.id)
                     .then(response => {
                         this.user = response.data
                         this.isLoading = false

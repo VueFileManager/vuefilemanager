@@ -81,8 +81,8 @@
     "/chunks/upgrade-billing.js": "/chunks/upgrade-billing.js?id=10416cb784a62f3c8fd7",
     "/chunks/upgrade-billing~chunks/upgrade-plan.js": "/chunks/upgrade-billing~chunks/upgrade-plan.js?id=43888143d0a6afe67d7a",
     "/chunks/upgrade-plan.js": "/chunks/upgrade-plan.js?id=5979a154f760a992e617",
-    "/chunks/user.js": "/chunks/user.js?id=41076be9126702330159",
-    "/chunks/user-create.js": "/chunks/user-create.js?id=0d0040fbb5361bb061d6",
+    "/chunks/user.js": "/chunks/user.js?id=6ba666410f40ecdc965d",
+    "/chunks/user-create.js": "/chunks/user-create.js?id=355fa2701524f0feccf0",
     "/chunks/user-delete.js": "/chunks/user-delete.js?id=ecebc7e50b64744420c3",
     "/chunks/user-detail.js": "/chunks/user-detail.js?id=7ae038f6b4a4683c5bdb",
     "/chunks/user-invoices.js": "/chunks/user-invoices.js?id=1395c30e08946026fbc4",
@@ -286,5 +286,7 @@
     "/chunks/upgrade-billing.3c553438a1090569af54.hot-update.js": "/chunks/upgrade-billing.3c553438a1090569af54.hot-update.js",
     "/chunks/settings-invoices.4ab4d27b8447516929d2.hot-update.js": "/chunks/settings-invoices.4ab4d27b8447516929d2.hot-update.js",
     "/chunks/profile.5902d31a95da744acd2b.hot-update.js": "/chunks/profile.5902d31a95da744acd2b.hot-update.js",
-    "/chunks/settings~chunks/settings-password.5902d31a95da744acd2b.hot-update.js": "/chunks/settings~chunks/settings-password.5902d31a95da744acd2b.hot-update.js"
+    "/chunks/settings~chunks/settings-password.5902d31a95da744acd2b.hot-update.js": "/chunks/settings~chunks/settings-password.5902d31a95da744acd2b.hot-update.js",
+    "/chunks/user-create.ca38aa5d23cce5399b5d.hot-update.js": "/chunks/user-create.ca38aa5d23cce5399b5d.hot-update.js",
+    "/chunks/user.8e87c89c5f6cc9b7d635.hot-update.js": "/chunks/user.8e87c89c5f6cc9b7d635.hot-update.js"
 }

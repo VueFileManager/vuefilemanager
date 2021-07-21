@@ -1,7 +1,6 @@
 <?php
 namespace Support\Services;
 
-use DB;
 use Illuminate\Support\Arr;
 use Aws\S3\MultipartUploader;
 use Domain\Files\Models\File;

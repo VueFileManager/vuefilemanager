@@ -1,7 +1,6 @@
 <?php
 namespace Tests\Domain\Admin;
 
-use DB;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -12,7 +11,6 @@ use Domain\Zipping\Models\Zip;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\Settings\Models\Setting;
 use App\Users\Notifications\ResetPassword;
 use Domain\SetupWizard\Services\SetupService;
 
@@ -61,7 +59,7 @@ class AdminTest extends TestCase
         // TODO: pridat exactjson po refaktorovani userresource
         $this
             ->actingAs($admin)
-            ->getJson("/api/admin/users/$user->id/detail")
+            ->getJson("/api/admin/users/$user->id")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $user->id,
@@ -225,7 +223,7 @@ class AdminTest extends TestCase
 
         $this
             ->actingAs($admin)
-            ->postJson('/api/admin/users/create', [
+            ->postJson('/api/admin/users', [
                 'name'                  => 'John Doe',
                 'role'                  => 'user',
                 'email'                 => 'john@doe.com',

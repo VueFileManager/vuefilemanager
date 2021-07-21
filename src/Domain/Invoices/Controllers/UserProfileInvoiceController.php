@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Invoices\Resources\InvoiceCollection;
 
-class UserInvoicesController extends Controller
+class UserProfileInvoiceController extends Controller
 {
     /**
      * Get user invoices

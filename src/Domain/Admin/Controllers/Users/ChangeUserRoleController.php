@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Admin\Controllers\Users;
 
-use App\Http\Controllers\Controller;
 use App\Users\Models\User;
+use App\Http\Controllers\Controller;
 use App\Users\Resources\UserResource;
 use Domain\Admin\Requests\ChangeRoleRequest;
 
@@ -17,9 +17,8 @@ class ChangeUserRoleController extends Controller
         }
 
         // Update user role
-        $user->update([
-            'role' => $request->input('attributes.role'),
-        ]);
+        $user->role = $request->input('attributes.role');
+        $user->update();
 
         return new UserResource($user);
     }
