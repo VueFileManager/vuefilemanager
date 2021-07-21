@@ -3,10 +3,11 @@ namespace Domain\Items\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
 use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 
@@ -16,8 +17,9 @@ use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 class VisitorRenameFileOrFolderController extends Controller
 {
     public function __construct(
-        private HelperService $helper,
         private RenameFileOrFolderAction $renameFileOrFolder,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
         private UpdateFolderPropertyAction $updateFolderProperty,
         private FakeRenameFileOrFolderAction $fakeRenameFileOrFolder,
     ) {
@@ -27,14 +29,14 @@ class VisitorRenameFileOrFolderController extends Controller
         RenameItemRequest $request,
         string $id,
         Share $shared,
-    ): Response {
+    ): Response | array {
         // Return fake renamed item in demo
         if (is_demo_account($shared->user->email)) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }
 
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -46,9 +48,9 @@ class VisitorRenameFileOrFolderController extends Controller
 
         // Check access to requested item
         if ($request->input('type') === 'folder') {
-            $this->helper->check_item_access($item->id, $shared);
+            ($this->verifyAccessToItem)($item->id, $shared);
         } else {
-            $this->helper->check_item_access($item->folder_id, $shared);
+            ($this->verifyAccessToItem)($item->folder_id, $shared);
         }
 
         // If request have a change folder icon values set the folder icon

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Files\Actions\DownloadThumbnailAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
 
 /**
  * Get public image thumbnail
@@ -16,6 +18,8 @@ class VisitorGetThumbnailController extends Controller
     public function __construct(
         private RecordDownloadAction $recordDownload,
         private DownloadThumbnailAction $downloadThumbnail,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemWithinAction $verifyAccessToItemWithin,
     ) {
     }
 
@@ -24,7 +28,7 @@ class VisitorGetThumbnailController extends Controller
         Share $shared,
     ): StreamedResponse {
         // Check ability to access protected share files
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Get file record
         $file = UserFile::where('user_id', $shared->user_id)
@@ -32,7 +36,7 @@ class VisitorGetThumbnailController extends Controller
             ->firstOrFail();
 
         // Check file access
-        $this->helper->check_guest_access_to_shared_items($shared, $file);
+        ($this->verifyAccessToItemWithin)($shared, $file);
 
         // Store user download size
         ($this->recordDownload)(
@@ -40,6 +44,7 @@ class VisitorGetThumbnailController extends Controller
             user_id: $shared->user_id,
         );
 
+        // Finally download thumbnail
         return ($this->downloadThumbnail)($file, $shared->user_id);
     }
 }

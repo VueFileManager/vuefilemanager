@@ -12,6 +12,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static whereNotNull(string $string)
  * @method static where(string $string, string $token)
  * @property string user_id
+ * @property mixed is_protected
+ * @property string token
+ * @property string item_id
+ * @property string type
+ * @property string password
+ * @property User user
  */
 class Share extends Model
 {

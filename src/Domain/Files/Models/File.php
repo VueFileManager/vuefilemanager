@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @method static whereUserId($user_id)
  * @method static whereId($id)
+ * @property string folder_id
+ * @property string id
  */
 class File extends Model
 {

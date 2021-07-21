@@ -8,14 +8,18 @@ use Domain\Sharing\Actions\SendViaEmailAction;
 
 class ShareViaEmailController extends Controller
 {
+    public function __construct(
+        private SendViaEmailAction $sendLinkToEmailAction,
+    ) {
+    }
+
     public function __invoke(
-        SendViaEmailAction $sendLinkToEmailAction,
         Request $request,
         string $token,
     ): Response {
-        ($sendLinkToEmailAction)(
-            $request->input('emails'),
-            $token
+        ($this->sendLinkToEmailAction)(
+            emails: $request->input('emails'),
+            token: $token,
         );
 
         return response('Done!', 204);

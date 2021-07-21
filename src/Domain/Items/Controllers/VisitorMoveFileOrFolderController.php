@@ -4,10 +4,11 @@ namespace Domain\Items\Controllers;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Items\Actions\MoveFileOrFolderAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**
  * Move item for guest user with edit permission
@@ -15,8 +16,9 @@ use Domain\Items\Actions\MoveFileOrFolderAction;
 class VisitorMoveFileOrFolderController extends Controller
 {
     public function __construct(
-        private HelperService $helper,
         private MoveFileOrFolderAction $moveFileOrFolder,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
 
@@ -31,7 +33,7 @@ class VisitorMoveFileOrFolderController extends Controller
         );
 
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -40,7 +42,7 @@ class VisitorMoveFileOrFolderController extends Controller
 
         foreach ($request->input('items') as $item) {
             if ($item['type'] === 'folder') {
-                $this->helper->check_item_access([
+                ($this->verifyAccessToItem)([
                     $request->input('to_id'), $item['id'],
                 ], $shared);
             }
@@ -50,7 +52,7 @@ class VisitorMoveFileOrFolderController extends Controller
                     ->where('user_id', $shared->user_id)
                     ->firstOrFail();
 
-                $this->helper->check_item_access([
+                ($this->verifyAccessToItem)([
                     $request->input('to_id'), $file->folder_id,
                 ], $shared);
             }

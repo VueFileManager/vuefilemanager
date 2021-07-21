@@ -7,8 +7,8 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
 
 /**
  * Visitor search shared files
@@ -16,7 +16,7 @@ use App\Http\Controllers\Controller;
 class VisitorSearchFilesAndFoldersController extends Controller
 {
     public function __construct(
-        public HelperService $helper,
+        private ProtectShareRecordAction $protectShareRecord,
     ) {
     }
 
@@ -25,7 +25,7 @@ class VisitorSearchFilesAndFoldersController extends Controller
         Share $shared,
     ): Collection {
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         $query = remove_accents(
             $request->input('query')

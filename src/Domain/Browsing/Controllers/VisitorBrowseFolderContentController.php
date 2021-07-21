@@ -5,7 +5,8 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
-use Support\Services\HelperService;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**
  * Browse shared folder
@@ -13,7 +14,8 @@ use Support\Services\HelperService;
 class VisitorBrowseFolderContentController
 {
     public function __construct(
-        public HelperService $helper,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
 
@@ -22,10 +24,10 @@ class VisitorBrowseFolderContentController
         Share $shared,
     ): Collection {
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Check if user can get directory
-        $this->helper->check_item_access($id, $shared);
+        ($this->verifyAccessToItem)($id, $shared);
 
         // Get files and folders
         $folders = Folder::where('user_id', $shared->user_id)

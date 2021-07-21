@@ -14,7 +14,8 @@ class GetFileController extends Controller
     public function __construct(
         private RecordDownloadAction $recordDownload,
         private DownloadFileAction $downloadFile,
-    ) {}
+    ) {
+    }
 
     /**
      * Get file

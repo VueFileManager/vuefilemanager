@@ -1,9 +1,9 @@
 <?php
 
 use Domain\Homepage\Controllers\IndexController;
-use Domain\Sharing\Controllers\OGSiteController;
 use Domain\Invoices\Controllers\AdminInvoiceController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
+use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\SetupWizard\Controllers\CreateAdminAccountController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
@@ -20,7 +20,7 @@ Route::get('/translations/{lang}', CurrentLocalizationController::class);
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {
-    Route::get('/share/{shared}', OGSiteController::class);
+    Route::get('/share/{shared}', WebCrawlerOpenGraphController::class);
 } else {
     Route::get('/share/{shared}', SharePublicIndexController::class);
 }

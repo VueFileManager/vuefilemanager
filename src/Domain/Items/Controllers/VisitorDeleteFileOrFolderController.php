@@ -3,10 +3,11 @@ namespace Domain\Items\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Actions\DeleteFileOrFolderAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**
  * Delete item for guest user with edit permission
@@ -14,8 +15,9 @@ use Domain\Items\Actions\DeleteFileOrFolderAction;
 class VisitorDeleteFileOrFolderController extends Controller
 {
     public function __construct(
-        private HelperService $helper,
         private DeleteFileOrFolderAction $deleteFileOrFolder,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
 
@@ -30,7 +32,7 @@ class VisitorDeleteFileOrFolderController extends Controller
         );
 
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -43,9 +45,9 @@ class VisitorDeleteFileOrFolderController extends Controller
 
             // Check access to requested item
             if ($file['type'] === 'folder') {
-                $this->helper->check_item_access($item->id, $shared);
+                ($this->verifyAccessToItem)($item->id, $shared);
             } else {
-                $this->helper->check_item_access($item->folder_id, $shared);
+                ($this->verifyAccessToItem)($item->folder_id, $shared);
             }
 
             // Delete item

@@ -4,9 +4,10 @@ namespace Domain\Zipping\Controllers;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Domain\Zipping\Actions\ZipFolderAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**
  * Guest download folder via zip
@@ -14,7 +15,8 @@ use Domain\Zipping\Actions\ZipFolderAction;
 class VisitorZipFolderController extends Controller
 {
     public function __construct(
-        public HelperService $helper,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
 
@@ -24,10 +26,10 @@ class VisitorZipFolderController extends Controller
         Share $shared,
     ): Response {
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Check access to requested folder
-        $this->helper->check_item_access($id, $shared);
+        ($this->verifyAccessToItem)($id, $shared);
 
         // Get folder
         $folder = Folder::whereUserId($shared->user_id)

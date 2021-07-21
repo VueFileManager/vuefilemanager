@@ -4,8 +4,8 @@ namespace Domain\Files\Controllers;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use Domain\Files\Resources\FileResource;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
 
 /**
  * Get shared file record
@@ -13,7 +13,7 @@ use Domain\Files\Resources\FileResource;
 class VisitorShowFileController
 {
     public function __construct(
-        public HelperService $helper,
+        private ProtectShareRecordAction $protectShareRecord,
     ) {
     }
 
@@ -21,7 +21,7 @@ class VisitorShowFileController
         Share $shared
     ): Response {
         // Check ability to access protected share files
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Get file
         $file = File::whereUserId($shared->user_id)

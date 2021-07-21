@@ -5,9 +5,10 @@ use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Domain\Zipping\Actions\ZipFilesAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**
  * Guest download multiple files via zip
@@ -15,7 +16,8 @@ use Domain\Zipping\Actions\ZipFilesAction;
 class VisitorZipFilesController extends Controller
 {
     public function __construct(
-        public HelperService $helper,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
 
@@ -25,7 +27,7 @@ class VisitorZipFilesController extends Controller
         Share $shared,
     ): Response {
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         $file_parent_folders = File::whereUserId($shared->user_id)
             ->whereIn('id', $request->items)
@@ -34,7 +36,7 @@ class VisitorZipFilesController extends Controller
             ->toArray();
 
         // Check access to requested directory
-        $this->helper->check_item_access($file_parent_folders, $shared);
+        ($this->verifyAccessToItem)($file_parent_folders, $shared);
 
         // Get requested files
         $files = File::whereUserId($shared->user_id)

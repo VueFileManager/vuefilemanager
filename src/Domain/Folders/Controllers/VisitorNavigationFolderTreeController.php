@@ -3,8 +3,9 @@ namespace Domain\Folders\Controllers;
 
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
+use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**
  * Get navigation tree of shared folder
@@ -12,7 +13,8 @@ use App\Http\Controllers\Controller;
 class VisitorNavigationFolderTreeController extends Controller
 {
     public function __construct(
-        public HelperService $helper,
+        private ProtectShareRecordAction $protectShareRecord,
+        private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
 
@@ -20,10 +22,10 @@ class VisitorNavigationFolderTreeController extends Controller
         Share $shared,
     ): array {
         // Check ability to access protected share record
-        $this->helper->check_protected_share_record($shared);
+        ($this->protectShareRecord)($shared);
 
         // Check if user can get directory
-        $this->helper->check_item_access($shared->item_id, $shared);
+        ($this->verifyAccessToItem)($shared->item_id, $shared);
 
         // Get folders
         $folders = Folder::with('folders:id,parent_id,name')

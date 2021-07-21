@@ -5,7 +5,7 @@ use Illuminate\View\View;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 
-class OGSiteController extends Controller
+class WebCrawlerOpenGraphController extends Controller
 {
     /**
      * Get og site for web crawlers
