@@ -11,12 +11,11 @@ use Domain\Zipping\Actions\ZipFolderAction;
 /**
  * Guest download folder via zip
  */
-class EditorZipFolderController extends Controller
+class VisitorZipFolderController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         ZipFolderAction $zipFolder,
@@ -41,10 +40,7 @@ class EditorZipFolderController extends Controller
 
         // Get file
         return response([
-            'url' => route('zip_public', [
-                'id'    => $zip->id,
-                'token' => $shared->token,
-            ]),
+            'url' => url("/zip/{$zip->id}/public/{$shared->token}"),
             'name' => $zip->basename,
         ], 201);
     }

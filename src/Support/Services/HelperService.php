@@ -116,28 +116,6 @@ class HelperService
     }
 
     /**
-     * Get all folders and files under the share record
-     *
-     * @param $id
-     * @param $shared
-     * @return array
-     */
-    public function get_items_under_shared_by_folder_id($id, $shared): array
-    {
-        $folders = Folder::where('user_id', $shared->user_id)
-            ->where('parent_id', $id)
-            ->sortable()
-            ->get();
-
-        $files = File::where('user_id', $shared->user_id)
-            ->where('folder_id', $id)
-            ->sortable()
-            ->get();
-
-        return [$folders, $files];
-    }
-
-    /**
      * @param Share $shared
      */
     public function check_protected_share_record(Share $shared): void

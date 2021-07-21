@@ -12,7 +12,7 @@ use Support\Demo\Actions\FakeUploadFileAction;
 /**
  * guest user upload file into shared folder
  */
-class VisitorUploadFilesController extends Controller
+class VisitorUploadFileController extends Controller
 {
     public function __construct(
         public HelperService $helper,

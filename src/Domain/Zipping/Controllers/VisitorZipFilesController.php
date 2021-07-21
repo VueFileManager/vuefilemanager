@@ -12,7 +12,7 @@ use Domain\Zipping\Actions\ZipFilesAction;
 /**
  * Guest download multiple files via zip
  */
-class EditorZipFilesController extends Controller
+class VisitorZipFilesController extends Controller
 {
     public function __construct(
         public HelperService $helper,
@@ -45,10 +45,7 @@ class EditorZipFilesController extends Controller
 
         // Get file
         return response([
-            'url' => route('zip_public', [
-                'id'    => $zip->id,
-                'token' => $shared->token,
-            ]),
+            'url' => url("/zip/{$zip->id}/public/{$shared->token}"),
             'name' => $zip->basename,
         ], 201);
     }

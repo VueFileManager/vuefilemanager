@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Collection;
 use Support\Services\HelperService;
@@ -12,8 +14,7 @@ class VisitorBrowseFolderContentController
 {
     public function __construct(
         public HelperService $helper,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         string $id,
@@ -26,12 +27,18 @@ class VisitorBrowseFolderContentController
         $this->helper->check_item_access($id, $shared);
 
         // Get files and folders
-        list($folders, $files) = $this->helper->get_items_under_shared_by_folder_id($id, $shared);
+        $folders = Folder::where('user_id', $shared->user_id)
+            ->where('parent_id', $id)
+            ->sortable()
+            ->get();
+
+        $files = File::where('user_id', $shared->user_id)
+            ->where('folder_id', $id)
+            ->sortable()
+            ->get();
 
         // Set thumbnail links for public files
-        $files->map(function ($file) use ($shared) {
-            $file->setPublicUrl($shared->token);
-        });
+        $files->map(fn ($file) => $file->setPublicUrl($shared->token));
 
         // Collect folders and files to single array
         return collect([$folders, $files])
