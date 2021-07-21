@@ -1,20 +1,18 @@
 <?php
-
-
 namespace Domain\Zipping\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Zipping\Models\Zip;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Domain\Traffic\Actions\RecordDownloadAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VisitorGetZipController extends Controller
 {
     public function __construct(
         private RecordDownloadAction $recordDownload,
-    ){}
+    ) {
+    }
 
     /**
      * Get generated zip for visitor
@@ -22,8 +20,7 @@ class VisitorGetZipController extends Controller
     public function __invoke(
         $id,
         $token,
-    ): StreamedResponse
-    {
+    ): StreamedResponse {
         $disk = Storage::disk('local');
 
         $zip = Zip::where('id', $id)

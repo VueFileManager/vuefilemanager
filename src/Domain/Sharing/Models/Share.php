@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @method static whereNotNull(string $string)
  * @method static where(string $string, string $token)
+ * @property string user_id
  */
 class Share extends Model
 {

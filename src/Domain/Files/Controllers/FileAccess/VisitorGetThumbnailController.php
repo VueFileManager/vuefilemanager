@@ -1,13 +1,11 @@
 <?php
-
-
 namespace Domain\Files\Controllers\FileAccess;
 
-
+use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Models\File as UserFile;
-use Domain\Sharing\Models\Share;
 use Domain\Traffic\Actions\RecordDownloadAction;
+use Domain\Files\Actions\DownloadThumbnailAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -17,10 +15,11 @@ class VisitorGetThumbnailController extends Controller
 {
     public function __construct(
         private RecordDownloadAction $recordDownload,
-    ) {}
+        private DownloadThumbnailAction $downloadThumbnail,
+    ) {
+    }
 
     public function __invoke(
-
         $filename,
         Share $shared,
     ): StreamedResponse {
@@ -41,6 +40,6 @@ class VisitorGetThumbnailController extends Controller
             user_id: $shared->user_id,
         );
 
-        return $this->helper->download_thumbnail_file($file, $shared->user_id);
+        return ($this->downloadThumbnail)($file, $shared->user_id);
     }
 }

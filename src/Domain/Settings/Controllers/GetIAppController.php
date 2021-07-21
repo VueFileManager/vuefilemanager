@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Settings\Controllers;
 
-
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class GetIAppController
 {
@@ -15,8 +12,7 @@ class GetIAppController
      */
     public function __invoke(
         string $basename
-    ): StreamedResponse|FileNotFoundException {
-
+    ): StreamedResponse | FileNotFoundException {
         // Check if file exist
         if (! Storage::exists("/system/$basename")) {
             abort(404);

@@ -2,8 +2,8 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
 use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use Support\Services\HelperService;
 
@@ -14,7 +14,8 @@ class VisitorBrowseFolderContentController
 {
     public function __construct(
         public HelperService $helper,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         string $id,

@@ -1,21 +1,20 @@
 <?php
-
-
 namespace Domain\Files\Controllers\FileAccess;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Files\Models\File as UserFile;
-use Domain\Traffic\Actions\RecordDownloadAction;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Domain\Files\Models\File as UserFile;
+use Domain\Files\Actions\DownloadFileAction;
+use Domain\Traffic\Actions\RecordDownloadAction;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class GetFileController extends Controller
 {
     public function __construct(
         private RecordDownloadAction $recordDownload,
-    ){}
+        private DownloadFileAction $downloadFile,
+    ) {}
 
     /**
      * Get file
@@ -23,8 +22,7 @@ class GetFileController extends Controller
     public function __invoke(
         Request $request,
         string $filename,
-    ): StreamedResponse {
-
+    ): BinaryFileResponse {
         // Get file record
         $file = UserFile::withTrashed()
             ->where('user_id', Auth::id())
@@ -37,6 +35,6 @@ class GetFileController extends Controller
             user_id: Auth::id(),
         );
 
-        return $this->helper->download_file($file, Auth::id());
+        return ($this->downloadFile)($file, Auth::id());
     }
 }

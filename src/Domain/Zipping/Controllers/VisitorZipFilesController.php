@@ -45,7 +45,7 @@ class VisitorZipFilesController extends Controller
 
         // Get file
         return response([
-            'url' => url("/zip/{$zip->id}/public/{$shared->token}"),
+            'url'  => url("/zip/{$zip->id}/public/{$shared->token}"),
             'name' => $zip->basename,
         ], 201);
     }

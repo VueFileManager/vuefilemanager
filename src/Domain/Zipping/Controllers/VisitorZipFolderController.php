@@ -15,7 +15,8 @@ class VisitorZipFolderController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         ZipFolderAction $zipFolder,
@@ -40,7 +41,7 @@ class VisitorZipFolderController extends Controller
 
         // Get file
         return response([
-            'url' => url("/zip/{$zip->id}/public/{$shared->token}"),
+            'url'  => url("/zip/{$zip->id}/public/{$shared->token}"),
             'name' => $zip->basename,
         ], 201);
     }

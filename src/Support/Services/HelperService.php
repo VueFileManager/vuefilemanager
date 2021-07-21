@@ -5,8 +5,6 @@ use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class HelperService
 {
@@ -62,57 +60,6 @@ class HelperService
                 abort(403);
             }
         }
-    }
-
-    /**
-     * Call and download file
-     *
-     * @param $file
-     * @param $user_id
-     * @return mixed
-     */
-    public function download_file($file, $user_id)
-    {
-        // Get file path
-        $path = "files/$user_id/$file->basename";
-
-        // Check if file exist
-        if (! Storage::exists($path)) {
-            abort(404);
-        }
-
-        // Get pretty name
-        $pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
-
-        return response()
-            ->download(Storage::path($path), $pretty_name, [
-                'Accept-Ranges'       => 'bytes',
-                'Content-Type'        => Storage::mimeType($path),
-                'Content-Length'      => Storage::size($path),
-                'Content-Range'       => 'bytes 0-600/' . Storage::size($path),
-                'Content-Disposition' => "attachment; filename=$pretty_name",
-            ]);
-    }
-
-    /**
-     * Get image thumbnail for browser
-     *
-     * @param $file
-     * @param $user_id
-     * @return mixed
-     */
-    public function download_thumbnail_file($file, $user_id)
-    {
-        // Get file path
-        $path = "/files/$user_id/{$file->getRawOriginal('thumbnail')}";
-
-        // Check if file exist
-        if (! Storage::exists($path)) {
-            abort(404);
-        }
-
-        // Return image thumbnail
-        return Storage::download($path, $file->getRawOriginal('thumbnail'));
     }
 
     /**

@@ -1,14 +1,12 @@
 <?php
-
-
 namespace Domain\Files\Controllers\FileAccess;
 
-
+use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Models\File as UserFile;
-use Domain\Sharing\Models\Share;
+use Domain\Files\Actions\DownloadFileAction;
 use Domain\Traffic\Actions\RecordDownloadAction;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * Get file public
@@ -16,14 +14,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class VisitorGetFileController extends Controller
 {
     public function __construct(
-        private RecordDownloadAction $recordDownload
-    ){}
+        private DownloadFileAction $downloadFile,
+        private RecordDownloadAction $recordDownload,
+    ) {
+    }
 
     public function __invoke(
         $filename,
         Share $shared,
-    ): StreamedResponse {
-
+    ): BinaryFileResponse {
         // Check ability to access protected share files
         $this->helper->check_protected_share_record($shared);
 
@@ -41,6 +40,6 @@ class VisitorGetFileController extends Controller
             user_id: $shared->user_id,
         );
 
-        return $this->helper->download_file($file, $shared->user_id);
+        return ($this->downloadFile)($file, $shared->user_id);
     }
 }
