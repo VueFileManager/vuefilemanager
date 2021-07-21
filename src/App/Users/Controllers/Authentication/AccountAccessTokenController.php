@@ -1,15 +1,12 @@
 <?php
-
-
 namespace App\Users\Controllers\Authentication;
 
-
-use App\Http\Controllers\Controller;
-use App\Users\Requests\UserCreateAccessTokenRequest;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
+use App\Users\Requests\UserCreateAccessTokenRequest;
 
 class AccountAccessTokenController extends Controller
 {
@@ -19,7 +16,8 @@ class AccountAccessTokenController extends Controller
     public function index(): Response
     {
         return response(
-            Auth::user()->tokens()->get(), 200
+            Auth::user()->tokens()->get(),
+            200
         );
     }
 

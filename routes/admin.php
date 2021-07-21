@@ -1,37 +1,46 @@
 <?php
 
-use Domain\Admin\Controllers\UserController;
-use Domain\Localization\Controllers\UpdateLanguageStringController;
+use Domain\Admin\Controllers\Dashboard\GetNewbiesController;
+use Domain\Admin\Controllers\Dashboard\GetWidgetsValuesController;
+use Domain\Admin\Controllers\Users\UserController;
+use Domain\Admin\Controllers\Users\ChangeUserRoleController;
+use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
+use Domain\Admin\Controllers\Users\DeleteUserController;
+use Domain\Admin\Controllers\Users\ResetUserPasswordController;
+use Domain\Admin\Controllers\Users\ShowUserInvoicesController;
+use Domain\Admin\Controllers\Users\ShowUserStorageCapacityController;
+use Domain\Admin\Controllers\Users\ShowUserSubscriptionController;
 use Domain\Plans\Controllers\PlansController;
 use Domain\Admin\Controllers\InvoiceController;
-use Domain\Admin\Controllers\DashboardController;
 use Domain\Pages\Controllers\AdminPagesController;
-use Domain\Localization\Controllers\LanguageController;
-use Domain\Settings\Controllers\AdminSettingsController;
-use Domain\Settings\Controllers\FlushCacheController;
-use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Settings\Controllers\SetEmailController;
 use Domain\Settings\Controllers\SetStripeController;
+use Domain\Settings\Controllers\FlushCacheController;
+use Domain\Localization\Controllers\LanguageController;
+use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Settings\Controllers\UpdateSettingValueController;
+use Domain\Localization\Controllers\UpdateLanguageStringController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
-    Route::get('/newbies', [DashboardController::class, 'newbies']);
-    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/newbies', GetNewbiesController::class);
+    Route::get('/', GetWidgetsValuesController::class);
 });
 
 // Users
 Route::group(['prefix' => 'users'], function () {
-    Route::patch('/{user}/capacity', [UserController::class, 'change_storage_capacity']);
-    Route::post('/{user}/reset-password', [UserController::class, 'reset_password']);
-    Route::get('/{user}/subscription', [UserController::class, 'subscription']);
-    Route::delete('/{user}/delete', [UserController::class, 'delete_user']);
-    Route::patch('/{user}/role', [UserController::class, 'change_role']);
-    Route::get('/{user}/invoices', [UserController::class, 'invoices']);
-    Route::get('/{user}/storage', [UserController::class, 'storage']);
-    Route::get('/{user}/detail', [UserController::class, 'details']);
-    Route::post('/create', [UserController::class, 'create_user']);
-    Route::get('/', [UserController::class, 'users']);
+    Route::patch('/{user}/capacity', ChangeUserStorageCapacityController::class);
+    Route::post('/{user}/reset-password', ResetUserPasswordController::class);
+    Route::get('/{user}/storage', ShowUserStorageCapacityController::class);
+    Route::patch('/{user}/role', ChangeUserRoleController::class);
+    Route::delete('/{user}/delete', DeleteUserController::class);
+
+    // Subscription
+    Route::get('/{user}/subscription', ShowUserSubscriptionController::class);
+    Route::get('/{user}/invoices', ShowUserInvoicesController::class);
+
+    // Resource
+    Route::apiResource('/', UserController::class);
 });
 
 // Plans

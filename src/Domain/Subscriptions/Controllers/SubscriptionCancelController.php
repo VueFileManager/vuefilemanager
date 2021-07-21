@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Subscriptions\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
 class SubscriptionCancelController extends Controller

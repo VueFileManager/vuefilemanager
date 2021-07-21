@@ -2,9 +2,9 @@
 namespace App\Users\Controllers\Authentication;
 
 use App\Users\Models\User;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Users\Requests\CheckAccountRequest;
-use Illuminate\Http\Response;
 
 class CheckAccountController extends Controller
 {
@@ -13,8 +13,7 @@ class CheckAccountController extends Controller
      */
     public function __invoke(
         CheckAccountRequest $request
-    ): array|Response {
-
+    ): array | Response {
         $user = User::whereEmail($request->input('email'))
             ->first();
 

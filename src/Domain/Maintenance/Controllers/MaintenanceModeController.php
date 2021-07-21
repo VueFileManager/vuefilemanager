@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Maintenance\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Artisan;
 use Gate;
+use Artisan;
+use App\Http\Controllers\Controller;
 
 class MaintenanceModeController extends Controller
 {

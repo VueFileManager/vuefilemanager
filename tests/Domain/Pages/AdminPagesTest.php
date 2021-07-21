@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Tests\Domain\Pages;
 
-
-use App\Users\Models\User;
-use Domain\SetupWizard\Services\SetupService;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use App\Users\Models\User;
+use Laravel\Sanctum\Sanctum;
+use Domain\SetupWizard\Services\SetupService;
 
 class AdminPagesTest extends TestCase
 {

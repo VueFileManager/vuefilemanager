@@ -10,7 +10,6 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection;
 use Database\Factories\UserFactory;
 use Kyslik\ColumnSortable\Sortable;
-use Support\Services\HelperService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use App\Users\Notifications\ResetPassword;
@@ -214,11 +213,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
             // Create user directory for his files
             Storage::makeDirectory("files/$user->id");
-        });
-
-        static::deleted(function ($user) {
-            resolve(HelperService::class)
-                ->erase_user_data($user);
         });
     }
 }

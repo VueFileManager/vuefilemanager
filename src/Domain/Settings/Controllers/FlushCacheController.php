@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Settings\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Artisan;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class FlushCacheController extends Controller
 {

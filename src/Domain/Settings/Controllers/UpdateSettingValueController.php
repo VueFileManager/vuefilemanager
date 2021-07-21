@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Domain\Settings\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Settings\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Domain\Settings\Models\Setting;
+use App\Http\Controllers\Controller;
 
 class UpdateSettingValueController extends Controller
 {

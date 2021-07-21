@@ -5,10 +5,7 @@ use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Domain\Localization\Models\Language;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Localization\Resources\LanguageResource;
-use Domain\Localization\Requests\UpdateStringRequest;
 use Domain\Localization\Resources\LanguageCollection;
 use Domain\Localization\Requests\CreateLanguageRequest;
 use Domain\Localization\Requests\UpdateLanguageRequest;
@@ -23,7 +20,8 @@ class LanguageController extends Controller
         return response(
             new LanguageCollection(
                 Language::sortable(['created_at', 'DESC'])->get()
-            ), 200
+            ),
+            200
         );
     }
 
@@ -33,7 +31,8 @@ class LanguageController extends Controller
     public function show(Language $language): Response
     {
         return response(
-            new LanguageResource($language), 200
+            new LanguageResource($language),
+            200
         );
     }
 
@@ -60,7 +59,8 @@ class LanguageController extends Controller
      * Update language
      */
     public function update(
-        UpdateLanguageRequest $request, Language $language
+        UpdateLanguageRequest $request,
+        Language $language
     ): Response {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
@@ -97,7 +97,8 @@ class LanguageController extends Controller
         $language->delete();
 
         return response(
-            'Done', 204
+            'Done',
+            204
         );
     }
 }

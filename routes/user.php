@@ -1,21 +1,20 @@
 <?php
 
-use App\Users\Controllers\Account\AccountDetailsController;
-use App\Users\Controllers\Account\StorageCapacityController;
-use App\Users\Controllers\Account\UpdatePasswordController;
-use App\Users\Controllers\Account\UpdateProfileSettingsController;
-use App\Users\Controllers\AuthController;
-use App\Users\Controllers\Authentication\AccountAccessTokenController;
-use App\Users\Controllers\Authentication\CheckAccountController;
-use App\Users\Controllers\Verification\ResendVerificationEmail;
-use App\Users\Controllers\Verification\VerifyEmailController;
 use Domain\Invoices\Controllers\UserInvoicesController;
 use Domain\Payments\Controllers\PaymentMethodsController;
+use App\Users\Controllers\Account\AccountDetailsController;
+use App\Users\Controllers\Account\UpdatePasswordController;
+use App\Users\Controllers\Account\StorageCapacityController;
+use App\Users\Controllers\Verification\VerifyEmailController;
 use Domain\Subscriptions\Controllers\GetSetupIntentController;
+use App\Users\Controllers\Verification\ResendVerificationEmail;
+use App\Users\Controllers\Authentication\CheckAccountController;
+use App\Users\Controllers\Account\UpdateProfileSettingsController;
 use Domain\Subscriptions\Controllers\SubscriptionCancelController;
-use Domain\Subscriptions\Controllers\SubscriptionDetailsController;
 use Domain\Subscriptions\Controllers\SubscriptionResumeController;
+use Domain\Subscriptions\Controllers\SubscriptionDetailsController;
 use Domain\Subscriptions\Controllers\SubscriptionUpgradeController;
+use App\Users\Controllers\Authentication\AccountAccessTokenController;
 
 Route::post('/check', CheckAccountController::class);
 

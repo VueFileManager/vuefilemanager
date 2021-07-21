@@ -1,11 +1,8 @@
 <?php
-
-
 namespace App\Users\Controllers\Account;
 
-
-use App\Users\Resources\UserStorageResource;
 use Illuminate\Support\Facades\Auth;
+use App\Users\Resources\UserStorageResource;
 
 class StorageCapacityController
 {

@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Settings\Controllers;
 
-use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 

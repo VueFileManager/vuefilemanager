@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Invoices\Controllers;
 
-
 use App\Http\Controllers\Controller;
-use Domain\Invoices\Resources\InvoiceCollection;
 use Illuminate\Support\Facades\Auth;
+use Domain\Invoices\Resources\InvoiceCollection;
 
 class UserInvoicesController extends Controller
 {

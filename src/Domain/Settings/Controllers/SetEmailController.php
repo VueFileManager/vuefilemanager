@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Domain\Settings\Controllers;
-
 
 use Artisan;
 use Illuminate\Http\Request;

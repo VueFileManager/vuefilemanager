@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Domain\Subscriptions\Controllers;
 
-
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Users\Resources\UserSubscription;
-use Auth;
 
 class SubscriptionDetailsController extends Controller
 {
@@ -14,7 +11,7 @@ class SubscriptionDetailsController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->subscription('main')) {
+        if (! $user->subscription('main')) {
             return abort(204, "User don't have any subscription");
         }
 
@@ -25,7 +22,8 @@ class SubscriptionDetailsController extends Controller
         }
 
         return cache()->rememberForever(
-            $slug, fn() => new UserSubscription($user)
+            $slug,
+            fn () => new UserSubscription($user)
         );
     }
 }

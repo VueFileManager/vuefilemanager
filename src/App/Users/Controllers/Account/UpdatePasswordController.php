@@ -1,19 +1,16 @@
 <?php
-
-
 namespace App\Users\Controllers\Account;
 
-
-use App\Http\Controllers\Controller;
-use App\Users\Requests\UpdateUserPasswordRequest;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Users\Requests\UpdateUserPasswordRequest;
 
 class UpdatePasswordController extends Controller
 {
     public function __invoke(
         UpdateUserPasswordRequest $request
-    ): Response{
+    ): Response {
         $user = Auth::user();
 
         // Check if is demo

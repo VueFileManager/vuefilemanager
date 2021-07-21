@@ -2,7 +2,6 @@
 namespace Domain\Payments\Controllers;
 
 use Auth;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Cashier\PaymentMethod;
 use App\Http\Controllers\Controller;
@@ -17,7 +16,8 @@ class PaymentMethodsController extends Controller
 {
     public function __construct(
         private StripeService $stripe,
-    ) {}
+    ) {
+    }
 
     /**
      * Get user payment methods grouped by default and others

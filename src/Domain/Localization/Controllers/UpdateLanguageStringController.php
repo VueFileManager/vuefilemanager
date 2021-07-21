@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Domain\Localization\Controllers;
 
-
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Domain\Localization\Models\Language;
 use Domain\Localization\Requests\UpdateStringRequest;
-use Illuminate\Http\Response;
 
 class UpdateLanguageStringController extends Controller
 {
@@ -18,7 +15,6 @@ class UpdateLanguageStringController extends Controller
         UpdateStringRequest $request,
         Language $language,
     ): Response {
-
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
@@ -32,7 +28,8 @@ class UpdateLanguageStringController extends Controller
         cache()->forget("language-translations-{$language->locale}");
 
         return response(
-            'Done', 204
+            'Done',
+            204
         );
     }
 }

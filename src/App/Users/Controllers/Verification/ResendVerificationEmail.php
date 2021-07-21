@@ -1,20 +1,16 @@
 <?php
-
-
 namespace App\Users\Controllers\Verification;
 
-
-use App\Http\Controllers\Controller;
 use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class ResendVerificationEmail extends Controller
 {
     public function __invoke(
         Request $request
     ): Response {
-
         $user = User::where('email', $request->input('email'))
             ->first();
 

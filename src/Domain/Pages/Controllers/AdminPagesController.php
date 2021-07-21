@@ -42,7 +42,8 @@ class AdminPagesController extends Controller
         );
 
         return response(
-            new PageResource($page), 204
+            new PageResource($page),
+            204
         );
     }
 }

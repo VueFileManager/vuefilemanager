@@ -1,15 +1,12 @@
 <?php
-
-
 namespace Domain\Settings\Controllers;
 
-
 use Artisan;
-use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Cartalyst\Stripe\Stripe;
-use Domain\Settings\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Domain\Settings\Models\Setting;
+use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SetStripeController

@@ -8,7 +8,6 @@ use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\SetupWizard\Controllers\CreateAdminAccountController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
 
-
 // Setup Wizard
 Route::post('/admin-setup', CreateAdminAccountController::class);
 
