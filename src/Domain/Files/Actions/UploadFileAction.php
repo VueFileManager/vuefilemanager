@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Files\Actions;
 
+use App\Users\Actions\CheckStorageCapacityAction;
 use Domain\Sharing\Models\Share;
-use Support\Services\HelperService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -13,10 +13,11 @@ use Domain\Traffic\Actions\RecordUploadAction;
 class UploadFileAction
 {
     public function __construct(
-        public HelperService $helper,
         public RecordUploadAction $recordUpload,
-    ) {
-    }
+        public CheckStorageCapacityAction $checkStorageCapacity,
+        public CreateImageThumbnailAction $createImageThumbnail,
+        public MoveFileToExternalStorageAction $moveFileToExternalStorage,
+    ) {}
 
     /**
      * Upload new file
@@ -64,17 +65,17 @@ class UploadFileAction
             $file_mimetype = $disk_local->mimeType("chunks/$temp_filename");
 
             // Check if user has enough space to upload file
-            $this->helper->check_user_storage_capacity($user_id, $file_size, $temp_filename);
+            ($this->checkStorageCapacity)($user_id, $file_size, $temp_filename);
 
             // Create thumbnail
-            $thumbnail = $this->helper->create_image_thumbnail("chunks/$temp_filename", $disk_file_name, $user_id);
+            $thumbnail = ($this->createImageThumbnail)("chunks/$temp_filename", $disk_file_name, $user_id);
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move("chunks/$temp_filename", "files/$user_id/$disk_file_name");
 
             // Move files to external storage
             if (! is_storage_driver(['local'])) {
-                $this->helper->move_file_to_external_storage($disk_file_name, $user_id);
+                ($this->moveFileToExternalStorage)($disk_file_name, $user_id);
             }
 
             // Store user upload size
