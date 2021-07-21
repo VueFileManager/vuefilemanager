@@ -8,7 +8,7 @@ use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Zipping\Controllers\ZipFilesController;
 use App\Users\Controllers\ForgotPasswordController;
-use Domain\Files\Controllers\UploadFilesController;
+use Domain\Files\Controllers\UploadFileController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Plans\Controllers\ActivePlansController;
 use Domain\Zipping\Controllers\ZipFolderController;
@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 // User master,editor routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/create-folder', CreateFolderController::class);
-    Route::post('/upload', UploadFilesController::class);
+    Route::post('/upload', UploadFileController::class);
 
     Route::patch('/rename/{id}', [EditItemsController::class, 'rename_item']);
     Route::post('/remove', [EditItemsController::class, 'delete_item']);

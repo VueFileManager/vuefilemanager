@@ -4,8 +4,11 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
-use Domain\SetupWizard\Services\SchedulerService;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
+use Support\Scheduler\Actions\DeleteFailedFilesAction;
+use Support\Scheduler\Actions\DeleteOldZipsAction;
+use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,29 +24,24 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        $scheduler = resolve(SchedulerService::class);
+        $schedule->call(
+            fn () => resolve(DeleteExpiredShareLinksAction::class)()
+        )->everyTenMinutes();
 
-        $schedule->call(function () use ($scheduler) {
-            $scheduler->delete_expired_shared_links();
-        })->everyTenMinutes();
+        $schedule->call(
+            fn () => resolve(DeleteUnverifiedUsersAction::class)()
+        )->daily();
 
-        $schedule->call(function () use ($scheduler) {
-            $scheduler->delete_old_zips();
+        $schedule->call(function () {
+            resolve(DeleteOldZipsAction::class)();
 
             if (! is_storage_driver(['local'])) {
-                $scheduler->delete_failed_files();
+                resolve(DeleteFailedFilesAction::class)();
             }
         })->everySixHours();
-
-        $schedule->call(function () use ($scheduler) {
-            $scheduler->delete_unverified_users();
-        })->daily();
 
         // Run queue jobs every minute
         $schedule->command('queue:work --stop-when-empty')

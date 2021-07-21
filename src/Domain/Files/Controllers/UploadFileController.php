@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Actions\UploadFileAction;
 
-class UploadFilesController extends Controller
+class UploadFileController extends Controller
 {
     /**
      * Upload file for authenticated master|editor user
