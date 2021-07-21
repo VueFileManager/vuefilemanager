@@ -16,8 +16,7 @@ class UploadFileController extends Controller
         UploadRequest $request,
         UploadFileAction $uploadFiles,
         FakeUploadFileAction $fakeUploadFile,
-    ): File|array {
-
+    ): File | array {
         if (is_demo_account('howdy@hi5ve.digital')) {
             return ($fakeUploadFile)($request);
         }

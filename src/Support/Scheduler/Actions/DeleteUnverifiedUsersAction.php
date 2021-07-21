@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Support\Scheduler\Actions;
-
 
 use App\Users\Models\User;
 

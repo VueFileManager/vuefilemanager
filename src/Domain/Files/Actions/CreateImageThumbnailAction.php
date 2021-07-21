@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Domain\Files\Actions;
-
 
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -16,8 +13,7 @@ class CreateImageThumbnailAction
         string $file_path,
         string $filename,
         string $user_id
-    ): string|null {
-
+    ): string | null {
         $availableFormats = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
         // Create thumbnail from image

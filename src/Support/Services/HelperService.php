@@ -2,15 +2,11 @@
 namespace Support\Services;
 
 use Illuminate\Support\Arr;
-use Aws\S3\MultipartUploader;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Aws\Exception\MultipartUploadException;
 use Intervention\Image\ImageManagerStatic as Image;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class HelperService
 {

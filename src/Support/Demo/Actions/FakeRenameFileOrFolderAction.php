@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Support\Demo\Actions;
-
 
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
@@ -17,7 +14,6 @@ class FakeRenameFileOrFolderAction
         RenameItemRequest $request,
         string $id,
     ): array {
-
         // Get item
         if ($request->input('type') === 'folder') {
             $item = Folder::where('id', $id)

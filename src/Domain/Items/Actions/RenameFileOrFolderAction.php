@@ -1,12 +1,8 @@
 <?php
-
-
 namespace Domain\Items\Actions;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Items\Requests\RenameItemRequest;
 use Illuminate\Database\Eloquent\Model;
+use Domain\Items\Requests\RenameItemRequest;
 
 class RenameFileOrFolderAction
 {
@@ -17,7 +13,6 @@ class RenameFileOrFolderAction
         RenameItemRequest $request,
         string $id,
     ): Model {
-
         // Get item
         $item = get_item($request->input('type'), $id);
 

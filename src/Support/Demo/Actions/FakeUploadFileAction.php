@@ -1,12 +1,9 @@
 <?php
-
-
 namespace Support\Demo\Actions;
 
-
 use ByteUnits\Metric;
-use Domain\Files\Requests\UploadRequest;
 use Illuminate\Support\Str;
+use Domain\Files\Requests\UploadRequest;
 
 class FakeUploadFileAction
 {

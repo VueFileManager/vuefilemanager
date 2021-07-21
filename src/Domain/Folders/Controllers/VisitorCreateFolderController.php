@@ -3,11 +3,11 @@ namespace Domain\Folders\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Demo\Actions\FakeCreateFolderAction;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Domain\Folders\Actions\CreateFolderAction;
 use Domain\Folders\Requests\CreateFolderRequest;
+use Support\Demo\Actions\FakeCreateFolderAction;
 
 /**
  * Create new folder for guest user with edit permission
@@ -16,7 +16,8 @@ class VisitorCreateFolderController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         FakeCreateFolderAction $fakeCreateFolderAction,

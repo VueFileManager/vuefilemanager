@@ -1,16 +1,13 @@
 <?php
-
-
 namespace Domain\Items\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Domain\Files\Models\File;
-use Domain\Items\Actions\MoveFileOrFolderAction;
-use Domain\Items\Requests\MoveItemRequest;
-use Domain\Sharing\Models\Share;
 use Illuminate\Http\Response;
+use Domain\Sharing\Models\Share;
 use Support\Services\HelperService;
+use App\Http\Controllers\Controller;
+use Domain\Items\Requests\MoveItemRequest;
+use Domain\Items\Actions\MoveFileOrFolderAction;
 
 /**
  * Move item for guest user with edit permission
@@ -20,15 +17,17 @@ class VisitorMoveFileOrFolderController extends Controller
     public function __construct(
         private HelperService $helper,
         private MoveFileOrFolderAction $moveFileOrFolder,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         MoveItemRequest $request,
         Share $shared,
     ): Response {
-
         abort_if(
-            is_demo_account($shared->user->email), 204, 'Done.'
+            is_demo_account($shared->user->email),
+            204,
+            'Done.'
         );
 
         // Check ability to access protected share record

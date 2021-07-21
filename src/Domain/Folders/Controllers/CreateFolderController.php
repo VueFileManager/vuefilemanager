@@ -17,8 +17,7 @@ class CreateFolderController extends Controller
         CreateFolderRequest $request,
         CreateFolderAction $createFolder,
         FakeCreateFolderAction $fakeCreateFolder,
-    ): Response|array {
-
+    ): Response | array {
         // If is demo, return fake folder
         if (is_demo_account(Auth::user()->email)) {
             return ($fakeCreateFolder)($request);

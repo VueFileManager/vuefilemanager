@@ -1,15 +1,12 @@
 <?php
-
-
 namespace Domain\Items\Actions;
 
-
 use DB;
-use Domain\Files\Models\File as UserFile;
-use Domain\Folders\Models\Folder;
-use Domain\Sharing\Models\Share;
 use Illuminate\Support\Arr;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Storage;
+use Domain\Files\Models\File as UserFile;
 
 class DeleteFileOrFolderAction
 {

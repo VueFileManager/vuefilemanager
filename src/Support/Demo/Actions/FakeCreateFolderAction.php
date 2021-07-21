@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Support\Demo\Actions;
 
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class FakeCreateFolderAction
 {

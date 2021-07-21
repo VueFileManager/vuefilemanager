@@ -1,16 +1,12 @@
 <?php
-
-
 namespace Domain\Items\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Items\Actions\DeleteFileOrFolderAction;
-use Domain\Items\Actions\MoveFileOrFolderAction;
-use Domain\Items\Requests\DeleteItemRequest;
-use Domain\Sharing\Models\Share;
 use Illuminate\Http\Response;
+use Domain\Sharing\Models\Share;
 use Support\Services\HelperService;
+use App\Http\Controllers\Controller;
+use Domain\Items\Requests\DeleteItemRequest;
+use Domain\Items\Actions\DeleteFileOrFolderAction;
 
 /**
  * Delete item for guest user with edit permission
@@ -20,15 +16,17 @@ class VisitorDeleteFileOrFolderController extends Controller
     public function __construct(
         private HelperService $helper,
         private DeleteFileOrFolderAction $deleteFileOrFolder,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         DeleteItemRequest $request,
         Share $shared,
     ): Response {
-
         abort_if(
-            is_demo_account($shared->user->email), 204, 'Done.'
+            is_demo_account($shared->user->email),
+            204,
+            'Done.'
         );
 
         // Check ability to access protected share record

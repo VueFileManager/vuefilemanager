@@ -3,12 +3,11 @@ namespace Domain\Files\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
-use Support\Demo\Actions\FakeUploadFileAction;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
-use Support\Demo\Actions\DemoService;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Actions\UploadFileAction;
+use Support\Demo\Actions\FakeUploadFileAction;
 
 /**
  * guest user upload file into shared folder
@@ -17,7 +16,8 @@ class VisitorUploadFilesController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         FakeUploadFileAction $fakeUploadFile,

@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Actions;
 
-use App\Users\Actions\CheckStorageCapacityAction;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -9,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
+use App\Users\Actions\CheckStorageCapacityAction;
 
 class UploadFileAction
 {
@@ -17,7 +17,8 @@ class UploadFileAction
         public CheckStorageCapacityAction $checkStorageCapacity,
         public CreateImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
-    ) {}
+    ) {
+    }
 
     /**
      * Upload new file

@@ -1,17 +1,14 @@
 <?php
-
-
 namespace Domain\Items\Controllers;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Folders\Actions\UpdateFolderPropertyAction;
-use Domain\Items\Actions\RenameFileOrFolderAction;
-use Domain\Items\Requests\RenameItemRequest;
-use Domain\Sharing\Models\Share;
 use Illuminate\Http\Response;
-use Support\Demo\Actions\FakeRenameFileOrFolderAction;
+use Domain\Sharing\Models\Share;
 use Support\Services\HelperService;
+use App\Http\Controllers\Controller;
+use Domain\Items\Requests\RenameItemRequest;
+use Domain\Items\Actions\RenameFileOrFolderAction;
+use Domain\Folders\Actions\UpdateFolderPropertyAction;
+use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 
 /**
  * Rename item for guest user with edit permission
@@ -23,14 +20,14 @@ class VisitorRenameFileOrFolderController extends Controller
         private RenameFileOrFolderAction $renameFileOrFolder,
         private UpdateFolderPropertyAction $updateFolderProperty,
         private FakeRenameFileOrFolderAction $fakeRenameFileOrFolder,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         RenameItemRequest $request,
         string $id,
         Share $shared,
     ): Response {
-
         // Return fake renamed item in demo
         if (is_demo_account($shared->user->email)) {
             return ($this->fakeRenameFileOrFolder)($request, $id);

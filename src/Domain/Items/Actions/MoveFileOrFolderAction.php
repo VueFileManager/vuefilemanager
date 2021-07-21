@@ -1,12 +1,8 @@
 <?php
-
-
 namespace Domain\Items\Actions;
 
-
-use App\Http\Controllers\Controller;
-use Domain\Files\Models\File as UserFile;
 use Domain\Folders\Models\Folder;
+use Domain\Files\Models\File as UserFile;
 
 class MoveFileOrFolderAction
 {

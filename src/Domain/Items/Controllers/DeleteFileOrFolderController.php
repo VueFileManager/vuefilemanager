@@ -1,14 +1,11 @@
 <?php
-
-
 namespace Domain\Items\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Auth;
-use Domain\Items\Actions\DeleteFileOrFolderAction;
-use Domain\Items\Requests\DeleteItemRequest;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Domain\Items\Requests\DeleteItemRequest;
+use Domain\Items\Actions\DeleteFileOrFolderAction;
 
 class DeleteFileOrFolderController extends Controller
 {
@@ -18,9 +15,11 @@ class DeleteFileOrFolderController extends Controller
     public function __invoke(
         DeleteItemRequest $request,
         DeleteFileOrFolderAction $deleteFileOrFolder,
-    ): Response{
+    ): Response {
         abort_if(
-            is_demo_account(Auth::user()?->email), 204, 'Done.'
+            is_demo_account(Auth::user()?->email),
+            204,
+            'Done.'
         );
 
         foreach ($request->input('items') as $item) {

@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Domain\Files\Actions;
 
-
-use Aws\Exception\MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Aws\Exception\MultipartUploadException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MoveFileToExternalStorageAction
@@ -16,9 +13,9 @@ class MoveFileToExternalStorageAction
      * Move file to external storage if is set
      */
     public function __invoke(
-        string $file, string $user_id
+        string $file,
+        string $user_id
     ): void {
-
         $disk_local = \Storage::disk('local');
 
         // Get file size

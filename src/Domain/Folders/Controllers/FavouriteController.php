@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller
 {
-
     /**
      * Add folder to user favourites
      * todo: pridat validator ako AddToFavouritesRequest

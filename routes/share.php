@@ -1,15 +1,15 @@
 <?php
 
-use Domain\Items\Controllers\VisitorDeleteFileOrFolderController;
-use Domain\Items\Controllers\VisitorMoveFileOrFolderController;
-use Domain\Items\Controllers\VisitorRenameFileOrFolderController;
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Sharing\Controllers\OGSiteController;
 use Domain\Zipping\Controllers\EditorZipFilesController;
-use Domain\Files\Controllers\VisitorUploadFilesController;
 use Domain\Zipping\Controllers\EditorZipFolderController;
+use Domain\Files\Controllers\VisitorUploadFilesController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
+use Domain\Items\Controllers\VisitorMoveFileOrFolderController;
 use Domain\Files\Controllers\VisitorGetSingleFileInfoController;
+use Domain\Items\Controllers\VisitorDeleteFileOrFolderController;
+use Domain\Items\Controllers\VisitorRenameFileOrFolderController;
 use Domain\Browsing\Controllers\VisitorBrowseFolderContentController;
 use Domain\Folders\Controllers\VisitorNavigationFolderTreeController;
 use Domain\Browsing\Controllers\VisitorSearchFilesAndFoldersController;

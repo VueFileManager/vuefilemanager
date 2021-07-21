@@ -1,22 +1,21 @@
 <?php
 
 use App\Users\Actions\CreateNewUserAction;
-use Domain\Items\Controllers\DeleteFileOrFolderController;
-use Domain\Items\Controllers\MoveFileOrFolderController;
-use Domain\Items\Controllers\RenameFileOrFolderController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
-use Domain\Items\Controllers\EditItemsController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
+use Domain\Files\Controllers\UploadFileController;
 use Domain\Zipping\Controllers\ZipFilesController;
 use App\Users\Controllers\ForgotPasswordController;
-use Domain\Files\Controllers\UploadFileController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Plans\Controllers\ActivePlansController;
 use Domain\Zipping\Controllers\ZipFolderController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
+use Domain\Items\Controllers\MoveFileOrFolderController;
+use Domain\Items\Controllers\DeleteFileOrFolderController;
+use Domain\Items\Controllers\RenameFileOrFolderController;
 use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Trash\Controllers\RestoreTrashContentController;
 use Domain\Browsing\Controllers\BrowseLatestFilesController;
