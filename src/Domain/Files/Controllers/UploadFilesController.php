@@ -4,7 +4,7 @@ namespace Domain\Files\Controllers;
 use Domain\Files\Models\File;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
-use Domain\Files\Actions\UploadFilesAction;
+use Domain\Files\Actions\UploadFileAction;
 
 class UploadFilesController extends Controller
 {
@@ -13,7 +13,7 @@ class UploadFilesController extends Controller
      */
     public function __invoke(
         UploadRequest $request,
-        UploadFilesAction $uploadFiles,
+        UploadFileAction $uploadFiles,
     ): File {
         if (is_demo_account('howdy@hi5ve.digital')) {
             return $this->demo->upload($request);

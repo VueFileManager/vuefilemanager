@@ -68,10 +68,6 @@ class VisitorAccessToItemsTest extends TestCase
                     $this->get("/file/$document->name/$share->token")
                         ->assertStatus(200);
                 }
-
-                $this->assertDatabaseHas('traffic', [
-                    'user_id' => $user->id,
-                ]);
             });
     }
 

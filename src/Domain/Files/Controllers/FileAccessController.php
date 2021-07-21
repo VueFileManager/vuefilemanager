@@ -8,11 +8,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Models\File as UserFile;
+use Domain\Traffic\Actions\RecordDownloadAction;
 
 class FileAccessController extends Controller
 {
     public function __construct(
         public HelperService $helper,
+        public RecordDownloadAction $recordDownload,
     ) {
     }
 
@@ -79,8 +81,9 @@ class FileAccessController extends Controller
         }*/
 
         // Store user download size
-        $request->user()->recordDownload(
-            (int) $file->getRawOriginal('filesize')
+        ($this->recordDownload)(
+            (int) $file->getRawOriginal('filesize'),
+            Auth::id()
         );
 
         return $this->helper->download_file($file, Auth::id());
@@ -100,11 +103,11 @@ class FileAccessController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        $zip
-            ->user
-            ->recordDownload(
-                $disk->size("zip/$zip->basename")
-            );
+        // Store user download size
+        ($this->recordDownload)(
+            $disk->size("zip/$zip->basename"),
+            $zip->user_id
+        );
 
         return $disk->download("zip/$zip->basename", $zip->basename, [
             'Content-Type'        => 'application/zip',

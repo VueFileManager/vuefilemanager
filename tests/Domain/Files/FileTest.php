@@ -65,10 +65,6 @@ class FileTest extends TestCase
         $disk->assertExists(
             "files/$user->id/thumbnail-fake-image.jpg"
         );
-
-        $this->assertDatabaseHas('traffic', [
-            'user_id' => $user->id,
-        ]);
     }
 
     /**
@@ -77,7 +73,7 @@ class FileTest extends TestCase
     public function it_upload_new_file()
     {
         $file = UploadedFile::fake()
-            ->create('fake-file.pdf', 1200, 'application/pdf');
+            ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $user = User::factory(User::class)
             ->create();
@@ -100,10 +96,6 @@ class FileTest extends TestCase
         $disk->assertExists(
             "files/$user->id/fake-file.pdf"
         );
-
-        $this->assertDatabaseHas('traffic', [
-            'user_id' => $user->id,
-        ]);
     }
 
     /**

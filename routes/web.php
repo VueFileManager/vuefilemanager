@@ -2,7 +2,7 @@
 
 use Domain\Homepage\Controllers\IndexController;
 use Domain\Sharing\Controllers\OGSiteController;
-use Domain\Admin\Controllers\AdminInvoiceController;
+use Domain\Invoices\Controllers\AdminInvoiceController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\SetupWizard\Controllers\CreateAdminAccountController;

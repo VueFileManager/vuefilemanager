@@ -7,7 +7,7 @@ use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Support\Demo\Actions\DemoService;
 use Domain\Files\Requests\UploadRequest;
-use Domain\Files\Actions\UploadFilesAction;
+use Domain\Files\Actions\UploadFileAction;
 
 /**
  * guest user upload file into shared folder
@@ -21,7 +21,7 @@ class EditorUploadFilesController extends Controller
     }
 
     public function __invoke(
-        UploadFilesAction $uploadFile,
+        UploadFileAction $uploadFile,
         UploadRequest $request,
         Share $shared,
     ): Response | array {

@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Actions;
 
-use App\Users\Models\User;
 use Domain\Sharing\Models\Share;
 use Support\Services\HelperService;
 use Illuminate\Support\Facades\Auth;
@@ -9,11 +8,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
+use Domain\Traffic\Actions\RecordUploadAction;
 
-class UploadFilesAction
+class UploadFileAction
 {
     public function __construct(
         public HelperService $helper,
+        public RecordUploadAction $recordUpload,
     ) {
     }
 
@@ -77,8 +78,7 @@ class UploadFilesAction
             }
 
             // Store user upload size
-            User::find($user_id)
-                ->recordUpload($file_size);
+            ($this->recordUpload)($file_size, $user_id);
 
             // Return new file
             return UserFile::create([

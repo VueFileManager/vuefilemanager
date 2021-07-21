@@ -7,11 +7,13 @@ use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Models\File as UserFile;
+use Domain\Traffic\Actions\RecordDownloadAction;
 
 class FileSharedAccessController extends Controller
 {
     public function __construct(
         private HelperService $helper,
+        public RecordDownloadAction $recordDownload,
     ) {
     }
 
@@ -30,11 +32,11 @@ class FileSharedAccessController extends Controller
             ->where('shared_token', $token)
             ->first();
 
-        $zip
-            ->user
-            ->recordDownload(
-                $disk->size("zip/$zip->basename")
-            );
+        // Store user download size
+        ($this->recordDownload)(
+            $disk->size("zip/$zip->basename"),
+            $zip->user_id
+        );
 
         return $disk
             ->download("zip/$zip->basename", $zip->basename, [
@@ -67,11 +69,10 @@ class FileSharedAccessController extends Controller
         $this->helper->check_guest_access_to_shared_items($shared, $file);
 
         // Store user download size
-        $shared
-            ->user
-            ->recordDownload(
-                (int) $file->getRawOriginal('filesize')
-            );
+        ($this->recordDownload)(
+            (int) $file->getRawOriginal('filesize'),
+            $shared->user_id
+        );
 
         return $this->helper->download_file($file, $shared->user_id);
     }
@@ -97,11 +98,10 @@ class FileSharedAccessController extends Controller
         $this->helper->check_guest_access_to_shared_items($shared, $file);
 
         // Store user download size
-        $shared
-            ->user
-            ->recordDownload(
-                (int) $file->getRawOriginal('filesize')
-            );
+        ($this->recordDownload)(
+            (int) $file->getRawOriginal('filesize'),
+            $shared->user_id
+        );
 
         return $this->helper->download_thumbnail_file($file, $shared->user_id);
     }

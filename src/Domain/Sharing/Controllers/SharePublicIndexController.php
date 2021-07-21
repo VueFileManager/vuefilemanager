@@ -6,15 +6,21 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Domain\Traffic\Actions\RecordDownloadAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SharePublicIndexController extends Controller
 {
+    public function __construct(
+        public RecordDownloadAction $recordDownload,
+    ) {
+    }
+
     /**
      * Show page index and delete share_session cookie
      */
     public function __invoke(
-        Share $shared
+        Share $shared,
     ): View | StreamedResponse {
         // Delete share_session if exist
         if ($shared->is_protected) {
@@ -29,12 +35,11 @@ class SharePublicIndexController extends Controller
                 ->first();
 
             if ($image) {
+                // Get image filesize
+                $fileSize = (int) $image->getRawOriginal('filesize');
+
                 // Store user download size
-                $shared
-                    ->user
-                    ->recordDownload(
-                        (int) $image->getRawOriginal('filesize')
-                    );
+                ($this->recordDownload)($fileSize, $shared->user->id);
 
                 return $this->get_single_image($image, $shared->user_id);
             }

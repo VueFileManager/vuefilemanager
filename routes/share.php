@@ -34,8 +34,8 @@ Route::group(['prefix' => 'browse'], function () {
     Route::post('/authenticate/{shared}', AuthenticateProtectedSharedItemController::class);
     Route::get('/folders/{id}/{shared}', VisitorBrowseFolderContentController::class);
     Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
-    Route::get('/file/{shared}', VisitorGetSingleFileResourceController::class);
     Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
+    Route::get('/file/{shared}', VisitorGetSingleFileResourceController::class);
     Route::get('/share/{shared}', [ShareController::class, 'show']);
 });
 

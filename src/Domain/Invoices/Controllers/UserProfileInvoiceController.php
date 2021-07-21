@@ -12,8 +12,8 @@ class UserProfileInvoiceController extends Controller
      */
     public function __invoke(): InvoiceCollection
     {
-        return new InvoiceCollection(
-            Auth::user()->invoices()
-        );
+        $user = Auth::user()->invoices();
+
+        return new InvoiceCollection($user);
     }
 }

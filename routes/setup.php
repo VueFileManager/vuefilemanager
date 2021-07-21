@@ -8,7 +8,7 @@ use Domain\SetupWizard\Controllers\StoreDatabaseCredentialsController;
 use Domain\SetupWizard\Controllers\StoreEnvironmentSettingsController;
 use Domain\SetupWizard\Controllers\StoreSubscriptionServiceCredentialsController;
 
-// TODO: create middleware for setup wizard protection after successfull installation
+// TODO: create middleware for setup wizard protection after successful installation
 Route::post('/stripe-credentials', StoreSubscriptionServiceCredentialsController::class);
 Route::post('/environment-setup', StoreEnvironmentSettingsController::class);
 Route::post('/database', StoreDatabaseCredentialsController::class);

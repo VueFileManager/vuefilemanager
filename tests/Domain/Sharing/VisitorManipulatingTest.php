@@ -349,10 +349,6 @@ class VisitorManipulatingTest extends TestCase
                     ])->assertStatus(201);
                 }
 
-                $this->assertDatabaseHas('traffic', [
-                    'user_id' => $user->id,
-                ]);
-
                 $this->assertDatabaseHas('files', [
                     'author' => 'visitor',
                 ]);

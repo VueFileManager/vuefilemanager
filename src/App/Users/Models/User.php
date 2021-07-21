@@ -16,7 +16,6 @@ use App\Users\Notifications\ResetPassword;
 use Domain\Subscriptions\Traits\Subscription;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Domain\Traffic\Models\Traffic as TrafficModel;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -126,38 +125,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function settings(): HasOne
     {
         return $this->hasOne(UserSettings::class);
-    }
-
-    /**
-     * Record user upload filesize
-     */
-    public function recordUpload(int $file_size): void
-    {
-        $record = TrafficModel::whereYear('created_at', '=', now()->year)
-            ->whereMonth('created_at', '=', now()->month)
-            ->firstOrCreate([
-                'user_id' => $this->id,
-            ]);
-
-        $record->update([
-            'upload' => $record->upload + $file_size,
-        ]);
-    }
-
-    /**
-     * Record user download filesize
-     */
-    public function recordDownload(int $file_size): void
-    {
-        $record = TrafficModel::whereYear('created_at', '=', now()->year)
-            ->whereMonth('created_at', '=', now()->month)
-            ->firstOrCreate([
-                'user_id' => $this->id,
-            ]);
-
-        $record->update([
-            'download' => $record->download + $file_size,
-        ]);
     }
 
     /**
