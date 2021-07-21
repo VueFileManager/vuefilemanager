@@ -5,14 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Support\Demo\Actions\DemoService;
 
 class FavouriteController extends Controller
 {
-    public function __construct(
-        public DemoService $demo,
-    ) {
-    }
 
     /**
      * Add folder to user favourites
@@ -24,7 +19,7 @@ class FavouriteController extends Controller
 
         foreach ($request->input('folders') as $id) {
             if (is_demo_account($user->email)) {
-                return $this->demo->favourites($user);
+                return $user->favouriteFolders->makeHidden(['pivot']);
             }
 
             // Add folder to user favourites
@@ -45,7 +40,7 @@ class FavouriteController extends Controller
         $user = Auth::user();
 
         if (is_demo_account($user->email)) {
-            return $this->demo->favourites($user);
+            return $user->favouriteFolders->makeHidden(['pivot']);
         }
 
         // Remove folder from user favourites

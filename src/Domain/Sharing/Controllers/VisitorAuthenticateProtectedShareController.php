@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Domain\Sharing\Resources\ShareResource;
 use Domain\Sharing\Requests\AuthenticateShareRequest;
 
-class AuthenticateProtectedSharedItemController extends Controller
+class VisitorAuthenticateProtectedShareController extends Controller
 {
     /**
      * Check Password for protected item

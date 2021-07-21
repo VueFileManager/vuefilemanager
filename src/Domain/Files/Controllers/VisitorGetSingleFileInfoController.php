@@ -10,7 +10,7 @@ use Domain\Files\Resources\FileResource;
 /**
  * Get shared file record
  */
-class VisitorGetSingleFileResourceController
+class VisitorGetSingleFileInfoController
 {
     public function __construct(
         public HelperService $helper,

@@ -3,6 +3,7 @@ namespace Domain\Files\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Support\Demo\Actions\FakeUploadFileAction;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
 use Support\Demo\Actions\DemoService;
@@ -12,21 +13,20 @@ use Domain\Files\Actions\UploadFileAction;
 /**
  * guest user upload file into shared folder
  */
-class EditorUploadFilesController extends Controller
+class VisitorUploadFilesController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-        public DemoService $demo,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
+        FakeUploadFileAction $fakeUploadFile,
         UploadFileAction $uploadFile,
         UploadRequest $request,
         Share $shared,
     ): Response | array {
         if (is_demo_account($shared->user->email)) {
-            return $this->demo->upload($request);
+            return ($fakeUploadFile)($request);
         }
 
         // Check ability to access protected share record

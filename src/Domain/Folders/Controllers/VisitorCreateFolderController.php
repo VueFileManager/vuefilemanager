@@ -3,30 +3,29 @@ namespace Domain\Folders\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Support\Demo\Actions\FakeCreateFolderAction;
 use Support\Services\HelperService;
 use App\Http\Controllers\Controller;
-use Support\Demo\Actions\DemoService;
 use Domain\Folders\Actions\CreateFolderAction;
 use Domain\Folders\Requests\CreateFolderRequest;
 
 /**
  * Create new folder for guest user with edit permission
  */
-class EditorCreateFolderController extends Controller
+class VisitorCreateFolderController extends Controller
 {
     public function __construct(
         public HelperService $helper,
-        public DemoService $demo,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
+        FakeCreateFolderAction $fakeCreateFolderAction,
         CreateFolderAction $createFolder,
         CreateFolderRequest $request,
         Share $shared,
     ): Response | array {
         if (is_demo_account($shared->user->email)) {
-            return $this->demo->create_folder($request);
+            return ($fakeCreateFolderAction)($request);
         }
 
         // Check ability to access protected share record
