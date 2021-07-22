@@ -76,10 +76,9 @@ class ShareController extends Controller
     /**
      * Delete sharing item
      */
-    public function destroy(
-        Request $request,
-    ): Response {
-        foreach ($request->input('tokens') as $token) {
+    public function destroy(): Response
+    {
+        foreach (request()->input('tokens') as $token) {
             // Delete share record
             Share::where('token', $token)
                 ->where('user_id', Auth::id())

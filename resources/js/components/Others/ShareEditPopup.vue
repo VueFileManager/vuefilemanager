@@ -240,7 +240,7 @@
 
                     // Send delete request
                     await this.$store.dispatch('shareCancel' , this.pickedItem)
-                        .then((response) => {
+                        .then(() => {
 
                             // End deleting spinner button
                             setTimeout(() => this.isDeleting = false, 150)

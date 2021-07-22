@@ -55,7 +55,7 @@
     "/chunks/plan-settings.js": "/chunks/plan-settings.js?id=dbc08f8cdc23900ef40a",
     "/chunks/plan-subscribers.js": "/chunks/plan-subscribers.js?id=8c4b655b9286e06894c5",
     "/chunks/plans.js": "/chunks/plans.js?id=2b26173a02ed9f86e875",
-    "/chunks/platform.js": "/chunks/platform.js?id=b7b13093369e09fcb1cb",
+    "/chunks/platform.js": "/chunks/platform.js?id=96e35689e3b71e7097eb",
     "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=be3d7cf51585313cf53b",
     "/chunks/profile.js": "/chunks/profile.js?id=03526296e71df827ff47",
     "/chunks/profile~chunks/settings-password.js": "/chunks/profile~chunks/settings-password.js?id=fd25990d1ccec0294602",
@@ -97,5 +97,6 @@
     "/chunks/sign-in.e4bd63dd478b0b7f9731.hot-update.js": "/chunks/sign-in.e4bd63dd478b0b7f9731.hot-update.js",
     "/chunks/sign-in.5fb05f1c4d2f285ebf61.hot-update.js": "/chunks/sign-in.5fb05f1c4d2f285ebf61.hot-update.js",
     "/chunks/sign-in.64892e5fdc888eba9b23.hot-update.js": "/chunks/sign-in.64892e5fdc888eba9b23.hot-update.js",
-    "/chunks/sign-in.62aa097b63d9b34e26cd.hot-update.js": "/chunks/sign-in.62aa097b63d9b34e26cd.hot-update.js"
+    "/chunks/sign-in.62aa097b63d9b34e26cd.hot-update.js": "/chunks/sign-in.62aa097b63d9b34e26cd.hot-update.js",
+    "/chunks/platform.cc7392304bf1bf06dc6c.hot-update.js": "/chunks/platform.cc7392304bf1bf06dc6c.hot-update.js"
 }
