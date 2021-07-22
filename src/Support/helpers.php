@@ -254,7 +254,7 @@ if (! function_exists('get_item')) {
      */
     function get_item(string $type, string $id): Folder|File
     {
-        $model = $type === 'Folder'
+        $model = $type === 'folder'
             ? 'folder'
             : 'file';
 
