@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Domain\Localization\Actions;
-
 
 use DB;
 use Domain\Localization\Models\Language;

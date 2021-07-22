@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Localization\Models;
 
-use Domain\Localization\Actions\SeedDefaultLanguageTranslationsAction;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Domain\Localization\Actions\SeedDefaultLanguageTranslationsAction;
 
 /**
  * @method static whereLocale(string $param)

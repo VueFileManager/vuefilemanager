@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Homepage\Controllers;
 
 use Illuminate\Http\Response;
@@ -16,7 +15,6 @@ class SendContactMessageController extends Controller
     public function __invoke(
         SendContactMessageRequest $request
     ): Response {
-
         $contactEmail = get_setting('contact_email');
 
         if ($contactEmail) {

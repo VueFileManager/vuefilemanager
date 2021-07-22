@@ -13,7 +13,9 @@ class DumpTrashController extends Controller
     public function __invoke(): Response
     {
         abort_if(
-            is_demo_account(Auth::user()->email), 204, 'Done!'
+            is_demo_account(Auth::user()->email),
+            204,
+            'Done!'
         );
 
         $user_id = Auth::id();

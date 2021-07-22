@@ -1,8 +1,6 @@
 <?php
 namespace Tests\Domain\Homepage;
 
-use Domain\Pages\Actions\SeedDefaultPagesAction;
-use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Mail;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,6 +9,8 @@ use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Domain\Homepage\Mail\SendContactMessage;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
 
 class HomepageTest extends TestCase
 {

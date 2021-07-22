@@ -1,9 +1,9 @@
 <?php
 namespace Tests\Domain\SetupWizard;
 
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Storage;
 use Tests\TestCase;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class SetupServiceTest extends TestCase
 {

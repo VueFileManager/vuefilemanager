@@ -1,10 +1,10 @@
 <?php
 namespace Domain\Folders\Actions;
 
-use Domain\Folders\Requests\CreateFolderRequest;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
+use Domain\Folders\Requests\CreateFolderRequest;
 
 class CreateFolderAction
 {

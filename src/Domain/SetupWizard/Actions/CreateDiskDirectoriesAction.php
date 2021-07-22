@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Domain\SetupWizard\Actions;
-
 
 use Illuminate\Support\Facades\Storage;
 

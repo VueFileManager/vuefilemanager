@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Domain\Localization\Actions;
 
-
-use Domain\Localization\Models\Language;
 use Domain\Settings\Models\Setting;
+use Domain\Localization\Models\Language;
 
 class SeedDefaultLanguageAction
 {

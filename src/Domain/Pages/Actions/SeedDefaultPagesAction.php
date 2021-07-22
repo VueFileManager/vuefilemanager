@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Domain\Pages\Actions;
-
 
 use Domain\Pages\Models\Page;
 

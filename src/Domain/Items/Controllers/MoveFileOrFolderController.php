@@ -11,7 +11,8 @@ class MoveFileOrFolderController extends Controller
 {
     public function __construct(
         public MoveFileOrFolderAction $moveFileOrFolder,
-    ) {}
+    ) {
+    }
 
     /**
      * Move item for authenticated master|editor user

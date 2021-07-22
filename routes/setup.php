@@ -1,9 +1,9 @@
 <?php
 
-use Domain\SetupWizard\Controllers\CreateAdminAccountController;
 use Domain\SetupWizard\Controllers\StorePlansController;
 use Domain\SetupWizard\Controllers\StoreBillingsController;
 use Domain\SetupWizard\Controllers\StoreAppSettingsController;
+use Domain\SetupWizard\Controllers\CreateAdminAccountController;
 use Domain\SetupWizard\Controllers\VerifyPurchaseCodeController;
 use Domain\SetupWizard\Controllers\StoreDatabaseCredentialsController;
 use Domain\SetupWizard\Controllers\StoreEnvironmentSettingsController;

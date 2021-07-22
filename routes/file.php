@@ -1,10 +1,10 @@
 <?php
 
 // Get avatars and system images
-use App\Users\Controllers\GetAvatarController;
 use Domain\Zip\Controllers\GetZipController;
-use Domain\Settings\Controllers\GetAppImageController;
+use App\Users\Controllers\GetAvatarController;
 use Domain\Zip\Controllers\VisitorGetZipController;
+use Domain\Settings\Controllers\GetAppImageController;
 use Domain\Files\Controllers\FileAccess\GetFileController;
 use Domain\Files\Controllers\FileAccess\GetThumbnailController;
 use Domain\Files\Controllers\FileAccess\VisitorGetFileController;

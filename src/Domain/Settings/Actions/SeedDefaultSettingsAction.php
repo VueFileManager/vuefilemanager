@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Domain\Settings\Actions;
-
 
 use Domain\Settings\Models\Setting;
 

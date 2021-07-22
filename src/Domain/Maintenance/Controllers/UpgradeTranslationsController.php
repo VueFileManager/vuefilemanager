@@ -1,16 +1,17 @@
 <?php
 namespace Domain\Maintenance\Controllers;
 
-use Domain\Localization\Actions\UpgradeLanguageTranslationsAction;
 use Gate;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Domain\Localization\Actions\UpgradeLanguageTranslationsAction;
 
 class UpgradeTranslationsController extends Controller
 {
     public function __construct(
         public UpgradeLanguageTranslationsAction $upgradeLanguageTranslations,
-    ) {}
+    ) {
+    }
 
     /**
      * Get new language translations from default translations

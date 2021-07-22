@@ -2,12 +2,12 @@
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
-use Domain\Settings\Actions\SeedDefaultSettingsAction;
-use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Console\Command;
 use Domain\Settings\Models\Setting;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 
 class SetupProdEnvironment extends Command
 {

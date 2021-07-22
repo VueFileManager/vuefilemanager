@@ -2,10 +2,6 @@
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
-use Domain\Settings\Actions\SeedDefaultSettingsAction;
-use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Console\Command;
@@ -14,6 +10,10 @@ use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 
 class SetupDevEnvironment extends Command
 {

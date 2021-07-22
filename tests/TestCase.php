@@ -2,10 +2,10 @@
 namespace Tests;
 
 use Carbon\Carbon;
-use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
