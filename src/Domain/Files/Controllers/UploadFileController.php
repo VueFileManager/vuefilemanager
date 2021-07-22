@@ -9,18 +9,22 @@ use Support\Demo\Actions\FakeUploadFileAction;
 
 class UploadFileController extends Controller
 {
+    public function __construct(
+        public UploadFileAction $uploadFiles,
+        public FakeUploadFileAction $fakeUploadFile,
+    ) {}
+
     /**
      * Upload file for authenticated master|editor user
      */
     public function __invoke(
         UploadRequest $request,
-        UploadFileAction $uploadFiles,
-        FakeUploadFileAction $fakeUploadFile,
     ): File | array {
+
         if (is_demo_account('howdy@hi5ve.digital')) {
-            return ($fakeUploadFile)($request);
+            return ($this->fakeUploadFile)($request);
         }
 
-        return ($uploadFiles)($request);
+        return ($this->uploadFiles)($request);
     }
 }

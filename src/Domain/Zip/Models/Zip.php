@@ -9,7 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * @property mixed basename
+ * @property string basename
+ * @property string shared_token
+ * @property string id
+ * @property string user_id
+ * @property string created_at
+ * @property string updated_at
+ * @method static where(string $string, string $string1, string $toDateTimeString)
  */
 class Zip extends Model
 {

@@ -9,21 +9,22 @@ use Domain\Items\Actions\DeleteFileOrFolderAction;
 
 class DeleteFileOrFolderController extends Controller
 {
+    public function __construct(
+        public DeleteFileOrFolderAction $deleteFileOrFolder,
+    ){}
+
     /**
      * Delete item for authenticated master|editor user
      */
     public function __invoke(
         DeleteItemRequest $request,
-        DeleteFileOrFolderAction $deleteFileOrFolder,
     ): Response {
         abort_if(
-            is_demo_account(Auth::user()?->email),
-            204,
-            'Done.'
+            is_demo_account(Auth::user()?->email), 204, 'Done.'
         );
 
         foreach ($request->input('items') as $item) {
-            ($deleteFileOrFolder)($item, $item['id']);
+            ($this->deleteFileOrFolder)($item, $item['id']);
         }
 
         return response('Done', 204);

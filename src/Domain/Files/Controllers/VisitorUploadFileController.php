@@ -40,7 +40,7 @@ class VisitorUploadFileController extends Controller
         }
 
         // Check access to requested directory
-        ($this->verifyAccessToItem)($request->folder_id, $shared);
+        ($this->verifyAccessToItem)($request->input('folder_id'), $shared);
 
         // Return new uploaded file
         $new_file = ($this->uploadFile)($request, $shared);

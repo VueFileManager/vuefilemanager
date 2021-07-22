@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Localization\Controllers;
 
+use Domain\Localization\Actions\SeedDefaultLanguageTranslationsAction;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;

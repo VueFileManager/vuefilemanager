@@ -1,52 +1,20 @@
 <?php
-namespace Domain\Localization\Services;
+
+
+namespace Domain\Localization\Actions;
+
 
 use DB;
 use Domain\Localization\Models\Language;
 use Domain\Localization\Models\LanguageTranslation;
 
-class LanguageService
+class UpgradeLanguageTranslationsAction
 {
-    /**
-     * @param $license
-     * @param $locale
-     */
-    public function create_default_language_translations($license, $locale)
-    {
-        $translations = [
-            'extended' => collect([
-                config('language-translations.extended'),
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-            'regular' => collect([
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-        ];
-
-        $translations = $translations[strtolower($license)]
-            ->map(function ($value, $key) use ($locale) {
-                return [
-                    'lang'  => $locale,
-                    'value' => $value,
-                    'key'   => $key,
-                ];
-            })->toArray();
-
-        $chunks = array_chunk($translations, 100);
-
-        foreach ($chunks as $chunk) {
-            DB::table('language_translations')
-                ->insert($chunk);
-        }
-    }
-
     /**
      * Find newly added translations in default language
      * translations file and insert it into database
      */
-    public function upgrade_language_translations()
+    public function __invoke(): void
     {
         // Get all app locales
         $locales = Language::all()

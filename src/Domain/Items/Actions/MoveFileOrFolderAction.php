@@ -2,7 +2,7 @@
 namespace Domain\Items\Actions;
 
 use Domain\Folders\Models\Folder;
-use Domain\Files\Models\File as UserFile;
+use Domain\Files\Models\File;
 
 class MoveFileOrFolderAction
 {
@@ -20,7 +20,7 @@ class MoveFileOrFolderAction
 
             // Move file
             if ($item['type'] !== 'folder') {
-                UserFile::find($item['id'])
+                File::find($item['id'])
                     ->update(['folder_id' => $to_id]);
             }
         }

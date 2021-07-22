@@ -5,6 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static whereLang(string $string)
+ * @property string key
+ * @property string value
+ * @property string lang
+
  */
 class LanguageTranslation extends Model
 {

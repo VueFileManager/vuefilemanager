@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Storage;
-use Domain\Files\Models\File as UserFile;
+use Domain\Files\Models\File;
 
 class DeleteFileOrFolderAction
 {
@@ -52,7 +52,7 @@ class DeleteFileOrFolderAction
                 $child_folders = filter_folders_ids($folder->trashedFolders, 'id');
 
                 // Get children files
-                $files = UserFile::onlyTrashed()
+                $files = File::onlyTrashed()
                     ->whereIn('folder_id', Arr::flatten([$id, $child_folders]))
                     ->get();
 
@@ -80,7 +80,7 @@ class DeleteFileOrFolderAction
         // Delete item
         if ($item['type'] !== 'folder') {
             // Get file
-            $file = UserFile::withTrashed()
+            $file = File::withTrashed()
                 ->find($id);
 
             // Get folder shared record

@@ -10,9 +10,8 @@ class DisabledMimetypes implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $mimetype_blacklist = explode(',', get_setting('mimetypes_blacklist'));
         $file_mimetype = explode('/', $value->getMimeType());
@@ -22,10 +21,8 @@ class DisabledMimetypes implements Rule
 
     /**
      * Get the validation error message.
-     *
-     * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Type of this mime type is not allowed.';
     }

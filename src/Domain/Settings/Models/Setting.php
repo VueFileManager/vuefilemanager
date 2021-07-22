@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @method static whereName(string $string)
+ * @method static updateOrCreate(array $array, array $array1)
+ * @method static forceCreate(array $array)
+ * @method static where(string $string, mixed $get)
+ * @method static whereIn(string $string, string[] $columns)
+ * @method static create(string[] $array)
+ * @property string value
+ * @property string name
  */
 class Setting extends Model
 {

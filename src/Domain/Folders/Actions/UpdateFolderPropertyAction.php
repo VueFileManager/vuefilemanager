@@ -2,13 +2,14 @@
 namespace Domain\Folders\Actions;
 
 use Domain\Folders\Models\Folder;
+use Domain\Items\Requests\RenameItemRequest;
 
 class UpdateFolderPropertyAction
 {
     /**
      * Update folder icon or style
      */
-    public function __invoke($request, string $id): void
+    public function __invoke(RenameItemRequest $request, string $id): void
     {
         // Get folder
         $folder = Folder::find($id);
@@ -24,7 +25,7 @@ class UpdateFolderPropertyAction
         // Set emoji
         if ($request->filled('emoji')) {
             $folder->update([
-                'emoji' => $request->emoji,
+                'emoji' => $request->input('emoji'),
                 'color' => null,
             ]);
         }
@@ -33,7 +34,7 @@ class UpdateFolderPropertyAction
         if ($request->filled('color')) {
             $folder->update([
                 'emoji' => null,
-                'color' => $request->color,
+                'color' => $request->input('color'),
             ]);
         }
     }

@@ -1,14 +1,21 @@
 <?php
 namespace Domain\Localization\Models;
 
+use Domain\Localization\Actions\SeedDefaultLanguageTranslationsAction;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Domain\Localization\Services\LanguageService;
 
 /**
  * @method static whereLocale(string $param)
+ * @method static create(string[] $array)
+ * @property string id
+ * @property string name
+ * @property string locale
+ * @property string created_at
+ * @property string updated_at
  */
 class Language extends Model
 {
@@ -28,7 +35,7 @@ class Language extends Model
 
     public $incrementing = false;
 
-    public function languageTranslations()
+    public function languageTranslations(): HasMany
     {
         return $this->hasMany(LanguageTranslation::class, 'lang', 'locale');
     }
@@ -40,11 +47,10 @@ class Language extends Model
         static::creating(function ($language) {
             $language->id = Str::uuid();
 
-            resolve(LanguageService::class)
-                ->create_default_language_translations(
-                    get_setting('license') ?? 'extended',
-                    $language->locale
-                );
+            resolve(SeedDefaultLanguageTranslationsAction::class)(
+                license: get_setting('license') ?? 'extended',
+                locale: $language->locale
+            );
         });
 
         static::updating(function ($language) {

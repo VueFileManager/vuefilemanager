@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SharePublicIndexController extends Controller
 {
+    /**
+     * Show page index and delete share_session cookie
+     */
     public function __construct(
         public RecordDownloadAction $recordDownload,
     ) {
     }
 
-    /**
-     * Show page index and delete share_session cookie
-     */
     public function __invoke(
         Share $shared,
     ): View | StreamedResponse {

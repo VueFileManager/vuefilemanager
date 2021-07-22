@@ -9,12 +9,15 @@ use Domain\Items\Actions\MoveFileOrFolderAction;
 
 class MoveFileOrFolderController extends Controller
 {
+    public function __construct(
+        public MoveFileOrFolderAction $moveFileOrFolder,
+    ) {}
+
     /**
      * Move item for authenticated master|editor user
      */
     public function __invoke(
         MoveItemRequest $request,
-        MoveFileOrFolderAction $moveFileOrFolder,
     ): Response {
         abort_if(
             is_demo_account(Auth::user()?->email),
@@ -22,10 +25,8 @@ class MoveFileOrFolderController extends Controller
             'Done.'
         );
 
-        ($moveFileOrFolder)(
-            $request,
-            $request->input('to_id')
-        );
+        // Move item
+        ($this->moveFileOrFolder)($request, $request->input('to_id'));
 
         return response('Done!', 204);
     }

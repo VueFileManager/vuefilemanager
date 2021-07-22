@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @method static whereYear(string $string, string $string1, int $year)
  * @method static currentMonth()
+ * @property string id
+ * @property string user_id
+ * @property integer upload
+ * @property integer download
  */
 class Traffic extends Model
 {

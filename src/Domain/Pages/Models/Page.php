@@ -5,16 +5,17 @@ use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property string slug
+ * @property string title
+ * @property boolean visibility
+ * @property string content
+ */
 class Page extends Model
 {
     use Sortable, HasFactory;
 
-    /**
-     * Sortable columns
-     *
-     * @var string[]
-     */
-    public $sortable = [
+    public array $sortable = [
         'title',
         'slug',
         'visibility',

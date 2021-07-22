@@ -17,6 +17,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @method static whereUserId(int|string|null $id)
+ * @method static find(mixed $id)
+ * @method static where(string $string, string $user_id)
+ * @property string id
+ * @property string user_id
+ * @property string parent_id
+ * @property string name
+ * @property string color
+ * @property string emoji
+ * @property string author
+ * @property string author_id
+ * @property string created_at
+ * @property string updated_at
+ * @property string deleted_at
  */
 class Folder extends Model
 {

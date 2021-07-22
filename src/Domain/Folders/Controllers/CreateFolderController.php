@@ -10,20 +10,24 @@ use Support\Demo\Actions\FakeCreateFolderAction;
 
 class CreateFolderController extends Controller
 {
+    public function __construct(
+        public CreateFolderAction $createFolder,
+        public FakeCreateFolderAction $fakeCreateFolder,
+    ) {}
+
     /**
      * Create new folder for authenticated master|editor user
      */
     public function __invoke(
         CreateFolderRequest $request,
-        CreateFolderAction $createFolder,
-        FakeCreateFolderAction $fakeCreateFolder,
     ): Response | array {
         // If is demo, return fake folder
         if (is_demo_account(Auth::user()->email)) {
-            return ($fakeCreateFolder)($request);
+            return ($this->fakeCreateFolder)($request);
         }
 
-        $folder = ($createFolder)($request);
+        // CreateFolder
+        $folder = ($this->createFolder)($request);
 
         return response($folder, 201);
     }

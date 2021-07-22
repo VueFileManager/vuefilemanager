@@ -36,6 +36,6 @@ class CreateFileManagerFolders extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_manager_folders');
+        Schema::dropIfExists('folders');
     }
 }

@@ -43,6 +43,7 @@ class VisitorZipFilesController extends Controller
             ->whereIn('id', $request->items)
             ->get();
 
+        // Create zip
         $zip = ($this->zipFiles)($files, $shared);
 
         // Get file

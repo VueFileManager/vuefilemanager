@@ -39,6 +39,7 @@ class VisitorZipFolderController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
+        // Create zip
         $zip = ($this->zipFolder)($id, $shared);
 
         // Get file

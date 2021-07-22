@@ -43,6 +43,6 @@ class CreateFileManagerFiles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_manager_files');
+        Schema::dropIfExists('files');
     }
 }

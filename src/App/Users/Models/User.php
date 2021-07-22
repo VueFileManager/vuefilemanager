@@ -26,6 +26,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @property mixed id
  * @property Setting settings
+ * @property string email
+ * @property mixed favouriteFolders
+ * @property string role
+ * @method static count()
+ * @method static sortable(string[] $array)
+ * @method static forceCreate(array $array)
+ * @method static where(string $string, string $string1, string $toDateString)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

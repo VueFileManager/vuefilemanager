@@ -2,6 +2,7 @@
 namespace Domain\Sharing\Models;
 
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Database\Factories\ShareFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,15 +45,13 @@ class Share extends Model
 
     /**
      * Generate share link
-     *
-     * @return string
      */
-    public function getLinkAttribute()
+    public function getLinkAttribute(): string
     {
         return url('/share', ['token' => $this->attributes['token']]);
     }
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
@@ -66,7 +65,7 @@ class Share extends Model
 
         static::creating(function ($shared) {
             $shared->id = (string) Str::uuid();
-            $shared->token = Str::random(16);
+            $shared->token = Str::random();
         });
     }
 }

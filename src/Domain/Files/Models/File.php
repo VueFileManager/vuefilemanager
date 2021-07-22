@@ -19,8 +19,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @method static whereUserId($user_id)
  * @method static whereId($id)
- * @property string folder_id
+ * @method static find(mixed $id)
+ * @method static where(string $string, string $user_id)
  * @property string id
+ * @property string user_id
+ * @property string folder_id
+ * @property string thumbnail
+ * @property string filesize
+ * @property string type
+ * @property array metadata
+ * @property string basename
+ * @property string name
+ * @property string mimetype
+ * @property string author
+ * @property string author_id
+ * @property string created_at
+ * @property string updated_at
+ * @property string deleted_at
  */
 class File extends Model
 {
@@ -47,7 +62,7 @@ class File extends Model
         'author_id',
     ];
 
-    public $sortable = [
+    public array $sortable = [
         'name',
         'created_at',
     ];
