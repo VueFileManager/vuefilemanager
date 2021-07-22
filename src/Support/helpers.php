@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use ByteUnits\Metric;
 use App\Users\Models\User;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Collection;
@@ -249,14 +251,14 @@ if (! function_exists('is_demo_account')) {
 if (! function_exists('get_item')) {
     /**
      * Get folder or file item
-     *
-     * @param $type
-     * @param $id
-     * @return \Illuminate\Database\Eloquent\Builder|Model
      */
-    function get_item($type, $id)
+    function get_item(string $type, string $id): Folder|File
     {
-        $namespace = match ($type) {
+        $model = $type === 'Folder'
+            ? 'folder'
+            : 'file';
+
+        $namespace = match ($model) {
             'folder' => 'Domain\\Folders\\Models\\Folder',
             'file'   => 'Domain\\Files\\Models\\File',
         };

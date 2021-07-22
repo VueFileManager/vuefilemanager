@@ -38,7 +38,7 @@ Route::group(['prefix' => 'browse'], function () {
     Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
     Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
     Route::get('/file/{shared}', VisitorShowFileController::class);
-    Route::get('/share/{shared}', [ShareController::class, 'show']);
+    Route::get('/share/{share}', [ShareController::class, 'show']);
 });
 
-Route::get('/og-site/{shared}', WebCrawlerOpenGraphController::class);
+Route::get('/og-site/{share}', WebCrawlerOpenGraphController::class);

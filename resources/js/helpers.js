@@ -68,7 +68,7 @@ const Helpers = {
 
         Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
 
-            if ((value === '' || value === ' ') && !allowEmpty) return
+            if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
 
             axios.post(this.$store.getters.api + route, {name, value, _method: 'patch'})
                 .catch(() => {

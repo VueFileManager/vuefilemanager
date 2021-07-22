@@ -42,7 +42,7 @@
         },
         data() {
             return {
-                password: 'secret',
+                password: '',
                 isLoading: false,
             }
         },

@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Domain\Zip\Models\Zip;
 use Domain\Sharing\Models\Share;
@@ -18,9 +17,9 @@ class ShareController extends Controller
      * Get shared record
      */
     public function show(
-        Share $shared,
+        Share $share,
     ): ShareResource {
-        return new ShareResource($shared);
+        return new ShareResource($share);
     }
 
     /**
@@ -57,20 +56,21 @@ class ShareController extends Controller
      */
     public function update(
         UpdateShareRequest $request,
-        Share $shared,
+        Share $share,
     ): ShareResource {
+
         // Update sharing record
-        $shared->update([
+        $share->update([
             'permission'   => $request->input('permission'),
             'is_protected' => $request->input('protected'),
             'expire_in'    => $request->input('expiration'),
             'password'     => $request->input('password')
                 ? bcrypt($request->input('password'))
-                : $shared->password,
+                : $share->password,
         ]);
 
         // Return shared record
-        return new ShareResource($shared);
+        return new ShareResource($share);
     }
 
     /**

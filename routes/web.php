@@ -16,9 +16,9 @@ Route::get('/translations/{lang}', CurrentLocalizationController::class);
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {
-    Route::get('/share/{shared}', WebCrawlerOpenGraphController::class);
+    Route::get('/share/{share}', WebCrawlerOpenGraphController::class);
 } else {
-    Route::get('/share/{shared}', SharePublicIndexController::class);
+    Route::get('/share/{share}', SharePublicIndexController::class);
 }
 
 // Index

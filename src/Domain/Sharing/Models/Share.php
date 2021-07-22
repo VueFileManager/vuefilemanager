@@ -43,12 +43,9 @@ class Share extends Model
         return ShareFactory::new();
     }
 
-    /**
-     * Generate share link
-     */
     public function getLinkAttribute(): string
     {
-        return url('/share', ['token' => $this->attributes['token']]);
+        return url("/share/{$this->token}");
     }
 
     public function user(): HasOne

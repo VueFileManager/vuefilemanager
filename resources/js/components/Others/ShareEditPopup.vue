@@ -284,7 +284,7 @@
 
                 // Send request to get share link
                 axios
-                    .post('/api/share/' + this.shareOptions.id, {
+                    .post('/api/share/' + this.shareOptions.token, {
                         permission: this.shareOptions.permission,
                         protected: this.shareOptions.isProtected,
                         expiration: this.shareOptions.expiration,

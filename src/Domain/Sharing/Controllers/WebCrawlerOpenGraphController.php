@@ -11,30 +11,30 @@ class WebCrawlerOpenGraphController extends Controller
      * Get og site for web crawlers
      */
     public function __invoke(
-        Share $shared
+        Share $share
     ): View {
-        $namespace = match ($shared->type) {
+        $namespace = match ($share->type) {
             'folder' => 'Domain\\Folders\\Models\\Folder',
             'file'   => 'Domain\\Files\\Models\\File',
         };
 
         // Get file/folder record
-        $item = ($namespace)::where('user_id', $shared->user->id)
-            ->where('id', $shared->item_id)
+        $item = ($namespace)::where('user_id', $share->user->id)
+            ->where('id', $share->item_id)
             ->first();
 
         if ($item->thumbnail) {
-            $item->setPublicUrl($shared->token);
+            $item->setPublicUrl($share->token);
         }
 
         return view('vuefilemanager.crawler.og-view')
             ->with('settings', get_settings_in_json())
             ->with('metadata', [
-                'url'          => url('/share', ['token' => $shared->token]),
-                'is_protected' => $shared->is_protected,
-                'user'         => $shared->user->settings->name,
+                'url'          => url('/share', ['token' => $share->token]),
+                'is_protected' => $share->is_protected,
+                'user'         => $share->user->settings->name,
                 'name'         => $item->name,
-                'size'         => $shared->type === 'folder'
+                'size'         => $share->type === 'folder'
                     ? $item->items
                     : $item->filesize,
                 'thumbnail' => $item->thumbnail ?? null,

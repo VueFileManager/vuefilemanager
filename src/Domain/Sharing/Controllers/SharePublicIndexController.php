@@ -20,18 +20,18 @@ class SharePublicIndexController extends Controller
     }
 
     public function __invoke(
-        Share $shared,
+        Share $share,
     ): View | StreamedResponse {
         // Delete share_session if exist
-        if ($shared->is_protected) {
+        if ($share->is_protected) {
             cookie()->queue('share_session', '', -1);
         }
 
         // Check if shared is image file and then show it
-        if ($shared->type === 'file' && ! $shared->is_protected) {
-            $image = File::whereUserId($shared->user_id)
+        if ($share->type === 'file' && ! $share->is_protected) {
+            $image = File::whereUserId($share->user_id)
                 ->whereType('image')
-                ->whereId($shared->item_id)
+                ->whereId($share->item_id)
                 ->first();
 
             if ($image) {
@@ -39,9 +39,9 @@ class SharePublicIndexController extends Controller
                 $fileSize = (int) $image->getRawOriginal('filesize');
 
                 // Store user download size
-                ($this->recordDownload)($fileSize, $shared->user->id);
+                ($this->recordDownload)($fileSize, $share->user->id);
 
-                return $this->get_single_image($image, $shared->user_id);
+                return $this->get_single_image($image, $share->user_id);
             }
         }
 
