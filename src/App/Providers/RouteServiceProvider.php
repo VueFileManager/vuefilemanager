@@ -108,8 +108,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapSetupWizardApiRoutes()
     {
-        Route::prefix('api/setup')
-            ->middleware('api')
+        Route::middleware(['setup-wizard'])
             ->group(base_path('routes/setup.php'));
     }
 }

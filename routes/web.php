@@ -5,11 +5,7 @@ use Domain\Invoices\Controllers\AdminInvoiceController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Subscriptions\Controllers\StripeWebhookController;
-use Domain\SetupWizard\Controllers\CreateAdminAccountController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
-
-// Setup Wizard
-Route::post('/admin-setup', CreateAdminAccountController::class);
 
 // Subscription Services
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);

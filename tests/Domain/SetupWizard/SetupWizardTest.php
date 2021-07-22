@@ -207,7 +207,7 @@ class SetupWizardTest extends TestCase
      */
     public function it_create_admin_account()
     {
-        $this->postJson('/admin-setup', [
+        $this->post('/admin-setup', [
             'email'                 => 'john@doe.com',
             'password'              => 'VerySecretPassword',
             'password_confirmation' => 'VerySecretPassword',
@@ -280,10 +280,10 @@ class SetupWizardTest extends TestCase
      */
     public function it_try_to_create_admin_account_after_setup_wizard_success()
     {
-        Setting::forceCreate([
-            'name'  => 'setup_wizard_success',
-            'value' => '1',
-        ]);
+        Setting::updateOrCreate(
+            ['name' => 'setup_wizard_success'],
+            ['value' => '1']
+        );
 
         $this->postJson('/admin-setup', [
             'email'                 => 'john@doe.com',
