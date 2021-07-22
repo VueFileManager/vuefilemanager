@@ -1,5 +1,5 @@
 <?php
-namespace Domain\Zipping\Models;
+namespace Domain\Zip\Models;
 
 use App\Users\Models\User;
 use Illuminate\Support\Str;
@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property mixed basename
+ */
 class Zip extends Model
 {
     use HasFactory;

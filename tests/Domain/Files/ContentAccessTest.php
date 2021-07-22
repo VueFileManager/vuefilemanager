@@ -7,19 +7,12 @@ use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\SetupWizard\Services\SetupService;
 
 class ContentAccessTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */

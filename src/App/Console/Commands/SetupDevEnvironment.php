@@ -2,6 +2,10 @@
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Console\Command;
@@ -10,7 +14,6 @@ use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
-use Domain\SetupWizard\Services\SetupService;
 
 class SetupDevEnvironment extends Command
 {
@@ -18,47 +21,44 @@ class SetupDevEnvironment extends Command
 
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'setup:dev';
-    protected $license = 'Extended';
+    protected string $license = 'Extended';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Set up development environment with demo data';
 
-    private $setup;
-
-    public function __construct()
-    {
+    public function __construct(
+        private CreateDiskDirectoriesAction $createDiskDirectories,
+        private SeedDefaultSettingsAction $seedDefaultSettings,
+        private SeedDefaultLanguageAction $seedDefaultLanguage,
+        private SeedDefaultPagesAction $seedDefaultPages,
+    ) {
         parent::__construct();
         $this->setUpFaker();
-        $this->setup = resolve(SetupService::class);
     }
 
     /**
      * Execute the console command.
-     * return @void
      */
     public function handle(): void
     {
         $this->info('Setting up development environment');
 
         $this->info('Creating system directories...');
-        $this->setup->create_directories();
+        ($this->createDiskDirectories)();
 
         $this->info('Migrating Databases...');
         $this->migrate_and_generate();
 
         $this->info('Storing default settings and content...');
         $this->store_default_settings();
-        $this->setup->seed_default_pages();
-        $this->setup->seed_default_settings($this->license);
-        $this->setup->seed_default_language();
+
+        ($this->seedDefaultPages)();
+        ($this->seedDefaultSettings)($this->license);
+        ($this->seedDefaultLanguage)();
 
         $this->info('Creating default admin...');
         $this->create_admin();
@@ -298,7 +298,7 @@ class SetupDevEnvironment extends Command
                 'name'      => 'Second Level',
             ]);
 
-        $third_level = Folder::factory(Folder::class)
+        Folder::factory(Folder::class)
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $second_level->id,

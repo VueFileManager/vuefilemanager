@@ -3,8 +3,8 @@
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Files\Controllers\VisitorShowFileController;
 use Domain\Files\Controllers\VisitorUploadFileController;
-use Domain\Zipping\Controllers\VisitorZipFilesController;
-use Domain\Zipping\Controllers\VisitorZipFolderController;
+use Domain\Zip\Controllers\VisitorZipFilesController;
+use Domain\Zip\Controllers\VisitorZipFolderController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Items\Controllers\VisitorMoveFileOrFolderController;

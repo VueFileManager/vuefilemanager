@@ -1,12 +1,12 @@
 <?php
 namespace Tests\Domain\Settings;
 
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
-use Domain\SetupWizard\Services\SetupService;
 
 class SettingsTest extends TestCase
 {
@@ -38,7 +38,7 @@ class SettingsTest extends TestCase
      */
     public function it_get_admin_settings()
     {
-        resolve(SetupService::class)->seed_default_settings('Extended');
+        resolve(SeedDefaultSettingsAction::class)('Extended');
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -72,7 +72,7 @@ class SettingsTest extends TestCase
      */
     public function it_update_settings()
     {
-        resolve(SetupService::class)->seed_default_settings('Extended');
+        resolve(SeedDefaultSettingsAction::class)('Extended');
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);

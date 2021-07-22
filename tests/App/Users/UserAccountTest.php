@@ -7,17 +7,10 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
-use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Auth\Notifications\VerifyEmail;
 
 class UserAccountTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = resolve(SetupService::class);
-    }
-
     /**
      * @test
      */

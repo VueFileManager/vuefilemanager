@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

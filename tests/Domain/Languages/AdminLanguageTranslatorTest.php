@@ -1,11 +1,11 @@
 <?php
 namespace Tests\Domain\Languages;
 
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Settings\Models\Setting;
 use Domain\Localization\Models\Language;
-use Domain\SetupWizard\Services\SetupService;
 
 class AdminLanguageTranslatorTest extends TestCase
 {
@@ -51,7 +51,7 @@ class AdminLanguageTranslatorTest extends TestCase
      */
     public function it_update_language()
     {
-        resolve(SetupService::class)->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -110,7 +110,7 @@ class AdminLanguageTranslatorTest extends TestCase
      */
     public function it_try_to_delete_default_language()
     {
-        resolve(SetupService::class)->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -128,7 +128,7 @@ class AdminLanguageTranslatorTest extends TestCase
      */
     public function it_get_all_languages()
     {
-        resolve(SetupService::class)->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -148,7 +148,7 @@ class AdminLanguageTranslatorTest extends TestCase
      */
     public function it_update_language_string()
     {
-        resolve(SetupService::class)->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -174,7 +174,7 @@ class AdminLanguageTranslatorTest extends TestCase
      */
     public function it_get_language_with_strings_by_selected_language_id()
     {
-        resolve(SetupService::class)->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);

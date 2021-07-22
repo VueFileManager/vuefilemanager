@@ -1,14 +1,13 @@
 <?php
-namespace Domain\Zipping\Controllers;
+namespace Domain\Zip\Controllers;
 
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class GetZipController extends Controller
+class VisitorGetZipController extends Controller
 {
     public function __construct(
         private RecordDownloadAction $recordDownload,
@@ -16,16 +15,17 @@ class GetZipController extends Controller
     }
 
     /**
-     * Get generated zip for user
+     * Get generated zip for visitor
      */
     public function __invoke(
-        string $id,
+        $id,
+        $token,
     ): StreamedResponse {
         $disk = Storage::disk('local');
 
-        $zip = Zip::whereId($id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $zip = Zip::where('id', $id)
+            ->where('shared_token', $token)
+            ->first();
 
         // Store user download size
         ($this->recordDownload)(
@@ -38,7 +38,7 @@ class GetZipController extends Controller
             'Content-Length'      => $disk->size("zip/$zip->basename"),
             'Accept-Ranges'       => 'bytes',
             'Content-Range'       => 'bytes 0-600/' . $disk->size("zip/$zip->basename"),
-            'Content-Disposition' => "attachment; filename=$zip->basename",
+            'Content-Disposition' => 'attachment; filename=' . $zip->basename,
         ]);
     }
 }

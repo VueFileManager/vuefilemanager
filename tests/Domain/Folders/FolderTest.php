@@ -8,18 +8,9 @@ use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Domain\SetupWizard\Services\SetupService;
-
-// TODO: pridat foldre do api skupiny
 
 class FolderTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */

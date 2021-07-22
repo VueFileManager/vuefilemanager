@@ -6,21 +6,12 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Domain\Sharing\Models\Share;
 use Illuminate\Http\UploadedFile;
-use Domain\SetupWizard\Services\SetupService;
 
 class VisitorAccessToItemsTest extends TestCase
 {
-    private $setup;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */

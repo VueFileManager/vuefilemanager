@@ -2,12 +2,14 @@
 namespace Domain\SetupWizard\Controllers;
 
 use App\Users\Models\User;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Domain\SetupWizard\Services\SetupService;
 
 /**
  * Create and login admin account
@@ -15,9 +17,10 @@ use Domain\SetupWizard\Services\SetupService;
 class CreateAdminAccountController extends Controller
 {
     public function __construct(
-        public SetupService $setup,
-    ) {
-    }
+        public SeedDefaultPagesAction $seedDefaultPages,
+        public SeedDefaultLanguageAction $seedDefaultLanguage,
+        public SeedDefaultSettingsAction $seedDefaultSettingsAction,
+    ) {}
 
     public function __invoke(
         Request $request
@@ -70,9 +73,9 @@ class CreateAdminAccountController extends Controller
         });
 
         // Set up application
-        $this->setup->seed_default_pages();
-        $this->setup->seed_default_settings($request->input('license'));
-        $this->setup->seed_default_language();
+        ($this->seedDefaultPages)();
+        ($this->seedDefaultSettingsAction)($request->input('license'));
+        ($this->seedDefaultLanguage)();
 
         // Login account
         if (Auth::attempt($request->only(['email', 'password']))) {

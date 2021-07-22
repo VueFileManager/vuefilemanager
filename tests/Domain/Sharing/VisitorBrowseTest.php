@@ -6,16 +6,9 @@ use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Domain\SetupWizard\Services\SetupService;
 
 class VisitorBrowseTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */

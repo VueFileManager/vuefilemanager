@@ -1,6 +1,8 @@
 <?php
 namespace Tests\Domain\Homepage;
 
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Mail;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -9,24 +11,17 @@ use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
 use Domain\Homepage\Mail\SendContactMessage;
-use Domain\SetupWizard\Services\SetupService;
 
 class HomepageTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */
     public function it_get_index_page()
     {
-        $this->setup->seed_default_pages();
+        resolve(SeedDefaultPagesAction::class)();
 
-        $this->setup->seed_default_settings('Extended');
+        resolve(SeedDefaultSettingsAction::class)('Extended');
 
         Setting::create([
             'name'  => 'setup_wizard_success',

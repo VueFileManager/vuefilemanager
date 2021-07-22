@@ -2,9 +2,9 @@
 namespace Tests;
 
 use Carbon\Carbon;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
-use Domain\SetupWizard\Services\SetupService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
 
         Storage::fake('local');
 
-        resolve(SetupService::class)->create_directories();
+        resolve(CreateDiskDirectoriesAction::class)();
 
         //$this->withoutExceptionHandling();
     }

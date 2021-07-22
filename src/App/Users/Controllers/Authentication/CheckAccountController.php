@@ -24,7 +24,7 @@ class CheckAccountController extends Controller
         return [
             'name'     => $user->settings->name,
             'avatar'   => $user->settings->avatar,
-            'verified' => $user->email_verified_at ? true : false,
+            'verified' => $user->email_verified_at ? 1 : 0,
         ];
     }
 }

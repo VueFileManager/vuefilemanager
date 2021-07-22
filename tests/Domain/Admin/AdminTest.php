@@ -7,21 +7,14 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use App\Users\Notifications\ResetPassword;
-use Domain\SetupWizard\Services\SetupService;
 
 class AdminTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */

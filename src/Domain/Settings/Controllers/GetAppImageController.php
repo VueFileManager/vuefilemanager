@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class GetIAppController
+class GetAppImageController
 {
     /**
      * Get system image

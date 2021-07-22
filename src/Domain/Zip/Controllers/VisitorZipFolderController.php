@@ -1,11 +1,11 @@
 <?php
-namespace Domain\Zipping\Controllers;
+namespace Domain\Zip\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
-use Domain\Zipping\Actions\ZipFolderAction;
+use Domain\Zip\Actions\ZipFolderAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
@@ -17,11 +17,11 @@ class VisitorZipFolderController extends Controller
     public function __construct(
         private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
+        private ZipFolderAction $zipFolder,
     ) {
     }
 
     public function __invoke(
-        ZipFolderAction $zipFolder,
         string $id,
         Share $shared,
     ): Response {
@@ -39,7 +39,7 @@ class VisitorZipFolderController extends Controller
             abort(404, 'Requested folder doesn\'t exists.');
         }
 
-        $zip = ($zipFolder)($id, $shared);
+        $zip = ($this->zipFolder)($id, $shared);
 
         // Get file
         return response([

@@ -1,10 +1,10 @@
 <?php
 namespace Tests\Domain\Pages;
 
+use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Domain\SetupWizard\Services\SetupService;
 
 class AdminPagesTest extends TestCase
 {
@@ -13,7 +13,7 @@ class AdminPagesTest extends TestCase
      */
     public function it_get_all_pages()
     {
-        resolve(SetupService::class)->seed_default_pages();
+        resolve(SeedDefaultPagesAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -35,7 +35,7 @@ class AdminPagesTest extends TestCase
      */
     public function it_get_page()
     {
-        resolve(SetupService::class)->seed_default_pages();
+        resolve(SeedDefaultPagesAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);
@@ -54,7 +54,7 @@ class AdminPagesTest extends TestCase
      */
     public function it_update_page()
     {
-        resolve(SetupService::class)->seed_default_pages();
+        resolve(SeedDefaultPagesAction::class)();
 
         $admin = User::factory(User::class)
             ->create(['role' => 'admin']);

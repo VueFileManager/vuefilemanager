@@ -1,7 +1,7 @@
 <?php
 namespace Support\Scheduler\Actions;
 
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteOldZipsAction

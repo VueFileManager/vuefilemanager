@@ -16,7 +16,7 @@ class MoveFileToExternalStorageAction
         string $file,
         string $user_id
     ): void {
-        $disk_local = \Storage::disk('local');
+        $disk_local = Storage::disk('local');
 
         // Get file size
         $filesize = $disk_local->size("files/$user_id/$file");
@@ -24,7 +24,7 @@ class MoveFileToExternalStorageAction
         // If file is bigger than 5.2MB then run multipart upload
         if ($filesize > 5242880) {
             // Get driver
-            $driver = \Storage::getDriver();
+            $driver = Storage::getDriver();
 
             // Get adapter
             $adapter = $driver->getAdapter();

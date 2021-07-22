@@ -1,12 +1,12 @@
 <?php
-namespace Domain\Zipping\Controllers;
+namespace Domain\Zip\Controllers;
 
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
-use Domain\Zipping\Actions\ZipFilesAction;
+use Domain\Zip\Actions\ZipFilesAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
@@ -18,11 +18,11 @@ class VisitorZipFilesController extends Controller
     public function __construct(
         private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
+        private ZipFilesAction $zipFiles,
     ) {
     }
 
     public function __invoke(
-        ZipFilesAction $zipFiles,
         Request $request,
         Share $shared,
     ): Response {
@@ -43,7 +43,7 @@ class VisitorZipFilesController extends Controller
             ->whereIn('id', $request->items)
             ->get();
 
-        $zip = ($zipFiles)($files, $shared);
+        $zip = ($this->zipFiles)($files, $shared);
 
         // Get file
         return response([

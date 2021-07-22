@@ -2,16 +2,16 @@
 
 // Get avatars and system images
 use App\Users\Controllers\GetAvatarController;
-use Domain\Zipping\Controllers\GetZipController;
-use Domain\Settings\Controllers\GetIAppController;
-use Domain\Zipping\Controllers\VisitorGetZipController;
+use Domain\Zip\Controllers\GetZipController;
+use Domain\Settings\Controllers\GetAppImageController;
+use Domain\Zip\Controllers\VisitorGetZipController;
 use Domain\Files\Controllers\FileAccess\GetFileController;
 use Domain\Files\Controllers\FileAccess\GetThumbnailController;
 use Domain\Files\Controllers\FileAccess\VisitorGetFileController;
 use Domain\Files\Controllers\FileAccess\VisitorGetThumbnailController;
 
 Route::get('/avatars/{avatar}', GetAvatarController::class);
-Route::get('/system/{image}', GetIAppController::class);
+Route::get('/system/{image}', GetAppImageController::class);
 
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/{shared}', VisitorGetThumbnailController::class);

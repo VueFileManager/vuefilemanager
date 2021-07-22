@@ -5,8 +5,9 @@ use Domain\Sharing\Models\Share;
 
 class ProtectShareRecordAction
 {
-    public function __invoke(Share $shared): void
-    {
+    public function __invoke(
+        Share $shared
+    ): void {
         if ($shared->is_protected) {
             $abort_message = "Sorry, you don't have permission";
 

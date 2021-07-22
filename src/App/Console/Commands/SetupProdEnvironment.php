@@ -2,19 +2,21 @@
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Console\Command;
 use Domain\Settings\Models\Setting;
-use Domain\SetupWizard\Services\SetupService;
 
 class SetupProdEnvironment extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'setup:prod';
-    protected $license = 'Extended';
+
+    protected string $license = 'Extended';
 
     /**
      * The console command description.
@@ -23,12 +25,13 @@ class SetupProdEnvironment extends Command
      */
     protected $description = 'Set up production environment';
 
-    private $setup;
-
-    public function __construct()
-    {
+    public function __construct(
+        private CreateDiskDirectoriesAction $createDiskDirectories,
+        private SeedDefaultSettingsAction $seedDefaultSettings,
+        private SeedDefaultLanguageAction $seedDefaultLanguage,
+        private SeedDefaultPagesAction $seedDefaultPages,
+    ) {
         parent::__construct();
-        $this->setup = resolve(SetupService::class);
     }
 
     /**
@@ -41,16 +44,17 @@ class SetupProdEnvironment extends Command
         $this->info('Setting up production environment');
 
         $this->info('Creating system directories...');
-        $this->setup->create_directories();
+        ($this->createDiskDirectories)();
 
         $this->info('Migrating Databases...');
         $this->migrate_and_generate();
 
         $this->info('Storing default settings and content...');
         $this->store_default_settings();
-        $this->setup->seed_default_pages();
-        $this->setup->seed_default_settings($this->license);
-        $this->setup->seed_default_language();
+
+        ($this->seedDefaultPages)();
+        ($this->seedDefaultSettings)($this->license);
+        ($this->seedDefaultLanguage)();
 
         $this->info('Creating default admin...');
         $this->create_admin();

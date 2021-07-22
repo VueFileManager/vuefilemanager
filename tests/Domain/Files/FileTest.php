@@ -9,16 +9,9 @@ use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
-use Domain\SetupWizard\Services\SetupService;
 
 class FileTest extends TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */

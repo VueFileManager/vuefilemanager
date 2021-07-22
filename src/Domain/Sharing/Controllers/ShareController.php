@@ -3,7 +3,7 @@ namespace Domain\Sharing\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -31,12 +31,8 @@ class ShareController extends Controller
         SendViaEmailAction $sendLinkToEmailAction,
     ): ShareResource {
         $shared = Share::create([
-            'password'     => $request->has('password')
-                ? bcrypt($request->input('password'))
-                : null,
-            'type'         => $request->input('type') === 'folder'
-                ? 'folder'
-                : 'file',
+            'password'     => $request->has('password') ? bcrypt($request->input('password')) : null,
+            'type'         => $request->input('type') === 'folder' ? 'folder' : 'file',
             'is_protected' => $request->input('isPassword'),
             'permission'   => $request->input('permission') ?? null,
             'expire_in'    => $request->input('expiration') ?? null,

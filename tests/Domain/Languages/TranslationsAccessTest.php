@@ -1,26 +1,18 @@
 <?php
 namespace Tests\Domain\Languages;
 
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Tests\TestCase;
 use Domain\Localization\Models\Language;
-use Domain\SetupWizard\Services\SetupService;
 
 class TranslationsAccessTest extends TestCase
 {
-    protected $setup;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setup = app()->make(SetupService::class);
-    }
-
     /**
      * @test
      */
     public function it_get_language_translations_for_frontend()
     {
-        $this->setup->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $this->getJson('/translations/en')
             ->assertStatus(200)
@@ -34,7 +26,7 @@ class TranslationsAccessTest extends TestCase
      */
     public function it_get_custom_translations_from_file_config()
     {
-        $this->setup->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         $this->assertDatabaseHas('language_translations', [
             'key'   => 'custom',
@@ -48,7 +40,7 @@ class TranslationsAccessTest extends TestCase
      */
     public function it_get_translated_string_from_t_helper_function()
     {
-        $this->setup->seed_default_language();
+        resolve(SeedDefaultLanguageAction::class)();
 
         Language::first()
             ->languageTranslations()

@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Domain\Pages;
 
+use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Tests\TestCase;
-use Domain\SetupWizard\Services\SetupService;
 
 class PagesTest extends TestCase
 {
@@ -11,7 +11,7 @@ class PagesTest extends TestCase
      */
     public function it_get_legal_page()
     {
-        resolve(SetupService::class)->seed_default_pages();
+        resolve(SeedDefaultPagesAction::class)();
 
         $this->getJson('/api/page/terms-of-service')
             ->assertStatus(200)

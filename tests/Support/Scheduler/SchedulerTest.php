@@ -4,7 +4,7 @@ namespace Tests\Support\Scheduler;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zipping\Models\Zip;
+use Domain\Zip\Models\Zip;
 use Domain\Sharing\Models\Share;
 use Illuminate\Http\UploadedFile;
 use Support\Scheduler\Actions\DeleteOldZipsAction;
