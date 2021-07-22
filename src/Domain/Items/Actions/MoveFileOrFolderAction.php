@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Items\Actions;
 
-use Domain\Folders\Models\Folder;
 use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 
 class MoveFileOrFolderAction
 {

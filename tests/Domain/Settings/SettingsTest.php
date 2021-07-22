@@ -1,12 +1,12 @@
 <?php
 namespace Tests\Domain\Settings;
 
-use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
 
 class SettingsTest extends TestCase
 {

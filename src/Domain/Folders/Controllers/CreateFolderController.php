@@ -13,7 +13,8 @@ class CreateFolderController extends Controller
     public function __construct(
         public CreateFolderAction $createFolder,
         public FakeCreateFolderAction $fakeCreateFolder,
-    ) {}
+    ) {
+    }
 
     /**
      * Create new folder for authenticated master|editor user

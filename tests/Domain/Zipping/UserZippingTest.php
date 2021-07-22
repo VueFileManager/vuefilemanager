@@ -4,9 +4,9 @@ namespace Tests\Domain\Zip;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
+use Domain\Zip\Models\Zip;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
-use Domain\Zip\Models\Zip;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 

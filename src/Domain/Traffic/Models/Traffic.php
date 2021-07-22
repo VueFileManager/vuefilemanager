@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static currentMonth()
  * @property string id
  * @property string user_id
- * @property integer upload
- * @property integer download
+ * @property int upload
+ * @property int download
  */
 class Traffic extends Model
 {

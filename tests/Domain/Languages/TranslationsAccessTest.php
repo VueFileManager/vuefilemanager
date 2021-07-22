@@ -1,9 +1,9 @@
 <?php
 namespace Tests\Domain\Languages;
 
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Tests\TestCase;
 use Domain\Localization\Models\Language;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class TranslationsAccessTest extends TestCase
 {

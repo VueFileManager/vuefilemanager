@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @property string slug
  * @property string title
- * @property boolean visibility
+ * @property bool visibility
  * @property string content
  */
 class Page extends Model

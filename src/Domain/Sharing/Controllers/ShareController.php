@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Illuminate\Http\Response;
 use Domain\Zip\Models\Zip;
+use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +58,6 @@ class ShareController extends Controller
         UpdateShareRequest $request,
         Share $share,
     ): ShareResource {
-
         // Update sharing record
         $share->update([
             'permission'   => $request->input('permission'),

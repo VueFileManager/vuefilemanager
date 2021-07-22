@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Domain\Pages;
 
-use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Tests\TestCase;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
 
 class PagesTest extends TestCase
 {

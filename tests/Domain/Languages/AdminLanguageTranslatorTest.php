@@ -1,11 +1,11 @@
 <?php
 namespace Tests\Domain\Languages;
 
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Settings\Models\Setting;
 use Domain\Localization\Models\Language;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class AdminLanguageTranslatorTest extends TestCase
 {

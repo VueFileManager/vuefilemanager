@@ -1,12 +1,11 @@
 <?php
-
 namespace Support\Middleware;
 
+use Schema;
 use Closure;
-use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Schema;
+use Doctrine\DBAL\Driver\PDOException;
 
 class ProtectSetupWizardRoutes
 {
@@ -25,7 +24,6 @@ class ProtectSetupWizardRoutes
             }
 
             return $next($request);
-
         } catch (PDOException $e) {
             return $next($request);
         }

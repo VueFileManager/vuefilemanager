@@ -2,14 +2,14 @@
 namespace Domain\SetupWizard\Controllers;
 
 use App\Users\Models\User;
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
-use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Domain\Settings\Actions\SeedDefaultSettingsAction;
+use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 /**
  * Create and login admin account
@@ -20,7 +20,8 @@ class CreateAdminAccountController extends Controller
         public SeedDefaultPagesAction $seedDefaultPages,
         public SeedDefaultLanguageAction $seedDefaultLanguage,
         public SeedDefaultSettingsAction $seedDefaultSettingsAction,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Request $request

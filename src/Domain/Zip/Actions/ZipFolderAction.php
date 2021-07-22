@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Zip\Actions;
 
-use Illuminate\Support\Str;
 use Domain\Zip\Models\Zip;
+use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;

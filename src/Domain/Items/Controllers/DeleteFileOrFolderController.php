@@ -11,7 +11,8 @@ class DeleteFileOrFolderController extends Controller
 {
     public function __construct(
         public DeleteFileOrFolderAction $deleteFileOrFolder,
-    ){}
+    ) {
+    }
 
     /**
      * Delete item for authenticated master|editor user
@@ -20,7 +21,9 @@ class DeleteFileOrFolderController extends Controller
         DeleteItemRequest $request,
     ): Response {
         abort_if(
-            is_demo_account(Auth::user()?->email), 204, 'Done.'
+            is_demo_account(Auth::user()?->email),
+            204,
+            'Done.'
         );
 
         foreach ($request->input('items') as $item) {

@@ -3,10 +3,10 @@ namespace Domain\Items\Actions;
 
 use DB;
 use Illuminate\Support\Arr;
+use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Storage;
-use Domain\Files\Models\File;
 
 class DeleteFileOrFolderAction
 {

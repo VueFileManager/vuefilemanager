@@ -11,7 +11,7 @@ class CreateImageThumbnailAction
         'image/jpeg',
         'image/jpg',
         'image/png',
-        'image/webp'
+        'image/webp',
     ];
 
     /**
@@ -22,12 +22,10 @@ class CreateImageThumbnailAction
         string $filename,
         string $user_id
     ): string | null {
-
         $mimeType = Storage::disk('local')->mimeType($file_path);
 
         // Create thumbnail from image
         if (in_array($mimeType, $this->availableFormats)) {
-
             // Get thumbnail name
             $thumbnail = "thumbnail-$filename";
 

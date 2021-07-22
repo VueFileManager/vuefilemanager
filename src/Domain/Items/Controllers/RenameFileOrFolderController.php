@@ -15,7 +15,8 @@ class RenameFileOrFolderController extends Controller
         public RenameFileOrFolderAction $renameFileOrFolder,
         public UpdateFolderPropertyAction $updateFolderProperty,
         public FakeRenameFileOrFolderAction $fakeRenameFileOrFolder,
-    ) {}
+    ) {
+    }
 
     /**
      * Rename item for authenticated master|editor user

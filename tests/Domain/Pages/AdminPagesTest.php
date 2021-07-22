@@ -1,10 +1,10 @@
 <?php
 namespace Tests\Domain\Pages;
 
-use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Domain\Pages\Actions\SeedDefaultPagesAction;
 
 class AdminPagesTest extends TestCase
 {

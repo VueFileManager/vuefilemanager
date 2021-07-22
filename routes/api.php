@@ -2,15 +2,15 @@
 
 use App\Users\Actions\CreateNewUserAction;
 use Domain\Pages\Controllers\PagesController;
+use Domain\Zip\Controllers\ZipFilesController;
 use Domain\Sharing\Controllers\ShareController;
+use Domain\Zip\Controllers\ZipFolderController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Files\Controllers\UploadFileController;
-use Domain\Zip\Controllers\ZipFilesController;
 use App\Users\Controllers\ForgotPasswordController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Plans\Controllers\ActivePlansController;
-use Domain\Zip\Controllers\ZipFolderController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Items\Controllers\MoveFileOrFolderController;

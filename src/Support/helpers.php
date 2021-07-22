@@ -3,10 +3,10 @@
 use Carbon\Carbon;
 use ByteUnits\Metric;
 use App\Users\Models\User;
-use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
 use Illuminate\Support\Str;
+use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use Domain\Settings\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
@@ -252,7 +252,7 @@ if (! function_exists('get_item')) {
     /**
      * Get folder or file item
      */
-    function get_item(string $type, string $id): Folder|File
+    function get_item(string $type, string $id): Folder | File
     {
         $model = $type === 'Folder'
             ? 'folder'
