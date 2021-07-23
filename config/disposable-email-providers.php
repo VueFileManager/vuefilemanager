@@ -553,5 +553,5 @@ return [
     'zehnminutenmail.de',
     'zippymail.info',
     'zoemail.net',
-    'zomg.info'
+    'zomg.info',
 ];

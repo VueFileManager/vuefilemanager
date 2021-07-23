@@ -2,30 +2,30 @@
 namespace App\Users\Actions;
 
 use App\Users\Models\User;
-use App\Users\Requests\RegisterUserRequest;
+use Illuminate\Http\Response;
 use App\Users\Models\UserSettings;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
+use App\Users\Requests\RegisterUserRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
 
 class CreateNewUserAction extends Controller
 {
     public function __construct(
         protected StatefulGuard $guard
-    ) {}
+    ) {
+    }
 
     /**
      * Validate and create a new user.
      */
     public function __invoke(
         RegisterUserRequest $request
-    ): Application|ResponseFactory|Response
-    {
+    ): Application | ResponseFactory | Response {
         $settings = get_settings([
-            'storage_default', 'registration', 'user_verification'
+            'storage_default', 'registration', 'user_verification',
         ]);
 
         // Check if account registration is enabled

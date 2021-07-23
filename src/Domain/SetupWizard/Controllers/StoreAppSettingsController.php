@@ -63,7 +63,7 @@ class StoreAppSettingsController extends Controller
             [
                 'name'  => 'storage_default',
                 'value' => $request->input('defaultStorage') ?? 5,
-            ]
+            ],
         ])->each(function ($col) {
             Setting::forceCreate([
                 'name'  => $col['name'],
