@@ -48,14 +48,10 @@ class PaymentMethodsController extends Controller
 
             // filter payment methods without default payment
             $paymentMethodsMapped = Cache::rememberForever($slug_payment_methods, function () use ($defaultPaymentMethod, $user) {
-                $paymentMethods = $user->paymentMethods()->filter(function ($paymentMethod) use ($defaultPaymentMethod) {
-                    return $paymentMethod->id !== $defaultPaymentMethod->id;
-                });
+                $paymentMethods = $user->paymentMethods()->filter(fn ($paymentMethod) => $paymentMethod->id !== $defaultPaymentMethod->id);
 
                 // Get payment methods
-                return $paymentMethods->map(function ($paymentMethod) {
-                    return $paymentMethod->asStripePaymentMethod();
-                })->values()->all();
+                return $paymentMethods->map(fn ($paymentMethod) => $paymentMethod->asStripePaymentMethod())->values()->all();
             });
         }
 

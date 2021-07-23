@@ -22,9 +22,7 @@ class PlansController extends Controller
     {
         // Store or Get plans to cache
         $plans = cache()
-            ->rememberForever('plans', function () {
-                return $this->stripe->getPlans();
-            });
+            ->rememberForever('plans', fn () => $this->stripe->getPlans());
 
         return response(new PlanCollection($plans), 200);
     }
@@ -36,9 +34,7 @@ class PlansController extends Controller
     {
         // Store or Get plan to cache
         $plan = cache()
-            ->rememberForever("plan-$id", function () use ($id) {
-                return $this->stripe->getPlan($id);
-            });
+            ->rememberForever("plan-$id", fn () => $this->stripe->getPlan($id));
 
         return response(new PlanResource($plan), 200);
     }
@@ -51,9 +47,7 @@ class PlansController extends Controller
     {
         if (is_demo()) {
             $plan = cache()
-                ->rememberForever('plan-starter-pack', function () {
-                    return $this->stripe->getPlan('starter-pack');
-                });
+                ->rememberForever('plan-starter-pack', fn () => $this->stripe->getPlan('starter-pack'));
 
             return new PlanResource($plan);
         }

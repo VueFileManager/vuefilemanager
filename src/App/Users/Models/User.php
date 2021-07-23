@@ -114,9 +114,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getUsedCapacityAttribute(): int
     {
         return $this->filesWithTrashed
-            ->map(function ($item) {
-                return $item->getRawOriginal();
-            })->sum('filesize');
+            ->map(fn ($item) => $item->getRawOriginal())->sum('filesize');
     }
 
     /**

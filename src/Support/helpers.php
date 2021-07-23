@@ -596,9 +596,7 @@ if (! function_exists('map_language_translations')) {
      */
     function map_language_translations($translations): Collection
     {
-        return $translations->map(function ($string) {
-            return [$string->key => $string->value];
-        })->collapse();
+        return $translations->map(fn ($string) => [$string->key => $string->value])->collapse();
     }
 }
 
@@ -904,9 +902,7 @@ if (! function_exists('get_files_for_zip')) {
 
         // Get all children folders and folders within
         if ($folders->folders->isNotEmpty()) {
-            $folders->folders->map(function ($folder) use ($files, $path) {
-                return get_files_for_zip($folder, $files, $path);
-            });
+            $folders->folders->map(fn ($folder) => get_files_for_zip($folder, $files, $path));
         }
 
         return get_files_for_zip($folders->folders->first(), $files, $path);

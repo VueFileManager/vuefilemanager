@@ -21,9 +21,7 @@ class StripeWebhookController extends CashierController
     public function handleCustomerSubscriptionDeleted($payload)
     {
         if ($user = $this->getUserByStripeId($payload['data']['object']['customer'])) {
-            $user->subscriptions->filter(function ($subscription) use ($payload) {
-                return $subscription->stripe_id === $payload['data']['object']['id'];
-            })->each(function ($subscription) {
+            $user->subscriptions->filter(fn ($subscription) => $subscription->stripe_id === $payload['data']['object']['id'])->each(function ($subscription) {
                 $subscription->markAsCancelled();
             });
         }

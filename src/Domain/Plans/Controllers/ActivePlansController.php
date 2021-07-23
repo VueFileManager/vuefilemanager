@@ -13,9 +13,7 @@ class ActivePlansController
     public function __invoke(): PricingCollection
     {
         // Get pricing from cache
-        $pricing = Cache::rememberForever('pricing', function () {
-            return resolve(StripeService::class)->getActivePlans();
-        });
+        $pricing = Cache::rememberForever('pricing', fn () => resolve(StripeService::class)->getActivePlans());
 
         // Format pricing to collection
         $collection = new PricingCollection($pricing);

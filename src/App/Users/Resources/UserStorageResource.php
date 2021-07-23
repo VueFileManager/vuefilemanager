@@ -21,35 +21,25 @@ class UserStorageResource extends JsonResource
 
         // Get all images
         $images = File::where('user_id', $this->id)
-            ->where('type', 'image')->get()->map(function ($item) {
-                return (int) $item->getRawOriginal('filesize');
-            })->sum();
+            ->where('type', 'image')->get()->map(fn ($item) => (int) $item->getRawOriginal('filesize'))->sum();
 
         // Get all audios
         $audios = File::where('user_id', $this->id)
-            ->where('type', 'audio')->get()->map(function ($item) {
-                return (int) $item->getRawOriginal('filesize');
-            })->sum();
+            ->where('type', 'audio')->get()->map(fn ($item) => (int) $item->getRawOriginal('filesize'))->sum();
 
         // Get all videos
         $videos = File::where('user_id', $this->id)
-            ->where('type', 'video')->get()->map(function ($item) {
-                return (int) $item->getRawOriginal('filesize');
-            })->sum();
+            ->where('type', 'video')->get()->map(fn ($item) => (int) $item->getRawOriginal('filesize'))->sum();
 
         // Get all documents
         $documents = File::where('user_id', $this->id)
-            ->whereIn('mimetype', $document_mimetypes)->get()->map(function ($item) {
-                return (int) $item->getRawOriginal('filesize');
-            })->sum();
+            ->whereIn('mimetype', $document_mimetypes)->get()->map(fn ($item) => (int) $item->getRawOriginal('filesize'))->sum();
 
         // Get all other files
         $others = File::where('user_id', $this->id)
             ->whereNotIn('mimetype', $document_mimetypes)
             ->whereNotIn('type', ['audio', 'video', 'image'])
-            ->get()->map(function ($item) {
-                return (int) $item->getRawOriginal('filesize');
-            })->sum();
+            ->get()->map(fn ($item) => (int) $item->getRawOriginal('filesize'))->sum();
 
         return [
             'data' => [

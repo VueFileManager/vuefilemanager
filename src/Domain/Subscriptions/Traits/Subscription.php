@@ -17,9 +17,7 @@ trait Subscription
         );
 
         // Find tax rate
-        $user_tax_rate = $rates->first(function ($item) {
-            return $item['country'] === $this->settings->country && $item['active'];
-        });
+        $user_tax_rate = $rates->first(fn ($item) => $item['country'] === $this->settings->country && $item['active']);
 
         return $user_tax_rate ? [$user_tax_rate['id']] : [];
     }
