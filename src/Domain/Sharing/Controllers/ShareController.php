@@ -41,9 +41,9 @@ class ShareController extends Controller
 
         // Send shared link via email
         if ($request->has('emails')) {
-            ($sendLinkToEmailAction)(
-                $request->input('emails'),
-                $shared->token
+            $sendLinkToEmailAction->onQueue()->execute(
+                emails: $request->input('emails'),
+                token: $shared->token
             );
         }
 

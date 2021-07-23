@@ -17,7 +17,7 @@ class ShareViaEmailController extends Controller
         Request $request,
         string $token,
     ): Response {
-        ($this->sendLinkToEmailAction)(
+        ($this->sendLinkToEmailAction)->onQueue()->execute(
             emails: $request->input('emails'),
             token: $token,
         );

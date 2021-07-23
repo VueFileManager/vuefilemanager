@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Files;
 
 use Storage;

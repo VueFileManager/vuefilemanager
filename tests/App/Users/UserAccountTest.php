@@ -1,11 +1,11 @@
 <?php
 namespace Tests\Feature\Accounts;
 
-use Domain\Folders\Models\Folder;
 use Storage;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -42,17 +42,17 @@ class UserAccountTest extends TestCase
 
         Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id,
+                'user_id'    => $user->id,
                 'created_at' => now(),
             ]);
 
         $user->settings()->update([
-            'timezone' => '2.0'
+            'timezone' => '2.0',
         ]);
 
         $this
             ->actingAs($user)
-            ->getJson("/api/browse/folders/undefined")
+            ->getJson('/api/browse/folders/undefined')
             ->assertJsonFragment([
                 'created_at' => '01. January. 2021 at 02:00',
             ]);
