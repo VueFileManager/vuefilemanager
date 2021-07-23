@@ -18,6 +18,8 @@ class CreateLanguagesTable extends Migration
             $table->string('name');
             $table->string('locale')->unique();
             $table->timestamps();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

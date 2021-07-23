@@ -16,6 +16,8 @@ class CreateFavouritesFoldersTable extends Migration
         Schema::create('favourite_folder', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->uuid('folder_id');
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

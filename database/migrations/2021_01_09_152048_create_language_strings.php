@@ -17,6 +17,8 @@ class CreateLanguageStrings extends Migration
             $table->string('key');
             $table->longText('value');
             $table->string('lang');
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

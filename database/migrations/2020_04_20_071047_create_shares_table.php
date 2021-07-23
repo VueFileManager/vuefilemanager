@@ -24,6 +24,8 @@ class CreateSharesTable extends Migration
             $table->string('password')->nullable();
             $table->integer('expire_in')->nullable();
             $table->timestamps();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

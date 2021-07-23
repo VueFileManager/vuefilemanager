@@ -21,6 +21,9 @@ class AddTwoFactorColumnsToUsersTable extends Migration
             $table->text('two_factor_recovery_codes')
                     ->after('two_factor_secret')
                     ->nullable();
+
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

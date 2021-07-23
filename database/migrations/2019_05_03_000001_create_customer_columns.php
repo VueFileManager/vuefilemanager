@@ -18,6 +18,8 @@ class CreateCustomerColumns extends Migration
             $table->string('card_brand')->nullable();
             $table->string('card_last_four', 4)->nullable();
             $table->timestamp('trial_ends_at')->nullable();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

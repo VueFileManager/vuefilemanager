@@ -19,6 +19,8 @@ class CreateZipsTable extends Migration
             $table->string('shared_token')->nullable()->index();
             $table->text('basename');
             $table->timestamps();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

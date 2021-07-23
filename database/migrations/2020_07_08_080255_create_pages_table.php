@@ -18,6 +18,8 @@ class CreatePagesTable extends Migration
             $table->string('title');
             $table->boolean('visibility');
             $table->longText('content');
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

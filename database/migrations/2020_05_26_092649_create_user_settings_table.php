@@ -25,6 +25,8 @@ class CreateUserSettingsTable extends Migration
             $table->text('country')->nullable();
             $table->text('phone_number')->nullable();
             $table->decimal('timezone', 10, 1)->nullable();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 

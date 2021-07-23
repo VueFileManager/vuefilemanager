@@ -26,6 +26,8 @@ class CreateSubscriptionsTable extends Migration
             $table->timestamps();
 
             $table->index(['user_id', 'stripe_status']);
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 
