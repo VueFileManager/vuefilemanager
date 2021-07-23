@@ -927,7 +927,7 @@ if (! function_exists('set_time_by_user_timezone')) {
     /**
      * Set time by user timezone GMT
      */
-    function set_time_by_user_timezone(string $time): string|Carbon
+    function set_time_by_user_timezone(string $time): string | Carbon
     {
         $user = Auth::user();
 
