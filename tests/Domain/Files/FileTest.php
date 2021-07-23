@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Files;
 
 use Storage;
@@ -88,6 +89,46 @@ class FileTest extends TestCase
 
         $disk->assertExists(
             "files/$user->id/fake-file.pdf"
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_full_storage_capacity_try_to_upload_new_file()
+    {
+        Setting::create([
+            'name'  => 'storage_limitation',
+            'value' => 1,
+        ]);
+
+        $file = UploadedFile::fake()
+            ->image('fake-file.jpeg', 1000);
+
+        $user = User::factory(User::class)
+            ->create();
+
+        $user->settings()->update([
+            'storage_capacity' => 1,
+        ]);
+
+        File::factory(File::class)
+            ->create([
+                'user_id'  => $user->id,
+                'filesize' => '1000000000',
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'folder_id' => null,
+                'is_last'   => 'true',
+            ])->assertStatus(423);
+
+        Storage::disk('local')->assertMissing(
+            "files/$user->id/fake-file.jpeg"
         );
     }
 

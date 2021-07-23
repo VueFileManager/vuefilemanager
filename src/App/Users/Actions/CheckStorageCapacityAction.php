@@ -23,7 +23,6 @@ class CheckStorageCapacityAction
                 ->delete("chunks/$temp_filename");
 
             // Abort uploading
-            // TODO: test pre exceed storage limit
             abort(423, 'You exceed your storage limit!');
         }
     }
