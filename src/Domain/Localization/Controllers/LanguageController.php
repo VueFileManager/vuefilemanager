@@ -89,7 +89,7 @@ class LanguageController extends Controller
 
         // If user try to delete language used as default,
         // then set en language as default
-        if ($language->locale === get_setting('language')) {
+        if ($language->locale === get_settings('language')) {
             Setting::whereName('language')->first()
                 ->update(['value' => 'en']);
         }

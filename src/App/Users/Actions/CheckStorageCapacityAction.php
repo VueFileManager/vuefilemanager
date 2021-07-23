@@ -17,7 +17,7 @@ class CheckStorageCapacityAction
         $user_storage_used = user_storage_percentage($user_id, $file_size);
 
         // Check if user can upload
-        if (get_setting('storage_limitation') && $user_storage_used >= 100) {
+        if (get_settings('storage_limitation') && $user_storage_used >= 100) {
             // Delete file
             Storage::disk('local')
                 ->delete("chunks/$temp_filename");

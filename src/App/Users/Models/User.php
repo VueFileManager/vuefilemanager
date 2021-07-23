@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static sortable(string[] $array)
  * @method static forceCreate(array $array)
  * @method static where(string $string, string $string1, string $toDateString)
+ * @method static create(array $array)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -91,7 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getStorageAttribute(): array
     {
-        $is_storage_limit = get_setting('storage_limitation') ?? 1;
+        $is_storage_limit = get_settings('storage_limitation') ?? 1;
 
         if (! $is_storage_limit) {
             return [

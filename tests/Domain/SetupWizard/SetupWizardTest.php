@@ -194,7 +194,7 @@ class SetupWizardTest extends TestCase
 
         collect(['app_logo', 'app_logo_horizontal', 'app_favicon'])
             ->each(function ($file) {
-                $path = get_setting($file);
+                $path = get_settings($file);
 
                 $this->assertNotNull($path);
 

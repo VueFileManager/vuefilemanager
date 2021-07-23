@@ -15,7 +15,7 @@ class SendContactMessageController extends Controller
     public function __invoke(
         SendContactMessageRequest $request
     ): Response {
-        $contactEmail = get_setting('contact_email');
+        $contactEmail = get_settings('contact_email');
 
         if ($contactEmail) {
             Mail::to($contactEmail)

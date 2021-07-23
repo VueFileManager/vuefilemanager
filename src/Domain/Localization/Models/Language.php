@@ -48,7 +48,7 @@ class Language extends Model
             $language->id = Str::uuid();
 
             resolve(SeedDefaultLanguageTranslationsAction::class)(
-                license: get_setting('license') ?? 'extended',
+                license: get_settings('license') ?? 'extended',
                 locale: $language->locale
             );
         });

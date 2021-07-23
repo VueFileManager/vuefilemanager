@@ -63,6 +63,47 @@ class SignFlowTest extends TestCase
     /**
      * @test
      */
+    public function it_try_register_when_registration_is_disabled()
+    {
+        Setting::create([
+            'name'  => 'registration',
+            'value' => 0,
+        ]);
+
+        $this->postJson('api/register', [
+            'email'                 => 'john@doe.com',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+        ])->assertStatus(401);
+
+        $this->assertDatabaseMissing('users', [
+            'email'             => 'john@doe.com',
+            'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_try_register_from_disabled_email_provider()
+    {
+        $this->postJson('api/register', [
+            'email'                 => 'john@maildrop.cc',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+        ])->assertStatus(422);
+
+        $this->assertDatabaseMissing('users', [
+            'email'             => 'john@doe.com',
+            'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_check_if_user_exist_and_return_name_with_avatar()
     {
         $user = User::factory(User::class)

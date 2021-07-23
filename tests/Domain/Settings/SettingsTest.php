@@ -117,7 +117,7 @@ class SettingsTest extends TestCase
         ]);
 
         Storage::assertExists(
-            get_setting('app_logo')
+            get_settings('app_logo')
         );
     }
 

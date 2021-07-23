@@ -44,7 +44,7 @@ class UploadFileAction
         $file_size = File::size($file_path);
 
         // Size of limit
-        $limit = get_setting('upload_limit');
+        $limit = get_settings('upload_limit');
 
         // File size handling
         if ($limit && $file_size > format_bytes($limit)) {

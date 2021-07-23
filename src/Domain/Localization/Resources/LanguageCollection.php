@@ -17,7 +17,7 @@ class LanguageCollection extends ResourceCollection
     public function toArray($request)
     {
         $current_language = Language::with('languageTranslations')
-            ->whereLocale(get_setting('language') ?? 'en')
+            ->whereLocale(get_settings('language') ?? 'en')
             ->first();
 
         return [

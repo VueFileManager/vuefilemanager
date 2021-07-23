@@ -18,7 +18,7 @@ class SetStripeController
     {
         // TODO: pridat validator do requestu
         // Check payment setup status
-        if (get_setting('payments_configured')) {
+        if (get_settings('payments_configured')) {
             abort(401, 'Gone');
         }
 

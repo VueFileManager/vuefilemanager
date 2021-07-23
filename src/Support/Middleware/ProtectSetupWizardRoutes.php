@@ -19,7 +19,7 @@ class ProtectSetupWizardRoutes
             DB::getPdo();
 
             // Get setup_wizard status
-            if (Schema::hasTable('settings') && get_setting('setup_wizard_success')) {
+            if (Schema::hasTable('settings') && get_settings('setup_wizard_success')) {
                 return response('Gone', 410);
             }
 

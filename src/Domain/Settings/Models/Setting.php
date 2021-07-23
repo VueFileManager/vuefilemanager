@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static where(string $string, mixed $get)
  * @method static whereIn(string $string, string[] $columns)
  * @method static create(string[] $array)
+ * @method static find(array|string $setting)
  * @property string value
  * @property string name
  */

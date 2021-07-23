@@ -33,7 +33,7 @@ class UpgradeLanguageTranslationsAction
             ])->collapse(),
         ];
 
-        $license = strtolower(get_setting('license'));
+        $license = strtolower(get_settings('license'));
 
         // Find new translations in default translations
         $newbies = $default_translations[$license]

@@ -13,7 +13,7 @@ class DisabledMimetypes implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $mimetype_blacklist = explode(',', get_setting('mimetypes_blacklist'));
+        $mimetype_blacklist = explode(',', get_settings('mimetypes_blacklist'));
         $file_mimetype = explode('/', $value->getMimeType());
         
         return ! array_intersect($file_mimetype, $mimetype_blacklist);

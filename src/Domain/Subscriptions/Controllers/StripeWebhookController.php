@@ -34,7 +34,7 @@ class StripeWebhookController extends CashierController
         $user
             ->settings()
             ->update([
-                'storage_capacity' => get_setting('storage_default'),
+                'storage_capacity' => get_settings('storage_default'),
             ]);
 
         return $this->successMethod();

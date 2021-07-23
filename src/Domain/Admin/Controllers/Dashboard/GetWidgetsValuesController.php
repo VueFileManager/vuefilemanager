@@ -20,7 +20,7 @@ class GetWidgetsValuesController extends Controller
         )->format();
 
         return [
-            'license'             => get_setting('license'),
+            'license'             => get_settings('license'),
             'app_version'         => config('vuefilemanager.version'),
             'total_users'         => User::count(),
             'total_used_space'    => $storage_usage,

@@ -33,15 +33,29 @@ if (! function_exists('obfuscate_email')) {
     }
 }
 
-if (! function_exists('get_setting')) {
+if (! function_exists('get_email_provider')) {
     /**
-     * Get single value from settings table
-     *
-     * @param $setting
-     * @return |null
+     * Get single or multiple values from settings table
      */
-    function get_setting($setting)
+    function get_email_provider(string $email): string
     {
+        $provider = explode('@', $email);
+
+        return end($provider);
+    }
+}
+
+if (! function_exists('get_settings')) {
+    /**
+     * Get single or multiple values from settings table
+     */
+    function get_settings(array|string $setting): Collection|string|null
+    {
+        if (is_array($setting)) {
+            return Setting::whereIn('name', $setting)
+                ->pluck('value', 'name');
+        }
+
         return Setting::find($setting)->value ?? null;
     }
 }
@@ -68,7 +82,7 @@ if (! function_exists('get_setup_status')) {
      */
     function get_setup_status()
     {
-        $setup_success = get_setting('setup_wizard_success');
+        $setup_success = get_settings('setup_wizard_success');
 
         return boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
     }
@@ -943,7 +957,7 @@ if (! function_exists('__t')) {
         // Get current locale
         $locale = cache()->rememberForever('language', function () {
             try {
-                return get_setting('language') ?? 'en';
+                return get_settings('language') ?? 'en';
             } catch (QueryException $e) {
                 return 'en';
             }
