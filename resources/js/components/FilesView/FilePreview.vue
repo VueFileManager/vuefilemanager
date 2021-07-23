@@ -67,7 +67,7 @@
         background-color: white;
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .file-preview {
             background-color: $dark_mode_background;
         }

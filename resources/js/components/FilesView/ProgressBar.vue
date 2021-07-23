@@ -30,16 +30,16 @@ export default {
 		}
 	}
 
-	@media (prefers-color-scheme: dark) {
+	.dark-mode {
 
 		.progress-bar {
 			background: $dark_mode_foreground;
 		}
 	}
 
-	@media only screen and (min-width: 680px) and (prefers-color-scheme: dark) {
+	@media only screen and (min-width: 680px) {
 
-		.progress-bar {
+		.dark-mode .progress-bar {
 			background: $dark_mode_foreground;
 		}
 	}

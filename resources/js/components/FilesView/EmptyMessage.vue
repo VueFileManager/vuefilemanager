@@ -48,7 +48,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .empty-message {
 
             .message {

@@ -2,10 +2,10 @@
     <!--Folder Icon-->
     <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.id === nodes.id || !disableId} ">
 
-        <div class="folder-item text-theme" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
-            <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"></chevron-right-icon>
-            <hard-drive-icon v-if="nodes.location === 'base'" size="17" class="icon text-theme"></hard-drive-icon>
-            <folder-icon v-if="nodes.location !== 'base'" size="17" class="icon text-theme"></folder-icon>
+        <div class="folder-item text-theme dark-text-theme" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
+            <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"/>
+            <hard-drive-icon v-if="nodes.location === 'base'" size="17" class="icon text-theme dark-text-theme"/>
+            <folder-icon v-if="nodes.location !== 'base'" size="17" class="icon text-theme dark-text-theme"/>
             <span class="label">{{ nodes.name }}</span>
         </div>
 
@@ -150,23 +150,27 @@
 
             .icon {
                 path, line, polyline, rect, circle {
-                    color: inherit;
+                    color: inherit !important;
                 }
             }
 
             .label {
-                color: inherit;
+                color: inherit !important;
             }
         }
     }
 
     // Dark mode
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .folder-item {
 
             .label {
                 color: $dark_mode_text_primary;
+            }
+
+            .is-selected .label {
+                color: inherit !important;
             }
         }
     }

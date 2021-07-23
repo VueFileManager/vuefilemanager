@@ -76,7 +76,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .cell-image-thumbnail {
 

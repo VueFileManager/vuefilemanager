@@ -220,7 +220,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .table-tools {
             background: $dark_mode_background;

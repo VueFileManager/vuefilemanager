@@ -71,7 +71,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .page-header {
             background: $dark_mode_background;

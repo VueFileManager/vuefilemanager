@@ -80,7 +80,7 @@
     }
 
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .select-box {
 
             .box-item {

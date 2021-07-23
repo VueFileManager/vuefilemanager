@@ -28,7 +28,7 @@
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .menu-option-group {
         border-color: $dark_mode_border_color;
     }

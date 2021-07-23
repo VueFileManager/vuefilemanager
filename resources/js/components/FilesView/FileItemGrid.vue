@@ -10,7 +10,7 @@
                 <CheckBox v-if="mobileMultiSelect" :is-clicked="isClicked" class="check-box"/>
 
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme">
+                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme dark-text-theme">
                     {{ item.mimetype }}
                 </span>
 
@@ -35,12 +35,12 @@
 
                     <!--Shared Icon-->
                     <div v-if="$checkPermission('master') && item.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon text-theme" />
+                        <link-icon size="12" class="shared-icon text-theme dark-text-theme" />
                     </div>
 
                     <!--Participant owner Icon-->
                     <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon text-theme" />
+                        <user-plus-icon size="12" class="shared-icon text-theme dark-text-theme" />
                     </div>
 
                     <!--Filesize-->
@@ -54,7 +54,7 @@
             </div>
 
             <span @mousedown.stop="showItemActions" class="show-actions" v-if="$isMobile() && ! mobileMultiSelect && canShowMobileOptions">
-                <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme" />
+                <MoreHorizontalIcon icon="ellipsis-h" size="16" class="icon-action text-theme dark-text-theme" />
             </span>
         </div>
     </div>
@@ -548,7 +548,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .file-wrapper {
 

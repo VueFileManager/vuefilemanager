@@ -3,9 +3,9 @@
         <div class="widget-content">
             <div class="headline">
                 <div class="icon">
-                    <users-icon v-if="icon === 'users'" size="19" class="text-theme"></users-icon>
-                    <star-icon v-if="icon === 'star'" size="19" class="text-theme"></star-icon>
-                    <hard-drive-icon v-if="icon === 'hard-drive'" size="19" class="text-theme"></hard-drive-icon>
+                    <users-icon v-if="icon === 'users'" size="19" class="text-theme dark-text-theme"/>
+                    <star-icon v-if="icon === 'star'" size="19" class="text-theme dark-text-theme"/>
+                    <hard-drive-icon v-if="icon === 'hard-drive'" size="19" class="text-theme dark-text-theme"/>
                 </div>
                 <b class="title">{{ title }}</b>
             </div>
@@ -58,7 +58,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .widget-content {
             background: $dark_mode_foreground;
         }

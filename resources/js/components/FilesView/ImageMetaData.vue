@@ -129,7 +129,7 @@ export default {
 	}
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
 	.meta-data-list {
 		li {

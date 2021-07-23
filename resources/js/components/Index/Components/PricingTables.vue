@@ -149,7 +149,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .plans-wrapper {
             background: $dark_mode_foreground;

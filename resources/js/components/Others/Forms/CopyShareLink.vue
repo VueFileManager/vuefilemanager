@@ -146,7 +146,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .copy-input {
         border-color: #333333;

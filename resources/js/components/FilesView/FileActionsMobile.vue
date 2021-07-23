@@ -228,7 +228,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         #mobile-actions-wrapper {
             background: $dark_mode_background;
         }

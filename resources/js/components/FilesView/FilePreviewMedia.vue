@@ -377,7 +377,7 @@ export default {
 }
 
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .navigation-arrows {
         .prev, .next {

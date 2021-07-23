@@ -163,7 +163,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .mobile-toolbar {
             background: $dark_mode_background;

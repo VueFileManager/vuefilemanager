@@ -95,7 +95,7 @@ export default {
     background: white;
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     #drag-ui {
         background: $dark_mode_foreground;
     }

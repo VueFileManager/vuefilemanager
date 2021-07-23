@@ -1,10 +1,10 @@
 <template>
     <div class="popup-header">
         <div class="icon">
-            <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon text-theme" />
-            <share-icon v-if="icon === 'share'" size="17" class="title-icon text-theme" />
-            <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon text-theme" />
-            <key-icon v-if="icon === 'key'" size="17" class="title-icon text-theme" />
+            <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon text-theme dark-text-theme" />
+            <share-icon v-if="icon === 'share'" size="17" class="title-icon text-theme dark-text-theme" />
+            <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon text-theme dark-text-theme" />
+            <key-icon v-if="icon === 'key'" size="17" class="title-icon text-theme dark-text-theme" />
         </div>
         <div class="label">
             <h1 class="title">{{ title }}</h1>
@@ -97,7 +97,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .popup-header {
             .label {
                 .close-icon {

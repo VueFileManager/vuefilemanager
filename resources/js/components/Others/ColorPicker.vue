@@ -117,7 +117,7 @@ export default {
     position: relative;
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .color-pick-wrapper {
         .color-wrapper {
             .single-color {

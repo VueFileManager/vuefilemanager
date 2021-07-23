@@ -449,7 +449,7 @@
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .search-bar-wrapper {
         background: $dark_mode_background;

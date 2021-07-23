@@ -10,7 +10,7 @@
                     :class="{ 'sortable': column.sortable }"
                     v-if="! column.hidden"
                 >
-                    <span class="text-theme">{{ column.label }}</span>
+                    <span class="text-theme dark-text-theme">{{ column.label }}</span>
 
                     <chevron-up-icon v-if="column.sortable" :class="{ 'arrow-down': filter.sort === 'ASC' }" size="14" class="filter-arrow"></chevron-up-icon>
                 </th>
@@ -424,7 +424,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .table {
 

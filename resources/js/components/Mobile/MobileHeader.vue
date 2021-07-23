@@ -98,7 +98,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .mobile-header {
             background: $dark_mode_background;
 

@@ -24,9 +24,9 @@
                     </a>
                     <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer bg-theme-100">
                         <div class="icon">
-                            <credit-card-icon size="15" class="text-theme"></credit-card-icon>
+                            <credit-card-icon size="15" class="text-theme dark-text-theme"/>
                         </div>
-                        <span class="content text-theme">
+                        <span class="content text-theme dark-text-theme">
                             {{ $t('admin_page_dashboard.backer_button') }}
                         </span>
                     </a>
@@ -271,7 +271,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .metadata {
 

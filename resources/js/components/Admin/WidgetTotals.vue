@@ -5,7 +5,7 @@
         </div>
         <router-link :to="{name: linkRoute}" class="footer-link">
             <span class="content">{{ linkName }}</span>
-            <chevron-right-icon size="16" class="text-theme"></chevron-right-icon>
+            <chevron-right-icon size="16" class="text-theme dark-text-theme"/>
         </router-link>
     </WidgetWrapper>
 </template>
@@ -65,7 +65,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .widget-value {
 
             span {

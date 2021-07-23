@@ -180,7 +180,7 @@ import {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .menu-option {
         color: $dark_mode_text_primary;

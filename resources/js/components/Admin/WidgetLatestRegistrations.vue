@@ -113,7 +113,7 @@
     @import '@assets/vuefilemanager/_variables';
     @import '@assets/vuefilemanager/_mixins';
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
     }
 </style>

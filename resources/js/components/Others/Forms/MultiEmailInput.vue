@@ -173,7 +173,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .input-wrapper {
 		background: lighten($dark_mode_foreground, 3%);
 

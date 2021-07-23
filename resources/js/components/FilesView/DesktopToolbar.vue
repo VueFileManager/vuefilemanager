@@ -314,7 +314,7 @@
 	}
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 	.toolbar .directory-name {
 		color: $dark_mode_text_primary;
 	}

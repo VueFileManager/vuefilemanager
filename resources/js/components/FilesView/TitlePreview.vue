@@ -1,11 +1,11 @@
 <template>
     <div class="wrapper">
         <div class="icon-wrapper">
-            <CheckSquareIcon v-if="icon === 'check-square'" class="icon text-theme" size="21" />
-			<image-icon v-if="icon === 'image'" class="icon text-theme" size="21" />
-			<video-icon v-if="icon === 'video'" class="icon text-theme" size="21" />
-			<folder-icon v-if="icon === 'folder'" class="icon text-theme" size="21" />
-			<file-icon v-if="icon === 'file'" class="icon text-theme" size="21" />
+            <CheckSquareIcon v-if="icon === 'check-square'" class="icon text-theme dark-text-theme" size="21" />
+			<image-icon v-if="icon === 'image'" class="icon text-theme dark-text-theme" size="21" />
+			<video-icon v-if="icon === 'video'" class="icon text-theme dark-text-theme" size="21" />
+			<folder-icon v-if="icon === 'folder'" class="icon text-theme dark-text-theme" size="21" />
+			<file-icon v-if="icon === 'file'" class="icon text-theme dark-text-theme" size="21" />
         </div>
         <div class="text">
             <span class="title">{{ title }}</span>
@@ -77,7 +77,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .wrapper {
         .text {
             .title {

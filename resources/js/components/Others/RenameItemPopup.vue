@@ -185,7 +185,7 @@ export default {
     margin-bottom: 20px;
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .close-icon-wrapper {
         &:hover {
 

@@ -36,7 +36,7 @@
 
         .focus-within-border-theme:focus-within {border-color: {{ $color }} !important;}
 
-        .focus-border-theme:focus {border-color: {{ $color }}}
+        .focus-border-theme:focus {border-color: {{ $color }} !important}
         .focus-border-theme:focus[type='email'] {border-color: {{ $color }}}
         .focus-border-theme:focus[type='text'] {border-color: {{ $color }}}
         .focus-border-theme:focus[type='password'] {border-color: {{ $color }}}
@@ -96,7 +96,7 @@
         .StripeElement--focus {border-color: {{ $color }} !important;}
 
         {{-- Dark mode --}}
-        @media (prefers-color-scheme: dark) {
-            .dark-text-theme {color: {{ $color }}}
+        .dark-mode .text-theme {
+            color: {{ $color }}
         }
     </style>

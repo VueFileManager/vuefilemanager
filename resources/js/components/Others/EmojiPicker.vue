@@ -434,7 +434,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .emoji-wrapper {
         background: lighten($dark_mode_foreground, 2%);

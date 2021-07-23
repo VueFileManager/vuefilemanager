@@ -187,7 +187,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .dropzone {
             border-color: rgba(white, 0.2);
 

@@ -130,7 +130,7 @@
 
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .search-bar {
             input {
                 border-color: transparent;

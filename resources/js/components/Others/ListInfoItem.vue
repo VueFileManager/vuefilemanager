@@ -1,6 +1,6 @@
 <template>
     <li class="list-info-item">
-        <b class="text-theme">{{ title }}</b>
+        <b class="text-theme dark-text-theme">{{ title }}</b>
         <span v-if="content">{{ content }}</span>
         <slot></slot>
     </li>
@@ -44,7 +44,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .list-info-item {
 
             span {

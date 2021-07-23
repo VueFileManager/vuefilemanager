@@ -88,7 +88,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .button {
 
             &.outline {

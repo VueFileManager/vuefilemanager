@@ -150,7 +150,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .toastr-item {
 
             &.success, &.danger {

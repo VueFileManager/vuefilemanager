@@ -104,7 +104,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .search-bar {
         input {
             background: $dark_mode_foreground;

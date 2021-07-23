@@ -84,7 +84,7 @@
         position: absolute;
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .options {
             background: $dark_mode_foreground;

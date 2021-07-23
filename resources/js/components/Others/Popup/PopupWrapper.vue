@@ -139,16 +139,19 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .popup-wrapper {
             background: $dark_mode_foreground;
             box-shadow: $dark_mode_popup_shadow;
         }
     }
 
-    @media (prefers-color-scheme: dark) and (max-width: 690px) {
-        .popup-wrapper {
-            background: $dark_mode_background;
-        }
-    }
+	@media only screen and (max-width: 690px) {
+
+		.dark-mode {
+			.popup-wrapper {
+				background: $dark_mode_background;
+			}
+		}
+	}
 </style>

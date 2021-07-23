@@ -97,7 +97,7 @@
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .folder-icon {
         &.is-deleted {

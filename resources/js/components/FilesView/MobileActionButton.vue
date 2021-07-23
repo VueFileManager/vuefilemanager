@@ -93,7 +93,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .mobile-action-button {
             background: $dark_mode_foreground;
 

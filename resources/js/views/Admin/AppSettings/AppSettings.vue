@@ -13,7 +13,7 @@
                         <div class="icon text-theme">
                             <settings-icon size="17" />
                         </div>
-                        <div class="label text-theme">
+                        <div class="label text-theme ">
                             {{ $t('admin_settings.tabs.others') }}
                         </div>
                     </router-link>

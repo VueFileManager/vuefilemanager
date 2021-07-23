@@ -10,28 +10,35 @@
 
             <router-link :to="{name: 'Files'}" :title="$t('locations.home')" class="icon-navigation-item home">
                 <div class="button-icon text-theme">
-                    <hard-drive-icon size="19" class="text-theme"></hard-drive-icon>
+                    <hard-drive-icon size="19" class="text-theme" />
                 </div>
             </router-link>
 
             <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
-                    <user-icon size="19"></user-icon>
+                    <user-icon size="19" />
                 </div>
             </router-link>
 
             <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" :title="$t('locations.settings')" class="icon-navigation-item users">
                 <div class="button-icon">
-                    <settings-icon size="19"></settings-icon>
+                    <settings-icon size="19" />
                 </div>
             </router-link>
+
+			<a @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="icon-navigation-item dark-mode-switcher">
+				<div class="button-icon">
+					<sun-icon v-if="isDarkMode" size="19" />
+					<moon-icon v-if="! isDarkMode" size="19" />
+				</div>
+			</a>
         </div>
 
         <!--Logout-->
         <ul class="icon-navigation logout">
             <li @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
                 <div class="button-icon">
-                    <power-icon size="19"></power-icon>
+                    <power-icon size="19" />
                 </div>
             </li>
         </ul>
@@ -42,6 +49,8 @@
     import UserAvatar from '@/components/Others/UserAvatar'
     import {mapGetters} from 'vuex'
     import {
+    	MoonIcon,
+    	SunIcon,
         HardDriveIcon,
         SettingsIcon,
         Trash2Icon,
@@ -60,9 +69,14 @@
             PowerIcon,
             ShareIcon,
             UserIcon,
+			MoonIcon,
+			SunIcon,
         },
         computed: {
-            ...mapGetters(['user']),
+            ...mapGetters([
+				'user',
+				'isDarkMode'
+			]),
             isUserProfileRoute() {
                 return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription', 'PaymentMethods'])
             }
@@ -98,9 +112,14 @@
                     'Plans',
                     'Users',
                     'User',
-                ]
+                ],
             }
         },
+		methods: {
+			toggleDarkMode() {
+				this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+			}
+		},
         mounted() {
             this.$store.dispatch('getAppData')
         }
@@ -110,6 +129,12 @@
 <style scoped lang="scss">
     @import '@assets/vuefilemanager/_variables';
     @import '@assets/vuefilemanager/_mixins';
+
+	.dark-mode-switcher {
+		padding-top: 20px;
+		border-top: 1px solid darken($light_mode_border, 7%);
+		margin: 20px 15px 0;
+	}
 
     .menu-bar {
         background: $light_background;
@@ -224,13 +249,17 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
+
+		.dark-mode-switcher {
+			border-color:lighten($dark_mode_foreground, 2%);
+		}
 
         .icon-navigation {
 
             .button-icon {
                 &:hover {
-                    background: $dark_mode_background;
+                    background: #22262b;
                 }
             }
         }

@@ -120,7 +120,7 @@ export default {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     .multiselect-actions {
         background: $dark_mode_foreground;

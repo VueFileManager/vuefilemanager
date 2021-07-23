@@ -339,7 +339,7 @@
     }
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .navigation-panel {
         background-color: $dark_mode_background;
         color: $dark_mode_text_primary;

@@ -1,9 +1,9 @@
 <template>
     <div class="form-label">
-        <edit-2-icon v-if="!icon" size="22" class="icon text-theme" />
-        <settings-icon v-if="icon === 'settings'" size="22" class="icon text-theme" />
-        <smartphone-icon v-if="icon === 'smartphone'" size="22" class="icon text-theme" />
-        <key-icon v-if="icon === 'key'" size="22" class="icon text-theme" />
+        <edit-2-icon v-if="!icon" size="22" class="icon text-theme dark-text-theme" />
+        <settings-icon v-if="icon === 'settings'" size="22" class="icon text-theme dark-text-theme" />
+        <smartphone-icon v-if="icon === 'smartphone'" size="22" class="icon text-theme dark-text-theme" />
+        <key-icon v-if="icon === 'key'" size="22" class="icon text-theme dark-text-theme" />
         <b class="label">
             <slot></slot>
         </b>
@@ -53,7 +53,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .form-label {
 
             .label {

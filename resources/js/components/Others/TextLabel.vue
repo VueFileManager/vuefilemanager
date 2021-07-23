@@ -29,7 +29,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .text-label {
             opacity: 0.35;
         }

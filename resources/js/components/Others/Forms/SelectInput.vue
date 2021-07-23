@@ -235,7 +235,7 @@
         transform: translateY(-50px);
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .select-search {
             background: $dark_mode_foreground;

@@ -329,7 +329,7 @@
 		}
 	}
 
-	@media (prefers-color-scheme: dark) {
+	.dark-mode {
 		.tokens-wrapper {
 			margin-top: 0 !important;
 

@@ -4,10 +4,10 @@
             <div class="tab" :class="{ active: tab.isActive }" @click="selectTab(tab)" v-for="(tab, i) in tabs" :key="i">
 
                 <!--Icon-->
-                <mail-icon v-if="tab.icon === 'email'" class="tab-icon text-theme" size="17"/>
-                <link-icon v-if="tab.icon === 'link'" class="tab-icon text-theme" size="17"/>
-                <smile-icon v-if="tab.icon === 'emoji'" class="tab-icon text-theme" size="17"/>
-                <folder-icon v-if="tab.icon === 'folder'" class="tab-icon text-theme" size="17"/>
+                <mail-icon v-if="tab.icon === 'email'" class="tab-icon text-theme dark-text-theme" size="17"/>
+                <link-icon v-if="tab.icon === 'link'" class="tab-icon text-theme dark-text-theme" size="17"/>
+                <smile-icon v-if="tab.icon === 'emoji'" class="tab-icon text-theme dark-text-theme" size="17"/>
+                <folder-icon v-if="tab.icon === 'folder'" class="tab-icon text-theme dark-text-theme" size="17"/>
 
                 <!--Title-->
                 <b class="tab-title">
@@ -102,7 +102,7 @@
     }
 
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .tab-wrapper {
             background: $dark_mode_foreground;
             border-color: transparent;

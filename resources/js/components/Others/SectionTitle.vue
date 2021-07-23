@@ -26,7 +26,7 @@
 
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .text-label {
             color: $theme;
         }

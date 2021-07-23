@@ -22,6 +22,7 @@ import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
 import Spinner from '@/components/FilesView/Spinner'
 import Vignette from '@/components/Others/Vignette'
 import Alert from '@/components/FilesView/Alert'
+import {mapGetters} from 'vuex'
 import {events} from './bus'
 
 export default {
@@ -38,12 +39,43 @@ export default {
             isLoaded: false
         }
     },
+	computed: {
+		...mapGetters([
+			'isDarkMode'
+		]),
+	},
+	watch: {
+		isDarkMode() {
+			this.toggleDarkMode()
+		}
+	},
     methods: {
         unClick() {
             events.$emit('unClick')
-        }
+        },
+		toggleDarkMode() {
+			const webApp = document.getElementsByTagName("html")[0];
+
+			webApp.classList.toggle("dark-mode");
+		}
     },
     beforeMount() {
+
+		// Set dark/light mode by user settings
+		if (localStorage.hasOwnProperty('is_dark_mode')) {
+			if (this.isDarkMode) this.toggleDarkMode()
+		}
+
+		// Proceed dark/light mode by system settings
+		if (! localStorage.hasOwnProperty('is_dark_mode')) {
+			const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+			// Set up initial dark/light mode on app loading
+			if (prefersDarkScheme.matches) this.toggleDarkMode()
+
+			// Watch for dark/light mode changes on os system layer
+			prefersDarkScheme.addEventListener('change', () => this.toggleDarkMode());
+		}
 
         // Get installation state
         let installation = this.$root.$data.config.installation
@@ -126,7 +158,7 @@ export default {
 }
 
 // Dark mode support
-@media (prefers-color-scheme: dark) {
+.dark-mode {
 
     * {
         color: $dark_mode_text_primary;

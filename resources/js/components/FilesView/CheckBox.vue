@@ -34,7 +34,7 @@ export default {
     background-color: darken($light_background, 5%);
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     
     .is-deactive {
         background-color: lighten($dark_mode_foreground, 10%);

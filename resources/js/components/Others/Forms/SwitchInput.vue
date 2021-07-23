@@ -90,7 +90,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .switch {
             background: $dark_mode_foreground;
         }

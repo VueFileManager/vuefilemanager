@@ -129,7 +129,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .progress-bar {
             background: $dark_mode_foreground;
         }

@@ -35,7 +35,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .content-sidebar {
             background: rgba($dark_mode_foreground, 0.2);

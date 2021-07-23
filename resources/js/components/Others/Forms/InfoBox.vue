@@ -82,7 +82,7 @@
     }
 
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .info-box {
             background: $dark_mode_foreground;

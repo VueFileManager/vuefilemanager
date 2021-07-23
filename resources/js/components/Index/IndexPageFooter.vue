@@ -104,7 +104,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .copyright {
             color: $dark_mode_text_secondary;

@@ -1,8 +1,8 @@
 import i18n from '@/i18n/index'
 import axios from "axios";
-import Vue from "vue";
 
 const defaultState = {
+    darkMode: localStorage.getItem('is_dark_mode') === 'true' || false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
     FilePreviewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
@@ -969,6 +969,14 @@ const defaultState = {
     ]
 }
 const actions = {
+    toggleDarkMode: ({commit}, visibility) => {
+
+        // Store dark mode into localStorage
+        localStorage.setItem('is_dark_mode', visibility)
+
+        // Change preview
+        commit('TOGGLE_DARK_MODE', visibility)
+    },
     changePreviewType: ({commit, state}, preview) => {
 
         // Get preview type
@@ -1038,6 +1046,9 @@ const mutations = {
     CHANGE_PREVIEW(state, type) {
         state.FilePreviewType = type
     },
+    TOGGLE_DARK_MODE(state, visibility) {
+        state.darkMode = visibility
+    },
     STORE_REQUESTED_PLAN(state, plan) {
         state.requestedPlan = plan
     },
@@ -1057,6 +1068,7 @@ const getters = {
     emojis: state => state.emojis,
     index: state => state.index,
     roles: state => state.roles,
+    isDarkMode: state => state.darkMode,
     sorting: (state) => {
         return {sorting: state.sorting, URI: '?sort=' + state.sorting.field + '&direction=' + state.sorting.sort}
     },

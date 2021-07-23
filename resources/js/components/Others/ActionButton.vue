@@ -1,7 +1,7 @@
 <template>
     <div class="action-button">
-        <x-icon size="12" class="icon text-theme" v-if="icon === 'x'" />
-        <edit-2-icon size="12" class="icon text-theme" v-if="icon === 'pencil-alt'" />
+        <x-icon size="12" class="icon text-theme dark-text-theme" v-if="icon === 'x'" />
+        <edit-2-icon size="12" class="icon text-theme dark-text-theme" v-if="icon === 'pencil-alt'" />
         <span class="label">
             <slot></slot>
         </span>
@@ -45,7 +45,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
     }
 </style>

@@ -59,7 +59,7 @@
     }
 
     // Dark mode
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
 
         .vignette {
             background: $dark_mode_vignette;

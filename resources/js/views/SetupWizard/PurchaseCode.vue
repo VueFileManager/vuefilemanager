@@ -125,7 +125,7 @@
         min-width: 380px;
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .additional-link {
 
             .black-link {

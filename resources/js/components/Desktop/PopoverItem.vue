@@ -51,7 +51,7 @@
 		}
 	}
 
-	@media (prefers-color-scheme: dark) {
+	.dark-mode {
 		.popover-item {
 			background: $dark_mode_foreground;
 		}

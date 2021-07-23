@@ -94,7 +94,7 @@
 
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .plan-title {
 
             h1 {

@@ -165,7 +165,7 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .file-item {
             .icon-item .file-icon {
                 path {
@@ -205,8 +205,8 @@
         }
     }
 
-    @media (max-width: 690px) and (prefers-color-scheme: dark) {
-        .file-item {
+    @media (max-width: 690px) {
+		.dark-mode .file-item {
             .icon-item .file-icon {
                 path {
                     fill: $dark_mode_foreground;

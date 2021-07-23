@@ -193,7 +193,7 @@
 
     }
 
-    @media (prefers-color-scheme: dark) {
+    .dark-mode {
         .user-thumbnail {
 
             .info {

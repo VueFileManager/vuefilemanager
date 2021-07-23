@@ -378,7 +378,7 @@ export default {
     padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
+.dark-mode {
     .contextmenu {
         background: $dark_mode_foreground;
     }

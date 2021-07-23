@@ -192,7 +192,7 @@ export default {
 		}
 	}
 
-	@media (prefers-color-scheme: dark) {
+	.dark-mode {
 		.codes-list {
 
 			li {

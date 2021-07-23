@@ -105,7 +105,7 @@
 		}
 	}
 
-	@media (prefers-color-scheme: dark) {
+	.dark-mode {
 		.text-content {
 
 			.title {
