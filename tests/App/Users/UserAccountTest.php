@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Feature\Accounts;
 
+use Domain\Folders\Models\Folder;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -30,6 +31,31 @@ class UserAccountTest extends TestCase
 
         Storage::disk('local')
             ->assertExists('files/' . User::first()->id);
+    }
+    /**
+     * @test
+     */
+    public function it_test_user_timezone()
+    {
+        $user = User::factory(User::class)
+            ->create(['role' => 'user']);
+
+        Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+                'created_at' => now(),
+            ]);
+
+        $user->settings()->update([
+            'timezone' => '2.0'
+        ]);
+
+        $this
+            ->actingAs($user)
+            ->getJson("/api/browse/folders/undefined")
+            ->assertJsonFragment([
+                'created_at' => '01. January. 2021 at 02:00',
+            ]);
     }
 
     /**

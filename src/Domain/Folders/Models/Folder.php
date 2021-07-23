@@ -121,8 +121,7 @@ class Folder extends Model
     public function getCreatedAtAttribute(): string
     {
         return format_date(
-            set_time_by_user_timezone($this->attributes['created_at']),
-            __t('time')
+            set_time_by_user_timezone($this->attributes['created_at']), __t('time')
         );
     }
 
@@ -136,8 +135,7 @@ class Folder extends Model
         }
 
         return format_date(
-            set_time_by_user_timezone($this->attributes['deleted_at']),
-            __t('time')
+            set_time_by_user_timezone($this->attributes['deleted_at']), __t('time')
         );
     }
 

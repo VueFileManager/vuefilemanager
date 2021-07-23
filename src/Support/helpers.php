@@ -926,21 +926,18 @@ if (! function_exists('get_files_for_zip')) {
 if (! function_exists('set_time_by_user_timezone')) {
     /**
      * Set time by user timezone GMT
-     *
-     * @param $time
-     * @return Carbon
      */
-    function set_time_by_user_timezone($time)
+    function set_time_by_user_timezone(string $time): string|Carbon
     {
         $user = Auth::user();
 
         if ($user) {
-            $time_zone = intval($user->settings->timezone * 60 ?? null);
+            $time_zone = $user->settings->timezone ?? 0;
 
-            return Carbon::parse($time)->addMinutes($time_zone ?? 0);
+            return Carbon::parse($time)->addMinutes($time_zone * 60);
         }
 
-        return Carbon::parse($time);
+        return $time;
     }
 }
 

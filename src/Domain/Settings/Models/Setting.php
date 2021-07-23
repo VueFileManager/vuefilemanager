@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static find(array|string $setting)
  * @property string value
  * @property string name
+ * @property mixed timezone
  */
 class Setting extends Model
 {
