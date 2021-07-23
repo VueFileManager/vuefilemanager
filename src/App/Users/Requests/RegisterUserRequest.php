@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Users\Requests;
 
 use App\Users\Rules\EmailProvider;
-use App\Users\Rules\PasswordValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Users\Rules\PasswordValidationRules;
 
 class RegisterUserRequest extends FormRequest
 {

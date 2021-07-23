@@ -49,7 +49,7 @@ if (! function_exists('get_settings')) {
     /**
      * Get single or multiple values from settings table
      */
-    function get_settings(array|string $setting): Collection|string|null
+    function get_settings(array | string $setting): Collection | string | null
     {
         if (is_array($setting)) {
             return Setting::whereIn('name', $setting)
