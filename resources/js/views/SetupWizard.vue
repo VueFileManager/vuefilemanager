@@ -11,7 +11,9 @@
             ...mapGetters(['config']),
         },
         mounted() {
-            if (this.config.installation === 'setup-done')
+        	let status = this.$root.$data.config.installation
+
+            if (status && status === 'setup-done')
                 this.$router.push({name: 'SignIn'})
         }
     }

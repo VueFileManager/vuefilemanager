@@ -520,6 +520,15 @@ const routesMaintenance = [
         },
         children: [
             {
+                name: 'StatusCheck',
+                path: '/setup-wizard/status-check',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/status-check" */ './views/SetupWizard/StatusCheck'),
+                meta: {
+                    requiresAuth: false,
+                },
+            },
+            {
                 name: 'PurchaseCode',
                 path: '/setup-wizard/purchase-code',
                 component: () =>

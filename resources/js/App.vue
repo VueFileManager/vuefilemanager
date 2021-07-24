@@ -85,7 +85,7 @@ export default {
 
         // Redirect to database verify code
         if (installation === 'setup-database')
-            this.$router.push({name: 'PurchaseCode'})
+            this.$router.push({name: 'StatusCheck'})
 
         // Redirect to starting installation process
         if (installation === 'setup-disclaimer')

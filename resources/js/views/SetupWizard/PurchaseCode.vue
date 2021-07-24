@@ -5,7 +5,7 @@
         <AuthContent name="licence-verify" :visible="true">
 
             <div class="content-headline">
-                <settings-icon size="40" class="title-icon"></settings-icon>
+                <settings-icon size="40" class="title-icon text-theme"/>
                 <h1>Setup Wizard</h1>
                 <h2>Please set your purchase code before continue to set up your application.</h2>
             </div>

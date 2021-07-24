@@ -72,6 +72,7 @@
             legal: {!! $legal ?? 'undefined' !!},
 
             installation: '{{ $installation ?? 'initial' }}',
+            statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
         }
     </script>
 

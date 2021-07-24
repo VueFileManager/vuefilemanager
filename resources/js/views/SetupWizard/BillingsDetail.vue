@@ -4,7 +4,7 @@
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
             <div class="content-headline">
-                <settings-icon size="40" class="title-icon"></settings-icon>
+                <settings-icon size="40" class="title-icon text-theme"/>
                 <h1>Setup Wizard</h1>
                 <h2>Set up your billing information.</h2>
             </div>

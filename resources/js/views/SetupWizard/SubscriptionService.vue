@@ -5,7 +5,7 @@
         <AuthContent name="subscription-service" :visible="true">
 
             <div class="content-headline">
-                <settings-icon size="40" class="title-icon"></settings-icon>
+                <settings-icon size="40" class="title-icon text-theme"/>
                 <h1>Setup Wizard</h1>
                 <h2>You can charge users for storage space by monthly billing plans. Please, select your charging service or skip this step if you don't want charge users:</h2>
             </div>

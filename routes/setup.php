@@ -1,5 +1,6 @@
 <?php
 
+use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\SetupWizard\Controllers\StorePlansController;
 use Domain\SetupWizard\Controllers\StoreBillingsController;
 use Domain\SetupWizard\Controllers\StoreAppSettingsController;
@@ -17,6 +18,7 @@ Route::group(['prefix' => 'api/setup'], function () {
     Route::post('/stripe-billings', StoreBillingsController::class);
     Route::post('/app-setup', StoreAppSettingsController::class);
     Route::post('/stripe-plans', StorePlansController::class);
+    Route::get('/ping', PingAPIController::class);
 });
 
 Route::post('/admin-setup', CreateAdminAccountController::class)
