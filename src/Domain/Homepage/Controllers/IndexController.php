@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Homepage\Controllers;
 
 use Illuminate\View\View;

@@ -15,56 +15,28 @@ const defaultState = {
 }
 
 const actions = {
-    downloadFolder: ({commit, getters}, folder) => {
-
-        commit('PROCESSING_POPUP', {
-            title: i18n.t('popup_zipping.title'),
-            message: i18n.t('popup_zipping.message')
-        })
+    downloadFolder: ({getters}, folder) => {
 
         let route = getters.sharedDetail
             ? `/api/zip/folder/${folder.id}/${router.currentRoute.params.token}`
             : `/api/zip/folder/${folder.id}`
 
-        axios.get(route)
-            .then(response => {
-                Vue.prototype.$downloadFile(response.data.url, response.data.name)
-            })
-            .catch(() => {
-                Vue.prototype.$isSomethingWrong()
-            })
-            .finally(() => {
-                commit('PROCESSING_POPUP', undefined)
-            })
+        Vue.prototype.$downloadFile(route, 'files.zip')
     },
-    downloadFiles: ({commit, getters}) => {
+    downloadFiles: ({getters}) => {
         let files = []
 
         // get ids of selected files
         getters.clipboard.forEach(file => files.push(file.id))
 
+        let ids = files.join(',')
+
         // Get route
         let route = getters.sharedDetail
-            ? `/api/zip/files/${router.currentRoute.params.token}`
-            : '/api/zip/files'
+            ? `/api/zip/files/${router.currentRoute.params.token}/?ids=${ids}`
+            : `/api/zip/files?ids=${ids}`
 
-        commit('PROCESSING_POPUP', {
-            title: i18n.t('popup_zipping.title'),
-            message: i18n.t('popup_zipping.message'),
-        })
-
-        axios.post(route, {
-            items: files
-        })
-            .then(response => {
-                Vue.prototype.$downloadFile(response.data.url, response.data.name)
-            })
-            .catch(() => {
-                Vue.prototype.$isSomethingWrong()
-            })
-            .finally(() => {
-                commit('PROCESSING_POPUP', undefined)
-            })
+        Vue.prototype.$downloadFile(route, 'files.zip')
     },
     moveItem: ({commit, getters, dispatch}, {to_item, noSelectedItem}) => {
 

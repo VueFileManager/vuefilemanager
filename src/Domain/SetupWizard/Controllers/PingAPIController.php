@@ -1,11 +1,8 @@
 <?php
-
-
 namespace Domain\SetupWizard\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class PingAPIController extends Controller
 {

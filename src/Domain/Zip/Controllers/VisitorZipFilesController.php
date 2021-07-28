@@ -3,12 +3,13 @@ namespace Domain\Zip\Controllers;
 
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Zip\Actions\ZipFilesAction;
+use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
+use STS\ZipStream\ZipStream;
 
 /**
  * Guest download multiple files via zip
@@ -18,6 +19,7 @@ class VisitorZipFilesController extends Controller
     public function __construct(
         private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
+        private RecordDownloadAction $recordDownload,
         private ZipFilesAction $zipFiles,
     ) {
     }
@@ -25,7 +27,7 @@ class VisitorZipFilesController extends Controller
     public function __invoke(
         Request $request,
         Share $shared,
-    ): Response {
+    ): ZipStream {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -46,10 +48,11 @@ class VisitorZipFilesController extends Controller
         // Create zip
         $zip = ($this->zipFiles)($files, $shared);
 
-        // Get file
-        return response([
-            'url'  => url("/zip/{$zip->id}/public/{$shared->token}"),
-            'name' => $zip->basename,
-        ], 201);
+        ($this->recordDownload)(
+            file_size: $zip->predictZipSize(),
+            user_id: $shared->user_id,
+        );
+
+        return $zip;
     }
 }

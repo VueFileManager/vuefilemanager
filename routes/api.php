@@ -81,5 +81,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/move', MoveFileOrFolderController::class);
 
     Route::get('/zip/folder/{id}', ZipFolderController::class);
-    Route::post('/zip/files', ZipFilesController::class);
+    Route::get('/zip/files', ZipFilesController::class);
 });
