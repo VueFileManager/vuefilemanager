@@ -83,15 +83,6 @@ class ShareController extends Controller
                 ->where('user_id', Auth::id())
                 ->firstOrFail()
                 ->delete();
-
-            // Get zip record if exist
-            $zip = Zip::where('shared_token', $token)
-                ->where('user_id', Auth::id())
-                ->first();
-
-            if ($zip) {
-                $zip->delete();
-            }
         }
 
         return response('Done!', 204);
