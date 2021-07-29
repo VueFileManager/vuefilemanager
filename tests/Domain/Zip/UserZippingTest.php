@@ -1,10 +1,10 @@
 <?php
+
 namespace Tests\Domain\Zip;
 
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
@@ -22,6 +22,24 @@ class UserZippingTest extends TestCase
 
         Sanctum::actingAs($user);
 
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        collect([0, 1])
+            ->each(function ($index) use ($folder) {
+                $file = UploadedFile::fake()
+                    ->create("fake-inner-file-$index.pdf", 1200, 'application/pdf');
+
+                $this->postJson('/api/upload', [
+                    'filename'  => $file->name,
+                    'file'      => $file,
+                    'folder_id' => $folder->id,
+                    'is_last'   => 'true',
+                ])->assertStatus(201);
+            });
+
         collect([0, 1])
             ->each(function ($index) {
                 $file = UploadedFile::fake()
@@ -35,20 +53,15 @@ class UserZippingTest extends TestCase
                 ])->assertStatus(201);
             });
 
-        $file_ids = File::all()->pluck('id');
+        $files = File::all()
+            ->where('folder_id', null)
+            ->pluck('id')
+            ->toArray();
 
-        $this->postJson('/api/zip/files', [
-            'items' => $file_ids,
-        ])->assertStatus(201);
-
-        $this->assertDatabaseHas('zips', [
-            'user_id' => $user->id,
-        ]);
-
-        Storage::disk('local')
-            ->assertExists(
-                'zip/' . Zip::first()->basename
-            );
+        $this
+            ->getJson("/api/zip?items=$files[0]|file,$files[1]|file,$folder->id|folder")
+            ->assertStatus(200)
+            ->assertHeader('content-type', 'application/x-zip');
     }
 
     /**
@@ -79,16 +92,8 @@ class UserZippingTest extends TestCase
                 ])->assertStatus(201);
             });
 
-        $this->getJson("/api/zip/folder/$folder->id")
-            ->assertStatus(201);
-
-        $this->assertDatabaseHas('zips', [
-            'user_id' => $user->id,
-        ]);
-
-        Storage::disk('local')
-            ->assertExists(
-                'zip/' . Zip::first()->basename
-            );
+        $this->getJson("/api/zip?items=$folder->id|folder")
+            ->assertStatus(200)
+            ->assertHeader('content-type', 'application/x-zip');
     }
 }

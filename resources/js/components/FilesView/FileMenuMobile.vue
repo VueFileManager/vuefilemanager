@@ -10,8 +10,7 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
@@ -28,8 +27,7 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
@@ -47,8 +45,7 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
@@ -61,16 +58,14 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
         <!--Base location for guest with visit permission-->
         <MenuMobileGroup v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')">
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
@@ -126,9 +121,6 @@ export default {
         }
     },
     methods: {
-        downloadFolder() {
-            this.$store.dispatch('downloadFolder', this.clipboard[0])
-        },
         addToFavourites() {
             if (this.favourites && !this.favourites.find(el => el.id === this.clipboard[0].id)) {
                 this.$store.dispatch('addToFavourites', this.clipboard[0])
@@ -136,12 +128,13 @@ export default {
                 this.$store.dispatch('removeFromFavourites', this.clipboard[0])
             }
         },
-        downloadItem() {
-            this.$downloadFile(
-                this.clipboard[0].file_url,
-                this.clipboard[0].name + '.' + this.clipboard[0].mimetype
-            )
-        }
+		downloadItem() {
+			if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
+				this.$store.dispatch('downloadZip')
+			else {
+				this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
+			}
+		},
     }
 }
 </script>

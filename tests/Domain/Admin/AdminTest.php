@@ -264,11 +264,6 @@ class AdminTest extends TestCase
             $user->favouriteFolders()->attach($folder->id);
         });
 
-        // Create zips
-        Zip::factory(Zip::class)
-            ->count(2)
-            ->create(['user_id' => $user->id]);
-
         // Create shares
         Share::factory(Share::class)
             ->count(2)
@@ -331,10 +326,6 @@ class AdminTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('files', [
-            'user_id' => $user->id,
-        ]);
-
-        $this->assertDatabaseMissing('zips', [
             'user_id' => $user->id,
         ]);
 

@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
-use Support\Scheduler\Actions\DeleteOldZipsAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
@@ -27,21 +27,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        if (!is_storage_driver(['local'])) {
+            $schedule->call(
+                fn() => resolve(DeleteFailedFilesAction::class)()
+            )->everySixHours();
+        }
+
         $schedule->call(
-            fn () => resolve(DeleteExpiredShareLinksAction::class)()
+            fn() => resolve(DeleteExpiredShareLinksAction::class)()
         )->everyTenMinutes();
 
         $schedule->call(
-            fn () => resolve(DeleteUnverifiedUsersAction::class)()
+            fn() => resolve(DeleteUnverifiedUsersAction::class)()
         )->daily();
-
-        $schedule->call(function () {
-            resolve(DeleteOldZipsAction::class)();
-
-            if (! is_storage_driver(['local'])) {
-                resolve(DeleteFailedFilesAction::class)();
-            }
-        })->everySixHours();
 
         // Run queue jobs every minute
         $schedule->command('queue:work --stop-when-empty')

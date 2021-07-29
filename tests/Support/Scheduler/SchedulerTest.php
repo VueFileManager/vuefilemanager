@@ -4,10 +4,8 @@ namespace Tests\Support\Scheduler;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Domain\Sharing\Models\Share;
 use Illuminate\Http\UploadedFile;
-use Support\Scheduler\Actions\DeleteOldZipsAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
@@ -30,31 +28,6 @@ class SchedulerTest extends TestCase
         $this->assertDatabaseMissing('shares', [
             'id' => $share->id,
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_delete_zips_older_than_one_day()
-    {
-        $file = UploadedFile::fake()
-            ->create('archive.zip', 2000, 'application/zip');
-
-        Storage::putFileAs('zip', $file, 'EHWKcuvKzA4Gv29v-archive.zip');
-
-        $zip = Zip::factory(Zip::class)->create([
-            'basename'   => 'EHWKcuvKzA4Gv29v-archive.zip',
-            'created_at' => now()->subDay(),
-        ]);
-
-        resolve(DeleteOldZipsAction::class)();
-
-        $this->assertDatabaseMissing('zips', [
-            'id' => $zip->id,
-        ]);
-
-        Storage::disk('local')
-            ->assertMissing('zip/EHWKcuvKzA4Gv29v-archive.zip');
     }
 
     /**

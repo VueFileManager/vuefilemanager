@@ -46,6 +46,7 @@ class SharePublicIndexController extends Controller
         }
 
         return view('index')
+            ->with('status_check', [])
             ->with('installation', 'setup-done')
             ->with('settings', get_settings_in_json() ?? null);
     }

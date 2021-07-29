@@ -1,8 +1,7 @@
 <?php
 
 use Domain\Sharing\Controllers\ShareController;
-use Domain\Zip\Controllers\VisitorZipFilesController;
-use Domain\Zip\Controllers\VisitorZipFolderController;
+use Domain\Zip\Controllers\VisitorZipController;
 use Domain\Files\Controllers\VisitorShowFileController;
 use Domain\Files\Controllers\VisitorUploadFileController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
@@ -26,15 +25,12 @@ Route::group(['prefix' => 'editor'], function () {
 });
 
 // Zip shared items
-Route::group(['prefix' => 'zip'], function () {
-    Route::get('/folder/{id}/{shared}', VisitorZipFolderController::class);
-    Route::post('/files/{shared}', VisitorZipFilesController::class);
-});
+Route::get('/zip/{shared}', VisitorZipController::class);
 
 // Browse share content
 Route::group(['prefix' => 'browse'], function () {
-    Route::post('/authenticate/{shared}', VisitorUnlockLockedShareController::class);
     Route::get('/folders/{id}/{shared}', VisitorBrowseFolderContentController::class);
+    Route::post('/authenticate/{shared}', VisitorUnlockLockedShareController::class);
     Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
     Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
     Route::get('/file/{shared}', VisitorShowFileController::class);

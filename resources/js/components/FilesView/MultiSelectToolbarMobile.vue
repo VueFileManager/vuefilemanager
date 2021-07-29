@@ -5,7 +5,7 @@
 
             <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem" />
 
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :class="{'is-inactive': canDownloadItems}" :action="$t('actions.delete')" @click.native="downloadItem" />
+            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :action="$t('actions.delete')" @click.native="downloadItem" />
 
             <ToolbarButton class="action-btn" source="shared-off" @click.native="shareCancel" v-if="$isThisLocation(['shared'])" />
 
@@ -16,17 +16,18 @@
 
 <script>
 import ToolbarButton from '@/components/FilesView/ToolbarButton'
-import {events} from '@/bus'
 import {mapGetters} from 'vuex'
+import {events} from '@/bus'
 
 export default {
     name: 'MultiSelectToolbarMobile',
-    components: {ToolbarButton},
+    components: {
+		ToolbarButton
+	},
     computed: {
-        ...mapGetters(['clipboard']),
-        canDownloadItems() {
-            return this.clipboard.filter(item => item.type === 'folder').length !== 0
-        }
+        ...mapGetters([
+			'clipboard'
+		]),
     },
     data() {
         return {
@@ -42,8 +43,8 @@ export default {
             events.$emit('mobileSelecting:stop')
         },
         downloadItem() {
-            if (this.clipboard.length > 1)
-                this.$store.dispatch('downloadFiles')
+            if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
+                this.$store.dispatch('downloadZip')
             else {
                 this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
             }
@@ -54,23 +55,14 @@ export default {
             events.$emit('popup:open', {name: 'move', item: [this.clipboard[0]]})
         },
         deleteItem() {
-            //Delete items
             this.$store.dispatch('deleteItem')
             this.closeSelecting()
         }
     },
     created() {
-        events.$on('mobileSelecting:start', () => {
-            this.mobileMultiSelect = true
-
-        })
-
-        events.$on('mobileSelecting:stop', () => {
-            this.mobileMultiSelect = false
-
-        })
+        events.$on('mobileSelecting:start', () => this.mobileMultiSelect = true)
+        events.$on('mobileSelecting:stop', () => this.mobileMultiSelect = false)
     }
-
 }
 </script>
 

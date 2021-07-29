@@ -45,58 +45,19 @@ return [
             'driver' => 'local',
             'root'   => storage_path('app'),
         ],
-
         'public' => [
             'driver'     => 'local',
             'root'       => storage_path('app/public'),
             'url'        => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
-        'oss' => [
-            'driver'   => 's3',
-            'key'      => env('OSS_ACCESS_KEY_ID'),
-            'secret'   => env('OSS_SECRET_ACCESS_KEY'),
-            'region'   => env('OSS_REGION'),
-            'bucket'   => env('OSS_BUCKET'),
-            'endpoint' => env('OSS_ENDPOINT'),
-            'url'      => env('OSS_URL'),
-        ],
-
         's3' => [
             'driver'   => 's3',
-            'key'      => env('AWS_ACCESS_KEY_ID'),
-            'secret'   => env('AWS_SECRET_ACCESS_KEY'),
-            'region'   => env('AWS_DEFAULT_REGION'),
-            'bucket'   => env('AWS_BUCKET'),
-            'endpoint' => env('AWS_URL'),
-        ],
-
-        'spaces' => [
-            'driver'   => 's3',
-            'key'      => env('DO_SPACES_KEY'),
-            'secret'   => env('DO_SPACES_SECRET'),
-            'endpoint' => env('DO_SPACES_ENDPOINT'),
-            'region'   => env('DO_SPACES_REGION'),
-            'bucket'   => env('DO_SPACES_BUCKET'),
-        ],
-
-        'wasabi' => [
-            'driver'   => 's3',
-            'key'      => env('WASABI_KEY'),
-            'secret'   => env('WASABI_SECRET'),
-            'endpoint' => env('WASABI_ENDPOINT'),
-            'region'   => env('WASABI_REGION'),
-            'bucket'   => env('WASABI_BUCKET'),
-        ],
-
-        'backblaze' => [
-            'driver'   => 's3',
-            'key'      => env('BACKBLAZE_KEY'),
-            'secret'   => env('BACKBLAZE_SECRET'),
-            'endpoint' => env('BACKBLAZE_ENDPOINT'),
-            'region'   => env('BACKBLAZE_REGION'),
-            'bucket'   => env('BACKBLAZE_BUCKET'),
+            'key'      => env('S3_ACCESS_KEY_ID'),
+            'secret'   => env('S3_SECRET_ACCESS_KEY'),
+            'region'   => env('S3_DEFAULT_REGION'),
+            'bucket'   => env('S3_BUCKET'),
+            'endpoint' => env('S3_URL'),
         ],
     ],
 ];
