@@ -20,7 +20,7 @@ class StoreEnvironmentSettingsController extends Controller
                     'FILESYSTEM_DRIVER' => 'local',
                 ],
                 's3' => [
-                    'FILESYSTEM_DRIVER'     => $request->input('storage.driver') ?? null,
+                    'FILESYSTEM_DRIVER'     => 's3',
                     'S3_ACCESS_KEY_ID'      => $request->input('storage.key') ?? null,
                     'S3_SECRET_ACCESS_KEY'  => $request->input('storage.secret') ?? null,
                     'S3_DEFAULT_REGION'     => $request->input('storage.region') ?? null,
@@ -29,9 +29,12 @@ class StoreEnvironmentSettingsController extends Controller
                 ],
             ];
 
+            // Get storage driver from request
+            $driver = 'local' === $request->input('storage.driver') ? 'local' : 's3';
+
             // Storage credentials for storage
             setEnvironmentValue(
-                $drivers[$request->input('storage.driver')]
+                $drivers[$driver]
             );
 
             // Store credentials for mail
