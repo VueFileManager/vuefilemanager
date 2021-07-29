@@ -9,6 +9,7 @@ use Domain\Sharing\Models\Share;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use STS\ZipStream\ZipStreamFacade as Zip;
 use ZipStream\ZipStream;
 
@@ -23,8 +24,13 @@ class ZipAction
         // Get user id
         $user_id = Auth::id() ?? $shared->user_id;
 
+        // Get zip name from single requested folder
+        if ($files->isEmpty() && $folders->count() === 1) {
+            $zipName = Str::slug($folders->first()->name) . '.zip';
+        }
+
         // Create zip
-        $zip = Zip::create('files.zip');
+        $zip = Zip::create($zipName ?? 'files.zip');
 
         // Zip Files
         $files->map(function ($file) use ($zip) {
