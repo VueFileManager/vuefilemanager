@@ -25,6 +25,6 @@ abstract class TestCase extends BaseTestCase
 
         resolve(CreateDiskDirectoriesAction::class)();
 
-        //$this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
     }
 }

@@ -41,14 +41,14 @@ class ZipFolderAction
 
                 // local disk
                 if (is_storage_driver('local')) {
-                    $zip->add(storage_path("app/files/$user_id/{$file['basename']}"), $zipDestination);
+                    $zip->add(Storage::path($filePath), $zipDestination);
                 }
 
                 // s3 client
                 if (is_storage_driver('s3')) {
                     $bucketName = config('filesystems.disks.s3.bucket');
 
-                    $zip->add("s3://$bucketName/files/$user_id/{$file['basename']}", $zipDestination);
+                    $zip->add("s3://$bucketName/$filePath", $zipDestination);
                 }
             }
         }

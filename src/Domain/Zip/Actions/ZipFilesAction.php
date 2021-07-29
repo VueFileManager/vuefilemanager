@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Zip\Actions;
 
+use STS\ZipStream\ZipStream;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -27,14 +28,14 @@ class ZipFilesAction
             if (Storage::exists($filePath)) {
                 // local disk
                 if (is_storage_driver('local')) {
-                    $zip->add(storage_path("app/files/$file->user_id/$file->basename"), $file->name);
+                    $zip->add(Storage::path($filePath), $file->name);
                 }
 
                 // s3 client
                 if (is_storage_driver('s3')) {
                     $bucketName = config('filesystems.disks.s3.bucket');
 
-                    $zip->add("s3://$bucketName/files/$file->user_id/$file->basename", $file->name);
+                    $zip->add("s3://$bucketName/$filePath", $file->name);
                 }
             }
         });
