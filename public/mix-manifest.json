@@ -70,7 +70,7 @@
     "/chunks/settings~chunks/settings-password.js": "/chunks/settings~chunks/settings-password.js?id=680f99e2021f19ff1af8",
     "/chunks/setup-wizard.js": "/chunks/setup-wizard.js?id=8a499266af9527039582",
     "/chunks/shared.js": "/chunks/shared.js?id=7524b7a783d4aed23794",
-    "/chunks/shared/authenticate.js": "/chunks/shared/authenticate.js?id=888919dfd3b48bf68608",
+    "/chunks/shared/authenticate.js": "/chunks/shared/authenticate.js?id=0285afcb460b8fc6fe9d",
     "/chunks/shared/file-browser.js": "/chunks/shared/file-browser.js?id=0f6c34512740fca7e007",
     "/chunks/shared/single-file.js": "/chunks/shared/single-file.js?id=7886247bb35deada28a2",
     "/chunks/sign-in.js": "/chunks/sign-in.js?id=6e5c9d01fd2214d21de2",
@@ -94,5 +94,8 @@
     "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~25aaad73.js": "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~25aaad73.js?id=0de519ac9b2c2754e0c2",
     "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~81c8aec0.js": "/vendors~chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~81c8aec0.js?id=ca3b57f70682c1c315f7",
     "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js": "/vendors~chunks/files~chunks/platform~chunks/shared~chunks/shared/file-browser~chunks/shared/single-file.js?id=9d10953d3b088324dfe3",
-    "/vendors~chunks/platform~chunks/shared.js": "/vendors~chunks/platform~chunks/shared.js?id=7d09e0b0658e140a7ffa"
+    "/vendors~chunks/platform~chunks/shared.js": "/vendors~chunks/platform~chunks/shared.js?id=7d09e0b0658e140a7ffa",
+    "/chunks/shared/authenticate.485b9d7c84b7f0b5d3a8.hot-update.js": "/chunks/shared/authenticate.485b9d7c84b7f0b5d3a8.hot-update.js",
+    "/chunks/shared/authenticate.380d5d03b67c56ca9dc5.hot-update.js": "/chunks/shared/authenticate.380d5d03b67c56ca9dc5.hot-update.js",
+    "/chunks/shared/authenticate.19c93dcbd7fd68271075.hot-update.js": "/chunks/shared/authenticate.19c93dcbd7fd68271075.hot-update.js"
 }
