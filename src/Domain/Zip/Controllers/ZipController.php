@@ -25,8 +25,10 @@ class ZipController extends Controller
     ): ZipStream {
         $user_id = Auth::id();
 
+        // Get list of folders and files from requested url parameter
         list($folders, $files) = ($this->getItemsListFromUrlParam)($user_id);
 
+        // Zip items
         $zip = ($this->zip)($folders, $files);
 
         ($this->recordDownload)(
