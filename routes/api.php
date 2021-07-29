@@ -2,9 +2,8 @@
 
 use App\Users\Actions\CreateNewUserAction;
 use Domain\Pages\Controllers\PagesController;
-use Domain\Zip\Controllers\ZipFilesController;
+use Domain\Zip\Controllers\ZipController;
 use Domain\Sharing\Controllers\ShareController;
-use Domain\Zip\Controllers\ZipFolderController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Files\Controllers\UploadFileController;
@@ -80,6 +79,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/remove', DeleteFileOrFolderController::class);
     Route::post('/move', MoveFileOrFolderController::class);
 
-    Route::get('/zip/folder/{id}', ZipFolderController::class);
-    Route::get('/zip/files', ZipFilesController::class);
+    Route::get('/zip', ZipController::class);
 });
