@@ -1,19 +1,16 @@
 <?php
-
-
 namespace Domain\Zip\Controllers;
 
-
-use App\Http\Controllers\Controller;
+use ZipStream\ZipStream;
+use Illuminate\Http\Request;
 use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
+use Domain\Zip\Actions\ZipAction;
+use App\Http\Controllers\Controller;
+use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
-use Domain\Sharing\Models\Share;
-use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Zip\Actions\GetItemsListFromUrlParamAction;
-use Domain\Zip\Actions\ZipAction;
-use Illuminate\Http\Request;
-use ZipStream\ZipStream;
 
 class VisitorZipController extends Controller
 {
@@ -23,13 +20,13 @@ class VisitorZipController extends Controller
         public VerifyAccessToItemAction $verifyAccessToItem,
         public RecordDownloadAction $recordDownload,
         public ZipAction $zip,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Request $request,
         Share $shared,
     ): ZipStream {
-
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -44,7 +41,6 @@ class VisitorZipController extends Controller
 
         // Check access to requested files
         if ($files->isNotEmpty()) {
-
             $file_parent_folders = File::whereUserId($shared->user_id)
                 ->whereIn('id', $files->pluck('id'))
                 ->get()

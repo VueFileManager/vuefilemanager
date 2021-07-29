@@ -11,7 +11,6 @@ class ProtectShareRecordAction
         Share $shared
     ): void {
         if ($shared->is_protected) {
-
             if (! request()->hasCookie('share_session')) {
                 abort(403, $this->message);
             }

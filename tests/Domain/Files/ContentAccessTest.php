@@ -4,7 +4,6 @@ namespace Tests\Domain\Files;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;

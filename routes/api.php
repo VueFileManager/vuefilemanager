@@ -1,8 +1,8 @@
 <?php
 
+use Domain\Zip\Controllers\ZipController;
 use App\Users\Actions\CreateNewUserAction;
 use Domain\Pages\Controllers\PagesController;
-use Domain\Zip\Controllers\ZipController;
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;

@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Domain\Zip\Models\Zip;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;

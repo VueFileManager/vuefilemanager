@@ -1,17 +1,14 @@
 <?php
-
-
 namespace Domain\Zip\Actions;
 
-
-use Domain\Folders\Models\Folder;
+use ZipStream\ZipStream;
+use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use STS\ZipStream\ZipStreamFacade as Zip;
-use ZipStream\ZipStream;
 
 class ZipAction
 {
@@ -20,7 +17,6 @@ class ZipAction
         Collection $files,
         ?Share $shared = null
     ): ZipStream {
-
         // Get user id
         $user_id = Auth::id() ?? $shared->user_id;
 

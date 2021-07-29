@@ -1,8 +1,6 @@
 <?php
-
 namespace Tests\Domain\Zip;
 
-use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;

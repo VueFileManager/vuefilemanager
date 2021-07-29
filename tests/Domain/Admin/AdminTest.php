@@ -5,7 +5,6 @@ use Storage;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;

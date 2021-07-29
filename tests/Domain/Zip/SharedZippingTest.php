@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Zip;
 
 use Storage;
@@ -96,7 +95,7 @@ class SharedZippingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this
                         ->get("/api/zip/{$share->token}?items=$files[0]|file,$files[1]|file,$folder->id|folder")
                         ->assertStatus(200)
@@ -158,7 +157,7 @@ class SharedZippingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this
                         ->get("/api/zip/$share->token?items=$files[0]|file,$files[1]|file")
                         ->assertStatus(403);
@@ -229,7 +228,7 @@ class SharedZippingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/zip/$share->token?items=$children->id|folder")
                         ->assertStatus(200);
                 }
@@ -273,7 +272,7 @@ class SharedZippingTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/zip/$share->token?items=$folder->id|folder")
                         ->assertStatus(403);
                 }

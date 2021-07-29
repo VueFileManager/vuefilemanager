@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -27,18 +26,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        if (!is_storage_driver(['local'])) {
+        if (! is_storage_driver(['local'])) {
             $schedule->call(
-                fn() => resolve(DeleteFailedFilesAction::class)()
+                fn () => resolve(DeleteFailedFilesAction::class)()
             )->everySixHours();
         }
 
         $schedule->call(
-            fn() => resolve(DeleteExpiredShareLinksAction::class)()
+            fn () => resolve(DeleteExpiredShareLinksAction::class)()
         )->everyTenMinutes();
 
         $schedule->call(
-            fn() => resolve(DeleteUnverifiedUsersAction::class)()
+            fn () => resolve(DeleteUnverifiedUsersAction::class)()
         )->daily();
 
         // Run queue jobs every minute

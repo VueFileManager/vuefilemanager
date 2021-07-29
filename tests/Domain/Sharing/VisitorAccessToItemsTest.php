@@ -4,7 +4,6 @@ namespace Tests\Domain\Sharing;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
