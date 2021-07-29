@@ -13,7 +13,7 @@
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
@@ -132,7 +132,7 @@
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+            <OptionGroup v-if="item && !isMultiSelectContextMenu">
                 <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
