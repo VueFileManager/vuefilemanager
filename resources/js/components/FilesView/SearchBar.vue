@@ -57,6 +57,8 @@
 
     .search-bar {
         position: relative;
+		background: $light_background;
+		border-radius: 8px;
 
         input {
             background: transparent;
@@ -65,25 +67,15 @@
             padding: 9px 20px 9px 43px;
             font-weight: 400;
             @include font-size(16);
-            min-width: 175px;
+            min-width: 300px;
             transition: 0.15s all ease;
             border: 1px solid white;
             -webkit-appearance: none;
 
             &::placeholder {
-                color: $text;
-                @include font-size(14);
+                color: #B9B9B9;
+                @include font-size(13);
                 font-weight: 500;
-            }
-
-            &:focus {
-                //box-shadow: 0 0 7px rgba($theme, 0.3);
-            }
-
-            &:focus + .icon {
-                path {
-                    fill: $theme;
-                }
             }
         }
 
@@ -96,6 +88,10 @@
             .pointer {
                 cursor: pointer;
             }
+
+			circle, line {
+				stroke: #B9B9B9;
+			}
         }
     }
 
