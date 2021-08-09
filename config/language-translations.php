@@ -727,5 +727,7 @@ return [
         'popup_delete_personal_token.description'            => 'Any applications or scripts using this token will no longer be able to access into your account. You cannot undo this action.',
         'personal_token.token_deleted'                       => 'Token was successfully deleted!',
         'dark_mode_toggle'                                   => 'Toggle Dark Mode',
+        'actions.convert_into_team_folder'                   => 'Convert into Team Folder',
+        'actions.create'                   => 'Create Something',
     ],
 ];

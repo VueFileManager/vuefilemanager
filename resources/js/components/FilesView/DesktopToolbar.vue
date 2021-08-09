@@ -23,14 +23,26 @@
 
 				<!--Creating controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">
-					<ToolbarButtonUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :action="$t('actions.upload')" />
-                    <ToolbarButton @click.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" source="folder-plus" :action="$t('actions.create_folder')" />
+					<PopoverWrapper>
+						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
+						<PopoverItem name="desktop-create" side="left">
+							<OptionGroup>
+								<OptionUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :title="$t('actions.upload')" />
+								<Option @click.stop.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" :title="$t('actions.create_folder')" icon="folder-plus" />
+							</OptionGroup>
+						</PopoverItem>
+					</PopoverWrapper>
+				</ToolbarGroup>
+
+				<!--Share Controls-->
+				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile() && !$isThisLocation(['public'])">
+                    <ToolbarButton @click.native="shareItem" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
+                    <ToolbarButton @click.native="shareItem" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 				</ToolbarGroup>
 
 				<!--File Controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
 					<ToolbarButton @click.native="moveItem" :class="{'is-inactive': canMoveInView }" source="move" :action="$t('actions.move')" />
-                    <ToolbarButton @click.native="shareItem" v-if="!$isThisLocation(['public'])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
                     <ToolbarButton @click.native="deleteItem" :class="{'is-inactive': canDeleteInView }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
 
@@ -52,24 +64,25 @@
 </template>
 
 <script>
-	import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
 	import FileSortingOptions from '@/components/FilesView/FileSortingOptions'
 	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 	import UploadProgress from '@/components/FilesView/UploadProgress'
 	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
 	import ToolbarWrapper from '@/components/Desktop/ToolbarWrapper'
 	import ToolbarButton from '@/components/FilesView/ToolbarButton'
+	import OptionUpload from '@/components/FilesView/OptionUpload'
 	import ToolbarGroup from '@/components/Desktop/ToolbarGroup'
+	import OptionGroup from '@/components/FilesView/OptionGroup'
 	import PopoverItem from '@/components/Desktop/PopoverItem'
 	import SearchBar from '@/components/FilesView/SearchBar'
-	import {debounce, last} from 'lodash'
+	import Option from '@/components/FilesView/Option'
 	import {mapGetters} from 'vuex'
 	import {events} from '@/bus'
+	import {last} from 'lodash'
 
 	export default {
 		name: 'ToolBar',
 		components: {
-			ToolbarButtonUpload,
 			FileSortingOptions,
 			MoreHorizontalIcon,
 			ChevronLeftIcon,
@@ -77,9 +90,12 @@
 			UploadProgress,
 			PopoverWrapper,
 			ToolbarButton,
+			OptionUpload,
 			ToolbarGroup,
+			OptionGroup,
 			PopoverItem,
 			SearchBar,
+			Option,
 		},
 		computed: {
 			...mapGetters([
@@ -147,6 +163,13 @@
 					'base',
 				]
 				return !this.$isThisLocation(locations) || this.clipboard.length > 1 || this.clipboard.length === 0
+			},
+			canCreateTeamFolderInView() {
+				let locations = [
+					'shared',
+					'base',
+				]
+				return this.$isThisLocation(locations) && this.clipboard.length === 1 && this.clipboard[0].type === 'folder'
 			}
 		},
 		data() {
@@ -160,6 +183,9 @@
 			}
 		},
 		methods: {
+			showCreateMenu() {
+				events.$emit('popover:open', 'desktop-create')
+			},
 			showSortingMenu() {
 				events.$emit('popover:open', 'desktop-sorting')
 			},
@@ -195,6 +221,7 @@
 			},
 			createFolder() {
 				this.$store.dispatch('createFolder', {name: this.$t('popup_create_folder.folder_default_name')})
+				events.$emit('popover:close', 'desktop-create')
 			},
 			moveItem() {
 				if (this.clipboard.length > 0)

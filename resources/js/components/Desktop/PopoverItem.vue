@@ -23,7 +23,11 @@
 				if (this.name === name) this.isVisible = !this.isVisible
 			})
 
-			events.$on('unClick', () => this.isVisible = false)
+			events.$on('popover:close', name => {
+				if (this.name === name) this.isVisible = false
+			})
+
+			// todo: events.$on('unClick', () => this.isVisible = false)
 		}
 	}
 </script>

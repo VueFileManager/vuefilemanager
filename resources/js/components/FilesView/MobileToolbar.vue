@@ -21,7 +21,6 @@
 </template>
 
 <script>
-    import ToolbarButtonUpload from '@/components/FilesView/ToolbarButtonUpload'
     import ToolbarButton from '@/components/FilesView/ToolbarButton'
     import SearchBar from '@/components/FilesView/SearchBar'
     import { MenuIcon, ChevronLeftIcon } from 'vue-feather-icons'
@@ -32,7 +31,6 @@
     export default {
         name: 'MobileToolBar',
         components: {
-            ToolbarButtonUpload,
             ChevronLeftIcon,
             ToolbarButton,
             SearchBar,

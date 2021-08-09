@@ -32,6 +32,7 @@
             <globe-icon v-if="icon === 'globe'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <monitor-icon v-if="icon === 'monitor'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <box-icon v-if="icon === 'box'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <folder-plus-icon v-if="icon === 'folder-plus'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
         <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
