@@ -13,7 +13,7 @@
                 <div class="menu-list-wrapper vertical">
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['base'])}" @click="goHome">
                         <div class="icon text-theme">
-                            <home-icon size="17"></home-icon>
+                            <home-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('sidebar.home') }}
@@ -21,15 +21,23 @@
                     </a>
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['latest'])}" @click="getLatest">
                         <div class="icon text-theme">
-                            <upload-cloud-icon size="17"></upload-cloud-icon>
+                            <upload-cloud-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('sidebar.latest') }}
                         </div>
                     </a>
+					<a class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared">
+                        <div class="icon text-theme">
+                            <link-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('sidebar.my_shared') }}
+                        </div>
+                    </a>
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['trash', 'trash-root'])}" @click="getTrash">
                         <div class="icon text-theme">
-                            <trash2-icon size="17"></trash2-icon>
+                            <trash2-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('locations.trash') }}
@@ -38,31 +46,9 @@
                 </div>
             </ContentGroup>
 
-			<!--Sharing-->
-            <ContentGroup :title="$t('sidebar.sharing')" slug="sharing" :can-collapse="true">
-                <div class="menu-list-wrapper vertical">
-                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared">
-                        <div class="icon text-theme">
-                            <link-icon size="17"></link-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('sidebar.my_shared') }}
-                        </div>
-                    </li>
-                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['participant_uploads'])}" @click="getParticipantUploads">
-                        <div class="icon text-theme">
-                            <users-icon size="17"></users-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('sidebar.participant_uploads') }}
-                        </div>
-                    </li>
-                </div>
-            </ContentGroup>
-
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
-                <span class="empty-note navigator" v-if="tree.length == 0">
+                <span class="empty-note navigator" v-if="tree.length === 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
                 <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
@@ -150,9 +136,6 @@ export default {
     methods: {
 		getShared() {
 			this.$store.dispatch('getShared', [{back: false, init: false}])
-		},
-		getParticipantUploads() {
-			this.$store.dispatch('getParticipantUploads')
 		},
         getTrash() {
             this.$store.dispatch('getTrash')

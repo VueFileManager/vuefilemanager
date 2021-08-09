@@ -24,7 +24,6 @@ use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\Browsing\Controllers\BrowseFolderContentController;
 use Domain\Folders\Controllers\NavigationFolderTreeController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
-use Domain\Browsing\Controllers\BrowseParticipantsUploadsController;
 
 // Pages
 Route::apiResource('/page', PagesController::class);
@@ -47,7 +46,6 @@ Route::group(['prefix' => 'password'], function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Browse
     Route::group(['prefix' => 'browse'], function () {
-        Route::get('/participants', BrowseParticipantsUploadsController::class);
         Route::get('/folders/{id}', BrowseFolderContentController::class);
         Route::get('/navigation', NavigationFolderTreeController::class);
         Route::get('/search', SearchFilesAndFoldersController::class);

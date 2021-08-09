@@ -79,7 +79,7 @@
         </div>
 
         <!--Shared location--->
-        <div v-if="$isThisLocation(['shared', 'participant_uploads']) && ! isSelectMode" class="mobile-actions">
+        <div v-if="$isThisLocation(['shared']) && ! isSelectMode" class="mobile-actions">
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -141,7 +141,6 @@
                     'latest': 'Latest',
                     'trash': 'Trash',
                     'trash-root': 'Trash',
-                    'participant_uploads': 'Participants',
                 }[this.$store.getters.currentFolder.location]
             }
         },

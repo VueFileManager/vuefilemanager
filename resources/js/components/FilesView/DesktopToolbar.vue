@@ -131,7 +131,6 @@
 			},
 			canDeleteInView() {
 				let locations = [
-					'participant_uploads',
 					'trash-root',
 					'latest',
 					'shared',
@@ -146,7 +145,6 @@
 			},
 			canMoveInView() {
 				let locations = [
-					'participant_uploads',
 					'latest',
 					'shared',
 					'public',
@@ -156,7 +154,6 @@
 			},
 			canShareInView() {
 				let locations = [
-					'participant_uploads',
 					'latest',
 					'shared',
 					'public',

@@ -112,7 +112,7 @@
             },
             canShareItem() {
                 return this.$isThisLocation([
-                    'base', 'participant_uploads', 'latest', 'shared'
+                    'base', 'latest', 'shared'
                 ])
             },
         },

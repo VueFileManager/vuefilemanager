@@ -375,7 +375,6 @@ const Helpers = {
                 'base': ['getFolder', [{folder: folder, back: true, init: false, sorting: true}]],
                 'public': ['browseShared', [{folder: folder, back: true, init: false, sorting: true}]],
                 'trash': ['getFolder', [{folder: folder, back: true, init: false, sorting: true}]],
-                'participant_uploads': ['getParticipantUploads'],
                 'trash-root': ['getTrash'],
                 'latest': ['getLatest'],
                 'shared': ['getShared']

@@ -67,15 +67,15 @@
         </div>
 
         <!-- Base location with MASTER permission-->
-        <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['base', 'latest']) && $checkPermission('master')" id="menu-list" class="menu-options">
             
             <!-- No Files options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && isMultiSelectContextMenu && !item">
+            <OptionGroup v-if="!$isThisLocation(['latest']) && isMultiSelectContextMenu && !item">
                 <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
             </OptionGroup>
 
             <!-- Single options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && isMultiSelectContextMenu && isFolder">
+            <OptionGroup v-if="!$isThisLocation(['latest']) && item && isMultiSelectContextMenu && isFolder">
                 <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
@@ -92,7 +92,7 @@
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !isMultiSelectContextMenu && item && !hasFile">
+            <OptionGroup v-if="!$isThisLocation(['latest']) && !isMultiSelectContextMenu && item && !hasFile">
                 <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 

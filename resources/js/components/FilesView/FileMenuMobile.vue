@@ -32,7 +32,7 @@
         </MenuMobileGroup>
 
         <!--Base location for user-->
-        <MenuMobileGroup v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')">
+        <MenuMobileGroup v-if="$isThisLocation(['base', 'latest']) && $checkPermission('master')">
             <OptionGroup v-if="clipboard[0] && isFolder">
                 <Option @click.native="addToFavourites" :title="favouritesTitle" icon="star" />
             </OptionGroup>

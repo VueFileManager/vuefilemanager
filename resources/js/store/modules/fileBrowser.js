@@ -108,25 +108,6 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    getParticipantUploads: ({commit, getters}) => {
-        commit('LOADING_STATE', {loading: true, data: []})
-
-        commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-        commit('STORE_CURRENT_FOLDER', {
-            name: i18n.t('sidebar.participant_uploads'),
-            id: undefined,
-            location: 'participant_uploads',
-        })
-
-        axios
-            .get(getters.api + '/browse/participants' + getters.sorting.URI)
-            .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
-
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
-    },
     getTrash: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')

@@ -12,11 +12,6 @@
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
             </div>
 
-			<!--Trash empty message-->
-            <div class="text-content" v-if="$isThisLocation(['participant_uploads']) && ! isLoading">
-                <h1 class="title">{{ $t('messages.nothing_from_participants') }}</h1>
-            </div>
-
 			<!--Base file browser empty message-->
             <div class="text-content" v-if="$isThisLocation(['base', 'public', 'latest']) && !isLoading">
                 <h1 class="title">{{ $t('empty_page.title') }}</h1>
