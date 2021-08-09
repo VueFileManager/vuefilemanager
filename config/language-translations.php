@@ -726,6 +726,7 @@ return [
         'personal_token.token_deleted'                       => 'Token was successfully deleted!',
         'dark_mode_toggle'                                   => 'Toggle Dark Mode',
         'actions.convert_into_team_folder'                   => 'Convert into Team Folder',
-        'actions.create'                   => 'Create Something',
+        'actions.create'                                     => 'Create Something',
+        'mobile.create'                                      => 'Create',
     ],
 ];

@@ -5,21 +5,8 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
         name: 'MenuMobileGroup',
-        components: {
-
-        },
-        computed: {
-            ...mapGetters(['config']),
-        },
-        data() {
-            return {
-
-            }
-        }
     }
 </script>
 

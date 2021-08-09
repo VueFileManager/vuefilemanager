@@ -6,12 +6,12 @@
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
-            <MobileActionButton @click.native="createFolder" icon="folder-plus">
-                {{ $t('context_menu.add_folder') }}
+            <MobileActionButton @click.native="createItems" icon="cloud-plus">
+                {{ $t('mobile.create') }}
             </MobileActionButton>
-            <MobileActionButtonUpload>
+<!--            <MobileActionButtonUpload>
                 {{ $t('context_menu.upload') }}
-            </MobileActionButtonUpload>
+            </MobileActionButtonUpload>-->
             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}
             </MobileActionButton>
@@ -153,6 +153,9 @@
             showLocations() {
                 events.$emit('mobile-menu:show', 'file-filter')
             },
+			createItems() {
+                events.$emit('mobile-menu:show', 'create-list')
+            },
             selectAll() {
                 this.$store.commit('ADD_ALL_ITEMS_TO_CLIPBOARD')
             },
@@ -171,9 +174,6 @@
             },
             showViewOptions() {
                 events.$emit('mobile-menu:show', 'file-sorting')
-            },
-            createFolder() {
-                events.$emit('popup:open', {name: 'create-folder'})
             },
         },
         mounted() {

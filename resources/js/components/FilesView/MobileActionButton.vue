@@ -17,6 +17,7 @@
             <check-icon v-if="icon === 'check'" size="15" class="icon dark-text-theme" />
             <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon dark-text-theme" />
             <sorting-icon v-if="icon === 'preview-sorting'" class="icon dark-text-theme preview-sorting" />
+            <cloud-plus-icon v-if="icon === 'cloud-plus'" class="icon dark-text-theme preview-sorting" />
             <span class="label">
                 <slot></slot>
             </span>
@@ -26,6 +27,7 @@
 
 <script>
     import { RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import CloudPlusIcon from '@/components/FilesView/Icons/CloudPlusIcon'
     import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
 
     export default {
@@ -39,6 +41,7 @@
             CreditCardIcon,
             FolderPlusIcon,
 			RefreshCwIcon,
+			CloudPlusIcon,
             UserPlusIcon,
 			DownloadIcon,
             SortingIcon,
