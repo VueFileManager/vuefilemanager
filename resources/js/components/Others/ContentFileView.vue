@@ -7,10 +7,10 @@
 </template>
 
 <script>
-    import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
-    import FileBrowser from '@/components/FilesView/FileBrowser'
-	import ContextMenu from '@/components/FilesView/ContextMenu'
-    import {events} from '@/bus'
+    import DesktopToolbar from '/resources/js/components/FilesView/DesktopToolbar'
+    import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
+	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'FilesView',

@@ -14,9 +14,9 @@
 </template>
 
 <script>
-    import FilePreviewToolbar from '@/components/FilePreview/FilePreviewToolbar'
-    import FilePreviewMedia from '@/components/FilePreview/FilePreviewMedia'
-    import {events} from '@/bus'
+    import FilePreviewToolbar from '/resources/js/components/FilePreview/FilePreviewToolbar'
+    import FilePreviewMedia from '/resources/js/components/FilePreview/FilePreviewMedia'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'FilePreview',
@@ -54,7 +54,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_variables';
 
     .file-preview {
         width: 100%;

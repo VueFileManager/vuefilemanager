@@ -75,15 +75,15 @@
 </template>
 
 <script>
-    import FileActionsMobile from '@/components/FilesView/FileActionsMobile'
-	import MobileToolbar from '@/components/FilesView/MobileToolbar'
-	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
-	import EmptyMessage from '@/components/FilesView/EmptyMessage'
-	import FileItemList from '@/components/FilesView/FileItemList'
-	import FileItemGrid from '@/components/FilesView/FileItemGrid'
-	import InfoSidebar from '@/components/FilesView/InfoSidebar'
+    import FileActionsMobile from '/resources/js/components/FilesView/FileActionsMobile'
+	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
+	import EmptyFilePage from '/resources/js/components/FilesView/EmptyFilePage'
+	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
+	import FileItemList from '/resources/js/components/FilesView/FileItemList'
+	import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
+	import InfoSidebar from '/resources/js/components/FilesView/InfoSidebar'
 	import {mapGetters} from 'vuex'
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 	import {debounce} from "lodash";
 
 	export default {
@@ -246,8 +246,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-	@import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+	@import '/resources/sass/vuefilemanager/_mixins';
 
 	.file-list {
 		.dragged {

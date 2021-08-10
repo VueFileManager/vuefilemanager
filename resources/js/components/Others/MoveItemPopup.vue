@@ -41,18 +41,18 @@
 </template>
 
 <script>
-    import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-    import PopupActions from '@/components/Others/Popup/PopupActions'
-    import TitlePreview from '@/components/FilesView/TitlePreview'
-    import PopupContent from '@/components/Others/Popup/PopupContent'
-    import PopupHeader from '@/components/Others/Popup/PopupHeader'
-    import ThumbnailItem from '@/components/Others/ThumbnailItem'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import Spinner from '@/components/FilesView/Spinner'
-    import TreeMenu from '@/components/Others/TreeMenu'
+    import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+    import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+    import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+    import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+    import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+    import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
+    import TreeMenu from '/resources/js/components/Others/TreeMenu'
     import {isArray, isNull} from 'lodash'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'MoveItemPopup',
@@ -158,8 +158,8 @@
 </script>
 
 <style scoped lang="scss">
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 .item-thumbnail {
     margin-bottom: 20px;

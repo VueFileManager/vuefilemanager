@@ -39,25 +39,25 @@
 </template>
 
 <script>
-    import Spotlight from '@/components/Spotlight/Spotlight'
-    import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
-    import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
-    import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
-    import FileFilterMobile from '@/components/FilesView/FileFilterMobile'
-    import CreateListMobile from '@/components/FilesView/CreateListMobile'
-    import CreateFolderPopup from '@/components/Others/CreateFolderPopup'
-    import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
-    import MobileNavigation from '@/components/Others/MobileNavigation'
-    import ShareCreatePopup from '@/components/Others/ShareCreatePopup'
-    import FileMenuMobile from '@/components/FilesView/FileMenuMobile'
-    import ConfirmPopup from '@/components/Others/Popup/ConfirmPopup'
-    import RenameItemPopup from '@/components/Others/RenameItemPopup'
-    import ShareEditPopup from '@/components/Others/ShareEditPopup'
-    import MoveItemPopup from '@/components/Others/MoveItemPopup'
-    import FilePreview from '@/components/FilePreview/FilePreview'
-    import DragUI from '@/components/FilesView/DragUI'
+    import Spotlight from '/resources/js/components/Spotlight/Spotlight'
+    import MultiSelectToolbarMobile from '/resources/js/components/FilesView/MultiSelectToolbarMobile'
+    import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
+    import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
+    import FileFilterMobile from '/resources/js/components/FilesView/FileFilterMobile'
+    import CreateListMobile from '/resources/js/components/FilesView/CreateListMobile'
+    import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
+    import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
+    import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
+    import ShareCreatePopup from '/resources/js/components/Others/ShareCreatePopup'
+    import FileMenuMobile from '/resources/js/components/FilesView/FileMenuMobile'
+    import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
+    import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
+    import ShareEditPopup from '/resources/js/components/Others/ShareEditPopup'
+    import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
+    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+    import DragUI from '/resources/js/components/FilesView/DragUI'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'Platform',
@@ -111,7 +111,7 @@
 </script>
 
 <style lang="scss">
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     @media only screen and (max-width: 690px) {
 

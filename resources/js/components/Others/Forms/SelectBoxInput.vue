@@ -40,10 +40,10 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import "@assets/vuefilemanager/_inapp-forms.scss";
-    @import "@assets/vuefilemanager/_forms.scss";
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import "resources/sass/vuefilemanager/_inapp-forms.scss";
+    @import "resources/sass/vuefilemanager/_forms.scss";
 
     .select-box {
         display: flex;

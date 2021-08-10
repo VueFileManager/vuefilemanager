@@ -43,15 +43,15 @@
 </template>
 
 <script>
-	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
-	import PopoverItem from '@/components/Desktop/PopoverItem'
-	import OptionGroup from '@/components/FilesView/OptionGroup'
-	import Option from '@/components/FilesView/Option'
+	import PopoverWrapper from '/resources/js/components/Desktop/PopoverWrapper'
+	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
+	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import Option from '/resources/js/components/FilesView/Option'
 
-    import ToolbarButton from '@/components/FilesView/ToolbarButton'
+    import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
     import {XIcon, MoreHorizontalIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'FilePreviewToolbar',
@@ -156,8 +156,8 @@
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 .name-wrapper {
     width: 33%;

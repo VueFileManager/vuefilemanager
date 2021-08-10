@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import TextLabel from '@/components/Others/TextLabel'
+    import TextLabel from '/resources/js/components/Others/TextLabel'
     import { ChevronUpIcon } from 'vue-feather-icons'
 
     export default {
@@ -54,7 +54,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .content-group {
         margin-bottom: 15px;

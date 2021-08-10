@@ -33,8 +33,8 @@
 </template>
 
 <script>
-    import ButtonUpload from '@/components/FilesView/ButtonUpload'
-	import Spinner from '@/components/FilesView/Spinner'
+    import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
+	import Spinner from '/resources/js/components/FilesView/Spinner'
 	import {mapGetters} from 'vuex'
 
 	export default {
@@ -61,8 +61,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-	@import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+	@import '/resources/sass/vuefilemanager/_mixins';
 
 	.empty-page {
 		position: absolute;

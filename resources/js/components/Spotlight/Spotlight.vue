@@ -11,10 +11,10 @@
 					<search-icon :class="{'is-hidden': isLoading}" size="22" class="magnify text-theme" />
 				</div>
 				<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" type="text" placeholder="Spotlight search..." ref="searchInput">
-				<div class="input-hint">
+				<div v-if="! $isMobile()" class="input-hint">
 					<span class="title keyboard-hint">esc</span>
 				</div>
-				<div @click="exit" class="close-icon">
+				<div v-if="$isMobile()" @click="exit" class="close-icon">
 					<x-icon size="22" class="close"/>
 				</div>
 			</div>
@@ -30,7 +30,7 @@
 						:disable-highlight="true"
 						@click.native="exit"
 					/>
-					<div class="input-hint">
+					<div v-if="! $isMobile()" class="input-hint">
 						<span class="title">{{ i === 0 ? '↵' : metaKeyIcon + i}}</span>
 					</div>
 				</div>
@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import FileItemList from '@/components/FilesView/FileItemList'
-import Spinner from '@/components/FilesView/Spinner'
+import FileItemList from '/resources/js/components/FilesView/FileItemList'
+import Spinner from '/resources/js/components/FilesView/Spinner'
 import {SearchIcon, XIcon} from 'vue-feather-icons'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 import {debounce} from 'lodash';
 import axios from "axios";
 
@@ -98,22 +98,27 @@ export default {
 			}
 		},
 		showSelected() {
-			// Go to files if isn't current location
-			// todo: fixnut reload na Files stranke
-			if (this.$route.name !== 'Files') {
-				this.$router.push({name: 'Files'})
-			}
+
+			let file = this.results[this.index]
 
 			// Show folder
-			if (this.results[this.index].type === 'folder') {
+			if (file.type === 'folder') {
+				// todo: fixnut reload na Files stranke
+				if (this.$route.name !== 'Files') {
+					this.$router.push({name: 'Files'})
+				}
+
 				this.$store.dispatch('getFolder', [{ folder: this.results[this.index], back: true, init: false }])
-			}
+			} else {
 
-			// Show file
-			if (this.results[this.index].type !== 'folder'){
-				this.$store.commit('ADD_TO_FAST_PREVIEW', this.results[this.index])
+				// Show file
+				if (['video', 'audio', 'image'].includes(file.type) || file.mimetype === 'pdf'){
+					this.$store.commit('ADD_TO_FAST_PREVIEW', this.results[this.index])
 
-				events.$emit('file-preview:show')
+					events.$emit('file-preview:show')
+				} else {
+					this.$downloadFile(file.file_url, file.name + '.' + file.mimetype)
+				}
 			}
 
 			this.exit()
@@ -177,8 +182,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 #spotlight {
 	position: absolute;
@@ -241,7 +246,6 @@ export default {
 
 	.close-icon {
 		cursor: pointer;
-		display: none;
 
 		.close {
 			transform: translateY(4px);
@@ -303,10 +307,6 @@ export default {
 				color: $dark_mode_text_primary;
 			}
 		}
-
-		.close-icon {
-			display: block;
-		}
 	}
 
 	.spotlight-results {
@@ -322,6 +322,21 @@ export default {
 	}
 }
 
+@media only screen and (max-width: 1024px) {
+
+	#spotlight .spotlight-wrapper {
+		margin-top: 30px;
+	}
+
+	.spotlight-search {
+		padding: 15px;
+	}
+
+	.spotlight-results {
+		margin-top: -2px;
+	}
+}
+
 @media only screen and (max-width: 690px) {
 	#spotlight {
 		background: white;
@@ -332,16 +347,6 @@ export default {
 			border-radius: 0;
 			margin: 0;
 		}
-	}
-
-	.spotlight-search {
-		.keyboard-hint {
-			display: none;
-		}
-	}
-
-	.spotlight-results .input-hint {
-		display: none;
 	}
 }
 

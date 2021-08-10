@@ -1,6 +1,6 @@
 <template>
 	<audio
-		:class="{'file-shadow': ! this.$isMobile() }"
+		:class="{'file-shadow': ! $isMobile() }"
 		class="file audio"
 		:src="file.file_url"
 		controls>

@@ -90,12 +90,12 @@
 
 <script>
     import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
-    import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
-    import MobileNavigation from '@/components/Others/MobileNavigation'
-    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-    import CreateLanguage from '@/components/Others/CreateLanguage'
-    import ContentGroup from '@/components/Sidebar/ContentGroup'
-    import ConfirmPopup from '@/components/Others/Popup/ConfirmPopup'
+    import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
+    import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
+    import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+    import CreateLanguage from '/resources/js/components/Others/CreateLanguage'
+    import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
+    import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
     import { mapGetters } from 'vuex'
 
     export default {

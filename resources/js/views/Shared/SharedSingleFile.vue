@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import FileItemGrid from '@/components/FilesView/FileItemGrid'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
+    import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import {mapGetters} from "vuex";
 
     export default {

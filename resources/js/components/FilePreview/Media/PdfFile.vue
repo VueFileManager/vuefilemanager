@@ -9,7 +9,7 @@
 </template>
 
 <script>
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 	import pdf from 'pdfvuer'
 
 	export default {
@@ -79,7 +79,7 @@
 
 <style src="pdfvuer/dist/pdfvuer.css" lang="css"></style>
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_variables';
 
 	#pdf-wrapper {
 		border-radius: 8px;

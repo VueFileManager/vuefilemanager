@@ -2,7 +2,7 @@
 	<img
 		id="printable-file"
 		class="file"
-		:class="{'file-shadow': ! this.$isMobile() }"
+		:class="{'file-shadow': ! $isMobile() }"
 		:src="file.file_url"
 	/>
 </template>

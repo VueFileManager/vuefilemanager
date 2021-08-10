@@ -2,7 +2,7 @@
     <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <div :draggable="canDrag" @dragstart="$emit('dragstart')" @drop="
 				drop()
-				area = false" @dragleave="dragLeave" @dragover.prevent="dragEnter" class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }">
+				area = false" @dragleave="dragLeave" @dragover.prevent="dragEnter" class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && $isMobile(), 'is-dragenter': area }">
             <!--Thumbnail for item-->
             <div class="icon-item">
 
@@ -62,11 +62,11 @@
 
 <script>
 import {LinkIcon, UserPlusIcon, MoreHorizontalIcon} from 'vue-feather-icons'
-import FolderIcon from '@/components/FilesView/FolderIcon'
-import CheckBox from '@/components/FilesView/CheckBox'
+import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
+import CheckBox from '/resources/js/components/FilesView/CheckBox'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'FileItemGrid',
@@ -302,8 +302,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 .check-box {
     margin-right: 10px;

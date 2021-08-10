@@ -62,16 +62,16 @@
 </template>
 
 <script>
-    import MobileActionButton from '@/components/FilesView/MobileActionButton'
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
+    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
     import {CreditCardIcon, Trash2Icon} from "vue-feather-icons"
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import PageTab from '@/components/Others/Layout/PageTab'
-    import ColorLabel from '@/components/Others/ColorLabel'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import { mapGetters } from 'vuex'
-    import {events} from "@/bus"
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     export default {
@@ -237,9 +237,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .is-deleting {
         opacity: 0.35;

@@ -41,7 +41,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import FolderIcon from '@/components/FilesView/FolderIcon'
+    import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
 
     export default {
         name: 'ThumbnailItem',
@@ -66,8 +66,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .file-item {
         display: flex;

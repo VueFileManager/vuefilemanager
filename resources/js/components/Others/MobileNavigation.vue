@@ -52,11 +52,11 @@
 </template>
 
 <script>
-    import MenuMobileGroup from '@/components/Mobile/MenuMobileGroup'
-    import OptionGroup from '@/components/FilesView/OptionGroup'
-    import UserHeadline from '@/components/Sidebar/UserHeadline'
-    import MenuMobile from '@/components/Mobile/MenuMobile'
-    import Option from '@/components/FilesView/Option'
+    import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
+    import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+    import UserHeadline from '/resources/js/components/Sidebar/UserHeadline'
+    import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+    import Option from '/resources/js/components/FilesView/Option'
     import {ChevronLeftIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
 
@@ -115,8 +115,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/vuefilemanager/_variables";
-    @import "@assets/vuefilemanager/_mixins";
+    @import "resources/sass/vuefilemanager/_variables";
+    @import "resources/sass/vuefilemanager/_mixins";
 
     .user-info {
         padding: 20px 20px 10px;

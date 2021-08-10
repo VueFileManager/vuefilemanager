@@ -3,7 +3,7 @@
 		<video
 			:src="file.file_url"
 			class="video"
-			:class="{'file-shadow': !this.$isMobile() }"
+			:class="{'file-shadow': !$isMobile() }"
 			controlsList="nodownload"
 			disablePictureInPicture
 			playsinline
@@ -23,7 +23,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_variables';
 
 	.video-wrapper {
 		max-width: 1080px;

@@ -92,12 +92,12 @@
 
 <script>
     import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon} from 'vue-feather-icons'
-    import StorageItemDetail from '@/components/Others/StorageItemDetail'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import SectionTitle from '@/components/Others/SectionTitle'
-    import PageHeader from '@/components/Others/PageHeader'
-    import ColorLabel from '@/components/Others/ColorLabel'
-    import Spinner from '@/components/FilesView/Spinner'
+    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import SectionTitle from '/resources/js/components/Others/SectionTitle'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
+    import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -145,8 +145,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .user-thumbnail {
         display: flex;

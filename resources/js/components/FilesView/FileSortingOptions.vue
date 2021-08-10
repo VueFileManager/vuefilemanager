@@ -13,8 +13,8 @@
 
 <script>
 
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import Option from '@/components/FilesView/Option'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import Option from '/resources/js/components/FilesView/Option'
 import { ArrowUpIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

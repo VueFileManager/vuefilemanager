@@ -21,11 +21,11 @@
 </template>
 
 <script>
-    import ToolbarButton from '@/components/FilesView/ToolbarButton'
-    import SearchBar from '@/components/FilesView/SearchBar'
+    import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+    import SearchBar from '/resources/js/components/FilesView/SearchBar'
     import { MenuIcon, ChevronLeftIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
     import {last} from 'lodash'
 
     export default {
@@ -82,8 +82,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .mobile-toolbar {
         background: white;

@@ -31,19 +31,19 @@
 </template>
 
 <script>
-    import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
-    import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
-    import CreateFolderPopup from '@/components/Others/CreateFolderPopup'
-    import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
-    import FileMenuMobile from '@/components/FilesView/FileMenuMobile'
-    import RenameItemPopup from '@/components/Others/RenameItemPopup'
-    import MoveItemPopup from '@/components/Others/MoveItemPopup'
-    import FilePreview from '@/components/FilePreview/FilePreview'
-    import Spinner from '@/components/FilesView/Spinner'
-    import Vignette from '@/components/Others/Vignette'
-    import DragUI from '@/components/FilesView/DragUI'
-    import Alert from '@/components/FilesView/Alert'
-    import {events} from '@/bus'
+    import MultiSelectToolbarMobile from '/resources/js/components/FilesView/MultiSelectToolbarMobile'
+    import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
+    import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
+    import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
+    import FileMenuMobile from '/resources/js/components/FilesView/FileMenuMobile'
+    import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
+    import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
+    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
+    import Vignette from '/resources/js/components/Others/Vignette'
+    import DragUI from '/resources/js/components/FilesView/DragUI'
+    import Alert from '/resources/js/components/FilesView/Alert'
+    import {events} from '/resources/js/bus'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -101,7 +101,7 @@
 </script>
 
 <style lang="scss">
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     @media only screen and (max-width: 690px) {
 

@@ -80,14 +80,14 @@
 </template>
 
 <script>
-import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
-import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
-import TitlePreview from '@/components/FilesView/TitlePreview'
-import ContentFileView from '@/components/Others/ContentFileView'
-import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-import ContentGroup from '@/components/Sidebar/ContentGroup'
+import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
+import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
+import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+import ContentFileView from '/resources/js/components/Others/ContentFileView'
+import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
 import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import { events } from '/resources/js/bus'
 import {
     UploadCloudIcon,
     FolderIcon,

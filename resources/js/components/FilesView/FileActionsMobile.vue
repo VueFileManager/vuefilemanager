@@ -125,11 +125,11 @@
 </template>
 
 <script>
-    import MobileActionButtonUpload from '@/components/FilesView/MobileActionButtonUpload'
-    import MobileActionButton from '@/components/FilesView/MobileActionButton'
-    import UploadProgress from '@/components/FilesView/UploadProgress'
+    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
+    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+    import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
     import store from "../../store";
 
     export default {
@@ -201,8 +201,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .button-enter-active,
     .button-leave-active {

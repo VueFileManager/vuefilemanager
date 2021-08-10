@@ -49,8 +49,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .plans-wrapper {
         box-shadow: 0 7px 20px 5px hsla(220, 36%, 16%, 0.05);

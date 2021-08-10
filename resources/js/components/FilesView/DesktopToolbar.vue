@@ -64,20 +64,20 @@
 </template>
 
 <script>
-	import FileSortingOptions from '@/components/FilesView/FileSortingOptions'
+	import FileSortingOptions from '/resources/js/components/FilesView/FileSortingOptions'
 	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
-	import UploadProgress from '@/components/FilesView/UploadProgress'
-	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
-	import ToolbarWrapper from '@/components/Desktop/ToolbarWrapper'
-	import ToolbarButton from '@/components/FilesView/ToolbarButton'
-	import OptionUpload from '@/components/FilesView/OptionUpload'
-	import ToolbarGroup from '@/components/Desktop/ToolbarGroup'
-	import OptionGroup from '@/components/FilesView/OptionGroup'
-	import PopoverItem from '@/components/Desktop/PopoverItem'
-	import SearchBar from '@/components/FilesView/SearchBar'
-	import Option from '@/components/FilesView/Option'
+	import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
+	import PopoverWrapper from '/resources/js/components/Desktop/PopoverWrapper'
+	import ToolbarWrapper from '/resources/js/components/Desktop/ToolbarWrapper'
+	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
+	import ToolbarGroup from '/resources/js/components/Desktop/ToolbarGroup'
+	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
+	import SearchBar from '/resources/js/components/FilesView/SearchBar'
+	import Option from '/resources/js/components/FilesView/Option'
 	import {mapGetters} from 'vuex'
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 	import {last} from 'lodash'
 
 	export default {
@@ -229,8 +229,8 @@
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .is-inactive {
 	opacity: 0.25;

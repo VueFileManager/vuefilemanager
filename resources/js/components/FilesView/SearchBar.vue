@@ -13,7 +13,7 @@
 
 <script>
     import {SearchIcon} from 'vue-feather-icons'
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 
     export default {
         name: 'SearchBar',
@@ -34,8 +34,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .search-bar {
         position: relative;

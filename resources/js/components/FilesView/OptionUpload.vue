@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 import {
     UploadCloudIcon,
 } from 'vue-feather-icons'
@@ -41,8 +41,8 @@ import {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .menu-option {
     white-space: nowrap;

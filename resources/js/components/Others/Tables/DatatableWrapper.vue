@@ -120,7 +120,7 @@
 
 <script>
 import {ChevronUpIcon, ChevronLeftIcon, ChevronRightIcon} from 'vue-feather-icons'
-import DatatableCell from '@/components/Others/Tables/DatatableCell'
+import DatatableCell from '/resources/js/components/Others/Tables/DatatableCell'
 import axios from "axios";
 
 export default {
@@ -221,8 +221,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 .datatable {
     height: 100%;

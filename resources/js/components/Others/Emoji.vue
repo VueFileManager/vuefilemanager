@@ -29,8 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vuefilemanager/_inapp-forms.scss";
-@import '@assets/vuefilemanager/_forms';
+@import "resources/sass/vuefilemanager/_inapp-forms.scss";
+@import '/resources/sass/vuefilemanager/_forms';
 
 .emoji-container {
     font-size: inherit;

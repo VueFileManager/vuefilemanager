@@ -11,8 +11,8 @@
 </script>
 
 <style scoped lang="scss" scoped>
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .menu-option-group {
     padding: 5px 0;

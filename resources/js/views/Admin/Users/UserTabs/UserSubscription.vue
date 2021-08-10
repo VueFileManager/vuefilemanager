@@ -36,17 +36,17 @@
 </template>
 
 <script>
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import ListInfoItem from '@/components/Others/ListInfoItem'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import PageTab from '@/components/Others/Layout/PageTab'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
-    import ListInfo from '@/components/Others/ListInfo'
+    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+    import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+    import ListInfo from '/resources/js/components/Others/ListInfo'
     import {ExternalLinkIcon} from "vue-feather-icons"
     import {mapGetters} from 'vuex'
-    import {events} from "@/bus"
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     export default {
@@ -96,8 +96,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .cancel-plan {
         margin-top: 10px;

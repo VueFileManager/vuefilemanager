@@ -16,14 +16,14 @@
 </template>
 
 <script>
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import PageTab from '@/components/Others/Layout/PageTab'
-    import StorageItemDetail from '@/components/Others/StorageItemDetail'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import SectionTitle from '@/components/Others/SectionTitle'
-    import PageHeader from '@/components/Others/PageHeader'
-    import Spinner from '@/components/FilesView/Spinner'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import SectionTitle from '/resources/js/components/Others/SectionTitle'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import axios from 'axios'
 
     export default {
@@ -55,8 +55,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     #single-page {
         overflow: hidden;

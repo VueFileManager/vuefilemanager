@@ -132,18 +132,18 @@
 </template>
 
 <script>
-	import TwoFactorRecoveryCodesPopup from '@/components/Others/TwoFactorRecoveryCodesPopup'
-	import CreatePersonaTokenPopup from '@/components/Others/CreatePersonaTokenPopup'
-	import TwoFactorSetupPopup from '@/components/Others/TwoFactorSetupPopup'
-    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-    import ContentGroup from '@/components/Sidebar/ContentGroup'
-    import UserImageInput from '@/components/Others/UserImageInput'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
-    import PageHeader from '@/components/Others/PageHeader'
-    import ColorLabel from '@/components/Others/ColorLabel'
-    import Spinner from '@/components/FilesView/Spinner'
+	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
+	import CreatePersonaTokenPopup from '/resources/js/components/Others/CreatePersonaTokenPopup'
+	import TwoFactorSetupPopup from '/resources/js/components/Others/TwoFactorSetupPopup'
+    import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+    import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
+    import UserImageInput from '/resources/js/components/Others/UserImageInput'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
+    import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import { mapGetters } from 'vuex'
     import {
         CreditCardIcon,
@@ -206,8 +206,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .page-detail-headline {
         display: flex;

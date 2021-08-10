@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -47,8 +47,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .vignette {
         position: absolute;

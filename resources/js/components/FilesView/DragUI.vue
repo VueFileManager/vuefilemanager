@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import TitlePreview from '@/components/FilesView/TitlePreview'
+import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
 import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import { events } from '/resources/js/bus'
 
 export default {
     name: 'DragUI',
@@ -80,8 +80,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 #drag-ui {
     max-width: 300px;

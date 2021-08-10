@@ -36,10 +36,10 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
+    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContent from '@/components/Auth/AuthContent'
-    import AuthButton from '@/components/Auth/AuthButton'
+    import AuthContent from '/resources/js/components/Auth/AuthContent'
+    import AuthButton from '/resources/js/components/Auth/AuthButton'
     import { SettingsIcon, ChevronRightIcon } from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
@@ -69,9 +69,9 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_auth-form';
-    @import '@assets/vuefilemanager/_auth';
-    @import '@assets/vuefilemanager/_setup_wizard';
+    @import '/resources/sass/vuefilemanager/_auth-form';
+    @import '/resources/sass/vuefilemanager/_auth';
+    @import '/resources/sass/vuefilemanager/_setup_wizard';
 
     .services {
         margin: 0 auto;

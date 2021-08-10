@@ -91,16 +91,16 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import SelectInput from '@/components/Others/Forms/SelectInput'
-    import ImageInput from '@/components/Others/Forms/ImageInput'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import SectionTitle from '@/components/Others/SectionTitle'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import PageHeader from '@/components/Others/PageHeader'
+    import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
+    import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import SectionTitle from '/resources/js/components/Others/SectionTitle'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
     import {required} from 'vee-validate/dist/rules'
     import { mapGetters } from 'vuex'
-    import {events} from "@/bus"
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     export default {
@@ -226,7 +226,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 </style>

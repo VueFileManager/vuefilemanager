@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import UserAvatar from '@/components/Others/UserAvatar'
+    import UserAvatar from '/resources/js/components/Others/UserAvatar'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -26,8 +26,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .user-headline {
         display: flex;

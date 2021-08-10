@@ -21,8 +21,8 @@
 </template>
 
 <script>
-    import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
-    import CloudPlusIcon from '@/components/FilesView/Icons/CloudPlusIcon'
+    import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
+    import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
     import {
     	UserPlusIcon,
         CornerDownRightIcon,
@@ -70,8 +70,8 @@
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .preview-sorting {
 	transform: scale(1.3);
