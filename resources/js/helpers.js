@@ -172,21 +172,82 @@ const Helpers = {
 
             // Prevent submit empty files
             if (event.dataTransfer.items.length === 0) return
+            // let file = event.dataTransfer.items
 
-            // Push items to file queue
-            [...event.dataTransfer.items].map(item => {
+           let items = await this.$getAllFileEntries(event.dataTransfer.items);
+
+           for (let i = 0; i < items.length; i++) {
+
                 this.$store.commit('ADD_FILES_TO_QUEUE', {
                     folder_id: parent_id ? parent_id : '',
-                    file: item.getAsFile(),
+                    file: await this.$getFile(items[i]),
+                    path: items[i].fullPath
                 })
-            });
+           }
+
+            // Push items to file queue
+            // [...event.dataTransfer.items].map(item => {
+            //     console.log(item.getAsFile(), 'b')
+            //     this.$store.commit('ADD_FILES_TO_QUEUE', {
+            //         folder_id: parent_id ? parent_id : '',
+            //         file: item.getAsFile(),
+            //     })
+            // });
+
 
             // Start uploading if uploading process isn't running
             if (this.$store.getters.filesInQueueTotal == 0)
                 this.$handleUploading(this.$store.getters.fileQueue[0])
 
             // Increase total files in upload bar
-            this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
+            this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', items.length)
+        }
+
+        Vue.prototype.$getFile = async function (fileEntry) {
+            try {
+                return await new Promise((resolve, reject) => fileEntry.file(resolve, reject));
+              } catch (err) {
+                console.log(err);
+              }            
+        }
+
+        Vue.prototype.$getAllFileEntries = async function (dataTransferItemList) {
+            let fileEntries = [];
+            // Use BFS to traverse entire directory/file structure
+            let queue = [];
+            // Unfortunately dataTransferItemList is not iterable i.e. no forEach
+            for (let i = 0; i < dataTransferItemList.length; i++) {
+              queue.push(dataTransferItemList[i].webkitGetAsEntry());
+            }
+            while (queue.length > 0) {
+              let entry = queue.shift();
+              if (entry.isFile) {
+                fileEntries.push(entry);
+              } else if (entry.isDirectory) {
+                queue.push(...await this.$readAllDirectoryEntries(entry.createReader()));
+              }
+            }
+            return fileEntries;
+        }
+
+        Vue.prototype.$readAllDirectoryEntries = async function (directoryReader) {
+            let entries = [];
+            let readEntries = await this.$readEntriesPromise(directoryReader);
+            while (readEntries.length > 0) {
+                entries.push(...readEntries);
+                readEntries = await this.$readEntriesPromise(directoryReader);
+            }
+            return entries;
+        }
+
+        Vue.prototype.$readEntriesPromise = async function (directoryReader) {
+            try {
+                return await new Promise((resolve, reject) => {
+                  directoryReader.readEntries(resolve, reject);
+                });
+              } catch (err) {
+                console.log(err);
+              }
         }
 
         Vue.prototype.$handleUploading = async function (item) {
@@ -225,6 +286,7 @@ const Helpers = {
                 // Set form data
                 formData.set('filename', item.file.name);
                 formData.set('file', chunk, source_name);
+                formData.set('path', item.path)
                 formData.set('folder_id', item.folder_id)
                 formData.set('is_last', isLast);
 
