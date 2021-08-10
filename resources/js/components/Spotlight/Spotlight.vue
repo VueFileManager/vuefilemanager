@@ -236,6 +236,7 @@ export default {
 
 	.close-icon {
 		cursor: pointer;
+		display: none;
 
 		.close {
 			transform: translateY(4px);
@@ -296,6 +297,10 @@ export default {
 			&::placeholder {
 				color: $dark_mode_text_primary;
 			}
+		}
+
+		.close-icon {
+			display: block;
 		}
 	}
 
