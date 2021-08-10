@@ -32,6 +32,7 @@
         methods: {
             closeFilePreview() {
                 this.isFullPreview = false
+				this.$store.commit('FAST_PREVIEW_CLEAR')
             },
             next() {
                 events.$emit('file-preview:next')
@@ -46,12 +47,8 @@
             }
         },
         mounted() {
-            events.$on('file-preview:show', () => {
-                this.isFullPreview = true
-            })
-            events.$on('file-preview:hide', () => {
-                this.isFullPreview = false
-            })
+            events.$on('file-preview:show', () => this.isFullPreview = true)
+            events.$on('file-preview:hide', () => this.closeFilePreview())
         }
     }
 </script>

@@ -98,6 +98,12 @@ export default {
 			}
 		},
 		showSelected() {
+			// Go to files if isn't current location
+			// todo: fixnut reload na Files stranke
+			if (this.$route.name !== 'Files') {
+				this.$router.push({name: 'Files'})
+			}
+
 			// Show folder
 			if (this.results[this.index].type === 'folder') {
 				this.$store.dispatch('getFolder', [{ folder: this.results[this.index], back: true, init: false }])
@@ -105,8 +111,7 @@ export default {
 
 			// Show file
 			if (this.results[this.index].type !== 'folder'){
-				this.$store.commit('CLIPBOARD_CLEAR')
-				this.$store.commit('CLIPBOARD_REPLACE', [this.results[this.index]])
+				this.$store.commit('ADD_TO_FAST_PREVIEW', this.results[this.index])
 
 				events.$emit('file-preview:show')
 			}

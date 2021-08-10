@@ -11,6 +11,7 @@ const defaultState = {
     isLoading: true,
 
     browseHistory: [],
+    fastPreview: undefined,
     clipboard: [],
     entries: [],
 }
@@ -228,12 +229,16 @@ const mutations = {
     CLIPBOARD_CLEAR(state) {
         state.clipboard = []
     },
-    CLIPBOARD_REPLACE(state, items) {
-        state.clipboard = items
+    ADD_TO_FAST_PREVIEW(state, item) {
+        state.fastPreview = item
+    },
+    FAST_PREVIEW_CLEAR(state) {
+        state.fastPreview = undefined
     },
 }
 
 const getters = {
+    fastPreview: state => state.fastPreview,
     clipboard: state => state.clipboard,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,

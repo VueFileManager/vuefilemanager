@@ -116,7 +116,13 @@ export default {
 		UsersIcon,
     },
     computed: {
-        ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'clipboard']),
+        ...mapGetters([
+        	'user',
+			'homeDirectory',
+			'currentFolder',
+			'config',
+			'clipboard'
+		]),
         favourites() {
             return this.user.data.relationships.favourites.data.attributes.folders
         },
@@ -184,8 +190,6 @@ export default {
             if (this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', null)
             }
-
-
         },
         removeFavourite(folder) {
             this.$store.dispatch('removeFromFavourites', folder)
@@ -196,11 +200,7 @@ export default {
 
         // Listen for dragstart folder items
         events.$on('dragstart', (item) => {
-            this.draggedItem = item , this.dragInProgress = true
-        })
-
-        events.$on('drop', () => {
-            this.dragInProgress = false
+            this.draggedItem = item
         })
     }
 }

@@ -1,5 +1,5 @@
 <template>
-	<div class="media-full-preview" id="mediaPreview" v-if="clipboard[0]">
+	<div class="media-full-preview" id="mediaPreview" v-if="currentFile">
 
         <!--Arrow navigation-->
         <div v-if="files.length > 1" class="navigation-arrows">
@@ -17,7 +17,7 @@
 
             <!--Show PDF-->
             <div v-if="isPDF" id="pdf-wrapper" :style="{width: documentSize + '%'}">
-                <pdf :src="pdfdata" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:0 auto 35px;" id="printable-file" class="pdf-file">
+                <pdf :src="pdfData" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:0 auto 35px;" id="printable-file" class="pdf-file">
                     <template slot="loading">
                         <h1>loading content...</h1>
                     </template>
@@ -25,11 +25,11 @@
             </div>
 
             <!--Show Audio, Video and Image-->
-            <div v-if="!isPDF" class="file-wrapper">
+            <div v-if="isAudio || isImage || isVideo" class="file-wrapper">
 
 				<audio
                     v-if="isAudio"
-                    :class="{ 'file-shadow': !$isMobile() }"
+                    :class="{'file-shadow': ! $isMobile() }"
                     class="file audio"
                     :src="currentFile.file_url"
                     controls>
@@ -79,28 +79,37 @@ export default {
     },
     computed: {
         ...mapGetters([
+            'fastPreview',
             'clipboard',
             'entries',
         ]),
         currentFile() {
-            return this.files[Math.abs(this.currentIndex) % this.files.length]
+
+        	console.log(this.fastPreview);
+        	console.log(this.files[Math.abs(this.currentIndex) % this.files.length]);
+        	console.log(this.currentIndex);
+        	console.log(this.files);
+
+            return this.fastPreview
+				? this.fastPreview
+				: this.files[Math.abs(this.currentIndex) % this.files.length]
         },
         isPDF() {
-            return this.clipboard[0].mimetype === 'pdf'
+            return this.currentFile.mimetype === 'pdf'
         },
         isVideo() {
-            return this.clipboard[0].type === 'video'
+            return this.currentFile.type === 'video'
         },
         isAudio() {
-            return this.clipboard[0].type === 'audio'
+            return this.currentFile.type === 'audio'
         },
         isImage() {
-            return this.clipboard[0].type === 'image'
+            return this.currentFile.type === 'image'
         }
     },
     data() {
         return {
-            pdfdata: undefined,
+            pdfData: undefined,
             numPages: 0,
             currentIndex: 0,
             files: [],
@@ -118,7 +127,7 @@ export default {
                 this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFile)
 
                 // Init pdf instance
-                if (this.clipboard[0].mimetype === 'pdf') {
+                if (this.currentFile.mimetype === 'pdf') {
                     this.getPdf()
                 }
             }
@@ -139,37 +148,15 @@ export default {
         },
     },
     methods: {
-        next() {
-            if (!this.files.length > 1) return
-
-            this.pdfdata = undefined
-
-            this.currentIndex += 1
-
-            if (this.currentIndex > this.files.length - 1) {
-                this.currentIndex = 0
-            }
-        },
-        prev() {
-            if (!this.files.length > 1) return
-
-            this.pdfdata = undefined
-
-            this.currentIndex -= 1
-
-            if (this.currentIndex < 0) {
-                this.currentIndex = this.files.length - 1
-            }
-        },
         getPdf() {
-            this.pdfdata = undefined
+            this.pdfData = undefined
             this.numPages = 0
 
             let self = this;
 
-            self.pdfdata = pdf.createLoadingTask(this.currentFile.file_url);
+            self.pdfData = pdf.createLoadingTask(this.currentFile.file_url);
 
-            self.pdfdata.then(pdf => self.numPages = pdf.numPages);
+            self.pdfData.then(pdf => self.numPages = pdf.numPages);
         },
         getFilesForView() {
             let requestedFile = this.clipboard[0]
@@ -195,7 +182,6 @@ export default {
             })
         },
 		getDocumentSize() {
-
 			if (window.innerWidth < 960) {
 				this.documentSize = 100
 			}
@@ -205,26 +191,47 @@ export default {
 					? parseInt(localStorage.getItem('documentSize'))
 					: 50;
 			}
-		}
-    },
-    created() {
+		},
+		next() {
+			if (!this.files.length > 1) return
 
-		events.$on('file-preview:next', () => this.next())
-        events.$on('file-preview:prev', () => this.prev())
+			this.pdfData = undefined
 
-        events.$on('document-zoom:in', () => {
-            if (this.documentSize < 100) {
+			this.currentIndex += 1
+
+			if (this.currentIndex > this.files.length - 1) {
+				this.currentIndex = 0
+			}
+		},
+		prev() {
+			if (!this.files.length > 1) return
+
+			this.pdfData = undefined
+
+			this.currentIndex -= 1
+
+			if (this.currentIndex < 0) {
+				this.currentIndex = this.files.length - 1
+			}
+		},
+		zoomIn() {
+			if (this.documentSize < 100) {
 				this.documentSize += 10
 				localStorage.setItem('documentSize', this.documentSize)
 			}
-        })
-
-        events.$on('document-zoom:out', () => {
-            if (this.documentSize > 40) {
+		},
+		zoomOut() {
+			if (this.documentSize > 40) {
 				this.documentSize -= 10
 				localStorage.setItem('documentSize', this.documentSize)
 			}
-        })
+		}
+    },
+    created() {
+		events.$on('file-preview:next', () => this.next())
+        events.$on('file-preview:prev', () => this.prev())
+        events.$on('document-zoom:in', () => this.zoomIn())
+        events.$on('document-zoom:out', () => this.zoomOut())
 
         this.getDocumentSize()
         this.getFilesForView()
