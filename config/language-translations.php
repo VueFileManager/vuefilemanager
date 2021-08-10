@@ -727,6 +727,7 @@ return [
         'dark_mode_toggle'                                   => 'Toggle Dark Mode',
         'actions.convert_into_team_folder'                   => 'Convert into Team Folder',
         'actions.create'                                     => 'Create Something',
+        'actions.search'                                     => 'Search',
         'mobile.create'                                      => 'Create',
     ],
 ];

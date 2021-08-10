@@ -27,12 +27,6 @@ const actions = {
         if (payload.init)
             commit('FLUSH_FOLDER_HISTORY')
 
-        // Clear search
-        if (getters.isSearching) {
-            commit('CHANGE_SEARCHING_STATE', false)
-            events.$emit('clear-query')
-        }
-
         if (! payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
 

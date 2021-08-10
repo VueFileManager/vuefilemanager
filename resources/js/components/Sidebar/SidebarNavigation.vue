@@ -265,7 +265,7 @@
         }
 
         .menu-bar {
-            background: $dark_mode_foreground;
+            background: #181a1b;
         }
     }
 

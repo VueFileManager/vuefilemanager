@@ -54,7 +54,7 @@
 				'entries',
 			]),
 			isEmpty() {
-				return this.entries && this.entries.length == 0
+				return this.entries && this.entries.length === 0
 			}
 		}
 	}

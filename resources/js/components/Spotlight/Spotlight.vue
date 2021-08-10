@@ -1,30 +1,43 @@
 <template>
-	<div @keyup.esc="exit" id="spotlight" tabindex="-1">
-		<div v-if="isVisible" class="spotlight-wrapper">
+	<div v-if="isVisible" @keyup.esc="exit" id="spotlight" tabindex="-1">
+		<div class="spotlight-wrapper">
+
+			<!--Query bar-->
 			<div class="spotlight-search">
-				<div class="icon">
+				<div class="magnify-icon">
 					<div v-if="isLoading" class="spinner-icon">
 						<Spinner />
 					</div>
-					<search-icon :class="{'is-hidden': isLoading}" size="22" class="text-theme" />
+					<search-icon :class="{'is-hidden': isLoading}" size="22" class="magnify text-theme" />
 				</div>
 				<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" type="text" placeholder="Spotlight search..." ref="searchInput">
 				<div class="input-hint">
-					<span class="title">esc</span>
+					<span class="title keyboard-hint">esc</span>
+				</div>
+				<div @click="exit" class="close-icon">
+					<x-icon size="22" class="close"/>
 				</div>
 			</div>
-			<div v-if="results.length !== 0" class="spotlight-results">
-				<div v-for="(item, i) in results" :key="item.id" class="result-item">
+
+			<div v-if="query !== ''" class="spotlight-results">
+
+				<!--Show results-->
+				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.id" class="result-item">
 					<FileItemList
 						:item="item"
 						class="file-item"
 						:class="{'is-clicked': i === index}"
 						:disable-highlight="true"
-						@dblclick.native="exit"
+						@click.native="exit"
 					/>
 					<div class="input-hint">
-						<span class="title">{{ i === 0 ? '↵' : getSystemMetaKeyIcon() + i}}</span>
+						<span class="title">{{ i === 0 ? '↵' : metaKeyIcon + i}}</span>
 					</div>
+				</div>
+
+				<!--Show Empty message-->
+				<div v-if="results.length === 0">
+					<span class="message">{{ $t('messages.nothing_was_found') }}</span>
 				</div>
 			</div>
 		</div>
@@ -34,8 +47,7 @@
 <script>
 import FileItemList from '@/components/FilesView/FileItemList'
 import Spinner from '@/components/FilesView/Spinner'
-import {SearchIcon} from 'vue-feather-icons'
-import {mapGetters} from 'vuex'
+import {SearchIcon, XIcon} from 'vue-feather-icons'
 import {events} from '@/bus'
 import {debounce} from 'lodash';
 import axios from "axios";
@@ -46,6 +58,12 @@ export default {
 		FileItemList,
 		SearchIcon,
 		Spinner,
+		XIcon,
+	},
+	computed: {
+		metaKeyIcon() {
+			return this.$isApple() ? '⌘' : '⊞'
+		},
 	},
 	watch: {
 		query(val) {
@@ -139,9 +157,6 @@ export default {
 			this.query = ''
 			this.isVisible = false
 			events.$emit('popup:close')
-		},
-		getSystemMetaKeyIcon() {
-			return this.$isApple() ? '⌘' : '⊞'
 		}
 	},
 	created() {
@@ -160,7 +175,6 @@ export default {
 @import '@assets/vuefilemanager/_variables';
 @import '@assets/vuefilemanager/_mixins';
 
-
 #spotlight {
 	position: absolute;
 	width: 100%;
@@ -174,6 +188,62 @@ export default {
 		position: relative;
 		border-radius: 8px;
 		z-index: 99;
+	}
+}
+
+.spotlight-search {
+	margin: 0 auto 0;
+	padding: 20px 25px;
+	display: flex;
+	align-items: center;
+	position: sticky;
+	top: 0;
+	z-index: 99;
+
+	.magnify-icon {
+		position: relative;
+		margin-right: 10px;
+
+		.is-hidden {
+			opacity: 0;
+		}
+
+		.magnify {
+			transform: translateY(3px);
+
+			circle, line {
+				color: inherit;
+			}
+		}
+
+		.spinner-icon {
+			@include transform(scale(0.5) translateY(23px));
+		}
+	}
+
+	input {
+		width: 100%;
+		border: none;
+		color: $text;
+		@include font-size(19);
+		font-weight: 600;
+		background: transparent;
+
+		&::placeholder {
+			color: $text;
+		}
+	}
+
+	.close-icon {
+		cursor: pointer;
+
+		.close {
+			transform: translateY(4px);
+
+			line {
+				stroke: $text-muted;
+			}
+		}
 	}
 }
 
@@ -199,49 +269,12 @@ export default {
 		top: 50%;
 		@include transform(translateY(-50%));
 	}
-}
 
-.spotlight-search {
-	margin: 0 auto 0;
-	padding: 20px 25px;
-	display: flex;
-	align-items: center;
-	position: sticky;
-	top: 0;
-	z-index: 99;
-
-	.icon {
-		position: relative;
-		margin-right: 10px;
-
-		.is-hidden {
-			opacity: 0;
-		}
-
-		svg {
-			vertical-align: middle;
-
-			circle, line {
-				color: inherit;
-			}
-		}
-
-		.spinner-icon {
-			@include transform(scale(0.5) translateY(23px));
-		}
-	}
-
-	input {
-		width: 100%;
-		border: none;
+	.message {
 		color: $text;
-		@include font-size(19);
+		@include font-size(16);
 		font-weight: 600;
-		background: transparent;
-
-		&::placeholder {
-			color: $text;
-		}
+		padding-left: 15px;
 	}
 }
 
@@ -251,9 +284,12 @@ export default {
 }
 
 .dark-mode {
-	.spotlight-search {
-		background: $dark_mode_foreground;
 
+	#spotlight .spotlight-wrapper {
+		background: $dark_mode_foreground;
+	}
+
+	.spotlight-search {
 		input {
 			color: $dark_mode_text_primary;
 
@@ -265,15 +301,37 @@ export default {
 
 	.spotlight-results {
 		border-color: $dark_mode_border_color;
-		background: $dark_mode_foreground;
 
 		.is-clicked {
 			background: lighten($dark_mode_foreground, 3%);
 		}
 	}
 
-	.input-hint .title {
+	.input-hint .title, .message {
 		color: $dark_mode_text_secondary;
+	}
+}
+
+@media only screen and (max-width: 690px) {
+	#spotlight {
+		background: white;
+		z-index: 99;
+
+		.spotlight-wrapper {
+			width: 100%;
+			border-radius: 0;
+			margin: 0;
+		}
+	}
+
+	.spotlight-search {
+		.keyboard-hint {
+			display: none;
+		}
+	}
+
+	.spotlight-results .input-hint {
+		display: none;
 	}
 }
 

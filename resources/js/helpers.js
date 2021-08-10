@@ -44,28 +44,6 @@ const Helpers = {
             })
         }
 
-        Vue.prototype.$searchFiles = debounce(function (value) {
-
-            if (value !== '' && typeof value !== 'undefined') {
-
-                this.$store.dispatch('getSearchResult', value)
-
-            } else if (typeof value !== 'undefined') {
-
-                if (this.$store.getters.currentFolder) {
-
-                    // Get back after delete query to previously folder
-                    if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{folder: this.$store.getters.currentFolder, back: true, init: false}])
-                    } else {
-                        this.$store.dispatch('getFolder', [{folder: this.$store.getters.currentFolder, back: true, init: false}])
-                    }
-                }
-
-                this.$store.commit('CHANGE_SEARCHING_STATE', false)
-            }
-        }, 300)
-
         Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
 
             if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return

@@ -2,14 +2,14 @@
     <div class="mobile-toolbar">
 
         <!-- Go back-->
-		<div @click="goBack" class="go-back-button" :class="{'is-visible': browseHistory.length > 1}">
-            <chevron-left-icon size="17" class="icon-back" />
-        </div>
+		<div @click="goBack" class="go-back-button">
+            <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': browseHistory.length > 1}" />
 
-        <!--Folder Title-->
-        <div class="directory-name">
-			{{ directoryName }}
-		</div>
+			<!--Folder Title-->
+			<div class="directory-name">
+				{{ directoryName }}
+			</div>
+        </div>
 
         <!--More Actions-->
         <div class="more-actions-button">
@@ -104,26 +104,25 @@
 		.go-back-button {
 			text-align: left;
 			flex: 1;
-			opacity: 0;
-			visibility: hidden;
-			pointer-events: none;
 
 			.icon-back {
+				pointer-events: none;
+				opacity: 0.15;
 				vertical-align: middle;
 				cursor: pointer;
 				margin-top: -2px;
-			}
+				margin-right: 4px;
 
-			&.is-visible {
-				pointer-events: initial;
-				visibility: visible;
-				opacity: 1;
+				&.is-visible {
+					pointer-events: initial;
+					visibility: visible;
+					opacity: 1;
+				}
 			}
 		}
 
         .directory-name {
             line-height: 1;
-            text-align: center;
             width: 100%;
             vertical-align: middle;
             @include font-size(16);

@@ -3,15 +3,15 @@
 
         <!--Base location-->
         <div v-if="$isThisLocation(['base']) && $checkPermission(['master', 'editor']) && ! isSelectMode" class="mobile-actions">
-            <MobileActionButton @click.native="showLocations" icon="filter">
+            <MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
+			<MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
             <MobileActionButton @click.native="createItems" icon="cloud-plus">
                 {{ $t('mobile.create') }}
             </MobileActionButton>
-<!--            <MobileActionButtonUpload>
-                {{ $t('context_menu.upload') }}
-            </MobileActionButtonUpload>-->
             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}
             </MobileActionButton>
@@ -22,6 +22,9 @@
 
         <!--Base location editor-->
         <div v-if="$isThisLocation('public') && $checkPermission('editor') && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="createFolder" icon="folder-plus">
                 {{ $t('context_menu.add_folder') }}
             </MobileActionButton>
@@ -38,6 +41,9 @@
 
         <!--Base location visitor-->
         <div v-if="$isThisLocation('public') && $checkPermission('visitor') && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
              <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                {{ $t('context_menu.select') }}
             </MobileActionButton>
@@ -48,6 +54,9 @@
 
         <!--Recent uploads location-->
         <div v-if="$isThisLocation('latest') && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -64,6 +73,9 @@
 
         <!--Trash location--->
         <div v-if="$isThisLocation(['trash', 'trash-root']) && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -80,6 +92,9 @@
 
         <!--Shared location--->
         <div v-if="$isThisLocation(['shared']) && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -150,6 +165,9 @@
             }
         },
         methods: {
+			showSpotlight() {
+				events.$emit('spotlight:show')
+			},
             showLocations() {
                 events.$emit('mobile-menu:show', 'file-filter')
             },

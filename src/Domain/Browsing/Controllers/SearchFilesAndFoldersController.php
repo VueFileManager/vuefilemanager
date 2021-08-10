@@ -29,6 +29,7 @@ class SearchFilesAndFoldersController
 
         // Collect folders and files to single array
         return collect([$searched_folders, $searched_files])
-            ->collapse();
+            ->collapse()
+            ->take(10);
     }
 }

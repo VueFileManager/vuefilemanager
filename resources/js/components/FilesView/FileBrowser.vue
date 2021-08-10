@@ -18,8 +18,6 @@
 		>
             <MobileToolbar />
 
-            <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="$t('inputs.placeholder_search_files')" />
-
 			<!--Mobile Actions-->
             <FileActionsMobile />
 
@@ -66,14 +64,7 @@
             </div>
 
 			<!--Show empty page if folder is empty-->
-            <EmptyFilePage v-if="! isSearching" />
-
-			<!--Show empty page if no search results-->
-            <EmptyMessage
-				v-if="isSearching && isEmpty"
-				:message="$t('messages.nothing_was_found')"
-				icon="eye-slash"
-			/>
+            <EmptyFilePage />
         </div>
 
 		<!--File Info Panel-->
@@ -91,7 +82,6 @@
 	import FileItemList from '@/components/FilesView/FileItemList'
 	import FileItemGrid from '@/components/FilesView/FileItemGrid'
 	import InfoSidebar from '@/components/FilesView/InfoSidebar'
-	import SearchBar from '@/components/FilesView/SearchBar'
 	import {mapGetters} from 'vuex'
 	import {events} from '@/bus'
 	import {debounce} from "lodash";
@@ -106,7 +96,6 @@
 			FileItemGrid,
 			EmptyMessage,
 			InfoSidebar,
-			SearchBar,
 		},
 		computed: {
 			...mapGetters([
@@ -114,7 +103,6 @@
 				'isVisibleSidebar',
 				'FilePreviewType',
 				'currentFolder',
-				'isSearching',
 				'clipboard',
 				'isLoading',
 				'entries'
@@ -126,7 +114,7 @@
 				return this.FilePreviewType === 'list'
 			},
 			isEmpty() {
-				return this.entries.length == 0
+				return this.entries.length === 0
 			},
 			draggedItems() {
 				//Set opacity for dragged items

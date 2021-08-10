@@ -18,7 +18,7 @@
 
 				<!--Search bar-->
 				<ToolbarGroup style="margin-left: 0">
-					<SearchBar v-model="query" @reset-query="query = ''" :placeholder="$t('inputs.placeholder_search_files')" />
+					<SearchBar />
 				</ToolbarGroup>
 
 				<!--Creating controls-->
@@ -167,16 +167,6 @@
 					'base',
 				]
 				return this.$isThisLocation(locations) && this.clipboard.length === 1 && this.clipboard[0].type === 'folder'
-			}
-		},
-		data() {
-			return {
-				query: '',
-			}
-		},
-		watch: {
-			query(val) {
-				this.$searchFiles(val)
 			}
 		},
 		methods: {
