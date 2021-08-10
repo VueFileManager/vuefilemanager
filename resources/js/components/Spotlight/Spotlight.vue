@@ -1,27 +1,30 @@
 <template>
-	<div v-if="isVisible" @keyup.esc="exit" class="spotlight-wrapper">
-		<div class="spotlight-search">
-			<div class="icon">
-				<div v-if="isLoading" class="spinner-icon">
-					<Spinner />
+	<div @keyup.esc="exit" id="spotlight" tabindex="-1">
+		<div v-if="isVisible" class="spotlight-wrapper">
+			<div class="spotlight-search">
+				<div class="icon">
+					<div v-if="isLoading" class="spinner-icon">
+						<Spinner />
+					</div>
+					<search-icon :class="{'is-hidden': isLoading}" size="22" class="text-theme" />
 				</div>
-				<search-icon :class="{'is-hidden': isLoading}" size="22" class="text-theme" />
-			</div>
-			<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" type="text" placeholder="Spotlight search..." ref="searchInput">
-			<div class="input-hint">
-				<span class="title">esc</span>
-			</div>
-		</div>
-		<div v-if="results.length !== 0" class="spotlight-results">
-			<div v-for="(item, i) in results" :key="item.id" class="result-item">
-				<FileItemList
-					:item="item"
-					class="file-item"
-					:class="{'is-clicked': i === index}"
-					:disable-highlight="true"
-				/>
+				<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" type="text" placeholder="Spotlight search..." ref="searchInput">
 				<div class="input-hint">
-					<span class="title">{{ i === 0 ? '↵' : getSystemMetaKeyIcon() + i}}</span>
+					<span class="title">esc</span>
+				</div>
+			</div>
+			<div v-if="results.length !== 0" class="spotlight-results">
+				<div v-for="(item, i) in results" :key="item.id" class="result-item">
+					<FileItemList
+						:item="item"
+						class="file-item"
+						:class="{'is-clicked': i === index}"
+						:disable-highlight="true"
+						@dblclick.native="exit"
+					/>
+					<div class="input-hint">
+						<span class="title">{{ i === 0 ? '↵' : getSystemMetaKeyIcon() + i}}</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -46,9 +49,8 @@ export default {
 	},
 	watch: {
 		query(val) {
-			if (val === '' || typeof val === 'undefined') {
+			if (val === '' || typeof val === 'undefined')
 				this.results = []
-			}
 
 			this.index = 0
 			this.searchFiles(val)
@@ -94,18 +96,14 @@ export default {
 			this.exit()
 		},
 		onPageDown() {
-			if (typeof this.index === 'undefined') {
-				this.index = 0
-			} else {
-				if (this.index < (this.results.length - 1)) this.index++
-			}
+			if (this.index < (this.results.length - 1))
+				this.index++
 		},
 		onPageUp() {
 
 			if (this.index > 0) this.index--
 		},
 		searchFiles: debounce(function (value) {
-
 			// Prevent empty searching
 			if (value === '' || typeof value === 'undefined') return
 
@@ -119,7 +117,7 @@ export default {
 					? 'private'
 					: 'public'
 
-				route = `/api/browse/search/${permission}/${router.currentRoute.params.token}`
+				route = `/api/browse/search/${permission}/${this.$router.currentRoute.params.token}`
 
 			} else {
 				route = '/api/browse/search'
@@ -135,7 +133,7 @@ export default {
 				.catch(() => this.$isSomethingWrong())
 				.finally(() => this.isLoading = false)
 
-		}, 300),
+		}, 150),
 		exit() {
 			this.results = []
 			this.query = ''
@@ -162,24 +160,29 @@ export default {
 @import '@assets/vuefilemanager/_variables';
 @import '@assets/vuefilemanager/_mixins';
 
-.spotlight-wrapper {
+
+#spotlight {
 	position: absolute;
-	z-index: 99;
-	top: 10%;
-	left: 0;
-	right: 0;
-	bottom: 10%;
-	overflow-y: auto;
+	width: 100%;
+	height: 100%;
+
+	.spotlight-wrapper {
+		margin: 90px auto 0;
+		overflow-y: auto;
+		width: 590px;
+		background: white;
+		position: relative;
+		border-radius: 8px;
+		z-index: 99;
+	}
 }
 
 .spotlight-results {
-	width: 590px;
 	margin: -8px auto 0;
-	background: white;
 	padding: 10px 10px 10px;
-	border-bottom-left-radius: 8px;
-	border-bottom-right-radius: 8px;
 	border-top: 1px solid $light_mode_border;
+	position: relative;
+	z-index: 99;
 
 	.result-item {
 		position: relative;
@@ -199,9 +202,6 @@ export default {
 }
 
 .spotlight-search {
-	width: 590px;
-	background: white;
-	border-radius: 8px;
 	margin: 0 auto 0;
 	padding: 20px 25px;
 	display: flex;
