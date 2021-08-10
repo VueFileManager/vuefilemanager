@@ -54,7 +54,7 @@
     import RenameItemPopup from '@/components/Others/RenameItemPopup'
     import ShareEditPopup from '@/components/Others/ShareEditPopup'
     import MoveItemPopup from '@/components/Others/MoveItemPopup'
-    import FilePreview from '@/components/FilesView/FilePreview'
+    import FilePreview from '@/components/FilePreview/FilePreview'
     import DragUI from '@/components/FilesView/DragUI'
     import {mapGetters} from 'vuex'
     import {events} from '@/bus'

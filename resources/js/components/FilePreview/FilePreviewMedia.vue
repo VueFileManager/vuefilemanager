@@ -1,5 +1,5 @@
 <template>
-	<div class="media-full-preview" id="mediaPreview" v-if="currentFile">
+	<div v-if="currentFile" class="file-preview-wrapper">
 
         <!--Arrow navigation-->
         <div v-if="files.length > 1" class="navigation-arrows">
@@ -16,45 +16,13 @@
 		<div class="file-wrapper-preview">
 
             <!--Show PDF-->
-            <div v-if="isPDF" id="pdf-wrapper" :style="{width: documentSize + '%'}">
-                <pdf :src="pdfData" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:0 auto 35px;" id="printable-file" class="pdf-file">
-                    <template slot="loading">
-                        <h1>loading content...</h1>
-                    </template>
-                </pdf>
-            </div>
+			<PdfFile v-if="isPDF" :file="currentFile"/>
 
             <!--Show Audio, Video and Image-->
             <div v-if="isAudio || isImage || isVideo" class="file-wrapper">
-
-				<audio
-                    v-if="isAudio"
-                    :class="{'file-shadow': ! $isMobile() }"
-                    class="file audio"
-                    :src="currentFile.file_url"
-                    controls>
-                </audio>
-
-                <img
-                    id="printable-file"
-                    v-if="isImage"
-                    class="file"
-                    :class="{'file-shadow': !$isMobile() }"
-                    :src="currentFile.file_url"
-                />
-
-                <div class="video-wrapper" v-if="isVideo">
-					<video
-                        :src="currentFile.file_url"
-                        class="video"
-                        :class="{'file-shadow': !$isMobile() }"
-                        controlsList="nodownload"
-                        disablePictureInPicture
-                        playsinline
-                        controls
-                        autoplay
-                    />
-				</div>
+				<Audio v-if="isAudio" :file="currentFile"/>
+				<Video v-if="isVideo" :file="currentFile"/>
+				<ImageFile v-if="isImage" :file="currentFile"/>
 			</div>
 		</div>
 	</div>
@@ -63,10 +31,13 @@
 <script>
 import {ChevronLeftIcon, ChevronRightIcon} from 'vue-feather-icons'
 import ToolbarButton from '@/components/FilesView/ToolbarButton'
+import ImageFile from '@/components/FilePreview/Media/ImageFile'
+import PdfFile from '@/components/FilePreview/Media/PdfFile'
+import Audio from '@/components/FilePreview/Media/Audio'
+import Video from '@/components/FilePreview/Media/Video'
 import Spinner from '@/components/FilesView/Spinner'
 import {mapGetters} from 'vuex'
 import {events} from '@/bus'
-import pdf from 'pdfvuer'
 
 export default {
     name: 'FilePreviewMedia',
@@ -74,8 +45,11 @@ export default {
         ChevronRightIcon,
         ChevronLeftIcon,
         ToolbarButton,
+		ImageFile,
+		PdfFile,
         Spinner,
-        pdf,
+		Audio,
+		Video,
     },
     computed: {
         ...mapGetters([
@@ -84,12 +58,6 @@ export default {
             'entries',
         ]),
         currentFile() {
-
-        	console.log(this.fastPreview);
-        	console.log(this.files[Math.abs(this.currentIndex) % this.files.length]);
-        	console.log(this.currentIndex);
-        	console.log(this.files);
-
             return this.fastPreview
 				? this.fastPreview
 				: this.files[Math.abs(this.currentIndex) % this.files.length]
@@ -109,27 +77,19 @@ export default {
     },
     data() {
         return {
-            pdfData: undefined,
-            numPages: 0,
             currentIndex: 0,
             files: [],
-            documentSize: 50,
         }
     },
     watch: {
         files() {
             if (this.files.length === 0)
-                events.$emit('file-preview:hide')
+                events.$emit('file-preview-wrapper:hide')
         },
         currentFile() {
             if (this.clipboard[0]) {
                 this.$store.commit('CLIPBOARD_CLEAR')
                 this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFile)
-
-                // Init pdf instance
-                if (this.currentFile.mimetype === 'pdf') {
-                    this.getPdf()
-                }
             }
         },
         clipboard() {
@@ -148,16 +108,6 @@ export default {
         },
     },
     methods: {
-        getPdf() {
-            this.pdfData = undefined
-            this.numPages = 0
-
-            let self = this;
-
-            self.pdfData = pdf.createLoadingTask(this.currentFile.file_url);
-
-            self.pdfData.then(pdf => self.numPages = pdf.numPages);
-        },
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 
@@ -181,21 +131,8 @@ export default {
                 }
             })
         },
-		getDocumentSize() {
-			if (window.innerWidth < 960) {
-				this.documentSize = 100
-			}
-
-			if (window.innerWidth > 960){
-				this.documentSize = localStorage.getItem('documentSize')
-					? parseInt(localStorage.getItem('documentSize'))
-					: 50;
-			}
-		},
 		next() {
 			if (!this.files.length > 1) return
-
-			this.pdfData = undefined
 
 			this.currentIndex += 1
 
@@ -206,40 +143,22 @@ export default {
 		prev() {
 			if (!this.files.length > 1) return
 
-			this.pdfData = undefined
-
 			this.currentIndex -= 1
 
 			if (this.currentIndex < 0) {
 				this.currentIndex = this.files.length - 1
-			}
-		},
-		zoomIn() {
-			if (this.documentSize < 100) {
-				this.documentSize += 10
-				localStorage.setItem('documentSize', this.documentSize)
-			}
-		},
-		zoomOut() {
-			if (this.documentSize > 40) {
-				this.documentSize -= 10
-				localStorage.setItem('documentSize', this.documentSize)
 			}
 		}
     },
     created() {
 		events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
-        events.$on('document-zoom:in', () => this.zoomIn())
-        events.$on('document-zoom:out', () => this.zoomOut())
 
-        this.getDocumentSize()
         this.getFilesForView()
     }
 }
 </script>
 
-<style src="pdfvuer/dist/pdfvuer.css" lang="css"></style>
 <style lang="scss">
 @import '@assets/vuefilemanager/_variables';
 @import '@assets/vuefilemanager/_mixins';
@@ -270,26 +189,7 @@ export default {
     }
 }
 
-#pdf-wrapper {
-	border-radius: 8px;
-	overflow-y: scroll;
-	margin: 0 auto;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 1;
-	padding: 40px;
-
-	.pdf-file {
-		box-shadow: $light_mode_popup_shadow;
-		border-radius: 8px;
-		overflow: hidden;
-	}
-}
-
-.media-full-preview {
+.file-preview-wrapper {
     height: calc(100% - 72px);
     top: 72px;
     position: relative;
@@ -330,57 +230,14 @@ export default {
         img {
             border-radius: 4px;
         }
-
-        .video-wrapper {
-            max-width: 1080px;
-            max-height: 100%;
-
-            @media (min-width: 1200px) {
-                & {
-                    max-width: 800px;
-                }
-            }
-
-            @media (min-width: 1920px) and (max-width: 2560px) {
-                & {
-                    max-width: 1080px;
-                }
-            }
-            @media (min-width: 2560px) and (max-width: 3840px) {
-                & {
-                    max-width: 1440px;
-                }
-            }
-            @media (min-width: 3840px) {
-                & {
-                    max-width: 2160px;
-                }
-            }
-
-            .video {
-                max-width: 100%;
-                max-height: 100%;
-                align-self: center;
-            }
-        }
     }
 }
 
 @media only screen and (max-width: 960px) {
 
-    .media-full-preview {
+    .file-preview-wrapper {
         top: 53px;
     }
-
-	#pdf-wrapper {
-		border-radius: 0;
-		padding: 0;
-
-		.pdf-file {
-			box-shadow: none;
-			border-radius: 0;
-		}
-	}
 }
 
 

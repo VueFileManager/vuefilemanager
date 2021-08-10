@@ -38,7 +38,7 @@
     import FileMenuMobile from '@/components/FilesView/FileMenuMobile'
     import RenameItemPopup from '@/components/Others/RenameItemPopup'
     import MoveItemPopup from '@/components/Others/MoveItemPopup'
-    import FilePreview from '@/components/FilesView/FilePreview'
+    import FilePreview from '@/components/FilePreview/FilePreview'
     import Spinner from '@/components/FilesView/Spinner'
     import Vignette from '@/components/Others/Vignette'
     import DragUI from '@/components/FilesView/DragUI'

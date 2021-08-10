@@ -14,8 +14,8 @@
 </template>
 
 <script>
-    import FilePreviewToolbar from '@/components/FilesView/FilePreviewToolbar'
-    import FilePreviewMedia from '@/components/FilesView/FilePreviewMedia'
+    import FilePreviewToolbar from '@/components/FilePreview/FilePreviewToolbar'
+    import FilePreviewMedia from '@/components/FilePreview/FilePreviewMedia'
     import {events} from '@/bus'
 
     export default {
