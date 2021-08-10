@@ -26,12 +26,14 @@
         methods: {
             closePopup() {
                 events.$emit('popup:close')
+                events.$emit('spotlight:hide')
                 events.$emit('mobile-menu:hide')
             }
         },
         created() {
             // Show vignette
             events.$on('popup:open', () => this.isVisibleVignette = true)
+            events.$on('spotlight:show', () => this.isVisibleVignette = true)
             events.$on('mobile-menu:show', () => this.isVisibleVignette = true)
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)

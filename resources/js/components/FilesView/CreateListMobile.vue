@@ -27,6 +27,24 @@ export default {
         MenuMobile,
         Option,
     },
+	computed: {
+		canUploadInView() {
+			return !this.$isThisLocation(['base', 'public'])
+		},
+		hasCapacity() {
+			// Check if storage limitation is set
+			if (!this.$store.getters.config.storageLimit) return true
+
+			// Check if user is loaded
+			if (!this.$store.getters.user) return true
+
+			// Check if user has storage
+			return this.$store.getters.user.data.attributes.storage.used <= 100
+		},
+		canCreateFolderInView() {
+			return !this.$isThisLocation(['base', 'public'])
+		},
+	},
     methods: {
 		createFolder() {
 			events.$emit('popup:open', {name: 'create-folder'})

@@ -78,7 +78,8 @@ import {events} from '@/bus'
 export default {
     name: 'FileItemList',
     props: [
-		'item'
+		'item',
+		'disableHighlight'
 	],
     components: {
         MoreVerticalIcon,
@@ -94,7 +95,7 @@ export default {
             'entries'
         ]),
         isClicked() {
-            return this.clipboard.some(element => element.id === this.item.id)
+            return !this.disableHighlight && this.clipboard.some(element => element.id === this.item.id)
         },
         isFolder() {
             return this.item.type === 'folder'

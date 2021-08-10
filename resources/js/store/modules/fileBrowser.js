@@ -265,6 +265,9 @@ const mutations = {
     CLIPBOARD_CLEAR(state) {
         state.clipboard = []
     },
+    CLIPBOARD_REPLACE(state, items) {
+        state.clipboard = items
+    },
 }
 
 const getters = {

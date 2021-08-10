@@ -4,6 +4,8 @@
         <!--File preview window-->
         <FilePreview />
 
+		<Spotlight />
+
         <!--Popups-->
         <ProcessingPopup />
         <ConfirmPopup />
@@ -37,6 +39,7 @@
 </template>
 
 <script>
+    import Spotlight from '@/components/Spotlight/Spotlight'
     import MultiSelectToolbarMobile from '@/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '@/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '@/components/Sidebar/SidebarNavigation'
@@ -74,6 +77,7 @@
             MoveItemPopup,
             ConfirmPopup,
             FilePreview,
+			Spotlight,
             DragUI,
         },
         computed: {
@@ -86,13 +90,24 @@
                 isScaledDown: false
             }
         },
+		methods: {
+        	spotlightListener(e) {
+				if (e.key === 'k' && e.metaKey) {
+					events.$emit('spotlight:show');
+				}
+			}
+		},
         mounted() {
             events.$on('mobile-menu:show', () => this.isScaledDown = true)
-
             events.$on('fileItem:deselect', () => this.isScaledDown = false)
             events.$on('mobile-menu:hide', () => this.isScaledDown = false)
-        }
-    }
+
+			window.addEventListener("keydown", this.spotlightListener);
+        },
+		destroyed() {
+			window.removeEventListener("keydown", this.spotlightListener);
+		}
+	}
 </script>
 
 <style lang="scss">
