@@ -1,144 +1,86 @@
 <template>
-    <div class="search-bar">
-        <div class="icon" v-if="!isQuery">
-            <search-icon size="19" />
-        </div>
-        <div class="icon" v-if="isQuery" @click="resetQuery">
-            <x-icon class="pointer" size="19" />
-        </div>
-        <input
-            v-model="query"
-            @input="$emit('input', query)"
-            class="query focus-border-theme"
-            type="text"
-            :placeholder="placeholder"
-        />
+    <div @click="showSpotlight" class="search-bar">
+        <div class="message">
+			<span>
+				{{ $t('inputs.placeholder_search_files') }}
+			</span>
+			<span>
+				{{ metaKeyIcon }}+K
+			</span>
+		</div>
     </div>
 </template>
 
 <script>
-    import {SearchIcon, XIcon} from 'vue-feather-icons'
-    import {events} from '@/bus'
+    import {SearchIcon} from 'vue-feather-icons'
+	import {events} from '/resources/js/bus'
 
     export default {
-        name: 'DesktopSearchBar',
-        props: [
-            'placeholder'
-        ],
+        name: 'SearchBar',
         components: {
             SearchIcon,
-            XIcon,
         },
-        computed: {
-            isQuery() {
-                return this.query !== '' && typeof this.query !== 'undefined'
-            }
-        },
-        data() {
-            return {
-                query: ''
-            }
-        },
-        methods: {
-            resetQuery() {
-                this.query = ''
-                this.$emit('reset-query')
-            }
-        },
-        created() {
-            events.$on('clear-query', () => this.query = undefined)
-        }
+		computed: {
+			metaKeyIcon() {
+				return this.$isApple() ? '⌘' : '⊞'
+			},
+		},
+		methods: {
+			showSpotlight() {
+				events.$emit('spotlight:show')
+			}
+		}
     }
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .search-bar {
         position: relative;
 		background: $light_background;
 		border-radius: 8px;
+		cursor: pointer;
 
-        input {
-            background: transparent;
+        .message {
             border-radius: 8px;
-            outline: 0;
-            padding: 9px 20px 9px 43px;
-            font-weight: 400;
-            @include font-size(16);
+            padding: 11px 20px;
             min-width: 300px;
-            transition: 0.15s all ease;
-            border: 1px solid white;
-            -webkit-appearance: none;
+			text-align: left;
+			display: flex;
+			justify-content: space-between;
 
-            &::placeholder {
-                color: #B9B9B9;
-                @include font-size(13);
-                font-weight: 500;
-            }
-        }
-
-        .icon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 11px 15px;
-
-            .pointer {
-                cursor: pointer;
-            }
-
-			circle, line {
-				stroke: #B9B9B9;
+			span {
+				font-weight: 400;
+				@include font-size(14);
+				color: #B9B9B9;
 			}
         }
     }
 
     @media only screen and (max-width: 1024px) {
 
-        .search-bar input {
+        .search-bar .message {
             max-width: 190px;
-            padding-right: 0;
         }
     }
 
     @media only screen and (max-width: 690px) {
 
-        .search-bar {
-
-            input {
-                min-width: initial;
-                width: 100%;
-                max-width: initial;
-                padding: 9px 20px 9px 30px;
-
-                &:focus {
-                    border: 1px solid transparent;
-                    box-shadow: none;
-                }
-            }
-
-            .icon {
-                padding: 11px 15px 11px 0;
-            }
-        }
-
+        .search-bar .message {
+			min-width: initial;
+			width: 100%;
+			max-width: initial;
+		}
     }
 
     .dark-mode {
         .search-bar {
-            input {
-                border-color: transparent;
-                color: $dark_mode_text_primary;
+			background: $dark_mode_foreground;
 
-                &::placeholder {
-                    color: $dark_mode_text_secondary;
-                }
-            }
-
-            .icon svg path {
-                fill: $dark_mode_text_secondary;
+			.message span {
+                color: $dark_mode_text_secondary;
             }
         }
     }

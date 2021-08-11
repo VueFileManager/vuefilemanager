@@ -10,13 +10,13 @@
 </template>
 
 <script>
-import MenuMobileGroup from '@/components/Mobile/MenuMobileGroup'
-import OptionUpload from '@/components/FilesView/OptionUpload'
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import MenuMobile from '@/components/Mobile/MenuMobile'
-import Option from '@/components/FilesView/Option'
+import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
+import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'FileMenuMobile',
@@ -27,6 +27,24 @@ export default {
         MenuMobile,
         Option,
     },
+	computed: {
+		canUploadInView() {
+			return !this.$isThisLocation(['base', 'public'])
+		},
+		hasCapacity() {
+			// Check if storage limitation is set
+			if (!this.$store.getters.config.storageLimit) return true
+
+			// Check if user is loaded
+			if (!this.$store.getters.user) return true
+
+			// Check if user has storage
+			return this.$store.getters.user.data.attributes.storage.used <= 100
+		},
+		canCreateFolderInView() {
+			return !this.$isThisLocation(['base', 'public'])
+		},
+	},
     methods: {
 		createFolder() {
 			events.$emit('popup:open', {name: 'create-folder'})

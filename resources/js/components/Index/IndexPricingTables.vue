@@ -21,8 +21,8 @@
 </template>
 
 <script>
-    import PricingTables from '@/components/Index/Components/PricingTables'
-    import AuthButton from '@/components/Auth/AuthButton'
+    import PricingTables from '/resources/js/components/Index/Components/PricingTables'
+    import AuthButton from '/resources/js/components/Auth/AuthButton'
     import { CloudIcon } from 'vue-feather-icons'
     import { mapGetters } from 'vuex'
 
@@ -51,9 +51,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_landing-page';
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_landing-page';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .pricing {
         .cloud-bg {

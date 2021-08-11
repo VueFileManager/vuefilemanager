@@ -27,11 +27,11 @@
 </template>
 
 <script>
-    import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-    import PopupActions from '@/components/Others/Popup/PopupActions'
-    import PopupContent from '@/components/Others/Popup/PopupContent'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import {events} from '@/bus'
+    import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+    import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+    import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'ConfirmPopup',
@@ -83,8 +83,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .popup-image {
         padding-top: 20px;

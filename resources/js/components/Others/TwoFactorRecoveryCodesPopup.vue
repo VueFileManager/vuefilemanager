@@ -46,16 +46,16 @@
 </template>
 
 <script>
-import MobileActionButton from '@/components/FilesView/MobileActionButton'
-import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-import PopupActions from '@/components/Others/Popup/PopupActions'
-import PopupContent from '@/components/Others/Popup/PopupContent'
-import PopupHeader from '@/components/Others/Popup/PopupHeader'
-import ButtonBase from '@/components/FilesView/ButtonBase'
-import InfoBox from '@/components/Others/Forms/InfoBox'
-import Spinner from '@/components/FilesView/Spinner'
+import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+import Spinner from '/resources/js/components/FilesView/Spinner'
 import {mapGetters} from "vuex"
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 import axios from 'axios'
 
 export default {
@@ -145,14 +145,14 @@ export default {
 		})
 	},
 	destroyed() {
-		events.off('popup:open')
+		events.$off('popup:open')
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-	@import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+	@import '/resources/sass/vuefilemanager/_mixins';
 
 	.mobile-actions {
 		white-space: nowrap;

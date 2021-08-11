@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_variables';
 
 .select-box {
     min-width: 20px;

@@ -76,11 +76,11 @@
 
 <script>
 import {ChevronDownIcon, XIcon} from 'vue-feather-icons'
-import Spinner from '@/components/FilesView/Spinner'
-import Emoji from '@/components/Others/Emoji'
+import Spinner from '/resources/js/components/FilesView/Spinner'
+import Emoji from '/resources/js/components/Others/Emoji'
 import {mapGetters} from 'vuex'
 import {groupBy} from 'lodash'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 
 export default {
@@ -207,8 +207,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vuefilemanager/_inapp-forms.scss";
-@import '@assets/vuefilemanager/_forms';
+@import "resources/sass/vuefilemanager/_inapp-forms.scss";
+@import '/resources/sass/vuefilemanager/_forms';
 
 .select-emoji-wrapper {
     margin-bottom: 20px;

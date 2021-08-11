@@ -33,8 +33,8 @@
 
 <script>
     import HardDriveIcon from "vue-feather-icons/icons/HardDriveIcon";
-    import PageTitle from '@/components/Index/Components/PageTitle'
-    import AuthButton from '@/components/Auth/AuthButton'
+    import PageTitle from '/resources/js/components/Index/Components/PageTitle'
+    import AuthButton from '/resources/js/components/Auth/AuthButton'
     import { CreditCardIcon } from 'vue-feather-icons'
     import { mapGetters } from 'vuex'
 
@@ -53,9 +53,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_landing-page';
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_landing-page';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .features {
         display: flex;

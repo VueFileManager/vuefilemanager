@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import ProgressBar from '@/components/FilesView/ProgressBar'
+    import ProgressBar from '/resources/js/components/FilesView/ProgressBar'
     import { ImageIcon, VideoIcon, FileTextIcon, FileIcon, HardDriveIcon, MusicIcon } from 'vue-feather-icons'
 
     export default {
@@ -38,8 +38,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .detail-storage-item {
         margin-bottom: 35px;

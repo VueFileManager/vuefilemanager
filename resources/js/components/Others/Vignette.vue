@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -26,12 +26,14 @@
         methods: {
             closePopup() {
                 events.$emit('popup:close')
+                events.$emit('spotlight:hide')
                 events.$emit('mobile-menu:hide')
             }
         },
         created() {
             // Show vignette
             events.$on('popup:open', () => this.isVisibleVignette = true)
+            events.$on('spotlight:show', () => this.isVisibleVignette = true)
             events.$on('mobile-menu:show', () => this.isVisibleVignette = true)
             events.$on('alert:open', () => this.isVisibleVignette = true)
             events.$on('success:open', () => this.isVisibleVignette = true)
@@ -45,8 +47,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .vignette {
         position: absolute;

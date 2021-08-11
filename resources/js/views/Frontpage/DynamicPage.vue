@@ -23,9 +23,9 @@
 </template>
 
 <script>
-    import PageTitle from '@/components/Index/Components/PageTitle'
-    import PageFooter from '@/components/Index/IndexPageFooter'
-    import Navigation from '@/components/Index/IndexNavigation'
+    import PageTitle from '/resources/js/components/Index/Components/PageTitle'
+    import PageFooter from '/resources/js/components/Index/IndexPageFooter'
+    import Navigation from '/resources/js/components/Index/IndexNavigation'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -67,9 +67,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_landing-page';
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_landing-page';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .headline {
         padding-top: 70px;

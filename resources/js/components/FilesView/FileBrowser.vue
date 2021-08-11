@@ -18,8 +18,6 @@
 		>
             <MobileToolbar />
 
-            <SearchBar v-model="query" @reset-query="query = ''" class="mobile-search" :placeholder="$t('inputs.placeholder_search_files')" />
-
 			<!--Mobile Actions-->
             <FileActionsMobile />
 
@@ -66,14 +64,7 @@
             </div>
 
 			<!--Show empty page if folder is empty-->
-            <EmptyFilePage v-if="! isSearching" />
-
-			<!--Show empty page if no search results-->
-            <EmptyMessage
-				v-if="isSearching && isEmpty"
-				:message="$t('messages.nothing_was_found')"
-				icon="eye-slash"
-			/>
+            <EmptyFilePage />
         </div>
 
 		<!--File Info Panel-->
@@ -84,16 +75,15 @@
 </template>
 
 <script>
-    import FileActionsMobile from '@/components/FilesView/FileActionsMobile'
-	import MobileToolbar from '@/components/FilesView/MobileToolbar'
-	import EmptyFilePage from '@/components/FilesView/EmptyFilePage'
-	import EmptyMessage from '@/components/FilesView/EmptyMessage'
-	import FileItemList from '@/components/FilesView/FileItemList'
-	import FileItemGrid from '@/components/FilesView/FileItemGrid'
-	import InfoSidebar from '@/components/FilesView/InfoSidebar'
-	import SearchBar from '@/components/FilesView/SearchBar'
+    import FileActionsMobile from '/resources/js/components/FilesView/FileActionsMobile'
+	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
+	import EmptyFilePage from '/resources/js/components/FilesView/EmptyFilePage'
+	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
+	import FileItemList from '/resources/js/components/FilesView/FileItemList'
+	import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
+	import InfoSidebar from '/resources/js/components/FilesView/InfoSidebar'
 	import {mapGetters} from 'vuex'
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 	import {debounce} from "lodash";
 
 	export default {
@@ -106,7 +96,6 @@
 			FileItemGrid,
 			EmptyMessage,
 			InfoSidebar,
-			SearchBar,
 		},
 		computed: {
 			...mapGetters([
@@ -114,7 +103,6 @@
 				'isVisibleSidebar',
 				'FilePreviewType',
 				'currentFolder',
-				'isSearching',
 				'clipboard',
 				'isLoading',
 				'entries'
@@ -126,7 +114,7 @@
 				return this.FilePreviewType === 'list'
 			},
 			isEmpty() {
-				return this.entries.length == 0
+				return this.entries.length === 0
 			},
 			draggedItems() {
 				//Set opacity for dragged items
@@ -258,8 +246,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-	@import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+	@import '/resources/sass/vuefilemanager/_mixins';
 
 	.file-list {
 		.dragged {

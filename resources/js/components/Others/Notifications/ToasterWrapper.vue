@@ -1,16 +1,16 @@
 <template>
     <div id="toastr-wrapper">
-        <ToastrItem :item="item" v-for="(item, i) in notifications" :key="i"/>
+        <ToasterItem :item="item" v-for="(item, i) in notifications" :key="i"/>
     </div>
 </template>
 
 <script>
-    import ToastrItem from '@/components/Others/Notifications/ToastrItem'
-    import {events} from "@/bus";
+    import ToasterItem from '/resources/js/components/Others/Notifications/ToasterItem'
+    import {events} from '/resources/js/bus'
 
     export default {
         components: {
-            ToastrItem,
+            ToasterItem,
         },
         data() {
             return {
@@ -24,8 +24,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .toastr-list {
         transition: all 5s ease;

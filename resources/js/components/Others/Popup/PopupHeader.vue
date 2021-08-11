@@ -15,7 +15,7 @@
 
 <script>
     import {KeyIcon, CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon, ShareIcon} from 'vue-feather-icons'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'PopupHeader',
@@ -39,8 +39,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .popup-header {
         padding: 20px;

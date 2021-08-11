@@ -80,14 +80,14 @@
 </template>
 
 <script>
-import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
-import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
-import TitlePreview from '@/components/FilesView/TitlePreview'
-import ContentFileView from '@/components/Others/ContentFileView'
-import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-import ContentGroup from '@/components/Sidebar/ContentGroup'
+import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
+import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
+import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+import ContentFileView from '/resources/js/components/Others/ContentFileView'
+import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
 import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import { events } from '/resources/js/bus'
 import {
     UploadCloudIcon,
     FolderIcon,
@@ -116,7 +116,13 @@ export default {
 		UsersIcon,
     },
     computed: {
-        ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'clipboard']),
+        ...mapGetters([
+        	'user',
+			'homeDirectory',
+			'currentFolder',
+			'config',
+			'clipboard'
+		]),
         favourites() {
             return this.user.data.relationships.favourites.data.attributes.folders
         },
@@ -184,8 +190,6 @@ export default {
             if (this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', null)
             }
-
-
         },
         removeFavourite(folder) {
             this.$store.dispatch('removeFromFavourites', folder)
@@ -196,11 +200,7 @@ export default {
 
         // Listen for dragstart folder items
         events.$on('dragstart', (item) => {
-            this.draggedItem = item , this.dragInProgress = true
-        })
-
-        events.$on('drop', () => {
-            this.dragInProgress = false
+            this.draggedItem = item
         })
     }
 }

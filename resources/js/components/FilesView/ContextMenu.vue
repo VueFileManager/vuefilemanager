@@ -157,10 +157,10 @@
 </template>
 
 <script>
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import Option from '@/components/FilesView/Option'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'ContextMenu',
@@ -331,8 +331,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .no-options {
     /deep/ .text-label {

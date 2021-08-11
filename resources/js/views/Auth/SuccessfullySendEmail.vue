@@ -18,9 +18,9 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
-    import AuthContent from '@/components/Auth/AuthContent'
-    import AuthButton from '@/components/Auth/AuthButton'
+    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
+    import AuthContent from '/resources/js/components/Auth/AuthContent'
+    import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -37,6 +37,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_auth-form';
-    @import '@assets/vuefilemanager/_auth';
+    @import '/resources/sass/vuefilemanager/_auth-form';
+    @import '/resources/sass/vuefilemanager/_auth';
 </style>

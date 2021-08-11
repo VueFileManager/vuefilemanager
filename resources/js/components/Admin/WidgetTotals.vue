@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import WidgetWrapper from '@/components/Admin/WidgetWrapper'
+    import WidgetWrapper from '/resources/js/components/Admin/WidgetWrapper'
     import { UsersIcon, StarIcon, HardDriveIcon, ChevronRightIcon } from 'vue-feather-icons'
 
     export default {
@@ -28,8 +28,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .widget-value {
         margin-top: 10px;

@@ -44,11 +44,11 @@
 </template>
 
 <script>
-    import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
-    import WidgetWrapper from '@/components/Admin/WidgetWrapper'
+    import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
+    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+    import WidgetWrapper from '/resources/js/components/Admin/WidgetWrapper'
     import {Trash2Icon, Edit2Icon} from "vue-feather-icons"
-    import ColorLabel from '@/components/Others/ColorLabel'
+    import ColorLabel from '/resources/js/components/Others/ColorLabel'
     import axios from 'axios'
 
     export default {
@@ -110,8 +110,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .dark-mode {
 

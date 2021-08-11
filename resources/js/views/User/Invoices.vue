@@ -49,11 +49,11 @@
 </template>
 
 <script>
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import PageTab from '@/components/Others/Layout/PageTab'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
+    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import {ExternalLinkIcon} from "vue-feather-icons"
     import axios from 'axios'
 
@@ -103,9 +103,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

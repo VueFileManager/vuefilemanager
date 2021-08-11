@@ -150,14 +150,14 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
+    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContent from '@/components/Auth/AuthContent'
-    import AuthButton from '@/components/Auth/AuthButton'
-    import Spinner from '@/components/FilesView/Spinner'
+    import AuthContent from '/resources/js/components/Auth/AuthContent'
+    import AuthButton from '/resources/js/components/Auth/AuthButton'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
-    import {events} from "@/bus"
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     export default {
@@ -383,8 +383,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_auth-form';
-    @import '@assets/vuefilemanager/_auth';
+    @import '/resources/sass/vuefilemanager/_auth-form';
+    @import '/resources/sass/vuefilemanager/_auth';
 
     .spinner-wrapper {
         width: 100%;

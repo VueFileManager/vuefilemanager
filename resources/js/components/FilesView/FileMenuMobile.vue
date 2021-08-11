@@ -72,13 +72,13 @@
 </template>
 
 <script>
-import MenuMobileGroup from '@/components/Mobile/MenuMobileGroup'
-import MenuMobile from '@/components/Mobile/MenuMobile'
-import ThumbnailItem from '@/components/Others/ThumbnailItem'
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import Option from '@/components/FilesView/Option'
+import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
+import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'FileMenuMobile',
@@ -140,8 +140,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .item-thumbnail {
     padding: 20px 20px 10px;

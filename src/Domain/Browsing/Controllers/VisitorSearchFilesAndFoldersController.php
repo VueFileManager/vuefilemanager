@@ -65,6 +65,7 @@ class VisitorSearchFilesAndFoldersController extends Controller
 
         // Collect folders and files to single array
         return collect([$folders, $files])
-            ->collapse();
+            ->collapse()
+            ->take(10);
     }
 }

@@ -6,7 +6,7 @@
             @drop="drop()"
             @dragleave="dragLeave"
             @dragover.prevent="dragEnter"
-            class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }"
+            class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && $isMobile(), 'is-dragenter': area }"
         >
             <!-- MultiSelecting for the mobile version -->
             <transition name="slide-from-left">
@@ -69,16 +69,17 @@
 
 <script>
 import {LinkIcon, UserPlusIcon, MoreVerticalIcon} from 'vue-feather-icons'
-import FolderIcon from '@/components/FilesView/FolderIcon'
-import CheckBox from '@/components/FilesView/CheckBox'
+import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
+import CheckBox from '/resources/js/components/FilesView/CheckBox'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'FileItemList',
     props: [
-		'item'
+		'item',
+		'disableHighlight'
 	],
     components: {
         MoreVerticalIcon,
@@ -94,7 +95,7 @@ export default {
             'entries'
         ]),
         isClicked() {
-            return this.clipboard.some(element => element.id === this.item.id)
+            return !this.disableHighlight && this.clipboard.some(element => element.id === this.item.id)
         },
         isFolder() {
             return this.item.type === 'folder'
@@ -305,8 +306,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 
 .slide-from-left-move {

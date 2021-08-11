@@ -3,7 +3,7 @@
 
         <!--UI components-->
         <Alert />
-        <ToastrWrapper />
+        <ToasterWrapper />
         <CookieDisclaimer />
 
         <!--Show spinner before translations is loaded-->
@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import ToastrWrapper from '@/components/Others/Notifications/ToastrWrapper'
-import CookieDisclaimer from '@/components/Others/CookieDisclaimer'
-import Spinner from '@/components/FilesView/Spinner'
-import Vignette from '@/components/Others/Vignette'
-import Alert from '@/components/FilesView/Alert'
+import ToasterWrapper from '/resources/js/components/Others/Notifications/ToasterWrapper'
+import CookieDisclaimer from '/resources/js/components/Others/CookieDisclaimer'
+import Spinner from '/resources/js/components/FilesView/Spinner'
+import Vignette from '/resources/js/components/Others/Vignette'
+import Alert from '/resources/js/components/FilesView/Alert'
 import {mapGetters} from 'vuex'
 import {events} from './bus'
 
@@ -29,7 +29,7 @@ export default {
     name: 'app',
     components: {
         CookieDisclaimer,
-        ToastrWrapper,
+        ToasterWrapper,
         Vignette,
         Spinner,
         Alert
@@ -115,8 +115,8 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 [v-cloak],
 [v-cloak] > * {

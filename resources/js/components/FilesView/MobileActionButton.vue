@@ -1,6 +1,7 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
+            <search-icon v-if="icon === 'search'" size="15" class="icon dark-text-theme" />
             <refresh-cw-icon v-if="icon === 'refresh'" size="15" class="icon dark-text-theme" />
             <download-icon v-if="icon === 'download'" size="15" class="icon dark-text-theme" />
             <copy-icon v-if="icon === 'copy'" size="15" class="icon dark-text-theme" />
@@ -18,7 +19,7 @@
             <dollar-sign-icon v-if="icon === 'dollar-sign'" size="15" class="icon dark-text-theme" />
             <sorting-icon v-if="icon === 'preview-sorting'" class="icon dark-text-theme preview-sorting" />
             <cloud-plus-icon v-if="icon === 'cloud-plus'" class="icon dark-text-theme preview-sorting" />
-            <span class="label">
+            <span v-if="$slots.default" class="label">
                 <slot></slot>
             </span>
         </div>
@@ -26,9 +27,9 @@
 </template>
 
 <script>
-    import { RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
-    import CloudPlusIcon from '@/components/FilesView/Icons/CloudPlusIcon'
-    import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
+    import { SearchIcon, RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
+    import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
 
     export default {
         name: 'MobileActionButton',
@@ -47,6 +48,7 @@
             SortingIcon,
             XSquareIcon,
             FilterIcon,
+			SearchIcon,
             CheckIcon,
             TrashIcon,
             PlusIcon,
@@ -58,8 +60,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .mobile-action-button {
         background: $light_background;
@@ -76,7 +78,6 @@
         }
 
         .icon {
-            margin-right: 10px;
             @include font-size(14);
 
             path, line, polyline, rect, circle, polygon {
@@ -89,7 +90,8 @@
             @include font-size(14);
             font-weight: 700;
             color: $text;
-        }
+			padding-left: 10px;
+		}
 
         &:active {
             @include transform(scale(0.95));
