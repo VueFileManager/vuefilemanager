@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Actions;
 
-use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +10,6 @@ use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
 use App\Users\Actions\CheckStorageCapacityAction;
-use Facade\Ignition\DumpRecorder\Dump;
 
 class UploadFileAction
 {
@@ -103,6 +101,9 @@ class UploadFileAction
         }
     }
 
+    /**
+     * Create structure fot the Folder upload
+     */
     private function create_folder_structure ($path, $parent, $user_id) 
     {
         $folders = array_slice(explode('/', $path), 1, -1);
@@ -113,47 +114,47 @@ class UploadFileAction
 
         $structure = Folder::whereIn('name', $folders)->with('parent')->get();
 
-        try {
-            if( count($folders) > 0) {
+      
+        if( count($folders) > 0) {
 
-                if( !$structure->isEmpty() || count($folders) == count($structure) && $this->check_folder_structure($structure, $folders)) {
+            if(count($folders) === count($structure) ) {
 
-                    $last_folder = $this->check_folder_structure($structure, $folders);
+                $last_folder = $this->check_folder_structure($structure, $folders);
+                
+            } else if (count($folders) !== count($structure)) {
 
-                    // dd($last_folder, $parent_id, $path, 'struc');
 
-                    
-                } else if (count($folders) != count($structure)) {
+                if(count($structure) > 0) {
 
-                    foreach($folders as $folder) {
-                        
-                        $new_folder = Folder::create([
-                                        'name' => $folder,
-                                        'parent_id' => $parent_id,
-                                        'user_id' => $user_id,
-                                    ]);
-                                    
-                        $parent_id = $new_folder->id;
-            
-                        $last_folder = $new_folder->id;
-                    };
+                    $data = $this->check_exist_folders($structure, $folders);
+
+                    $folders = $data[0];
+
+                    $parent_id = $data[1];
 
                 }
 
-                
-            } 
-        } catch (\Exception $e) {
-            // dd($last_folder, $parent_id, $path);
-            // dd(count($folders), count($structure));
-        }
-        // else if ( count($folders) > 0 ) {
-            // $test = Folder::whereName($folders[-1])->with('name', '=' , $folder[count($folder) - 1]);
+                foreach($folders as $folder) {
 
-        // };
+                    $new_folder = Folder::create([
+                                    'name' => $folder,
+                                    'parent_id' => $parent_id,
+                                    'user_id' => $user_id,
+                                ]);
+                                
+                    $parent_id = $new_folder->id;
+        
+                    $last_folder = $new_folder->id;
+                };
+            }
+        } 
         
         return $last_folder;
     }
 
+    /**
+     * Check if is the structure correct 
+     */
     private function check_folder_structure($structure, $folders)
     {
 
@@ -167,6 +168,7 @@ class UploadFileAction
 
             $parent = $item->pluck('parent')->pluck('name')[0];
 
+            // Check if folder have valid parent name
             if( $parent && $folder === $parent_name || $parent_name == '') {
 
                 $parent_name = $parent;
@@ -180,11 +182,35 @@ class UploadFileAction
         }
        
         if($validate) {
-            
             return $structure->where('name', $folders[array_key_last($folders)])->first()->id;
+            
         } else {
             return false;
         }
 
+    }
+
+    /**
+     * Return the folders that is need to create in already created structure and last created parent
+     */
+    private function check_exist_folders($structure, $folders)
+    {
+
+       $create_folders = [];
+       $last_parent = '';
+
+       foreach($folders as $folder) {
+
+            // Filter folders that is need to create
+           if(! $structure->where('name', $folder)->first()) {
+               array_push($create_folders, $folder);
+           }else {
+
+                // Find last created folder
+               $last_parent = $structure->where('name', $folder)->first()->id;
+           }
+       }
+
+       return [$create_folders, $last_parent];
     }
 }
