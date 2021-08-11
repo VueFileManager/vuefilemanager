@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import EmojiPicker from '@/components/Others/EmojiPicker'
-import ColorPicker from '@/components/Others/ColorPicker'
-import TabWrapper from '@/components/Others/TabWrapper'
-import TabOption from '@/components/Others/TabOption'
-import {events} from '@/bus'
+import EmojiPicker from '/resources/js/components/Others/EmojiPicker'
+import ColorPicker from '/resources/js/components/Others/ColorPicker'
+import TabWrapper from '/resources/js/components/Others/TabWrapper'
+import TabOption from '/resources/js/components/Others/TabOption'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'SetFolderIcon',
@@ -90,8 +90,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vuefilemanager/_inapp-forms.scss";
-@import '@assets/vuefilemanager/_forms';
+@import "resources/sass/vuefilemanager/_inapp-forms.scss";
+@import '/resources/sass/vuefilemanager/_forms';
 
 .set-folder-icon {
     position: relative;

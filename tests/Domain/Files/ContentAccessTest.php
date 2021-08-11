@@ -4,7 +4,6 @@ namespace Tests\Domain\Files;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
@@ -100,30 +99,6 @@ class ContentAccessTest extends TestCase
     /**
      * @test
      */
-    public function it_get_private_user_zip()
-    {
-        $user = User::factory(User::class)
-            ->create();
-
-        $file = UploadedFile::fake()
-            ->create('archive.zip', 2000, 'application/zip');
-
-        Storage::putFileAs('zip', $file, 'EHWKcuvKzA4Gv29v-archive.zip');
-
-        $zip = Zip::factory(Zip::class)->create([
-            'basename' => 'EHWKcuvKzA4Gv29v-archive.zip',
-            'user_id'  => $user->id,
-        ]);
-
-        $this
-            ->actingAs($user)
-            ->get("zip/$zip->id")
-            ->assertOk();
-    }
-
-    /**
-     * @test
-     */
     public function logged_user_try_to_get_another_private_user_image_thumbnail()
     {
         $users = User::factory(User::class)
@@ -178,41 +153,9 @@ class ContentAccessTest extends TestCase
     /**
      * @test
      */
-    public function logged_user_try_to_get_another_private_user_zip()
-    {
-        $user = User::factory(User::class)
-            ->create();
-
-        $file = UploadedFile::fake()
-            ->create('archive.zip', 2000, 'application/zip');
-
-        Storage::putFileAs('zip', $file, 'EHWKcuvKzA4Gv29v-archive.zip');
-
-        $zip = Zip::factory(Zip::class)->create([
-            'basename' => 'EHWKcuvKzA4Gv29v-archive.zip',
-        ]);
-
-        $this
-            ->actingAs($user)
-            ->get("zip/$zip->id")
-            ->assertNotFound();
-    }
-
-    /**
-     * @test
-     */
     public function guest_try_to_get_private_user_file()
     {
         $this->get('file/fake-file.pdf')
-            ->assertRedirect();
-    }
-
-    /**
-     * @test
-     */
-    public function guest_try_to_get_private_user_zip()
-    {
-        $this->get('zip/EHWKcuvKzA4Gv29v-archive.zip')
             ->assertRedirect();
     }
 

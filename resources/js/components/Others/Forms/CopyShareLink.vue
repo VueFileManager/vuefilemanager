@@ -15,7 +15,7 @@
 
 <script>
 import { LinkIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
-import { events } from '@/bus'
+import { events } from '/resources/js/bus'
 
 export default {
     name: 'CopyShareLink',
@@ -63,10 +63,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
-@import "@assets/vuefilemanager/_inapp-forms.scss";
-@import "@assets/vuefilemanager/_forms.scss";
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
+@import "resources/sass/vuefilemanager/_inapp-forms.scss";
+@import "resources/sass/vuefilemanager/_forms.scss";
 
 .multi-icon {
     display: flex;

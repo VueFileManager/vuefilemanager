@@ -300,30 +300,6 @@ class BrowseTest extends TestCase
     /**
      * @test
      */
-    public function it_get_participant_uploads()
-    {
-        $user = User::factory(User::class)
-            ->create();
-
-        $file = File::factory(File::class)
-            ->create([
-                'author'  => 'visitor',
-                'type'    => 'file',
-                'user_id' => $user->id,
-            ]);
-
-        $this
-            ->actingAs($user)
-            ->getJson('/api/browse/participants')
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'id' => $file->id,
-            ]);
-    }
-
-    /**
-     * @test
-     */
     public function it_get_trash_root()
     {
         $user = User::factory(User::class)

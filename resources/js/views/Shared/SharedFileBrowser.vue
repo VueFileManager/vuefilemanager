@@ -33,15 +33,15 @@
 </template>
 
 <script>
-    import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
-    import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
-    import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-    import ContentGroup from '@/components/Sidebar/ContentGroup'
-    import ContextMenu from '@/components/FilesView/ContextMenu'
-    import FileBrowser from '@/components/FilesView/FileBrowser'
+    import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
+    import DesktopToolbar from '/resources/js/components/FilesView/DesktopToolbar'
+    import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+    import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
+    import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
+    import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
     import {HomeIcon} from 'vue-feather-icons'
     import {mapGetters} from "vuex"
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'SharedFileBrowser',

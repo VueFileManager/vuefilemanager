@@ -3,6 +3,7 @@
     <corner-down-right-icon v-if="source === 'move'" size="19" class="hover-text-theme" />
     <download-cloud-icon v-if="source === 'download'" size="19" class="hover-text-theme" />
     <folder-plus-icon v-if="source === 'folder-plus'" size="19" class="hover-text-theme" />
+    <user-plus-icon v-if="source === 'user-plus'" size="19" class="hover-text-theme" />
     <zoom-in-icon v-if="source === 'zoom-in'" size="19" />
     <zoom-out-icon v-if="source === 'zoom-out'" size="19" />
     <edit-2-icon v-if="source === 'rename'" size="19" />
@@ -15,12 +16,15 @@
     <x-icon v-if="source === 'close'" size="19" />
     <cloud-off-icon v-if="source === 'shared-off'" size="19" />
     <sorting-icon v-if="source === 'preview-sorting'" class="preview-sorting"/>
+    <CloudPlusIcon v-if="source === 'cloud-plus'" class="preview-sorting"/>
   </button>
 </template>
 
 <script>
-    import SortingIcon from '@/components/FilesView/Icons/SortingIcon'
+    import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
+    import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
     import {
+    	UserPlusIcon,
         CornerDownRightIcon,
         DownloadCloudIcon,
         FolderPlusIcon,
@@ -44,6 +48,8 @@
             'action'
         ],
         components: {
+			CloudPlusIcon,
+			UserPlusIcon,
             SortingIcon,
             CornerDownRightIcon,
             DownloadCloudIcon,
@@ -64,8 +70,8 @@
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .preview-sorting {
 	transform: scale(1.3);

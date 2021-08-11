@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 
 	export default {
 		name: 'PopoverItem',
@@ -23,14 +23,18 @@
 				if (this.name === name) this.isVisible = !this.isVisible
 			})
 
-			events.$on('unClick', () => this.isVisible = false)
+			events.$on('popover:close', name => {
+				if (this.name === name) this.isVisible = false
+			})
+
+			// todo: events.$on('unClick', () => this.isVisible = false)
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	@import "@assets/vuefilemanager/_variables";
-	@import "@assets/vuefilemanager/_mixins";
+	@import "resources/sass/vuefilemanager/_variables";
+	@import "resources/sass/vuefilemanager/_mixins";
 
 	.popover-item {
 		min-width: 250px;

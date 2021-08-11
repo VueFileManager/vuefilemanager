@@ -4,7 +4,6 @@ namespace Tests\Domain\Sharing;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Zip\Models\Zip;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -177,59 +176,6 @@ class VisitorAccessToItemsTest extends TestCase
 
                 if (! $is_protected) {
                     $this->get("/thumbnail/$thumbnail->name/$share->token")
-                        ->assertStatus(200);
-                }
-
-                $this->assertDatabaseMissing('traffic', [
-                    'user_id'  => $user->id,
-                    'download' => null,
-                ]);
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function it_download_publicly_zipped_files()
-    {
-        collect([true, false])
-            ->each(function ($is_protected) {
-                $user = User::factory(User::class)
-                    ->create();
-
-                $share = Share::factory(Share::class)
-                    ->create([
-                        'user_id'      => $user->id,
-                        'type'         => 'folder',
-                        'is_protected' => $is_protected,
-                    ]);
-
-                $zip = Zip::factory(Zip::class)->create([
-                    'basename'     => 'EHWKcuvKzA4Gv29v-archive.zip',
-                    'user_id'      => $user->id,
-                    'shared_token' => $share->token,
-                ]);
-
-                $file = UploadedFile::fake()
-                    ->create($zip->basename, 1000, 'application/zip');
-
-                Storage::putFileAs('zip', $file, $file->name);
-
-                if ($is_protected) {
-                    $cookie = [
-                        'share_session' => json_encode([
-                            'token'         => $share->token,
-                            'authenticated' => true,
-                        ]),
-                    ];
-
-                    $this->withCookies($cookie)
-                        ->get("/zip/$zip->id/$share->token")
-                        ->assertStatus(200);
-                }
-
-                if (! $is_protected) {
-                    $this->get("/zip/$zip->id/$share->token")
                         ->assertStatus(200);
                 }
 

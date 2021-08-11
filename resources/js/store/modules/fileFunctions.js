@@ -1,6 +1,6 @@
-import i18n from '@/i18n/index'
-import router from '@/router'
-import {events} from '@/bus'
+import i18n from '/resources/js/i18n/index'
+import router from '/resources/js/router'
+import {events} from '/resources/js/bus'
 import {last} from 'lodash'
 import axios from 'axios'
 import Vue from 'vue'
@@ -15,56 +15,26 @@ const defaultState = {
 }
 
 const actions = {
-    downloadFolder: ({commit, getters}, folder) => {
-
-        commit('PROCESSING_POPUP', {
-            title: i18n.t('popup_zipping.title'),
-            message: i18n.t('popup_zipping.message')
-        })
-
-        let route = getters.sharedDetail
-            ? `/api/zip/folder/${folder.id}/${router.currentRoute.params.token}`
-            : `/api/zip/folder/${folder.id}`
-
-        axios.get(route)
-            .then(response => {
-                Vue.prototype.$downloadFile(response.data.url, response.data.name)
-            })
-            .catch(() => {
-                Vue.prototype.$isSomethingWrong()
-            })
-            .finally(() => {
-                commit('PROCESSING_POPUP', undefined)
-            })
-    },
-    downloadFiles: ({commit, getters}) => {
+    downloadZip: ({getters}) => {
         let files = []
 
         // get ids of selected files
-        getters.clipboard.forEach(file => files.push(file.id))
+        getters.clipboard.forEach(file => {
+            let type = file.type === 'folder'
+                ? 'folder'
+                : 'file'
+
+            files.push(file.id + '|' + type)
+        })
+
+        let items = files.join(',')
 
         // Get route
         let route = getters.sharedDetail
-            ? `/api/zip/files/${router.currentRoute.params.token}`
-            : '/api/zip/files'
+            ? `/api/zip/${router.currentRoute.params.token}?items=${items}`
+            : `/api/zip?items=${items}`
 
-        commit('PROCESSING_POPUP', {
-            title: i18n.t('popup_zipping.title'),
-            message: i18n.t('popup_zipping.message'),
-        })
-
-        axios.post(route, {
-            items: files
-        })
-            .then(response => {
-                Vue.prototype.$downloadFile(response.data.url, response.data.name)
-            })
-            .catch(() => {
-                Vue.prototype.$isSomethingWrong()
-            })
-            .finally(() => {
-                commit('PROCESSING_POPUP', undefined)
-            })
+        Vue.prototype.$downloadFile(route, 'files.zip')
     },
     moveItem: ({commit, getters, dispatch}, {to_item, noSelectedItem}) => {
 

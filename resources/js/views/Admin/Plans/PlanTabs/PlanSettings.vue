@@ -59,15 +59,15 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import StorageItemDetail from '@/components/Others/StorageItemDetail'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import SwitchInput from '@/components/Others/Forms/SwitchInput'
-    import SelectInput from '@/components/Others/Forms/SelectInput'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import SetupBox from '@/components/Others/Forms/SetupBox'
-    import PageTab from '@/components/Others/Layout/PageTab'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
+    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+    import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
 
     export default {
@@ -104,9 +104,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

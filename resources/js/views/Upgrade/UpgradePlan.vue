@@ -22,10 +22,10 @@
 </template>
 
 <script>
-    import PlanPricingTables from '@/components/Others/PlanPricingTables'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import PageHeader from '@/components/Others/PageHeader'
-    import Spinner from '@/components/FilesView/Spinner'
+    import PlanPricingTables from '/resources/js/components/Others/PlanPricingTables'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import { CloudIcon } from 'vue-feather-icons'
     import axios from 'axios'
 
@@ -65,9 +65,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .plan-title {
         text-align: center;

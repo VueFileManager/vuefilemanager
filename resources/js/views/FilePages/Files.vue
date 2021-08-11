@@ -13,7 +13,7 @@
                 <div class="menu-list-wrapper vertical">
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['base'])}" @click="goHome">
                         <div class="icon text-theme">
-                            <home-icon size="17"></home-icon>
+                            <home-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('sidebar.home') }}
@@ -21,15 +21,23 @@
                     </a>
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['latest'])}" @click="getLatest">
                         <div class="icon text-theme">
-                            <upload-cloud-icon size="17"></upload-cloud-icon>
+                            <upload-cloud-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('sidebar.latest') }}
                         </div>
                     </a>
+					<a class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared">
+                        <div class="icon text-theme">
+                            <link-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('sidebar.my_shared') }}
+                        </div>
+                    </a>
                     <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['trash', 'trash-root'])}" @click="getTrash">
                         <div class="icon text-theme">
-                            <trash2-icon size="17"></trash2-icon>
+                            <trash2-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('locations.trash') }}
@@ -38,31 +46,9 @@
                 </div>
             </ContentGroup>
 
-			<!--Sharing-->
-            <ContentGroup :title="$t('sidebar.sharing')" slug="sharing" :can-collapse="true">
-                <div class="menu-list-wrapper vertical">
-                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['shared'])}" @click="getShared">
-                        <div class="icon text-theme">
-                            <link-icon size="17"></link-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('sidebar.my_shared') }}
-                        </div>
-                    </li>
-                    <li class="menu-list-item link" :class="{'is-active': $isThisLocation(['participant_uploads'])}" @click="getParticipantUploads">
-                        <div class="icon text-theme">
-                            <users-icon size="17"></users-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('sidebar.participant_uploads') }}
-                        </div>
-                    </li>
-                </div>
-            </ContentGroup>
-
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
-                <span class="empty-note navigator" v-if="tree.length == 0">
+                <span class="empty-note navigator" v-if="tree.length === 0">
                     {{ $t('sidebar.folders_empty') }}
                 </span>
                 <TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
@@ -94,14 +80,14 @@
 </template>
 
 <script>
-import UpgradeSidebarBanner from '@/components/Others/UpgradeSidebarBanner'
-import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
-import TitlePreview from '@/components/FilesView/TitlePreview'
-import ContentFileView from '@/components/Others/ContentFileView'
-import ContentSidebar from '@/components/Sidebar/ContentSidebar'
-import ContentGroup from '@/components/Sidebar/ContentGroup'
+import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
+import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
+import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+import ContentFileView from '/resources/js/components/Others/ContentFileView'
+import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
 import { mapGetters } from 'vuex'
-import { events } from '@/bus'
+import { events } from '/resources/js/bus'
 import {
     UploadCloudIcon,
     FolderIcon,
@@ -130,7 +116,13 @@ export default {
 		UsersIcon,
     },
     computed: {
-        ...mapGetters(['user', 'homeDirectory', 'currentFolder', 'config', 'clipboard']),
+        ...mapGetters([
+        	'user',
+			'homeDirectory',
+			'currentFolder',
+			'config',
+			'clipboard'
+		]),
         favourites() {
             return this.user.data.relationships.favourites.data.attributes.folders
         },
@@ -150,9 +142,6 @@ export default {
     methods: {
 		getShared() {
 			this.$store.dispatch('getShared', [{back: false, init: false}])
-		},
-		getParticipantUploads() {
-			this.$store.dispatch('getParticipantUploads')
 		},
         getTrash() {
             this.$store.dispatch('getTrash')
@@ -201,8 +190,6 @@ export default {
             if (this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', null)
             }
-
-
         },
         removeFavourite(folder) {
             this.$store.dispatch('removeFromFavourites', folder)
@@ -213,11 +200,7 @@ export default {
 
         // Listen for dragstart folder items
         events.$on('dragstart', (item) => {
-            this.draggedItem = item , this.dragInProgress = true
-        })
-
-        events.$on('drop', () => {
-            this.dragInProgress = false
+            this.draggedItem = item
         })
     }
 }

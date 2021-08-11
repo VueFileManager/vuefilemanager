@@ -134,18 +134,18 @@
 </template>
 
 <script>
-    import InfoBox from '@/components/Others/Forms/InfoBox'
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import PageTab from '@/components/Others/Layout/PageTab'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import StorageItemDetail from '@/components/Others/StorageItemDetail'
-    import SelectInput from '@/components/Others/Forms/SelectInput'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import SetupBox from '@/components/Others/Forms/SetupBox'
+    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
+    import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
-    import {events} from "@/bus"
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     export default {
@@ -221,9 +221,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .block-form {
         max-width: 100%;

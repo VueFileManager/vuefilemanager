@@ -39,9 +39,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_landing-page';
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_landing-page';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     footer {
         text-align: center;

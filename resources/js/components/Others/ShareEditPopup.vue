@@ -96,22 +96,22 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import SelectBoxInput from '@/components/Others/Forms/SelectBoxInput'
-    import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-    import PopupActions from '@/components/Others/Popup/PopupActions'
-    import PopupContent from '@/components/Others/Popup/PopupContent'
-    import PopupHeader from '@/components/Others/Popup/PopupHeader'
-    import SwitchInput from '@/components/Others/Forms/SwitchInput'
-    import SelectInput from '@/components/Others/Forms/SelectInput'
-    import MultiEmailInput from '@/components/Others/Forms/MultiEmailInput'
-    import ThumbnailItem from '@/components/Others/ThumbnailItem'
-    import ActionButton from '@/components/Others/ActionButton'
-    import CopyShareLink from '@/components/Others/Forms/CopyShareLink'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
+    import SelectBoxInput from '/resources/js/components/Others/Forms/SelectBoxInput'
+    import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+    import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+    import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+    import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+    import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
+    import MultiEmailInput from '/resources/js/components/Others/Forms/MultiEmailInput'
+    import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
+    import ActionButton from '/resources/js/components/Others/ActionButton'
+    import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     export default {
@@ -360,8 +360,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/vuefilemanager/_inapp-forms.scss";
-    @import '@assets/vuefilemanager/_forms';
+    @import "resources/sass/vuefilemanager/_inapp-forms.scss";
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .input-wrapper {
 

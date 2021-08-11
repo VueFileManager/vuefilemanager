@@ -20,49 +20,21 @@ class StoreEnvironmentSettingsController extends Controller
                     'FILESYSTEM_DRIVER' => 'local',
                 ],
                 's3' => [
-                    'FILESYSTEM_DRIVER'     => $request->input('storage.driver') ?? null,
-                    'AWS_ACCESS_KEY_ID'     => $request->input('storage.key') ?? null,
-                    'AWS_SECRET_ACCESS_KEY' => $request->input('storage.secret') ?? null,
-                    'AWS_DEFAULT_REGION'    => $request->input('storage.region') ?? null,
-                    'AWS_BUCKET'            => $request->input('storage.bucket') ?? null,
-                ],
-                'spaces' => [
-                    'FILESYSTEM_DRIVER'  => $request->input('storage.driver') ?? null,
-                    'DO_SPACES_KEY'      => $request->input('storage.key') ?? null,
-                    'DO_SPACES_SECRET'   => $request->input('storage.secret') ?? null,
-                    'DO_SPACES_ENDPOINT' => $request->input('storage.endpoint') ?? null,
-                    'DO_SPACES_REGION'   => $request->input('storage.region') ?? null,
-                    'DO_SPACES_BUCKET'   => $request->input('storage.bucket') ?? null,
-                ],
-                'wasabi' => [
-                    'FILESYSTEM_DRIVER' => $request->input('storage.driver') ?? null,
-                    'WASABI_KEY'        => $request->input('storage.key') ?? null,
-                    'WASABI_SECRET'     => $request->input('storage.secret') ?? null,
-                    'WASABI_ENDPOINT'   => $request->input('storage.endpoint') ?? null,
-                    'WASABI_REGION'     => $request->input('storage.region') ?? null,
-                    'WASABI_BUCKET'     => $request->input('storage.bucket') ?? null,
-                ],
-                'backblaze' => [
-                    'FILESYSTEM_DRIVER'  => $request->input('storage.driver') ?? null,
-                    'BACKBLAZE_KEY'      => $request->input('storage.key') ?? null,
-                    'BACKBLAZE_SECRET'   => $request->input('storage.secret') ?? null,
-                    'BACKBLAZE_ENDPOINT' => $request->input('storage.endpoint') ?? null,
-                    'BACKBLAZE_REGION'   => $request->input('storage.region') ?? null,
-                    'BACKBLAZE_BUCKET'   => $request->input('storage.bucket') ?? null,
-                ],
-                'oss' => [
-                    'FILESYSTEM_DRIVER'     => $request->input('storage.driver') ?? null,
-                    'OSS_ACCESS_KEY_ID'     => $request->input('storage.key') ?? null,
-                    'OSS_SECRET_ACCESS_KEY' => $request->input('storage.secret') ?? null,
-                    'OSS_ENDPOINT'          => $request->input('storage.endpoint') ?? null,
-                    'OSS_REGION'            => $request->input('storage.region') ?? null,
-                    'OSS_BUCKET'            => $request->input('storage.bucket') ?? null,
+                    'FILESYSTEM_DRIVER'     => 's3',
+                    'S3_ACCESS_KEY_ID'      => $request->input('storage.key') ?? null,
+                    'S3_SECRET_ACCESS_KEY'  => $request->input('storage.secret') ?? null,
+                    'S3_DEFAULT_REGION'     => $request->input('storage.region') ?? null,
+                    'S3_BUCKET'             => $request->input('storage.bucket') ?? null,
+                    'S3_URL'                => $request->input('storage.endpoint') ?? null,
                 ],
             ];
 
+            // Get storage driver from request
+            $driver = 'local' === $request->input('storage.driver') ? 'local' : 's3';
+
             // Storage credentials for storage
             setEnvironmentValue(
-                $drivers[$request->input('storage.driver')]
+                $drivers[$driver]
             );
 
             // Store credentials for mail

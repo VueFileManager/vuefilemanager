@@ -14,9 +14,9 @@
 </template>
 
 <script>
-    import FilePreviewToolbar from '@/components/FilesView/FilePreviewToolbar'
-    import FilePreviewMedia from '@/components/FilesView/FilePreviewMedia'
-    import {events} from '@/bus'
+    import FilePreviewToolbar from '/resources/js/components/FilePreview/FilePreviewToolbar'
+    import FilePreviewMedia from '/resources/js/components/FilePreview/FilePreviewMedia'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'FilePreview',
@@ -32,6 +32,7 @@
         methods: {
             closeFilePreview() {
                 this.isFullPreview = false
+				this.$store.commit('FAST_PREVIEW_CLEAR')
             },
             next() {
                 events.$emit('file-preview:next')
@@ -46,18 +47,14 @@
             }
         },
         mounted() {
-            events.$on('file-preview:show', () => {
-                this.isFullPreview = true
-            })
-            events.$on('file-preview:hide', () => {
-                this.isFullPreview = false
-            })
+            events.$on('file-preview:show', () => this.isFullPreview = true)
+            events.$on('file-preview:hide', () => this.closeFilePreview())
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_variables';
 
     .file-preview {
         width: 100%;

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import UserAvatar from '@/components/Others/UserAvatar'
+    import UserAvatar from '/resources/js/components/Others/UserAvatar'
     import {mapGetters} from 'vuex'
     import {
     	MoonIcon,
@@ -127,8 +127,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
 	.dark-mode-switcher {
 		padding-top: 20px;
@@ -265,7 +265,7 @@
         }
 
         .menu-bar {
-            background: $dark_mode_foreground;
+            background: #181a1b;
         }
     }
 

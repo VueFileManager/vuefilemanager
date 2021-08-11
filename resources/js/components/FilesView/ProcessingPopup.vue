@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Spinner from '@/components/FilesView/Spinner'
+import Spinner from '/resources/js/components/FilesView/Spinner'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -32,8 +32,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 .spinner-wrapper {
     padding-bottom: 90px;

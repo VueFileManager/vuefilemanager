@@ -84,17 +84,17 @@
 </template>
 
 <script>
-    import DatatableCellImage from '@/components/Others/Tables/DatatableCellImage'
-    import DatatableWrapper from '@/components/Others/Tables/DatatableWrapper'
-    import MobileActionButton from '@/components/FilesView/MobileActionButton'
-    import EmptyPageContent from '@/components/Others/EmptyPageContent'
-    import SwitchInput from '@/components/Others/Forms/SwitchInput'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import SectionTitle from '@/components/Others/SectionTitle'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import PageHeader from '@/components/Others/PageHeader'
-    import ColorLabel from '@/components/Others/ColorLabel'
-    import Spinner from '@/components/FilesView/Spinner'
+    import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
+    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+    import EmptyPageContent from '/resources/js/components/Others/EmptyPageContent'
+    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import SectionTitle from '/resources/js/components/Others/SectionTitle'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
+    import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import {ExternalLinkIcon} from "vue-feather-icons";
     import { mapGetters } from 'vuex'
     import axios from 'axios'
@@ -163,8 +163,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .user-thumbnail {
         display: flex;

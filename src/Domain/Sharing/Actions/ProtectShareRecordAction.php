@@ -5,14 +5,14 @@ use Domain\Sharing\Models\Share;
 
 class ProtectShareRecordAction
 {
+    private string $message = "Sorry, you don't have permission";
+
     public function __invoke(
         Share $shared
     ): void {
         if ($shared->is_protected) {
-            $abort_message = "Sorry, you don't have permission";
-
             if (! request()->hasCookie('share_session')) {
-                abort(403, $abort_message);
+                abort(403, $this->message);
             }
 
             // Get shared session
@@ -22,12 +22,12 @@ class ProtectShareRecordAction
 
             // Check if is requested same share record
             if ($share_session->token !== $shared->token) {
-                abort(403, $abort_message);
+                abort(403, $this->message);
             }
 
             // Check if share record was authenticated previously via ShareController@authenticate
             if (! $share_session->authenticated) {
-                abort(403, $abort_message);
+                abort(403, $this->message);
             }
         }
     }

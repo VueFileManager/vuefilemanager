@@ -54,8 +54,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import "@assets/vuefilemanager/_inapp-forms.scss";
-    @import '@assets/vuefilemanager/_forms';
+    @import "resources/sass/vuefilemanager/_inapp-forms.scss";
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .tab-wrapper {
         display: flex;

@@ -101,20 +101,20 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-	import UserImageInput from '@/components/Others/UserImageInput'
-	import SwitchInput from '@/components/Others/Forms/SwitchInput'
-	import FormLabel from '@/components/Others/Forms/FormLabel'
-	import MobileHeader from '@/components/Mobile/MobileHeader'
-	import ButtonBase from '@/components/FilesView/ButtonBase'
-	import PageTab from '@/components/Others/Layout/PageTab'
-	import InfoBox from '@/components/Others/Forms/InfoBox'
-	import PageHeader from '@/components/Others/PageHeader'
-	import ThemeLabel from '@/components/Others/ThemeLabel'
+	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+	import UserImageInput from '/resources/js/components/Others/UserImageInput'
+	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+	import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import PageHeader from '/resources/js/components/Others/PageHeader'
+	import ThemeLabel from '/resources/js/components/Others/ThemeLabel'
 	import {required} from 'vee-validate/dist/rules'
 	import { XIcon } from 'vue-feather-icons'
 	import {mapGetters} from 'vuex'
-	import {events} from '@/bus'
+	import {events} from '/resources/js/bus'
 	import axios from 'axios'
 
 	export default {
@@ -248,9 +248,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-	@import '@assets/vuefilemanager/_mixins';
-	@import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+	@import '/resources/sass/vuefilemanager/_mixins';
+	@import '/resources/sass/vuefilemanager/_forms';
 
 	.tokens-wrapper {
 		margin-top: 0 !important;

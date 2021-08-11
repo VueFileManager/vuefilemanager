@@ -29,14 +29,14 @@
 </template>
 
 <script>
-    import HeroScreenshot from '@/components/Index/IndexHeroScreenshot'
-    import PricingTables from '@/components/Index/IndexPricingTables'
-    import MainFeatures from '@/components/Index/IndexMainFeatures'
-    import Navigation from '@/components/Index/IndexNavigation'
-    import PageHeader from '@/components/Index/IndexPageHeader'
-    import GetStarted from '@/components/Index/IndexGetStarted'
-    import PageFooter from '@/components/Index/IndexPageFooter'
-    import Spinner from '@/components/FilesView/Spinner'
+    import HeroScreenshot from '/resources/js/components/Index/IndexHeroScreenshot'
+    import PricingTables from '/resources/js/components/Index/IndexPricingTables'
+    import MainFeatures from '/resources/js/components/Index/IndexMainFeatures'
+    import Navigation from '/resources/js/components/Index/IndexNavigation'
+    import PageHeader from '/resources/js/components/Index/IndexPageHeader'
+    import GetStarted from '/resources/js/components/Index/IndexGetStarted'
+    import PageFooter from '/resources/js/components/Index/IndexPageFooter'
+    import Spinner from '/resources/js/components/FilesView/Spinner'
     import { mapGetters } from 'vuex'
     import axios from 'axios'
 
@@ -85,7 +85,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_landing-page';
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_landing-page';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 </style>

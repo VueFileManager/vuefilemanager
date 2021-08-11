@@ -1,17 +1,17 @@
 import Vue from "vue"
 import axios from 'axios'
-import {events} from '@/bus'
-import router from '@/router'
-import i18n from '@/i18n/index'
+import {events} from '/resources/js/bus'
+import router from '/resources/js/router'
+import i18n from '/resources/js/i18n/index'
 
 const defaultState = {
     currentFolder: undefined,
     navigation: undefined,
 
-    isSearching: false,
     isLoading: true,
 
     browseHistory: [],
+    fastPreview: undefined,
     clipboard: [],
     entries: [],
 }
@@ -22,12 +22,6 @@ const actions = {
 
         if (payload.init)
             commit('FLUSH_FOLDER_HISTORY')
-
-        // Clear search
-        if (getters.isSearching) {
-            commit('CHANGE_SEARCHING_STATE', false)
-            events.$emit('clear-query')
-        }
 
         // Set folder location
         payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
@@ -108,25 +102,6 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    getParticipantUploads: ({commit, getters}) => {
-        commit('LOADING_STATE', {loading: true, data: []})
-
-        commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-        commit('STORE_CURRENT_FOLDER', {
-            name: i18n.t('sidebar.participant_uploads'),
-            id: undefined,
-            location: 'participant_uploads',
-        })
-
-        axios
-            .get(getters.api + '/browse/participants' + getters.sorting.URI)
-            .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
-
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
-    },
     getTrash: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
         commit('FLUSH_FOLDER_HISTORY')
@@ -146,33 +121,6 @@ const actions = {
                 commit('STORE_PREVIOUS_FOLDER', trash)
 
                 events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
-    },
-    getSearchResult: ({commit, getters}, query) => {
-        commit('LOADING_STATE', {loading: true, data: []})
-        commit('CHANGE_SEARCHING_STATE', true)
-
-        // Get route
-        let route = undefined
-
-        if (getters.sharedDetail) {
-            let permission = getters.sharedDetail.is_protected
-                ? 'private'
-                : 'public'
-
-            route = `/api/browse/search/${permission}/${router.currentRoute.params.token}`
-
-        } else {
-            route = '/api/browse/search'
-        }
-
-        axios
-            .get(route, {
-                params: {query: query}
-            })
-            .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
@@ -243,9 +191,6 @@ const mutations = {
             }
         })
     },
-    CHANGE_SEARCHING_STATE(state, searchState) {
-        state.isSearching = searchState
-    },
     UPDATE_SHARED_ITEM(state, data) {
         state.entries.find(item => {
             if (item.id === data.item_id) item.shared = data
@@ -284,13 +229,19 @@ const mutations = {
     CLIPBOARD_CLEAR(state) {
         state.clipboard = []
     },
+    ADD_TO_FAST_PREVIEW(state, item) {
+        state.fastPreview = item
+    },
+    FAST_PREVIEW_CLEAR(state) {
+        state.fastPreview = undefined
+    },
 }
 
 const getters = {
+    fastPreview: state => state.fastPreview,
     clipboard: state => state.clipboard,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
-    isSearching: state => state.isSearching,
     navigation: state => state.navigation,
     isLoading: state => state.isLoading,
     entries: state => state.entries,

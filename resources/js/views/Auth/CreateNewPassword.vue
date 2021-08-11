@@ -70,10 +70,10 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '@/components/Auth/AuthContentWrapper'
+    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContent from '@/components/Auth/AuthContent'
-    import AuthButton from '@/components/Auth/AuthButton'
+    import AuthContent from '/resources/js/components/Auth/AuthContent'
+    import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
@@ -175,6 +175,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_auth-form';
-    @import '@assets/vuefilemanager/_auth';
+    @import '/resources/sass/vuefilemanager/_auth-form';
+    @import '/resources/sass/vuefilemanager/_auth';
 </style>

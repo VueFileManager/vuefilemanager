@@ -27,7 +27,7 @@ class UploadFileAction
     public function __invoke(
         UploadRequest $request,
         ?Share $shared = null,
-    ): UserFile {
+    ) {
         // Get parent_id from request
         $file = $request->file('file');
 

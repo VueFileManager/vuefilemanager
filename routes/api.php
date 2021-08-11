@@ -1,10 +1,9 @@
 <?php
 
+use Domain\Zip\Controllers\ZipController;
 use App\Users\Actions\CreateNewUserAction;
 use Domain\Pages\Controllers\PagesController;
-use Domain\Zip\Controllers\ZipFilesController;
 use Domain\Sharing\Controllers\ShareController;
-use Domain\Zip\Controllers\ZipFolderController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Files\Controllers\UploadFileController;
@@ -25,7 +24,6 @@ use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\Browsing\Controllers\BrowseFolderContentController;
 use Domain\Folders\Controllers\NavigationFolderTreeController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
-use Domain\Browsing\Controllers\BrowseParticipantsUploadsController;
 
 // Pages
 Route::apiResource('/page', PagesController::class);
@@ -48,7 +46,6 @@ Route::group(['prefix' => 'password'], function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Browse
     Route::group(['prefix' => 'browse'], function () {
-        Route::get('/participants', BrowseParticipantsUploadsController::class);
         Route::get('/folders/{id}', BrowseFolderContentController::class);
         Route::get('/navigation', NavigationFolderTreeController::class);
         Route::get('/search', SearchFilesAndFoldersController::class);
@@ -80,6 +77,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/remove', DeleteFileOrFolderController::class);
     Route::post('/move', MoveFileOrFolderController::class);
 
-    Route::get('/zip/folder/{id}', ZipFolderController::class);
-    Route::post('/zip/files', ZipFilesController::class);
+    Route::get('/zip', ZipController::class);
 });

@@ -4,21 +4,21 @@
             <OptionGroup>
                 <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" :is-active="$isThisLocation('base')" is-hover-disabled="true" />
                 <Option @click.native="goToLatest" :title="$t('menu.latest')" icon="upload-cloud" :is-active="$isThisLocation('latest')" is-hover-disabled="true" />
+                <Option @click.native="goToShared" :title="$t('sidebar.my_shared')" icon="share" :is-active="$isThisLocation('shared')" is-hover-disabled="true" />
                 <Option @click.native="goToTrash" :title="$t('menu.trash')" icon="trash" :is-active="$isThisLocation(['trash', 'trash-root'])" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="goToShared" :title="$t('sidebar.my_shared')" icon="share" :is-active="$isThisLocation('shared')" is-hover-disabled="true" />
-                <Option @click.native="goToParticipantUploads" :title="$t('sidebar.participant_uploads')" icon="users" :is-active="$isThisLocation('participant_uploads')" is-hover-disabled="true" />
+				<!--todo: add teams-->
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
 </template>
 
 <script>
-import MenuMobileGroup from '@/components/Mobile/MenuMobileGroup'
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import MenuMobile from '@/components/Mobile/MenuMobile'
-import Option from '@/components/FilesView/Option'
+import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -52,10 +52,6 @@ export default {
         },
         goToShared() {
             this.$store.dispatch('getShared', [{back: false, init: false}])
-            this.flushBrowseHistory()
-        },
-        goToParticipantUploads() {
-            this.$store.dispatch('getParticipantUploads')
             this.flushBrowseHistory()
         }
     }

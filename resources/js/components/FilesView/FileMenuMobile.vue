@@ -10,8 +10,7 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
@@ -28,13 +27,12 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
         <!--Base location for user-->
-        <MenuMobileGroup v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')">
+        <MenuMobileGroup v-if="$isThisLocation(['base', 'latest']) && $checkPermission('master')">
             <OptionGroup v-if="clipboard[0] && isFolder">
                 <Option @click.native="addToFavourites" :title="favouritesTitle" icon="star" />
             </OptionGroup>
@@ -47,8 +45,7 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
@@ -61,29 +58,27 @@
             </OptionGroup>
 
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
 
         <!--Base location for guest with visit permission-->
         <MenuMobileGroup v-if="$isThisLocation(['base', 'public']) && $checkPermission('visitor')">
             <OptionGroup>
-                <Option v-if="!isFolder" @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-                <Option v-if="isFolder" @click.native="downloadFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
 </template>
 
 <script>
-import MenuMobileGroup from '@/components/Mobile/MenuMobileGroup'
-import MenuMobile from '@/components/Mobile/MenuMobile'
-import ThumbnailItem from '@/components/Others/ThumbnailItem'
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import Option from '@/components/FilesView/Option'
+import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
+import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'FileMenuMobile',
@@ -126,9 +121,6 @@ export default {
         }
     },
     methods: {
-        downloadFolder() {
-            this.$store.dispatch('downloadFolder', this.clipboard[0])
-        },
         addToFavourites() {
             if (this.favourites && !this.favourites.find(el => el.id === this.clipboard[0].id)) {
                 this.$store.dispatch('addToFavourites', this.clipboard[0])
@@ -136,19 +128,20 @@ export default {
                 this.$store.dispatch('removeFromFavourites', this.clipboard[0])
             }
         },
-        downloadItem() {
-            this.$downloadFile(
-                this.clipboard[0].file_url,
-                this.clipboard[0].name + '.' + this.clipboard[0].mimetype
-            )
-        }
+		downloadItem() {
+			if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
+				this.$store.dispatch('downloadZip')
+			else {
+				this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
+			}
+		},
     }
 }
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .item-thumbnail {
     padding: 20px 20px 10px;

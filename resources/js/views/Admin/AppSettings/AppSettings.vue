@@ -77,9 +77,9 @@
 
 <script>
     import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, HomeIcon} from 'vue-feather-icons'
-    import MobileHeader from '@/components/Mobile/MobileHeader'
-    import SectionTitle from '@/components/Others/SectionTitle'
-    import PageHeader from '@/components/Others/PageHeader'
+    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+    import SectionTitle from '/resources/js/components/Others/SectionTitle'
+    import PageHeader from '/resources/js/components/Others/PageHeader'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -105,6 +105,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 </style>

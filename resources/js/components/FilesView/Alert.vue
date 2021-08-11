@@ -23,8 +23,8 @@
 </template>
 
 <script>
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import {events} from '@/bus'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'AlertPopup',
@@ -96,8 +96,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .popup {
         position: absolute;

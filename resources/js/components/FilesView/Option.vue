@@ -32,6 +32,7 @@
             <globe-icon v-if="icon === 'globe'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <monitor-icon v-if="icon === 'monitor'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <box-icon v-if="icon === 'box'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <folder-plus-icon v-if="icon === 'folder-plus'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
         <div class="text-label group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import AlphabetIcon from '@/components/FilesView/Icons/AlphabetIcon'
+import AlphabetIcon from '/resources/js/components/FilesView/Icons/AlphabetIcon'
 import {
 	ArrowUpIcon,
 	ArrowDownIcon,
@@ -129,8 +130,8 @@ import {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .menu-option {
     white-space: nowrap;

@@ -1,10 +1,10 @@
 <template>
-	<div class="navigation-panel" v-if="clipboard[0]">
+	<div class="navigation-panel" v-if="currentFile">
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close hover-text-theme" />
 			<div class="name-count-wrapper">
-				<p class="title">{{ clipboard[0].name }}</p>
-				<span class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + files.length }}) </span>
+				<p class="title">{{ currentFile.name }}</p>
+				<span v-if="! fastPreview" class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + files.length }}) </span>
 			</div>
 			<PopoverWrapper>
 				<span @click.stop="showItemContextMenu" id="fast-preview-menu" class="fast-menu-icon group">
@@ -12,10 +12,10 @@
 				</span>
 				<PopoverItem name="file-preview-contextmenu" side="right">
 					<OptionGroup class="menu-option-group">
-						<Option @click.native="$renameFileOrFolder(clipboard[0])" :title="$t('context_menu.rename')" icon="rename" />
-						<Option @click.native="$moveFileOrFolder(clipboard[0])" :title="$t('context_menu.move')" icon="move-item" />
-						<Option @click.native="$shareFileOrFolder(clipboard[0])" :title="sharingTitle" icon="share" v-if="$checkPermission('master')" />
-						<Option @click.native="$deleteFileOrFolder(clipboard[0])" :title="$t('context_menu.delete')" icon="trash" class="menu-option" />
+						<Option @click.native="$renameFileOrFolder(currentFile)" :title="$t('context_menu.rename')" icon="rename" />
+						<Option @click.native="$moveFileOrFolder(currentFile)" :title="$t('context_menu.move')" icon="move-item" />
+						<Option @click.native="$shareFileOrFolder(currentFile)" :title="sharingTitle" icon="share" v-if="$checkPermission('master')" />
+						<Option @click.native="$deleteFileOrFolder(currentFile)" :title="$t('context_menu.delete')" icon="trash" class="menu-option" />
 					</OptionGroup>
 					<OptionGroup>
 						<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="created-at-wrapper">
-			<p>{{ clipboard[0].filesize }}, {{ clipboard[0].created_at }}</p>
+			<p>{{ currentFile.filesize }}, {{ currentFile.created_at }}</p>
 		</div>
 
 		<div class="navigation-icons">
@@ -35,7 +35,7 @@
 			</div>
 			<div class="navigation-tool-wrapper">
 				<ToolbarButton @click.native="downloadItem" class="mobile-hide" source="download" :action="$t('actions.download')" />
-				<ToolbarButton v-if="canShareItem" @click.native="$shareFileOrFolder(clipboard[0])" class="mobile-hide" :class="{ 'is-inactive': !canShareItem }" source="share" :action="$t('actions.share')" />
+				<ToolbarButton v-if="canShareItem" @click.native="$shareFileOrFolder(currentFile)" class="mobile-hide" :class="{ 'is-inactive': !canShareItem }" source="share" :action="$t('actions.share')" />
 				<ToolbarButton v-if="isImage" @click.native="printMethod()" source="print" :action="$t('actions.print')" />
 			</div>
 		</div>
@@ -43,56 +43,60 @@
 </template>
 
 <script>
-	import PopoverWrapper from '@/components/Desktop/PopoverWrapper'
-	import PopoverItem from '@/components/Desktop/PopoverItem'
-	import OptionGroup from '@/components/FilesView/OptionGroup'
-	import Option from '@/components/FilesView/Option'
+	import PopoverWrapper from '/resources/js/components/Desktop/PopoverWrapper'
+	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
+	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import Option from '/resources/js/components/FilesView/Option'
 
-    import ToolbarButton from '@/components/FilesView/ToolbarButton'
+    import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
     import {XIcon, MoreHorizontalIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
 
     export default {
         name: 'FilePreviewToolbar',
         components: {
+            MoreHorizontalIcon,
 			PopoverWrapper,
+            ToolbarButton,
 			PopoverItem,
 			OptionGroup,
 			Option,
-            MoreHorizontalIcon,
-            ToolbarButton,
             XIcon,
         },
         computed: {
             ...mapGetters([
+                'fastPreview',
                 'clipboard',
                 'entries'
             ]),
+			currentFile() {
+				return this.fastPreview ? this.fastPreview : this.clipboard[0]
+			},
 			sharingTitle() {
-				return this.clipboard[0].shared
+				return this.currentFile.shared
 					? this.$t('context_menu.share_edit')
 					: this.$t('context_menu.share')
 			},
             isImage() {
-                return this.clipboard[0].type === 'image'
+                return this.currentFile.type === 'image'
             },
             isPdf() {
-                return this.clipboard[0].mimetype === 'pdf'
+                return this.currentFile.mimetype === 'pdf'
             },
             files() {
                 let files = []
 
                 this.entries.map(element => {
 
-                    if (this.clipboard[0].mimetype === 'pdf') {
+                    if (this.currentFile.mimetype === 'pdf') {
 
                         if (element.mimetype === 'pdf')
                             files.push(element)
 
                     } else {
 
-                        if (element.type === this.clipboard[0].type)
+                        if (element.type === this.currentFile.type)
                             files.push(element)
                     }
                 })
@@ -103,7 +107,7 @@
                 let activeIndex = undefined
 
                 this.files.forEach((element, index) => {
-                    if (element.id === this.clipboard[0].id) {
+                    if (element.id === this.currentFile.id) {
                         activeIndex = index + 1
                     }
                 })
@@ -112,7 +116,7 @@
             },
             canShareItem() {
                 return this.$isThisLocation([
-                    'base', 'participant_uploads', 'latest', 'shared'
+                    'base', 'latest', 'shared'
                 ])
             },
         },
@@ -140,8 +144,8 @@
             },
             downloadItem() {
                 this.$downloadFile(
-                    this.clipboard[0].file_url,
-                    this.clipboard[0].name + '.' + this.clipboard[0].mimetype
+                    this.currentFile.file_url,
+                    this.currentFile.name + '.' + this.currentFile.mimetype
                 )
             },
             closeFullPreview() {
@@ -152,8 +156,8 @@
 </script>
 
 <style lang="scss" scoped>
-@import '@assets/vuefilemanager/_variables';
-@import '@assets/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_variables';
+@import '/resources/sass/vuefilemanager/_mixins';
 
 .name-wrapper {
     width: 33%;

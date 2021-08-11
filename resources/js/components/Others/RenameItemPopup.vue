@@ -46,17 +46,17 @@
 
 <script>
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-import PopupActions from '@/components/Others/Popup/PopupActions'
-import PopupContent from '@/components/Others/Popup/PopupContent'
-import PopupHeader from '@/components/Others/Popup/PopupHeader'
-import SetFolderIcon from '@/components/Others/SetFolderIcon'
-import ThumbnailItem from '@/components/Others/ThumbnailItem'
-import ActionButton from '@/components/Others/ActionButton'
-import ButtonBase from '@/components/FilesView/ButtonBase'
+import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+import SetFolderIcon from '/resources/js/components/Others/SetFolderIcon'
+import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
+import ActionButton from '/resources/js/components/Others/ActionButton'
+import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 import {XIcon} from 'vue-feather-icons'
 import {required} from 'vee-validate/dist/rules'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'RenameItemPopup',
@@ -145,8 +145,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_inapp-forms.scss";
-@import '@assets/vuefilemanager/_forms';
+@import "resources/sass/vuefilemanager/_inapp-forms.scss";
+@import '/resources/sass/vuefilemanager/_forms';
 
 .input {
     position: relative;

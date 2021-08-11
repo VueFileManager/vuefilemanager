@@ -34,8 +34,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .mobile-action-button {
         background: $light_background;

@@ -3,15 +3,15 @@
 
         <!--Base location-->
         <div v-if="$isThisLocation(['base']) && $checkPermission(['master', 'editor']) && ! isSelectMode" class="mobile-actions">
-            <MobileActionButton @click.native="showLocations" icon="filter">
+            <MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
+			<MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
-            <MobileActionButton @click.native="createFolder" icon="folder-plus">
-                {{ $t('context_menu.add_folder') }}
+            <MobileActionButton @click.native="createItems" icon="cloud-plus">
+                {{ $t('mobile.create') }}
             </MobileActionButton>
-            <MobileActionButtonUpload>
-                {{ $t('context_menu.upload') }}
-            </MobileActionButtonUpload>
             <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}
             </MobileActionButton>
@@ -22,6 +22,9 @@
 
         <!--Base location editor-->
         <div v-if="$isThisLocation('public') && $checkPermission('editor') && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="createFolder" icon="folder-plus">
                 {{ $t('context_menu.add_folder') }}
             </MobileActionButton>
@@ -38,6 +41,9 @@
 
         <!--Base location visitor-->
         <div v-if="$isThisLocation('public') && $checkPermission('visitor') && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
              <MobileActionButton @click.native="enableMultiSelectMode" icon="check-square">
                {{ $t('context_menu.select') }}
             </MobileActionButton>
@@ -48,6 +54,9 @@
 
         <!--Recent uploads location-->
         <div v-if="$isThisLocation('latest') && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -64,6 +73,9 @@
 
         <!--Trash location--->
         <div v-if="$isThisLocation(['trash', 'trash-root']) && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -79,7 +91,10 @@
         </div>
 
         <!--Shared location--->
-        <div v-if="$isThisLocation(['shared', 'participant_uploads']) && ! isSelectMode" class="mobile-actions">
+        <div v-if="$isThisLocation(['shared']) && ! isSelectMode" class="mobile-actions">
+			<MobileActionButton @click.native="showSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
             <MobileActionButton @click.native="showLocations" icon="filter">
                 {{ filterLocationTitle }}
             </MobileActionButton>
@@ -110,11 +125,11 @@
 </template>
 
 <script>
-    import MobileActionButtonUpload from '@/components/FilesView/MobileActionButtonUpload'
-    import MobileActionButton from '@/components/FilesView/MobileActionButton'
-    import UploadProgress from '@/components/FilesView/UploadProgress'
+    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
+    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+    import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
     import {mapGetters} from 'vuex'
-    import {events} from '@/bus'
+    import {events} from '/resources/js/bus'
     import store from "../../store";
 
     export default {
@@ -141,7 +156,6 @@
                     'latest': 'Latest',
                     'trash': 'Trash',
                     'trash-root': 'Trash',
-                    'participant_uploads': 'Participants',
                 }[this.$store.getters.currentFolder.location]
             }
         },
@@ -151,8 +165,14 @@
             }
         },
         methods: {
+			showSpotlight() {
+				events.$emit('spotlight:show')
+			},
             showLocations() {
                 events.$emit('mobile-menu:show', 'file-filter')
+            },
+			createItems() {
+                events.$emit('mobile-menu:show', 'create-list')
             },
             selectAll() {
                 this.$store.commit('ADD_ALL_ITEMS_TO_CLIPBOARD')
@@ -173,9 +193,6 @@
             showViewOptions() {
                 events.$emit('mobile-menu:show', 'file-sorting')
             },
-            createFolder() {
-                events.$emit('popup:open', {name: 'create-folder'})
-            },
         },
         mounted() {
             events.$on('mobileSelecting:stop', () => this.isSelectMode = false)
@@ -184,8 +201,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
 
     .button-enter-active,
     .button-leave-active {

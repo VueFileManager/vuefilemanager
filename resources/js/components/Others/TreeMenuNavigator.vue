@@ -26,10 +26,10 @@
 </template>
 
 <script>
-    import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
+    import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
 	import {FolderIcon, ChevronRightIcon} from 'vue-feather-icons'
 	import {mapGetters} from 'vuex'
-	import {events} from "@/bus"
+	import {events} from '/resources/js/bus'
 
 	export default {
 		name: 'TreeMenuNavigator',
@@ -153,8 +153,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-	@import '@assets/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_variables';
+	@import '/resources/sass/vuefilemanager/_mixins';
 
 	.is-inactive {
 		opacity: 0.5;

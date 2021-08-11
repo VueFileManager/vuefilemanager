@@ -45,14 +45,14 @@
 </template>
 
 <script>
-    import PageTabGroup from '@/components/Others/Layout/PageTabGroup'
-    import SwitchInput from '@/components/Others/Forms/SwitchInput'
-    import FormLabel from '@/components/Others/Forms/FormLabel'
-    import ButtonBase from '@/components/FilesView/ButtonBase'
-    import PageTab from '@/components/Others/Layout/PageTab'
-    import InfoBox from '@/components/Others/Forms/InfoBox'
+    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import {mapGetters} from 'vuex'
-    import {events} from "@/bus"
+    import {events} from '/resources/js/bus'
     import axios from 'axios'
 
     let [stripe, card] = [undefined, undefined];
@@ -172,9 +172,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vuefilemanager/_variables';
-    @import '@assets/vuefilemanager/_mixins';
-    @import '@assets/vuefilemanager/_forms';
+    @import '/resources/sass/vuefilemanager/_variables';
+    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '/resources/sass/vuefilemanager/_forms';
 
     .register-card {
         margin-bottom: 25px;

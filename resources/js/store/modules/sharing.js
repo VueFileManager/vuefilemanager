@@ -1,6 +1,6 @@
-import i18n from '@/i18n/index'
-import router from '@/router'
-import {events} from '@/bus'
+import i18n from '/resources/js/i18n/index'
+import router from '/resources/js/router'
+import {events} from '/resources/js/bus'
 import axios from 'axios'
 import Vue from "vue";
 
@@ -26,12 +26,6 @@ const actions = {
 
         if (payload.init)
             commit('FLUSH_FOLDER_HISTORY')
-
-        // Clear search
-        if (getters.isSearching) {
-            commit('CHANGE_SEARCHING_STATE', false)
-            events.$emit('clear-query')
-        }
 
         if (! payload.back && !payload.sorting)
             commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)

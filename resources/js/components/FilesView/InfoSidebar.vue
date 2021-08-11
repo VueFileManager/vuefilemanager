@@ -90,16 +90,16 @@
 </template>
 
 <script>
-	import FilePreviewDetail from '@/components/Others/FilePreviewDetail'
+	import FilePreviewDetail from '/resources/js/components/Others/FilePreviewDetail'
     import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
-	import ImageMetaData from '@/components/FilesView/ImageMetaData'
-    import EmptyMessage from '@/components/FilesView/EmptyMessage'
-	import TitlePreview from '@/components/FilesView/TitlePreview'
-	import CopyShareLink from '@/components/Others/Forms/CopyShareLink'
-	import ListInfoItem from '@/components/Others/ListInfoItem'
-	import ListInfo from '@/components/Others/ListInfo'
+	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
+    import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
+	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+	import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
+	import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
+	import ListInfo from '/resources/js/components/Others/ListInfo'
 	import {mapGetters} from 'vuex'
-	import {events} from "@/bus"
+	import {events} from '/resources/js/bus'
 
 	export default {
 		name: 'InfoSidebar',

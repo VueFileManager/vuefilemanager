@@ -13,7 +13,7 @@
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
@@ -46,8 +46,7 @@
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
@@ -68,15 +67,15 @@
         </div>
 
         <!-- Base location with MASTER permission-->
-        <div v-if="$isThisLocation(['base', 'participant_uploads', 'latest']) && $checkPermission('master')" id="menu-list" class="menu-options">
+        <div v-if="$isThisLocation(['base', 'latest']) && $checkPermission('master')" id="menu-list" class="menu-options">
             
             <!-- No Files options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && isMultiSelectContextMenu && !item">
+            <OptionGroup v-if="!$isThisLocation(['latest']) && isMultiSelectContextMenu && !item">
                 <Option @click.native="createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
             </OptionGroup>
 
             <!-- Single options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && item && isMultiSelectContextMenu && isFolder">
+            <OptionGroup v-if="!$isThisLocation(['latest']) && item && isMultiSelectContextMenu && isFolder">
                 <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
@@ -89,12 +88,11 @@
 
             <OptionGroup v-if="item && isMultiSelectContextMenu ">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
-            <OptionGroup v-if="!$isThisLocation(['participant_uploads', 'latest']) && !isMultiSelectContextMenu && item && !hasFile">
+            <OptionGroup v-if="!$isThisLocation(['latest']) && !isMultiSelectContextMenu && item && !hasFile">
                 <Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
             </OptionGroup>
 
@@ -103,7 +101,7 @@
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+            <OptionGroup v-if="item && !isMultiSelectContextMenu">
                 <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
@@ -125,8 +123,7 @@
 
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
@@ -135,7 +132,7 @@
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
-            <OptionGroup v-if="item && !isMultiSelectContextMenu && !hasFolder">
+            <OptionGroup v-if="item && !isMultiSelectContextMenu">
                 <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
         </div>
@@ -146,8 +143,7 @@
             <!-- Single options -->
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="ItemDetail" :title="$t('context_menu.detail')" icon="detail" />
-                <Option @click.native="downloadItem" v-if="!isFolder" :title="$t('context_menu.download')" icon="download" />
-                <Option @click.native="downloadFolder" v-if="isFolder" :title="$t('context_menu.zip_folder')" icon="zip-folder" />
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 
             <!-- Multi options -->
@@ -161,10 +157,10 @@
 </template>
 
 <script>
-import OptionGroup from '@/components/FilesView/OptionGroup'
-import Option from '@/components/FilesView/Option'
+import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 
 export default {
     name: 'ContextMenu',
@@ -220,9 +216,6 @@ export default {
         }
     },
     methods: {
-        downloadFolder() {
-            this.$store.dispatch('downloadFolder', this.item)
-        },
         emptyTrash() {
             this.$store.dispatch('emptyTrash')
         },
@@ -249,8 +242,8 @@ export default {
             }
         },
         downloadItem() {
-            if (this.clipboard.length > 1)
-                this.$store.dispatch('downloadFiles')
+            if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
+                this.$store.dispatch('downloadZip')
             else {
                 this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
             }
@@ -338,8 +331,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@assets/vuefilemanager/_variables";
-@import "@assets/vuefilemanager/_mixins";
+@import "resources/sass/vuefilemanager/_variables";
+@import "resources/sass/vuefilemanager/_mixins";
 
 .no-options {
     /deep/ .text-label {

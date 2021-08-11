@@ -57,15 +57,15 @@
 
 <script>
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-import PopupActions from '@/components/Others/Popup/PopupActions'
-import PopupContent from '@/components/Others/Popup/PopupContent'
-import PopupHeader from '@/components/Others/Popup/PopupHeader'
-import ButtonBase from '@/components/FilesView/ButtonBase'
-import InfoBox from '@/components/Others/Forms/InfoBox'
+import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 import {required} from 'vee-validate/dist/rules'
 import {mapGetters} from 'vuex'
-import {events} from '@/bus'
+import {events} from '/resources/js/bus'
 import axios from 'axios'
 
 export default {
@@ -196,8 +196,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/vuefilemanager/_inapp-forms.scss";
-@import '@assets/vuefilemanager/_forms';
+@import "resources/sass/vuefilemanager/_inapp-forms.scss";
+@import '/resources/sass/vuefilemanager/_forms';
 
 .qr-code-wrapper {
 	padding: 0 20px;
