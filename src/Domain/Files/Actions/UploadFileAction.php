@@ -112,20 +112,24 @@ class UploadFileAction
 
         $last_folder = $parent;
 
+        // Get already created structure of the file parents
         $structure = Folder::whereIn('name', $folders)->with('parent')->get();
 
-      
+        // If file have some parent folders
         if( count($folders) > 0) {
 
+            
             if(count($folders) === count($structure) ) {
 
+                // Check if file parents are equal to already existed folder structure
                 $last_folder = $this->check_folder_structure($structure, $folders);
-                
+            
             } else if (count($folders) !== count($structure)) {
 
-
+                
                 if(count($structure) > 0) {
 
+                    // Check what folders are missed in structure and return missed folder with last created folder in structure
                     $data = $this->check_exist_folders($structure, $folders);
 
                     $folders = $data[0];

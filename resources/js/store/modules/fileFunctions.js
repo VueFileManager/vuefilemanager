@@ -174,17 +174,17 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if (response.data.folder_id == getters.currentFolder.id) {
+                        if (response.data.folder_id === getters.currentFolder.id) {
 
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)
 
                             // Reset file progress
                             commit('UPLOADING_FILE_PROGRESS', 0)
-
-                            // Increase count in files in queue uploaded for 1
-                            commit('INCREASE_FILES_IN_QUEUE_UPLOADED')
                         }
+
+                        // Increase count in files in queue uploaded for 1
+                        commit('INCREASE_FILES_IN_QUEUE_UPLOADED')
 
                         // Start uploading next file if file queue is not empty
                         if (getters.fileQueue.length) {
