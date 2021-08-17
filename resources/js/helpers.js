@@ -135,6 +135,7 @@ const Helpers = {
                 this.$store.commit('ADD_FILES_TO_QUEUE', {
                     folder_id: store.getters.currentFolder.id ? store.getters.currentFolder.id : '',
                     file: item,
+                    path: '/' + item.webkitRelativePath
                 })
             });
 

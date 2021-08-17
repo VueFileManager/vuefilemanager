@@ -1,18 +1,30 @@
 <template>
-    <label for="file" class="menu-option group">
+    <label class="menu-option group">
         <div class="icon-left group-hover-text-theme">
             <upload-cloud-icon size="17" class="group-hover-text-theme"/>
         </div>
         <div class="text-label group-hover-text-theme">
             {{ title }}
-			<input
-				@change="emmitFiles"
-				v-show="false"
-				id="file"
-				type="file"
-				name="files[]"
-				multiple
-			/>
+             <input
+                v-if="type === 'file'"
+                @change="emmitFiles"
+                v-show="false"
+                id="file"
+                type="file"
+                name="files[]"
+                multiple
+            />
+
+             <input
+                v-if="type === 'folder'"
+                @change="emmitFiles"
+                v-show="false"
+                id="folder"
+                type="file"
+                name="folders[]"
+                webkitdirectory 
+                mozdirectory 
+            />
         </div>
     </label>
 </template>
@@ -26,7 +38,7 @@ import {
     export default {
         name: 'Option',
         props:[
-            'title',
+            'title', 'type'
         ],
         components: {
             UploadCloudIcon,
@@ -72,12 +84,20 @@ import {
     .text-label {
         @include font-size(16);
     }
+
+    &:hover {
+        background: $light_background;
+    }
 }
 
 .dark-mode {
 
     .menu-option {
         color: $dark_mode_text_primary;
+
+         &:hover {
+            background: lighten($dark_mode_foreground, 2%);
+        }
     } 
 }
 

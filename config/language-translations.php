@@ -729,5 +729,6 @@ return [
         'actions.create'                                     => 'Create Something',
         'actions.search'                                     => 'Search',
         'mobile.create'                                      => 'Create',
+        'actions.upload_folder'                              => 'Upload folder',
     ],
 ];

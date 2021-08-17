@@ -26,8 +26,11 @@
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
 						<PopoverItem name="desktop-create" side="left">
+							<OptionGroup :class="{'is-inactive': canUploadInView || !hasCapacity }">
+								<OptionUpload :title="$t('actions.upload')" type="file" />
+								<OptionUpload :title="$t('actions.upload_folder')" type="folder" />
+							</OptionGroup>
 							<OptionGroup>
-								<OptionUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :title="$t('actions.upload')" />
 								<Option @click.stop.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" :title="$t('actions.create_folder')" icon="folder-plus" />
 							</OptionGroup>
 						</PopoverItem>
