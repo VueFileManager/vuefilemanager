@@ -41,6 +41,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $file->name,
                 'file'      => $file,
+                'path'      => '/' . $file->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
@@ -76,6 +77,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $file->name,
                 'file'      => $file,
+                'path'      => '/' . $file->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
@@ -122,6 +124,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $file->name,
                 'file'      => $file,
+                'path'      => '/' . $file->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(423);
@@ -151,6 +154,7 @@ class FileTest extends TestCase
             ->actingAs($user)
             ->postJson('/api/upload', [
                 'file'      => $file,
+                'path'      => '/' . $file->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(422);
@@ -273,6 +277,7 @@ class FileTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
+                    'path'      => '/' . $file->name,
                     'folder_id' => null,
                     'is_last'   => 'true',
                 ])->assertStatus(201);

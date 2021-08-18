@@ -75,6 +75,7 @@ class TrashTest extends TestCase
         $this->postJson('/api/upload', [
             'filename'  => $image->name,
             'file'      => $image,
+            'path'      => '/' . $image->name,
             'folder_id' => null,
             'is_last'   => 'true',
         ])->assertStatus(201);

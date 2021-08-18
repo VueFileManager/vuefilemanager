@@ -1,7 +1,8 @@
 <template>
     <label class="menu-option group">
         <div class="icon-left group-hover-text-theme">
-            <upload-cloud-icon size="17" class="group-hover-text-theme"/>
+            <upload-cloud-icon v-if="type === 'file'" size="17" class="group-hover-text-theme"/>
+            <folder-upload-icon v-if="type === 'folder'" size="17" class="group-hover-text-theme"/>
         </div>
         <div class="text-label group-hover-text-theme">
             {{ title }}
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+import FolderUploadIcon from '/resources/js/components/FilesView/Icons/FolderUploadIcon'
 import {events} from '/resources/js/bus'
 import {
     UploadCloudIcon,
@@ -42,6 +44,7 @@ import {
         ],
         components: {
             UploadCloudIcon,
+            FolderUploadIcon,
         },
 		methods: {
 			emmitFiles(e) {

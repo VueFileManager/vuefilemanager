@@ -347,6 +347,7 @@ class FolderTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
+                    'path'      => '/' . $file->name,
                     'folder_id' => $folder->id,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
@@ -385,5 +386,59 @@ class FolderTest extends TestCase
                     'id' => $id,
                 ]);
             });
+    }
+
+    /**
+     * @test
+     */
+    public function it_upload_folders_structure_with_files()
+    {
+        $file_1 = UploadedFile::fake()
+        ->create('fake-file_1.pdf', 12000000, 'application/pdf');
+
+        $file_2 = UploadedFile::fake()
+        ->create('fake-file_2.pdf', 12000000, 'application/pdf');
+
+        $user = User::factory(User::class)
+            ->create();
+
+        $uploaded_file_1 = $this
+                            ->actingAs($user)
+                            ->postJson('/api/upload', [
+                                'filename'  => $file_2->name,
+                                'file'      => $file_2,
+                                'path'      => '/Folder_1/' . $file_2->name,
+                                'folder_id' => null,
+                                'is_last'   => 'true',
+                            ])->assertStatus(201);
+
+        $uploaded_file_2 = $this
+                            ->actingAs($user)
+                            ->postJson('/api/upload', [
+                                'filename'  => $file_1->name,
+                                'file'      => $file_1,
+                                'path'      => '/Folder_1/Folder_2/' . $file_1->name,
+                                'folder_id' => null,
+                                'is_last'   => 'true',
+                            ])->assertStatus(201);
+
+       
+        $file_1_parent = Folder::whereName('Folder_1')->first();
+        
+        $file_2_parent = Folder::whereName('Folder_2')->first();
+        
+        $this->assertDatabaseHas('folders', [
+            'id'        => $uploaded_file_1['folder_id'],
+            'parent_id' => null,
+            'id'        => $uploaded_file_2['folder_id'],
+            'parent_id' => $file_1_parent->id,
+        ]);
+
+        $this->assertDatabaseHas('files', [
+            'id'        => $uploaded_file_1['id'],
+            'folder_id' => $file_1_parent->id,
+            'id'        => $uploaded_file_2['id'],
+            'folder_id' => $file_2_parent->id,
+        ]);
     }
 }

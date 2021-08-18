@@ -327,6 +327,7 @@ class VisitorManipulatingTest extends TestCase
                         ->post("/api/editor/upload/$share->token", [
                             'filename'  => $file->name,
                             'file'      => $file,
+                            'path'      => '/' . $file->name,
                             'folder_id' => $folder->id,
                             'is_last'   => 'true',
                         ])->assertStatus(201);
@@ -337,6 +338,7 @@ class VisitorManipulatingTest extends TestCase
                     $this->postJson("/api/editor/upload/$share->token", [
                         'filename'  => $file->name,
                         'file'      => $file,
+                        'path'      => '/' . $file->name,
                         'folder_id' => $folder->id,
                         'is_last'   => 'true',
                     ])->assertStatus(201);

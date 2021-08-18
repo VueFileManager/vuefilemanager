@@ -36,6 +36,7 @@ class TrafficTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $this->file->name,
                 'file'      => $this->file,
+                'path'      => '/' . $this->file->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
@@ -56,6 +57,7 @@ class TrafficTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $this->file->name,
                 'file'      => $this->file,
+                'path'      => '/' . $this->file->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
@@ -76,6 +78,7 @@ class TrafficTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $secondFile->name,
                 'file'      => $secondFile,
+                'path'      => '/' . $secondFile->name,
                 'folder_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
@@ -113,6 +116,7 @@ class TrafficTest extends TestCase
         $this->postJson("/api/editor/upload/$share->token", [
             'filename'  => $this->file->name,
             'file'      => $this->file,
+            'path'      => '/' . $this->file->name,
             'folder_id' => $folder->id,
             'is_last'   => 'true',
         ])->assertStatus(201);

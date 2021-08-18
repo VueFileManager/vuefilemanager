@@ -277,6 +277,7 @@ class AdminTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
+                    'path'      => '/' . $file->name,
                     'folder_id' => null,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
