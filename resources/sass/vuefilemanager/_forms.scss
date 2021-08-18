@@ -23,6 +23,18 @@
 
   &.block-form {
 
+    .switch-wrapper {
+      padding-bottom: 13px;
+      margin-bottom: 13px;
+      border-bottom: 1px solid $light_background;
+
+      &:last-child {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+    }
+
     .wrapper-inline {
       display: flex;
       margin: 0 -15px;

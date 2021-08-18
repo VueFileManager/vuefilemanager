@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <label class="input-label">{{ label }}:</label>
+		<!--<label class="input-label">{{ label }}:</label>-->
         <div class="input-wrapper focus-within-border-theme" :class="{'is-error' : isError}" @click="$refs.input.focus()">
             <div class="email-list">
                 <div class="email-tag bg-theme-100" :class="{'mb-offset': getCharactersLength > 45}" v-for="(email, i) in emails" :key="i">

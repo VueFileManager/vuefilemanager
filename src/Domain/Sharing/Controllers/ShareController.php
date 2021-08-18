@@ -61,7 +61,7 @@ class ShareController extends Controller
         $share->update([
             'permission'   => $request->input('permission'),
             'is_protected' => $request->input('protected'),
-            'expire_in'    => $request->input('expiration'),
+            'expire_in'    => $request->input('expiration') ?? null,
             'password'     => $request->input('password')
                 ? bcrypt($request->input('password'))
                 : $share->password,

@@ -9,27 +9,8 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" />
 
-            <!-- Infobox for successful send email -->
-            <InfoBox v-if="isGeneratedShared && sharedViaEmail" class="info-box-wrapper">
-                <p v-html="$t('shared_form.email_successfully_send_message')"></p>
-            </InfoBox>
-
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
-
-                <TabWrapper>
-
-                    <!-- Share via link -->
-                    <TabOption :selected="true" :title="$t('shared_form.share_by_link')" icon="link" />
-
-                    <!-- Share via Email -->
-                    <TabOption :title="$t('shared_form.share_by_email')" icon="email">
-                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
-                        </ValidationProvider>
-                    </TabOption>
-
-                </TabWrapper>
+            <ValidationObserver v-if="! isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form" class="form block-form form-wrapper">
 
                 <!--Permission Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
@@ -39,38 +20,65 @@
                 </ValidationProvider>
 
                 <!--Password Switch-->
-                <div class="input-wrapper">
-                    <div class="inline-wrapper">
-                        <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0" />
-                    </div>
-                </div>
+				<div class="switch-wrapper">
+					<div class="input-wrapper">
+						<div class="inline-wrapper">
+							<div class="switch-label">
+								<label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
+                                <small class="input-help">{{ $t('Protect your item by your custom password.') }}</small>
+                            </div>
+							<SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0" />
+						</div>
+					</div>
 
-                <!--Set password-->
-                <ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
+					<!--Set password-->
+					<ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
+						<input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
+						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+					</ValidationProvider>
+				</div>
 
-                <!--More options-->
-                <div class="more-options" v-if="isMoreOptions">
+                <!--Expiration switch-->
+				<div class="switch-wrapper">
+					<div class="input-wrapper">
+						<div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">{{ $t('Expiration') }}:</label>
+                                <small class="input-help">{{ $t('Your link expire after exact period of time.') }}</small>
+                            </div>
+							<SwitchInput v-model="isExpiration" class="switch" :state="0" />
+                        </div>
+					</div>
 
                     <!--Set expiration-->
-                    <div class="input-wrapper">
-                        <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
+                    <div v-if="isExpiration" class="input-wrapper">
                         <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" class="box" />
                     </div>
-                </div>
+				</div>
 
-                <ActionButton @click.native="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
-                    {{ moreOptionsTitle }}
-                </ActionButton>
+                <!--Send on emails switch-->
+				<div class="switch-wrapper">
+					<div class="input-wrapper">
+						<div class="inline-wrapper">
+							<div class="switch-label">
+								<label class="input-label">{{ $t('Send on Emails') }}:</label>
+                                <small class="input-help">{{ $t('Send your share link via email to many recipients.') }}</small>
+                            </div>
+							<SwitchInput v-model="isEmailSharing" class="switch" :state="0" />
+						</div>
+					</div>
+
+                    <!--Set expiration-->
+                    <ValidationProvider v-if="isEmailSharing" class="input-wrapper" tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+						<MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
+					</ValidationProvider>
+				</div>
             </ValidationObserver>
 
             <!--Copy generated link-->
             <div v-if="isGeneratedShared" class="form-wrapper">
                 <div class="input-wrapper">
-                    <label class="input-label">{{ this.sharedViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
+                    <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
                     <CopyShareLink size="small" :item="pickedItem" />
                 </div>
             </div>
@@ -148,13 +156,17 @@ export default {
         },
         submitButtonText() {
             return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
-        },
-        moreOptionsTitle() {
-            return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_more_options')
         }
     },
+	watch: {
+		isExpiration(val) {
+			if (! val) this.shareOptions.expiration = undefined
+		}
+	},
     data() {
         return {
+        	isExpiration: false,
+        	isEmailSharing: false,
             shareOptions: {
                 isPassword: false,
                 expiration: undefined,
@@ -167,17 +179,10 @@ export default {
             pickedItem: undefined,
             isGeneratedShared: false,
             isLoading: false,
-            isMoreOptions: false,
             sharedViaEmail: false
         }
     },
     methods: {
-        moreOptions() {
-            this.isMoreOptions = !this.isMoreOptions
-
-            if (!this.isMoreOptions)
-                this.shareOptions.expiration = undefined
-        },
         async submitShareOptions() {
 
             // If shared was generated, then close popup
@@ -198,10 +203,6 @@ export default {
             axios
                 .post(`/api/share`, this.shareOptions)
                 .then(response => {
-
-                    // Show infobox and reset emails container
-                    if (this.shareOptions.emails)
-                        this.sharedViaEmail = true
 
                     // End loading
                     this.isGeneratedShared = true
@@ -224,7 +225,7 @@ export default {
     },
     mounted() {
 
-        events.$on('emailsInputValues', (emails) => this.shareOptions.emails = emails)
+        events.$on('emailsInputValues', emails => this.shareOptions.emails = emails)
 
         // Show popup
         events.$on('popup:open', args => {
@@ -243,18 +244,18 @@ export default {
 
             // Restore data
             setTimeout(() => {
-                this.shareOptions = {
-                    permission: undefined,
-                    password: undefined,
-                    isPassword: false,
-                    expiration: undefined,
-                    type: undefined,
-                    id: undefined,
-                    emails: undefined
-                }
-                this.isGeneratedShared = false
-                this.isMoreOptions = false
-                this.sharedViaEmail = false
+					this.isGeneratedShared = false
+					this.isExpiration = false
+					this.isEmailSharing = false
+					this.shareOptions = {
+						isPassword: false,
+						expiration: undefined,
+						password: undefined,
+						permission: undefined,
+						type: undefined,
+						id: undefined,
+						emails: undefined
+					}
             }, 150)
         })
     }
@@ -264,10 +265,6 @@ export default {
 <style scoped lang="scss">
 @import "resources/sass/vuefilemanager/_inapp-forms.scss";
 @import '/resources/sass/vuefilemanager/_forms';
-
-.more-options {
-    margin-bottom: 10px;
-}
 
 .input-wrapper {
 

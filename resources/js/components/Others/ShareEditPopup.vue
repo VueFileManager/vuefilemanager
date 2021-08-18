@@ -9,64 +9,69 @@
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
 
-            <!-- Infobox for successfull sended email -->
-            <InfoBox v-if="sendToRecipientsMenu && isEmailSended" class="info-box-wrapper">
-                <p v-html="$t('shared_form.email_successfully_send_message')"></p>
-            </InfoBox>
-
+			<!--Get share link-->
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
                 <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
                 <CopyShareLink size="small" :item="pickedItem" />
             </div>
 
+			<!--Share via email-->
             <ValidationObserver @submit.prevent v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
-
                 <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                     <MultiEmailInput  rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
                 </ValidationProvider>
-
             </ValidationObserver>
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form block-form form-wrapper">
 
-                <!--Permision Select-->
+                <!--Permission Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
                     <SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :default="shareOptions.permission" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <!--Password Switch-->
-                <div class="input-wrapper">
-                    <div class="inline-wrapper">
-                        <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                        <SwitchInput v-model="shareOptions.isProtected" :state="shareOptions.isProtected" class="switch"/>
-                    </div>
-                    <ActionButton v-if="(pickedItem.shared.is_protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
+				<!--Password Switch-->
+				<div class="switch-wrapper">
+					<div class="input-wrapper">
+						<div class="inline-wrapper">
+							<div class="switch-label">
+								<label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
+                                <small class="input-help">{{ $t('Protect your item by your custom password.') }}</small>
+                            </div>
+							<SwitchInput v-model="shareOptions.isProtected" class="switch" :state="shareOptions.isProtected" />
+						</div>
+					</div>
+
+					<ActionButton v-if="(pickedItem.shared.is_protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
                         {{ $t('popup_share_edit.change_pass') }}
                     </ActionButton>
-                </div>
 
-                <!--Set password-->
-                <ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
+					<!--Set password-->
+					<ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
+						<input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
+						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+					</ValidationProvider>
+				</div>
 
-                <!--More options-->
-                <div class="more-options" v-if="isMoreOptions">
+				<!--Expiration switch-->
+				<div class="switch-wrapper">
+					<div class="input-wrapper">
+						<div class="inline-wrapper">
+                            <div class="switch-label">
+                                <label class="input-label">{{ $t('Expiration') }}:</label>
+                                <small class="input-help">{{ $t('Your link expire after exact period of time.') }}</small>
+                            </div>
+							<SwitchInput v-model="shareOptions.expiration" class="switch" :state="shareOptions.expiration ? 1 : 0" />
+                        </div>
+					</div>
 
-                    <!--Set expiration-->
-                    <div class="input-wrapper">
-                        <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" :value="shareOptions.expiration" class="box"/>
+					<!--Set expiration-->
+                    <div v-if="shareOptions.expiration" class="input-wrapper">
+                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" :value="shareOptions.expiration" class="box" />
                     </div>
-                </div>
-
-                <ActionButton @click.native="moreOptions" :icon="isMoreOptions || shareOptions.expiration ? 'x' : 'pencil-alt'">
-                    {{ moreOptionsTitle }}
-                </ActionButton>
+				</div>
 
             </ValidationObserver>
 
@@ -164,36 +169,31 @@
 
                 if(this.sendToRecipientsMenu)
                     return this.isEmailSended ? this.$t('shared_form.button_done') : this.$t('popup_share_edit.send_to_recipients')
-
             },
-            isSharedLocation() {
-                return this.currentFolder && this.currentFolder.location === 'shared'
-            },
-            moreOptionsTitle() {
-                return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_more_options')
-            }
         },
+		watch: {
+			'shareOptions.expiration': function (val) {
+				if (!val) {
+					this.shareOptions.expiration = undefined
+				}
+			}
+		},
         data() {
             return {
+				isExpiration: false,
                 sendToRecipientsMenu: false,
                 isConfirmedDestroy: false,
                 canChangePassword: false,
                 shareOptions: undefined,
                 pickedItem: undefined,
-                emails:undefined,
                 isMoreOptions: false,
                 isEmailSended:false,
                 isDeleting: false,
+                emails:undefined,
                 isLoading: false,
             }
         },
         methods: {
-            moreOptions() {
-                this.isMoreOptions = ! this.isMoreOptions
-
-                if (! this.isMoreOptions)
-                    this.shareOptions.expiration = undefined
-            },
             changePassword() {
                 this.canChangePassword = false
             },
@@ -216,11 +216,8 @@
                     .finally(() => {
 
                         this.isEmailSended = true
-
-                        // End loading
                         this.isLoading = false
                     })
-
             },
             async destroySharing() {
 
@@ -333,7 +330,7 @@
                 }
 
                 if (args.item.shared.expire_in)
-                    this.isMoreOptions = true
+                	this.isExpiration = true
 
                 if (args.sentToEmail)
                     this.sendToRecipientsMenu = true
@@ -348,11 +345,12 @@
                 // Restore data
                 setTimeout(() => {
                     this.sendToRecipientsMenu = false
-                    this.isEmailSended = false
                     this.isConfirmedDestroy = false
                     this.canChangePassword = false
-                    this.pickedItem = undefined
                     this.shareOptions = undefined
+                    this.pickedItem = undefined
+                    this.isEmailSended = false
+					this.isExpiration = false
                 }, 150)
             })
         }
@@ -377,6 +375,7 @@
     .change-password {
         opacity: 0.7;
         text-decoration: underline;
+		margin-top: -8px;
     }
 
     .item-thumbnail {
