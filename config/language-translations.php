@@ -727,5 +727,12 @@ return [
         'actions.create'                                     => 'Create Something',
         'actions.search'                                     => 'Search',
         'mobile.create'                                      => 'Create',
+        'popup.share.email_send'                             => 'Send on Emails',
+        'popup.share.email_description'                      => 'Send your share link via email to many recipients.',
+        'expiration'                                         => 'Expiration',
+        'popup.share.expiration_description'                 => 'Your link expire after exact period of time.',
+        'popup.share.password_description'                   => 'Protect your item by your custom password.',
+        'sharelink.share_via_email'                          => 'Share Link on Emails',
+        'sharelink.copy_embed'                               => 'Copy Web Insert Code',
     ],
 ];

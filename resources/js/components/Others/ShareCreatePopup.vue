@@ -25,7 +25,7 @@
 						<div class="inline-wrapper">
 							<div class="switch-label">
 								<label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                                <small class="input-help">{{ $t('Protect your item by your custom password.') }}</small>
+                                <small class="input-help">{{ $t('popup.share.password_description') }}</small>
                             </div>
 							<SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0" />
 						</div>
@@ -43,8 +43,8 @@
 					<div class="input-wrapper">
 						<div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">{{ $t('Expiration') }}:</label>
-                                <small class="input-help">{{ $t('Your link expire after exact period of time.') }}</small>
+                                <label class="input-label">{{ $t('expiration') }}:</label>
+                                <small class="input-help">{{ $t('popup.share.expiration_description') }}</small>
                             </div>
 							<SwitchInput v-model="isExpiration" class="switch" :state="0" />
                         </div>
@@ -61,8 +61,8 @@
 					<div class="input-wrapper">
 						<div class="inline-wrapper">
 							<div class="switch-label">
-								<label class="input-label">{{ $t('Send on Emails') }}:</label>
-                                <small class="input-help">{{ $t('Send your share link via email to many recipients.') }}</small>
+								<label class="input-label">{{ $t('popup.share.email_send') }}:</label>
+                                <small class="input-help">{{ $t('popup.share.email_description') }}</small>
                             </div>
 							<SwitchInput v-model="isEmailSharing" class="switch" :state="0" />
 						</div>

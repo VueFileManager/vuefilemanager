@@ -38,7 +38,7 @@
 						<div class="inline-wrapper">
 							<div class="switch-label">
 								<label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                                <small class="input-help">{{ $t('Protect your item by your custom password.') }}</small>
+                                <small class="input-help">{{ $t('popup.share.password_description') }}</small>
                             </div>
 							<SwitchInput v-model="shareOptions.isProtected" class="switch" :state="shareOptions.isProtected" />
 						</div>
@@ -60,8 +60,8 @@
 					<div class="input-wrapper">
 						<div class="inline-wrapper">
                             <div class="switch-label">
-                                <label class="input-label">{{ $t('Expiration') }}:</label>
-                                <small class="input-help">{{ $t('Your link expire after exact period of time.') }}</small>
+                                <label class="input-label">{{ $t('expiration') }}:</label>
+                                <small class="input-help">{{ $t('popup.share.expiration_description') }}</small>
                             </div>
 							<SwitchInput v-model="shareOptions.expiration" class="switch" :state="shareOptions.expiration ? 1 : 0" />
                         </div>
@@ -180,7 +180,6 @@
 		},
         data() {
             return {
-				isExpiration: false,
                 sendToRecipientsMenu: false,
                 isConfirmedDestroy: false,
                 canChangePassword: false,
@@ -304,12 +303,7 @@
             },
         },
         mounted() {
-
-            this.sendToRecipientsMenu = false
-
-            events.$on('emailsInputValues', (emails) => {
-                this.emails = emails
-            })
+            events.$on('emailsInputValues', emails => this.emails = emails)
 
             // Show popup
             events.$on('popup:open', args => {
@@ -329,9 +323,6 @@
                     password: undefined,
                 }
 
-                if (args.item.shared.expire_in)
-                	this.isExpiration = true
-
                 if (args.sentToEmail)
                     this.sendToRecipientsMenu = true
                     this.isEmailSended = false
@@ -339,7 +330,6 @@
                 this.canChangePassword = args.item.shared.is_protected
             })
 
-            // Close popup
             events.$on('popup:close', () => {
 
                 // Restore data
@@ -350,7 +340,6 @@
                     this.shareOptions = undefined
                     this.pickedItem = undefined
                     this.isEmailSended = false
-					this.isExpiration = false
                 }, 150)
             })
         }

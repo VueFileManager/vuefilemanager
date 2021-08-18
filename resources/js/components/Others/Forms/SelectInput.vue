@@ -7,8 +7,8 @@
             <!--If is selected-->
             <div class="selected" v-if="selected">
                 <div class="option-icon" v-if="selected.icon">
-                    <user-icon v-if="selected.icon === 'user'" size="14" />
-                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14" />
+                    <user-icon v-if="selected.icon === 'user'" size="14" class="text-theme dark-text-theme" />
+                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14" class="text-theme dark-text-theme" />
                 </div>
                 <span class="option-value">{{ selected.label }}</span>
             </div>
@@ -211,6 +211,10 @@
         svg {
             margin-top: -4px;
             vertical-align: middle;
+
+			line, path, circle {
+				color: inherit;
+			}
         }
     }
 
