@@ -20,3 +20,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 prettier.json
+/public/temp

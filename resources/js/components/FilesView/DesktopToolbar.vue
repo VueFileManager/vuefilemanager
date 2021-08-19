@@ -17,9 +17,9 @@
 			<ToolbarWrapper>
 
 				<!--Search bar-->
-				<ToolbarGroup style="margin-left: 0">
+<!--				<ToolbarGroup style="margin-left: 0">
 					<SearchBar />
-				</ToolbarGroup>
+				</ToolbarGroup>-->
 
 				<!--Creating controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">
@@ -36,8 +36,21 @@
 
 				<!--Share Controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile() && !$isThisLocation(['public'])">
-                    <ToolbarButton @click.native="shareItem" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
-                    <ToolbarButton @click.native="shareItem" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
+
+					<!--Team Folder Icon-->
+					<PopoverWrapper>
+						<TeamMembersPreview @click.stop.native="showTeamFolderMenu" count="3+" :members="members" class="team-preview" />
+						<PopoverItem name="team-folder" side="left">
+							<TeamFolderPreview />
+							<OptionGroup>
+								<Option :title="$t('Edit Members')" icon="rename" />
+								<Option :title="$t('Dissolve Team')" icon="trash" />
+							</OptionGroup>
+						</PopoverItem>
+					</PopoverWrapper>
+
+					<ToolbarButton v-if="false" @click.native="shareItem" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
+					<ToolbarButton @click.native="shareItem" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 				</ToolbarGroup>
 
 				<!--File Controls-->
@@ -65,7 +78,6 @@
 
 <script>
 	import FileSortingOptions from '/resources/js/components/FilesView/FileSortingOptions'
-	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 	import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
 	import PopoverWrapper from '/resources/js/components/Desktop/PopoverWrapper'
 	import ToolbarWrapper from '/resources/js/components/Desktop/ToolbarWrapper'
@@ -73,7 +85,10 @@
 	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
 	import ToolbarGroup from '/resources/js/components/Desktop/ToolbarGroup'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
 	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
+	import TeamFolderPreview from "../Teams/Components/TeamFolderPreview"
+	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 	import SearchBar from '/resources/js/components/FilesView/SearchBar'
 	import Option from '/resources/js/components/FilesView/Option'
 	import {mapGetters} from 'vuex'
@@ -83,8 +98,10 @@
 	export default {
 		name: 'ToolBar',
 		components: {
+			TeamMembersPreview,
 			FileSortingOptions,
 			MoreHorizontalIcon,
+			TeamFolderPreview,
 			ChevronLeftIcon,
 			ToolbarWrapper,
 			UploadProgress,
@@ -169,7 +186,19 @@
 				return this.$isThisLocation(locations) && this.clipboard.length === 1 && this.clipboard[0].type === 'folder'
 			}
 		},
+		data() {
+			return {
+				members: [
+					'/temp/avatar-01.png',
+					'/temp/avatar-02.png',
+					'/temp/avatar-03.png',
+				],
+			}
+		},
 		methods: {
+			showTeamFolderMenu() {
+				events.$emit('popover:open', 'team-folder')
+			},
 			showCreateMenu() {
 				events.$emit('popover:open', 'desktop-create')
 			},
@@ -231,6 +260,20 @@
 <style scoped lang="scss">
 @import "resources/sass/vuefilemanager/_variables";
 @import "resources/sass/vuefilemanager/_mixins";
+
+.team-preview {
+	padding: 3px 3px 3px 10px;
+	border-radius: 8px;
+	cursor: pointer;
+
+	&:hover {
+		background: $light_background;
+
+		/deep/ .members .member {
+			border-color: $light_background;
+		}
+	}
+}
 
 .is-inactive {
 	opacity: 0.25;

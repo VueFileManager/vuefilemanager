@@ -46,6 +46,28 @@
                 </div>
             </ContentGroup>
 
+            <!--Locations-->
+            <ContentGroup :title="$t('Collaboration')" :can-collapse="true">
+                <div class="menu-list-wrapper vertical">
+                    <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['base'])}" @click="goHome">
+                        <div class="icon text-theme">
+                            <users-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('Team Folders') }}
+                        </div>
+                    </a>
+                    <a class="menu-list-item link" :class="{'is-active': $isThisLocation(['latest'])}" @click="getLatest">
+                        <div class="icon text-theme">
+                            <user-check-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('Shared with Me') }}
+                        </div>
+                    </a>
+                </div>
+            </ContentGroup>
+
             <!--Navigator-->
             <ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
                 <span class="empty-note navigator" v-if="tree.length === 0">
@@ -82,20 +104,21 @@
 <script>
 import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
 import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
-import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
 import ContentFileView from '/resources/js/components/Others/ContentFileView'
 import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
+import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
 import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
 import { mapGetters } from 'vuex'
 import { events } from '/resources/js/bus'
 import {
     UploadCloudIcon,
+	UserCheckIcon,
     FolderIcon,
     Trash2Icon,
-    HomeIcon,
-    XIcon,
-	LinkIcon,
 	UsersIcon,
+    HomeIcon,
+	LinkIcon,
+    XIcon,
 } from 'vue-feather-icons'
 
 export default {
@@ -104,24 +127,25 @@ export default {
         UpgradeSidebarBanner,
         TreeMenuNavigator,
         ContentFileView,
-        TitlePreview,
-        ContentSidebar,
         UploadCloudIcon,
+        ContentSidebar,
+		UserCheckIcon,
+        TitlePreview,
         ContentGroup,
         FolderIcon,
         Trash2Icon,
-        HomeIcon,
-        XIcon,
-		LinkIcon,
 		UsersIcon,
+        HomeIcon,
+		LinkIcon,
+        XIcon,
     },
     computed: {
         ...mapGetters([
-        	'user',
 			'homeDirectory',
 			'currentFolder',
+			'clipboard',
 			'config',
-			'clipboard'
+        	'user',
 		]),
         favourites() {
             return this.user.data.relationships.favourites.data.attributes.folders
