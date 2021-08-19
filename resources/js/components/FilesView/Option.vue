@@ -22,6 +22,7 @@
             <upload-cloud-icon v-if="icon === 'upload-cloud'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <users-icon v-if="icon === 'users'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <user-icon v-if="icon === 'user'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <user-plus-icon v-if="icon === 'user-plus'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <settings-icon v-if="icon === 'settings'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <power-icon v-if="icon === 'power'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <lock-icon v-if="icon === 'lock'" size="17" class="group-hover-text-theme" :class="{'text-theme': isActive}"/>
@@ -48,6 +49,7 @@
 <script>
 import AlphabetIcon from '/resources/js/components/FilesView/Icons/AlphabetIcon'
 import {
+	UserPlusIcon,
 	ArrowUpIcon,
 	ArrowDownIcon,
     ChevronRightIcon,
@@ -92,6 +94,7 @@ import {
             'icon'
         ],
         components: {
+			UserPlusIcon,
 			ArrowUpIcon,
 			ArrowDownIcon,
             BoxIcon,

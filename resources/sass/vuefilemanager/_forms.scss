@@ -86,13 +86,14 @@
     }
   }
 
-  .input-help {
-    @include font-size(12);
-    color: $text-muted;
-    line-height: 1.35;
-    padding-top: 10px;
-    display: block;
-  }
+}
+
+.input-help {
+  @include font-size(12);
+  color: $text-muted;
+  line-height: 1.35;
+  padding-top: 10px;
+  display: block;
 }
 
 .single-line-form {

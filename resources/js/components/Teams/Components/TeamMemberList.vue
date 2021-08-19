@@ -1,6 +1,6 @@
 <template>
 	<ul class="member-list">
-		<li v-for="(member, i) in members" :key="i" class="member-item">
+		<li v-if="Object.values(members).length > 0" v-for="(member, i) in members" :key="i" class="member-item">
 			<div @click="deleteMember(member)" class="terminate">
 				<x-icon size="14" class="close-icon" />
 			</div>
@@ -16,6 +16,9 @@
 			<div class="action">
 				<PermissionToggleButton @input="updateMemberPermission(member, $event)" :item="member" />
 			</div>
+		</li>
+		<li v-if="Object.values(members).length === 0">
+			<p class="input-help">{{ $t('Please add some member into your Team Folder.') }}</p>
 		</li>
 	</ul>
 </template>
@@ -65,6 +68,8 @@
 
 	.member-list {
 		margin-bottom: 20px;
+		max-height: 270px;
+		overflow-y: scroll;
 	}
 
 	.member-item {

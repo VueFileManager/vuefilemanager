@@ -82,8 +82,12 @@
             <OptionGroup v-if="item && isMultiSelectContextMenu">
                 <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
                 <Option @click.native="$moveFileOrFolder(item)" v-if="!$isThisLocation(['latest'])" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+            </OptionGroup>
+
+            <OptionGroup v-if="item && isMultiSelectContextMenu">
+                <Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+                <Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="users" />
             </OptionGroup>
 
             <OptionGroup v-if="item && isMultiSelectContextMenu ">

@@ -8,22 +8,34 @@
         <PopupContent>
 
 			<!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="item" info="metadata" />
+            <ThumbnailItem v-if="! isNewFolderTeamCreation" class="item-thumbnail" :item="item" info="metadata" />
 
             <!--Form to set team folder-->
             <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
+                <!--Set folder name-->
+                <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
+                    <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
+                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">
+                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                </ValidationProvider>
+
                 <!--Add Member-->
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" rules="required" v-slot="{ errors }">
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
 					<label class="input-label">{{ $t('Add Member') }}:</label>
-					<input @keypress.enter.stop="addMember" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
+					<input @keypress.enter.stop.prevent="addMember" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
 					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 				</ValidationProvider>
 
-				<TeamMemberList v-model="members" />
+				<!--Member list-->
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" rules="required" v-slot="{ errors }">
+					<label class="input-label">{{ $t('Your Members') }}:</label>
+					<span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
+					<TeamMemberList v-model="members" />
+				</ValidationProvider>
 
-				<InfoBox style="margin-bottom: 0">
-					<p v-html="$t('Your folder will be moved into Team Folders.')"></p>
+				<InfoBox v-if="! isNewFolderTeamCreation" style="margin-bottom: 0">
+					<p v-html="$t('popup.move_into_team_disclaimer')"></p>
 				</InfoBox>
             </ValidationObserver>
 
@@ -41,6 +53,8 @@
                     class="popup-button"
                     @click.native="createTeamFolder"
                     button-style="theme"
+					:loading="isLoading"
+					:disabled="isLoading"
             >{{ popupSubmit }}
             </ButtonBase>
         </PopupActions>
@@ -59,6 +73,7 @@
     import {required} from 'vee-validate/dist/rules'
 	import InfoBox from "../Others/Forms/InfoBox";
     import {events} from '/resources/js/bus'
+	import axios from "axios";
 
     export default {
         name: 'CreateTeamFolderPopup',
@@ -82,6 +97,9 @@
 			popupSubmit() {
                 return this.item ? this.$t('Move & Invite Members') : this.$t('Create Team Folder')
             },
+			isNewFolderTeamCreation() {
+				return ! this.item
+			}
         },
         data() {
             return {
@@ -108,17 +126,36 @@
 						permission: 'can-view-and-download',
 					},
 				],
-                item: {
-					type: 'folder',
-					name: 'Shared Folder',
-					created_at: '19. Feb. 2020 at 08:53',
-				},
-				email: undefined
+                item: undefined,
+                name: undefined,
+				email: undefined,
+				isLoading: false,
             }
         },
         methods: {
-            createTeamFolder() {
+            async createTeamFolder() {
+				const isValid = await this.$refs.teamFolderForm.validate()
 
+				if (!isValid) return
+
+				this.isLoading = true
+
+				let route = this.name ? `/api/teams` : `/api/teams/${this.item.id}`
+
+				axios
+					.post(route, {
+						name: this.name,
+						members: this.members,
+					})
+					.then(response => {
+
+					})
+					.catch(() => this.$isSomethingWrong())
+					.finally(() => {
+						this.isLoading = false
+						this.name = undefined
+						this.members = undefined
+					})
             },
 			addMember() {
             	let email = this.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)[0]
@@ -132,7 +169,6 @@
 				this.$refs.teamFolderForm.reset()
 
             	this.members.push({
-					id: Math.floor(Math.random() * 10000000),
 					email: this.email,
 					avatar: '/assets/images/default-avatar.png',
 					permission: 'can-edit',
@@ -142,12 +178,22 @@
 			}
         },
         mounted() {
-            events.$on('popup:open', item => {
+            events.$on('popup:open', args => {
+                if (args.name !== 'create-team-folder') return
 
-                if (name !== 'create-team-folder') return
-
-				this.item = item
+				if (args.item) {
+					this.item = args.item[0]
+				}
             })
+
+			events.$on('popup:close', () => {
+				setTimeout(() => {
+					this.email = undefined
+					this.name = undefined
+					this.item = undefined
+					this.members = []
+				}, 150)
+			})
         }
     }
 </script>

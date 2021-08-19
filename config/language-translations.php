@@ -734,5 +734,6 @@ return [
         'popup.share.password_description'                   => 'Protect your item by your custom password.',
         'sharelink.share_via_email'                          => 'Share Link on Emails',
         'sharelink.copy_embed'                               => 'Copy Web Insert Code',
+        'popup.move_into_team_disclaimer'                    => 'Your folder <b class="text-theme dark-text-theme">will be moved</b> into Team Folders.',
     ],
 ];

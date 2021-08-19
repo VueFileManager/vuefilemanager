@@ -15,6 +15,14 @@ const Helpers = {
             events.$emit('popup:open', {name: 'move', item: [entry]})
         }
 
+        Vue.prototype.$createTeamFolder = function (entry) {
+            events.$emit('popup:open', {name: 'create-team-folder'})
+        }
+
+        Vue.prototype.$updateTeamFolder = function (entry) {
+            events.$emit('popup:open', {name: 'create-team-folder', item: [entry]})
+        }
+
         Vue.prototype.$deleteFileOrFolder = function (entry) {
             if (!this.$store.getters.clipboard.includes(entry)) {
                 this.$store.dispatch('deleteItem', entry)

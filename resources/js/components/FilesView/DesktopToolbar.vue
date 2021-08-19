@@ -28,6 +28,9 @@
 						<PopoverItem name="desktop-create" side="left">
 							<OptionGroup>
 								<OptionUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :title="$t('actions.upload')" />
+							</OptionGroup>
+							<OptionGroup>
+								<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
 								<Option @click.stop.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" :title="$t('actions.create_folder')" icon="folder-plus" />
 							</OptionGroup>
 						</PopoverItem>
@@ -43,13 +46,13 @@
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
 							<OptionGroup>
-								<Option :title="$t('Edit Members')" icon="rename" />
-								<Option :title="$t('Dissolve Team')" icon="trash" />
+								<Option @click.native="$updateTeamFolder(clipboard[0])" :title="$t('Edit Members')" icon="rename" />
+								<Option @click.native="dissolveTeamFolder(clipboard[0])" :title="$t('Dissolve Team')" icon="trash" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
 
-					<ToolbarButton v-if="false" @click.native="shareItem" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
+					<ToolbarButton v-if="false" @click.native="$createTeamFolder" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
 					<ToolbarButton @click.native="shareItem" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 				</ToolbarGroup>
 
@@ -204,6 +207,16 @@
 			},
 			showSortingMenu() {
 				events.$emit('popover:open', 'desktop-sorting')
+			},
+			dissolveTeamFolder() {
+				events.$emit('confirm:open', {
+					title: this.$t('Are you sure you want to dissolve this team?'),
+					message: this.$t('All team members will lose access to your files and existing folder will be moved into your "Files" section.'),
+					action: {
+						id: 'token.id',
+						operation: 'dissolve-team-folder'
+					}
+				})
 			},
 			goBack() {
 				let previousFolder = last(this.browseHistory)
