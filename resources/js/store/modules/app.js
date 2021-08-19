@@ -24,6 +24,11 @@ const defaultState = {
             value: 'user',
         },
     ],
+    teamPermissions: {
+        'can-edit': 'Can Edit',
+        'can-view': 'Can View',
+        'can-view-and-download': 'Can View & Download',
+    },
     countries: [
         {label: 'Czech Republic', value: 'CZ'},
         {label: 'Slovakia', value: 'SK'},
@@ -1056,6 +1061,7 @@ const mutations = {
 
 const getters = {
     isVisibleSidebar: state => state.isVisibleSidebar,
+    teamPermissions: state => state.teamPermissions,
     FilePreviewType: state => state.FilePreviewType,
     expirationList: state => state.expirationList,
     homeDirectory: state => state.homeDirectory,

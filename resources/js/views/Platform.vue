@@ -10,6 +10,8 @@
         <ProcessingPopup />
         <ConfirmPopup />
 
+		<CreateTeamFolderPopup />
+
         <ShareCreatePopup />
         <ShareEditPopup />
 
@@ -39,6 +41,7 @@
 </template>
 
 <script>
+	import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup"
     import Spotlight from '/resources/js/components/Spotlight/Spotlight'
     import MultiSelectToolbarMobile from '/resources/js/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
@@ -63,6 +66,7 @@
         name: 'Platform',
         components: {
             MultiSelectToolbarMobile,
+			CreateTeamFolderPopup,
             CreateFolderPopup,
             FileSortingMobile,
             SidebarNavigation,

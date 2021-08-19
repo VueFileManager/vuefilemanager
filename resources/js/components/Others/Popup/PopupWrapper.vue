@@ -47,6 +47,8 @@
 
             // Close popup
             events.$on('popup:close', () => this.isVisibleWrapper = false)
+
+			//todo: if (this.name === 'create-team-folder') this.isVisibleWrapper = true
         }
     }
 </script>

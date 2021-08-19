@@ -18,7 +18,7 @@
 			<!--Share via email-->
             <ValidationObserver @submit.prevent v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
                 <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                    <MultiEmailInput  rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
+                    <MultiEmailInput rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
                 </ValidationProvider>
             </ValidationObserver>
 
