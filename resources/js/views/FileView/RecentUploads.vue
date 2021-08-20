@@ -1,17 +1,14 @@
 <template>
 	<div>
 		<ContextMenu>
-			<template v-slot:empty-select>
-				<OptionGroup>
-					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
-				</OptionGroup>
-			</template>
-
 			<template v-slot:single-select v-if="item">
 				<OptionGroup>
-					<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
-					<Option @click.native="$deleteFileOrFolder(item)" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
-					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+					<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+				</OptionGroup>
+				<OptionGroup>
+					<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
@@ -21,9 +18,8 @@
 
 			<template v-slot:multiple-select v-if="item">
 				<OptionGroup>
-					<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
@@ -46,10 +42,10 @@
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
-	import {events} from "../../../bus";
+	import {events} from "../../bus";
 
 	export default {
-		name: 'Trash',
+		name: 'RecentUploads',
 		components: {
 			OptionGroup,
 			FileBrowser,
@@ -59,7 +55,8 @@
 		computed: {
 			...mapGetters([
 				'clipboard',
-			]),
+				'user',
+			])
 		},
 		data() {
 			return {
@@ -76,7 +73,7 @@
 			},
 		},
 		created() {
-			this.$store.dispatch('getTrash', this.$route.params.id)
+			this.$store.dispatch('getRecentUploads')
 
 			events.$on('contextMenu:show', (event, item) => this.item = item)
 		}

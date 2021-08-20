@@ -47,7 +47,7 @@
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
-	import {events} from "../../../bus";
+	import {events} from "../../bus";
 
 	export default {
 		name: 'MySharedItems',

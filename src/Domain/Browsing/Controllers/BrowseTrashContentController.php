@@ -3,15 +3,15 @@ namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class BrowseTrashContentController
 {
-    public function __invoke(string $id): Collection
+    public function __invoke(string $id): array
     {
         $user_id = Auth::id();
         $root_id = $id === 'undefined' ? null : $id;
+        $requestedFolder = $root_id ? Folder::withTrashed()->findOrFail($root_id) : null;
 
         if ($root_id) {
 
@@ -29,8 +29,10 @@ class BrowseTrashContentController
                 ->get();
 
             // Collect folders and files to single array
-            return collect([$folders, $files])
-                ->collapse();
+            return [
+                'content' => collect([$folders, $files])->collapse(),
+                'folder'  => $requestedFolder,
+            ];
         }
 
         // Get folders and files
@@ -58,7 +60,9 @@ class BrowseTrashContentController
             ->get();
 
         // Collect folders and files to single array
-        return collect([$folders, $files_trashed])
-            ->collapse();
+        return [
+            'content' => collect([$folders, $files_trashed])->collapse(),
+            'folder'  => $requestedFolder,
+        ];
     }
 }

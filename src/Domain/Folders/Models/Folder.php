@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static whereUserId(int|string|null $id)
  * @method static find(mixed $id)
  * @method static where(string $string, string $user_id)
+ * @method static findOrFail(string $root_id)
  * @property string id
  * @property string user_id
  * @property string parent_id

@@ -2,13 +2,13 @@
     <div id="desktop-toolbar">
         <div class="toolbar-wrapper">
 			<div @click="goBack" class="location">
-				<chevron-left-icon :class="{'is-active': canGoBack }" class="icon-back" size="17" />
+				<chevron-left-icon :class="{'is-active': isLoadedFolder }" class="icon-back" size="17" />
 
 				<span class="location-title">
 					{{ directoryName }}
 				</span>
 
-				<span @click.stop="folderActions" class="location-more group" id="folder-actions">
+				<span v-if="isLoadedFolder" @click.stop="folderActions" class="location-more group" id="folder-actions">
 					<more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
 				</span>
 			</div>
@@ -118,7 +118,6 @@
 		},
 		computed: {
 			...mapGetters([
-				'previousLocation',
 				'isVisibleSidebar',
 				'FilePreviewType',
 				'currentFolder',
@@ -126,7 +125,7 @@
 				'homeDirectory',
 				'clipboard',
 			]),
-			canGoBack() {
+			isLoadedFolder() {
 				return this.$route.params.id
 			},
 			hasCapacity() {
@@ -140,7 +139,17 @@
 				return this.$store.getters.user.data.attributes.storage.used <= 100
 			},
 			directoryName() {
-				return 'todo'
+				if (this.currentFolder) {
+					return this.currentFolder.name
+				} else {
+					return {
+						'RecentUploads': this.$t('Recent'),
+						'MySharedItems': this.$t('Shared'),
+						'Trash': this.$t('Trash'),
+						'Public': this.$t('Files'),
+						'Files': this.$t('Files'),
+					}[this.$route.name]
+				}
 			},
 			preview() {
 				return this.FilePreviewType === 'list'
@@ -200,7 +209,7 @@
 		},
 		methods: {
 			goBack() {
-				if (this.canGoBack) this.$router.back()
+				if (this.isLoadedFolder) this.$router.back()
 			},
 			showTeamFolderMenu() {
 				events.$emit('popover:open', 'team-folder')

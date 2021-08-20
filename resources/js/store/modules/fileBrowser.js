@@ -21,7 +21,8 @@ const actions = {
         axios
             .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('LOADING_STATE', {loading: false, data: response.data.content})
+                commit('SET_CURRENT_FOLDER', response.data.folder)
 
                 events.$emit('scrollTop')
             })
@@ -50,6 +51,8 @@ const actions = {
             .get(getters.api + '/browse/latest')
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('SET_CURRENT_FOLDER', undefined)
+
                 events.$emit('scrollTop')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
@@ -61,6 +64,7 @@ const actions = {
             .get(getters.api + '/browse/share' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('SET_CURRENT_FOLDER', undefined)
 
                 events.$emit('scrollTop')
             })
@@ -72,7 +76,8 @@ const actions = {
         axios
             .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('LOADING_STATE', {loading: false, data: response.data.content})
+                commit('SET_CURRENT_FOLDER', response.data.folder)
 
                 events.$emit('scrollTop')
             })
@@ -111,6 +116,9 @@ const mutations = {
         state.clipboard = []
         state.entries = payload.data
         state.isLoading = payload.loading
+    },
+    SET_CURRENT_FOLDER(state, folder) {
+        state.currentFolder = folder
     },
     UPDATE_FOLDER_TREE(state, tree) {
         state.navigation = tree

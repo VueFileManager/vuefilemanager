@@ -7,11 +7,11 @@ import Vue from 'vue'
 
 const defaultState = {
     processingPopup: undefined,
-    fileQueue: [],
-    filesInQueueTotal: 0,
-    filesInQueueUploaded: 0,
     isProcessingFile: false,
-    uploadingProgress: 0
+    filesInQueueUploaded: 0,
+    filesInQueueTotal: 0,
+    uploadingProgress: 0,
+    fileQueue: [],
 }
 
 const actions = {
@@ -84,9 +84,13 @@ const actions = {
             ? `/api/editor/create-folder/${router.currentRoute.params.token}`
             : '/api/create-folder'
 
+        let parent_id = getters.currentFolder
+            ? getters.currentFolder.id
+            : undefined
+
         axios
             .post(route, {
-                parent_id: getters.currentFolder.id,
+                parent_id: parent_id,
                 name: folder.name,
                 icon: folder.icon
             })
@@ -100,9 +104,10 @@ const actions = {
                     events.$emit('newFolder:focus', response.data.id)
                 }, 10)
 
-                if (getters.currentFolder.location !== 'public')
+                if (! Vue.prototype.$isThisRoute(router, ['Public']))
                     dispatch('getAppData')
-                if (getters.currentFolder.location === 'public')
+
+                if (Vue.prototype.$isThisRoute(router, ['Public']))
                     dispatch('getFolderTree')
 
             })

@@ -12,8 +12,10 @@ class BrowseFolderContentController
     public function __invoke(
         Request $request,
         string $id,
-    ): Collection {
+    ): array {
         $root_id = $id === 'undefined' ? null : $id;
+
+        $requestedFolder = $root_id ? Folder::findOrFail($root_id) : null;
 
         // Get folders and files
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
@@ -29,7 +31,9 @@ class BrowseFolderContentController
             ->get();
 
         // Collect folders and files to single array
-        return collect([$folders, $files])
-            ->collapse();
+        return [
+            'content' => collect([$folders, $files])->collapse(),
+            'folder'  => $requestedFolder,
+        ];
     }
 }
