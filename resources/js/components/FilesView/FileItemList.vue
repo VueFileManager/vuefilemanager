@@ -223,7 +223,6 @@ export default {
                     if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                     } else {
-                        //this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
 						this.$router.push({name: 'Files', params: {id: this.item.id}})
                     }
                 } else {
@@ -261,8 +260,14 @@ export default {
                 if (this.$isThisLocation('public')) {
                     this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                 } else {
-                    //this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
-					this.$router.push({name: 'Files', params: {id: this.item.id}})
+                	let route = this.$router.currentRoute.name
+
+					if (route === 'Files')
+						this.$router.push({name: 'Files', params: {id: this.item.id}})
+					if (route === 'Trash')
+						this.$router.push({name: 'Trash', params: {id: this.item.id}})
+					else
+						this.$router.push({name: 'Files', params: {id: this.item.id}})
                 }
             }
         },

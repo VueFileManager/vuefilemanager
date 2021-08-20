@@ -8,66 +8,66 @@
 		<!--Locations-->
 		<ContentGroup :title="$t('sidebar.locations_title')">
 			<div class="menu-list-wrapper vertical">
-				<a class="menu-list-item link">
+				<router-link :to="{name: 'Files'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<home-icon size="17" />
 					</div>
 					<div class="label text-theme">
 						{{ $t('sidebar.home') }}
 					</div>
-				</a>
-				<a class="menu-list-item link">
+				</router-link>
+				<router-link :to="{name: 'RecentUploads'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<upload-cloud-icon size="17" />
 					</div>
 					<div class="label text-theme">
 						{{ $t('sidebar.latest') }}
 					</div>
-				</a>
-				<a class="menu-list-item link">
+				</router-link>
+				<router-link :to="{name: 'MySharedItems'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<link-icon size="17" />
 					</div>
 					<div class="label text-theme">
 						{{ $t('sidebar.my_shared') }}
 					</div>
-				</a>
-				<a class="menu-list-item link">
+				</router-link>
+				<router-link :to="{name: 'Trash'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<trash2-icon size="17" />
 					</div>
 					<div class="label text-theme">
 						{{ $t('locations.trash') }}
 					</div>
-				</a>
+				</router-link>
 			</div>
 		</ContentGroup>
 
 		<!--Locations-->
 		<ContentGroup :title="$t('Collaboration')" slug="collaboration" :can-collapse="true">
 			<div class="menu-list-wrapper vertical">
-				<a class="menu-list-item link">
+				<router-link class="menu-list-item link">
 					<div class="icon text-theme">
 						<users-icon size="17" />
 					</div>
 					<div class="label text-theme">
 						{{ $t('Team Folders') }}
 					</div>
-				</a>
-				<a class="menu-list-item link">
+				</router-link>
+				<router-link class="menu-list-item link">
 					<div class="icon text-theme">
 						<user-check-icon size="17" />
 					</div>
 					<div class="label text-theme">
 						{{ $t('Shared with Me') }}
 					</div>
-				</a>
+				</router-link>
 			</div>
 		</ContentGroup>
 
 		<!--Navigator-->
 		<ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
-			<span class="empty-note navigator" v-if="tree.length === 0">
+			<span v-if="tree.length === 0" class="empty-note navigator">
 				{{ $t('sidebar.folders_empty') }}
 			</span>
 			<TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
@@ -82,13 +82,13 @@
 						{{ $t('sidebar.favourites_empty') }}
 					</span>
 
-					<a class="menu-list-item" v-for="folder in favourites" :key="folder.id">
+					<router-link :to="{name: 'Files', params: {id: folder.id}}" v-for="folder in favourites" :key="folder.id" class="menu-list-item">
 						<div class="text-theme">
-							<folder-icon size="17" class="folder-icon text-theme"></folder-icon>
+							<folder-icon size="17" class="folder-icon text-theme" />
 							<span class="label text-theme">{{ folder.name }}</span>
 						</div>
-						<x-icon size="17" @click.stop="$removeFavourite(folder)" class="delete-icon"></x-icon>
-					</a>
+						<x-icon @click.stop="$removeFavourite(folder)" size="17" class="delete-icon" />
+					</router-link>
 				</transition-group>
 			</div>
 		</ContentGroup>
@@ -164,8 +164,6 @@ export default {
 
 			// Prevent to move folders to self
 			if (this.clipboard.length > 0 && this.clipboard.find(item => item.type !== 'folder')) return
-
-			// Store favourites folder
 
 			//Add to favourites non selected folder
 			if (!this.clipboard.includes(this.draggedItem)) {

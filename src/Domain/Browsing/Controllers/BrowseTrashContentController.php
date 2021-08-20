@@ -8,9 +8,30 @@ use Illuminate\Support\Facades\Auth;
 
 class BrowseTrashContentController
 {
-    public function __invoke(): Collection
+    public function __invoke(string $id): Collection
     {
         $user_id = Auth::id();
+        $root_id = $id === 'undefined' ? null : $id;
+
+        if ($root_id) {
+
+            // Get folders and files
+            $folders = Folder::onlyTrashed()
+                ->with('parent')
+                ->where('parent_id', $root_id)
+                ->sortable()
+                ->get();
+
+            $files = File::onlyTrashed()
+                ->with('parent')
+                ->where('folder_id', $root_id)
+                ->sortable()
+                ->get();
+
+            // Collect folders and files to single array
+            return collect([$folders, $files])
+                ->collapse();
+        }
 
         // Get folders and files
         $folders_trashed = Folder::onlyTrashed()

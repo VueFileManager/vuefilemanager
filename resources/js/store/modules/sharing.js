@@ -24,12 +24,6 @@ const actions = {
     browseShared: ({commit, getters}, [payload]) => {
         commit('LOADING_STATE', {loading: true, data: []})
 
-        if (payload.init)
-            commit('FLUSH_FOLDER_HISTORY')
-
-        if (! payload.back && !payload.sorting)
-            commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-
         payload.folder.location = 'public'
 
         return new Promise((resolve, reject) => {
@@ -37,11 +31,7 @@ const actions = {
                 .get(`/api/browse/folders/${payload.folder.id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
                     commit('LOADING_STATE', {loading: false, data: response.data})
-                    commit('STORE_CURRENT_FOLDER', payload.folder)
                     events.$emit('scrollTop')
-
-                    if (payload.back && !payload.sorting)
-                        commit('REMOVE_BROWSER_HISTORY')
 
                     resolve(response)
                 })

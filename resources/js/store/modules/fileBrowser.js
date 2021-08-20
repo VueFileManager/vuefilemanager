@@ -43,15 +43,8 @@ const actions = {
                 }
             })
     },
-    getLatest: ({commit, getters}) => {
+    getRecentUploads: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
-
-        commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-        commit('STORE_CURRENT_FOLDER', {
-            name: i18n.t('sidebar.latest'),
-            id: undefined,
-            location: 'latest',
-        })
 
         axios
             .get(getters.api + '/browse/latest')
@@ -61,45 +54,25 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    getShared: ({commit, getters}) => {
+    getMySharedItems: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
-        commit('FLUSH_FOLDER_HISTORY')
-
-        let currentFolder = {
-            name: i18n.t('sidebar.my_shared'),
-            location: 'shared',
-            id: undefined,
-        }
-
-        commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
             .get(getters.api + '/browse/share' + getters.sorting.URI)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
-                commit('STORE_PREVIOUS_FOLDER', currentFolder)
 
                 events.$emit('scrollTop')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    getTrash: ({commit, getters}) => {
+    getTrash: ({commit, getters}, id) => {
         commit('LOADING_STATE', {loading: true, data: []})
-        commit('FLUSH_FOLDER_HISTORY')
-
-        let trash = {
-            name: i18n.t('locations.trash'),
-            id: undefined,
-            location: 'trash-root',
-        }
-
-        commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/browse/trash' + getters.sorting.URI)
+            .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}`)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
-                commit('STORE_PREVIOUS_FOLDER', trash)
 
                 events.$emit('scrollTop')
             })
@@ -142,19 +115,10 @@ const mutations = {
     UPDATE_FOLDER_TREE(state, tree) {
         state.navigation = tree
     },
-    FLUSH_FOLDER_HISTORY(state) {
-        state.browseHistory = []
-    },
     FLUSH_SHARED(state, id) {
         state.entries.find(item => {
             if (item.id === id) item.shared = undefined
         })
-    },
-    STORE_PREVIOUS_FOLDER(state, folder) {
-        state.browseHistory.push(folder)
-    },
-    REMOVE_BROWSER_HISTORY(state) {
-        state.browseHistory.pop()
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
 
@@ -190,9 +154,6 @@ const mutations = {
         state.entries.map(el => {
             if (el.id && el.id === id) el.items++
         })
-    },
-    STORE_CURRENT_FOLDER(state, folder) {
-        state.currentFolder = folder
     },
     REMOVE_ITEM_FROM_CLIPBOARD(state, item) {
         state.clipboard = state.clipboard.filter(element => element.id !== item.id)

@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/navigation', NavigationFolderTreeController::class);
         Route::get('/search', SearchFilesAndFoldersController::class);
         Route::get('/latest', BrowseLatestFilesController::class);
-        Route::get('/trash', BrowseTrashContentController::class);
+        Route::get('/trash/{id}', BrowseTrashContentController::class);
         Route::get('/share', BrowseSharedItemsController::class);
     });
 

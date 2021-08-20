@@ -19,7 +19,9 @@
             <MobileToolbar />
 
 			<!--Mobile Actions-->
-            <FileActionsMobile />
+            <FileActionsMobile>
+				<slot name="file-actions-mobile"></slot>
+			</FileActionsMobile>
 
 			<!--Item previews list-->
             <div v-if="isList" class="file-list-wrapper">
