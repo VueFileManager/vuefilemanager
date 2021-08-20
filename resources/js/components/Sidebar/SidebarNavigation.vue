@@ -74,8 +74,8 @@
         },
         computed: {
             ...mapGetters([
+				'isDarkMode',
 				'user',
-				'isDarkMode'
 			]),
             isUserProfileRoute() {
                 return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription', 'PaymentMethods'])

@@ -1,9 +1,8 @@
 <template>
     <div id="application-wrapper">
 
-        <!--File preview window-->
+        <!--On Top of App Components-->
         <FilePreview />
-
 		<Spotlight />
 
         <!--Popups-->
@@ -38,7 +37,7 @@
 
 		<!--Sidebar-->
 		<ContentSidebar>
-			<NavigationPanel v-if="user" />
+			<NavigationPanel />
 		</ContentSidebar>
 
 		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view">
@@ -97,14 +96,6 @@
             FilePreview,
 			Spotlight,
             DragUI,
-        },
-        computed: {
-            ...mapGetters([
-				'currentFolder',
-				'clipboard',
-				'config',
-				'user',
-            ]),
         },
         data() {
             return {

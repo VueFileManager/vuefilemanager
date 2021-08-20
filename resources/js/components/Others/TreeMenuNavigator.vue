@@ -1,17 +1,17 @@
 <template>
     <transition name="folder">
         <div class="folder-item-wrapper">
-
             <div
+				@click="goToFolder"
 				class="folder-item text-theme dark-text-theme"
-				:class="{'is-selected': isSelected , 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
-				:style="indent" @click="getFolder"
+				:class="{'is-selected': isSelected, 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
+				:style="indent"
 				@dragover.prevent="dragEnter"
 				@dragleave="dragLeave"
 				@drop="dragFinish()"
 			>
                 <chevron-right-icon
-					@click.stop="showTree"
+					@click.stop.prevent="showTree"
 					size="17"
 					class="icon-arrow"
 					:class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"
@@ -19,7 +19,6 @@
                 <folder-icon size="17" class="icon text-theme dark-text-theme" />
                 <span class="label">{{ nodes.name }}</span>
             </div>
-
             <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
         </div>
     </transition>
@@ -34,7 +33,9 @@
 	export default {
 		name: 'TreeMenuNavigator',
 		props: [
-			'nodes', 'depth', 'disabled',
+			'disabled',
+			'nodes',
+			'depth',
 		],
 		components: {
 			TreeMenuNavigator,
@@ -42,8 +43,9 @@
 			FolderIcon,
 		},
 		computed: {
-			...mapGetters(['clipboard']),
-
+			...mapGetters([
+				'clipboard'
+			]),
 			disabledFolder() {
 				let disableFolder = false
 				if (this.draggedItem.length > 0) {
@@ -72,21 +74,24 @@
 
 				let offset = window.innerWidth <= 1024 ? 17 : 22;
 
-				let value = this.depth == 0 ? offset : offset + (this.depth * 20);
+				let value = this.depth === 0 ? offset : offset + (this.depth * 20);
 
 				return {paddingLeft: value + 'px'}
 			},
 		},
 		data() {
 			return {
-				isVisible: false,
-				isSelected: false,
-				area: false,
-				draggedItem: [],
 				disableChildren: false,
+				isSelected: false,
+				isVisible: false,
+				draggedItem: [],
+				area: false,
 			}
 		},
 		methods: {
+			goToFolder() {
+				this.$router.push({name: 'Files', params: {id: this.nodes.id}})
+			},
 			dragFinish() {
 				// Move no selected item
 				if (!this.clipboard.includes(this.draggedItem[0])) {
@@ -109,16 +114,6 @@
 			dragLeave() {
 				this.area = false
 			},
-			getFolder() {
-				events.$emit('show-folder', this.nodes)
-
-				// Go to folder
-				if (this.$isThisLocation('public')) {
-					this.$store.dispatch('browseShared', [{folder: this.nodes, back: false, init: false}])
-				} else {
-					this.$store.dispatch('getFolder', [{folder: this.nodes, back: false, init: false}])
-				}
-			},
 			showTree() {
 				this.isVisible = !this.isVisible
 			}
@@ -139,14 +134,6 @@
 				if (this.clipboard.includes(data)) {
 					this.draggedItem = this.clipboard
 				}
-			})
-
-			// Select clicked folder
-			events.$on('show-folder', node => {
-				this.isSelected = false
-
-				if (this.nodes.id == node.id)
-					this.isSelected = true
 			})
 		}
 	}

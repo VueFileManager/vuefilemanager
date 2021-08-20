@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="user">
 		<!--Empty storage warning-->
 		<ContentGroup v-if="config.storageLimit && storage.used > 95">
 			<UpgradeSidebarBanner/>
