@@ -29,14 +29,9 @@ export default {
         MenuMobile,
         Option,
     },
-    computed: {
-        ...mapGetters([
-            'homeDirectory'
-        ]),
-    },
     methods: {
         goToFiles() {
-            this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
+            this.$store.dispatch('getFolder')
         },
         goToLatest() {
             this.$store.dispatch('getLatest')

@@ -121,8 +121,6 @@
 				'isVisibleSidebar',
 				'FilePreviewType',
 				'currentFolder',
-				'browseHistory',
-				'homeDirectory',
 				'clipboard',
 			]),
 			isLoadedFolder() {

@@ -45,11 +45,23 @@
 			<template v-slot:file-actions-mobile>
 				<!-- todo: Implement mobile buttons-->
 			</template>
+
+			<template v-slot:empty-file-page>
+				<h1 class="title">{{ $t('empty_page.title') }}</h1>
+                <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
+                <ButtonUpload
+					v-if="$checkPermission(['master', 'editor'])"
+					button-style="theme"
+				>
+                    {{ $t('empty_page.call_to_action') }}
+                </ButtonUpload>
+			</template>
 		</FileBrowser>
 	</div>
 </template>
 
 <script>
+    import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -60,6 +72,7 @@
 	export default {
 		name: 'Files',
 		components: {
+			ButtonUpload,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,

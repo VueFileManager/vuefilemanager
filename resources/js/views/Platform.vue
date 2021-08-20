@@ -100,8 +100,6 @@
         },
         computed: {
             ...mapGetters([
-                'config',
-				'homeDirectory',
 				'currentFolder',
 				'clipboard',
 				'config',

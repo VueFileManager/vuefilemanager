@@ -64,25 +64,14 @@
                 return this.navigation ? this.navigation[0].folders : undefined
             },
         },
-        data() {
-            return {
-                homeDirectory: undefined,
-            }
-        },
         methods: {
             goHome() {
-                this.$store.dispatch('browseShared', [{folder: this.homeDirectory, back: false, init: true}])
+                this.$store.dispatch('browseShared')
             },
             contextMenu(event, item) {
                 events.$emit('contextMenu:show', event, item)
             },
             initFileBrowser() {
-                this.homeDirectory = {
-                    id: this.sharedDetail.item_id,
-                    name: this.$t('locations.home'),
-                    location: 'public',
-                }
-
                 // Get folder tree
                 this.$store.dispatch('getFolderTree')
 

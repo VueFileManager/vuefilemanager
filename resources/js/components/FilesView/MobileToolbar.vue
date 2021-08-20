@@ -3,7 +3,7 @@
 
         <!-- Go back-->
 		<div @click="goBack" class="go-back-button">
-            <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': browseHistory.length > 1}" />
+            <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': isLoadedFolder }" />
 
 			<!--Folder Title-->
 			<div class="directory-name">
@@ -26,7 +26,6 @@
     import { MenuIcon, ChevronLeftIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
     import {events} from '/resources/js/bus'
-    import {last} from 'lodash'
 
     export default {
         name: 'MobileToolBar',
@@ -41,39 +40,34 @@
                 'isVisibleSidebar',
                 'FilePreviewType',
                 'currentFolder',
-                'browseHistory',
-                'homeDirectory',
             ]),
-            directoryName() {
-                return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name
-            }
+			directoryName() {
+				if (this.currentFolder) {
+					return this.currentFolder.name
+				} else {
+					return {
+						'RecentUploads': this.$t('Recent'),
+						'MySharedItems': this.$t('Shared'),
+						'Trash': this.$t('Trash'),
+						'Public': this.$t('Files'),
+						'Files': this.$t('Files'),
+					}[this.$route.name]
+				}
+			},
+			isLoadedFolder() {
+				return this.$route.params.id
+			},
         },
         methods: {
             showMobileNavigation() {
                 events.$emit('mobile-menu:show', 'user-navigation')
                 events.$emit('mobileSelecting:stop')
             },
-            goBack() {
-                let previousFolder = last(this.browseHistory)
-
-                if (previousFolder.location === 'trash-root') {
-                    this.$store.dispatch('getTrash')
-
-                } else if (previousFolder.location === 'shared') {
-                    this.$store.dispatch('getShared')
-
-                } else {
-
-                    if ( this.$isThisLocation('public') ) {
-                        this.$store.dispatch('browseShared', [{folder: previousFolder, back: true, init: false}])
-                    } else {
-                        this.$store.dispatch('getFolder', [{folder: previousFolder, back: true, init: false}])
-                    }
-                }
-            },
+			goBack() {
+				if (this.isLoadedFolder) this.$router.back()
+			},
         },
         created() {
-            // Listen for hide sidebar
             events.$on('show:content', () => {
                 if (this.isSidebarMenu) this.isSidebarMenu = false
             })

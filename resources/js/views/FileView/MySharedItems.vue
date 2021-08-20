@@ -37,6 +37,10 @@
 			<template v-slot:file-actions-mobile>
 				<!-- todo: Implement mobile buttons-->
 			</template>
+
+			<template v-slot:empty-file-page>
+				<h1 class="title">{{ $t('shared.empty_shared') }}</h1>
+			</template>
 		</FileBrowser>
 	</div>
 </template>

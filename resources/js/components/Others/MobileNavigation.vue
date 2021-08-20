@@ -72,7 +72,6 @@
         },
         computed: {
             ...mapGetters([
-                'homeDirectory',
                 'config',
                 'user',
             ]),
@@ -105,7 +104,7 @@
                 if (this.$route.name !== 'Files')
                     this.$router.push({name: 'Files'})
 
-                this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
+                this.$store.dispatch('getFolder')
             },
             logOut() {
                 this.$store.dispatch('logOut')

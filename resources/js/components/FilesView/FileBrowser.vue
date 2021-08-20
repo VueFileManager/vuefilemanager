@@ -20,8 +20,13 @@
 
 			<!--Mobile Actions-->
             <FileActionsMobile>
-				<slot name="file-actions-mobile"></slot>
+				<slot name="file-actions-mobile" />
 			</FileActionsMobile>
+
+			<!--Show empty page if no content-->
+            <EmptyFilePage>
+				<slot name="empty-file-page" />
+			</EmptyFilePage>
 
 			<!--Item previews list-->
             <div v-if="isList" class="file-list-wrapper">
@@ -64,9 +69,6 @@
 					/>
                 </transition-group>
             </div>
-
-			<!--Show empty page if folder is empty-->
-            <EmptyFilePage />
         </div>
 
 		<!--File Info Panel-->

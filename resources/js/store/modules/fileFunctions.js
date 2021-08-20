@@ -333,9 +333,9 @@ const actions = {
                         if (data.id === getters.currentFolder.id) {
 
                             if (getters.currentFolder.location === 'public') {
-                                dispatch('browseShared', [{folder: last(getters.browseHistory), back: true, init: false}])
+                                dispatch('browseShared')
                             } else {
-                                dispatch('getFolder', [{folder: last(getters.browseHistory), back: true, init: false}])
+                                dispatch('getFolder')
                             }
                         }
                     }

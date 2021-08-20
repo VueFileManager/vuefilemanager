@@ -36,6 +36,10 @@
 			<template v-slot:file-actions-mobile>
 				<!-- todo: Implement mobile buttons-->
 			</template>
+
+			<template v-slot:empty-file-page>
+				<h1 class="title">{{ $t('empty_page.title') }}</h1>
+			</template>
 		</FileBrowser>
 	</div>
 </template>

@@ -9,7 +9,6 @@ const defaultState = {
     fastPreview: undefined,
     navigation: undefined,
     isLoading: true,
-    browseHistory: [],
     clipboard: [],
     entries: [],
 }
@@ -189,7 +188,6 @@ const mutations = {
 
 const getters = {
     currentFolder: state => state.currentFolder,
-    browseHistory: state => state.browseHistory,
     fastPreview: state => state.fastPreview,
     navigation: state => state.navigation,
     clipboard: state => state.clipboard,

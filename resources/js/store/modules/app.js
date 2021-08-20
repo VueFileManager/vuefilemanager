@@ -7,7 +7,6 @@ const defaultState = {
     FilePreviewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
     index: undefined,
-    homeDirectory: undefined,
     requestedPlan: undefined,
     emojis: undefined,
     sorting: {
@@ -1029,7 +1028,6 @@ const mutations = {
     },
     INIT(state, data) {
         state.config = data.config
-        state.homeDirectory = data.rootDirectory
     },
     SET_SAAS(state, data) {
         state.config.isSaaS = data
@@ -1064,7 +1062,6 @@ const getters = {
     teamPermissions: state => state.teamPermissions,
     FilePreviewType: state => state.FilePreviewType,
     expirationList: state => state.expirationList,
-    homeDirectory: state => state.homeDirectory,
     requestedPlan: state => state.requestedPlan,
     currencyList: state => state.currencyList,
     countries: state => state.countries,

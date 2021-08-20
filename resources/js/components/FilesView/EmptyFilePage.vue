@@ -1,31 +1,10 @@
 <template>
     <div class="empty-page" v-if="isLoading || isEmpty">
         <div class="empty-state">
-
-            <!--Shared empty message-->
-            <div class="text-content" v-if="$isThisLocation(['shared']) && ! isLoading">
-                <h1 class="title">{{ $t('shared.empty_shared') }}</h1>
+			<div v-if="!isLoading" class="text-content">
+				<slot></slot>
             </div>
-
-			<!--Trash empty message-->
-            <div class="text-content" v-if="$isThisLocation(['trash', 'trash-root']) && ! isLoading">
-                <h1 class="title">{{ $t('empty_page.title') }}</h1>
-            </div>
-
-			<!--Base file browser empty message-->
-            <div class="text-content" v-if="$isThisLocation(['base', 'public', 'latest']) && !isLoading">
-                <h1 class="title">{{ $t('empty_page.title') }}</h1>
-                <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
-                <ButtonUpload
-					v-if="$checkPermission(['master', 'editor'])"
-					button-style="theme"
-				>
-                    {{ $t('empty_page.call_to_action') }}
-                </ButtonUpload>
-            </div>
-
-			<!--Spinner-->
-            <div class="text-content" v-if="isLoading">
+            <div v-else class="text-content">
                 <Spinner />
             </div>
         </div>
@@ -33,23 +12,16 @@
 </template>
 
 <script>
-    import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import Spinner from '/resources/js/components/FilesView/Spinner'
 	import {mapGetters} from 'vuex'
 
 	export default {
 		name: 'EmptyFilePage',
-		props: [
-			'title',
-			'description'
-		],
 		components: {
-			ButtonUpload,
 			Spinner,
 		},
 		computed: {
 			...mapGetters([
-				'currentFolder',
 				'isLoading',
 				'entries',
 			]),
