@@ -1,56 +1,11 @@
 import i18n from '/resources/js/i18n/index'
-import store from './store/index'
+import store from '../store/index'
 import {debounce, isArray} from "lodash";
-import {events} from './bus'
+import {events} from '../bus'
 import axios from 'axios'
 
-const Helpers = {
+const FunctionHelpers = {
     install(Vue) {
-
-        Vue.prototype.$renameFileOrFolder = function (entry) {
-            events.$emit('popup:open', {name: 'rename-item', item: entry})
-        }
-
-        Vue.prototype.$moveFileOrFolder = function (entry) {
-            events.$emit('popup:open', {name: 'move', item: [entry]})
-        }
-
-        Vue.prototype.$createTeamFolder = function (entry) {
-            events.$emit('popup:open', {name: 'create-team-folder'})
-        }
-
-        Vue.prototype.$updateTeamFolder = function (entry) {
-            events.$emit('popup:open', {name: 'create-team-folder', item: [entry]})
-        }
-
-        Vue.prototype.$deleteFileOrFolder = function (entry) {
-            if (!this.$store.getters.clipboard.includes(entry)) {
-                this.$store.dispatch('deleteItem', entry)
-            }
-
-            if (this.$store.getters.clipboard.includes(entry)) {
-                this.$store.dispatch('deleteItem')
-            }
-        }
-
-        Vue.prototype.$restoreFileOrFolder = function (entry) {
-            if (!this.$store.getters.clipboard.includes(entry))
-                this.$store.dispatch('restoreItem', entry)
-
-            if (this.$store.getters.clipboard.includes(entry))
-                this.$store.dispatch('restoreItem', null)
-        }
-
-        Vue.prototype.$shareFileOrFolder = function (entry) {
-            let event = entry.shared
-                ? 'share-edit'
-                : 'share-create'
-
-            events.$emit('popup:open', {
-                name: event,
-                item: entry
-            })
-        }
 
         Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
 
@@ -252,10 +207,6 @@ const Helpers = {
             anchor.click()
         }
 
-        Vue.prototype.$closePopup = function () {
-            events.$emit('popup:close')
-        }
-
         Vue.prototype.$isThisRoute = function (route, locations) {
 
             return locations.includes(route.name)
@@ -353,28 +304,6 @@ const Helpers = {
             return validate
         }
 
-        Vue.prototype.$getDataByLocation = function () {
-
-            let folder = store.getters.currentFolder
-
-            let actions = {
-                'base': ['getFolder', [{folder: folder, back: true, init: false, sorting: true}]],
-                'public': ['browseShared', [{folder: folder, back: true, init: false, sorting: true}]],
-                'trash': ['getFolder', [{folder: folder, back: true, init: false, sorting: true}]],
-                'trash-root': ['getTrash'],
-                'latest': ['getLatest'],
-                'shared': ['getShared']
-            }
-
-            this.$store.dispatch(...actions[folder.location])
-
-            // Get dara of user with favourites tree
-            this.$store.dispatch('getAppData')
-
-            // Get data of Navigator tree
-            this.$store.dispatch('getFolderTree')
-        }
-
         // Detect windows
         Vue.prototype.$checkOS = function () {
             if (navigator.userAgent.indexOf('Windows') != -1) {
@@ -398,7 +327,11 @@ const Helpers = {
                 return navigator.userAgent.match(toMatchItem)
             })
         }
+
+        Vue.prototype.$closePopup = function () {
+            events.$emit('popup:close')
+        }
     }
 }
 
-export default Helpers
+export default FunctionHelpers

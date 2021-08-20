@@ -223,7 +223,8 @@ export default {
                     if (this.$isThisLocation('public')) {
                         this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                     } else {
-                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
+                        //this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
+						this.$router.push({name: 'Files', params: {id: this.item.id}})
                     }
                 } else {
 
@@ -260,7 +261,8 @@ export default {
                 if (this.$isThisLocation('public')) {
                     this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
                 } else {
-                    this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
+                    //this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
+					this.$router.push({name: 'Files', params: {id: this.item.id}})
                 }
             }
         },

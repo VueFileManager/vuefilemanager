@@ -17,9 +17,9 @@
 			<ToolbarWrapper>
 
 				<!--Search bar-->
-<!--				<ToolbarGroup style="margin-left: 0">
+				<ToolbarGroup v-if="false" style="margin-left: 0">
 					<SearchBar />
-				</ToolbarGroup>-->
+				</ToolbarGroup>
 
 				<!--Creating controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">

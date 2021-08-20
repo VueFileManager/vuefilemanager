@@ -6,7 +6,8 @@ import router from "./router";
 import App from "./App.vue";
 import store from "./store";
 import {events} from "./bus";
-import Helpers from "./helpers";
+import functionHelpers from "./helpers/functionHelpers";
+import itemHelpers from "./helpers/itemHelpers"
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -85,7 +86,8 @@ library.add(
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 Vue.use(VueRouter);
-Vue.use(Helpers);
+Vue.use(functionHelpers);
+Vue.use(itemHelpers);
 
 Vue.config.productionTip = false;
 

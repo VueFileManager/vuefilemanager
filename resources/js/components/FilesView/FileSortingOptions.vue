@@ -72,8 +72,11 @@ export default {
             // Update sorting state in vuex
             this.$store.commit('UPDATE_SORTING')
 
-            // Get data using the application location
-            this.$getDataByLocation()
+			// Get dara of user with favourites tree
+			this.$store.dispatch('getAppData')
+
+			// Get data of Navigator tree
+			this.$store.dispatch('getFolderTree')
         },
         changePreview(previewType) {
             this.$store.dispatch('changePreviewType', previewType)

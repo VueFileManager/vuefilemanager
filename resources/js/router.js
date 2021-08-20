@@ -398,9 +398,9 @@ const routesUser = [
         children: [
             {
                 name: 'Files',
-                path: '/platform/files',
+                path: '/platform/files/:id?',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/files" */ './views/FilePages/Files'),
+                    import(/* webpackChunkName: "chunks/files" */ './views/FileView/Home/Files'),
                 meta: {
                     requiresAuth: true
                 },

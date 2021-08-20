@@ -7,9 +7,7 @@ import i18n from '/resources/js/i18n/index'
 const defaultState = {
     currentFolder: undefined,
     navigation: undefined,
-
     isLoading: true,
-
     browseHistory: [],
     fastPreview: undefined,
     clipboard: [],
@@ -17,24 +15,11 @@ const defaultState = {
 }
 
 const actions = {
-    getFolder: ({commit, getters}, [payload]) => {
+    getFolder: ({commit, getters}, id) => {
         commit('LOADING_STATE', {loading: true, data: []})
 
-        if (payload.init)
-            commit('FLUSH_FOLDER_HISTORY')
-
-        // Set folder location
-        payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
-
-        if (!payload.back && !payload.sorting)
-            commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-
-        let url = payload.folder.location === 'trash'
-            ? '/browse/folders/' + payload.folder.id + getters.sorting.URI + '&trash=true'
-            : '/browse/folders/' + payload.folder.id + getters.sorting.URI
-
         axios
-            .get(getters.api + url)
+            .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}`)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
                 commit('STORE_CURRENT_FOLDER', payload.folder)
