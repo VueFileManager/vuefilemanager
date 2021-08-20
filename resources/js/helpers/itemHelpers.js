@@ -28,6 +28,17 @@ const itemHelpers = {
 			})
 		}
 
+		Vue.prototype.$dissolveTeamFolder = function () {
+			events.$emit('confirm:open', {
+				title: this.$t('Are you sure you want to dissolve this team?'),
+				message: this.$t('All team members will lose access to your files and existing folder will be moved into your "Files" section.'),
+				action: {
+					id: 'token.id',
+					operation: 'dissolve-team-folder'
+				}
+			})
+		},
+
 		Vue.prototype.$createTeamFolder = function (entry) {
 			events.$emit('popup:open', {name: 'create-team-folder'})
 		}

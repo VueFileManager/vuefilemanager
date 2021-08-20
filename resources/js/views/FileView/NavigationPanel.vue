@@ -46,7 +46,7 @@
 		<!--Locations-->
 		<ContentGroup :title="$t('Collaboration')" slug="collaboration" :can-collapse="true">
 			<div class="menu-list-wrapper vertical">
-				<router-link class="menu-list-item link">
+<!--				<router-link class="menu-list-item link">
 					<div class="icon text-theme">
 						<users-icon size="17" />
 					</div>
@@ -61,7 +61,7 @@
 					<div class="label text-theme">
 						{{ $t('Shared with Me') }}
 					</div>
-				</router-link>
+				</router-link>-->
 			</div>
 		</ContentGroup>
 

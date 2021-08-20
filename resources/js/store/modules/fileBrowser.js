@@ -6,10 +6,10 @@ import i18n from '/resources/js/i18n/index'
 
 const defaultState = {
     currentFolder: undefined,
+    fastPreview: undefined,
     navigation: undefined,
     isLoading: true,
     browseHistory: [],
-    fastPreview: undefined,
     clipboard: [],
     entries: [],
 }
@@ -180,11 +180,11 @@ const mutations = {
 }
 
 const getters = {
-    fastPreview: state => state.fastPreview,
-    clipboard: state => state.clipboard,
     currentFolder: state => state.currentFolder,
     browseHistory: state => state.browseHistory,
+    fastPreview: state => state.fastPreview,
     navigation: state => state.navigation,
+    clipboard: state => state.clipboard,
     isLoading: state => state.isLoading,
     entries: state => state.entries,
 }
