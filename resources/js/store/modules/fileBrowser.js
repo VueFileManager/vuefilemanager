@@ -22,10 +22,6 @@ const actions = {
             .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}`)
             .then(response => {
                 commit('LOADING_STATE', {loading: false, data: response.data})
-                commit('STORE_CURRENT_FOLDER', payload.folder)
-
-                if (payload.back && !payload.sorting)
-                    commit('REMOVE_BROWSER_HISTORY')
 
                 events.$emit('scrollTop')
             })

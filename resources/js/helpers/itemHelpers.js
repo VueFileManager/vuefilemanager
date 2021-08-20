@@ -6,12 +6,26 @@ import store from "../store";
 
 const itemHelpers = {
 	install(Vue) {
+		Vue.prototype.$emptyTrash = function () {
+			this.$store.dispatch('emptyTrash')
+		}
+
+		Vue.prototype.$shareCancel = function () {
+			this.$store.dispatch('shareCancel')
+		}
+
 		Vue.prototype.$renameFileOrFolder = function (entry) {
 			events.$emit('popup:open', {name: 'rename-item', item: entry})
 		}
 
 		Vue.prototype.$moveFileOrFolder = function (entry) {
 			events.$emit('popup:open', {name: 'move', item: [entry]})
+		}
+
+		Vue.prototype.$createFolder = function () {
+			this.$store.dispatch('createFolder', {
+				name: this.$t('popup_create_folder.folder_default_name')
+			})
 		}
 
 		Vue.prototype.$createTeamFolder = function (entry) {

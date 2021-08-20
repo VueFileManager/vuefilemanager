@@ -331,6 +331,14 @@ const FunctionHelpers = {
         Vue.prototype.$closePopup = function () {
             events.$emit('popup:close')
         }
+
+        Vue.prototype.$openInDetailPanel = function (entry) {
+            // Dispatch load file info detail
+            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', entry)
+
+            // Show panel if is not open
+            this.$store.dispatch('fileInfoToggle', true)
+        }
     }
 }
 
