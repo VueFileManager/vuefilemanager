@@ -27,6 +27,18 @@
 			</template>
 		</ContextMenu>
 
+		<MobileContextMenu>
+			<OptionGroup>
+				<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+				<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+				<Option @click.native="$shareFileOrFolder(item)" :title="item && item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+			</OptionGroup>
+			<OptionGroup>
+				<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+			</OptionGroup>
+		</MobileContextMenu>
+
 		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
@@ -53,6 +65,7 @@
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -65,6 +78,7 @@
 		components: {
 			MobileActionButtonUpload,
 			MobileActionButton,
+			MobileContextMenu,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,
@@ -102,7 +116,8 @@
 		created() {
 			this.$store.dispatch('getRecentUploads')
 
-			events.$on('contextMenu:show', (event, item) => this.item = item)
+			events.$on('context-menu:show', (event, item) => this.item = item)
+			events.$on('mobile-context-menu:show', item => this.item = item)
 		}
 	}
 </script>

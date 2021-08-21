@@ -99,7 +99,7 @@ export default {
 		}
 	},
 	created() {
-		events.$on('contextMenu:show', (event, item) => {
+		events.$on('context-menu:show', (event, item) => {
 			// Store item
 			this.item = item
 

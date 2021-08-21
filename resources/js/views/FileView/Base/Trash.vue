@@ -31,6 +31,17 @@
 			</template>
 		</ContextMenu>
 
+		<MobileContextMenu>
+			<OptionGroup v-if="item">
+				<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+            </OptionGroup>
+
+            <OptionGroup>
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+            </OptionGroup>
+		</MobileContextMenu>
+
 		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
@@ -61,6 +72,7 @@
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -73,6 +85,7 @@
 		components: {
 			MobileActionButtonUpload,
 			MobileActionButton,
+			MobileContextMenu,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,
@@ -109,7 +122,8 @@
 		created() {
 			this.$store.dispatch('getTrash', this.$route.params.id)
 
-			events.$on('contextMenu:show', (event, item) => this.item = item)
+			events.$on('context-menu:show', (event, item) => this.item = item)
+			events.$on('mobile-context-menu:show', item => this.item = item)
 		}
 	}
 </script>

@@ -69,7 +69,7 @@
                 this.$store.dispatch('browseShared')
             },
             contextMenu(event, item) {
-                events.$emit('contextMenu:show', event, item)
+                events.$emit('context-menu:show', event, item)
             },
             initFileBrowser() {
                 // Get folder tree

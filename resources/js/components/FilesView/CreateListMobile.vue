@@ -21,7 +21,7 @@ import Option from '/resources/js/components/FilesView/Option'
 import {events} from '/resources/js/bus'
 
 export default {
-    name: 'FileMenuMobile',
+    name: 'MobileContextMenu',
     components: {
         MenuMobileGroup,
 		OptionUpload,

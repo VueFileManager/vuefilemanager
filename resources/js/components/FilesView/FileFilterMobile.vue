@@ -23,7 +23,7 @@ import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
 
 export default {
-    name: 'FileMenuMobile',
+    name: 'MobileContextMenu',
     components: {
         MenuMobileGroup,
         OptionGroup,

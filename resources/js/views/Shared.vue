@@ -17,7 +17,7 @@
 
         <!-- Mobile components -->
         <FileSortingMobile />
-        <FileMenuMobile />
+        <MobileContextMenu />
 
         <MultiSelectToolbarMobile />
 
@@ -35,7 +35,7 @@
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
     import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
-    import FileMenuMobile from '/resources/js/components/FilesView/FileMenuMobile'
+    import MobileContextMenu from '/resources/js/components/FilesView/MobileContextMenu'
     import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
     import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
@@ -54,7 +54,7 @@
             FileSortingMobile,
             ProcessingPopup,
             RenameItemPopup,
-            FileMenuMobile,
+            MobileContextMenu,
             MoveItemPopup,
             FilePreview,
             Vignette,

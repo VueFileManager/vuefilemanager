@@ -158,6 +158,7 @@ export default {
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
             events.$emit('mobile-menu:show', 'file-menu')
+			events.$emit('mobile-context-menu:show', this.item)
         },
         dragEnter() {
             if (this.item.type !== 'folder') return

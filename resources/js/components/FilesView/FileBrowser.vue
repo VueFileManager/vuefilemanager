@@ -206,7 +206,7 @@
 				this.isDragging = false
 			},
 			contextMenu(event, item) {
-				events.$emit('contextMenu:show', event, item)
+				events.$emit('context-menu:show', event, item)
 			},
 			filesContainerClick() {
 

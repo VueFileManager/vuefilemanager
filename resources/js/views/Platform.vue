@@ -22,7 +22,6 @@
         <!--Mobile components-->
         <FileSortingMobile />
         <FileFilterMobile />
-        <FileMenuMobile />
 
 		<CreateListMobile />
 
@@ -38,7 +37,7 @@
 		<!--Sidebar-->
 		<NavigationPanel />
 
-		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view" :class="{'is-scaled-down': isScaledDown}">
+		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view">
 			<DesktopToolbar/>
 			<router-view :key="$route.fullPath" />
 		</div>
@@ -56,7 +55,6 @@
     import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
     import ShareCreatePopup from '/resources/js/components/Others/ShareCreatePopup'
 	import DesktopToolbar from '/resources/js/components/FilesView/DesktopToolbar'
-    import FileMenuMobile from '/resources/js/components/FilesView/FileMenuMobile'
 	import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup"
     import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
     import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
@@ -85,7 +83,6 @@
             RenameItemPopup,
             ShareEditPopup,
 			DesktopToolbar,
-            FileMenuMobile,
             MoveItemPopup,
             ConfirmPopup,
             FilePreview,
@@ -104,7 +101,7 @@
 				}
 			},
 			contextMenu(event, item) {
-				events.$emit('contextMenu:show', event, item)
+				events.$emit('context-menu:show', event, item)
 			},
 		},
         mounted() {

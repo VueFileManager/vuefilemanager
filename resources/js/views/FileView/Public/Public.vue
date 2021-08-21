@@ -40,6 +40,24 @@
 			</template>
 		</ContextMenu>
 
+		<MobileContextMenu>
+			<template v-slot:editor v-if="$checkPermission('editor')">
+				<OptionGroup>
+					<Option v-if="item" @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+					<Option v-if="item" @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+				</OptionGroup>
+				<OptionGroup>
+					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+				</OptionGroup>
+			</template>
+			<template v-slot:visitor v-if="$checkPermission('visitor')">
+				<OptionGroup>
+					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+				</OptionGroup>
+			</template>
+		</MobileContextMenu>
+
 		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-if="$checkPermission('editor')" v-slot:file-actions-mobile>
@@ -88,7 +106,8 @@
 </template>
 
 <script>
-    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
+	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
+	import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
     import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
@@ -103,6 +122,7 @@
 		components: {
 			MobileActionButtonUpload,
 			MobileActionButton,
+			MobileContextMenu,
 			ButtonUpload,
 			OptionGroup,
 			FileBrowser,
@@ -172,7 +192,8 @@
 		created() {
 			this.$store.dispatch('getFolder', this.$route.params.id)
 
-			events.$on('contextMenu:show', (event, item) => this.item = item)
+			events.$on('context-menu:show', (event, item) => this.item = item)
+			events.$on('mobile-context-menu:show', item => this.item = item)
 		}
 	}
 </script>

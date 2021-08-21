@@ -40,6 +40,26 @@
 			</template>
 		</ContextMenu>
 
+		<MobileContextMenu>
+			<OptionGroup v-if="item && isFolder">
+				<Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
+            </OptionGroup>
+
+			<OptionGroup v-if="item">
+				<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+				<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+			</OptionGroup>
+			<OptionGroup v-if="item">
+				<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+				<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="users" />
+			</OptionGroup>
+
+            <OptionGroup v-if="item">
+                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+            </OptionGroup>
+		</MobileContextMenu>
+
 		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
@@ -49,7 +69,7 @@
 				<MobileActionButton @click.native="$showLocations" icon="filter">
 					{{ filterLocationTitle }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="$createItems" icon="cloud-plus">
+				<MobileActionButton @click.native="$createItems" v-if="$checkPermission(['master', 'editor'])" icon="cloud-plus">
 					{{ $t('mobile.create') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
@@ -78,6 +98,7 @@
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
     import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
@@ -89,8 +110,10 @@
 	export default {
 		name: 'Files',
 		components: {
+			MobileContextMenu,
 			MobileActionButtonUpload,
 			MobileActionButton,
+			MobileContextMenu,
 			ButtonUpload,
 			OptionGroup,
 			FileBrowser,
@@ -160,7 +183,8 @@
 		created() {
 			this.$store.dispatch('getFolder', this.$route.params.id)
 
-			events.$on('contextMenu:show', (event, item) => this.item = item)
+			events.$on('context-menu:show', (event, item) => this.item = item)
+			events.$on('mobile-context-menu:show', item => this.item = item)
 		}
 	}
 </script>
