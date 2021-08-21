@@ -2,9 +2,11 @@
 	<div>
 		<ContextMenu>
 			<template v-slot:single-select v-if="item">
+				<OptionGroup v-if="isFolder">
+					<Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
+				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
@@ -17,8 +19,11 @@
 			</template>
 
 			<template v-slot:multiple-select v-if="item">
+				<OptionGroup v-if="!hasFile">
+					<Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
+				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+					<Option @click.native="$shareCancel" :title="$t('context_menu.share_cancel')" icon="share" />
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
@@ -36,15 +41,16 @@
 				<MobileActionButton @click.native="$showLocations" icon="filter">
 					{{ filterLocationTitle }}
 				</MobileActionButton>
-				<MobileActionButtonUpload>
-					{{ $t('context_menu.upload') }}
-				</MobileActionButtonUpload>
 				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
 					{{ $t('context_menu.select') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
 					{{ $t('preview_sorting.preview_sorting_button') }}
 				</MobileActionButton>
+			</template>
+
+			<template v-slot:empty-file-page>
+				<h1 class="title">{{ $t('shared.empty_shared') }}</h1>
 			</template>
 		</FileBrowser>
 	</div>
@@ -58,10 +64,10 @@
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
-	import {events} from "../../bus";
+	import {events} from "../../../bus";
 
 	export default {
-		name: 'RecentUploads',
+		name: 'MySharedItems',
 		components: {
 			MobileActionButtonUpload,
 			MobileActionButton,
@@ -75,6 +81,18 @@
 				'clipboard',
 				'user',
 			]),
+			isFolder() {
+				return this.item && this.item.type === 'folder'
+			},
+			isInFavourites() {
+				return this.favourites.find(el => el.id === this.item.id)
+			},
+			hasFile() {
+				return this.clipboard.find(item => item.type !== 'folder')
+			},
+			favourites() {
+				return this.user.data.relationships.favourites.data.attributes.folders
+			},
 			filterLocationTitle() {
 				return {
 					'RecentUploads': this.$t('Recent'),
@@ -91,6 +109,25 @@
 			}
 		},
 		methods: {
+			addToFavourites() {
+				// Check if folder is in favourites and then add/remove from favourites
+				if (
+					this.favourites &&
+					!this.favourites.find(el => el.id === this.item.id)
+				) {
+					// Add to favourite folder that is not selected
+					if (!this.clipboard.includes(this.item)) {
+						this.$store.dispatch('addToFavourites', this.item)
+					}
+
+					// Add to favourites all selected folders
+					if (this.clipboard.includes(this.item)) {
+						this.$store.dispatch('addToFavourites', null)
+					}
+				} else {
+					this.$store.dispatch('removeFromFavourites', this.item)
+				}
+			},
 			downloadItem() {
 				if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
 					this.$store.dispatch('downloadZip')
@@ -100,7 +137,7 @@
 			},
 		},
 		created() {
-			this.$store.dispatch('getRecentUploads')
+			this.$store.dispatch('getMySharedItems')
 
 			events.$on('contextMenu:show', (event, item) => this.item = item)
 		}

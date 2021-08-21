@@ -38,9 +38,9 @@
 		<!--Sidebar-->
 		<NavigationPanel />
 
-		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view">
+		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view" :class="{'is-scaled-down': isScaledDown}">
 			<DesktopToolbar/>
-			<router-view :key="$route.fullPath" :class="{'is-scaled-down': isScaledDown}" />
+			<router-view :key="$route.fullPath" />
 		</div>
     </div>
 </template>
@@ -123,7 +123,7 @@
 <style lang="scss">
     @import '/resources/sass/vuefilemanager/_mixins';
 
-	#files-view {
+	#file-view {
 		font-family: 'Nunito', sans-serif;
 		font-size: 16px;
 		width: 100%;
@@ -134,6 +134,7 @@
 		padding-left: 15px;
 		padding-right: 15px;
 		overflow-y: hidden;
+		@include transition(120ms);
 	}
 
     @media only screen and (max-width: 690px) {

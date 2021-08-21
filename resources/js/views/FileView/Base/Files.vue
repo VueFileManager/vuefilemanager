@@ -42,7 +42,7 @@
 
 		<!--Show files & folders-->
 		<FileBrowser>
-			<template v-if="$checkPermission('editor')" v-slot:file-actions-mobile>
+			<template v-slot:file-actions-mobile>
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
 					{{ $t('actions.search') }}
 				</MobileActionButton>
@@ -60,26 +60,14 @@
 				</MobileActionButton>
 			</template>
 
-			<template v-if="$checkPermission('visitor')" v-slot:file-actions-mobile>
-				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search')}}
-				</MobileActionButton>
-				 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-				   {{ $t('context_menu.select') }}
-				</MobileActionButton>
-				 <MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-					{{ $t('preview_sorting.preview_sorting_button') }}
-				</MobileActionButton>
-			</template>
-
 			<template v-slot:empty-file-page>
 				<h1 class="title">
 					{{ $t('empty_page.title') }}
 				</h1>
-                <p v-if="$checkPermission('editor')" class="description">
+                <p v-if="$checkPermission(['master', 'editor'])" class="description">
 					{{ $t('empty_page.description') }}
 				</p>
-                <ButtonUpload v-if="$checkPermission('editor')" button-style="theme">
+                <ButtonUpload v-if="$checkPermission(['master', 'editor'])" button-style="theme">
                     {{ $t('empty_page.call_to_action') }}
                 </ButtonUpload>
 			</template>
@@ -96,7 +84,7 @@
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
-	import {events} from "../../bus";
+	import {events} from "../../../bus";
 
 	export default {
 		name: 'Files',

@@ -91,7 +91,7 @@
 	import {debounce} from "lodash";
 
 	export default {
-		name: 'FilesContainer',
+		name: 'FileBrowser',
 		components: {
 			FileActionsMobile,
 			EmptyFilePage,
