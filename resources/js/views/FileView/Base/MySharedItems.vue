@@ -48,7 +48,6 @@
 			</OptionGroup>
 		</MobileContextMenu>
 
-		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
@@ -69,13 +68,20 @@
 				<h1 class="title">{{ $t('shared.empty_shared') }}</h1>
 			</template>
 		</FileBrowser>
+
+		<MultiSelectToolbar>
+			<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+			<ToolbarButton @click.native="$shareCancel" class="action-btn" source="shared-off" />
+		</MultiSelectToolbar>
 	</div>
 </template>
 
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
+	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -88,7 +94,9 @@
 		components: {
 			MobileActionButtonUpload,
 			MobileActionButton,
+			MultiSelectToolbar,
 			MobileContextMenu,
+			ToolbarButton,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,

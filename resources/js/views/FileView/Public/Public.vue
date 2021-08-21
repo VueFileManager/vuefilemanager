@@ -58,7 +58,6 @@
 			</template>
 		</MobileContextMenu>
 
-		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-if="$checkPermission('editor')" v-slot:file-actions-mobile>
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
@@ -102,10 +101,25 @@
                 </ButtonUpload>
 			</template>
 		</FileBrowser>
+
+		<MultiSelectToolbar>
+			<template v-slot:visitor>
+				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+			</template>
+
+			<template v-slot:editor>
+				<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
+				<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
+				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+			</template>
+		</MultiSelectToolbar>
 	</div>
 </template>
 
 <script>
+	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
+	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
 	import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -120,6 +134,8 @@
 	export default {
 		name: 'Files',
 		components: {
+			MultiSelectToolbar,
+			ToolbarButton,
 			MobileActionButtonUpload,
 			MobileActionButton,
 			MobileContextMenu,

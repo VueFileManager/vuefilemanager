@@ -25,8 +25,6 @@
 
 		<CreateListMobile />
 
-        <MultiSelectToolbarMobile />
-
         <!--Navigations-->
         <MobileNavigation />
         <SidebarNavigation />
@@ -45,7 +43,6 @@
 </template>
 
 <script>
-    import MultiSelectToolbarMobile from '/resources/js/components/FilesView/MultiSelectToolbarMobile'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
     import FileFilterMobile from '/resources/js/components/FilesView/FileFilterMobile'
@@ -69,7 +66,6 @@
     export default {
         name: 'Platform',
         components: {
-            MultiSelectToolbarMobile,
 			CreateTeamFolderPopup,
             CreateFolderPopup,
             FileSortingMobile,

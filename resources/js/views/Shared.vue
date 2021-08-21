@@ -19,7 +19,7 @@
         <FileSortingMobile />
         <MobileContextMenu />
 
-        <MultiSelectToolbarMobile />
+        <MultiSelectToolbar />
 
         <!--Others-->
         <Vignette />
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import MultiSelectToolbarMobile from '/resources/js/components/FilesView/MultiSelectToolbarMobile'
+    import MultiSelectToolbar from '/resources/js/components/FilesView/MultiSelectToolbar'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
     import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
@@ -49,7 +49,7 @@
     export default {
         name: 'Platform',
         components: {
-            MultiSelectToolbarMobile,
+            MultiSelectToolbar,
             CreateFolderPopup,
             FileSortingMobile,
             ProcessingPopup,

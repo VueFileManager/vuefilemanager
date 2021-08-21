@@ -73,9 +73,9 @@ export default {
 			let VerticalOffsetArea = nodesSameClass.length * 50
 			let HorizontalOffsetArea = 190
 
-			let container = document.getElementById('files-view')
+			let container = document.getElementById('file-view')
 
-			var offset = container.getClientRects()[0]
+			let offset = container.getClientRects()[0]
 
 			let x = event.clientX - offset.left
 			let y = event.clientY - offset.top

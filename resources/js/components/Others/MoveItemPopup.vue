@@ -3,38 +3,39 @@
         <!--Title-->
         <PopupHeader :title="$t('popup_move_item.title')" icon="move" />
 
-        <!--Content-->
+		<!--Content-->
         <PopupContent type="height-limited" v-if="pickedItem">
 
             <!--Show Spinner when loading folders-->
             <Spinner v-if="isLoadingTree" />
 
-            <!--Folder tree-->
+			<!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
                 <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
 
                 <TitlePreview class="multiple-selected"
-                               :title="$t('file_detail.selected_multiple')"
-                               :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
-                               v-if="clipboard.length > 1 && !isSelectedItem" />
+							  icon="check-square"
+							  :title="$t('file_detail.selected_multiple')"
+							  :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+							  v-if="clipboard.length > 1 && !isSelectedItem" />
                     
                 <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
             </div>
         </PopupContent>
 
-        <!--Actions-->
+		<!--Actions-->
         <PopupActions>
             <ButtonBase
-                class="popup-button"
-                @click.native="$closePopup()"
-                button-style="secondary"
-            >{{ $t('popup_move_item.cancel') }}
+				class="popup-button"
+				@click.native="$closePopup()"
+				button-style="secondary"
+			>{{ $t('popup_move_item.cancel') }}
             </ButtonBase>
             <ButtonBase
-                class="popup-button"
-                @click.native="moveItem"
-                :button-style="selectedFolder ? 'theme' : 'secondary'"
-            >{{ $t('popup_move_item.submit') }}
+				class="popup-button"
+				@click.native="moveItem"
+				:button-style="selectedFolder ? 'theme' : 'secondary'"
+			>{{ $t('popup_move_item.submit') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -42,119 +43,119 @@
 
 <script>
     import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-    import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-    import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
-    import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
-    import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-    import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
-    import TreeMenu from '/resources/js/components/Others/TreeMenu'
-    import {isArray, isNull} from 'lodash'
-    import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
+	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+	import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+	import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+	import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
+	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import TreeMenu from '/resources/js/components/Others/TreeMenu'
+	import {isArray, isNull} from 'lodash'
+	import {mapGetters} from 'vuex'
+	import {events} from '/resources/js/bus'
 
-    export default {
-        name: 'MoveItemPopup',
-        components: {
-            ThumbnailItem,
-            TitlePreview,
-            PopupWrapper,
-            PopupActions,
-            PopupContent,
-            PopupHeader,
-            ButtonBase,
-            TreeMenu,
-            Spinner,
-        },
-        computed: {
-            ...mapGetters([
-                'clipboard',
-                'navigation',
-            ]),
-        },
-        data() {
-            return {
-                selectedFolder: undefined,
-                pickedItem: undefined,
-                isLoadingTree: true,
-                isSelectedItem: false
-            }
-        },
-        methods: {
-            moveItem() {
-                // Prevent empty submit
-                if (!this.selectedFolder) return
+	export default {
+		name: 'MoveItemPopup',
+		components: {
+			ThumbnailItem,
+			TitlePreview,
+			PopupWrapper,
+			PopupActions,
+			PopupContent,
+			PopupHeader,
+			ButtonBase,
+			TreeMenu,
+			Spinner,
+		},
+		computed: {
+			...mapGetters([
+				'navigation',
+				'clipboard',
+			]),
+		},
+		data() {
+			return {
+				selectedFolder: undefined,
+				pickedItem: undefined,
+				isLoadingTree: true,
+				isSelectedItem: false
+			}
+		},
+		methods: {
+			moveItem() {
+				// Prevent empty submit
+				if (!this.selectedFolder) return
 
-                // Prevent to move items to the same parent
-                if ( isArray(this.selectedFolder) && this.clipboard.find(item => item.parent_id === this.selectedFolder.id)) return
+				// Prevent to move items to the same parent
+				if (isArray(this.selectedFolder) && this.clipboard.find(item => item.parent_id === this.selectedFolder.id)) return
 
-                // Move item
-                if (!this.isSelectedItem) {
-                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: null})
-                }
+				// Move item
+				if (!this.isSelectedItem) {
+					this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: null})
+				}
 
-                if (this.isSelectedItem) {
-                    this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: this.pickedItem})
-                }
+				if (this.isSelectedItem) {
+					this.$store.dispatch('moveItem', {to_item: this.selectedFolder, isSelectedItem: this.pickedItem})
+				}
 
-                // Close popup
-                events.$emit('popup:close')
+				// Close popup
+				events.$emit('popup:close')
 
-                // If is mobile, close the selecting mod after done the move action
-                if (this.$isMobile())
-                    events.$emit('mobileSelecting:stop')
-            },
-        },
-        mounted() {
-            events.$on('pick-folder', folder => {
+				// If is mobile, close the selecting mod after done the move action
+				if (this.$isMobile())
+					events.$emit('mobileSelecting:stop')
+			},
+		},
+		mounted() {
+			events.$on('pick-folder', folder => {
 
-                if (folder.id === this.pickedItem.id) {
-                    this.selectedFolder = undefined
+				if (folder.id === this.pickedItem.id) {
+					this.selectedFolder = undefined
 
-                } else if ( ! folder.id && folder.location === 'base') {
-                    this.selectedFolder = 'base'
+				} else if (!folder.id && folder.location === 'base') {
+					this.selectedFolder = 'base'
 
-                } else {
-                    this.selectedFolder = folder
-                }
-            })
+				} else {
+					this.selectedFolder = folder
+				}
+			})
 
-            // Show Move item popup
-            events.$on('popup:open', args => {
+			// Show Move item popup
+			events.$on('popup:open', args => {
 
-                if (args.name !== 'move') return
+				if (args.name !== 'move') return
 
-                // Show tree spinner
-                this.isLoadingTree = true
+				// Show tree spinner
+				this.isLoadingTree = true
 
-                // Get folder tree and hide spinner
-                this.$store.dispatch('getFolderTree').then(() => {
-                    this.isLoadingTree = false
-                })
+				// Get folder tree and hide spinner
+				this.$store.dispatch('getFolderTree').then(() => {
+					this.isLoadingTree = false
+				})
 
-                // Store picked item
-                if (!this.clipboard.includes(args.item[0])) {
-                    this.pickedItem = args.item[0]
-                    this.isSelectedItem = true
-                }
+				// Store picked item
+				if (!this.clipboard.includes(args.item[0])) {
+					this.pickedItem = args.item[0]
+					this.isSelectedItem = true
+				}
 
-                if (this.clipboard.includes(args.item[0])) {
-                    this.pickedItem = this.clipboard[0]
-                    this.isSelectedItem = false
-                }
-            })
+				if (this.clipboard.includes(args.item[0])) {
+					this.pickedItem = this.clipboard[0]
+					this.isSelectedItem = false
+				}
+			})
 
-            // Close popup
-            events.$on('popup:close', () => {
+			// Close popup
+			events.$on('popup:close', () => {
 
-                // Clear selected folder
-                setTimeout(() => {
-                    this.selectedFolder = undefined
-                }, 150)
-            })
-        }
-    }
+				// Clear selected folder
+				setTimeout(() => {
+					this.selectedFolder = undefined
+				}, 150)
+			})
+		}
+	}
 </script>
 
 <style scoped lang="scss">
@@ -162,11 +163,11 @@
 @import '/resources/sass/vuefilemanager/_mixins';
 
 .item-thumbnail {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .multiple-selected {
-    padding: 0 20px;;
-    margin-bottom: 20px;
+	padding: 0 20px;;
+	margin-bottom: 20px;
 }
 </style>

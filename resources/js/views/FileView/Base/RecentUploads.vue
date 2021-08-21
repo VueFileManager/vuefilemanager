@@ -39,7 +39,6 @@
 			</OptionGroup>
 		</MobileContextMenu>
 
-		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
@@ -59,13 +58,20 @@
 				</MobileActionButton>
 			</template>
 		</FileBrowser>
+
+		<MultiSelectToolbar>
+			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
+			<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+		</MultiSelectToolbar>
 	</div>
 </template>
 
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
+	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -77,8 +83,10 @@
 		name: 'RecentUploads',
 		components: {
 			MobileActionButtonUpload,
+			MultiSelectToolbar,
 			MobileActionButton,
 			MobileContextMenu,
+			ToolbarButton,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,

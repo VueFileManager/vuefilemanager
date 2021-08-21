@@ -1,28 +1,24 @@
 <template>
     <transition name="context-menu">
-        <div class="multiselect-actions" v-if="mobileMultiSelect">
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['trash', 'trash-root' , 'shared', 'latest']) && $checkPermission('master') || $checkPermission('editor')" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" @click.native="moveItem" />
+        <div v-if="mobileMultiSelect" class="multiselect-actions">
+			<slot v-if="$slots.default" />
+			<slot v-if="$slots.editor" name="editor"></slot>
+			<slot v-if="$slots.visitor" name="visitor"></slot>
 
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared']) && $checkPermission('master') || $checkPermission('editor')" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" @click.native="deleteItem" />
-
-            <ToolbarButton class="action-btn" v-if="!$isThisLocation(['shared'])" source="download" :action="$t('actions.delete')" @click.native="downloadItem" />
-
-            <ToolbarButton class="action-btn" source="shared-off" @click.native="shareCancel" v-if="$isThisLocation(['shared'])" />
-
-            <ToolbarButton class="action-btn close-icon" source="close" :action="$t('actions.close')" @click.native="closeSelecting" />
+            <ToolbarButton @click.native="closeSelecting" class="action-btn close-icon" source="close" :action="$t('actions.close')" />
         </div>
     </transition>
 </template>
 
 <script>
 import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-import {mapGetters} from 'vuex'
 import {events} from '/resources/js/bus'
+import {mapGetters} from 'vuex'
 
 export default {
-    name: 'MultiSelectToolbarMobile',
+    name: 'MultiSelectToolbar',
     components: {
-		ToolbarButton
+		ToolbarButton,
 	},
     computed: {
         ...mapGetters([
@@ -35,29 +31,9 @@ export default {
         }
     },
     methods: {
-        shareCancel() {
-            this.$store.dispatch('shareCancel')
-            this.closeSelecting()
-        },
         closeSelecting() {
             events.$emit('mobileSelecting:stop')
         },
-        downloadItem() {
-            if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
-                this.$store.dispatch('downloadZip')
-            else {
-                this.$downloadFile(this.clipboard[0].file_url, this.clipboard[0].name + '.' + this.clipboard[0].mimetype)
-            }
-            this.closeSelecting()
-        },
-        moveItem() {
-            // Open move item popup
-            events.$emit('popup:open', {name: 'move', item: [this.clipboard[0]]})
-        },
-        deleteItem() {
-            this.$store.dispatch('deleteItem')
-            this.closeSelecting()
-        }
     },
     created() {
         events.$on('mobileSelecting:start', () => this.mobileMultiSelect = true)
