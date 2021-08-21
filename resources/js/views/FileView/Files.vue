@@ -43,16 +43,31 @@
 		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
-				<!-- todo: Implement mobile buttons-->
+				<MobileActionButton @click.native="$openSpotlight" icon="search">
+					{{ $t('actions.search') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$showLocations" icon="filter">
+					{{ filterLocationTitle }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$createItems" icon="cloud-plus">
+					{{ $t('mobile.create') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+					{{ $t('context_menu.select') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+					{{ $t('preview_sorting.preview_sorting_button') }}
+				</MobileActionButton>
 			</template>
 
 			<template v-slot:empty-file-page>
-				<h1 class="title">{{ $t('empty_page.title') }}</h1>
-                <p v-if="$checkPermission(['master', 'editor'])" class="description">{{ $t('empty_page.description') }}</p>
-                <ButtonUpload
-					v-if="$checkPermission(['master', 'editor'])"
-					button-style="theme"
-				>
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+                <p v-if="$checkPermission(['master', 'editor'])" class="description">
+					{{ $t('empty_page.description') }}
+				</p>
+                <ButtonUpload v-if="$checkPermission(['master', 'editor'])" button-style="theme">
                     {{ $t('empty_page.call_to_action') }}
                 </ButtonUpload>
 			</template>
@@ -61,6 +76,8 @@
 </template>
 
 <script>
+    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
+	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
     import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
@@ -72,6 +89,8 @@
 	export default {
 		name: 'Files',
 		components: {
+			MobileActionButtonUpload,
+			MobileActionButton,
 			ButtonUpload,
 			OptionGroup,
 			FileBrowser,
@@ -95,6 +114,15 @@
 			favourites() {
 				return this.user.data.relationships.favourites.data.attributes.folders
 			},
+			filterLocationTitle() {
+				return {
+					'RecentUploads': this.$t('Recent'),
+					'MySharedItems': this.$t('Shared'),
+					'Trash': this.$t('Trash'),
+					'Public': this.$t('Files'),
+					'Files': this.$t('Files'),
+				}[this.$route.name]
+			}
 		},
 		data() {
 			return {

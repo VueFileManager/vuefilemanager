@@ -35,7 +35,18 @@
 		<!--Show files & folders-->
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
-				<!-- todo: Implement mobile buttons-->
+				<MobileActionButton @click.native="$openSpotlight" icon="search">
+					{{ $t('actions.search')}}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$showLocations" icon="filter">
+					{{ filterLocationTitle }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+					{{ $t('context_menu.select') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+					{{ $t('preview_sorting.preview_sorting_button') }}
+				</MobileActionButton>
 			</template>
 
 			<template v-slot:empty-file-page>
@@ -46,6 +57,8 @@
 </template>
 
 <script>
+    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
+	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -56,6 +69,8 @@
 	export default {
 		name: 'MySharedItems',
 		components: {
+			MobileActionButtonUpload,
+			MobileActionButton,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,
@@ -70,13 +85,22 @@
 				return this.item && this.item.type === 'folder'
 			},
 			isInFavourites() {
-				return this.favourites.find((el) => el.id === this.item.id)
+				return this.favourites.find(el => el.id === this.item.id)
 			},
 			hasFile() {
 				return this.clipboard.find(item => item.type !== 'folder')
 			},
 			favourites() {
 				return this.user.data.relationships.favourites.data.attributes.folders
+			},
+			filterLocationTitle() {
+				return {
+					'RecentUploads': this.$t('Recent'),
+					'MySharedItems': this.$t('Shared'),
+					'Trash': this.$t('Trash'),
+					'Public': this.$t('Files'),
+					'Files': this.$t('Files'),
+				}[this.$route.name]
 			},
 		},
 		data() {

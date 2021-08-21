@@ -1,7 +1,7 @@
 <template>
-	<div v-if="user">
+	<ContentSidebar>
 		<!--Empty storage warning-->
-		<ContentGroup v-if="config.storageLimit && storage.used > 95">
+		<ContentGroup v-if="user && config.storageLimit && storage.used > 95">
 			<UpgradeSidebarBanner/>
 		</ContentGroup>
 
@@ -66,7 +66,7 @@
 		</ContentGroup>
 
 		<!--Navigator-->
-		<ContentGroup :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
+		<ContentGroup v-if="user" :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
 			<span v-if="tree.length === 0" class="empty-note navigator">
 				{{ $t('sidebar.folders_empty') }}
 			</span>
@@ -74,7 +74,7 @@
 		</ContentGroup>
 
 		<!--Favourites-->
-		<ContentGroup :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
+		<ContentGroup v-if="user" :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
 
 			<div @dragover.prevent="dragEnter" @dragleave="dragLeave" @drop="dragFinish($event)" :class="{ 'is-dragenter': area }" class="menu-list-wrapper vertical favourites">
 				<transition-group tag="div" class="menu-list" name="folder-item">
@@ -92,13 +92,14 @@
 				</transition-group>
 			</div>
 		</ContentGroup>
-	</div>
+	</ContentSidebar>
 </template>
 
 <script>
 	import {FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon} from "vue-feather-icons";
 	import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
 	import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
+	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
 	import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
 	import {events} from "../../bus";
 	import {mapGetters} from "vuex";
@@ -108,6 +109,7 @@ export default {
 	components: {
 		UpgradeSidebarBanner,
 		TreeMenuNavigator,
+		ContentSidebar,
 		ContentGroup,
 		UploadCloudIcon,
 		UserCheckIcon,

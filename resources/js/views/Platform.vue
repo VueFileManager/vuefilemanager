@@ -36,9 +36,7 @@
         <DragUI />
 
 		<!--Sidebar-->
-		<ContentSidebar>
-			<NavigationPanel />
-		</ContentSidebar>
+		<NavigationPanel />
 
 		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="files-view">
 			<DesktopToolbar/>
@@ -62,7 +60,6 @@
 	import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup"
     import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
     import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
-	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
     import ShareEditPopup from '/resources/js/components/Others/ShareEditPopup'
     import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
@@ -70,7 +67,6 @@
     import DragUI from '/resources/js/components/FilesView/DragUI'
 	import NavigationPanel from "./FileView/NavigationPanel"
     import {events} from '/resources/js/bus'
-    import {mapGetters} from 'vuex'
 
     export default {
         name: 'Platform',
@@ -90,7 +86,6 @@
             ShareEditPopup,
 			DesktopToolbar,
             FileMenuMobile,
-			ContentSidebar,
             MoveItemPopup,
             ConfirmPopup,
             FilePreview,

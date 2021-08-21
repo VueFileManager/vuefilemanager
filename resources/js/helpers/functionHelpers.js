@@ -339,6 +339,26 @@ const FunctionHelpers = {
             // Show panel if is not open
             this.$store.dispatch('fileInfoToggle', true)
         }
+
+        Vue.prototype.$openSpotlight = function () {
+            events.$emit('spotlight:show')
+        }
+
+        Vue.prototype.$showLocations = function () {
+            events.$emit('mobile-menu:show', 'file-filter')
+        }
+
+        Vue.prototype.$createItems = function () {
+            events.$emit('mobile-menu:show', 'create-list')
+        }
+
+        Vue.prototype.$enableMultiSelectMode = function () {
+            events.$emit('mobileSelecting:start')
+        }
+
+        Vue.prototype.$showViewOptions = function () {
+            events.$emit('mobile-menu:show', 'file-sorting')
+        }
     }
 }
 

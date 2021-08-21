@@ -108,7 +108,7 @@ export default {
 					this.$router.push({name: 'Files'})
 				}
 
-				this.$store.dispatch('getFolder', [{ folder: this.results[this.index], back: true, init: false }])
+				this.$store.dispatch('getFolder', this.results[this.index].id)
 			} else {
 
 				// Show file
