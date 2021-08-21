@@ -1,10 +1,13 @@
 <template>
     <MenuMobile name="create-list">
         <MenuMobileGroup>
-            <OptionGroup>
-				<OptionUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :title="$t('actions.upload')" is-hover-disabled="true"/>
-				<Option @click.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" :title="$t('actions.create_folder')" icon="folder-plus" is-hover-disabled="true"/>
-            </OptionGroup>
+			<OptionGroup>
+				<OptionUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :title="$t('actions.upload')" is-hover-disabled="true" />
+			</OptionGroup>
+			<OptionGroup>
+				<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" is-hover-disabled="true" />
+				<Option @click.stop.native="createFolder" :class="{'is-inactive': canCreateFolderInView }" :title="$t('actions.create_folder')" icon="folder-plus" is-hover-disabled="true" />
+			</OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
 </template>
@@ -15,7 +18,6 @@ import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
 import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
 import Option from '/resources/js/components/FilesView/Option'
-import {mapGetters} from 'vuex'
 import {events} from '/resources/js/bus'
 
 export default {
@@ -29,7 +31,7 @@ export default {
     },
 	computed: {
 		canUploadInView() {
-			return !this.$isThisLocation(['base', 'public'])
+			return !this.$isThisRoute(this.$route, ['Files', 'Public'])
 		},
 		hasCapacity() {
 			// Check if storage limitation is set
@@ -42,7 +44,7 @@ export default {
 			return this.$store.getters.user.data.attributes.storage.used <= 100
 		},
 		canCreateFolderInView() {
-			return !this.$isThisLocation(['base', 'public'])
+			return !this.$isThisRoute(this.$route, ['Files', 'Public'])
 		},
 	},
     methods: {

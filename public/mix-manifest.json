@@ -57,7 +57,7 @@
     "/chunks/plan-settings.js": "/chunks/plan-settings.js?id=17469545c5b6a16c3bbf",
     "/chunks/plan-subscribers.js": "/chunks/plan-subscribers.js?id=0dd0a5efe0e3cb511c48",
     "/chunks/plans.js": "/chunks/plans.js?id=5a3c28288952fcad96e5",
-    "/chunks/platform.js": "/chunks/platform.js?id=126d281b1fd16fa150f4",
+    "/chunks/platform.js": "/chunks/platform.js?id=ecc7ff861e6d773229fa",
     "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=3434322e91f37e1887a6",
     "/chunks/platform~chunks/shared/file-browser.js": "/chunks/platform~chunks/shared/file-browser.js?id=40ad3638485c345cced0",
     "/chunks/platform~chunks/shared~chunks/shared/file-browser.js": "/chunks/platform~chunks/shared~chunks/shared/file-browser.js?id=6ba92eab6a45cbab3af5",
@@ -135,5 +135,10 @@
     "/chunks/platform.4b133239af47f0aff328.hot-update.js": "/chunks/platform.4b133239af47f0aff328.hot-update.js",
     "/chunks/platform.e63b017c02caab955ee8.hot-update.js": "/chunks/platform.e63b017c02caab955ee8.hot-update.js",
     "/chunks/platform.436f0ae6821dff8580cd.hot-update.js": "/chunks/platform.436f0ae6821dff8580cd.hot-update.js",
-    "/chunks/platform.4bc2d7c580be3ecb1a0f.hot-update.js": "/chunks/platform.4bc2d7c580be3ecb1a0f.hot-update.js"
+    "/chunks/platform.4bc2d7c580be3ecb1a0f.hot-update.js": "/chunks/platform.4bc2d7c580be3ecb1a0f.hot-update.js",
+    "/chunks/platform.cddb770604c6e181fbb7.hot-update.js": "/chunks/platform.cddb770604c6e181fbb7.hot-update.js",
+    "/chunks/platform.8939b01704b8aff8437f.hot-update.js": "/chunks/platform.8939b01704b8aff8437f.hot-update.js",
+    "/chunks/platform.35c501f409a3310afad9.hot-update.js": "/chunks/platform.35c501f409a3310afad9.hot-update.js",
+    "/chunks/platform.d66696d0346e98ffbfe2.hot-update.js": "/chunks/platform.d66696d0346e98ffbfe2.hot-update.js",
+    "/chunks/platform.c738952f7826f78321ef.hot-update.js": "/chunks/platform.c738952f7826f78321ef.hot-update.js"
 }
