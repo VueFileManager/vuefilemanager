@@ -6,19 +6,17 @@
 
         <!--File preview window-->
         <FilePreview />
+		<Spotlight />
 
         <!--Popups-->
         <ProcessingPopup />
 
         <CreateFolderPopup />
         <RenameItemPopup />
-
         <MoveItemPopup />
 
         <!-- Mobile components -->
         <FileSortingMobile />
-        <MobileContextMenu />
-
         <MultiSelectToolbar />
 
         <!--Others-->
@@ -37,19 +35,19 @@
 
 <script>
     import MultiSelectToolbar from '/resources/js/components/FilesView/MultiSelectToolbar'
-    import MobileContextMenu from '/resources/js/components/FilesView/MobileContextMenu'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
     import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
+	import NavigationSharePanel from "./FileView/Components/NavigationSharePanel"
     import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
     import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
 	import DesktopToolbar from "../components/FilesView/DesktopToolbar"
-	import NavigationSharePanel from "./FileView/NavigationSharePanel"
     import Spinner from '/resources/js/components/FilesView/Spinner'
     import Vignette from '/resources/js/components/Others/Vignette'
     import DragUI from '/resources/js/components/FilesView/DragUI'
     import Alert from '/resources/js/components/FilesView/Alert'
+	import Spotlight from "../components/Spotlight/Spotlight"
     import {events} from '/resources/js/bus'
     import {mapGetters} from 'vuex'
 
@@ -60,12 +58,12 @@
             MultiSelectToolbar,
             CreateFolderPopup,
             FileSortingMobile,
-            MobileContextMenu,
             ProcessingPopup,
             RenameItemPopup,
 			DesktopToolbar,
             MoveItemPopup,
             FilePreview,
+			Spotlight,
             Vignette,
             Spinner,
             DragUI,

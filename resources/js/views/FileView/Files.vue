@@ -22,7 +22,7 @@
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 
@@ -35,7 +35,7 @@
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 		</ContextMenu>
@@ -56,7 +56,7 @@
 			</OptionGroup>
 
             <OptionGroup v-if="item">
-                <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
             </OptionGroup>
 		</MobileContextMenu>
 
@@ -83,10 +83,10 @@
 				<h1 class="title">
 					{{ $t('empty_page.title') }}
 				</h1>
-                <p v-if="$checkPermission(['master', 'editor'])" class="description">
+                <p class="description">
 					{{ $t('empty_page.description') }}
 				</p>
-                <ButtonUpload v-if="$checkPermission(['master', 'editor'])" button-style="theme">
+                <ButtonUpload button-style="theme">
                     {{ $t('empty_page.call_to_action') }}
                 </ButtonUpload>
 			</template>
@@ -95,7 +95,7 @@
 		<MultiSelectToolbar>
 			<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
 			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
-            <ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+            <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
 		</MultiSelectToolbar>
 	</div>
 </template>
@@ -112,7 +112,7 @@
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
-	import {events} from "../../../bus";
+	import {events} from "../../bus";
 
 	export default {
 		name: 'Files',
@@ -178,13 +178,6 @@
 					}
 				} else {
 					this.$store.dispatch('removeFromFavourites', this.item)
-				}
-			},
-			downloadItem() {
-				if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
-					this.$store.dispatch('downloadZip')
-				else {
-					this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
 				}
 			},
 		},

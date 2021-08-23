@@ -12,7 +12,7 @@ const routesShared = [
 				name: 'Public',
 				path: '/share/:token/files/:id?',
 				component: () =>
-					import(/* webpackChunkName: "chunks/shared/files" */ '../views/FileView/Public/Public'),
+					import(/* webpackChunkName: "chunks/shared/files" */ '../views/FileView/Public'),
 				meta: {
 					requiresAuth: false
 				},

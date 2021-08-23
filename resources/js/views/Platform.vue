@@ -16,7 +16,6 @@
 
         <CreateFolderPopup />
         <RenameItemPopup />
-
         <MoveItemPopup />
 
         <!--Mobile components-->
@@ -60,7 +59,7 @@
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
     import Spotlight from '/resources/js/components/Spotlight/Spotlight'
     import DragUI from '/resources/js/components/FilesView/DragUI'
-	import NavigationPanel from "./FileView/NavigationPanel"
+	import NavigationPanel from "./FileView/Components/NavigationPanel"
     import {events} from '/resources/js/bus'
 
     export default {

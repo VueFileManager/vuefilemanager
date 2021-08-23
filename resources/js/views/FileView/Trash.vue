@@ -1,42 +1,45 @@
 <template>
 	<div>
 		<ContextMenu>
+			<template v-slot:empty-select>
+				<OptionGroup>
+					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+				</OptionGroup>
+			</template>
+
 			<template v-slot:single-select v-if="item">
 				<OptionGroup>
-					<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-				</OptionGroup>
-				<OptionGroup>
-					<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+					<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+					<Option @click.native="$deleteFileOrFolder(item)" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
+					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 
 			<template v-slot:multiple-select v-if="item">
 				<OptionGroup>
-					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+					<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 		</ContextMenu>
 
 		<MobileContextMenu>
-			<OptionGroup>
-				<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-				<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+			<OptionGroup v-if="item">
+				<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
 				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-				<Option @click.native="$shareFileOrFolder(item)" :title="item && item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-			</OptionGroup>
-			<OptionGroup>
-				<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
-			</OptionGroup>
+            </OptionGroup>
+
+            <OptionGroup>
+                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+            </OptionGroup>
 		</MobileContextMenu>
 
 		<FileBrowser>
@@ -47,21 +50,25 @@
 				<MobileActionButton @click.native="$showLocations" icon="filter">
 					{{ filterLocationTitle }}
 				</MobileActionButton>
-				<MobileActionButtonUpload>
-					{{ $t('context_menu.upload') }}
-				</MobileActionButtonUpload>
-				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+				<MobileActionButton @click.native="$emptyTrash" icon="trash">
+					{{ $t('context_menu.empty_trash') }}
+				</MobileActionButton>
+				 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
 					{{ $t('context_menu.select') }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+				 <MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
 					{{ $t('preview_sorting.preview_sorting_button') }}
 				</MobileActionButton>
+			</template>
+
+			<template v-slot:empty-file-page>
+				<h1 class="title">{{ $t('empty_page.title') }}</h1>
 			</template>
 		</FileBrowser>
 
 		<MultiSelectToolbar>
 			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
-			<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+			<ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
 		</MultiSelectToolbar>
 	</div>
 </template>
@@ -77,10 +84,10 @@
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
-	import {events} from "../../../bus";
+	import {events} from "../../bus";
 
 	export default {
-		name: 'RecentUploads',
+		name: 'Trash',
 		components: {
 			MobileActionButtonUpload,
 			MultiSelectToolbar,
@@ -95,7 +102,6 @@
 		computed: {
 			...mapGetters([
 				'clipboard',
-				'user',
 			]),
 			filterLocationTitle() {
 				return {
@@ -112,17 +118,8 @@
 				item: undefined,
 			}
 		},
-		methods: {
-			downloadItem() {
-				if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
-					this.$store.dispatch('downloadZip')
-				else {
-					this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
-				}
-			},
-		},
 		created() {
-			this.$store.dispatch('getRecentUploads')
+			this.$store.dispatch('getTrash', this.$route.params.id)
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)

@@ -15,7 +15,7 @@
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 
@@ -25,7 +25,7 @@
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 		</ContextMenu>
@@ -38,60 +38,62 @@
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 			<template v-slot:visitor>
 				<OptionGroup>
-					<Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 		</MobileContextMenu>
 
 		<FileBrowser>
-			<template v-slot:file-actions-mobile v-if="$checkPermission('editor')">
-				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$createItems" icon="cloud-plus">
-					{{ $t('mobile.create') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-					{{ $t('context_menu.select') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-					{{ $t('preview_sorting.preview_sorting_button') }}
-				</MobileActionButton>
+			<template v-slot:file-actions-mobile>
+				<template v-if="$checkPermission('editor')">
+					<MobileActionButton @click.native="$openSpotlight" icon="search">
+						{{ $t('actions.search') }}
+					</MobileActionButton>
+					<MobileActionButton @click.native="$createItems" icon="cloud-plus">
+						{{ $t('mobile.create') }}
+					</MobileActionButton>
+					<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+						{{ $t('context_menu.select') }}
+					</MobileActionButton>
+					<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+						{{ $t('preview_sorting.preview_sorting_button') }}
+					</MobileActionButton>
+				</template>
+				<template v-if="$checkPermission('visitor')">
+					<MobileActionButton @click.native="$openSpotlight" icon="search">
+						{{ $t('actions.search')}}
+					</MobileActionButton>
+					 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+					   {{ $t('context_menu.select') }}
+					</MobileActionButton>
+					 <MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+						{{ $t('preview_sorting.preview_sorting_button') }}
+					</MobileActionButton>
+				</template>
 			</template>
 
-			<template v-slot:file-actions-mobile v-if="$checkPermission('visitor')">
-				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search')}}
-				</MobileActionButton>
-				 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-				   {{ $t('context_menu.select') }}
-				</MobileActionButton>
-				 <MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-					{{ $t('preview_sorting.preview_sorting_button') }}
-				</MobileActionButton>
-			</template>
-
-			<template v-slot:empty-file-page v-if="$checkPermission('editor')">
-				<h1 class="title">
-					{{ $t('empty_page.title') }}
-				</h1>
-                <p class="description">
-					{{ $t('empty_page.description') }}
-				</p>
-                <ButtonUpload button-style="theme">
-                    {{ $t('empty_page.call_to_action') }}
-                </ButtonUpload>
-			</template>
-
-			<template v-slot:empty-file-page v-if="$checkPermission('visitor')">
-				<h1 class="title">
-					{{ $t('empty_page.title') }}
-				</h1>
+			<template v-slot:empty-file-page>
+				<template v-if="$checkPermission('editor')">
+					<h1 class="title">
+						{{ $t('empty_page.title') }}
+					</h1>
+					<p class="description">
+						{{ $t('empty_page.description') }}
+					</p>
+					<ButtonUpload button-style="theme">
+						{{ $t('empty_page.call_to_action') }}
+					</ButtonUpload>
+				</template>
+				<template v-if="$checkPermission('visitor')">
+					<h1 class="title">
+						{{ $t('empty_page.title') }}
+					</h1>
+				</template>
 			</template>
 		</FileBrowser>
 
@@ -99,9 +101,8 @@
 			<template v-slot:visitor>
 				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
 			</template>
-
 			<template v-slot:editor>
-				<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
+				<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive': clipboard.length < 1}" />
 				<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive': clipboard.length < 1}" :action="$t('actions.delete')" />
 				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
 			</template>
@@ -119,7 +120,7 @@
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
 	import Option from '/resources/js/components/FilesView/Option'
-	import {events} from "../../../bus"
+	import {events} from "../../bus"
 	import { mapGetters } from 'vuex'
 
 	export default {
@@ -137,30 +138,13 @@
 		},
 		computed: {
 			...mapGetters([
-				'sharedDetail',
 				'clipboard',
-				'user',
-			]),
-			isFolder() {
-				return this.item && this.item.type === 'folder'
-			},
-			hasFile() {
-				return this.clipboard.find(item => item.type !== 'folder')
-			}
+			])
 		},
 		data() {
 			return {
 				item: undefined,
 			}
-		},
-		methods: {
-			downloadItem() {
-				if (this.clipboard.length > 1 || (this.clipboard.length === 1 && this.clipboard[0].type === 'folder'))
-					this.$store.dispatch('downloadZip')
-				else {
-					this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
-				}
-			},
 		},
 		created() {
 			this.$store.dispatch('getSharedFolder', this.$route.params.id)

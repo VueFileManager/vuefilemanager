@@ -28,6 +28,16 @@ const itemHelpers = {
 			})
 		}
 
+		Vue.prototype.$downloadSelection = function (item) {
+			let clipboard = this.$store.getters.clipboard
+
+			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].type === 'folder'))
+				this.$store.dispatch('downloadZip')
+			else {
+				Vue.prototype.$downloadFile(item.file_url, item.name + '.' + item.mimetype)
+			}
+		}
+
 		Vue.prototype.$dissolveTeamFolder = function () {
 			events.$emit('confirm:open', {
 				title: this.$t('Are you sure you want to dissolve this team?'),

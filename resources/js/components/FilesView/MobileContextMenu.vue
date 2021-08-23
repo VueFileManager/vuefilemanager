@@ -6,11 +6,11 @@
 			<slot></slot>
         </MenuMobileGroup>
 
-		<MenuMobileGroup v-if="$slots.editor">
+		<MenuMobileGroup v-if="$slots.editor && $checkPermission('editor')">
 			<slot name="editor"></slot>
         </MenuMobileGroup>
 
-		<MenuMobileGroup v-if="$slots.visitor">
+		<MenuMobileGroup v-if="$slots.visitor && $checkPermission('visitor')">
 			<slot name="visitor"></slot>
         </MenuMobileGroup>
     </MenuMobile>

@@ -2,8 +2,8 @@
     <transition name="context-menu">
         <div v-if="mobileMultiSelect" class="multiselect-actions">
 			<slot v-if="$slots.default" />
-			<slot v-if="$slots.editor" name="editor"></slot>
-			<slot v-if="$slots.visitor" name="visitor"></slot>
+			<slot v-if="$slots.editor && $checkPermission('editor')" name="editor" />
+			<slot v-if="$slots.visitor && $checkPermission('visitor')" name="visitor" />
 
             <ToolbarButton @click.native="closeSelecting" class="action-btn close-icon" source="close" :action="$t('actions.close')" />
         </div>

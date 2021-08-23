@@ -101,7 +101,7 @@
 	import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
 	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
 	import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
-	import {events} from "../../bus";
+	import {events} from "../../../bus";
 	import {mapGetters} from "vuex";
 
 export default {
