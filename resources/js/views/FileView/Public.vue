@@ -1,5 +1,43 @@
 <template>
 	<div>
+		<MobileContextMenu>
+			<template v-slot:editor>
+				<OptionGroup>
+					<Option v-if="item" @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+					<Option v-if="item" @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+				</OptionGroup>
+				<OptionGroup>
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+				</OptionGroup>
+			</template>
+			<template v-slot:visitor>
+				<OptionGroup>
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+				</OptionGroup>
+			</template>
+		</MobileContextMenu>
+
+		<MobileCreateMenu>
+			<OptionGroup>
+				<OptionUpload :title="$t('actions.upload')" is-hover-disabled="true" />
+			</OptionGroup>
+			<OptionGroup>
+				<Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" is-hover-disabled="true" />
+			</OptionGroup>
+		</MobileCreateMenu>
+
+		<MobileMultiSelectToolbar>
+			<template v-slot:visitor>
+				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+			</template>
+			<template v-slot:editor>
+				<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive': clipboard.length < 1}" />
+				<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive': clipboard.length < 1}" :action="$t('actions.delete')" />
+				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+			</template>
+		</MobileMultiSelectToolbar>
+
 		<ContextMenu>
 			<template v-slot:empty-select v-if="$checkPermission('editor')">
 				<OptionGroup>
@@ -29,24 +67,6 @@
 				</OptionGroup>
 			</template>
 		</ContextMenu>
-
-		<MobileContextMenu>
-			<template v-slot:editor>
-				<OptionGroup>
-					<Option v-if="item" @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-					<Option v-if="item" @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-				</OptionGroup>
-				<OptionGroup>
-					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
-				</OptionGroup>
-			</template>
-			<template v-slot:visitor>
-				<OptionGroup>
-					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
-				</OptionGroup>
-			</template>
-		</MobileContextMenu>
 
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
@@ -96,25 +116,16 @@
 				</template>
 			</template>
 		</FileBrowser>
-
-		<MultiSelectToolbar>
-			<template v-slot:visitor>
-				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
-			</template>
-			<template v-slot:editor>
-				<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive': clipboard.length < 1}" />
-				<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive': clipboard.length < 1}" :action="$t('actions.delete')" />
-				<ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
-			</template>
-		</MultiSelectToolbar>
 	</div>
 </template>
 
 <script>
-	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
+	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
+	import MobileCreateMenu from '/resources/js/components/FilesView/MobileCreateMenu'
 	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
     import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
@@ -126,10 +137,12 @@
 	export default {
 		name: 'Files',
 		components: {
+			MobileMultiSelectToolbar,
 			MobileActionButton,
-			MultiSelectToolbar,
 			MobileContextMenu,
+			MobileCreateMenu,
 			ToolbarButton,
+			OptionUpload,
 			ButtonUpload,
 			OptionGroup,
 			FileBrowser,
@@ -145,6 +158,11 @@
 			return {
 				item: undefined,
 			}
+		},
+		methods: {
+			createFolder() {
+				events.$emit('popup:open', {name: 'create-folder'})
+			},
 		},
 		created() {
 			this.$store.dispatch('getSharedFolder', this.$route.params.id)

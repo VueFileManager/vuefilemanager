@@ -59,17 +59,17 @@
 			</template>
 		</FileBrowser>
 
-		<MultiSelectToolbar>
+		<MobileMultiSelectToolbar>
 			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
 			<ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
-		</MultiSelectToolbar>
+		</MobileMultiSelectToolbar>
 	</div>
 </template>
 
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
+	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
 	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
@@ -83,7 +83,7 @@
 		name: 'RecentUploads',
 		components: {
 			MobileActionButtonUpload,
-			MultiSelectToolbar,
+			MobileMultiSelectToolbar,
 			MobileActionButton,
 			MobileContextMenu,
 			ToolbarButton,

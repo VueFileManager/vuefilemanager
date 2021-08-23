@@ -32,7 +32,7 @@
 			</template>
 		</ContextMenu>
 
-		<MobileContextMenu v-if="item">
+		<MobileContextMenu>
 			<OptionGroup v-if="isFolder">
 				<Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
 			</OptionGroup>
@@ -41,7 +41,7 @@
 				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 			</OptionGroup>
 			<OptionGroup>
-				<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+				<Option @click.native="$shareFileOrFolder(item)" :title="item && item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
 			</OptionGroup>
 			<OptionGroup>
 				<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
@@ -69,17 +69,17 @@
 			</template>
 		</FileBrowser>
 
-		<MultiSelectToolbar>
+		<MobileMultiSelectToolbar>
 			<ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
 			<ToolbarButton @click.native="$shareCancel" class="action-btn" source="shared-off" />
-		</MultiSelectToolbar>
+		</MobileMultiSelectToolbar>
 	</div>
 </template>
 
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
+	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
 	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
@@ -94,7 +94,7 @@
 		components: {
 			MobileActionButtonUpload,
 			MobileActionButton,
-			MultiSelectToolbar,
+			MobileMultiSelectToolbar,
 			MobileContextMenu,
 			ToolbarButton,
 			OptionGroup,

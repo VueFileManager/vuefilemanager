@@ -16,7 +16,7 @@ import {events} from '/resources/js/bus'
 import {mapGetters} from 'vuex'
 
 export default {
-    name: 'MultiSelectToolbar',
+    name: 'MobileMultiSelectToolbar',
     components: {
 		ToolbarButton,
 	},

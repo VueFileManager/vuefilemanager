@@ -22,8 +22,6 @@
         <FileSortingMobile />
         <FileFilterMobile />
 
-		<CreateListMobile />
-
         <!--Navigations-->
         <MobileNavigation />
 
@@ -45,7 +43,6 @@
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
     import FileFilterMobile from '/resources/js/components/FilesView/FileFilterMobile'
-    import CreateListMobile from '/resources/js/components/FilesView/CreateListMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
     import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
     import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
@@ -66,15 +63,14 @@
         name: 'Platform',
         components: {
 			CreateTeamFolderPopup,
+			PanelNavigationFiles,
             CreateFolderPopup,
             FileSortingMobile,
             SidebarNavigation,
-			CreateListMobile,
             FileFilterMobile,
             MobileNavigation,
             ShareCreatePopup,
             ProcessingPopup,
-			PanelNavigationFiles,
             RenameItemPopup,
             ShareEditPopup,
 			DesktopToolbar,

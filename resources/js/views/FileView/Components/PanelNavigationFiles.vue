@@ -84,7 +84,7 @@
 
 					<router-link :to="{name: 'Files', params: {id: folder.id}}" v-for="folder in favourites" :key="folder.id" class="menu-list-item">
 						<div class="text-theme">
-							<folder-icon size="17" class="folder-icon text-theme" />
+							<folder-icon size="17" class="folder-icon" />
 							<span class="label text-theme">{{ folder.name }}</span>
 						</div>
 						<x-icon @click.stop="$removeFavourite(folder)" size="17" class="delete-icon" />

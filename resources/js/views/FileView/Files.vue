@@ -1,5 +1,41 @@
 <template>
 	<div>
+		<MobileContextMenu>
+			<OptionGroup v-if="item && isFolder">
+				<Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
+            </OptionGroup>
+
+			<OptionGroup v-if="item">
+				<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+				<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+			</OptionGroup>
+			<OptionGroup v-if="item">
+				<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+				<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="users" />
+			</OptionGroup>
+
+            <OptionGroup v-if="item">
+                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+            </OptionGroup>
+		</MobileContextMenu>
+
+		<MobileCreateMenu>
+			<OptionGroup>
+				<OptionUpload :class="{'is-inactive': !hasCapacity }" :title="$t('actions.upload')" is-hover-disabled="true" />
+			</OptionGroup>
+			<OptionGroup>
+				<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" is-hover-disabled="true" />
+				<Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" is-hover-disabled="true" />
+			</OptionGroup>
+		</MobileCreateMenu>
+
+		<MobileMultiSelectToolbar>
+			<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
+			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
+            <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
+		</MobileMultiSelectToolbar>
+
 		<ContextMenu>
 			<template v-slot:empty-select>
 				<OptionGroup>
@@ -40,26 +76,6 @@
 			</template>
 		</ContextMenu>
 
-		<MobileContextMenu>
-			<OptionGroup v-if="item && isFolder">
-				<Option @click.native="addToFavourites" :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')" icon="favourites" />
-            </OptionGroup>
-
-			<OptionGroup v-if="item">
-				<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-				<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-			</OptionGroup>
-			<OptionGroup v-if="item">
-				<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-				<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="users" />
-			</OptionGroup>
-
-            <OptionGroup v-if="item">
-                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
-            </OptionGroup>
-		</MobileContextMenu>
-
 		<FileBrowser>
 			<template v-slot:file-actions-mobile>
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
@@ -91,22 +107,18 @@
                 </ButtonUpload>
 			</template>
 		</FileBrowser>
-
-		<MultiSelectToolbar>
-			<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
-			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
-            <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
-		</MultiSelectToolbar>
 	</div>
 </template>
 
 <script>
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
-	import MultiSelectToolbar from "/resources/js/components/FilesView/MultiSelectToolbar"
+	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
+	import MobileCreateMenu from '/resources/js/components/FilesView/MobileCreateMenu'
     import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -118,11 +130,13 @@
 		name: 'Files',
 		components: {
 			MobileActionButtonUpload,
-			MultiSelectToolbar,
+			MobileMultiSelectToolbar,
 			MobileActionButton,
 			MobileContextMenu,
+			MobileCreateMenu,
 			ToolbarButton,
 			ButtonUpload,
+			OptionUpload,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,
@@ -131,8 +145,16 @@
 		computed: {
 			...mapGetters([
 				'clipboard',
+				'config',
 				'user',
 			]),
+			hasCapacity() {
+				// Check if storage limitation is set
+				if (!this.config.storageLimit) return true
+
+				// Check if user has storage
+				return this.user && this.user.data.attributes.storage.used <= 100
+			},
 			isFolder() {
 				return this.item && this.item.type === 'folder'
 			},
@@ -179,6 +201,9 @@
 				} else {
 					this.$store.dispatch('removeFromFavourites', this.item)
 				}
+			},
+			createFolder() {
+				events.$emit('popup:open', {name: 'create-folder'})
 			},
 		},
 		created() {

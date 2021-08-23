@@ -46,6 +46,9 @@
 			...mapGetters([
 				'clipboard'
 			]),
+			isSelected() {
+				return this.$route.params.id === this.nodes.id
+			},
 			disabledFolder() {
 				let disableFolder = false
 				if (this.draggedItem.length > 0) {
@@ -82,7 +85,6 @@
 		data() {
 			return {
 				disableChildren: false,
-				isSelected: false,
 				isVisible: false,
 				draggedItem: [],
 				area: false,

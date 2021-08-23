@@ -32,6 +32,8 @@
             left: 0;
             right: 0;
             height: initial;
+			overflow-y: auto;
+			overflow-x: hidden;
         }
     }
 

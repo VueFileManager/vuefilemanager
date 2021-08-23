@@ -17,7 +17,7 @@
 
         <!-- Mobile components -->
         <FileSortingMobile />
-        <MultiSelectToolbar />
+        <MobileMultiSelectToolbar />
 
         <!--Others-->
         <Vignette />
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import MultiSelectToolbar from '/resources/js/components/FilesView/MultiSelectToolbar'
+    import MobileMultiSelectToolbar from '/resources/js/components/FilesView/MobileMultiSelectToolbar'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
     import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
@@ -55,7 +55,7 @@
         name: 'Shared',
         components: {
 			NavigationSharePanel,
-            MultiSelectToolbar,
+            MobileMultiSelectToolbar,
             CreateFolderPopup,
             FileSortingMobile,
             ProcessingPopup,
