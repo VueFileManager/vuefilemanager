@@ -104,11 +104,10 @@ const actions = {
                     events.$emit('newFolder:focus', response.data.id)
                 }, 10)
 
-                if (! Vue.prototype.$isThisRoute(router, ['Public']))
-                    dispatch('getAppData')
-
-                if (Vue.prototype.$isThisRoute(router, ['Public']))
+                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getFolderTree')
+                else
+                    dispatch('getAppData')
 
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
@@ -132,9 +131,9 @@ const actions = {
             .then(response => {
                 commit('CHANGE_ITEM_NAME', response.data)
 
-                if (data.type === 'folder' && getters.currentFolder.location !== 'public')
+                if (data.type === 'folder' && ! Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getAppData')
-                if (data.type === 'folder' && getters.currentFolder.location === 'public')
+                if (data.type === 'folder' && Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getFolderTree')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
@@ -179,7 +178,7 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if (response.data.folder_id == getters.currentFolder.id) {
+                        if (response.data.folder_id === getters.currentFolder.id) {
 
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)
@@ -283,7 +282,7 @@ const actions = {
 
             items.forEach(data => {
                 itemsToDelete.push({
-                    force_delete: data.deleted_at ? true : false,
+                    force_delete: !!data.deleted_at,
                     type: data.type,
                     id: data.id
                 })
@@ -325,7 +324,7 @@ const actions = {
             })
             .then(() => {
 
-                itemsToDelete.forEach(data => {
+                /*itemsToDelete.forEach(data => {
 
                     // If is folder, update app data
                     if (data.type === 'folder') {
@@ -339,13 +338,12 @@ const actions = {
                             }
                         }
                     }
-                })
+                })*/
 
-                if (getters.currentFolder.location !== 'public')
-                    dispatch('getAppData')
-
-                if (getters.currentFolder.location === 'public')
+                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getFolderTree')
+                else
+                    dispatch('getAppData')
 
             })
             .catch(() => Vue.prototype.$isSomethingWrong())

@@ -212,20 +212,6 @@ const FunctionHelpers = {
             return locations.includes(route.name)
         }
 
-        Vue.prototype.$isThisLocation = function (location) {
-
-            // Get current location
-            let currentLocation = store.getters.currentFolder && store.getters.currentFolder.location ? store.getters.currentFolder.location : undefined
-
-            // Check if type is object
-            if (typeof location === 'Object' || location instanceof Object) {
-                return location.includes(currentLocation)
-
-            } else {
-                return currentLocation === location
-            }
-        }
-
         Vue.prototype.$checkPermission = function (type) {
 
             let currentPermission = store.getters.permission
@@ -237,22 +223,6 @@ const FunctionHelpers = {
             } else {
                 return currentPermission === type
             }
-        }
-
-        Vue.prototype.$isMobile = function () {
-            const toMatch = [
-                /Android/i,
-                /webOS/i,
-                /iPhone/i,
-                /iPad/i,
-                /iPod/i,
-                /BlackBerry/i,
-                /Windows Phone/i
-            ]
-
-            return toMatch.some(toMatchItem => {
-                return navigator.userAgent.match(toMatchItem)
-            })
         }
 
         Vue.prototype.$isSomethingWrong = function () {
@@ -305,10 +275,8 @@ const FunctionHelpers = {
         }
 
         // Detect windows
-        Vue.prototype.$checkOS = function () {
-            if (navigator.userAgent.indexOf('Windows') != -1) {
-                document.body.classList.add('windows')
-            }
+        Vue.prototype.$isWIndows = function () {
+            return navigator.userAgent.indexOf('Windows') != -1
         }
 
         // Check if device is Apple
@@ -321,6 +289,22 @@ const FunctionHelpers = {
                 /iOS/i,
                 /macOS/i,
                 /Macintosh/i
+            ]
+
+            return toMatch.some(toMatchItem => {
+                return navigator.userAgent.match(toMatchItem)
+            })
+        }
+
+        Vue.prototype.$isMobile = function () {
+            const toMatch = [
+                /Android/i,
+                /webOS/i,
+                /iPhone/i,
+                /iPad/i,
+                /iPod/i,
+                /BlackBerry/i,
+                /Windows Phone/i
             ]
 
             return toMatch.some(toMatchItem => {

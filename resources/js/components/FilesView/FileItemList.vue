@@ -117,7 +117,7 @@ export default {
             return mimetypes.includes(this.item.mimetype) && this.item.type === 'audio'
         },
         canEditName() {
-            return !this.$isMobile() && !this.$isThisLocation(['trash', 'trash-root']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.type === 'file')
+            return !this.$isMobile() && !this.$isThisRoute(this.$route, ['Trash']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.type === 'file')
         },
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])

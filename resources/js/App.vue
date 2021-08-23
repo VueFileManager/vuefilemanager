@@ -108,7 +108,9 @@ export default {
                 })
     },
     mounted() {
-        this.$checkOS()
+    	if (this.$isWIndows()) {
+			document.body.classList.add('windows')
+		}
     }
 }
 </script>

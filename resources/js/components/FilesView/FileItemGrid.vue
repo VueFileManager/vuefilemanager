@@ -121,7 +121,7 @@ export default {
         },
         canEditName() {
             return !this.$isMobile()
-                && !this.$isThisLocation(['trash', 'trash-root'])
+                && !this.$isThisRoute(this.$route, ['Trash'])
                 && !this.$checkPermission('visitor')
                 && !(this.sharedDetail && this.sharedDetail.type === 'file')
         },

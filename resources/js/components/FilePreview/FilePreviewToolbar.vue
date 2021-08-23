@@ -115,9 +115,7 @@
                 return activeIndex
             },
             canShareItem() {
-                return this.$isThisLocation([
-                    'base', 'latest', 'shared'
-                ])
+				return this.$isThisRoute(this.$route, ['Files', 'RecentUploads', 'MySharedItems'])
             },
         },
         methods: {
