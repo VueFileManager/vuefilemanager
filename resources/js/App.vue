@@ -57,7 +57,12 @@ export default {
 			const webApp = document.getElementsByTagName("html")[0];
 
 			webApp.classList.toggle("dark-mode");
-		}
+		},
+		spotlightListener(e) {
+			if (e.key === 'k' && e.metaKey) {
+				events.$emit('spotlight:show');
+			}
+		},
     },
     beforeMount() {
 
@@ -111,7 +116,12 @@ export default {
     	if (this.$isWIndows()) {
 			document.body.classList.add('windows')
 		}
-    }
+
+		window.addEventListener("keydown", this.spotlightListener);
+	},
+	destroyed() {
+		window.removeEventListener("keydown", this.spotlightListener);
+	}
 }
 </script>
 

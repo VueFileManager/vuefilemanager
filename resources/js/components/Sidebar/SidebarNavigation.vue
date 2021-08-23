@@ -1,26 +1,24 @@
 <template>
     <nav class="menu-bar">
-
-        <!--Navigation Icons-->
         <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">
                 <UserAvatar />
             </router-link>
 
-            <router-link :to="{name: 'Files'}" :title="$t('locations.home')" class="icon-navigation-item home">
+            <router-link :to="{name: 'Files'}" :class="{'is-active': isSection('Platform')}" :title="$t('locations.home')" class="icon-navigation-item home">
                 <div class="button-icon text-theme">
                     <hard-drive-icon size="19" class="text-theme" />
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': isSection('Profile')}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <user-icon size="19" />
                 </div>
             </router-link>
 
-            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" :title="$t('locations.settings')" class="icon-navigation-item users">
+            <router-link :to="{name: 'Dashboard'}" :class="{'is-active': isSection('Admin')}" v-if="user.data.attributes.role === 'admin'" :title="$t('locations.settings')" class="icon-navigation-item users">
                 <div class="button-icon">
                     <settings-icon size="19" />
                 </div>
@@ -35,13 +33,13 @@
         </div>
 
         <!--Logout-->
-        <ul class="icon-navigation logout">
-            <li @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
+        <div class="icon-navigation logout">
+            <div @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
                 <div class="button-icon">
                     <power-icon size="19" />
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </nav>
 </template>
 
@@ -76,48 +74,14 @@
             ...mapGetters([
 				'isDarkMode',
 				'user',
-			]),
-            isUserProfileRoute() {
-                return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription', 'PaymentMethods'])
-            }
-        },
-        data() {
-            return {
-                adminRoutes: [
-                    'AppSettings',
-                    'AppAppearance',
-                    'AppBillings',
-                    'AppEmail',
-                    'AppOthers',
-                    'Dashboard',
-                    'PlanSubscribers',
-                    'PlanCreate',
-                    'PlanSettings',
-                    'PlanDelete',
-                    'UserSubscription',
-                    'UserInvoices',
-                    'UserPassword',
-                    'UserStorage',
-                    'UserDelete',
-                    'PlanCreate',
-                    'UserCreate',
-                    'AppPayments',
-                    'PageEdit',
-                    'Pages',
-                    'UserDelete',
-                    'UserDetail',
-                    'Invoices',
-                    'Gateways',
-                    'Gateway',
-                    'Plans',
-                    'Users',
-                    'User',
-                ],
-            }
+			])
         },
 		methods: {
 			toggleDarkMode() {
 				this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+			},
+			isSection(section) {
+				return this.$route.matched[0].name === section
 			}
 		},
         mounted() {

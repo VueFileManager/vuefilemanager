@@ -105,7 +105,7 @@
 	import {mapGetters} from "vuex";
 
 export default {
-	name: "NavigationPanel",
+	name: "PanelNavigationFiles",
 	components: {
 		UpgradeSidebarBanner,
 		TreeMenuNavigator,

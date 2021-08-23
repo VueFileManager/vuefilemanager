@@ -26,13 +26,13 @@
 
         <!--Navigations-->
         <MobileNavigation />
-        <SidebarNavigation />
 
         <!--Others-->
         <DragUI />
 
-		<!--Sidebar-->
-		<NavigationPanel />
+		<!--2 col Sidebars-->
+        <SidebarNavigation />
+		<PanelNavigationFiles />
 
 		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view">
 			<DesktopToolbar/>
@@ -59,7 +59,7 @@
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
     import Spotlight from '/resources/js/components/Spotlight/Spotlight'
     import DragUI from '/resources/js/components/FilesView/DragUI'
-	import NavigationPanel from "./FileView/Components/NavigationPanel"
+	import PanelNavigationFiles from "./FileView/Components/PanelNavigationFiles"
     import {events} from '/resources/js/bus'
 
     export default {
@@ -74,7 +74,7 @@
             MobileNavigation,
             ShareCreatePopup,
             ProcessingPopup,
-			NavigationPanel,
+			PanelNavigationFiles,
             RenameItemPopup,
             ShareEditPopup,
 			DesktopToolbar,
@@ -90,11 +90,6 @@
             }
         },
 		methods: {
-        	spotlightListener(e) {
-				if (e.key === 'k' && e.metaKey) {
-					events.$emit('spotlight:show');
-				}
-			},
 			contextMenu(event, item) {
 				events.$emit('context-menu:show', event, item)
 			},
@@ -103,12 +98,7 @@
             events.$on('mobile-menu:show', () => this.isScaledDown = true)
             events.$on('fileItem:deselect', () => this.isScaledDown = false)
             events.$on('mobile-menu:hide', () => this.isScaledDown = false)
-
-			window.addEventListener("keydown", this.spotlightListener);
-        },
-		destroyed() {
-			window.removeEventListener("keydown", this.spotlightListener);
-		}
+        }
 	}
 </script>
 

@@ -1,5 +1,8 @@
 <template>
     <section id="viewport">
+		<!--On Top of App Components-->
+        <FilePreview />
+		<Spotlight />
 
         <!--Mobile Navigation-->
         <MobileNavigation />
@@ -20,7 +23,7 @@
                 <div class="menu-list-wrapper vertical">
                     <router-link :to="{name: 'Dashboard'}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <box-icon size="17"></box-icon>
+                            <box-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_menu.dashboard') }}
@@ -28,7 +31,7 @@
                     </router-link>
                     <router-link :to="{name: 'Users'}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <users-icon size="17"></users-icon>
+                            <users-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_menu.users') }}
@@ -36,7 +39,7 @@
                     </router-link>
                     <router-link :to="{name: 'AppOthers'}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <settings-icon size="17"></settings-icon>
+                            <settings-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_menu.settings') }}
@@ -44,7 +47,7 @@
                     </router-link>
                     <router-link :to="{name: 'Pages'}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <monitor-icon size="17"></monitor-icon>
+                            <monitor-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_menu.pages') }}
@@ -66,7 +69,7 @@
                 <div class="menu-list-wrapper vertical">
                     <router-link :to="{name: 'Plans'}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <database-icon size="17"></database-icon>
+                            <database-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_menu.plans') }}
@@ -74,7 +77,7 @@
                     </router-link>
                     <router-link :to="{name: 'Invoices'}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <file-text-icon size="17"></file-text-icon>
+                            <file-text-icon size="17" />
                         </div>
                         <div class="label text-theme">
                             {{ $t('admin_menu.invoices') }}
@@ -89,6 +92,8 @@
 </template>
 
 <script>
+    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
     import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
     import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
     import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
@@ -101,9 +106,13 @@
     export default {
         name: 'Settings',
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config'
+			]),
         },
         components: {
+			FilePreview,
+			Spotlight,
             SidebarNavigation,
             MobileNavigation,
             CreateLanguage,

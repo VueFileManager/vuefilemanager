@@ -19,7 +19,7 @@
 				</div>
 			</div>
 
-			<div v-if="query !== ''" class="spotlight-results">
+			<div v-if="isEmptyQuery" class="spotlight-results">
 
 				<!--Show results-->
 				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.id" class="result-item">
@@ -64,6 +64,9 @@ export default {
 		metaKeyIcon() {
 			return this.$isApple() ? '⌘' : '⊞'
 		},
+		isEmptyQuery() {
+			return this.query !== ''
+		}
 	},
 	watch: {
 		query(val) {
@@ -76,16 +79,16 @@ export default {
 	},
 	data() {
 		return {
-			index: 0,
-			query: '',
 			isVisible: false,
 			isLoading: false,
 			results: [],
+			query: '',
+			index: 0,
 		}
 	},
 	methods: {
 		proceedToSelect(e) {
-			// Preserve select and reload shortcut
+			// Preserve select and reload native shortcut
 			if (! ['a', 'r'].includes(e.key)) {
 				e.preventDefault()
 			}
@@ -103,12 +106,7 @@ export default {
 
 			// Show folder
 			if (file.type === 'folder') {
-				// todo: fixnut reload na Files stranke
-				if (this.$route.name !== 'Files') {
-					this.$router.push({name: 'Files'})
-				}
-
-				this.$store.dispatch('getFolder', this.results[this.index].id)
+				this.$router.push({name: 'Files', params: {id: this.results[this.index].id}})
 			} else {
 
 				// Show file
@@ -128,7 +126,6 @@ export default {
 				this.index++
 		},
 		onPageUp() {
-
 			if (this.index > 0) this.index--
 		},
 		searchFiles: debounce(function (value) {
