@@ -21,7 +21,7 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
-use Domain\Browsing\Controllers\BrowseFolderContentController;
+use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Folders\Controllers\NavigationFolderTreeController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
 
@@ -46,7 +46,7 @@ Route::group(['prefix' => 'password'], function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Browse
     Route::group(['prefix' => 'browse'], function () {
-        Route::get('/folders/{id}', BrowseFolderContentController::class);
+        Route::get('/folders/{id}', BrowseFolderController::class);
         Route::get('/navigation', NavigationFolderTreeController::class);
         Route::get('/search', SearchFilesAndFoldersController::class);
         Route::get('/latest', BrowseLatestFilesController::class);

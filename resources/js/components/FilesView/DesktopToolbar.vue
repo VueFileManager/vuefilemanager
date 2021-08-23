@@ -121,6 +121,7 @@
 				'isVisibleSidebar',
 				'FilePreviewType',
 				'currentFolder',
+				'sharedDetail',
 				'clipboard',
 			]),
 			isLoadedFolder() {

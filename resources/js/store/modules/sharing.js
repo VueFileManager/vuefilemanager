@@ -1,4 +1,3 @@
-import i18n from '/resources/js/i18n/index'
 import router from '/resources/js/router'
 import {events} from '/resources/js/bus'
 import axios from 'axios'
@@ -21,26 +20,22 @@ const defaultState = {
     sharedFile: undefined,
 }
 const actions = {
-    browseShared: ({commit, getters}, [payload]) => {
+    getSharedFolder: ({commit, getters}, id) => {
         commit('LOADING_STATE', {loading: true, data: []})
-
-        payload.folder.location = 'public'
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/browse/folders/${payload.folder.id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
+                .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
-                    commit('LOADING_STATE', {loading: false, data: response.data})
+                    commit('LOADING_STATE', {loading: false, data: response.data.content})
+                    commit('SET_CURRENT_FOLDER', response.data.folder)
+
                     events.$emit('scrollTop')
 
                     resolve(response)
                 })
                 .catch((error) => {
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
-                    })
+                    Vue.prototype.$isSomethingWrong()
 
                     reject(error)
                 })
@@ -67,8 +62,9 @@ const actions = {
                 .catch(error => {
                     reject(error)
 
-                    if (error.response.status == 404)
+                    if (error.response.status === 404) {
                         router.push({name: 'NotFound'})
+                    }
                 })
         })
     },
@@ -102,7 +98,6 @@ const actions = {
 
                         // Flush shared data
                         commit('FLUSH_SHARED', item.id)
-
                         commit('CLIPBOARD_CLEAR')
                     })
                     resolve(true)

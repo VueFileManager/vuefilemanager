@@ -147,6 +147,7 @@
 		},
 		computed: {
 			...mapGetters([
+				'sharedDetail',
 				'clipboard',
 				'user',
 			]),
@@ -205,8 +206,8 @@
 				}
 			},
 		},
-		created() {
-			this.$store.dispatch('getFolder', this.$route.params.id)
+		mounted() {
+			this.$store.dispatch('getSharedFolder', this.$route.params.id)
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)

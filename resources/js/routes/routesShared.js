@@ -9,10 +9,10 @@ const routesShared = [
 		},
 		children: [
 			{
-				name: 'SharedFileBrowser',
-				path: '/share/:token/files',
+				name: 'Public',
+				path: '/share/:token/files/:id?',
 				component: () =>
-					import(/* webpackChunkName: "chunks/shared/file-browser" */ '../views/Shared/SharedFileBrowser'),
+					import(/* webpackChunkName: "chunks/shared/files" */ '../views/FileView/Public/Public'),
 				meta: {
 					requiresAuth: false
 				},

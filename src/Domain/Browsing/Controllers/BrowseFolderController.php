@@ -7,7 +7,7 @@ use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
-class BrowseFolderContentController
+class BrowseFolderController
 {
     public function __invoke(
         Request $request,

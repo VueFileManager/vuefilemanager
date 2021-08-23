@@ -258,18 +258,19 @@ export default {
                 // Clear selected items after open another folder
                 this.$store.commit('CLIPBOARD_CLEAR')
 
-                if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                } else {
-                	let route = this.$router.currentRoute.name
+				let route = this.$router.currentRoute.name
 
-					if (route === 'Files')
-						this.$router.push({name: 'Files', params: {id: this.item.id}})
-					if (route === 'Trash')
-						this.$router.push({name: 'Trash', params: {id: this.item.id}})
-					else
-						this.$router.push({name: 'Files', params: {id: this.item.id}})
-                }
+				if (route === 'Public') {
+					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
+				}
+
+				if (route === 'Trash') {
+					this.$router.push({name: 'Trash', params: {id: this.item.id}})
+				}
+
+				if (route === 'Files') {
+					this.$router.push({name: 'Files', params: {id: this.item.id}})
+				}
             }
         },
         renameItem: debounce(function (e) {

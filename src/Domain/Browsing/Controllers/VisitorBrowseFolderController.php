@@ -11,7 +11,7 @@ use Domain\Sharing\Actions\VerifyAccessToItemAction;
 /**
  * Browse shared folder
  */
-class VisitorBrowseFolderContentController
+class VisitorBrowseFolderController
 {
     public function __construct(
         private ProtectShareRecordAction $protectShareRecord,
@@ -22,12 +22,15 @@ class VisitorBrowseFolderContentController
     public function __invoke(
         string $id,
         Share $shared,
-    ): Collection {
+    ): array {
+
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
         // Check if user can get directory
         ($this->verifyAccessToItem)($id, $shared);
+
+        $requestedFolder = Folder::findOrFail($id);
 
         // Get files and folders
         $folders = Folder::where('user_id', $shared->user_id)
@@ -44,7 +47,9 @@ class VisitorBrowseFolderContentController
         $files->map(fn ($file) => $file->setPublicUrl($shared->token));
 
         // Collect folders and files to single array
-        return collect([$folders, $files])
-            ->collapse();
+        return [
+            'content' => collect([$folders, $files])->collapse(),
+            'folder'  => $requestedFolder,
+        ];
     }
 }
