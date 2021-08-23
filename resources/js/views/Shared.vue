@@ -26,6 +26,8 @@
         <DragUI />
         <Alert />
 
+		<NavigationSharePanel v-if="sharedDetail"/>
+
 		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view">
 			<DesktopToolbar/>
 			<router-view :key="$route.fullPath" />
@@ -43,6 +45,7 @@
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
     import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
 	import DesktopToolbar from "../components/FilesView/DesktopToolbar"
+	import NavigationSharePanel from "./FileView/NavigationSharePanel"
     import Spinner from '/resources/js/components/FilesView/Spinner'
     import Vignette from '/resources/js/components/Others/Vignette'
     import DragUI from '/resources/js/components/FilesView/DragUI'
@@ -51,8 +54,9 @@
     import {mapGetters} from 'vuex'
 
     export default {
-        name: 'Platform',
+        name: 'Shared',
         components: {
+			NavigationSharePanel,
             MultiSelectToolbar,
             CreateFolderPopup,
             FileSortingMobile,
@@ -69,8 +73,9 @@
         },
         computed: {
             ...mapGetters([
-                'config'
-            ]),
+                'sharedDetail',
+                'config',
+            ])
         },
         data() {
             return {

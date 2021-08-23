@@ -220,12 +220,16 @@ export default {
             if (!this.mobileMultiSelect && this.$isMobile()) {
 
                 if (this.isFolder) {
+					let route = this.$router.currentRoute.name
 
-                    if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                    } else {
+					if (route === 'Public') {
+						this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
+					} else if (route === 'Trash') {
+						this.$router.push({name: 'Trash', params: {id: this.item.id}})
+					} else if (route === 'Files') {
 						this.$router.push({name: 'Files', params: {id: this.item.id}})
-                    }
+					}
+
                 } else {
 
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
@@ -262,13 +266,9 @@ export default {
 
 				if (route === 'Public') {
 					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
-				}
-
-				if (route === 'Trash') {
+				} else if (route === 'Trash') {
 					this.$router.push({name: 'Trash', params: {id: this.item.id}})
-				}
-
-				if (route === 'Files') {
+				} else if (route === 'Files') {
 					this.$router.push({name: 'Files', params: {id: this.item.id}})
 				}
             }

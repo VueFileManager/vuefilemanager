@@ -125,6 +125,10 @@
 				'clipboard',
 			]),
 			isLoadedFolder() {
+				if (this.sharedDetail && this.sharedDetail.item_id === this.$route.params.id) {
+					return false
+				}
+
 				return this.$route.params.id
 			},
 			hasCapacity() {

@@ -90,7 +90,11 @@
 		},
 		methods: {
 			goToFolder() {
-				this.$router.push({name: 'Files', params: {id: this.nodes.id}})
+				if (this.$router.currentRoute.name === 'Public') {
+					this.$router.push({name: 'Public', params: {id: this.nodes.id}})
+				} else {
+					this.$router.push({name: 'Files', params: {id: this.nodes.id}})
+				}
 			},
 			dragFinish() {
 				// Move no selected item
