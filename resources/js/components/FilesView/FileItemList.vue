@@ -229,7 +229,6 @@ export default {
 					} else if (route === 'Files') {
 						this.$router.push({name: 'Files', params: {id: this.item.id}})
 					}
-
                 } else {
 
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {

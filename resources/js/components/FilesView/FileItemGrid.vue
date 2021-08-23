@@ -215,13 +215,16 @@ export default {
 
             if (!this.mobileMultiSelect && this.$isMobile()) {
 
-                if (this.isFolder) {
+				if (this.isFolder) {
+					let route = this.$router.currentRoute.name
 
-                    if (this.$isThisLocation('public')) {
-                        this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                    } else {
-                        this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
-                    }
+					if (route === 'Public') {
+						this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
+					} else if (route === 'Trash') {
+						this.$router.push({name: 'Trash', params: {id: this.item.id}})
+					} else if (route === 'Files') {
+						this.$router.push({name: 'Files', params: {id: this.item.id}})
+					}
                 } else {
 
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
@@ -250,15 +253,18 @@ export default {
                 this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
 
             } else if (this.isFolder) {
+				// Clear selected items after open another folder
+				this.$store.commit('CLIPBOARD_CLEAR')
 
-                //Clear selected data after open another folder
-                this.$store.commit('CLIPBOARD_CLEAR')
+				let route = this.$router.currentRoute.name
 
-                if (this.$isThisLocation('public')) {
-                    this.$store.dispatch('browseShared', [{folder: this.item, back: false, init: false}])
-                } else {
-                    this.$store.dispatch('getFolder', [{folder: this.item, back: false, init: false}])
-                }
+				if (route === 'Public') {
+					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
+				} else if (route === 'Trash') {
+					this.$router.push({name: 'Trash', params: {id: this.item.id}})
+				} else if (route === 'Files') {
+					this.$router.push({name: 'Files', params: {id: this.item.id}})
+				}
             }
         },
         renameItem: debounce(function (e) {
