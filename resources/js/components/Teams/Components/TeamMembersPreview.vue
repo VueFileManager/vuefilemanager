@@ -4,7 +4,7 @@
 			{{ count }}
 		</span>
 		<div class="members">
-			<img v-for="member in members" :src="member" class="member">
+			<img v-for="member in members" :src="member" class="member" alt="">
 		</div>
 	</div>
 </template>
@@ -48,6 +48,20 @@ export default {
 				&:first-child {
 					margin-left: 0;
 				}
+			}
+		}
+	}
+
+	.dark-mode {
+
+		.team-folder {
+
+			.member-count {
+				color: $dark_mode_text_secondary;
+			}
+
+			.members .member {
+				border-color: $dark_mode_foreground;
 			}
 		}
 	}

@@ -125,4 +125,11 @@
 			margin-left: auto;
 		}
 	}
+
+	.dark-mode {
+
+		.member-item .info .email {
+			color: $dark_mode_text_secondary;
+		}
+	}
 </style>

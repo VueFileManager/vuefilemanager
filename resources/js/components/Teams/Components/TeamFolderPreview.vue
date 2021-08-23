@@ -55,4 +55,10 @@
 			}
 		}
 	}
+
+	.dark-mode {
+		.team-folder-preview {
+			border-color: $dark_mode_border_color;
+		}
+	}
 </style>

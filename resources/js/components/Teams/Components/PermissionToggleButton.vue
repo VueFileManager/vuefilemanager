@@ -70,4 +70,11 @@
 			color: $light_text;
 		}
 	}
+
+	.dark-mode {
+
+		.permission-toggle .privilege {
+			color: $dark_mode_text_secondary;
+		}
+	}
 </style>

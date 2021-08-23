@@ -341,6 +341,14 @@
 }
 
 .dark-mode {
+	.team-preview:hover {
+		background: $dark_mode_foreground;
+
+		/deep/ .members .member {
+			border-color: $dark_mode_foreground;
+		}
+	}
+
 	.toolbar .directory-name {
 		color: $dark_mode_text_primary;
 	}
