@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Folders\Models;
 
 use Illuminate\Support\Str;
@@ -49,7 +50,8 @@ class Folder extends Model
     ];
 
     protected $casts = [
-        'emoji' => 'array',
+        'emoji'       => 'array',
+        'team_folder' => 'boolean',
     ];
 
     protected $hidden = [
@@ -132,9 +134,9 @@ class Folder extends Model
     /**
      * Format deleted at date reformat
      */
-    public function getDeletedAtAttribute(): string | null
+    public function getDeletedAtAttribute(): string|null
     {
-        if (! $this->attributes['deleted_at']) {
+        if (!$this->attributes['deleted_at']) {
             return null;
         }
 
@@ -226,7 +228,7 @@ class Folder extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
+            $model->id = (string)Str::uuid();
         });
 
         static::deleting(function ($item) {

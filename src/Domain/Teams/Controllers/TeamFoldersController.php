@@ -9,12 +9,29 @@ use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Teams\DTO\CreateTeamFolderData;
+use Illuminate\Support\Facades\Auth;
 
 class TeamFoldersController extends Controller
 {
     public function __construct(
         public InviteMembersIntoTeamFolderAction $inviteMembers,
     ) {}
+
+    public function show($id)
+    {
+        $folder_id = $id !== 'undefined'
+            ? Folder::findOrFail($id)->id
+            : null;
+
+        $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('parent_id', $folder_id)
+            ->where('team_folder', 1)
+            ->where('user_id', Auth::id())
+            ->sortable()
+            ->get();
+
+        return response($folders);
+    }
 
     public function store(
         Request $request,

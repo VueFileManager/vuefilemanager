@@ -75,7 +75,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->post("/api/teams/folders/convert/{$folder->id}", [
+            ->post("/api/teams/convert/{$folder->id}", [
                 'members' => [
                     [
                         'email'      => 'john@internal.com',
@@ -230,17 +230,26 @@ class TeamsTest extends TestCase
     }
 
     /**
-     *
-     */
-    public function it_move_items_into_team_folder()
-    {
-    }
-
-    /**
-     *
+     * @test
      */
     public function it_get_all_team_folders()
     {
+        $user = User::factory(User::class)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->getJson("/api/teams/folders/undefined")
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $folder->id,
+            ]);
     }
 
     /**

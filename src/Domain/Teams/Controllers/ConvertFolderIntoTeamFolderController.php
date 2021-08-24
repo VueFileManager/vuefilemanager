@@ -20,7 +20,11 @@ class ConvertFolderIntoTeamFolderController extends Controller
         Request $request,
         Folder $folder
     ): Response {
-        $folder->update(['team_folder' => 1]);
+
+        $folder->update([
+            'team_folder' => 1,
+            'parent_id'   => null,
+        ]);
 
         // Invite team members
         ($this->inviteMembers)($request->input('members'), $folder);
