@@ -1,8 +1,10 @@
 <?php
 
-use Domain\Teams\Controllers\AcceptTeamFolderInvitationController;
+use Domain\Teams\Controllers\InvitationsController;
 use Domain\Teams\Controllers\TeamFoldersController;
 
-Route::apiResource('/team-folders', TeamFoldersController::class);
 
-Route::post('/invitations/{invitation}', AcceptTeamFolderInvitationController::class);
+Route::apiResource('/invitations', InvitationsController::class)
+    ->only('destroy', 'update');
+
+Route::apiResource('/team-folders', TeamFoldersController::class);

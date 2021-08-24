@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Domain\Teams\Controllers;
-
 
 use App\Http\Controllers\Controller;
 use App\Users\Models\User;
@@ -10,11 +8,11 @@ use Domain\Teams\Models\TeamFoldersInvitation;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class AcceptTeamFolderInvitationController extends Controller
+class InvitationsController extends Controller
 {
-    public function __invoke(TeamFoldersInvitation $invitation): Response
-    {
-
+    public function update(
+        TeamFoldersInvitation $invitation
+    ): Response {
         $user = User::where('email', $invitation->email)
             ->firstOrFail();
 
@@ -29,6 +27,17 @@ class AcceptTeamFolderInvitationController extends Controller
                 'permission' => 'can-edit',
             ]);
 
-        return response('Done', 201);
+        return response('Done', 204);
+    }
+
+    public function destroy(
+        TeamFoldersInvitation $invitation
+    ): Response {
+
+        $invitation->update([
+            'status' => 'rejected',
+        ]);
+
+        return response('Done', 204);
     }
 }

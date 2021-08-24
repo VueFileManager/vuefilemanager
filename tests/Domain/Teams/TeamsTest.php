@@ -96,26 +96,56 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($member)
-            ->postJson("/api/teams/invitations/{$invitation->id}")
-            ->assertCreated();
+            ->putJson("/api/teams/invitations/{$invitation->id}")
+            ->assertNoContent();
 
         $this
+            ->assertDatabaseHas('team_folders_invitations', [
+                'folder_id' => $folder->id,
+                'status'    => 'accepted',
+            ])
             ->assertDatabaseHas('team_folder_members', [
                 'folder_id'  => $folder->id,
                 'member_id'  => $member->id,
                 'permission' => 'can-edit',
-            ])
-            ->assertDatabaseHas('team_folders_invitations', [
-                'folder_id' => $folder->id,
-                'status'    => 'accepted',
             ]);
     }
 
     /**
-     *
+     * @test
      */
     public function it_reject_team_folder_invite()
     {
+        $member = User::factory(User::class)
+            ->create([
+                'email' => 'john@internal.com',
+            ]);
+
+        $folder = Folder::factory()
+            ->create();
+
+        $invitation = TeamFoldersInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'email'      => $member->email,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+            ]);
+
+        $this
+            ->actingAs($member)
+            ->deleteJson("/api/teams/invitations/{$invitation->id}")
+            ->assertNoContent();
+
+        $this
+            ->assertDatabaseHas('team_folders_invitations', [
+                'folder_id' => $folder->id,
+                'status'    => 'rejected',
+            ])
+            ->assertDatabaseMissing('team_folder_members', [
+                'folder_id'  => $folder->id,
+                'member_id'  => $member->id,
+            ]);
     }
 
     /**
