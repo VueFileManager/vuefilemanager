@@ -2,6 +2,7 @@
 
 namespace Tests\Domain\Teams;
 
+use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Domain\Teams\Models\TeamFoldersInvitation;
 use Illuminate\Support\Facades\DB;
@@ -249,6 +250,35 @@ class TeamsTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $folder->id,
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_content_of_team_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        $file = File::factory()
+            ->create([
+                'folder_id'   => $folder->id,
+                'user_id'     => $user->id,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->getJson("/api/teams/folders/{$folder->id}")
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $file->id,
             ]);
     }
 

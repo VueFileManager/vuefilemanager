@@ -3,6 +3,7 @@
 namespace Domain\Teams\Controllers;
 
 use DB;
+use Domain\Files\Models\File;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,18 +20,28 @@ class TeamFoldersController extends Controller
 
     public function show($id)
     {
-        $folder_id = $id !== 'undefined'
-            ? Folder::findOrFail($id)->id
-            : null;
+        $isHomepage = $id === 'undefined';
+        $rootId = $id === 'undefined' ? null : $id;
+        $requestedFolder = $rootId ? Folder::findOrFail($rootId) : null;
 
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', $folder_id)
-            ->where('team_folder', 1)
+            ->where('parent_id', $rootId)
+            ->where('team_folder', $isHomepage)
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 
-        return response($folders);
+        $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            ->where('folder_id', $rootId)
+            ->where('user_id', Auth::id())
+            ->sortable()
+            ->get();
+
+        // Collect folders and files to single array
+        return [
+            'content' => collect([$folders, $files])->collapse(),
+            'folder'  => $requestedFolder,
+        ];
     }
 
     public function store(
