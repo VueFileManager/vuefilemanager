@@ -60,17 +60,43 @@ class TeamsTest extends TestCase
     }
 
     /**
-     *
+     * @test
      */
-    public function it_convert_team_folder()
+    public function it_convert_folder_into_team_folder()
     {
-    }
+        $user = User::factory()
+            ->create();
 
-    /**
-     *
-     */
-    public function it_add_member_into_team_folder()
-    {
+        $folder = Folder::factory()
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->post("/api/teams/team-folders/convert/{$folder->id}", [
+                'members' => [
+                    [
+                        'email'      => 'john@internal.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'jane@external.com',
+                        'permission' => 'can-view',
+                    ],
+                ],
+            ])
+            ->assertCreated()
+            ->assertJsonFragment([
+                'name' => $folder->name,
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'id'          => $folder->id,
+            'team_folder' => 1,
+        ]);
+
+        Notification::assertTimesSent(2, InvitationIntoTeamFolder::class);
     }
 
     /**
@@ -143,9 +169,16 @@ class TeamsTest extends TestCase
                 'status'    => 'rejected',
             ])
             ->assertDatabaseMissing('team_folder_members', [
-                'folder_id'  => $folder->id,
-                'member_id'  => $member->id,
+                'folder_id' => $folder->id,
+                'member_id' => $member->id,
             ]);
+    }
+
+    /**
+     *
+     */
+    public function it_add_member_into_team_folder()
+    {
     }
 
     /**
