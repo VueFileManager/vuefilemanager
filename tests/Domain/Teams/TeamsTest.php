@@ -134,7 +134,7 @@ class TeamsTest extends TestCase
             ])
             ->assertDatabaseHas('team_folder_members', [
                 'folder_id'  => $folder->id,
-                'member_id'  => $member->id,
+                'user_id'    => $member->id,
                 'permission' => 'can-edit',
             ]);
     }
@@ -172,22 +172,181 @@ class TeamsTest extends TestCase
             ])
             ->assertDatabaseMissing('team_folder_members', [
                 'folder_id' => $folder->id,
-                'member_id' => $member->id,
+                'user_id'   => $member->id,
             ]);
     }
 
     /**
-     *
+     * @test
      */
     public function it_add_member_into_team_folder()
     {
+        $user = User::factory(User::class)
+            ->create();
+
+        $members = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[0]->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[1]->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/teams/folders/{$folder->id}", [
+                'members' => [
+                    [
+                        'id'         => $members[0]->id,
+                        'email'      => 'john@internal.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'id'         => $members[1]->id,
+                        'email'      => 'jane@external.com',
+                        'permission' => 'can-view',
+                    ],
+                    [
+                        'id'         => null,
+                        'email'      => 'new@member.com',
+                        'permission' => 'can-view',
+                    ],
+                ],
+            ])
+            ->assertCreated();
+
+        $this
+            ->assertDatabaseCount('team_folder_members', 2)
+            ->assertDatabaseHas('team_folders_invitations', [
+                'email'      => 'new@member.com',
+                'permission' => 'can-view',
+            ]);
+
+        Notification::assertTimesSent(1, InvitationIntoTeamFolder::class);
     }
 
     /**
-     *
+     * @test
      */
     public function it_remove_member_from_team_folder()
     {
+        $user = User::factory(User::class)
+            ->create();
+
+        $members = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[0]->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[1]->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/teams/folders/{$folder->id}", [
+                'members' => [
+                    [
+                        'id'         => $members[0]->id,
+                        'email'      => 'john@internal.com',
+                        'permission' => 'can-edit',
+                    ],
+                ],
+            ])
+            ->assertCreated();
+
+        $this
+            ->assertDatabaseCount('team_folder_members', 1)
+            ->assertDatabaseMissing('team_folder_members', [
+                'user_id' => $members[1]->id,
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_member_permission_in_team_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $members = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[0]->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[1]->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/teams/folders/{$folder->id}", [
+                'members' => [
+                    [
+                        'id'         => $members[0]->id,
+                        'email'      => 'john@internal.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'id'         => $members[1]->id,
+                        'email'      => 'jane@external.com',
+                        'permission' => 'can-view',
+                    ],
+                ],
+            ])
+            ->assertCreated();
+
+        $this->assertDatabaseHas('team_folder_members', [
+            'user_id'    => $members[1]->id,
+            'permission' => 'can-view',
+        ]);
     }
 
     /**
@@ -212,12 +371,12 @@ class TeamsTest extends TestCase
             ->insert([
                 [
                     'folder_id'  => $folder->id,
-                    'member_id'  => $members[0]->id,
+                    'user_id'    => $members[0]->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'folder_id'  => $folder->id,
-                    'member_id'  => $members[1]->id,
+                    'user_id'    => $members[1]->id,
                     'permission' => 'can-edit',
                 ],
             ]);
@@ -269,8 +428,8 @@ class TeamsTest extends TestCase
 
         $file = File::factory()
             ->create([
-                'folder_id'   => $folder->id,
-                'user_id'     => $user->id,
+                'folder_id' => $folder->id,
+                'user_id'   => $user->id,
             ]);
 
         $this
@@ -304,12 +463,12 @@ class TeamsTest extends TestCase
             ->insert([
                 [
                     'folder_id'  => $folders[0]->id,
-                    'member_id'  => $member->id,
+                    'user_id'    => $member->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'folder_id'  => $folders[1]->id,
-                    'member_id'  => $member->id,
+                    'user_id'    => $member->id,
                     'permission' => 'can-edit',
                 ],
             ]);

@@ -15,7 +15,7 @@ class CreateTeamFolderMembersTable extends Migration
     {
         Schema::create('team_folder_members', function (Blueprint $table) {
             $table->uuid('folder_id');
-            $table->uuid('member_id');
+            $table->uuid('user_id');
             $table->string('permission');
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';

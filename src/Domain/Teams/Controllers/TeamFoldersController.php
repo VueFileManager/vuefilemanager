@@ -11,6 +11,7 @@ use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Teams\DTO\CreateTeamFolderData;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TeamFoldersController extends Controller
 {
@@ -61,11 +62,51 @@ class TeamFoldersController extends Controller
         return response($folder, 201);
     }
 
+    public function update(Request $request, Folder $folder)
+    {
+        $existingMembers = DB::table('team_folder_members')
+            ->where('folder_id', $folder->id)
+            ->pluck('user_id');
+
+        $deletedMembers = $existingMembers
+            ->filter(fn ($memberId) => ! in_array(
+                $memberId, collect($request->input('members'))->pluck('id')->toArray()
+            ));
+
+        $newMembers = collect($request->input('members'))
+            ->filter(fn ($member) => ! Str::isUuid($member['id']));
+
+        // Invite team members
+        if ($newMembers->isNotEmpty()) {
+            ($this->inviteMembers)($newMembers->toArray(), $folder);
+        }
+
+        if ($deletedMembers->isNotEmpty()) {
+            DB::table('team_folder_members')
+                ->whereIn('user_id', $deletedMembers->toArray())
+                ->delete();
+        }
+
+        // Update privileges
+        collect($request->input('members'))
+            ->each(function ($member) {
+                DB::table('team_folder_members')
+                    ->where('user_id', $member['id'])
+                    ->update([
+                        'permission' => $member['permission'],
+                    ]);
+            });
+
+        return response('Done', 201);
+    }
+
     public function destroy(Folder $folder): Response
     {
         $folder->update([
             'team_folder' => 0,
         ]);
+
+        // TODO: delete invitations
 
         DB::table('team_folder_members')
             ->where('folder_id', $folder->id)

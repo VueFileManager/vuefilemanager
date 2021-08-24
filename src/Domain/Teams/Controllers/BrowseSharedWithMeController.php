@@ -32,7 +32,7 @@ class BrowseSharedWithMeController
         if (! $rootId) {
 
             $folderIds = DB::table('team_folder_members')
-                ->where('member_id', Auth::id())
+                ->where('user_id', Auth::id())
                 ->pluck('folder_id');
 
             $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])

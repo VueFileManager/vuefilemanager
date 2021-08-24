@@ -23,7 +23,7 @@ class InvitationsController extends Controller
         DB::table('team_folder_members')
             ->insert([
                 'folder_id'  => $invitation->folder_id,
-                'member_id'  => $user->id,
+                'user_id'  => $user->id,
                 'permission' => 'can-edit',
             ]);
 
