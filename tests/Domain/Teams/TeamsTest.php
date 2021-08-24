@@ -283,9 +283,43 @@ class TeamsTest extends TestCase
     }
 
     /**
-     *
+     * @test
      */
     public function it_get_team_folders_shared_with_another_user()
     {
+        $user = User::factory(User::class)
+            ->create();
+
+        $member = User::factory(User::class)
+            ->create();
+
+        $folders = Folder::factory()
+            ->count(2)
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'folder_id'  => $folders[0]->id,
+                    'member_id'  => $member->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'folder_id'  => $folders[1]->id,
+                    'member_id'  => $member->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($member)
+            ->getJson('/api/teams/shared-with-me/undefined')
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $folders[0]->id,
+            ]);
     }
 }
