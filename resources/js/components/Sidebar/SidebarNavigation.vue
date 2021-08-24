@@ -12,7 +12,7 @@
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': isSection('Profile')}" :title="$t('locations.profile')" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': isSection('User')}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <user-icon size="19" />
                 </div>
