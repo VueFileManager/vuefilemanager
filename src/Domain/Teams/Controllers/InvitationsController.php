@@ -4,14 +4,14 @@ namespace Domain\Teams\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Users\Models\User;
-use Domain\Teams\Models\TeamFoldersInvitation;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class InvitationsController extends Controller
 {
     public function update(
-        TeamFoldersInvitation $invitation
+        TeamFolderInvitation $invitation
     ): Response {
         $user = User::where('email', $invitation->email)
             ->firstOrFail();
@@ -31,7 +31,7 @@ class InvitationsController extends Controller
     }
 
     public function destroy(
-        TeamFoldersInvitation $invitation
+        TeamFolderInvitation $invitation
     ): Response {
 
         $invitation->update([

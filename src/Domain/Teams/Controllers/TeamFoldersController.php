@@ -68,11 +68,14 @@ class TeamFoldersController extends Controller
             ->where('folder_id', $folder->id)
             ->pluck('user_id');
 
+        // Get deleted members from request
+        // TODO: vymazat uzivatela z pozvankou
         $deletedMembers = $existingMembers
             ->filter(fn ($memberId) => ! in_array(
                 $memberId, collect($request->input('members'))->pluck('id')->toArray()
             ));
 
+        // Get newly added members from request
         $newMembers = collect($request->input('members'))
             ->filter(fn ($member) => ! Str::isUuid($member['id']));
 
@@ -81,6 +84,7 @@ class TeamFoldersController extends Controller
             ($this->inviteMembers)($newMembers->toArray(), $folder);
         }
 
+        // Remove team members from team folder
         if ($deletedMembers->isNotEmpty()) {
             DB::table('team_folder_members')
                 ->whereIn('user_id', $deletedMembers->toArray())
@@ -106,7 +110,9 @@ class TeamFoldersController extends Controller
             'team_folder' => 0,
         ]);
 
-        // TODO: delete invitations
+        DB::table('team_folder_invitations')
+            ->where('folder_id', $folder->id)
+            ->delete();
 
         DB::table('team_folder_members')
             ->where('folder_id', $folder->id)

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeamFoldersInvitationsTable extends Migration
+class CreateTeamFolderInvitationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTeamFoldersInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('team_folders_invitations', function (Blueprint $table) {
+        Schema::create('team_folder_invitations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('folder_id');
             $table->text('email');

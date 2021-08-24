@@ -3,7 +3,7 @@ namespace Domain\Teams\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Database\Factories\TeamFoldersInvitationFactory;
+use Database\Factories\TeamFolderInvitationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string created_at
  * @property string updated_at
  */
-class TeamFoldersInvitation extends Model
+class TeamFolderInvitation extends Model
 {
     use HasFactory;
 
@@ -29,9 +29,9 @@ class TeamFoldersInvitation extends Model
 
     protected $keyType = 'string';
 
-    protected static function newFactory(): TeamFoldersInvitationFactory
+    protected static function newFactory(): TeamFolderInvitationFactory
     {
-        return TeamFoldersInvitationFactory::new();
+        return TeamFolderInvitationFactory::new();
     }
 
     protected static function boot()

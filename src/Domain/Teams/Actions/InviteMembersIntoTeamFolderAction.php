@@ -4,7 +4,7 @@
 namespace Domain\Teams\Actions;
 
 use Domain\Folders\Models\Folder;
-use Domain\Teams\Models\TeamFoldersInvitation;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 use Illuminate\Support\Facades\Notification;
 
@@ -18,7 +18,7 @@ class InviteMembersIntoTeamFolderAction
             ->each(function ($member) use ($folder) {
 
                 // Create invitation
-                $invitation = TeamFoldersInvitation::create([
+                $invitation = TeamFolderInvitation::create([
                     'permission' => $member['permission'],
                     'email'      => $member['email'],
                     'folder_id'  => $folder->id,

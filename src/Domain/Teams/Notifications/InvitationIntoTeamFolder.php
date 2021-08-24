@@ -5,7 +5,7 @@ use App\Users\Models\User;
 use Illuminate\Bus\Queueable;
 use Domain\Folders\Models\Folder;
 use Illuminate\Notifications\Notification;
-use Domain\Teams\Models\TeamFoldersInvitation;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class InvitationIntoTeamFolder extends Notification
@@ -14,7 +14,7 @@ class InvitationIntoTeamFolder extends Notification
 
     public function __construct(
         public Folder $teamFolder,
-        public TeamFoldersInvitation $invitation,
+        public TeamFolderInvitation $invitation,
     ) {
     }
 

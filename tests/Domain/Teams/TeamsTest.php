@@ -4,7 +4,7 @@ namespace Tests\Domain\Teams;
 
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
-use Domain\Teams\Models\TeamFoldersInvitation;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Support\Facades\DB;
 use Notification;
 use Tests\TestCase;
@@ -51,10 +51,10 @@ class TeamsTest extends TestCase
                 'name'        => 'Company Project',
                 'team_folder' => 1,
             ])
-            ->assertDatabaseHas('team_folders_invitations', [
+            ->assertDatabaseHas('team_folder_invitations', [
                 'email' => 'john@internal.com',
             ])
-            ->assertDatabaseHas('team_folders_invitations', [
+            ->assertDatabaseHas('team_folder_invitations', [
                 'email' => 'jane@external.com',
             ]);
 
@@ -114,7 +114,7 @@ class TeamsTest extends TestCase
         $folder = Folder::factory()
             ->create();
 
-        $invitation = TeamFoldersInvitation::factory()
+        $invitation = TeamFolderInvitation::factory()
             ->create([
                 'folder_id'  => $folder->id,
                 'email'      => $member->email,
@@ -128,7 +128,7 @@ class TeamsTest extends TestCase
             ->assertNoContent();
 
         $this
-            ->assertDatabaseHas('team_folders_invitations', [
+            ->assertDatabaseHas('team_folder_invitations', [
                 'folder_id' => $folder->id,
                 'status'    => 'accepted',
             ])
@@ -152,7 +152,7 @@ class TeamsTest extends TestCase
         $folder = Folder::factory()
             ->create();
 
-        $invitation = TeamFoldersInvitation::factory()
+        $invitation = TeamFolderInvitation::factory()
             ->create([
                 'folder_id'  => $folder->id,
                 'email'      => $member->email,
@@ -166,7 +166,7 @@ class TeamsTest extends TestCase
             ->assertNoContent();
 
         $this
-            ->assertDatabaseHas('team_folders_invitations', [
+            ->assertDatabaseHas('team_folder_invitations', [
                 'folder_id' => $folder->id,
                 'status'    => 'rejected',
             ])
@@ -233,7 +233,7 @@ class TeamsTest extends TestCase
 
         $this
             ->assertDatabaseCount('team_folder_members', 2)
-            ->assertDatabaseHas('team_folders_invitations', [
+            ->assertDatabaseHas('team_folder_invitations', [
                 'email'      => 'new@member.com',
                 'permission' => 'can-view',
             ]);
@@ -367,6 +367,13 @@ class TeamsTest extends TestCase
                 'team_folder' => 1,
             ]);
 
+        TeamFolderInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+            ]);
+
         DB::table('team_folder_members')
             ->insert([
                 [
@@ -386,7 +393,9 @@ class TeamsTest extends TestCase
             ->deleteJson("/api/teams/folders/{$folder->id}")
             ->assertNoContent();
 
-        $this->assertDatabaseCount('team_folder_members', 0);
+        $this
+            ->assertDatabaseCount('team_folder_members', 0)
+            ->assertDatabaseCount('team_folder_invitations', 0);
     }
 
     /**

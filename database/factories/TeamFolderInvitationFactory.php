@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use Domain\Teams\Models\TeamFoldersInvitation;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TeamFoldersInvitationFactory extends Factory
+class TeamFolderInvitationFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = TeamFoldersInvitation::class;
+    protected $model = TeamFolderInvitation::class;
 
     /**
      * Define the model's default state.
