@@ -2,6 +2,7 @@
 
 namespace Domain\Teams\Controllers;
 
+use DB;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,5 +31,18 @@ class TeamFoldersController extends Controller
         ($this->inviteMembers)($data->members, $folder);
 
         return response($folder, 201);
+    }
+
+    public function destroy(Folder $folder): Response
+    {
+        $folder->update([
+            'team_folder' => 0,
+        ]);
+
+        DB::table('team_folder_members')
+            ->where('folder_id', $folder->id)
+            ->delete();
+
+        return response('Done.', 204);
     }
 }

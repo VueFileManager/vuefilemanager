@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Domain\Folders\Models\Folder;
@@ -21,13 +22,14 @@ class FolderFactory extends Factory
     public function definition()
     {
         return [
-            'id'         => $this->faker->uuid,
-            'user_id'    => $this->faker->uuid,
-            'name'       => $this->faker->word,
-            'author'     => $this->faker->randomElement(
+            'id'          => $this->faker->uuid,
+            'user_id'     => $this->faker->uuid,
+            'name'        => $this->faker->word,
+            'team_folder' => $this->faker->boolean(),
+            'author'      => $this->faker->randomElement(
                 ['user', 'member', 'visitor']
             ),
-            'created_at' => $this->faker->dateTimeBetween(
+            'created_at'  => $this->faker->dateTimeBetween(
                 $startDate = '-36 months',
                 $endDate = 'now',
                 $timezone = null

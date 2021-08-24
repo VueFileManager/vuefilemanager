@@ -4,6 +4,7 @@ namespace Tests\Domain\Teams;
 
 use Domain\Folders\Models\Folder;
 use Domain\Teams\Models\TeamFoldersInvitation;
+use Illuminate\Support\Facades\DB;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -26,7 +27,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->post('/api/teams/team-folders', [
+            ->post('/api/teams/folders', [
                 'name'    => 'Company Project',
                 'members' => [
                     [
@@ -74,7 +75,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->post("/api/teams/team-folders/convert/{$folder->id}", [
+            ->post("/api/teams/folders/convert/{$folder->id}", [
                 'members' => [
                     [
                         'email'      => 'john@internal.com',
@@ -189,10 +190,43 @@ class TeamsTest extends TestCase
     }
 
     /**
-     *
+     * @test
      */
     public function it_dissolve_team_folder()
     {
+        $user = User::factory(User::class)
+            ->create();
+
+        $members = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'folder_id'  => $folder->id,
+                    'member_id'  => $members[0]->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'folder_id'  => $folder->id,
+                    'member_id'  => $members[1]->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->deleteJson("/api/teams/folders/{$folder->id}")
+            ->assertNoContent();
+
+        $this->assertDatabaseCount('team_folder_members', 0);
     }
 
     /**
