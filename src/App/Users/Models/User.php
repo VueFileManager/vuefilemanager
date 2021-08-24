@@ -24,7 +24,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property mixed id
+ * @property string id
  * @property Setting settings
  * @property string email
  * @property mixed favouriteFolders
@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static forceCreate(array $array)
  * @method static where(string $string, string $string1, string $toDateString)
  * @method static create(array $array)
+ * @method static find(mixed $email)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

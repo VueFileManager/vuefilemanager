@@ -43,6 +43,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapFileRoutes();
 
+        $this->mapTeamsRoutes();
+
         $this->mapWebRoutes();
     }
 
@@ -104,6 +106,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('api/user')
             ->middleware('api')
             ->group(base_path('routes/user.php'));
+    }
+
+    protected function mapTeamsRoutes()
+    {
+        Route::prefix('api/teams')
+            ->middleware(['api', 'auth:sanctum'])
+            ->group(base_path('routes/teams.php'));
     }
 
     protected function mapSetupWizardApiRoutes()

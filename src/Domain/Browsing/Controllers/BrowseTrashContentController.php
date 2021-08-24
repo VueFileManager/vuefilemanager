@@ -14,7 +14,6 @@ class BrowseTrashContentController
         $requestedFolder = $root_id ? Folder::withTrashed()->findOrFail($root_id) : null;
 
         if ($root_id) {
-
             // Get folders and files
             $folders = Folder::onlyTrashed()
                 ->with('parent')

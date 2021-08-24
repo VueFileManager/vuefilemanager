@@ -7,7 +7,7 @@ use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Notification;
-use Domain\Sharing\Notifications\SharedSendViaEmail;
+use Domain\Teams\Notifications\SharedSendViaEmail;
 
 class UserShareTest extends TestCase
 {

@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static find(mixed $id)
  * @method static where(string $string, string $user_id)
  * @method static findOrFail(string $root_id)
+ * @method static create(array $array)
  * @property string id
  * @property string user_id
  * @property string parent_id
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
+ * @property bool team_folder
  */
 class Folder extends Model
 {

@@ -11,6 +11,7 @@ use App\Users\Controllers\ForgotPasswordController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Plans\Controllers\ActivePlansController;
 use Domain\Folders\Controllers\CreateFolderController;
+use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Items\Controllers\MoveFileOrFolderController;
 use Domain\Items\Controllers\DeleteFileOrFolderController;
@@ -21,7 +22,6 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
-use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Folders\Controllers\NavigationFolderTreeController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
 

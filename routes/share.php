@@ -6,11 +6,11 @@ use Domain\Files\Controllers\VisitorShowFileController;
 use Domain\Files\Controllers\VisitorUploadFileController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
+use Domain\Browsing\Controllers\VisitorBrowseFolderController;
 use Domain\Items\Controllers\VisitorMoveFileOrFolderController;
 use Domain\Items\Controllers\VisitorDeleteFileOrFolderController;
 use Domain\Items\Controllers\VisitorRenameFileOrFolderController;
 use Domain\Sharing\Controllers\VisitorUnlockLockedShareController;
-use Domain\Browsing\Controllers\VisitorBrowseFolderController;
 use Domain\Folders\Controllers\VisitorNavigationFolderTreeController;
 use Domain\Browsing\Controllers\VisitorSearchFilesAndFoldersController;
 

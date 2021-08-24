@@ -3,7 +3,7 @@ namespace Domain\Sharing\Actions;
 
 use Spatie\QueueableAction\QueueableAction;
 use Illuminate\Support\Facades\Notification;
-use Domain\Sharing\Notifications\SharedSendViaEmail;
+use Domain\Teams\Notifications\SharedSendViaEmail;
 
 class SendViaEmailAction
 {

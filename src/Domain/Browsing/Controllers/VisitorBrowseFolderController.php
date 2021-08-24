@@ -4,7 +4,6 @@ namespace Domain\Browsing\Controllers;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Collection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
@@ -23,7 +22,6 @@ class VisitorBrowseFolderController
         string $id,
         Share $shared,
     ): array {
-
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
