@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeamFoldersInvitationsTable extends Migration
+class CreateTeamFolderMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateTeamFoldersInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('team_folders_invitations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+        Schema::create('team_folder_members', function (Blueprint $table) {
             $table->uuid('folder_id');
-            $table->text('email');
-            $table->enum('permission', ['can-edit', 'can-view', 'can-view-and-download']);
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
-            $table->timestamps();
+            $table->uuid('member_id');
+            $table->string('permission');
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
@@ -32,6 +29,6 @@ class CreateTeamFoldersInvitationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invitations');
+        Schema::dropIfExists('team_folder_members');
     }
 }

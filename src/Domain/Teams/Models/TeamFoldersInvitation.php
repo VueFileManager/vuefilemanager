@@ -3,6 +3,7 @@ namespace Domain\Teams\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\TeamFoldersInvitationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -27,6 +28,11 @@ class TeamFoldersInvitation extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected static function newFactory(): TeamFoldersInvitationFactory
+    {
+        return TeamFoldersInvitationFactory::new();
+    }
 
     protected static function boot()
     {

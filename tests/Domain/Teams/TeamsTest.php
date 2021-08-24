@@ -1,6 +1,9 @@
 <?php
+
 namespace Tests\Domain\Teams;
 
+use Domain\Folders\Models\Folder;
+use Domain\Teams\Models\TeamFoldersInvitation;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -10,7 +13,6 @@ class TeamsTest extends TestCase
 {
     /**
      * @test
-     *
      */
     public function it_create_team_folder()
     {
@@ -27,8 +29,14 @@ class TeamsTest extends TestCase
             ->post('/api/teams/team-folders', [
                 'name'    => 'Company Project',
                 'members' => [
-                    'john@internal.com',
-                    'jane@external.com',
+                    [
+                        'email'      => 'john@internal.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'jane@external.com',
+                        'permission' => 'can-view',
+                    ],
                 ],
             ])
             ->assertCreated()
@@ -66,16 +74,47 @@ class TeamsTest extends TestCase
     }
 
     /**
-     *
+     * @test
      */
-    public function member_accept_team_folder_invite()
+    public function it_accept_team_folder_invite()
     {
+        $member = User::factory(User::class)
+            ->create([
+                'email' => 'john@internal.com',
+            ]);
+
+        $folder = Folder::factory()
+            ->create();
+
+        $invitation = TeamFoldersInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'email'      => $member->email,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+            ]);
+
+        $this
+            ->actingAs($member)
+            ->postJson("/api/teams/invitations/{$invitation->id}")
+            ->assertCreated();
+
+        $this
+            ->assertDatabaseHas('team_folder_members', [
+                'folder_id'  => $folder->id,
+                'member_id'  => $member->id,
+                'permission' => 'can-edit',
+            ])
+            ->assertDatabaseHas('team_folders_invitations', [
+                'folder_id' => $folder->id,
+                'status'    => 'accepted',
+            ]);
     }
 
     /**
      *
      */
-    public function member_reject_team_folder_invite()
+    public function it_reject_team_folder_invite()
     {
     }
 

@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static count()
  * @method static sortable(string[] $array)
  * @method static forceCreate(array $array)
- * @method static where(string $string, string $string1, string $toDateString)
+ * @method static where(string $string, string $string1)
  * @method static create(array $array)
  * @method static find(mixed $email)
  */

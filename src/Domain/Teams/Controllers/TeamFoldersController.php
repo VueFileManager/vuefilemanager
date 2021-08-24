@@ -1,10 +1,11 @@
 <?php
+
 namespace Domain\Teams\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Response;
 use Domain\Teams\DTO\CreateTeamFolderData;
 use Illuminate\Support\Facades\Notification;
 use Domain\Teams\Models\TeamFoldersInvitation;
@@ -23,16 +24,17 @@ class TeamFoldersController extends Controller
         ]);
 
         collect($data->members)
-            ->each(function ($email) use ($teamFolder) {
+            ->each(function ($member) use ($teamFolder) {
 
                 // Create invitation
                 $invitation = TeamFoldersInvitation::create([
-                    'folder_id' => $teamFolder->id,
-                    'email'     => $email,
+                    'permission' => $member['permission'],
+                    'email'      => $member['email'],
+                    'folder_id'  => $teamFolder->id,
                 ]);
 
                 // Invite user
-                Notification::route('mail', $email)
+                Notification::route('mail', $member['email'])
                     ->notify(new InvitationIntoTeamFolder($teamFolder, $invitation));
             });
 
