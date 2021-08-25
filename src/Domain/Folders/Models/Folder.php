@@ -1,7 +1,7 @@
 <?php
-
 namespace Domain\Folders\Models;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Laravel\Scout\Searchable;
@@ -10,11 +10,13 @@ use Kyslik\ColumnSortable\Sortable;
 use Database\Factories\FolderFactory;
 use Illuminate\Database\Eloquent\Model;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
+use Domain\Teams\Models\TeamFolderInvitation;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @method static whereUserId(int|string|null $id)
@@ -134,9 +136,9 @@ class Folder extends Model
     /**
      * Format deleted at date reformat
      */
-    public function getDeletedAtAttribute(): string|null
+    public function getDeletedAtAttribute(): string | null
     {
-        if (!$this->attributes['deleted_at']) {
+        if (! $this->attributes['deleted_at']) {
             return null;
         }
 
@@ -222,13 +224,24 @@ class Folder extends Model
         return $this->hasOne(Share::class, 'item_id', 'id');
     }
 
+    public function teamInvitations(): HasMany
+    {
+        return $this->hasMany(TeamFolderInvitation::class, 'folder_id', 'id');
+    }
+
+    public function teamMembers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'team_folder_members', 'folder_id', 'user_id')
+            ->withPivot('permission');
+    }
+
     // Delete all folder children
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string)Str::uuid();
+            $model->id = (string) Str::uuid();
         });
 
         static::deleting(function ($item) {

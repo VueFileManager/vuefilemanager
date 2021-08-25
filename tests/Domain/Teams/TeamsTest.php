@@ -1,14 +1,13 @@
 <?php
-
 namespace Tests\Domain\Teams;
 
-use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
-use Domain\Teams\Models\TeamFolderInvitation;
-use Illuminate\Support\Facades\DB;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 
 class TeamsTest extends TestCase
@@ -179,7 +178,7 @@ class TeamsTest extends TestCase
     /**
      * @test
      */
-    public function it_add_member_into_team_folder()
+    public function it_invite_member_into_team_folder()
     {
         $user = User::factory(User::class)
             ->create();
@@ -192,6 +191,14 @@ class TeamsTest extends TestCase
             ->create([
                 'user_id'     => $user->id,
                 'team_folder' => 1,
+            ]);
+
+        TeamFolderInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+                'email'      => 'existing@member.com',
             ]);
 
         DB::table('team_folder_members')
@@ -211,7 +218,96 @@ class TeamsTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/teams/folders/{$folder->id}", [
-                'members' => [
+                'members'     => [
+                    [
+                        'id'         => $members[0]->id,
+                        'email'      => 'john@internal.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'id'         => $members[1]->id,
+                        'email'      => 'jane@external.com',
+                        'permission' => 'can-edit',
+                    ],
+                ],
+                'invitations' => [
+                    [
+                        'id'         => null,
+                        'email'      => 'existing@member.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'id'         => null,
+                        'email'      => 'added@member.com',
+                        'permission' => 'can-view',
+                    ],
+                ],
+            ])
+            ->assertCreated();
+
+        $this
+            ->assertDatabaseCount('team_folder_members', 2)
+            ->assertDatabaseCount('team_folder_invitations', 2)
+            ->assertDatabaseHas('team_folder_invitations', [
+                'email'      => 'added@member.com',
+                'permission' => 'can-view',
+            ]);
+
+        Notification::assertTimesSent(1, InvitationIntoTeamFolder::class);
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_invited_member_from_team_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $members = User::factory(User::class)
+            ->count(2)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        TeamFolderInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+                'email'      => 'deleted@member.com',
+            ]);
+
+        TeamFolderInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+                'email'      => 'existing@member.com',
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[0]->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'folder_id'  => $folder->id,
+                    'user_id'    => $members[1]->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/teams/folders/{$folder->id}", [
+                'members'     => [
                     [
                         'id'         => $members[0]->id,
                         'email'      => 'john@internal.com',
@@ -222,9 +318,11 @@ class TeamsTest extends TestCase
                         'email'      => 'jane@external.com',
                         'permission' => 'can-view',
                     ],
+                ],
+                'invitations' => [
                     [
                         'id'         => null,
-                        'email'      => 'new@member.com',
+                        'email'      => 'existing@member.com',
                         'permission' => 'can-view',
                     ],
                 ],
@@ -233,12 +331,10 @@ class TeamsTest extends TestCase
 
         $this
             ->assertDatabaseCount('team_folder_members', 2)
+            ->assertDatabaseCount('team_folder_invitations', 1)
             ->assertDatabaseHas('team_folder_invitations', [
-                'email'      => 'new@member.com',
-                'permission' => 'can-view',
+                'email' => 'existing@member.com',
             ]);
-
-        Notification::assertTimesSent(1, InvitationIntoTeamFolder::class);
     }
 
     /**
@@ -283,6 +379,7 @@ class TeamsTest extends TestCase
                         'permission' => 'can-edit',
                     ],
                 ],
+                'invitations' => [],
             ])
             ->assertCreated();
 
@@ -291,6 +388,53 @@ class TeamsTest extends TestCase
             ->assertDatabaseMissing('team_folder_members', [
                 'user_id' => $members[1]->id,
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_update_invited_member_permission_in_team_folder()
+    {
+        $user = User::factory(User::class)
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        TeamFolderInvitation::factory()
+            ->create([
+                'folder_id'  => $folder->id,
+                'status'     => 'pending',
+                'permission' => 'can-view',
+                'email'      => 'existing@member.com',
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->patchJson("/api/teams/folders/{$folder->id}", [
+                'members'     => [],
+                'invitations' => [
+                    [
+                        'id'         => null,
+                        'email'      => 'existing@member.com',
+                        'permission' => 'can-edit',
+                    ],
+                ],
+            ])
+            ->assertCreated();
+
+        $this
+            ->assertDatabaseCount('team_folder_members', 0)
+            ->assertDatabaseCount('team_folder_invitations', 1)
+            ->assertDatabaseHas('team_folder_invitations', [
+                'email'      => 'existing@member.com',
+                'permission' => 'can-edit',
+            ]);
+
+        Notification::assertTimesSent(0, InvitationIntoTeamFolder::class);
     }
 
     /**
@@ -414,7 +558,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/teams/folders/undefined")
+            ->getJson('/api/teams/folders/undefined')
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $folder->id,

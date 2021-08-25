@@ -1,9 +1,9 @@
 <?php
 
-use Domain\Teams\Controllers\BrowseSharedWithMeController;
-use Domain\Teams\Controllers\ConvertFolderIntoTeamFolderController;
 use Domain\Teams\Controllers\InvitationsController;
 use Domain\Teams\Controllers\TeamFoldersController;
+use Domain\Teams\Controllers\BrowseSharedWithMeController;
+use Domain\Teams\Controllers\ConvertFolderIntoTeamFolderController;
 
 Route::apiResource('/invitations', InvitationsController::class);
 Route::apiResource('/folders', TeamFoldersController::class);

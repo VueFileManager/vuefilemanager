@@ -1,14 +1,11 @@
 <?php
-
-
 namespace Domain\Teams\Controllers;
 
-
+use Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Str;
+use Illuminate\Support\Facades\Auth;
 
 class BrowseSharedWithMeController
 {
@@ -30,7 +27,6 @@ class BrowseSharedWithMeController
         }
 
         if (! $rootId) {
-
             $folderIds = DB::table('team_folder_members')
                 ->where('user_id', Auth::id())
                 ->pluck('folder_id');
