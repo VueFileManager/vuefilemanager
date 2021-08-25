@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Domain\Subscriptions\Services\StripeService;
-use Domain\Subscriptions\Requests\StoreUpgradeAccountRequest;
+use Domain\Teams\Requests\StoreUpgradeAccountRequest;
 
 /**
  * Upgrade account to subscription

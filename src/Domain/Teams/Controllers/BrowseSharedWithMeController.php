@@ -9,18 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class BrowseSharedWithMeController
 {
-    public function __invoke($id)
+    public function __invoke($id): array
     {
         $rootId = Str::isUuid($id) ? $id : null;
         $requestedFolder = Str::isUuid($id) ? Folder::findOrFail($rootId) : null;
 
+        $relations = [
+            'parent:id,name',
+            'shared:token,id,item_id,permission,is_protected,expire_in'
+        ];
+
         if ($rootId) {
-            $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            $folders = Folder::with($relations)
                 ->where('id', $id)
                 ->sortable()
                 ->get();
 
-            $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            $files = File::with($relations)
                 ->where('folder_id', $id)
                 ->sortable()
                 ->get();
@@ -31,7 +36,7 @@ class BrowseSharedWithMeController
                 ->where('user_id', Auth::id())
                 ->pluck('folder_id');
 
-            $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+            $folders = Folder::with($relations)
                 ->whereIn('id', $folderIds)
                 ->sortable()
                 ->get();

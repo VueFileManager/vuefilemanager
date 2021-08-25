@@ -6,12 +6,15 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Domain\Teams\Models\TeamFolderInvitation;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class InvitationsController extends Controller
 {
+
     public function update(
         TeamFolderInvitation $invitation
-    ): Response {
+    ): ResponseFactory|Response {
+
         $user = User::where('email', $invitation->email)
             ->firstOrFail();
 
@@ -31,7 +34,7 @@ class InvitationsController extends Controller
 
     public function destroy(
         TeamFolderInvitation $invitation
-    ): Response {
+    ): ResponseFactory|Response {
         $invitation->update([
             'status' => 'rejected',
         ]);

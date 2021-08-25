@@ -2,7 +2,9 @@
 namespace Domain\Teams\Controllers;
 
 use DB;
-use Illuminate\Http\Request;
+use Domain\Teams\Requests\CreateTeamFolderRequest;
+use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
@@ -47,8 +49,8 @@ class TeamFoldersController extends Controller
     }
 
     public function store(
-        Request $request,
-    ): Response {
+        CreateTeamFolderRequest $request,
+    ): ResponseFactory|Response {
         $data = CreateTeamFolderData::fromRequest($request);
 
         $folder = Folder::create([
@@ -58,17 +60,17 @@ class TeamFoldersController extends Controller
         ]);
 
         // Invite team members
-        ($this->inviteMembers)($data->members, $folder);
+        ($this->inviteMembers)($data->invitations, $folder);
 
         return response($folder, 201);
     }
 
     public function update(
-        Request $request,
+        UpdateTeamFolderMembersRequest $request,
         Folder $folder,
         UpdateInvitationsAction $updateInvitations,
         UpdateMembersAction $updateMembers,
-    ): Response {
+    ): ResponseFactory|Response {
         $updateInvitations(
             $folder,
             $request->input('invitations')
@@ -82,7 +84,7 @@ class TeamFoldersController extends Controller
         return response('Done', 201);
     }
 
-    public function destroy(Folder $folder): Response
+    public function destroy(Folder $folder): ResponseFactory|Response
     {
         // Delete existing invitations
         DB::table('team_folder_invitations')

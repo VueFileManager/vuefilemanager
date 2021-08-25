@@ -1,7 +1,8 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Illuminate\Http\Request;
+use Domain\Teams\Requests\ConvertIntoTeamFolderRequest;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
@@ -15,16 +16,16 @@ class ConvertFolderIntoTeamFolderController extends Controller
     }
 
     public function __invoke(
-        Request $request,
+        ConvertIntoTeamFolderRequest $request,
         Folder $folder
-    ): Response {
+    ): ResponseFactory|Response {
         $folder->update([
             'team_folder' => 1,
             'parent_id'   => null,
         ]);
 
         // Invite team members
-        ($this->inviteMembers)($request->input('members'), $folder);
+        ($this->inviteMembers)($request->input('invitations'), $folder);
 
         return response($folder, 201);
     }

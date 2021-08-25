@@ -29,7 +29,7 @@ class TeamsTest extends TestCase
             ->actingAs($user)
             ->post('/api/teams/folders', [
                 'name'    => 'Company Project',
-                'members' => [
+                'invitations' => [
                     [
                         'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
@@ -76,7 +76,7 @@ class TeamsTest extends TestCase
         $this
             ->actingAs($user)
             ->post("/api/teams/convert/{$folder->id}", [
-                'members' => [
+                'invitations' => [
                     [
                         'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
@@ -484,6 +484,7 @@ class TeamsTest extends TestCase
                         'permission' => 'can-view',
                     ],
                 ],
+                'invitations' => [],
             ])
             ->assertCreated();
 
