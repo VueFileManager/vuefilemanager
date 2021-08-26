@@ -1,6 +1,6 @@
 <template>
     <div class="inline-wrapper icon-append copy-input" :class="size">
-        <input ref="sel" :value="item.shared.link" id="link-input" type="text" class="input-text" readonly>
+        <input ref="sel" :value="item.data.relationships.shared.link" id="link-input" type="text" class="input-text" readonly>
         <div class="multi-icon">
             <div @click="copyUrl" class="icon-item group hover-bg-theme-100">
                 <link-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
@@ -69,7 +69,7 @@ export default {
         },
 		copyIframe() {
         	// generate iframe
-        	this.iframeCode = `<iframe src="${this.item.shared.link}" width="790" height="400" allowfullscreen frameborder="0"></iframe>`
+        	this.iframeCode = `<iframe src="${this.item.data.relationships.shared.link}" width="790" height="400" allowfullscreen frameborder="0"></iframe>`
 
 			let copyText = this.$refs.iframe
 

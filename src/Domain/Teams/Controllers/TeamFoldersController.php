@@ -7,6 +7,7 @@ use Domain\Teams\Requests\CreateTeamFolderRequest;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Files\Models\File;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
@@ -51,11 +52,12 @@ class TeamFoldersController extends Controller
                 ->get();
         }
 
-        return new FolderCollection($folders);
-
         // Collect folders and files to single array
         return [
-            'content' => collect([$folders, $files])->collapse(),
+            'content' => collect([
+                new FolderCollection($folders),
+                $files
+            ])->collapse(),
             'folder'  => $requestedFolder,
         ];
     }

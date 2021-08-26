@@ -1,10 +1,15 @@
 <?php
+
 namespace Domain\Browsing\Controllers;
 
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
+use Domain\Folders\Resources\FolderResource;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
+use Str;
 
 class BrowseFolderController
 {
@@ -12,11 +17,8 @@ class BrowseFolderController
         Request $request,
         string $id,
     ): array {
-        $root_id = $id === 'undefined' ? null : $id;
+        $root_id = Str::isUuid($id) ? $id : null;
 
-        $requestedFolder = $root_id ? Folder::findOrFail($root_id) : null;
-
-        // Get folders and files
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('parent_id', $root_id)
             ->where('team_folder', false)
@@ -32,8 +34,9 @@ class BrowseFolderController
 
         // Collect folders and files to single array
         return [
-            'content' => collect([$folders, $files])->collapse(),
-            'folder'  => $requestedFolder,
+            'folders' => new FolderCollection($folders),
+            'files'   => new FilesCollection($files),
+            'root'    => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
         ];
     }
 }

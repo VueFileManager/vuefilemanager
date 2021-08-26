@@ -89,14 +89,14 @@ const FunctionHelpers = {
 
         Vue.prototype.$uploadFiles = async function (files) {
 
-            if (files.length == 0) return
+            if (files.length === 0) return
 
             if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
 
             // Push items to file queue
             [...files].map(item => {
                 this.$store.commit('ADD_FILES_TO_QUEUE', {
-                    folder_id: store.getters.currentFolder.id ? store.getters.currentFolder.id : '',
+                    folder_id: store.getters.currentFolder.data.id ? store.getters.currentFolder.data.id : '',
                     file: item,
                 })
             });
@@ -275,7 +275,7 @@ const FunctionHelpers = {
         }
 
         // Detect windows
-        Vue.prototype.$isWIndows = function () {
+        Vue.prototype.$isWindows = function () {
             return navigator.userAgent.indexOf('Windows') != -1
         }
 
@@ -337,7 +337,7 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$enableMultiSelectMode = function () {
-            events.$emit('mobileSelecting:start')
+            events.$emit('mobile-select:start')
         }
 
         Vue.prototype.$showViewOptions = function () {

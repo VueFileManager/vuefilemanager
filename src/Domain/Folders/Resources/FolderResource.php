@@ -2,6 +2,7 @@
 
 namespace Domain\Folders\Resources;
 
+use Domain\Sharing\Resources\ShareResource;
 use Domain\Teams\Resources\TeamInvitationsCollection;
 use Domain\Teams\Resources\TeamMembersCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,6 +19,7 @@ class FolderResource extends JsonResource
                     'name'          => $this->name,
                     'color'         => $this->color,
                     'emoji'         => $this->emoji,
+                    'filesize'      => $this->filesize,
                     'isTeamFolder'  => $this->team_folder,
                     'items'         => $this->items,
                     'trashed_items' => $this->trashed_items,
@@ -29,26 +31,14 @@ class FolderResource extends JsonResource
                     ),
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->teamMembers, fn () => [
+                    $this->mergeWhen($this->teamMembers, fn() => [
                         'members' => new TeamMembersCollection($this->teamMembers),
                     ]),
-                    $this->mergeWhen($this->teamInvitations, fn () => [
+                    $this->mergeWhen($this->teamInvitations, fn() => [
                         'invitations' => new TeamInvitationsCollection($this->teamInvitations),
                     ]),
-                    $this->mergeWhen($this->shared, fn () => [
-                        'shared' => [
-                            'data' => [
-                                'id'         => $this->shared->id,
-                                'type'       => 'shared',
-                                'attributes' => [
-                                    'expire_in'  => $this->shared->expire_in,
-                                    'link'       => $this->shared->link,
-                                    'permission' => $this->shared->permission,
-                                    'protected'  => $this->shared->protected,
-                                    'token'      => $this->shared->token,
-                                ],
-                            ],
-                        ],
+                    $this->mergeWhen($this->shared, fn() => [
+                        'shared' => new ShareResource($this->shared),
                     ]),
                 ],
             ],

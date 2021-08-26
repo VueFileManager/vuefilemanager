@@ -27,10 +27,10 @@ const itemHelpers = {
 		Vue.prototype.$downloadSelection = function (item) {
 			let clipboard = this.$store.getters.clipboard
 
-			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].type === 'folder'))
+			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].data.type === 'folder'))
 				this.$store.dispatch('downloadZip')
 			else {
-				Vue.prototype.$downloadFile(item.file_url, item.name + '.' + item.mimetype)
+				Vue.prototype.$downloadFile(item.data.attributes.file_url, item.data.attributes.name + '.' + item.data.attributes.mimetype)
 			}
 		}
 
@@ -76,7 +76,7 @@ const itemHelpers = {
 		}
 
 		Vue.prototype.$shareFileOrFolder = function (entry) {
-			let event = entry.shared
+			let event = entry.data.relationships.shared
 				? 'share-edit'
 				: 'share-create'
 

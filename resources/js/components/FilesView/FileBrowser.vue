@@ -42,9 +42,9 @@
 						@contextmenu.native.prevent="contextMenu($event, item)"
 						:item="item"
 						v-for="item in entries"
-						:key="item.id"
+						:key="item.data.id"
 						class="file-item"
-						:class="draggedItems.includes(item) ? 'dragged' : '' "
+						:class="draggedItems.includes(item) ? 'dragged' : ''"
 					/>
                 </transition-group>
             </div>
@@ -63,7 +63,7 @@
 						@contextmenu.native.prevent="contextMenu($event, item)"
 						:item="item"
 						v-for="item in entries"
-						:key="item.id"
+						:key="item.data.id"
 						class="file-item"
 						:class="draggedItems.includes(item) ? 'dragged' : '' "
 					/>
@@ -122,7 +122,6 @@
 			},
 			draggedItems() {
 				//Set opacity for dragged items
-
 				if (!this.clipboard.includes(this.draggingId)) {
 					return [this.draggingId]
 				}
@@ -153,7 +152,7 @@
 			},
 			dropUpload(event) {
 				// Upload external file
-				this.$uploadExternalFiles(event, this.currentFolder.id)
+				this.$uploadExternalFiles(event, this.currentFolder.data.id)
 
 				this.isDragging = false
 			},
@@ -177,7 +176,7 @@
 
 				if (event.dataTransfer.items.length == 0) {
 					// Prevent to drop on file or image
-					if (data.type !== 'folder' || this.draggingId === data) return
+					if (data.data.type !== 'folder' || this.draggingId === data) return
 
 					//Prevent move selected folder to folder if in beteewn selected folders
 					if (this.clipboard.find(item => item === data && this.clipboard.length > 1)) return
@@ -197,7 +196,7 @@
 				} else {
 
 					// Get id of current folder
-					const id = data.type !== 'folder' ? this.currentFolder.id : data.id
+					const id = data.data.type !== 'folder' ? this.currentFolder.data.id : data.data.id
 
 					// Upload external file
 					this.$uploadExternalFiles(event, id)
@@ -215,13 +214,8 @@
 			}
 		},
 		created() {
-			events.$on('mobileSelecting:start', () => {
-				this.isMultiSelect = true
-			})
-
-			events.$on('mobileSelecting:stop', () => {
-				this.isMultiSelect = false
-			})
+			events.$on('mobile-select:start', () => this.isMultiSelect = true)
+			events.$on('mobile-select:stop', () => this.isMultiSelect = false)
 
 			events.$on('drop', () => {
 				this.isDragging = false
@@ -238,7 +232,7 @@
 			events.$on('scrollTop', () => {
 
 				// Scroll top
-				var container = document.getElementsByClassName(
+				let container = document.getElementsByClassName(
 					'files-container'
 				)[0]
 

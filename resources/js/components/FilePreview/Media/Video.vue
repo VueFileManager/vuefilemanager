@@ -1,7 +1,7 @@
 <template>
 	<div class="video-wrapper">
 		<video
-			:src="file.file_url"
+			:src="file.data.attributes.file_url"
 			class="video"
 			:class="{'file-shadow': !$isMobile() }"
 			controlsList="nodownload"

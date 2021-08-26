@@ -16,15 +16,15 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text text-theme dark-text-theme">
-                    {{ item.mimetype | limitCharacters }}
+                <span v-if="isFile || (isImage && !item.data.attributes.thumbnail)" class="file-icon-text text-theme dark-text-theme">
+                    {{ item.data.attributes.mimetype | limitCharacters }}
                 </span>
 
                 <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" icon="file" />
+                <FontAwesomeIcon v-if="isFile || (isImage && !item.data.attributes.thumbnail)" class="file-icon" icon="file" />
 
                 <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name" />
+                <img loading="lazy" v-if="isImage && item.data.attributes.thumbnail" class="image" :src="item.data.attributes.thumbnail" :alt="item.data.attributes.name" />
 
                 <!--Else show only folder icon-->
                 <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder svg-color-theme" />
@@ -32,26 +32,26 @@
 
             <!--Name-->
             <div class="item-name">
-                <b :ref="this.item.id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
+                <b :ref="item.data.id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
                     {{ itemName }}
                 </b>
 
                 <div class="item-info">
                     <!--Shared Icon-->
-                    <div v-if="$checkPermission('master') && item.shared" class="item-shared">
+                    <div v-if="$checkPermission('master') && item.data.relationships.shared" class="item-shared">
                         <link-icon size="12" class="shared-icon text-theme dark-text-theme"/>
                     </div>
 
                     <!--Participant owner Icon-->
-                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
+<!--                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
                         <user-plus-icon size="12" class="shared-icon text-theme dark-text-theme"/>
-                    </div>
+                    </div>-->
 
                     <!--Filesize and timestamp-->
-                    <span v-if="!isFolder" class="item-size">{{ item.filesize }}, {{ timeStamp }}</span>
+                    <span v-if="!isFolder" class="item-size">{{ item.data.attributes.filesize }}, {{ timeStamp }}</span>
 
                     <!--Folder item counts-->
-                    <span v-if="isFolder" class="item-length"> {{ folderItems == 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }} </span>
+                    <span v-if="isFolder" class="item-length"> {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }} </span>
                 </div>
             </div>
 
@@ -95,41 +95,41 @@ export default {
             'entries'
         ]),
         isClicked() {
-            return !this.disableHighlight && this.clipboard.some(element => element.id === this.item.id)
+            return !this.disableHighlight && this.clipboard.some(element => element.data.id === this.item.data.id)
         },
         isFolder() {
-            return this.item.type === 'folder'
+            return this.item.data.type === 'folder'
         },
         isFile() {
-            return this.item.type !== 'folder' && this.item.type !== 'image'
+            return this.item.data.type === 'file'
         },
         isImage() {
-            return this.item.type === 'image'
+            return this.item.data.type === 'image'
         },
         isPdf() {
-            return this.item.mimetype === 'pdf'
+            return this.item.data.attributes.mimetype === 'pdf'
         },
         isVideo() {
-            return this.item.type === 'video'
+            return this.item.data.type === 'video'
         },
         isAudio() {
             let mimetypes = ['mpeg', 'mp3', 'mp4', 'wan', 'flac']
-            return mimetypes.includes(this.item.mimetype) && this.item.type === 'audio'
+            return mimetypes.includes(this.item.data.attributes.mimetype) && this.item.data.type === 'audio'
         },
         canEditName() {
-            return !this.$isMobile() && !this.$isThisRoute(this.$route, ['Trash']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.type === 'file')
+            return !this.$isMobile() && !this.$isThisRoute(this.$route, ['Trash']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.attributes.type === 'file')
         },
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])
         },
         timeStamp() {
-            return this.item.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.item.deleted_at}) : this.item.created_at
+            return this.item.data.attributes.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.item.data.attributes.deleted_at}) : this.item.data.attributes.created_at
         },
         folderItems() {
-            return this.item.deleted_at ? this.item.trashed_items : this.item.items
+            return this.item.data.attributes.deleted_at ? this.item.data.attributes.trashed_items : this.item.data.attributes.items
         },
         isDeleted() {
-            return this.item.deleted_at ? true : false
+            return this.item.data.attributes.deleted_at
         }
     },
     filters: {
@@ -182,7 +182,7 @@ export default {
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
 
                 	// Click + Ctrl
-                    if (this.clipboard.some(item => item.id === this.item.id)) {
+                    if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
                         this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                     } else {
                         this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
@@ -223,13 +223,13 @@ export default {
 					let route = this.$router.currentRoute.name
 
 					if (route === 'Public') {
-						this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
+						this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.data.id}})
 					} else if (route === 'Trash') {
-						this.$router.push({name: 'Trash', params: {id: this.item.id}})
+						this.$router.push({name: 'Trash', params: {id: this.item.data.id}})
 					} else if (route === 'Files') {
-						this.$router.push({name: 'Files', params: {id: this.item.id}})
+						this.$router.push({name: 'Files', params: {id: this.item.data.id}})
 					} else if (route === 'TeamFolders') {
-						this.$router.push({name: 'TeamFolders', params: {id: this.item.id}})
+						this.$router.push({name: 'TeamFolders', params: {id: this.item.data.id}})
 					}
                 } else {
 
@@ -244,7 +244,7 @@ export default {
             }
 
             if (this.mobileMultiSelect && this.$isMobile()) {
-                if (this.clipboard.some(item => item.id === this.item.id)) {
+                if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
                     this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                 } else {
                     this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
@@ -256,7 +256,7 @@ export default {
                 events.$emit('file-preview:show')
 
             } else if (this.isFile || !this.isFolder && !this.isVideo && !this.isAudio && !this.isImage) {
-                this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype)
+                this.$downloadFile(this.item.data.attributes.file_url, this.item.data.attributes.name + '.' + this.item.data.attributes.mimetype)
 
             } else if (this.isFolder) {
 
@@ -266,13 +266,13 @@ export default {
 				let route = this.$router.currentRoute.name
 
 				if (route === 'Public') {
-					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.id}})
+					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.data.id}})
 				} else if (route === 'Trash') {
-					this.$router.push({name: 'Trash', params: {id: this.item.id}})
+					this.$router.push({name: 'Trash', params: {id: this.item.data.id}})
 				} else if (route === 'Files') {
-					this.$router.push({name: 'Files', params: {id: this.item.id}})
+					this.$router.push({name: 'Files', params: {id: this.item.data.id}})
 				} else if (route === 'TeamFolders') {
-					this.$router.push({name: 'TeamFolders', params: {id: this.item.id}})
+					this.$router.push({name: 'TeamFolders', params: {id: this.item.data.id}})
 				}
             }
         },
@@ -281,37 +281,37 @@ export default {
             if (e.target.innerText.trim() === '') return
 
             this.$store.dispatch('renameItem', {
-                id: this.item.id,
-                type: this.item.type,
+                id: this.item.data.id,
+                type: this.item.data.type,
                 name: e.target.innerText
             })
         }, 300)
     },
     created() {
 
-        this.itemName = this.item.name
+        this.itemName = this.item.data.attributes.name
 
         events.$on('newFolder:focus', (id) => {
 
-            if (this.item.id === id && !this.$isMobile()) {
+            if (this.item.data.id === id && !this.$isMobile()) {
                 this.$refs[id].focus()
                 document.execCommand('selectAll')
             }
         })
 
-        events.$on('mobileSelecting:start', () => {
+        events.$on('mobile-select:start', () => {
             this.mobileMultiSelect = true
             this.$store.commit('CLIPBOARD_CLEAR')
         })
 
-        events.$on('mobileSelecting:stop', () => {
+        events.$on('mobile-select:stop', () => {
             this.mobileMultiSelect = false
             this.$store.commit('CLIPBOARD_CLEAR')
         })
 
         // Change item name
         events.$on('change:name', item => {
-            if (this.item.id === item.id) this.itemName = item.name
+            if (this.item.data.id === item.data.id) this.itemName = item.data.attributes.name
         })
     }
 }

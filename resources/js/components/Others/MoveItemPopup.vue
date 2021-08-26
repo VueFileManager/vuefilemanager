@@ -19,7 +19,7 @@
 							  :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
 							  v-if="clipboard.length > 1 && !isSelectedItem" />
                     
-                <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
+                <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.data.id" />
             </div>
         </PopupContent>
 
@@ -88,7 +88,7 @@
 				if (!this.selectedFolder) return
 
 				// Prevent to move items to the same parent
-				if (isArray(this.selectedFolder) && this.clipboard.find(item => item.parent_id === this.selectedFolder.id)) return
+				if (isArray(this.selectedFolder) && this.clipboard.find(item => item.parent_id === this.selectedFolder.data.id)) return
 
 				// Move item
 				if (!this.isSelectedItem) {
@@ -104,13 +104,13 @@
 
 				// If is mobile, close the selecting mod after done the move action
 				if (this.$isMobile())
-					events.$emit('mobileSelecting:stop')
+					events.$emit('mobile-select:stop')
 			},
 		},
 		mounted() {
 			events.$on('pick-folder', folder => {
 
-				if (folder.id === this.pickedItem.id) {
+				if (folder.data.id === this.pickedItem.data.id) {
 					this.selectedFolder = undefined
 
 				} else if (!folder.id && folder.location === 'base') {

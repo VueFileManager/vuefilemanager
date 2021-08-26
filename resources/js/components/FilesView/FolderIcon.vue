@@ -7,7 +7,7 @@
         />
         <FontAwesomeIcon
             v-if="!emoji"
-            :class="[{'is-deleted':isDeleted},{'is-team':item.team_folder},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
+            :class="[{'is-deleted':isDeleted},{'is-team':item.data.attributes.isTeamFolder},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
             :style="{fill: color}"
             icon="folder"
         />
@@ -29,7 +29,7 @@
         },
         computed: {
             isDeleted() {
-                return this.item.deleted_at ? true : false
+                return this.item.data.attributes.deleted_at ? true : false
             },
             emoji() {
                 // Return emoji if is changed from rename popup
@@ -37,7 +37,7 @@
                     return this.folderIcon.emoji ? this.folderIcon.emoji : false
 
                 // Return emoji if is already set
-                return this.item.emoji ? this.item.emoji : false
+                return this.item.data.attributes.emoji ? this.item.data.attributes.emoji : false
             },
             color() {
                 // Return color if is changed from rename popup
@@ -45,7 +45,7 @@
                     return this.folderIcon.color ? this.folderIcon.color : false
 
                 // Return color if is already set
-                return this.item.color ? this.item.color : false
+                return this.item.data.attributes.color ? this.item.data.attributes.color : false
             }
         }
     }

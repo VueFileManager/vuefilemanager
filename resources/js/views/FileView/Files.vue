@@ -159,10 +159,10 @@
 				return this.item && this.item.type === 'folder'
 			},
 			isInFavourites() {
-				return this.favourites.find((el) => el.id === this.item.id)
+				return this.favourites.find((el) => el.data.id === this.item.data.id)
 			},
 			hasFile() {
-				return this.clipboard.find(item => item.type !== 'folder')
+				return this.clipboard.find(item => item.data.type !== 'folder')
 			},
 			favourites() {
 				return this.user.data.relationships.favourites.data.attributes.folders
@@ -187,7 +187,7 @@
 				// Check if folder is in favourites and then add/remove from favourites
 				if (
 					this.favourites &&
-					!this.favourites.find(el => el.id === this.item.id)
+					!this.favourites.find(el => el.data.id === this.item.data.id)
 				) {
 					// Add to favourite folder that is not selected
 					if (!this.clipboard.includes(this.item)) {

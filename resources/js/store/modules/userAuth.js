@@ -123,9 +123,9 @@ const mutations = {
     ADD_TO_FAVOURITES(state, folder) {
         folder.forEach(item => {
             state.user.data.relationships.favourites.data.attributes.folders.push({
-                id: item.id,
-                name: item.name,
-                type: item.type,
+                id: item.data.id,
+                name: item.data.attributes.name,
+                type: item.data.type,
             })
         })
     },

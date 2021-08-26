@@ -3,7 +3,7 @@
 		<div class="name-wrapper">
 			<x-icon @click="closeFullPreview" size="22" class="icon-close hover-text-theme" />
 			<div class="name-count-wrapper">
-				<p class="title">{{ currentFile.name }}</p>
+				<p class="title">{{ currentFile.data.attributes.name }}</p>
 				<span v-if="! fastPreview" class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + files.length }}) </span>
 			</div>
 			<PopoverWrapper>
@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="created-at-wrapper">
-			<p>{{ currentFile.filesize }}, {{ currentFile.created_at }}</p>
+			<p>{{ currentFile.data.attributes.filesize }}, {{ currentFile.data.attributes.created_at }}</p>
 		</div>
 
 		<div class="navigation-icons">
@@ -74,29 +74,29 @@
 				return this.fastPreview ? this.fastPreview : this.clipboard[0]
 			},
 			sharingTitle() {
-				return this.currentFile.shared
+				return this.currentFile.data.relationships.shared
 					? this.$t('context_menu.share_edit')
 					: this.$t('context_menu.share')
 			},
             isImage() {
-                return this.currentFile.type === 'image'
+                return this.currentFile.data.type === 'image'
             },
             isPdf() {
-                return this.currentFile.mimetype === 'pdf'
+                return this.currentFile.data.attributes.mimetype === 'pdf'
             },
             files() {
                 let files = []
 
                 this.entries.map(element => {
 
-                    if (this.currentFile.mimetype === 'pdf') {
+                    if (this.currentFile.data.attributes.mimetype === 'pdf') {
 
-                        if (element.mimetype === 'pdf')
+                        if (element.data.attributes.mimetype === 'pdf')
                             files.push(element)
 
                     } else {
 
-                        if (element.type === this.currentFile.type)
+                        if (element.data.type === this.currentFile.data.type)
                             files.push(element)
                     }
                 })
@@ -107,7 +107,7 @@
                 let activeIndex = undefined
 
                 this.files.forEach((element, index) => {
-                    if (element.id === this.currentFile.id) {
+                    if (element.data.id === this.currentFile.data.id) {
                         activeIndex = index + 1
                     }
                 })
@@ -142,8 +142,8 @@
             },
             downloadItem() {
                 this.$downloadFile(
-                    this.currentFile.file_url,
-                    this.currentFile.name + '.' + this.currentFile.mimetype
+                    this.currentFile.data.attributes.file_url,
+                    this.currentFile.data.attributes.name + '.' + this.currentFile.data.attributes.mimetype
                 )
             },
             closeFullPreview() {

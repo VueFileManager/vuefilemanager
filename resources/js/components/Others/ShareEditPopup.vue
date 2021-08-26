@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('popup_share_edit.title')" icon="share" />
 
         <!--Content-->
-        <PopupContent v-if="pickedItem && pickedItem.shared">
+        <PopupContent v-if="pickedItem && pickedItem.data.relationships.shared">
 
             <!--Item Thumbnail-->
             <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 
-					<ActionButton v-if="(pickedItem.shared.is_protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
+					<ActionButton v-if="(pickedItem.data.relationships.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
                         {{ $t('popup_share_edit.change_pass') }}
                     </ActionButton>
 
@@ -147,7 +147,7 @@
                 'user',
             ]),
             isFolder() {
-                return this.pickedItem && this.pickedItem.type === 'folder'
+                return this.pickedItem && this.pickedItem.data.type === 'folder'
             },
             destroyButtonText() {
                 if(! this.sendToRecipientsMenu)
@@ -315,11 +315,11 @@
 
                 // Store shared options
                 this.shareOptions = {
-                    id: args.item.shared.id,
-                    token: args.item.shared.token,
-                    expiration: args.item.shared.expire_in,
-                    isProtected: args.item.shared.is_protected,
-                    permission: args.item.shared.permission,
+                    id: args.item.data.relationships.shared.id,
+                    token: args.item.data.relationships.shared.token,
+                    expiration: args.item.data.relationships.shared.expire_in,
+                    isProtected: args.item.data.relationships.shared.protected,
+                    permission: args.item.data.relationships.shared.permission,
                     password: undefined,
                 }
 
@@ -327,7 +327,7 @@
                     this.sendToRecipientsMenu = true
                     this.isEmailSended = false
 
-                this.canChangePassword = args.item.shared.is_protected
+                this.canChangePassword = args.item.data.relationships.shared.is_protected
             })
 
             events.$on('popup:close', () => {

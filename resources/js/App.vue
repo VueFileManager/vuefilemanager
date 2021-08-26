@@ -113,7 +113,7 @@ export default {
                 })
     },
     mounted() {
-    	if (this.$isWIndows()) {
+    	if (this.$isWindows()) {
 			document.body.classList.add('windows')
 		}
 

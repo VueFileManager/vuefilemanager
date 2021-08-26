@@ -3,7 +3,7 @@
 		id="printable-file"
 		class="file"
 		:class="{'file-shadow': ! $isMobile() }"
-		:src="file.file_url"
+		:src="file.data.attributes.file_url"
 	/>
 </template>
 

@@ -125,7 +125,7 @@
 				'clipboard',
 			]),
 			isLoadedFolder() {
-				if (this.sharedDetail && this.sharedDetail.item_id === this.$route.params.id) {
+				if (this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id) {
 					return false
 				}
 
@@ -143,7 +143,7 @@
 			},
 			directoryName() {
 				if (this.currentFolder) {
-					return this.currentFolder.name
+					return this.currentFolder.data.attributes.name
 				} else {
 					return {
 						'RecentUploads': this.$t('Recent'),
@@ -202,7 +202,7 @@
 					'MySharedItems',
 					'Files',
 				]
-				return this.$isThisRoute(this.$route, routes) && this.clipboard.length === 1 && this.clipboard[0].type === 'folder'
+				return this.$isThisRoute(this.$route, routes) && this.clipboard.length === 1 && this.clipboard[0].data.type === 'folder'
 			}
 		},
 		data() {

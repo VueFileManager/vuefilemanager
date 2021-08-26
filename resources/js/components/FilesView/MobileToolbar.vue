@@ -43,7 +43,7 @@
             ]),
 			directoryName() {
 				if (this.currentFolder) {
-					return this.currentFolder.name
+					return this.currentFolder.data.attributes.name
 				} else {
 					return {
 						'RecentUploads': this.$t('Recent'),
@@ -61,7 +61,7 @@
         methods: {
             showMobileNavigation() {
                 events.$emit('mobile-menu:show', 'user-navigation')
-                events.$emit('mobileSelecting:stop')
+                events.$emit('mobile-select:stop')
             },
 			goBack() {
 				if (this.isLoadedFolder) this.$router.back()

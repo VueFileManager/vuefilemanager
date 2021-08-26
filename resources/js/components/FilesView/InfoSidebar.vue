@@ -22,9 +22,9 @@
             <FilePreviewDetail />
 
 			<TitlePreview
-				:icon="clipboard[0].type"
-				:title="clipboard[0].name"
-				:subtitle="clipboard[0].mimetype"
+				:icon="clipboard[0].data.type"
+				:title="clipboard[0].data.attributes.name"
+				:subtitle="clipboard[0].data.attributes.mimetype"
 			/>
         </div>
 
@@ -33,22 +33,22 @@
 
 			<!--Filesize-->
             <ListInfoItem
-				v-if="singleFile.filesize"
+				v-if="singleFile.data.attributes.filesize"
 				:title="$t('file_detail.size')"
-				:content="singleFile.filesize"
+				:content="singleFile.data.attributes.filesize"
 			/>
 
 			<!--Participant-->
-            <ListInfoItem
+<!--            <ListInfoItem
 				v-if="$checkPermission(['master']) && singleFile.author !== 'user'"
 				:title="$t('file_detail.author')"
 				:content="$t('file_detail.author_participant')"
-			/>
+			/>-->
 
 			<!--Created At-->
             <ListInfoItem
 				:title="$t('file_detail.created_at')"
-				:content="singleFile.created_at"
+				:content="singleFile.data.attributes.created_at"
 			/>
 
 			<!--Location-->
@@ -64,7 +64,7 @@
 
 			<!--Shared-->
             <ListInfoItem
-				v-if="$checkPermission('master') && singleFile.shared"
+				v-if="$checkPermission('master') && singleFile.data.relationships.shared"
 				:title="$t('file_detail.shared')"
 			>
                 <div @click="openShareOptions" class="action-button">
@@ -130,14 +130,14 @@
 				return this.clipboard[0]
 			},
 			canShowMetaData() {
-				return this.clipboard[0].metadata && this.clipboard[0].metadata.ExifImageWidth
+				return this.clipboard[0].data.attributes.metadata && this.clipboard[0].data.attributes.metadata.ExifImageWidth
 			},
 			isLocked() {
-				return this.clipboard[0].shared.is_protected
+				return this.clipboard[0].data.relationships.shared.protected
 			},
 			sharedInfo() {
 				let title = this.permissionOptions.find(option => {
-					return option.value === this.clipboard[0].shared.permission
+					return option.value === this.clipboard[0].data.relationships.shared.permission
 				})
 
 				return title ? this.$t(title.label) : this.$t('shared.can_download')

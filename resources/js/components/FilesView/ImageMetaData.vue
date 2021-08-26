@@ -89,7 +89,7 @@ export default {
 	name: 'ImageMetaData',
 	computed: {
 		clipboard() {
-			return this.$store.getters.clipboard[0]
+			return this.$store.getters.clipboard[0].data.relationships
 		},
 	},
 	methods: {

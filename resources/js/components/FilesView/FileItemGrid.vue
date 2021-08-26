@@ -290,12 +290,12 @@ export default {
             }
         })
 
-        events.$on('mobileSelecting:start', () => {
+        events.$on('mobile-select:start', () => {
             this.mobileMultiSelect = true
             this.$store.commit('CLIPBOARD_CLEAR')
         })
 
-        events.$on('mobileSelecting:stop', () => {
+        events.$on('mobile-select:stop', () => {
             this.mobileMultiSelect = false
             this.$store.commit('CLIPBOARD_CLEAR')
         })

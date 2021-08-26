@@ -32,12 +32,12 @@ export default {
     },
     methods: {
         closeSelecting() {
-            events.$emit('mobileSelecting:stop')
+            events.$emit('mobile-select:stop')
         },
     },
     created() {
-        events.$on('mobileSelecting:start', () => this.mobileMultiSelect = true)
-        events.$on('mobileSelecting:stop', () => this.mobileMultiSelect = false)
+        events.$on('mobile-select:start', () => this.mobileMultiSelect = true)
+        events.$on('mobile-select:stop', () => this.mobileMultiSelect = false)
     }
 }
 </script>

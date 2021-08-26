@@ -50,12 +50,12 @@
             disableMultiSelectMode() {
                 this.isSelectMode = false
 
-                events.$emit('mobileSelecting:stop')
+                events.$emit('mobile-select:stop')
             },
         },
         mounted() {
-            events.$on('mobileSelecting:stop', () => this.isSelectMode = false)
-            events.$on('mobileSelecting:start', () => this.isSelectMode = true)
+            events.$on('mobile-select:stop', () => this.isSelectMode = false)
+            events.$on('mobile-select:start', () => this.isSelectMode = true)
         }
     }
 </script>

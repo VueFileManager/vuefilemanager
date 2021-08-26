@@ -20,8 +20,11 @@ const actions = {
         axios
             .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data.content})
-                commit('SET_CURRENT_FOLDER', response.data.folder)
+                let folders = response.data.folders.data
+                let files = response.data.files.data
+
+                commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
+                commit('SET_CURRENT_FOLDER', response.data.root)
 
                 events.$emit('scrollTop')
             })
@@ -153,28 +156,28 @@ const mutations = {
     },
     FLUSH_SHARED(state, id) {
         state.entries.find(item => {
-            if (item.id === id) item.shared = undefined
+            if (item.data.id === id) item.data.relationships.shared = undefined
         })
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
 
         // Rename filename in clipboard
-        if (state.clipboard && state.clipboard.id === updatedFile.id) {
+        if (state.clipboard && state.clipboard.data.id === updatedFile.data.id) {
             state.clipboard = updatedFile
         }
 
         // Rename item name in data view
         state.entries.find(item => {
-            if (item.id === updatedFile.id) {
-                item.name = updatedFile.name
-                item.color = updatedFile.color ? updatedFile.color : null
-                item.emoji = updatedFile.emoji ? updatedFile.emoji : null
+            if (item.data.id === updatedFile.data.id) {
+                item.data.attributes.name = updatedFile.data.attributes.name
+                item.data.attributes.color = updatedFile.data.attributes.color ? updatedFile.data.attributes.color : null
+                item.data.attributes.emoji = updatedFile.data.attributes.emoji ? updatedFile.data.attributes.emoji : null
             }
         })
     },
     UPDATE_SHARED_ITEM(state, data) {
         state.entries.find(item => {
-            if (item.id === data.item_id) item.shared = data
+            if (item.data.id === data.item_id) item.shared = data
         })
     },
     ADD_NEW_FOLDER(state, folder) {
@@ -184,21 +187,21 @@ const mutations = {
         state.entries = state.entries.concat(items)
     },
     REMOVE_ITEM(state, id) {
-        state.entries = state.entries.filter(el => el.id !== id)
+        state.entries = state.entries.filter(el => el.data.id !== id)
     },
     INCREASE_FOLDER_ITEM(state, id) {
         state.entries.map(el => {
-            if (el.id && el.id === id) el.items++
+            if (el.data.id && el.data.id === id) el.items++
         })
     },
     REMOVE_ITEM_FROM_CLIPBOARD(state, item) {
-        state.clipboard = state.clipboard.filter(element => element.id !== item.id)
+        state.clipboard = state.clipboard.filter(element => element.data.id !== item.data.id)
     },
     ADD_ALL_ITEMS_TO_CLIPBOARD(state) {
         state.clipboard = state.entries
     },
     ADD_ITEM_TO_CLIPBOARD(state, item) {
-        let selectedItem = state.entries.find(el => el.id === item.id)
+        let selectedItem = state.entries.find(el => el.data.id === item.data.id)
 
         if (state.clipboard.includes(selectedItem)) return
 

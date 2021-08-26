@@ -1,7 +1,6 @@
 import i18n from '/resources/js/i18n/index'
 import router from '/resources/js/router'
 import {events} from '/resources/js/bus'
-import {last} from 'lodash'
 import axios from 'axios'
 import Vue from 'vue'
 
@@ -20,11 +19,11 @@ const actions = {
 
         // get ids of selected files
         getters.clipboard.forEach(file => {
-            let type = file.type === 'folder'
+            let type = file.data.type === 'folder'
                 ? 'folder'
                 : 'file'
 
-            files.push(file.id + '|' + type)
+            files.push(file.data.id + '|' + type)
         })
 
         let items = files.join(',')
@@ -46,8 +45,8 @@ const actions = {
             items = getters.clipboard
 
         items.forEach(data => itemsToMove.push({
-            'id': data.id,
-            'type': data.type
+            'id': data.data.id,
+            'type': data.data.type
         }))
 
         // Remove file preview
@@ -61,7 +60,7 @@ const actions = {
 
         axios
             .post(route, {
-                to_id: to_item.id ? to_item.id : null,
+                to_id: to_item.data.id ? to_item.data.id : null,
                 items: itemsToMove
             })
             .then(() => {
@@ -85,7 +84,7 @@ const actions = {
             : '/api/create-folder'
 
         let parent_id = getters.currentFolder
-            ? getters.currentFolder.id
+            ? getters.currentFolder.data.id
             : undefined
 
         axios
@@ -178,7 +177,7 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if (response.data.folder_id === getters.currentFolder.id) {
+                        if (response.data.folder_id === getters.currentFolder.data.id) {
 
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)
@@ -253,8 +252,8 @@ const actions = {
             restoreToHome = true
 
         items.forEach(data => itemToRestore.push({
-            type: data.type,
-            id: data.id
+            type: data.data.type,
+            id: data.data.id
         }))
 
         // Remove file preview
@@ -282,28 +281,28 @@ const actions = {
 
             items.forEach(data => {
                 itemsToDelete.push({
-                    force_delete: !!data.deleted_at,
-                    type: data.type,
-                    id: data.id
+                    force_delete: !!data.data.attributes.deleted_at,
+                    type: data.data.type,
+                    id: data.data.id
                 })
 
             // Remove file
-            commit('REMOVE_ITEM', data.id)
+            commit('REMOVE_ITEM', data.data.id)
 
             // Remove item from sidebar
             if (getters.permission === 'master') {
 
-                if (data.type === 'folder')
+                if (data.data.type === 'folder')
                     commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
 
             // Remove file
-            commit('REMOVE_ITEM', data.id)
+            commit('REMOVE_ITEM', data.data.id)
 
             // Remove item from sidebar
             if (getters.permission === 'master') {
 
-                if (data.type === 'folder')
+                if (data.data.type === 'folder')
                     commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
         })
@@ -324,12 +323,12 @@ const actions = {
             })
             .then(() => {
 
-                /*itemsToDelete.forEach(data => {
+                itemsToDelete.forEach(data => {
 
                     // If is folder, update app data
-                    if (data.type === 'folder') {
+                    if (data.data.type === 'folder') {
 
-                        if (data.id === getters.currentFolder.id) {
+                        if (data.data.id === getters.currentFolder.data.id) {
 
                             if (getters.currentFolder.location === 'public') {
                                 dispatch('browseShared')
@@ -338,7 +337,7 @@ const actions = {
                             }
                         }
                     }
-                })*/
+                })
 
                 if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getFolderTree')

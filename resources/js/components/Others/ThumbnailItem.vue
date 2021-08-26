@@ -5,13 +5,13 @@
         <div class="icon-item">
 
             <!--If is file or image, then link item-->
-            <span v-if="isFile || (isImage && !item.thumbnail) " class="file-icon-text text-theme">{{ item.mimetype }}</span>
+            <span v-if="isFile || (isImage && !item.data.attributes.thumbnail) " class="file-icon-text text-theme">{{ item.data.attributes.mimetype }}</span>
 
             <!--Folder thumbnail-->
-            <FontAwesomeIcon v-if="isFile || (isImage && !item.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
+            <FontAwesomeIcon v-if="isFile || (isImage && !item.data.attributes.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
 
             <!--Image thumbnail-->
-            <img v-if="isImage && item.thumbnail" class="image" :src="item.thumbnail" :alt="item.name"/>
+            <img v-if="isImage && item.data.attributes.thumbnail" class="image" :src="item.data.attributes.thumbnail" :alt="item.data.attributes.name"/>
 
             <!--Else show only folder icon-->
             <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder svg-color-theme" />
@@ -21,17 +21,17 @@
         <div class="item-name">
 
             <!--Name-->
-            <span class="name">{{ item.name }}</span>
+            <span class="name">{{ item.data.attributes.name }}</span>
 
             <div v-if="info === 'location'">
                 <span class="subtitle">{{ $t('item_thumbnail.original_location') }}: {{ itemLocation }}</span>
             </div>
 
             <div v-if="info === 'metadata'">
-                <span v-if="! isFolder" class="item-size">{{ item.filesize }}, {{ item.created_at }}</span>
+                <span v-if="! isFolder" class="item-size">{{ item.data.attributes.filesize }}, {{ item.data.attributes.created_at }}</span>
 
                 <span v-if="isFolder" class="item-length">
-                    {{ item.items == 0 ? $t('folder.empty') : $tc('folder.item_counts', item.items) }}, {{ item.created_at }}
+                    {{ item.data.attributes.items === 0 ? $t('folder.empty') : $tc('folder.item_counts', item.data.attributes.items) }}, {{ item.data.attributes.created_at }}
                 </span>
             </div>
 
@@ -50,16 +50,16 @@
         computed: {
             ...mapGetters(['currentFolder']),
             isFolder() {
-                return this.item.type === 'folder'
+                return this.item.data.type === 'folder'
             },
             isFile() {
-                return this.item.type !== 'folder' && this.item.type !== 'image'
+                return this.item.data.type !== 'folder' && this.item.data.type !== 'image'
             },
             isImage() {
-                return this.item.type === 'image'
+                return this.item.data.type === 'image'
             },
             itemLocation() {
-                return this.item.parent ? this.item.parent.name : this.$t('locations.home')
+                return this.item.data.attributes.parent ? this.item.data.attributes.parent.name : this.$t('locations.home')
             }
         },
     }
