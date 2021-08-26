@@ -48,7 +48,6 @@ class Folder extends Model
     protected $appends = [
         'items',
         'trashed_items',
-        'type',
     ];
 
     protected $casts = [
@@ -72,11 +71,6 @@ class Folder extends Model
     protected static function newFactory(): FolderFactory
     {
         return FolderFactory::new();
-    }
-
-    public function getTypeAttribute(): string
-    {
-        return 'folder';
     }
 
     /**
@@ -120,17 +114,6 @@ class Folder extends Model
             ->count();
 
         return $folders + $files;
-    }
-
-    /**
-     * Format created at date reformat
-     */
-    public function getCreatedAtAttribute(): string
-    {
-        return format_date(
-            set_time_by_user_timezone($this->attributes['created_at']),
-            __t('time')
-        );
     }
 
     /**

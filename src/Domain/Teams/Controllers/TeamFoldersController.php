@@ -2,6 +2,7 @@
 namespace Domain\Teams\Controllers;
 
 use DB;
+use Domain\Folders\Resources\FolderCollection;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -49,6 +50,8 @@ class TeamFoldersController extends Controller
                 ->sortable()
                 ->get();
         }
+
+        return new FolderCollection($folders);
 
         // Collect folders and files to single array
         return [
