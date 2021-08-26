@@ -7,7 +7,7 @@
         />
         <FontAwesomeIcon
             v-if="!emoji"
-            :class="[{ 'is-deleted': isDeleted },{'default-color' : ! color && ! isDeleted}, 'folder-icon' ]"
+            :class="[{'is-deleted':isDeleted},{'is-team':item.team_folder},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
             :style="{fill: color}"
             icon="folder"
         />
@@ -95,6 +95,14 @@
             fill: $dark_background;
         }
     }
+
+	&.is-team {
+		path {
+			fill: transparent;
+			stroke-width: 20px;
+			stroke: inherit;
+		}
+	}
 }
 
 .dark-mode {

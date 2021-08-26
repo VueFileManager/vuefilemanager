@@ -19,6 +19,7 @@ class BrowseFolderController
         // Get folders and files
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('parent_id', $root_id)
+            ->where('team_folder', false)
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();

@@ -125,7 +125,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFolderTreeAttribute(): Collection
     {
         return Folder::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', null)
+            ->where('parent_id')
+            ->where('team_folder', false)
             ->where('user_id', $this->id)
             ->sortable()
             ->get();
@@ -145,6 +146,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function favouriteFolders(): BelongsToMany
     {
         return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')
+            ->where('team_folder', false)
             ->with('shared:token,id,item_id,permission,is_protected,expire_in');
     }
 

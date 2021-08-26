@@ -44,7 +44,11 @@
 			}
 		},
 		created() {
-			this.permission = this.item.permission
+			if (this.item.pivot) {
+				this.permission = this.item.pivot.permission
+			} else {
+				this.permission = this.item.permission
+			}
 		}
 	}
 </script>

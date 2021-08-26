@@ -1,24 +1,17 @@
 <template>
-    <PopupWrapper name="create-team-folder">
+    <PopupWrapper name="update-team-folder">
 
         <!--Title-->
-        <PopupHeader :title="popupTitle" icon="user-plus" />
+        <PopupHeader :title="$t('Edit Team Folder')" icon="user-plus" />
 
         <!--Content-->
         <PopupContent>
 
 			<!--Item Thumbnail-->
-            <ThumbnailItem v-if="! isNewFolderTeamCreation" class="item-thumbnail" :item="item" info="metadata" />
+            <ThumbnailItem class="item-thumbnail" :item="item" info="metadata" />
 
             <!--Form to set team folder-->
-            <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
-
-                <!--Set folder name-->
-                <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
+            <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Add Member-->
 				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
@@ -31,12 +24,9 @@
 				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" rules="required" v-slot="{ errors }">
 					<label class="input-label">{{ $t('Your Members') }}:</label>
 					<span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
+					<TeamList v-model="members" />
 					<TeamList v-model="invitations" />
 				</ValidationProvider>
-
-				<InfoBox v-if="! isNewFolderTeamCreation" style="margin-bottom: 0">
-					<p v-html="$t('popup.move_into_team_disclaimer')"></p>
-				</InfoBox>
             </ValidationObserver>
 
         </PopupContent>
@@ -51,11 +41,11 @@
             </ButtonBase>
             <ButtonBase
                     class="popup-button"
-                    @click.native="createTeamFolder"
+                    @click.native="updateTeamFolder"
                     button-style="theme"
 					:loading="isLoading"
 					:disabled="isLoading"
-            >{{ popupSubmit }}
+            >{{ $t('Update Team Folder') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -76,7 +66,7 @@
 	import axios from "axios";
 
     export default {
-        name: 'CreateTeamFolderPopup',
+        name: 'UpdateTeamFolderPopup',
         components: {
             ValidationProvider,
             ValidationObserver,
@@ -91,19 +81,12 @@
 			InfoBox,
         },
         computed: {
-			popupTitle() {
-                return this.item ? this.$t('Convert as Team Folder') : this.$t('Create Team Folder')
-            },
-			popupSubmit() {
-                return this.item ? this.$t('Move & Invite Members') : this.$t('Create Team Folder')
-            },
-			isNewFolderTeamCreation() {
-				return ! this.item
-			}
+			//
         },
         data() {
             return {
             	invitations: [],
+            	members: [],
                 item: undefined,
                 name: undefined,
 				email: undefined,
@@ -111,34 +94,20 @@
             }
         },
         methods: {
-            async createTeamFolder() {
+            async updateTeamFolder() {
 				const isValid = await this.$refs.teamFolderForm.validate()
 
 				if (!isValid) return
 
 				this.isLoading = true
 
-				let route = this.name
-					? `/api/teams/folders`
-					: `/api/teams/convert/${this.item.id}`
-
-				let payload = this.name
-					? {
-						name: this.name,
-						invitations: this.invitations,
-					}
-					: {
-						invitations: this.invitations,
-					}
-
 				axios
-					.post(route, payload)
+					.patch(`/api/teams/folders/${this.item.id}`, {
+						members: this.members,
+						invitations: this.invitations,
+					})
 					.then(response => {
-						// todo: push to team folder
-						//this.$router.push({name: 'TeamFolders', params: {id: response.data.id}})
-
-						if (! this.$isThisRoute(this.$route, ['TeamFolders']))
-							this.$router.push({name: 'TeamFolders'})
+						// todo: update view
 
 						this.$store.dispatch('getAppData')
 					})
@@ -173,10 +142,14 @@
         },
         mounted() {
             events.$on('popup:open', args => {
-                if (args.name !== 'create-team-folder') return
+                if (args.name !== 'update-team-folder') return
+
+				console.log(args.item);
 
 				if (args.item) {
-					this.item = args.item[0]
+					this.item = args.item
+					this.members = args.item.team_members
+					this.invitations = args.item.team_invitations
 				}
             })
 
@@ -186,6 +159,7 @@
 					this.name = undefined
 					this.item = undefined
 					this.invitations = []
+					this.members = []
 				}, 150)
 			})
         }

@@ -43,6 +43,35 @@ const actions = {
                 }
             })
     },
+    getTeamFolder: ({commit, getters}, id) => {
+        commit('LOADING_STATE', {loading: true, data: []})
+
+        axios
+            .get(`${getters.api}/teams/folders/${id}/${getters.sorting.URI}`)
+            .then(response => {
+                commit('LOADING_STATE', {loading: false, data: response.data.content})
+                commit('SET_CURRENT_FOLDER', response.data.folder)
+
+                events.$emit('scrollTop')
+            })
+            .catch(error => {
+
+                // Redirect if unauthenticated
+                if ([401, 403].includes(error.response.status)) {
+
+                    commit('SET_AUTHORIZED', false)
+                    router.push({name: 'SignIn'})
+
+                } else {
+
+                    // Show error message
+                    events.$emit('alert:open', {
+                        title: i18n.t('popup_error.title'),
+                        message: i18n.t('popup_error.message'),
+                    })
+                }
+            })
+    },
     getRecentUploads: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
 

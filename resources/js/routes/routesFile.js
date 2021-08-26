@@ -43,9 +43,9 @@ const routesFile = [
 			},
 			{
 				name: 'TeamFolders',
-				path: '/platform/team-folder/:id?',
+				path: '/platform/team-folders/:id?',
 				component: () =>
-					import(/* webpackChunkName: "chunks/team-folders" */ '../views/FileView/Trash'),
+					import(/* webpackChunkName: "chunks/team-folders" */ '../views/FileView/TeamFolders'),
 				meta: {
 					requiresAuth: true
 				},

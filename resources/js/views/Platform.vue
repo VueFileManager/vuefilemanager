@@ -10,6 +10,7 @@
         <ConfirmPopup />
 
 		<CreateTeamFolderPopup />
+		<EditTeamFolderPopup />
 
         <ShareCreatePopup />
         <ShareEditPopup />
@@ -49,6 +50,7 @@
     import ShareCreatePopup from '/resources/js/components/Others/ShareCreatePopup'
 	import DesktopToolbar from '/resources/js/components/FilesView/DesktopToolbar'
 	import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup"
+	import EditTeamFolderPopup from "../components/Teams/EditTeamFolderPopup"
     import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
     import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
     import ShareEditPopup from '/resources/js/components/Others/ShareEditPopup'
@@ -64,6 +66,7 @@
         components: {
 			CreateTeamFolderPopup,
 			PanelNavigationFiles,
+			EditTeamFolderPopup,
             CreateFolderPopup,
             FileSortingMobile,
             SidebarNavigation,

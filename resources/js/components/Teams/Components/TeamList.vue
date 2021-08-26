@@ -6,11 +6,11 @@
 			</div>
 			<div class="member-preview">
 				<div class="avatar">
-					<img :src="member.avatar">
+					<img :src="member.settings ? member.settings.avatar : '/assets/images/default-avatar.png'">
 				</div>
 				<div class="info">
-					<b class="name">{{ member.name ? member.name : member.email }}</b>
-					<span v-if="member.name" class="email">{{ member.email }}</span>
+					<b class="name">{{ member.settings ? member.settings.name : member.email }}</b>
+					<span v-if="member.settings" class="email">{{ member.email }}</span>
 				</div>
 			</div>
 			<div class="action">
@@ -28,7 +28,7 @@
 	import {XIcon} from 'vue-feather-icons'
 
 	export default {
-		name: "TeamMemberList",
+		name: "TeamList",
 		props: [
 			'value',
 		],
@@ -67,7 +67,6 @@
 	@import '/resources/sass/vuefilemanager/_forms';
 
 	.member-list {
-		margin-bottom: 20px;
 		max-height: 270px;
 		overflow-y: scroll;
 	}

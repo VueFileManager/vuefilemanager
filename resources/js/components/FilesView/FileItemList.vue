@@ -228,6 +228,8 @@ export default {
 						this.$router.push({name: 'Trash', params: {id: this.item.id}})
 					} else if (route === 'Files') {
 						this.$router.push({name: 'Files', params: {id: this.item.id}})
+					} else if (route === 'TeamFolders') {
+						this.$router.push({name: 'TeamFolders', params: {id: this.item.id}})
 					}
                 } else {
 
@@ -269,6 +271,8 @@ export default {
 					this.$router.push({name: 'Trash', params: {id: this.item.id}})
 				} else if (route === 'Files') {
 					this.$router.push({name: 'Files', params: {id: this.item.id}})
+				} else if (route === 'TeamFolders') {
+					this.$router.push({name: 'TeamFolders', params: {id: this.item.id}})
 				}
             }
         },

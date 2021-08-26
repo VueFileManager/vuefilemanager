@@ -9,7 +9,10 @@
 
 
         {{-- Single option --}}
-        .svg-color-theme {fill: {{ $color }}}
+        .svg-color-theme {
+            fill: {{ $color }};
+            stroke: {{ $color }};
+        }
 
         .svg-stroke-theme {stroke: {{ $color }}}
         .hover-svg-stroke-theme:hover {stroke: {{ $color }}}

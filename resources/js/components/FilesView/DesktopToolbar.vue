@@ -16,9 +16,9 @@
 			<ToolbarWrapper>
 
 				<!--Search bar-->
-				<ToolbarGroup v-if="false" style="margin-left: 0">
+<!--				<ToolbarGroup style="margin-left: 0">
 					<SearchBar />
-				</ToolbarGroup>
+				</ToolbarGroup>-->
 
 				<!--Creating controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">
@@ -40,7 +40,7 @@
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile() && !$isThisRoute($route, ['Public'])">
 
 					<!--Team Folder Icon-->
-					<PopoverWrapper>
+					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders'])">
 						<TeamMembersPreview @click.stop.native="showTeamFolderMenu" count="3+" :members="members" class="team-preview" />
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
@@ -51,7 +51,7 @@
 						</PopoverItem>
 					</PopoverWrapper>
 
-					<ToolbarButton v-if="false" @click.native="$createTeamFolder" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
+					<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$updateTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
 					<ToolbarButton @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 				</ToolbarGroup>
 
@@ -151,6 +151,7 @@
 						'Trash': this.$t('Trash'),
 						'Public': this.$t('Files'),
 						'Files': this.$t('Files'),
+						'TeamFolders': this.$t('Team Folders'),
 					}[this.$route.name]
 				}
 			},
@@ -171,6 +172,9 @@
 					'Files',
 				]
 				return !this.$isThisRoute(this.$route, routes) || this.clipboard.length === 0
+			},
+			canShowConvertToTeamFolder() {
+				return this.$isThisRoute(this.$route, ['Files', 'MySharedItems'])
 			},
 			canUploadInView() {
 				return ! this.$isThisRoute(this.$route, ['Files', 'Public'])

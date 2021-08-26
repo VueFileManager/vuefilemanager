@@ -14,6 +14,7 @@ use Domain\Teams\DTO\CreateTeamFolderData;
 use Domain\Teams\Actions\UpdateMembersAction;
 use Domain\Teams\Actions\UpdateInvitationsAction;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
+use Str;
 
 class TeamFoldersController extends Controller
 {
@@ -27,19 +28,27 @@ class TeamFoldersController extends Controller
         $isHomepage = $id === 'undefined';
         $rootId = $id === 'undefined' ? null : $id;
         $requestedFolder = $rootId ? Folder::findOrFail($rootId) : null;
+        $files = [];
 
-        $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+        $folders = Folder::with([
+            'teamMembers',
+            'teamInvitations',
+            'parent:id,name',
+            'shared:token,id,item_id,permission,is_protected,expire_in'
+        ])
             ->where('parent_id', $rootId)
             ->where('team_folder', $isHomepage)
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 
-        $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('folder_id', $rootId)
-            ->where('user_id', Auth::id())
-            ->sortable()
-            ->get();
+        if (Str::isUuid($id)) {
+            $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
+                ->where('folder_id', $rootId)
+                ->where('user_id', Auth::id())
+                ->sortable()
+                ->get();
+        }
 
         // Collect folders and files to single array
         return [

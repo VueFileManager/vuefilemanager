@@ -39,7 +39,7 @@
 		<ContextMenu>
 			<template v-slot:empty-select>
 				<OptionGroup>
-					<Option @click.native="$createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
+					<Option @click.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
 				</OptionGroup>
 			</template>
 
@@ -54,7 +54,7 @@
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-					<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="user-plus" />
+					<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Edit Team Members')" icon="users" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
@@ -127,7 +127,7 @@
 	import {events} from "../../bus";
 
 	export default {
-		name: 'Files',
+		name: 'TeamFolders',
 		components: {
 			MobileActionButtonUpload,
 			MobileMultiSelectToolbar,
@@ -207,7 +207,7 @@
 			},
 		},
 		created() {
-			this.$store.dispatch('getFolder', this.$route.params.id)
+			this.$store.dispatch('getTeamFolder', this.$route.params.id)
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)

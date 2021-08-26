@@ -1,8 +1,4 @@
 import {events} from "../bus";
-import {debounce, isArray} from "lodash";
-import axios from "axios";
-import i18n from "../i18n";
-import store from "../store";
 
 const itemHelpers = {
 	install(Vue) {
@@ -54,7 +50,7 @@ const itemHelpers = {
 		}
 
 		Vue.prototype.$updateTeamFolder = function (entry) {
-			events.$emit('popup:open', {name: 'create-team-folder', item: [entry]})
+			events.$emit('popup:open', {name: 'update-team-folder', item: entry})
 		}
 
 		Vue.prototype.$removeFavourite = function (folder) {
