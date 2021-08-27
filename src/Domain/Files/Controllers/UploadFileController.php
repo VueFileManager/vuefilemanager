@@ -5,6 +5,8 @@ use Domain\Files\Models\File;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Actions\UploadFileAction;
+use Domain\Files\Resources\FileResource;
+use Illuminate\Http\Response;
 use Support\Demo\Actions\FakeUploadFileAction;
 
 class UploadFileController extends Controller
@@ -20,11 +22,14 @@ class UploadFileController extends Controller
      */
     public function __invoke(
         UploadRequest $request,
-    ) {
+    ): Response|array {
+
         if (is_demo_account('howdy@hi5ve.digital')) {
             return ($this->fakeUploadFile)($request);
         }
 
-        return ($this->uploadFiles)($request);
+        $file = ($this->uploadFiles)($request);
+
+        return response(new FileResource($file), 201);
     }
 }

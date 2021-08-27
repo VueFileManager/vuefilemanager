@@ -28,6 +28,7 @@ class FileResource extends JsonResource
                     'file_url'   => $this->file_url,
                     'thumbnail'  => $this->thumbnail,
                     'metadata'   => $this->metadata,
+                    'folder_id'  => $this->folder_id,
                     'updated_at' => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')
                     ),

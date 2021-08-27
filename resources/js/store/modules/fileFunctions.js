@@ -58,9 +58,16 @@ const actions = {
             ? `/api/editor/move/${router.currentRoute.params.token}`
             : '/api/move'
 
+        let moveToId = undefined
+
+        if (to_item.data)
+            moveToId = to_item.data.id
+        else if (to_item.id)
+            moveToId = to_item.id
+
         axios
             .post(route, {
-                to_id: to_item.id ? to_item.id : null,
+                to_id: moveToId,
                 items: itemsToMove
             })
             .then(() => {
@@ -170,7 +177,7 @@ const actions = {
                     resolve(response)
 
                     // Proceed if was returned database record
-                    if (response.data.id) {
+                    if (response.data.data.id) {
 
                         commit('PROCESSING_FILE', false)
 
@@ -178,17 +185,17 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if (response.data.folder_id === getters.currentFolder.data.id) {
+                        if ((! getters.currentFolder && !response.data.data.attributes.folder_id) || response.data.data.attributes.folder_id === getters.currentFolder.data.id) {
 
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)
-
-                            // Reset file progress
-                            commit('UPLOADING_FILE_PROGRESS', 0)
-
-                            // Increase count in files in queue uploaded for 1
-                            commit('INCREASE_FILES_IN_QUEUE_UPLOADED')
                         }
+
+                        // Reset file progress
+                        commit('UPLOADING_FILE_PROGRESS', 0)
+
+                        // Increase count in files in queue uploaded for 1
+                        commit('INCREASE_FILES_IN_QUEUE_UPLOADED')
 
                         // Start uploading next file if file queue is not empty
                         if (getters.fileQueue.length) {
@@ -217,6 +224,9 @@ const actions = {
                             message: i18n.t('popup_paylod_error.message')
                         }
                     }
+
+                    console.log(error.response);
+                    console.log(error.response.status);
 
                     events.$emit('alert:open', {
                         emoji: '😬😬😬',

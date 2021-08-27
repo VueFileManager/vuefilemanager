@@ -174,14 +174,12 @@
 			},
 			dragFinish(data, event) {
 
-				if (event.dataTransfer.items.length == 0) {
+				if (event.dataTransfer.items.length === 0) {
 					// Prevent to drop on file or image
 					if (data.data.type !== 'folder' || this.draggingId === data) return
 
 					//Prevent move selected folder to folder if in beteewn selected folders
 					if (this.clipboard.find(item => item === data && this.clipboard.length > 1)) return
-
-					// Move folder to new parent
 
 					//Move item if is not included in selected items
 					if (!this.clipboard.includes(this.draggingId)) {
