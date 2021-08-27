@@ -1,6 +1,9 @@
 <?php
 namespace Domain\Items\Controllers;
 
+use Domain\Files\Resources\FileResource;
+use Domain\Folders\Resources\FolderResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
@@ -62,10 +65,15 @@ class VisitorRenameFileOrFolderController extends Controller
         $item = ($this->renameFileOrFolder)($request, $id);
 
         // Set public url
-        if ($item->type !== 'folder') {
+        if ($request->input('type') !== 'folder') {
             $item->setPublicUrl($shared->token);
         }
 
-        return response($item, 201);
+        if ($request->input('type') === 'folder') {
+            return response(new FolderResource($item), 201);
+        }
+
+        // Return updated item
+        return response(new FileResource($item), 201);
     }
 }

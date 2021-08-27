@@ -24,17 +24,15 @@ class VisitorBrowseTest extends TestCase
             ->assertExactJson([
                 'data' => [
                     'id'         => $share->id,
-                    'type'       => 'shares',
+                    'type'       => 'shared',
                     'attributes' => [
                         'permission'   => $share->permission,
-                        'is_protected' => false,
+                        'protected' => false,
                         'item_id'      => $share->item_id,
                         'expire_in'    => $share->expire_in,
                         'token'        => $share->token,
                         'link'         => $share->link,
                         'type'         => $share->type,
-                        'created_at'   => $share->created_at->toJson(),
-                        'updated_at'   => $share->updated_at->toJson(),
                     ],
                 ],
             ]);
@@ -292,7 +290,6 @@ class VisitorBrowseTest extends TestCase
                                 'name'          => 'level 2',
                                 'items'         => 1,
                                 'trashed_items' => 1,
-                                'type'          => 'folder',
                                 'folders'       => [
                                     [
                                         'id'            => $folder_level_3->id,
@@ -300,7 +297,6 @@ class VisitorBrowseTest extends TestCase
                                         'name'          => 'level 3',
                                         'items'         => 0,
                                         'trashed_items' => 0,
-                                        'type'          => 'folder',
                                         'folders'       => [],
                                     ],
                                 ],
@@ -311,7 +307,6 @@ class VisitorBrowseTest extends TestCase
                                 'name'          => 'level 2 Sibling',
                                 'items'         => 0,
                                 'trashed_items' => 0,
-                                'type'          => 'folder',
                                 'folders'       => [],
                             ],
                         ],

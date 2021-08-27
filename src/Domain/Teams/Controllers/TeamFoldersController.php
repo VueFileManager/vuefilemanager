@@ -2,11 +2,14 @@
 namespace Domain\Teams\Controllers;
 
 use DB;
+use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderCollection;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Files\Models\File;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
@@ -29,7 +32,7 @@ class TeamFoldersController extends Controller
     {
         $isHomepage = $id === 'undefined';
         $rootId = $id === 'undefined' ? null : $id;
-        $requestedFolder = $rootId ? Folder::findOrFail($rootId) : null;
+        $requestedFolder = $rootId ? new FolderResource(Folder::findOrFail($rootId)) : null;
         $files = [];
 
         $folders = Folder::with([
@@ -54,11 +57,9 @@ class TeamFoldersController extends Controller
 
         // Collect folders and files to single array
         return [
-            'content' => collect([
-                new FolderCollection($folders),
-                $files
-            ])->collapse(),
-            'folder'  => $requestedFolder,
+            'folders' => new FolderCollection($folders),
+            'files'   => new FilesCollection($files),
+            'root'    => $requestedFolder,
         ];
     }
 

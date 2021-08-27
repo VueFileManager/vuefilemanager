@@ -5,7 +5,6 @@ use Auth;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
-use Illuminate\Database\Eloquent\Model;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
@@ -36,7 +35,13 @@ class RenameFileOrFolderController extends Controller
             ($this->updateFolderProperty)($request, $id);
         }
 
-        // Rename Item
-        return ($this->renameFileOrFolder)($request, $id);
+        $item = ($this->renameFileOrFolder)($request, $id);
+
+        if ($request->input('type') === 'folder') {
+            return new FolderResource($item);
+        }
+
+        // Return updated item
+        return new FileResource($item);
     }
 }

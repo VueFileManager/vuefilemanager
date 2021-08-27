@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Browsing;
 
 use Tests\TestCase;
@@ -59,8 +60,7 @@ class BrowseTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    'name'     => 'Home',
-                    'location' => 'base',
+                    'name'     => 'Files',
                     'folders'  => [
                         [
                             'id'            => $folder_level_1->id,
@@ -68,7 +68,7 @@ class BrowseTest extends TestCase
                             'name'          => 'level 1',
                             'items'         => 2,
                             'trashed_items' => 2,
-                            'type'          => 'folder',
+                            'team_folder'   => false,
                             'folders'       => [
                                 [
                                     'id'            => $folder_level_2->id,
@@ -76,7 +76,7 @@ class BrowseTest extends TestCase
                                     'name'          => 'level 2',
                                     'items'         => 1,
                                     'trashed_items' => 1,
-                                    'type'          => 'folder',
+                                    'team_folder'   => false,
                                     'folders'       => [
                                         [
                                             'id'            => $folder_level_3->id,
@@ -91,7 +91,7 @@ class BrowseTest extends TestCase
                                             'updated_at'    => $folder_level_3->updated_at->toJson(),
                                             'items'         => 0,
                                             'trashed_items' => 0,
-                                            'type'          => 'folder',
+                                            'team_folder'   => false,
                                             'folders'       => [],
                                         ],
                                     ],
@@ -102,12 +102,16 @@ class BrowseTest extends TestCase
                                     'name'          => 'level 2 Sibling',
                                     'items'         => 0,
                                     'trashed_items' => 0,
-                                    'type'          => 'folder',
+                                    'team_folder'   => false,
                                     'folders'       => [],
                                 ],
                             ],
                         ],
                     ],
+                ],
+                [
+                    'name'     => 'Team Folders',
+                    'folders'  => [],
                 ],
             ]);
     }
@@ -335,7 +339,7 @@ class BrowseTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson('/api/browse/trash')
+            ->getJson('/api/browse/trash/undefined')
             ->assertStatus(200)
             ->assertExactJson([
                 [

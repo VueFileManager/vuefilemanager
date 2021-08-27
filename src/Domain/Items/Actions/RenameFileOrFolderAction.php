@@ -13,7 +13,7 @@ class RenameFileOrFolderAction
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): FolderResource|FileResource|array {
+    ) {
 
         // Get item
         $item = get_item($request->input('type'), $id);
@@ -23,11 +23,6 @@ class RenameFileOrFolderAction
             'name' => $request->input('name'),
         ]);
 
-        if ($request->input('type') === 'folder') {
-            return new FolderResource($item);
-        }
-
-        // Return updated item
-        return new FileResource($item);
+        return $item;
     }
 }
