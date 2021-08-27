@@ -51,7 +51,7 @@
 						</PopoverItem>
 					</PopoverWrapper>
 
-					<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$updateTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
+					<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$convertAsTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
 					<ToolbarButton @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 				</ToolbarGroup>
 

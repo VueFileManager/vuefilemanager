@@ -54,7 +54,7 @@
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$shareFileOrFolder(item)" :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-					<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="user-plus" />
+					<Option @click.native="$convertAsTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="user-plus" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />

@@ -176,7 +176,7 @@
                 if (args.name !== 'create-team-folder') return
 
 				if (args.item) {
-					this.item = args.item[0]
+					this.item = args.item
 				}
             })
 

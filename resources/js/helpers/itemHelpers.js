@@ -45,8 +45,12 @@ const itemHelpers = {
 			})
 		},
 
-		Vue.prototype.$createTeamFolder = function (entry) {
+		Vue.prototype.$createTeamFolder = function () {
 			events.$emit('popup:open', {name: 'create-team-folder'})
+		}
+
+		Vue.prototype.$convertAsTeamFolder = function (entry) {
+			events.$emit('popup:open', {name: 'create-team-folder', item: entry})
 		}
 
 		Vue.prototype.$updateTeamFolder = function (entry) {
