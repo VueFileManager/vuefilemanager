@@ -57,7 +57,7 @@
 				:title="$t('file_detail.where')"
 			>
                 <div class="action-button" @click="openMoveOptions">
-                    <span>{{ singleFile.parent ? singleFile.parent.name : $t('locations.home') }}</span>
+                    <span>{{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $t('locations.home') }}</span>
                     <edit-2-icon size="10" class="edit-icon" />
                 </div>
             </ListInfoItem>

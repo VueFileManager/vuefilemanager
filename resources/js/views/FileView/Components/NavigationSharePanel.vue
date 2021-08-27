@@ -156,7 +156,7 @@ export default {
 
 	// Transition
 	.folder-item-move {
-		transition: transform 300s ease;
+		transition: all 300s ease;
 	}
 
 	.folder-item-enter-active {

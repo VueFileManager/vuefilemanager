@@ -165,7 +165,7 @@
 				return this.clipboard.find(item => item.data.type !== 'folder')
 			},
 			favourites() {
-				return this.user.data.relationships.favourites.data.attributes.folders
+				return this.user.data.relationships.favourites.data
 			},
 			filterLocationTitle() {
 				return {
@@ -208,6 +208,7 @@
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)
+			events.$on('context-menu:current-folder', folder => this.item = folder)
 		}
 	}
 </script>

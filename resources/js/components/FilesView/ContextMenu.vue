@@ -57,15 +57,6 @@ export default {
 			// Reset item container
 			this.item = undefined
 		},
-		showFolderActionsMenu() {
-			let container = document.getElementById('folder-actions')
-
-			this.positionX = container.offsetLeft + 16
-			this.positionY = container.offsetTop + 30
-
-			// Show context menu
-			this.isVisible = true
-		},
 		showContextMenu(event) {
 			let parent = document.getElementById('menu-list')
 			let nodesSameClass = parent.getElementsByClassName('menu-option')
@@ -107,14 +98,16 @@ export default {
 			setTimeout(() => this.showContextMenu(event, item), 10)
 		})
 
-		events.$on('folder:actions', (folder) => {
-			// Store item
+		events.$on('context-menu:current-folder', folder => {
 			this.item = folder
 
+			this.isVisible = ! this.isVisible
+
 			if (this.isVisible) {
-				this.isVisible = false
-			} else {
-				this.showFolderActionsMenu()
+				let container = document.getElementById('folder-actions')
+
+				this.positionX = container.offsetLeft + 16
+				this.positionY = container.offsetTop + 30
 			}
 		})
 

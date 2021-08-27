@@ -77,18 +77,18 @@
 		<ContentGroup v-if="user" :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
 
 			<div @dragover.prevent="dragEnter" @dragleave="dragLeave" @drop="dragFinish($event)" :class="{ 'is-dragenter': area }" class="menu-list-wrapper vertical favourites">
-				<transition-group tag="div" class="menu-list" name="folder-item">
-					<span class="empty-note favourites" v-if="favourites.length === 0" :key="0">
+				<transition-group tag="div" class="menu-list" name="folder">
+					<span v-if="favourites.length === 0" class="empty-note favourites" :key="0">
 						{{ $t('sidebar.favourites_empty') }}
 					</span>
 
-					<router-link :to="{name: 'Files', params: {id: folder.id}}" v-for="folder in favourites" :key="folder.id" class="menu-list-item">
+					<div @click="goToFolder(folder)" v-for="folder in favourites" :key="folder.data.id" class="menu-list-item folder-item">
 						<div class="text-theme">
 							<folder-icon size="17" class="folder-icon" />
-							<span class="label text-theme">{{ folder.name }}</span>
+							<span class="label text-theme">{{ folder.data.attributes.name }}</span>
 						</div>
 						<x-icon @click.stop="$removeFavourite(folder)" size="17" class="delete-icon" />
-					</router-link>
+					</div>
 				</transition-group>
 			</div>
 		</ContentGroup>
@@ -127,7 +127,7 @@ export default {
 			'user',
 		]),
 		favourites() {
-			return this.user.data.relationships.favourites.data.attributes.folders
+			return this.user.data.relationships.favourites.data
 		},
 		storage() {
 			return this.$store.getters.user.data.attributes.storage
@@ -143,6 +143,9 @@ export default {
 		}
 	},
 	methods: {
+		goToFolder(folder) {
+			this.$router.push({name: 'Files', params: {id: folder.data.id}})
+		},
 		dragLeave() {
 			this.area = false
 		},
@@ -217,26 +220,16 @@ export default {
 		}
 	}
 
-	// Transition
-	.folder-item-move {
-		transition: transform 300s ease;
-	}
-
-	.folder-item-enter-active {
-		transition: all 300ms ease;
-	}
-
-	.folder-item-leave-active {
+	.folder-item {
 		transition: all 300ms;
+		display: inline-block;
+		margin-right: 10px;
 	}
-
-	.folder-item-enter, .folder-item-leave-to /* .list-leave-active below version 2.1.8 */
-	{
+	.folder-enter, .folder-leave-to {
 		opacity: 0;
-		transform: translateX(30px);
+		transform: translateY(-20px);
 	}
-
-	.folder-item-leave-active {
+	.folder-leave-active {
 		position: absolute;
 	}
 </style>

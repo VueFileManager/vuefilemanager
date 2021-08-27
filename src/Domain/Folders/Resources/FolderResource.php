@@ -43,6 +43,17 @@ class FolderResource extends JsonResource
                     $this->mergeWhen($this->shared, fn() => [
                         'shared' => new ShareResource($this->shared),
                     ]),
+                    $this->mergeWhen($this->parent, fn() => [
+                        'parent' => [
+                            'data' => [
+                                'type'       => 'folder',
+                                'id'         => $this->parent->id,
+                                'attributes' => [
+                                    'name' => $this->parent->name,
+                                ],
+                            ],
+                        ],
+                    ]),
                 ],
             ],
         ];

@@ -8,7 +8,7 @@
 					{{ directoryName }}
 				</span>
 
-				<span v-if="isLoadedFolder" @click.stop="folderActions" class="location-more group" id="folder-actions">
+				<span v-show="isLoadedFolder" @click.stop="folderActions" class="location-more group" id="folder-actions">
 					<more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
 				</span>
 			</div>
@@ -228,8 +228,7 @@
 				events.$emit('popover:open', 'desktop-sorting')
 			},
 			folderActions() {
-				// todo: add current folder
-				events.$emit('folder:actions', this.currentFolder)
+				events.$emit('context-menu:current-folder', this.currentFolder)
 			},
 		},
 	}

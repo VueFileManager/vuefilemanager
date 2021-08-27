@@ -147,8 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function favouriteFolders(): BelongsToMany
     {
         return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')
-            ->where('team_folder', false)
-            ->with('shared:token,id,item_id,permission,is_protected,expire_in');
+            ->where('team_folder', false);
     }
 
     /**

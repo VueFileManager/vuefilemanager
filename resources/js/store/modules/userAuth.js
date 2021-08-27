@@ -56,11 +56,11 @@ const actions = {
         if (!folder)
             items = context.getters.clipboard
 
-        items.forEach((item) => {
+        items.forEach(item => {
 
             if (item.data.type === 'folder') {
 
-                if (context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === item.data.id)) return
+                if (context.getters.user.data.relationships.favourites.data.find(folder => folder.id === item.data.id)) return
 
                 addFavourites.push({id: item.data.id})
             }
@@ -74,9 +74,9 @@ const actions = {
         let pushToFavorites = []
 
         // Check is favorites already don't include some of pushed folders
-        items.map(data => {
-            if (!context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)) {
-                pushToFavorites.push(data)
+        items.map(item => {
+            if (!context.getters.user.data.relationships.favourites.data.find(folder => folder.data.id === item.id)) {
+                pushToFavorites.push(item)
             }
         })
 
@@ -121,11 +121,7 @@ const mutations = {
     },
     ADD_TO_FAVOURITES(state, folder) {
         folder.forEach(item => {
-            state.user.data.relationships.favourites.data.attributes.folders.push({
-                id: item.data.id,
-                name: item.data.attributes.name,
-                type: item.data.type,
-            })
+            state.user.data.relationships.favourites.data.push(item)
         })
     },
     UPDATE_NAME(state, name) {
@@ -135,10 +131,10 @@ const mutations = {
         state.user.data.relationships.settings.data.attributes.avatar = avatar
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.user.data.relationships.favourites.data.attributes.folders = state.user.data.relationships.favourites.data.attributes.folders.filter(folder => folder.id !== item.data.id)
+        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.data.filter(folder => folder.data.id !== item.data.id)
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
-        state.user.data.relationships.favourites.data.attributes.folders.find(folder => {
+        state.user.data.relationships.favourites.data.find(folder => {
             if (folder.id === data.id) {
                 folder.name = data.name
             }

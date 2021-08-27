@@ -32,8 +32,9 @@ class BrowseTrashContentController
 
             // Collect folders and files to single array
             return [
-                'content' => collect([$folders, $files])->collapse(),
-                'folder'  => $requestedFolder,
+                'folders' => new FolderCollection($folders),
+                'files'   => new FilesCollection($files),
+                'root'    => $requestedFolder,
             ];
         }
 

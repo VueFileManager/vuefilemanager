@@ -1,6 +1,7 @@
 <?php
 namespace App\Users\Resources;
 
+use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -50,15 +51,7 @@ class UserResource extends JsonResource
                             ],
                         ],
                     ],
-                    'favourites' => [
-                        'data' => [
-                            'id'         => $this->id,
-                            'type'       => 'favourite_folders',
-                            'attributes' => [
-                                'folders' => $this->favouriteFolders->makeHidden(['pivot']),
-                            ],
-                        ],
-                    ],
+                    'favourites' => new FolderCollection($this->favouriteFolders),
                 ],
             ],
         ];
