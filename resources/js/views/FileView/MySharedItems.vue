@@ -10,7 +10,7 @@
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+					<Option @click.native="$shareFileOrFolder(item)" :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
@@ -137,10 +137,7 @@
 		methods: {
 			addToFavourites() {
 				// Check if folder is in favourites and then add/remove from favourites
-				if (
-					this.favourites &&
-					!this.favourites.find(el => el.id === this.item.id)
-				) {
+				if (this.favourites && !this.favourites.find(el => el.id === this.item.data.id)) {
 					// Add to favourite folder that is not selected
 					if (!this.clipboard.includes(this.item)) {
 						this.$store.dispatch('addToFavourites', this.item)
@@ -153,7 +150,7 @@
 				} else {
 					this.$store.dispatch('removeFromFavourites', this.item)
 				}
-			}
+			},
 		},
 		created() {
 			this.$store.dispatch('getMySharedItems')

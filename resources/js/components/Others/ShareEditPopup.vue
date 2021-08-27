@@ -44,7 +44,7 @@
 						</div>
 					</div>
 
-					<ActionButton v-if="(pickedItem.data.relationships.shared.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
+					<ActionButton v-if="(pickedItem.data.relationships.shared.data.attributes.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
                         {{ $t('popup_share_edit.change_pass') }}
                     </ActionButton>
 
@@ -315,11 +315,11 @@
 
                 // Store shared options
                 this.shareOptions = {
-                    id: args.item.data.relationships.shared.id,
-                    token: args.item.data.relationships.shared.token,
-                    expiration: args.item.data.relationships.shared.expire_in,
-                    isProtected: args.item.data.relationships.shared.protected,
-                    permission: args.item.data.relationships.shared.permission,
+                    id: args.item.data.relationships.shared.data.id,
+                    token: args.item.data.relationships.shared.data.attributes.token,
+                    expiration: args.item.data.relationships.shared.data.attributes.expire_in,
+                    isProtected: args.item.data.relationships.shared.data.attributes.protected,
+                    permission: args.item.data.relationships.shared.data.attributes.permission,
                     password: undefined,
                 }
 
@@ -327,7 +327,7 @@
                     this.sendToRecipientsMenu = true
                     this.isEmailSended = false
 
-                this.canChangePassword = args.item.data.relationships.shared.is_protected
+                this.canChangePassword = args.item.data.relationships.shared.data.attributes.protected
             })
 
             events.$on('popup:close', () => {

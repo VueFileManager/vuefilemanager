@@ -207,7 +207,9 @@ export default {
                     // End loading
                     this.isGeneratedShared = true
 
-                    this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)
+                    this.$store.commit('UPDATE_SHARED_ITEM', response.data)
+
+					this.pickedItem.data.relationships.shared = response.data
                 })
                 .catch(() => {
                     events.$emit('alert:open', {

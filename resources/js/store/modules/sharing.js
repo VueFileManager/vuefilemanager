@@ -77,8 +77,8 @@ const actions = {
                 items = getters.clipboard
             }
 
-            items.forEach(data => {
-                tokens.push(data.shared.token)
+            items.forEach(item => {
+                tokens.push(item.data.relationships.shared.data.attributes.token)
             })
 
             axios
@@ -91,12 +91,12 @@ const actions = {
                     items.forEach(item => {
 
                         // Remove item from file browser
-                        if ( getters.currentFolder && getters.currentFolder.location === 'shared' ) {
-                            commit('REMOVE_ITEM', item.id)
+                        if ( getters.currentFolder && Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems']) ) {
+                            commit('REMOVE_ITEM', item.data.id)
                         }
 
                         // Flush shared data
-                        commit('FLUSH_SHARED', item.id)
+                        commit('FLUSH_SHARED', item.data.id)
                         commit('CLIPBOARD_CLEAR')
                     })
                     resolve(true)

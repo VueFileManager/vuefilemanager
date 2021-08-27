@@ -1,7 +1,8 @@
 <?php
 namespace Domain\Items\Actions;
 
-use Illuminate\Database\Eloquent\Model;
+use Domain\Files\Resources\FileResource;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 
 class RenameFileOrFolderAction
@@ -12,7 +13,8 @@ class RenameFileOrFolderAction
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): Model {
+    ): FolderResource|FileResource|array {
+
         // Get item
         $item = get_item($request->input('type'), $id);
 
@@ -21,7 +23,11 @@ class RenameFileOrFolderAction
             'name' => $request->input('name'),
         ]);
 
+        if ($request->input('type') === 'folder') {
+            return new FolderResource($item);
+        }
+
         // Return updated item
-        return $item;
+        return new FileResource($item);
     }
 }

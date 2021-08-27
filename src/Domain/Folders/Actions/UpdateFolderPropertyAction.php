@@ -15,7 +15,7 @@ class UpdateFolderPropertyAction
         $folder = Folder::find($id);
 
         // Set default folder icon
-        if ($request->emoji === 'default') {
+        if ($request->input('emoji') === 'default') {
             $folder->update([
                 'emoji' => null,
                 'color' => null,

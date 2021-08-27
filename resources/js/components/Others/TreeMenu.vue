@@ -1,6 +1,6 @@
 <template>
     <!--Folder Icon-->
-    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.id === nodes.id || !disableId} ">
+    <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.data.id === nodes.id || !disableId} ">
 
         <div class="folder-item text-theme dark-text-theme" :class="{'is-selected': isSelected}" @click="getFolder" :style="indent">
             <chevron-right-icon @click.stop="showTree" size="17" class="icon-arrow" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"/>
@@ -39,7 +39,7 @@
                 let canBeShow = true
                 if(this.clipboard.includes(this.disabledById)){
                     this.clipboard.map(item => {
-                        if(item.id === this.nodes.id) {
+                        if(item.data.id === this.nodes.id) {
                             canBeShow = false
                         }
                     })
@@ -66,7 +66,7 @@
         mounted() {
 
             // Show first location
-            if (this.depth == 1)
+            if (this.depth === 1)
                 this.isVisible = true
 
             // Select clicked folder

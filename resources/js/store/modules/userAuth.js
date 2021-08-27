@@ -56,14 +56,13 @@ const actions = {
         if (!folder)
             items = context.getters.clipboard
 
-        items.forEach((data) => {
-            if (data.type === 'folder') {
+        items.forEach((item) => {
 
-                if (context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === data.id)) return
+            if (item.data.type === 'folder') {
 
-                addFavourites.push({
-                    id: data.id
-                })
+                if (context.getters.user.data.relationships.favourites.data.attributes.folders.find(folder => folder.id === item.data.id)) return
+
+                addFavourites.push({id: item.data.id})
             }
         })
 
@@ -98,7 +97,7 @@ const actions = {
         commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(getters.api + '/folders/favourites/' + folder.id, {
+            .post(getters.api + '/folders/favourites/' + folder.data.id, {
                 _method: 'delete'
             })
             .catch(() => {
@@ -136,7 +135,7 @@ const mutations = {
         state.user.data.relationships.settings.data.attributes.avatar = avatar
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.user.data.relationships.favourites.data.attributes.folders = state.user.data.relationships.favourites.data.attributes.folders.filter(folder => folder.id !== item.id)
+        state.user.data.relationships.favourites.data.attributes.folders = state.user.data.relationships.favourites.data.attributes.folders.filter(folder => folder.id !== item.data.id)
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
         state.user.data.relationships.favourites.data.attributes.folders.find(folder => {

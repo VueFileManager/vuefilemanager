@@ -2,6 +2,7 @@
 
 namespace Domain\Browsing\Controllers;
 
+use DB;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderCollection;
 use Domain\Folders\Resources\FolderResource;

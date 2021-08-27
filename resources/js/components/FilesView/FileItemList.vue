@@ -311,7 +311,7 @@ export default {
 
         // Change item name
         events.$on('change:name', item => {
-            if (this.item.data.id === item.data.id) this.itemName = item.data.attributes.name
+            if (this.item.data.id === item.id) this.itemName = item.name
         })
     }
 }

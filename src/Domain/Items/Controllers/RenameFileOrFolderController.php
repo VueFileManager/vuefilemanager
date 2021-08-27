@@ -3,6 +3,8 @@ namespace Domain\Items\Controllers;
 
 use Auth;
 use App\Http\Controllers\Controller;
+use Domain\Files\Resources\FileResource;
+use Domain\Folders\Resources\FolderResource;
 use Illuminate\Database\Eloquent\Model;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
@@ -24,7 +26,7 @@ class RenameFileOrFolderController extends Controller
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): Model | array {
+    ): FileResource|FolderResource|array {
         if (is_demo_account(Auth::user()->email)) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }

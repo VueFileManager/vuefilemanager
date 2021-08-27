@@ -160,13 +160,6 @@ const mutations = {
         })
     },
     CHANGE_ITEM_NAME(state, updatedFile) {
-
-        // Rename filename in clipboard
-        if (state.clipboard && state.clipboard.data.id === updatedFile.data.id) {
-            state.clipboard = updatedFile
-        }
-
-        // Rename item name in data view
         state.entries.find(item => {
             if (item.data.id === updatedFile.data.id) {
                 item.data.attributes.name = updatedFile.data.attributes.name
@@ -177,7 +170,9 @@ const mutations = {
     },
     UPDATE_SHARED_ITEM(state, data) {
         state.entries.find(item => {
-            if (item.data.id === data.item_id) item.shared = data
+            if (item.data.id === data.data.attributes.item_id) {
+                item.data.relationships.shared = data
+            }
         })
     },
     ADD_NEW_FOLDER(state, folder) {

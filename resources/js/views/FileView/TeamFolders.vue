@@ -11,7 +11,7 @@
 				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 			</OptionGroup>
 			<OptionGroup v-if="item">
-				<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+				<Option @click.native="$shareFileOrFolder(item)" :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
 				<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="users" />
 			</OptionGroup>
 
@@ -53,7 +53,7 @@
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="$shareFileOrFolder(item)" :title="item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+					<Option @click.native="$shareFileOrFolder(item)" :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
 					<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Edit Team Members')" icon="users" />
 				</OptionGroup>
 				<OptionGroup>
@@ -185,10 +185,7 @@
 		methods: {
 			addToFavourites() {
 				// Check if folder is in favourites and then add/remove from favourites
-				if (
-					this.favourites &&
-					!this.favourites.find(el => el.id === this.item.id)
-				) {
+				if (this.favourites && !this.favourites.find(el => el.id === this.item.data.id)) {
 					// Add to favourite folder that is not selected
 					if (!this.clipboard.includes(this.item)) {
 						this.$store.dispatch('addToFavourites', this.item)
@@ -201,6 +198,7 @@
 				} else {
 					this.$store.dispatch('removeFromFavourites', this.item)
 				}
+			},
 			},
 			createFolder() {
 				events.$emit('popup:open', {name: 'create-folder'})

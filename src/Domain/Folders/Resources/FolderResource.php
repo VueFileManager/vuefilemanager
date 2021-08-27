@@ -11,6 +11,7 @@ class FolderResource extends JsonResource
 {
     public function toArray($request): array
     {
+        // TODO: optimize created_at/updated_at conversion because of performance issue
         return [
             'data' => [
                 'id'            => $this->id,

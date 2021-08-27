@@ -2,6 +2,7 @@
 namespace Domain\Folders\Controllers;
 
 use Auth;
+use Domain\Folders\Resources\FolderResource;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Domain\Folders\Actions\CreateFolderAction;
@@ -30,6 +31,6 @@ class CreateFolderController extends Controller
         // CreateFolder
         $folder = ($this->createFolder)($request);
 
-        return response($folder, 201);
+        return response(new FolderResource($folder), 201);
     }
 }

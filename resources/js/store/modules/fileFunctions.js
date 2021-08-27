@@ -60,7 +60,7 @@ const actions = {
 
         axios
             .post(route, {
-                to_id: to_item.data.id ? to_item.data.id : null,
+                to_id: to_item.id ? to_item.id : null,
                 items: itemsToMove
             })
             .then(() => {
@@ -70,7 +70,8 @@ const actions = {
 
                     if (item.type === 'folder')
                         dispatch('getAppData')
-                    if (getters.currentFolder.location === 'public')
+
+                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                         dispatch('getFolderTree')
                 })
             })
@@ -100,7 +101,7 @@ const actions = {
 
                 // Set focus on new folder name
                 setTimeout(() => {
-                    events.$emit('newFolder:focus', response.data.id)
+                    events.$emit('newFolder:focus', response.data.data.id)
                 }, 10)
 
                 if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
@@ -322,13 +323,12 @@ const actions = {
                 items: itemsToDelete
             })
             .then(() => {
-
                 itemsToDelete.forEach(data => {
 
                     // If is folder, update app data
-                    if (data.data.type === 'folder') {
+                    if (data.type === 'folder') {
 
-                        if (data.data.id === getters.currentFolder.data.id) {
+                        if (data.id === getters.currentFolder.data.id) {
 
                             if (getters.currentFolder.location === 'public') {
                                 dispatch('browseShared')
@@ -345,7 +345,7 @@ const actions = {
                     dispatch('getAppData')
 
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            //.catch(() => Vue.prototype.$isSomethingWrong())
     },
     emptyTrash: ({commit, getters}) => {
 
