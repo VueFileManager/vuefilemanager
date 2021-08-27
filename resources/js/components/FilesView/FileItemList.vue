@@ -161,7 +161,7 @@ export default {
 			events.$emit('mobile-context-menu:show', this.item)
         },
         dragEnter() {
-            if (this.item.type !== 'folder') return
+            if (this.item.data.type !== 'folder') return
 
             this.area = true
         },
@@ -226,7 +226,7 @@ export default {
 						this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.data.id}})
 					} else if (route === 'Trash') {
 						this.$router.push({name: 'Trash', params: {id: this.item.data.id}})
-					} else if (route === 'Files') {
+					} else if (['Files', 'MySharedItems'].includes(route)) {
 						this.$router.push({name: 'Files', params: {id: this.item.data.id}})
 					} else if (route === 'TeamFolders') {
 						this.$router.push({name: 'TeamFolders', params: {id: this.item.data.id}})
@@ -269,7 +269,7 @@ export default {
 					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.data.id}})
 				} else if (route === 'Trash') {
 					this.$router.push({name: 'Trash', params: {id: this.item.data.id}})
-				} else if (route === 'Files') {
+				} else if (['Files', 'MySharedItems'].includes(route)) {
 					this.$router.push({name: 'Files', params: {id: this.item.data.id}})
 				} else if (route === 'TeamFolders') {
 					this.$router.push({name: 'TeamFolders', params: {id: this.item.data.id}})

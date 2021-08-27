@@ -29,12 +29,15 @@ class FileResource extends JsonResource
                     'thumbnail'  => $this->thumbnail,
                     'metadata'   => $this->metadata,
                     'folder_id'  => $this->folder_id,
-                    'updated_at' => format_date(
+                    'updated_at' => $this->updated_at,
+                    'created_at' => $this->created_at,
+                    'deleted_at' => $this->deleted_at,
+                    /*'updated_at' => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')
                     ),
                     'created_at' => format_date(
                         set_time_by_user_timezone($this->created_at), __t('time')
-                    ),
+                    ),*/
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->shared, fn() => [

@@ -22,7 +22,7 @@
 			<div v-if="isEmptyQuery" class="spotlight-results">
 
 				<!--Show results-->
-				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.id" class="result-item">
+				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.data.id" class="result-item">
 					<FileItemList
 						:item="item"
 						class="file-item"
@@ -105,17 +105,17 @@ export default {
 			let file = this.results[this.index]
 
 			// Show folder
-			if (file.type === 'folder') {
-				this.$router.push({name: 'Files', params: {id: this.results[this.index].id}})
+			if (file.data.type === 'folder') {
+				this.$router.push({name: 'Files', params: {id: this.results[this.index].data.id}})
 			} else {
 
 				// Show file
-				if (['video', 'audio', 'image'].includes(file.type) || file.mimetype === 'pdf'){
+				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf'){
 					this.$store.commit('ADD_TO_FAST_PREVIEW', this.results[this.index])
 
 					events.$emit('file-preview:show')
 				} else {
-					this.$downloadFile(file.file_url, file.name + '.' + file.mimetype)
+					this.$downloadFile(file.data.attributes.file_url, file.data.attributes.name + '.' + file.data.attributes.mimetype)
 				}
 			}
 
@@ -138,7 +138,7 @@ export default {
 			let route = undefined
 
 			if (this.$store.getters.sharedDetail) {
-				let permission = this.$store.getters.sharedDetail.is_protected
+				let permission = this.$store.getters.sharedDetail.data.attributes.protected
 					? 'private'
 					: 'public'
 
@@ -153,7 +153,13 @@ export default {
 					params: {query: value}
 				})
 				.then(response => {
-					this.results = response.data
+
+					let files = response.data.files.data
+					let folders = response.data.folders.data
+
+					console.log(files);
+
+					this.results = folders.concat(files)
 				})
 				.catch(() => this.$isSomethingWrong())
 				.finally(() => this.isLoading = false)

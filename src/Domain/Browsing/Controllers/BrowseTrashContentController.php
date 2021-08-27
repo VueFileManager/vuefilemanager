@@ -2,7 +2,10 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
+use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Models\Folder;
+use Domain\Folders\Resources\FolderCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class BrowseTrashContentController
@@ -60,8 +63,9 @@ class BrowseTrashContentController
 
         // Collect folders and files to single array
         return [
-            'content' => collect([$folders, $files_trashed])->collapse(),
-            'folder'  => $requestedFolder,
+            'folders' => new FolderCollection($folders),
+            'files'   => new FilesCollection($files_trashed),
+            'root'    => $requestedFolder,
         ];
     }
 }

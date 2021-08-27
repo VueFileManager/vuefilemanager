@@ -85,32 +85,6 @@ class File extends Model
     }
 
     /**
-     * Format created at date
-     */
-    public function getCreatedAtAttribute(): string
-    {
-        return format_date(
-            set_time_by_user_timezone($this->attributes['created_at']),
-            __t('time')
-        );
-    }
-
-    /**
-     * Format deleted at date reformat
-     */
-    public function getDeletedAtAttribute(): string | null
-    {
-        if (! $this->attributes['deleted_at']) {
-            return null;
-        }
-
-        return format_date(
-            set_time_by_user_timezone($this->attributes['deleted_at']),
-            __t('time')
-        );
-    }
-
-    /**
      * Format fileSize
      */
     public function getFilesizeAttribute(): string

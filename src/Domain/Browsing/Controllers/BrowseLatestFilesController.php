@@ -2,12 +2,12 @@
 namespace Domain\Browsing\Controllers;
 
 use App\Users\Models\User;
-use Illuminate\Support\Collection;
+use Domain\Files\Resources\FilesCollection;
 use Illuminate\Support\Facades\Auth;
 
 class BrowseLatestFilesController
 {
-    public function __invoke(): Collection
+    public function __invoke(): array
     {
         $user = User::with([
             'latestUploads' => fn ($query) => $query->sortable(['created_at' => 'desc']),
@@ -15,6 +15,9 @@ class BrowseLatestFilesController
             ->where('id', Auth::id())
             ->first();
 
-        return $user->latestUploads;
+        return [
+            'files'   => new FilesCollection($user->latestUploads),
+            'root'    => null,
+        ];
     }
 }

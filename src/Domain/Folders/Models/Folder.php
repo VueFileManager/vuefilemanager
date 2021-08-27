@@ -117,21 +117,6 @@ class Folder extends Model
     }
 
     /**
-     * Format deleted at date reformat
-     */
-    public function getDeletedAtAttribute(): string | null
-    {
-        if (! $this->attributes['deleted_at']) {
-            return null;
-        }
-
-        return format_date(
-            set_time_by_user_timezone($this->attributes['deleted_at']),
-            __t('time')
-        );
-    }
-
-    /**
      * Get parent
      */
     public function parent(): BelongsTo

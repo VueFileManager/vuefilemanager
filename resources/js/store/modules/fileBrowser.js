@@ -81,7 +81,7 @@ const actions = {
         axios
             .get(getters.api + '/browse/latest')
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('LOADING_STATE', {loading: false, data: response.data.files.data})
                 commit('SET_CURRENT_FOLDER', undefined)
 
                 events.$emit('scrollTop')
@@ -94,7 +94,11 @@ const actions = {
         axios
             .get(getters.api + '/browse/share' + getters.sorting.URI)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
+
+                let folders = response.data.folders.data
+                let files = response.data.files.data
+
+                commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
                 commit('SET_CURRENT_FOLDER', undefined)
 
                 events.$emit('scrollTop')
@@ -107,7 +111,11 @@ const actions = {
         axios
             .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data.content})
+
+                let folders = response.data.folders.data
+                let files = response.data.files.data
+
+                commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
                 commit('SET_CURRENT_FOLDER', response.data.folder)
 
                 events.$emit('scrollTop')

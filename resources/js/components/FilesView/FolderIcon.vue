@@ -29,7 +29,7 @@
         },
         computed: {
             isDeleted() {
-                return this.item.data.attributes.deleted_at ? true : false
+                return this.item.data.attributes.deleted_at
             },
             emoji() {
                 // Return emoji if is changed from rename popup

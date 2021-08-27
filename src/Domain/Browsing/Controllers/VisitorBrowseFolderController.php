@@ -2,10 +2,13 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
  * Browse shared folder
@@ -44,10 +47,10 @@ class VisitorBrowseFolderController
         // Set thumbnail links for public files
         $files->map(fn ($file) => $file->setPublicUrl($shared->token));
 
-        // Collect folders and files to single array
         return [
-            'content' => collect([$folders, $files])->collapse(),
-            'folder'  => $requestedFolder,
+            'folders' => new FolderCollection($folders),
+            'files'   => new FilesCollection($files),
+            'root'    => $requestedFolder,
         ];
     }
 }

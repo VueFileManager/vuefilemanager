@@ -1,12 +1,13 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 
@@ -23,7 +24,7 @@ class VisitorSearchFilesAndFoldersController extends Controller
     public function __invoke(
         Request $request,
         Share $shared,
-    ): Collection {
+    ): array {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -64,8 +65,9 @@ class VisitorSearchFilesAndFoldersController extends Controller
         });
 
         // Collect folders and files to single array
-        return collect([$folders, $files])
-            ->collapse()
-            ->take(10);
+        return [
+            'folders' => new FolderCollection($folders),
+            'files'   => new FilesCollection($files),
+        ];
     }
 }

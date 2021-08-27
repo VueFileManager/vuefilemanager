@@ -24,12 +24,14 @@ class FolderResource extends JsonResource
                     'isTeamFolder'  => $this->team_folder,
                     'items'         => $this->items,
                     'trashed_items' => $this->trashed_items,
-                    'updated_at'    => format_date(
+                    'updated_at'    => $this->updated_at,
+                    'created_at'    => $this->created_at,
+                    /*'updated_at'    => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')
                     ),
                     'created_at'    => format_date(
                         set_time_by_user_timezone($this->created_at), __t('time')
-                    ),
+                    ),*/
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->teamMembers, fn() => [
