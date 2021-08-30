@@ -199,7 +199,6 @@
 					this.$store.dispatch('removeFromFavourites', this.item)
 				}
 			},
-			},
 			createFolder() {
 				events.$emit('popup:open', {name: 'create-folder'})
 			},

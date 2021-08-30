@@ -52,8 +52,8 @@ const actions = {
         axios
             .get(`${getters.api}/teams/folders/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data.content})
-                commit('SET_CURRENT_FOLDER', response.data.folder)
+                commit('LOADING_STATE', {loading: false, data: response.data.folders.data})
+                commit('SET_CURRENT_FOLDER', response.data.root)
 
                 events.$emit('scrollTop')
             })
@@ -116,7 +116,7 @@ const actions = {
                 let files = response.data.files.data
 
                 commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
-                commit('SET_CURRENT_FOLDER', response.data.folder)
+                commit('SET_CURRENT_FOLDER', response.data.root)
 
                 events.$emit('scrollTop')
             })

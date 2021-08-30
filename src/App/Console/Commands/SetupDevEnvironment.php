@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
+use Domain\Teams\Models\TeamFolderInvitation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Console\Command;
@@ -35,7 +38,8 @@ class SetupDevEnvironment extends Command
         private SeedDefaultSettingsAction $seedDefaultSettings,
         private SeedDefaultLanguageAction $seedDefaultLanguage,
         private SeedDefaultPagesAction $seedDefaultPages,
-    ) {
+    )
+    {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -66,8 +70,9 @@ class SetupDevEnvironment extends Command
         $this->info('Creating demo users...');
         $this->create_demo_users();
 
-        $this->info('Creating default admin content...');
+        $this->info('Creating default demo content...');
         $this->create_admin_default_content();
+        $this->create_team_folders_content();
         $this->create_share_records();
 
         $this->info('Clearing application cache...');
@@ -166,10 +171,10 @@ class SetupDevEnvironment extends Command
         // 1.
         $shared_folder = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id,
-                'author'  => 'user',
-                'name'    => 'Shared Folder',
-                'emoji'   => [
+                'user_id'    => $user->id,
+                'author'     => 'user',
+                'name'       => 'Shared Folder',
+                'emoji'      => [
                     'codes'    => '1F680',
                     'char'     => '🚀',
                     'name'     => 'rocket',
@@ -202,10 +207,10 @@ class SetupDevEnvironment extends Command
         // 2.
         $random_pics = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id,
-                'author'  => 'user',
-                'name'    => 'Random Pics',
-                'emoji'   => [
+                'user_id'    => $user->id,
+                'author'     => 'user',
+                'name'       => 'Random Pics',
+                'emoji'      => [
                     'codes'    => '1F4F7',
                     'char'     => '📷',
                     'name'     => 'camera',
@@ -700,6 +705,49 @@ class SetupDevEnvironment extends Command
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
+    }
+
+    private function create_team_folders_content(): void
+    {
+        $user = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $teamProjectFolder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => true,
+                'name'        => 'Company Project',
+            ]);
+
+        // Attach members
+        $members = User::whereNotIn('email', ['howdy@hi5ve.digital'])
+            ->get();
+
+        $members->each(fn($member) => DB::table('team_folder_members')
+            ->insert([
+                'folder_id'  => $teamProjectFolder->id,
+                'user_id'    => $member->id,
+                'permission' => 'can-edit',
+            ])
+        );
+
+        // Create invitations
+        $users = User::factory()
+            ->count(2)
+            ->create([
+                'password'          => bcrypt('vuefilemanager'),
+                'email_verified_at' => now(),
+            ]);
+
+        $users->each(fn($user) => TeamFolderInvitation::factory()
+            ->create([
+                'email'      => $user->email,
+                'folder_id'  => $teamProjectFolder->id,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+            ])
+        );
+
     }
 
     private function create_share_records(): void

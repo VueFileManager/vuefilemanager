@@ -89,7 +89,7 @@ export default {
 	methods: {
 		proceedToSelect(e) {
 			// Preserve select and reload native shortcut
-			if (! ['a', 'r'].includes(e.key)) {
+			if (! ['a', 'r', 'v'].includes(e.key)) {
 				e.preventDefault()
 			}
 

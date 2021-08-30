@@ -28,7 +28,7 @@ const actions = {
                 .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
                     commit('LOADING_STATE', {loading: false, data: response.data.content})
-                    commit('SET_CURRENT_FOLDER', response.data.folder)
+                    commit('SET_CURRENT_FOLDER', response.data.root)
 
                     events.$emit('scrollTop')
 

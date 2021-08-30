@@ -12,6 +12,7 @@
         "ext-json": "*",
         "brianium/paratest": "^6.3",
         "cartalyst/stripe-laravel": "^13.1",
+        "cocur/slugify": "^4.0",
         "doctrine/dbal": "^2.13.2",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.4",
