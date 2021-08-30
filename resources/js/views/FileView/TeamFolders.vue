@@ -156,7 +156,7 @@
 				return this.user && this.user.data.attributes.storage.used <= 100
 			},
 			isFolder() {
-				return this.item && this.item.type === 'folder'
+				return this.item && this.item.data.type === 'folder'
 			},
 			isInFavourites() {
 				return this.favourites.find((el) => el.id === this.item.id)
@@ -165,7 +165,7 @@
 				return this.clipboard.find(item => item.type !== 'folder')
 			},
 			favourites() {
-				return this.user.data.relationships.favourites.data.attributes.folders
+				return this.user.data.relationships.favourites.data
 			},
 			filterLocationTitle() {
 				return {

@@ -21,11 +21,12 @@
 				</ValidationProvider>
 
 				<!--Member list-->
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" rules="required" v-slot="{ errors }">
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" v-slot="{ errors }">
 					<label class="input-label">{{ $t('Your Members') }}:</label>
 					<span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
 					<TeamList v-model="members" />
 					<TeamList v-model="invitations" />
+					<p v-if="Object.values(members).length === 0 && Object.values(invitations).length === 0" class="input-help">{{ $t('Please add at least one member into your Team Folder.') }}</p>
 				</ValidationProvider>
             </ValidationObserver>
 
@@ -42,9 +43,9 @@
             <ButtonBase
                     class="popup-button"
                     @click.native="updateTeamFolder"
-                    button-style="theme"
+                    :button-style="isDisabledSubmit ? 'secondary' : 'theme'"
 					:loading="isLoading"
-					:disabled="isLoading"
+					:disabled="isLoading || isDisabledSubmit"
             >{{ $t('Update Team Folder') }}
             </ButtonBase>
         </PopupActions>
@@ -81,7 +82,9 @@
 			InfoBox,
         },
         computed: {
-			//
+			isDisabledSubmit() {
+				return Object.values(this.members).length === 0 && Object.values(this.invitations).length === 0
+			}
         },
         data() {
             return {
@@ -102,20 +105,24 @@
 				this.isLoading = true
 
 				axios
-					.patch(`/api/teams/folders/${this.item.id}`, {
+					.patch(`/api/teams/folders/${this.item.data.id}`, {
 						members: this.members,
 						invitations: this.invitations,
 					})
 					.then(response => {
-						// todo: update view
+						this.$store.commit('UPDATE_ITEM', response.data)
 
-						this.$store.dispatch('getAppData')
+						events.$emit('toaster', {
+							type: 'success',
+							message: this.$t('Your team folder was updated'),
+						})
 					})
 					.catch(() => this.$isSomethingWrong())
 					.finally(() => {
 						this.isLoading = false
 						this.name = undefined
 						this.invitations = undefined
+						this.members = undefined
 
 						this.$closePopup()
 					})
@@ -132,8 +139,8 @@
 				this.$refs.teamFolderForm.reset()
 
             	this.invitations.push({
+					type: 'invitation',
 					email: this.email,
-					avatar: '/assets/images/default-avatar.png',
 					permission: 'can-edit',
 				})
 
@@ -144,13 +151,27 @@
             events.$on('popup:open', args => {
                 if (args.name !== 'update-team-folder') return
 
-				console.log(args.item);
+				this.item = args.item
 
-				if (args.item) {
-					this.item = args.item
-					this.members = args.item.team_members
-					this.invitations = args.item.team_invitations
-				}
+				this.members = args.item.data.relationships.members.data.map(member => {
+					return {
+						type: 'member',
+						id: member.data.id,
+						email: member.data.attributes.email,
+						name: member.data.attributes.name,
+						avatar: member.data.attributes.avatar,
+						permission: member.data.attributes.permission,
+					}
+				})
+
+				this.invitations = args.item.data.relationships.invitations.data.map(member => {
+					return {
+						id: member.data.id,
+						type: 'invitation',
+						email: member.data.attributes.email,
+						permission: member.data.attributes.permission,
+					}
+				})
             })
 
 			events.$on('popup:close', () => {

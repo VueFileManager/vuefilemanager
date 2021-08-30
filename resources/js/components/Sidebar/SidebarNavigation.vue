@@ -229,7 +229,7 @@
         }
 
         .menu-bar {
-            background: #181a1b;
+            background: #1d1d1d;
         }
     }
 

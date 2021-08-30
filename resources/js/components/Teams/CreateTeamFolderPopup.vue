@@ -32,6 +32,7 @@
 					<label class="input-label">{{ $t('Your Members') }}:</label>
 					<span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
 					<TeamList v-model="invitations" />
+					<p v-if="Object.values(invitations).length === 0" class="input-help">{{ $t('Please add at least one member into your Team Folder.') }}</p>
 				</ValidationProvider>
 
 				<InfoBox v-if="! isNewFolderTeamCreation" style="margin-bottom: 0">
@@ -163,8 +164,8 @@
 				this.$refs.teamFolderForm.reset()
 
             	this.invitations.push({
+					type: 'invitation',
 					email: this.email,
-					avatar: '/assets/images/default-avatar.png',
 					permission: 'can-edit',
 				})
 

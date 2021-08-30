@@ -131,6 +131,18 @@ class SetupDevEnvironment extends Command
             [
                 'avatar' => 'avatar-03.png',
             ],
+            [
+                'avatar' => 'avatar-04.png',
+            ],
+            [
+                'avatar' => 'avatar-05.png',
+            ],
+            [
+                'avatar' => 'avatar-06.png',
+            ],
+            [
+                'avatar' => 'avatar-07.png',
+            ],
         ])->each(function ($user) {
             $newbie = User::forceCreate([
                 'role'              => 'user',
@@ -712,41 +724,52 @@ class SetupDevEnvironment extends Command
         $user = User::whereEmail('howdy@hi5ve.digital')
             ->first();
 
-        $teamProjectFolder = Folder::factory()
+        $companyProjectFolder = Folder::factory()
             ->create([
                 'user_id'     => $user->id,
                 'team_folder' => true,
                 'name'        => 'Company Project',
             ]);
 
+        $financeDocumentsFolder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => true,
+                'name'        => 'Finance Documents',
+            ]);
+
         // Attach members
         $members = User::whereNotIn('email', ['howdy@hi5ve.digital'])
             ->get();
 
-        $members->each(fn($member) => DB::table('team_folder_members')
-            ->insert([
-                'folder_id'  => $teamProjectFolder->id,
-                'user_id'    => $member->id,
-                'permission' => 'can-edit',
-            ])
-        );
+        collect([$members[0]->id, $members[1]->id])
+            ->each(fn($id) => DB::table('team_folder_members')
+                ->insert([
+                    'folder_id'  => $companyProjectFolder->id,
+                    'user_id'    => $id,
+                    'permission' => 'can-edit',
+                ])
+            );
+
+        collect([$members[2]->id, $members[3]->id])
+            ->each(fn($id) => DB::table('team_folder_members')
+                ->insert([
+                    'folder_id'  => $financeDocumentsFolder->id,
+                    'user_id'    => $id,
+                    'permission' => 'can-edit',
+                ])
+            );
 
         // Create invitations
-        $users = User::factory()
-            ->count(2)
-            ->create([
-                'password'          => bcrypt('vuefilemanager'),
-                'email_verified_at' => now(),
-            ]);
-
-        $users->each(fn($user) => TeamFolderInvitation::factory()
-            ->create([
-                'email'      => $user->email,
-                'folder_id'  => $teamProjectFolder->id,
-                'status'     => 'pending',
-                'permission' => 'can-edit',
-            ])
-        );
+        collect([$members[4], $members[5]])
+            ->each(fn($user) => TeamFolderInvitation::factory()
+                ->create([
+                    'email'      => $user->email,
+                    'folder_id'  => $companyProjectFolder->id,
+                    'status'     => 'pending',
+                    'permission' => 'can-edit',
+                ])
+            );
 
     }
 

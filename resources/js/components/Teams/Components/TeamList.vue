@@ -1,24 +1,25 @@
 <template>
 	<ul class="member-list">
-		<li v-if="Object.values(members).length > 0" v-for="(member, i) in members" :key="i" class="member-item">
-			<div @click="deleteMember(member)" class="terminate">
+		<li v-if="Object.values(members).length > 0" v-for="(entry, i) in members" :key="i" class="member-item">
+			<div @click="deleteMember(entry)" class="terminate">
 				<x-icon size="14" class="close-icon" />
 			</div>
 			<div class="member-preview">
 				<div class="avatar">
-					<img :src="member.settings ? member.settings.avatar : '/assets/images/default-avatar.png'">
+					<img :src="entry.type === 'member' ? entry.avatar : '/assets/images/default-avatar.png'" alt="avatar">
 				</div>
-				<div class="info">
-					<b class="name">{{ member.settings ? member.settings.name : member.email }}</b>
-					<span v-if="member.settings" class="email">{{ member.email }}</span>
+				<div v-if="entry.type === 'member'" class="info">
+					<b class="title">{{ entry.name }}</b>
+					<span class="subtitle">{{ entry.email }}</span>
+				</div>
+				<div v-if="entry.type === 'invitation'" class="info">
+					<b class="title">{{ entry.email }}</b>
+					<span v-if="entry.id" class="subtitle">{{ $t('Waiting for accept invitation...') }}</span>
 				</div>
 			</div>
 			<div class="action">
-				<PermissionToggleButton @input="updateMemberPermission(member, $event)" :item="member" />
+				<PermissionToggleButton @input="updateMemberPermission(entry, $event)" :item="entry" />
 			</div>
-		</li>
-		<li v-if="Object.values(members).length === 0">
-			<p class="input-help">{{ $t('Please add some member into your Team Folder.') }}</p>
 		</li>
 	</ul>
 </template>
@@ -103,7 +104,7 @@
 
 			.info {
 
-				.name {
+				.title {
 					@include font-size(15);
 					font-weight: 700;
 					display: block;
@@ -112,7 +113,7 @@
 					text-overflow: ellipsis;
 				}
 
-				.email {
+				.subtitle {
 					@include font-size(12);
 					color: $text-muted;
 					display: block;

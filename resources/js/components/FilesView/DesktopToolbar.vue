@@ -41,7 +41,7 @@
 
 					<!--Team Folder Icon-->
 					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders'])">
-						<TeamMembersPreview @click.stop.native="showTeamFolderMenu" count="3+" :members="members" class="team-preview" />
+						<TeamMembersButton @click.stop.native="showTeamFolderMenu" class="team-preview" />
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
 							<OptionGroup>
@@ -87,7 +87,7 @@
 	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
 	import ToolbarGroup from '/resources/js/components/Desktop/ToolbarGroup'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
-	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
+	import TeamMembersButton from "../Teams/Components/TeamMembersButton"
 	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
 	import TeamFolderPreview from "../Teams/Components/TeamFolderPreview"
 	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
@@ -100,7 +100,7 @@
 	export default {
 		name: 'DesktopToolbar',
 		components: {
-			TeamMembersPreview,
+			TeamMembersButton,
 			FileSortingOptions,
 			MoreHorizontalIcon,
 			TeamFolderPreview,

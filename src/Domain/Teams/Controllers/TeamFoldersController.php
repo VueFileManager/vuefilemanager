@@ -77,7 +77,7 @@ class TeamFoldersController extends Controller
         // Invite team members
         ($this->inviteMembers)($data->invitations, $folder);
 
-        return response($folder, 201);
+        return response(new FolderResource($folder), 201);
     }
 
     public function update(
@@ -96,7 +96,7 @@ class TeamFoldersController extends Controller
             $request->input('members')
         );
 
-        return response('Done', 201);
+        return response(new FolderResource($folder), 201);
     }
 
     public function destroy(Folder $folder): ResponseFactory|Response

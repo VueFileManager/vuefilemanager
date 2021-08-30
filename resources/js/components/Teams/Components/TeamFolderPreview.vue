@@ -3,31 +3,25 @@
 		<div class="info">
 			<b class="title">The Team Project</b>
 			<span class="subtitle">Last update a week ago</span>
-			<TeamMembersPreview :members="fullMembers" class="members" />
+			<TeamMembersPreview :folder="clipboard[0]" class="members" />
 		</div>
 	</div>
 </template>
 
 <script>
 	import TeamMembersPreview from "./TeamMembersPreview";
+	import {mapGetters} from "vuex";
 
 	export default {
 		name: "TeamFolderPreview",
 		components: {
 			TeamMembersPreview,
 		},
-		data() {
-			return {
-				fullMembers: [
-					'/temp/avatar-01.png',
-					'/temp/avatar-02.png',
-					'/temp/avatar-03.png',
-					'/temp/avatar-01.png',
-					'/temp/avatar-02.png',
-					'/temp/avatar-03.png',
-				],
-			}
-		},
+		computed: {
+			...mapGetters([
+				'clipboard'
+			])
+		}
 	}
 </script>
 

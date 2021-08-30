@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Teams;
 
 use Notification;
@@ -28,7 +29,7 @@ class TeamsTest extends TestCase
         $this
             ->actingAs($user)
             ->post('/api/teams/folders', [
-                'name'    => 'Company Project',
+                'name'        => 'Company Project',
                 'invitations' => [
                     [
                         'email'      => 'john@internal.com',
@@ -221,12 +222,10 @@ class TeamsTest extends TestCase
                 'members'     => [
                     [
                         'id'         => $members[0]->id,
-                        'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
                     ],
                     [
                         'id'         => $members[1]->id,
-                        'email'      => 'jane@external.com',
                         'permission' => 'can-edit',
                     ],
                 ],
@@ -310,12 +309,10 @@ class TeamsTest extends TestCase
                 'members'     => [
                     [
                         'id'         => $members[0]->id,
-                        'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
                     ],
                     [
                         'id'         => $members[1]->id,
-                        'email'      => 'jane@external.com',
                         'permission' => 'can-view',
                     ],
                 ],
@@ -372,10 +369,9 @@ class TeamsTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/teams/folders/{$folder->id}", [
-                'members' => [
+                'members'     => [
                     [
                         'id'         => $members[0]->id,
-                        'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
                     ],
                 ],
@@ -472,15 +468,13 @@ class TeamsTest extends TestCase
         $this
             ->actingAs($user)
             ->patchJson("/api/teams/folders/{$folder->id}", [
-                'members' => [
+                'members'     => [
                     [
                         'id'         => $members[0]->id,
-                        'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
                     ],
                     [
                         'id'         => $members[1]->id,
-                        'email'      => 'jane@external.com',
                         'permission' => 'can-view',
                     ],
                 ],

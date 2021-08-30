@@ -183,6 +183,11 @@ const mutations = {
             }
         })
     },
+    UPDATE_ITEM(state, data) {
+        state.entries.find(item => {
+            if (item.data.id === data.data.id) item.data = data.data
+        })
+    },
     ADD_NEW_FOLDER(state, folder) {
         state.entries.unshift(folder)
     },
