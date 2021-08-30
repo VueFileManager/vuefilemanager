@@ -3,7 +3,7 @@
 		<div class="info">
 			<b class="title">The Team Project</b>
 			<span class="subtitle">Last update a week ago</span>
-			<TeamMembersPreview :folder="clipboard[0]" class="members" />
+			<TeamMembersPreview :folder="clipboard[0]" :avatar-size="32" class="members" />
 		</div>
 	</div>
 </template>

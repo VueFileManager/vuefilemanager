@@ -3,7 +3,7 @@
 		<div v-if="! clipboard[0]" class="empty-state">
 			<span>Not selected</span>
 		</div>
-		<TeamMembersPreview v-else :folder="clipboard[0]" :limit="true" class="widget" />
+		<TeamMembersPreview v-else :folder="clipboard[0]" :limit="true" :avatar-size="32" class="widget" />
 	</div>
 </template>
 

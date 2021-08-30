@@ -6,7 +6,8 @@
 			</div>
 			<div class="member-preview">
 				<div class="avatar">
-					<img :src="entry.type === 'member' ? entry.avatar : '/assets/images/default-avatar.png'" alt="avatar">
+					<img v-if="entry.avatar" :src="entry.avatar" alt="avatar">
+					<TypedAvatar v-else :size="38" :letter="entry.email.substr(0, 1)" />
 				</div>
 				<div v-if="entry.type === 'member'" class="info">
 					<b class="title">{{ entry.name }}</b>
@@ -25,7 +26,8 @@
 </template>
 
 <script>
-	import PermissionToggleButton from "./PermissionToggleButton";
+	import PermissionToggleButton from "./PermissionToggleButton"
+	import TypedAvatar from "../../Others/TypedAvatar"
 	import {XIcon} from 'vue-feather-icons'
 
 	export default {
@@ -35,6 +37,7 @@
 		],
 		components: {
 			PermissionToggleButton,
+			TypedAvatar,
 			XIcon,
 		},
 		data() {

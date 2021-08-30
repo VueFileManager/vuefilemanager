@@ -4,21 +4,26 @@
 			{{ membersCount > 3 ? '3+' : membersCount }}
 		</span>
 		<div class="members">
-			<div v-for="member in members" class="member-preview">
+			<div v-for="member in members" :key="member.data.id" :title="member.data.attributes.email" class="member-preview">
 				<img v-if="member.data.attributes.avatar" :src="member.data.attributes.avatar" class="member" alt="avatar">
-				<img v-else src="/assets/images/default-avatar.png" class="member" alt="avatar">
+				<TypedAvatar v-else :size="avatarSize" :letter="member.data.attributes.email.substr(0, 1)" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-export default {
+	import TypedAvatar from "../../Others/TypedAvatar";
+	export default {
 		name: "TeamMembersPreview",
 		props: [
 			'folder',
 			'limit',
+			'avatarSize'
 		],
+		components: {
+			TypedAvatar,
+		},
 		computed: {
 			membersCount() {
 				return this.folder.data.relationships.members.data.length + this.folder.data.relationships.invitations.data.length
