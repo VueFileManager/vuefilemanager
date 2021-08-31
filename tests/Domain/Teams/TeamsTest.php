@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Teams;
 
 use Notification;
@@ -13,6 +12,31 @@ use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 
 class TeamsTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function it_find_team_folder_id_from_children()
+    {
+        $teamFolder = Folder::factory()
+            ->create([
+                'team_folder' => 1,
+            ]);
+
+        $level_1 = Folder::factory()
+            ->create([
+                'parent_id' => $teamFolder->id,
+            ]);
+
+        $level_2 = Folder::factory()
+            ->create([
+                'parent_id' => $level_1->id,
+            ]);
+
+        $teamRoot = recursiveFind($level_2->teamRoot->toArray(), 'id');
+
+        $this->assertEquals($teamFolder->id, end($teamRoot));
+    }
+
     /**
      * @test
      */

@@ -2,11 +2,11 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
-use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Models\Folder;
-use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Support\Facades\Auth;
 use Domain\Items\Requests\SearchRequest;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 
 class SearchFilesAndFoldersController
 {

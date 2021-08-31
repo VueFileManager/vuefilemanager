@@ -16,12 +16,12 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
                 <!--If is file or image, then link item-->
-                <span v-if="isFile || (isImage && !item.data.attributes.thumbnail)" class="file-icon-text text-theme dark-text-theme">
+                <span v-if="isFile || isVideo || (isImage && !item.data.attributes.thumbnail)" class="file-icon-text text-theme dark-text-theme">
                     {{ item.data.attributes.mimetype | limitCharacters }}
                 </span>
 
                 <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || (isImage && !item.data.attributes.thumbnail)" class="file-icon" icon="file" />
+                <FontAwesomeIcon v-if="isFile || isVideo || (isImage && !item.data.attributes.thumbnail)" class="file-icon" icon="file" />
 
                 <!--Image thumbnail-->
                 <img loading="lazy" v-if="isImage && item.data.attributes.thumbnail" class="image" :src="item.data.attributes.thumbnail" :alt="item.data.attributes.name" />
@@ -41,11 +41,6 @@
                     <div v-if="$checkPermission('master') && item.data.relationships.shared" class="item-shared">
                         <link-icon size="12" class="shared-icon text-theme dark-text-theme"/>
                     </div>
-
-                    <!--Participant owner Icon-->
-<!--                    <div v-if="$checkPermission('master') && item.author !== 'user'" class="item-shared">
-                        <user-plus-icon size="12" class="shared-icon text-theme dark-text-theme"/>
-                    </div>-->
 
                     <!--Filesize and timestamp-->
                     <span v-if="!isFolder" class="item-size">{{ item.data.attributes.filesize }}, {{ timeStamp }}</span>
@@ -220,17 +215,7 @@ export default {
             if (!this.mobileMultiSelect && this.$isMobile()) {
 
                 if (this.isFolder) {
-					let route = this.$router.currentRoute.name
-
-					if (route === 'Public') {
-						this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.data.id}})
-					} else if (route === 'Trash') {
-						this.$router.push({name: 'Trash', params: {id: this.item.data.id}})
-					} else if (['Files', 'MySharedItems'].includes(route)) {
-						this.$router.push({name: 'Files', params: {id: this.item.data.id}})
-					} else if (route === 'TeamFolders') {
-						this.$router.push({name: 'TeamFolders', params: {id: this.item.data.id}})
-					}
+					this.$goToFileView(this.item.data.id)
                 } else {
 
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
@@ -263,17 +248,7 @@ export default {
                 // Clear selected items after open another folder
                 this.$store.commit('CLIPBOARD_CLEAR')
 
-				let route = this.$router.currentRoute.name
-
-				if (route === 'Public') {
-					this.$router.push({name: 'Public', params: {token: this.$route.params.token, id: this.item.data.id}})
-				} else if (route === 'Trash') {
-					this.$router.push({name: 'Trash', params: {id: this.item.data.id}})
-				} else if (['Files', 'MySharedItems'].includes(route)) {
-					this.$router.push({name: 'Files', params: {id: this.item.data.id}})
-				} else if (route === 'TeamFolders') {
-					this.$router.push({name: 'TeamFolders', params: {id: this.item.data.id}})
-				}
+				this.$goToFileView(this.item.data.id)
             }
         },
         renameItem: debounce(function (e) {

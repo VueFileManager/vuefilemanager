@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Sharing\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,7 +21,7 @@ class ShareResource extends JsonResource
                     'permission' => $this->permission,
                     'protected'  => $this->is_protected,
                     'item_id'    => $this->item_id,
-                    'expire_in'  => (int)$this->expire_in,
+                    'expire_in'  => (int) $this->expire_in,
                     'token'      => $this->token,
                     'link'       => $this->link,
                     'type'       => $this->type,

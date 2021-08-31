@@ -2,11 +2,11 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 
 class BrowseSharedItemsController
 {

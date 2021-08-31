@@ -1,12 +1,11 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Domain\Files\Resources\FileResource;
-use Domain\Folders\Resources\FolderResource;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
+use Domain\Files\Resources\FileResource;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;

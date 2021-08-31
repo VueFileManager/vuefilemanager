@@ -3,7 +3,6 @@ namespace App\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class UserSettings extends Model
 {

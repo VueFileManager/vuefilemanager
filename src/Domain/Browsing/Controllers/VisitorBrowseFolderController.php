@@ -2,13 +2,12 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
  * Browse shared folder

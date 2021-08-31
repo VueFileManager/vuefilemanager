@@ -2,8 +2,8 @@
 namespace Domain\Browsing\Controllers;
 
 use App\Users\Models\User;
-use Domain\Files\Resources\FilesCollection;
 use Illuminate\Support\Facades\Auth;
+use Domain\Files\Resources\FilesCollection;
 
 class BrowseLatestFilesController
 {

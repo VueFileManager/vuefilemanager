@@ -1,13 +1,13 @@
 <?php
 namespace Tests\Domain\Sharing;
 
-use Domain\Sharing\Notifications\SharedSendViaEmail;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Notification;
+use Domain\Sharing\Notifications\SharedSendViaEmail;
 
 class UserShareTest extends TestCase
 {

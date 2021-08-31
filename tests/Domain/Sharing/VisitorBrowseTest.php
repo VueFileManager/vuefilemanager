@@ -27,7 +27,7 @@ class VisitorBrowseTest extends TestCase
                     'type'       => 'shared',
                     'attributes' => [
                         'permission'   => $share->permission,
-                        'protected' => false,
+                        'protected'    => false,
                         'item_id'      => $share->item_id,
                         'expire_in'    => $share->expire_in,
                         'token'        => $share->token,

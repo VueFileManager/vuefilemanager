@@ -210,6 +210,7 @@
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)
+			events.$on('context-menu:current-folder', folder => this.item = folder)
 
 			events.$on('action:confirmed', data => {
 

@@ -1,11 +1,10 @@
 <?php
-
 namespace Domain\Folders\Resources;
 
 use Domain\Sharing\Resources\ShareResource;
-use Domain\Teams\Resources\TeamInvitationsCollection;
-use Domain\Teams\Resources\TeamMembersCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Domain\Teams\Resources\TeamMembersCollection;
+use Domain\Teams\Resources\TeamInvitationsCollection;
 
 class FolderResource extends JsonResource
 {
@@ -34,16 +33,16 @@ class FolderResource extends JsonResource
                     ),*/
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->teamMembers, fn() => [
+                    $this->mergeWhen($this->teamMembers, fn () => [
                         'members' => new TeamMembersCollection($this->teamMembers),
                     ]),
-                    $this->mergeWhen($this->teamInvitations, fn() => [
+                    $this->mergeWhen($this->teamInvitations, fn () => [
                         'invitations' => new TeamInvitationsCollection($this->teamInvitations),
                     ]),
-                    $this->mergeWhen($this->shared, fn() => [
+                    $this->mergeWhen($this->shared, fn () => [
                         'shared' => new ShareResource($this->shared),
                     ]),
-                    $this->mergeWhen($this->parent, fn() => [
+                    $this->mergeWhen($this->parent, fn () => [
                         'parent' => [
                             'data' => [
                                 'type'       => 'folder',

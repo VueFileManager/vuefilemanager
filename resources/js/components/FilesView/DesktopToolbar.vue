@@ -45,8 +45,8 @@
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
 							<OptionGroup>
-								<Option @click.native="$updateTeamFolder(clipboard[0])" :title="$t('Edit Members')" icon="rename" />
-								<Option @click.native="$dissolveTeamFolder(clipboard[0])" :title="$t('Dissolve Team')" icon="trash" />
+								<Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('Edit Members')" icon="rename" />
+								<Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('Dissolve Team')" icon="trash" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
@@ -118,14 +118,22 @@
 		},
 		computed: {
 			...mapGetters([
+				'currentTeamFolder',
 				'isVisibleSidebar',
 				'FilePreviewType',
 				'currentFolder',
 				'sharedDetail',
 				'clipboard',
 			]),
+			teamFolder() {
+				return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
+			},
 			isLoadedFolder() {
-				return this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id
+				if (this.$isThisRoute(this.$route, ['Public'])) {
+					return this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id
+				}
+
+				return this.$route.params.id
 			},
 			hasCapacity() {
 				// Check if storage limitation is set
@@ -216,7 +224,8 @@
 				if (this.isLoadedFolder) this.$router.back()
 			},
 			showTeamFolderMenu() {
-				events.$emit('popover:open', 'team-folder')
+				if (this.currentTeamFolder || this.clipboard[0])
+					events.$emit('popover:open', 'team-folder')
 			},
 			showCreateMenu() {
 				events.$emit('popover:open', 'desktop-create')

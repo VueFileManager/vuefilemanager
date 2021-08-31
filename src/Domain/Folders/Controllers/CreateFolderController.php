@@ -2,9 +2,9 @@
 namespace Domain\Folders\Controllers;
 
 use Auth;
-use Domain\Folders\Resources\FolderResource;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Actions\CreateFolderAction;
 use Domain\Folders\Requests\CreateFolderRequest;
 use Support\Demo\Actions\FakeCreateFolderAction;

@@ -25,7 +25,7 @@ class RenameFileOrFolderController extends Controller
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): FileResource|FolderResource|array {
+    ): FileResource | FolderResource | array {
         if (is_demo_account(Auth::user()->email)) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }

@@ -1,16 +1,14 @@
 <?php
-
 namespace Domain\Browsing\Controllers;
 
-use DB;
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
-use Domain\Folders\Resources\FolderResource;
+use Str;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
-use Str;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderResource;
+use Domain\Folders\Resources\FolderCollection;
 
 class BrowseFolderController
 {

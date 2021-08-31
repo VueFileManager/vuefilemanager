@@ -16,7 +16,7 @@ class BrowseSharedWithMeController
 
         $relations = [
             'parent:id,name',
-            'shared:token,id,item_id,permission,is_protected,expire_in'
+            'shared:token,id,item_id,permission,is_protected,expire_in',
         ];
 
         if ($rootId) {

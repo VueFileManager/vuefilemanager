@@ -203,6 +203,16 @@ class Folder extends Model
             ->withPivot('permission');
     }
 
+    public function parents(): HasMany
+    {
+        return $this->hasMany(Folder::class, 'id', 'parent_id');
+    }
+
+    public function teamRoot(): HasMany
+    {
+        return $this->parents()->with('teamRoot');
+    }
+
     // Delete all folder children
     public static function boot()
     {
@@ -214,30 +224,28 @@ class Folder extends Model
 
         static::deleting(function ($item) {
             if ($item->isForceDeleting()) {
-                $item->trashedChildren()->each(function ($folder) {
-                    $folder->forceDelete();
-                });
+                $item
+                    ->trashedChildren()
+                    ->each(fn ($folder) => $folder->forceDelete());
             } else {
-                $item->children()->each(function ($folder) {
-                    $folder->delete();
-                });
+                $item
+                    ->children()
+                    ->each(fn ($folder) => $folder->delete());
 
-                $item->files()->each(function ($file) {
-                    $file->delete();
-                });
+                $item
+                    ->files()
+                    ->each(fn ($file) => $file->delete());
             }
         });
 
+        // Restore children folders and files
         static::restoring(function ($item) {
-            // Restore children folders
-            $item->trashedChildren()->each(function ($folder) {
-                $folder->restore();
-            });
-
-            // Restore children files
-            $item->trashedFiles()->each(function ($files) {
-                $files->restore();
-            });
+            $item
+                ->trashedChildren()
+                ->each(fn ($folder) => $folder->restore());
+            $item
+                ->trashedFiles()
+                ->each(fn ($files) => $files->restore());
         });
     }
 }

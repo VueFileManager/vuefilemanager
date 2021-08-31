@@ -1,9 +1,9 @@
 <template>
 	<div class="team-folder-wrapper">
-		<div v-if="! clipboard[0]" class="empty-state">
+		<div v-if="! teamFolder" class="empty-state">
 			<span>Not selected</span>
 		</div>
-		<TeamMembersPreview v-else :folder="clipboard[0]" :limit="true" :avatar-size="32" class="widget" />
+		<TeamMembersPreview v-else :folder="teamFolder" :limit="true" :avatar-size="32" class="widget" />
 	</div>
 </template>
 
@@ -18,8 +18,12 @@
 		},
 		computed: {
 			...mapGetters([
-				'clipboard'
-			])
+				'currentTeamFolder',
+				'clipboard',
+			]),
+			teamFolder() {
+				return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
+			}
 		},
 	}
 </script>

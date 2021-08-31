@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Localization\Controllers;
 
-use Domain\Localization\Resources\LanguageCollection;
-use Domain\Localization\Resources\LanguageResource;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Domain\Localization\Models\Language;
+use Domain\Localization\Resources\LanguageResource;
+use Domain\Localization\Resources\LanguageCollection;
 use Domain\Localization\Requests\CreateLanguageRequest;
 use Domain\Localization\Requests\UpdateLanguageRequest;
 

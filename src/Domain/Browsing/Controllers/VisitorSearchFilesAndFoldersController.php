@@ -1,14 +1,14 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 
 /**

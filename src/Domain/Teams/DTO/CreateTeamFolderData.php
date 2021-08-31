@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Teams\DTO;
 
 use Spatie\DataTransferObject\DataTransferObject;

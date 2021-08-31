@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Teams\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;

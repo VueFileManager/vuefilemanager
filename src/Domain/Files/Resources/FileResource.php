@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Files\Resources;
 
 use Domain\Sharing\Resources\ShareResource;
@@ -40,10 +39,10 @@ class FileResource extends JsonResource
                     ),*/
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->shared, fn() => [
+                    $this->mergeWhen($this->shared, fn () => [
                         'shared' => new ShareResource($this->shared),
                     ]),
-                    $this->mergeWhen($this->parent, fn() => [
+                    $this->mergeWhen($this->parent, fn () => [
                         'parent' => [
                             'data' => [
                                 'type'       => 'folder',
@@ -54,7 +53,7 @@ class FileResource extends JsonResource
                             ],
                         ],
                     ]),
-                ]
+                ],
             ],
         ];
     }

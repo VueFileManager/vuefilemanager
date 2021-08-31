@@ -1,25 +1,23 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use DB;
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
-use Domain\Folders\Resources\FolderResource;
-use Domain\Teams\Requests\CreateTeamFolderRequest;
-use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Str;
 use Domain\Files\Models\File;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Teams\DTO\CreateTeamFolderData;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Teams\Actions\UpdateMembersAction;
+use Domain\Folders\Resources\FolderCollection;
 use Domain\Teams\Actions\UpdateInvitationsAction;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Domain\Teams\Requests\CreateTeamFolderRequest;
+use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
-use Str;
 
 class TeamFoldersController extends Controller
 {
@@ -28,28 +26,35 @@ class TeamFoldersController extends Controller
     ) {
     }
 
-    public function show($id)
+    public function show($id): array
     {
-        $isHomepage = $id === 'undefined';
-        $rootId = $id === 'undefined' ? null : $id;
-        $requestedFolder = $rootId ? new FolderResource(Folder::findOrFail($rootId)) : null;
         $files = [];
+        $teamRootFolder = null;
 
-        $folders = Folder::with([
-            'teamMembers',
-            'teamInvitations',
-            'parent:id,name',
-            'shared:token,id,item_id,permission,is_protected,expire_in'
-        ])
-            ->where('parent_id', $rootId)
-            ->where('team_folder', $isHomepage)
+        $rootId = Str::isUuid($id) ? $id : null;
+        $requestedFolder = $rootId ? Folder::findOrFail($rootId) : null;
+
+        $folders = Folder::where('parent_id', $rootId)
+            ->where('team_folder', ! Str::isUuid($id))
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 
-        if (Str::isUuid($id)) {
-            $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-                ->where('folder_id', $rootId)
+        if ($requestedFolder) {
+            // Get root team folder
+            $teamRootIdResults = recursiveFind(
+                $requestedFolder->teamRoot->toArray(),
+                'id'
+            );
+
+            $teamRootId = end($teamRootIdResults);
+
+            $teamRootFolder = $teamRootId
+                ? Folder::findOrFail($teamRootId)
+                : $requestedFolder;
+
+            // Get files
+            $files = File::where('folder_id', $rootId)
                 ->where('user_id', Auth::id())
                 ->sortable()
                 ->get();
@@ -57,15 +62,16 @@ class TeamFoldersController extends Controller
 
         // Collect folders and files to single array
         return [
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
-            'root'    => $requestedFolder,
+            'folders'    => new FolderCollection($folders),
+            'files'      => new FilesCollection($files),
+            'root'       => $requestedFolder ? new FolderResource($requestedFolder) : null,
+            'teamFolder' => $teamRootFolder ? new FolderResource($teamRootFolder) : null,
         ];
     }
 
     public function store(
         CreateTeamFolderRequest $request,
-    ): ResponseFactory|Response {
+    ): ResponseFactory | Response {
         $data = CreateTeamFolderData::fromRequest($request);
 
         $folder = Folder::create([
@@ -85,7 +91,7 @@ class TeamFoldersController extends Controller
         Folder $folder,
         UpdateInvitationsAction $updateInvitations,
         UpdateMembersAction $updateMembers,
-    ): ResponseFactory|Response {
+    ): ResponseFactory | Response {
         $updateInvitations(
             $folder,
             $request->input('invitations')
@@ -99,7 +105,7 @@ class TeamFoldersController extends Controller
         return response(new FolderResource($folder), 201);
     }
 
-    public function destroy(Folder $folder): ResponseFactory|Response
+    public function destroy(Folder $folder): ResponseFactory | Response
     {
         // Delete existing invitations
         DB::table('team_folder_invitations')

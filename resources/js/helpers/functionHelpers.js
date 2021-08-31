@@ -81,12 +81,6 @@ const FunctionHelpers = {
             return '/invoice/' + customer + '/' + id
         }
 
-        Vue.prototype.$openImageOnNewTab = function (source) {
-            let win = window.open(source, '_blank')
-
-            win.focus()
-        }
-
         Vue.prototype.$uploadFiles = async function (files) {
 
             if (files.length === 0) return
@@ -205,6 +199,19 @@ const FunctionHelpers = {
             document.body.appendChild(anchor)
 
             anchor.click()
+        }
+
+        Vue.prototype.$goToFileView = function (id) {
+
+            let locations = {
+                'Public': {name: 'Public', params: {token: this.$route.params.token, id: id}},
+                'TeamFolders': {name: 'TeamFolders', params: {id: id}},
+                'MySharedItems': {name: 'Files', params: {id: id}},
+                'Trash': {name: 'Trash', params: {id: id}},
+                'Files': {name: 'Files', params: {id: id}},
+            }
+
+            this.$router.push(locations[this.$router.currentRoute.name])
         }
 
         Vue.prototype.$isThisRoute = function (route, locations) {

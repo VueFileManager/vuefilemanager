@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Teams\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;

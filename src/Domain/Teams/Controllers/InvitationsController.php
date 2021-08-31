@@ -10,11 +10,9 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 
 class InvitationsController extends Controller
 {
-
     public function update(
         TeamFolderInvitation $invitation
-    ): ResponseFactory|Response {
-
+    ): ResponseFactory | Response {
         $user = User::where('email', $invitation->email)
             ->firstOrFail();
 
@@ -34,7 +32,7 @@ class InvitationsController extends Controller
 
     public function destroy(
         TeamFolderInvitation $invitation
-    ): ResponseFactory|Response {
+    ): ResponseFactory | Response {
         $invitation->update([
             'status' => 'rejected',
         ]);

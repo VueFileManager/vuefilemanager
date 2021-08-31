@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Browsing;
 
 use Tests\TestCase;

@@ -1,8 +1,6 @@
 <?php
 namespace Domain\Items\Actions;
 
-use Domain\Files\Resources\FileResource;
-use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 
 class RenameFileOrFolderAction
@@ -14,7 +12,6 @@ class RenameFileOrFolderAction
         RenameItemRequest $request,
         string $id,
     ) {
-
         // Get item
         $item = get_item($request->input('type'), $id);
 
