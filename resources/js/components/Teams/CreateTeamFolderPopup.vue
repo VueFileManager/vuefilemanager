@@ -135,11 +135,20 @@
 				axios
 					.post(route, payload)
 					.then(response => {
-						// todo: push to team folder
-						//this.$router.push({name: 'TeamFolders', params: {id: response.data.id}})
+						let isTeamFoldersLocation = this.$isThisRoute(this.$route, ['TeamFolders'])
 
-						if (! this.$isThisRoute(this.$route, ['TeamFolders']))
+						// Redirect into newly created team folder
+						if (isTeamFoldersLocation && this.$route.params.id) {
+							this.$router.push({name: 'TeamFolders', params: {id: response.data.data.id}})
+
+						// Add created team folder into Team Folder homepage view
+						} else if (isTeamFoldersLocation && ! this.$route.params.id) {
+							this.$store.commit('ADD_NEW_FOLDER', response.data)
+
+						// Redirect to Team Folders after converting simple folder
+						} else if (! isTeamFoldersLocation) {
 							this.$router.push({name: 'TeamFolders'})
+						}
 
 						this.$store.dispatch('getAppData')
 					})

@@ -31,7 +31,7 @@ class UpdateInvitationsAction
 
         // Invite team members
         if ($newbies->isNotEmpty()) {
-            ($this->inviteMembers)($newbies->toArray(), $folder);
+            $this->inviteMembers->onQueue()->execute($newbies->toArray(), $folder);
         }
 
         // Delete invite from team folder

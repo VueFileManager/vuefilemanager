@@ -81,7 +81,7 @@ class TeamFoldersController extends Controller
         ]);
 
         // Invite team members
-        ($this->inviteMembers)($data->invitations, $folder);
+        $this->inviteMembers->onQueue()->execute($data->invitations, $folder);
 
         return response(new FolderResource($folder), 201);
     }
