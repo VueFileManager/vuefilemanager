@@ -346,7 +346,6 @@ return [
         'empty_page.title'                                   => 'Upload Your First File',
         'errors.capacity_digit'                              => 'The storage capacity must be lower than 10 digit number.',
         'file_detail.author'                                 => 'Author',
-        'file_detail.author_participant'                     => 'Public Participant',
         'file_detail.created_at'                             => 'Created at',
         'file_detail.items'                                  => 'Items',
         'file_detail.selected_multiple'                      => 'Selected Multiple Items',

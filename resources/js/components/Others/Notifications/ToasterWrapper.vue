@@ -45,14 +45,13 @@
     #toastr-wrapper {
         position: absolute;
         right: 30px;
-        top: 30px;
+        bottom: 30px;
         z-index: 90;
     }
 
     @media only screen and (max-width: 690px) {
 
         #toastr-wrapper {
-            top: initial;
             right: 15px;
             left: 15px;
             bottom: 15px;

@@ -1,12 +1,12 @@
 <template>
 	<div class="team-folder">
-		<span v-if="limit" class="member-count">
-			{{ membersCount > 3 ? '3+' : membersCount }}
+		<span v-if="limit && membersCount > 3" class="member-count">
+			3+
 		</span>
 		<div class="members">
 			<div v-for="member in members" :key="member.data.id" :title="member.data.attributes.email" class="member-preview">
 				<img v-if="member.data.attributes.avatar" :src="member.data.attributes.avatar" class="member" alt="avatar">
-				<TypedAvatar v-else :size="avatarSize" :letter="member.data.attributes.email.substr(0, 1)" />
+				<TypedAvatar v-else :size="avatarSize" :letter="member.data.attributes.email.substr(0, 1)" :color="member.data.attributes.color" />
 			</div>
 		</div>
 	</div>

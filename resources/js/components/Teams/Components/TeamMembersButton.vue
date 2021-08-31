@@ -32,7 +32,7 @@
 		width: 107px;
 
 		.widget {
-			justify-content: flex-end;
+			justify-content: center;
 		}
 	}
 

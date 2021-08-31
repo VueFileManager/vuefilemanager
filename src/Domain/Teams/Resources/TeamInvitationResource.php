@@ -14,6 +14,7 @@ class TeamInvitationResource extends JsonResource
                 'type'       => 'invitation',
                 'attributes' => [
                     'email'      => $this->email,
+                    'color'      => $this->color,
                     'status'     => $this->status,
                     'permission' => $this->permission,
                 ],

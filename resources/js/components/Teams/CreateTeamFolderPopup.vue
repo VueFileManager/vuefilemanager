@@ -16,14 +16,14 @@
                 <!--Set folder name-->
                 <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">
+                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="name" class="focus-border-theme" :placeholder="$t('popup_create_folder.placeholder')">
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <!--Add Member-->
 				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
 					<label class="input-label">{{ $t('Add Member') }}:</label>
-					<input @keypress.enter.stop.prevent="addMember" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
+					<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
 					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 				</ValidationProvider>
 
@@ -121,7 +121,7 @@
 
 				let route = this.name
 					? `/api/teams/folders`
-					: `/api/teams/convert/${this.item.id}`
+					: `/api/teams/convert/${this.item.data.id}`
 
 				let payload = this.name
 					? {
@@ -176,9 +176,16 @@
             events.$on('popup:open', args => {
                 if (args.name !== 'create-team-folder') return
 
-				if (args.item) {
-					this.item = args.item
-				}
+				this.item = args.item
+
+				this.$nextTick(() => {
+
+					if (this.item)
+						this.$refs.email.focus()
+
+					if (! this.item)
+						this.$refs.name.focus()
+				})
             })
 
 			events.$on('popup:close', () => {

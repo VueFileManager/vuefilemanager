@@ -38,8 +38,9 @@ class TeamFolderInvitation extends Model
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
+        static::creating(function ($invitation) {
+            $invitation->id = Str::uuid();
+            $invitation->color = config('vuefilemanager.colors')[rand(0, 4)];
         });
     }
 }

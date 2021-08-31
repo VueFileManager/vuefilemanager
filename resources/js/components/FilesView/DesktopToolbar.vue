@@ -16,9 +16,9 @@
 			<ToolbarWrapper>
 
 				<!--Search bar-->
-<!--				<ToolbarGroup style="margin-left: 0">
+				<ToolbarGroup style="margin-left: 0">
 					<SearchBar />
-				</ToolbarGroup>-->
+				</ToolbarGroup>
 
 				<!--Creating controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">
@@ -125,11 +125,7 @@
 				'clipboard',
 			]),
 			isLoadedFolder() {
-				if (this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id) {
-					return false
-				}
-
-				return this.$route.params.id
+				return this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id
 			},
 			hasCapacity() {
 				// Check if storage limitation is set
@@ -190,6 +186,7 @@
 			},
 			canShareInView() {
 				let routes = [
+					'TeamFolders',
 					'RecentUploads',
 					'MySharedItems',
 					'Public',

@@ -16,7 +16,7 @@
                 <!--Add Member-->
 				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
 					<label class="input-label">{{ $t('Add Member') }}:</label>
-					<input @keypress.enter.stop.prevent="addMember" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
+					<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
 					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 				</ValidationProvider>
 
@@ -160,6 +160,7 @@
 						email: member.data.attributes.email,
 						name: member.data.attributes.name,
 						avatar: member.data.attributes.avatar,
+						color: member.data.attributes.color,
 						permission: member.data.attributes.permission,
 					}
 				})
@@ -169,8 +170,13 @@
 						id: member.data.id,
 						type: 'invitation',
 						email: member.data.attributes.email,
+						color: member.data.attributes.color,
 						permission: member.data.attributes.permission,
 					}
+				})
+
+				this.$nextTick(() => {
+					this.$refs.email.focus()
 				})
             })
 

@@ -125,6 +125,8 @@
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
 	import {events} from "../../bus";
+	import Vue from "vue";
+	import router from "../../router";
 
 	export default {
 		name: 'TeamFolders',
@@ -208,6 +210,20 @@
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)
+
+			events.$on('action:confirmed', data => {
+
+				if (data.operation === 'dissolve-team-folder')
+					axios.delete(`/api/teams/folders/${data.id}`)
+						.then(() => {
+							if (this.$route.params.id) {
+								this.$router.push({name: 'TeamFolders'})
+							} else {
+								this.$store.commit('REMOVE_ITEM', data.id)
+							}
+						})
+						.catch(() => this.$isSomethingWrong())
+			})
 		}
 	}
 </script>

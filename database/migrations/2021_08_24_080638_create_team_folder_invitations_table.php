@@ -17,6 +17,7 @@ class CreateTeamFolderInvitationsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('folder_id');
             $table->text('email');
+            $table->string('color')->nullable();
             $table->enum('permission', ['can-edit', 'can-view', 'can-view-and-download']);
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();

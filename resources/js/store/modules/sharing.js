@@ -27,7 +27,10 @@ const actions = {
             axios
                 .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
-                    commit('LOADING_STATE', {loading: false, data: response.data.content})
+                    let folders = response.data.folders.data
+                    let files = response.data.files.data
+
+                    commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
                     commit('SET_CURRENT_FOLDER', response.data.root)
 
                     events.$emit('scrollTop')
@@ -55,7 +58,7 @@ const actions = {
                     resolve(response)
 
                     // Commit shared item options
-                    commit('SET_SHARED_DETAIL', response.data.data.attributes)
+                    commit('SET_SHARED_DETAIL', response.data)
                     commit('SET_PERMISSION', response.data.data.attributes.permission)
                 })
                 .catch(error => {

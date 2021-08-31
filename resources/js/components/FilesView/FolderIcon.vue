@@ -99,7 +99,7 @@
 	&.is-team {
 		path {
 			fill: transparent;
-			stroke-width: 20px;
+			stroke-width: 26px;
 			stroke: inherit;
 		}
 	}

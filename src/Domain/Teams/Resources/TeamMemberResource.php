@@ -16,6 +16,7 @@ class TeamMemberResource extends JsonResource
                     'email'      => $this->email,
                     'name'       => $this->settings->name,
                     'avatar'     => $this->settings->avatar,
+                    'color'      => $this->settings->color,
                     'permission' => $this->pivot->permission,
                 ],
             ],

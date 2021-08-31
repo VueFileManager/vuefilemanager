@@ -3,6 +3,7 @@ namespace App\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserSettings extends Model
 {
@@ -30,6 +31,15 @@ class UserSettings extends Model
             return url('/' . $this->attributes['avatar']);
         }
 
-        return url('/assets/images/default-avatar.png');
+        return null;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->color = ['#9ad2bf', '#9ad2cd', '#d29a9a', '#d2ce9a', '#9aadd2', '#c59ad2'][rand(0, 4)];
+        });
     }
 }

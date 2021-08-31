@@ -153,11 +153,8 @@ export default {
 					params: {query: value}
 				})
 				.then(response => {
-
 					let files = response.data.files.data
 					let folders = response.data.folders.data
-
-					console.log(files);
 
 					this.results = folders.concat(files)
 				})

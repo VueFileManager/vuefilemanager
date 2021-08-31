@@ -7,7 +7,7 @@
 			<div class="member-preview">
 				<div class="avatar">
 					<img v-if="entry.avatar" :src="entry.avatar" alt="avatar">
-					<TypedAvatar v-else :size="38" :letter="entry.email.substr(0, 1)" />
+					<TypedAvatar v-else :size="38" :letter="entry.email.substr(0, 1)" :color="entry.color"/>
 				</div>
 				<div v-if="entry.type === 'member'" class="info">
 					<b class="title">{{ entry.name }}</b>

@@ -46,7 +46,7 @@
         .message {
             border-radius: 8px;
             padding: 11px 20px;
-            min-width: 300px;
+			width: 300px;
 			text-align: left;
 			display: flex;
 			justify-content: space-between;
@@ -56,6 +56,13 @@
 				@include font-size(14);
 				color: #B9B9B9;
 			}
+        }
+    }
+
+    @media only screen and (max-width: 1290px) {
+
+        .search-bar .message {
+            width: 230px;
         }
     }
 

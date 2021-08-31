@@ -38,13 +38,6 @@
 				:content="singleFile.data.attributes.filesize"
 			/>
 
-			<!--Participant-->
-<!--            <ListInfoItem
-				v-if="$checkPermission(['master']) && singleFile.author !== 'user'"
-				:title="$t('file_detail.author')"
-				:content="$t('file_detail.author_participant')"
-			/>-->
-
 			<!--Created At-->
             <ListInfoItem
 				:title="$t('file_detail.created_at')"
@@ -58,6 +51,17 @@
 			>
                 <div class="action-button" @click="openMoveOptions">
                     <span>{{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $t('locations.home') }}</span>
+                    <edit-2-icon size="10" class="edit-icon" />
+                </div>
+            </ListInfoItem>
+
+			<!--Location-->
+            <ListInfoItem
+				v-if="singleFile.data.attributes.isTeamFolder"
+				:title="$t('Shared with the Team')"
+			>
+                <div class="action-button" @click="$updateTeamFolder(singleFile)">
+                    <TeamMembersPreview :folder="singleFile" :avatar-size="32" />
                     <edit-2-icon size="10" class="edit-icon" />
                 </div>
             </ListInfoItem>
@@ -90,6 +94,7 @@
 </template>
 
 <script>
+	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
 	import FilePreviewDetail from '/resources/js/components/Others/FilePreviewDetail'
     import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
 	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
@@ -104,6 +109,7 @@
 	export default {
 		name: 'InfoSidebar',
 		components: {
+			TeamMembersPreview,
 			FilePreviewDetail,
 			ImageMetaData,
 			EmptyMessage,

@@ -1,5 +1,5 @@
 <template>
-	<div class="typed-avatar" :style="{width: size + 'px', height: size + 'px'}">
+	<div class="typed-avatar" :style="{width: size + 'px', height: size + 'px', background: color ? color : '#f4f5f6'}">
 		<span class="letter">{{ letter }}</span>
 	</div>
 </template>
@@ -9,6 +9,7 @@ export default {
 	name: "TypedAvatar",
 	props: [
 		'letter',
+		'color',
 		'size',
 	]
 }

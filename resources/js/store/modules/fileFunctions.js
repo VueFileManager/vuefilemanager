@@ -252,15 +252,11 @@ const actions = {
 
         let itemToRestore = []
         let items = [item]
-        let restoreToHome = false
+        let restoreToHome = Vue.prototype.$isThisRoute(router.currentRoute, ['Trash'])
 
         // If coming no selected item dont get items to restore from clipboard
         if (!item)
             items = getters.clipboard
-
-        // Check if file can be restored to home directory
-        if (getters.currentFolder.location === 'trash')
-            restoreToHome = true
 
         items.forEach(data => itemToRestore.push({
             type: data.data.type,
@@ -276,8 +272,7 @@ const actions = {
                 items: itemToRestore
             })
             .then(
-                // Remove file
-                items.forEach(data => commit('REMOVE_ITEM', data.id))
+                items.forEach(item => commit('REMOVE_ITEM', item.data.id))
             )
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
@@ -340,7 +335,7 @@ const actions = {
 
                         if (data.id === getters.currentFolder.data.id) {
 
-                            if (getters.currentFolder.location === 'public') {
+                            if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) {
                                 dispatch('browseShared')
                             } else {
                                 dispatch('getFolder')
