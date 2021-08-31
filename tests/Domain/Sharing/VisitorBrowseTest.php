@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Sharing;
 
 use Tests\TestCase;
@@ -26,13 +27,13 @@ class VisitorBrowseTest extends TestCase
                     'id'         => $share->id,
                     'type'       => 'shared',
                     'attributes' => [
-                        'permission'   => $share->permission,
-                        'protected'    => false,
-                        'item_id'      => $share->item_id,
-                        'expire_in'    => $share->expire_in,
-                        'token'        => $share->token,
-                        'link'         => $share->link,
-                        'type'         => $share->type,
+                        'permission' => $share->permission,
+                        'protected'  => false,
+                        'item_id'    => $share->item_id,
+                        'expire_in'  => $share->expire_in,
+                        'token'      => $share->token,
+                        'link'       => $share->link,
+                        'type'       => $share->type,
                     ],
                 ],
             ]);
@@ -168,41 +169,6 @@ class VisitorBrowseTest extends TestCase
                         'user_id'   => $user->id,
                     ]);
 
-                $json = [
-                    [
-                        'id'            => $folder->id,
-                        'user_id'       => $user->id,
-                        'parent_id'     => $root->id,
-                        'name'          => 'Documents',
-                        'color'         => null,
-                        'emoji'         => null,
-                        'author'        => 'user',
-                        'deleted_at'    => null,
-                        'created_at'    => $folder->created_at,
-                        'updated_at'    => $folder->updated_at->toJson(),
-                        'items'         => 0,
-                        'trashed_items' => 0,
-                        'type'          => 'folder',
-                    ],
-                    [
-                        'id'         => $file->id,
-                        'user_id'    => $user->id,
-                        'folder_id'  => $root->id,
-                        'thumbnail'  => null,
-                        'name'       => 'Document',
-                        'basename'   => 'document.pdf',
-                        'mimetype'   => 'application/pdf',
-                        'filesize'   => $file->filesize,
-                        'type'       => 'file',
-                        'metadata'   => null,
-                        'author'     => 'user',
-                        'deleted_at' => null,
-                        'created_at' => $file->created_at,
-                        'updated_at' => $file->updated_at->toJson(),
-                        'file_url'   => "http://localhost/file/document.pdf/$share->token",
-                    ],
-                ];
-
                 // Check shared item protected by password
                 if ($is_protected) {
                     $cookie = ['share_session' => json_encode([
@@ -214,14 +180,24 @@ class VisitorBrowseTest extends TestCase
                         ->withUnencryptedCookies($cookie)
                         ->get("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
-                        ->assertExactJson($json);
+                        ->assertJsonFragment([
+                            'id' => $file->id,
+                        ])
+                        ->assertJsonFragment([
+                            'id' => $folder->id,
+                        ]);
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
-                        ->assertExactJson($json);
+                        ->assertJsonFragment([
+                            'id' => $file->id,
+                        ])
+                        ->assertJsonFragment([
+                            'id' => $folder->id,
+                        ]);
                 }
             });
     }
@@ -328,7 +304,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/navigation/$share->token")
                         ->assertStatus(200)
                         ->assertExactJson($tree);
@@ -380,7 +356,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
@@ -431,7 +407,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([]);
@@ -478,7 +454,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/file/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([

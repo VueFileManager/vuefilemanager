@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Browsing;
 
 use Tests\TestCase;
@@ -59,8 +60,8 @@ class BrowseTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    'name'     => 'Files',
-                    'folders'  => [
+                    'name'    => 'Files',
+                    'folders' => [
                         [
                             'id'            => $folder_level_1->id,
                             'parent_id'     => null,
@@ -109,8 +110,8 @@ class BrowseTest extends TestCase
                     ],
                 ],
                 [
-                    'name'     => 'Team Folders',
-                    'folders'  => [],
+                    'name'    => 'Team Folders',
+                    'folders' => [],
                 ],
             ]);
     }
@@ -152,55 +153,14 @@ class BrowseTest extends TestCase
             ->actingAs($user)
             ->getJson("/api/browse/folders/$root->id")
             ->assertStatus(200)
-            ->assertExactJson([
-                [
-                    'id'            => $folder->id,
-                    'user_id'       => $user->id,
-                    'parent_id'     => $root->id,
-                    'name'          => 'Documents',
-                    'color'         => null,
-                    'emoji'         => null,
-                    'author'        => 'user',
-                    'deleted_at'    => null,
-                    'created_at'    => $folder->created_at,
-                    'updated_at'    => $folder->updated_at->toJson(),
-                    'items'         => 0,
-                    'trashed_items' => 0,
-                    'type'          => 'folder',
-                    'parent'        => [
-                        'id'            => $root->id,
-                        'name'          => 'root',
-                        'items'         => 2,
-                        'trashed_items' => 2,
-                        'type'          => 'folder',
-                    ],
-                    'shared'        => null,
-                ],
-                [
-                    'id'         => $file->id,
-                    'user_id'    => $user->id,
-                    'folder_id'  => $root->id,
-                    'thumbnail'  => null,
-                    'name'       => 'Document',
-                    'basename'   => 'document.pdf',
-                    'mimetype'   => 'application/pdf',
-                    'filesize'   => $file->filesize,
-                    'type'       => 'file',
-                    'metadata'   => null,
-                    'author'     => 'user',
-                    'deleted_at' => null,
-                    'created_at' => $file->created_at,
-                    'updated_at' => $file->updated_at->toJson(),
-                    'file_url'   => 'http://localhost/file/document.pdf',
-                    'parent'     => [
-                        'id'            => $root->id,
-                        'name'          => 'root',
-                        'items'         => 2,
-                        'trashed_items' => 2,
-                        'type'          => 'folder',
-                    ],
-                    'shared'     => null,
-                ],
+            ->assertJsonFragment([
+                'id' => $root->id,
+            ])
+            ->assertJsonFragment([
+                'id' => $file->id,
+            ])
+            ->assertJsonFragment([
+                'id' => $folder->id,
             ]);
     }
 
@@ -248,55 +208,11 @@ class BrowseTest extends TestCase
             ->actingAs($user)
             ->getJson('/api/browse/latest')
             ->assertStatus(200)
-            ->assertExactJson([
-                [
-                    'id'         => $file_2->id,
-                    'user_id'    => $user->id,
-                    'folder_id'  => $root->id,
-                    'thumbnail'  => null,
-                    'name'       => 'Document 2',
-                    'basename'   => 'document-2.pdf',
-                    'mimetype'   => 'application/pdf',
-                    'filesize'   => $file_2->filesize,
-                    'type'       => 'file',
-                    'metadata'   => null,
-                    'author'     => 'user',
-                    'deleted_at' => null,
-                    'created_at' => $file_2->created_at,
-                    'updated_at' => $file_2->updated_at->toJson(),
-                    'file_url'   => 'http://localhost/file/document-2.pdf',
-                    'parent'     => [
-                        'id'            => $root->id,
-                        'name'          => 'root',
-                        'items'         => 2,
-                        'trashed_items' => 2,
-                        'type'          => 'folder',
-                    ],
-                ],
-                [
-                    'id'         => $file_1->id,
-                    'user_id'    => $user->id,
-                    'folder_id'  => $root->id,
-                    'thumbnail'  => null,
-                    'name'       => 'Document 1',
-                    'basename'   => 'document-1.pdf',
-                    'mimetype'   => 'application/pdf',
-                    'filesize'   => $file_1->filesize,
-                    'type'       => 'file',
-                    'metadata'   => null,
-                    'author'     => 'user',
-                    'deleted_at' => null,
-                    'created_at' => $file_1->created_at,
-                    'updated_at' => $file_1->updated_at->toJson(),
-                    'file_url'   => 'http://localhost/file/document-1.pdf',
-                    'parent'     => [
-                        'id'            => $root->id,
-                        'name'          => 'root',
-                        'items'         => 2,
-                        'trashed_items' => 2,
-                        'type'          => 'folder',
-                    ],
-                ],
+            ->assertJsonFragment([
+                'id' => $file_1->id,
+            ])
+            ->assertJsonFragment([
+                'id' => $file_2->id,
             ]);
     }
 
@@ -340,41 +256,11 @@ class BrowseTest extends TestCase
             ->actingAs($user)
             ->getJson('/api/browse/trash/undefined')
             ->assertStatus(200)
-            ->assertExactJson([
-                [
-                    'id'            => $folder->id,
-                    'user_id'       => $user->id,
-                    'parent_id'     => null,
-                    'name'          => 'root',
-                    'color'         => null,
-                    'emoji'         => null,
-                    'author'        => 'user',
-                    'deleted_at'    => $folder->deleted_at,
-                    'created_at'    => $folder->created_at,
-                    'updated_at'    => $folder->updated_at->toJson(),
-                    'items'         => 0,
-                    'trashed_items' => 1,
-                    'type'          => 'folder',
-                    'parent'        => null,
-                ],
-                [
-                    'id'         => $file->id,
-                    'user_id'    => $user->id,
-                    'folder_id'  => null,
-                    'thumbnail'  => null,
-                    'name'       => 'Document',
-                    'basename'   => 'document.pdf',
-                    'mimetype'   => 'application/pdf',
-                    'filesize'   => $file->filesize,
-                    'type'       => 'file',
-                    'metadata'   => null,
-                    'author'     => 'user',
-                    'deleted_at' => $file->deleted_at,
-                    'created_at' => $file->created_at,
-                    'updated_at' => $file->updated_at->toJson(),
-                    'file_url'   => 'http://localhost/file/document.pdf',
-                    'parent'     => null,
-                ],
+            ->assertJsonFragment([
+                'id' => $folder->id,
+            ])
+            ->assertJsonFragment([
+                'id' => $file->id,
             ]);
     }
 
@@ -398,24 +284,28 @@ class BrowseTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        collect([$folder, $file])
-            ->each(function ($item) use ($user) {
-                Share::factory(Share::class)
-                    ->create([
-                        'type'    => $item->type === 'folder' ? 'folder' : 'file',
-                        'item_id' => $item->id,
-                        'user_id' => $user->id,
-                    ]);
-            });
+        Share::factory(Share::class)
+            ->create([
+                'type'    => 'folder',
+                'item_id' => $folder->id,
+                'user_id' => $user->id,
+            ]);
 
-        collect([$folder, $file])
-            ->each(function ($item) {
-                $this->getJson('/api/browse/share')
-                    ->assertStatus(200)
-                    ->assertJsonFragment([
-                        'id' => $item->id,
-                    ]);
-            });
+        Share::factory(Share::class)
+            ->create([
+                'type'    => 'file',
+                'item_id' => $file->id,
+                'user_id' => $user->id,
+            ]);
+
+        $this->getJson('/api/browse/share')
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'id' => $folder->id,
+            ])
+            ->assertJsonFragment([
+                'id' => $file->id,
+            ]);
     }
 
     /**

@@ -172,13 +172,7 @@ class UserAccountTest extends TestCase
                             ],
                         ],
                         'favourites' => [
-                            'data' => [
-                                'id'         => (string) $user->id,
-                                'type'       => 'favourite_folders',
-                                'attributes' => [
-                                    'folders' => [],
-                                ],
-                            ],
+                            'data' => [],
                         ],
                     ],
                 ],
