@@ -22,7 +22,7 @@
 
 		<MobileCreateMenu>
 			<OptionGroup>
-				<OptionUpload :class="{'is-inactive': !hasCapacity }" :title="$t('actions.upload')" is-hover-disabled="true" />
+				<OptionUpload :title="$t('actions.upload')" is-hover-disabled="true" />
 			</OptionGroup>
 			<OptionGroup>
 				<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" is-hover-disabled="true" />
@@ -38,7 +38,11 @@
 
 		<ContextMenu>
 			<template v-slot:empty-select>
-				<OptionGroup>
+				<OptionGroup v-if="! isTeamFolderHomepage">
+					<OptionUpload :title="$t('actions.upload')" />
+					<Option @click.stop.native="$createFolder" :title="$t('actions.create_folder')" icon="folder-plus" />
+				</OptionGroup>
+				<OptionGroup v-if="isTeamFolderHomepage">
 					<Option @click.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
 				</OptionGroup>
 			</template>
@@ -150,12 +154,9 @@
 				'config',
 				'user',
 			]),
-			hasCapacity() {
-				// Check if storage limitation is set
-				if (!this.config.storageLimit) return true
-
-				// Check if user has storage
-				return this.user && this.user.data.attributes.storage.used <= 100
+			isTeamFolderHomepage() {
+				return this.$isThisRoute(this.$route, ['TeamFolders'])
+					&& ! this.$route.params.id
 			},
 			isFolder() {
 				return this.item && this.item.data.type === 'folder'
