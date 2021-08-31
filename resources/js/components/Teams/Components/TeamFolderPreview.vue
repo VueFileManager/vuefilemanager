@@ -1,7 +1,7 @@
 <template>
 	<div class="team-folder-preview">
 		<div class="info">
-			<b class="title">The Team Project</b>
+			<b class="title">{{ teamFolder.data.attributes.name }}</b>
 			<span class="subtitle">Last update a week ago</span>
 			<TeamMembersPreview :folder="teamFolder" :avatar-size="32" class="members" />
 		</div>

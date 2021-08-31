@@ -7,7 +7,7 @@
 
 			<!--Folder Title-->
 			<div class="directory-name">
-				{{ directoryName }}
+				{{ $getCurrentLocationName() }}
 			</div>
         </div>
 
@@ -41,19 +41,6 @@
                 'FilePreviewType',
                 'currentFolder',
             ]),
-			directoryName() {
-				if (this.currentFolder) {
-					return this.currentFolder.data.attributes.name
-				} else {
-					return {
-						'RecentUploads': this.$t('Recent'),
-						'MySharedItems': this.$t('Shared'),
-						'Trash': this.$t('Trash'),
-						'Public': this.$t('Files'),
-						'Files': this.$t('Files'),
-					}[this.$route.name]
-				}
-			},
 			isLoadedFolder() {
 				return this.$route.params.id
 			},

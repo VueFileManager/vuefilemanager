@@ -201,6 +201,21 @@ const FunctionHelpers = {
             anchor.click()
         }
 
+        Vue.prototype.$getCurrentLocationName = function () {
+            if (store.getters.currentFolder) {
+                return store.getters.currentFolder.data.attributes.name
+            } else {
+                return {
+                    'RecentUploads': this.$t('Recent'),
+                    'MySharedItems': this.$t('Shared'),
+                    'Trash': this.$t('Trash'),
+                    'Public': this.$t('Files'),
+                    'Files': this.$t('Files'),
+                    'TeamFolders': this.$t('Team Folders'),
+                }[this.$route.name]
+            }
+        }
+
         Vue.prototype.$goToFileView = function (id) {
 
             let locations = {

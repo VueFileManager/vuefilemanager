@@ -73,7 +73,7 @@ const actions = {
             .then(() => {
                 itemsToMove.forEach(item => {
                     commit('REMOVE_ITEM', item.id)
-                    commit('INCREASE_FOLDER_ITEM', to_item.id)
+                    commit('INCREASE_FOLDER_ITEM', to_item.data.id)
 
                     if (item.type === 'folder')
                         dispatch('getAppData')

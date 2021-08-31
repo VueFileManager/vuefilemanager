@@ -170,7 +170,7 @@ const mutations = {
     },
     INCREASE_FOLDER_ITEM(state, id) {
         state.entries.map(el => {
-            if (el.data.id && el.data.id === id) el.items++
+            if (el.data.id && el.data.id === id) el.data.attributes.items++
         })
     },
     REMOVE_ITEM_FROM_CLIPBOARD(state, item) {

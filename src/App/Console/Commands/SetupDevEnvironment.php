@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -37,7 +38,8 @@ class SetupDevEnvironment extends Command
         private SeedDefaultSettingsAction $seedDefaultSettings,
         private SeedDefaultLanguageAction $seedDefaultLanguage,
         private SeedDefaultPagesAction $seedDefaultPages,
-    ) {
+    )
+    {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -729,6 +731,20 @@ class SetupDevEnvironment extends Command
                 'name'        => 'Company Project',
             ]);
 
+        Folder::factory()
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $companyProjectFolder->id,
+                'name'      => 'Presentation Materials',
+            ]);
+
+        Folder::factory()
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $companyProjectFolder->id,
+                'name'      => 'Team Gallery',
+            ]);
+
         $financeDocumentsFolder = Folder::factory()
             ->create([
                 'user_id'     => $user->id,
@@ -742,34 +758,34 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
-            ->insert([
-                'folder_id'  => $companyProjectFolder->id,
-                'user_id'    => $id,
-                'permission' => 'can-edit',
-            ])
+                fn($id) => DB::table('team_folder_members')
+                    ->insert([
+                        'folder_id'  => $companyProjectFolder->id,
+                        'user_id'    => $id,
+                        'permission' => 'can-edit',
+                    ])
             );
 
         collect([$members[2]->id, $members[3]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
-            ->insert([
-                'folder_id'  => $financeDocumentsFolder->id,
-                'user_id'    => $id,
-                'permission' => 'can-edit',
-            ])
+                fn($id) => DB::table('team_folder_members')
+                    ->insert([
+                        'folder_id'  => $financeDocumentsFolder->id,
+                        'user_id'    => $id,
+                        'permission' => 'can-edit',
+                    ])
             );
 
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn ($user) => TeamFolderInvitation::factory()
-            ->create([
-                'email'      => $user->email,
-                'folder_id'  => $companyProjectFolder->id,
-                'status'     => 'pending',
-                'permission' => 'can-edit',
-            ])
+                fn($user) => TeamFolderInvitation::factory()
+                    ->create([
+                        'email'      => $user->email,
+                        'folder_id'  => $companyProjectFolder->id,
+                        'status'     => 'pending',
+                        'permission' => 'can-edit',
+                    ])
             );
     }
 

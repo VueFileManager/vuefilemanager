@@ -2,13 +2,13 @@
     <div id="desktop-toolbar">
         <div class="toolbar-wrapper">
 			<div @click="goBack" class="location">
-				<chevron-left-icon :class="{'is-active': isLoadedFolder }" class="icon-back" size="17" />
+				<chevron-left-icon :class="{'is-active': isNotHomepage }" class="icon-back" size="17" />
 
 				<span class="location-title">
-					{{ directoryName }}
+					{{ $getCurrentLocationName() }}
 				</span>
 
-				<span v-show="isLoadedFolder" @click.stop="folderActions" class="location-more group" id="folder-actions">
+				<span v-show="currentFolder" @click.stop="folderActions" class="location-more group" id="folder-actions">
 					<more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
 				</span>
 			</div>
@@ -26,18 +26,18 @@
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
 						<PopoverItem name="desktop-create" side="left">
 							<OptionGroup>
-								<OptionUpload :class="{'is-inactive': canUploadInView || !hasCapacity }" :title="$t('actions.upload')" />
+								<OptionUpload :class="{'is-inactive': canUploadInView || isTeamFolderHomepage }" :title="$t('actions.upload')" />
 							</OptionGroup>
 							<OptionGroup>
 								<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
-								<Option @click.stop.native="$createFolder" :class="{'is-inactive': canCreateFolderInView }" :title="$t('actions.create_folder')" icon="folder-plus" />
+								<Option @click.stop.native="$createFolder" :class="{'is-inactive': canCreateFolderInView || isTeamFolderHomepage }" :title="$t('actions.create_folder')" icon="folder-plus" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
 				</ToolbarGroup>
 
 				<!--Share Controls-->
-				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile() && !$isThisRoute($route, ['Public'])">
+				<ToolbarGroup v-if="! $isMobile() && ! $isThisRoute($route, ['Public'])">
 
 					<!--Team Folder Icon-->
 					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders'])">
@@ -69,7 +69,7 @@
 							<FileSortingOptions />
 						</PopoverItem>
 					</PopoverWrapper>
-                    <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :class="{'active': isVisibleSidebar }" :action="$t('actions.info_panel')" source="info" />
+                    <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :action="$t('actions.info_panel')" source="info" />
 				</ToolbarGroup>
 			</ToolbarWrapper>
         </div>
@@ -93,9 +93,8 @@
 	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 	import SearchBar from '/resources/js/components/FilesView/SearchBar'
 	import Option from '/resources/js/components/FilesView/Option'
-	import {mapGetters} from 'vuex'
 	import {events} from '/resources/js/bus'
-	import {last} from 'lodash'
+	import {mapGetters} from 'vuex'
 
 	export default {
 		name: 'DesktopToolbar',
@@ -119,69 +118,46 @@
 		computed: {
 			...mapGetters([
 				'currentTeamFolder',
-				'isVisibleSidebar',
-				'FilePreviewType',
 				'currentFolder',
 				'sharedDetail',
 				'clipboard',
 			]),
 			teamFolder() {
-				return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
+				return this.currentTeamFolder
+					? this.currentTeamFolder
+					: this.clipboard[0]
 			},
-			isLoadedFolder() {
+			isNotHomepage() {
 				if (this.$isThisRoute(this.$route, ['Public'])) {
 					return this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id
 				}
 
 				return this.$route.params.id
 			},
-			hasCapacity() {
-				// Check if storage limitation is set
-				if (!this.$store.getters.config.storageLimit) return true
-
-				// Check if user is loaded
-				if (!this.$store.getters.user) return true
-
-				// Check if user has storage
-				return this.$store.getters.user.data.attributes.storage.used <= 100
-			},
-			directoryName() {
-				if (this.currentFolder) {
-					return this.currentFolder.data.attributes.name
-				} else {
-					return {
-						'RecentUploads': this.$t('Recent'),
-						'MySharedItems': this.$t('Shared'),
-						'Trash': this.$t('Trash'),
-						'Public': this.$t('Files'),
-						'Files': this.$t('Files'),
-						'TeamFolders': this.$t('Team Folders'),
-					}[this.$route.name]
-				}
-			},
-			preview() {
-				return this.FilePreviewType === 'list'
-					? 'th'
-					: 'th-list'
+			isTeamFolderHomepage() {
+				return this.$isThisRoute(this.$route, ['TeamFolders'])
+					&& ! this.$route.params.id
 			},
 			canCreateFolderInView() {
-				return ! this.$isThisRoute(this.$route, ['Files', 'Public'])
+				return ! this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders'])
+			},
+			canShowConvertToTeamFolder() {
+				return this.$isThisRoute(this.$route, ['Files', 'MySharedItems'])
+			},
+			canUploadInView() {
+				return ! this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders'])
 			},
 			canDeleteInView() {
 				let routes = [
+					'TeamFolders',
 					'RecentUploads',
 					'MySharedItems',
 					'Trash',
 					'Public',
 					'Files',
 				]
-				return !this.$isThisRoute(this.$route, routes) || this.clipboard.length === 0
-			},
-			canShowConvertToTeamFolder() {
-				return this.$isThisRoute(this.$route, ['Files', 'MySharedItems'])
-			},
-			canUploadInView() {
-				return ! this.$isThisRoute(this.$route, ['Files', 'Public'])
+				return !this.$isThisRoute(this.$route, routes)
+					|| this.clipboard.length === 0
 			},
 			canMoveInView() {
 				let routes = [
@@ -189,8 +165,10 @@
 					'MySharedItems',
 					'Public',
 					'Files',
+					'TeamFolders',
 				]
-				return ! this.$isThisRoute(this.$route, routes) || this.clipboard.length === 0
+				return ! this.$isThisRoute(this.$route, routes)
+					|| this.clipboard.length === 0
 			},
 			canShareInView() {
 				let routes = [
@@ -200,31 +178,27 @@
 					'Public',
 					'Files',
 				]
-				return ! this.$isThisRoute(this.$route, routes) || this.clipboard.length > 1 || this.clipboard.length === 0
+				return ! this.$isThisRoute(this.$route, routes)
+					|| this.clipboard.length > 1
+					|| this.clipboard.length === 0
 			},
 			canCreateTeamFolderInView() {
 				let routes = [
 					'MySharedItems',
 					'Files',
 				]
-				return this.$isThisRoute(this.$route, routes) && this.clipboard.length === 1 && this.clipboard[0].data.type === 'folder'
-			}
-		},
-		data() {
-			return {
-				members: [
-					'/temp/avatar-01.png',
-					'/temp/avatar-02.png',
-					'/temp/avatar-03.png',
-				],
+
+				return this.$isThisRoute(this.$route, routes)
+					&& this.clipboard.length === 1
+					&& this.clipboard[0].data.type === 'folder'
 			}
 		},
 		methods: {
 			goBack() {
-				if (this.isLoadedFolder) this.$router.back()
+				if (this.isNotHomepage) this.$router.back()
 			},
 			showTeamFolderMenu() {
-				if (this.currentTeamFolder || this.clipboard[0])
+				if (this.teamFolder)
 					events.$emit('popover:open', 'team-folder')
 			},
 			showCreateMenu() {
