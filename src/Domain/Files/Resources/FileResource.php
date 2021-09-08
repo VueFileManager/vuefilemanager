@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Files\Resources;
 
+use ByteUnits\Metric;
 use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -9,21 +10,24 @@ class FileResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
+     * TODO: optimize created_at/updated_at conversion because of performance issue
+     *
      * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-        // TODO: optimize created_at/updated_at conversion because of performance issue
+        $fileSize = Metric::bytes($this->filesize)->format();
+
         return [
             'data' => [
                 'id'            => $this->id,
                 'type'          => $this->type,
                 'attributes'    => [
+                    'filesize'   => $fileSize,
                     'name'       => $this->name,
                     'basename'   => $this->basename,
                     'mimetype'   => $this->mimetype,
-                    'filesize'   => $this->filesize,
                     'file_url'   => $this->file_url,
                     'thumbnail'  => $this->thumbnail,
                     'metadata'   => $this->metadata,

@@ -39,7 +39,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Folder extends Model
 {
-    use Searchable, SoftDeletes, Sortable, HasFactory;
+    use SoftDeletes;
+    use Searchable;
+    use HasFactory;
+    use Sortable;
 
     protected $guarded = [
         'id',
@@ -73,19 +76,9 @@ class Folder extends Model
         return FolderFactory::new();
     }
 
-    /**
-     * Index folder
-     */
-    public function toSearchableArray(): array
+    public function setNameAttribute($name): void
     {
-        $array = $this->toArray();
-        $name = Str::slug($array['name'], ' ');
-
-        return [
-            'id'         => $this->id,
-            'name'       => $name,
-            'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
-        ];
+        $this->attributes['name'] = mb_convert_encoding($name, 'UTF-8');
     }
 
     /**
@@ -211,6 +204,22 @@ class Folder extends Model
     public function teamRoot(): HasMany
     {
         return $this->parents()->with('teamRoot');
+    }
+
+    public function toSearchableArray(): array
+    {
+        $name = mb_convert_encoding(
+            mb_strtolower($this->name, 'UTF-8'), 'UTF-8'
+        );
+
+        $trigram = (new TNTIndexer)
+            ->buildTrigrams(implode(', ', [$name]));
+
+        return [
+            'id'         => $this->id,
+            'name'       => $name,
+            'nameNgrams' => $trigram,
+        ];
     }
 
     // Delete all folder children

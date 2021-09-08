@@ -39,10 +39,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class File extends Model
 {
-    use Searchable;
     use SoftDeletes;
-    use Sortable;
+    use Searchable;
     use HasFactory;
+    use Sortable;
 
     public ?string $public_access = null;
 
@@ -76,20 +76,17 @@ class File extends Model
         return FileFactory::new();
     }
 
+    public function setNameAttribute($name): void
+    {
+        $this->attributes['name'] = mb_convert_encoding($name, 'UTF-8');
+    }
+
     /**
      * Set routes with public access
      */
     public function setPublicUrl(string $token)
     {
         $this->public_access = $token;
-    }
-
-    /**
-     * Format fileSize
-     */
-    public function getFilesizeAttribute(): string
-    {
-        return Metric::bytes($this->attributes['filesize'])->format();
     }
 
     /**
@@ -149,34 +146,30 @@ class File extends Model
         return $route;
     }
 
-    /**
-     * Index file
-     */
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
-        $name = Str::slug($array['name'], ' ');
-
-        return [
-            'id'         => $this->id,
-            'name'       => $name,
-            'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
-        ];
-    }
-
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Folder::class, 'folder_id', 'id');
     }
 
-    public function folder(): HasOne
-    {
-        return $this->hasOne(Folder::class, 'id', 'folder_id');
-    }
-
     public function shared(): HasOne
     {
         return $this->hasOne(Share::class, 'item_id', 'id');
+    }
+
+    public function toSearchableArray(): array
+    {
+        $name = mb_convert_encoding(
+            mb_strtolower($this->name, 'UTF-8'), 'UTF-8'
+        );
+
+        $trigram = (new TNTIndexer)
+            ->buildTrigrams(implode(', ', [$name]));
+
+        return [
+            'id'         => $this->id,
+            'name'       => $name,
+            'nameNgrams' => $trigram,
+        ];
     }
 
     protected static function boot()
