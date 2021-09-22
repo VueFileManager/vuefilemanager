@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Folders\Controllers;
 
 use Domain\Folders\Models\Folder;
@@ -24,12 +25,16 @@ class NavigationFolderTreeController
 
         return [
             [
-                'name'     => 'Files',
-                'folders'  => $folders,
+                'location'  => 'files',
+                'name'      => 'Files',
+                'folders'   => $folders,
+                'isMovable' => true,
             ],
             [
-                'name'     => 'Team Folders',
-                'folders'  => $teamFolders,
+                'location'  => 'team-folders',
+                'name'      => 'Team Folders',
+                'folders'   => $teamFolders,
+                'isMovable' => false,
             ],
         ];
     }

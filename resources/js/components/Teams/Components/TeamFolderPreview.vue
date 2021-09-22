@@ -2,7 +2,7 @@
 	<div class="team-folder-preview">
 		<div class="info">
 			<b class="title">{{ teamFolder.data.attributes.name }}</b>
-			<span class="subtitle">Last update a week ago</span>
+			<span class="subtitle">Created at {{ teamFolder.data.attributes.created_at }}</span>
 			<TeamMembersPreview :folder="teamFolder" :avatar-size="32" class="members" />
 		</div>
 	</div>

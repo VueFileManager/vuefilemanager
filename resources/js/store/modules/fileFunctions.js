@@ -58,7 +58,7 @@ const actions = {
             ? `/api/editor/move/${router.currentRoute.params.token}`
             : '/api/move'
 
-        let moveToId = undefined
+        let moveToId = null
 
         if (to_item.data)
             moveToId = to_item.data.id
@@ -73,7 +73,7 @@ const actions = {
             .then(() => {
                 itemsToMove.forEach(item => {
                     commit('REMOVE_ITEM', item.id)
-                    commit('INCREASE_FOLDER_ITEM', to_item.data.id)
+                    commit('INCREASE_FOLDER_ITEM', moveToId)
 
                     if (item.type === 'folder')
                         dispatch('getAppData')

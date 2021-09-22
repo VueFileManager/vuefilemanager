@@ -9,7 +9,7 @@ class MoveFileOrFolderAction
     /**
      * Move folder or file to new location
      */
-    public function __invoke($request, string $to_id): void
+    public function __invoke($request, ?string $to_id): void
     {
         foreach ($request->items as $item) {
             // Move folder
