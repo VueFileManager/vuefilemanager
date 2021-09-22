@@ -39,6 +39,9 @@
 		<ContextMenu>
 			<template v-slot:empty-select>
 				<OptionGroup>
+					<OptionUpload :title="$t('actions.upload')" />
+				</OptionGroup>
+				<OptionGroup>
 					<Option @click.native="$createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
 				</OptionGroup>
 			</template>

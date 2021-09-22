@@ -100,15 +100,30 @@
 			</template>
 
 			<template v-slot:empty-file-page>
-				<h1 class="title">
-					{{ $t('empty_page.title') }}
-				</h1>
-                <p class="description">
-					{{ $t('empty_page.description') }}
-				</p>
-                <ButtonUpload button-style="theme">
-                    {{ $t('empty_page.call_to_action') }}
-                </ButtonUpload>
+
+				<template v-if="isTeamFolderHomepage">
+					<h1 class="title">
+						{{ $t('Create your Team Folder') }}
+					</h1>
+					<p class="description">
+						{{ $t('Share your files with your team easily by creating new team folder.') }}
+					</p>
+					<ButtonBase @click.native="$createTeamFolder" button-style="theme" class="m-center">
+						{{ $t('Create Team Folder') }}
+					</ButtonBase>
+				</template>
+
+				<template v-if="! isTeamFolderHomepage">
+					<h1 class="title">
+						{{ $t('empty_page.title') }}
+					</h1>
+					<p class="description">
+						{{ $t('empty_page.description') }}
+					</p>
+					<ButtonUpload button-style="theme">
+						{{ $t('empty_page.call_to_action') }}
+					</ButtonUpload>
+				</template>
 			</template>
 		</FileBrowser>
 	</div>
@@ -126,6 +141,7 @@
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
 	import {events} from "../../bus";
@@ -146,6 +162,7 @@
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,
+			ButtonBase,
 			Option,
 		},
 		computed: {

@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Folders\Resources;
 
+use Carbon\Carbon;
 use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Domain\Teams\Resources\TeamMembersCollection;
@@ -24,7 +25,7 @@ class FolderResource extends JsonResource
                     'items'         => $this->items,
                     'trashed_items' => $this->trashed_items,
                     'updated_at'    => $this->updated_at,
-                    'created_at'    => $this->created_at,
+                    'created_at'    => Carbon::parse($this->created_at)->diffForHumans(),
                     /*'updated_at'    => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')
                     ),

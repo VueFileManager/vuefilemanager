@@ -57,6 +57,18 @@
 					{{ $t('preview_sorting.preview_sorting_button') }}
 				</MobileActionButton>
 			</template>
+
+			<template v-slot:empty-file-page>
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+                <p class="description">
+					{{ $t('empty_page.description') }}
+				</p>
+                <ButtonUpload button-style="theme">
+                    {{ $t('empty_page.call_to_action') }}
+                </ButtonUpload>
+			</template>
 		</FileBrowser>
 
 		<MobileMultiSelectToolbar>
@@ -72,6 +84,7 @@
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
 	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+	import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
 	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
 	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
 	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
@@ -87,6 +100,7 @@
 			MobileActionButton,
 			MobileContextMenu,
 			ToolbarButton,
+			ButtonUpload,
 			OptionGroup,
 			FileBrowser,
 			ContextMenu,

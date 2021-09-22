@@ -5,17 +5,29 @@
             :emoji="emoji"
             class="emoji-icon"
         />
-        <FontAwesomeIcon
+		<VueFolderIcon
+			v-if="!emoji && !item.data.attributes.isTeamFolder"
+			:class="[{'is-deleted':isDeleted},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
+			:style="{fill: color}"
+		/>
+		<VueFolderTeamIcon
+			v-if="!emoji && item.data.attributes.isTeamFolder"
+			:class="[{'is-deleted':isDeleted},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
+			:style="{fill: color}"
+		/>
+<!--        <FontAwesomeIcon
             v-if="!emoji"
             :class="[{'is-deleted':isDeleted},{'is-team':item.data.attributes.isTeamFolder},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
             :style="{fill: color}"
             icon="folder"
-        />
+        />-->
     </div>
 </template>
 
 <script>
     import Emoji from '/resources/js/components/Others/Emoji'
+	import VueFolderIcon from "./Icons/VueFolderIcon"
+	import VueFolderTeamIcon from "./Icons/VueFolderTeamIcon"
 
     export default {
         name: 'FolderIcon',
@@ -25,7 +37,9 @@
             'item',
         ],
         components: {
-            Emoji
+			VueFolderTeamIcon,
+			VueFolderIcon,
+            Emoji,
         },
         computed: {
             isDeleted() {

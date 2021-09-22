@@ -41,6 +41,9 @@
 		<ContextMenu>
 			<template v-slot:empty-select v-if="$checkPermission('editor')">
 				<OptionGroup>
+					<OptionUpload :title="$t('actions.upload')" />
+				</OptionGroup>
+				<OptionGroup>
 					<Option @click.native="$createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
 				</OptionGroup>
 			</template>

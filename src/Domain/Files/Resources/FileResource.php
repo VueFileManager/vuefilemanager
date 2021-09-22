@@ -2,6 +2,7 @@
 namespace Domain\Files\Resources;
 
 use ByteUnits\Metric;
+use Carbon\Carbon;
 use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,7 +34,7 @@ class FileResource extends JsonResource
                     'metadata'   => $this->metadata,
                     'folder_id'  => $this->folder_id,
                     'updated_at' => $this->updated_at,
-                    'created_at' => $this->created_at,
+                    'created_at'    => Carbon::parse($this->created_at)->diffForHumans(),
                     'deleted_at' => $this->deleted_at,
                     /*'updated_at' => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')

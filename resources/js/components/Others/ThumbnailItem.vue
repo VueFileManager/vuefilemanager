@@ -125,7 +125,7 @@
                 height: 36px;
 
                 /deep/ .folder-icon {
-                    @include font-size(36);
+					transform: scale(0.8) translate(-10px, -11px);
                 }
             }
 
