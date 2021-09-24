@@ -212,6 +212,7 @@ const FunctionHelpers = {
                     'Public': this.$t('Files'),
                     'Files': this.$t('Files'),
                     'TeamFolders': this.$t('Team Folders'),
+                    'SharedWithMe': this.$t('Shared With Me'),
                 }[this.$route.name]
             }
         }
@@ -221,6 +222,7 @@ const FunctionHelpers = {
             let locations = {
                 'Public': {name: 'Public', params: {token: this.$route.params.token, id: id}},
                 'TeamFolders': {name: 'TeamFolders', params: {id: id}},
+                'SharedWithMe': {name: 'SharedWithMe', params: {id: id}},
                 'MySharedItems': {name: 'Files', params: {id: id}},
                 'Trash': {name: 'Trash', params: {id: id}},
                 'Files': {name: 'Files', params: {id: id}},

@@ -1,6 +1,10 @@
 <?php
+
 namespace Domain\Teams\Controllers;
 
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
+use Domain\Folders\Resources\FolderResource;
 use Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
@@ -11,43 +15,35 @@ class BrowseSharedWithMeController
 {
     public function __invoke($id): array
     {
-        $rootId = Str::isUuid($id) ? $id : null;
-        $requestedFolder = Str::isUuid($id) ? Folder::findOrFail($rootId) : null;
+        $id = Str::isUuid($id) ? $id : null;
 
-        $relations = [
-            'parent:id,name',
-            'shared:token,id,item_id,permission,is_protected,expire_in',
-        ];
-
-        if ($rootId) {
-            $folders = Folder::with($relations)
-                ->where('id', $id)
+        if ($id) {
+            $folders = Folder::with(['parent:id,name'])
+                ->where('parent_id', $id)
                 ->sortable()
                 ->get();
 
-            $files = File::with($relations)
+            $files = File::with(['parent:id,name'])
                 ->where('parent_id', $id)
                 ->sortable()
                 ->get();
         }
 
-        if (! $rootId) {
-            $folderIds = DB::table('team_folder_members')
+        if (!$id) {
+            $sharedFolderIds = DB::table('team_folder_members')
                 ->where('user_id', Auth::id())
                 ->pluck('parent_id');
 
-            $folders = Folder::with($relations)
-                ->whereIn('id', $folderIds)
+            $folders = Folder::whereIn('id', $sharedFolderIds)
                 ->sortable()
                 ->get();
-
-            $files = [];
         }
 
-        // Collect folders and files to single array
         return [
-            'content' => collect([$folders, $files])->collapse(),
-            'folder'  => $requestedFolder,
+            'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
+            'folders'    => new FolderCollection($folders),
+            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
+            'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
         ];
     }
 }

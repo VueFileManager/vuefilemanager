@@ -54,7 +54,7 @@ const routesFile = [
 				name: 'SharedWithMe',
 				path: '/platform/shared-with-me/:id?',
 				component: () =>
-					import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/Trash'),
+					import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/SharedWithMe'),
 				meta: {
 					requiresAuth: true
 				},

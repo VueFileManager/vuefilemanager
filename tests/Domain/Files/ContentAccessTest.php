@@ -117,10 +117,9 @@ class ContentAccessTest extends TestCase
                 'name'      => 'fake-thumbnail.jpg',
             ]);
 
-        Sanctum::actingAs($users[1]);
-
-        $this->get("thumbnail/$thumbnail->name")
-            ->assertNotFound();
+        $this->actingAs($users[1])
+            ->get("thumbnail/$thumbnail->name")
+            ->assertForbidden();
     }
 
     /**
@@ -144,10 +143,9 @@ class ContentAccessTest extends TestCase
                 'name'     => 'fake-file.pdf',
             ]);
 
-        Sanctum::actingAs($users[1]);
-
-        $this->get("file/$file->name")
-            ->assertStatus(404);
+        $this->actingAs($users[1])
+            ->get("file/$file->name")
+            ->assertForbidden();
     }
 
     /**

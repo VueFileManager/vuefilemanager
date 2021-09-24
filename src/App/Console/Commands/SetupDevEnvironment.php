@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -34,10 +35,11 @@ class SetupDevEnvironment extends Command
 
     public function __construct(
         private CreateDiskDirectoriesAction $createDiskDirectories,
-        private SeedDefaultSettingsAction $seedDefaultSettings,
-        private SeedDefaultLanguageAction $seedDefaultLanguage,
-        private SeedDefaultPagesAction $seedDefaultPages,
-    ) {
+        private SeedDefaultSettingsAction   $seedDefaultSettings,
+        private SeedDefaultLanguageAction   $seedDefaultLanguage,
+        private SeedDefaultPagesAction      $seedDefaultPages,
+    )
+    {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -71,6 +73,7 @@ class SetupDevEnvironment extends Command
         $this->info('Creating default demo content...');
         $this->create_admin_default_content();
         $this->create_team_folders_content();
+        $this->create_share_with_me_team_folders_content();
         $this->create_share_records();
 
         $this->info('Clearing application cache...');
@@ -125,26 +128,32 @@ class SetupDevEnvironment extends Command
         collect([
             [
                 'avatar' => 'avatar-02.png',
+                'email'  => 'alice@vuefilemanager.com',
             ],
             [
                 'avatar' => 'avatar-03.png',
+                'email'  => $this->faker->email,
             ],
             [
                 'avatar' => 'avatar-04.png',
+                'email'  => $this->faker->email,
             ],
             [
                 'avatar' => 'avatar-05.png',
+                'email'  => $this->faker->email,
             ],
             [
                 'avatar' => 'avatar-06.png',
+                'email'  => $this->faker->email,
             ],
             [
                 'avatar' => 'avatar-07.png',
+                'email'  => $this->faker->email,
             ],
         ])->each(function ($user) {
             $newbie = User::forceCreate([
                 'role'              => 'user',
-                'email'             => $this->faker->email,
+                'email'             => $user['email'],
                 'password'          => bcrypt('vuefilemanager'),
                 'email_verified_at' => now(),
             ]);
@@ -756,7 +765,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
@@ -766,7 +775,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
@@ -777,7 +786,7 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn ($user) => TeamFolderInvitation::factory()
+                fn($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
@@ -785,6 +794,96 @@ class SetupDevEnvironment extends Command
                         'permission' => 'can-edit',
                     ])
             );
+    }
+
+    public function create_share_with_me_team_folders_content(): void
+    {
+        $member = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $owner = User::whereEmail('alice@vuefilemanager.com')
+            ->first();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $owner->id,
+                'team_folder' => true,
+                'name'        => "Alice's Project Files",
+            ]);
+
+        $memes = Folder::factory()
+            ->create([
+                'user_id'   => $owner->id,
+                'parent_id' => $folder->id,
+                'name'      => '9 Gag',
+            ]);
+
+        $hug = Folder::factory()
+            ->create([
+                'user_id'   => $owner->id,
+                'parent_id' => $folder->id,
+                'name'      => 'Digital Hug',
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                'parent_id'  => $folder->id,
+                'user_id'    => $member->id,
+                'permission' => 'can-edit',
+            ]);
+
+        // Get meme gallery
+        collect([
+            'Sofishticated.jpg',
+            'whaaaaat.jpg',
+            'You Are My Sunshine.jpg',
+        ])
+            ->each(function ($file) use ($owner, $memes) {
+                $basename = Str::random(12) . '-' . $file;
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/$file"), $basename, 'private');
+                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $memes->id,
+                    'user_id'    => $owner->id,
+                    'name'       => $file,
+                    'basename'   => $basename,
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'thumbnail'  => "thumbnail-$basename",
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+        collect([
+            'Eggcited bro.jpg',
+            'Get a Rest.jpg',
+        ])
+            ->each(function ($file) use ($owner, $hug) {
+                $basename = Str::random(12) . '-' . $file;
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/$file"), $basename, 'private');
+                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $hug->id,
+                    'user_id'    => $owner->id,
+                    'name'       => $file,
+                    'basename'   => $basename,
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'thumbnail'  => "thumbnail-$basename",
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
     }
 
     private function create_share_records(): void
