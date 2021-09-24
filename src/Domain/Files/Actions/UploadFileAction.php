@@ -86,7 +86,7 @@ class UploadFileAction
             return UserFile::create([
                 'mimetype'  => get_file_type_from_mimetype($file_mimetype),
                 'type'      => get_file_type($file_mimetype),
-                'folder_id' => $request->input('folder_id'),
+                'parent_id' => $request->input('parent_id'),
                 'metadata'  => $metadata,
                 'name'      => $request->input('filename'),
                 'basename'  => $disk_file_name,

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @method static create(array $array)
  * @property string id
- * @property string folder_id
+ * @property string parent_id
  * @property string email
  * @property string status
  * @property string created_at

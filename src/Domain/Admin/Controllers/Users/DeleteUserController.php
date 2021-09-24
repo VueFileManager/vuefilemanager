@@ -19,7 +19,7 @@ class DeleteUserController extends Controller
         DeleteUserDataAction $deleteUserData,
     ): Response {
         if (is_demo()) {
-            return response('Done!', 204);
+            return response('Done.', 204);
         }
 
         if ($user->subscribed('main')) {
@@ -39,6 +39,6 @@ class DeleteUserController extends Controller
         // Delete all user data
         ($deleteUserData)($user);
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

@@ -39,7 +39,7 @@ class VisitorBrowseFolderController
             ->get();
 
         $files = File::where('user_id', $shared->user_id)
-            ->where('folder_id', $id)
+            ->where('parent_id', $id)
             ->sortable()
             ->get();
 

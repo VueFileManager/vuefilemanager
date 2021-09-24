@@ -185,7 +185,7 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if ((! getters.currentFolder && !response.data.data.attributes.folder_id) || response.data.data.attributes.folder_id === getters.currentFolder.data.id) {
+                        if ((! getters.currentFolder && !response.data.data.attributes.parent_id) || response.data.data.attributes.parent_id === getters.currentFolder.data.id) {
 
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)

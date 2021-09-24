@@ -37,7 +37,7 @@ class UpdateInvitationsAction
         // Delete invite from team folder
         if ($removed->isNotEmpty()) {
             DB::table('team_folder_invitations')
-                ->where('folder_id', $folder->id)
+                ->where('parent_id', $folder->id)
                 ->whereIn('email', $removed)
                 ->delete();
         }
@@ -47,7 +47,7 @@ class UpdateInvitationsAction
             ->each(
                 fn ($invitation) =>
                 DB::table('team_folder_invitations')
-                    ->where('folder_id', $folder->id)
+                    ->where('parent_id', $folder->id)
                     ->where('email', $invitation['email'])
                     ->update([
                         'permission' => $invitation['permission'],

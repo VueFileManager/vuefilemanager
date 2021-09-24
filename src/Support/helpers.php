@@ -251,14 +251,11 @@ if (! function_exists('is_demo')) {
 
 if (! function_exists('is_demo_account')) {
     /**
-     * Check if is demo
-     *
-     * @param $email
-     * @return mixed
+     * Check if is demo environment
      */
-    function is_demo_account($email)
+    function is_demo_account(): bool
     {
-        return config('vuefilemanager.is_demo') && $email === 'howdy@hi5ve.digital';
+        return config('vuefilemanager.is_demo') && auth()->user()->email === 'howdy@hi5ve.digital';
     }
 }
 
@@ -559,9 +556,9 @@ if (! function_exists('filter_folders_ids')) {
      */
     function filter_folders_ids($folders, $by_column = 'id')
     {
-        $folder_ids = recursiveFind($folders->toArray(), $by_column);
+        $parent_ids = recursiveFind($folders->toArray(), $by_column);
 
-        return appeared_once($folder_ids);
+        return appeared_once($parent_ids);
     }
 }
 

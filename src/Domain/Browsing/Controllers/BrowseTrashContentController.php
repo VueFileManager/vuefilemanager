@@ -25,7 +25,7 @@ class BrowseTrashContentController
 
             $files = File::onlyTrashed()
                 ->with('parent')
-                ->where('folder_id', $root_id)
+                ->where('parent_id', $root_id)
                 ->sortable()
                 ->get();
 
@@ -55,8 +55,8 @@ class BrowseTrashContentController
             ->with(['parent'])
             ->where('user_id', $user_id)
             ->where(function ($query) use ($folders_trashed) {
-                $query->whereNull('folder_id');
-                $query->orWhereNotIn('folder_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))));
+                $query->whereNull('parent_id');
+                $query->orWhereNotIn('parent_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))));
             })
             ->sortable()
             ->get();

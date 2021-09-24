@@ -92,7 +92,7 @@ class PersonalAccessTokenTest extends TestCase
         $file = File::factory(File::class)
             ->create([
                 'user_id'   => $user->id,
-                'folder_id' => $folder->id,
+                'parent_id' => $folder->id,
             ]);
 
         $token = $user->createToken('token')->plainTextToken;

@@ -24,10 +24,11 @@
         <DragUI />
         <Alert />
 
-		<NavigationSharePanel v-if="sharedDetail"/>
+		<NavigationSharePanel v-if="sharedDetail && $router.currentRoute.name === 'Public'"/>
 
 		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view">
 			<DesktopToolbar/>
+        	<!--TODO: fix desktopbar on authentication screen-->
 			<router-view :key="$route.fullPath" />
 		</div>
     </div>
@@ -101,7 +102,7 @@
 
 					let type = response.data.data.attributes.type
 					let routeName = this.$router.currentRoute.name
-					let isProtected = response.data.data.attributes.is_protected
+					let isProtected = response.data.data.attributes.protected
 
                     // Show public file browser
                     if (type === 'folder' && !isProtected && routeName !== 'Public') {

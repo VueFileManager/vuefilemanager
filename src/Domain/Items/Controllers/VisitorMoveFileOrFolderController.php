@@ -17,7 +17,6 @@ class VisitorMoveFileOrFolderController extends Controller
 {
     public function __construct(
         private MoveFileOrFolderAction $moveFileOrFolder,
-        private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
@@ -26,14 +25,9 @@ class VisitorMoveFileOrFolderController extends Controller
         MoveItemRequest $request,
         Share $shared,
     ): Response {
-        abort_if(
-            is_demo_account($shared->user->email),
-            204,
-            'Done.'
-        );
-
-        // Check ability to access protected share record
-        ($this->protectShareRecord)($shared);
+        if (is_demo_account()) {
+            abort(204, 'Done.');
+        }
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -53,13 +47,13 @@ class VisitorMoveFileOrFolderController extends Controller
                     ->firstOrFail();
 
                 ($this->verifyAccessToItem)([
-                    $request->input('to_id'), $file->folder_id,
+                    $request->input('to_id'), $file->parent_id,
                 ], $shared);
             }
         }
 
-        ($this->moveFileOrFolder)($request, $request->to_id);
+        ($this->moveFileOrFolder)($request, $shared);
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

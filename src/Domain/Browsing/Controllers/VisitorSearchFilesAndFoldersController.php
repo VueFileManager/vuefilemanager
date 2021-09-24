@@ -47,21 +47,21 @@ class VisitorSearchFilesAndFoldersController extends Controller
             ->get();
 
         // Get accessible folders
-        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+        $accessible_parent_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Filter files
-        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids, $shared) {
+        $files = $searched_files->filter(function ($file) use ($accessible_parent_ids, $shared) {
             // Set public urls
             $file->setPublicUrl($shared->token);
 
             // check if item is in accessible folders
-            return in_array($file->folder_id, $accessible_folder_ids);
+            return in_array($file->parent_id, $accessible_parent_ids);
         });
 
         // Filter folders
-        $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
+        $folders = $searched_folders->filter(function ($folder) use ($accessible_parent_ids) {
             // check if item is in accessible folders
-            return in_array($folder->id, $accessible_folder_ids);
+            return in_array($folder->id, $accessible_parent_ids);
         });
 
         // Collect folders and files to single array

@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Models;
 
-use ByteUnits\Metric;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Domain\Sharing\Models\Share;
@@ -23,7 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static where(string $string, string $user_id)
  * @property string id
  * @property string user_id
- * @property string folder_id
+ * @property string parent_id
  * @property string thumbnail
  * @property string filesize
  * @property string type
@@ -148,7 +147,16 @@ class File extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Folder::class, 'folder_id', 'id');
+        return $this->belongsTo(Folder::class, 'parent_id', 'id');
+    }
+
+    public function getLatestParent()
+    {
+        if ($this->parent) {
+            return $this->parent->getLatestParent();
+        }
+
+        return $this;
     }
 
     public function shared(): HasOne
@@ -159,7 +167,8 @@ class File extends Model
     public function toSearchableArray(): array
     {
         $name = mb_convert_encoding(
-            mb_strtolower($this->name, 'UTF-8'), 'UTF-8'
+            mb_strtolower($this->name, 'UTF-8'),
+            'UTF-8'
         );
 
         $trigram = (new TNTIndexer)

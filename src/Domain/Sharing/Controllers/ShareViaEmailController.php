@@ -22,6 +22,6 @@ class ShareViaEmailController extends Controller
             token: $token,
         );
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

@@ -93,6 +93,6 @@ class PlansController extends Controller
         // Clear cached plans
         cache_forget_many(['plans', 'pricing']);
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

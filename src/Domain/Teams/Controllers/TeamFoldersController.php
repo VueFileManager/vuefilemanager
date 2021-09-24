@@ -54,7 +54,7 @@ class TeamFoldersController extends Controller
                 : $requestedFolder;
 
             // Get files
-            $files = File::where('folder_id', $rootId)
+            $files = File::where('parent_id', $rootId)
                 ->where('user_id', Auth::id())
                 ->sortable()
                 ->get();
@@ -109,12 +109,12 @@ class TeamFoldersController extends Controller
     {
         // Delete existing invitations
         DB::table('team_folder_invitations')
-            ->where('folder_id', $folder->id)
+            ->where('parent_id', $folder->id)
             ->delete();
 
         // Delete attached members from folder
         DB::table('team_folder_members')
-            ->where('folder_id', $folder->id)
+            ->where('parent_id', $folder->id)
             ->delete();
 
         $folder->update([

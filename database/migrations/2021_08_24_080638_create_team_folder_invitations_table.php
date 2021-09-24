@@ -15,7 +15,7 @@ class CreateTeamFolderInvitationsTable extends Migration
     {
         Schema::create('team_folder_invitations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('folder_id');
+            $table->uuid('parent_id');
             $table->text('email');
             $table->string('color')->nullable();
             $table->enum('permission', ['can-edit', 'can-view', 'can-view-and-download']);

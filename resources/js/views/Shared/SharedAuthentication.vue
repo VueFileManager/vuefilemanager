@@ -65,9 +65,9 @@
                     .then(response => {
 
                         // Show file browser
-                        if (response.data.data.attributes.type === 'folder' && this.$router.currentRoute.name !== 'SharedFileBrowser') {
-                            this.$router.push({name: 'SharedFileBrowser'})
-                        }
+                        if (response.data.data.attributes.type === 'folder' && this.$router.currentRoute.name !== 'Public') {
+							this.$router.replace({name: 'Public', params: {token: this.$route.params.token, id: response.data.data.attributes.item_id}})
+						}
 
                         // Show single file
                         if (response.data.data.attributes.type !== 'folder' && this.$router.currentRoute.name !== 'SharedSingleFile') {

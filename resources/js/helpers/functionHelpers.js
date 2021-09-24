@@ -90,7 +90,7 @@ const FunctionHelpers = {
             // Push items to file queue
             [...files].map(item => {
                 this.$store.commit('ADD_FILES_TO_QUEUE', {
-                    folder_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
+                    parent_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
                     file: item,
                 })
             });
@@ -111,7 +111,7 @@ const FunctionHelpers = {
             // Push items to file queue
             [...event.dataTransfer.items].map(item => {
                 this.$store.commit('ADD_FILES_TO_QUEUE', {
-                    folder_id: parent_id ? parent_id : '',
+                    parent_id: parent_id ? parent_id : '',
                     file: item.getAsFile(),
                 })
             });
@@ -160,7 +160,7 @@ const FunctionHelpers = {
                 // Set form data
                 formData.set('filename', item.file.name);
                 formData.set('file', chunk, source_name);
-                formData.set('folder_id', item.folder_id)
+                formData.set('parent_id', item.parent_id)
                 formData.set('is_last', isLast);
 
                 // Upload chunks

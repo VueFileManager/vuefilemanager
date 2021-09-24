@@ -84,6 +84,6 @@ class ShareController extends Controller
                 ->delete();
         }
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

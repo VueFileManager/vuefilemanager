@@ -8,7 +8,6 @@ use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
 use Support\Demo\Actions\FakeRenameFileOrFolderAction;
@@ -20,7 +19,6 @@ class VisitorRenameFileOrFolderController extends Controller
 {
     public function __construct(
         private RenameFileOrFolderAction $renameFileOrFolder,
-        private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
         private UpdateFolderPropertyAction $updateFolderProperty,
         private FakeRenameFileOrFolderAction $fakeRenameFileOrFolder,
@@ -33,12 +31,9 @@ class VisitorRenameFileOrFolderController extends Controller
         Share $shared,
     ): Response | array {
         // Return fake renamed item in demo
-        if (is_demo_account($shared->user->email)) {
+        if (is_demo_account()) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }
-
-        // Check ability to access protected share record
-        ($this->protectShareRecord)($shared);
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -52,7 +47,7 @@ class VisitorRenameFileOrFolderController extends Controller
         if ($request->input('type') === 'folder') {
             ($this->verifyAccessToItem)($item->id, $shared);
         } else {
-            ($this->verifyAccessToItem)($item->folder_id, $shared);
+            ($this->verifyAccessToItem)($item->parent_id, $shared);
         }
 
         // If request have a change folder icon values set the folder icon
@@ -61,7 +56,7 @@ class VisitorRenameFileOrFolderController extends Controller
         }
 
         // Rename item
-        $item = ($this->renameFileOrFolder)($request, $id);
+        $item = ($this->renameFileOrFolder)($request, $id, $shared);
 
         // Set public url
         if ($request->input('type') !== 'folder') {

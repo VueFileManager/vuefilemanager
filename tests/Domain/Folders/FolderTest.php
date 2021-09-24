@@ -53,11 +53,13 @@ class FolderTest extends TestCase
      */
     public function it_rename_folder()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -80,11 +82,13 @@ class FolderTest extends TestCase
      */
     public function it_set_folder_emoji()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $emoji_fragment = [
             'category' => 'Smileys & Emotion (face-smiling)',
@@ -116,11 +120,13 @@ class FolderTest extends TestCase
      */
     public function it_set_folder_color()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -147,14 +153,18 @@ class FolderTest extends TestCase
      */
     public function it_move_folder_to_another_folder()
     {
-        $root = Folder::factory(Folder::class)
-            ->create();
-
-        $children = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $children = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -183,10 +193,14 @@ class FolderTest extends TestCase
             ->create();
 
         $folder_1 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $folder_2 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $user->favouriteFolders()->attach($folder_1->id);
         $user->favouriteFolders()->attach($folder_2->id);
@@ -215,7 +229,7 @@ class FolderTest extends TestCase
                 ]);
 
                 $this->assertDatabaseMissing('favourite_folder', [
-                    'folder_id' => $folder->id,
+                    'parent_id' => $folder->id,
                 ]);
             });
     }
@@ -229,10 +243,14 @@ class FolderTest extends TestCase
             ->create();
 
         $folder_1 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $folder_2 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -281,13 +299,13 @@ class FolderTest extends TestCase
 
         $file_1 = File::factory(File::class)
             ->create([
-                'folder_id' => $folder_root->id,
+                'parent_id' => $folder_root->id,
                 'user_id'   => $user->id,
             ]);
 
         $file_2 = File::factory(File::class)
             ->create([
-                'folder_id' => $folder_children->id,
+                'parent_id' => $folder_children->id,
                 'user_id'   => $user->id,
             ]);
 
@@ -347,7 +365,7 @@ class FolderTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => $folder->id,
+                    'parent_id' => $folder->id,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

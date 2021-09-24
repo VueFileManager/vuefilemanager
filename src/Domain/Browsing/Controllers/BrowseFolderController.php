@@ -26,7 +26,7 @@ class BrowseFolderController
             ->get();
 
         $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('folder_id', $root_id)
+            ->where('parent_id', $root_id)
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();

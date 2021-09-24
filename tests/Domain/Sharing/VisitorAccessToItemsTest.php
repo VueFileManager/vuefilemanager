@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Sharing;
 
 use Storage;
@@ -53,7 +54,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (! $is_protected) {
+                if (!$is_protected) {
                     // Get shared file
                     $this->get("/file/$document->name/$share->token")
                         ->assertStatus(200);
@@ -66,10 +67,21 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_try_to_get_protected_file_record()
     {
+        $user = User::factory(User::class)
+            ->create();
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id'   => $user->id,
+                'name'      => 'fake-thumbnail.jpg',
+            ]);
+
         $share = Share::factory(Share::class)
             ->create([
                 'type'         => 'file',
                 'is_protected' => true,
+                'user_id'      => $user->id,
+                'item_id'      => $file->id,
             ]);
 
         // Get share record
@@ -123,7 +135,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->get("/share/$share->token")
                         ->assertStatus(200);
                 }
@@ -174,7 +186,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->get("/thumbnail/$thumbnail->name/$share->token")
                         ->assertStatus(200);
                 }

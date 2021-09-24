@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Folders\Controllers;
 
 use Domain\Folders\Models\Folder;

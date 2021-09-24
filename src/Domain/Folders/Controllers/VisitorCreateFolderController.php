@@ -27,7 +27,7 @@ class VisitorCreateFolderController extends Controller
         CreateFolderRequest $request,
         Share $shared,
     ): Response | array {
-        if (is_demo_account($shared->user->email)) {
+        if (is_demo_account()) {
             return ($this->fakeCreateFolderAction)($request);
         }
 

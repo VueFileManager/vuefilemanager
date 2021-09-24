@@ -16,7 +16,7 @@ class CreateFileManagerFiles extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
             $table->uuid('user_id')->index();
-            $table->uuid('folder_id')->nullable();
+            $table->uuid('parent_id')->nullable();
 
             $table->text('thumbnail')->nullable();
             $table->text('name');

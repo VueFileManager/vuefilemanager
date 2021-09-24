@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Folders\Controllers;
 
-use Auth;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Domain\Folders\Resources\FolderResource;
@@ -22,13 +21,13 @@ class CreateFolderController extends Controller
      */
     public function __invoke(
         CreateFolderRequest $request,
-    ): Response | array {
-        // If is demo, return fake folder
-        if (is_demo_account(Auth::user()->email)) {
-            return ($this->fakeCreateFolder)($request);
+    ): Response {
+        if (is_demo_account()) {
+            $fakeFolder = ($this->fakeCreateFolder)($request);
+
+            return response(new FolderResource($fakeFolder), 201);
         }
 
-        // CreateFolder
         $folder = ($this->createFolder)($request);
 
         return response(new FolderResource($folder), 201);

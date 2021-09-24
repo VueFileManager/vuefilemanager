@@ -41,7 +41,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $file->name,
                 'file'      => $file,
-                'folder_id' => null,
+                'parent_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -76,7 +76,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $file->name,
                 'file'      => $file,
-                'folder_id' => null,
+                'parent_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -122,7 +122,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'filename'  => $file->name,
                 'file'      => $file,
-                'folder_id' => null,
+                'parent_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(423);
 
@@ -151,7 +151,7 @@ class FileTest extends TestCase
             ->actingAs($user)
             ->postJson('/api/upload', [
                 'file'      => $file,
-                'folder_id' => null,
+                'parent_id' => null,
                 'is_last'   => 'true',
             ])->assertStatus(422);
 
@@ -164,11 +164,13 @@ class FileTest extends TestCase
      */
     public function it_rename_file()
     {
-        $file = File::factory(File::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -191,14 +193,18 @@ class FileTest extends TestCase
      */
     public function it_move_file_to_another_folder()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
-        $file = File::factory(File::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $file = File::factory(File::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -214,7 +220,7 @@ class FileTest extends TestCase
 
         $this->assertDatabaseHas('files', [
             'id'        => $file->id,
-            'folder_id' => $folder->id,
+            'parent_id' => $folder->id,
         ]);
     }
 
@@ -228,7 +234,9 @@ class FileTest extends TestCase
 
         $files = File::factory(File::class)
             ->count(2)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -273,7 +281,7 @@ class FileTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => null,
+                    'parent_id' => null,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

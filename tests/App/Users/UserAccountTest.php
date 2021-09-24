@@ -33,7 +33,7 @@ class UserAccountTest extends TestCase
             ->assertExists('files/' . User::first()->id);
     }
     /**
-     * @test
+     * todo: finish test
      */
     public function it_test_user_timezone()
     {

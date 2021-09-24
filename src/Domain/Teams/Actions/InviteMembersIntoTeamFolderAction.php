@@ -2,10 +2,10 @@
 namespace Domain\Teams\Actions;
 
 use Domain\Folders\Models\Folder;
+use Spatie\QueueableAction\QueueableAction;
 use Illuminate\Support\Facades\Notification;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
-use Spatie\QueueableAction\QueueableAction;
 
 class InviteMembersIntoTeamFolderAction
 {
@@ -21,7 +21,7 @@ class InviteMembersIntoTeamFolderAction
                 $invitation = TeamFolderInvitation::create([
                     'permission' => $member['permission'],
                     'email'      => $member['email'],
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                 ]);
 
                 // Invite user

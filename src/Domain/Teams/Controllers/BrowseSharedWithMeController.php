@@ -26,7 +26,7 @@ class BrowseSharedWithMeController
                 ->get();
 
             $files = File::with($relations)
-                ->where('folder_id', $id)
+                ->where('parent_id', $id)
                 ->sortable()
                 ->get();
         }
@@ -34,7 +34,7 @@ class BrowseSharedWithMeController
         if (! $rootId) {
             $folderIds = DB::table('team_folder_members')
                 ->where('user_id', Auth::id())
-                ->pluck('folder_id');
+                ->pluck('parent_id');
 
             $folders = Folder::with($relations)
                 ->whereIn('id', $folderIds)

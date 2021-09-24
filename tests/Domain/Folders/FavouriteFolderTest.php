@@ -28,7 +28,7 @@ class FavouriteFolderTest extends TestCase
 
         $this->assertDatabaseHas('favourite_folder', [
             'user_id'   => $user->id,
-            'folder_id' => $folder->id,
+            'parent_id' => $folder->id,
         ]);
     }
 
@@ -54,7 +54,7 @@ class FavouriteFolderTest extends TestCase
 
         $this->assertDatabaseMissing('favourite_folder', [
             'user_id'   => $user->id,
-            'folder_id' => $folder->id,
+            'parent_id' => $folder->id,
         ]);
     }
 }

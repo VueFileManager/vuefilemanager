@@ -15,7 +15,7 @@ class BrowseSharedItemsController
         $user_id = Auth::id();
 
         // Get shared folders and files
-        $folder_ids = Share::where('user_id', $user_id)
+        $parent_ids = Share::where('user_id', $user_id)
             ->where('type', 'folder')
             ->pluck('item_id');
 
@@ -26,7 +26,7 @@ class BrowseSharedItemsController
         // Get folders and files
         $folders = Folder::with(['parent', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where('user_id', $user_id)
-            ->whereIn('id', $folder_ids)
+            ->whereIn('id', $parent_ids)
             ->sortable()
             ->get();
 

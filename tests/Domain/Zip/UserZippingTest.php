@@ -33,7 +33,7 @@ class UserZippingTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => $folder->id,
+                    'parent_id' => $folder->id,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });
@@ -46,13 +46,13 @@ class UserZippingTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => null,
+                    'parent_id' => null,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });
 
         $files = File::all()
-            ->where('folder_id', null)
+            ->where('parent_id', null)
             ->pluck('id')
             ->toArray();
 
@@ -85,7 +85,7 @@ class UserZippingTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => $folder->id,
+                    'parent_id' => $folder->id,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

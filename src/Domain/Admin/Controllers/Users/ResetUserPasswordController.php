@@ -14,7 +14,7 @@ class ResetUserPasswordController extends Controller
     public function __invoke(User $user): Response
     {
         if (is_demo()) {
-            return response('Done!', 204);
+            return response('Done.', 204);
         }
 
         // Get password token
@@ -24,6 +24,6 @@ class ResetUserPasswordController extends Controller
         // Send user email
         $user->sendPasswordResetNotification($token);
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

@@ -15,7 +15,7 @@ class TeamsTest extends TestCase
     /**
      * @test
      */
-    public function it_find_team_folder_id_from_children()
+    public function it_find_team_parent_id_from_children()
     {
         $teamFolder = Folder::factory()
             ->create([
@@ -140,7 +140,7 @@ class TeamsTest extends TestCase
 
         $invitation = TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'email'      => $member->email,
                 'status'     => 'pending',
                 'permission' => 'can-edit',
@@ -153,11 +153,11 @@ class TeamsTest extends TestCase
 
         $this
             ->assertDatabaseHas('team_folder_invitations', [
-                'folder_id' => $folder->id,
+                'parent_id' => $folder->id,
                 'status'    => 'accepted',
             ])
             ->assertDatabaseHas('team_folder_members', [
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'user_id'    => $member->id,
                 'permission' => 'can-edit',
             ]);
@@ -178,7 +178,7 @@ class TeamsTest extends TestCase
 
         $invitation = TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'email'      => $member->email,
                 'status'     => 'pending',
                 'permission' => 'can-edit',
@@ -191,11 +191,11 @@ class TeamsTest extends TestCase
 
         $this
             ->assertDatabaseHas('team_folder_invitations', [
-                'folder_id' => $folder->id,
+                'parent_id' => $folder->id,
                 'status'    => 'rejected',
             ])
             ->assertDatabaseMissing('team_folder_members', [
-                'folder_id' => $folder->id,
+                'parent_id' => $folder->id,
                 'user_id'   => $member->id,
             ]);
     }
@@ -220,7 +220,7 @@ class TeamsTest extends TestCase
 
         TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'status'     => 'pending',
                 'permission' => 'can-edit',
                 'email'      => 'existing@member.com',
@@ -229,12 +229,12 @@ class TeamsTest extends TestCase
         DB::table('team_folder_members')
             ->insert([
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[0]->id,
                     'permission' => 'can-edit',
                 ],
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[1]->id,
                     'permission' => 'can-edit',
                 ],
@@ -299,7 +299,7 @@ class TeamsTest extends TestCase
 
         TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'status'     => 'pending',
                 'permission' => 'can-edit',
                 'email'      => 'deleted@member.com',
@@ -307,7 +307,7 @@ class TeamsTest extends TestCase
 
         TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'status'     => 'pending',
                 'permission' => 'can-edit',
                 'email'      => 'existing@member.com',
@@ -316,12 +316,12 @@ class TeamsTest extends TestCase
         DB::table('team_folder_members')
             ->insert([
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[0]->id,
                     'permission' => 'can-edit',
                 ],
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[1]->id,
                     'permission' => 'can-edit',
                 ],
@@ -379,12 +379,12 @@ class TeamsTest extends TestCase
         DB::table('team_folder_members')
             ->insert([
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[0]->id,
                     'permission' => 'can-edit',
                 ],
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[1]->id,
                     'permission' => 'can-edit',
                 ],
@@ -426,7 +426,7 @@ class TeamsTest extends TestCase
 
         TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'status'     => 'pending',
                 'permission' => 'can-view',
                 'email'      => 'existing@member.com',
@@ -478,12 +478,12 @@ class TeamsTest extends TestCase
         DB::table('team_folder_members')
             ->insert([
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[0]->id,
                     'permission' => 'can-edit',
                 ],
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[1]->id,
                     'permission' => 'can-edit',
                 ],
@@ -532,7 +532,7 @@ class TeamsTest extends TestCase
 
         TeamFolderInvitation::factory()
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'status'     => 'pending',
                 'permission' => 'can-edit',
             ]);
@@ -540,12 +540,12 @@ class TeamsTest extends TestCase
         DB::table('team_folder_members')
             ->insert([
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[0]->id,
                     'permission' => 'can-edit',
                 ],
                 [
-                    'folder_id'  => $folder->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $members[1]->id,
                     'permission' => 'can-edit',
                 ],
@@ -600,7 +600,7 @@ class TeamsTest extends TestCase
 
         $file = File::factory()
             ->create([
-                'folder_id' => $folder->id,
+                'parent_id' => $folder->id,
                 'user_id'   => $user->id,
             ]);
 
@@ -634,12 +634,12 @@ class TeamsTest extends TestCase
         DB::table('team_folder_members')
             ->insert([
                 [
-                    'folder_id'  => $folders[0]->id,
+                    'parent_id'  => $folders[0]->id,
                     'user_id'    => $member->id,
                     'permission' => 'can-edit',
                 ],
                 [
-                    'folder_id'  => $folders[1]->id,
+                    'parent_id'  => $folders[1]->id,
                     'user_id'    => $member->id,
                     'permission' => 'can-edit',
                 ],

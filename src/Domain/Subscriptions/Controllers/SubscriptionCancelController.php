@@ -17,7 +17,7 @@ class SubscriptionCancelController extends Controller
 
         // Check if is demo
         if (is_demo_account($user->email)) {
-            return response('Done!', 204);
+            return response('Done.', 204);
         }
 
         // Cancel subscription
@@ -26,6 +26,6 @@ class SubscriptionCancelController extends Controller
         // Forget user subscription
         Cache::forget("subscription-user-{$user->id}");
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

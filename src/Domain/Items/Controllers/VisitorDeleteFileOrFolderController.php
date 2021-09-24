@@ -16,7 +16,6 @@ class VisitorDeleteFileOrFolderController extends Controller
 {
     public function __construct(
         private DeleteFileOrFolderAction $deleteFileOrFolder,
-        private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
     ) {
     }
@@ -25,14 +24,9 @@ class VisitorDeleteFileOrFolderController extends Controller
         DeleteItemRequest $request,
         Share $shared,
     ): Response {
-        abort_if(
-            is_demo_account($shared->user->email),
-            204,
-            'Done.'
-        );
-
-        // Check ability to access protected share record
-        ($this->protectShareRecord)($shared);
+        if (is_demo_account()) {
+            abort(204, 'Done.');
+        }
 
         // Check shared permission
         if (is_visitor($shared)) {
@@ -47,7 +41,7 @@ class VisitorDeleteFileOrFolderController extends Controller
             if ($file['type'] === 'folder') {
                 ($this->verifyAccessToItem)($item->id, $shared);
             } else {
-                ($this->verifyAccessToItem)($item->folder_id, $shared);
+                ($this->verifyAccessToItem)($item->parent_id, $shared);
             }
 
             // Delete item

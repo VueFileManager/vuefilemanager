@@ -20,7 +20,7 @@ class UpdateMembersAction
         // Remove team members from team folder
         if ($deletedMembers->isNotEmpty()) {
             DB::table('team_folder_members')
-                ->where('folder_id', $folder->id)
+                ->where('parent_id', $folder->id)
                 ->whereIn('user_id', $deletedMembers->toArray())
                 ->delete();
         }
@@ -30,7 +30,7 @@ class UpdateMembersAction
             ->each(
                 fn ($member) =>
                 DB::table('team_folder_members')
-                    ->where('folder_id', $folder->id)
+                    ->where('parent_id', $folder->id)
                     ->where('user_id', $member['id'])
                     ->update([
                         'permission' => $member['permission'],

@@ -60,8 +60,9 @@ class BrowseTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 [
-                    'name'    => 'Files',
-                    'folders' => [
+                    'location'  => 'files',
+                    'name'      => 'Files',
+                    'folders'   => [
                         [
                             'id'            => $folder_level_1->id,
                             'parent_id'     => null,
@@ -108,10 +109,13 @@ class BrowseTest extends TestCase
                             ],
                         ],
                     ],
+                    'isMovable' => true,
                 ],
                 [
-                    'name'    => 'Team Folders',
-                    'folders' => [],
+                    'location'  => 'team-folders',
+                    'name'      => 'Team Folders',
+                    'folders'   => [],
+                    'isMovable' => false,
                 ],
             ]);
     }
@@ -140,7 +144,7 @@ class BrowseTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'folder_id' => $root->id,
+                'parent_id' => $root->id,
                 'name'      => 'Document',
                 'basename'  => 'document.pdf',
                 'mimetype'  => 'application/pdf',
@@ -180,7 +184,7 @@ class BrowseTest extends TestCase
 
         $file_1 = File::factory(File::class)
             ->create([
-                'folder_id'  => $root->id,
+                'parent_id'  => $root->id,
                 'name'       => 'Document 1',
                 'basename'   => 'document-1.pdf',
                 'mimetype'   => 'application/pdf',
@@ -194,7 +198,7 @@ class BrowseTest extends TestCase
 
         $file_2 = File::factory(File::class)
             ->create([
-                'folder_id'  => $root->id,
+                'parent_id'  => $root->id,
                 'name'       => 'Document 2',
                 'basename'   => 'document-2.pdf',
                 'mimetype'   => 'application/pdf',
@@ -235,7 +239,7 @@ class BrowseTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'folder_id'  => null,
+                'parent_id'  => null,
                 'name'       => 'Document',
                 'basename'   => 'document.pdf',
                 'mimetype'   => 'application/pdf',
@@ -247,7 +251,7 @@ class BrowseTest extends TestCase
 
         File::factory(File::class)
             ->create([
-                'folder_id'  => $folder->id,
+                'parent_id'  => $folder->id,
                 'user_id'    => $user->id,
                 'deleted_at' => now(),
             ]);

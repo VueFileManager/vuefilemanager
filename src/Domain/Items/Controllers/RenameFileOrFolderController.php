@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Auth;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
@@ -26,7 +25,7 @@ class RenameFileOrFolderController extends Controller
         RenameItemRequest $request,
         string $id,
     ): FileResource | FolderResource | array {
-        if (is_demo_account(Auth::user()->email)) {
+        if (is_demo_account()) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }
 
@@ -41,7 +40,6 @@ class RenameFileOrFolderController extends Controller
             return new FolderResource($item);
         }
 
-        // Return updated item
         return new FileResource($item);
     }
 }

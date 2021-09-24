@@ -129,7 +129,7 @@ class Folder extends Model
      */
     public function files(): HasMany
     {
-        return $this->hasMany(File::class, 'folder_id', 'id');
+        return $this->hasMany(File::class, 'parent_id', 'id');
     }
 
     /**
@@ -137,7 +137,7 @@ class Folder extends Model
      */
     public function trashedFiles(): HasMany
     {
-        return $this->hasMany(File::class, 'folder_id', 'id')
+        return $this->hasMany(File::class, 'parent_id', 'id')
             ->withTrashed();
     }
 
@@ -187,12 +187,12 @@ class Folder extends Model
 
     public function teamInvitations(): HasMany
     {
-        return $this->hasMany(TeamFolderInvitation::class, 'folder_id', 'id');
+        return $this->hasMany(TeamFolderInvitation::class, 'parent_id', 'id');
     }
 
     public function teamMembers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'team_folder_members', 'folder_id', 'user_id')
+        return $this->belongsToMany(User::class, 'team_folder_members', 'parent_id', 'user_id')
             ->withPivot('permission');
     }
 
@@ -206,10 +206,20 @@ class Folder extends Model
         return $this->parents()->with('teamRoot');
     }
 
+    public function getLatestParent()
+    {
+        if ($this->parent) {
+            return $this->parent->getLatestParent();
+        }
+
+        return $this;
+    }
+
     public function toSearchableArray(): array
     {
         $name = mb_convert_encoding(
-            mb_strtolower($this->name, 'UTF-8'), 'UTF-8'
+            mb_strtolower($this->name, 'UTF-8'),
+            'UTF-8'
         );
 
         $trigram = (new TNTIndexer)

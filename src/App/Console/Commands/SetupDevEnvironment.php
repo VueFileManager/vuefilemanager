@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -38,8 +37,7 @@ class SetupDevEnvironment extends Command
         private SeedDefaultSettingsAction $seedDefaultSettings,
         private SeedDefaultLanguageAction $seedDefaultLanguage,
         private SeedDefaultPagesAction $seedDefaultPages,
-    )
-    {
+    ) {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -392,7 +390,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => null,
+                    'parent_id'  => null,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -435,7 +433,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $documents->id,
+                    'parent_id'  => $documents->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -468,7 +466,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $shared_folder->id,
+                    'parent_id'  => $shared_folder->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -526,7 +524,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $peters_files->id,
+                    'parent_id'  => $peters_files->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -553,7 +551,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $videohive->id,
+                    'parent_id'  => $videohive->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -577,7 +575,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $video->id,
+                    'parent_id'  => $video->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -601,7 +599,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $audio->id,
+                    'parent_id'  => $audio->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -637,7 +635,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => null,
+                    'parent_id'  => null,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -669,7 +667,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $apartments->id,
+                    'parent_id'  => $apartments->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -705,7 +703,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $nature->id,
+                    'parent_id'  => $nature->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -758,9 +756,9 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
-                        'folder_id'  => $companyProjectFolder->id,
+                        'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
                         'permission' => 'can-edit',
                     ])
@@ -768,9 +766,9 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
-                        'folder_id'  => $financeDocumentsFolder->id,
+                        'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
                         'permission' => 'can-edit',
                     ])
@@ -779,10 +777,10 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn($user) => TeamFolderInvitation::factory()
+                fn ($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
-                        'folder_id'  => $companyProjectFolder->id,
+                        'parent_id'  => $companyProjectFolder->id,
                         'status'     => 'pending',
                         'permission' => 'can-edit',
                     ])
@@ -795,7 +793,7 @@ class SetupDevEnvironment extends Command
             ->first();
 
         $images = File::whereType('image')
-            ->whereFolderId(null)
+            ->whereParentId(null)
             ->take(3)
             ->pluck('id');
 
@@ -812,7 +810,7 @@ class SetupDevEnvironment extends Command
         });
 
         $files = File::whereType('file')
-            ->whereFolderId(null)
+            ->whereParentId(null)
             ->take(2)
             ->pluck('id');
 
