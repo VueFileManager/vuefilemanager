@@ -32,9 +32,9 @@ class TeamsTest extends TestCase
                 'parent_id' => $level_1->id,
             ]);
 
-        $teamRoot = recursiveFind($level_2->teamRoot->toArray(), 'id');
+        $teamRoot = $level_2->getLatestParent();
 
-        $this->assertEquals($teamFolder->id, end($teamRoot));
+        $this->assertEquals($teamFolder->id, $teamRoot->id);
     }
 
     /**

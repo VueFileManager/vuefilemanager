@@ -201,11 +201,6 @@ class Folder extends Model
         return $this->hasMany(Folder::class, 'id', 'parent_id');
     }
 
-    public function teamRoot(): HasMany
-    {
-        return $this->parents()->with('teamRoot');
-    }
-
     public function getLatestParent()
     {
         if ($this->parent) {

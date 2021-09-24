@@ -18,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        //
     ];
 
     /**
@@ -55,9 +55,7 @@ class AuthServiceProvider extends ServiceProvider
 
     private function share_guard(Share $share, Folder | File $item): bool
     {
-        $isOwner = $share->user_id === $item->user_id;
-
-        if (! $share->is_protected && $isOwner) {
+        if (! $share->is_protected && $share->user_id === $item->user_id) {
             return true;
         }
 
@@ -80,7 +78,7 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         }
 
-        return $isOwner;
+        return $share->user_id === $item->user_id;
     }
 
     private function team_member_guard(Folder | File $item, ?User $user, $ability): bool

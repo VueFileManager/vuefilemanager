@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Gate;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
@@ -28,33 +29,16 @@ class TeamFoldersController extends Controller
 
     public function show($id): array
     {
-        $files = [];
-        $teamRootFolder = null;
+        $id = Str::isUuid($id) ? $id : null;
 
-        $rootId = Str::isUuid($id) ? $id : null;
-        $requestedFolder = $rootId ? Folder::findOrFail($rootId) : null;
-
-        $folders = Folder::where('parent_id', $rootId)
+        $folders = Folder::where('parent_id', $id)
             ->where('team_folder', ! Str::isUuid($id))
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 
-        if ($requestedFolder) {
-            // Get root team folder
-            $teamRootIdResults = recursiveFind(
-                $requestedFolder->teamRoot->toArray(),
-                'id'
-            );
-
-            $teamRootId = end($teamRootIdResults);
-
-            $teamRootFolder = $teamRootId
-                ? Folder::findOrFail($teamRootId)
-                : $requestedFolder;
-
-            // Get files
-            $files = File::where('parent_id', $rootId)
+        if ($id) {
+            $files = File::where('parent_id', $id)
                 ->where('user_id', Auth::id())
                 ->sortable()
                 ->get();
@@ -63,9 +47,9 @@ class TeamFoldersController extends Controller
         // Collect folders and files to single array
         return [
             'folders'    => new FolderCollection($folders),
-            'files'      => new FilesCollection($files),
-            'root'       => $requestedFolder ? new FolderResource($requestedFolder) : null,
-            'teamFolder' => $teamRootFolder ? new FolderResource($teamRootFolder) : null,
+            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
+            'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
+            'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
         ];
     }
 
