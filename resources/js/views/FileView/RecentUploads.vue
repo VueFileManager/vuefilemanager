@@ -45,7 +45,7 @@
 					{{ $t('actions.search')}}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentLocationName() }}
+					{{ $getCurrentSectionName() }}
 				</MobileActionButton>
 				<MobileActionButtonUpload>
 					{{ $t('context_menu.upload') }}

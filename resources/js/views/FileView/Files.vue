@@ -85,7 +85,7 @@
 					{{ $t('actions.search') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentLocationName() }}
+					{{ $getCurrentSectionName() }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$createItems" v-if="$checkPermission(['master', 'editor'])" icon="cloud-plus">
 					{{ $t('mobile.create') }}

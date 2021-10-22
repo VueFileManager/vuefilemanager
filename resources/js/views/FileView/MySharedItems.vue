@@ -54,7 +54,7 @@
 					{{ $t('actions.search')}}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentLocationName() }}
+					{{ $getCurrentSectionName() }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
 					{{ $t('context_menu.select') }}

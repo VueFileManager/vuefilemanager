@@ -48,7 +48,7 @@
 					{{ $t('actions.search')}}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentLocationName() }}
+					{{ $getCurrentSectionName() }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$emptyTrash" icon="trash">
 					{{ $t('context_menu.empty_trash') }}

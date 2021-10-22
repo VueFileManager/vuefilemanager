@@ -217,6 +217,18 @@ const FunctionHelpers = {
             }
         }
 
+        Vue.prototype.$getCurrentSectionName = function () {
+            return {
+                'RecentUploads': this.$t('Recent'),
+                'MySharedItems': this.$t('Shared'),
+                'Trash': this.$t('Trash'),
+                'Public': this.$t('Files'),
+                'Files': this.$t('Files'),
+                'TeamFolders': this.$t('Team Folders'),
+                'SharedWithMe': this.$t('Shared With Me'),
+            }[this.$route.name]
+        }
+
         Vue.prototype.$goToFileView = function (id) {
 
             let locations = {

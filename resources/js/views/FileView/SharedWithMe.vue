@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<MobileContextMenu>
-			<OptionGroup v-if="item">
+			<OptionGroup v-if="canEdit && item">
 				<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
 				<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
 				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
@@ -21,13 +21,13 @@
 		</MobileCreateMenu>
 
 		<MobileMultiSelectToolbar>
-			<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
-			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
+			<ToolbarButton v-if="canEdit" @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
+			<ToolbarButton v-if="canEdit" @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
             <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
 		</MobileMultiSelectToolbar>
 
 		<ContextMenu>
-			<template v-slot:empty-select>
+			<template v-slot:empty-select v-if="canEdit">
 				<OptionGroup v-if="! isTeamFolderHomepage">
 					<OptionUpload :title="$t('actions.upload')" />
 					<Option @click.stop.native="$createFolder" :title="$t('actions.create_folder')" icon="folder-plus" />
@@ -35,7 +35,7 @@
 			</template>
 
 			<template v-slot:single-select v-if="item">
-				<OptionGroup>
+				<OptionGroup v-if="canEdit">
 					<Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
 					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
@@ -47,7 +47,7 @@
 			</template>
 
 			<template v-slot:multiple-select v-if="item">
-				<OptionGroup>
+				<OptionGroup v-if="canEdit">
 					<Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
@@ -63,9 +63,9 @@
 					{{ $t('actions.search') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentLocationName() }}
+					{{ $getCurrentSectionName() }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="$createItems" icon="cloud-plus">
+				<MobileActionButton v-if="canEdit" @click.native="$createItems" icon="cloud-plus">
 					{{ $t('mobile.create') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
@@ -78,6 +78,7 @@
 
 			<template v-slot:empty-file-page>
 
+				<!--Homepage-->
 				<template v-if="isTeamFolderHomepage">
 					<h1 class="title">
 						{{ $t('Nothing shared with you') }}
@@ -87,7 +88,8 @@
 					</p>
 				</template>
 
-				<template v-if="! isTeamFolderHomepage">
+				<!--Empty folder wit can-edit privileges -->
+				<template v-if="canEdit && ! isTeamFolderHomepage">
 					<h1 class="title">
 						{{ $t('empty_page.title') }}
 					</h1>
@@ -97,6 +99,13 @@
 					<ButtonUpload button-style="theme">
 						{{ $t('empty_page.call_to_action') }}
 					</ButtonUpload>
+				</template>
+
+				<!--Empty folder wit can-view privileges -->
+				<template v-if="! canEdit && ! isTeamFolderHomepage">
+					<h1 class="title">
+						{{ $t('There is Nothing Yet') }}
+					</h1>
 				</template>
 			</template>
 		</FileBrowser>
@@ -141,10 +150,20 @@
 		},
 		computed: {
 			...mapGetters([
+				'currentTeamFolder',
 				'clipboard',
 				'config',
 				'user',
 			]),
+			canEdit() {
+				if (this.currentTeamFolder && this.user) {
+					let member = this.currentTeamFolder.data.relationships.members.data.find(member => member.data.id === this.user.data.id)
+
+					return member.data.attributes.permission === 'can-edit'
+				}
+
+				return false
+			},
 			isTeamFolderHomepage() {
 				return this.$isThisRoute(this.$route, ['SharedWithMe'])
 					&& ! this.$route.params.id

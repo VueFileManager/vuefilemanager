@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('maintenance', fn ($user) => $user->role === 'admin');
 
         // Define user ability to edit file or folder
-        collect(['can-edit', 'can-visit'])
+        collect(['can-edit', 'can-view'])
             ->each(function ($ability) {
                 Gate::define($ability, function (?User $user, File | Folder $item, ?Share $share) use ($ability) {
                     // If share link exist, then check share access

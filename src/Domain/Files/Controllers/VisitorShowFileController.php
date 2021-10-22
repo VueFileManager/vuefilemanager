@@ -21,7 +21,7 @@ class VisitorShowFileController
             ->whereId($shared->item_id)
             ->firstOrFail();
 
-        Gate::authorize('can-visit', [$file, $shared]);
+        Gate::authorize('can-view', [$file, $shared]);
 
         // Set access urls
         $file->setPublicUrl($shared->token);

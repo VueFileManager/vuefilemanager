@@ -23,7 +23,7 @@ class GetFileController extends Controller
             ->where('basename', $filename)
             ->firstOrFail();
 
-        if (! Gate::any(['can-edit', 'can-visit'], [$file, null])) {
+        if (! Gate::any(['can-edit', 'can-view'], [$file, null])) {
             abort(403, 'Access Denied');
         }
 
