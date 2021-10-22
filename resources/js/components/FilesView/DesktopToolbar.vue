@@ -16,14 +16,15 @@
 			<ToolbarWrapper>
 
 				<!--Search bar-->
-				<ToolbarGroup style="margin-left: 0">
+				<ToolbarGroup v-if="false" style="margin-left: 0">
 					<SearchBar />
 				</ToolbarGroup>
 
-				<!--Creating controls-->
-				<ToolbarGroup v-if="$checkPermission(['master', 'editor'])">
+				<!--Create button for all pages except SharedWithMe-->
+				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isThisRoute($route, ['SharedWithMe'])">
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
+
 						<PopoverItem name="desktop-create" side="left">
 							<OptionGroup>
 								<OptionUpload :class="{'is-inactive': canUploadInView || isTeamFolderHomepage }" :title="$t('actions.upload')" />
@@ -31,6 +32,22 @@
 							<OptionGroup>
 								<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
 								<Option @click.stop.native="$createFolder" :class="{'is-inactive': canCreateFolderInView || isTeamFolderHomepage }" :title="$t('actions.create_folder')" icon="folder-plus" />
+							</OptionGroup>
+						</PopoverItem>
+					</PopoverWrapper>
+				</ToolbarGroup>
+
+				<!--Create button for shared with me page-->
+				<ToolbarGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
+					<PopoverWrapper>
+						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :class="{'is-inactive': ! canEdit}" :action="$t('actions.create')" />
+
+						<PopoverItem name="desktop-create" side="left">
+							<OptionGroup>
+								<OptionUpload :class="{'is-inactive': canUploadInView || isSharedWithMeHomepage }" :title="$t('actions.upload')" />
+							</OptionGroup>
+							<OptionGroup>
+								<Option @click.stop.native="$createFolder" :class="{'is-inactive': canCreateFolderInView || isSharedWithMeHomepage }" :title="$t('actions.create_folder')" icon="folder-plus" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>
@@ -121,7 +138,17 @@
 				'currentFolder',
 				'sharedDetail',
 				'clipboard',
+				'user',
 			]),
+			canEdit() {
+				if (this.currentTeamFolder && this.user) {
+					let member = this.currentTeamFolder.data.relationships.members.data.find(member => member.data.id === this.user.data.id)
+
+					return member.data.attributes.permission === 'can-edit'
+				}
+
+				return false
+			},
 			teamFolder() {
 				return this.currentTeamFolder
 					? this.currentTeamFolder
@@ -138,18 +165,23 @@
 				return this.$isThisRoute(this.$route, ['TeamFolders'])
 					&& ! this.$route.params.id
 			},
+			isSharedWithMeHomepage() {
+				return this.$isThisRoute(this.$route, ['SharedWithMe'])
+					&& ! this.$route.params.id
+			},
 			canCreateFolderInView() {
-				return ! this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders'])
+				return ! this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
 			},
 			canShowConvertToTeamFolder() {
 				return this.$isThisRoute(this.$route, ['Files', 'MySharedItems'])
 			},
 			canUploadInView() {
-				return ! this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders'])
+				return ! this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
 			},
 			canDeleteInView() {
 				let routes = [
 					'TeamFolders',
+					'SharedWithMe',
 					'RecentUploads',
 					'MySharedItems',
 					'Trash',

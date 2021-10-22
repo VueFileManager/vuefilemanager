@@ -1,6 +1,7 @@
 <?php
 namespace App\Providers;
 
+use Auth;
 use DB;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -89,11 +90,14 @@ class AuthServiceProvider extends ServiceProvider
 
     private function team_member_guard(Folder | File $item, ?User $user, $ability): bool
     {
+        $teamFolder = $item->getLatestParent();
+
         $membership = DB::table('team_folder_members')
-            ->where('parent_id', $item->getLatestParent()->id)
+            ->where('parent_id', $teamFolder->id)
             ->where('user_id', $user->id)
             ->first();
 
-        return $membership?->permission === $ability;
+        // check existing members permission or check team folder owner privileges
+        return $membership?->permission === $ability || $teamFolder->user_id === Auth::id();
     }
 }

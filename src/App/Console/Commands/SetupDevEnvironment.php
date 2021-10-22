@@ -128,7 +128,7 @@ class SetupDevEnvironment extends Command
         collect([
             [
                 'avatar' => 'avatar-02.png',
-                'email'  => 'alice@vuefilemanager.com',
+                'email'  => 'alice@hi5ve.digital',
             ],
             [
                 'avatar' => 'avatar-03.png',
@@ -801,7 +801,7 @@ class SetupDevEnvironment extends Command
         $member = User::whereEmail('howdy@hi5ve.digital')
             ->first();
 
-        $owner = User::whereEmail('alice@vuefilemanager.com')
+        $owner = User::whereEmail('alice@hi5ve.digital')
             ->first();
 
         $folder = Folder::factory()

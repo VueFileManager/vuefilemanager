@@ -16,11 +16,11 @@ class UserShareTest extends TestCase
      */
     public function it_share_single_file_without_password()
     {
-        $file = File::factory(File::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $file = File::factory(File::class)
+            ->create(['user_id' => $user->id]);
 
         $this
             ->actingAs($user)
@@ -49,11 +49,11 @@ class UserShareTest extends TestCase
      */
     public function it_share_folder_without_password()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create(['user_id' => $user->id]);
 
         $this
             ->actingAs($user)
@@ -82,11 +82,11 @@ class UserShareTest extends TestCase
      */
     public function it_share_folder_with_password()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create(['user_id' => $user->id]);
 
         $this
             ->actingAs($user)
@@ -121,11 +121,11 @@ class UserShareTest extends TestCase
      */
     public function it_share_folder_with_expiration_time()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create(['user_id' => $user->id]);
 
         $this
             ->actingAs($user)
@@ -148,11 +148,11 @@ class UserShareTest extends TestCase
      */
     public function it_share_folder_and_send_link_for_multiple_email()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create(['user_id' => $user->id]);
 
         $this
             ->actingAs($user)
@@ -175,11 +175,11 @@ class UserShareTest extends TestCase
      */
     public function it_send_existing_shared_folder_for_multiple_email_once_again()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);
 
@@ -202,16 +202,14 @@ class UserShareTest extends TestCase
 
     /**
      * @test
-     *
-     * TODO: pridat test na zmazanie zip
      */
     public function it_revoke_single_share_record()
     {
-        $folder = Folder::factory(Folder::class)
-            ->create();
-
         $user = User::factory(User::class)
             ->create();
+
+        $folder = Folder::factory(Folder::class)
+            ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);
 

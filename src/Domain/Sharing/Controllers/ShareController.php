@@ -28,14 +28,13 @@ class ShareController extends Controller
         CreateShareRequest $request,
         SendViaEmailAction $sendLinkToEmailAction,
     ): ShareResource {
-        $type = $request->input('type') === 'folder' ? 'folder' : 'file';
-        $item = get_item($request->input('id'), $type);
+        $item = get_item($request->input('type'), $request->input('id'));
 
         $this->authorize('owner', $item);
 
         $shared = Share::create([
             'password'     => $request->has('password') ? bcrypt($request->input('password')) : null,
-            'type'         => $type,
+            'type'         => $request->input('type') === 'folder' ? 'folder' : 'file',
             'is_protected' => $request->input('isPassword'),
             'permission'   => $request->input('permission') ?? null,
             'expire_in'    => $request->input('expiration') ?? null,
