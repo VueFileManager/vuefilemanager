@@ -22,7 +22,7 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
-use Domain\Folders\Controllers\NavigationFolderTreeController;
+use Domain\Folders\Controllers\NavigationTreeController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
 
 // Pages
@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Browse
     Route::group(['prefix' => 'browse'], function () {
         Route::get('/folders/{id}', BrowseFolderController::class);
-        Route::get('/navigation', NavigationFolderTreeController::class);
+        Route::get('/navigation', NavigationTreeController::class);
         Route::get('/search', SearchFilesAndFoldersController::class);
         Route::get('/latest', BrowseLatestFilesController::class);
         Route::get('/trash/{id}', BrowseTrashContentController::class);

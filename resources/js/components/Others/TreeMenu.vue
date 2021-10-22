@@ -2,10 +2,12 @@
     <!--Folder Icon-->
     <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.data.id === nodes.id || !disableId}">
 
-        <div @click="getFolder" :class="{'is-selected': isSelected, 'is-disabled-item': nodes.location === 'team-folders'}" :style="indent" class="folder-item text-theme dark-text-theme">
+        <div @click="getFolder" :class="{'is-selected': isSelected, 'is-disabled-item': nodes.location === 'team-folders' || nodes.location === 'shared-with-me'}" :style="indent" class="folder-item text-theme dark-text-theme">
             <chevron-right-icon @click.stop="showTree" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}" size="17" class="icon-arrow"/>
+
             <hard-drive-icon v-if="nodes.location === 'files'" size="17" class="icon text-theme dark-text-theme"/>
             <users-icon v-if="nodes.location === 'team-folders'" size="17" class="icon text-theme dark-text-theme"/>
+            <user-plus-icon v-if="nodes.location === 'shared-with-me'" size="17" class="icon text-theme dark-text-theme"/>
             <folder-icon v-if="! nodes.location" size="17" class="icon text-theme dark-text-theme"/>
             <span class="label">{{ nodes.name }}</span>
         </div>
@@ -16,7 +18,7 @@
 
 <script>
     import TreeMenu from '/resources/js/components/Others/TreeMenu'
-    import {FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon} from 'vue-feather-icons'
+    import {FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon} from 'vue-feather-icons'
     import {events} from '/resources/js/bus'
     import {mapGetters} from 'vuex'
 
@@ -30,6 +32,7 @@
         components: {
             ChevronRightIcon,
             HardDriveIcon,
+			UserPlusIcon,
             FolderIcon,
 			UsersIcon,
             TreeMenu,

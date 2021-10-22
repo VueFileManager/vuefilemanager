@@ -130,9 +130,17 @@
 				this.isLoadingTree = true
 
 				// Get folder tree and hide spinner
-				this.$store.dispatch('getFolderTree').then(() => {
-					this.isLoadingTree = false
-				})
+				if (this.$isThisRoute(this.$route, ['SharedWithMe'])) {
+
+					this.$store.dispatch('getTeamFolderTree').then(() => {
+						this.isLoadingTree = false
+					})
+				} else {
+
+					this.$store.dispatch('getFolderTree').then(() => {
+						this.isLoadingTree = false
+					})
+				}
 
 				// Store picked item
 				if (!this.clipboard.includes(args.item[0])) {

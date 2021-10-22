@@ -2,6 +2,7 @@ import router from "../../router";
 import {events} from "../../bus";
 import i18n from "../../i18n";
 import axios from "axios";
+import Vue from "vue";
 
 const defaultState = {
 	currentTeamFolder: undefined,
@@ -87,6 +88,22 @@ const actions = {
 					})
 				}
 			})
+	},
+	getTeamFolderTree: ({commit, getters}) => {
+		return new Promise((resolve, reject) => {
+			axios
+				.get(`/api/teams/tree/${getters.currentTeamFolder.data.id}${getters.sorting.URI}`)
+				.then(response => {
+					resolve(response)
+
+					commit('UPDATE_FOLDER_TREE', response.data)
+				})
+				.catch((error) => {
+					reject(error)
+
+					Vue.prototype.$isSomethingWrong()
+				})
+		})
 	},
 }
 

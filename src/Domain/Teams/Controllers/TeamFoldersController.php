@@ -33,6 +33,7 @@ class TeamFoldersController extends Controller
 
         $folders = Folder::where('parent_id', $id)
             ->where('team_folder', ! Str::isUuid($id))
+            ->where('user_id', Auth::id())
             ->sortable()
             ->get();
 

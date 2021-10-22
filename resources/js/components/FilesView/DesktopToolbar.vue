@@ -69,13 +69,13 @@
 					</PopoverWrapper>
 
 					<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$convertAsTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
-					<ToolbarButton @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
+					<ToolbarButton v-if="! $isThisRoute($route, ['SharedWithMe'])" @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 				</ToolbarGroup>
 
 				<!--File Controls-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
-					<ToolbarButton @click.native="$moveFileOrFolder(clipboard[0])" :class="{'is-inactive': canMoveInView }" source="move" :action="$t('actions.move')" />
-                    <ToolbarButton @click.native="$deleteFileOrFolder(clipboard[0])" :class="{'is-inactive': canDeleteInView }" source="trash" :action="$t('actions.delete')" />
+					<ToolbarButton @click.native="$moveFileOrFolder(clipboard[0])" :class="{'is-inactive': canMoveInView && ! canEdit }" source="move" :action="$t('actions.move')" />
+                    <ToolbarButton @click.native="$deleteFileOrFolder(clipboard[0])" :class="{'is-inactive': canDeleteInView && ! canEdit }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
 
 				<!--View Controls-->
@@ -193,6 +193,7 @@
 			},
 			canMoveInView() {
 				let routes = [
+					'SharedWithMe',
 					'RecentUploads',
 					'MySharedItems',
 					'Public',
