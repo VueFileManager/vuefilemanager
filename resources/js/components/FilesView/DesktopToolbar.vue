@@ -40,11 +40,11 @@
 				<ToolbarGroup v-if="! $isMobile() && ! $isThisRoute($route, ['Public'])">
 
 					<!--Team Folder Icon-->
-					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders'])">
+					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])">
 						<TeamMembersButton @click.stop.native="showTeamFolderMenu" class="team-preview" />
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
-							<OptionGroup>
+							<OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])">
 								<Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('Edit Members')" icon="rename" />
 								<Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('Dissolve Team')" icon="trash" />
 							</OptionGroup>

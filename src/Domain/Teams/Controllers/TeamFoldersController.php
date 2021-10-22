@@ -76,6 +76,8 @@ class TeamFoldersController extends Controller
         UpdateInvitationsAction $updateInvitations,
         UpdateMembersAction $updateMembers,
     ): ResponseFactory | Response {
+        $this->authorize('owner', $folder);
+
         $updateInvitations(
             $folder,
             $request->input('invitations')
@@ -91,6 +93,8 @@ class TeamFoldersController extends Controller
 
     public function destroy(Folder $folder): ResponseFactory | Response
     {
+        $this->authorize('owner', $folder);
+
         // Delete existing invitations
         DB::table('team_folder_invitations')
             ->where('parent_id', $folder->id)

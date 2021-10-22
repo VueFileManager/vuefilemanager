@@ -7,7 +7,6 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Gate;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -33,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         // Define admin maintenance gate
         Gate::define('maintenance', fn ($user) => $user->role === 'admin');
 
-        // Define user ability
+        // Define user ability to edit file or folder
         collect(['can-edit', 'can-visit'])
             ->each(function ($ability) {
                 Gate::define($ability, function (?User $user, File | Folder $item, ?Share $share) use ($ability) {
@@ -51,6 +50,13 @@ class AuthServiceProvider extends ServiceProvider
                     return $this->team_member_guard($item, $user, $ability);
                 });
             });
+
+        // Define owner of file or folder
+        Gate::define('owner', function (?User $user, File | Folder $item) {
+
+            // Check user owner status
+            return $user?->id === $item->user_id;
+        });
     }
 
     private function share_guard(Share $share, Folder | File $item): bool
