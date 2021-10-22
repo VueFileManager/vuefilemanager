@@ -48,7 +48,7 @@
 					{{ $t('actions.search')}}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ filterLocationTitle }}
+					{{ $getCurrentLocationName() }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$emptyTrash" icon="trash">
 					{{ $t('context_menu.empty_trash') }}
@@ -103,15 +103,6 @@
 			...mapGetters([
 				'clipboard',
 			]),
-			filterLocationTitle() {
-				return {
-					'RecentUploads': this.$t('Recent'),
-					'MySharedItems': this.$t('Shared'),
-					'Trash': this.$t('Trash'),
-					'Public': this.$t('Files'),
-					'Files': this.$t('Files'),
-				}[this.$route.name]
-			},
 		},
 		data() {
 			return {

@@ -1,5 +1,5 @@
 <template>
-    <div id="toastr-wrapper">
+    <div id="toaster-wrapper">
         <ToasterItem :item="item" v-for="(item, i) in notifications" :key="i"/>
     </div>
 </template>
@@ -27,22 +27,22 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .toastr-list {
+    .toaster-list {
         transition: all 5s ease;
         display: inline-block;
     }
 
-    .toastr-list-enter,
-    .toastr-list-leave-to {
+    .toaster-list-enter,
+    .toaster-list-leave-to {
         opacity: 0;
         transform: translateY(-100%);
     }
 
-    .toastr-list-leave-active {
+    .toaster-list-leave-active {
         position: absolute;
     }
 
-    #toastr-wrapper {
+    #toaster-wrapper {
         position: absolute;
         right: 30px;
         bottom: 30px;
@@ -51,7 +51,7 @@
 
     @media only screen and (max-width: 690px) {
 
-        #toastr-wrapper {
+        #toaster-wrapper {
             right: 15px;
             left: 15px;
             bottom: 15px;

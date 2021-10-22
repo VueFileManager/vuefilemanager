@@ -85,7 +85,7 @@
 					{{ $t('actions.search') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ filterLocationTitle }}
+					{{ $getCurrentLocationName() }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$createItems" v-if="$checkPermission(['master', 'editor'])" icon="cloud-plus">
 					{{ $t('mobile.create') }}
@@ -170,15 +170,6 @@
 			favourites() {
 				return this.user.data.relationships.favourites.data
 			},
-			filterLocationTitle() {
-				return {
-					'RecentUploads': this.$t('Recent'),
-					'MySharedItems': this.$t('Shared'),
-					'Trash': this.$t('Trash'),
-					'Public': this.$t('Files'),
-					'Files': this.$t('Files'),
-				}[this.$route.name]
-			}
 		},
 		data() {
 			return {

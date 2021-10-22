@@ -54,7 +54,7 @@
 					{{ $t('actions.search')}}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ filterLocationTitle }}
+					{{ $getCurrentLocationName() }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
 					{{ $t('context_menu.select') }}
@@ -118,15 +118,6 @@
 			},
 			favourites() {
 				return this.user.data.relationships.favourites.data.attributes.folders
-			},
-			filterLocationTitle() {
-				return {
-					'RecentUploads': this.$t('Recent'),
-					'MySharedItems': this.$t('Shared'),
-					'Trash': this.$t('Trash'),
-					'Public': this.$t('Files'),
-					'Files': this.$t('Files'),
-				}[this.$route.name]
 			},
 		},
 		data() {

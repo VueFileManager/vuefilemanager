@@ -45,7 +45,7 @@
 					{{ $t('actions.search')}}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ filterLocationTitle }}
+					{{ $getCurrentLocationName() }}
 				</MobileActionButton>
 				<MobileActionButtonUpload>
 					{{ $t('context_menu.upload') }}
@@ -111,15 +111,6 @@
 				'clipboard',
 				'user',
 			]),
-			filterLocationTitle() {
-				return {
-					'RecentUploads': this.$t('Recent'),
-					'MySharedItems': this.$t('Shared'),
-					'Trash': this.$t('Trash'),
-					'Public': this.$t('Files'),
-					'Files': this.$t('Files'),
-				}[this.$route.name]
-			},
 		},
 		data() {
 			return {
