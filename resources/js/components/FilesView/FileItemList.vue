@@ -15,6 +15,9 @@
 
             <!--Thumbnail for item-->
             <div class="icon-item">
+
+				<AuthorThumbnail v-if="canShowAuthor" :item="item" />
+
                 <!--If is file or image, then link item-->
                 <span v-if="isFile || isVideo || (isImage && !item.data.attributes.thumbnail)" class="file-icon-text text-theme dark-text-theme">
                     {{ item.data.attributes.mimetype | limitCharacters }}
@@ -63,22 +66,23 @@
 </template>
 
 <script>
-import {LinkIcon, UserPlusIcon, MoreVerticalIcon} from 'vue-feather-icons'
+import {LinkIcon, MoreVerticalIcon} from 'vue-feather-icons'
 import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
 import CheckBox from '/resources/js/components/FilesView/CheckBox'
+import AuthorThumbnail from "./AuthorThumbnail";
+import {events} from '/resources/js/bus'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
-import {events} from '/resources/js/bus'
 
 export default {
     name: 'FileItemList',
     props: [
+		'disableHighlight',
 		'item',
-		'disableHighlight'
 	],
     components: {
         MoreVerticalIcon,
-        UserPlusIcon,
+		AuthorThumbnail,
         FolderIcon,
         CheckBox,
         LinkIcon,
@@ -87,8 +91,14 @@ export default {
         ...mapGetters([
             'FilePreviewType',
             'clipboard',
-            'entries'
+            'entries',
+            'user',
         ]),
+		canShowAuthor() {
+			return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
+				&& !this.isFolder
+				&& this.user.data.id !== this.item.data.relationships.user.data.id
+		},
         isClicked() {
             return !this.disableHighlight && this.clipboard.some(element => element.data.id === this.item.data.id)
         },

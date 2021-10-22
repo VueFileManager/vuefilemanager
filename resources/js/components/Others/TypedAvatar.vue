@@ -1,6 +1,8 @@
 <template>
-	<div class="typed-avatar" :style="{width: size + 'px', height: size + 'px', background: color ? color : '#f4f5f6'}">
-		<span class="letter">{{ letter }}</span>
+	<div class="typed-avatar" :style="{width: size + 'px', height: size + 'px', background: color ? color : '#f4f5f6', borderRadius: borderRadius + 'px'}">
+		<span class="letter" :style="{fontSize: fontSize + 'px'}">
+			{{ letter }}
+		</span>
 	</div>
 </template>
 
@@ -11,7 +13,15 @@ export default {
 		'letter',
 		'color',
 		'size',
-	]
+	],
+	computed: {
+		borderRadius() {
+			return this.size >= 26 ? 10 : 6
+		},
+		fontSize() {
+			return this.size >= 26 ? 14 : 12
+		},
+	}
 }
 </script>
 
@@ -23,7 +33,6 @@ export default {
 		user-select: none;
 		display: flex;
 		background: #9ad2bf;
-		border-radius: 10px;
 		align-items: center;
 		justify-content: center;
 		border: 2px solid white;

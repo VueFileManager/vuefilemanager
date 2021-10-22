@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Files\Resources;
 
 use Carbon\Carbon;
@@ -25,17 +26,17 @@ class FileResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => $this->type,
                 'attributes'    => [
-                    'filesize'      => $fileSize,
-                    'name'          => $this->name,
-                    'basename'      => $this->basename,
-                    'mimetype'      => $this->mimetype,
-                    'file_url'      => $this->file_url,
-                    'thumbnail'     => $this->thumbnail,
-                    'metadata'      => $this->metadata,
-                    'parent_id'     => $this->parent_id,
-                    'updated_at'    => $this->updated_at,
-                    'created_at'    => Carbon::parse($this->created_at)->diffForHumans(),
-                    'deleted_at'    => $this->deleted_at,
+                    'filesize'   => $fileSize,
+                    'name'       => $this->name,
+                    'basename'   => $this->basename,
+                    'mimetype'   => $this->mimetype,
+                    'file_url'   => $this->file_url,
+                    'thumbnail'  => $this->thumbnail,
+                    'metadata'   => $this->metadata,
+                    'parent_id'  => $this->parent_id,
+                    'updated_at' => $this->updated_at,
+                    'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
+                    'deleted_at' => $this->deleted_at,
                     /*'updated_at' => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')
                     ),
@@ -44,16 +45,29 @@ class FileResource extends JsonResource
                     ),*/
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->shared, fn () => [
+                    $this->mergeWhen($this->shared, fn() => [
                         'shared' => new ShareResource($this->shared),
                     ]),
-                    $this->mergeWhen($this->parent, fn () => [
+                    $this->mergeWhen($this->parent, fn() => [
                         'parent' => [
                             'data' => [
                                 'type'       => 'folder',
                                 'id'         => $this->parent->id,
                                 'attributes' => [
                                     'name' => $this->parent->name,
+                                ],
+                            ],
+                        ],
+                    ]),
+                    $this->mergeWhen($this->owner, fn() => [
+                        'user' => [
+                            'data' => [
+                                'type'       => 'user',
+                                'id'         => $this->user_id,
+                                'attributes' => [
+                                    'name'   => $this->owner->settings->name,
+                                    'avatar' => $this->owner->settings->avatar,
+                                    'color'  => $this->owner->settings->color,
                                 ],
                             ],
                         ],

@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Files\Models;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Domain\Sharing\Models\Share;
@@ -162,6 +163,11 @@ class File extends Model
     public function shared(): HasOne
     {
         return $this->hasOne(Share::class, 'item_id', 'id');
+    }
+
+    public function owner(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function toSearchableArray(): array
