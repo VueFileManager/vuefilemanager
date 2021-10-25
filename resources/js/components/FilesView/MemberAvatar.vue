@@ -5,7 +5,7 @@
 			v-if="member.data.attributes.avatar"
 			:src="member.data.attributes.avatar"
 			:alt="member.data.attributes.name"
-			class="user-image"
+			class="rounded-lg"
 		>
 		<TypedAvatar
 			v-else
@@ -29,10 +29,3 @@
 		},
 	}
 </script>
-
-<style lang="scss">
-
-	.user-image {
-		border-radius: 10px;
-	}
-</style>

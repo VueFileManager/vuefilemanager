@@ -36,9 +36,9 @@
 				v-if="canShowAuthor"
 				:title="$t('Author')"
 			>
-                <div class="author-preview">
+                <div class="flex items-center">
 					<MemberAvatar :size="32" :member="singleFile.data.relationships.user" />
-                    <span class="name">{{ singleFile.data.relationships.user.data.attributes.name }}</span>
+                    <span class="ml-2 block">{{ singleFile.data.relationships.user.data.attributes.name }}</span>
                 </div>
             </ListInfoItem>
 
@@ -179,16 +179,6 @@
 </script>
 
 <style scoped lang="scss">
-
-	.author-preview	{
-		display: flex;
-		align-items: center;
-
-		.name {
-			margin-left: 10px;
-			display: block;
-		}
-	}
 
 	.info-wrapper {
 		padding-bottom: 20px;
