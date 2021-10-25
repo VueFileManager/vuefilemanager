@@ -31,6 +31,17 @@
 		<!--File info-->
         <ListInfo v-if="isSingleFile && !isEmpty">
 
+			<!--Author-->
+            <ListInfoItem
+				v-if="canShowAuthor"
+				:title="$t('Author')"
+			>
+                <div class="author-preview">
+					<MemberAvatar :size="32" :member="singleFile.data.relationships.user" />
+                    <span class="name">{{ singleFile.data.relationships.user.data.attributes.name }}</span>
+                </div>
+            </ListInfoItem>
+
 			<!--Filesize-->
             <ListInfoItem
 				v-if="singleFile.data.attributes.filesize"
@@ -94,21 +105,23 @@
 </template>
 
 <script>
-	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
 	import FilePreviewDetail from '/resources/js/components/Others/FilePreviewDetail'
-    import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
-	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
-    import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
-	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
 	import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
+	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
+	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
+	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
 	import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
+	import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
 	import ListInfo from '/resources/js/components/Others/ListInfo'
-	import {mapGetters} from 'vuex'
 	import {events} from '/resources/js/bus'
+	import {mapGetters} from 'vuex'
+	import MemberAvatar from "./MemberAvatar";
 
 	export default {
 		name: 'InfoSidebar',
 		components: {
+			MemberAvatar,
 			TeamMembersPreview,
 			FilePreviewDetail,
 			ImageMetaData,
@@ -125,6 +138,7 @@
 			...mapGetters([
 				'permissionOptions',
 				'clipboard',
+				'user',
 			]),
 			isEmpty() {
 				return this.clipboard.length === 0
@@ -148,6 +162,10 @@
 
 				return title ? this.$t(title.label) : this.$t('shared.can_download')
 			},
+			canShowAuthor() {
+				return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
+					&& this.user.data.id !== this.clipboard[0].data.relationships.user.data.id
+			},
 		},
 		methods: {
 			openShareOptions() {
@@ -161,6 +179,16 @@
 </script>
 
 <style scoped lang="scss">
+
+	.author-preview	{
+		display: flex;
+		align-items: center;
+
+		.name {
+			margin-left: 10px;
+			display: block;
+		}
+	}
 
 	.info-wrapper {
 		padding-bottom: 20px;

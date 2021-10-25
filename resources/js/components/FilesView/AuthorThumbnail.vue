@@ -4,7 +4,7 @@
 			v-if="item.data.relationships.user.data.attributes.avatar"
 			class="user-image"
 			:src="item.data.relationships.user.data.attributes.avatar"
-			alt="item.data.relationships.user.data.attributes.name"
+			:alt="item.data.relationships.user.data.attributes.name"
 		>
 		<TypedAvatar
 			v-else
@@ -22,9 +22,9 @@
 		components: {
 			TypedAvatar
 		},
-		props: {
-			item: {type: Function}
-		}
+		props: [
+			'item',
+		]
 	}
 </script>
 <style scoped lang="scss">
