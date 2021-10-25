@@ -36,7 +36,7 @@
 				v-if="canShowAuthor"
 				:title="$t('Author')"
 			>
-                <div class="flex items-center">
+                <div class="flex items-center mt-1">
 					<MemberAvatar :size="32" :member="singleFile.data.relationships.user" />
                     <span class="ml-2 block">{{ singleFile.data.relationships.user.data.attributes.name }}</span>
                 </div>
