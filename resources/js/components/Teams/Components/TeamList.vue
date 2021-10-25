@@ -6,8 +6,12 @@
 			</div>
 			<div class="member-preview">
 				<div class="avatar">
-					<img v-if="entry.avatar" :src="entry.avatar" alt="avatar">
-					<TypedAvatar v-else :size="38" :letter="entry.email.substr(0, 1)" :color="entry.color"/>
+					<MemberAvatar
+						class="mr-3 ml-2"
+						:is-border="true"
+						:size="44"
+						:member="$mapIntoMemberResource(entry)"
+					/>
 				</div>
 				<div v-if="entry.type === 'member'" class="info">
 					<b class="title">
@@ -35,7 +39,7 @@
 
 <script>
 	import PermissionToggleButton from "./PermissionToggleButton"
-	import TypedAvatar from "../../Others/TypedAvatar"
+	import MemberAvatar from "../../FilesView/MemberAvatar";
 	import {XIcon} from 'vue-feather-icons'
 	import {mapGetters} from "vuex";
 
@@ -51,7 +55,7 @@
 		},
 		components: {
 			PermissionToggleButton,
-			TypedAvatar,
+			MemberAvatar,
 			XIcon,
 		},
 		data() {
@@ -106,18 +110,6 @@
 		.member-preview {
 			display: flex;
 			align-items: center;
-
-			.avatar {
-				padding: 0 12px;
-
-				img {
-					width: 38px;
-					height: 38px;
-					border-radius: 8px;
-					object-fit: cover;
-					display: block;
-				}
-			}
 
 			.info {
 

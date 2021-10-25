@@ -16,7 +16,13 @@
             <!--Thumbnail for item-->
             <div class="icon-item">
 
-				<AuthorThumbnail v-if="canShowAuthor" :item="item" />
+				<MemberAvatar
+					v-if="canShowAuthor"
+					:size="28"
+					:is-border="true"
+					:member="item.data.relationships.user"
+					class="absolute -right-2 -bottom-2"
+				/>
 
                 <!--If is file or image, then link item-->
                 <span v-if="isFile || isVideo || (isImage && !item.data.attributes.thumbnail)" class="file-icon-text text-theme dark-text-theme">
@@ -69,7 +75,7 @@
 import {LinkIcon, MoreVerticalIcon} from 'vue-feather-icons'
 import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
 import CheckBox from '/resources/js/components/FilesView/CheckBox'
-import AuthorThumbnail from "./AuthorThumbnail";
+import MemberAvatar from "./MemberAvatar";
 import {events} from '/resources/js/bus'
 import {debounce} from 'lodash'
 import {mapGetters} from 'vuex'
@@ -82,7 +88,7 @@ export default {
 	],
     components: {
         MoreVerticalIcon,
-		AuthorThumbnail,
+		MemberAvatar,
         FolderIcon,
         CheckBox,
         LinkIcon,

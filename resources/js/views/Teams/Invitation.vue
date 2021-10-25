@@ -12,6 +12,7 @@
 					<VueFolderTeamIcon class="inline-block w-28" />
 					<MemberAvatar
 						class="absolute -bottom-2.5 -right-6"
+						:is-border="true"
 						:size="38"
 						:member="invitation.data.relationships.inviter"
 					/>

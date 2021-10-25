@@ -14,6 +14,7 @@
 			v-if="!emoji && item.data.attributes.isTeamFolder"
 			:class="[{'is-deleted':isDeleted},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
 			:style="{fill: color}"
+			style="width: 53px; height: 52px"
 		/>
 <!--        <FontAwesomeIcon
             v-if="!emoji"

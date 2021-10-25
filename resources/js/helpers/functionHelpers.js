@@ -348,6 +348,18 @@ const FunctionHelpers = {
             })
         }
 
+        Vue.prototype.$mapIntoMemberResource = function (entry) {
+            return {
+                data: {
+                    attributes: {
+                        avatar: entry.avatar,
+                        name: entry.name,
+                        color: entry.color,
+                    }
+                }
+            }
+        }
+
         Vue.prototype.$closePopup = function () {
             events.$emit('popup:close')
         }
