@@ -2,7 +2,7 @@
     <!--Folder Icon-->
     <div class="folder-item-wrapper" :class="{'is-inactive': disabledById && disabledById.data.id === nodes.id || !disableId}">
 
-        <div @click="getFolder" :class="{'is-selected': isSelected, 'is-disabled-item': nodes.location === 'team-folders' || nodes.location === 'shared-with-me'}" :style="indent" class="folder-item text-theme dark-text-theme">
+        <div @click="getFolder" :class="{'is-selected': isSelected, 'is-disabled-item': nodes.location === 'team-folders' || nodes.location === 'shared-with-me'}" :style="indent" class="folder-item text-theme dark-text-theme flex">
             <chevron-right-icon @click.stop="showTree" :class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}" size="17" class="icon-arrow"/>
 
             <hard-drive-icon v-if="nodes.location === 'files'" size="17" class="icon text-theme dark-text-theme"/>
@@ -110,7 +110,6 @@
 
     .folder-item {
         user-select: none;
-        display: block;
         padding: 8px 23px;
         @include transition(150ms);
         cursor: pointer;

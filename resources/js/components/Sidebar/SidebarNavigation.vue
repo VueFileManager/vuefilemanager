@@ -121,7 +121,6 @@
 
         .icon-navigation-item {
             display: block;
-            margin-bottom: 10px;
 
             &.user {
                 margin-bottom: 20px;

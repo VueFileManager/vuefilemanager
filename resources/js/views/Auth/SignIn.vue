@@ -3,7 +3,7 @@
 
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_login.title') }}</h1>
@@ -35,7 +35,7 @@
         <AuthContent name="sign-in" :visible="false">
 
             <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar mx-auto" :src="checkedAccount.avatar" :alt="checkedAccount.name">
                 <h1>{{ $t('page_sign_in.title', {name: checkedAccount.name}) }}</h1>
                 <h2>{{ $t('page_sign_in.subtitle') }}:</h2>
             </div>

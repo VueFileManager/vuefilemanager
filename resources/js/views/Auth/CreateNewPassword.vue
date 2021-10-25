@@ -3,7 +3,7 @@
 
         <!--Create new password-->
         <AuthContent name="create-new-password" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_create_password.title') }}</h1>
@@ -56,7 +56,7 @@
 
         <!--Password reset successfully-->
         <AuthContent name="password-reset-successfully" :visible="false">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_forgotten_password.pass_reseted_title') }}</h1>

@@ -3,7 +3,7 @@
         <div class="folder-item-wrapper">
             <div
 				@click="goToFolder"
-				class="folder-item text-theme dark-text-theme"
+				class="folder-item text-theme dark-text-theme flex"
 				:class="{'is-selected': isSelected, 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
 				:style="indent"
 				@dragover.prevent="dragEnter"
@@ -159,7 +159,6 @@
 	}
 
 	.folder-item {
-		display: block;
 		padding: 8px 0;
 		@include transition(150ms);
 		cursor: pointer;

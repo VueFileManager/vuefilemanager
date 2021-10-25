@@ -83,7 +83,7 @@
 					</span>
 
 					<div @click="goToFolder(folder)" v-for="folder in favourites" :key="folder.data.id" class="menu-list-item folder-item">
-						<div class="text-theme">
+						<div class="text-theme flex">
 							<folder-icon size="17" class="folder-icon" />
 							<span class="label text-theme">{{ folder.data.attributes.name }}</span>
 						</div>

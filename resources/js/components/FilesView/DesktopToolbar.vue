@@ -141,7 +141,7 @@
 				'user',
 			]),
 			canEdit() {
-				if (this.currentTeamFolder && this.user) {
+				if (this.currentTeamFolder && this.user && this.clipboard[0]) {
 					let member = this.currentTeamFolder.data.relationships.members.data.find(member => member.data.id === this.user.data.id)
 
 					return member.data.attributes.permission === 'can-edit'

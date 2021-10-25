@@ -66,7 +66,7 @@
                 </div>
             </ListInfoItem>
 
-			<!--Location-->
+			<!--Team-->
             <ListInfoItem
 				v-if="singleFile.data.attributes.isTeamFolder"
 				:title="$t('Shared with the Team')"
@@ -164,6 +164,7 @@
 			},
 			canShowAuthor() {
 				return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
+					&& this.clipboard[0].data.type !== 'folder'
 					&& this.user.data.id !== this.clipboard[0].data.relationships.user.data.id
 			},
 		},
