@@ -32,6 +32,7 @@ class BrowseSharedWithMeController
         if (!$id) {
             $sharedFolderIds = DB::table('team_folder_members')
                 ->where('user_id', Auth::id())
+                ->whereIn('permission', ['can-edit', 'can-view'])
                 ->pluck('parent_id');
 
             $folders = Folder::whereIn('id', $sharedFolderIds)

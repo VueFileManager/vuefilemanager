@@ -63,6 +63,14 @@ class TeamFoldersController extends Controller
             'team_folder' => 1,
         ]);
 
+        // Attach owner into members
+        DB::table('team_folder_members')
+            ->insert([
+                'parent_id'  => $folder->id,
+                'user_id'    => $request->user()->id,
+                'permission' => 'owner',
+            ]);
+
         // Invite team members
         $this->inviteMembers->onQueue()->execute($data->invitations, $folder);
 

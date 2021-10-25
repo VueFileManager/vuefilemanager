@@ -1,6 +1,6 @@
 <template>
 	<ul class="member-list">
-		<li v-if="Object.values(members).length > 0" v-for="(entry, i) in members" :key="i" class="member-item">
+		<li v-if="Object.values(members).length > 0 && entry.id !== user.data.id" v-for="(entry, i) in members" :key="i" class="member-item">
 			<div @click="deleteMember(entry)" class="terminate">
 				<x-icon size="14" class="close-icon" />
 			</div>
@@ -10,12 +10,20 @@
 					<TypedAvatar v-else :size="38" :letter="entry.email.substr(0, 1)" :color="entry.color"/>
 				</div>
 				<div v-if="entry.type === 'member'" class="info">
-					<b class="title">{{ entry.name }}</b>
-					<span class="subtitle">{{ entry.email }}</span>
+					<b class="title">
+						{{ entry.name }}
+					</b>
+					<span class="subtitle">
+						{{ entry.email }}
+					</span>
 				</div>
 				<div v-if="entry.type === 'invitation'" class="info">
-					<b class="title">{{ entry.email }}</b>
-					<span v-if="entry.id" class="subtitle">{{ $t('Waiting for accept invitation...') }}</span>
+					<b class="title">
+						{{ entry.email }}
+					</b>
+					<span v-if="entry.id" class="subtitle">
+						{{ $t('Waiting for accept invitation...') }}
+					</span>
 				</div>
 			</div>
 			<div class="action">
@@ -29,12 +37,18 @@
 	import PermissionToggleButton from "./PermissionToggleButton"
 	import TypedAvatar from "../../Others/TypedAvatar"
 	import {XIcon} from 'vue-feather-icons'
+	import {mapGetters} from "vuex";
 
 	export default {
 		name: "TeamList",
 		props: [
 			'value',
 		],
+		computed: {
+			...mapGetters([
+				'user'
+			])
+		},
 		components: {
 			PermissionToggleButton,
 			TypedAvatar,

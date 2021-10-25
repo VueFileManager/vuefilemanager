@@ -832,6 +832,13 @@ class SetupDevEnvironment extends Command
                 'permission' => 'can-edit',
             ]);
 
+        DB::table('team_folder_members')
+            ->insert([
+                'parent_id'  => $folder->id,
+                'user_id'    => $owner->id,
+                'permission' => 'owner',
+            ]);
+
         // Get meme gallery
         collect([
             'Sofishticated.jpg',
@@ -863,17 +870,17 @@ class SetupDevEnvironment extends Command
             'Eggcited bro.jpg',
             'Get a Rest.jpg',
         ])
-            ->each(function ($file) use ($owner, $hug) {
+            ->each(function ($file) use ($member, $hug) {
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/$file"), $basename, 'private');
-                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+                Storage::putFileAs("files/$member->id", storage_path("demo/images/memes/$file"), $basename, 'private');
+                Storage::putFileAs("files/$member->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
 
                 // Create file record
                 File::create([
                     'parent_id'  => $hug->id,
-                    'user_id'    => $owner->id,
+                    'user_id'    => $member->id,
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'image',
