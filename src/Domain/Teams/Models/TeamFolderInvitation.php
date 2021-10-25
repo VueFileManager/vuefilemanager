@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Teams\Models;
 
+use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Database\Factories\TeamFolderInvitationFactory;
@@ -32,6 +34,11 @@ class TeamFolderInvitation extends Model
     protected static function newFactory(): TeamFolderInvitationFactory
     {
         return TeamFolderInvitationFactory::new();
+    }
+
+    public function inviter(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'inviter_id');
     }
 
     protected static function boot()

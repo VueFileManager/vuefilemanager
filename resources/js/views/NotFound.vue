@@ -1,13 +1,11 @@
 <template>
     <AuthContentWrapper ref="auth">
 
-        <!--Password reset link sended-->
         <AuthContent name="not-found" :visible="true">
-            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
-
-            <h1>{{ $t('page_shared_404.title') }}</h1>
-            <h2>{{ $t('page_shared_404.subtitle') }}</h2>
+			<Headline
+				:title="$t('page_shared_404.title')"
+				:description="$t('page_shared_404.subtitle')"
+			/>
 
             <span class="additional-link">{{ $t('page_registration.have_an_account') }}
                 <router-link :to="{name: 'SignIn'}">
@@ -24,8 +22,8 @@
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {required} from 'vee-validate/dist/rules'
+	import Headline from "./Auth/Headline"
     import {mapGetters} from 'vuex'
-    import axios from 'axios'
 
     export default {
         name: 'NotFound',
@@ -35,6 +33,7 @@
             ValidationObserver,
             AuthContent,
             AuthButton,
+			Headline,
             required,
         },
         computed: {

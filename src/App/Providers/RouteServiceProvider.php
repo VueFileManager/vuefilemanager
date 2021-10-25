@@ -111,7 +111,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapTeamsRoutes()
     {
         Route::prefix('api/teams')
-            ->middleware(['api', 'auth:sanctum'])
+            ->middleware(['api'])
             ->group(base_path('routes/teams.php'));
     }
 

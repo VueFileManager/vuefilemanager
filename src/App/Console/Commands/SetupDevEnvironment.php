@@ -790,6 +790,7 @@ class SetupDevEnvironment extends Command
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
+                        'inviter_id' => $companyProjectFolder->user_id,
                         'status'     => 'pending',
                         'permission' => 'can-edit',
                     ])

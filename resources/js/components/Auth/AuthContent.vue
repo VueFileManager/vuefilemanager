@@ -1,5 +1,5 @@
 <template>
-    <div class="auth-form" v-if="isVisible">
+    <div v-if="isVisible" class="auth-form">
         <slot></slot>
     </div>
 </template>

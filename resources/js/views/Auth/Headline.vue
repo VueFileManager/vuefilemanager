@@ -1,7 +1,13 @@
 <template>
 	<div>
-		<img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
-		<b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+		<!--Custom content-->
+		<slot></slot>
+
+		<!--Default application logo-->
+		<div v-if="! $slots.default">
+			<img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
+			<b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+		</div>
 
 		<h1>{{ title }}</h1>
 		<h2>{{ description }}:</h2>
@@ -46,5 +52,27 @@ export default {
 	  font-weight: 500;
 	  margin-bottom: 50px;
 	  color: $text;
+	}
+
+	@media only screen and (max-width: 690px) {
+
+		h1 {
+			@include font-size(30);
+		}
+
+		h2 {
+			@include font-size(21);
+		}
+	}
+
+	@media only screen and (max-width: 490px) {
+
+		h1 {
+			@include font-size(22);
+		}
+
+		h2 {
+			@include font-size(18);
+		}
 	}
 </style>

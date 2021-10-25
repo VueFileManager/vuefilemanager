@@ -8,10 +8,38 @@ use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 use Illuminate\Support\Facades\DB;
 use Notification;
+use Str;
 use Tests\TestCase;
 
 class TeamManagementTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function it_get_team_folder_invite()
+    {
+        $inviter = User::factory()
+            ->create();
+
+        $member = User::factory()
+            ->create();
+
+        $invitation = TeamFolderInvitation::factory()
+            ->create([
+                'inviter_id' => $inviter->id,
+                'parent_id'  => Str::uuid(),
+                'email'      => $member->email,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+            ]);
+
+        $this->getJson("/api/teams/invitations/{$invitation->id}")
+            ->assertOk()
+            ->assertJsonFragment([
+                'name' => $inviter->settings->name,
+            ]);
+    }
+
     /**
      * @test
      */
@@ -48,6 +76,19 @@ class TeamManagementTest extends TestCase
                 'user_id'    => $member->id,
                 'permission' => 'can-edit',
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_used_team_folder_invite()
+    {
+        $invitation = TeamFolderInvitation::factory()
+            ->create(['status' => 'accepted']);
+
+        $this
+            ->getJson("/api/teams/invitations/{$invitation->id}")
+            ->assertStatus(410);
     }
 
     /**

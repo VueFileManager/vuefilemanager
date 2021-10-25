@@ -56,27 +56,12 @@
 
   .auth-form {
     width: 100%;
-
-    h1 {
-      @include font-size(30);
-    }
-
-    h2 {
-      @include font-size(21);
-    }
   }
 }
 
 @media only screen and (max-width: 490px) {
 
   .auth-form {
-    h1 {
-      @include font-size(22);
-    }
-
-    h2 {
-      @include font-size(18);
-    }
 
     input {
       min-width: initial;

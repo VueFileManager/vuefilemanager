@@ -5,7 +5,7 @@
 			v-if="member.data.attributes.avatar"
 			:src="member.data.attributes.avatar"
 			:alt="member.data.attributes.name"
-			class="rounded-lg"
+			class="rounded-xl border-4 border-white"
 		>
 		<TypedAvatar
 			v-else

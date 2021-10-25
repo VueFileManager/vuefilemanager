@@ -23,7 +23,7 @@
 	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
-	import Headline from "./Headline";
+	import Headline from "../Auth/Headline";
     import {mapGetters} from "vuex";
     import axios from "axios";
 

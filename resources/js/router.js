@@ -6,6 +6,7 @@ import routesIndex from './routes/routesIndex'
 import routesAuth from './routes/routesAuth'
 import routesUser from './routes/routesUser'
 import routesFile from './routes/routesFile'
+import routesTeam from './routes/routesTeam'
 import store from './store/index'
 import Router from 'vue-router'
 import Vue from 'vue'
@@ -23,6 +24,7 @@ const router = new Router({
         ...routesAuth,
         ...routesUser,
         ...routesFile,
+        ...routesTeam,
     ],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {

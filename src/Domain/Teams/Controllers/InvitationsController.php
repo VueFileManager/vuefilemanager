@@ -2,6 +2,7 @@
 namespace Domain\Teams\Controllers;
 
 use App\Users\Models\User;
+use Domain\Teams\Resources\TeamInvitationResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,15 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 
 class InvitationsController extends Controller
 {
+    public function show(TeamFolderInvitation $invitation)
+    {
+        if ($invitation->status === 'accepted') {
+            abort(410);
+        }
+
+        return new TeamInvitationResource($invitation);
+    }
+
     public function update(
         TeamFolderInvitation $invitation
     ): ResponseFactory | Response {

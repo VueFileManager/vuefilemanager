@@ -22,6 +22,7 @@ class InviteMembersIntoTeamFolderAction
                     'permission' => $member['permission'],
                     'email'      => $member['email'],
                     'parent_id'  => $folder->id,
+                    'inviter_id' => $folder->user_id,
                 ]);
 
                 // Invite user
