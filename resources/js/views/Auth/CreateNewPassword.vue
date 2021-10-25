@@ -3,11 +3,10 @@
 
         <!--Create new password-->
         <AuthContent name="create-new-password" :visible="true">
-            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
-
-            <h1>{{ $t('page_create_password.title') }}</h1>
-            <h2>{{ $t('page_create_password.subtitle') }}:</h2>
+			<Headline
+				:title="$t('page_create_password.title')"
+				:description="$t('page_create_password.subtitle')"
+			/>
 
             <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }"
                                 tag="form" class="form block-form create-new-password">
@@ -75,6 +74,7 @@
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {required} from 'vee-validate/dist/rules'
+	import Headline from "./Headline";
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -86,6 +86,7 @@
             ValidationObserver,
             AuthContent,
             AuthButton,
+			Headline,
             required,
         },
         computed: {

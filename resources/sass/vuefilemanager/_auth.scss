@@ -36,25 +36,7 @@
     box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);
   }
 
-  .logo {
-    width: 120px;
-    margin-bottom: 20px;
-  }
 
-  h1 {
-    @include font-size(34);
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 2px;
-    color: $text;
-  }
-
-  h2 {
-    @include font-size(23);
-    font-weight: 500;
-    margin-bottom: 50px;
-    color: $text;
-  }
 
   .block-form {
     margin-left: auto;
