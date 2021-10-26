@@ -84,7 +84,7 @@
         position: absolute;
     }
 
-    .dark-mode {
+    .dark {
 
         .options {
             background: $dark_mode_foreground;

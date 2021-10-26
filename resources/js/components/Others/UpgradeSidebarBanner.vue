@@ -94,7 +94,7 @@
 
     }
 
-    .dark-mode {
+    .dark {
 
     }
 </style>

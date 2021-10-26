@@ -98,7 +98,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .mobile-header {
             background: $dark_mode_background;
 

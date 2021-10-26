@@ -35,7 +35,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .content-sidebar {
             background: rgba($dark_mode_foreground, 0.2);

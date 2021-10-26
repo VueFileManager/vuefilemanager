@@ -64,7 +64,7 @@
         background-color: white;
     }
 
-    .dark-mode {
+    .dark {
         .file-preview {
             background-color: $dark_mode_background;
         }

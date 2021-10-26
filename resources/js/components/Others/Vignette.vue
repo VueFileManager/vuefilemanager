@@ -61,7 +61,7 @@
     }
 
     // Dark mode
-    .dark-mode {
+    .dark {
 
         .vignette {
             background: $dark_mode_vignette;

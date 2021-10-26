@@ -105,7 +105,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         #mobile-actions-wrapper {
             background: $dark_mode_background;
         }

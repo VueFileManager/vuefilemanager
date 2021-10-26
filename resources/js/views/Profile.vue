@@ -181,7 +181,7 @@
         margin-top: -15px;
     }
 
-    .dark-mode {
+    .dark {
         .user-thumbnail {
 
             .info {

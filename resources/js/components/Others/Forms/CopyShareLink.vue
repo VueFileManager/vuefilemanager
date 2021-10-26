@@ -249,7 +249,7 @@ export default {
 	right: -9999px;
 }
 
-.dark-mode {
+.dark {
 
     .copy-input {
         border-color: #333333;

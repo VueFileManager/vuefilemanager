@@ -207,7 +207,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .table-tools {
             background: $dark_mode_background;

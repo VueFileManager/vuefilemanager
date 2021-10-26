@@ -67,7 +67,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .user-avatar {
 
             .notification {

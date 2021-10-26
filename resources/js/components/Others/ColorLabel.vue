@@ -48,7 +48,7 @@
 
     }
 
-    .dark-mode {
+    .dark {
 
     }
 </style>

@@ -125,7 +125,7 @@
         min-width: 380px;
     }
 
-    .dark-mode {
+    .dark {
         .additional-link {
 
             .black-link {

@@ -193,7 +193,7 @@
 
     }
 
-    .dark-mode {
+    .dark {
         .user-thumbnail {
 
             .info {

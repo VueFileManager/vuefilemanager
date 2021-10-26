@@ -21,7 +21,7 @@
 					:size="28"
 					:is-border="true"
 					:member="item.data.relationships.user"
-					class="absolute -right-2 -bottom-2"
+					class="absolute -right-2 -bottom-2 z-10"
 				/>
 
                 <!--If is file or image, then link item-->
@@ -524,7 +524,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
 
     .file-wrapper {
         .icon-item {

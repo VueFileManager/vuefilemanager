@@ -329,7 +329,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 		.tokens-wrapper {
 			margin-top: 0 !important;
 

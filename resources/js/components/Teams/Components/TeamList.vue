@@ -17,7 +17,7 @@
 					<b class="title">
 						{{ entry.name }}
 					</b>
-					<span class="subtitle">
+					<span class="subtitle dark:text-gray-500 text-gray-600">
 						{{ entry.email }}
 					</span>
 				</div>
@@ -124,7 +124,6 @@
 
 				.subtitle {
 					@include font-size(12);
-					color: $text-muted;
 					display: block;
 				}
 			}
@@ -135,7 +134,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 
 		.member-item .info .email {
 			color: $dark_mode_text_secondary;

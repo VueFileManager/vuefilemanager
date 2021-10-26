@@ -64,7 +64,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .mobile-action-button {
             background: $dark_mode_foreground;
 

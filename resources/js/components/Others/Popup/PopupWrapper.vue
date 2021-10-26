@@ -141,7 +141,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .popup-wrapper {
             background: $dark_mode_foreground;
             box-shadow: $dark_mode_popup_shadow;
@@ -150,7 +150,7 @@
 
 	@media only screen and (max-width: 690px) {
 
-		.dark-mode {
+		.dark {
 			.popup-wrapper {
 				background: $dark_mode_background;
 			}

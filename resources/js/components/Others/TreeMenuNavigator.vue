@@ -230,7 +230,7 @@
 	}
 
 	// Dark mode
-	.dark-mode {
+	.dark {
 
 		.folder-item {
 

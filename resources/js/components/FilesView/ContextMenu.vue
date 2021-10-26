@@ -157,7 +157,7 @@ export default {
 	padding: 0;
 }
 
-.dark-mode {
+.dark {
 	.contextmenu {
 		background: $dark_mode_foreground;
 	}

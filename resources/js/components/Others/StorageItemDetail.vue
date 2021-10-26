@@ -168,7 +168,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .header-storage-item {
             .type {

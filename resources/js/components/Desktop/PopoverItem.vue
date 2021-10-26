@@ -55,7 +55,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 		.popover-item {
 			background: $dark_mode_foreground;
 		}

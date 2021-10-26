@@ -1,10 +1,17 @@
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       borderWidth: {
         '3': '3px',
+      },
+      borderColor: theme => ({
+        'dark-background': '#151515',
+        'dark-secondary': '#1e2024',
+      }),
+      fontSize: {
+        tiny: ['11px', '16px'],
       }
     },
   },

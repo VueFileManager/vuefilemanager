@@ -80,7 +80,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 
 		.team-folder {
 

@@ -187,7 +187,7 @@ import {
     }
 }
 
-.dark-mode {
+.dark {
 
     .menu-option {
         color: $dark_mode_text_primary;

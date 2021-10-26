@@ -159,7 +159,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .toaster-item {
 
             &.success, &.danger {

@@ -241,7 +241,7 @@ export default {
 }
 
 
-.dark-mode {
+.dark {
 
     .navigation-arrows {
         .prev, .next {

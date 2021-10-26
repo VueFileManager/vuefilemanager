@@ -104,7 +104,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
     .search-bar {
         input {
             background: $dark_mode_foreground;

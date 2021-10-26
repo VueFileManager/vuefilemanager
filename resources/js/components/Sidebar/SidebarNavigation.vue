@@ -94,7 +94,7 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-	.dark-mode-switcher {
+	.dark-switcher {
 		padding-top: 20px;
 		border-top: 1px solid darken($light_mode_border, 7%);
 		margin: 20px 15px 0;
@@ -212,9 +212,9 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
-		.dark-mode-switcher {
+		.dark-switcher {
 			border-color:lighten($dark_mode_foreground, 2%);
 		}
 

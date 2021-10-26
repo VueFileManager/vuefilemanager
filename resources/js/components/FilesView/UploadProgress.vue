@@ -129,7 +129,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .progress-bar {
             background: $dark_mode_foreground;
         }

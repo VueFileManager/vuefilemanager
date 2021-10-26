@@ -554,7 +554,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
 
     .file-wrapper {
 

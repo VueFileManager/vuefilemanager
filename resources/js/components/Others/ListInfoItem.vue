@@ -46,7 +46,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .list-info-item {
 
             span {

@@ -50,7 +50,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .empty-message {
 
             .message {

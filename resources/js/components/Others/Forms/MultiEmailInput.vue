@@ -173,7 +173,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
     .input-wrapper {
 		background: lighten($dark_mode_foreground, 3%);
 

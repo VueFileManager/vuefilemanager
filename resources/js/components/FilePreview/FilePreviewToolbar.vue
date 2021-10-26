@@ -341,7 +341,7 @@
     }
 }
 
-.dark-mode {
+.dark {
     .navigation-panel {
         background-color: $dark_mode_background;
         color: $dark_mode_text_primary;

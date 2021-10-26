@@ -90,7 +90,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .switch {
             background: $dark_mode_foreground;
         }

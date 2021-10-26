@@ -53,7 +53,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .form-label {
 
             .label {

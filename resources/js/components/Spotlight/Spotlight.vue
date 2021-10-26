@@ -293,7 +293,7 @@ export default {
 	@include font-size(13);
 }
 
-.dark-mode {
+.dark {
 
 	#spotlight .spotlight-wrapper {
 		background: $dark_mode_foreground;

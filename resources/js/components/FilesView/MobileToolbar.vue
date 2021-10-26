@@ -141,7 +141,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .mobile-toolbar {
             background: $dark_mode_background;

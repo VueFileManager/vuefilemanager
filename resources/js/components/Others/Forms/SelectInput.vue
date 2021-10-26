@@ -239,7 +239,7 @@
         transform: translateY(-50px);
     }
 
-    .dark-mode {
+    .dark {
 
         .select-search {
             background: $dark_mode_foreground;

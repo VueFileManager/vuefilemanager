@@ -424,7 +424,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
 
     .table {
 

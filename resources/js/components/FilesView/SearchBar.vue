@@ -82,7 +82,7 @@
 		}
     }
 
-    .dark-mode {
+    .dark {
         .search-bar {
 			background: $dark_mode_foreground;
 

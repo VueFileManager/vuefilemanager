@@ -1,8 +1,12 @@
 <template>
-	<div class="team-folder-preview">
+	<div class="team-folder-preview text-left py-3 px-5">
 		<div class="info">
-			<b class="title">{{ teamFolder.data.attributes.name }}</b>
-			<span class="subtitle">Created at {{ teamFolder.data.attributes.created_at }}</span>
+			<b class="title text-sm">
+				{{ teamFolder.data.attributes.name }}
+			</b>
+			<span class="subtitle text-tiny block mb-2 dark:text-gray-500 text-gray-600">
+				Created at {{ teamFolder.data.attributes.created_at }}
+			</span>
 			<TeamMembersPreview :folder="teamFolder" :avatar-size="32" class="members" />
 		</div>
 	</div>
@@ -34,27 +38,10 @@
 	@import "resources/sass/vuefilemanager/_mixins";
 
 	.team-folder-preview {
-		text-align: left;
-		padding: 15px 20px;
 		border-bottom: 1px solid $light_mode_border;
-
-		.info {
-
-			.title {
-				@include font-size(14);
-			}
-
-			.subtitle {
-				@include font-size(11);
-				color: $text-muted;
-				display: block;
-				margin-bottom: 10px;
-				line-height: 1;
-			}
-		}
 	}
 
-	.dark-mode {
+	.dark {
 		.team-folder-preview {
 			border-color: $dark_mode_border_color;
 		}

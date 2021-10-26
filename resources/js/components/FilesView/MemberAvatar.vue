@@ -5,7 +5,7 @@
 			v-if="member.data.attributes.avatar"
 			:src="member.data.attributes.avatar"
 			:alt="member.data.attributes.name"
-			:class="[borderRadius, {'border-3 border-white': isBorder}]"
+			:class="[borderRadius, {'border-3 border-white dark:border-dark-background': isBorder}]"
 			class=""
 		>
 		<div

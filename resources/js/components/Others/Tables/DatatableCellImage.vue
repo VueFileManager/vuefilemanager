@@ -76,7 +76,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .cell-image-thumbnail {
 

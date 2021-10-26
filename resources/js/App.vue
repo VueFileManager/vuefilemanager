@@ -56,7 +56,7 @@ export default {
 		toggleDarkMode() {
 			const webApp = document.getElementsByTagName("html")[0];
 
-			webApp.classList.toggle("dark-mode");
+			webApp.classList.toggle("dark");
 		},
 		spotlightListener(e) {
 			if (e.key === 'k' && e.metaKey) {
@@ -170,7 +170,7 @@ export default {
 }
 
 // Dark mode support
-.dark-mode {
+.dark {
 
     * {
         color: $dark_mode_text_primary;

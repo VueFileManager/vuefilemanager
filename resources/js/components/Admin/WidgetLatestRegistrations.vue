@@ -113,7 +113,7 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .dark-mode {
+    .dark {
 
     }
 </style>

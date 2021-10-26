@@ -104,7 +104,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .copyright {
             color: $dark_mode_text_secondary;

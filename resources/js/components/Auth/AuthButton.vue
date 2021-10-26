@@ -88,7 +88,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .button {
 
             &.outline {

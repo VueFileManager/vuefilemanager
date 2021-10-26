@@ -729,7 +729,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .plan-title {
 

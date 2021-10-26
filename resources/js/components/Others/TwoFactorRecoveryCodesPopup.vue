@@ -192,7 +192,7 @@ export default {
 		}
 	}
 
-	.dark-mode {
+	.dark {
 		.codes-list {
 
 			li {

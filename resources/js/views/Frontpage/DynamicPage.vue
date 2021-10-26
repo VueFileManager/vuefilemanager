@@ -86,7 +86,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
     }
 

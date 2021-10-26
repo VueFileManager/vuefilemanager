@@ -88,7 +88,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
 
     .multiselect-actions {
         background: $dark_mode_foreground;

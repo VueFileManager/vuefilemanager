@@ -101,7 +101,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .popup-header {
             .label {
                 .close-icon {

@@ -115,7 +115,7 @@
     }
 }
 
-.dark-mode {
+.dark {
     .button {
         background: transparent;
 

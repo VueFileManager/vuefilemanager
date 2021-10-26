@@ -149,7 +149,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .plans-wrapper {
             background: $dark_mode_foreground;

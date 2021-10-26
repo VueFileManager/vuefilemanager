@@ -361,7 +361,7 @@
 	}
 }
 
-.dark-mode {
+.dark {
 	.team-preview:hover {
 		background: $dark_mode_foreground;
 

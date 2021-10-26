@@ -120,7 +120,7 @@
 	}
 }
 
-.dark-mode {
+.dark {
 
     .folder-icon {
         &.is-deleted {

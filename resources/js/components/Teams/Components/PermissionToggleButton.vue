@@ -71,7 +71,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 
 		.permission-toggle .privilege {
 			color: $dark_mode_text_secondary;

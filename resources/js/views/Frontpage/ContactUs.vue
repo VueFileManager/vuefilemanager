@@ -151,7 +151,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
     }
 

@@ -129,7 +129,7 @@ export default {
 	}
 }
 
-.dark-mode {
+.dark {
 
 	.meta-data-list {
 		li {

@@ -72,7 +72,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 		.text-content {
 
 			.title {

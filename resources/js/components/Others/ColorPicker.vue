@@ -117,7 +117,7 @@ export default {
     position: relative;
 }
 
-.dark-mode {
+.dark {
     .color-pick-wrapper {
         .color-wrapper {
             .single-color {
