@@ -11,10 +11,10 @@
 		<div
 			v-else
 			class="flex items-center justify-center"
-			:class="[borderRadius, {'border-3 border-white': isBorder}]"
+			:class="[borderRadius, {'border-3 border-white dark:border-dark-background': isBorder}]"
 			:style="{width: size + 'px', height: size + 'px', background: member.data.attributes.color ? member.data.attributes.color : '#f4f5f6'}"
 		>
-			<span :class="fontSize" class="uppercase font-extrabold">
+			<span :class="fontSize" class="uppercase font-extrabold text-gray-900">
 				{{ letter }}
 			</span>
 		</div>
@@ -31,13 +31,24 @@
 		],
 		computed: {
 			letter() {
-				return this.member.data.attributes.name.substr(0, 1)
+				let string = this.member.data.attributes.name
+					? this.member.data.attributes.name
+					: this.member.data.attributes.email
+
+				return string.substr(0, 1)
 			},
 			borderRadius() {
 				return this.size > 32 ? 'rounded-xl' : 'rounded-lg'
 			},
 			fontSize() {
-				return this.size > 32 ? 'text-base' : 'text-sm'
+
+				if (this.size > 42) {
+					return 'text-lg'
+				} else if (this.size > 32) {
+					return 'text-base'
+				} else {
+					return 'text-sm'
+				}
 			},
 		}
 	}

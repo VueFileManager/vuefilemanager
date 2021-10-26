@@ -187,7 +187,8 @@ class Folder extends Model
 
     public function teamInvitations(): HasMany
     {
-        return $this->hasMany(TeamFolderInvitation::class, 'parent_id', 'id');
+        return $this->hasMany(TeamFolderInvitation::class, 'parent_id', 'id')
+            ->where('status', 'pending');
     }
 
     public function teamMembers(): BelongsToMany

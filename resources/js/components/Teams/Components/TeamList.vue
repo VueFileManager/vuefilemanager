@@ -5,14 +5,16 @@
 				<x-icon size="14" class="close-icon" />
 			</div>
 			<div class="member-preview">
-				<div class="avatar">
-					<MemberAvatar
-						class="mr-3 ml-2"
-						:is-border="true"
-						:size="44"
-						:member="$mapIntoMemberResource(entry)"
-					/>
-				</div>
+
+				<!--Avatar-->
+				<MemberAvatar
+					class="mr-3 ml-2"
+					:is-border="false"
+					:size="44"
+					:member="$mapIntoMemberResource(entry)"
+				/>
+
+				<!--Member-->
 				<div v-if="entry.type === 'member'" class="info">
 					<b class="title">
 						{{ entry.name }}
@@ -21,6 +23,8 @@
 						{{ entry.email }}
 					</span>
 				</div>
+
+				<!--Invitation-->
 				<div v-if="entry.type === 'invitation'" class="info">
 					<b class="title">
 						{{ entry.email }}

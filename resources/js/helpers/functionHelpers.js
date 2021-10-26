@@ -354,6 +354,7 @@ const FunctionHelpers = {
                     attributes: {
                         avatar: entry.avatar,
                         name: entry.name,
+                        email: entry.email,
                         color: entry.color,
                     }
                 }

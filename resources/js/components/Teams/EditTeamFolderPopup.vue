@@ -67,7 +67,7 @@
 	import axios from "axios";
 
 	export default {
-		name: 'UpdateTeamFolderPopup',
+		name: 'EditTeamFolderPopup',
 		components: {
 			ValidationProvider,
 			ValidationObserver,

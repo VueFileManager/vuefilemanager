@@ -26,7 +26,6 @@ const defaultState = {
     teamPermissions: {
         'can-edit': 'Can Edit',
         'can-view': 'Can View',
-        'can-view-and-download': 'Can View & Download',
     },
     countries: [
         {label: 'Czech Republic', value: 'CZ'},

@@ -4,7 +4,7 @@
 			3+
 		</span>
 		<div class="members">
-			<div v-for="member in members" :key="member.data.id" :title="member.data.attributes.email" class="member-preview">
+			<div v-for="member in members" :key="member.data.id" :title="member.data.attributes.email" class="member-preview z-10">
 				<MemberAvatar :is-border="true" :size="34" :member="member" />
 			</div>
 		</div>
