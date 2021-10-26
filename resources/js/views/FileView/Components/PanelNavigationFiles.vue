@@ -8,7 +8,7 @@
 		<!--Locations-->
 		<ContentGroup :title="$t('sidebar.locations_title')">
 			<div class="menu-list-wrapper vertical">
-				<router-link :to="{name: 'Files'}" class="menu-list-item link">
+				<router-link @click.native="resetData" :to="{name: 'Files'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<home-icon size="17" />
 					</div>
@@ -16,7 +16,7 @@
 						{{ $t('sidebar.home') }}
 					</div>
 				</router-link>
-				<router-link :to="{name: 'RecentUploads'}" class="menu-list-item link">
+				<router-link @click.native="resetData" :to="{name: 'RecentUploads'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<upload-cloud-icon size="17" />
 					</div>
@@ -24,7 +24,7 @@
 						{{ $t('sidebar.latest') }}
 					</div>
 				</router-link>
-				<router-link :to="{name: 'MySharedItems'}" class="menu-list-item link">
+				<router-link @click.native="resetData" :to="{name: 'MySharedItems'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<link-icon size="17" />
 					</div>
@@ -32,7 +32,7 @@
 						{{ $t('sidebar.my_shared') }}
 					</div>
 				</router-link>
-				<router-link :to="{name: 'Trash'}" class="menu-list-item link">
+				<router-link @click.native="resetData" :to="{name: 'Trash'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<trash2-icon size="17" />
 					</div>
@@ -46,7 +46,7 @@
 		<!--Locations-->
 		<ContentGroup :title="$t('Collaboration')" slug="collaboration" :can-collapse="true">
 			<div class="menu-list-wrapper vertical">
-				<router-link :to="{name: 'TeamFolders'}" class="menu-list-item link">
+				<router-link @click.native="resetData" :to="{name: 'TeamFolders'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<users-icon size="17" />
 					</div>
@@ -54,7 +54,7 @@
 						{{ $t('Team Folders') }}
 					</div>
 				</router-link>
-				<router-link :to="{name: 'SharedWithMe'}" class="menu-list-item link">
+				<router-link @click.native="resetData" :to="{name: 'SharedWithMe'}" class="menu-list-item link">
 					<div class="icon text-theme">
 						<user-check-icon size="17" />
 					</div>
@@ -143,6 +143,10 @@ export default {
 		}
 	},
 	methods: {
+		resetData() {
+			this.$store.commit('SET_CURRENT_TEAM_FOLDER', null)
+			this.$store.commit('CLIPBOARD_CLEAR')
+		},
 		goToFolder(folder) {
 			this.$router.push({name: 'Files', params: {id: folder.data.id}})
 		},

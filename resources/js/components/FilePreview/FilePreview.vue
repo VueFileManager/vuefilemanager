@@ -1,7 +1,7 @@
 <template>
 	<div
         v-if="isFullPreview"
-        class="file-preview"
+        class="file-preview z-20"
         ref="filePreview"
         tabindex="-1"
         @keydown.esc="closeFilePreview"
@@ -60,7 +60,6 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        z-index: 7;
         background-color: white;
     }
 

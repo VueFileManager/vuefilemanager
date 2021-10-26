@@ -1,5 +1,5 @@
 <template>
-    <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
+    <div class="file-wrapper" @mouseup.stop="clickFilter" spellcheck="false">
         <div
             :draggable="canDrag"
             @dragstart="$emit('dragstart')"
@@ -17,7 +17,7 @@
             <div class="icon-item">
 
 				<MemberAvatar
-					v-if="canShowAuthor"
+					v-if="user && canShowAuthor"
 					:size="28"
 					:is-border="true"
 					:member="item.data.relationships.user"
@@ -156,11 +156,33 @@ export default {
         return {
             area: false,
             itemName: undefined,
-            mobileMultiSelect: false
+            mobileMultiSelect: false,
+
+			delay: 220,
+			clicks: 0,
+			timer: null
         }
     },
     methods: {
-        drop() {
+		clickFilter(e) {
+			this.clicks++
+
+			if (this.clicks === 1) {
+				let self = this
+
+				this.timer = setTimeout(() => {
+					this.clickedItem(e)
+					self.clicks = 0
+				}, this.delay);
+
+			} else {
+				clearTimeout(this.timer);
+
+				this.goToItem(e)
+				this.clicks = 0;
+			}
+		},
+		drop() {
             this.area = false
             events.$emit('drop')
         },
@@ -260,9 +282,6 @@ export default {
                 this.$downloadFile(this.item.data.attributes.file_url, this.item.data.attributes.name + '.' + this.item.data.attributes.mimetype)
 
             } else if (this.isFolder) {
-
-                // Clear selected items after open another folder
-                this.$store.commit('CLIPBOARD_CLEAR')
 
 				this.$goToFileView(this.item.data.id)
             }

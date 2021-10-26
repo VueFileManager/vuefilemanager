@@ -16,7 +16,7 @@
         name: 'FilePreview',
         computed: {
             ...mapGetters([
-				'clipboard'
+				'clipboard',
 			]),
 			singleFile() {
             	return this.clipboard[0]
@@ -26,8 +26,8 @@
                     'folder', 'file'
                 ], this.singleFile.data.type)
             }
-        },
-    }
+        }
+	}
 </script>
 
 <style scoped lang="scss">

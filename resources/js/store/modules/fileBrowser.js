@@ -123,7 +123,6 @@ const actions = {
 
 const mutations = {
     LOADING_STATE(state, payload) {
-        state.clipboard = []
         state.entries = payload.data
         state.isLoading = payload.loading
     },
