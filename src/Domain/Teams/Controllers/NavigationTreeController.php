@@ -6,9 +6,9 @@ use Gate;
 
 class NavigationTreeController
 {
-    public function __invoke(string $id): array
+    public function __invoke(Folder $folder): array
     {
-        $teamFolder = Folder::findOrFail($id)->getLatestParent();
+        $teamFolder = $folder->getLatestParent();
 
         if (! Gate::any(['can-edit', 'can-view'], [$teamFolder, null])) {
             abort(403, 'Access Denied');

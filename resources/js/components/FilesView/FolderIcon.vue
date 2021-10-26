@@ -16,12 +16,6 @@
 			:style="{fill: color}"
 			style="width: 53px; height: 52px"
 		/>
-<!--        <FontAwesomeIcon
-            v-if="!emoji"
-            :class="[{'is-deleted':isDeleted},{'is-team':item.data.attributes.isTeamFolder},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
-            :style="{fill: color}"
-            icon="folder"
-        />-->
     </div>
 </template>
 

@@ -45,7 +45,7 @@ class TeamManagementTest extends TestCase
      */
     public function it_accept_team_folder_invite()
     {
-        $member = User::factory(User::class)
+        $member = User::factory()
             ->create([
                 'email' => 'john@internal.com',
             ]);
@@ -96,7 +96,7 @@ class TeamManagementTest extends TestCase
      */
     public function it_reject_team_folder_invite()
     {
-        $member = User::factory(User::class)
+        $member = User::factory()
             ->create([
                 'email' => 'john@internal.com',
             ]);
@@ -133,10 +133,10 @@ class TeamManagementTest extends TestCase
      */
     public function it_invite_member_into_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $members = User::factory()
             ->count(2)
             ->create();
 
@@ -212,10 +212,10 @@ class TeamManagementTest extends TestCase
      */
     public function it_delete_invited_member_from_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $members = User::factory()
             ->count(2)
             ->create();
 
@@ -291,10 +291,10 @@ class TeamManagementTest extends TestCase
      */
     public function it_remove_member_from_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $members = User::factory()
             ->count(2)
             ->create();
 
@@ -343,7 +343,7 @@ class TeamManagementTest extends TestCase
      */
     public function it_update_invited_member_permission_in_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory()
@@ -390,10 +390,10 @@ class TeamManagementTest extends TestCase
      */
     public function it_update_member_permission_in_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $members = User::factory()
             ->count(2)
             ->create();
 
@@ -445,10 +445,10 @@ class TeamManagementTest extends TestCase
      */
     public function member_try_update_permission_in_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $members = User::factory()
             ->count(2)
             ->create();
 
@@ -502,10 +502,10 @@ class TeamManagementTest extends TestCase
      */
     public function it_dissolve_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $members = User::factory()
             ->count(2)
             ->create();
 
@@ -549,12 +549,51 @@ class TeamManagementTest extends TestCase
     /**
      * @test
      */
-    public function member_try_dissolve_team_folder()
+    public function it_leave_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $members = User::factory(User::class)
+        $member = User::factory()
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $member->id,
+                    'permission' => 'can-edit',
+                ],
+            ]);
+
+        $this
+            ->actingAs($member)
+            ->deleteJson("/api/teams/folders/{$folder->id}/leave")
+            ->assertNoContent();
+
+        $this
+            ->assertDatabaseMissing('team_folder_members', [
+                'parent_id'  => $folder->id,
+                'user_id'    => $member->id,
+                'permission' => 'can-edit',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function member_try_dissolve_team_folder()
+    {
+        $user = User::factory()
+            ->create();
+
+        $members = User::factory()
             ->count(2)
             ->create();
 

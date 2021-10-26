@@ -132,7 +132,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'avatar' => 'avatar-03.png',
-                'email'  => $this->faker->email,
+                'email'  => 'johan@hi5ve.digital',
             ],
             [
                 'avatar' => 'avatar-04.png',
@@ -805,6 +805,9 @@ class SetupDevEnvironment extends Command
         $owner = User::whereEmail('alice@hi5ve.digital')
             ->first();
 
+        $johan = User::whereEmail('johan@hi5ve.digital')
+            ->first();
+
         $folder = Folder::factory()
             ->create([
                 'user_id'     => $owner->id,
@@ -828,25 +831,29 @@ class SetupDevEnvironment extends Command
 
         DB::table('team_folder_members')
             ->insert([
-                'parent_id'  => $folder->id,
-                'user_id'    => $member->id,
-                'permission' => 'can-edit',
-            ]);
-
-        DB::table('team_folder_members')
-            ->insert([
-                'parent_id'  => $folder->id,
-                'user_id'    => $owner->id,
-                'permission' => 'owner',
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $member->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $owner->id,
+                    'permission' => 'owner',
+                ],
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $johan->id,
+                    'permission' => 'owner',
+                ]
             ]);
 
         // Get meme gallery
         collect([
             'Sofishticated.jpg',
             'whaaaaat.jpg',
-            'You Are My Sunshine.jpg',
         ])
-            ->each(function ($file) use ($owner, $memes) {
+            ->each(function ($file) use ($owner, $folder) {
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
@@ -855,7 +862,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $memes->id,
+                    'parent_id'  => $folder->id,
                     'user_id'    => $owner->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -867,6 +874,34 @@ class SetupDevEnvironment extends Command
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
+
+        // Get meme gallery
+        collect([
+            'You Are My Sunshine.jpg',
+        ])
+            ->each(function ($file) use ($johan, $folder) {
+                $basename = Str::random(12) . '-' . $file;
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$johan->id", storage_path("demo/images/memes/$file"), $basename, 'private');
+                Storage::putFileAs("files/$johan->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $johan->id,
+                    'name'       => $file,
+                    'basename'   => $basename,
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'thumbnail'  => "thumbnail-$basename",
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+
         collect([
             'Eggcited bro.jpg',
             'Get a Rest.jpg',

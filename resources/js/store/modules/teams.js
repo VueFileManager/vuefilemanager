@@ -92,7 +92,7 @@ const actions = {
 	getTeamFolderTree: ({commit, getters}) => {
 		return new Promise((resolve, reject) => {
 			axios
-				.get(`/api/teams/tree/${getters.currentTeamFolder.data.id}${getters.sorting.URI}`)
+				.get(`/api/teams/folders/${getters.currentTeamFolder.data.id}/tree${getters.sorting.URI}`)
 				.then(response => {
 					resolve(response)
 

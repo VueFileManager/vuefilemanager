@@ -191,6 +191,22 @@
 			events.$on('context-menu:show', (event, item) => this.item = item)
 			events.$on('mobile-context-menu:show', item => this.item = item)
 			events.$on('context-menu:current-folder', folder => this.item = folder)
+
+			events.$on('action:confirmed', data => {
+
+				// Leave team folder after popup confirmation
+				if (data.operation === 'leave-team-folder')
+					axios.delete(`/api/teams/folders/${data.id}/leave`)
+						.then(() => {
+							this.$router.push({name: 'SharedWithMe'})
+
+							events.$emit('toaster', {
+								type: 'success',
+								message: this.$t('You have successfully left the team folder'),
+							})
+						})
+						.catch(() => this.$isSomethingWrong())
+			})
 		}
 	}
 </script>

@@ -5,6 +5,7 @@ namespace Domain\Teams\Controllers;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderCollection;
 use Domain\Folders\Resources\FolderResource;
+use Gate;
 use Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
@@ -18,6 +19,12 @@ class BrowseSharedWithMeController
         $id = Str::isUuid($id) ? $id : null;
 
         if ($id) {
+            $teamFolder = Folder::findOrFail($id)->getLatestParent();
+
+            if (! Gate::any(['can-edit', 'can-view'], [$teamFolder, null])) {
+                abort(403, 'Access Denied');
+            }
+
             $folders = Folder::with(['parent:id,name'])
                 ->where('parent_id', $id)
                 ->sortable()
@@ -44,7 +51,7 @@ class BrowseSharedWithMeController
             'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
             'folders'    => new FolderCollection($folders),
             'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
-            'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
+            'teamFolder' => $id ? new FolderResource($teamFolder) : null,
         ];
     }
 }

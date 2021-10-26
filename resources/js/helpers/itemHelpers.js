@@ -45,6 +45,17 @@ const itemHelpers = {
 			})
 		},
 
+		Vue.prototype.$detachMeFromTeamFolder = function (folder) {
+			events.$emit('confirm:open', {
+				title: this.$t('Are you sure you want to leave this team?'),
+				message: this.$t('You will not have access to the files in this team folder.'),
+				action: {
+					id: folder.data.id,
+					operation: 'leave-team-folder',
+				}
+			})
+		},
+
 		Vue.prototype.$createTeamFolder = function () {
 			events.$emit('popup:open', {name: 'create-team-folder'})
 		}

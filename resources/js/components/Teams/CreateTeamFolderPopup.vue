@@ -121,7 +121,7 @@
 
 				let route = this.name
 					? `/api/teams/folders`
-					: `/api/teams/convert/${this.item.data.id}`
+					: `/api/teams/folders/${this.item.data.id}/convert`
 
 				let payload = this.name
 					? {

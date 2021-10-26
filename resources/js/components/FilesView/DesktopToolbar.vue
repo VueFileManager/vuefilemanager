@@ -61,9 +61,14 @@
 						<TeamMembersButton @click.stop.native="showTeamFolderMenu" class="team-preview" />
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
+
 							<OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])">
 								<Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('Edit Members')" icon="rename" />
 								<Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('Dissolve Team')" icon="trash" />
+							</OptionGroup>
+
+							<OptionGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
+								<Option @click.native="$detachMeFromTeamFolder(teamFolder)" :title="$t('Leave the Team Folder')" icon="user-minus" />
 							</OptionGroup>
 						</PopoverItem>
 					</PopoverWrapper>

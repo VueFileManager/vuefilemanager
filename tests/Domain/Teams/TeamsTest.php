@@ -100,7 +100,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->post("/api/teams/convert/{$folder->id}", [
+            ->post("/api/teams/folders/{$folder->id}/convert", [
                 'invitations' => [
                     [
                         'email'      => 'john@internal.com',

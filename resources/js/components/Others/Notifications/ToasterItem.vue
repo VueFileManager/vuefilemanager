@@ -122,7 +122,7 @@
         &.success {
             background: $theme_light;
 
-            line {
+            line, polyline {
                 stroke: $theme;
             }
 
@@ -134,7 +134,7 @@
         &.danger {
             background: rgba($danger, 0.1);
 
-            line {
+            line, polyline {
                 stroke: $danger;
             }
 

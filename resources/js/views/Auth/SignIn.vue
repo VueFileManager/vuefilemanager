@@ -301,7 +301,7 @@
                             this.$store.commit('SET_AUTHORIZED', true)
 
                             // Go to files page
-                            this.$router.push({name: 'Files'})
+							this.proceedToAccount()
                         }
                     })
                     .catch(error => {
@@ -336,7 +336,7 @@
 							this.$store.commit('SET_AUTHORIZED', true)
 
 							// Go to files page
-							this.$router.push({name: 'Files'})
+							this.proceedToAccount()
 						})
 						.catch(error => {
 
@@ -368,6 +368,13 @@
 				}
 
 			},
+			proceedToAccount() {
+				if (this.$route.query.redirect) {
+					this.$router.push(this.$route.query.redirect)
+				} else {
+					this.$router.push({name: 'Files'})
+				}
+			}
         },
         created() {
             this.$scrollTop()
@@ -377,6 +384,10 @@
             this.loginEmail = 'howdy@hi5ve.digital'
             this.loginPassword = 'vuefilemanager'
             //}
+
+			console.log(
+
+			);
         }
     }
 </script>
