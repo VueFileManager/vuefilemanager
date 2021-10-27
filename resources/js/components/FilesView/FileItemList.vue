@@ -1,83 +1,18 @@
 <template>
-    <div class="file-wrapper" @mouseup.stop="clickFilter" spellcheck="false">
-        <div
-            :draggable="canDrag"
-            @dragstart="$emit('dragstart')"
-            @drop="drop()"
-            @dragleave="dragLeave"
-            @dragover.prevent="dragEnter"
-            class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && $isMobile(), 'is-dragenter': area }"
-        >
-            <!-- MultiSelecting for the mobile version -->
-            <transition name="slide-from-left">
-                <CheckBox v-if="mobileMultiSelect" :is-clicked="isClicked" class="check-box"/>
-            </transition>
-
-            <!--Thumbnail for item-->
-            <div class="icon-item">
-
-				<MemberAvatar
-					v-if="user && canShowAuthor"
-					:size="28"
-					:is-border="true"
-					:member="item.data.relationships.user"
-					class="absolute -right-2 -bottom-2 z-10"
-				/>
-
-                <!--If is file or image, then link item-->
-                <span v-if="isFile || isVideo || (isImage && !item.data.attributes.thumbnail)" class="file-icon-text text-theme dark-text-theme">
-                    {{ item.data.attributes.mimetype | limitCharacters }}
-                </span>
-
-                <!--Folder thumbnail-->
-                <FontAwesomeIcon v-if="isFile || isVideo || (isImage && !item.data.attributes.thumbnail)" class="file-icon" icon="file" />
-
-                <!--Image thumbnail-->
-                <img loading="lazy" v-if="isImage && item.data.attributes.thumbnail" class="image" :src="item.data.attributes.thumbnail" :alt="item.data.attributes.name" />
-
-                <!--Else show only folder icon-->
-                <FolderIcon v-if="isFolder" :item="item" location="file-item-list" class="folder svg-color-theme" />
-            </div>
-
-            <!--Name-->
-            <div class="item-name">
-                <b :ref="item.data.id" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName" class="name">
-                    {{ itemName }}
-                </b>
-
-                <div class="item-info">
-                    <!--Shared Icon-->
-                    <div v-if="$checkPermission('master') && item.data.relationships.shared" class="item-shared">
-                        <link-icon size="12" class="shared-icon text-theme dark-text-theme"/>
-                    </div>
-
-                    <!--Filesize and timestamp-->
-                    <span v-if="!isFolder" class="item-size">{{ item.data.attributes.filesize }}, {{ timeStamp }}</span>
-
-                    <!--Folder item counts-->
-                    <span v-if="isFolder" class="item-length"> {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }} </span>
-                </div>
-            </div>
-
-            <!--Show item actions-->
-            <transition name="slide-from-right">
-                <div class="actions" v-if="$isMobile() && ! mobileMultiSelect">
-                    <span @mousedown.stop="showItemActions" class="show-actions">
-                        <MoreVerticalIcon size="16" class="icon-action text-theme dark-text-theme" />
-                    </span>
-                </div>
-            </transition>
-        </div>
-    </div>
+	<ItemList
+		:entry="item"
+		@mouseup.stop.native="clickFilter"
+		@dragstart.native="$emit('dragstart')"
+		@drop.native="drop()"
+		@dragleave.native="dragLeave"
+		@dragover.prevent.native="dragEnter"
+		:class="{'border-theme': area }"
+	/>
 </template>
 
 <script>
-import {LinkIcon, MoreVerticalIcon} from 'vue-feather-icons'
-import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
-import CheckBox from '/resources/js/components/FilesView/CheckBox'
-import MemberAvatar from "./MemberAvatar";
 import {events} from '/resources/js/bus'
-import {debounce} from 'lodash'
+import ItemList from './ItemList'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -87,27 +22,15 @@ export default {
 		'item',
 	],
     components: {
-        MoreVerticalIcon,
-		MemberAvatar,
-        FolderIcon,
-        CheckBox,
-        LinkIcon,
+		ItemList,
     },
     computed: {
         ...mapGetters([
-            'FilePreviewType',
+            'isMultiSelectMode',
             'clipboard',
             'entries',
             'user',
         ]),
-		canShowAuthor() {
-			return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
-				&& !this.isFolder
-				&& this.user.data.id !== this.item.data.relationships.user.data.id
-		},
-        isClicked() {
-            return !this.disableHighlight && this.clipboard.some(element => element.data.id === this.item.data.id)
-        },
         isFolder() {
             return this.item.data.type === 'folder'
         },
@@ -127,36 +50,10 @@ export default {
             let mimetypes = ['mpeg', 'mp3', 'mp4', 'wan', 'flac']
             return mimetypes.includes(this.item.data.attributes.mimetype) && this.item.data.type === 'audio'
         },
-        canEditName() {
-            return !this.$isMobile() && !this.$isThisRoute(this.$route, ['Trash']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.attributes.type === 'file')
-        },
-        canDrag() {
-            return !this.isDeleted && this.$checkPermission(['master', 'editor'])
-        },
-        timeStamp() {
-            return this.item.data.attributes.deleted_at ? this.$t('item_thumbnail.deleted_at', {time: this.item.data.attributes.deleted_at}) : this.item.data.attributes.created_at
-        },
-        folderItems() {
-            return this.item.data.attributes.deleted_at ? this.item.data.attributes.trashed_items : this.item.data.attributes.items
-        },
-        isDeleted() {
-            return this.item.data.attributes.deleted_at
-        }
-    },
-    filters: {
-        limitCharacters(str) {
-            if (str.length > 3) {
-                return str.substring(0, 3) + '...'
-            } else {
-                return str.substring(0, 3)
-            }
-        }
     },
     data() {
         return {
             area: false,
-            itemName: undefined,
-            mobileMultiSelect: false,
 
 			delay: 220,
 			clicks: 0,
@@ -185,13 +82,6 @@ export default {
 		drop() {
             this.area = false
             events.$emit('drop')
-        },
-        showItemActions() {
-            this.$store.commit('CLIPBOARD_CLEAR')
-            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
-
-            events.$emit('mobile-menu:show', 'file-menu')
-			events.$emit('mobile-context-menu:show', this.item)
         },
         dragEnter() {
             if (this.item.data.type !== 'folder') return
@@ -250,7 +140,7 @@ export default {
                 }
             }
 
-            if (!this.mobileMultiSelect && this.$isMobile()) {
+            if (!this.isMultiSelectMode && this.$isMobile()) {
 
                 if (this.isFolder) {
 					this.$goToFileView(this.item.data.id)
@@ -266,7 +156,7 @@ export default {
                 }
             }
 
-            if (this.mobileMultiSelect && this.$isMobile()) {
+            if (this.isMultiSelectMode && this.$isMobile()) {
                 if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
                     this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                 } else {
@@ -286,43 +176,6 @@ export default {
 				this.$goToFileView(this.item.data.id)
             }
         },
-        renameItem: debounce(function (e) {
-            // Prevent submit empty string
-            if (e.target.innerText.trim() === '') return
-
-            this.$store.dispatch('renameItem', {
-                id: this.item.data.id,
-                type: this.item.data.type,
-                name: e.target.innerText
-            })
-        }, 300)
-    },
-    created() {
-
-        this.itemName = this.item.data.attributes.name
-
-        events.$on('newFolder:focus', (id) => {
-
-            if (this.item.data.id === id && !this.$isMobile()) {
-                this.$refs[id].focus()
-                document.execCommand('selectAll')
-            }
-        })
-
-        events.$on('mobile-select:start', () => {
-            this.mobileMultiSelect = true
-            this.$store.commit('CLIPBOARD_CLEAR')
-        })
-
-        events.$on('mobile-select:stop', () => {
-            this.mobileMultiSelect = false
-            this.$store.commit('CLIPBOARD_CLEAR')
-        })
-
-        // Change item name
-        events.$on('change:name', item => {
-            if (this.item.data.id === item.id) this.itemName = item.name
-        })
     }
 }
 </script>

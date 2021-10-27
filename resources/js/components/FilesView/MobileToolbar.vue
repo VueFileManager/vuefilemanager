@@ -48,7 +48,7 @@
         methods: {
             showMobileNavigation() {
                 events.$emit('mobile-menu:show', 'user-navigation')
-                events.$emit('mobile-select:stop')
+                this.$store.commit('DISABLE_MULTISELECT_MODE')
             },
 			goBack() {
 				if (this.isLoadedFolder) this.$router.back()

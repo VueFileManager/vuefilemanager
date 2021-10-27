@@ -91,7 +91,7 @@
 
 
         {{-- Dragged borders --}}
-        .file-item.is-dragenter {border-color: {{ $color }} !important;}
+        .border-theme {border-color: {{ $color }} !important;}
         .folder-item.is-dragenter {border-color: {{ $color }} !important;}
         .favourites.is-dragenter .menu-list {border-color: {{ $color }} !important;}
 

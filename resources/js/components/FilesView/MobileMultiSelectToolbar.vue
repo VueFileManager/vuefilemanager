@@ -1,6 +1,6 @@
 <template>
     <transition name="context-menu">
-        <div v-if="mobileMultiSelect" class="multiselect-actions">
+        <div v-if="isMultiSelectMode" class="multiselect-actions">
 			<slot v-if="$slots.default" />
 			<slot v-if="$slots.editor && $checkPermission('editor')" name="editor" />
 			<slot v-if="$slots.visitor && $checkPermission('visitor')" name="visitor" />
@@ -22,22 +22,14 @@ export default {
 	},
     computed: {
         ...mapGetters([
-			'clipboard'
+			'isMultiSelectMode',
+			'clipboard',
 		]),
-    },
-    data() {
-        return {
-            mobileMultiSelect: false
-        }
     },
     methods: {
         closeSelecting() {
-            events.$emit('mobile-select:stop')
+			this.$store.commit('TOGGLE_MULTISELECT_MODE')
         },
-    },
-    created() {
-        events.$on('mobile-select:start', () => this.mobileMultiSelect = true)
-        events.$on('mobile-select:stop', () => this.mobileMultiSelect = false)
     }
 }
 </script>

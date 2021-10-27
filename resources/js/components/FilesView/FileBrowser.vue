@@ -13,7 +13,7 @@
 	>
 
 		<!--Item previews list-->
-		<div v-if="isList" class="file-list-wrapper">
+		<div v-if="isList" class="file-list-wrapper md:px-0 px-4">
 			<transition-group
 				name="file"
 				tag="section"
@@ -98,17 +98,10 @@
 				}
 			}
 		},
-		watch: {
-			query(val) {
-				this.$searchFiles(val)
-			}
-		},
 		data() {
 			return {
 				draggingId: undefined,
 				isDragging: false,
-				isMultiSelect: false,
-				query: '',
 			}
 		},
 		methods: {
@@ -179,9 +172,6 @@
 			}
 		},
 		created() {
-			events.$on('mobile-select:start', () => this.isMultiSelect = true)
-			events.$on('mobile-select:stop', () => this.isMultiSelect = false)
-
 			events.$on('drop', () => {
 				this.isDragging = false
 

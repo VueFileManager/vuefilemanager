@@ -386,7 +386,7 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$enableMultiSelectMode = function () {
-            events.$emit('mobile-select:start')
+            this.$store.commit('TOGGLE_MULTISELECT_MODE')
         }
 
         Vue.prototype.$showViewOptions = function () {

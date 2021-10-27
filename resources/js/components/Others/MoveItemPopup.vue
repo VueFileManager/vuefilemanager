@@ -104,7 +104,7 @@
 
 				// If is mobile, close the selecting mod after done the move action
 				if (this.$isMobile())
-					events.$emit('mobile-select:stop')
+					this.$store.commit('DISABLE_MULTISELECT_MODE')
 			},
 		},
 		mounted() {

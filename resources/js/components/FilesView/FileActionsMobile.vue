@@ -2,12 +2,12 @@
     <div class="sticky dark:bg-dark-background bg-white top-12 pb-3 px-4 z-10 whitespace-nowrap overflow-x-auto md:hidden block">
 
         <!--Show Buttons-->
-        <div v-if="! isSelectMode" class="mobile-actions">
+        <div v-if="! isMultiSelectMode" class="mobile-actions">
 			<slot></slot>
         </div>
 
 		<!-- Multi select mode -->
-        <div v-if="isSelectMode" class="mobile-actions">
+        <div v-if="isMultiSelectMode" class="mobile-actions">
             <MobileActionButton @click.native="selectAll" icon="check-square">
                 {{ $t('mobile_selecting.select_all') }}
             </MobileActionButton>
@@ -28,6 +28,7 @@
     import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
     import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
     import {events} from '/resources/js/bus'
+	import {mapGetters} from "vuex";
 
     export default {
         name: 'FileActionsMobile',
@@ -35,11 +36,11 @@
             MobileActionButton,
             UploadProgress,
         },
-        data() {
-            return {
-                isSelectMode: false,
-            }
-        },
+        computed: {
+			...mapGetters([
+				'isMultiSelectMode'
+			])
+		},
         methods: {
             selectAll() {
                 this.$store.commit('ADD_ALL_ITEMS_TO_CLIPBOARD')
@@ -48,14 +49,8 @@
                 this.$store.commit('CLIPBOARD_CLEAR')
             },
             disableMultiSelectMode() {
-                this.isSelectMode = false
-
-                events.$emit('mobile-select:stop')
+				this.$store.commit('TOGGLE_MULTISELECT_MODE')
             },
-        },
-        mounted() {
-            events.$on('mobile-select:stop', () => this.isSelectMode = false)
-            events.$on('mobile-select:start', () => this.isSelectMode = true)
         }
     }
 </script>

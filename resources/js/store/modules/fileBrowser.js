@@ -8,6 +8,7 @@ const defaultState = {
     currentFolder: undefined,
     fastPreview: undefined,
     navigation: undefined,
+    isMultiSelectMode: false,
     isLoading: true,
     clipboard: [],
     entries: [],
@@ -194,9 +195,18 @@ const mutations = {
     FAST_PREVIEW_CLEAR(state) {
         state.fastPreview = undefined
     },
+    TOGGLE_MULTISELECT_MODE(state) {
+        state.clipboard = []
+        state.isMultiSelectMode = ! state.isMultiSelectMode
+    },
+    DISABLE_MULTISELECT_MODE(state) {
+        state.clipboard = []
+        state.isMultiSelectMode = false
+    },
 }
 
 const getters = {
+    isMultiSelectMode: state => state.isMultiSelectMode,
     currentFolder: state => state.currentFolder,
     fastPreview: state => state.fastPreview,
     navigation: state => state.navigation,
