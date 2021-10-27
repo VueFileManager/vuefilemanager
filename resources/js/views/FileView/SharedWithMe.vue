@@ -75,44 +75,45 @@
 			</MobileActionButton>
 		</FileActionsMobile>
 
-		<FileBrowser>
-			<template v-slot:empty-file-page>
+		<EmptyFilePage>
 
-				<!--Homepage-->
-				<template v-if="isTeamFolderHomepage">
-					<h1 class="title">
-						{{ $t('Nothing shared with you') }}
-					</h1>
-					<p class="description">
-						{{ $t('All items that are shared with you will be visible here.') }}
-					</p>
-				</template>
-
-				<!--Empty folder wit can-edit privileges -->
-				<template v-if="canEdit && ! isTeamFolderHomepage">
-					<h1 class="title">
-						{{ $t('empty_page.title') }}
-					</h1>
-					<p class="description">
-						{{ $t('empty_page.description') }}
-					</p>
-					<ButtonUpload button-style="theme">
-						{{ $t('empty_page.call_to_action') }}
-					</ButtonUpload>
-				</template>
-
-				<!--Empty folder wit can-view privileges -->
-				<template v-if="! canEdit && ! isTeamFolderHomepage">
-					<h1 class="title">
-						{{ $t('There is Nothing Yet') }}
-					</h1>
-				</template>
+			<!--Homepage-->
+			<template v-if="isTeamFolderHomepage">
+				<h1 class="title">
+					{{ $t('Nothing shared with you') }}
+				</h1>
+				<p class="description">
+					{{ $t('All items that are shared with you will be visible here.') }}
+				</p>
 			</template>
-		</FileBrowser>
+
+			<!--Empty folder wit can-edit privileges -->
+			<template v-if="canEdit && ! isTeamFolderHomepage">
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+				<p class="description">
+					{{ $t('empty_page.description') }}
+				</p>
+				<ButtonUpload button-style="theme">
+					{{ $t('empty_page.call_to_action') }}
+				</ButtonUpload>
+			</template>
+
+			<!--Empty folder wit can-view privileges -->
+			<template v-if="! canEdit && ! isTeamFolderHomepage">
+				<h1 class="title">
+					{{ $t('There is Nothing Yet') }}
+				</h1>
+			</template>
+		</EmptyFilePage>
+
+		<FileBrowser />
 	</div>
 </template>
 
 <script>
+	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
@@ -149,6 +150,7 @@
 			ButtonBase,
 			Option,
 			FileActionsMobile,
+			EmptyFilePage,
 		},
 		computed: {
 			...mapGetters([

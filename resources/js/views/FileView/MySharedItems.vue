@@ -63,11 +63,11 @@
 			</MobileActionButton>
 		</FileActionsMobile>
 
-		<FileBrowser>
-			<template v-slot:empty-file-page>
-				<h1 class="title">{{ $t('shared.empty_shared') }}</h1>
-			</template>
-		</FileBrowser>
+		<EmptyFilePage>
+			<h1 class="title">{{ $t('shared.empty_shared') }}</h1>
+		</EmptyFilePage>
+
+		<FileBrowser />
 
 		<MobileMultiSelectToolbar>
 			<ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -103,6 +104,7 @@
 			ContextMenu,
 			Option,
 			FileActionsMobile,
+			EmptyFilePage,
 		},
 		computed: {
 			...mapGetters([

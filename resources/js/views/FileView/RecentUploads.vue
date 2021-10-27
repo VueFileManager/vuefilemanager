@@ -57,19 +57,19 @@
 			</MobileActionButton>
 		</FileActionsMobile>
 
-		<FileBrowser>
-			<template v-slot:empty-file-page>
-				<h1 class="title">
-					{{ $t('empty_page.title') }}
-				</h1>
-                <p class="description">
-					{{ $t('empty_page.description') }}
-				</p>
-                <ButtonUpload button-style="theme">
-                    {{ $t('empty_page.call_to_action') }}
-                </ButtonUpload>
-			</template>
-		</FileBrowser>
+		<EmptyFilePage>
+			<h1 class="title">
+				{{ $t('empty_page.title') }}
+			</h1>
+			<p class="description">
+				{{ $t('empty_page.description') }}
+			</p>
+			<ButtonUpload button-style="theme">
+				{{ $t('empty_page.call_to_action') }}
+			</ButtonUpload>
+		</EmptyFilePage>
+
+		<FileBrowser />
 
 		<MobileMultiSelectToolbar>
 			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -107,6 +108,7 @@
 			ContextMenu,
 			Option,
 			FileActionsMobile,
+			EmptyFilePage,
 		},
 		computed: {
 			...mapGetters([

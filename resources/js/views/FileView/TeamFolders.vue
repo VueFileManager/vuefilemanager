@@ -98,38 +98,38 @@
 			</MobileActionButton>
 		</FileActionsMobile>
 
-		<FileBrowser>
-			<template v-slot:empty-file-page>
-
-				<template v-if="isTeamFolderHomepage">
-					<h1 class="title">
-						{{ $t('Create your Team Folder') }}
-					</h1>
-					<p class="description">
-						{{ $t('Share your files with your team easily by creating new team folder.') }}
-					</p>
-					<ButtonBase @click.native="$createTeamFolder" button-style="theme" class="m-center">
-						{{ $t('Create Team Folder') }}
-					</ButtonBase>
-				</template>
-
-				<template v-if="! isTeamFolderHomepage">
-					<h1 class="title">
-						{{ $t('empty_page.title') }}
-					</h1>
-					<p class="description">
-						{{ $t('empty_page.description') }}
-					</p>
-					<ButtonUpload button-style="theme">
-						{{ $t('empty_page.call_to_action') }}
-					</ButtonUpload>
-				</template>
+		<EmptyFilePage>
+			<template v-if="isTeamFolderHomepage">
+				<h1 class="title">
+					{{ $t('Create your Team Folder') }}
+				</h1>
+				<p class="description">
+					{{ $t('Share your files with your team easily by creating new team folder.') }}
+				</p>
+				<ButtonBase @click.native="$createTeamFolder" button-style="theme" class="m-center">
+					{{ $t('Create Team Folder') }}
+				</ButtonBase>
 			</template>
-		</FileBrowser>
+
+			<template v-if="! isTeamFolderHomepage">
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+				<p class="description">
+					{{ $t('empty_page.description') }}
+				</p>
+				<ButtonUpload button-style="theme">
+					{{ $t('empty_page.call_to_action') }}
+				</ButtonUpload>
+			</template>
+		</EmptyFilePage>
+
+		<FileBrowser />
 	</div>
 </template>
 
 <script>
+	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
@@ -166,6 +166,7 @@
 			ButtonBase,
 			Option,
 			FileActionsMobile,
+			EmptyFilePage,
 		},
 		computed: {
 			...mapGetters([

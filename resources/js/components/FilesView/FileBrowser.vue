@@ -11,10 +11,6 @@
 		tabindex="-1"
 		@click.self="filesContainerClick"
 	>
-		<!--Show empty page if no content-->
-		<EmptyFilePage>
-			<slot name="empty-file-page" />
-		</EmptyFilePage>
 
 		<!--Item previews list-->
 		<div v-if="isList" class="file-list-wrapper">
@@ -61,22 +57,16 @@
 </template>
 
 <script>
-	import EmptyFilePage from '/resources/js/components/FilesView/EmptyFilePage'
-	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
 	import FileItemList from '/resources/js/components/FilesView/FileItemList'
 	import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
-	import InfoSidebar from '/resources/js/components/FilesView/InfoSidebar'
 	import {mapGetters} from 'vuex'
 	import {events} from '/resources/js/bus'
 
 	export default {
 		name: 'FileBrowser',
 		components: {
-			EmptyFilePage,
 			FileItemList,
 			FileItemGrid,
-			EmptyMessage,
-			InfoSidebar,
 		},
 		computed: {
 			...mapGetters([

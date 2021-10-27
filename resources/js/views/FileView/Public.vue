@@ -99,30 +99,31 @@
 			</template>
 		</FileActionsMobile>
 
-		<FileBrowser>
-			<template v-slot:empty-file-page>
-				<template v-if="$checkPermission('editor')">
-					<h1 class="title">
-						{{ $t('empty_page.title') }}
-					</h1>
-					<p class="description">
-						{{ $t('empty_page.description') }}
-					</p>
-					<ButtonUpload button-style="theme">
-						{{ $t('empty_page.call_to_action') }}
-					</ButtonUpload>
-				</template>
-				<template v-if="$checkPermission('visitor')">
-					<h1 class="title">
-						{{ $t('empty_page.title') }}
-					</h1>
-				</template>
+		<EmptyFilePage>
+			<template v-if="$checkPermission('editor')">
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+				<p class="description">
+					{{ $t('empty_page.description') }}
+				</p>
+				<ButtonUpload button-style="theme">
+					{{ $t('empty_page.call_to_action') }}
+				</ButtonUpload>
 			</template>
-		</FileBrowser>
+			<template v-if="$checkPermission('visitor')">
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+			</template>
+		</EmptyFilePage>
+
+		<FileBrowser />
 	</div>
 </template>
 
 <script>
+	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -153,6 +154,7 @@
 			ContextMenu,
 			Option,
 			FileActionsMobile,
+			EmptyFilePage,
 		},
 		computed: {
 			...mapGetters([
