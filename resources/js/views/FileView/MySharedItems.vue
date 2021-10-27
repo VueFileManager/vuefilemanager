@@ -48,22 +48,22 @@
 			</OptionGroup>
 		</MobileContextMenu>
 
-		<FileBrowser>
-			<template v-slot:file-actions-mobile>
-				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search')}}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentSectionName() }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-					{{ $t('context_menu.select') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-					{{ $t('preview_sorting.preview_sorting_button') }}
-				</MobileActionButton>
-			</template>
+		<FileActionsMobile>
+			<MobileActionButton @click.native="$openSpotlight" icon="search">
+				{{ $t('actions.search')}}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$showLocations" icon="filter">
+				{{ $getCurrentSectionName() }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+				{{ $t('context_menu.select') }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+				{{ $t('preview_sorting.preview_sorting_button') }}
+			</MobileActionButton>
+		</FileActionsMobile>
 
+		<FileBrowser>
 			<template v-slot:empty-file-page>
 				<h1 class="title">{{ $t('shared.empty_shared') }}</h1>
 			</template>
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
@@ -101,6 +102,7 @@
 			FileBrowser,
 			ContextMenu,
 			Option,
+			FileActionsMobile,
 		},
 		computed: {
 			...mapGetters([

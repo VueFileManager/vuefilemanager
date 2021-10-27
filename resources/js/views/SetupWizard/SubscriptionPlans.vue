@@ -3,11 +3,14 @@
 
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>Set up plans for your customers.</h2>
-            </div>
+
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="Set up plans for your customers."
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
 
             <ValidationObserver @submit.prevent="subscriptionPlansSubmit" ref="subscriptionPlans" v-slot="{ invalid }"
                                 tag="form" class="form block-form">
@@ -99,6 +102,7 @@
     import {SettingsIcon} from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {XIcon} from 'vue-feather-icons'
+	import Headline from "../Auth/Headline"
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -117,6 +121,7 @@
             required,
             InfoBox,
             XIcon,
+			Headline,
         },
         computed: {
             submitButtonText() {

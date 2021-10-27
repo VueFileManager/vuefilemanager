@@ -1,5 +1,5 @@
 <template>
-    <div id="application-wrapper">
+    <div class="sm:flex md:h-screen md:overflow-hidden">
 
         <!--Loading Spinner-->
         <Spinner v-if="isLoading" />
@@ -26,15 +26,37 @@
 
 		<NavigationSharePanel v-if="sharedDetail && $router.currentRoute.name === 'Public'"/>
 
-		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view">
-			<DesktopToolbar/>
-        	<!--TODO: fix desktopbar on authentication screen-->
-			<router-view :key="$route.fullPath" />
+		<div
+			@contextmenu.prevent.capture="contextMenu($event, undefined)"
+			class="md:grid md:content-start sm:flex-grow sm:px-3.5 transition-transform duration-300"
+			:class="{'transform scale-97 origin-center': isScaledDown}"
+		>
+			<DesktopToolbar />
+
+			<MobileToolbar />
+
+					<!--File list & info sidebar-->
+			<div class="flex space-x-6 md:overflow-hidden md:h-full">
+
+				<router-view
+					id="file-view"
+					:class="{'2xl:w-5/6 md:w-4/6 w-full': isVisibleSidebar, 'w-full': ! isVisibleSidebar}"
+					class="relative"
+					:key="$route.fullPath"
+				/>
+
+				<InfoSidebar
+					v-if="isVisibleSidebar"
+					class="2xl:w-72 w-2/6 overflow-y-auto overflow-x-hidden h-screen md:block hidden"
+				/>
+			</div>
 		</div>
     </div>
 </template>
 
 <script>
+	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
+	import InfoSidebar from "../components/FilesView/InfoSidebar";
     import MobileMultiSelectToolbar from '/resources/js/components/FilesView/MobileMultiSelectToolbar'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
@@ -55,6 +77,8 @@
     export default {
         name: 'Shared',
         components: {
+			MobileToolbar,
+			InfoSidebar,
 			NavigationSharePanel,
             MobileMultiSelectToolbar,
             CreateFolderPopup,
@@ -72,6 +96,7 @@
         },
         computed: {
             ...mapGetters([
+                'isVisibleSidebar',
                 'sharedDetail',
                 'config',
             ])
@@ -122,28 +147,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-	#file-view {
-		font-family: 'Nunito', sans-serif;
-		font-size: 16px;
-		width: 100%;
-		height: 100%;
-		position: relative;
-		min-width: 320px;
-		overflow-x: hidden;
-		padding-left: 15px;
-		padding-right: 15px;
-		overflow-y: hidden;
-		@include transition(120ms);
-	}
-
-    @media only screen and (max-width: 690px) {
-
-        .is-scaled-down {
-            @include transform(scale(0.95));
-        }
-    }
-</style>

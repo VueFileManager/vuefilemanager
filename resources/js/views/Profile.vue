@@ -1,8 +1,15 @@
 <template>
-    <section id="viewport">
+    <div class="sm:flex md:h-screen md:overflow-hidden">
 		<!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />
+
+		<!--2FA popups-->
+		<TwoFactorRecoveryCodesPopup />
+		<TwoFactorSetupPopup />
+
+		<!--Access Token Popup-->
+		<CreatePersonaTokenPopup />
 
 		<SidebarNavigation />
         <PanelNavigationUser />
@@ -61,14 +68,7 @@
                 <Spinner></Spinner>
             </div>
         </div>
-
-		<!--2FA popups-->
-		<TwoFactorRecoveryCodesPopup />
-		<TwoFactorSetupPopup />
-
-		<!--Access Token Popup-->
-		<CreatePersonaTokenPopup />
-    </section>
+    </div>
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
-    <div class="mobile-toolbar">
+    <div class="sticky top-0 dark:bg-dark-background bg-white flex text-center py-4 px-4 w-full justify-between items-center z-10 md:hidden block">
 
         <!-- Go back-->
-		<div @click="goBack" class="go-back-button">
+		<div @click="goBack" class="go-back-button flex text-left items-center">
             <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': isLoadedFolder }" />
 
 			<!--Folder Title-->
@@ -13,7 +13,7 @@
 
         <!--More Actions-->
         <div class="more-actions-button">
-            <div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area">
+            <div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area px-1.5">
                 <menu-icon size="17" />
             </div>
         </div>
@@ -66,96 +66,59 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .mobile-toolbar {
-        background: white;
-        text-align: center;
-        display: none;
-        padding: 10px 0;
-        position: sticky;
-        top: 0;
-        z-index: 6;
+	.go-back-button {
 
-        > div {
-            width: 100%;
-            flex-grow: 1;
-            align-self: center;
-            white-space: nowrap;
-        }
+		.icon-back {
+			pointer-events: none;
+			opacity: 0.15;
+			vertical-align: middle;
+			cursor: pointer;
+			margin-top: -2px;
+			margin-right: 4px;
 
-		.go-back-button {
-			text-align: left;
-			flex: 1;
-
-			.icon-back {
-				pointer-events: none;
-				opacity: 0.15;
-				vertical-align: middle;
-				cursor: pointer;
-				margin-top: -2px;
-				margin-right: 4px;
-
-				&.is-visible {
-					pointer-events: initial;
-					visibility: visible;
-					opacity: 1;
-				}
+			&.is-visible {
+				pointer-events: initial;
+				visibility: visible;
+				opacity: 1;
 			}
 		}
+	}
 
-        .directory-name {
-            line-height: 1;
-            width: 100%;
-            vertical-align: middle;
-            @include font-size(16);
-            color: $text;
-            font-weight: 700;
-            max-width: 220px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: inline-block;
-        }
+	.directory-name {
+		line-height: 1;
+		width: 100%;
+		vertical-align: middle;
+		@include font-size(16);
+		color: $text;
+		font-weight: 700;
+		max-width: 220px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: inline-block;
+	}
 
-        .more-actions-button {
-            flex: 1;
-            text-align: right;
-            position: relative;
+	.more-actions-button {
+		position: relative;
 
-            .tap-area {
-                display: inline-block;
-                padding: 10px;
-                position: absolute;
-                right: -10px;
-                top: -20px;
+		.tap-area {
 
-                path, line, polyline, rect, circle {
-                    stroke: $text;
-                }
-            }
-        }
-    }
-
-    @media only screen and (max-width: 960px) {
-
-        .mobile-toolbar {
-            display: flex;
-        }
-    }
+			path, line, polyline, rect, circle {
+				stroke: $text;
+			}
+		}
+	}
 
     .dark {
 
-        .mobile-toolbar {
-            background: $dark_mode_background;
+		.directory-name {
+			color: $dark_mode_text_primary;
+		}
 
-            .directory-name {
-                color: $dark_mode_text_primary;
-            }
+		.more-actions-button .tap-area {
 
-            .more-actions-button .tap-area {
-
-                path, line, polyline, rect, circle {
-                    stroke: $dark_mode_text_primary;
-                }
-            }
-        }
+			path, line, polyline, rect, circle {
+				stroke: $dark_mode_text_primary;
+			}
+		}
     }
 </style>

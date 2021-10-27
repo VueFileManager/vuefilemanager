@@ -1,5 +1,5 @@
 <template>
-    <section class="content-sidebar" id="content-sidebar">
+    <section class="content-sidebar flex-none xl:w-56 w-52 sm:block hidden overflow-y-auto pt-6 select-none" id="content-sidebar">
         <slot></slot>
     </section>
 </template>
@@ -15,30 +15,10 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .content-sidebar {
-        //background: linear-gradient(0deg, rgba(246, 245, 241, 0.4) 0%, rgba(243, 244, 246, 0.4) 100%);
         background: rgba($light_background, 0.6);
-        user-select: none;
-        padding-top: 25px;
-        overflow-y: auto;
-        flex: 0 0 225px;
     }
 
-    @media only screen and (max-width: 1024px) {
-        .content-sidebar {
-            flex: 0 0 205px;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        .content-sidebar {
-            display: none;
-        }
-    }
-
-    .dark {
-
-        .content-sidebar {
-            background: rgba($dark_mode_foreground, 0.2);
-        }
+    .dark .content-sidebar {
+		background: rgba($dark_mode_foreground, 0.2);
     }
 </style>

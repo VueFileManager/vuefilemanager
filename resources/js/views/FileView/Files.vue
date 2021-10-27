@@ -79,24 +79,25 @@
 			</template>
 		</ContextMenu>
 
+		<FileActionsMobile>
+			<MobileActionButton @click.native="$openSpotlight" icon="search">
+				{{ $t('actions.search') }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$showLocations" icon="filter">
+				{{ $getCurrentSectionName() }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$createItems" v-if="$checkPermission(['master', 'editor'])" icon="cloud-plus">
+				{{ $t('mobile.create') }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+				{{ $t('context_menu.select') }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+				{{ $t('preview_sorting.preview_sorting_button') }}
+			</MobileActionButton>
+		</FileActionsMobile>
+
 		<FileBrowser>
-			<template v-slot:file-actions-mobile>
-				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$showLocations" icon="filter">
-					{{ $getCurrentSectionName() }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$createItems" v-if="$checkPermission(['master', 'editor'])" icon="cloud-plus">
-					{{ $t('mobile.create') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-					{{ $t('context_menu.select') }}
-				</MobileActionButton>
-				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-					{{ $t('preview_sorting.preview_sorting_button') }}
-				</MobileActionButton>
-			</template>
 
 			<template v-slot:empty-file-page>
 				<h1 class="title">
@@ -114,6 +115,7 @@
 </template>
 
 <script>
+	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -132,6 +134,7 @@
 	export default {
 		name: 'Files',
 		components: {
+			FileActionsMobile,
 			MobileActionButtonUpload,
 			MobileMultiSelectToolbar,
 			MobileActionButton,

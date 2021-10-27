@@ -3,12 +3,13 @@
 
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>Database was installed successfully. Let's set up application, Make sure you have these informations before continue:</h2>
-            </div>
-
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="Database was installed successfully. Let's set up application, Make sure you have these informations before continue:"
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
             <div id="loader" v-if="isLoading">
                 <Spinner></Spinner>
             </div>
@@ -77,6 +78,7 @@
     import Spinner from '/resources/js/components/FilesView/Spinner'
     import { SettingsIcon } from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
+	import Headline from "../Auth/Headline"
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -94,6 +96,7 @@
             required,
             Spinner,
             InfoBox,
+			Headline,
         },
         data() {
             return {

@@ -1,5 +1,5 @@
 <template>
-    <div id="desktop-toolbar">
+    <div id="desktop-toolbar" class="md:block hidden">
         <div class="toolbar-wrapper">
 			<div @click="goBack" class="location">
 				<chevron-left-icon :class="{'is-active': isNotHomepage }" class="icon-back" size="17" />
@@ -357,12 +357,6 @@
 			height: 40px;
 			width: 40px;
 		}
-	}
-}
-
-@media only screen and (max-width: 960px) {
-	#desktop-toolbar {
-		display: none;
 	}
 }
 

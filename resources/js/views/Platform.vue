@@ -1,11 +1,11 @@
 <template>
-    <div id="application-wrapper">
+    <div class="sm:flex md:h-screen md:overflow-hidden">
 
         <!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />
 
-        <!--Popups-->
+		<!--Popups-->
         <ProcessingPopup />
         <ConfirmPopup />
 
@@ -19,109 +19,115 @@
         <RenameItemPopup />
         <MoveItemPopup />
 
-        <!--Mobile components-->
+		<!--Mobile components-->
         <FileSortingMobile />
         <FileFilterMobile />
 
-        <!--Navigations-->
+		<!--Navigations-->
         <MobileNavigation />
 
-        <!--Others-->
+		<!--Others-->
         <DragUI />
 
 		<!--2 col Sidebars-->
         <SidebarNavigation />
 		<PanelNavigationFiles />
 
-		<div @contextmenu.prevent.capture="contextMenu($event, undefined)" id="file-view">
-			<DesktopToolbar/>
-			<router-view :key="$route.fullPath" />
+		<div
+			@contextmenu.prevent.capture="contextMenu($event, undefined)"
+			class="md:grid md:content-start sm:flex-grow sm:px-3.5 transition-transform duration-200"
+			:class="{'transform scale-97 origin-center': isScaledDown}"
+		>
+			<DesktopToolbar />
+
+			<MobileToolbar />
+
+			<!--File list & info sidebar-->
+			<div class="flex space-x-6 md:overflow-hidden md:h-full">
+
+				<router-view
+					id="file-view"
+					:class="{'2xl:w-5/6 md:w-4/6 w-full': isVisibleSidebar, 'w-full': ! isVisibleSidebar}"
+					class="relative"
+					:key="$route.fullPath"
+				/>
+
+				<InfoSidebar
+					v-if="isVisibleSidebar"
+					class="2xl:w-72 w-2/6 overflow-y-auto overflow-x-hidden h-screen md:block hidden"
+				/>
+			</div>
 		</div>
     </div>
 </template>
 
 <script>
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
-    import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
-    import FileFilterMobile from '/resources/js/components/FilesView/FileFilterMobile'
-    import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
-    import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
-    import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
-    import ShareCreatePopup from '/resources/js/components/Others/ShareCreatePopup'
+	import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
+	import FileFilterMobile from '/resources/js/components/FilesView/FileFilterMobile'
+	import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
+	import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
+	import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
+	import ShareCreatePopup from '/resources/js/components/Others/ShareCreatePopup'
 	import DesktopToolbar from '/resources/js/components/FilesView/DesktopToolbar'
 	import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup"
-	import EditTeamFolderPopup from "../components/Teams/EditTeamFolderPopup"
-    import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
-    import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
-    import ShareEditPopup from '/resources/js/components/Others/ShareEditPopup'
-    import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
-    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
-    import Spotlight from '/resources/js/components/Spotlight/Spotlight'
-    import DragUI from '/resources/js/components/FilesView/DragUI'
+	import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
+	import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
 	import PanelNavigationFiles from "./FileView/Components/PanelNavigationFiles"
-    import {events} from '/resources/js/bus'
+	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
+	import ShareEditPopup from '/resources/js/components/Others/ShareEditPopup'
+	import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+	import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
+	import EditTeamFolderPopup from "../components/Teams/EditTeamFolderPopup"
+	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
+	import DragUI from '/resources/js/components/FilesView/DragUI'
+	import InfoSidebar from "../components/FilesView/InfoSidebar"
+	import {events} from '/resources/js/bus'
+	import {mapGetters} from "vuex"
 
-    export default {
-        name: 'Platform',
-        components: {
+	export default {
+		name: 'Platform',
+		components: {
 			CreateTeamFolderPopup,
 			PanelNavigationFiles,
 			EditTeamFolderPopup,
-            CreateFolderPopup,
-            FileSortingMobile,
-            SidebarNavigation,
-            FileFilterMobile,
-            MobileNavigation,
-            ShareCreatePopup,
-            ProcessingPopup,
-            RenameItemPopup,
-            ShareEditPopup,
+			CreateFolderPopup,
+			FileSortingMobile,
+			SidebarNavigation,
+			FileFilterMobile,
+			MobileNavigation,
+			ShareCreatePopup,
+			ProcessingPopup,
+			RenameItemPopup,
+			ShareEditPopup,
 			DesktopToolbar,
-            MoveItemPopup,
-            ConfirmPopup,
-            FilePreview,
+			MoveItemPopup,
+			MobileToolbar,
+			ConfirmPopup,
+			InfoSidebar,
+			FilePreview,
 			Spotlight,
-            DragUI,
-        },
-        data() {
-            return {
-                isScaledDown: false
-            }
-        },
+			DragUI,
+		},
+		computed: {
+			...mapGetters([
+				'isVisibleSidebar'
+			])
+		},
+		data() {
+			return {
+				isScaledDown: false
+			}
+		},
 		methods: {
 			contextMenu(event, item) {
 				events.$emit('context-menu:show', event, item)
 			},
 		},
-        mounted() {
-            events.$on('mobile-menu:show', () => this.isScaledDown = true)
-            events.$on('fileItem:deselect', () => this.isScaledDown = false)
-            events.$on('mobile-menu:hide', () => this.isScaledDown = false)
-        }
+		mounted() {
+			events.$on('mobile-menu:show', () => this.isScaledDown = true)
+			events.$on('fileItem:deselect', () => this.isScaledDown = false)
+			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
+		}
 	}
 </script>
-
-<style lang="scss">
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-	#file-view {
-		font-family: 'Nunito', sans-serif;
-		font-size: 16px;
-		width: 100%;
-		height: 100%;
-		position: relative;
-		min-width: 320px;
-		overflow-x: hidden;
-		padding-left: 15px;
-		padding-right: 15px;
-		overflow-y: hidden;
-		@include transition(120ms);
-	}
-
-    @media only screen and (max-width: 690px) {
-
-        .is-scaled-down {
-            @include transform(scale(0.95));
-        }
-    }
-</style>

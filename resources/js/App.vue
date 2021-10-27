@@ -1,5 +1,5 @@
 <template>
-    <div id="vuefilemanager" @click="unClick" v-cloak>
+    <div @click="unClick" v-cloak>
 
         <!--UI components-->
         <Alert />
@@ -152,21 +152,6 @@ export default {
 #auth {
     width: 100%;
     height: 100%;
-}
-
-#vuefilemanager {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-}
-
-@media only screen and (max-width: 690px) {
-
-    .is-scaled-down {
-        @include transform(scale(0.95));
-    }
 }
 
 // Dark mode support

@@ -3,11 +3,14 @@
 
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>Set up your database credentials.</h2>
-            </div>
+
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="Set up your database credentials."
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
 
             <ValidationObserver @submit.prevent="stripeCredentialsSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="form block-form">
                 <InfoBox>
@@ -86,8 +89,9 @@
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
-    import {SettingsIcon} from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
+    import {SettingsIcon} from 'vue-feather-icons'
+	import Headline from "../Auth/Headline"
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -104,6 +108,7 @@
             FormLabel,
             required,
             InfoBox,
+			Headline,
         },
         computed: {
             ...mapGetters(['config', 'currencyList']),

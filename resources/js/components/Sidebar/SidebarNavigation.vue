@@ -1,5 +1,5 @@
 <template>
-    <nav class="menu-bar">
+    <nav class="menu-bar flex-none xl:w-20 w-16 sm:grid hidden">
         <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">
@@ -104,8 +104,6 @@
         background: $light_background;
         user-select: none;
         padding-top: 25px;
-        display: grid;
-        flex: 0 0 72px;
     }
 
     .icon-navigation {
@@ -190,9 +188,6 @@
     }
 
     @media only screen and (max-width: 1024px) {
-        .menu-bar {
-            flex: 0 0 60px;
-        }
 
         .icon-navigation {
 
@@ -203,12 +198,6 @@
             .button-icon {
                 padding: 8px;
             }
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        .menu-bar {
-            display: none;
         }
     }
 

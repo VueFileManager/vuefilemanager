@@ -182,8 +182,7 @@
 <style scoped lang="scss">
 
 	.info-wrapper {
-		padding-bottom: 20px;
-		height: 100%;
+		padding-bottom: 50px;
 	}
 
 	.info-headline {

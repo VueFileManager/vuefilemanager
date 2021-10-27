@@ -3,12 +3,13 @@
 
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>Set up your billing information.</h2>
-            </div>
-
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="Set up your billing information."
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
             <ValidationObserver @submit.prevent="billingInformationSubmit" ref="billingInformation" v-slot="{ invalid }"
                                 tag="form" class="form block-form">
                 <FormLabel>Company Information</FormLabel>
@@ -114,6 +115,7 @@
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {SettingsIcon} from 'vue-feather-icons'
+	import Headline from "../Auth/Headline"
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
@@ -131,6 +133,7 @@
             FormLabel,
             required,
             InfoBox,
+			Headline,
         },
         computed: {
             ...mapGetters(['countries']),

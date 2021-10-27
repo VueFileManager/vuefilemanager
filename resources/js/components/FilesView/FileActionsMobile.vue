@@ -1,5 +1,5 @@
 <template>
-    <div id="mobile-actions-wrapper">
+    <div class="sticky dark:bg-dark-background bg-white top-12 pb-3 px-4 z-10 whitespace-nowrap overflow-x-auto md:hidden block">
 
         <!--Show Buttons-->
         <div v-if="! isSelectMode" class="mobile-actions">
@@ -20,7 +20,7 @@
         </div>
 
         <!--Upload Progressbar-->
-        <UploadProgress />
+        <UploadProgress class="pt-3"/>
     </div>
 </template>
 
@@ -81,33 +81,5 @@
 
     .button-leave-active {
         position: absolute;
-    }
-
-    #mobile-actions-wrapper {
-        display: none;
-        background: white;
-        position: sticky;
-        top: 35px;
-        z-index: 3;
-    }
-
-    .mobile-actions {
-        white-space: nowrap;
-        overflow-x: auto;
-        margin: 0 -15px;
-        padding: 10px 0 10px 15px;
-    }
-
-    @media only screen and (max-width: 960px) {
-
-        #mobile-actions-wrapper {
-            display: block;
-        }
-    }
-
-    .dark {
-        #mobile-actions-wrapper {
-            background: $dark_mode_background;
-        }
     }
 </style>

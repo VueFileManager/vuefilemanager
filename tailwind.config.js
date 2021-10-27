@@ -1,8 +1,14 @@
 module.exports = {
-  purge: [],
+  purge: { content: ['./resources/js/**/*.{js,jsx,ts,tsx,vue}',] },
   darkMode: 'class', // or 'media' or 'class'
   theme: {
+    debugScreens: {
+      position: ['bottom', 'right'],
+    },
     extend: {
+      scale: {
+        '97': '.97',
+      },
       borderWidth: {
         '3': '3px',
       },
@@ -12,11 +18,17 @@ module.exports = {
       }),
       fontSize: {
         tiny: ['11px', '16px'],
-      }
+      },
+      backgroundColor: theme => ({
+        'dark-background': '#151515',
+        'dark-foreground': '#1e2024',
+      }),
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-debug-screens'),
+  ],
 }

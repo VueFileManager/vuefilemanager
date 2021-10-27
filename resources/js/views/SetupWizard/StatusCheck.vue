@@ -3,11 +3,14 @@
 
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme" />
-                <h1>Server Check</h1>
-                <h2>At first, we have to check if all modules and setup is ready for running VueFileManager.</h2>
-            </div>
+
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Server Check"
+				description="At first, we have to check if all modules and setup is ready for running VueFileManager"
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
 
             <div class="form block-form">
 
@@ -107,6 +110,7 @@
 	import AuthButton from '/resources/js/components/Auth/AuthButton'
 	import {SettingsIcon} from 'vue-feather-icons'
 	import {required} from 'vee-validate/dist/rules'
+	import Headline from "../Auth/Headline"
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'
 	import {
@@ -128,6 +132,7 @@
 			required,
 			InfoBox,
 			CheckIcon,
+			Headline,
 			XIcon,
 		},
 		computed: {

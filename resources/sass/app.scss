@@ -11,16 +11,6 @@
   flex: 1;
 }
 
-#application-wrapper {
-  display: flex;
-  height: 100%;
-
-  #content {
-    position: relative;
-    width: 100%;
-  }
-}
-
 #single-page {
   overflow-x: hidden;
   width: 100%;

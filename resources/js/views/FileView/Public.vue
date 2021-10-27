@@ -71,35 +71,35 @@
 			</template>
 		</ContextMenu>
 
-		<FileBrowser>
-			<template v-slot:file-actions-mobile>
-				<template v-if="$checkPermission('editor')">
-					<MobileActionButton @click.native="$openSpotlight" icon="search">
-						{{ $t('actions.search') }}
-					</MobileActionButton>
-					<MobileActionButton @click.native="$createItems" icon="cloud-plus">
-						{{ $t('mobile.create') }}
-					</MobileActionButton>
-					<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-						{{ $t('context_menu.select') }}
-					</MobileActionButton>
-					<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-						{{ $t('preview_sorting.preview_sorting_button') }}
-					</MobileActionButton>
-				</template>
-				<template v-if="$checkPermission('visitor')">
-					<MobileActionButton @click.native="$openSpotlight" icon="search">
-						{{ $t('actions.search')}}
-					</MobileActionButton>
-					 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-					   {{ $t('context_menu.select') }}
-					</MobileActionButton>
-					 <MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
-						{{ $t('preview_sorting.preview_sorting_button') }}
-					</MobileActionButton>
-				</template>
+		<FileActionsMobile>
+			<template v-if="$checkPermission('editor')">
+				<MobileActionButton @click.native="$openSpotlight" icon="search">
+					{{ $t('actions.search') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$createItems" icon="cloud-plus">
+					{{ $t('mobile.create') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+					{{ $t('context_menu.select') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+					{{ $t('preview_sorting.preview_sorting_button') }}
+				</MobileActionButton>
 			</template>
+			<template v-if="$checkPermission('visitor')">
+				<MobileActionButton @click.native="$openSpotlight" icon="search">
+					{{ $t('actions.search')}}
+				</MobileActionButton>
+				 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+				   {{ $t('context_menu.select') }}
+				</MobileActionButton>
+				 <MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+					{{ $t('preview_sorting.preview_sorting_button') }}
+				</MobileActionButton>
+			</template>
+		</FileActionsMobile>
 
+		<FileBrowser>
 			<template v-slot:empty-file-page>
 				<template v-if="$checkPermission('editor')">
 					<h1 class="title">
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
 	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
 	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
 	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
@@ -151,6 +152,7 @@
 			FileBrowser,
 			ContextMenu,
 			Option,
+			FileActionsMobile,
 		},
 		computed: {
 			...mapGetters([

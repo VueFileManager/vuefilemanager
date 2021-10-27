@@ -1,5 +1,5 @@
 <template>
-    <section id="viewport">
+    <div class="sm:flex md:h-screen md:overflow-hidden">
 		<!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />
@@ -88,7 +88,7 @@
         </ContentSidebar>
 
         <router-view/>
-    </section>
+    </div>
 </template>
 
 <script>

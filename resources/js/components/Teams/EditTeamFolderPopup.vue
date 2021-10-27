@@ -181,7 +181,9 @@
 				})
 
 				this.$nextTick(() => {
-					this.$refs.email.focus()
+
+					if (this.$refs.email)
+						this.$refs.email.focus()
 				})
 			})
 

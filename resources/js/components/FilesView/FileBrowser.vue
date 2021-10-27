@@ -1,7 +1,7 @@
 <template>
     <div
 		:class="{'is-offset': filesInQueueTotal > 0, 'is-dragging': isDragging }"
-		class="file-content"
+		class="file-content md:w-full md:overflow-y-auto md:h-full"
 		id="file-content-id"
 		@drop.stop.prevent="dropUpload($event)"
 		@keydown.delete="deleteItems"
@@ -9,78 +9,58 @@
 		@dragleave="dragLeave"
 		@dragover.prevent
 		tabindex="-1"
+		@click.self="filesContainerClick"
 	>
-        <div
-			:class="{'is-visible': isVisibleSidebar, 'mobile-multi-select': isMultiSelect}"
-			@click.self="filesContainerClick"
-			class="files-container"
-			ref="fileContainer"
-		>
-            <MobileToolbar />
+		<!--Show empty page if no content-->
+		<EmptyFilePage>
+			<slot name="empty-file-page" />
+		</EmptyFilePage>
 
-			<!--Mobile Actions-->
-            <FileActionsMobile>
-				<slot name="file-actions-mobile" />
-			</FileActionsMobile>
+		<!--Item previews list-->
+		<div v-if="isList" class="file-list-wrapper">
+			<transition-group
+				name="file"
+				tag="section"
+				class="file-list"
+				:class="FilePreviewType"
+			>
+				<FileItemList
+					@dragstart="dragStart(item)"
+					@drop.stop.native.prevent="dragFinish(item, $event)"
+					@contextmenu.native.prevent="contextMenu($event, item)"
+					:item="item"
+					v-for="item in entries"
+					:key="item.data.id"
+					class="file-item"
+					:class="draggedItems.includes(item) ? 'dragged' : ''"
+				/>
+			</transition-group>
+		</div>
 
-			<!--Show empty page if no content-->
-            <EmptyFilePage>
-				<slot name="empty-file-page" />
-			</EmptyFilePage>
-
-			<!--Item previews list-->
-            <div v-if="isList" class="file-list-wrapper">
-                <transition-group
-					name="file"
-					tag="section"
-					class="file-list"
-					:class="FilePreviewType"
-				>
-                    <FileItemList
-						@dragstart="dragStart(item)"
-						@drop.stop.native.prevent="dragFinish(item, $event)"
-						@contextmenu.native.prevent="contextMenu($event, item)"
-						:item="item"
-						v-for="item in entries"
-						:key="item.data.id"
-						class="file-item"
-						:class="draggedItems.includes(item) ? 'dragged' : ''"
-					/>
-                </transition-group>
-            </div>
-
-			<!--Item previews grid-->
-            <div v-if="isGrid" class="file-grid-wrapper">
-                <transition-group
-					name="file"
-					tag="section"
-					class="file-list"
-					:class="FilePreviewType"
-				>
-                    <FileItemGrid
-						@dragstart="dragStart(item)"
-						@drop.native.prevent="dragFinish(item, $event)"
-						@contextmenu.native.prevent="contextMenu($event, item)"
-						:item="item"
-						v-for="item in entries"
-						:key="item.data.id"
-						class="file-item"
-						:class="draggedItems.includes(item) ? 'dragged' : '' "
-					/>
-                </transition-group>
-            </div>
-        </div>
-
-		<!--File Info Panel-->
-        <div :class="{'is-visible': isVisibleSidebar }" class="file-info-container">
-            <InfoSidebar />
-        </div>
+		<!--Item previews grid-->
+		<div v-if="isGrid" class="file-grid-wrapper">
+			<transition-group
+				name="file"
+				tag="section"
+				class="file-list"
+				:class="FilePreviewType"
+			>
+				<FileItemGrid
+					@dragstart="dragStart(item)"
+					@drop.native.prevent="dragFinish(item, $event)"
+					@contextmenu.native.prevent="contextMenu($event, item)"
+					:item="item"
+					v-for="item in entries"
+					:key="item.data.id"
+					class="file-item"
+					:class="draggedItems.includes(item) ? 'dragged' : '' "
+				/>
+			</transition-group>
+		</div>
     </div>
 </template>
 
 <script>
-    import FileActionsMobile from '/resources/js/components/FilesView/FileActionsMobile'
-	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
 	import EmptyFilePage from '/resources/js/components/FilesView/EmptyFilePage'
 	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
 	import FileItemList from '/resources/js/components/FilesView/FileItemList'
@@ -88,14 +68,11 @@
 	import InfoSidebar from '/resources/js/components/FilesView/InfoSidebar'
 	import {mapGetters} from 'vuex'
 	import {events} from '/resources/js/bus'
-	import {debounce} from "lodash";
 
 	export default {
 		name: 'FileBrowser',
 		components: {
-			FileActionsMobile,
 			EmptyFilePage,
-			MobileToolbar,
 			FileItemList,
 			FileItemGrid,
 			EmptyMessage,
@@ -231,7 +208,7 @@
 
 				// Scroll top
 				let container = document.getElementsByClassName(
-					'files-container'
+					'file-content'
 				)[0]
 
 				if (container)
@@ -264,11 +241,6 @@
 
 	}
 
-	.mobile-multi-select {
-		bottom: 50px !important;
-		top: 0px;
-	}
-
 	.button-upload {
 		display: block;
 		text-align: center;
@@ -282,7 +254,6 @@
 	}
 
 	.file-content {
-		display: flex;
 
 		&.is-dragging {
 			@include transform(scale(0.99));
@@ -290,16 +261,6 @@
 	}
 
 	.files-container {
-		overflow-x: hidden;
-		overflow-y: auto;
-		flex: 0 0 100%;
-		@include transition(150ms);
-		position: relative;
-		scroll-behavior: smooth;
-
-		&.is-visible {
-			flex: 0 1 100%;
-		}
 
 		.file-list {
 
@@ -309,12 +270,6 @@
 				justify-content: space-evenly;
 			}
 		}
-	}
-
-	.file-info-container {
-		flex: 0 0 300px;
-		padding-left: 20px;
-		overflow: auto;
 	}
 
 	// Transition
@@ -336,60 +291,16 @@
 		transform: translateX(-20px);
 	}
 
-	@media only screen and (min-width: 960px) {
-
-		.file-content {
-			position: absolute;
-			top: 72px;
-			left: 15px;
-			right: 15px;
-			bottom: 0;
-			@include transition;
-			overflow-y: auto;
-			overflow-x: hidden;
-
-			&.is-offset {
-				margin-top: 50px;
-			}
-		}
-	}
-
 	@media only screen and (max-width: 960px) {
-
-		.file-info-container {
-			display: none;
-		}
 
 		.mobile-search {
 			display: block;
-		}
-		.file-content {
-			position: absolute;
-			top: 0px;
-			left: 15px;
-			right: 15px;
-			bottom: 0;
-			@include transition;
-			overflow-y: auto;
-			overflow-x: hidden;
-
-			&.is-offset {
-				margin-top: 50px;
-			}
 		}
 	}
 
 	@media only screen and (max-width: 690px) {
 
 		.files-container {
-			padding-left: 15px;
-			padding-right: 15px;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			position: fixed;
-			overflow-y: auto;
 
 			.file-list {
 
@@ -399,25 +310,8 @@
 			}
 		}
 
-		.file-content {
-			position: absolute;
-			top: 0;
-			left: 0px;
-			right: 0px;
-			bottom: 0;
-			@include transition;
-
-			&.is-offset {
-				margin-top: 50px;
-			}
-		}
-
 		.mobile-search {
 			margin-bottom: 0;
-		}
-
-		.file-info-container {
-			display: none;
 		}
 	}
 </style>

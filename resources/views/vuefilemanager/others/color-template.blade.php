@@ -99,6 +99,8 @@
         .StripeElement--focus {border-color: {{ $color }} !important;}
 
         {{-- Dark mode --}}
+        .dark .dark-text-theme {color: {{ $color }} !important;}
+
         .dark .text-theme {
             color: {{ $color }}
         }
