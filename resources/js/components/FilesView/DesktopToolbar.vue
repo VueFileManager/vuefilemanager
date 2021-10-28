@@ -16,12 +16,17 @@
 			<ToolbarWrapper>
 
 				<!--Search bar-->
-				<ToolbarGroup v-if="false" style="margin-left: 0">
-					<SearchBar />
+				<ToolbarGroup class="ml-0">
+					<SearchBar class="lg:block hidden" />
 				</ToolbarGroup>
 
 				<!--Create button for all pages except SharedWithMe-->
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isThisRoute($route, ['SharedWithMe'])">
+
+					<span class="lg:hidden block">
+						<ToolbarButton @click.stop.native="$openSpotlight" source="search" :action="$t('Search files or folders')" />
+					</span>
+
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
 
@@ -39,6 +44,8 @@
 
 				<!--Create button for shared with me page-->
 				<ToolbarGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
+					<ToolbarButton @click.stop.native="$openSpotlight" source="search" :action="$t('Search files or folders')" class="lg:hidden block" />
+
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :class="{'is-inactive': ! canEdit}" :action="$t('actions.create')" />
 

@@ -1,5 +1,6 @@
 module.exports = {
   purge: { content: ['./resources/js/**/*.{js,jsx,ts,tsx,vue}',] },
+  mode: 'jit',
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     debugScreens: {

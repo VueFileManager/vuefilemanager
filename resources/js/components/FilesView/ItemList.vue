@@ -1,5 +1,5 @@
 <template>
-	<div :class="{'dark:bg-dark-foreground bg-light-background': isClicked}" class="flex items-center px-2.5 py-2 rounded-lg select-none border-2 border-transparent border-dashed dark:hover:bg-dark-foreground hover:bg-light-background" :draggable="canDrag" spellcheck="false">
+	<div :class="{'dark:bg-dark-foreground bg-light-background': isClicked && highlight, 'dark:hover:bg-dark-foreground hover:bg-light-background': highlight}" class="flex items-center px-2.5 py-2 rounded-lg select-none border-2 border-transparent border-dashed" :draggable="canDrag" spellcheck="false">
 
 		<!--MultiSelecting for the mobile version-->
 		<CheckBox v-if="isMultiSelectMode" :is-clicked="isClicked" class="mr-5"/>
@@ -82,6 +82,7 @@
 			LinkIcon,
 		},
 		props: [
+			'highlight',
 			'entry',
 		],
 		data() {

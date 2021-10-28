@@ -14,6 +14,7 @@
     <grid-icon v-if="source === 'th'" size="19" />
     <link-icon v-if="source === 'share'" size="19" />
     <x-icon v-if="source === 'close'" size="19" />
+    <search-icon v-if="source === 'search'" size="19" />
     <cloud-off-icon v-if="source === 'shared-off'" size="19" />
     <sorting-icon v-if="source === 'preview-sorting'" class="preview-sorting"/>
     <CloudPlusIcon v-if="source === 'cloud-plus'" class="preview-sorting"/>
@@ -24,6 +25,7 @@
     import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
     import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
     import {
+		SearchIcon,
     	UserPlusIcon,
         CornerDownRightIcon,
         DownloadCloudIcon,
@@ -48,6 +50,7 @@
             'action'
         ],
         components: {
+			SearchIcon,
 			CloudPlusIcon,
 			UserPlusIcon,
             SortingIcon,

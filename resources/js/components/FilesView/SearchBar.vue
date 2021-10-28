@@ -1,5 +1,5 @@
 <template>
-    <div @click="showSpotlight" class="search-bar">
+    <div @click="$openSpotlight" class="search-bar">
         <div class="message">
 			<span>
 				{{ $t('inputs.placeholder_search_files') }}
@@ -25,11 +25,6 @@
 				return this.$isApple() ? '⌘' : '⊞'
 			},
 		},
-		methods: {
-			showSpotlight() {
-				events.$emit('spotlight:show')
-			}
-		}
     }
 </script>
 

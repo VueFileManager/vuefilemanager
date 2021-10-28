@@ -3,6 +3,7 @@
 		<ItemList
 			v-if="itemViewType === 'list'"
 			:entry="item"
+			:highlight="true"
 			@mouseup.stop.native="clickFilter"
 			@dragstart.native="$emit('dragstart')"
 			@drop.native="drop()"

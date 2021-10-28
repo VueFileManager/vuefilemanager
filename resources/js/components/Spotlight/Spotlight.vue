@@ -23,11 +23,10 @@
 
 				<!--Show results-->
 				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.data.id" class="result-item">
-					<FileItemList
-						:item="item"
-						class="file-item"
+					<ItemList
+						:entry="item"
 						:class="{'is-clicked': i === index}"
-						:disable-highlight="true"
+						:highlight="false"
 						@click.native="exit"
 					/>
 					<div v-if="! $isMobile()" class="input-hint">
@@ -45,9 +44,9 @@
 </template>
 
 <script>
-import FileItemList from '/resources/js/components/FilesView/ItemHandler'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import {SearchIcon, XIcon} from 'vue-feather-icons'
+import ItemList from "../FilesView/ItemList"
 import {events} from '/resources/js/bus'
 import {debounce} from 'lodash';
 import axios from "axios";
@@ -55,8 +54,8 @@ import axios from "axios";
 export default {
 	name: 'Spotlight',
 	components: {
-		FileItemList,
 		SearchIcon,
+		ItemList,
 		Spinner,
 		XIcon,
 	},
