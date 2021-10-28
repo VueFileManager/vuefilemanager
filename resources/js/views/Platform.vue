@@ -126,7 +126,6 @@
 		mounted() {
 			// TODO: new scaledown effect
 			events.$on('mobile-menu:show', () => this.isScaledDown = true)
-			events.$on('fileItem:deselect', () => this.isScaledDown = false)
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)
 		}
 	}

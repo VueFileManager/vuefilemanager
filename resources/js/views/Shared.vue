@@ -119,7 +119,6 @@
 		},
         mounted() {
             events.$on('mobile-menu:show', () => this.isScaledDown = true)
-            events.$on('fileItem:deselect', () => this.isScaledDown = false)
 
             this.$store.dispatch('getShareDetail', this.$route.params.token)
                 .then(response => {

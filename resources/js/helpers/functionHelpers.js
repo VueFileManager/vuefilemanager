@@ -103,7 +103,7 @@ const FunctionHelpers = {
             this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
         }
 
-        Vue.prototype.$uploadExternalFiles = async function (event, parent_id) {
+        Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
 
             // Prevent submit empty files
             if (event.dataTransfer.items.length === 0) return
