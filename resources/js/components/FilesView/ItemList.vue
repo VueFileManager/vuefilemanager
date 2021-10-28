@@ -20,7 +20,7 @@
 			<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" />
 
 			<!--File Icon-->
-			<FileIconThumbnail v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" />
+			<FileIconThumbnail v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
 
 			<!--Image thumbnail-->
 			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />

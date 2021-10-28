@@ -1,6 +1,10 @@
 <template>
     <div
-		:class="{'user-dropping-file': isDragging, 'grid content-start xl:grid-cols-6 xl:gap-4 lg:grid-cols-4 lg:gap-2 grid-cols-3': itemViewType === 'grid'}"
+		:class="{
+			'user-dropping-file': isDragging,
+			'grid-view': itemViewType === 'grid' && ! isVisibleSidebar,
+			'grid-view-sidebar': itemViewType === 'grid' && isVisibleSidebar
+		}"
 		class="md:w-full md:overflow-y-auto md:h-full md:px-0 px-4"
 		@drop.stop.prevent="uploadDroppedItems($event)"
 		@keydown.delete="deleteItems"
@@ -34,6 +38,7 @@
 		},
 		computed: {
 			...mapGetters([
+				'isVisibleSidebar',
 				'currentFolder',
 				'itemViewType',
 				'clipboard',
@@ -133,3 +138,13 @@
 		}
 	}
 </script>
+
+<style>
+	.grid-view {
+		@apply grid content-start xl:grid-cols-6 xl:gap-4 lg:grid-cols-4 lg:gap-2 grid-cols-3
+	}
+
+	.grid-view-sidebar {
+		@apply grid content-start 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-3 xl:gap-4 lg:gap-2
+	}
+</style>

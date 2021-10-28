@@ -1,5 +1,5 @@
 <template>
-	<div class="flex items-center justify-center pr-2">
+	<div class="flex items-center justify-center">
 		<span class="text-theme dark-text-theme lg:text-xs text-tiny font-semibold absolute z-10 inline-block mx-auto mt-1 w-7 overflow-ellipsis overflow-hidden text-center">
 			{{ entry.data.attributes.mimetype }}
 		</span>

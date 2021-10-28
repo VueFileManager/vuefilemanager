@@ -17,7 +17,7 @@
 				<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" class="inline-block transform scale-150 lg:mt-2 lg:mb-8 mt-3 mb-5" />
 
 				<!--File Icon-->
-				<div v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" class="relative">
+				<div v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" class="relative w-24 mx-auto">
 
 					<!--Member thumbnail for team folders-->
 					<MemberAvatar
@@ -25,7 +25,7 @@
 						:size="38"
 						:is-border="true"
 						:member="entry.data.relationships.user"
-						class="absolute lg:right-14 lg:-bottom-7 right-6 -bottom-5 z-10 transform lg:scale-100 scale-75"
+						class="absolute lg:-bottom-7 right-2 -bottom-5 z-10 transform lg:scale-100 scale-75 z-10"
 					/>
 
 					<FileIconThumbnail :entry="entry" class="transform lg:scale-150 scale-125 lg:mb-12 lg:mt-6 mt-5 mb-10 z-0" />
@@ -40,7 +40,7 @@
 						:size="38"
 						:is-border="true"
 						:member="entry.data.relationships.user"
-						class="absolute -right-3 -bottom-2.5 transform lg:scale-100 scale-75"
+						class="absolute -right-3 -bottom-2.5 transform lg:scale-100 scale-75 z-10"
 					/>
 
 					<img class="object-cover w-full h-full rounded-lg shadow-lg" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />

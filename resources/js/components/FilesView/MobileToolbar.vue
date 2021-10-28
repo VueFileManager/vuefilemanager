@@ -6,7 +6,7 @@
             <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': isLoadedFolder }" />
 
 			<!--Folder Title-->
-			<div class="directory-name">
+			<div class="directory-name lg:text-base text-sm">
 				{{ $getCurrentLocationName() }}
 			</div>
         </div>
@@ -88,7 +88,6 @@
 		line-height: 1;
 		width: 100%;
 		vertical-align: middle;
-		@include font-size(16);
 		color: $text;
 		font-weight: 700;
 		max-width: 220px;
