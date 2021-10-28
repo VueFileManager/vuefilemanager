@@ -10,8 +10,8 @@
 
     {{--StyleSheet--}}
     {{--<link href="{{ asset('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">--}}
-    <link href="{{ mix('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">
-    <link href="{{ asset('css/tailwind.css') }}?v={{ get_version() }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/tailwind.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">

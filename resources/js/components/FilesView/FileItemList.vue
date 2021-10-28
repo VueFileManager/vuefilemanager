@@ -166,6 +166,9 @@ export default {
         },
         goToItem() {
             if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
+				this.$store.commit('CLIPBOARD_CLEAR')
+				this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
+
                 events.$emit('file-preview:show')
 
             } else if (this.isFile || !this.isFolder && !this.isVideo && !this.isAudio && !this.isImage) {

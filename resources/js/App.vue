@@ -12,7 +12,7 @@
         <!--App view-->
         <router-view v-if="isLoaded" />
 
-        <Vignette />
+        <Vignette/>
     </div>
 </template>
 

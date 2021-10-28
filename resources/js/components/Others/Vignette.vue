@@ -51,7 +51,7 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .vignette {
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         left: 0;

@@ -42,8 +42,8 @@
     @import "resources/sass/vuefilemanager/_mixins";
 
     .options {
-        position: absolute;
-        padding-bottom: 12px;
+        position: fixed;
+        padding-bottom: 25px;
         bottom: 0;
         left: 0;
         right: 0;

@@ -36,7 +36,6 @@
 		<div
 			@contextmenu.prevent.capture="contextMenu($event, undefined)"
 			class="md:grid md:content-start sm:flex-grow sm:px-3.5 transition-transform duration-200"
-			:class="{'transform scale-97 origin-center': isScaledDown}"
 		>
 			<DesktopToolbar />
 
@@ -125,6 +124,7 @@
 			},
 		},
 		mounted() {
+			// TODO: new scaledown effect
 			events.$on('mobile-menu:show', () => this.isScaledDown = true)
 			events.$on('fileItem:deselect', () => this.isScaledDown = false)
 			events.$on('mobile-menu:hide', () => this.isScaledDown = false)

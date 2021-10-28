@@ -21,7 +21,7 @@
 
 			<!--File Icon-->
 			<div v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" class="flex items-center justify-center pr-2">
-				<span class="text-theme dark-text-theme text-xs font-semibold absolute z-10 inline-block mx-auto mt-2 w-7 overflow-ellipsis overflow-hidden text-center">
+				<span class="text-theme dark-text-theme text-xs font-semibold absolute z-10 inline-block mx-auto mt-1 w-7 overflow-ellipsis overflow-hidden text-center">
 					{{ entry.data.attributes.mimetype }}
 				</span>
 
