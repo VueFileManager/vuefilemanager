@@ -38,7 +38,7 @@
         computed: {
             ...mapGetters([
                 'isVisibleSidebar',
-                'FilePreviewType',
+                'itemViewType',
                 'currentFolder',
             ]),
 			isLoadedFolder() {

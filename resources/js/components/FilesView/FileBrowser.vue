@@ -1,7 +1,7 @@
 <template>
     <div
-		:class="{'user-dropping-file': isDragging}"
-		class="file-content md:w-full md:overflow-y-auto md:h-full md:px-0 px-4"
+		:class="{'user-dropping-file': isDragging, 'grid content-start xl:grid-cols-6 xl:gap-4 lg:grid-cols-4 lg:gap-2 grid-cols-3': itemViewType === 'grid'}"
+		class="md:w-full md:overflow-y-auto md:h-full md:px-0 px-4"
 		@drop.stop.prevent="uploadDroppedItems($event)"
 		@keydown.delete="deleteItems"
 		@dragover="dragEnter"
@@ -10,7 +10,7 @@
 		tabindex="-1"
 		@click.self="deselect"
 	>
-		<FileItemList
+		<ItemHandler
 			@dragstart="dragStart(item)"
 			@drop.stop.native.prevent="dragFinish(item, $event)"
 			@contextmenu.native.prevent="contextMenu($event, item)"
@@ -23,18 +23,19 @@
 </template>
 
 <script>
-	import FileItemList from '/resources/js/components/FilesView/FileItemList'
+	import ItemHandler from '/resources/js/components/FilesView/ItemHandler'
 	import {events} from '/resources/js/bus'
 	import {mapGetters} from 'vuex'
 
 	export default {
 		name: 'FileBrowser',
 		components: {
-			FileItemList,
+			ItemHandler,
 		},
 		computed: {
 			...mapGetters([
 				'currentFolder',
+				'itemViewType',
 				'clipboard',
 				'entries'
 			]),

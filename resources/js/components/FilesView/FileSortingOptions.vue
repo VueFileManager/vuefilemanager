@@ -27,13 +27,13 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'FilePreviewType'
+            'itemViewType'
         ]),
         isGrid() {
-            return this.FilePreviewType === 'grid'
+            return this.itemViewType === 'grid'
         },
         isList() {
-            return this.FilePreviewType === 'list'
+            return this.itemViewType === 'list'
         },
 		arrowForCreatedAtField() {
         	if (this.filter.field !== 'created_at')

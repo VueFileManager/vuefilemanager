@@ -20,18 +20,7 @@
 			<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" />
 
 			<!--File Icon-->
-			<div v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" class="flex items-center justify-center pr-2">
-				<span class="text-theme dark-text-theme text-xs font-semibold absolute z-10 inline-block mx-auto mt-1 w-7 overflow-ellipsis overflow-hidden text-center">
-					{{ entry.data.attributes.mimetype }}
-				</span>
-
-				<svg width="38px" height="51px" viewBox="0 0 38 51" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-					<path
-						stroke-width="0"
-						fill="#F8F9FA"
-						d="M22.1666667,13.546875 L22.1666667,0 L2.375,0 C1.05885417,0 0,1.06582031 0,2.390625 L0,48.609375 C0,49.9341797 1.05885417,51 2.375,51 L35.625,51 C36.9411458,51 38,49.9341797 38,48.609375 L38,15.9375 L24.5416667,15.9375 C23.2354167,15.9375 22.1666667,14.8617187 22.1666667,13.546875 Z M38,12.1423828 L38,12.75 L25.3333333,12.75 L25.3333333,0 L25.9369792,0 C26.5703125,0 27.1739583,0.249023438 27.6192708,0.697265625 L37.3072917,10.4589844 C37.7526042,10.9072266 38,11.5148437 38,12.1423828 Z"></path>
-				</svg>
-			</div>
+			<FileIconThumbnail v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" />
 
 			<!--Image thumbnail-->
 			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />
@@ -73,8 +62,9 @@
 </template>
 
 <script>
-	import {LinkIcon, MoreVerticalIcon} from 'vue-feather-icons'
 	import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
+	import {LinkIcon, MoreVerticalIcon} from 'vue-feather-icons'
+	import FileIconThumbnail from "./FileIconThumbnail";
 	import MemberAvatar from "./MemberAvatar";
 	import CheckBox from "./CheckBox";
 	import {debounce} from "lodash";
@@ -84,6 +74,7 @@
 	export default {
 		name: 'ItemList',
 		components: {
+			FileIconThumbnail,
 			MoreVerticalIcon,
 			MemberAvatar,
 			FolderIcon,

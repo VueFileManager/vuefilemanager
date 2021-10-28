@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import FileItemList from '/resources/js/components/FilesView/FileItemList'
+import FileItemList from '/resources/js/components/FilesView/ItemHandler'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import {SearchIcon, XIcon} from 'vue-feather-icons'
 import {events} from '/resources/js/bus'

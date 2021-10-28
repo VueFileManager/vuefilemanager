@@ -4,7 +4,7 @@ import axios from "axios";
 const defaultState = {
     darkMode: localStorage.getItem('is_dark_mode') === 'true' || false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
-    FilePreviewType: localStorage.getItem('preview_type') || 'list',
+    itemViewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
     index: undefined,
     requestedPlan: undefined,
@@ -1046,7 +1046,7 @@ const mutations = {
         state.index = data
     },
     CHANGE_PREVIEW(state, type) {
-        state.FilePreviewType = type
+        state.itemViewType = type
     },
     TOGGLE_DARK_MODE(state, visibility) {
         state.darkMode = visibility
@@ -1059,7 +1059,7 @@ const mutations = {
 const getters = {
     isVisibleSidebar: state => state.isVisibleSidebar,
     teamPermissions: state => state.teamPermissions,
-    FilePreviewType: state => state.FilePreviewType,
+    itemViewType: state => state.itemViewType,
     expirationList: state => state.expirationList,
     requestedPlan: state => state.requestedPlan,
     currencyList: state => state.currencyList,

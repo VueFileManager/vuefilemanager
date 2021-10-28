@@ -1,32 +1,49 @@
 <template>
-	<ItemList
-		:entry="item"
-		@mouseup.stop.native="clickFilter"
-		@dragstart.native="$emit('dragstart')"
-		@drop.native="drop()"
-		@dragleave.native="dragLeave"
-		@dragover.prevent.native="dragEnter"
-		:class="{'border-theme': area }"
-	/>
+	<div>
+		<ItemList
+			v-if="itemViewType === 'list'"
+			:entry="item"
+			@mouseup.stop.native="clickFilter"
+			@dragstart.native="$emit('dragstart')"
+			@drop.native="drop()"
+			@dragleave.native="dragLeave"
+			@dragover.prevent.native="dragEnter"
+			:class="{'border-theme': area }"
+		/>
+
+		<ItemGrid
+			v-if="itemViewType === 'grid'"
+			:entry="item"
+			@mouseup.stop.native="clickFilter"
+			@dragstart.native="$emit('dragstart')"
+			@drop.native="drop()"
+			@dragleave.native="dragLeave"
+			@dragover.prevent.native="dragEnter"
+			:class="{'border-theme': area }"
+		/>
+	</div>
 </template>
 
 <script>
 import {events} from '/resources/js/bus'
 import ItemList from './ItemList'
+import ItemGrid from './ItemGrid'
 import {mapGetters} from 'vuex'
 
 export default {
-    name: 'FileItemList',
+    name: 'ItemHandler',
     props: [
 		'disableHighlight',
 		'item',
 	],
     components: {
 		ItemList,
+		ItemGrid,
     },
     computed: {
         ...mapGetters([
             'isMultiSelectMode',
+            'itemViewType',
             'clipboard',
             'entries',
             'user',

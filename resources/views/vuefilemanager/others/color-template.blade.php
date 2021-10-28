@@ -16,7 +16,7 @@
         .svg-color-theme-darken {
             fill: {{ $color }};
             stroke: {{ $color }};
-            filter: brightness(0.75);
+            filter: brightness(0.80);
         }
 
         .svg-stroke-theme {stroke: {{ $color }}}

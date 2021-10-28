@@ -80,7 +80,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'FilePreviewType', 'sharedDetail', 'clipboard', 'entries'
+            'itemViewType', 'sharedDetail', 'clipboard', 'entries'
         ]),
         folderEmojiOrColor() {
 
