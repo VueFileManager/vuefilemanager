@@ -19,6 +19,9 @@ module.exports = {
       fontSize: {
         tiny: ['11px', '16px'],
       },
+      color: {
+        'dark-foreground': '#1e2024',
+      },
       backgroundColor: theme => ({
         'dark-background': '#151515',
         'dark-foreground': '#1e2024',

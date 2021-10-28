@@ -13,6 +13,11 @@
             fill: {{ $color }};
             stroke: {{ $color }};
         }
+        .svg-color-theme-darken {
+            fill: {{ $color }};
+            stroke: {{ $color }};
+            filter: brightness(0.75);
+        }
 
         .svg-stroke-theme {stroke: {{ $color }}}
         .hover-svg-stroke-theme:hover {stroke: {{ $color }}}
@@ -28,6 +33,11 @@
         .hover-bg-theme-100:hover {background: {{ $color }}10 !important;}
 
         .text-theme {color: {{ $color }}}
+        .text-theme-darken {
+            color: {{ $color }};
+            filter: brightness(0.75);
+        }
+
         .hover-text-theme:hover {color: {{ $color }}}
 
         .shadow-theme {box-shadow: 0 7px 16px 2px {{ $color }}40}
@@ -104,4 +114,6 @@
         .dark .text-theme {
             color: {{ $color }}
         }
+
+        {{-- File icon --}}
     </style>

@@ -149,6 +149,12 @@ export default {
     color: $text;
 }
 
+.vue-feather {
+	path, circle, line, rect {
+		color: inherit;
+	}
+}
+
 #auth {
     width: 100%;
     height: 100%;
