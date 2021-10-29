@@ -11,7 +11,7 @@
     "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.js": "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.js?id=619a675dc545d64b7846",
     "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/shared~1bec6fe4.js": "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/shared~1bec6fe4.js?id=a935f1a48a77c1ab8198",
     "/chunks/admin~chunks/platform.js": "/chunks/admin~chunks/platform.js?id=90270d0c5aeb5c50dacf",
-    "/chunks/admin~chunks/platform~chunks/settings.js": "/chunks/admin~chunks/platform~chunks/settings.js?id=6346308235d17373ef7a",
+    "/chunks/admin~chunks/platform~chunks/settings.js": "/chunks/admin~chunks/platform~chunks/settings.js?id=a980b59887f54d19130b",
     "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.js?id=d62686bbc6e0f91d8ac6",
     "/chunks/app-appearance.js": "/chunks/app-appearance.js?id=6177253e847903d63adc",
     "/chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chunks/app-others~chunks~605f4c49.js": "/chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chunks/app-others~chunks~605f4c49.js?id=aa284736dda7647d5c9e",
@@ -59,7 +59,7 @@
     "/chunks/plans.js": "/chunks/plans.js?id=6fca685daa45f22e4c8f",
     "/chunks/platform.js": "/chunks/platform.js?id=c3c68625fbd7ed182f4a",
     "/chunks/platform~chunks/settings-subscription~chunks/shared~chunks/user-subscription.js": "/chunks/platform~chunks/settings-subscription~chunks/shared~chunks/user-subscription.js?id=8656b69a97cace919251",
-    "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=ca72ec6eec5779b2b3af",
+    "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=b6adf930d1b6226be038",
     "/chunks/profile.js": "/chunks/profile.js?id=0638997b77c6f1246062",
     "/chunks/profile~chunks/settings-password.js": "/chunks/profile~chunks/settings-password.js?id=58edfb3a35062e1ba4e0",
     "/chunks/purchase-code.js": "/chunks/purchase-code.js?id=dd562240fff9f6e2260a",
@@ -117,5 +117,7 @@
     "/chunks/files~chunks/my-shared-items~chunks/recent-uploads~chunks/shared-with-me~chunks/shared/files~~34b5eb22.3f11064980d0c4775433.hot-update.js": "/chunks/files~chunks/my-shared-items~chunks/recent-uploads~chunks/shared-with-me~chunks/shared/files~~34b5eb22.3f11064980d0c4775433.hot-update.js",
     "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.a58b4a130cb049756cdf.hot-update.js": "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.a58b4a130cb049756cdf.hot-update.js",
     "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.d02c0cd0d3ccca5da101.hot-update.js": "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.d02c0cd0d3ccca5da101.hot-update.js",
-    "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.9311c8d5db18eae2a224.hot-update.js": "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.9311c8d5db18eae2a224.hot-update.js"
+    "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.9311c8d5db18eae2a224.hot-update.js": "/chunks/admin~chunks/files~chunks/my-shared-items~chunks/platform~chunks/recent-uploads~chunks/settin~97130d1f.9311c8d5db18eae2a224.hot-update.js",
+    "/chunks/platform~chunks/shared.ad9db025202bcc9d0826.hot-update.js": "/chunks/platform~chunks/shared.ad9db025202bcc9d0826.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings.459fb56b6af2834491ff.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings.459fb56b6af2834491ff.hot-update.js"
 }

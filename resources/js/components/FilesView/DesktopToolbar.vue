@@ -44,7 +44,9 @@
 
 				<!--Create button for shared with me page-->
 				<ToolbarGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
-					<ToolbarButton @click.stop.native="$openSpotlight" source="search" :action="$t('Search files or folders')" class="lg:hidden block" />
+					<span class="lg:hidden block">
+						<ToolbarButton @click.stop.native="$openSpotlight" source="search" :action="$t('Search files or folders')" />
+					</span>
 
 					<PopoverWrapper>
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :class="{'is-inactive': ! canEdit}" :action="$t('actions.create')" />

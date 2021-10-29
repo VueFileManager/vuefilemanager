@@ -24,7 +24,7 @@
                 </div>
             </router-link>
 
-			<a @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="icon-navigation-item dark-mode-switcher">
+			<a @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="icon-navigation-item dark-switcher">
 				<div class="button-icon">
 					<sun-icon v-if="isDarkMode" size="19" />
 					<moon-icon v-if="! isDarkMode" size="19" />
