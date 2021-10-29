@@ -121,7 +121,7 @@
         methods: {
 			showItemContextMenu() {
 				if (this.$isMobile()) {
-					events.$emit('mobile-menu:show', 'file-menu')
+					this.$showMobileMenu('file-menu')
 				} else {
 					events.$emit('popover:open', 'file-preview-contextmenu')
 				}

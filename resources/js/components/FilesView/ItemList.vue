@@ -142,7 +142,7 @@
 				this.$store.commit('CLIPBOARD_CLEAR')
 				this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entry)
 
-				events.$emit('mobile-menu:show', 'file-menu')
+				this.$showMobileMenu('file-menu')
 				events.$emit('mobile-context-menu:show', this.entry)
 			},
 			renameItem: debounce(function (e) {

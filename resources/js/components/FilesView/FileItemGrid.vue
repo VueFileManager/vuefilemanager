@@ -157,7 +157,7 @@ export default {
             this.$store.commit('CLIPBOARD_CLEAR')
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
-            events.$emit('mobile-menu:show', 'file-menu')
+            this.$showMobileMenu('file-menu')
         },
         dragEnter() {
             if (this.item.type !== 'folder') return

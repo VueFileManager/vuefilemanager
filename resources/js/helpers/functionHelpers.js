@@ -377,23 +377,10 @@ const FunctionHelpers = {
             events.$emit('spotlight:show')
         }
 
-        Vue.prototype.$showLocations = function () {
-            events.$emit('mobile-menu:show', 'file-filter')
-        }
-
-        Vue.prototype.$createItems = function () {
-            events.$emit('mobile-menu:show', 'create-list')
-        }
-
         Vue.prototype.$enableMultiSelectMode = function () {
             this.$store.commit('TOGGLE_MULTISELECT_MODE')
         }
 
-        Vue.prototype.$showViewOptions = function () {
-            events.$emit('mobile-menu:show', 'file-sorting')
-        }
-
-        // TODO: refactor other methods
         Vue.prototype.$showMobileMenu = function (name) {
             events.$emit('mobile-menu:show', name)
         }

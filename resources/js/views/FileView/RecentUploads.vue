@@ -43,7 +43,7 @@
 			<MobileActionButton @click.native="$openSpotlight" icon="search">
 				{{ $t('actions.search')}}
 			</MobileActionButton>
-			<MobileActionButton @click.native="$showLocations" icon="filter">
+			<MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
 				{{ $getCurrentSectionName() }}
 			</MobileActionButton>
 			<MobileActionButtonUpload>
@@ -52,7 +52,7 @@
 			<MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
 				{{ $t('context_menu.select') }}
 			</MobileActionButton>
-			<MobileActionButton @click.native="$showViewOptions" icon="preview-sorting">
+			<MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
 				{{ $t('preview_sorting.preview_sorting_button') }}
 			</MobileActionButton>
 		</FileActionsMobile>
