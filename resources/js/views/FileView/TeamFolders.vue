@@ -111,7 +111,7 @@
 					{{ $t('Create your Team Folder') }}
 				</h1>
 				<p class="description">
-					{{ $t('Share your files with your team easily by creating new team folder.') }}
+					{{ $t('Collaborate on your files with your team easily by creating new team folder.') }}
 				</p>
 				<ButtonBase @click.native="$createTeamFolder" button-style="theme" class="m-center">
 					{{ $t('Create Team Folder') }}

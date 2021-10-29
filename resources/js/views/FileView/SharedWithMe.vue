@@ -86,7 +86,7 @@
 			<!--Homepage-->
 			<template v-if="isTeamFolderHomepage">
 				<h1 class="title">
-					{{ $t('Nothing shared with you') }}
+					{{ $t('Nothing Shared With You') }}
 				</h1>
 				<p class="description">
 					{{ $t('All items that are shared with you will be visible here.') }}

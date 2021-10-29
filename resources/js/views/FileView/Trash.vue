@@ -61,7 +61,7 @@
 		</FileActionsMobile>
 
 		<EmptyFilePage>
-			<h1 class="title">{{ $t('empty_page.title') }}</h1>
+			<h1 class="title">{{ $t('Your Trash is Empty') }}</h1>
 		</EmptyFilePage>
 
 		<FileBrowser />
