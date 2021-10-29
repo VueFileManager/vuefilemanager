@@ -1,11 +1,11 @@
 <template>
 	<div class="w-28">
-		<div v-if="! teamFolder" class="text-center">
-			<span class="dark:text-gray-500 text-gray-600 mr-0.5 text-tiny">
+		<div v-if="! teamFolder" class="md:text-center text-right">
+			<span class="dark:text-gray-500 text-gray-600 md:mr-0.5 mr-3 text-tiny align-middle">
 				{{ $t('Not selected') }}
 			</span>
 		</div>
-		<TeamMembersPreview v-else :folder="teamFolder" :limit="true" :avatar-size="32" class="justify-center" />
+		<TeamMembersPreview v-else :folder="teamFolder" :limit="true" :avatar-size="size" class="md:justify-center justify-end" />
 	</div>
 </template>
 
@@ -18,6 +18,9 @@
 		components: {
 			TeamMembersPreview,
 		},
+		props: [
+			'size'
+		],
 		computed: {
 			...mapGetters([
 				'currentTeamFolder',

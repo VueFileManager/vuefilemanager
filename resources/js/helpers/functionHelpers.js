@@ -392,6 +392,11 @@ const FunctionHelpers = {
         Vue.prototype.$showViewOptions = function () {
             events.$emit('mobile-menu:show', 'file-sorting')
         }
+
+        // TODO: refactor other methods
+        Vue.prototype.$showMobileMenu = function (name) {
+            events.$emit('mobile-menu:show', name)
+        }
     }
 }
 

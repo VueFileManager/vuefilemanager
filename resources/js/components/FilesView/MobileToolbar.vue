@@ -1,26 +1,37 @@
 <template>
-    <div class="sticky top-0 dark:bg-dark-background bg-white flex text-center py-4 px-4 w-full justify-between items-center z-10 md:hidden block">
+    <div class="sticky top-0 dark:bg-dark-background bg-white flex text-center py-5 px-4 w-full justify-between items-center z-10 md:hidden block">
 
         <!-- Go back-->
 		<div @click="goBack" class="go-back-button flex text-left items-center">
-            <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': isLoadedFolder }" />
+            <chevron-left-icon size="17" class="pointer-events-none opacity-20 align-middle cursor-pointer mr-2" :class="{'pointer-events-auto opacity-100': isLoadedFolder }" />
 
 			<!--Folder Title-->
-			<div class="directory-name lg:text-base text-sm">
+			<div class="lg:text-base text-sm align-middle font-bold overflow-hidden overflow-ellipsis inline-block whitespace-nowrap" style="max-width: 200px;">
 				{{ $getCurrentLocationName() }}
 			</div>
         </div>
 
-        <!--More Actions-->
-        <div class="more-actions-button">
-            <div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area px-1.5">
-                <menu-icon size="17" />
-            </div>
-        </div>
+		<div class="flex items-center relative">
+			<TeamMembersButton
+				v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
+				size="28"
+				@click.stop.native="$showMobileMenu('team-menu')"
+			   	class="absolute right-9"
+			/>
+
+			<!--More Actions-->
+			<div class="more-actions-button">
+				<div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area px-1.5">
+					<menu-icon size="17" />
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 
 <script>
+	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview";
+	import TeamMembersButton from "../Teams/Components/TeamMembersButton";
     import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
     import SearchBar from '/resources/js/components/FilesView/SearchBar'
     import { MenuIcon, ChevronLeftIcon } from 'vue-feather-icons'
@@ -30,6 +41,8 @@
     export default {
         name: 'MobileToolBar',
         components: {
+			TeamMembersPreview,
+			TeamMembersButton,
             ChevronLeftIcon,
             ToolbarButton,
             SearchBar,
@@ -37,9 +50,11 @@
         },
         computed: {
             ...mapGetters([
+                'currentTeamFolder',
                 'isVisibleSidebar',
-                'itemViewType',
                 'currentFolder',
+                'itemViewType',
+                'clipboard',
             ]),
 			isLoadedFolder() {
 				return this.$route.params.id
@@ -47,7 +62,7 @@
         },
         methods: {
             showMobileNavigation() {
-                events.$emit('mobile-menu:show', 'user-navigation')
+				this.$showMobileMenu('user-navigation')
                 this.$store.commit('DISABLE_MULTISELECT_MODE')
             },
 			goBack() {
@@ -65,47 +80,6 @@
 <style scoped lang="scss">
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
-
-	.go-back-button {
-
-		.icon-back {
-			pointer-events: none;
-			opacity: 0.15;
-			vertical-align: middle;
-			cursor: pointer;
-			margin-top: -2px;
-			margin-right: 4px;
-
-			&.is-visible {
-				pointer-events: initial;
-				visibility: visible;
-				opacity: 1;
-			}
-		}
-	}
-
-	.directory-name {
-		line-height: 1;
-		width: 100%;
-		vertical-align: middle;
-		color: $text;
-		font-weight: 700;
-		max-width: 220px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: inline-block;
-	}
-
-	.more-actions-button {
-		position: relative;
-
-		.tap-area {
-
-			path, line, polyline, rect, circle {
-				stroke: $text;
-			}
-		}
-	}
 
     .dark {
 

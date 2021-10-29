@@ -1,7 +1,7 @@
 <template>
 	<div class="team-folder">
 		<span v-if="limit && membersCount > 3" class="member-count">
-			3+
+			+{{ membersCount - 3 }}
 		</span>
 		<div class="members">
 			<div v-for="member in members" :key="member.data.id" :title="member.data.attributes.email" class="member-preview z-10">

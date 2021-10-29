@@ -30,6 +30,13 @@
 			</OptionGroup>
 		</MobileCreateMenu>
 
+		<MobileTeamContextMenu>
+			<OptionGroup>
+				<Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('Edit Members')" icon="rename" />
+				<Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('Dissolve Team')" icon="trash" />
+			</OptionGroup>
+		</MobileTeamContextMenu>
+
 		<MobileMultiSelectToolbar>
 			<ToolbarButton @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
 			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
@@ -129,6 +136,7 @@
 </template>
 
 <script>
+	import MobileTeamContextMenu from "../../components/FilesView/MobileTeamContextMenu";
 	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
@@ -146,14 +154,13 @@
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
 	import {events} from "../../bus";
-	import Vue from "vue";
-	import router from "../../router";
 
 	export default {
 		name: 'TeamFolders',
 		components: {
 			MobileActionButtonUpload,
 			MobileMultiSelectToolbar,
+			MobileTeamContextMenu,
 			MobileActionButton,
 			MobileContextMenu,
 			MobileCreateMenu,
@@ -170,10 +177,16 @@
 		},
 		computed: {
 			...mapGetters([
+				'currentTeamFolder',
 				'clipboard',
 				'config',
 				'user',
 			]),
+			teamFolder() {
+				return this.currentTeamFolder
+					? this.currentTeamFolder
+					: this.clipboard[0]
+			},
 			isTeamFolderHomepage() {
 				return this.$isThisRoute(this.$route, ['TeamFolders'])
 					&& ! this.$route.params.id

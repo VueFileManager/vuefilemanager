@@ -67,7 +67,7 @@
 
 					<!--Team Folder Icon-->
 					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])">
-						<TeamMembersButton @click.stop.native="showTeamFolderMenu" class="team-preview" />
+						<TeamMembersButton @click.stop.native="showTeamFolderMenu" size="32" class="team-preview" />
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
 

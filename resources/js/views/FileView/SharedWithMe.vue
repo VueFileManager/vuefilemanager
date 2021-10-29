@@ -20,6 +20,12 @@
 			</OptionGroup>
 		</MobileCreateMenu>
 
+		<MobileTeamContextMenu>
+			<OptionGroup>
+				<Option @click.native="$detachMeFromTeamFolder(teamFolder)" :title="$t('Leave the Team Folder')" icon="user-minus" />
+			</OptionGroup>
+		</MobileTeamContextMenu>
+
 		<MobileMultiSelectToolbar>
 			<ToolbarButton v-if="canEdit" @click.native="$moveFileOrFolder(clipboard)" class="action-btn" source="move" :action="$t('actions.move')" :class="{'is-inactive' : clipboard.length < 1}" />
 			<ToolbarButton v-if="canEdit" @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
@@ -113,6 +119,7 @@
 </template>
 
 <script>
+	import MobileTeamContextMenu from "../../components/FilesView/MobileTeamContextMenu";
 	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
     import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
@@ -130,14 +137,13 @@
 	import Option from '/resources/js/components/FilesView/Option'
 	import { mapGetters } from 'vuex'
 	import {events} from "../../bus";
-	import Vue from "vue";
-	import router from "../../router";
 
 	export default {
 		name: 'SharedWithMe',
 		components: {
 			MobileActionButtonUpload,
 			MobileMultiSelectToolbar,
+			MobileTeamContextMenu,
 			MobileActionButton,
 			MobileContextMenu,
 			MobileCreateMenu,
@@ -159,6 +165,11 @@
 				'config',
 				'user',
 			]),
+			teamFolder() {
+				return this.currentTeamFolder
+					? this.currentTeamFolder
+					: this.clipboard[0]
+			},
 			canEdit() {
 				if (this.currentTeamFolder && this.user) {
 					let member = this.currentTeamFolder.data.relationships.members.data.find(member => member.data.id === this.user.data.id)
