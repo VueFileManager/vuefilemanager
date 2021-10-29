@@ -23,14 +23,14 @@
 			<FileIconThumbnail v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
 
 			<!--Image thumbnail-->
-			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />
+			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5 object-cover" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />
 		</div>
 
 		<!--Item Info-->
 		<div class="pl-2">
 
 			<!--Item Title-->
-			<b class="block text-sm mb-0.5 hover:underline" ref="name" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName">
+			<b class="block text-sm mb-0.5 overflow-ellipsis overflow-hidden hover:underline whitespace-nowrap" style="max-width: 240px" ref="name" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName">
 				{{ itemName }}
 			</b>
 
@@ -55,7 +55,7 @@
 		</div>
 
 		<!-- Mobile item action button-->
-		<div v-if="! isMultiSelectMode" class="block pr-1 flex-grow text-right md:hidden relative">
+		<div v-if="mobileHandler && ! isMultiSelectMode" class="block pr-1 flex-grow text-right md:hidden relative">
 			<div @mousedown.stop="showItemActions" class="absolute right-0 p-4 -mr-4 transform -translate-y-2/4">
 				<MoreVerticalIcon size="16" class="vue-feather text-theme dark-text-theme inline-block transform scale-110" />
 			</div>
@@ -84,6 +84,7 @@
 			LinkIcon,
 		},
 		props: [
+			'mobileHandler',
 			'highlight',
 			'entry',
 		],

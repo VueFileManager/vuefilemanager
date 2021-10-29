@@ -10,7 +10,7 @@
 					</div>
 					<search-icon :class="{'is-hidden': isLoading}" size="22" class="magnify text-theme" />
 				</div>
-				<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" type="text" placeholder="Spotlight search..." ref="searchInput">
+				<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" class="focus:outline-none" type="text" placeholder="Spotlight search..." ref="searchInput">
 				<div v-if="! $isMobile()" class="input-hint">
 					<span class="title keyboard-hint">esc</span>
 				</div>
@@ -27,7 +27,8 @@
 						:entry="item"
 						:class="{'is-clicked': i === index}"
 						:highlight="false"
-						@click.native="exit"
+						:mobile-handler="false"
+						@click.native="openItem(item)"
 					/>
 					<div v-if="! $isMobile()" class="input-hint">
 						<span class="title">{{ i === 0 ? '↵' : metaKeyIcon + i}}</span>
@@ -100,8 +101,11 @@ export default {
 			}
 		},
 		showSelected() {
-
 			let file = this.results[this.index]
+
+			this.openItem(file)
+		},
+		openItem(file) {
 
 			// Show folder
 			if (file.data.type === 'folder') {
