@@ -62,12 +62,13 @@
 					</PopoverWrapper>
 				</ToolbarGroup>
 
-				<!--Share Controls-->
-				<ToolbarGroup v-if="! $isMobile() && ! $isThisRoute($route, ['Public'])">
+				<!--File Controls-->
+				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
 
-					<!--Team Folder Icon-->
+					<!--Team Heads-->
 					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])">
-						<TeamMembersButton @click.stop.native="showTeamFolderMenu" size="32" class="team-preview" />
+						<TeamMembersButton @click.stop.native="showTeamFolderMenu" size="32" class="dark:hover:bg-dark-foreground hover:bg-light-background rounded-lg cursor-pointer py-0.5 pl-2 pr-0.5" />
+
 						<PopoverItem name="team-folder" side="left">
 							<TeamFolderPreview />
 
@@ -82,12 +83,10 @@
 						</PopoverItem>
 					</PopoverWrapper>
 
+					<!--Share icons-->
 					<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$convertAsTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
-					<ToolbarButton v-if="! $isThisRoute($route, ['SharedWithMe'])" @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
-				</ToolbarGroup>
+					<ToolbarButton v-if="! $isThisRoute($route, ['SharedWithMe', 'Public'])" @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 
-				<!--File Controls-->
-				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
 					<ToolbarButton @click.native="$moveFileOrFolder(clipboard[0])" :class="{'is-inactive': canMoveInView && ! canEdit }" source="move" :action="$t('actions.move')" />
                     <ToolbarButton @click.native="$deleteFileOrFolder(clipboard[0])" :class="{'is-inactive': canDeleteInView && ! canEdit }" source="trash" :action="$t('actions.delete')" />
 				</ToolbarGroup>
@@ -265,20 +264,6 @@
 @import "resources/sass/vuefilemanager/_variables";
 @import "resources/sass/vuefilemanager/_mixins";
 
-.team-preview {
-	padding: 3px 3px 3px 10px;
-	border-radius: 8px;
-	cursor: pointer;
-
-	&:hover {
-		background: $light_background;
-
-		/deep/ .members .member {
-			border-color: $light_background;
-		}
-	}
-}
-
 .is-inactive {
 	opacity: 0.25;
 	pointer-events: none;
@@ -370,13 +355,6 @@
 }
 
 .dark {
-	.team-preview:hover {
-		background: $dark_mode_foreground;
-
-		/deep/ .members .member {
-			border-color: $dark_mode_foreground;
-		}
-	}
 
 	.toolbar .directory-name {
 		color: $dark_mode_text_primary;

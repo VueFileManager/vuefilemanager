@@ -1,7 +1,8 @@
 <template>
     <div id="single-file">
         <div class="single-file-wrapper">
-            <FileItemGrid v-if="sharedFile" :item="sharedFile.data.attributes" :context-menu="false"/>
+<!--			TODO: fix-->
+<!--            <FileItemGrid v-if="sharedFile" :item="sharedFile.data.attributes" :context-menu="false"/>-->
 
             <ButtonBase @click.native="download" class="download-button" button-style="theme">
                 {{ $t('page_shared.download_file') }}
@@ -11,14 +12,12 @@
 </template>
 
 <script>
-    import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import {mapGetters} from "vuex";
 
     export default {
         name: 'SharedSingleItem',
         components: {
-            FileItemGrid,
             ButtonBase,
         },
         computed: {

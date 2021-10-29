@@ -89,7 +89,7 @@
 
 		<FileActionsMobile>
 			<MobileActionButton @click.native="$openSpotlight" icon="search">
-				{{ $t('actions.search') }}
+				{{ $t('Spotlight') }}
 			</MobileActionButton>
 			<MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
 				{{ $getCurrentSectionName() }}

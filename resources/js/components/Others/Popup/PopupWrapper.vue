@@ -1,6 +1,10 @@
 <template>
     <transition name="popup">
-        <div class="popup" @click.self="closePopup" v-if="isVisibleWrapper">
+        <div
+			class="popup lg:absolute fixed top-0 left-0 right-0 bottom-0 z-20 overflow-y-auto grid h-full p-10"
+			@click.self="closePopup"
+			v-if="isVisibleWrapper"
+		>
             <div class="popup-wrapper">
                 <slot></slot>
             </div>
@@ -56,19 +60,6 @@
 <style lang="scss" scoped>
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
-
-    .popup {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 19;
-        overflow-y: auto;
-        display: grid;
-        padding: 40px;
-        height: 100%;
-    }
 
     .popup-wrapper {
         box-shadow: $light_mode_popup_shadow;

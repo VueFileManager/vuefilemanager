@@ -80,21 +80,28 @@ export default {
     },
     methods: {
 		clickFilter(e) {
-			this.clicks++
 
-			if (this.clicks === 1) {
-				let self = this
+			if (this.$isMobile()) {
+				this.clickedItem(e)
+			}
 
-				this.timer = setTimeout(() => {
-					this.clickedItem(e)
-					self.clicks = 0
-				}, this.delay);
+			if (! this.$isMobile()) {
+				this.clicks++
 
-			} else {
-				clearTimeout(this.timer);
+				if (this.clicks === 1) {
+					let self = this
 
-				this.goToItem(e)
-				this.clicks = 0;
+					this.timer = setTimeout(() => {
+						this.clickedItem(e)
+						self.clicks = 0
+					}, this.delay);
+
+				} else {
+					clearTimeout(this.timer);
+
+					this.goToItem(e)
+					this.clicks = 0;
+				}
 			}
 		},
 		drop() {

@@ -106,8 +106,7 @@ export default {
 			if (this.isVisible) {
 				let container = document.getElementById('folder-actions')
 
-				this.positionX = container.offsetLeft + 16
-				this.positionY = container.offsetTop + 30
+				this.positionX = container.offsetLeft
 			}
 		})
 

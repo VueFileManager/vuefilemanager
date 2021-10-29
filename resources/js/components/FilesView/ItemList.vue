@@ -55,8 +55,10 @@
 		</div>
 
 		<!-- Mobile item action button-->
-		<div v-if="! isMultiSelectMode" class="block pr-1 flex-grow text-right md:hidden">
-			<MoreVerticalIcon @mousedown.stop="showItemActions" size="16" class="vue-feather text-theme dark-text-theme inline-block transform scale-110" />
+		<div v-if="! isMultiSelectMode" class="block pr-1 flex-grow text-right md:hidden relative">
+			<div @mousedown.stop="showItemActions" class="absolute right-0 p-4 -mr-4 transform -translate-y-2/4">
+				<MoreVerticalIcon size="16" class="vue-feather text-theme dark-text-theme inline-block transform scale-110" />
+			</div>
 		</div>
 	</div>
 </template>

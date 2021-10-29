@@ -182,7 +182,7 @@
 
 				this.$nextTick(() => {
 
-					if (this.$refs.email)
+					if (this.$refs.email && !this.$isMobile())
 						this.$refs.email.focus()
 				})
 			})
