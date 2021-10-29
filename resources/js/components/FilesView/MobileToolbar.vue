@@ -10,7 +10,7 @@
 				{{ $getCurrentLocationName() }}
 			</div>
 
-			<span v-if="currentFolder" @click.stop="showItemActions" class="py-0.5 px-1.5 ml-3 rounded-md bg-light-background">
+			<span v-if="currentFolder" @click.stop="showItemActions" class="py-0.5 px-1.5 ml-3 rounded-md dark:bg-dark-foreground bg-light-background">
 				<more-horizontal-icon size="14" />
 			</span>
         </div>

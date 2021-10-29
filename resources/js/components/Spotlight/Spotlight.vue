@@ -1,6 +1,6 @@
 <template>
-	<div v-if="isVisible" @keyup.esc="exit" id="spotlight" tabindex="-1">
-		<div class="spotlight-wrapper">
+	<div v-if="isVisible" @keyup.esc="exit" id="spotlight" tabindex="-1" class="dark:bg-dark-foreground">
+		<div class="spotlight-wrapper bg-white">
 
 			<!--Query bar-->
 			<div class="spotlight-search">
@@ -109,12 +109,12 @@ export default {
 
 			// Show folder
 			if (file.data.type === 'folder') {
-				this.$router.push({name: 'Files', params: {id: this.results[this.index].data.id}})
+				this.$router.push({name: 'Files', params: {id: file.data.id}})
 			} else {
 
 				// Show file
 				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf'){
-					this.$store.commit('ADD_TO_FAST_PREVIEW', this.results[this.index])
+					this.$store.commit('ADD_TO_FAST_PREVIEW', file)
 
 					events.$emit('file-preview:show')
 				} else {
@@ -342,7 +342,6 @@ export default {
 
 @media only screen and (max-width: 690px) {
 	#spotlight {
-		background: white;
 		z-index: 99;
 
 		.spotlight-wrapper {

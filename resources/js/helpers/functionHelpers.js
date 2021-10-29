@@ -229,6 +229,20 @@ const FunctionHelpers = {
             }[this.$route.name]
         }
 
+        Vue.prototype.$getDataByLocation = function () {
+
+            let routes = {
+                'Files': ['getFolder', this.$route.params.id],
+                'RecentUploads': ['getRecentUploads'],
+                'MySharedItems': ['getMySharedItems'],
+                'Trash': ['getTrash', this.$route.params.id],
+                'TeamFolders': ['getTeamFolder', this.$route.params.id],
+                'SharedWithMe': ['getSharedWithMeFolder', this.$route.params.id],
+            }
+
+            this.$store.dispatch(...routes[this.$router.currentRoute.name])
+        }
+
         Vue.prototype.$goToFileView = function (id) {
 
             let locations = {
