@@ -1,5 +1,5 @@
 <template>
-    <div id="auth">
+    <div class="h-screen flex justify-center items-center">
         <slot></slot>
     </div>
 </template>
@@ -9,12 +9,3 @@
         name: 'AuthContentWrapper',
     }
 </script>
-
-<style scoped lang="scss">
-
-    #auth {
-        height: 100%;
-        width: 100%;
-        display: table;
-    }
-</style>

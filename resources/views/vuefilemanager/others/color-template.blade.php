@@ -45,7 +45,7 @@
         .border-theme {border-color: {{ $color }}}
         .border-top-theme {border-top-color: {{ $color }} !important;}
         .border-left-theme {border-left-color: {{ $color }} !important;}
-        .hover-border-theme:hover {border-color: {{ $color }}}
+        .hover-border-theme:hover {border-color: {{ $color }} !important;}
 
         .focus-within-border-theme:focus-within {border-color: {{ $color }} !important;}
 

@@ -42,7 +42,7 @@
 			<MobileToolbar />
 
 			<!--File list & info sidebar-->
-			<div class="flex space-x-6 md:overflow-hidden md:h-full">
+			<div class="flex space-x-6 md:overflow-hidden md:h-screen">
 
 				<router-view
 					id="file-view"

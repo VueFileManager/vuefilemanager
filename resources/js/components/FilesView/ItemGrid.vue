@@ -1,7 +1,7 @@
 <template>
 	<div
 		:class="{'dark:bg-dark-foreground bg-light-background': isClicked}"
-		class="flex flex-wrap items-center justify-center relative z-0 text-center 2xl:h-48 lg:h-52 h-48 px-1 pt-2 rounded-lg select-none border-2 border-transparent border-dashed dark:hover:bg-dark-foreground lg:hover:bg-light-background"
+		class="flex flex-wrap items-center justify-center relative z-0 text-center lg:h-52 h-48 px-1 pt-2 rounded-lg select-none border-2 border-transparent border-dashed dark:hover:bg-dark-foreground lg:hover:bg-light-background"
 		:draggable="canDrag"
 		spellcheck="false"
 	>
