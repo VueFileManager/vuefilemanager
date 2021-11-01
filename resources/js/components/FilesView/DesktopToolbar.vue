@@ -1,5 +1,5 @@
 <template>
-    <div id="desktop-toolbar" class="md:block hidden">
+    <div id="desktop-toolbar" class="lg:block hidden">
         <div class="toolbar-wrapper">
 			<div @click="goBack" class="location">
 				<chevron-left-icon :class="{'is-active': isNotHomepage }" class="icon-back" size="17" />
@@ -63,7 +63,7 @@
 				</ToolbarGroup>
 
 				<!--File Controls-->
-				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isMobile()">
+				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) || ($isMobile() && $isThisRoute($route, ['SharedWithMe', 'TeamFolders']))">
 
 					<!--Team Heads-->
 					<PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])">
@@ -83,12 +83,14 @@
 						</PopoverItem>
 					</PopoverWrapper>
 
-					<!--Share icons-->
-					<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$convertAsTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
-					<ToolbarButton v-if="! $isThisRoute($route, ['SharedWithMe', 'Public'])" @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
+					<!--Item actions-->
+					<span v-if="! $isMobile()">
+						<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$convertAsTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
+						<ToolbarButton v-if="! $isThisRoute($route, ['SharedWithMe', 'Public'])" @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 
-					<ToolbarButton @click.native="$moveFileOrFolder(clipboard[0])" :class="{'is-inactive': canMoveInView && ! canEdit }" source="move" :action="$t('actions.move')" />
-                    <ToolbarButton @click.native="$deleteFileOrFolder(clipboard[0])" :class="{'is-inactive': canDeleteInView && ! canEdit }" source="trash" :action="$t('actions.delete')" />
+						<ToolbarButton @click.native="$moveFileOrFolder(clipboard[0])" :class="{'is-inactive': canMoveInView && ! canEdit }" source="move" :action="$t('actions.move')" />
+						<ToolbarButton @click.native="$deleteFileOrFolder(clipboard[0])" :class="{'is-inactive': canDeleteInView && ! canEdit }" source="trash" :action="$t('actions.delete')" />
+					</span>
 				</ToolbarGroup>
 
 				<!--View Controls-->

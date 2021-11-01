@@ -1,5 +1,5 @@
 <template>
-    <div class="sm:flex md:h-screen md:overflow-hidden">
+    <div class="lg:flex lg:h-screen lg:overflow-hidden">
 
         <!--On Top of App Components-->
         <FilePreview />
@@ -35,25 +35,25 @@
 
 		<div
 			@contextmenu.prevent.capture="contextMenu($event, undefined)"
-			class="md:grid md:content-start sm:flex-grow sm:px-3.5 transition-transform duration-200"
+			class="lg:grid lg:content-start lg:flex-grow lg:px-3.5 transition-transform duration-200"
 		>
 			<DesktopToolbar />
 
 			<MobileToolbar />
 
 			<!--File list & info sidebar-->
-			<div class="flex space-x-6 md:overflow-hidden md:h-screen">
+			<div class="flex space-x-6 lg:overflow-hidden lg:h-screen">
 
 				<router-view
 					id="file-view"
-					:class="{'2xl:w-5/6 md:w-4/6 w-full': isVisibleSidebar, 'w-full': ! isVisibleSidebar}"
+					:class="{'2xl:w-5/6 lg:w-4/6 w-full': isVisibleSidebar, 'w-full': ! isVisibleSidebar}"
 					class="relative"
 					:key="$route.fullPath"
 				/>
 
 				<InfoSidebar
 					v-if="isVisibleSidebar"
-					class="2xl:w-72 w-2/6 overflow-y-auto overflow-x-hidden h-screen md:block hidden"
+					class="2xl:w-72 w-2/6 overflow-y-auto overflow-x-hidden h-screen lg:block hidden"
 				/>
 			</div>
 		</div>

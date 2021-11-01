@@ -81,7 +81,7 @@
     }
 
     .context-menu-leave-active {
-        position: absolute;
+        position: fixed;
     }
 
     .dark {

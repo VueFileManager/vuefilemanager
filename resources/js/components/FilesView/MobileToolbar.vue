@@ -1,5 +1,5 @@
 <template>
-    <div class="sticky top-0 dark:bg-dark-background bg-white flex text-center py-5 px-4 w-full justify-between items-center z-10 md:hidden block">
+    <div class="sticky top-0 dark:bg-dark-background bg-white flex text-center py-5 px-4 w-full justify-between items-center z-10 lg:hidden block">
 
         <!-- Go back-->
 		<div @click="goBack" class="go-back-button flex text-left items-center">

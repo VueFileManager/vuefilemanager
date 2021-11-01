@@ -1,5 +1,5 @@
 <template>
-    <section class="content-sidebar flex-none xl:w-56 w-52 sm:block hidden overflow-y-auto pt-6 select-none" id="content-sidebar">
+    <section class="content-sidebar flex-none xl:w-56 w-52 lg:block hidden overflow-y-auto pt-6 select-none" id="content-sidebar">
         <slot></slot>
     </section>
 </template>

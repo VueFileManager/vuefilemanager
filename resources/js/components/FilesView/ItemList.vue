@@ -55,9 +55,12 @@
 		</div>
 
 		<!-- Mobile item action button-->
-		<div v-if="mobileHandler && ! isMultiSelectMode" class="block pr-1 flex-grow text-right md:hidden relative">
-			<div @mousedown.stop="showItemActions" class="absolute right-0 p-4 -mr-4 transform -translate-y-2/4">
-				<MoreVerticalIcon size="16" class="vue-feather text-theme dark-text-theme inline-block transform scale-110" />
+		<div v-if="mobileHandler && ! isMultiSelectMode && $isMobile()" class="pr-1 flex-grow text-right relative">
+			<div @mouseup.stop="$openInDetailPanel(entry)" class="absolute right-10 p-2.5 -mr-4 transform -translate-y-2/4 lg:block hidden">
+				<eye-icon size="18" class="vue-feather opacity-30 inline-block" />
+			</div>
+			<div @mouseup.stop="showItemActions" class="absolute right-0 p-2.5 -mr-4 transform -translate-y-2/4">
+				<MoreVerticalIcon size="18" class="vue-feather text-theme dark-text-theme inline-block" />
 			</div>
 		</div>
 	</div>
@@ -65,7 +68,7 @@
 
 <script>
 	import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
-	import {LinkIcon, MoreVerticalIcon} from 'vue-feather-icons'
+	import {LinkIcon, MoreVerticalIcon, EyeIcon} from 'vue-feather-icons'
 	import FileIconThumbnail from "./FileIconThumbnail";
 	import MemberAvatar from "./MemberAvatar";
 	import CheckBox from "./CheckBox";
@@ -82,6 +85,7 @@
 			FolderIcon,
 			CheckBox,
 			LinkIcon,
+			EyeIcon,
 		},
 		props: [
 			'mobileHandler',

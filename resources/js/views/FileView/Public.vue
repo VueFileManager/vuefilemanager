@@ -74,7 +74,7 @@
 		<FileActionsMobile>
 			<template v-if="$checkPermission('editor')">
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search') }}
+					{{ $t('Spotlight') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
 					{{ $t('mobile.create') }}
@@ -88,7 +88,7 @@
 			</template>
 			<template v-if="$checkPermission('visitor')">
 				<MobileActionButton @click.native="$openSpotlight" icon="search">
-					{{ $t('actions.search')}}
+					{{ $t('Spotlight')}}
 				</MobileActionButton>
 				 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
 				   {{ $t('context_menu.select') }}

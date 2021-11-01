@@ -5,7 +5,7 @@
 			'grid-view': itemViewType === 'grid' && ! isVisibleSidebar,
 			'grid-view-sidebar': itemViewType === 'grid' && isVisibleSidebar
 		}"
-		class="md:w-full md:overflow-y-auto md:h-full md:px-0 px-4"
+		class="lg:w-full lg:overflow-y-auto lg:h-full lg:px-0 px-4"
 		@drop.stop.prevent="uploadDroppedItems($event)"
 		@keydown.delete="deleteItems"
 		@dragover="dragEnter"
@@ -141,7 +141,7 @@
 
 <style>
 	.grid-view {
-		@apply grid content-start xl:grid-cols-6 xl:gap-4 lg:grid-cols-4 lg:gap-2 grid-cols-3
+		@apply grid content-start xl:grid-cols-6 sm:grid-cols-4 grid-cols-3 xl:gap-4 lg:gap-2
 	}
 
 	.grid-view-sidebar {

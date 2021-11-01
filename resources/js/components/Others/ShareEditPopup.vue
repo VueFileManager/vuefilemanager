@@ -254,7 +254,7 @@
 
                 // If is open send share via email 
                 if(this.sendToRecipientsMenu && !this.isEmailSended) {
-                    this.sendViaEmail()
+                    await this.sendViaEmail()
                     return
                 }
 

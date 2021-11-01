@@ -1,7 +1,7 @@
 <template>
 	<div
 		:class="{'dark:bg-dark-foreground bg-light-background': isClicked}"
-		class="flex flex-wrap items-center justify-center relative z-0 text-center lg:h-52 h-48 px-1 pt-2 rounded-lg select-none border-2 border-transparent border-dashed dark:hover:bg-dark-foreground lg:hover:bg-light-background"
+		class="flex flex-wrap items-center justify-center relative z-0 text-center lg:h-60 sm:h-56 h-48 px-1 pt-2 rounded-lg select-none border-2 border-transparent border-dashed dark:hover:bg-dark-foreground lg:hover:bg-light-background"
 		:draggable="canDrag"
 		spellcheck="false"
 	>
@@ -76,8 +76,14 @@
 			</div>
 
 			<!-- Mobile item action button-->
-			<div v-if="! isMultiSelectMode" class="inline-block py-0.5 px-2  md:hidden">
-				<MoreHorizontalIcon @mousedown.stop="showItemActions" size="16" class="vue-feather text-theme dark-text-theme inline-block transform scale-110" />
+			<div v-if="mobileHandler && ! isMultiSelectMode && $isMobile()" class="flex items-center justify-center py-0.5 px-2 relative">
+				<div @mouseup.stop="$openInDetailPanel(entry)" class="p-2.5 sm:block hidden">
+					<eye-icon size="18" class="vue-feather opacity-30 inline-block" />
+				</div>
+
+				<div @mouseup.stop="showItemActions" class="p-2.5">
+					<MoreHorizontalIcon size="18" class="vue-feather text-theme dark-text-theme inline-block" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -85,7 +91,7 @@
 
 <script>
 	import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
-	import {LinkIcon, MoreHorizontalIcon} from 'vue-feather-icons'
+	import {LinkIcon, MoreHorizontalIcon, EyeIcon} from 'vue-feather-icons'
 	import FileIconThumbnail from "./FileIconThumbnail";
 	import MemberAvatar from "./MemberAvatar";
 	import CheckBox from "./CheckBox";
@@ -102,8 +108,10 @@
 			FolderIcon,
 			CheckBox,
 			LinkIcon,
+			EyeIcon,
 		},
 		props: [
+			'mobileHandler',
 			'entry',
 		],
 		data() {

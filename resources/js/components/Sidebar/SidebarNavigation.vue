@@ -1,5 +1,5 @@
 <template>
-    <nav class="menu-bar flex-none xl:w-20 w-16 sm:grid hidden">
+    <nav class="menu-bar flex-none xl:w-20 w-16 lg:grid hidden">
         <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">

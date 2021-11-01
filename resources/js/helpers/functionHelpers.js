@@ -262,6 +262,7 @@ const FunctionHelpers = {
             return locations.includes(route.name)
         }
 
+        // TODO: not working correctly in share page
         Vue.prototype.$checkPermission = function (type) {
 
             let currentPermission = store.getters.permission
@@ -381,6 +382,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$openInDetailPanel = function (entry) {
             // Dispatch load file info detail
+            this.$store.commit('CLIPBOARD_CLEAR')
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', entry)
 
             // Show panel if is not open
