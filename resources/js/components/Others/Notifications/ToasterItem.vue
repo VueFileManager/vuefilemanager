@@ -36,7 +36,7 @@
         created() {
             this.isActive = 1
 
-            setTimeout(() => (this.isActive = 0), 55000)
+            //setTimeout(() => (this.isActive = 0), 55000)
         }
     }
 </script>

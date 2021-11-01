@@ -43,7 +43,7 @@
     }
 
     #toaster-wrapper {
-        position: absolute;
+        position: fixed;
         right: 30px;
         bottom: 30px;
         z-index: 90;

@@ -3,14 +3,14 @@
 
         <!-- Go back-->
 		<div @click="goBack" class="go-back-button flex text-left items-center">
-            <chevron-left-icon size="17" class="pointer-events-none opacity-20 align-middle cursor-pointer mr-2 -ml-1" :class="{'pointer-events-auto opacity-100': isLoadedFolder }" />
+            <chevron-left-icon size="17" :class="{'opacity-0 -translate-x-3': ! isLoadedFolder, 'opacity-100 translate-x-0': isLoadedFolder }" class="transform align-middle cursor-pointer mr-2 -ml-1 transition-all duration-200" />
 
 			<!--Folder Title-->
-			<div class="lg:text-base text-sm align-middle font-bold overflow-hidden overflow-ellipsis inline-block whitespace-nowrap" style="max-width: 200px;">
+			<div :class="{'-translate-x-4': ! isLoadedFolder}" class="transform lg:text-base text-sm align-middle font-bold overflow-hidden overflow-ellipsis inline-block whitespace-nowrap transition-all duration-200" style="max-width: 200px;">
 				{{ $getCurrentLocationName() }}
 			</div>
 
-			<span v-if="currentFolder" @click.stop="showItemActions" class="py-0.5 px-1.5 ml-3 rounded-md dark:bg-dark-foreground bg-light-background">
+			<span @click.stop="showItemActions" :class="{'-translate-x-4 opacity-0': ! currentFolder, 'translate-x-0 opacity-100': currentFolder}" class="transform py-0.5 px-1.5 ml-3 rounded-md dark:bg-dark-foreground bg-light-background transition-all duration-200">
 				<more-horizontal-icon size="14" />
 			</span>
         </div>
