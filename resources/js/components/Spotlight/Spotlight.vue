@@ -1,44 +1,70 @@
 <template>
-	<div v-if="isVisible" @keyup.esc="exit" id="spotlight" tabindex="-1" class="dark:bg-dark-foreground">
-		<div class="spotlight-wrapper bg-white">
+	<div
+		v-if="isVisible"
+		@keyup.esc="exit"
+		tabindex="-1"
+		class="md:absolute fixed w-full h-full dark:bg-dark-foreground bg-white md:z-auto z-50"
+	>
+		<div class="relative w-full md:max-w-xl z-50 md:rounded-xl mx-auto 2xl:mt-20 md:mt-8 overflow-y-auto bg-white dark:bg-dark-foreground">
 
 			<!--Query bar-->
-			<div class="spotlight-search">
-				<div class="magnify-icon">
-					<div v-if="isLoading" class="spinner-icon">
+			<div class="z-50 flex items-center p-5 mx-auto">
+				<div class="relative mr-4">
+					<div v-if="isLoading" class="spinner-icon transform scale-50 origin-center translate-y-2.5">
 						<Spinner />
 					</div>
-					<search-icon :class="{'is-hidden': isLoading}" size="22" class="magnify text-theme" />
+					<search-icon :class="{'opacity-0': isLoading}" size="22" class="magnify dark-text-theme text-theme vue-feather" />
 				</div>
-				<input v-model="query" @keydown.enter="showSelected" @keydown.meta="proceedToSelect" @keyup.down="onPageDown" @keyup.up="onPageUp" class="focus:outline-none" type="text" placeholder="Spotlight search..." ref="searchInput">
-				<div v-if="! $isMobile()" class="input-hint">
-					<span class="title keyboard-hint">esc</span>
+
+				<!--Text search field-->
+				<input
+					class="w-full border-none text-xl font-semibold placeholder-gray-700 dark:placeholder-gray-400 bg-transparent focus:outline-none"
+					v-model="query"
+					@keydown.enter="showSelected"
+					@keydown.meta="proceedToSelect"
+					@keyup.down="onPageDown"
+					@keyup.up="onPageUp"
+					type="text"
+					placeholder="Spotlight search..."
+					ref="searchInput"
+				>
+
+				<!--Desktop searchbar hint-->
+				<div v-if="! $isMobile()" class="mr-2">
+					<span class="text-sm text-gray-400">esc</span>
 				</div>
-				<div v-if="$isMobile()" @click="exit" class="close-icon">
-					<x-icon size="22" class="close"/>
+
+				<!--Mobile close icon-->
+				<div v-if="$isMobile()" @click="exit" class="cursor-pointer">
+					<x-icon size="22" class="close" />
 				</div>
 			</div>
 
-			<div v-if="isEmptyQuery" class="spotlight-results">
+			<!--Results-->
+			<div v-if="isNotEmptyQuery" class="spotlight-results relative z-50 px-4 pb-4">
 
 				<!--Show results-->
-				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.data.id" class="result-item">
+				<div v-if="results.length !== 0" v-for="(item, i) in results" :key="item.data.id" class="relative">
+
+					<!--Item result-->
 					<ItemList
 						:entry="item"
-						:class="{'is-clicked': i === index}"
+						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
 						:highlight="false"
 						:mobile-handler="false"
 						@click.native="openItem(item)"
 					/>
-					<div v-if="! $isMobile()" class="input-hint">
-						<span class="title">{{ i === 0 ? '↵' : metaKeyIcon + i}}</span>
+
+					<!--Keyboard shortcut hint-->
+					<div v-if="! $isMobile()" class="absolute right-4 top-1/2 transform -translate-y-1/2">
+						<span class="text-xs text-gray-400">{{ i === 0 ? '↵' : metaKeyIcon + i }}</span>
 					</div>
 				</div>
 
 				<!--Show Empty message-->
-				<div v-if="results.length === 0">
-					<span class="message">{{ $t('messages.nothing_was_found') }}</span>
-				</div>
+				<span v-if="results.length === 0" class="fond-extrabold p-2.5 text-base">
+					{{ $t('messages.nothing_was_found') }}
+				</span>
 			</div>
 		</div>
 	</div>
@@ -62,9 +88,9 @@ export default {
 	},
 	computed: {
 		metaKeyIcon() {
-			return this.$isApple() ? '⌘' : '⊞'
+			return this.$isApple() ? '⌘' : 'alt'
 		},
-		isEmptyQuery() {
+		isNotEmptyQuery() {
 			return this.query !== ''
 		}
 	},
@@ -89,7 +115,7 @@ export default {
 	methods: {
 		proceedToSelect(e) {
 			// Preserve select and reload native shortcut
-			if (! ['a', 'r', 'v'].includes(e.key)) {
+			if (!['a', 'r', 'v'].includes(e.key)) {
 				e.preventDefault()
 			}
 
@@ -113,7 +139,7 @@ export default {
 			} else {
 
 				// Show file
-				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf'){
+				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf') {
 					this.$store.commit('ADD_TO_FAST_PREVIEW', file)
 
 					events.$emit('file-preview:show')
@@ -183,173 +209,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss" scoped>
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
-
-#spotlight {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-
-	.spotlight-wrapper {
-		margin: 90px auto 0;
-		overflow-y: auto;
-		width: 590px;
-		background: white;
-		position: relative;
-		border-radius: 8px;
-		z-index: 99;
-	}
-}
-
-.spotlight-search {
-	margin: 0 auto 0;
-	padding: 20px 25px;
-	display: flex;
-	align-items: center;
-	position: sticky;
-	top: 0;
-	z-index: 99;
-
-	.magnify-icon {
-		position: relative;
-		margin-right: 10px;
-
-		.is-hidden {
-			opacity: 0;
-		}
-
-		.magnify {
-			transform: translateY(3px);
-
-			circle, line {
-				color: inherit;
-			}
-		}
-
-		.spinner-icon {
-			@include transform(scale(0.5) translateY(23px));
-		}
-	}
-
-	input {
-		width: 100%;
-		border: none;
-		color: $text;
-		@include font-size(19);
-		font-weight: 600;
-		background: transparent;
-
-		&::placeholder {
-			color: $text;
-		}
-	}
-
-	.close-icon {
-		cursor: pointer;
-
-		.close {
-			transform: translateY(4px);
-
-			line {
-				stroke: $text-muted;
-			}
-		}
-	}
-}
-
-.spotlight-results {
-	margin: -8px auto 0;
-	padding: 10px 10px 10px;
-	border-top: 1px solid $light_mode_border;
-	position: relative;
-	z-index: 99;
-
-	.result-item {
-		position: relative;
-
-		.is-clicked {
-			border-radius: 8px;
-			background: $light_background;
-		}
-	}
-
-	.input-hint {
-		position: absolute;
-		right: 15px;
-		top: 50%;
-		@include transform(translateY(-50%));
-	}
-
-	.message {
-		color: $text;
-		@include font-size(16);
-		font-weight: 600;
-		padding-left: 15px;
-	}
-}
-
-.input-hint .title {
-	color: $text-muted;
-	@include font-size(13);
-}
-
-.dark {
-
-	#spotlight .spotlight-wrapper {
-		background: $dark_mode_foreground;
-	}
-
-	.spotlight-search {
-		input {
-			color: $dark_mode_text_primary;
-
-			&::placeholder {
-				color: $dark_mode_text_primary;
-			}
-		}
-	}
-
-	.spotlight-results {
-		border-color: $dark_mode_border_color;
-
-		.is-clicked {
-			background: lighten($dark_mode_foreground, 3%);
-		}
-	}
-
-	.input-hint .title, .message {
-		color: $dark_mode_text_secondary;
-	}
-}
-
-@media only screen and (max-width: 1024px) {
-
-	#spotlight .spotlight-wrapper {
-		margin-top: 30px;
-	}
-
-	.spotlight-search {
-		padding: 15px;
-	}
-
-	.spotlight-results {
-		margin-top: -2px;
-	}
-}
-
-@media only screen and (max-width: 690px) {
-	#spotlight {
-		z-index: 99;
-
-		.spotlight-wrapper {
-			width: 100%;
-			border-radius: 0;
-			margin: 0;
-		}
-	}
-}
-
-</style>
