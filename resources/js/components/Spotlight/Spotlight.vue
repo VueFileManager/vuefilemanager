@@ -3,7 +3,7 @@
 		v-if="isVisible"
 		@keyup.esc="exit"
 		tabindex="-1"
-		class="md:absolute fixed w-full h-full dark:bg-dark-foreground bg-white md:z-auto z-50"
+		class="md:absolute fixed w-full h-full dark:bg-dark-foreground md:bg-transparent bg-white md:z-auto z-50"
 	>
 		<div class="relative w-full md:max-w-xl z-50 md:rounded-xl mx-auto 2xl:mt-20 md:mt-8 overflow-y-auto bg-white dark:bg-dark-foreground">
 

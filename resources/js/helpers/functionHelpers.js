@@ -206,11 +206,11 @@ const FunctionHelpers = {
                 return store.getters.currentFolder.data.attributes.name
             } else {
                 return {
-                    'RecentUploads': this.$t('Recent'),
-                    'MySharedItems': this.$t('Shared'),
+                    'RecentUploads': this.$t('Recent Uploads'),
+                    'MySharedItems': this.$t('sidebar.my_shared'),
                     'Trash': this.$t('Trash'),
                     'Public': this.$t('Files'),
-                    'Files': this.$t('Files'),
+                    'Files': this.$t('sidebar.home'),
                     'TeamFolders': this.$t('Team Folders'),
                     'SharedWithMe': this.$t('Shared With Me'),
                 }[this.$route.name]
@@ -219,11 +219,11 @@ const FunctionHelpers = {
 
         Vue.prototype.$getCurrentSectionName = function () {
             return {
-                'RecentUploads': this.$t('Recent'),
-                'MySharedItems': this.$t('Shared'),
+                'RecentUploads': this.$t('Recent Uploads'),
+                'MySharedItems': this.$t('sidebar.my_shared'),
                 'Trash': this.$t('Trash'),
                 'Public': this.$t('Files'),
-                'Files': this.$t('Files'),
+                'Files': this.$t('sidebar.home'),
                 'TeamFolders': this.$t('Team Folders'),
                 'SharedWithMe': this.$t('Shared With Me'),
             }[this.$route.name]

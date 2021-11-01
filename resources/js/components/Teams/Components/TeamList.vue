@@ -1,10 +1,18 @@
 <template>
-	<ul class="member-list">
-		<li v-if="Object.values(members).length > 0 && entry.id !== user.data.id" v-for="(entry, i) in members" :key="i" class="member-item">
-			<div @click="deleteMember(entry)" class="terminate">
-				<x-icon size="14" class="close-icon" />
+	<ul>
+		<li
+			v-if="Object.values(members).length > 0 && entry.id !== user.data.id"
+			v-for="(entry, i) in members"
+			:key="i"
+			class="flex items-center py-2"
+		>
+			<!--Remove Member-->
+			<div @click="deleteMember(entry)" class="cursor-pointer leading-none py-2 px-1 -ml-1.5">
+				<x-icon size="14" class="vue-feather dark:text-gray-600" />
 			</div>
-			<div class="member-preview">
+
+			<!--Member Preview-->
+			<div class="flex items-center">
 
 				<!--Avatar-->
 				<MemberAvatar
@@ -16,25 +24,28 @@
 
 				<!--Member-->
 				<div v-if="entry.type === 'member'" class="info">
-					<b class="title">
+					<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
 						{{ entry.name }}
 					</b>
-					<span class="subtitle dark:text-gray-500 text-gray-600">
+					<span class="block text-xs dark:text-gray-500 text-gray-600">
 						{{ entry.email }}
 					</span>
 				</div>
 
 				<!--Invitation-->
 				<div v-if="entry.type === 'invitation'" class="info">
-					<b class="title">
+					<b class="text-sm font-bold block max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
 						{{ entry.email }}
 					</b>
-					<span v-if="entry.id" class="subtitle">
+					<span v-if="entry.id" class="block text-xs dark:text-gray-500 text-gray-600">
 						{{ $t('Waiting for accept invitation...') }}
 					</span>
 				</div>
 			</div>
-			<div class="action">
+
+
+			<!--Set member permission-->
+			<div class="ml-auto">
 				<PermissionToggleButton @input="updateMemberPermission(entry, $event)" :item="entry" />
 			</div>
 		</li>
@@ -87,61 +98,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-    @import "resources/sass/vuefilemanager/_inapp-forms.scss";
-	@import '/resources/sass/vuefilemanager/_forms';
-
-	.member-list {
-		max-height: 270px;
-		overflow-y: scroll;
-	}
-
-	.member-item {
-		display: flex;
-		align-items: center;
-		padding: 8px 0;
-
-		.terminate {
-			line-height: 0;
-			cursor: pointer;
-
-			line {
-				color: $light_text;
-			}
-		}
-
-		.member-preview {
-			display: flex;
-			align-items: center;
-
-			.info {
-
-				.title {
-					@include font-size(15);
-					font-weight: 700;
-					display: block;
-					max-width: 190px;
-					overflow: hidden;
-					text-overflow: ellipsis;
-				}
-
-				.subtitle {
-					@include font-size(12);
-					display: block;
-				}
-			}
-		}
-
-		.action {
-			margin-left: auto;
-		}
-	}
-
-	.dark {
-
-		.member-item .info .email {
-			color: $dark_mode_text_secondary;
-		}
-	}
-</style>

@@ -16,7 +16,19 @@
                 <!--Add Member-->
 				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
 					<label class="input-label">{{ $t('Add Member') }}:</label>
-					<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
+
+					<div class="relative">
+						<span
+							v-if="email"
+							@click="addMember"
+							class="button-base theme absolute right-2 px-3 py-2 font-bold text-sm rounded-lg top-1/2 transform -translate-y-1/2 cursor-pointer"
+						>
+							Add
+						</span>
+
+                		<!--TODO: Fix !pr-20 after JIT official release-->
+						<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme !pr-20" :placeholder="$t('Type member email...')">
+					</div>
 					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
 				</ValidationProvider>
 
@@ -26,7 +38,10 @@
 					<span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
 					<TeamList v-model="members" />
 					<TeamList v-model="invitations" />
-					<p v-if="Object.values(members).length === 0 && Object.values(invitations).length === 0" class="input-help">{{ $t('Please add at least one member into your Team Folder.') }}</p>
+
+					<p v-if="Object.values(members).length === 0 && Object.values(invitations).length === 0" class="text-xs dark:text-gray-500">
+						{{ $t('Please add at least one member into your Team Folder.') }}
+					</p>
 				</ValidationProvider>
             </ValidationObserver>
 

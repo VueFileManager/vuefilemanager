@@ -2,13 +2,13 @@
     <div id="desktop-toolbar" class="lg:block hidden">
         <div class="toolbar-wrapper">
 			<div @click="goBack" class="location">
-				<chevron-left-icon :class="{'is-active': isNotHomepage }" class="icon-back" size="17" />
+				<chevron-left-icon :class="{'opacity-0 -translate-x-3': ! currentFolder, 'opacity-100 translate-x-0': currentFolder }" class="icon-back transform transition-all duration-200" size="17" />
 
-				<span class="location-title">
+				<span :class="{'-translate-x-4': ! currentFolder}" class="location-title transform transition-all duration-200">
 					{{ $getCurrentLocationName() }}
 				</span>
 
-				<span v-show="currentFolder" @click.stop="folderActions" class="location-more group" id="folder-actions">
+				<span :class="{'-translate-x-4 opacity-0': ! currentFolder, 'translate-x-0 opacity-100': currentFolder}" @click.stop="folderActions" class="transform location-more group transition-all duration-200" id="folder-actions">
 					<more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
 				</span>
 			</div>
@@ -84,7 +84,7 @@
 					</PopoverWrapper>
 
 					<!--Item actions-->
-					<span v-if="! $isMobile()">
+					<span v-if="! $isMobile()" class="whitespace-nowrap">
 						<ToolbarButton v-if="canShowConvertToTeamFolder" @click.native="$convertAsTeamFolder(clipboard[0])" :class="{'is-inactive': ! canCreateTeamFolderInView }" source="user-plus" :action="$t('actions.convert_into_team_folder')" />
 						<ToolbarButton v-if="! $isThisRoute($route, ['SharedWithMe', 'Public'])" @click.native="$shareFileOrFolder(clipboard[0])" :class="{'is-inactive': canShareInView }" source="share" :action="$t('actions.share')" />
 
@@ -291,12 +291,6 @@
 		pointer-events: none;
 		margin-right: 6px;
 		flex-shrink: 0;
-		opacity: 0.15;
-
-		&.is-active {
-			opacity: 1;
-			pointer-events: initial;
-		}
 	}
 
 	.location-title {
@@ -314,7 +308,6 @@
 		padding: 1px 4px;
 		line-height: 0;
 		border-radius: 3px;
-		@include transition(150ms);
 
 		svg circle {
 			@include transition(150ms);
