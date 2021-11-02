@@ -34,7 +34,7 @@
         <AuthContent name="sign-in" :visible="false">
 
             <div class="user" v-if="checkedAccount">
-                <img class="user-avatar mx-auto" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar mx-auto" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1>{{ $t('page_sign_in.title', {name: checkedAccount.name}) }}</h1>
                 <h2>{{ $t('page_sign_in.subtitle') }}:</h2>
             </div>
@@ -64,7 +64,7 @@
         <AuthContent name="not-verified" :visible="false">
 
             <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1>{{ checkedAccount.name }}</h1>
                 <h2>{{ $t('page_not_verified.subtitle') }}</h2>
             </div>
@@ -78,7 +78,7 @@
         <AuthContent name="two-factor-authentication" :visible="false">
 
            <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1> {{ $t('page_sign_in_2fa_title', {name: checkedAccount.name}) }} </h1>
                 <h2> {{ $t('page_sign_in_2fa_subtitle') }}:</h2>
             </div>
@@ -114,7 +114,7 @@
         <AuthContent name="two-factor-recovery" :visible="false">
 
            <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1> {{ checkedAccount.name }} </h1>
                 <h2>{{ $t('page_sign_in.2fa_recovery_subtitle') }}:</h2>
             </div>

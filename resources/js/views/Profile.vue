@@ -26,7 +26,7 @@
                             <div class="avatar">
                                 <UserImageInput
                                         v-model="avatar"
-                                        :avatar="user.data.relationships.settings.data.attributes.avatar"
+                                        :avatar="user.data.relationships.settings.data.attributes.avatar.md"
                                 />
                             </div>
                             <div class="info">

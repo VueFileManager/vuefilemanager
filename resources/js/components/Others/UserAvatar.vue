@@ -1,7 +1,7 @@
 <template>
     <div class="user-avatar" :class="size">
         <span v-if="isIncompletePayment || isNearlyFullStorageCapacity" class="notification"></span>
-        <img :src="user.data.relationships.settings.data.attributes.avatar" :alt="user.data.relationships.settings.data.attributes.name">
+        <img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">
     </div>
 </template>
 

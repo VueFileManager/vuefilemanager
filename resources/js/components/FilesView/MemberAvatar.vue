@@ -3,11 +3,10 @@
 		<img
 			:style="{width: size + 'px', height: size + 'px'}"
 			v-if="member.data.attributes.avatar"
-			:src="member.data.attributes.avatar"
-			:alt="member.data.attributes.name"
+			:src="avatar"
 			:class="[borderRadius, {'border-3 border-white dark:border-dark-background': isBorder}]"
 			class=""
-		>
+		/>
 		<div
 			v-else
 			class="flex items-center justify-center"
@@ -41,13 +40,21 @@
 				return this.size > 32 ? 'rounded-xl' : 'rounded-lg'
 			},
 			fontSize() {
-
 				if (this.size > 42) {
 					return 'text-lg'
 				} else if (this.size > 32) {
 					return 'text-base'
 				} else {
 					return 'text-sm'
+				}
+			},
+			avatar() {
+				if (this.size > 62) {
+					return this.member.data.attributes.avatar.md
+				} else if (this.size > 32) {
+					return this.member.data.attributes.avatar.sm
+				} else {
+					return this.member.data.attributes.avatar.xs
 				}
 			},
 		}

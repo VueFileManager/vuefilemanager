@@ -17,6 +17,7 @@ use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class SetupDevEnvironment extends Command
 {
@@ -99,10 +100,12 @@ class SetupDevEnvironment extends Command
             'email_verified_at' => now(),
         ]);
 
+        $avatar_name = $this->generate_avatar('avatar-01.png');
+
         $user
             ->settings()
             ->create([
-                'avatar'           => 'avatars/avatar-01.png',
+                'avatar'           => $avatar_name,
                 'storage_capacity' => 5,
                 'name'             => 'Jane Doe',
                 'address'          => $this->faker->address,
@@ -113,8 +116,6 @@ class SetupDevEnvironment extends Command
                 'phone_number'     => $this->faker->phoneNumber,
                 'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
-
-        Storage::putFileAs('avatars', storage_path('demo/avatars/avatar-01.png'), 'avatar-01.png', 'private');
 
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
@@ -158,10 +159,12 @@ class SetupDevEnvironment extends Command
                 'email_verified_at' => now(),
             ]);
 
+            $avatar_name = $this->generate_avatar($user['avatar']);
+
             $newbie
                 ->settings()
                 ->create([
-                    'avatar'           => "avatars/{$user['avatar']}",
+                    'avatar'           => $avatar_name,
                     'storage_capacity' => 5,
                     'name'             => $this->faker->name,
                     'address'          => $this->faker->address,
@@ -172,8 +175,6 @@ class SetupDevEnvironment extends Command
                     'phone_number'     => $this->faker->phoneNumber,
                     'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
                 ]);
-
-            Storage::putFileAs('avatars', storage_path("demo/avatars/{$user['avatar']}"), $user['avatar'], 'private');
 
             $this->info("Generated user with email: $newbie->email and Password: vuefilemanager");
         });
@@ -1118,5 +1119,34 @@ class SetupDevEnvironment extends Command
         $this->call('cache:clear');
         $this->call('config:clear');
         $this->call('view:clear');
+    }
+
+    /**
+     * @param $avatar
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private function generate_avatar($avatar): string
+    {
+        $image = \Illuminate\Support\Facades\File::get(storage_path("/demo/avatars/{$avatar}"));
+
+        // Create avatar name
+        $avatar_name = Str::uuid() . '.png';
+
+        // Create intervention image
+        $img = Image::make($image);
+
+        // Generate avatar
+        collect(config('vuefilemanager.avatar_sizes'))
+            ->each(function ($size) use ($img, $image, $avatar_name) {
+
+                // fit thumbnail
+                $img->fit($size['size'], $size['size'])->stream();
+
+                // Store thumbnail to disk
+                Storage::put("avatars/{$size['name']}-{$avatar_name}", $img);
+            });
+
+        return $avatar_name;
     }
 }

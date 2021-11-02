@@ -114,8 +114,12 @@ class UserAccountTest extends TestCase
                 'avatar' => $avatar,
             ])->assertStatus(204);
 
-        Storage::disk('local')
-            ->assertExists($user->settings->getRawOriginal('avatar'));
+        collect(config('vuefilemanager.avatar_sizes'))
+            ->each(fn ($size) =>
+                Storage::disk('local')
+                    ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
+            );
+
     }
 
     /**

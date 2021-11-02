@@ -8,7 +8,7 @@
                 <!--User thumbnail-->
                 <div class="user-thumbnail">
                     <div class="avatar">
-                        <img :src="user.data.relationships.settings.data.attributes.avatar" :alt="user.data.relationships.settings.data.attributes.name">
+                        <img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">
                         <!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
                     </div>
                     <div class="info">

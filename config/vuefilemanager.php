@@ -12,4 +12,19 @@ return [
     'colors' => [
         '#9ad2bf', '#9ad2cd', '#d29a9a', '#d2ce9a', '#9aadd2', '#c59ad2',
     ],
+
+    'avatar_sizes' => [
+        [
+            'size' => 160,
+            'name' => 'md',
+        ],
+        [
+            'size' => 60,
+            'name' => 'sm',
+        ],
+        [
+            'size' => 42,
+            'name' => 'xs',
+        ],
+    ]
 ];

@@ -16,7 +16,7 @@ class UserSettings extends Model
     /**
      * Format avatar to full url
      *
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string|array
      */
     public function getAvatarAttribute()
     {
@@ -27,7 +27,14 @@ class UserSettings extends Model
 
         // Get avatar from local storage
         if ($this->attributes['avatar']) {
-            return url('/' . $this->attributes['avatar']);
+
+            $link = [];
+
+            foreach (config('vuefilemanager.avatar_sizes') as $item) {
+                $link[$item['name']] = url("/avatars/{$item['name']}-{$this->attributes['avatar']}");
+            }
+
+            return $link;
         }
 
         return null;
