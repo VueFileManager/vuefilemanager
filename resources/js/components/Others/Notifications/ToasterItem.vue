@@ -36,7 +36,7 @@
         created() {
             this.isActive = 1
 
-            //setTimeout(() => (this.isActive = 0), 55000)
+            setTimeout(() => (this.isActive = 0), 5000)
         }
     }
 </script>
@@ -97,7 +97,7 @@
 
     .toaster-item {
         max-width: 320px;
-        margin-bottom: 20px;
+        margin-top: 20px;
         position: relative;
         overflow: hidden;
         display: block;

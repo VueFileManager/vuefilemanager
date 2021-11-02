@@ -276,6 +276,10 @@ input[type="color"] {
       .block-wrapper label {
         color: $dark_mode_text_primary;
       }
+
+      .switch-wrapper {
+        border-color: $dark_mode_border_color;
+      }
     }
 
     .inline-wrapper {

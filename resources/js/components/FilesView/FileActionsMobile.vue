@@ -1,5 +1,5 @@
 <template>
-    <div class="sticky dark:bg-dark-background bg-white top-14 pb-3 px-4 z-10 whitespace-nowrap overflow-x-auto lg:hidden block">
+    <div class="sticky dark:bg-dark-background bg-white top-14 pb-3 px-4 z-20 whitespace-nowrap overflow-x-auto lg:hidden block">
 
         <!--Show Buttons-->
         <div v-if="! isMultiSelectMode" class="mobile-actions">

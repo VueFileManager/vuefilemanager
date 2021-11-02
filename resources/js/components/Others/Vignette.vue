@@ -56,7 +56,7 @@
         right: 0;
         left: 0;
         bottom: 0;
-        z-index: 18;
+        z-index: 30;
         background: $light_mode_vignette;
     }
 
