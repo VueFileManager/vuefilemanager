@@ -1,7 +1,7 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
-            <upload-cloud-icon class="icon dark-text-theme" size="15" />
+            <cloud-plus-icon class="icon dark-text-theme" size="15" />
             <label label="file" class="label button file-input button-base">
                 <slot></slot>
                 <input
@@ -19,10 +19,12 @@
 
 <script>
     import { UploadCloudIcon } from 'vue-feather-icons'
+	import CloudPlusIcon from "./Icons/CloudPlusIcon";
 
     export default {
         name: 'MobileActionButtonUpload',
         components: {
+			CloudPlusIcon,
             UploadCloudIcon,
         },
         methods: {

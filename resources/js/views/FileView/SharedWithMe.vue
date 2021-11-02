@@ -67,7 +67,7 @@
 			<MobileActionButton @click.native="$openSpotlight" icon="search">
 				{{ $t('Spotlight') }}
 			</MobileActionButton>
-			<MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
+			<MobileActionButton @click.native="$showMobileMenu('file-filter')" :icon="$getCurrentSectionIcon()">
 				{{ $getCurrentSectionName() }}
 			</MobileActionButton>
 			<MobileActionButton v-if="canEdit" @click.native="$showMobileMenu('create-list')" icon="cloud-plus">

@@ -229,6 +229,19 @@ const FunctionHelpers = {
             }[this.$route.name]
         }
 
+        Vue.prototype.$getCurrentSectionIcon = function () {
+
+            return {
+                'RecentUploads': 'upload-cloud',
+                'MySharedItems': 'share',
+                'Trash': 'trash2',
+                'Public': 'hard-drive',
+                'Files': 'hard-drive',
+                'TeamFolders': 'users',
+                'SharedWithMe': 'user-check',
+            }[this.$router.currentRoute.name]
+        }
+
         Vue.prototype.$getDataByLocation = function () {
 
             let routes = {
