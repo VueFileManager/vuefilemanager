@@ -193,7 +193,7 @@
 
 			// Change item name
 			events.$on('change:name', item => {
-				if (this.item.data.id === item.id) this.itemName = item.name
+				if (this.entry.data.id === item.id) this.itemName = item.name
 			})
 
 			// Autofocus after newly created folder

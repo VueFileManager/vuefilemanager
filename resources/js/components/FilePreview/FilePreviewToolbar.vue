@@ -1,15 +1,29 @@
 <template>
 	<div class="navigation-panel" v-if="currentFile">
 		<div class="name-wrapper">
-			<x-icon @click="closeFullPreview" size="22" class="icon-close hover-text-theme" />
+
+			<!--Close icon-->
+			<span @click="closeFullPreview" class="p-3 -m-3">
+				<x-icon size="17" class="icon-close hover-text-theme" />
+			</span>
+
+			<!--Item name-->
 			<div class="name-count-wrapper">
 				<p class="title">{{ currentFile.data.attributes.name }}</p>
 				<span v-if="! fastPreview" class="file-count"> ({{ showingImageIndex + ' ' + $t('pronouns.of') + ' ' + files.length }}) </span>
 			</div>
+
+			<!--Context menu handler-->
 			<PopoverWrapper>
-				<span @click.stop="showItemContextMenu" id="fast-preview-menu" class="fast-menu-icon group">
-					<more-horizontal-icon class="more-icon group-hover-text-theme" size="14" />
+
+				<!--Icon-->
+				<span @click.stop="showItemContextMenu" class="p-3 -m-3">
+					<div class="py-0.5 px-1.5 align-middle inline-block rounded-md lg:bg-transparent dark:bg-dark-foreground bg-light-background transition-all duration-200">
+						<more-horizontal-icon size="14" />
+					</div>
 				</span>
+
+				<!--Desktop context menu-->
 				<PopoverItem name="file-preview-contextmenu" side="right">
 					<OptionGroup class="menu-option-group">
 						<Option @click.native="$renameFileOrFolder(currentFile)" :title="$t('context_menu.rename')" icon="rename" />
@@ -24,10 +38,12 @@
 			</PopoverWrapper>
 		</div>
 
+		<!--Item metadata-->
 		<div class="created-at-wrapper">
 			<p>{{ currentFile.data.attributes.filesize }}, {{ currentFile.data.attributes.created_at }}</p>
 		</div>
 
+		<!--Icon actions-->
 		<div class="navigation-icons">
 			<div v-if="isPdf" class="navigation-tool-wrapper">
 				<ToolbarButton @click.native="decreaseSizeOfPDF" source="zoom-out" :action="$t('pdf_zoom_out')" />
@@ -121,6 +137,7 @@
         methods: {
 			showItemContextMenu() {
 				if (this.$isMobile()) {
+					events.$emit('mobile-context-menu:show', this.currentFile)
 					this.$showMobileMenu('file-menu')
 				} else {
 					events.$emit('popover:open', 'file-preview-contextmenu')
@@ -208,7 +225,6 @@
 
     .icon-close {
         min-width: 22px;
-        padding: 1px 4px;
         border-radius: 6px;
         vertical-align: middle;
         cursor: pointer;
@@ -220,35 +236,6 @@
             line {
                 color: inherit;
             }
-        }
-    }
-
-    .fast-menu-icon {
-        height: 24px;
-        display: flex;
-        align-items: center;
-        vertical-align: middle;
-        padding: 1px 4px;
-        line-height: 0;
-        border-radius: 3px;
-        cursor: pointer;
-        @include transition(150ms);
-
-        svg circle {
-            @include transition(150ms);
-        }
-
-        &:hover {
-            background: $light_background;
-
-            svg circle {
-                color: inherit;
-            }
-        }
-
-        .more-icon {
-            vertical-align: middle;
-            cursor: pointer;
         }
     }
 }
@@ -352,10 +339,6 @@
             &:hover {
                 background-color: $dark_mode_background;
             }
-        }
-
-        .fast-menu-icon:hover {
-            background: $dark_mode_background;
         }
     }
 

@@ -151,6 +151,7 @@
 		},
 		computed: {
 			...mapGetters([
+				'fastPreview',
 				'clipboard',
 				'config',
 				'user',

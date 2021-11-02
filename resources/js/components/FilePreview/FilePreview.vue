@@ -1,7 +1,7 @@
 <template>
 	<div
         v-if="isFullPreview"
-        class="file-preview z-20"
+        class="file-preview z-40"
         ref="filePreview"
         tabindex="-1"
         @keydown.esc="closeFilePreview"
