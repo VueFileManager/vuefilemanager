@@ -24,6 +24,7 @@ class NavigationTreeController
                 'name'      => $teamFolder->name,
                 'folders'   => $folders,
                 'isMovable' => true,
+                'isOpen'    => true,
             ],
         ];
     }

@@ -17,13 +17,6 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .popup-content {
-        &.height-limited {
-            height: 400px;
-            overflow-y: auto;
-        }
-    }
-
     @media only screen and (max-width: 690px) {
         .popup-content {
             top: 57px;

@@ -150,7 +150,7 @@ export default {
 }
 
 .vue-feather {
-	path, circle, line, rect {
+	path, circle, line, rect, polyline {
 		color: inherit;
 	}
 }

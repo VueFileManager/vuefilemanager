@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Folders\Controllers;
 
 use Domain\Folders\Models\Folder;
@@ -28,6 +29,7 @@ class NavigationTreeController
         // Get signed user folder which are shared with him
         $sharedFolderIds = DB::table('team_folder_members')
             ->where('user_id', Auth::id())
+            ->whereIn('permission', ['can-edit', 'can-view'])
             ->pluck('parent_id');
 
         $sharedWithMeFolders = Folder::with('folders:id,parent_id,id,name,team_folder')
@@ -41,18 +43,21 @@ class NavigationTreeController
                 'name'      => 'Files',
                 'folders'   => $folders,
                 'isMovable' => true,
+                'isOpen'    => true,
             ],
             [
                 'location'  => 'team-folders',
                 'name'      => 'Team Folders',
                 'folders'   => $teamFolders,
                 'isMovable' => false,
+                'isOpen'    => false,
             ],
             [
                 'location'  => 'shared-with-me',
                 'name'      => 'Shared With Me',
                 'folders'   => $sharedWithMeFolders,
                 'isMovable' => false,
+                'isOpen'    => false,
             ],
         ];
     }
