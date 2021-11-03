@@ -623,105 +623,92 @@ class SetupDevEnvironment extends Command
 
         // Get meme gallery
         collect([
-            'Eggcited bro.jpg',
-            'Get a Rest.jpg',
-            'Get Your Shit Together.jpg',
-            'Happiness is when you are right beside me.jpg',
-            'Have a Nice Day.jpg',
-            'It Works On My Machine.jpg',
-            'I am Just Trying to shine.jpg',
-            'It Works On My Machine.jpg',
-            'Missing you It is Pig Time.jpg',
-            'Sofishticated.jpg',
-            'whaaaaat.jpg',
-            'You Are My Sunshine.jpg',
+            'demo/images/memes/Eggcited bro.jpg',
+            'demo/images/memes/Get a Rest.jpg',
+            'demo/images/memes/Get Your Shit Together.jpg',
+            'demo/images/memes/Happiness is when you are right beside me.jpg',
+            'demo/images/memes/Have a Nice Day.jpg',
+            'demo/images/memes/It Works On My Machine.jpg',
+            'demo/images/memes/I am Just Trying to shine.jpg',
+            'demo/images/memes/Missing you It is Pig Time.jpg',
+            'demo/images/memes/Sofishticated.jpg',
+            'demo/images/memes/whaaaaat.jpg',
+            'demo/images/memes/You Are My Sunshine.jpg',
         ])
             ->each(function ($file) use ($user) {
-                $basename = Str::random(12) . '-' . $file;
 
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/memes/$file"), $basename, 'private');
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
                 File::create([
                     'parent_id'  => null,
                     'user_id'    => $user->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
         // Get apartments gallery
         collect([
-            'Apartment Architecture Ceiling Chairs.jpg',
-            'Apartment Chair.jpg',
-            'Apartment Contemporary Couch Curtains.jpg',
-            'Brown Wooden Center Table.jpg',
-            'Home.jpg',
-            'Kitchen Appliances.jpg',
-            'Kitchen Island.jpg',
+            'demo/images/apartments/Apartment Architecture Ceiling Chairs.jpg',
+            'demo/images/apartments/Apartment Chair.jpg',
+            'demo/images/apartments/Apartment Contemporary Couch Curtains.jpg',
+            'demo/images/apartments/Brown Wooden Center Table.jpg',
+            'demo/images/apartments/Home.jpg',
+            'demo/images/apartments/Kitchen Appliances.jpg',
+            'demo/images/apartments/Kitchen Island.jpg',
         ])
             ->each(function ($file) use ($user, $apartments) {
-                $basename = Str::random(12) . '-' . $file;
 
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/apartments/$file"), $basename, 'private');
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/apartments/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $apartments->id,
                     'user_id'    => $user->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
         // Get nature gallery
         collect([
-            'Bird Patterncolorful Green.jpg',
-            'Close Up Of Peacock.jpg',
-            'Close Up Photography Of Tiger.jpg',
-            'Cold Nature Cute Ice.jpg',
-            'Landscape Photo of Forest.jpg',
-            'Photo of Hawksbill Sea Turtle.jpg',
-            'Photo Of Reindeer in The Snow.jpg',
-            'View Of Elephant in Water.jpg',
-            'Waterfall Between Trees.jpg',
-            'Wildlife Photography of Elephant During Golden Hour.jpg',
-            'Yellow Animal Eyes Fur.jpg',
+            'demo/images/nature/Bird Patterncolorful Green.jpg',
+            'demo/images/nature/Close Up Of Peacock.jpg',
+            'demo/images/nature/Close Up Photography Of Tiger.jpg',
+            'demo/images/nature/Cold Nature Cute Ice.jpg',
+            'demo/images/nature/Landscape Photo of Forest.jpg',
+            'demo/images/nature/Photo of Hawksbill Sea Turtle.jpg',
+            'demo/images/nature/Photo Of Reindeer in The Snow.jpg',
+            'demo/images/nature/View Of Elephant in Water.jpg',
+            'demo/images/nature/Waterfall Between Trees.jpg',
+            'demo/images/nature/Wildlife Photography of Elephant During Golden Hour.jpg',
+            'demo/images/nature/Yellow Animal Eyes Fur.jpg',
         ])
             ->each(function ($file) use ($user, $nature) {
-                $basename = Str::random(12) . '-' . $file;
 
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/nature/$file"), $basename, 'private');
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/nature/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $nature->id,
                     'user_id'    => $user->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -851,80 +838,65 @@ class SetupDevEnvironment extends Command
 
         // Get meme gallery
         collect([
-            'Sofishticated.jpg',
-            'whaaaaat.jpg',
+            'demo/images/memes/Sofishticated.jpg',
+            'demo/images/memes/whaaaaat.jpg',
         ])
             ->each(function ($file) use ($owner, $folder) {
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/$file"), $basename, 'private');
-                Storage::putFileAs("files/$owner->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $owner);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $folder->id,
                     'user_id'    => $owner->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
         // Get meme gallery
         collect([
-            'You Are My Sunshine.jpg',
+            'demo/images/memes/You Are My Sunshine.jpg',
         ])
             ->each(function ($file) use ($johan, $folder) {
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$johan->id", storage_path("demo/images/memes/$file"), $basename, 'private');
-                Storage::putFileAs("files/$johan->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $johan);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $folder->id,
                     'user_id'    => $johan->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
 
         collect([
-            'Eggcited bro.jpg',
-            'Get a Rest.jpg',
+            'demo/images/memes/Eggcited bro.jpg',
+            'demo/images/memes/Get a Rest.jpg',
         ])
             ->each(function ($file) use ($member, $hug) {
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$member->id", storage_path("demo/images/memes/$file"), $basename, 'private');
-                Storage::putFileAs("files/$member->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $member);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $hug->id,
                     'user_id'    => $member->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -1136,6 +1108,8 @@ class SetupDevEnvironment extends Command
         // Create intervention image
         $img = Image::make($image);
 
+        $this->info("Generating thumbnails for $avatar...");
+
         // Generate avatar
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(function ($size) use ($img, $image, $avatar_name) {
@@ -1148,5 +1122,47 @@ class SetupDevEnvironment extends Command
             });
 
         return $avatar_name;
+    }
+
+    /**
+     * @param $file
+     * @param $user
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private function generate_thumbnails($file, $user): array
+    {
+        $image = \Illuminate\Support\Facades\File::get(storage_path($file));
+
+        // Create avatar name
+        $file_name = Str::uuid() . '.jpg';
+
+        // Create intervention image
+        $intervention = Image::make($image)->orientate();
+
+        $this->info("Generating thumbnails for $file...");
+
+        // Generate avatar sizes
+        collect(config('vuefilemanager.image_sizes'))
+            ->each(function ($size) use ($intervention, $file_name, $user) {
+
+                // Create thumbnail only if image is larger than predefined image sizes
+                if ($intervention->getWidth() > $size['size']) {
+
+                    // Generate thumbnail
+                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
+
+                    // Store thumbnail to disk
+                    Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);
+                }
+            });
+
+        // Store original to disk
+        Storage::put("files/$user->id/{$file_name}", $intervention);
+
+        return [
+            'basename' => $file_name,
+            'name'     => head(explode('.', last(explode('/', $file)))),
+        ];
     }
 }
