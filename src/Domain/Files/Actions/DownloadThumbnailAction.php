@@ -11,18 +11,28 @@ class DownloadThumbnailAction
      * Get image thumbnail for browser
      */
     public function __invoke(
-        File $file,
-        string $user_id
+        string $filename,
+        File $file
     ): StreamedResponse {
         // Get file path
-        $path = "/files/$user_id/{$file->getRawOriginal('thumbnail')}";
+        $path = "/files/$file->user_id/$filename";
 
         // Check if file exist
         if (! Storage::exists($path)) {
-            abort(404);
+
+            // Get original file path
+            $substituteFilePath = "/files/$file->user_id/$file->basename";
+
+            // Check if original file exist
+            if (! Storage::exists($substituteFilePath)) {
+                abort(404);
+            }
+
+            // Return image thumbnail
+            return Storage::download($substituteFilePath, $filename);
         }
 
         // Return image thumbnail
-        return Storage::download($path, $file->getRawOriginal('thumbnail'));
+        return Storage::download($path, $filename);
     }
 }

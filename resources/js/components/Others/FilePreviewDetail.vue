@@ -1,6 +1,6 @@
 <template>
     <div v-if="canBePreview" class="preview">
-        <img v-if="singleFile.data.type === 'image' && singleFile.data.attributes.thumbnail" :src="singleFile.data.attributes.thumbnail" :alt="singleFile.data.attributes.name" />
+        <img v-if="singleFile.data.type === 'image' && singleFile.data.attributes.thumbnail" :src="singleFile.data.attributes.thumbnail.md" :alt="singleFile.data.attributes.name" />
         <audio v-else-if="singleFile.data.type === 'audio'" :src="singleFile.data.attributes.file_url" controlsList="nodownload" controls></audio>
         <video v-else-if="singleFile.data.type === 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
             <source :src="singleFile.data.attributes.file_url" type="video/mp4">
@@ -25,7 +25,7 @@
                 return this.singleFile && ! includes([
                     'folder', 'file'
                 ], this.singleFile.data.type)
-            }
+            },
         }
 	}
 </script>

@@ -18,7 +18,6 @@ class CreateFileManagerFiles extends Migration
             $table->uuid('user_id')->index();
             $table->uuid('parent_id')->nullable();
 
-            $table->text('thumbnail')->nullable();
             $table->text('name');
             $table->string('basename')->index();
 
@@ -29,7 +28,6 @@ class CreateFileManagerFiles extends Migration
             $table->longText('metadata')->nullable();
 
             $table->enum('author', ['user', 'member', 'visitor'])->default('user');
-            $table->uuid('author_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

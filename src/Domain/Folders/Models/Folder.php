@@ -31,7 +31,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string color
  * @property string emoji
  * @property string author
- * @property string author_id
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
@@ -56,10 +55,6 @@ class Folder extends Model
     protected $casts = [
         'emoji'       => 'array',
         'team_folder' => 'boolean',
-    ];
-
-    protected $hidden = [
-        'author_id',
     ];
 
     public $sortable = [

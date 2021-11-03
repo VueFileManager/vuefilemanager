@@ -32,7 +32,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string name
  * @property string mimetype
  * @property string author
- * @property string author_id
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
@@ -51,15 +50,12 @@ class File extends Model
     ];
 
     protected $appends = [
+        'thumbnail',
         'file_url',
     ];
 
     protected $casts = [
         'metadata' => 'array',
-    ];
-
-    protected $hidden = [
-        'author_id',
     ];
 
     public array $sortable = [
@@ -92,23 +88,38 @@ class File extends Model
     /**
      * Format thumbnail url
      */
-    public function getThumbnailAttribute(): string | null
+    public function getThumbnailAttribute(): array | null
     {
-        // Get thumbnail from external storage
-        if ($this->attributes['thumbnail'] && ! is_storage_driver(['local'])) {
-            return Storage::temporaryUrl("files/$this->user_id/{$this->attributes['thumbnail']}", now()->addHour());
-        }
+        $links = [];
 
-        // Get thumbnail from local storage
-        if ($this->attributes['thumbnail']) {
-            // Thumbnail route
-            $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
+        // Generate thumbnail link for external storage service
+        if ($this->type === 'image' && ! is_storage_driver(['local'])) {
 
-            if ($this->public_access) {
-                return "$route/$this->public_access";
+            foreach (config('vuefilemanager.image_sizes') as $item) {
+
+                $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
+
+                $links[$item['name']] = Storage::temporaryUrl($filePath, now()->addHour());
             }
 
-            return $route;
+            return $links;
+        }
+
+        // Generate thumbnail link for local storage
+        if ($this->type === 'image') {
+
+            foreach (config('vuefilemanager.image_sizes') as $item) {
+
+                $route = route('thumbnail', ['name' => $item['name'] . '-' . $this->basename]);
+
+                if ($this->public_access) {
+                    $route .= "/$this->public_access";
+                }
+
+                $links[$item['name']] = $route;
+            }
+
+            return $links;
         }
 
         return null;

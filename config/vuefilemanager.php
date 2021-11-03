@@ -6,7 +6,7 @@ return [
     'is_demo' => env('APP_DEMO', false),
 
     // Define size of chunk uploaded by MB.
-    // E.g. integer 128 means chunk size will be 128MB.
+    // E.g. integer 128 means chunk size will be 128 MB.
     'chunk_size' => env('CHUNK_SIZE', '128'),
 
     'colors' => [
@@ -24,6 +24,29 @@ return [
         ],
         [
             'size' => 42,
+            'name' => 'xs',
+        ],
+    ],
+
+    'image_sizes' => [
+        [
+            'size' => 1440,
+            'name' => 'xl',
+        ],
+        [
+            'size' => 960,
+            'name' => 'lg',
+        ],
+        [
+            'size' => 480,
+            'name' => 'md',
+        ],
+        [
+            'size' => 240,
+            'name' => 'sm',
+        ],
+        [
+            'size' => 120,
             'name' => 'xs',
         ],
     ]

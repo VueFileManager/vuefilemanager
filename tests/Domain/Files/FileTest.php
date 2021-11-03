@@ -31,9 +31,9 @@ class FileTest extends TestCase
     public function it_upload_image_file_and_create_thumbnail()
     {
         $file = UploadedFile::fake()
-            ->image('fake-image.jpg');
+            ->image('fake-image.jpg', 2000, 2000);
 
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -47,17 +47,18 @@ class FileTest extends TestCase
 
         $disk = Storage::disk('local');
 
+        $file = File::first();
+
         $disk->assertMissing(
-            'chunks/fake-image.jpg'
+            "chunks/$file->basename"
         );
 
-        $disk->assertExists(
-            "files/$user->id/fake-image.jpg"
-        );
-
-        $disk->assertExists(
-            "files/$user->id/thumbnail-fake-image.jpg"
-        );
+        collect(config('vuefilemanager.image_sizes'))
+            ->each(fn ($item) =>
+                $disk->assertExists(
+                    "files/{$user->id}/{$item['name']}-{$file->basename}"
+                )
+            );
     }
 
     /**
@@ -82,12 +83,14 @@ class FileTest extends TestCase
 
         $disk = Storage::disk('local');
 
+        $file = File::first();
+
         $disk->assertMissing(
-            'chunks/fake-file.pdf'
+            "chunks/$file->basename"
         );
 
         $disk->assertExists(
-            "files/$user->id/fake-file.pdf"
+            "files/$user->id/$file->basename"
         );
     }
 

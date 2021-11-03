@@ -43,7 +43,7 @@
 						class="absolute -right-3 -bottom-2.5 transform lg:scale-100 scale-75 z-10"
 					/>
 
-					<img class="object-cover w-full h-full rounded-lg shadow-lg" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />
+					<img class="object-cover w-full h-full rounded-lg shadow-lg" :src="entry.data.attributes.thumbnail.sm" :alt="entry.data.attributes.name" loading="lazy" />
 				</div>
 			</div>
 

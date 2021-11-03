@@ -348,9 +348,11 @@ class VisitorManipulatingTest extends TestCase
                     'author' => 'visitor',
                 ]);
 
+                $file = File::all()->last();
+
                 Storage::disk('local')
                     ->assertExists(
-                        "files/$user->id/fake-file.pdf"
+                        "files/$user->id/$file->basename"
                     );
             });
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Files;
 
 use Storage;
@@ -79,20 +80,19 @@ class ContentAccessTest extends TestCase
             ->create();
 
         $thumbnail = UploadedFile::fake()
-            ->image(Str::random() . '-fake-thumbnail.jpg');
+            ->image('fake-thumbnail.jpg');
 
         Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
 
         File::factory(File::class)
             ->create([
-                'user_id'   => $user->id,
-                'thumbnail' => $thumbnail->name,
-                'name'      => 'fake-thumbnail.jpg',
+                'user_id'  => $user->id,
+                'basename' => 'fake-thumbnail.jpg',
             ]);
 
         $this
             ->actingAs($user)
-            ->get("thumbnail/$thumbnail->name")
+            ->get("thumbnail/xs-$thumbnail->name")
             ->assertStatus(200);
     }
 
@@ -101,24 +101,23 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_image_thumbnail()
     {
-        $users = User::factory(User::class)
+        $users = User::factory()
             ->count(2)
             ->create();
 
         $thumbnail = UploadedFile::fake()
-            ->image(Str::random() . '-fake-thumbnail.jpg');
+            ->image('fake-thumbnail.jpg', 2000, 2000);
 
         Storage::putFileAs("files/{$users[0]->id}", $thumbnail, $thumbnail->name);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
-                'user_id'   => $users[0]->id,
-                'thumbnail' => $thumbnail->name,
-                'name'      => 'fake-thumbnail.jpg',
+                'user_id'  => $users[0]->id,
+                'basename' => 'fake-thumbnail.jpg',
             ]);
 
         $this->actingAs($users[1])
-            ->get("thumbnail/$thumbnail->name")
+            ->get("thumbnail/xs-$thumbnail->name")
             ->assertForbidden();
     }
 

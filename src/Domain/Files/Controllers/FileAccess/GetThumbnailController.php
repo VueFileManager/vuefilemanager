@@ -3,8 +3,8 @@ namespace Domain\Files\Controllers\FileAccess;
 
 use Gate;
 use Illuminate\Http\Request;
+use Domain\Files\Models\File;
 use App\Http\Controllers\Controller;
-use Domain\Files\Models\File as UserFile;
 use Domain\Files\Actions\DownloadThumbnailAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -20,14 +20,16 @@ class GetThumbnailController extends Controller
         string $filename,
     ): FileNotFoundException | StreamedResponse {
 
-        $file = UserFile::withTrashed()
-            ->where('thumbnail', $filename)
+        $originalFileName = substr($filename, 3);
+
+        $file = File::withTrashed()
+            ->where('basename', $originalFileName)
             ->firstOrFail();
 
         if (! Gate::any(['can-edit', 'can-view'], [$file, null])) {
             abort(403, 'Access Denied');
         }
 
-        return ($this->downloadThumbnail)($file, $file->user_id);
+        return ($this->downloadThumbnail)($filename, $file);
     }
 }

@@ -3,7 +3,7 @@
 		id="printable-file"
 		class="file"
 		:class="{'file-shadow': ! $isMobile() }"
-		:src="file.data.attributes.file_url"
+		:src="imageSource"
 	/>
 </template>
 
@@ -13,5 +13,15 @@
 		props: [
 			'file'
 		],
+		computed: {
+			imageSource() {
+				let windowWidth = window.innerWidth
+
+				if (windowWidth > 1280)
+					return this.file.data.attributes.thumbnail.xl
+				else
+					return this.file.data.attributes.thumbnail.lg
+			}
+		}
 	}
 </script>

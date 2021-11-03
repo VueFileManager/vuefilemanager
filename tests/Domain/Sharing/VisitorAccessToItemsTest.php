@@ -72,8 +72,8 @@ class VisitorAccessToItemsTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'user_id'   => $user->id,
-                'name'      => 'fake-thumbnail.jpg',
+                'user_id' => $user->id,
+                'name'    => 'fake-thumbnail.jpg',
             ]);
 
         $share = Share::factory(Share::class)
@@ -99,17 +99,18 @@ class VisitorAccessToItemsTest extends TestCase
                 $user = User::factory(User::class)
                     ->create();
 
-                $thumbnail = UploadedFile::fake()
-                    ->image(Str::random() . '-fake-image.jpg');
+                $fileName = Str::random() . '-fake-image.jpg';
 
-                Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
+                $thumbnail = UploadedFile::fake()
+                    ->image($fileName, 2000, 2000);
+
+                Storage::putFileAs("files/$user->id", $thumbnail, $fileName);
 
                 $file = File::factory(File::class)
                     ->create([
                         'user_id'   => $user->id,
-                        'thumbnail' => $thumbnail->name,
-                        'basename'  => $thumbnail->name,
-                        'name'      => 'fake-thumbnail.jpg',
+                        'basename'  => $fileName,
+                        'name'      => $fileName,
                         'type'      => 'image',
                         'mimetype'  => 'jpg',
                     ]);
@@ -152,16 +153,18 @@ class VisitorAccessToItemsTest extends TestCase
                 $user = User::factory(User::class)
                     ->create();
 
-                $thumbnail = UploadedFile::fake()
-                    ->image(Str::random() . '-fake-thumbnail.jpg');
+                $fileName = Str::random() . '-fake-thumbnail.jpg';
 
-                Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
+                $thumbnail = UploadedFile::fake()
+                    ->image($fileName);
+
+                Storage::putFileAs("files/$user->id", $thumbnail, $fileName);
 
                 $file = File::factory(File::class)
                     ->create([
-                        'user_id'   => $user->id,
-                        'thumbnail' => $thumbnail->name,
-                        'name'      => 'fake-thumbnail.jpg',
+                        'user_id'  => $user->id,
+                        'name'     => $fileName,
+                        'basename' => $fileName,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -182,12 +185,12 @@ class VisitorAccessToItemsTest extends TestCase
                     ];
 
                     $this->withCookies($cookie)
-                        ->get("/thumbnail/$thumbnail->name/$share->token")
+                        ->get("/thumbnail/xs-$fileName/$share->token")
                         ->assertStatus(200);
                 }
 
                 if (!$is_protected) {
-                    $this->get("/thumbnail/$thumbnail->name/$share->token")
+                    $this->get("/thumbnail/xs-$fileName/$share->token")
                         ->assertStatus(200);
                 }
 

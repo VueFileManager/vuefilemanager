@@ -20,15 +20,22 @@ class UserSettings extends Model
      */
     public function getAvatarAttribute()
     {
+        $link = [];
+
         // Get avatar from external storage
         if ($this->attributes['avatar'] && ! is_storage_driver('local')) {
-            return Storage::temporaryUrl($this->attributes['avatar'], now()->addDay());
+
+            foreach (config('vuefilemanager.avatar_sizes') as $item) {
+                $filePath = "avatars/{$item['name']}-{$this->attributes['avatar']}";
+
+                $link[$item['name']] = Storage::temporaryUrl($filePath, now()->addDay());
+            }
+
+            return $link;
         }
 
         // Get avatar from local storage
         if ($this->attributes['avatar']) {
-
-            $link = [];
 
             foreach (config('vuefilemanager.avatar_sizes') as $item) {
                 $link[$item['name']] = url("/avatars/{$item['name']}-{$this->attributes['avatar']}");

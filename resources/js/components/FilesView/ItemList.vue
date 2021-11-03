@@ -23,7 +23,7 @@
 			<FileIconThumbnail v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
 
 			<!--Image thumbnail-->
-			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5 object-cover" :src="entry.data.attributes.thumbnail" :alt="entry.data.attributes.name" loading="lazy" />
+			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5 object-cover" :src="entry.data.attributes.thumbnail.xs" :alt="entry.data.attributes.name" loading="lazy" />
 		</div>
 
 		<!--Item Info-->

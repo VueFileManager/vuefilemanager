@@ -110,12 +110,21 @@ class BrowseTest extends TestCase
                         ],
                     ],
                     'isMovable' => true,
+                    'isOpen'    => true,
                 ],
                 [
                     'location'  => 'team-folders',
                     'name'      => 'Team Folders',
                     'folders'   => [],
                     'isMovable' => false,
+                    'isOpen'    => false,
+                ],
+                [
+                    'location'  => 'shared-with-me',
+                    'name'      => 'Shared With Me',
+                    'folders'   => [],
+                    'isMovable' => false,
+                    'isOpen'    => false,
                 ],
             ]);
     }

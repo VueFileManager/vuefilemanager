@@ -11,7 +11,7 @@
             <FontAwesomeIcon v-if="isFile || (isImage && !item.data.attributes.thumbnail)" class="file-icon" :class="{'file-icon-mobile' : $isMobile()}" icon="file"/>
 
             <!--Image thumbnail-->
-            <img v-if="isImage && item.data.attributes.thumbnail" class="image" :src="item.data.attributes.thumbnail" :alt="item.data.attributes.name"/>
+            <img v-if="isImage && item.data.attributes.thumbnail" class="image" :src="item.data.attributes.thumbnail.xs"/>
 
             <!--Else show only folder icon-->
             <FolderIcon v-if="isFolder" :item="item" :folder-icon="setFolderIcon" location="thumbnail-item" class="folder svg-color-theme" />
