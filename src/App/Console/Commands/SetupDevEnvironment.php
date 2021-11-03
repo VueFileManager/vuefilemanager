@@ -1158,7 +1158,7 @@ class SetupDevEnvironment extends Command
             });
 
         // Store original to disk
-        Storage::put("files/$user->id/{$file_name}", $intervention);
+        Storage::putFileAs("files/$user->id", storage_path($file), $file_name, 'private');
 
         return [
             'basename' => $file_name,
