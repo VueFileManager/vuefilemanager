@@ -6,7 +6,6 @@ use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Actions\DeleteFileOrFolderAction;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**

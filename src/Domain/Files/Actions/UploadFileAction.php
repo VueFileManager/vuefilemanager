@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Files\Actions;
 
+use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -9,7 +10,6 @@ use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
 use App\Users\Actions\CheckStorageCapacityAction;
-use Illuminate\Support\Str;
 
 class UploadFileAction
 {

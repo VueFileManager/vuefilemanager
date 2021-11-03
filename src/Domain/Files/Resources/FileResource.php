@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Files\Resources;
 
 use Carbon\Carbon;
@@ -45,10 +44,10 @@ class FileResource extends JsonResource
                     ),*/
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->shared, fn() => [
+                    $this->mergeWhen($this->shared, fn () => [
                         'shared' => new ShareResource($this->shared),
                     ]),
-                    $this->mergeWhen($this->parent, fn() => [
+                    $this->mergeWhen($this->parent, fn () => [
                         'parent' => [
                             'data' => [
                                 'type'       => 'folder',
@@ -59,7 +58,7 @@ class FileResource extends JsonResource
                             ],
                         ],
                     ]),
-                    $this->mergeWhen($this->owner, fn() => [
+                    $this->mergeWhen($this->owner, fn () => [
                         'user' => [
                             'data' => [
                                 'type'       => 'user',

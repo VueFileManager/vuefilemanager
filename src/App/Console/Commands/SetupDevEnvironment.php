@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -14,10 +13,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Intervention\Image\ImageManagerStatic as Image;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class SetupDevEnvironment extends Command
 {
@@ -36,11 +35,10 @@ class SetupDevEnvironment extends Command
 
     public function __construct(
         private CreateDiskDirectoriesAction $createDiskDirectories,
-        private SeedDefaultSettingsAction   $seedDefaultSettings,
-        private SeedDefaultLanguageAction   $seedDefaultLanguage,
-        private SeedDefaultPagesAction      $seedDefaultPages,
-    )
-    {
+        private SeedDefaultSettingsAction $seedDefaultSettings,
+        private SeedDefaultLanguageAction $seedDefaultLanguage,
+        private SeedDefaultPagesAction $seedDefaultPages,
+    ) {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -636,7 +634,6 @@ class SetupDevEnvironment extends Command
             'demo/images/memes/You Are My Sunshine.jpg',
         ])
             ->each(function ($file) use ($user) {
-
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
@@ -664,7 +661,6 @@ class SetupDevEnvironment extends Command
             'demo/images/apartments/Kitchen Island.jpg',
         ])
             ->each(function ($file) use ($user, $apartments) {
-
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
@@ -696,7 +692,6 @@ class SetupDevEnvironment extends Command
             'demo/images/nature/Yellow Animal Eyes Fur.jpg',
         ])
             ->each(function ($file) use ($user, $nature) {
-
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
@@ -753,7 +748,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
@@ -763,7 +758,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
@@ -774,7 +769,7 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn($user) => TeamFolderInvitation::factory()
+                fn ($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
@@ -833,7 +828,7 @@ class SetupDevEnvironment extends Command
                     'parent_id'  => $folder->id,
                     'user_id'    => $johan->id,
                     'permission' => 'owner',
-                ]
+                ],
             ]);
 
         // Get meme gallery
@@ -878,7 +873,6 @@ class SetupDevEnvironment extends Command
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
-
 
         collect([
             'demo/images/memes/Eggcited bro.jpg',
@@ -1112,8 +1106,7 @@ class SetupDevEnvironment extends Command
 
         // Generate avatar
         collect(config('vuefilemanager.avatar_sizes'))
-            ->each(function ($size) use ($img, $image, $avatar_name) {
-
+            ->each(function ($size) use ($img , $avatar_name) {
                 // fit thumbnail
                 $img->fit($size['size'], $size['size'])->stream();
 
@@ -1145,12 +1138,10 @@ class SetupDevEnvironment extends Command
         // Generate avatar sizes
         collect(config('vuefilemanager.image_sizes'))
             ->each(function ($size) use ($intervention, $file_name, $user) {
-
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
-
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
+                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
 
                     // Store thumbnail to disk
                     Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);

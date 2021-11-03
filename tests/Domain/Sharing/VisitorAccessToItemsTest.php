@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
 use Storage;
@@ -54,7 +53,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
+                if (! $is_protected) {
                     // Get shared file
                     $this->get("/file/$document->name/$share->token")
                         ->assertStatus(200);
@@ -136,7 +135,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->get("/share/$share->token")
                         ->assertStatus(200);
                 }
@@ -189,7 +188,7 @@ class VisitorAccessToItemsTest extends TestCase
                         ->assertStatus(200);
                 }
 
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->get("/thumbnail/xs-$fileName/$share->token")
                         ->assertStatus(200);
                 }

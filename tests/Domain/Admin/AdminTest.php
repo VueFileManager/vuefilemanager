@@ -236,10 +236,11 @@ class AdminTest extends TestCase
             'name' => 'John Doe',
         ]);
 
-        $avatar =  User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar');
+        $avatar = User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar');
 
         collect(config('vuefilemanager.avatar_sizes'))
-            ->each(fn ($size) =>
+            ->each(
+                fn ($size) =>
                 Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$avatar}")
             );

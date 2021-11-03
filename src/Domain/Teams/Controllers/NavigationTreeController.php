@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Domain\Folders\Models\Folder;
 use Gate;
+use Domain\Folders\Models\Folder;
 
 class NavigationTreeController
 {

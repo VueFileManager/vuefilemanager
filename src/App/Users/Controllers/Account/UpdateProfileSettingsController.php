@@ -1,12 +1,10 @@
 <?php
 namespace App\Users\Controllers\Account;
 
-use App\Users\Requests\UpdateUserProfileSettingsRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Users\Requests\UpdateUserProfileSettingsRequest;
 
 class UpdateProfileSettingsController extends Controller
 {

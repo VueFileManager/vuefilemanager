@@ -13,12 +13,12 @@ class GetFileController extends Controller
     public function __construct(
         private RecordDownloadAction $recordDownload,
         private DownloadFileAction $downloadFile,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         string $filename,
     ): BinaryFileResponse {
-
         $file = UserFile::withTrashed()
             ->where('basename', $filename)
             ->firstOrFail();

@@ -24,7 +24,6 @@ class UserSettings extends Model
 
         // Get avatar from external storage
         if ($this->attributes['avatar'] && ! is_storage_driver('local')) {
-
             foreach (config('vuefilemanager.avatar_sizes') as $item) {
                 $filePath = "avatars/{$item['name']}-{$this->attributes['avatar']}";
 
@@ -36,7 +35,6 @@ class UserSettings extends Model
 
         // Get avatar from local storage
         if ($this->attributes['avatar']) {
-
             foreach (config('vuefilemanager.avatar_sizes') as $item) {
                 $link[$item['name']] = url("/avatars/{$item['name']}-{$this->attributes['avatar']}");
             }

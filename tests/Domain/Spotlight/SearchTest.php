@@ -37,13 +37,13 @@ class SearchTest extends TestCase
         collect([$english, $russian, $turkish])
             ->each(
                 fn ($file) => $this
-            ->actingAs($user)
-            ->getJson('/api/browse/search?query=' . mb_strtolower(mb_substr($file->name, 0, 3)))
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'id'   => $file->id,
-                'name' => $file->name,
-            ])
+                    ->actingAs($user)
+                    ->getJson('/api/browse/search?query=' . mb_strtolower(mb_substr($file->name, 0, 3)))
+                    ->assertStatus(200)
+                    ->assertJsonFragment([
+                        'id'   => $file->id,
+                        'name' => $file->name,
+                    ])
             );
     }
 

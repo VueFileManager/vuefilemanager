@@ -1,12 +1,10 @@
 <?php
-
 namespace Tests\Domain\Files;
 
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;

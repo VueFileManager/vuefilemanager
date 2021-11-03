@@ -7,7 +7,6 @@ use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Items\Actions\MoveFileOrFolderAction;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 
 /**

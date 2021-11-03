@@ -1,14 +1,13 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Auth;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\ConvertIntoTeamFolderRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
-use Illuminate\Support\Facades\DB;
 
 class ConvertFolderIntoTeamFolderController extends Controller
 {

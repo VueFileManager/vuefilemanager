@@ -1,16 +1,15 @@
 <?php
-
 namespace Domain\Teams\Controllers;
 
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
-use Domain\Folders\Resources\FolderResource;
-use Gate;
 use Str;
+use Gate;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderResource;
+use Domain\Folders\Resources\FolderCollection;
 
 class BrowseSharedWithMeController
 {
@@ -36,7 +35,7 @@ class BrowseSharedWithMeController
                 ->get();
         }
 
-        if (!$id) {
+        if (! $id) {
             $sharedFolderIds = DB::table('team_folder_members')
                 ->where('user_id', Auth::id())
                 ->whereIn('permission', ['can-edit', 'can-view'])

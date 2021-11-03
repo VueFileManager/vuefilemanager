@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Gate;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;

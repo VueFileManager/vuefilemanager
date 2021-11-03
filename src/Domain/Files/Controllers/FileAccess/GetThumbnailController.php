@@ -13,13 +13,13 @@ class GetThumbnailController extends Controller
 {
     public function __construct(
         private DownloadThumbnailAction $downloadThumbnail,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Request $request,
         string $filename,
     ): FileNotFoundException | StreamedResponse {
-
         $originalFileName = substr($filename, 3);
 
         $file = File::withTrashed()

@@ -1,15 +1,14 @@
 <?php
-
 namespace Tests\Domain\Teams;
 
+use Str;
+use Notification;
+use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
-use Illuminate\Support\Facades\DB;
-use Notification;
-use Str;
-use Tests\TestCase;
 
 class TeamManagementTest extends TestCase
 {

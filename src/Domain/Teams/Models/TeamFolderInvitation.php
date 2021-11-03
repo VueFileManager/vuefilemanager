@@ -2,9 +2,9 @@
 namespace Domain\Teams\Models;
 
 use App\Users\Models\User;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Database\Factories\TeamFolderInvitationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

@@ -115,7 +115,8 @@ class UserAccountTest extends TestCase
             ])->assertStatus(204);
 
         collect(config('vuefilemanager.avatar_sizes'))
-            ->each(fn ($size) =>
+            ->each(
+                fn ($size) =>
                 Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );

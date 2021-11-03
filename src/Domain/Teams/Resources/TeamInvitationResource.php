@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Teams\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,7 +19,7 @@ class TeamInvitationResource extends JsonResource
                     'permission' => $this->permission,
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->inviter, fn() => [
+                    $this->mergeWhen($this->inviter, fn () => [
                         'inviter' => [
                             'data' => [
                                 'type'       => 'user',

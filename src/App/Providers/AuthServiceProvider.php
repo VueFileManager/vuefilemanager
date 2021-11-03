@@ -1,8 +1,8 @@
 <?php
 namespace App\Providers;
 
-use Auth;
 use DB;
+use Auth;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -18,7 +18,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        //
     ];
 
     /**
@@ -54,7 +53,6 @@ class AuthServiceProvider extends ServiceProvider
 
         // Define owner of file or folder
         Gate::define('owner', function (?User $user, File | Folder $item) {
-
             // Check user owner status
             return $user?->id === $item->user_id;
         });

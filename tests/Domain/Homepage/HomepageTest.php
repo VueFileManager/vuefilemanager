@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Homepage;
 
 use Mail;

@@ -7,7 +7,6 @@ use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
-use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 
 class TeamsTest extends TestCase

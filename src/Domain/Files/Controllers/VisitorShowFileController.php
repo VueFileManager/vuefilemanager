@@ -1,12 +1,11 @@
 <?php
 namespace Domain\Files\Controllers;
 
-use Domain\Files\Models\File;
 use Gate;
+use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use Domain\Files\Resources\FileResource;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
 
 /**
  * Get shared file record
@@ -16,7 +15,6 @@ class VisitorShowFileController
     public function __invoke(
         Share $shared
     ): Response {
-
         $file = File::whereUserId($shared->user_id)
             ->whereId($shared->item_id)
             ->firstOrFail();

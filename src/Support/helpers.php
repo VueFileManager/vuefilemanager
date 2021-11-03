@@ -325,7 +325,7 @@ if (! function_exists('store_avatar')) {
     function store_avatar($request, $name): ?string
     {
         // Check if file exist in http request
-        if (!$request->hasFile($name)) {
+        if (! $request->hasFile($name)) {
             return null;
         }
 
@@ -346,7 +346,6 @@ if (! function_exists('store_avatar')) {
         // Generate avatar sizes
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(function ($size) use ($intervention, $avatar_name) {
-
                 // fit thumbnail
                 $intervention->fit($size['size'], $size['size'])->stream();
 

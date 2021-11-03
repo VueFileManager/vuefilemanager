@@ -273,7 +273,8 @@ class SetupWizardTest extends TestCase
         $this->assertNotNull($avatar);
 
         collect(config('vuefilemanager.avatar_sizes'))
-            ->each(fn ($size) =>
+            ->each(
+                fn ($size) =>
             Storage::disk('local')
                 ->assertExists("avatars/{$size['name']}-{$avatar}")
             );

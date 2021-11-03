@@ -19,7 +19,6 @@ class DownloadThumbnailAction
 
         // Check if file exist
         if (! Storage::exists($path)) {
-
             // Get original file path
             $substituteFilePath = "/files/$file->user_id/$file->basename";
 

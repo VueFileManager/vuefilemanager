@@ -54,7 +54,8 @@ class FileTest extends TestCase
         );
 
         collect(config('vuefilemanager.image_sizes'))
-            ->each(fn ($item) =>
+            ->each(
+                fn ($item) =>
                 $disk->assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
