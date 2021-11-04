@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Teams\Controllers;
 
 use Auth;
@@ -15,7 +14,8 @@ class LeaveTeamFolderController extends Controller
 {
     public function __construct(
         public TransferContentOwnershipToTeamFolderOwnerAction $transferContentOwnership,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Folder $folder): Response|Application|ResponseFactory
     {
