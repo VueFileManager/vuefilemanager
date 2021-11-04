@@ -22,7 +22,7 @@
 					  fill="green">
 
 				</path>
-				<g id="Icon" transform="translate(8.000000, 20.000000)" class="svg-stroke-theme-darken" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" stroke="black" stroke-opacity="0.2">
+				<g id="Icon" transform="translate(8.000000, 20.000000)" class="svg-stroke-theme-darken" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" stroke="black" stroke-opacity="0.25">
 					<path d="M9.59999943,10.7999994 L9.59999943,9.59999943 C9.59999943,8.27451611 8.52548289,7.19999957 7.19999957,7.19999957 L2.39999986,7.19999957 C1.07451654,7.19999957 0,8.27451611 0,9.59999943 L0,10.7999994"></path>
 					<circle cx="4.79999971" cy="2.39999986" r="2.39999986"></circle>
 					<path d="M13.1999992,10.7999994 L13.1999992,9.59999943 C13.1991834,8.50627014 12.4589985,7.55143166 11.3999993,7.27799957"></path>
