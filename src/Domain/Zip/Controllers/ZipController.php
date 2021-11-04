@@ -4,7 +4,6 @@ namespace Domain\Zip\Controllers;
 use Illuminate\Http\Request;
 use Domain\Zip\Actions\ZipAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Zip\Actions\GetItemsListFromUrlParamAction;
 

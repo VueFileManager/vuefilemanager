@@ -59,9 +59,9 @@ class FileResource extends JsonResource
                         ],
                     ]),
                     $this->mergeWhen($this->owner, fn () => [
-                        'user' => [
+                        'owner' => [
                             'data' => [
-                                'type'       => 'user',
+                                'type'       => 'owner',
                                 'id'         => $this->user_id,
                                 'attributes' => [
                                     'name'   => $this->owner->settings->name,

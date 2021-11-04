@@ -77,6 +77,7 @@ import ItemList from "../FilesView/ItemList"
 import {events} from '/resources/js/bus'
 import {debounce} from 'lodash';
 import axios from "axios";
+import {mapGetters} from "vuex";
 
 export default {
 	name: 'Spotlight',
@@ -87,6 +88,9 @@ export default {
 		XIcon,
 	},
 	computed: {
+		...mapGetters([
+			'user'
+		]),
 		metaKeyIcon() {
 			return this.$isApple() ? '⌘' : 'alt'
 		},
@@ -135,7 +139,17 @@ export default {
 
 			// Show folder
 			if (file.data.type === 'folder') {
-				this.$router.push({name: 'Files', params: {id: file.data.id}})
+
+				if (file.data.attributes.isTeamFolder) {
+
+					if (file.data.relationships.owner.data.id === this.user.data.id) {
+						this.$router.push({name: 'TeamFolders', params: {id: file.data.id}})
+					} else {
+						this.$router.push({name: 'SharedWithMe', params: {id: file.data.id}})
+					}
+				} else {
+					this.$router.push({name: 'Files', params: {id: file.data.id}})
+				}
 			} else {
 
 				// Show file

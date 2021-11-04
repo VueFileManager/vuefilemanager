@@ -201,6 +201,7 @@
 			},
 		},
 		created() {
+			this.$store.commit('SET_CURRENT_TEAM_FOLDER', undefined)
 			this.$store.dispatch('getSharedWithMeFolder', this.$route.params.id)
 
 			events.$on('context-menu:show', (event, item) => this.item = item)

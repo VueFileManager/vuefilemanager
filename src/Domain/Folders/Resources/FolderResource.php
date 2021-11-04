@@ -54,6 +54,19 @@ class FolderResource extends JsonResource
                             ],
                         ],
                     ]),
+                    $this->mergeWhen($this->owner, fn () => [
+                        'owner' => [
+                            'data' => [
+                                'type'       => 'owner',
+                                'id'         => $this->user_id,
+                                'attributes' => [
+                                    'name'   => $this->owner->settings->name,
+                                    'avatar' => $this->owner->settings->avatar,
+                                    'color'  => $this->owner->settings->color,
+                                ],
+                            ],
+                        ],
+                    ]),
                 ],
             ],
         ];

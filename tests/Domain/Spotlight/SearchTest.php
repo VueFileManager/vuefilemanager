@@ -1,12 +1,11 @@
 <?php
-
 namespace Tests\Domain\Spotlight;
 
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
 
 class SearchTest extends TestCase
 {
@@ -38,7 +37,7 @@ class SearchTest extends TestCase
 
         collect([$english, $russian, $turkish])
             ->each(
-                fn($file) => $this
+                fn ($file) => $this
                     ->actingAs($user)
                     ->getJson('/api/browse/search?query=' . mb_strtolower(mb_substr($file->name, 0, 3)))
                     ->assertStatus(200)
@@ -91,7 +90,7 @@ class SearchTest extends TestCase
 
         $folderWithin = Folder::factory()
             ->create([
-                'name'      => "Folder within Alice",
+                'name'      => 'Folder within Alice',
                 'parent_id' => $folder->id,
                 'user_id'   => $owner->id,
             ]);

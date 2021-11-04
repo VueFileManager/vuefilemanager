@@ -2,9 +2,9 @@
 namespace Domain\Browsing\Controllers;
 
 use DB;
+use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Domain\Items\Requests\SearchRequest;
 use Domain\Files\Resources\FilesCollection;

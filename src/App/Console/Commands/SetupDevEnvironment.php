@@ -1106,7 +1106,7 @@ class SetupDevEnvironment extends Command
 
         // Generate avatar
         collect(config('vuefilemanager.avatar_sizes'))
-            ->each(function ($size) use ($img , $avatar_name) {
+            ->each(function ($size) use ($img, $avatar_name) {
                 // fit thumbnail
                 $img->fit($size['size'], $size['size'])->stream();
 

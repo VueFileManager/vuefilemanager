@@ -192,6 +192,11 @@ class Folder extends Model
             ->withPivot('permission');
     }
 
+    public function owner(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
     public function parents(): HasMany
     {
         return $this->hasMany(Folder::class, 'id', 'parent_id');

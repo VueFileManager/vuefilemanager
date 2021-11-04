@@ -87,6 +87,31 @@ class TeamsTest extends TestCase
     /**
      * @test
      */
+    public function it_mark_newly_created_folder_as_team_folder()
+    {
+        $user = User::factory()
+            ->create();
+
+        $teamFolder = Folder::factory()
+            ->create([
+                'team_folder' => 1,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/create-folder', [
+                'name'      => 'Inner Folder',
+                'parent_id' => $teamFolder->id,
+            ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'isTeamFolder' => true,
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_convert_folder_into_team_folder()
     {
         $user = User::factory()

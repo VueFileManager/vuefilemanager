@@ -12,7 +12,7 @@
 				v-if="user && canShowAuthor"
 				:size="28"
 				:is-border="true"
-				:member="entry.data.relationships.user"
+				:member="entry.data.relationships.owner"
 				class="absolute right-1.5 -bottom-2 z-10"
 			/>
 
@@ -136,9 +136,8 @@
 					: this.entry.data.attributes.items
 			},
 			canShowAuthor() {
-				return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
-					&& !this.isFolder
-					&& this.user.data.id !== this.entry.data.relationships.user.data.id
+				return !this.isFolder
+					&& this.user.data.id !== this.entry.data.relationships.owner.data.id
 			},
 			canDrag() {
 				return !this.isDeleted && this.$checkPermission(['master', 'editor'])
