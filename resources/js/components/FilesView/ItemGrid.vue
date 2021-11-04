@@ -17,7 +17,7 @@
 				<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" class="inline-block transform scale-150 lg:mt-2 lg:mb-8 mt-3 mb-5" />
 
 				<!--File Icon-->
-				<div v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" class="relative w-24 mx-auto">
+				<div v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)" class="relative w-24 mx-auto">
 
 					<!--Member thumbnail for team folders-->
 					<MemberAvatar
@@ -128,6 +128,9 @@
 			]),
 			isClicked() {
 				return this.clipboard.some(element => element.data.id === this.entry.data.id)
+			},
+			isAudio() {
+				return this.entry.data.type === 'audio'
 			},
 			isVideo() {
 				return this.entry.data.type === 'video'

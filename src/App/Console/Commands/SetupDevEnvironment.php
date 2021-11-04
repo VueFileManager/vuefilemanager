@@ -723,16 +723,18 @@ class SetupDevEnvironment extends Command
 
         Folder::factory()
             ->create([
-                'user_id'   => $user->id,
-                'parent_id' => $companyProjectFolder->id,
-                'name'      => 'Presentation Materials',
+                'user_id'     => $user->id,
+                'parent_id'   => $companyProjectFolder->id,
+                'name'        => 'Presentation Materials',
+                'team_folder' => true,
             ]);
 
         Folder::factory()
             ->create([
-                'user_id'   => $user->id,
-                'parent_id' => $companyProjectFolder->id,
-                'name'      => 'Team Gallery',
+                'user_id'     => $user->id,
+                'parent_id'   => $companyProjectFolder->id,
+                'name'        => 'Team Gallery',
+                'team_folder' => true,
             ]);
 
         $financeDocumentsFolder = Folder::factory()
@@ -798,18 +800,20 @@ class SetupDevEnvironment extends Command
                 'name'        => "Alice's Project Files",
             ]);
 
-        $memes = Folder::factory()
+        Folder::factory()
             ->create([
-                'user_id'   => $owner->id,
-                'parent_id' => $folder->id,
-                'name'      => '9 Gag',
+                'user_id'     => $owner->id,
+                'parent_id'   => $folder->id,
+                'name'        => '9 Gag',
+                'team_folder' => true,
             ]);
 
         $hug = Folder::factory()
             ->create([
-                'user_id'   => $owner->id,
-                'parent_id' => $folder->id,
-                'name'      => 'Digital Hug',
+                'user_id'     => $owner->id,
+                'parent_id'   => $folder->id,
+                'name'        => 'Digital Hug',
+                'team_folder' => true,
             ]);
 
         DB::table('team_folder_members')

@@ -36,7 +36,7 @@
         created() {
             this.isActive = 1
 
-            setTimeout(() => (this.isActive = 0), 5000)
+            setTimeout(() => (this.isActive = 0), 6000)
         }
     }
 </script>
@@ -74,7 +74,7 @@
             width: 0;
             height: 3px;
             display: block;
-            animation: progressbar 5s linear;
+            animation: progressbar 6s linear;
         }
 
 		&.success span {

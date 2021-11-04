@@ -20,7 +20,7 @@
 			<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" />
 
 			<!--File Icon-->
-			<FileIconThumbnail v-if="isFile || isVideo || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
+			<FileIconThumbnail v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
 
 			<!--Image thumbnail-->
 			<img v-if="isImage && entry.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5 object-cover" :src="entry.data.attributes.thumbnail.xs" :alt="entry.data.attributes.name" loading="lazy" />
@@ -109,6 +109,9 @@
 			},
 			isVideo() {
 				return this.entry.data.type === 'video'
+			},
+			isAudio() {
+				return this.entry.data.type === 'audio'
 			},
 			isFile() {
 				return this.entry.data.type === 'file'

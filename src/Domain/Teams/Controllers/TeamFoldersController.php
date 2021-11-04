@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
@@ -23,6 +24,7 @@ class TeamFoldersController extends Controller
 {
     public function __construct(
         public InviteMembersIntoTeamFolderAction $inviteMembers,
+        public SetTeamFolderPropertyForAllChildrenAction $setTeamFolderPropertyForAllChildren,
     ) {
     }
 
@@ -31,7 +33,7 @@ class TeamFoldersController extends Controller
         $id = Str::isUuid($id) ? $id : null;
 
         $folders = Folder::where('parent_id', $id)
-            ->where('team_folder', ! Str::isUuid($id))
+            ->where('team_folder', true)
             ->where('user_id', Auth::id())
             ->sortable()
             ->get();
@@ -110,6 +112,8 @@ class TeamFoldersController extends Controller
         DB::table('team_folder_members')
             ->where('parent_id', $folder->id)
             ->delete();
+
+        ($this->setTeamFolderPropertyForAllChildren)($folder, false);
 
         $folder->update([
             'team_folder' => 0,

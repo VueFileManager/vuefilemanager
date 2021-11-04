@@ -122,6 +122,12 @@ class TeamsTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
+        $folderWithin = Folder::factory()
+            ->create([
+                'parent_id' => $folder->id,
+                'user_id'   => $user->id,
+            ]);
+
         $this
             ->actingAs($user)
             ->post("/api/teams/folders/{$folder->id}/convert", [
@@ -142,7 +148,7 @@ class TeamsTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('folders', [
-            'id'          => $folder->id,
+            'id'          => $folderWithin->id,
             'team_folder' => 1,
         ]);
 

@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
@@ -13,17 +15,21 @@ class ConvertFolderIntoTeamFolderController extends Controller
 {
     public function __construct(
         public InviteMembersIntoTeamFolderAction $inviteMembers,
+        public SetTeamFolderPropertyForAllChildrenAction $setTeamFolderPropertyForAllChildren,
     ) {
     }
 
     public function __invoke(
         ConvertIntoTeamFolderRequest $request,
         Folder $folder
-    ): ResponseFactory | Response {
+    ): ResponseFactory|Response {
+        // Update root team folder
         $folder->update([
             'team_folder' => 1,
             'parent_id'   => null,
         ]);
+
+        ($this->setTeamFolderPropertyForAllChildren)($folder, true);
 
         // Attach owner into members
         DB::table('team_folder_members')

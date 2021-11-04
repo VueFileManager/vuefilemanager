@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Teams;
 
 use Str;
@@ -514,6 +515,13 @@ class TeamManagementTest extends TestCase
                 'team_folder' => 1,
             ]);
 
+        $folderWithin = Folder::factory()
+            ->create([
+                'parent_id'   => $folder->id,
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
         TeamFolderInvitation::factory()
             ->create([
                 'parent_id'  => $folder->id,
@@ -542,7 +550,15 @@ class TeamManagementTest extends TestCase
 
         $this
             ->assertDatabaseCount('team_folder_members', 0)
-            ->assertDatabaseCount('team_folder_invitations', 0);
+            ->assertDatabaseCount('team_folder_invitations', 0)
+            ->assertDatabaseHas('folders', [
+                'id'          => $folder->id,
+                'team_folder' => 0,
+            ])
+            ->assertDatabaseHas('folders', [
+                'id'          => $folderWithin->id,
+                'team_folder' => 0,
+            ]);
     }
 
     /**

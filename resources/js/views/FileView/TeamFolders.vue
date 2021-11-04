@@ -247,6 +247,11 @@
 							} else {
 								this.$store.commit('REMOVE_ITEM', data.id)
 							}
+
+							events.$emit('toaster', {
+								type: 'success',
+								message: this.$t('Your Team Folder was moved into your files.'),
+							})
 						})
 						.catch(() => this.$isSomethingWrong())
 			})

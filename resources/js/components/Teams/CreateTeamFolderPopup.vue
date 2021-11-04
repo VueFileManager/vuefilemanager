@@ -166,6 +166,15 @@
 							this.$router.push({name: 'TeamFolders'})
 						}
 
+						let toasterMessage = this.isNewFolderTeamCreation
+							? this.$t('Your Team was invited successfully.')
+							: this.$t('Your Team was invited and folder was moved into Team Folders section.')
+
+						events.$emit('toaster', {
+							type: 'success',
+							message: toasterMessage,
+						})
+
 						this.$store.dispatch('getAppData')
 					})
 					.catch(() => this.$isSomethingWrong())
