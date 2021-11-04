@@ -1,9 +1,8 @@
 <?php
-
 namespace Domain\Teams\Actions;
 
-use Domain\Folders\Models\Folder;
 use Illuminate\Support\Arr;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
 
 class SetTeamFolderPropertyForAllChildrenAction
