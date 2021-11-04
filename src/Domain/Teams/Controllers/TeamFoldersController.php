@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
@@ -19,6 +18,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
+use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
 
 class TeamFoldersController extends Controller
 {

@@ -1,8 +1,6 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\ConvertIntoTeamFolderRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
+use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
 
 class ConvertFolderIntoTeamFolderController extends Controller
 {
