@@ -230,7 +230,7 @@
 				events.$emit('popup:open', {name: 'create-folder'})
 			},
 		},
-		created() {
+		mounted() {
 			this.$store.dispatch('getTeamFolder', this.$route.params.id)
 
 			events.$on('context-menu:show', (event, item) => this.item = item)
@@ -255,6 +255,9 @@
 						})
 						.catch(() => this.$isSomethingWrong())
 			})
+		},
+		beforeDestroy() {
+			events.$off('action:confirmed')
 		}
 	}
 </script>

@@ -200,7 +200,7 @@
 				events.$emit('popup:open', {name: 'create-folder'})
 			},
 		},
-		created() {
+		mounted() {
 			this.$store.commit('SET_CURRENT_TEAM_FOLDER', undefined)
 			this.$store.dispatch('getSharedWithMeFolder', this.$route.params.id)
 
@@ -214,7 +214,12 @@
 				if (data.operation === 'leave-team-folder')
 					axios.delete(`/api/teams/folders/${data.id}/leave`)
 						.then(() => {
-							this.$router.push({name: 'SharedWithMe'})
+
+							if (this.$route.params.id) {
+								this.$router.push({name: 'SharedWithMe'})
+							} else {
+								this.$store.dispatch('getSharedWithMeFolder', undefined)
+							}
 
 							events.$emit('toaster', {
 								type: 'success',
@@ -223,6 +228,9 @@
 						})
 						.catch(() => this.$isSomethingWrong())
 			})
+		},
+		beforeDestroy() {
+			events.$off('action:confirmed')
 		}
 	}
 </script>

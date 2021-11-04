@@ -105,7 +105,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 20;
+        z-index: 45;
         overflow: auto;
         height: 100%;
     }
