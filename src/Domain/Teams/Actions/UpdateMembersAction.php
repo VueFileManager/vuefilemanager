@@ -6,6 +6,7 @@ use Domain\Folders\Models\Folder;
 
 class UpdateMembersAction
 {
+    // TODO: after removing user from team folder from administrator, set file owner
     public function __invoke(Folder $folder, $members): void
     {
         $existingMembers = $folder

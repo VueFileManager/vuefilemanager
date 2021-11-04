@@ -599,6 +599,17 @@ if (! function_exists('get_file_type')) {
     }
 }
 
+if (! function_exists('get_thumbnail_file_list')) {
+    /**
+     * Get list of image thumbnails
+     */
+    function get_thumbnail_file_list(string $basename): Collection
+    {
+        return collect(config('vuefilemanager.image_sizes'))
+            ->map(fn ($item) => $item['name'] . '-' . $basename);
+    }
+}
+
 if (! function_exists('map_language_translations')) {
     /**
      * It map language translations as language key and language value

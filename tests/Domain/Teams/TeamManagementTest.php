@@ -2,6 +2,9 @@
 
 namespace Tests\Domain\Teams;
 
+use Domain\Files\Models\File;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Str;
 use Notification;
 use Tests\TestCase;
@@ -574,10 +577,62 @@ class TeamManagementTest extends TestCase
 
         $folder = Folder::factory()
             ->create([
+                'name'        => 'Team Folder',
                 'user_id'     => $user->id,
                 'team_folder' => 1,
             ]);
 
+        $folderWithin = Folder::factory()
+            ->create([
+                'name'        => 'Member Content',
+                'parent_id'   => $folder->id,
+                'user_id'     => $member->id,
+                'team_folder' => 1,
+            ]);
+
+        $file = File::factory()
+            ->create([
+                'name'      => 'Member File',
+                'basename'  => 'fake-file.zip',
+                'parent_id' => $folderWithin->id,
+                'user_id'   => $member->id,
+                'type'      => 'file',
+            ]);
+
+        // Create fake file
+        $fakeFile = UploadedFile::fake()
+            ->create('fake-file.zip', 2000, 'application/zip');
+
+        // Put fake file into correct directory
+        Storage::putFileAs("files/$member->id", $fakeFile, 'fake-file.zip');
+
+        File::factory()
+            ->create([
+                'name'      => 'Good image',
+                'basename'  => 'fake-image.jpeg',
+                'parent_id' => $folderWithin->id,
+                'user_id'   => $member->id,
+                'type'      => 'image',
+            ]);
+
+        // Create fake image
+        $fakeFile = UploadedFile::fake()
+            ->create("fake-image.jpeg", 2000, 'image/jpeg');
+
+        // Put fake image into correct directory
+        Storage::putFileAs("files/$member->id", $fakeFile, $fakeFile->name);
+
+        // Create fake image thumbnails
+        collect(config('vuefilemanager.image_sizes'))
+            ->each(function ($item) use ($member) {
+
+                $fakeFile = UploadedFile::fake()
+                    ->create("{$item['name']}-fake-image.jpeg", 2000, 'image/jpeg');
+
+                Storage::putFileAs("files/$member->id", $fakeFile, $fakeFile->name);
+            });
+
+        // add member to the team folder
         DB::table('team_folder_members')
             ->insert([
                 [
@@ -592,11 +647,31 @@ class TeamManagementTest extends TestCase
             ->deleteJson("/api/teams/folders/{$folder->id}/leave")
             ->assertNoContent();
 
+        // Check if file was moved from member directory to owner directory
+        Storage::assertMissing("files/$member->id/fake-file.zip");
+        Storage::assertExists("files/$user->id/fake-file.zip");
+
+        // Assert if image thumbnails was moved correctly to the new destination
+        collect(config('vuefilemanager.image_sizes'))
+            ->each(function ($item) use ($user) {
+                Storage::assertExists("files/$user->id/{$item['name']}-fake-image.jpeg");
+            });
+
         $this
             ->assertDatabaseMissing('team_folder_members', [
                 'parent_id'  => $folder->id,
                 'user_id'    => $member->id,
                 'permission' => 'can-edit',
+            ])
+            ->assertDatabaseHas('files', [
+                'id'        => $file->id,
+                'parent_id' => $folderWithin->id,
+                'user_id'   => $user->id,
+            ])
+            ->assertDatabaseHas('folders', [
+                'id'        => $folderWithin->id,
+                'parent_id' => $folder->id,
+                'user_id'   => $user->id,
             ]);
     }
 

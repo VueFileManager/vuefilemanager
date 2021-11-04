@@ -1,23 +1,31 @@
 <?php
+
 namespace Domain\Teams\Controllers;
 
 use Auth;
+use Gate;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Domain\Teams\Actions\TransferContentOwnershipToTeamFolderOwnerAction;
 
 class LeaveTeamFolderController extends Controller
 {
-    public function __invoke(Folder $folder): Response | Application | ResponseFactory
+    public function __construct(
+        public TransferContentOwnershipToTeamFolderOwnerAction $transferContentOwnership,
+    ) {}
+
+    public function __invoke(Folder $folder): Response|Application|ResponseFactory
     {
-        // Find and delete attached member from team folder
-        DB::table('team_folder_members')
-            ->where('parent_id', $folder->id)
-            ->where('user_id', Auth::id())
-            ->delete();
+        // Authorize action
+        if (! Gate::any(['can-edit', 'can-view'], [$folder, null])) {
+            abort(403, 'Access Denied');
+        }
+
+        // Transfer files/folders ownership to team folder owner
+        ($this->transferContentOwnership)($folder, Auth::id());
 
         return response('Done.', 204);
     }

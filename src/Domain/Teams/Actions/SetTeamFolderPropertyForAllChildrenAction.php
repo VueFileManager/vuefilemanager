@@ -17,7 +17,7 @@ class SetTeamFolderPropertyForAllChildrenAction
 
         // Set all children as team_folder = true
         DB::table('folders')
-            ->whereIn('id', Arr::flatten([filter_folders_ids($childrenFolderIds)]))
+            ->whereIn('id', Arr::flatten(filter_folders_ids($childrenFolderIds)))
             ->update(['team_folder' => $isTeamFolder]);
     }
 }

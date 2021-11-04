@@ -37,8 +37,8 @@
 				:title="$t('Author')"
 			>
                 <div class="flex items-center mt-1">
-					<MemberAvatar :size="32" :member="singleFile.data.relationships.user" />
-                    <span class="ml-2 block">{{ singleFile.data.relationships.user.data.attributes.name }}</span>
+					<MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
+                    <span class="ml-2 block">{{ singleFile.data.relationships.owner.data.attributes.name }}</span>
                 </div>
             </ListInfoItem>
 
@@ -165,7 +165,7 @@
 			canShowAuthor() {
 				return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
 					&& this.clipboard[0].data.type !== 'folder'
-					&& this.user.data.id !== this.clipboard[0].data.relationships.user.data.id
+					&& this.user.data.id !== this.clipboard[0].data.relationships.owner.data.id
 			},
 		},
 		methods: {
