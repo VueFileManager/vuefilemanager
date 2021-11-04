@@ -1,10 +1,10 @@
 <template>
     <div class="empty-page-content">
         <div class="content">
-            <div class="icon">
-                <file-icon v-if="icon === 'file'" size="38"></file-icon>
-                <file-text-icon v-if="icon === 'file-text'" size="38"></file-text-icon>
-                <settings-icon v-if="icon === 'settings'" size="38"></settings-icon>
+            <div class="icon inline-block">
+                <file-icon v-if="icon === 'file'" size="38" />
+                <file-text-icon v-if="icon === 'file-text'" size="38" />
+                <settings-icon v-if="icon === 'settings'" size="38" />
             </div>
             <div class="header">
                 <h1 class="title">{{ title }}</h1>

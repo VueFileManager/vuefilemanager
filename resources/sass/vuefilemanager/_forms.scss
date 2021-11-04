@@ -86,13 +86,14 @@
     }
   }
 
-  .input-help {
-    @include font-size(12);
-    color: $text-muted;
-    line-height: 1.35;
-    padding-top: 10px;
-    display: block;
-  }
+}
+
+.input-help {
+  @include font-size(12);
+  color: $text-muted;
+  line-height: 1.35;
+  padding-top: 10px;
+  display: block;
 }
 
 .single-line-form {
@@ -262,7 +263,7 @@ input[type="color"] {
   }
 }
 
-.dark-mode {
+.dark {
 
   .form {
 
@@ -274,6 +275,10 @@ input[type="color"] {
 
       .block-wrapper label {
         color: $dark_mode_text_primary;
+      }
+
+      .switch-wrapper {
+        border-color: $dark_mode_border_color;
       }
     }
 

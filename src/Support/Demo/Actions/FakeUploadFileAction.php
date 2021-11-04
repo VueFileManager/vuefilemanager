@@ -22,7 +22,7 @@ class FakeUploadFileAction
 
         return [
             'id'         => Str::uuid(),
-            'folder_id'  => $request->input('parent_id'),
+            'parent_id'  => $request->input('parent_id'),
             'thumbnail'  => $thumbnail,
             'name'       => $file->getClientOriginalName(),
             'basename'   => $filename,

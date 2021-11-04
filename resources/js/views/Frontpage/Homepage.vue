@@ -14,7 +14,7 @@
             <MainFeatures />
 
             <!--Pricing Tables-->
-            <PricingTables v-if="config.isSaaS" />
+<!--            <PricingTables v-if="config.isSaaS" />-->
 
             <!--Get Started Call To Action-->
             <GetStarted />

@@ -24,17 +24,15 @@ class VisitorBrowseTest extends TestCase
             ->assertExactJson([
                 'data' => [
                     'id'         => $share->id,
-                    'type'       => 'shares',
+                    'type'       => 'shared',
                     'attributes' => [
-                        'permission'   => $share->permission,
-                        'is_protected' => false,
-                        'item_id'      => $share->item_id,
-                        'expire_in'    => $share->expire_in,
-                        'token'        => $share->token,
-                        'link'         => $share->link,
-                        'type'         => $share->type,
-                        'created_at'   => $share->created_at->toJson(),
-                        'updated_at'   => $share->updated_at->toJson(),
+                        'permission' => $share->permission,
+                        'protected'  => false,
+                        'item_id'    => $share->item_id,
+                        'expire_in'  => $share->expire_in,
+                        'token'      => $share->token,
+                        'link'       => $share->link,
+                        'type'       => $share->type,
                     ],
                 ],
             ]);
@@ -161,7 +159,7 @@ class VisitorBrowseTest extends TestCase
 
                 $file = File::factory(File::class)
                     ->create([
-                        'folder_id' => $root->id,
+                        'parent_id' => $root->id,
                         'name'      => 'Document',
                         'basename'  => 'document.pdf',
                         'mimetype'  => 'application/pdf',
@@ -169,41 +167,6 @@ class VisitorBrowseTest extends TestCase
                         'type'      => 'file',
                         'user_id'   => $user->id,
                     ]);
-
-                $json = [
-                    [
-                        'id'            => $folder->id,
-                        'user_id'       => $user->id,
-                        'parent_id'     => $root->id,
-                        'name'          => 'Documents',
-                        'color'         => null,
-                        'emoji'         => null,
-                        'author'        => 'user',
-                        'deleted_at'    => null,
-                        'created_at'    => $folder->created_at,
-                        'updated_at'    => $folder->updated_at->toJson(),
-                        'items'         => 0,
-                        'trashed_items' => 0,
-                        'type'          => 'folder',
-                    ],
-                    [
-                        'id'         => $file->id,
-                        'user_id'    => $user->id,
-                        'folder_id'  => $root->id,
-                        'thumbnail'  => null,
-                        'name'       => 'Document',
-                        'basename'   => 'document.pdf',
-                        'mimetype'   => 'application/pdf',
-                        'filesize'   => $file->filesize,
-                        'type'       => 'file',
-                        'metadata'   => null,
-                        'author'     => 'user',
-                        'deleted_at' => null,
-                        'created_at' => $file->created_at,
-                        'updated_at' => $file->updated_at->toJson(),
-                        'file_url'   => "http://localhost/file/document.pdf/$share->token",
-                    ],
-                ];
 
                 // Check shared item protected by password
                 if ($is_protected) {
@@ -216,14 +179,24 @@ class VisitorBrowseTest extends TestCase
                         ->withUnencryptedCookies($cookie)
                         ->get("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
-                        ->assertExactJson($json);
+                        ->assertJsonFragment([
+                            'id' => $file->id,
+                        ])
+                        ->assertJsonFragment([
+                            'id' => $folder->id,
+                        ]);
                 }
 
                 // Check public shared item
                 if (! $is_protected) {
                     $this->getJson("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
-                        ->assertExactJson($json);
+                        ->assertJsonFragment([
+                            'id' => $file->id,
+                        ])
+                        ->assertJsonFragment([
+                            'id' => $folder->id,
+                        ]);
                 }
             });
     }
@@ -292,7 +265,6 @@ class VisitorBrowseTest extends TestCase
                                 'name'          => 'level 2',
                                 'items'         => 1,
                                 'trashed_items' => 1,
-                                'type'          => 'folder',
                                 'folders'       => [
                                     [
                                         'id'            => $folder_level_3->id,
@@ -300,7 +272,6 @@ class VisitorBrowseTest extends TestCase
                                         'name'          => 'level 3',
                                         'items'         => 0,
                                         'trashed_items' => 0,
-                                        'type'          => 'folder',
                                         'folders'       => [],
                                     ],
                                 ],
@@ -311,7 +282,6 @@ class VisitorBrowseTest extends TestCase
                                 'name'          => 'level 2 Sibling',
                                 'items'         => 0,
                                 'trashed_items' => 0,
-                                'type'          => 'folder',
                                 'folders'       => [],
                             ],
                         ],
@@ -365,7 +335,7 @@ class VisitorBrowseTest extends TestCase
                 $file = File::factory(File::class)
                     ->create([
                         'name'      => 'Document',
-                        'folder_id' => $folder->id,
+                        'parent_id' => $folder->id,
                         'user_id'   => $folder->user_id,
                     ]);
 

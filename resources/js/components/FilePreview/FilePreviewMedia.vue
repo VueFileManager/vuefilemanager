@@ -63,16 +63,16 @@ export default {
 				: this.files[Math.abs(this.currentIndex) % this.files.length]
         },
         isPDF() {
-            return this.currentFile.mimetype === 'pdf'
+            return this.currentFile.data.attributes.mimetype === 'pdf'
         },
         isVideo() {
-            return this.currentFile.type === 'video'
+            return this.currentFile.data.type === 'video'
         },
         isAudio() {
-            return this.currentFile.type === 'audio'
+            return this.currentFile.data.type === 'audio'
         },
         isImage() {
-            return this.currentFile.type === 'image'
+            return this.currentFile.data.type === 'image'
         }
     },
     data() {
@@ -113,20 +113,20 @@ export default {
 
             this.entries.map(element => {
 
-                if (requestedFile.mimetype === 'pdf') {
+                if (requestedFile.data.attributes.mimetype === 'pdf') {
 
-                    if (element.mimetype === 'pdf')
+                    if (element.data.attributes.mimetype === 'pdf')
                         this.files.push(element)
 
                 } else {
 
-                    if (element.type === requestedFile.type)
+                    if (element.data.type === requestedFile.data.type)
                         this.files.push(element)
                 }
             })
 
             this.files.forEach((element, index) => {
-                if (element.id === this.clipboard[0].id) {
+                if (element.data.id === this.clipboard[0].data.id) {
                     this.currentIndex = index
                 }
             })
@@ -241,7 +241,7 @@ export default {
 }
 
 
-.dark-mode {
+.dark {
 
     .navigation-arrows {
         .prev, .next {

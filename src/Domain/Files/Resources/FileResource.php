@@ -1,6 +1,9 @@
 <?php
 namespace Domain\Files\Resources;
 
+use Carbon\Carbon;
+use ByteUnits\Metric;
+use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FileResource extends JsonResource
@@ -8,25 +11,66 @@ class FileResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
+     * TODO: optimize created_at/updated_at conversion because of performance issue
+     *
      * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
+        $fileSize = Metric::bytes($this->filesize)->format();
+
         return [
             'data' => [
-                'id'         => $this->id,
-                'type'       => 'file',
-                'attributes' => [
+                'id'            => $this->id,
+                'type'          => $this->type,
+                'attributes'    => [
+                    'filesize'   => $fileSize,
                     'name'       => $this->name,
                     'basename'   => $this->basename,
                     'mimetype'   => $this->mimetype,
-                    'filesize'   => $this->filesize,
-                    'type'       => $this->type,
                     'file_url'   => $this->file_url,
                     'thumbnail'  => $this->thumbnail,
-                    'created_at' => $this->created_at,
-                    'updated_at' => $this->created_at,
+                    'metadata'   => $this->metadata,
+                    'parent_id'  => $this->parent_id,
+                    'updated_at' => $this->updated_at,
+                    'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
+                    'deleted_at' => $this->deleted_at,
+                    /*'updated_at' => format_date(
+                        set_time_by_user_timezone($this->updated_at), __t('time')
+                    ),
+                    'created_at' => format_date(
+                        set_time_by_user_timezone($this->created_at), __t('time')
+                    ),*/
+                ],
+                'relationships' => [
+                    $this->mergeWhen($this->shared, fn () => [
+                        'shared' => new ShareResource($this->shared),
+                    ]),
+                    $this->mergeWhen($this->parent, fn () => [
+                        'parent' => [
+                            'data' => [
+                                'type'       => 'folder',
+                                'id'         => $this->parent->id,
+                                'attributes' => [
+                                    'name' => $this->parent->name,
+                                ],
+                            ],
+                        ],
+                    ]),
+                    $this->mergeWhen($this->owner, fn () => [
+                        'owner' => [
+                            'data' => [
+                                'type'       => 'owner',
+                                'id'         => $this->user_id,
+                                'attributes' => [
+                                    'name'   => $this->owner->settings->name,
+                                    'avatar' => $this->owner->settings->avatar,
+                                    'color'  => $this->owner->settings->color,
+                                ],
+                            ],
+                        ],
+                    ]),
                 ],
             ],
         ];

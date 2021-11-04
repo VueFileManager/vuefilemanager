@@ -251,14 +251,11 @@ if (! function_exists('is_demo')) {
 
 if (! function_exists('is_demo_account')) {
     /**
-     * Check if is demo
-     *
-     * @param $email
-     * @return mixed
+     * Check if is demo environment
      */
-    function is_demo_account($email)
+    function is_demo_account(): bool
     {
-        return config('vuefilemanager.is_demo') && $email === 'howdy@hi5ve.digital';
+        return config('vuefilemanager.is_demo') && auth()->user()->email === 'howdy@hi5ve.digital';
     }
 }
 
@@ -323,40 +320,41 @@ if (! function_exists('is_visitor')) {
 
 if (! function_exists('store_avatar')) {
     /**
-     * Store user avatar to storage
-     *
-     * @param $request
-     * @param $name
-     * @return string|null
+     * Generate multiple avatar sizes and store it in app storage
      */
-    function store_avatar($request, $name)
+    function store_avatar($request, $name): ?string
     {
+        // Check if file exist in http request
         if (! $request->hasFile($name)) {
             return null;
         }
 
+        // Get file
         $image = $request->file($name);
 
-        // Store avatar
-        $image_path = Str::random(16) . '-' . $image->getClientOriginalName();
-
-        if (in_array($image->getClientMimeType(), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
-            // Create intervention image
-            $img = Image::make($image->getRealPath());
-
-            // Generate thumbnail
-            $img->fit('150', '150')->stream();
-
-            // Store thumbnail to disk
-            Storage::put("avatars/$image_path", $img);
+        // Check supported file extension
+        if (! in_array($image->getClientMimeType(), ['image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'])) {
+            return null;
         }
 
-        if ($image->getClientMimeType() === 'image/svg+xml') {
-            Storage::putFileAs('avatars', $image, $image_path);
-        }
+        // Generate avatar name
+        $avatar_name = Str::uuid() . '.' . $image->getClientOriginalExtension();
+
+        // Create intervention image
+        $intervention = Image::make($image->getRealPath());
+
+        // Generate avatar sizes
+        collect(config('vuefilemanager.avatar_sizes'))
+            ->each(function ($size) use ($intervention, $avatar_name) {
+                // fit thumbnail
+                $intervention->fit($size['size'], $size['size'])->stream();
+
+                // Store thumbnail to disk
+                Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
+            });
 
         // Return path to image
-        return "avatars/$image_path";
+        return $avatar_name;
     }
 }
 
@@ -377,7 +375,7 @@ if (! function_exists('store_system_image')) {
         $image = $request->file($name);
 
         // Store avatar
-        $filename = Str::random(8) . '-' . str_replace(' ', '', $image->getClientOriginalName());
+        $filename = Str::uuid() . $image->getClientOriginalExtension();
 
         // Store image to disk
         Storage::putFileAs('system', $image, $filename);
@@ -559,9 +557,9 @@ if (! function_exists('filter_folders_ids')) {
      */
     function filter_folders_ids($folders, $by_column = 'id')
     {
-        $folder_ids = recursiveFind($folders->toArray(), $by_column);
+        $parent_ids = recursiveFind($folders->toArray(), $by_column);
 
-        return appeared_once($folder_ids);
+        return appeared_once($parent_ids);
     }
 }
 

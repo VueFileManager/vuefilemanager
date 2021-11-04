@@ -102,7 +102,7 @@
     }
 
 
-    .dark-mode {
+    .dark {
         .tab-wrapper {
             background: $dark_mode_foreground;
             border-color: transparent;

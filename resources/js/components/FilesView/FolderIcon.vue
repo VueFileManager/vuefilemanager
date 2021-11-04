@@ -5,17 +5,24 @@
             :emoji="emoji"
             class="emoji-icon"
         />
-        <FontAwesomeIcon
-            v-if="!emoji"
-            :class="[{ 'is-deleted': isDeleted },{'default-color' : ! color && ! isDeleted}, 'folder-icon' ]"
-            :style="{fill: color}"
-            icon="folder"
-        />
+		<VueFolderIcon
+			v-if="!emoji && !item.data.attributes.isTeamFolder"
+			:class="[{'is-deleted':isDeleted},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
+			:style="{fill: color}"
+		/>
+		<VueFolderTeamIcon
+			v-if="!emoji && item.data.attributes.isTeamFolder"
+			:class="[{'is-deleted':isDeleted},{'default-color': ! color && ! isDeleted}, 'folder-icon' ]"
+			:style="{fill: color}"
+			style="width: 53px; height: 52px"
+		/>
     </div>
 </template>
 
 <script>
     import Emoji from '/resources/js/components/Others/Emoji'
+	import VueFolderIcon from "./Icons/VueFolderIcon"
+	import VueFolderTeamIcon from "./Icons/VueFolderTeamIcon"
 
     export default {
         name: 'FolderIcon',
@@ -25,11 +32,13 @@
             'item',
         ],
         components: {
-            Emoji
+			VueFolderTeamIcon,
+			VueFolderIcon,
+            Emoji,
         },
         computed: {
             isDeleted() {
-                return this.item.deleted_at ? true : false
+                return this.item.data.attributes.deleted_at
             },
             emoji() {
                 // Return emoji if is changed from rename popup
@@ -37,7 +46,7 @@
                     return this.folderIcon.emoji ? this.folderIcon.emoji : false
 
                 // Return emoji if is already set
-                return this.item.emoji ? this.item.emoji : false
+                return this.item.data.attributes.emoji ? this.item.data.attributes.emoji : false
             },
             color() {
                 // Return color if is changed from rename popup
@@ -45,7 +54,7 @@
                     return this.folderIcon.color ? this.folderIcon.color : false
 
                 // Return color if is already set
-                return this.item.color ? this.item.color : false
+                return this.item.data.attributes.color ? this.item.data.attributes.color : false
             }
         }
     }
@@ -95,9 +104,17 @@
             fill: $dark_background;
         }
     }
+
+	&.is-team {
+		path {
+			fill: transparent;
+			stroke-width: 26px;
+			stroke: inherit;
+		}
+	}
 }
 
-.dark-mode {
+.dark {
 
     .folder-icon {
         &.is-deleted {

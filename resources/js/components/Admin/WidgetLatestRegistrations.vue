@@ -6,7 +6,7 @@
                     <td style="width: 300px">
                         <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                             <DatatableCellImage
-                                    :image="row.data.relationships.settings.data.attributes.avatar"
+                                    :image="row.data.relationships.settings.data.attributes.avatar.sm"
                                     :title="row.data.relationships.settings.data.attributes.name"
                                     :description="row.data.attributes.email"
                             />
@@ -113,7 +113,7 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .dark-mode {
+    .dark {
 
     }
 </style>

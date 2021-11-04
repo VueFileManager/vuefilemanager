@@ -1,7 +1,7 @@
 <template>
     <div class="empty-message">
-        <div class="message">
-            <eye-off-icon v-if="icon === 'eye-off'" size="36" class="icon"></eye-off-icon>
+        <div class="message text-center">
+            <eye-off-icon v-if="icon === 'eye-off'" size="36" class="icon" />
             <p>{{ message }}</p>
         </div>
     </div>
@@ -41,6 +41,8 @@
             }
 
             .icon {
+				display: inline-block;
+
                 path, line, polyline, rect, circle {
                     stroke: $text;
                 }
@@ -48,7 +50,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .empty-message {
 
             .message {

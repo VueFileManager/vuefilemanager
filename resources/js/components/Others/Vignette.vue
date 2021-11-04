@@ -51,17 +51,17 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .vignette {
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         left: 0;
         bottom: 0;
-        z-index: 18;
+        z-index: 40;
         background: $light_mode_vignette;
     }
 
     // Dark mode
-    .dark-mode {
+    .dark {
 
         .vignette {
             background: $dark_mode_vignette;

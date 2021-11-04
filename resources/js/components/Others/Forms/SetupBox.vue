@@ -124,7 +124,7 @@
     }
 
 
-    .dark-mode {
+    .dark {
 
         .setup-box {
 

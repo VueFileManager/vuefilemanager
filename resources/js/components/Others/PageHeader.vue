@@ -71,7 +71,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .page-header {
             background: $dark_mode_background;

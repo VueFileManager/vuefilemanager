@@ -94,7 +94,7 @@
 
     }
 
-    .dark-mode {
+    .dark {
         .plan-title {
 
             h1 {

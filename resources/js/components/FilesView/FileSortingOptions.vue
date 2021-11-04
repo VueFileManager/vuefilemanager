@@ -27,13 +27,13 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'FilePreviewType'
+            'itemViewType'
         ]),
         isGrid() {
-            return this.FilePreviewType === 'grid'
+            return this.itemViewType === 'grid'
         },
         isList() {
-            return this.FilePreviewType === 'list'
+            return this.itemViewType === 'list'
         },
 		arrowForCreatedAtField() {
         	if (this.filter.field !== 'created_at')
@@ -72,8 +72,13 @@ export default {
             // Update sorting state in vuex
             this.$store.commit('UPDATE_SORTING')
 
-            // Get data using the application location
-            this.$getDataByLocation()
+			// Get data of user with favourites tree
+			this.$store.dispatch('getAppData')
+
+			// Get data of Navigator tree
+			this.$store.dispatch('getFolderTree')
+
+			this.$getDataByLocation()
         },
         changePreview(previewType) {
             this.$store.dispatch('changePreviewType', previewType)

@@ -30,7 +30,7 @@ export default {
 		}
 	}
 
-	.dark-mode {
+	.dark {
 
 		.progress-bar {
 			background: $dark_mode_foreground;
@@ -39,7 +39,7 @@ export default {
 
 	@media only screen and (min-width: 680px) {
 
-		.dark-mode .progress-bar {
+		.dark .progress-bar {
 			background: $dark_mode_foreground;
 		}
 	}

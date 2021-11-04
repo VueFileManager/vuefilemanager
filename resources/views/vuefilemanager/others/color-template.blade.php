@@ -9,7 +9,15 @@
 
 
         {{-- Single option --}}
-        .svg-color-theme {fill: {{ $color }}}
+        .svg-color-theme {
+            fill: {{ $color }};
+            stroke: {{ $color }};
+        }
+        .svg-color-theme-darken {
+            fill: {{ $color }};
+            stroke: {{ $color }};
+            filter: brightness(0.80);
+        }
 
         .svg-stroke-theme {stroke: {{ $color }}}
         .hover-svg-stroke-theme:hover {stroke: {{ $color }}}
@@ -25,6 +33,11 @@
         .hover-bg-theme-100:hover {background: {{ $color }}10 !important;}
 
         .text-theme {color: {{ $color }}}
+        .text-theme-darken {
+            color: {{ $color }};
+            filter: brightness(0.75);
+        }
+
         .hover-text-theme:hover {color: {{ $color }}}
 
         .shadow-theme {box-shadow: 0 7px 16px 2px {{ $color }}40}
@@ -32,7 +45,7 @@
         .border-theme {border-color: {{ $color }}}
         .border-top-theme {border-top-color: {{ $color }} !important;}
         .border-left-theme {border-left-color: {{ $color }} !important;}
-        .hover-border-theme:hover {border-color: {{ $color }}}
+        .hover-border-theme:hover {border-color: {{ $color }} !important;}
 
         .focus-within-border-theme:focus-within {border-color: {{ $color }} !important;}
 
@@ -88,7 +101,7 @@
 
 
         {{-- Dragged borders --}}
-        .file-item.is-dragenter {border-color: {{ $color }} !important;}
+        .border-theme {border-color: {{ $color }} !important;}
         .folder-item.is-dragenter {border-color: {{ $color }} !important;}
         .favourites.is-dragenter .menu-list {border-color: {{ $color }} !important;}
 
@@ -96,7 +109,11 @@
         .StripeElement--focus {border-color: {{ $color }} !important;}
 
         {{-- Dark mode --}}
-        .dark-mode .text-theme {
+        .dark .dark-text-theme {color: {{ $color }} !important;}
+
+        .dark .text-theme {
             color: {{ $color }}
         }
+
+        {{-- File icon --}}
     </style>

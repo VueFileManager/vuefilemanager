@@ -21,7 +21,7 @@ class DeleteUserDataAction
         Storage::deleteDirectory("files/$user->id");
 
         // Delete all user records in database
-        collect(['folders', 'files', 'user_settings', 'shares', 'favourite_folder', 'zips', 'traffic'])
+        collect(['folders', 'files', 'user_settings', 'shares', 'favourite_folder', 'traffic'])
             ->each(function ($table) use ($user) {
                 DB::table($table)
                     ->whereUserId($user->id)

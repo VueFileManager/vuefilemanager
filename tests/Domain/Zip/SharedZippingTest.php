@@ -44,7 +44,7 @@ class SharedZippingTest extends TestCase
                         File::factory(File::class)
                             ->create([
                                 'filesize'  => $file->getSize(),
-                                'folder_id' => $folder->id,
+                                'parent_id' => $folder->id,
                                 'user_id'   => $user->id,
                                 'basename'  => $file->name,
                                 'name'      => "fake-file-$index.pdf",
@@ -61,7 +61,7 @@ class SharedZippingTest extends TestCase
                         File::factory(File::class)
                             ->create([
                                 'filesize'  => $file->getSize(),
-                                'folder_id' => $sharedFolder->id,
+                                'parent_id' => $sharedFolder->id,
                                 'user_id'   => $user->id,
                                 'basename'  => $file->name,
                                 'name'      => "fake-file-$index.pdf",
@@ -122,7 +122,7 @@ class SharedZippingTest extends TestCase
 
                 File::factory(File::class)
                     ->create([
-                        'folder_id' => $folder->id,
+                        'parent_id' => $folder->id,
                         'user_id'   => $user->id,
                     ]);
 
@@ -199,7 +199,7 @@ class SharedZippingTest extends TestCase
                         File::factory(File::class)
                             ->create([
                                 'filesize'  => $file->getSize(),
-                                'folder_id' => $children->id,
+                                'parent_id' => $children->id,
                                 'user_id'   => $user->id,
                                 'basename'  => $file->name,
                                 'name'      => "fake-file-$index.pdf",

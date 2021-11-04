@@ -1,9 +1,9 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Model;
+use Domain\Files\Resources\FileResource;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
@@ -24,8 +24,8 @@ class RenameFileOrFolderController extends Controller
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): Model | array {
-        if (is_demo_account(Auth::user()->email)) {
+    ): FileResource | FolderResource | array {
+        if (is_demo_account()) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }
 
@@ -34,7 +34,12 @@ class RenameFileOrFolderController extends Controller
             ($this->updateFolderProperty)($request, $id);
         }
 
-        // Rename Item
-        return ($this->renameFileOrFolder)($request, $id);
+        $item = ($this->renameFileOrFolder)($request, $id);
+
+        if ($request->input('type') === 'folder') {
+            return new FolderResource($item);
+        }
+
+        return new FileResource($item);
     }
 }

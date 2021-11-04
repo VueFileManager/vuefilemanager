@@ -167,7 +167,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .popup-wrapper {
             background: $dark_mode_foreground;
         }

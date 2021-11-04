@@ -42,8 +42,8 @@
     @import "resources/sass/vuefilemanager/_mixins";
 
     .options {
-        position: absolute;
-        padding-bottom: 12px;
+        position: fixed;
+        padding-bottom: 25px;
         bottom: 0;
         left: 0;
         right: 0;
@@ -81,10 +81,10 @@
     }
 
     .context-menu-leave-active {
-        position: absolute;
+        position: fixed;
     }
 
-    .dark-mode {
+    .dark {
 
         .options {
             background: $dark_mode_foreground;

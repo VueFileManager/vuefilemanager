@@ -4,10 +4,9 @@ import axios from "axios";
 const defaultState = {
     darkMode: localStorage.getItem('is_dark_mode') === 'true' || false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
-    FilePreviewType: localStorage.getItem('preview_type') || 'list',
+    itemViewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
     index: undefined,
-    homeDirectory: undefined,
     requestedPlan: undefined,
     emojis: undefined,
     sorting: {
@@ -24,6 +23,10 @@ const defaultState = {
             value: 'user',
         },
     ],
+    teamPermissions: {
+        'can-edit': 'Can Edit',
+        'can-view': 'Can View',
+    },
     countries: [
         {label: 'Czech Republic', value: 'CZ'},
         {label: 'Slovakia', value: 'SK'},
@@ -1024,7 +1027,6 @@ const mutations = {
     },
     INIT(state, data) {
         state.config = data.config
-        state.homeDirectory = data.rootDirectory
     },
     SET_SAAS(state, data) {
         state.config.isSaaS = data
@@ -1044,7 +1046,7 @@ const mutations = {
         state.index = data
     },
     CHANGE_PREVIEW(state, type) {
-        state.FilePreviewType = type
+        state.itemViewType = type
     },
     TOGGLE_DARK_MODE(state, visibility) {
         state.darkMode = visibility
@@ -1056,9 +1058,9 @@ const mutations = {
 
 const getters = {
     isVisibleSidebar: state => state.isVisibleSidebar,
-    FilePreviewType: state => state.FilePreviewType,
+    teamPermissions: state => state.teamPermissions,
+    itemViewType: state => state.itemViewType,
     expirationList: state => state.expirationList,
-    homeDirectory: state => state.homeDirectory,
     requestedPlan: state => state.requestedPlan,
     currencyList: state => state.currencyList,
     countries: state => state.countries,

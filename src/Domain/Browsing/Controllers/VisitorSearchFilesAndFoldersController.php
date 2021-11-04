@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 
 /**
@@ -23,7 +24,7 @@ class VisitorSearchFilesAndFoldersController extends Controller
     public function __invoke(
         Request $request,
         Share $shared,
-    ): Collection {
+    ): array {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -46,26 +47,27 @@ class VisitorSearchFilesAndFoldersController extends Controller
             ->get();
 
         // Get accessible folders
-        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+        $accessible_parent_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Filter files
-        $files = $searched_files->filter(function ($file) use ($accessible_folder_ids, $shared) {
+        $files = $searched_files->filter(function ($file) use ($accessible_parent_ids, $shared) {
             // Set public urls
             $file->setPublicUrl($shared->token);
 
             // check if item is in accessible folders
-            return in_array($file->folder_id, $accessible_folder_ids);
+            return in_array($file->parent_id, $accessible_parent_ids);
         });
 
         // Filter folders
-        $folders = $searched_folders->filter(function ($folder) use ($accessible_folder_ids) {
+        $folders = $searched_folders->filter(function ($folder) use ($accessible_parent_ids) {
             // check if item is in accessible folders
-            return in_array($folder->id, $accessible_folder_ids);
+            return in_array($folder->id, $accessible_parent_ids);
         });
 
         // Collect folders and files to single array
-        return collect([$folders, $files])
-            ->collapse()
-            ->take(10);
+        return [
+            'folders' => new FolderCollection($folders),
+            'files'   => new FilesCollection($files),
+        ];
     }
 }

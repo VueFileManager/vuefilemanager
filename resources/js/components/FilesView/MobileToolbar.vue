@@ -1,36 +1,53 @@
 <template>
-    <div class="mobile-toolbar">
+    <div class="sticky top-0 dark:bg-dark-background bg-white flex text-center py-5 px-4 w-full justify-between items-center z-20 lg:hidden block">
 
         <!-- Go back-->
-		<div @click="goBack" class="go-back-button">
-            <chevron-left-icon size="17" class="icon-back" :class="{'is-visible': browseHistory.length > 1}" />
+		<div @click="goBack" class="go-back-button flex text-left items-center">
+            <chevron-left-icon size="17" :class="{'opacity-0 -translate-x-3': ! isLoadedFolder, 'opacity-100 translate-x-0': isLoadedFolder }" class="transform align-middle cursor-pointer mr-2 -ml-1 transition-all duration-200" />
 
 			<!--Folder Title-->
-			<div class="directory-name">
-				{{ directoryName }}
+			<div :class="{'-translate-x-4': ! isLoadedFolder}" class="transform lg:text-base text-sm align-middle font-bold overflow-hidden overflow-ellipsis inline-block whitespace-nowrap transition-all duration-200" style="max-width: 200px;">
+				{{ $getCurrentLocationName() }}
 			</div>
+
+			<span @click.stop="showItemActions" :class="{'-translate-x-4 opacity-0': ! currentFolder, 'translate-x-0 opacity-100': currentFolder}" class="transform py-0.5 px-1.5 ml-3 rounded-md dark:bg-dark-foreground bg-light-background transition-all duration-200">
+				<more-horizontal-icon size="14" />
+			</span>
         </div>
 
-        <!--More Actions-->
-        <div class="more-actions-button">
-            <div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area">
-                <menu-icon size="17" />
-            </div>
-        </div>
+		<div class="flex items-center relative">
+			<TeamMembersButton
+				v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
+				size="28"
+				@click.stop.native="$showMobileMenu('team-menu')"
+			   	class="absolute right-9"
+			/>
+
+			<!--More Actions-->
+			<div class="relative">
+				<div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area absolute right-0 p-4 -mr-2 transform -translate-y-2/4">
+					<menu-icon size="17" />
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 
 <script>
+	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview";
+	import TeamMembersButton from "../Teams/Components/TeamMembersButton";
     import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
     import SearchBar from '/resources/js/components/FilesView/SearchBar'
-    import { MenuIcon, ChevronLeftIcon } from 'vue-feather-icons'
+    import {MenuIcon, ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
     import {events} from '/resources/js/bus'
-    import {last} from 'lodash'
 
     export default {
         name: 'MobileToolBar',
         components: {
+			TeamMembersPreview,
+			MoreHorizontalIcon,
+			TeamMembersButton,
             ChevronLeftIcon,
             ToolbarButton,
             SearchBar,
@@ -38,42 +55,33 @@
         },
         computed: {
             ...mapGetters([
+                'currentTeamFolder',
                 'isVisibleSidebar',
-                'FilePreviewType',
                 'currentFolder',
-                'browseHistory',
-                'homeDirectory',
+                'itemViewType',
+                'clipboard',
             ]),
-            directoryName() {
-                return this.currentFolder ? this.currentFolder.name : this.homeDirectory.name
-            }
+			isLoadedFolder() {
+				return this.$route.params.id
+			},
         },
         methods: {
+			showItemActions() {
+				this.$store.commit('CLIPBOARD_CLEAR')
+				this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFolder)
+
+				this.$showMobileMenu('file-menu')
+				events.$emit('mobile-context-menu:show', this.currentFolder)
+			},
             showMobileNavigation() {
-                events.$emit('mobile-menu:show', 'user-navigation')
-                events.$emit('mobileSelecting:stop')
+				this.$showMobileMenu('user-navigation')
+                this.$store.commit('DISABLE_MULTISELECT_MODE')
             },
-            goBack() {
-                let previousFolder = last(this.browseHistory)
-
-                if (previousFolder.location === 'trash-root') {
-                    this.$store.dispatch('getTrash')
-
-                } else if (previousFolder.location === 'shared') {
-                    this.$store.dispatch('getShared')
-
-                } else {
-
-                    if ( this.$isThisLocation('public') ) {
-                        this.$store.dispatch('browseShared', [{folder: previousFolder, back: true, init: false}])
-                    } else {
-                        this.$store.dispatch('getFolder', [{folder: previousFolder, back: true, init: false}])
-                    }
-                }
-            },
+			goBack() {
+				if (this.isLoadedFolder) this.$router.back()
+			},
         },
         created() {
-            // Listen for hide sidebar
             events.$on('show:content', () => {
                 if (this.isSidebarMenu) this.isSidebarMenu = false
             })
@@ -85,96 +93,17 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .mobile-toolbar {
-        background: white;
-        text-align: center;
-        display: none;
-        padding: 10px 0;
-        position: sticky;
-        top: 0;
-        z-index: 6;
+    .dark {
 
-        > div {
-            width: 100%;
-            flex-grow: 1;
-            align-self: center;
-            white-space: nowrap;
-        }
-
-		.go-back-button {
-			text-align: left;
-			flex: 1;
-
-			.icon-back {
-				pointer-events: none;
-				opacity: 0.15;
-				vertical-align: middle;
-				cursor: pointer;
-				margin-top: -2px;
-				margin-right: 4px;
-
-				&.is-visible {
-					pointer-events: initial;
-					visibility: visible;
-					opacity: 1;
-				}
-			}
+		.directory-name {
+			color: $dark_mode_text_primary;
 		}
 
-        .directory-name {
-            line-height: 1;
-            width: 100%;
-            vertical-align: middle;
-            @include font-size(16);
-            color: $text;
-            font-weight: 700;
-            max-width: 220px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: inline-block;
-        }
+		.tap-area {
 
-        .more-actions-button {
-            flex: 1;
-            text-align: right;
-            position: relative;
-
-            .tap-area {
-                display: inline-block;
-                padding: 10px;
-                position: absolute;
-                right: -10px;
-                top: -20px;
-
-                path, line, polyline, rect, circle {
-                    stroke: $text;
-                }
-            }
-        }
-    }
-
-    @media only screen and (max-width: 960px) {
-
-        .mobile-toolbar {
-            display: flex;
-        }
-    }
-
-    .dark-mode {
-
-        .mobile-toolbar {
-            background: $dark_mode_background;
-
-            .directory-name {
-                color: $dark_mode_text_primary;
-            }
-
-            .more-actions-button .tap-area {
-
-                path, line, polyline, rect, circle {
-                    stroke: $dark_mode_text_primary;
-                }
-            }
-        }
+			path, line, polyline, rect, circle {
+				stroke: $dark_mode_text_primary;
+			}
+		}
     }
 </style>

@@ -58,7 +58,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .widget-content {
             background: $dark_mode_foreground;
         }

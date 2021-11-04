@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Files\Models;
 
-use ByteUnits\Metric;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Domain\Sharing\Models\Share;
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static where(string $string, string $user_id)
  * @property string id
  * @property string user_id
- * @property string folder_id
+ * @property string parent_id
  * @property string thumbnail
  * @property string filesize
  * @property string type
@@ -32,17 +32,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string name
  * @property string mimetype
  * @property string author
- * @property string author_id
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
  */
 class File extends Model
 {
-    use Searchable;
     use SoftDeletes;
-    use Sortable;
+    use Searchable;
     use HasFactory;
+    use Sortable;
 
     public ?string $public_access = null;
 
@@ -51,15 +50,12 @@ class File extends Model
     ];
 
     protected $appends = [
+        'thumbnail',
         'file_url',
     ];
 
     protected $casts = [
         'metadata' => 'array',
-    ];
-
-    protected $hidden = [
-        'author_id',
     ];
 
     public array $sortable = [
@@ -76,6 +72,11 @@ class File extends Model
         return FileFactory::new();
     }
 
+    public function setNameAttribute($name): void
+    {
+        $this->attributes['name'] = mb_convert_encoding($name, 'UTF-8');
+    }
+
     /**
      * Set routes with public access
      */
@@ -85,59 +86,36 @@ class File extends Model
     }
 
     /**
-     * Format created at date
-     */
-    public function getCreatedAtAttribute(): string
-    {
-        return format_date(
-            set_time_by_user_timezone($this->attributes['created_at']),
-            __t('time')
-        );
-    }
-
-    /**
-     * Format deleted at date reformat
-     */
-    public function getDeletedAtAttribute(): string | null
-    {
-        if (! $this->attributes['deleted_at']) {
-            return null;
-        }
-
-        return format_date(
-            set_time_by_user_timezone($this->attributes['deleted_at']),
-            __t('time')
-        );
-    }
-
-    /**
-     * Format fileSize
-     */
-    public function getFilesizeAttribute(): string
-    {
-        return Metric::bytes($this->attributes['filesize'])->format();
-    }
-
-    /**
      * Format thumbnail url
      */
-    public function getThumbnailAttribute(): string | null
+    public function getThumbnailAttribute(): array | null
     {
-        // Get thumbnail from external storage
-        if ($this->attributes['thumbnail'] && ! is_storage_driver(['local'])) {
-            return Storage::temporaryUrl("files/$this->user_id/{$this->attributes['thumbnail']}", now()->addHour());
-        }
+        $links = [];
 
-        // Get thumbnail from local storage
-        if ($this->attributes['thumbnail']) {
-            // Thumbnail route
-            $route = route('thumbnail', ['name' => $this->attributes['thumbnail']]);
+        // Generate thumbnail link for external storage service
+        if ($this->type === 'image' && ! is_storage_driver(['local'])) {
+            foreach (config('vuefilemanager.image_sizes') as $item) {
+                $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
 
-            if ($this->public_access) {
-                return "$route/$this->public_access";
+                $links[$item['name']] = Storage::temporaryUrl($filePath, now()->addHour());
             }
 
-            return $route;
+            return $links;
+        }
+
+        // Generate thumbnail link for local storage
+        if ($this->type === 'image') {
+            foreach (config('vuefilemanager.image_sizes') as $item) {
+                $route = route('thumbnail', ['name' => $item['name'] . '-' . $this->basename]);
+
+                if ($this->public_access) {
+                    $route .= "/$this->public_access";
+                }
+
+                $links[$item['name']] = $route;
+            }
+
+            return $links;
         }
 
         return null;
@@ -175,34 +153,45 @@ class File extends Model
         return $route;
     }
 
-    /**
-     * Index file
-     */
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
-        $name = Str::slug($array['name'], ' ');
-
-        return [
-            'id'         => $this->id,
-            'name'       => $name,
-            'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
-        ];
-    }
-
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Folder::class, 'folder_id', 'id');
+        return $this->belongsTo(Folder::class, 'parent_id', 'id');
     }
 
-    public function folder(): HasOne
+    public function getLatestParent()
     {
-        return $this->hasOne(Folder::class, 'id', 'folder_id');
+        if ($this->parent) {
+            return $this->parent->getLatestParent();
+        }
+
+        return $this;
     }
 
     public function shared(): HasOne
     {
         return $this->hasOne(Share::class, 'item_id', 'id');
+    }
+
+    public function owner(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function toSearchableArray(): array
+    {
+        $name = mb_convert_encoding(
+            mb_strtolower($this->name, 'UTF-8'),
+            'UTF-8'
+        );
+
+        $trigram = (new TNTIndexer)
+            ->buildTrigrams(implode(', ', [$name]));
+
+        return [
+            'id'         => $this->id,
+            'name'       => $name,
+            'nameNgrams' => $trigram,
+        ];
     }
 
     protected static function boot()

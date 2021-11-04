@@ -10,7 +10,8 @@
 
     {{--StyleSheet--}}
     {{--<link href="{{ asset('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">--}}
-    <link href="{{ mix('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/tailwind.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">
@@ -33,8 +34,9 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body>
-<div id="app"></div>
+<body class="{{ is_dev() ? 'debug-screens' : '' }}">
+
+    <div id="app"></div>
 
     <script>
         let config = {

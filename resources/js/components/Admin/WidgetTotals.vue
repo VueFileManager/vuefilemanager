@@ -65,7 +65,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .widget-value {
 
             span {

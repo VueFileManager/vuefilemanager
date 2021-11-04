@@ -1,74 +1,21 @@
 <template>
-    <section id="viewport">
-        <ContentSidebar>
+    <div class="sm:flex md:h-screen md:overflow-hidden">
+		<!--On Top of App Components-->
+        <FilePreview />
+		<Spotlight />
 
-            <!--Settings-->
-            <ContentGroup title="Menu" class="navigator">
-                <div class="menu-list-wrapper vertical">
-                    <router-link replace :to="{name: 'Profile'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <user-icon size="17"></user-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.profile') }}
-                        </div>
-                    </router-link>
+		<!--2FA popups-->
+		<TwoFactorRecoveryCodesPopup />
+		<TwoFactorSetupPopup />
 
-                    <router-link replace :to="{name: 'Storage'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <hard-drive-icon size="17"></hard-drive-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.storage') }}
-                        </div>
-                    </router-link>
+		<!--Access Token Popup-->
+		<CreatePersonaTokenPopup />
 
-                    <router-link replace :to="{name: 'Password'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <lock-icon size="17"></lock-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.password') }}
-                        </div>
-                    </router-link>
-                </div>
-            </ContentGroup>
-
-			<!--Subscription-->
-            <ContentGroup title="Subscription" class="navigator" v-if="canShowSubscriptionSettings">
-                <div class="menu-list-wrapper vertical">
-                    <router-link replace :to="{name: 'Subscription'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <cloud-icon size="17"></cloud-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.subscription') }}
-                        </div>
-                    </router-link>
-
-                    <router-link replace :to="{name: 'PaymentMethods'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <credit-card-icon size="17"></credit-card-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.payment_cards') }}
-                        </div>
-                    </router-link>
-
-                    <router-link replace :to="{name: 'Invoice'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <file-text-icon size="17"></file-text-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('menu.invoices') }}
-                        </div>
-                    </router-link>
-                </div>
-            </ContentGroup>
-        </ContentSidebar>
+		<SidebarNavigation />
+        <PanelNavigationUser />
 
         <div v-if="user" id="single-page">
-            <div id="page-content" class="medium-width" v-if="! isLoading">
+            <div v-if="! isLoading" id="page-content" class="medium-width">
                 <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
                 <div class="content-page">
@@ -79,7 +26,7 @@
                             <div class="avatar">
                                 <UserImageInput
                                         v-model="avatar"
-                                        :avatar="user.data.relationships.settings.data.attributes.avatar"
+                                        :avatar="user.data.relationships.settings.data.attributes.avatar.md"
                                 />
                             </div>
                             <div class="info">
@@ -121,73 +68,54 @@
                 <Spinner></Spinner>
             </div>
         </div>
-
-		<!--2FA popups-->
-		<TwoFactorRecoveryCodesPopup />
-		<TwoFactorSetupPopup />
-
-		<!--Access Token Popup-->
-		<CreatePersonaTokenPopup />
-    </section>
+    </div>
 </template>
 
 <script>
+    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
 	import CreatePersonaTokenPopup from '/resources/js/components/Others/CreatePersonaTokenPopup'
 	import TwoFactorSetupPopup from '/resources/js/components/Others/TwoFactorSetupPopup'
-    import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
-    import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
     import UserImageInput from '/resources/js/components/Others/UserImageInput'
+	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
     import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
+	import PanelNavigationUser from "./User/Components/PanelNavigationUser"
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import PageHeader from '/resources/js/components/Others/PageHeader'
     import ColorLabel from '/resources/js/components/Others/ColorLabel'
     import Spinner from '/resources/js/components/FilesView/Spinner'
     import { mapGetters } from 'vuex'
-    import {
-        CreditCardIcon,
-        HardDriveIcon,
-        FileTextIcon,
-        CloudIcon,
-        UserIcon,
-        LockIcon,
-        KeyIcon,
-    } from 'vue-feather-icons'
 
     export default {
         name: 'Settings',
         components: {
+			FilePreview,
+			Spotlight,
 			TwoFactorRecoveryCodesPopup,
 			CreatePersonaTokenPopup,
+			PanelNavigationUser,
 			TwoFactorSetupPopup,
-            ContentSidebar,
-            CreditCardIcon,
+			SidebarNavigation,
             UserImageInput,
-            HardDriveIcon,
-            FileTextIcon,
             MobileHeader,
-            ContentGroup,
             ButtonBase,
             ColorLabel,
             PageHeader,
-            CloudIcon,
-            UserIcon,
-            LockIcon,
             Spinner,
             InfoBox,
-            KeyIcon,
         },
         computed: {
-            ...mapGetters(['user', 'config']),
+            ...mapGetters([
+            	'user',
+				'config'
+			]),
             subscriptionStatus() {
                 return this.user.data.attributes.subscription ? this.$t('global.premium') : this.$t('global.free')
             },
             subscriptionColor() {
                 return this.user.data.attributes.subscription ? 'green' : 'purple'
-            },
-            canShowSubscriptionSettings() {
-                return this.config.isSaaS && this.config.app_payments_active
             },
             canShowUpgradeWarning() {
                 return this.config.storageLimit && this.user.data.attributes.storage.used > 95
@@ -253,7 +181,7 @@
         margin-top: -15px;
     }
 
-    .dark-mode {
+    .dark {
         .user-thumbnail {
 
             .info {

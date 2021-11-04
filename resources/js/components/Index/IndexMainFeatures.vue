@@ -176,7 +176,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .features {
 

@@ -24,7 +24,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property mixed id
+ * @property string id
  * @property Setting settings
  * @property string email
  * @property mixed favouriteFolders
@@ -32,8 +32,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static count()
  * @method static sortable(string[] $array)
  * @method static forceCreate(array $array)
- * @method static where(string $string, string $string1, string $toDateString)
+ * @method static where(string $string, string $string1)
  * @method static create(array $array)
+ * @method static find(mixed $email)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -124,7 +125,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFolderTreeAttribute(): Collection
     {
         return Folder::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', null)
+            ->where('parent_id')
+            ->where('team_folder', false)
             ->where('user_id', $this->id)
             ->sortable()
             ->get();
@@ -143,8 +145,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function favouriteFolders(): BelongsToMany
     {
-        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'folder_id', 'id', 'id')
-            ->with('shared:token,id,item_id,permission,is_protected,expire_in');
+        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'parent_id', 'id', 'id')
+            ->where('team_folder', false);
     }
 
     /**
@@ -162,7 +164,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function latestUploads(): HasMany
     {
         return $this->hasMany(File::class)
-            ->with(['parent:id,name'])
+            ->with([
+                'parent:id,name',
+                'shared:token,id,item_id,permission,is_protected,expire_in',
+            ])
             ->take(40);
     }
 

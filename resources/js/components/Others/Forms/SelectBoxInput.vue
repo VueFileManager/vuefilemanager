@@ -80,7 +80,7 @@
     }
 
 
-    .dark-mode {
+    .dark {
         .select-box {
 
             .box-item {

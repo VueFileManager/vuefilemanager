@@ -36,25 +36,7 @@
     box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);
   }
 
-  .logo {
-    width: 120px;
-    margin-bottom: 20px;
-  }
 
-  h1 {
-    @include font-size(34);
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 2px;
-    color: $text;
-  }
-
-  h2 {
-    @include font-size(23);
-    font-weight: 500;
-    margin-bottom: 50px;
-    color: $text;
-  }
 
   .block-form {
     margin-left: auto;
@@ -74,27 +56,12 @@
 
   .auth-form {
     width: 100%;
-
-    h1 {
-      @include font-size(30);
-    }
-
-    h2 {
-      @include font-size(21);
-    }
   }
 }
 
 @media only screen and (max-width: 490px) {
 
   .auth-form {
-    h1 {
-      @include font-size(22);
-    }
-
-    h2 {
-      @include font-size(18);
-    }
 
     input {
       min-width: initial;
@@ -106,7 +73,7 @@
   }
 }
 
-.dark-mode {
+.dark {
   .auth-form {
 
     h1, h2, .additional-link {

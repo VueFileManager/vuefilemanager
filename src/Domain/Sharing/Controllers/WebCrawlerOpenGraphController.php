@@ -19,7 +19,7 @@ class WebCrawlerOpenGraphController extends Controller
         };
 
         // Get file/folder record
-        $item = ($namespace)::where('user_id', $share->user->id)
+        $item = ($namespace)::where('user_id', $share->user_id)
             ->where('id', $share->item_id)
             ->first();
 
@@ -31,7 +31,7 @@ class WebCrawlerOpenGraphController extends Controller
             ->with('settings', get_settings_in_json())
             ->with('metadata', [
                 'url'          => url('/share', ['token' => $share->token]),
-                'is_protected' => $share->is_protected,
+                'is_protected' => (int) $share->is_protected,
                 'user'         => $share->user->settings->name,
                 'name'         => $item->name,
                 'size'         => $share->type === 'folder'

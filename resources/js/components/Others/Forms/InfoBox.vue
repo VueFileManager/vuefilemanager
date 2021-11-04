@@ -82,7 +82,7 @@
     }
 
 
-    .dark-mode {
+    .dark {
 
         .info-box {
             background: $dark_mode_foreground;

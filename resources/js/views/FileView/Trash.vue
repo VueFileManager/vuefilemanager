@@ -1,0 +1,123 @@
+<template>
+	<div>
+		<ContextMenu>
+			<template v-slot:empty-select>
+				<OptionGroup>
+					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+				</OptionGroup>
+			</template>
+
+			<template v-slot:single-select v-if="item">
+				<OptionGroup>
+					<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+					<Option @click.native="$deleteFileOrFolder(item)" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
+					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+				</OptionGroup>
+				<OptionGroup>
+					<Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+				</OptionGroup>
+			</template>
+
+			<template v-slot:multiple-select v-if="item">
+				<OptionGroup>
+					<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+				</OptionGroup>
+				<OptionGroup>
+					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+				</OptionGroup>
+			</template>
+		</ContextMenu>
+
+		<MobileContextMenu>
+			<OptionGroup v-if="item">
+				<Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+				<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+            </OptionGroup>
+
+            <OptionGroup>
+                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+            </OptionGroup>
+		</MobileContextMenu>
+
+		<FileActionsMobile>
+			<MobileActionButton @click.native="$openSpotlight" icon="search">
+				{{ $t('Spotlight')}}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$showMobileMenu('file-filter')" :icon="$getCurrentSectionIcon()">
+				{{ $getCurrentSectionName() }}
+			</MobileActionButton>
+			<MobileActionButton @click.native="$emptyTrash" icon="trash">
+				{{ $t('context_menu.empty_trash') }}
+			</MobileActionButton>
+			 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+				{{ $t('context_menu.select') }}
+			</MobileActionButton>
+			 <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
+				{{ $t('preview_sorting.preview_sorting_button') }}
+			</MobileActionButton>
+		</FileActionsMobile>
+
+		<EmptyFilePage>
+			<h1 class="title">{{ $t('Your Trash is Empty') }}</h1>
+		</EmptyFilePage>
+
+		<FileBrowser />
+
+		<MobileMultiSelectToolbar>
+			<ToolbarButton @click.native="$deleteFileOrFolder(clipboard)" class="action-btn" source="trash" :class="{'is-inactive' : clipboard.length < 1}" :action="$t('actions.delete')" />
+			<ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
+		</MobileMultiSelectToolbar>
+	</div>
+</template>
+
+<script>
+	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
+	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
+    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
+	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
+	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
+	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
+	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
+	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
+	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import Option from '/resources/js/components/FilesView/Option'
+	import { mapGetters } from 'vuex'
+	import {events} from "../../bus";
+
+	export default {
+		name: 'Trash',
+		components: {
+			MobileActionButtonUpload,
+			MobileMultiSelectToolbar,
+			MobileActionButton,
+			MobileContextMenu,
+			ToolbarButton,
+			OptionGroup,
+			FileBrowser,
+			ContextMenu,
+			Option,
+			FileActionsMobile,
+			EmptyFilePage,
+		},
+		computed: {
+			...mapGetters([
+				'clipboard',
+			]),
+		},
+		data() {
+			return {
+				item: undefined,
+			}
+		},
+		created() {
+			this.$store.dispatch('getTrash', this.$route.params.id)
+
+			events.$on('context-menu:show', (event, item) => this.item = item)
+			events.$on('mobile-context-menu:show', item => this.item = item)
+		}
+	}
+</script>

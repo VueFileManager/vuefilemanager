@@ -26,7 +26,7 @@
 
     }
 
-    .dark-mode {
+    .dark {
         .text-label {
             color: $theme;
         }

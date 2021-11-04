@@ -10,7 +10,7 @@
         <div class="location-name">{{ title }}</div>
 
         <!--More Actions-->
-        <div @click="showMobileNavigation" class="mobile-menu">
+        <div @click="$showMobileMenu('user-navigation')" class="mobile-menu">
             <menu-icon size="17" class="icon" />
         </div>
     </header>
@@ -34,9 +34,6 @@
             MenuIcon,
         },
         methods: {
-            showMobileNavigation() {
-                events.$emit('mobile-menu:show', 'user-navigation')
-            },
             goBack() {
                 this.$router.back();
             }
@@ -98,7 +95,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .mobile-header {
             background: $dark_mode_background;
 

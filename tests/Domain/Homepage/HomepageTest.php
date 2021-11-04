@@ -83,17 +83,18 @@ class HomepageTest extends TestCase
      */
     public function it_get_og_page_for_image()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
-                'user_id'   => $user->id,
-                'name'      => 'Fake Image',
-                'thumbnail' => 'fake-image-thumbnail.jpg',
+                'user_id'  => $user->id,
+                'name'     => 'Fake Image',
+                'basename' => 'fake-image.jpg',
+                'type'     => 'image',
             ]);
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $file->id,
                 'user_id'      => $user->id,
@@ -105,7 +106,7 @@ class HomepageTest extends TestCase
             ->get("/api/og-site/$share->token")
             ->assertStatus(200)
             ->assertSee('Fake Image')
-            ->assertSee('fake-image-thumbnail.jpg');
+            ->assertSee('md-fake-image.jpg');
     }
 
     /**
@@ -118,9 +119,10 @@ class HomepageTest extends TestCase
 
         $file = File::factory(File::class)
             ->create([
-                'user_id'   => $user->id,
-                'name'      => 'Fake Image',
-                'thumbnail' => 'fake-image-thumbnail.jpg',
+                'user_id'  => $user->id,
+                'name'     => 'Fake Image',
+                'basename' => 'fake-image.jpg',
+                'type'     => 'image',
             ]);
 
         $share = Share::factory(Share::class)

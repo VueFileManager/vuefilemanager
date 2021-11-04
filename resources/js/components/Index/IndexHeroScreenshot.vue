@@ -206,7 +206,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .hero-screenshot {
 

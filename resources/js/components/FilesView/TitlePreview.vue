@@ -77,7 +77,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
     .wrapper {
         .text {
             .title {

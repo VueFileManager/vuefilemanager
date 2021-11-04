@@ -140,7 +140,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
 
     .copy-input {
         border-color: #333333;

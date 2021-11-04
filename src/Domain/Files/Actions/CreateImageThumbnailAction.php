@@ -18,34 +18,27 @@ class CreateImageThumbnailAction
      * Create image thumbnail from uploaded image
      */
     public function __invoke(
-        string $file_path,
-        string $filename,
+        string $file_name,
+        $file,
         string $user_id
-    ): string | null {
-        $mimeType = Storage::disk('local')->mimeType($file_path);
-
+    ): void {
         // Create thumbnail from image
-        if (in_array($mimeType, $this->availableFormats)) {
-            // Get thumbnail name
-            $thumbnail = "thumbnail-$filename";
-
+        if (in_array($file->getClientMimeType(), $this->availableFormats)) {
             // Create intervention image
-            $image = Image::make(Storage::disk('local')
-                ->path($file_path))
-                ->orientate();
+            $intervention = Image::make($file)->orientate();
 
-            // Resize image
-            $image->resize(512, null, fn ($constraint) => $constraint->aspectRatio())->stream();
+            // Generate avatar sizes
+            collect(config('vuefilemanager.image_sizes'))
+                ->each(function ($size) use ($intervention, $file_name, $user_id) {
+                    // Create thumbnail only if image is larger than predefined image sizes
+                    if ($intervention->getWidth() > $size['size']) {
+                        // Generate thumbnail
+                        $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
 
-            // Store thumbnail to disk
-            Storage::put("files/$user_id/$thumbnail", $image);
+                        // Store thumbnail to disk
+                        Storage::put("files/$user_id/{$size['name']}-{$file_name}", $intervention);
+                    }
+                });
         }
-
-        // Return thumbnail as svg file
-        if ($mimeType === 'image/svg+xml') {
-            return $filename;
-        }
-
-        return $thumbnail ?? null;
     }
 }

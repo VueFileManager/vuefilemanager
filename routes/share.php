@@ -6,11 +6,11 @@ use Domain\Files\Controllers\VisitorShowFileController;
 use Domain\Files\Controllers\VisitorUploadFileController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
+use Domain\Browsing\Controllers\VisitorBrowseFolderController;
 use Domain\Items\Controllers\VisitorMoveFileOrFolderController;
 use Domain\Items\Controllers\VisitorDeleteFileOrFolderController;
 use Domain\Items\Controllers\VisitorRenameFileOrFolderController;
 use Domain\Sharing\Controllers\VisitorUnlockLockedShareController;
-use Domain\Browsing\Controllers\VisitorBrowseFolderContentController;
 use Domain\Folders\Controllers\VisitorNavigationFolderTreeController;
 use Domain\Browsing\Controllers\VisitorSearchFilesAndFoldersController;
 
@@ -29,10 +29,10 @@ Route::get('/zip/{shared}', VisitorZipController::class);
 
 // Browse share content
 Route::group(['prefix' => 'browse'], function () {
-    Route::get('/folders/{id}/{shared}', VisitorBrowseFolderContentController::class);
     Route::post('/authenticate/{shared}', VisitorUnlockLockedShareController::class);
     Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
     Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
+    Route::get('/folders/{id}/{shared}', VisitorBrowseFolderController::class);
     Route::get('/file/{shared}', VisitorShowFileController::class);
     Route::get('/share/{share}', [ShareController::class, 'show']);
 });

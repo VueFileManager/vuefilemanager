@@ -28,6 +28,10 @@ class ShareController extends Controller
         CreateShareRequest $request,
         SendViaEmailAction $sendLinkToEmailAction,
     ): ShareResource {
+        $item = get_item($request->input('type'), $request->input('id'));
+
+        $this->authorize('owner', $item);
+
         $shared = Share::create([
             'password'     => $request->has('password') ? bcrypt($request->input('password')) : null,
             'type'         => $request->input('type') === 'folder' ? 'folder' : 'file',
@@ -84,6 +88,6 @@ class ShareController extends Controller
                 ->delete();
         }
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

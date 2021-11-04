@@ -167,7 +167,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .plan {
 
             .plan-wrapper {

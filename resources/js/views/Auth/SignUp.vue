@@ -3,15 +3,12 @@
 
         <!--Registration-->
         <AuthContent name="sign-up" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+            <Headline
+				:title="$t('page_registration.title')"
+				:description="$t('page_registration.subtitle')"
+			/>
 
-            <h1>{{ $t('page_registration.title') }}</h1>
-            <h2>{{ $t('page_registration.subtitle') }}:</h2>
-
-            <ValidationObserver @submit.prevent="signUp" ref="sign_up" v-slot="{ invalid }" tag="form"
-                                class="form block-form">
-
+            <ValidationObserver @submit.prevent="signUp" ref="sign_up" v-slot="{ invalid }" tag="form" class="form block-form">
                 <div class="block-wrapper">
                     <label>{{ $t('page_registration.label_email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
@@ -76,6 +73,7 @@
 </template>
 
 <script>
+	import Headline from "./Headline";
     import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import AuthContent from '/resources/js/components/Auth/AuthContent'
@@ -93,6 +91,7 @@
             ValidationObserver,
             AuthContent,
             AuthButton,
+			Headline,
             required,
         },
         computed: {

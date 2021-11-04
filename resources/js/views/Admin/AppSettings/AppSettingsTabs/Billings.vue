@@ -170,7 +170,7 @@
 
     }
 
-    .dark-mode {
+    .dark {
 
     }
 

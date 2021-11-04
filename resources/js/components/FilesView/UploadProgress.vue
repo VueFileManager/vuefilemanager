@@ -4,7 +4,7 @@
             <div class="progress-title">
 
                 <!--Is processing-->
-				<span v-if="isProcessingFile">
+				<span v-if="isProcessingFile" class="flex items-center justify-center">
                     <refresh-cw-icon size="12" class="sync-alt text-theme" />
                     {{ $t('uploading.processing_file') }}
                 </span>
@@ -89,7 +89,6 @@
 
     .upload-progress {
         width: 100%;
-        padding-bottom: 10px;
         position: relative;
         z-index: 1;
 
@@ -98,7 +97,7 @@
 
             .cancel-icon {
                 cursor: pointer;
-                padding: 0 13px;
+                padding: 0 7px 0 13px;
 
                 &:hover {
 
@@ -119,17 +118,7 @@
         }
     }
 
-    @media only screen and (max-width: 690px) {
-
-        .upload-progress {
-
-            .progress-wrapper .cancel-icon {
-                padding: 0 9px;
-            }
-        }
-    }
-
-    .dark-mode {
+    .dark {
         .progress-bar {
             background: $dark_mode_foreground;
         }

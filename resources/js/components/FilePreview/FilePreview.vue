@@ -1,7 +1,7 @@
 <template>
 	<div
         v-if="isFullPreview"
-        class="file-preview"
+        class="file-preview z-40"
         ref="filePreview"
         tabindex="-1"
         @keydown.esc="closeFilePreview"
@@ -59,12 +59,11 @@
     .file-preview {
         width: 100%;
         height: 100%;
-        position: absolute;
-        z-index: 7;
+        position: fixed;
         background-color: white;
     }
 
-    .dark-mode {
+    .dark {
         .file-preview {
             background-color: $dark_mode_background;
         }

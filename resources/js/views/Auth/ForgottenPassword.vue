@@ -3,11 +3,10 @@
 
         <!--Forgotten your password?-->
         <AuthContent name="forgotten-password" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
-
-            <h1>{{ $t('page_forgotten_password.title') }}</h1>
-            <h2>{{ $t('page_forgotten_password.subtitle') }}:</h2>
+			<Headline
+				:title="$t('page_forgotten_password.title')"
+				:description="$t('page_forgotten_password.subtitle')"
+			/>
 
             <ValidationObserver @submit.prevent="forgottenPassword" ref="forgotten_password" v-slot="{ invalid }"
                                 tag="form" class="form inline-form">
@@ -31,7 +30,7 @@
 
         <!--Password reset link sended-->
         <AuthContent name="password-reset-link-sended" :visible="false">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
+            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
             <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
 
             <h1>{{ $t('page_forgotten_password.pass_sennded_title') }}</h1>
@@ -52,6 +51,7 @@
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {required} from 'vee-validate/dist/rules'
+	import Headline from "./Headline";
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -64,6 +64,7 @@
             AuthContent,
             AuthButton,
             required,
+			Headline,
         },
         computed: {
             ...mapGetters(['config']),

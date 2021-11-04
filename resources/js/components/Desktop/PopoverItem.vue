@@ -1,5 +1,5 @@
 <template>
-	<div v-if="isVisible" class="popover-item" :class="side">
+	<div v-if="isVisible" class="popover-item z-20" :class="side">
 		<slot></slot>
 	</div>
 </template>
@@ -39,7 +39,6 @@
 	.popover-item {
 		min-width: 250px;
 		position: absolute;
-		z-index: 9;
 		box-shadow: $shadow;
 		background: white;
 		border-radius: 8px;
@@ -55,7 +54,7 @@
 		}
 	}
 
-	.dark-mode {
+	.dark {
 		.popover-item {
 			background: $dark_mode_foreground;
 		}

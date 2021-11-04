@@ -33,7 +33,7 @@ class UserAccountTest extends TestCase
             ->assertExists('files/' . User::first()->id);
     }
     /**
-     * @test
+     * todo: finish test
      */
     public function it_test_user_timezone()
     {
@@ -114,8 +114,12 @@ class UserAccountTest extends TestCase
                 'avatar' => $avatar,
             ])->assertStatus(204);
 
-        Storage::disk('local')
-            ->assertExists($user->settings->getRawOriginal('avatar'));
+        collect(config('vuefilemanager.avatar_sizes'))
+            ->each(
+                fn ($size) =>
+                Storage::disk('local')
+                    ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
+            );
     }
 
     /**
@@ -172,13 +176,7 @@ class UserAccountTest extends TestCase
                             ],
                         ],
                         'favourites' => [
-                            'data' => [
-                                'id'         => (string) $user->id,
-                                'type'       => 'favourite_folders',
-                                'attributes' => [
-                                    'folders' => [],
-                                ],
-                            ],
+                            'data' => [],
                         ],
                     ],
                 ],

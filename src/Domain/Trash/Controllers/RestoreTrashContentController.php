@@ -53,7 +53,7 @@ class RestoreTrashContentController extends Controller
 
                 // Restore item to home directory
                 if ($request->has('to_home') && $request->to_home) {
-                    $item->folder_id = null;
+                    $item->parent_id = null;
                     $item->save();
                 }
             }
@@ -63,6 +63,6 @@ class RestoreTrashContentController extends Controller
         }
 
         // Return response
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

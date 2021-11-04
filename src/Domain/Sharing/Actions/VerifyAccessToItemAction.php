@@ -21,19 +21,19 @@ class VerifyAccessToItemAction
             ->get();
 
         // Get all authorized parent folders by shared folder as root of tree
-        $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
+        $accessible_parent_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Check user access
         if (is_array($requested_id)) {
             foreach ($requested_id as $id) {
-                if (! in_array($id, $accessible_folder_ids)) {
+                if (! in_array($id, $accessible_parent_ids)) {
                     abort(403);
                 }
             }
         }
 
         if (! is_array($requested_id)) {
-            if (! in_array($requested_id, $accessible_folder_ids)) {
+            if (! in_array($requested_id, $accessible_parent_ids)) {
                 abort(403);
             }
         }

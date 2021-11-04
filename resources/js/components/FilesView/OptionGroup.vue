@@ -28,7 +28,7 @@
     }
 }
 
-.dark-mode {
+.dark {
     .menu-option-group {
         border-color: $dark_mode_border_color;
     }

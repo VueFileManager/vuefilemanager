@@ -33,7 +33,7 @@ export default {
 
             // Title for single item
             if ((filesLength < 2 || !hasDraggedItem) && this.draggedItem) {
-                return this.draggedItem.name
+                return this.draggedItem.data.attributes.name
             }
         },
         subtitle() {
@@ -48,13 +48,13 @@ export default {
             if ((filesLength < 2 || !hasDraggedItem) && this.draggedItem) {
 
                 // Subtitle for single folder
-                if (this.draggedItem.type === 'folder') {
+                if (this.draggedItem.data.type === 'folder') {
                     return this.draggedItem.items == 0 ? this.$t('folder.empty') : this.$tc('folder.item_counts', this.draggedItem.items)
                 }
 
                 // Subtitle for single file
-                if (this.draggedItem !== 'folder' && this.draggedItem.mimetype) {
-                    return '.' + this.draggedItem.mimetype
+                if (this.draggedItem.data.type !== 'folder' && this.draggedItem.data.attributes.mimetype) {
+                    return '.' + this.draggedItem.data.attributes.mimetype
                 }
             }
         }
@@ -95,7 +95,7 @@ export default {
     background: white;
 }
 
-.dark-mode {
+.dark {
     #drag-ui {
         background: $dark_mode_foreground;
     }

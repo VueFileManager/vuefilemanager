@@ -23,10 +23,12 @@
 
         .action-button {
             cursor: pointer;
+			display: flex;
+			align-items: center;
 
             .edit-icon {
                 display: inline-block;
-                margin-left: 3px;
+                margin-left: 7px;
             }
         }
 
@@ -44,7 +46,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .list-info-item {
 
             span {

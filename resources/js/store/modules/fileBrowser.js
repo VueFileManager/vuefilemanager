@@ -6,41 +6,26 @@ import i18n from '/resources/js/i18n/index'
 
 const defaultState = {
     currentFolder: undefined,
-    navigation: undefined,
-
-    isLoading: true,
-
-    browseHistory: [],
     fastPreview: undefined,
+    navigation: undefined,
+    isMultiSelectMode: false,
+    isLoading: true,
     clipboard: [],
     entries: [],
 }
 
 const actions = {
-    getFolder: ({commit, getters}, [payload]) => {
+    getFolder: ({commit, getters}, id) => {
         commit('LOADING_STATE', {loading: true, data: []})
 
-        if (payload.init)
-            commit('FLUSH_FOLDER_HISTORY')
-
-        // Set folder location
-        payload.folder.location = payload.folder.deleted_at || payload.folder.location === 'trash' ? 'trash' : 'base'
-
-        if (!payload.back && !payload.sorting)
-            commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-
-        let url = payload.folder.location === 'trash'
-            ? '/browse/folders/' + payload.folder.id + getters.sorting.URI + '&trash=true'
-            : '/browse/folders/' + payload.folder.id + getters.sorting.URI
-
         axios
-            .get(getters.api + url)
+            .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
-                commit('STORE_CURRENT_FOLDER', payload.folder)
+                let folders = response.data.folders.data
+                let files = response.data.files.data
 
-                if (payload.back && !payload.sorting)
-                    commit('REMOVE_BROWSER_HISTORY')
+                commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
+                commit('SET_CURRENT_FOLDER', response.data.root)
 
                 events.$emit('scrollTop')
             })
@@ -62,63 +47,48 @@ const actions = {
                 }
             })
     },
-    getLatest: ({commit, getters}) => {
+    getRecentUploads: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
-
-        commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-        commit('STORE_CURRENT_FOLDER', {
-            name: i18n.t('sidebar.latest'),
-            id: undefined,
-            location: 'latest',
-        })
 
         axios
             .get(getters.api + '/browse/latest')
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
+                commit('LOADING_STATE', {loading: false, data: response.data.files.data})
+                commit('SET_CURRENT_FOLDER', undefined)
+
                 events.$emit('scrollTop')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    getShared: ({commit, getters}) => {
+    getMySharedItems: ({commit, getters}) => {
         commit('LOADING_STATE', {loading: true, data: []})
-        commit('FLUSH_FOLDER_HISTORY')
-
-        let currentFolder = {
-            name: i18n.t('sidebar.my_shared'),
-            location: 'shared',
-            id: undefined,
-        }
-
-        commit('STORE_CURRENT_FOLDER', currentFolder)
 
         axios
             .get(getters.api + '/browse/share' + getters.sorting.URI)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
-                commit('STORE_PREVIOUS_FOLDER', currentFolder)
+
+                let folders = response.data.folders.data
+                let files = response.data.files.data
+
+                commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
+                commit('SET_CURRENT_FOLDER', undefined)
 
                 events.$emit('scrollTop')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    getTrash: ({commit, getters}) => {
+    getTrash: ({commit, getters}, id) => {
         commit('LOADING_STATE', {loading: true, data: []})
-        commit('FLUSH_FOLDER_HISTORY')
-
-        let trash = {
-            name: i18n.t('locations.trash'),
-            id: undefined,
-            location: 'trash-root',
-        }
-
-        commit('STORE_CURRENT_FOLDER', trash)
 
         axios
-            .get(getters.api + '/browse/trash' + getters.sorting.URI)
+            .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}`)
             .then(response => {
-                commit('LOADING_STATE', {loading: false, data: response.data})
-                commit('STORE_PREVIOUS_FOLDER', trash)
+
+                let folders = response.data.folders.data
+                let files = response.data.files.data
+
+                commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
+                commit('SET_CURRENT_FOLDER', response.data.root)
 
                 events.$emit('scrollTop')
             })
@@ -154,46 +124,39 @@ const actions = {
 
 const mutations = {
     LOADING_STATE(state, payload) {
-        state.clipboard = []
         state.entries = payload.data
         state.isLoading = payload.loading
+    },
+    SET_CURRENT_FOLDER(state, folder) {
+        state.currentFolder = folder
     },
     UPDATE_FOLDER_TREE(state, tree) {
         state.navigation = tree
     },
-    FLUSH_FOLDER_HISTORY(state) {
-        state.browseHistory = []
-    },
     FLUSH_SHARED(state, id) {
         state.entries.find(item => {
-            if (item.id === id) item.shared = undefined
+            if (item.data.id === id) item.data.relationships.shared = undefined
         })
     },
-    STORE_PREVIOUS_FOLDER(state, folder) {
-        state.browseHistory.push(folder)
-    },
-    REMOVE_BROWSER_HISTORY(state) {
-        state.browseHistory.pop()
-    },
     CHANGE_ITEM_NAME(state, updatedFile) {
-
-        // Rename filename in clipboard
-        if (state.clipboard && state.clipboard.id === updatedFile.id) {
-            state.clipboard = updatedFile
-        }
-
-        // Rename item name in data view
         state.entries.find(item => {
-            if (item.id === updatedFile.id) {
-                item.name = updatedFile.name
-                item.color = updatedFile.color ? updatedFile.color : null
-                item.emoji = updatedFile.emoji ? updatedFile.emoji : null
+            if (item.data.id === updatedFile.data.id) {
+                item.data.attributes.name = updatedFile.data.attributes.name
+                item.data.attributes.color = updatedFile.data.attributes.color ? updatedFile.data.attributes.color : null
+                item.data.attributes.emoji = updatedFile.data.attributes.emoji ? updatedFile.data.attributes.emoji : null
             }
         })
     },
     UPDATE_SHARED_ITEM(state, data) {
         state.entries.find(item => {
-            if (item.id === data.item_id) item.shared = data
+            if (item.data.id === data.data.attributes.item_id) {
+                item.data.relationships.shared = data
+            }
+        })
+    },
+    UPDATE_ITEM(state, data) {
+        state.entries.find(item => {
+            if (item.data.id === data.data.id) item.data = data.data
         })
     },
     ADD_NEW_FOLDER(state, folder) {
@@ -203,24 +166,21 @@ const mutations = {
         state.entries = state.entries.concat(items)
     },
     REMOVE_ITEM(state, id) {
-        state.entries = state.entries.filter(el => el.id !== id)
+        state.entries = state.entries.filter(el => el.data.id !== id)
     },
     INCREASE_FOLDER_ITEM(state, id) {
         state.entries.map(el => {
-            if (el.id && el.id === id) el.items++
+            if (el.data.id && el.data.id === id) el.data.attributes.items++
         })
     },
-    STORE_CURRENT_FOLDER(state, folder) {
-        state.currentFolder = folder
-    },
     REMOVE_ITEM_FROM_CLIPBOARD(state, item) {
-        state.clipboard = state.clipboard.filter(element => element.id !== item.id)
+        state.clipboard = state.clipboard.filter(element => element.data.id !== item.data.id)
     },
     ADD_ALL_ITEMS_TO_CLIPBOARD(state) {
         state.clipboard = state.entries
     },
     ADD_ITEM_TO_CLIPBOARD(state, item) {
-        let selectedItem = state.entries.find(el => el.id === item.id)
+        let selectedItem = state.entries.find(el => el.data.id === item.data.id)
 
         if (state.clipboard.includes(selectedItem)) return
 
@@ -235,14 +195,22 @@ const mutations = {
     FAST_PREVIEW_CLEAR(state) {
         state.fastPreview = undefined
     },
+    TOGGLE_MULTISELECT_MODE(state) {
+        state.clipboard = []
+        state.isMultiSelectMode = ! state.isMultiSelectMode
+    },
+    DISABLE_MULTISELECT_MODE(state) {
+        state.clipboard = []
+        state.isMultiSelectMode = false
+    },
 }
 
 const getters = {
-    fastPreview: state => state.fastPreview,
-    clipboard: state => state.clipboard,
+    isMultiSelectMode: state => state.isMultiSelectMode,
     currentFolder: state => state.currentFolder,
-    browseHistory: state => state.browseHistory,
+    fastPreview: state => state.fastPreview,
     navigation: state => state.navigation,
+    clipboard: state => state.clipboard,
     isLoading: state => state.isLoading,
     entries: state => state.entries,
 }

@@ -16,8 +16,8 @@
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_rename.label') }}:</label>
                     <div class="input">
-                        <input v-model="pickedItem.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme" :placeholder="$t('popup_rename.placeholder')">
-                        <div @click="pickedItem.name = ''" class="close-icon-wrapper">
+                        <input v-model="pickedItem.data.attributes.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme" :placeholder="$t('popup_rename.placeholder')">
+                        <div @click="pickedItem.data.attributes.name = ''" class="close-icon-wrapper">
                             <x-icon class="close-icon hover-text-theme" size="14" />
                         </div>
                     </div>
@@ -26,7 +26,7 @@
 
                 <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" />
 
-                <ActionButton v-if="pickedItem.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
+                <ActionButton v-if="pickedItem.data.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
                     {{ moreOptionsTitle }}
                 </ActionButton>
             </ValidationObserver>
@@ -76,7 +76,7 @@ export default {
     },
     computed: {
         itemTypeTitle() {
-            return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
+            return this.pickedItem && this.pickedItem.data.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
         },
         moreOptionsTitle() {
             return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_folder_icon_open')
@@ -94,12 +94,12 @@ export default {
             this.isMoreOptions = !this.isMoreOptions
         },
         changeName() {
-            if (this.pickedItem.name && this.pickedItem.name !== '') {
+            if (this.pickedItem.data.attributes.name && this.pickedItem.data.attributes.name !== '') {
 
                 let item = {
-                    id: this.pickedItem.id,
-                    type: this.pickedItem.type,
-                    name: this.pickedItem.name,
+                    id: this.pickedItem.data.id,
+                    type: this.pickedItem.data.type,
+                    name: this.pickedItem.data.attributes.name,
                 }
 
                 if (this.folderIcon && this.folderIcon.emoji)
@@ -185,7 +185,7 @@ export default {
     margin-bottom: 20px;
 }
 
-.dark-mode {
+.dark {
     .close-icon-wrapper {
         &:hover {
 

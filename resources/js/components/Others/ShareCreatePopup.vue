@@ -149,10 +149,10 @@ export default {
             'expirationList'
         ]),
         itemTypeTitle() {
-            return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
+            return this.pickedItem && this.pickedItem.data.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
         },
         isFolder() {
-            return this.pickedItem && this.pickedItem.type === 'folder'
+            return this.pickedItem && this.pickedItem.data.type === 'folder'
         },
         submitButtonText() {
             return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
@@ -207,7 +207,9 @@ export default {
                     // End loading
                     this.isGeneratedShared = true
 
-                    this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)
+                    this.$store.commit('UPDATE_SHARED_ITEM', response.data)
+
+					this.pickedItem.data.relationships.shared = response.data
                 })
                 .catch(() => {
                     events.$emit('alert:open', {
@@ -235,8 +237,8 @@ export default {
             // Store picked item
             this.pickedItem = args.item
 
-            this.shareOptions.type = args.item.type
-            this.shareOptions.id = args.item.id
+            this.shareOptions.type = args.item.data.type
+            this.shareOptions.id = args.item.data.id
         })
 
         // Close popup

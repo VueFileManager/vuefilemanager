@@ -449,7 +449,7 @@
     }
 }
 
-.dark-mode {
+.dark {
 
     .search-bar-wrapper {
         background: $dark_mode_background;

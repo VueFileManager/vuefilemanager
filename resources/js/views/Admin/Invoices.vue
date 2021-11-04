@@ -34,7 +34,7 @@
                                 <router-link v-if="row.relationships" :to="{name: 'UserInvoices', params: {id: row.relationships.user.data.id}}">
                                     <DatatableCellImage
                                             image-size="small"
-                                            :image="row.relationships.user.data.attributes.avatar"
+                                            :image="row.relationships.user.data.attributes.avatar.sm"
                                             :title="row.relationships.user.data.attributes.name"
                                     />
                                 </router-link>
@@ -229,7 +229,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .table-tools {
             background: $dark_mode_background;

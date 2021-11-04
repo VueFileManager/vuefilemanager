@@ -30,9 +30,11 @@ class VisitorGetThumbnailController extends Controller
         // Check ability to access protected share files
         ($this->protectShareRecord)($shared);
 
+        $originalFileName = substr($filename, 3);
+
         // Get file record
         $file = UserFile::where('user_id', $shared->user_id)
-            ->where('thumbnail', $filename)
+            ->where('basename', $originalFileName)
             ->firstOrFail();
 
         // Check file access
@@ -44,7 +46,7 @@ class VisitorGetThumbnailController extends Controller
             user_id: $shared->user_id,
         );
 
-        // Finally download thumbnail
-        return ($this->downloadThumbnail)($file, $shared->user_id);
+        // Finally, download thumbnail
+        return ($this->downloadThumbnail)($filename, $file);
     }
 }

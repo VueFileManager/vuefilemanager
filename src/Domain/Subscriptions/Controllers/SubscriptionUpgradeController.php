@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Domain\Subscriptions\Services\StripeService;
-use Domain\Subscriptions\Requests\StoreUpgradeAccountRequest;
+use Domain\Teams\Requests\StoreUpgradeAccountRequest;
 
 /**
  * Upgrade account to subscription
@@ -24,7 +24,7 @@ class SubscriptionUpgradeController extends Controller
 
         // Check if is demo
         if (is_demo_account($user->email)) {
-            return response('Done!', 204);
+            return response('Done.', 204);
         }
 
         // Forget user subscription
@@ -53,6 +53,6 @@ class SubscriptionUpgradeController extends Controller
                 'storage_capacity' => $plan['product']['metadata']['capacity'],
             ]);
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

@@ -3,12 +3,13 @@
 
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>Set up your storage driver and email client.</h2>
-            </div>
-
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="Set up your storage driver and email client."
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
             <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="environmentSetup" v-slot="{ invalid }" tag="form" class="form block-form">
                 <InfoBox>
                     <p>If you don’t know which storage driver set, keep selected <b>'Local Driver'</b>. For more info, where
@@ -141,6 +142,7 @@ import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 import AuthContent from '/resources/js/components/Auth/AuthContent'
 import AuthButton from '/resources/js/components/Auth/AuthButton'
 import {SettingsIcon} from 'vue-feather-icons'
+import Headline from "../Auth/Headline"
 import {required} from 'vee-validate/dist/rules'
 import {mapGetters} from 'vuex'
 import axios from 'axios'
@@ -158,6 +160,7 @@ export default {
         FormLabel,
         required,
         InfoBox,
+		Headline,
     },
     watch: {
         'storage.driver': function () {

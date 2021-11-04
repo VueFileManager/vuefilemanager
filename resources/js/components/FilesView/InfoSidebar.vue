@@ -22,33 +22,37 @@
             <FilePreviewDetail />
 
 			<TitlePreview
-				:icon="clipboard[0].type"
-				:title="clipboard[0].name"
-				:subtitle="clipboard[0].mimetype"
+				:icon="clipboard[0].data.type"
+				:title="clipboard[0].data.attributes.name"
+				:subtitle="clipboard[0].data.attributes.mimetype"
 			/>
         </div>
 
 		<!--File info-->
         <ListInfo v-if="isSingleFile && !isEmpty">
 
+			<!--Author-->
+            <ListInfoItem
+				v-if="canShowAuthor"
+				:title="$t('Author')"
+			>
+                <div class="flex items-center mt-1">
+					<MemberAvatar :size="32" :member="singleFile.data.relationships.user" />
+                    <span class="ml-2 block">{{ singleFile.data.relationships.user.data.attributes.name }}</span>
+                </div>
+            </ListInfoItem>
+
 			<!--Filesize-->
             <ListInfoItem
-				v-if="singleFile.filesize"
+				v-if="singleFile.data.attributes.filesize"
 				:title="$t('file_detail.size')"
-				:content="singleFile.filesize"
-			/>
-
-			<!--Participant-->
-            <ListInfoItem
-				v-if="$checkPermission(['master']) && singleFile.author !== 'user'"
-				:title="$t('file_detail.author')"
-				:content="$t('file_detail.author_participant')"
+				:content="singleFile.data.attributes.filesize"
 			/>
 
 			<!--Created At-->
             <ListInfoItem
 				:title="$t('file_detail.created_at')"
-				:content="singleFile.created_at"
+				:content="singleFile.data.attributes.created_at"
 			/>
 
 			<!--Location-->
@@ -57,14 +61,25 @@
 				:title="$t('file_detail.where')"
 			>
                 <div class="action-button" @click="openMoveOptions">
-                    <span>{{ singleFile.parent ? singleFile.parent.name : $t('locations.home') }}</span>
+                    <span>{{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $t('locations.home') }}</span>
+                    <edit-2-icon size="10" class="edit-icon" />
+                </div>
+            </ListInfoItem>
+
+			<!--Team-->
+            <ListInfoItem
+				v-if="singleFile.data.attributes.isTeamFolder"
+				:title="$t('Shared with the Team')"
+			>
+                <div class="action-button" @click="$updateTeamFolder(singleFile)">
+                    <TeamMembersPreview :folder="singleFile" :avatar-size="32" />
                     <edit-2-icon size="10" class="edit-icon" />
                 </div>
             </ListInfoItem>
 
 			<!--Shared-->
             <ListInfoItem
-				v-if="$checkPermission('master') && singleFile.shared"
+				v-if="$checkPermission('master') && singleFile.data.relationships.shared"
 				:title="$t('file_detail.shared')"
 			>
                 <div @click="openShareOptions" class="action-button">
@@ -91,19 +106,23 @@
 
 <script>
 	import FilePreviewDetail from '/resources/js/components/Others/FilePreviewDetail'
-    import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
-	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
-    import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
-	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
 	import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
+	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
+	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
+	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
 	import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
+	import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
 	import ListInfo from '/resources/js/components/Others/ListInfo'
-	import {mapGetters} from 'vuex'
 	import {events} from '/resources/js/bus'
+	import {mapGetters} from 'vuex'
+	import MemberAvatar from "./MemberAvatar";
 
 	export default {
 		name: 'InfoSidebar',
 		components: {
+			MemberAvatar,
+			TeamMembersPreview,
 			FilePreviewDetail,
 			ImageMetaData,
 			EmptyMessage,
@@ -119,6 +138,7 @@
 			...mapGetters([
 				'permissionOptions',
 				'clipboard',
+				'user',
 			]),
 			isEmpty() {
 				return this.clipboard.length === 0
@@ -130,17 +150,22 @@
 				return this.clipboard[0]
 			},
 			canShowMetaData() {
-				return this.clipboard[0].metadata && this.clipboard[0].metadata.ExifImageWidth
+				return this.clipboard[0].data.attributes.metadata && this.clipboard[0].data.attributes.metadata.ExifImageWidth
 			},
 			isLocked() {
-				return this.clipboard[0].shared.is_protected
+				return this.clipboard[0].data.relationships.shared.protected
 			},
 			sharedInfo() {
 				let title = this.permissionOptions.find(option => {
-					return option.value === this.clipboard[0].shared.permission
+					return option.value === this.clipboard[0].data.relationships.shared.permission
 				})
 
 				return title ? this.$t(title.label) : this.$t('shared.can_download')
+			},
+			canShowAuthor() {
+				return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
+					&& this.clipboard[0].data.type !== 'folder'
+					&& this.user.data.id !== this.clipboard[0].data.relationships.user.data.id
 			},
 		},
 		methods: {
@@ -157,8 +182,7 @@
 <style scoped lang="scss">
 
 	.info-wrapper {
-		padding-bottom: 20px;
-		height: 100%;
+		padding-bottom: 50px;
 	}
 
 	.info-headline {

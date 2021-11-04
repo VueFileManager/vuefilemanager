@@ -2,6 +2,7 @@
 namespace Domain\Items\Actions;
 
 use DB;
+use Gate;
 use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -25,6 +26,8 @@ class DeleteFileOrFolderAction
                 ->with('folders')
                 ->find($id);
 
+            Gate::authorize('can-edit', [$folder, $shared]);
+
             // Get folder shared record
             $shared = Share::where('type', 'folder')
                 ->where('item_id', $id)
@@ -37,7 +40,7 @@ class DeleteFileOrFolderAction
 
             // Remove folder from user favourites
             DB::table('favourite_folder')
-                ->where('folder_id', $folder->id)
+                ->where('parent_id', $folder->id)
                 ->delete();
 
             // Soft delete items
@@ -53,7 +56,7 @@ class DeleteFileOrFolderAction
 
                 // Get children files
                 $files = File::onlyTrashed()
-                    ->whereIn('folder_id', Arr::flatten([$id, $child_folders]))
+                    ->whereIn('parent_id', Arr::flatten([$id, $child_folders]))
                     ->get();
 
                 // Remove all children files
@@ -82,6 +85,8 @@ class DeleteFileOrFolderAction
             // Get file
             $file = File::withTrashed()
                 ->find($id);
+
+            Gate::authorize('can-edit', [$file, $shared]);
 
             // Get folder shared record
             $shared = Share::where('type', 'file')

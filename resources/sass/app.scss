@@ -1,6 +1,7 @@
 // Fonts
 @import '/resources/sass/vuefilemanager/_variables';
 @import '/resources/sass/vuefilemanager/_mixins';
+@import '/resources/sass/vuefilemanager/_vuewind';
 
 #viewport {
   display: flex;
@@ -8,16 +9,6 @@
   width: 100%;
   @include transition(200ms);
   flex: 1;
-}
-
-#application-wrapper {
-  display: flex;
-  height: 100%;
-
-  #content {
-    position: relative;
-    width: 100%;
-  }
 }
 
 #single-page {
@@ -169,6 +160,10 @@
       margin-right: 9px;
       vertical-align: middle;
       margin-top: -1px;
+
+      path {
+        color: inherit;
+      }
     }
 
     .delete-icon {
@@ -353,7 +348,7 @@
   }
 }
 
-.dark-mode {
+.dark {
 
   .empty-note {
     color: $dark_mode_text_secondary;
@@ -443,7 +438,7 @@
   }
 }
 
-.dark-mode {
+.dark {
   .windows {
     ::-webkit-scrollbar-thumb {
       border: 6px solid transparent;

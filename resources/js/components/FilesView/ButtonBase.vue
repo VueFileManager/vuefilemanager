@@ -104,7 +104,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .button-base {
 

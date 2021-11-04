@@ -434,7 +434,7 @@ export default {
     }
 }
 
-.dark-mode {
+.dark {
 
     .emoji-wrapper {
         background: lighten($dark_mode_foreground, 2%);

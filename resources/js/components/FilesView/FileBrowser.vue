@@ -1,124 +1,51 @@
 <template>
     <div
-		:class="{'is-offset': filesInQueueTotal > 0, 'is-dragging': isDragging }"
-		class="file-content"
-		id="file-content-id"
-		@drop.stop.prevent="dropUpload($event)"
+		:class="{
+			'user-dropping-file': isDragging,
+			'grid-view': itemViewType === 'grid' && ! isVisibleSidebar,
+			'grid-view-sidebar': itemViewType === 'grid' && isVisibleSidebar
+		}"
+		class="lg:w-full lg:overflow-y-auto lg:h-full lg:px-0 px-4"
+		@drop.stop.prevent="uploadDroppedItems($event)"
 		@keydown.delete="deleteItems"
 		@dragover="dragEnter"
 		@dragleave="dragLeave"
 		@dragover.prevent
 		tabindex="-1"
+		@click.self="deselect"
 	>
-        <div
-			:class="{'is-visible': isVisibleSidebar, 'mobile-multi-select': isMultiSelect}"
-			@click.self="filesContainerClick"
-			class="files-container"
-			ref="fileContainer"
-		>
-            <MobileToolbar />
-
-			<!--Mobile Actions-->
-            <FileActionsMobile />
-
-			<!--Item previews list-->
-            <div v-if="isList" class="file-list-wrapper">
-                <transition-group
-					name="file"
-					tag="section"
-					class="file-list"
-					:class="FilePreviewType"
-				>
-                    <FileItemList
-						@dragstart="dragStart(item)"
-						@drop.stop.native.prevent="dragFinish(item, $event)"
-						@contextmenu.native.prevent="contextMenu($event, item)"
-						:item="item"
-						v-for="item in entries"
-						:key="item.id"
-						class="file-item"
-						:class="draggedItems.includes(item) ? 'dragged' : '' "
-					/>
-                </transition-group>
-            </div>
-
-			<!--Item previews grid-->
-            <div v-if="isGrid" class="file-grid-wrapper">
-                <transition-group
-					name="file"
-					tag="section"
-					class="file-list"
-					:class="FilePreviewType"
-				>
-                    <FileItemGrid
-						@dragstart="dragStart(item)"
-						@drop.native.prevent="dragFinish(item, $event)"
-						@contextmenu.native.prevent="contextMenu($event, item)"
-						:item="item"
-						v-for="item in entries"
-						:key="item.id"
-						class="file-item"
-						:class="draggedItems.includes(item) ? 'dragged' : '' "
-					/>
-                </transition-group>
-            </div>
-
-			<!--Show empty page if folder is empty-->
-            <EmptyFilePage />
-        </div>
-
-		<!--File Info Panel-->
-        <div :class="{'is-visible': isVisibleSidebar }" class="file-info-container">
-            <InfoSidebar />
-        </div>
+		<ItemHandler
+			@dragstart="dragStart(item)"
+			@drop.stop.native.prevent="dragFinish(item, $event)"
+			@contextmenu.native.prevent="contextMenu($event, item)"
+			:class="draggedItems.includes(item) ? 'opacity-60' : ''"
+			v-for="item in entries"
+			:key="item.data.id"
+			:item="item"
+		/>
     </div>
 </template>
 
 <script>
-    import FileActionsMobile from '/resources/js/components/FilesView/FileActionsMobile'
-	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
-	import EmptyFilePage from '/resources/js/components/FilesView/EmptyFilePage'
-	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
-	import FileItemList from '/resources/js/components/FilesView/FileItemList'
-	import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
-	import InfoSidebar from '/resources/js/components/FilesView/InfoSidebar'
-	import {mapGetters} from 'vuex'
+	import ItemHandler from '/resources/js/components/FilesView/ItemHandler'
 	import {events} from '/resources/js/bus'
-	import {debounce} from "lodash";
+	import {mapGetters} from 'vuex'
 
 	export default {
-		name: 'FilesContainer',
+		name: 'FileBrowser',
 		components: {
-			FileActionsMobile,
-			EmptyFilePage,
-			MobileToolbar,
-			FileItemList,
-			FileItemGrid,
-			EmptyMessage,
-			InfoSidebar,
+			ItemHandler,
 		},
 		computed: {
 			...mapGetters([
-				'filesInQueueTotal',
 				'isVisibleSidebar',
-				'FilePreviewType',
 				'currentFolder',
+				'itemViewType',
 				'clipboard',
-				'isLoading',
 				'entries'
 			]),
-			isGrid() {
-				return this.FilePreviewType === 'grid'
-			},
-			isList() {
-				return this.FilePreviewType === 'list'
-			},
-			isEmpty() {
-				return this.entries.length === 0
-			},
 			draggedItems() {
-				//Set opacity for dragged items
-
+				// Set opacity for dragged items
 				if (!this.clipboard.includes(this.draggingId)) {
 					return [this.draggingId]
 				}
@@ -128,17 +55,10 @@
 				}
 			}
 		},
-		watch: {
-			query(val) {
-				this.$searchFiles(val)
-			}
-		},
 		data() {
 			return {
 				draggingId: undefined,
 				isDragging: false,
-				isMultiSelect: false,
-				query: '',
 			}
 		},
 		methods: {
@@ -147,9 +67,8 @@
 					this.$store.dispatch('deleteItem')
 				}
 			},
-			dropUpload(event) {
-				// Upload external file
-				this.$uploadExternalFiles(event, this.currentFolder.id)
+			uploadDroppedItems(event) {
+				this.$uploadDraggedFiles(event, this.currentFolder.data.id)
 
 				this.isDragging = false
 			},
@@ -168,57 +87,47 @@
 
 				// Store dragged folder
 				this.draggingId = data
+
+				// TODO: founded issue on firefox
 			},
 			dragFinish(data, event) {
 
-				if (event.dataTransfer.items.length == 0) {
+				if (event.dataTransfer.items.length === 0) {
 					// Prevent to drop on file or image
-					if (data.type !== 'folder' || this.draggingId === data) return
+					if (data.data.type !== 'folder' || this.draggingId === data) return
 
-					//Prevent move selected folder to folder if in beteewn selected folders
+					// Prevent move selected folder to folder if in between selected folders
 					if (this.clipboard.find(item => item === data && this.clipboard.length > 1)) return
 
-					// Move folder to new parent
-
-					//Move item if is not included in selected items
+					// Move item if is not included in selected items
 					if (!this.clipboard.includes(this.draggingId)) {
 						this.$store.dispatch('moveItem', {to_item: data, noSelectedItem: this.draggingId})
 					}
 
-					//Move selected items to folder
+					// Move selected items to folder
 					if (this.clipboard.length > 0 && this.clipboard.includes(this.draggingId)) {
 						this.$store.dispatch('moveItem', {to_item: data, noSelectedItem: null})
 					}
 
 				} else {
 
-					// Get id of current folder
-					const id = data.type !== 'folder' ? this.currentFolder.id : data.id
+					// Get id from current folder
+					const id = data.data.type !== 'folder' ? this.currentFolder.data.id : data.data.id
 
 					// Upload external file
-					this.$uploadExternalFiles(event, id)
+					this.$uploadDraggedFiles(event, id)
 				}
 
 				this.isDragging = false
 			},
 			contextMenu(event, item) {
-				events.$emit('contextMenu:show', event, item)
+				events.$emit('context-menu:show', event, item)
 			},
-			filesContainerClick() {
-
-				// Deselect items clicked by outside
+			deselect() {
 				this.$store.commit('CLIPBOARD_CLEAR')
 			}
 		},
 		created() {
-			events.$on('mobileSelecting:start', () => {
-				this.isMultiSelect = true
-			})
-
-			events.$on('mobileSelecting:stop', () => {
-				this.isMultiSelect = false
-			})
-
 			events.$on('drop', () => {
 				this.isDragging = false
 
@@ -226,202 +135,16 @@
 					this.draggingId = undefined
 				}, 10)
 			})
-
-			events.$on('fileItem:deselect', () => {
-				this.$store.commit('CLIPBOARD_CLEAR')
-			})
-
-			events.$on('scrollTop', () => {
-
-				// Scroll top
-				var container = document.getElementsByClassName(
-					'files-container'
-				)[0]
-
-				if (container)
-					container.scrollTop = 0
-			})
 		}
 	}
 </script>
 
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_variables';
-	@import '/resources/sass/vuefilemanager/_mixins';
-
-	.file-list {
-		.dragged {
-			/deep/ .is-dragenter {
-				border: 2px solid transparent;
-			}
-		}
+<style>
+	.grid-view {
+		@apply grid content-start xl:grid-cols-6 sm:grid-cols-4 grid-cols-3 xl:gap-4 lg:gap-2
 	}
 
-	.dragged {
-		opacity: 0.5;
-	}
-
-	#multi-selected {
-		position: fixed;
-		pointer-events: none;
-		z-index: 100;
-
-	}
-
-	.mobile-multi-select {
-		bottom: 50px !important;
-		top: 0px;
-	}
-
-	.button-upload {
-		display: block;
-		text-align: center;
-		margin: 20px 0;
-	}
-
-	.mobile-search {
-		display: none;
-		margin-bottom: 10px;
-		margin-top: 10px;
-	}
-
-	.file-content {
-		display: flex;
-
-		&.is-dragging {
-			@include transform(scale(0.99));
-		}
-	}
-
-	.files-container {
-		overflow-x: hidden;
-		overflow-y: auto;
-		flex: 0 0 100%;
-		@include transition(150ms);
-		position: relative;
-		scroll-behavior: smooth;
-
-		&.is-visible {
-			flex: 0 1 100%;
-		}
-
-		.file-list {
-
-			&.grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, 180px);
-				justify-content: space-evenly;
-			}
-		}
-	}
-
-	.file-info-container {
-		flex: 0 0 300px;
-		padding-left: 20px;
-		overflow: auto;
-	}
-
-	// Transition
-	.file-move {
-		transition: transform 0.6s;
-	}
-
-	.file-enter-active {
-		transition: all 300ms ease;
-	}
-
-	.file-leave-active {
-		transition: all 0ms;
-	}
-
-	.file-enter, .file-leave-to /* .list-leave-active below version 2.1.8 */
-	{
-		opacity: 0;
-		transform: translateX(-20px);
-	}
-
-	@media only screen and (min-width: 960px) {
-
-		.file-content {
-			position: absolute;
-			top: 72px;
-			left: 15px;
-			right: 15px;
-			bottom: 0;
-			@include transition;
-			overflow-y: auto;
-			overflow-x: hidden;
-
-			&.is-offset {
-				margin-top: 50px;
-			}
-		}
-	}
-
-	@media only screen and (max-width: 960px) {
-
-		.file-info-container {
-			display: none;
-		}
-
-		.mobile-search {
-			display: block;
-		}
-		.file-content {
-			position: absolute;
-			top: 0px;
-			left: 15px;
-			right: 15px;
-			bottom: 0;
-			@include transition;
-			overflow-y: auto;
-			overflow-x: hidden;
-
-			&.is-offset {
-				margin-top: 50px;
-			}
-		}
-	}
-
-	@media only screen and (max-width: 690px) {
-
-		.files-container {
-			padding-left: 15px;
-			padding-right: 15px;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			position: fixed;
-			overflow-y: auto;
-
-			.file-list {
-
-				&.grid {
-					grid-template-columns: repeat(auto-fill, 120px);
-				}
-			}
-		}
-
-		.file-content {
-			position: absolute;
-			top: 0;
-			left: 0px;
-			right: 0px;
-			bottom: 0;
-			@include transition;
-
-			&.is-offset {
-				margin-top: 50px;
-			}
-		}
-
-		.mobile-search {
-			margin-bottom: 0;
-		}
-
-		.file-info-container {
-			display: none;
-		}
+	.grid-view-sidebar {
+		@apply grid content-start 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-3 xl:gap-4 lg:gap-2
 	}
 </style>

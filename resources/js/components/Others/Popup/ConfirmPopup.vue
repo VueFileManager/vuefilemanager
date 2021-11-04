@@ -123,7 +123,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .content {
             .title {

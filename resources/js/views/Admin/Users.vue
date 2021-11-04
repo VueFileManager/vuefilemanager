@@ -24,7 +24,7 @@
                             <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <DatatableCellImage
-                                            :image="row.data.relationships.settings.data.attributes.avatar"
+                                            :image="row.data.relationships.settings.data.attributes.avatar.sm"
                                             :title="row.data.relationships.settings.data.attributes.name"
                                             :description="row.data.attributes.email"
                                     />
@@ -207,7 +207,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .table-tools {
             background: $dark_mode_background;

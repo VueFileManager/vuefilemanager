@@ -236,9 +236,13 @@ class AdminTest extends TestCase
             'name' => 'John Doe',
         ]);
 
-        Storage::disk('local')
-            ->assertExists(
-                User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar')
+        $avatar = User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar');
+
+        collect(config('vuefilemanager.avatar_sizes'))
+            ->each(
+                fn ($size) =>
+                Storage::disk('local')
+                    ->assertExists("avatars/{$size['name']}-{$avatar}")
             );
     }
 
@@ -277,7 +281,7 @@ class AdminTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => null,
+                    'parent_id' => null,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

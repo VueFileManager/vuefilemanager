@@ -4,11 +4,13 @@
         <!--Licence Verify-->
         <AuthContent name="licence-verify" :visible="true">
 
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>Please set your purchase code before continue to set up your application.</h2>
-            </div>
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="Please set your purchase code before continue to set up your application."
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
 
             <ValidationObserver @submit.prevent="verifyPurchaseCode" ref="verifyPurchaseCode" v-slot="{ invalid }" tag="form" class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Purchase Code" rules="required" v-slot="{ errors }">
@@ -38,6 +40,7 @@
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import { SettingsIcon } from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
+	import Headline from "../Auth/Headline"
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -52,6 +55,7 @@
             AuthButton,
             required,
             InfoBox,
+			Headline,
         },
         data() {
             return {
@@ -125,7 +129,7 @@
         min-width: 380px;
     }
 
-    .dark-mode {
+    .dark {
         .additional-link {
 
             .black-link {

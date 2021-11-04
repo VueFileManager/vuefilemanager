@@ -20,7 +20,7 @@ class VerifyAccessToItemWithinAction
     ): void {
         // Check by parent folder permission
         if ($shared->type === 'folder') {
-            ($this->verifyAccessToItem)($file->folder_id, $shared);
+            ($this->verifyAccessToItem)($file->parent_id, $shared);
         }
 
         // Check by single file permission

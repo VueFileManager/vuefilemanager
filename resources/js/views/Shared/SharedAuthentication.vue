@@ -1,11 +1,10 @@
 <template>
     <div id="password-view">
         <AuthContent class="center" name="password" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
-
-            <h1>{{ $t('page_shared.title') }}</h1>
-            <h2>{{ $t('page_shared.subtitle') }}</h2>
+            <Headline
+				:title="$t('page_shared.title')"
+				:description="$t('page_shared.subtitle')"
+			/>
 
             <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
 
@@ -21,11 +20,12 @@
 </template>
 
 <script>
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
-    import axios from "axios";
+	import Headline from "../Auth/Headline";
     import {mapGetters} from "vuex";
+    import axios from "axios";
 
     export default {
         name: 'SharedAuthentication',
@@ -34,6 +34,7 @@
             ValidationProvider,
             AuthContent,
             AuthButton,
+			Headline,
         },
         computed: {
             ...mapGetters([
@@ -65,9 +66,9 @@
                     .then(response => {
 
                         // Show file browser
-                        if (response.data.data.attributes.type === 'folder' && this.$router.currentRoute.name !== 'SharedFileBrowser') {
-                            this.$router.push({name: 'SharedFileBrowser'})
-                        }
+                        if (response.data.data.attributes.type === 'folder' && this.$router.currentRoute.name !== 'Public') {
+							this.$router.replace({name: 'Public', params: {token: this.$route.params.token, id: response.data.data.attributes.item_id}})
+						}
 
                         // Show single file
                         if (response.data.data.attributes.type !== 'folder' && this.$router.currentRoute.name !== 'SharedSingleFile') {

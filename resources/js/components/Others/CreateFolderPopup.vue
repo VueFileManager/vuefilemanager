@@ -10,7 +10,7 @@
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
-                <!--Set password-->
+                <!--Set folder name-->
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Title" rules="required" v-slot="{ errors }">
                     <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
                     <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">

@@ -1,16 +1,16 @@
 <template>
     <transition appear name="fade">
-        <li class="toastr-item" :class="item.type" v-show="isActive">
-            <div class="toastr-content-wrapper">
-				<span class="toastr-icon">
-					<check-icon v-if="item.type == 'success'" size="22"></check-icon>
-					<x-icon v-if="item.type == 'danger'" size="22"></x-icon>
+        <li v-show="isActive" class="toaster-item" :class="item.type">
+            <div class="toaster-content-wrapper">
+				<span class="toaster-icon">
+					<check-icon v-if="item.type === 'success'" size="22" />
+					<x-icon v-if="item.type === 'danger'" size="22" />
 				</span>
-                <div class="toastr-content">
-                    <p class="toastr-description">{{ item.message }}</p>
+                <div class="toaster-content">
+                    <p class="toaster-description">{{ item.message }}</p>
                 </div>
             </div>
-            <div class="progressbar">
+            <div :class="{'success': item.type === 'success', 'danger': item.type === 'danger'}" class="progressbar">
                 <span></span>
             </div>
         </li>
@@ -22,10 +22,12 @@
 
     export default {
         components: {
+            CheckIcon,
             XIcon,
-            CheckIcon
         },
-        props: ['item'],
+        props: [
+			'item'
+		],
         data() {
             return {
                 isActive: 0
@@ -34,7 +36,7 @@
         created() {
             this.isActive = 1
 
-            setTimeout(() => (this.isActive = 0), 5000)
+            setTimeout(() => (this.isActive = 0), 6000)
         }
     }
 </script>
@@ -54,7 +56,7 @@
         @include transform(translateX(100%));
     }
 
-    .toastr-content-wrapper {
+    .toaster-content-wrapper {
         display: flex;
         align-items: center;
         padding: 15px;
@@ -72,9 +74,16 @@
             width: 0;
             height: 3px;
             display: block;
-            background: $theme;
-            animation: progressbar 5s linear;
+            animation: progressbar 6s linear;
         }
+
+		&.success span {
+            background: $theme;
+		}
+
+		&.danger span {
+            background: $danger;
+		}
     }
 
     @keyframes progressbar {
@@ -86,20 +95,20 @@
         }
     }
 
-    .toastr-item {
+    .toaster-item {
         max-width: 320px;
-        margin-bottom: 20px;
+        margin-top: 20px;
         position: relative;
         overflow: hidden;
         display: block;
         border-radius: 8px;
 
-        .toastr-description {
+        .toaster-description {
             @include font-size(15);
             font-weight: bold;
         }
 
-        .toastr-icon {
+        .toaster-icon {
             height: 42px;
             width: 42px;
             display: inline-flex;
@@ -113,11 +122,11 @@
         &.success {
             background: $theme_light;
 
-            polyline {
+            line, polyline {
                 stroke: $theme;
             }
 
-            .toastr-description {
+            .toaster-description {
                 color: $theme;
             }
         }
@@ -125,11 +134,11 @@
         &.danger {
             background: rgba($danger, 0.1);
 
-            polyline {
+            line, polyline {
                 stroke: $danger;
             }
 
-            .toastr-description {
+            .toaster-description {
                 color: $danger;
             }
         }
@@ -137,7 +146,7 @@
 
     @media only screen and (max-width: 690px) {
 
-        .toastr-item {
+        .toaster-item {
             margin-bottom: 0;
             margin-top: 20px;
             max-width: 100%;
@@ -150,8 +159,8 @@
         }
     }
 
-    .dark-mode {
-        .toastr-item {
+    .dark {
+        .toaster-item {
 
             &.success, &.danger {
                 background: $dark_mode_foreground;

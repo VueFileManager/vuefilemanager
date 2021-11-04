@@ -1,6 +1,10 @@
 <template>
     <transition name="popup">
-        <div class="popup" @click.self="closePopup" v-if="isVisibleWrapper">
+        <div
+			class="popup lg:absolute fixed top-0 left-0 right-0 bottom-0 overflow-y-auto grid h-full p-10"
+			@click.self="closePopup"
+			v-if="isVisibleWrapper"
+		>
             <div class="popup-wrapper">
                 <slot></slot>
             </div>
@@ -47,6 +51,8 @@
 
             // Close popup
             events.$on('popup:close', () => this.isVisibleWrapper = false)
+
+			//todo: if (this.name === 'create-team-folder') this.isVisibleWrapper = true
         }
     }
 </script>
@@ -55,18 +61,9 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .popup {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 19;
-        overflow-y: auto;
-        display: grid;
-        padding: 40px;
-        height: 100%;
-    }
+	.popup {
+		z-index: 41;
+	}
 
     .popup-wrapper {
         box-shadow: $light_mode_popup_shadow;
@@ -114,7 +111,7 @@
             overflow: hidden;
         }
         .popup-wrapper {
-            position: absolute;
+            position: fixed;
             top: 0;
             bottom: 0;
             right: 0;
@@ -139,7 +136,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .popup-wrapper {
             background: $dark_mode_foreground;
             box-shadow: $dark_mode_popup_shadow;
@@ -148,7 +145,7 @@
 
 	@media only screen and (max-width: 690px) {
 
-		.dark-mode {
+		.dark {
 			.popup-wrapper {
 				background: $dark_mode_background;
 			}

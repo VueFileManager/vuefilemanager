@@ -126,7 +126,7 @@ export default {
 	@import "resources/sass/vuefilemanager/_inapp-forms.scss";
 	@import '/resources/sass/vuefilemanager/_forms';
 
-	.dark-mode {
+	.dark {
 
 		.info-box {
 			background: lighten($dark_mode_foreground, 3%);

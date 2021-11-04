@@ -15,6 +15,9 @@ mix.js('resources/js/main.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css/app.css', {
         implementation: require('node-sass')
     })
+    .postCss("resources/css/tailwind.css", "public/css", [
+        require("tailwindcss"),
+    ])
     /*.sass('public/sass/invoice.scss', 'public/css/invoice.css', {
         implementation: require('node-sass')
     })*/
@@ -34,7 +37,7 @@ mix.js('resources/js/main.js', 'public/js')
     })
     .options({
         hmrOptions: {
-            host: '192.168.1.198',
+            host: '192.168.1.112',
             port: '8080'
         },
     })

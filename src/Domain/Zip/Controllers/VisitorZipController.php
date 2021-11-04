@@ -44,7 +44,7 @@ class VisitorZipController extends Controller
             $file_parent_folders = File::whereUserId($shared->user_id)
                 ->whereIn('id', $files->pluck('id'))
                 ->get()
-                ->pluck('folder_id')
+                ->pluck('parent_id')
                 ->toArray();
 
             // Check access to requested directory

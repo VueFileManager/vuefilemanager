@@ -3,14 +3,13 @@
 
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="true">
-            <img v-if="config.app_logo" class="logo" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
-
-            <h1>{{ $t('page_login.title') }}</h1>
-            <h2>{{ $t('page_login.subtitle') }}:</h2>
+            <Headline
+				:title="$t('page_login.title')"
+				:description="$t('page_login.subtitle')"
+			/>
 
             <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form"
-                                class="form inline-form">
+								class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
@@ -35,7 +34,7 @@
         <AuthContent name="sign-in" :visible="false">
 
             <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar mx-auto" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1>{{ $t('page_sign_in.title', {name: checkedAccount.name}) }}</h1>
                 <h2>{{ $t('page_sign_in.subtitle') }}:</h2>
             </div>
@@ -65,7 +64,7 @@
         <AuthContent name="not-verified" :visible="false">
 
             <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1>{{ checkedAccount.name }}</h1>
                 <h2>{{ $t('page_not_verified.subtitle') }}</h2>
             </div>
@@ -79,7 +78,7 @@
         <AuthContent name="two-factor-authentication" :visible="false">
 
            <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1> {{ $t('page_sign_in_2fa_title', {name: checkedAccount.name}) }} </h1>
                 <h2> {{ $t('page_sign_in_2fa_subtitle') }}:</h2>
             </div>
@@ -115,7 +114,7 @@
         <AuthContent name="two-factor-recovery" :visible="false">
 
            <div class="user" v-if="checkedAccount">
-                <img class="user-avatar" :src="checkedAccount.avatar" :alt="checkedAccount.name">
+                <img class="user-avatar" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
                 <h1> {{ checkedAccount.name }} </h1>
                 <h2>{{ $t('page_sign_in.2fa_recovery_subtitle') }}:</h2>
             </div>
@@ -151,24 +150,24 @@
 
 <script>
     import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContent from '/resources/js/components/Auth/AuthContent'
-    import AuthButton from '/resources/js/components/Auth/AuthButton'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
-    import {required} from 'vee-validate/dist/rules'
-    import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
-    import axios from 'axios'
+	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+	import AuthContent from '/resources/js/components/Auth/AuthContent'
+	import AuthButton from '/resources/js/components/Auth/AuthButton'
+	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import {mapGetters} from 'vuex'
+	import {events} from '/resources/js/bus'
+	import axios from 'axios'
+	import Headline from "./Headline";
 
-    export default {
+	export default {
         name: 'SignIn',
         components: {
+			Headline,
             AuthContentWrapper,
             ValidationProvider,
             ValidationObserver,
             AuthContent,
             AuthButton,
-            required,
             Spinner,
         },
         computed: {
@@ -302,7 +301,7 @@
                             this.$store.commit('SET_AUTHORIZED', true)
 
                             // Go to files page
-                            this.$router.push({name: 'Files'})
+							this.proceedToAccount()
                         }
                     })
                     .catch(error => {
@@ -337,7 +336,7 @@
 							this.$store.commit('SET_AUTHORIZED', true)
 
 							// Go to files page
-							this.$router.push({name: 'Files'})
+							this.proceedToAccount()
 						})
 						.catch(error => {
 
@@ -369,6 +368,13 @@
 				}
 
 			},
+			proceedToAccount() {
+				if (this.$route.query.redirect) {
+					this.$router.push(this.$route.query.redirect)
+				} else {
+					this.$router.push({name: 'Files'})
+				}
+			}
         },
         created() {
             this.$scrollTop()
@@ -378,6 +384,10 @@
             this.loginEmail = 'howdy@hi5ve.digital'
             this.loginPassword = 'vuefilemanager'
             //}
+
+			console.log(
+
+			);
         }
     }
 </script>

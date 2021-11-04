@@ -2,7 +2,7 @@
 	<audio
 		:class="{'file-shadow': ! $isMobile() }"
 		class="file audio"
-		:src="file.file_url"
+		:src="file.data.attributes.file_url"
 		controls>
 	</audio>
 </template>

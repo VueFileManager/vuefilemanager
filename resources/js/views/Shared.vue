@@ -1,62 +1,94 @@
 <template>
-    <div id="application-wrapper">
+    <div class="sm:flex md:h-screen md:overflow-hidden">
 
         <!--Loading Spinner-->
         <Spinner v-if="isLoading" />
 
         <!--File preview window-->
         <FilePreview />
+		<Spotlight />
 
         <!--Popups-->
         <ProcessingPopup />
 
         <CreateFolderPopup />
         <RenameItemPopup />
-
         <MoveItemPopup />
 
         <!-- Mobile components -->
         <FileSortingMobile />
-        <FileMenuMobile />
-
-        <MultiSelectToolbarMobile />
+        <MobileMultiSelectToolbar />
 
         <!--Others-->
         <Vignette />
         <DragUI />
         <Alert />
 
-        <router-view :class="{'is-scaled-down': isScaledDown}" />
+		<NavigationSharePanel v-if="sharedDetail && $router.currentRoute.name === 'Public'"/>
+
+		<div
+			@contextmenu.prevent.capture="contextMenu($event, undefined)"
+			class="md:grid md:content-start sm:flex-grow sm:px-3.5 transition-transform duration-300"
+			:class="{'transform scale-97 origin-center': isScaledDown}"
+		>
+			<DesktopToolbar />
+
+			<MobileToolbar />
+
+					<!--File list & info sidebar-->
+			<div class="flex space-x-6 md:overflow-hidden md:h-full">
+
+				<router-view
+					id="file-view"
+					:class="{'2xl:w-5/6 md:w-4/6 w-full': isVisibleSidebar, 'w-full': ! isVisibleSidebar}"
+					class="relative"
+					:key="$route.fullPath"
+				/>
+
+				<InfoSidebar
+					v-if="isVisibleSidebar"
+					class="2xl:w-72 w-2/6 overflow-y-auto overflow-x-hidden h-screen md:block hidden"
+				/>
+			</div>
+		</div>
     </div>
 </template>
 
 <script>
-    import MultiSelectToolbarMobile from '/resources/js/components/FilesView/MultiSelectToolbarMobile'
+	import MobileToolbar from '/resources/js/components/FilesView/MobileToolbar'
+	import InfoSidebar from "../components/FilesView/InfoSidebar";
+    import MobileMultiSelectToolbar from '/resources/js/components/FilesView/MobileMultiSelectToolbar'
     import FileSortingMobile from '/resources/js/components/FilesView/FileSortingMobile'
     import CreateFolderPopup from '/resources/js/components/Others/CreateFolderPopup'
     import ProcessingPopup from '/resources/js/components/FilesView/ProcessingPopup'
-    import FileMenuMobile from '/resources/js/components/FilesView/FileMenuMobile'
+	import NavigationSharePanel from "./FileView/Components/NavigationSharePanel"
     import RenameItemPopup from '/resources/js/components/Others/RenameItemPopup'
-    import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+    import MoveItemPopup from '/resources/js/components/Others/MoveItemPopup'
+	import DesktopToolbar from "../components/FilesView/DesktopToolbar"
     import Spinner from '/resources/js/components/FilesView/Spinner'
     import Vignette from '/resources/js/components/Others/Vignette'
     import DragUI from '/resources/js/components/FilesView/DragUI'
     import Alert from '/resources/js/components/FilesView/Alert'
+	import Spotlight from "../components/Spotlight/Spotlight"
     import {events} from '/resources/js/bus'
     import {mapGetters} from 'vuex'
 
     export default {
-        name: 'Platform',
+        name: 'Shared',
         components: {
-            MultiSelectToolbarMobile,
+			MobileToolbar,
+			InfoSidebar,
+			NavigationSharePanel,
+            MobileMultiSelectToolbar,
             CreateFolderPopup,
             FileSortingMobile,
             ProcessingPopup,
             RenameItemPopup,
-            FileMenuMobile,
+			DesktopToolbar,
             MoveItemPopup,
             FilePreview,
+			Spotlight,
             Vignette,
             Spinner,
             DragUI,
@@ -64,8 +96,10 @@
         },
         computed: {
             ...mapGetters([
-                'config'
-            ]),
+                'isVisibleSidebar',
+                'sharedDetail',
+                'config',
+            ])
         },
         data() {
             return {
@@ -73,40 +107,42 @@
                 isScaledDown: false
             }
         },
+		methods: {
+			spotlightListener(e) {
+				if (e.key === 'k' && e.metaKey) {
+					events.$emit('spotlight:show');
+				}
+			},
+			contextMenu(event, item) {
+				events.$emit('context-menu:show', event, item)
+			},
+		},
         mounted() {
             events.$on('mobile-menu:show', () => this.isScaledDown = true)
-            events.$on('fileItem:deselect', () => this.isScaledDown = false)
 
             this.$store.dispatch('getShareDetail', this.$route.params.token)
                 .then(response => {
                     this.isLoading = false
 
+					let type = response.data.data.attributes.type
+					let routeName = this.$router.currentRoute.name
+					let isProtected = response.data.data.attributes.protected
+
                     // Show public file browser
-                    if (response.data.data.attributes.type === 'folder' && !response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedFileBrowser') {
-                        this.$router.push({name: 'SharedFileBrowser'})
+                    if (type === 'folder' && !isProtected && routeName !== 'Public') {
+                        this.$router.replace({name: 'Public', params: {token: this.$route.params.token, id: response.data.data.attributes.item_id}})
                     }
 
                     // Show public single file
-                    if (response.data.data.attributes.type !== 'folder' && !response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedSingleFile') {
+                    if (type !== 'folder' && !isProtected && routeName !== 'SharedSingleFile') {
                         this.$router.push({name: 'SharedSingleFile'})
                     }
 
                     // Show authentication page
-                    if (response.data.data.attributes.is_protected && this.$router.currentRoute.name !== 'SharedAuthentication') {
+                    if (isProtected && routeName !== 'SharedAuthentication') {
                         this.$router.push({name: 'SharedAuthentication'})
                     }
                 })
         }
     }
 </script>
-
-<style lang="scss">
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    @media only screen and (max-width: 690px) {
-
-        .is-scaled-down {
-            @include transform(scale(0.95));
-        }
-    }
-</style>

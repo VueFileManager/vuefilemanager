@@ -29,14 +29,13 @@ class FolderTest extends TestCase
      */
     public function it_create_new_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
             ->actingAs($user)
             ->postJson('/api/create-folder', [
                 'name'      => 'New Folder',
-                'parent_id' => null,
             ])
             ->assertStatus(201)
             ->assertJsonFragment([
@@ -53,11 +52,13 @@ class FolderTest extends TestCase
      */
     public function it_rename_folder()
     {
-        $folder = Folder::factory(Folder::class)
+        $user = User::factory()
             ->create();
 
-        $user = User::factory(User::class)
-            ->create();
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -80,11 +81,13 @@ class FolderTest extends TestCase
      */
     public function it_set_folder_emoji()
     {
-        $folder = Folder::factory(Folder::class)
+        $user = User::factory()
             ->create();
 
-        $user = User::factory(User::class)
-            ->create();
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $emoji_fragment = [
             'category' => 'Smileys & Emotion (face-smiling)',
@@ -116,11 +119,13 @@ class FolderTest extends TestCase
      */
     public function it_set_folder_color()
     {
-        $folder = Folder::factory(Folder::class)
+        $user = User::factory()
             ->create();
 
-        $user = User::factory(User::class)
-            ->create();
+        $folder = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -147,14 +152,18 @@ class FolderTest extends TestCase
      */
     public function it_move_folder_to_another_folder()
     {
-        $root = Folder::factory(Folder::class)
+        $user = User::factory()
             ->create();
+
+        $root = Folder::factory(Folder::class)
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $children = Folder::factory(Folder::class)
-            ->create();
-
-        $user = User::factory(User::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -179,14 +188,18 @@ class FolderTest extends TestCase
      */
     public function it_delete_multiple_folder_softly()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder_1 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $folder_2 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $user->favouriteFolders()->attach($folder_1->id);
         $user->favouriteFolders()->attach($folder_2->id);
@@ -215,7 +228,7 @@ class FolderTest extends TestCase
                 ]);
 
                 $this->assertDatabaseMissing('favourite_folder', [
-                    'folder_id' => $folder->id,
+                    'parent_id' => $folder->id,
                 ]);
             });
     }
@@ -225,14 +238,18 @@ class FolderTest extends TestCase
      */
     public function it_delete_multiple_folder_hardly()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder_1 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $folder_2 = Folder::factory(Folder::class)
-            ->create();
+            ->create([
+                'user_id' => $user->id,
+            ]);
 
         $this
             ->actingAs($user)
@@ -265,7 +282,7 @@ class FolderTest extends TestCase
      */
     public function it_delete_folder_with_their_content_within_softly()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder_root = Folder::factory(Folder::class)
@@ -281,13 +298,13 @@ class FolderTest extends TestCase
 
         $file_1 = File::factory(File::class)
             ->create([
-                'folder_id' => $folder_root->id,
+                'parent_id' => $folder_root->id,
                 'user_id'   => $user->id,
             ]);
 
         $file_2 = File::factory(File::class)
             ->create([
-                'folder_id' => $folder_children->id,
+                'parent_id' => $folder_children->id,
                 'user_id'   => $user->id,
             ]);
 
@@ -323,7 +340,7 @@ class FolderTest extends TestCase
      */
     public function it_delete_folder_with_their_content_within_hardly()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         Sanctum::actingAs($user);
@@ -347,7 +364,7 @@ class FolderTest extends TestCase
                 $this->postJson('/api/upload', [
                     'filename'  => $file->name,
                     'file'      => $file,
-                    'folder_id' => $folder->id,
+                    'parent_id' => $folder->id,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

@@ -1,4 +1,3 @@
-import i18n from '/resources/js/i18n/index'
 import router from '/resources/js/router'
 import {events} from '/resources/js/bus'
 import axios from 'axios'
@@ -21,43 +20,31 @@ const defaultState = {
     sharedFile: undefined,
 }
 const actions = {
-    browseShared: ({commit, getters}, [payload]) => {
+    getSharedFolder: ({commit, getters}, id) => {
         commit('LOADING_STATE', {loading: true, data: []})
-
-        if (payload.init)
-            commit('FLUSH_FOLDER_HISTORY')
-
-        if (! payload.back && !payload.sorting)
-            commit('STORE_PREVIOUS_FOLDER', getters.currentFolder)
-
-        payload.folder.location = 'public'
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/browse/folders/${payload.folder.id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
+                .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then(response => {
-                    commit('LOADING_STATE', {loading: false, data: response.data})
-                    commit('STORE_CURRENT_FOLDER', payload.folder)
-                    events.$emit('scrollTop')
+                    let folders = response.data.folders.data
+                    let files = response.data.files.data
 
-                    if (payload.back && !payload.sorting)
-                        commit('REMOVE_BROWSER_HISTORY')
+                    commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
+                    commit('SET_CURRENT_FOLDER', response.data.root)
+
+                    events.$emit('scrollTop')
 
                     resolve(response)
                 })
                 .catch((error) => {
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
-                    })
+                    Vue.prototype.$isSomethingWrong()
 
                     reject(error)
                 })
         })
     },
     getSingleFile: ({commit}) => {
-
         axios.get(`/api/browse/file/${router.currentRoute.params.token}`)
             .then(response => {
                 commit('STORE_SHARED_FILE', response.data)
@@ -71,14 +58,15 @@ const actions = {
                     resolve(response)
 
                     // Commit shared item options
-                    commit('SET_SHARED_DETAIL', response.data.data.attributes)
+                    commit('SET_SHARED_DETAIL', response.data)
                     commit('SET_PERMISSION', response.data.data.attributes.permission)
                 })
                 .catch(error => {
                     reject(error)
 
-                    if (error.response.status == 404)
+                    if (error.response.status === 404) {
                         router.push({name: 'NotFound'})
+                    }
                 })
         })
     },
@@ -92,8 +80,8 @@ const actions = {
                 items = getters.clipboard
             }
 
-            items.forEach(data => {
-                tokens.push(data.shared.token)
+            items.forEach(item => {
+                tokens.push(item.data.relationships.shared.data.attributes.token)
             })
 
             axios
@@ -106,13 +94,12 @@ const actions = {
                     items.forEach(item => {
 
                         // Remove item from file browser
-                        if ( getters.currentFolder && getters.currentFolder.location === 'shared' ) {
-                            commit('REMOVE_ITEM', item.id)
+                        if ( getters.currentFolder && Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems']) ) {
+                            commit('REMOVE_ITEM', item.data.id)
                         }
 
                         // Flush shared data
-                        commit('FLUSH_SHARED', item.id)
-
+                        commit('FLUSH_SHARED', item.data.id)
                         commit('CLIPBOARD_CLEAR')
                     })
                     resolve(true)

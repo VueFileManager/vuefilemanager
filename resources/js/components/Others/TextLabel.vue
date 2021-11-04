@@ -29,7 +29,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .text-label {
             opacity: 0.35;
         }

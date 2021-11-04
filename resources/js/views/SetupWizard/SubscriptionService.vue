@@ -4,11 +4,13 @@
         <!--Licence Verify-->
         <AuthContent name="subscription-service" :visible="true">
 
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme"/>
-                <h1>Setup Wizard</h1>
-                <h2>You can charge users for storage space by monthly billing plans. Please, select your charging service or skip this step if you don't want charge users:</h2>
-            </div>
+			<Headline
+				class="container mx-auto max-w-screen-sm"
+				title="Setup Wizard"
+				description="You can charge users for storage space by monthly billing plans. Please, select your charging service or skip this step if you don't want charge users:"
+			>
+                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+			</Headline>
 
             <div class="services">
                 <router-link :to="{name: 'StripeCredentials'}" tag="div" class="service-card">
@@ -42,6 +44,7 @@
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import { SettingsIcon, ChevronRightIcon } from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
+	import Headline from "../Auth/Headline"
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -56,6 +59,7 @@
             AuthContent,
             AuthButton,
             required,
+			Headline,
         },
         data() {
             return {

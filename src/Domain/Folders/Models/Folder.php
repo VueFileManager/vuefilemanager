@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Folders\Models;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Laravel\Scout\Searchable;
@@ -9,16 +10,20 @@ use Kyslik\ColumnSortable\Sortable;
 use Database\Factories\FolderFactory;
 use Illuminate\Database\Eloquent\Model;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
+use Domain\Teams\Models\TeamFolderInvitation;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @method static whereUserId(int|string|null $id)
  * @method static find(mixed $id)
  * @method static where(string $string, string $user_id)
+ * @method static findOrFail(string $root_id)
+ * @method static create(array $array)
  * @property string id
  * @property string user_id
  * @property string parent_id
@@ -26,14 +31,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string color
  * @property string emoji
  * @property string author
- * @property string author_id
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
+ * @property bool team_folder
  */
 class Folder extends Model
 {
-    use Searchable, SoftDeletes, Sortable, HasFactory;
+    use SoftDeletes;
+    use Searchable;
+    use HasFactory;
+    use Sortable;
 
     protected $guarded = [
         'id',
@@ -42,15 +50,11 @@ class Folder extends Model
     protected $appends = [
         'items',
         'trashed_items',
-        'type',
     ];
 
     protected $casts = [
-        'emoji' => 'array',
-    ];
-
-    protected $hidden = [
-        'author_id',
+        'emoji'       => 'array',
+        'team_folder' => 'boolean',
     ];
 
     public $sortable = [
@@ -67,24 +71,9 @@ class Folder extends Model
         return FolderFactory::new();
     }
 
-    public function getTypeAttribute(): string
+    public function setNameAttribute($name): void
     {
-        return 'folder';
-    }
-
-    /**
-     * Index folder
-     */
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
-        $name = Str::slug($array['name'], ' ');
-
-        return [
-            'id'         => $this->id,
-            'name'       => $name,
-            'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
-        ];
+        $this->attributes['name'] = mb_convert_encoding($name, 'UTF-8');
     }
 
     /**
@@ -116,32 +105,6 @@ class Folder extends Model
     }
 
     /**
-     * Format created at date reformat
-     */
-    public function getCreatedAtAttribute(): string
-    {
-        return format_date(
-            set_time_by_user_timezone($this->attributes['created_at']),
-            __t('time')
-        );
-    }
-
-    /**
-     * Format deleted at date reformat
-     */
-    public function getDeletedAtAttribute(): string | null
-    {
-        if (! $this->attributes['deleted_at']) {
-            return null;
-        }
-
-        return format_date(
-            set_time_by_user_timezone($this->attributes['deleted_at']),
-            __t('time')
-        );
-    }
-
-    /**
      * Get parent
      */
     public function parent(): BelongsTo
@@ -161,7 +124,7 @@ class Folder extends Model
      */
     public function files(): HasMany
     {
-        return $this->hasMany(File::class, 'folder_id', 'id');
+        return $this->hasMany(File::class, 'parent_id', 'id');
     }
 
     /**
@@ -169,7 +132,7 @@ class Folder extends Model
      */
     public function trashedFiles(): HasMany
     {
-        return $this->hasMany(File::class, 'folder_id', 'id')
+        return $this->hasMany(File::class, 'parent_id', 'id')
             ->withTrashed();
     }
 
@@ -217,6 +180,54 @@ class Folder extends Model
         return $this->hasOne(Share::class, 'item_id', 'id');
     }
 
+    public function teamInvitations(): HasMany
+    {
+        return $this->hasMany(TeamFolderInvitation::class, 'parent_id', 'id')
+            ->where('status', 'pending');
+    }
+
+    public function teamMembers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'team_folder_members', 'parent_id', 'user_id')
+            ->withPivot('permission');
+    }
+
+    public function owner(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function parents(): HasMany
+    {
+        return $this->hasMany(Folder::class, 'id', 'parent_id');
+    }
+
+    public function getLatestParent()
+    {
+        if ($this->parent) {
+            return $this->parent->getLatestParent();
+        }
+
+        return $this;
+    }
+
+    public function toSearchableArray(): array
+    {
+        $name = mb_convert_encoding(
+            mb_strtolower($this->name, 'UTF-8'),
+            'UTF-8'
+        );
+
+        $trigram = (new TNTIndexer)
+            ->buildTrigrams(implode(', ', [$name]));
+
+        return [
+            'id'         => $this->id,
+            'name'       => $name,
+            'nameNgrams' => $trigram,
+        ];
+    }
+
     // Delete all folder children
     public static function boot()
     {
@@ -228,30 +239,28 @@ class Folder extends Model
 
         static::deleting(function ($item) {
             if ($item->isForceDeleting()) {
-                $item->trashedChildren()->each(function ($folder) {
-                    $folder->forceDelete();
-                });
+                $item
+                    ->trashedChildren()
+                    ->each(fn ($folder) => $folder->forceDelete());
             } else {
-                $item->children()->each(function ($folder) {
-                    $folder->delete();
-                });
+                $item
+                    ->children()
+                    ->each(fn ($folder) => $folder->delete());
 
-                $item->files()->each(function ($file) {
-                    $file->delete();
-                });
+                $item
+                    ->files()
+                    ->each(fn ($file) => $file->delete());
             }
         });
 
+        // Restore children folders and files
         static::restoring(function ($item) {
-            // Restore children folders
-            $item->trashedChildren()->each(function ($folder) {
-                $folder->restore();
-            });
-
-            // Restore children files
-            $item->trashedFiles()->each(function ($files) {
-                $files->restore();
-            });
+            $item
+                ->trashedChildren()
+                ->each(fn ($folder) => $folder->restore());
+            $item
+                ->trashedFiles()
+                ->each(fn ($files) => $files->restore());
         });
     }
 }

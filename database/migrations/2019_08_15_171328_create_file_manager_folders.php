@@ -21,8 +21,9 @@ class CreateFileManagerFolders extends Migration
             $table->string('color')->nullable();
             $table->longText('emoji')->nullable();
 
+            $table->boolean('team_folder')->default(0);
+
             $table->enum('author', ['user', 'member', 'visitor'])->default('user');
-            $table->uuid('author_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

@@ -2,13 +2,14 @@
     <MenuMobile name="file-filter">
         <MenuMobileGroup>
             <OptionGroup>
-                <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" :is-active="$isThisLocation('base')" is-hover-disabled="true" />
-                <Option @click.native="goToLatest" :title="$t('menu.latest')" icon="upload-cloud" :is-active="$isThisLocation('latest')" is-hover-disabled="true" />
-                <Option @click.native="goToShared" :title="$t('sidebar.my_shared')" icon="share" :is-active="$isThisLocation('shared')" is-hover-disabled="true" />
-                <Option @click.native="goToTrash" :title="$t('menu.trash')" icon="trash" :is-active="$isThisLocation(['trash', 'trash-root'])" is-hover-disabled="true" />
+                <Option @click.native="goToFiles" :title="$t('sidebar.home')" icon="hard-drive" :is-active="$isThisRoute($route, 'Files')" is-hover-disabled="true" />
+                <Option @click.native="goToLatest" :title="$t('menu.latest')" icon="upload-cloud" :is-active="$isThisRoute($route, 'RecentUploads')" is-hover-disabled="true" />
+                <Option @click.native="goToShared" :title="$t('sidebar.my_shared')" icon="share" :is-active="$isThisRoute($route, 'MySharedItems')" is-hover-disabled="true" />
+                <Option @click.native="goToTrash" :title="$t('menu.trash')" icon="trash" :is-active="$isThisRoute($route, 'Trash')" is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-				<!--todo: add teams-->
+                <Option @click.native="goToTeamFolders" :title="$t('Team Folders')" icon="users" :is-active="$isThisRoute($route, 'TeamFolders')" is-hover-disabled="true" />
+                <Option @click.native="goToSharedWithMe" :title="$t('Shared with Me')" icon="user-check" :is-active="$isThisRoute($route, 'SharedWithMe')" is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
@@ -22,38 +23,32 @@ import Option from '/resources/js/components/FilesView/Option'
 import {mapGetters} from 'vuex'
 
 export default {
-    name: 'FileMenuMobile',
+    name: 'MobileContextMenu',
     components: {
         MenuMobileGroup,
         OptionGroup,
         MenuMobile,
         Option,
     },
-    computed: {
-        ...mapGetters([
-            'homeDirectory'
-        ]),
-    },
     methods: {
-        flushBrowseHistory() {
-            this.$store.commit('FLUSH_FOLDER_HISTORY')
-        },
         goToFiles() {
-            this.$store.dispatch('getFolder', [{folder: this.homeDirectory, back: false, init: true}])
-            this.flushBrowseHistory()
+            this.$router.push({name: 'Files'})
         },
         goToLatest() {
-            this.$store.dispatch('getLatest')
-            this.flushBrowseHistory()
-        },
-        goToTrash() {
-            this.$store.dispatch('getTrash')
-            this.flushBrowseHistory()
+			this.$router.push({name: 'RecentUploads'})
         },
         goToShared() {
-            this.$store.dispatch('getShared', [{back: false, init: false}])
-            this.flushBrowseHistory()
-        }
+			this.$router.push({name: 'MySharedItems'})
+        },
+        goToTrash() {
+			this.$router.push({name: 'Trash'})
+        },
+        goToTeamFolders() {
+			this.$router.push({name: 'TeamFolders'})
+        },
+        goToSharedWithMe() {
+			this.$router.push({name: 'SharedWithMe'})
+        },
     }
 }
 </script>

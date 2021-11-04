@@ -29,7 +29,8 @@ class VisitorManipulatingTest extends TestCase
 
                 $file = File::factory(File::class)
                     ->create([
-                        'folder_id' => $folder->id,
+                        'parent_id' => $folder->id,
+                        'user_id'   => $user->id,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -240,7 +241,8 @@ class VisitorManipulatingTest extends TestCase
                 $files = File::factory(File::class)
                     ->count(2)
                     ->create([
-                        'folder_id' => $folder->id,
+                        'user_id'   => $user->id,
+                        'parent_id' => $folder->id,
                     ]);
 
                 $payload = [
@@ -327,7 +329,7 @@ class VisitorManipulatingTest extends TestCase
                         ->post("/api/editor/upload/$share->token", [
                             'filename'  => $file->name,
                             'file'      => $file,
-                            'folder_id' => $folder->id,
+                            'parent_id' => $folder->id,
                             'is_last'   => 'true',
                         ])->assertStatus(201);
                 }
@@ -337,7 +339,7 @@ class VisitorManipulatingTest extends TestCase
                     $this->postJson("/api/editor/upload/$share->token", [
                         'filename'  => $file->name,
                         'file'      => $file,
-                        'folder_id' => $folder->id,
+                        'parent_id' => $folder->id,
                         'is_last'   => 'true',
                     ])->assertStatus(201);
                 }
@@ -346,9 +348,11 @@ class VisitorManipulatingTest extends TestCase
                     'author' => 'visitor',
                 ]);
 
+                $file = File::all()->last();
+
                 Storage::disk('local')
                     ->assertExists(
-                        "files/$user->id/fake-file.pdf"
+                        "files/$user->id/$file->basename"
                     );
             });
     }
@@ -378,7 +382,7 @@ class VisitorManipulatingTest extends TestCase
                 $file = File::factory(File::class)
                     ->create([
                         'user_id'   => $user->id,
-                        'folder_id' => $root->id,
+                        'parent_id' => $root->id,
                     ]);
 
                 $share = Share::factory(Share::class)
@@ -421,7 +425,7 @@ class VisitorManipulatingTest extends TestCase
 
                 $this->assertDatabaseHas('files', [
                     'id'        => $file->id,
-                    'folder_id' => $children->id,
+                    'parent_id' => $children->id,
                 ]);
             });
     }

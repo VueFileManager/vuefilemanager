@@ -90,7 +90,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .cookie-wrapper {
             background: $dark_mode_foreground;
 

@@ -139,6 +139,6 @@ class PaymentMethodsController extends Controller
             "default-payment-methods-user-{$user->id}",
         ]);
 
-        return response('Done!', 204);
+        return response('Done.', 204);
     }
 }

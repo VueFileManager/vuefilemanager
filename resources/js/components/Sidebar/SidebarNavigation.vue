@@ -1,32 +1,30 @@
 <template>
-    <nav class="menu-bar">
-
-        <!--Navigation Icons-->
+    <nav class="menu-bar flex-none xl:w-20 w-16 lg:grid hidden">
         <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">
                 <UserAvatar />
             </router-link>
 
-            <router-link :to="{name: 'Files'}" :title="$t('locations.home')" class="icon-navigation-item home">
+            <router-link :to="{name: 'Files'}" :class="{'is-active': isSection('Platform')}" :title="$t('locations.home')" class="icon-navigation-item home">
                 <div class="button-icon text-theme">
                     <hard-drive-icon size="19" class="text-theme" />
                 </div>
             </router-link>
 
-            <router-link :to="{name: 'Profile'}" :class="{'is-active': isUserProfileRoute}" :title="$t('locations.profile')" class="icon-navigation-item settings">
+            <router-link :to="{name: 'Profile'}" :class="{'is-active': isSection('User')}" :title="$t('locations.profile')" class="icon-navigation-item settings">
                 <div class="button-icon">
                     <user-icon size="19" />
                 </div>
             </router-link>
 
-            <router-link v-if="user.data.attributes.role === 'admin'" :to="{name: 'Dashboard'}" :class="{'is-active': $isThisRoute($route, adminRoutes)}" :title="$t('locations.settings')" class="icon-navigation-item users">
+            <router-link :to="{name: 'Dashboard'}" :class="{'is-active': isSection('Admin')}" v-if="user.data.attributes.role === 'admin'" :title="$t('locations.settings')" class="icon-navigation-item users">
                 <div class="button-icon">
                     <settings-icon size="19" />
                 </div>
             </router-link>
 
-			<a @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="icon-navigation-item dark-mode-switcher">
+			<a @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="icon-navigation-item dark-switcher">
 				<div class="button-icon">
 					<sun-icon v-if="isDarkMode" size="19" />
 					<moon-icon v-if="! isDarkMode" size="19" />
@@ -35,13 +33,13 @@
         </div>
 
         <!--Logout-->
-        <ul class="icon-navigation logout">
-            <li @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
+        <div class="icon-navigation logout">
+            <div @click="$store.dispatch('logOut')" :title="$t('locations.logout')" class="icon-navigation-item">
                 <div class="button-icon">
                     <power-icon size="19" />
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </nav>
 </template>
 
@@ -74,50 +72,16 @@
         },
         computed: {
             ...mapGetters([
+				'isDarkMode',
 				'user',
-				'isDarkMode'
-			]),
-            isUserProfileRoute() {
-                return this.$isThisRoute(this.$route, ['Profile', 'Password', 'Storage', 'Invoice', 'Subscription', 'PaymentMethods'])
-            }
-        },
-        data() {
-            return {
-                adminRoutes: [
-                    'AppSettings',
-                    'AppAppearance',
-                    'AppBillings',
-                    'AppEmail',
-                    'AppOthers',
-                    'Dashboard',
-                    'PlanSubscribers',
-                    'PlanCreate',
-                    'PlanSettings',
-                    'PlanDelete',
-                    'UserSubscription',
-                    'UserInvoices',
-                    'UserPassword',
-                    'UserStorage',
-                    'UserDelete',
-                    'PlanCreate',
-                    'UserCreate',
-                    'AppPayments',
-                    'PageEdit',
-                    'Pages',
-                    'UserDelete',
-                    'UserDetail',
-                    'Invoices',
-                    'Gateways',
-                    'Gateway',
-                    'Plans',
-                    'Users',
-                    'User',
-                ],
-            }
+			])
         },
 		methods: {
 			toggleDarkMode() {
 				this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+			},
+			isSection(section) {
+				return this.$route.matched[0].name === section
 			}
 		},
         mounted() {
@@ -130,7 +94,7 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-	.dark-mode-switcher {
+	.dark-switcher {
 		padding-top: 20px;
 		border-top: 1px solid darken($light_mode_border, 7%);
 		margin: 20px 15px 0;
@@ -140,8 +104,6 @@
         background: $light_background;
         user-select: none;
         padding-top: 25px;
-        display: grid;
-        flex: 0 0 72px;
     }
 
     .icon-navigation {
@@ -157,7 +119,6 @@
 
         .icon-navigation-item {
             display: block;
-            margin-bottom: 10px;
 
             &.user {
                 margin-bottom: 20px;
@@ -227,9 +188,6 @@
     }
 
     @media only screen and (max-width: 1024px) {
-        .menu-bar {
-            flex: 0 0 60px;
-        }
 
         .icon-navigation {
 
@@ -243,15 +201,9 @@
         }
     }
 
-    @media only screen and (max-width: 690px) {
-        .menu-bar {
-            display: none;
-        }
-    }
+    .dark {
 
-    .dark-mode {
-
-		.dark-mode-switcher {
+		.dark-switcher {
 			border-color:lighten($dark_mode_foreground, 2%);
 		}
 
@@ -265,7 +217,7 @@
         }
 
         .menu-bar {
-            background: #181a1b;
+            background: #1d1d1d;
         }
     }
 

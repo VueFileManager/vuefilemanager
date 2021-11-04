@@ -1,9 +1,14 @@
 <template>
-    <div id="single-file">
-        <div class="single-file-wrapper">
-            <FileItemGrid v-if="sharedFile" :item="sharedFile.data.attributes" :context-menu="false"/>
+    <div class="h-screen flex justify-center items-center">
+        <div>
+			<ItemGrid
+				v-if="sharedFile"
+				:entry="sharedFile"
+				:highlight="true"
+				:mobile-handler="true"
+			/>
 
-            <ButtonBase @click.native="download" class="download-button" button-style="theme">
+            <ButtonBase @click.native="download" button-style="theme">
                 {{ $t('page_shared.download_file') }}
             </ButtonBase>
         </div>
@@ -11,15 +16,15 @@
 </template>
 
 <script>
-    import FileItemGrid from '/resources/js/components/FilesView/FileItemGrid'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import {mapGetters} from "vuex";
+	import ItemGrid from "../../components/FilesView/ItemGrid"
+    import {mapGetters} from "vuex"
 
     export default {
         name: 'SharedSingleItem',
         components: {
-            FileItemGrid,
             ButtonBase,
+			ItemGrid,
         },
         computed: {
             ...mapGetters([
@@ -43,41 +48,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    #single-file {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        top: 0;
-        display: grid;
-        height: 100%;
-
-        .single-file-wrapper {
-            margin: auto;
-            text-align: center;
-
-            .download-button {
-                margin-top: 15px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-
-        /deep/ .file-wrapper {
-
-            .file-item {
-                width: 290px;
-
-                &:hover, &.is-clicked {
-                    background: transparent;
-                }
-
-                .item-shared {
-                    display: none;
-                }
-            }
-        }
-    }
-</style>

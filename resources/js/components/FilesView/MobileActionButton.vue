@@ -1,7 +1,14 @@
 <template>
     <button class="mobile-action-button">
         <div class="flex">
-            <search-icon v-if="icon === 'search'" size="15" class="icon dark-text-theme" />
+            <hard-drive-icon v-if="icon === 'hard-drive'" size="15" class="icon dark-text-theme" />
+            <upload-cloud-icon v-if="icon === 'upload-cloud'" size="15" class="icon dark-text-theme" />
+            <link-icon v-if="icon === 'share'" size="15" class="icon dark-text-theme" />
+            <trash2-icon v-if="icon === 'trash2'" size="15" class="icon dark-text-theme" />
+            <users-icon v-if="icon === 'users'" size="15" class="icon dark-text-theme" />
+            <user-check-icon v-if="icon === 'user-check'" size="15" class="icon dark-text-theme" />
+
+			<search-icon v-if="icon === 'search'" size="15" class="icon dark-text-theme" />
             <refresh-cw-icon v-if="icon === 'refresh'" size="15" class="icon dark-text-theme" />
             <download-icon v-if="icon === 'download'" size="15" class="icon dark-text-theme" />
             <copy-icon v-if="icon === 'copy'" size="15" class="icon dark-text-theme" />
@@ -27,7 +34,7 @@
 </template>
 
 <script>
-    import { SearchIcon, RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
+    import { UserCheckIcon, HardDriveIcon, UploadCloudIcon, LinkIcon, Trash2Icon, UsersIcon, SearchIcon, RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
     import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
     import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
 
@@ -37,6 +44,12 @@
             'icon'
         ],
         components: {
+			UserCheckIcon,
+			HardDriveIcon,
+			UploadCloudIcon,
+			LinkIcon,
+			Trash2Icon,
+			UsersIcon,
             CheckSquareIcon,
             DollarSignIcon,
             CreditCardIcon,
@@ -98,7 +111,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
         .mobile-action-button {
             background: $dark_mode_foreground;
 

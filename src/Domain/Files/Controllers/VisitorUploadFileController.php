@@ -27,7 +27,7 @@ class VisitorUploadFileController extends Controller
         UploadRequest $request,
         Share $shared,
     ): Response | array {
-        if (is_demo_account($shared->user->email)) {
+        if (is_demo_account()) {
             return ($this->fakeUploadFile)($request);
         }
 
@@ -40,7 +40,7 @@ class VisitorUploadFileController extends Controller
         }
 
         // Check access to requested directory
-        ($this->verifyAccessToItem)($request->input('folder_id'), $shared);
+        ($this->verifyAccessToItem)($request->input('parent_id'), $shared);
 
         // Return new uploaded file
         $new_file = ($this->uploadFile)($request, $shared);

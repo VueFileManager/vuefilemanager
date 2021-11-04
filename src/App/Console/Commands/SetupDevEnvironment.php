@@ -7,10 +7,13 @@ use Domain\Files\Models\File;
 use Illuminate\Console\Command;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
+use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
+use Intervention\Image\ImageManagerStatic as Image;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
@@ -66,8 +69,10 @@ class SetupDevEnvironment extends Command
         $this->info('Creating demo users...');
         $this->create_demo_users();
 
-        $this->info('Creating default admin content...');
+        $this->info('Creating default demo content...');
         $this->create_admin_default_content();
+        $this->create_team_folders_content();
+        $this->create_share_with_me_team_folders_content();
         $this->create_share_records();
 
         $this->info('Clearing application cache...');
@@ -93,10 +98,12 @@ class SetupDevEnvironment extends Command
             'email_verified_at' => now(),
         ]);
 
+        $avatar_name = $this->generate_avatar('avatar-01.png');
+
         $user
             ->settings()
             ->create([
-                'avatar'           => 'avatars/avatar-01.png',
+                'avatar'           => $avatar_name,
                 'storage_capacity' => 5,
                 'name'             => 'Jane Doe',
                 'address'          => $this->faker->address,
@@ -107,8 +114,6 @@ class SetupDevEnvironment extends Command
                 'phone_number'     => $this->faker->phoneNumber,
                 'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
-
-        Storage::putFileAs('avatars', storage_path('demo/avatars/avatar-01.png'), 'avatar-01.png', 'private');
 
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
@@ -122,22 +127,42 @@ class SetupDevEnvironment extends Command
         collect([
             [
                 'avatar' => 'avatar-02.png',
+                'email'  => 'alice@hi5ve.digital',
             ],
             [
                 'avatar' => 'avatar-03.png',
+                'email'  => 'johan@hi5ve.digital',
+            ],
+            [
+                'avatar' => 'avatar-04.png',
+                'email'  => $this->faker->email,
+            ],
+            [
+                'avatar' => 'avatar-05.png',
+                'email'  => $this->faker->email,
+            ],
+            [
+                'avatar' => 'avatar-06.png',
+                'email'  => $this->faker->email,
+            ],
+            [
+                'avatar' => 'avatar-07.png',
+                'email'  => $this->faker->email,
             ],
         ])->each(function ($user) {
             $newbie = User::forceCreate([
                 'role'              => 'user',
-                'email'             => $this->faker->email,
+                'email'             => $user['email'],
                 'password'          => bcrypt('vuefilemanager'),
                 'email_verified_at' => now(),
             ]);
 
+            $avatar_name = $this->generate_avatar($user['avatar']);
+
             $newbie
                 ->settings()
                 ->create([
-                    'avatar'           => "avatars/{$user['avatar']}",
+                    'avatar'           => $avatar_name,
                     'storage_capacity' => 5,
                     'name'             => $this->faker->name,
                     'address'          => $this->faker->address,
@@ -148,8 +173,6 @@ class SetupDevEnvironment extends Command
                     'phone_number'     => $this->faker->phoneNumber,
                     'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
                 ]);
-
-            Storage::putFileAs('avatars', storage_path("demo/avatars/{$user['avatar']}"), $user['avatar'], 'private');
 
             $this->info("Generated user with email: $newbie->email and Password: vuefilemanager");
         });
@@ -166,10 +189,10 @@ class SetupDevEnvironment extends Command
         // 1.
         $shared_folder = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id,
-                'author'  => 'user',
-                'name'    => 'Shared Folder',
-                'emoji'   => [
+                'user_id'    => $user->id,
+                'author'     => 'user',
+                'name'       => 'Shared Folder',
+                'emoji'      => [
                     'codes'    => '1F680',
                     'char'     => '🚀',
                     'name'     => 'rocket',
@@ -202,10 +225,10 @@ class SetupDevEnvironment extends Command
         // 2.
         $random_pics = Folder::factory(Folder::class)
             ->create([
-                'user_id' => $user->id,
-                'author'  => 'user',
-                'name'    => 'Random Pics',
-                'emoji'   => [
+                'user_id'    => $user->id,
+                'author'     => 'user',
+                'name'       => 'Random Pics',
+                'emoji'      => [
                     'codes'    => '1F4F7',
                     'char'     => '📷',
                     'name'     => 'camera',
@@ -375,7 +398,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => null,
+                    'parent_id'  => null,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -418,7 +441,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $documents->id,
+                    'parent_id'  => $documents->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -451,7 +474,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $shared_folder->id,
+                    'parent_id'  => $shared_folder->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -509,7 +532,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $peters_files->id,
+                    'parent_id'  => $peters_files->id,
                     'user_id'    => $user->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
@@ -536,7 +559,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $videohive->id,
+                    'parent_id'  => $videohive->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -560,7 +583,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $video->id,
+                    'parent_id'  => $video->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -584,7 +607,7 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $audio->id,
+                    'parent_id'  => $audio->id,
                     'user_id'    => $user->id,
                     'name'       => $file,
                     'basename'   => $basename,
@@ -598,105 +621,280 @@ class SetupDevEnvironment extends Command
 
         // Get meme gallery
         collect([
-            'Eggcited bro.jpg',
-            'Get a Rest.jpg',
-            'Get Your Shit Together.jpg',
-            'Happiness is when you are right beside me.jpg',
-            'Have a Nice Day.jpg',
-            'It Works On My Machine.jpg',
-            'I am Just Trying to shine.jpg',
-            'It Works On My Machine.jpg',
-            'Missing you It is Pig Time.jpg',
-            'Sofishticated.jpg',
-            'whaaaaat.jpg',
-            'You Are My Sunshine.jpg',
+            'demo/images/memes/Eggcited bro.jpg',
+            'demo/images/memes/Get a Rest.jpg',
+            'demo/images/memes/Get Your Shit Together.jpg',
+            'demo/images/memes/Happiness is when you are right beside me.jpg',
+            'demo/images/memes/Have a Nice Day.jpg',
+            'demo/images/memes/It Works On My Machine.jpg',
+            'demo/images/memes/I am Just Trying to shine.jpg',
+            'demo/images/memes/Missing you It is Pig Time.jpg',
+            'demo/images/memes/Sofishticated.jpg',
+            'demo/images/memes/whaaaaat.jpg',
+            'demo/images/memes/You Are My Sunshine.jpg',
         ])
             ->each(function ($file) use ($user) {
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/memes/$file"), $basename, 'private');
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/memes/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
                 File::create([
-                    'folder_id'  => null,
+                    'parent_id'  => null,
                     'user_id'    => $user->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
         // Get apartments gallery
         collect([
-            'Apartment Architecture Ceiling Chairs.jpg',
-            'Apartment Chair.jpg',
-            'Apartment Contemporary Couch Curtains.jpg',
-            'Brown Wooden Center Table.jpg',
-            'Home.jpg',
-            'Kitchen Appliances.jpg',
-            'Kitchen Island.jpg',
+            'demo/images/apartments/Apartment Architecture Ceiling Chairs.jpg',
+            'demo/images/apartments/Apartment Chair.jpg',
+            'demo/images/apartments/Apartment Contemporary Couch Curtains.jpg',
+            'demo/images/apartments/Brown Wooden Center Table.jpg',
+            'demo/images/apartments/Home.jpg',
+            'demo/images/apartments/Kitchen Appliances.jpg',
+            'demo/images/apartments/Kitchen Island.jpg',
         ])
             ->each(function ($file) use ($user, $apartments) {
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/apartments/$file"), $basename, 'private');
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/apartments/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $apartments->id,
+                    'parent_id'  => $apartments->id,
                     'user_id'    => $user->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
         // Get nature gallery
         collect([
-            'Bird Patterncolorful Green.jpg',
-            'Close Up Of Peacock.jpg',
-            'Close Up Photography Of Tiger.jpg',
-            'Cold Nature Cute Ice.jpg',
-            'Landscape Photo of Forest.jpg',
-            'Photo of Hawksbill Sea Turtle.jpg',
-            'Photo Of Reindeer in The Snow.jpg',
-            'View Of Elephant in Water.jpg',
-            'Waterfall Between Trees.jpg',
-            'Wildlife Photography of Elephant During Golden Hour.jpg',
-            'Yellow Animal Eyes Fur.jpg',
+            'demo/images/nature/Bird Patterncolorful Green.jpg',
+            'demo/images/nature/Close Up Of Peacock.jpg',
+            'demo/images/nature/Close Up Photography Of Tiger.jpg',
+            'demo/images/nature/Cold Nature Cute Ice.jpg',
+            'demo/images/nature/Landscape Photo of Forest.jpg',
+            'demo/images/nature/Photo of Hawksbill Sea Turtle.jpg',
+            'demo/images/nature/Photo Of Reindeer in The Snow.jpg',
+            'demo/images/nature/View Of Elephant in Water.jpg',
+            'demo/images/nature/Waterfall Between Trees.jpg',
+            'demo/images/nature/Wildlife Photography of Elephant During Golden Hour.jpg',
+            'demo/images/nature/Yellow Animal Eyes Fur.jpg',
         ])
             ->each(function ($file) use ($user, $nature) {
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/nature/$file"), $basename, 'private');
-                Storage::putFileAs("files/$user->id", storage_path("demo/images/nature/thumbnail-$file"), "thumbnail-$basename", 'private');
+                $thumbnail = $this->generate_thumbnails($file, $user);
 
                 // Create file record
                 File::create([
-                    'folder_id'  => $nature->id,
+                    'parent_id'  => $nature->id,
                     'user_id'    => $user->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
                     'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
-                    'thumbnail'  => "thumbnail-$basename",
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+    }
+
+    private function create_team_folders_content(): void
+    {
+        $user = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $companyProjectFolder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => true,
+                'name'        => 'Company Project',
+            ]);
+
+        Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'parent_id'   => $companyProjectFolder->id,
+                'name'        => 'Presentation Materials',
+                'team_folder' => true,
+            ]);
+
+        Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'parent_id'   => $companyProjectFolder->id,
+                'name'        => 'Team Gallery',
+                'team_folder' => true,
+            ]);
+
+        $financeDocumentsFolder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => true,
+                'name'        => 'Finance Documents',
+            ]);
+
+        // Attach members
+        $members = User::whereNotIn('email', ['howdy@hi5ve.digital'])
+            ->get();
+
+        collect([$members[0]->id, $members[1]->id])
+            ->each(
+                fn ($id) => DB::table('team_folder_members')
+                    ->insert([
+                        'parent_id'  => $companyProjectFolder->id,
+                        'user_id'    => $id,
+                        'permission' => 'can-edit',
+                    ])
+            );
+
+        collect([$members[2]->id, $members[3]->id])
+            ->each(
+                fn ($id) => DB::table('team_folder_members')
+                    ->insert([
+                        'parent_id'  => $financeDocumentsFolder->id,
+                        'user_id'    => $id,
+                        'permission' => 'can-edit',
+                    ])
+            );
+
+        // Create invitations
+        collect([$members[4], $members[5]])
+            ->each(
+                fn ($user) => TeamFolderInvitation::factory()
+                    ->create([
+                        'email'      => $user->email,
+                        'parent_id'  => $companyProjectFolder->id,
+                        'inviter_id' => $companyProjectFolder->user_id,
+                        'status'     => 'pending',
+                        'permission' => 'can-edit',
+                    ])
+            );
+    }
+
+    public function create_share_with_me_team_folders_content(): void
+    {
+        $member = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $owner = User::whereEmail('alice@hi5ve.digital')
+            ->first();
+
+        $johan = User::whereEmail('johan@hi5ve.digital')
+            ->first();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $owner->id,
+                'team_folder' => true,
+                'name'        => "Alice's Project Files",
+            ]);
+
+        Folder::factory()
+            ->create([
+                'user_id'     => $owner->id,
+                'parent_id'   => $folder->id,
+                'name'        => '9 Gag',
+                'team_folder' => true,
+            ]);
+
+        $hug = Folder::factory()
+            ->create([
+                'user_id'     => $owner->id,
+                'parent_id'   => $folder->id,
+                'name'        => 'Digital Hug',
+                'team_folder' => true,
+            ]);
+
+        DB::table('team_folder_members')
+            ->insert([
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $member->id,
+                    'permission' => 'can-edit',
+                ],
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $owner->id,
+                    'permission' => 'owner',
+                ],
+                [
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $johan->id,
+                    'permission' => 'owner',
+                ],
+            ]);
+
+        // Get meme gallery
+        collect([
+            'demo/images/memes/Sofishticated.jpg',
+            'demo/images/memes/whaaaaat.jpg',
+        ])
+            ->each(function ($file) use ($owner, $folder) {
+                $thumbnail = $this->generate_thumbnails($file, $owner);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $owner->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        // Get meme gallery
+        collect([
+            'demo/images/memes/You Are My Sunshine.jpg',
+        ])
+            ->each(function ($file) use ($johan, $folder) {
+                $thumbnail = $this->generate_thumbnails($file, $johan);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $johan->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        collect([
+            'demo/images/memes/Eggcited bro.jpg',
+            'demo/images/memes/Get a Rest.jpg',
+        ])
+            ->each(function ($file) use ($member, $hug) {
+                $thumbnail = $this->generate_thumbnails($file, $member);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $hug->id,
+                    'user_id'    => $member->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
                 ]);
             });
@@ -708,7 +906,7 @@ class SetupDevEnvironment extends Command
             ->first();
 
         $images = File::whereType('image')
-            ->whereFolderId(null)
+            ->whereParentId(null)
             ->take(3)
             ->pluck('id');
 
@@ -725,7 +923,7 @@ class SetupDevEnvironment extends Command
         });
 
         $files = File::whereType('file')
-            ->whereFolderId(null)
+            ->whereParentId(null)
             ->take(2)
             ->pluck('id');
 
@@ -891,5 +1089,75 @@ class SetupDevEnvironment extends Command
         $this->call('cache:clear');
         $this->call('config:clear');
         $this->call('view:clear');
+    }
+
+    /**
+     * @param $avatar
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private function generate_avatar($avatar): string
+    {
+        $image = \Illuminate\Support\Facades\File::get(storage_path("/demo/avatars/{$avatar}"));
+
+        // Create avatar name
+        $avatar_name = Str::uuid() . '.png';
+
+        // Create intervention image
+        $img = Image::make($image);
+
+        $this->info("Generating thumbnails for $avatar...");
+
+        // Generate avatar
+        collect(config('vuefilemanager.avatar_sizes'))
+            ->each(function ($size) use ($img, $avatar_name) {
+                // fit thumbnail
+                $img->fit($size['size'], $size['size'])->stream();
+
+                // Store thumbnail to disk
+                Storage::put("avatars/{$size['name']}-{$avatar_name}", $img);
+            });
+
+        return $avatar_name;
+    }
+
+    /**
+     * @param $file
+     * @param $user
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private function generate_thumbnails($file, $user): array
+    {
+        $image = \Illuminate\Support\Facades\File::get(storage_path($file));
+
+        // Create avatar name
+        $file_name = Str::uuid() . '.jpg';
+
+        // Create intervention image
+        $intervention = Image::make($image)->orientate();
+
+        $this->info("Generating thumbnails for $file...");
+
+        // Generate avatar sizes
+        collect(config('vuefilemanager.image_sizes'))
+            ->each(function ($size) use ($intervention, $file_name, $user) {
+                // Create thumbnail only if image is larger than predefined image sizes
+                if ($intervention->getWidth() > $size['size']) {
+                    // Generate thumbnail
+                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
+
+                    // Store thumbnail to disk
+                    Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);
+                }
+            });
+
+        // Store original to disk
+        Storage::putFileAs("files/$user->id", storage_path($file), $file_name, 'private');
+
+        return [
+            'basename' => $file_name,
+            'name'     => head(explode('.', last(explode('/', $file)))),
+        ];
     }
 }

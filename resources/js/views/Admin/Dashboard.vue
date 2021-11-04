@@ -217,7 +217,7 @@
     }
 
     .logo {
-        .dark-mode {
+        .dark {
             display: none;
         }
     }
@@ -271,7 +271,7 @@
         }
     }
 
-    .dark-mode {
+    .dark {
 
         .metadata {
 

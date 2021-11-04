@@ -39,7 +39,7 @@
 
 				let self = this;
 
-				self.pdfData = pdf.createLoadingTask(this.file.file_url);
+				self.pdfData = pdf.createLoadingTask(this.file.data.attributes.file_url);
 
 				self.pdfData.then(pdf => self.numPages = pdf.numPages);
 			},

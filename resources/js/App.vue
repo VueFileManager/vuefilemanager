@@ -1,5 +1,5 @@
 <template>
-    <div id="vuefilemanager" @click="unClick" v-cloak>
+    <div @click="unClick" v-cloak>
 
         <!--UI components-->
         <Alert />
@@ -12,7 +12,7 @@
         <!--App view-->
         <router-view v-if="isLoaded" />
 
-        <Vignette />
+        <Vignette/>
     </div>
 </template>
 
@@ -56,8 +56,13 @@ export default {
 		toggleDarkMode() {
 			const webApp = document.getElementsByTagName("html")[0];
 
-			webApp.classList.toggle("dark-mode");
-		}
+			webApp.classList.toggle("dark");
+		},
+		spotlightListener(e) {
+			if (e.key === 'k' && e.metaKey) {
+				events.$emit('spotlight:show');
+			}
+		},
     },
     beforeMount() {
 
@@ -108,8 +113,15 @@ export default {
                 })
     },
     mounted() {
-        this.$checkOS()
-    }
+    	if (this.$isWindows()) {
+			document.body.classList.add('windows')
+		}
+
+		window.addEventListener("keydown", this.spotlightListener);
+	},
+	destroyed() {
+		window.removeEventListener("keydown", this.spotlightListener);
+	}
 }
 </script>
 
@@ -137,28 +149,19 @@ export default {
     color: $text;
 }
 
+.vue-feather {
+	path, circle, line, rect, polyline {
+		color: inherit;
+	}
+}
+
 #auth {
     width: 100%;
     height: 100%;
 }
 
-#vuefilemanager {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-}
-
-@media only screen and (max-width: 690px) {
-
-    .is-scaled-down {
-        @include transform(scale(0.95));
-    }
-}
-
 // Dark mode support
-.dark-mode {
+.dark {
 
     * {
         color: $dark_mode_text_primary;
