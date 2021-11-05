@@ -16,5 +16,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/folders/{folder}/convert', ConvertFolderIntoTeamFolderController::class);
     Route::delete('/folders/{folder}/leave', LeaveTeamFolderController::class);
     Route::get('/folders/{folder}/tree', NavigationTreeController::class);
-
 });
