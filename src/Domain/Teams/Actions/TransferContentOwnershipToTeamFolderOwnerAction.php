@@ -1,9 +1,8 @@
 <?php
-
 namespace Domain\Teams\Actions;
 
-use Domain\Folders\Models\Folder;
 use Illuminate\Support\Arr;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,7 +28,8 @@ class TransferContentOwnershipToTeamFolderOwnerAction
             ->whereIn('parent_id', $teamFolderIds)
             ->where('user_id', $leavingUserId)
             ->cursor()
-            ->each(fn ($file) =>
+            ->each(
+                fn ($file) =>
                 $this->move_files_to_the_new_destination($file, $folder)
             );
 
@@ -52,17 +52,17 @@ class TransferContentOwnershipToTeamFolderOwnerAction
     {
         // Move image thumbnails
         if ($file->type === 'image') {
-
             // Get image thumbnail list
             $thumbnailList = get_thumbnail_file_list($file->basename);
 
             // move thumbnails to the new location
             $thumbnailList->each(function ($basename) use ($file, $folder) {
-
                 $oldPath = "files/$file->user_id/$basename";
                 $newPath = "files/$folder->user_id/$basename";
 
-                if (Storage::exists($oldPath)) Storage::move($oldPath, $newPath);
+                if (Storage::exists($oldPath)) {
+                    Storage::move($oldPath, $newPath);
+                }
             });
         }
 
