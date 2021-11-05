@@ -296,8 +296,10 @@ class TeamManagementTest extends TestCase
         $user = User::factory()
             ->create();
 
-        $members = User::factory()
-            ->count(2)
+        $member = User::factory()
+            ->create();
+
+        $deletedMember = User::factory()
             ->create();
 
         $folder = Folder::factory()
@@ -306,26 +308,45 @@ class TeamManagementTest extends TestCase
                 'team_folder' => 1,
             ]);
 
+        // Create fake file record
+        File::factory()
+            ->create([
+                'name'      => 'Member File',
+                'basename'  => 'fake-file.zip',
+                'parent_id' => $folder->id,
+                'user_id'   => $deletedMember->id,
+                'type'      => 'file',
+            ]);
+
+        // Create fake file
+        $fakeFile = UploadedFile::fake()
+            ->create('fake-file.zip', 2000, 'application/zip');
+
+        // Put fake file into correct directory
+        Storage::putFileAs("files/{$deletedMember->id}", $fakeFile, 'fake-file.zip');
+
+        // Attach members to the team folder
         DB::table('team_folder_members')
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $deletedMember->id,
                     'permission' => 'can-edit',
                 ],
             ]);
 
+        // Update team folder members
         $this
             ->actingAs($user)
             ->patchJson("/api/teams/folders/{$folder->id}", [
                 'members'     => [
                     [
-                        'id'         => $members[0]->id,
+                        'id'         => $member->id,
                         'permission' => 'can-edit',
                     ],
                 ],
@@ -333,10 +354,14 @@ class TeamManagementTest extends TestCase
             ])
             ->assertCreated();
 
+        // Check if file was moved from member directory to owner directory
+        Storage::assertMissing("files/{$deletedMember->id}/fake-file.zip");
+        Storage::assertExists("files/{$user->id}/fake-file.zip");
+
         $this
             ->assertDatabaseCount('team_folder_members', 1)
             ->assertDatabaseMissing('team_folder_members', [
-                'user_id' => $members[1]->id,
+                'user_id' => $deletedMember->id,
             ]);
     }
 

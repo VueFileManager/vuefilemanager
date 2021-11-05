@@ -6,7 +6,10 @@ use Domain\Folders\Models\Folder;
 
 class UpdateMembersAction
 {
-    // TODO: after removing user from team folder from administrator, set file owner
+    public function __construct(
+        public TransferContentOwnershipToTeamFolderOwnerAction $transferContentOwnership,
+    ) {}
+
     public function __invoke(Folder $folder, $members): void
     {
         $existingMembers = $folder
@@ -24,6 +27,9 @@ class UpdateMembersAction
                 ->where('parent_id', $folder->id)
                 ->whereIn('user_id', $deletedMembers->toArray())
                 ->delete();
+
+            // Transfer files/folders ownership to team folder owner
+            $deletedMembers->each(fn ($memberId) => ($this->transferContentOwnership)($folder, $memberId));
         }
 
         // Update privileges
