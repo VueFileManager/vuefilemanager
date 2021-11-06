@@ -29,6 +29,7 @@
         "laravel/ui": "^3.3.1",
         "league/flysystem-aws-s3-v3": "^1.0.29",
         "league/flysystem-cached-adapter": "^1.1.0",
+        "makingcg/subscription": "dev-main",
         "spatie/data-transfer-object": "^3.7.2",
         "spatie/laravel-backup": "^6.16.5",
         "spatie/laravel-query-builder": "^3.6",
@@ -49,6 +50,12 @@
         "nunomaduro/larastan": "^0.7.15",
         "phpunit/phpunit": "^9.5.10"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../PhpstormProjects/subscription"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
