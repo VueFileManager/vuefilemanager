@@ -20,10 +20,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_get_team_folder_invite()
     {
-        $inviter = User::factory()
-            ->create();
-
-        $member = User::factory()
+        [$inviter, $member] = User::factory()
+            ->count(2)
             ->create();
 
         $invitation = TeamFolderInvitation::factory()
@@ -135,11 +133,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_invite_member_into_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $members = User::factory()
-            ->count(2)
+        [$user, $member_1, $member_2] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -160,12 +155,12 @@ class TeamManagementTest extends TestCase
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member_1->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $member_2->id,
                     'permission' => 'can-edit',
                 ],
             ]);
@@ -175,11 +170,11 @@ class TeamManagementTest extends TestCase
             ->patchJson("/api/teams/folders/{$folder->id}", [
                 'members'     => [
                     [
-                        'id'         => $members[0]->id,
+                        'id'         => $member_1->id,
                         'permission' => 'can-edit',
                     ],
                     [
-                        'id'         => $members[1]->id,
+                        'id'         => $member_2->id,
                         'permission' => 'can-edit',
                     ],
                 ],
@@ -214,11 +209,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_delete_invited_member_from_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $members = User::factory()
-            ->count(2)
+        [$user, $member_1, $member_2] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -247,12 +239,12 @@ class TeamManagementTest extends TestCase
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member_1->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $member_2->id,
                     'permission' => 'can-edit',
                 ],
             ]);
@@ -262,11 +254,11 @@ class TeamManagementTest extends TestCase
             ->patchJson("/api/teams/folders/{$folder->id}", [
                 'members'     => [
                     [
-                        'id'         => $members[0]->id,
+                        'id'         => $member_1->id,
                         'permission' => 'can-edit',
                     ],
                     [
-                        'id'         => $members[1]->id,
+                        'id'         => $member_2->id,
                         'permission' => 'can-view',
                     ],
                 ],
@@ -293,13 +285,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_remove_member_from_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $member = User::factory()
-            ->create();
-
-        $deletedMember = User::factory()
+        [$user, $member, $deletedMember] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -417,11 +404,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_update_member_permission_in_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $members = User::factory()
-            ->count(2)
+        [$user, $member_1, $member_2] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -434,12 +418,12 @@ class TeamManagementTest extends TestCase
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member_1->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $member_2->id,
                     'permission' => 'can-edit',
                 ],
             ]);
@@ -449,11 +433,11 @@ class TeamManagementTest extends TestCase
             ->patchJson("/api/teams/folders/{$folder->id}", [
                 'members'     => [
                     [
-                        'id'         => $members[0]->id,
+                        'id'         => $member_1->id,
                         'permission' => 'can-edit',
                     ],
                     [
-                        'id'         => $members[1]->id,
+                        'id'         => $member_2->id,
                         'permission' => 'can-view',
                     ],
                 ],
@@ -462,7 +446,7 @@ class TeamManagementTest extends TestCase
             ->assertCreated();
 
         $this->assertDatabaseHas('team_folder_members', [
-            'user_id'    => $members[1]->id,
+            'user_id'    => $member_2->id,
             'permission' => 'can-view',
         ]);
     }
@@ -472,11 +456,8 @@ class TeamManagementTest extends TestCase
      */
     public function member_try_update_permission_in_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $members = User::factory()
-            ->count(2)
+        [$user, $member_1, $member_2] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -489,28 +470,28 @@ class TeamManagementTest extends TestCase
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member_1->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $member_2->id,
                     'permission' => 'can-edit',
                 ],
             ]);
 
         $this
             ->actingAs(
-                User::find($members[0]->id)
+                User::find($member_1->id)
             )
             ->patchJson("/api/teams/folders/{$folder->id}", [
                 'members'     => [
                     [
-                        'id'         => $members[0]->id,
+                        'id'         => $member_1->id,
                         'permission' => 'can-edit',
                     ],
                     [
-                        'id'         => $members[1]->id,
+                        'id'         => $member_2->id,
                         'permission' => 'can-view',
                     ],
                 ],
@@ -519,7 +500,7 @@ class TeamManagementTest extends TestCase
             ->assertForbidden();
 
         $this->assertDatabaseHas('team_folder_members', [
-            'user_id'    => $members[1]->id,
+            'user_id'    => $member_2->id,
             'permission' => 'can-edit',
         ]);
     }
@@ -529,11 +510,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_dissolve_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $members = User::factory()
-            ->count(2)
+        [$user, $member_1, $member_2] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -560,12 +538,12 @@ class TeamManagementTest extends TestCase
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member_1->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $member_2->id,
                     'permission' => 'can-edit',
                 ],
             ]);
@@ -593,10 +571,8 @@ class TeamManagementTest extends TestCase
      */
     public function it_leave_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $member = User::factory()
+        [$user, $member] = User::factory()
+            ->count(2)
             ->create();
 
         $folder = Folder::factory()
@@ -703,11 +679,8 @@ class TeamManagementTest extends TestCase
      */
     public function member_try_dissolve_team_folder()
     {
-        $user = User::factory()
-            ->create();
-
-        $members = User::factory()
-            ->count(2)
+        [$user, $member_1, $member_2] = User::factory()
+            ->count(3)
             ->create();
 
         $folder = Folder::factory()
@@ -727,19 +700,19 @@ class TeamManagementTest extends TestCase
             ->insert([
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[0]->id,
+                    'user_id'    => $member_1->id,
                     'permission' => 'can-edit',
                 ],
                 [
                     'parent_id'  => $folder->id,
-                    'user_id'    => $members[1]->id,
+                    'user_id'    => $member_2->id,
                     'permission' => 'can-edit',
                 ],
             ]);
 
         $this
             ->actingAs(
-                User::find($members[0]->id)
+                User::find($member_1->id)
             )
             ->deleteJson("/api/teams/folders/{$folder->id}")
             ->assertForbidden();

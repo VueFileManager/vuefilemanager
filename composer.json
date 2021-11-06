@@ -21,7 +21,6 @@
         "intervention/image": "^2.7.0",
         "jaybizzle/laravel-crawler-detect": "^1.2",
         "kyslik/column-sortable": "^6.4.1",
-        "laravel/cashier": "^12.15.0",
         "laravel/fortify": "^1.8.3",
         "laravel/framework": "^8.69.0",
         "laravel/sanctum": "^2.12.1",

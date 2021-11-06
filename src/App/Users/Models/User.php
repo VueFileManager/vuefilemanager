@@ -43,7 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens;
     use Notifiable;
     use HasFactory;
-    use Billable;
     use Sortable;
 
     protected $guarded = [
