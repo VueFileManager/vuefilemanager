@@ -55,7 +55,7 @@
 									class="font-bold"
 									currency="ZAR"
 									plan="PLN_kki6co7iviyl4vb"
-									email="jozo678@makingcg.com"
+									email="howdy@hi5ve.digital"
 									paystackkey="pk_test_5d69324328b8904cdd3cad17ff60892c93abfe89"
 									:reference="reference"
 									:callback="processPayment"
