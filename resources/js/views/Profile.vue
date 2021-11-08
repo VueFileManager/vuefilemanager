@@ -39,12 +39,32 @@
                                 <span class="email">{{ user.data.attributes.email }}</span>
                             </div>
                         </div>
-                        <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active && !canShowIncompletePayment" class="headline-actions">
+<!--                        <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active && !canShowIncompletePayment" class="headline-actions">
                             <router-link :to="{name: 'UpgradePlan'}">
                                 <ButtonBase class="upgrade-button" button-style="secondary" type="button">
                                     {{ $t('global.upgrade_plan') }}
                                 </ButtonBase>
                             </router-link>
+                        </div>-->
+
+                    	<!--TODO: temporary button-->
+						<div class="headline-actions">
+							<ButtonBase class="upgrade-button" button-style="secondary" type="button">
+								<paystack
+									:channels="['bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
+									class="font-bold"
+									currency="ZAR"
+									plan="PLN_kki6co7iviyl4vb"
+									email="jozo678@makingcg.com"
+									paystackkey="pk_test_5d69324328b8904cdd3cad17ff60892c93abfe89"
+									:reference="reference"
+									:callback="processPayment"
+									:close="close"
+								>
+									{{ $t('global.upgrade_plan') }}
+								 </paystack>
+							</ButtonBase>
+
                         </div>
                     </div>
 
@@ -72,6 +92,7 @@
 </template>
 
 <script>
+	import paystack from 'vue-paystack';
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
@@ -91,6 +112,7 @@
     export default {
         name: 'Settings',
         components: {
+			paystack,
 			FilePreview,
 			Spotlight,
 			TwoFactorRecoveryCodesPopup,
@@ -107,6 +129,14 @@
             InfoBox,
         },
         computed: {
+			reference() {
+				let text = "";
+				let possible =
+					"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+				for (let i = 0; i < 10; i++)
+					text += possible.charAt(Math.floor(Math.random() * possible.length));
+				return text;
+			},
             ...mapGetters([
             	'user',
 				'config'
@@ -126,10 +156,19 @@
         },
         data() {
             return {
+				amount: 10100,
                 avatar: undefined,
                 isLoading: false,
             }
-        }
+        },
+		methods: {
+			processPayment: () => {
+				window.alert("Payment recieved")
+			},
+			close: () => {
+				console.log("You closed checkout page")
+			}
+		},
     }
 </script>
 

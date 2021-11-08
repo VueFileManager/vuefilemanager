@@ -33,6 +33,7 @@
         "vue": "^2.6.12",
         "vue-feather-icons": "^5.1.0",
         "vue-i18n": "^8.24.4",
+        "vue-paystack": "^2.0.4",
         "vue-router": "^3.5.1",
         "vuex": "^3.6.2"
     }

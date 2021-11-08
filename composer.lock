@@ -4046,7 +4046,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../PhpstormProjects/subscription",
-                "reference": "cd7e99655e0605d5d5e9925f2749fadc888e251b"
+                "reference": "afec02b572dc987846b33e0903db97eff16c6b70"
             },
             "require": {
                 "cartalyst/stripe-laravel": "^13.1",

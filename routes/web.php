@@ -8,7 +8,7 @@ use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
 
 // Subscription Services
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+//Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 Route::get('/invoice/{customer}/{token}', [AdminInvoiceController::class, 'show'])->middleware(['auth:sanctum']);
 
 // Translations
