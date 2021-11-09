@@ -7,8 +7,15 @@ use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
 
 class SubscriptionEventSubscriber
 {
-    public function handleSubscriptionWasCreated($event) {
-        // TODO: set new storage size by subscribed plan
+    public function handleSubscriptionWasCreated($subscription) {
+
+        // Get plan features
+        $features = $subscription->plan->features()->pluck('value', 'key');
+
+        // Set user storage size
+        $subscription->user->settings->update([
+            'storage_size' => $features['max_storage_amount']
+        ]);
     }
 
     /**
