@@ -14,7 +14,7 @@ class SubscriptionEventSubscriber
 
         // Set user storage size
         $subscription->user->settings->update([
-            'storage_size' => $features['max_storage_amount']
+            'storage_capacity' => $features['max_storage_amount']
         ]);
     }
 
