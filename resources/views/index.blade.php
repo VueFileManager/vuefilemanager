@@ -33,14 +33,14 @@
     <meta name="format-detection" content="address=no">
 
     @include('vuefilemanager.others.color-template')
-
-    <script src="https://www.paypal.com/sdk/js?client-id=AX96WuhfdCT1bgwUo6uGtAefvdufFaKh0XVRTFUDoh_rTV7RpRGX8ipENIweybNY_fnp0MqqSIvZRp8t&vault=true&intent=subscription"></script>
 </head>
 <body class="{{ is_dev() ? '__debug-screens' : '' }}">
 
     <div id="app"></div>
 
     <script>
+        // todo: refactoring
+
         let config = {
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
@@ -77,6 +77,10 @@
 
             installation: '{{ $installation ?? 'initial' }}',
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
+
+            // Payment drivers
+            paystack_public_key: '{{ env('PAYSTACK_PUBLIC_KEY') }}',
+            paypal_client_id: '{{ env('PAYPAL_CLIENT_ID') }}',
         }
     </script>
 

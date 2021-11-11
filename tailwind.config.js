@@ -13,6 +13,7 @@ module.exports = {
         '3': '3px',
       },
       borderColor: theme => ({
+        'light': '#F8F8F8',
         'dark-background': '#151515',
         'dark-secondary': '#1e2024',
       }),

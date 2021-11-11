@@ -27,7 +27,7 @@
 
     @media only screen and (max-width: 690px) {
         .actions {
-            padding: 15px 15px 35px;
+            padding: 15px 15px;
             position: absolute;
             bottom: 0;
             left: 0;

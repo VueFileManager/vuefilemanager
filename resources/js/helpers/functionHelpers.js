@@ -413,6 +413,10 @@ const FunctionHelpers = {
         Vue.prototype.$showMobileMenu = function (name) {
             events.$emit('mobile-menu:show', name)
         }
+
+        Vue.prototype.$openUpgradeOptions = function () {
+            events.$emit('popup:open', {name: 'select-plan-subscription'})
+        }
     }
 }
 

@@ -6,6 +6,8 @@
         <ToasterWrapper />
         <CookieDisclaimer />
 
+		<SelectPlanSubscriptionPopup />
+
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="! isLoaded"/>
 
@@ -17,6 +19,7 @@
 </template>
 
 <script>
+import SelectPlanSubscriptionPopup from "./components/Subscription/SelectPlanSubscriptionPopup";
 import ToasterWrapper from '/resources/js/components/Others/Notifications/ToasterWrapper'
 import CookieDisclaimer from '/resources/js/components/Others/CookieDisclaimer'
 import Spinner from '/resources/js/components/FilesView/Spinner'
@@ -28,6 +31,7 @@ import {events} from './bus'
 export default {
     name: 'app',
     components: {
+		SelectPlanSubscriptionPopup,
         CookieDisclaimer,
         ToasterWrapper,
         Vignette,
