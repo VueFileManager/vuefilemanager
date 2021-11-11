@@ -49,7 +49,7 @@
 
                     	<!--TODO: temporary button-->
 						<div class="headline-actions">
-							<ButtonBase class="upgrade-button" button-style="secondary" type="button">
+<!--							<ButtonBase class="upgrade-button" button-style="secondary" type="button">
 								<paystack
 									:channels="['bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
 									class="font-bold"
@@ -63,10 +63,14 @@
 								>
 									{{ $t('global.upgrade_plan') }}
 								 </paystack>
-							</ButtonBase>
+							</ButtonBase>-->
 
                         </div>
                     </div>
+
+
+                    <!--PayPal Button-->
+					<div id="paypal-button-container"></div>
 
                     <!--Incomplete Payment Warning-->
                     <InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
@@ -169,7 +173,23 @@
 				console.log("You closed checkout page")
 			}
 		},
-    }
+		created() {
+
+			setTimeout(() => {
+				paypal.Buttons({
+					createSubscription: function(data, actions) {
+						return actions.subscription.create({
+							'plan_id': 'P-1P873319R2491082NMGFK3RY',
+							'custom_id': 'user_id_howdy'
+						});
+					},
+					onApprove: function(data, actions) {
+						console.log('Subscription id: ', data.subscriptionID);
+					}
+				}).render('#paypal-button-container'); // Renders the PayPal button
+			}, 500)
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

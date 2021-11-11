@@ -33,6 +33,8 @@
     <meta name="format-detection" content="address=no">
 
     @include('vuefilemanager.others.color-template')
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AX96WuhfdCT1bgwUo6uGtAefvdufFaKh0XVRTFUDoh_rTV7RpRGX8ipENIweybNY_fnp0MqqSIvZRp8t&vault=true&intent=subscription"></script>
 </head>
 <body class="{{ is_dev() ? '__debug-screens' : '' }}">
 
