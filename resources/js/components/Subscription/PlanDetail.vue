@@ -18,7 +18,7 @@
 			</li>
 		</ul>
 		<span class="ml-9 inline-block py-1 px-2 text-theme font-extrabold text-sm rounded-xl bg-theme-100">
-			{{ currency }} / {{ $t(`interval.${plan.data.attributes.interval}`) }}
+			{{ plan.data.attributes.price }} / {{ $t(`interval.${plan.data.attributes.interval}`) }}
 		</span>
 	</label>
 </template>
@@ -36,15 +36,5 @@ export default {
 		'isSelected',
 		'plan',
 	],
-	computed: {
-		currency() {
-			let formatter = new Intl.NumberFormat('en-US', {
-				style: 'currency',
-				currency: 'USD',
-			});
-
-			return formatter.format(this.plan.data.attributes.amount);
-		}
-	}
 }
 </script>

@@ -4,7 +4,6 @@ namespace App\Users\Models;
 use ByteUnits\Metric;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
-use Laravel\Cashier\Billable;
 use Domain\Folders\Models\Folder;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection;
@@ -22,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use VueFileManager\Subscription\App\User\Traits\Billable;
 
 /**
  * @property string id
@@ -44,6 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasFactory;
     use Sortable;
+    use Billable;
 
     protected $guarded = [
         'id',
