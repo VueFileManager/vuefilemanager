@@ -8,7 +8,8 @@ class UpdateMembersAction
 {
     public function __construct(
         public TransferContentOwnershipToTeamFolderOwnerAction $transferContentOwnership,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Folder $folder, $members): void
     {

@@ -48,9 +48,9 @@ class CreateAdminAccountController extends Controller
         $user
             ->settings()
             ->create([
-                'storage_capacity' => get_settings('storage_default') ?? 5,
-                'avatar'           => store_avatar($request, 'avatar'),
-                'name'             => $request->input('name'),
+                'max_storage_amount' => get_settings('storage_default') ?? 5,
+                'avatar'             => store_avatar($request, 'avatar'),
+                'name'               => $request->input('name'),
             ]);
 
         collect([

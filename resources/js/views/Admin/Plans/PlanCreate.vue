@@ -151,7 +151,7 @@
                         // Validation errors
                         if (error.response.status == 422) {
 
-                            if (error.response.data.errors['storage_capacity']) {
+                            if (error.response.data.errors['max_storage_amount']) {
                                 this.$refs.createPlan.setErrors({
                                     'storage capacity': this.$t('errors.capacity_digit')
                                 });

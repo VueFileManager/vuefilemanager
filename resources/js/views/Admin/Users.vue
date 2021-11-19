@@ -159,8 +159,8 @@
                     sortable: true
                 },
                 {
-                    label: this.$t('admin_page_user.table.storage_capacity'),
-                    field: 'settings.storage_capacity',
+                    label: this.$t('admin_page_user.table.max_storage_amount'),
+                    field: 'settings.max_storage_amount',
                     sortable: true,
                     hidden: ! this.config.storageLimit,
                 },

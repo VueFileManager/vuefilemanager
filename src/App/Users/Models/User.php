@@ -74,7 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'role',
         'created_at',
-        'storage_capacity',
+        'max_storage_amount',
     ];
 
     public $incrementing = false;
@@ -101,10 +101,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return [
-            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->settings->storage_capacity),
-            'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->settings->storage_capacity) . '%',
-            'capacity'           => $this->settings->storage_capacity,
-            'capacity_formatted' => format_gigabytes($this->settings->storage_capacity),
+            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->settings->max_storage_amount),
+            'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->settings->max_storage_amount) . '%',
+            'capacity'           => $this->settings->max_storage_amount,
+            'capacity_formatted' => format_gigabytes($this->settings->max_storage_amount),
         ];
     }
 

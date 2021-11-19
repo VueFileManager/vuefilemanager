@@ -48,7 +48,7 @@ class UserFactory extends Factory
             $user
                 ->settings()
                 ->create([
-                    'storage_capacity' => $this->faker->randomNumber(1),
+                    'max_storage_amount' => $this->faker->randomNumber(1),
                     'name'             => $this->faker->name,
                     'address'          => $this->faker->address,
                     'state'            => $this->faker->state,

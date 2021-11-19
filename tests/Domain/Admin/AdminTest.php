@@ -170,13 +170,13 @@ class AdminTest extends TestCase
             ->actingAs($admin)
             ->patchJson("/api/admin/users/$user->id/capacity", [
                 'attributes' => [
-                    'storage_capacity' => 10,
+                    'max_storage_amount' => 10,
                 ],
             ])->assertStatus(200);
 
         $this->assertDatabaseHas('user_settings', [
-            'user_id'          => $user->id,
-            'storage_capacity' => 10,
+            'user_id'            => $user->id,
+            'max_storage_amount' => 10,
         ]);
     }
 
@@ -216,13 +216,13 @@ class AdminTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/users', [
-                'name'                  => 'John Doe',
-                'role'                  => 'user',
-                'email'                 => 'john@doe.com',
-                'password'              => 'VerySecretPassword',
-                'storage_capacity'      => 15,
-                'password_confirmation' => 'VerySecretPassword',
-                'avatar'                => $avatar,
+                'name'                    => 'John Doe',
+                'role'                    => 'user',
+                'email'                   => 'john@doe.com',
+                'password'                => 'VerySecretPassword',
+                'max_storage_amount'      => 15,
+                'password_confirmation'   => 'VerySecretPassword',
+                'avatar'                  => $avatar,
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('users', [

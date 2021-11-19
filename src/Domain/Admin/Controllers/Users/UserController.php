@@ -48,9 +48,9 @@ class UserController extends Controller
         $user
             ->settings()
             ->create([
-                'storage_capacity' => $request->input('storage_capacity'),
-                'avatar'           => store_avatar($request, 'avatar'),
-                'name'             => $request->input('name'),
+                'max_storage_amount' => $request->input('max_storage_amount'),
+                'avatar'             => store_avatar($request, 'avatar'),
+                'name'               => $request->input('name'),
             ]);
 
         UserSettings::reguard();

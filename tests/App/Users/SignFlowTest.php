@@ -50,8 +50,8 @@ class SignFlowTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('user_settings', [
-            'name'             => 'John Doe',
-            'storage_capacity' => 12,
+            'name'               => 'John Doe',
+            'max_storage_amount' => 12,
         ]);
 
         Storage::disk('local')

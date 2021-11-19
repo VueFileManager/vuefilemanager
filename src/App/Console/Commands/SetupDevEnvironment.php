@@ -103,16 +103,16 @@ class SetupDevEnvironment extends Command
         $user
             ->settings()
             ->create([
-                'avatar'           => $avatar_name,
-                'storage_capacity' => 5,
-                'name'             => 'Jane Doe',
-                'address'          => $this->faker->address,
-                'state'            => $this->faker->state,
-                'city'             => $this->faker->city,
-                'postal_code'      => $this->faker->postcode,
-                'country'          => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
-                'phone_number'     => $this->faker->phoneNumber,
-                'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                'avatar'             => $avatar_name,
+                'max_storage_amount' => 5,
+                'name'               => 'Jane Doe',
+                'address'            => $this->faker->address,
+                'state'              => $this->faker->state,
+                'city'               => $this->faker->city,
+                'postal_code'        => $this->faker->postcode,
+                'country'            => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                'phone_number'       => $this->faker->phoneNumber,
+                'timezone'           => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
 
         // Show user credentials
@@ -162,16 +162,16 @@ class SetupDevEnvironment extends Command
             $newbie
                 ->settings()
                 ->create([
-                    'avatar'           => $avatar_name,
-                    'storage_capacity' => 5,
-                    'name'             => $this->faker->name,
-                    'address'          => $this->faker->address,
-                    'state'            => $this->faker->state,
-                    'city'             => $this->faker->city,
-                    'postal_code'      => $this->faker->postcode,
-                    'country'          => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
-                    'phone_number'     => $this->faker->phoneNumber,
-                    'timezone'         => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                    'avatar'             => $avatar_name,
+                    'max_storage_amount' => 5,
+                    'name'               => $this->faker->name,
+                    'address'            => $this->faker->address,
+                    'state'              => $this->faker->state,
+                    'city'               => $this->faker->city,
+                    'postal_code'        => $this->faker->postcode,
+                    'country'            => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                    'phone_number'       => $this->faker->phoneNumber,
+                    'timezone'           => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
                 ]);
 
             $this->info("Generated user with email: $newbie->email and Password: vuefilemanager");

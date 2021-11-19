@@ -1,7 +1,6 @@
 <?php
 namespace Tests\Domain\Admin;
 
-use DB;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;

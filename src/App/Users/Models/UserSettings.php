@@ -10,7 +10,7 @@ class UserSettings extends Model
 
     protected $guarded = [
         'id',
-        'storage_capacity',
+        'max_storage_amount',
     ];
 
     /**

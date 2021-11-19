@@ -23,12 +23,12 @@ class CreateUserByAdmin extends FormRequest
     public function rules()
     {
         return [
-            'email'            => 'required|string|email|max:255|unique:users',
-            'password'         => 'required|string|min:6|confirmed',
-            'name'             => 'required|string|max:255',
-            'storage_capacity' => 'required|digits_between:1,9',
-            'role'             => 'required|string',
-            'avatar'           => 'sometimes|file',
+            'email'              => 'required|string|email|max:255|unique:users',
+            'password'           => 'required|string|min:6|confirmed',
+            'name'               => 'required|string|max:255',
+            'max_storage_amount' => 'required|digits_between:1,9',
+            'role'               => 'required|string',
+            'avatar'             => 'sometimes|file',
         ];
     }
 }

@@ -99,7 +99,7 @@
                 axios
                     .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/capacity', {
                         attributes: {
-                            storage_capacity: this.capacity
+                            max_storage_amount: this.capacity
                         },
                         _method: 'patch'
                     })
@@ -124,7 +124,7 @@
                         if (error.response.status == 422) {
 
                             // Password validation error
-                            if (error.response.data.errors['attributes.storage_capacity']) {
+                            if (error.response.data.errors['attributes.max_storage_amount']) {
 
                                 this.$refs.changeStorageCapacity.setErrors({
                                     'Capacity': this.$t('errors.capacity_digit')

@@ -23,8 +23,8 @@ class ChangeStorageCapacityRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes'                  => 'required|array',
-            'attributes.storage_capacity' => 'required|digits_between:1,9',
+            'attributes'                    => 'required|array',
+            'attributes.max_storage_amount' => 'required|digits_between:1,9',
         ];
     }
 }

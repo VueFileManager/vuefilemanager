@@ -195,8 +195,8 @@ class SetupProdEnvironment extends Command
         $user
             ->settings()
             ->create([
-                'storage_capacity' => 5,
-                'name'             => 'Admin',
+                'max_storage_amount' => 5,
+                'name'               => 'Admin',
             ]);
 
         // Show user credentials

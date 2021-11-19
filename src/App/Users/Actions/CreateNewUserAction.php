@@ -49,8 +49,8 @@ class CreateNewUserAction extends Controller
         $user
             ->settings()
             ->create([
-                'name'             => $request->input('name'),
-                'storage_capacity' => $settings['storage_default'],
+                'name'               => $request->input('name'),
+                'max_storage_amount' => $settings['storage_default'],
             ]);
 
         UserSettings::reguard();

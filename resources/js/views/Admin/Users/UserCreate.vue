@@ -72,7 +72,7 @@
                         <div class="block-wrapper">
                             <label>{{ $t('admin_page_user.label_change_capacity') }}</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="storage capacity" rules="required" v-slot="{ errors }">
-                                <input v-model="user.storage_capacity" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
+                                <input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -130,7 +130,7 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
-                    storage_capacity: 5,
+                    max_storage_amount: 5,
                 },
             }
         },
@@ -153,7 +153,7 @@
                 formData.append('role', this.user.role)
                 formData.append('email', this.user.email)
                 formData.append('password', this.user.password)
-                formData.append('storage_capacity', this.user.storage_capacity)
+                formData.append('max_storage_amount', this.user.max_storage_amount)
                 formData.append('password_confirmation', this.user.password_confirmation)
 
                 // Append avatar if exist
@@ -203,7 +203,7 @@
                             }
 
                             // Password validation error
-                            if (error.response.data.errors['storage_capacity']) {
+                            if (error.response.data.errors['max_storage_amount']) {
 
                                 this.$refs.createUser.setErrors({
                                     'storage capacity': this.$t('errors.capacity_digit')

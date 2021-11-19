@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Zip\Controllers;
 
+use ZipStream\ZipStream;
 use Illuminate\Http\Request;
 use Domain\Zip\Actions\ZipAction;
 use App\Http\Controllers\Controller;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Zip\Actions\GetItemsListFromUrlParamAction;
-use ZipStream\ZipStream;
 
 class ZipController extends Controller
 {

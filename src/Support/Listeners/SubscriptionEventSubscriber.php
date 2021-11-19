@@ -1,20 +1,31 @@
 <?php
-
 namespace Support\Listeners;
 
 use Illuminate\Events\Dispatcher;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
+use VueFileManager\Subscription\Support\Events\SubscriptionWasExpired;
+use VueFileManager\Subscription\Support\Events\SubscriptionWasUpdated;
 
 class SubscriptionEventSubscriber
 {
-    public function handleSubscriptionWasCreated($subscription) {
-
-        // Get plan features
-        $features = $subscription->plan->features()->pluck('value', 'key');
-
-        // Set user storage size
+    public function handleSubscriptionWasCreated($subscription)
+    {
         $subscription->user->settings->update([
-            'storage_capacity' => $features['max_storage_amount']
+            'max_storage_amount' => $subscription->feature('max_storage_amount'),
+        ]);
+    }
+
+    public function handleSubscriptionWasUpdated($subscription)
+    {
+        $subscription->user->settings->update([
+            'max_storage_amount' => $subscription->feature('max_storage_amount'),
+        ]);
+    }
+
+    public function handleSubscriptionWasExpired($subscription)
+    {
+        $subscription->user->settings->update([
+            'max_storage_amount' => get_settings('storage_default'),
         ]);
     }
 
@@ -25,6 +36,8 @@ class SubscriptionEventSubscriber
     {
         return [
             SubscriptionWasCreated::class => 'handleSubscriptionWasCreated',
+            SubscriptionWasExpired::class => 'handleSubscriptionWasExpired',
+            SubscriptionWasUpdated::class => 'handleSubscriptionWasUpdated',
         ];
     }
 }

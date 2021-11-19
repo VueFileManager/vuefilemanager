@@ -112,7 +112,7 @@ class FileTest extends TestCase
             ->create();
 
         $user->settings()->update([
-            'storage_capacity' => 1,
+            'max_storage_amount' => 1,
         ]);
 
         File::factory(File::class)

@@ -63,7 +63,7 @@
             axios.get('/api/pricing')
                 .then(response => {
                     this.plans = response.data.filter(plan => {
-                        return plan.data.attributes.capacity > this.user.data.attributes.storage_capacity
+                        return plan.data.attributes.capacity > this.user.data.attributes.max_storage_amount
                     })
                     this.$emit('load', false)
                 })
