@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e928c0cb691924da4de217296c323e2",
+    "content-hash": "f7357a3aa76857d61639d3e8eeaa9178",
     "packages": [
         {
             "name": "amphp/amp",
@@ -280,16 +280,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.204.0",
+            "version": "3.204.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "96ad45b95bfe4515623cec11576ec22c10dd22f3"
+                "reference": "15205059e901ca9406a57ba2716a0ae6a90df268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/96ad45b95bfe4515623cec11576ec22c10dd22f3",
-                "reference": "96ad45b95bfe4515623cec11576ec22c10dd22f3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/15205059e901ca9406a57ba2716a0ae6a90df268",
+                "reference": "15205059e901ca9406a57ba2716a0ae6a90df268",
                 "shasum": ""
             },
             "require": {
@@ -365,9 +365,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.204.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.204.1"
             },
-            "time": "2021-11-17T19:17:36+00:00"
+            "time": "2021-11-18T19:18:26+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -424,16 +424,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v6.3.2",
+            "version": "v6.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "5843dced0fb11c67fa3863e9ad40cfc319c32f33"
+                "reference": "a448f456921719fdf8a2c0f6d1e2e8f63c085ffa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/5843dced0fb11c67fa3863e9ad40cfc319c32f33",
-                "reference": "5843dced0fb11c67fa3863e9ad40cfc319c32f33",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/a448f456921719fdf8a2c0f6d1e2e8f63c085ffa",
+                "reference": "a448f456921719fdf8a2c0f6d1e2e8f63c085ffa",
                 "shasum": ""
             },
             "require": {
@@ -502,7 +502,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v6.3.2"
+                "source": "https://github.com/paratestphp/paratest/tree/v6.3.3"
             },
             "funding": [
                 {
@@ -514,7 +514,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2021-11-03T10:16:06+00:00"
+            "time": "2021-11-19T07:41:55+00:00"
         },
         {
             "name": "brick/math",
@@ -575,130 +575,6 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
-        },
-        {
-            "name": "cartalyst/stripe",
-            "version": "v2.4.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cartalyst/stripe.git",
-                "reference": "e75b4d714fec5f034d533e55f5365f0229b5686d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/stripe/zipball/e75b4d714fec5f034d533e55f5365f0229b5686d",
-                "reference": "e75b4d714fec5f034d533e55f5365f0229b5686d",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "~6.0|~7.0",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "component": "package",
-                "branch-alias": {
-                    "dev-master": "2.4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Cartalyst\\Stripe\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cartalyst LLC",
-                    "email": "help@cartalyst.com",
-                    "homepage": "https://cartalyst.com"
-                }
-            ],
-            "description": "A comprehensive Stripe API package.",
-            "keywords": [
-                "cartalyst",
-                "php",
-                "stripe"
-            ],
-            "support": {
-                "issues": "https://github.com/cartalyst/stripe/issues",
-                "source": "https://github.com/cartalyst/stripe/tree/v2.4.6"
-            },
-            "time": "2021-10-09T10:40:49+00:00"
-        },
-        {
-            "name": "cartalyst/stripe-laravel",
-            "version": "v13.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cartalyst/stripe-laravel.git",
-                "reference": "2f2b2b4e0de0fc0bce61a95134031ec2c732f999"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/stripe-laravel/zipball/2f2b2b4e0de0fc0bce61a95134031ec2c732f999",
-                "reference": "2f2b2b4e0de0fc0bce61a95134031ec2c732f999",
-                "shasum": ""
-            },
-            "require": {
-                "cartalyst/stripe": "^2.0",
-                "illuminate/support": "^8.0",
-                "php": "^7.3 || ^8.0"
-            },
-            "require-dev": {
-                "cartalyst/php-cs-fixer-config": "^1.0",
-                "phpunit/phpunit": "^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "component": "implementation",
-                "branch-alias": {
-                    "dev-master": "13.0.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Cartalyst\\Stripe\\Laravel\\StripeServiceProvider"
-                    ],
-                    "aliases": {
-                        "Stripe": "Cartalyst\\Stripe\\Laravel\\Facades\\Stripe"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Cartalyst\\Stripe\\Laravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cartalyst LLC",
-                    "email": "help@cartalyst.com",
-                    "homepage": "https://cartalyst.com"
-                }
-            ],
-            "description": "Laravel 8 integration for the Cartalyst Stripe package.",
-            "keywords": [
-                "cartalyst",
-                "laravel",
-                "php",
-                "stripe"
-            ],
-            "support": {
-                "issues": "https://github.com/cartalyst/stripe-laravel/issues",
-                "source": "https://github.com/cartalyst/stripe-laravel/tree/v13.1.0"
-            },
-            "time": "2020-12-23T13:33:41+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -3033,16 +2909,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.72.0",
+            "version": "v8.73.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5168f8589195a5f48b9c41ad2eec77a6c15f14f3"
+                "reference": "f60e5ceccac453864edbf001b665450886cda8fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5168f8589195a5f48b9c41ad2eec77a6c15f14f3",
-                "reference": "5168f8589195a5f48b9c41ad2eec77a6c15f14f3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f60e5ceccac453864edbf001b665450886cda8fc",
+                "reference": "f60e5ceccac453864edbf001b665450886cda8fc",
                 "shasum": ""
             },
             "require": {
@@ -3201,7 +3077,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-11-17T15:15:08+00:00"
+            "time": "2021-11-19T14:10:17+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -4046,7 +3922,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../PhpstormProjects/subscription",
-                "reference": "39d150c68c090aa33aef5eb2a17917721a6c856c"
+                "reference": "322b75518eaba3c9fb3c4a68aca89eaeb00d838f"
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.0",
@@ -4060,6 +3936,7 @@
             },
             "require-dev": {
                 "brianium/paratest": "^6.2",
+                "ext-intl": "*",
                 "nunomaduro/collision": "^5.3",
                 "nunomaduro/larastan": "^1.0",
                 "orchestra/testbench": "^6.23.0",
