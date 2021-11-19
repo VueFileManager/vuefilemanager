@@ -19,7 +19,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
@@ -27,7 +27,7 @@ class VisitorManipulatingTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'parent_id' => $folder->id,
                         'user_id'   => $user->id,
@@ -88,7 +88,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $root = Folder::factory(Folder::class)
@@ -157,7 +157,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
@@ -221,7 +221,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
@@ -238,7 +238,7 @@ class VisitorManipulatingTest extends TestCase
                         'permission'   => 'editor',
                     ]);
 
-                $files = File::factory(File::class)
+                $files = File::factory()
                     ->count(2)
                     ->create([
                         'user_id'   => $user->id,
@@ -296,7 +296,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
@@ -365,7 +365,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $root = Folder::factory(Folder::class)
@@ -379,7 +379,7 @@ class VisitorManipulatingTest extends TestCase
                         'parent_id' => $root->id,
                     ]);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,
@@ -438,7 +438,7 @@ class VisitorManipulatingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $root = Folder::factory(Folder::class)

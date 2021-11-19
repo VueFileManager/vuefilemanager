@@ -77,7 +77,7 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_authenticate_protected_file_with_correct_password()
     {
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create();
 
         $share = Share::factory(Share::class)
@@ -104,7 +104,7 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_authenticate_protected_file_with_incorrect_password()
     {
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create();
 
         $share = Share::factory(Share::class)
@@ -131,7 +131,7 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $root = Folder::factory(Folder::class)
@@ -157,7 +157,7 @@ class VisitorBrowseTest extends TestCase
                         'user_id'   => $user->id,
                     ]);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'parent_id' => $root->id,
                         'name'      => 'Document',
@@ -209,7 +209,7 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder_level_1 = Folder::factory(Folder::class)
@@ -332,7 +332,7 @@ class VisitorBrowseTest extends TestCase
                         'password'     => bcrypt('secret'),
                     ]);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'name'      => 'Document',
                         'parent_id' => $folder->id,
@@ -386,7 +386,7 @@ class VisitorBrowseTest extends TestCase
                         'password'     => bcrypt('secret'),
                     ]);
 
-                File::factory(File::class)
+                File::factory()
                     ->create([
                         'name'    => 'Document',
                         'user_id' => $folder->user_id,
@@ -422,7 +422,7 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'name' => 'Document',
                     ]);

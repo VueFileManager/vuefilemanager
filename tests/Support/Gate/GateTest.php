@@ -15,7 +15,7 @@ class GateTest extends TestCase
      */
     public function owner_rename_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -47,7 +47,7 @@ class GateTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $root = Folder::factory(Folder::class)
@@ -113,10 +113,10 @@ class GateTest extends TestCase
      */
     public function team_member_with_can_edit_privilege_rename_folder()
     {
-        $owner = User::factory(User::class)
+        $owner = User::factory()
             ->create();
 
-        $member = User::factory(User::class)
+        $member = User::factory()
             ->create();
 
         $teamFolder = Folder::factory(Folder::class)
@@ -164,10 +164,10 @@ class GateTest extends TestCase
      */
     public function team_member_with_can_visit_privilege_try_rename_folder()
     {
-        $owner = User::factory(User::class)
+        $owner = User::factory()
             ->create();
 
-        $member = User::factory(User::class)
+        $member = User::factory()
             ->create();
 
         $teamFolder = Folder::factory(Folder::class)
@@ -217,10 +217,10 @@ class GateTest extends TestCase
      */
     public function team_member_rename_file()
     {
-        $owner = User::factory(User::class)
+        $owner = User::factory()
             ->create();
 
-        $member = User::factory(User::class)
+        $member = User::factory()
             ->create();
 
         $teamFolder = Folder::factory(Folder::class)
@@ -230,7 +230,7 @@ class GateTest extends TestCase
                 'name'        => 'Team Folder',
             ]);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id'   => $owner->id,
                 'parent_id' => $teamFolder->id,

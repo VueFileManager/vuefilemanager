@@ -48,7 +48,7 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_file()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $file = UploadedFile::fake()
@@ -56,7 +56,7 @@ class ContentAccessTest extends TestCase
 
         Storage::putFileAs("files/$user->id", $file, $file->name);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
                 'user_id'  => $user->id,
                 'basename' => $file->name,
@@ -74,7 +74,7 @@ class ContentAccessTest extends TestCase
      */
     public function it_get_private_user_image_thumbnail()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $thumbnail = UploadedFile::fake()
@@ -82,7 +82,7 @@ class ContentAccessTest extends TestCase
 
         Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
                 'user_id'  => $user->id,
                 'basename' => 'fake-thumbnail.jpg',
@@ -124,7 +124,7 @@ class ContentAccessTest extends TestCase
      */
     public function logged_user_try_to_get_another_private_user_file()
     {
-        $users = User::factory(User::class)
+        $users = User::factory()
             ->count(2)
             ->create();
 
@@ -133,7 +133,7 @@ class ContentAccessTest extends TestCase
 
         Storage::putFileAs("files/{$users[0]->id}", $file, $file->name);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
                 'user_id'  => $users[0]->id,
                 'basename' => $file->name,

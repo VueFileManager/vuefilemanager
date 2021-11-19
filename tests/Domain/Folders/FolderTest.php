@@ -296,13 +296,13 @@ class FolderTest extends TestCase
                 'parent_id' => $folder_root->id,
             ]);
 
-        $file_1 = File::factory(File::class)
+        $file_1 = File::factory()
             ->create([
                 'parent_id' => $folder_root->id,
                 'user_id'   => $user->id,
             ]);
 
-        $file_2 = File::factory(File::class)
+        $file_2 = File::factory()
             ->create([
                 'parent_id' => $folder_children->id,
                 'user_id'   => $user->id,

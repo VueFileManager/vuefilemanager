@@ -43,17 +43,12 @@ class UserController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        UserSettings::unguard();
-
         $user
             ->settings()
             ->create([
-                'max_storage_amount' => $request->input('max_storage_amount'),
                 'avatar'             => store_avatar($request, 'avatar'),
                 'name'               => $request->input('name'),
             ]);
-
-        UserSettings::reguard();
 
         return response(new UserResource($user), 201);
     }

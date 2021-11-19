@@ -19,7 +19,7 @@ class AdminLanguageTranslatorTest extends TestCase
             'value' => 'Extended',
         ]);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -53,7 +53,7 @@ class AdminLanguageTranslatorTest extends TestCase
     {
         resolve(SeedDefaultLanguageAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $language = Language::first();
@@ -85,7 +85,7 @@ class AdminLanguageTranslatorTest extends TestCase
             'locale' => 'sk',
         ]);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -112,7 +112,7 @@ class AdminLanguageTranslatorTest extends TestCase
     {
         resolve(SeedDefaultLanguageAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $language = Language::first();
@@ -130,7 +130,7 @@ class AdminLanguageTranslatorTest extends TestCase
     {
         resolve(SeedDefaultLanguageAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -150,7 +150,7 @@ class AdminLanguageTranslatorTest extends TestCase
     {
         resolve(SeedDefaultLanguageAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $language = Language::first();
@@ -176,7 +176,7 @@ class AdminLanguageTranslatorTest extends TestCase
     {
         resolve(SeedDefaultLanguageAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $language = Language::first();

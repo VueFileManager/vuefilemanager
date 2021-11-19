@@ -133,7 +133,7 @@ class TrafficTest extends TestCase
 
         Storage::putFileAs("files/{$this->user->id}", $document, $document->name);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
                 'filesize' => $document->getSize(),
                 'user_id'  => $this->user->id,
@@ -162,7 +162,7 @@ class TrafficTest extends TestCase
 
         Storage::putFileAs("files/{$this->user->id}", $document, $document->name);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'filesize' => $document->getSize(),
                 'user_id'  => $this->user->id,

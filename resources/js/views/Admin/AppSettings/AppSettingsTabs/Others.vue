@@ -28,7 +28,7 @@
                 <div class="block-wrapper" v-if="app.storageLimitation">
                     <label>{{ $t('admin_settings.others.default_storage') }}:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Default Storage Space" rules="required" v-slot="{ errors }">
-                        <input @input="$updateText('/admin/settings', 'storage_default', app.defaultStorage)"
+                        <input @input="$updateText('/admin/settings', 'default_storage_amount', app.defaultStorage)"
                                v-model="app.defaultStorage"
                                min="1"
                                max="999999999"
@@ -191,7 +191,7 @@
         mounted() {
             axios.get('/api/admin/settings', {
                 params: {
-                    column: 'contact_email|google_analytics|storage_default|registration|storage_limitation|mimetypes_blacklist|upload_limit|user_verification'
+                    column: 'contact_email|google_analytics|default_storage_amount|registration|storage_limitation|mimetypes_blacklist|upload_limit|user_verification'
                 }
             })
                 .then(response => {
@@ -200,7 +200,7 @@
                     this.app = {
                         contactMail: response.data.contact_email,
                         googleAnalytics: response.data.google_analytics,
-                        defaultStorage: response.data.storage_default,
+                        defaultStorage: response.data.default_storage_amount,
                         userRegistration: parseInt(response.data.registration),
                         storageLimitation: parseInt(response.data.storage_limitation),
                         mimetypesBlacklist : response.data.mimetypes_blacklist,

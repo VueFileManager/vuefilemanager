@@ -19,7 +19,7 @@ class BrowseTest extends TestCase
      */
     public function it_get_navigator_tree()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder_level_1 = Folder::factory(Folder::class)
@@ -133,7 +133,7 @@ class BrowseTest extends TestCase
      */
     public function it_get_folder_content()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $root = Folder::factory(Folder::class)
@@ -150,7 +150,7 @@ class BrowseTest extends TestCase
                 'user_id'   => $user->id,
             ]);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'parent_id' => $root->id,
                 'name'      => 'Document',
@@ -181,7 +181,7 @@ class BrowseTest extends TestCase
      */
     public function it_get_recent_files()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $root = Folder::factory(Folder::class)
@@ -190,7 +190,7 @@ class BrowseTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $file_1 = File::factory(File::class)
+        $file_1 = File::factory()
             ->create([
                 'parent_id'  => $root->id,
                 'name'       => 'Document 1',
@@ -204,7 +204,7 @@ class BrowseTest extends TestCase
 
         $this->travel(5)->minutes();
 
-        $file_2 = File::factory(File::class)
+        $file_2 = File::factory()
             ->create([
                 'parent_id'  => $root->id,
                 'name'       => 'Document 2',
@@ -233,7 +233,7 @@ class BrowseTest extends TestCase
      */
     public function it_get_trash_root()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -245,7 +245,7 @@ class BrowseTest extends TestCase
                 'deleted_at' => now(),
             ]);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'parent_id'  => null,
                 'name'       => 'Document',
@@ -257,7 +257,7 @@ class BrowseTest extends TestCase
                 'deleted_at' => now(),
             ]);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
                 'parent_id'  => $folder->id,
                 'user_id'    => $user->id,
@@ -281,7 +281,7 @@ class BrowseTest extends TestCase
      */
     public function it_get_shared_items()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         Sanctum::actingAs($user);
@@ -291,7 +291,7 @@ class BrowseTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id' => $user->id,
             ]);

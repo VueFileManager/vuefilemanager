@@ -15,7 +15,7 @@ class SettingsResource extends JsonResource
     {
         return [
             'data' => [
-                'id'         => $this->id,
+                'id'         => $this->user_id,
                 'type'       => 'settings',
                 'attributes' => [
                     'avatar'       => $this->avatar,

@@ -47,29 +47,29 @@ class UserStorageResource extends JsonResource
                 'type'       => 'storage',
                 'attributes' => [
                     'used'       => Metric::bytes($this->usedCapacity)->format(),
-                    'capacity'   => format_gigabytes($this->settings->max_storage_amount),
-                    'percentage' => (float) get_storage_fill_percentage($this->usedCapacity, $this->settings->max_storage_amount),
+                    'capacity'   => format_gigabytes($this->limitations->max_storage_amount),
+                    'percentage' => (float) get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
                 ],
                 'meta' => [
                     'images' => [
                         'used'       => Metric::bytes($images)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($images, $this->settings->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($images, $this->limitations->max_storage_amount),
                     ],
                     'audios' => [
                         'used'       => Metric::bytes($audios)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($audios, $this->settings->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($audios, $this->limitations->max_storage_amount),
                     ],
                     'videos' => [
                         'used'       => Metric::bytes($videos)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($videos, $this->settings->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($videos, $this->limitations->max_storage_amount),
                     ],
                     'documents' => [
                         'used'       => Metric::bytes($documents)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($documents, $this->settings->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($documents, $this->limitations->max_storage_amount),
                     ],
                     'others' => [
                         'used'       => Metric::bytes($others)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($others, $this->settings->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($others, $this->limitations->max_storage_amount),
                     ],
                 ],
             ],

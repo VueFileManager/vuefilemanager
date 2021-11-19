@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\App\Users;
 
 use Storage;
@@ -19,7 +20,7 @@ class SignFlowTest extends TestCase
     {
         collect([
             [
-                'name'  => 'storage_default',
+                'name'  => 'default_storage_amount',
                 'value' => 12,
             ],
             [
@@ -47,10 +48,9 @@ class SignFlowTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email'             => 'john@doe.com',
             'email_verified_at' => null,
-        ]);
-
-        $this->assertDatabaseHas('user_settings', [
-            'name'               => 'John Doe',
+        ])->assertDatabaseHas('user_settings', [
+            'name' => 'John Doe',
+        ])->assertDatabaseHas('user_limitations', [
             'max_storage_amount' => 12,
         ]);
 
@@ -106,7 +106,7 @@ class SignFlowTest extends TestCase
      */
     public function it_check_if_user_exist_and_return_name_with_avatar()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['email' => 'john@doe.com']);
 
         $this->postJson('/api/user/check', [
@@ -129,7 +129,7 @@ class SignFlowTest extends TestCase
      */
     public function it_login_user()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['email' => 'john@doe.com']);
 
         $this->postJson('/login', [
@@ -143,7 +143,7 @@ class SignFlowTest extends TestCase
      */
     public function it_logout_user()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -157,7 +157,7 @@ class SignFlowTest extends TestCase
      */
     public function it_send_reset_link_to_email()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['email' => 'john@doe.com']);
 
         $this->postJson('/api/password/email', [
@@ -172,7 +172,7 @@ class SignFlowTest extends TestCase
      */
     public function it_reset_user_password()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['email' => 'john@doe.com']);
 
         // Get password token

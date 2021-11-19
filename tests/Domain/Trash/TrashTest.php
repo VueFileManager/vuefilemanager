@@ -16,7 +16,7 @@ class TrashTest extends TestCase
      */
     public function it_restore_items_from_trash()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $attributes = [
@@ -27,7 +27,7 @@ class TrashTest extends TestCase
         $folder = Folder::factory(Folder::class)
             ->create($attributes);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create($attributes);
 
         $this
@@ -59,7 +59,7 @@ class TrashTest extends TestCase
      */
     public function it_dump_trash()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         Sanctum::actingAs($user);

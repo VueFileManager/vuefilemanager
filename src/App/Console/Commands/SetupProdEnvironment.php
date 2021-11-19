@@ -125,7 +125,7 @@ class SetupProdEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'storage_default',
+                'name'  => 'default_storage_amount',
                 'value' => 5,
             ],
             [
@@ -195,7 +195,6 @@ class SetupProdEnvironment extends Command
         $user
             ->settings()
             ->create([
-                'max_storage_amount' => 5,
                 'name'               => 'Admin',
             ]);
 

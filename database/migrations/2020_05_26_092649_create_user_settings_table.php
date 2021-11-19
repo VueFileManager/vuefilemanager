@@ -15,7 +15,6 @@ class CreateUserSettingsTable extends Migration
     {
         Schema::create('user_settings', function (Blueprint $table) {
             $table->uuid('user_id')->index();
-            $table->integer('max_storage_amount')->default(5);
             $table->string('avatar')->nullable();
             $table->string('color')->nullable();
             $table->text('name')->nullable();

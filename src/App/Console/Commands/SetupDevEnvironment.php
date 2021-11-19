@@ -104,7 +104,6 @@ class SetupDevEnvironment extends Command
             ->settings()
             ->create([
                 'avatar'             => $avatar_name,
-                'max_storage_amount' => 5,
                 'name'               => 'Jane Doe',
                 'address'            => $this->faker->address,
                 'state'              => $this->faker->state,
@@ -163,7 +162,6 @@ class SetupDevEnvironment extends Command
                 ->settings()
                 ->create([
                     'avatar'             => $avatar_name,
-                    'max_storage_amount' => 5,
                     'name'               => $this->faker->name,
                     'address'            => $this->faker->address,
                     'state'              => $this->faker->state,
@@ -1004,7 +1002,7 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'storage_default',
+                'name'  => 'default_storage_amount',
                 'value' => 5,
             ],
             [

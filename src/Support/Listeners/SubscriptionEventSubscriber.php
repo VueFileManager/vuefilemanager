@@ -1,4 +1,5 @@
 <?php
+
 namespace Support\Listeners;
 
 use Illuminate\Events\Dispatcher;
@@ -10,22 +11,25 @@ class SubscriptionEventSubscriber
 {
     public function handleSubscriptionWasCreated($subscription)
     {
-        $subscription->user->settings->update([
+        $subscription->user->limitations()->update([
             'max_storage_amount' => $subscription->feature('max_storage_amount'),
+            'max_team_members'   => $subscription->feature('max_team_members'),
         ]);
     }
 
     public function handleSubscriptionWasUpdated($subscription)
     {
-        $subscription->user->settings->update([
+        $subscription->user->limitations()->update([
             'max_storage_amount' => $subscription->feature('max_storage_amount'),
+            'max_team_members'   => $subscription->feature('max_team_members'),
         ]);
     }
 
     public function handleSubscriptionWasExpired($subscription)
     {
-        $subscription->user->settings->update([
-            'max_storage_amount' => get_settings('storage_default'),
+        $subscription->user->limitations()->update([
+            'max_storage_amount' => get_settings('default_storage_amount'),
+            'max_team_members'   => 5,
         ]);
     }
 

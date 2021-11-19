@@ -59,19 +59,19 @@ class SchedulerTest extends TestCase
      */
     public function it_delete_non_verified_users_after_30_days()
     {
-        $expiredUser = User::factory(User::class)
+        $expiredUser = User::factory()
             ->create([
                 'email_verified_at' => null,
                 'created_at'        => now()->subDays(31),
             ]);
 
-        $nonExpiredUser = User::factory(User::class)
+        $nonExpiredUser = User::factory()
             ->create([
                 'email_verified_at' => null,
                 'created_at'        => now()->subDays(14),
             ]);
 
-        $verifiedUser = User::factory(User::class)
+        $verifiedUser = User::factory()
             ->create([
                 'email_verified_at' => now()->subDays(15),
                 'created_at'        => now()->subDays(31),

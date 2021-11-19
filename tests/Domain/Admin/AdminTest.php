@@ -19,11 +19,11 @@ class AdminTest extends TestCase
      */
     public function it_get_all_users()
     {
-        $users = User::factory(User::class)
+        $users = User::factory()
             ->count(5)
             ->create(['role' => 'user']);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         Sanctum::actingAs($admin);
@@ -42,10 +42,10 @@ class AdminTest extends TestCase
      */
     public function it_get_single_user()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         // TODO: pridat exactjson po refaktorovani userresource
@@ -63,10 +63,10 @@ class AdminTest extends TestCase
      */
     public function it_get_non_existed_user_subscription()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -80,12 +80,12 @@ class AdminTest extends TestCase
      */
     public function it_get_user_storage_detail()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
         collect(['image', 'audio', 'video', 'pdf', 'zip'])
             ->each(function ($mimetype) use ($user) {
-                File::factory(File::class)
+                File::factory()
                     ->create([
                         'user_id'  => $user->id,
                         'type'     => $mimetype,
@@ -94,7 +94,7 @@ class AdminTest extends TestCase
                     ]);
             });
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -107,29 +107,29 @@ class AdminTest extends TestCase
                     'type'       => 'storage',
                     'attributes' => [
                         'used'       => '5.00MB',
-                        'capacity'   => '5GB',
-                        'percentage' => 0.1,
+                        'capacity'   => '1GB',
+                        'percentage' => 0.5,
                     ],
                     'meta'       => [
                         'images'    => [
                             'used'       => '1.00MB',
-                            'percentage' => 0.02,
+                            'percentage' => 0.1,
                         ],
                         'audios'    => [
                             'used'       => '1.00MB',
-                            'percentage' => 0.02,
+                            'percentage' => 0.1,
                         ],
                         'videos'    => [
                             'used'       => '1.00MB',
-                            'percentage' => 0.02,
+                            'percentage' => 0.1,
                         ],
                         'documents' => [
                             'used'       => '1.00MB',
-                            'percentage' => 0.02,
+                            'percentage' => 0.1,
                         ],
                         'others'    => [
                             'used'       => '1.00MB',
-                            'percentage' => 0.02,
+                            'percentage' => 0.1,
                         ],
                     ],
                 ],
@@ -141,10 +141,10 @@ class AdminTest extends TestCase
      */
     public function it_send_reset_password_for_user()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -160,10 +160,10 @@ class AdminTest extends TestCase
      */
     public function it_change_user_storage_capacity()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -176,6 +176,7 @@ class AdminTest extends TestCase
 
         $this->assertDatabaseHas('user_settings', [
             'user_id'            => $user->id,
+        ])->assertDatabaseHas('user_limitations', [
             'max_storage_amount' => 10,
         ]);
     }
@@ -185,10 +186,10 @@ class AdminTest extends TestCase
      */
     public function it_change_user_role()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -207,7 +208,7 @@ class AdminTest extends TestCase
      */
     public function it_create_new_user_with_avatar()
     {
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $avatar = UploadedFile::fake()
@@ -252,7 +253,7 @@ class AdminTest extends TestCase
     public function it_delete_user_with_all_data()
     {
         // Create and login user
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
         Sanctum::actingAs($user);
@@ -301,7 +302,7 @@ class AdminTest extends TestCase
             ->first();
 
         // Create and login admin
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         Sanctum::actingAs($admin);

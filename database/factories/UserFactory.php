@@ -29,11 +29,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password'          => bcrypt('secret'),
             'remember_token'    => Str::random(10),
-            'created_at'        => $this->faker->dateTimeBetween(
-                $startDate = '-36 months',
-                $endDate = 'now',
-                $timezone = null
-            ),
+            'created_at'        => $this->faker->dateTimeBetween('-36 months', 'now', null),
         ];
     }
 
@@ -48,7 +44,6 @@ class UserFactory extends Factory
             $user
                 ->settings()
                 ->create([
-                    'max_storage_amount' => $this->faker->randomNumber(1),
                     'name'             => $this->faker->name,
                     'address'          => $this->faker->address,
                     'state'            => $this->faker->state,

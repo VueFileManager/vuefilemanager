@@ -15,7 +15,7 @@ class FavouriteFolderTest extends TestCase
         $folder = Folder::factory(Folder::class)
             ->create();
 
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -40,7 +40,7 @@ class FavouriteFolderTest extends TestCase
         $folder = Folder::factory(Folder::class)
             ->create();
 
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $user

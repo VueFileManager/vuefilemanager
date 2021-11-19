@@ -188,7 +188,7 @@ class SetupWizardTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('settings', [
-            'name'  => 'storage_default',
+            'name'  => 'default_storage_amount',
             'value' => '10',
         ]);
 

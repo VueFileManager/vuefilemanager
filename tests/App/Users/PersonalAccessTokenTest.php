@@ -13,7 +13,7 @@ class PersonalAccessTokenTest extends TestCase
      */
     public function it_create_user_token()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -34,7 +34,7 @@ class PersonalAccessTokenTest extends TestCase
      */
     public function it_revoke_user_token()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $user->createToken('token');
@@ -56,7 +56,7 @@ class PersonalAccessTokenTest extends TestCase
      */
     public function it_get_user_tokens()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $user->createToken('token');
@@ -81,7 +81,7 @@ class PersonalAccessTokenTest extends TestCase
      */
     public function it_use_user_token_in_public_api_request()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -89,7 +89,7 @@ class PersonalAccessTokenTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $folder->id,

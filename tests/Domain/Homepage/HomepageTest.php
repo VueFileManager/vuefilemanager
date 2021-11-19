@@ -55,7 +55,7 @@ class HomepageTest extends TestCase
      */
     public function it_get_og_page_for_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -114,10 +114,10 @@ class HomepageTest extends TestCase
      */
     public function it_get_og_page_for_protected_file()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id'  => $user->id,
                 'name'     => 'Fake Image',

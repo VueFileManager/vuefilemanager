@@ -41,7 +41,7 @@ class TeamsTest extends TestCase
      */
     public function it_create_team_folder()
     {
-        User::factory(User::class)
+        User::factory()
             ->create([
                 'email' => 'john@internal.com',
             ]);
@@ -160,7 +160,7 @@ class TeamsTest extends TestCase
      */
     public function it_get_all_team_folders()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory()
@@ -183,7 +183,7 @@ class TeamsTest extends TestCase
      */
     public function it_get_content_of_team_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory()
@@ -212,10 +212,10 @@ class TeamsTest extends TestCase
      */
     public function it_get_team_folders_shared_with_another_user()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $member = User::factory(User::class)
+        $member = User::factory()
             ->create();
 
         $folders = Folder::factory()

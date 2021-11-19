@@ -17,7 +17,7 @@ class UserAccountTest extends TestCase
      */
     public function it_generate_and_store_user()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
         $this->assertDatabaseHas('users', [
@@ -38,7 +38,7 @@ class UserAccountTest extends TestCase
      */
     public function it_test_user_timezone()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'user']);
 
         Folder::factory(Folder::class)
@@ -64,7 +64,7 @@ class UserAccountTest extends TestCase
      */
     public function it_change_user_password_in_profile_settings()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -83,7 +83,7 @@ class UserAccountTest extends TestCase
      */
     public function it_update_user_settings()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -103,7 +103,7 @@ class UserAccountTest extends TestCase
      */
     public function it_update_user_avatar()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $avatar = UploadedFile::fake()
@@ -128,7 +128,7 @@ class UserAccountTest extends TestCase
      */
     public function it_get_user_data()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -140,7 +140,6 @@ class UserAccountTest extends TestCase
                     'id'            => (string) $user->id,
                     'type'          => 'user',
                     'attributes'    => [
-                        'max_storage_amount'          => '5',
                         'email'                       => $user->email,
                         'role'                        => $user->role,
                         'two_factor_authentication'   => false,
@@ -148,12 +147,11 @@ class UserAccountTest extends TestCase
                         'storage'                     => [
                             'used'               => 0,
                             'used_formatted'     => '0.00%',
-                            'capacity'           => '5',
-                            'capacity_formatted' => '5GB',
+                            'capacity'           => '1',
+                            'capacity_formatted' => '1GB',
                         ],
-                        'created_at_formatted' => format_date($user->created_at, '%d. %B. %Y'),
-                        'created_at'           => $user->created_at->toJson(),
-                        'updated_at'           => $user->updated_at->toJson(),
+                        'created_at'           => format_date($user->created_at, '%d. %B. %Y'),
+                        'updated_at'           => format_date($user->updated_at, '%d. %B. %Y'),
                     ],
                     'relationships' => [
                         'settings'   => [
@@ -176,6 +174,13 @@ class UserAccountTest extends TestCase
                         'favourites' => [
                             'data' => [],
                         ],
+                        'limitations' => [
+                            'id'         => $user->id,
+                            'type'       => 'limitations',
+                            'data' => [
+                                'attributes' => $user->limitations,
+                            ],
+                        ],
                     ],
                 ],
             ]);
@@ -186,7 +191,7 @@ class UserAccountTest extends TestCase
      */
     public function it_verify_user_email()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create([
                 'email_verified_at' => null,
             ]);
@@ -209,7 +214,7 @@ class UserAccountTest extends TestCase
      */
     public function it_resend_user_verify_email()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create([
                 'email_verified_at' => null,
             ]);

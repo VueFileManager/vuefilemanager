@@ -24,7 +24,7 @@
     "/chunks/app-language.js": "/chunks/app-language.js?id=172433e8a0e1ac1e6c9e",
     "/chunks/app-language~chunks/app-settings~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pag~824d674f.js": "/chunks/app-language~chunks/app-settings~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pag~824d674f.js?id=38b2085e829a84df0e5f",
     "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~7dbb6a42.js": "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~7dbb6a42.js?id=3cbb19b80e635b3524e5",
-    "/chunks/app-others.js": "/chunks/app-others.js?id=ceb6ea31781b0ecae89d",
+    "/chunks/app-others.js": "/chunks/app-others.js?id=57365f79bc2289dc8e4e",
     "/chunks/app-payments.js": "/chunks/app-payments.js?id=f692b30ef5b5dc7f9605",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=ad0a2e908255f2220282",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=ce07a7ecb486a7143d32",
@@ -109,5 +109,6 @@
     "/chunks/upgrade-billing~chunks/upgrade-plan.55127b953178adc257a1.hot-update.js": "/chunks/upgrade-billing~chunks/upgrade-plan.55127b953178adc257a1.hot-update.js",
     "/chunks/user-create.55127b953178adc257a1.hot-update.js": "/chunks/user-create.55127b953178adc257a1.hot-update.js",
     "/chunks/user-storage.55127b953178adc257a1.hot-update.js": "/chunks/user-storage.55127b953178adc257a1.hot-update.js",
-    "/chunks/users.55127b953178adc257a1.hot-update.js": "/chunks/users.55127b953178adc257a1.hot-update.js"
+    "/chunks/users.55127b953178adc257a1.hot-update.js": "/chunks/users.55127b953178adc257a1.hot-update.js",
+    "/chunks/app-others.211d3a6b4c9c5ba61a30.hot-update.js": "/chunks/app-others.211d3a6b4c9c5ba61a30.hot-update.js"
 }

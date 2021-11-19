@@ -17,7 +17,7 @@ class FileTest extends TestCase
      */
     public function it_test_file_factory()
     {
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create();
 
         $this->assertDatabaseHas('files', [
@@ -70,7 +70,7 @@ class FileTest extends TestCase
         $file = UploadedFile::fake()
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -108,14 +108,14 @@ class FileTest extends TestCase
         $file = UploadedFile::fake()
             ->image('fake-file.jpeg', 1000);
 
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $user->settings()->update([
+        $user->limitations()->update([
             'max_storage_amount' => 1,
         ]);
 
-        File::factory(File::class)
+        File::factory()
             ->create([
                 'user_id'  => $user->id,
                 'filesize' => '1000000000',
@@ -148,7 +148,7 @@ class FileTest extends TestCase
         $file = UploadedFile::fake()
             ->create('fake-file.pdf', 1200, 'application/pdf');
 
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -168,10 +168,10 @@ class FileTest extends TestCase
      */
     public function it_rename_file()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -197,7 +197,7 @@ class FileTest extends TestCase
      */
     public function it_move_file_to_another_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -205,7 +205,7 @@ class FileTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -233,10 +233,10 @@ class FileTest extends TestCase
      */
     public function it_delete_multiple_files_softly()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $files = File::factory(File::class)
+        $files = File::factory()
             ->count(2)
             ->create([
                 'user_id' => $user->id,
@@ -272,7 +272,7 @@ class FileTest extends TestCase
      */
     public function it_delete_multiple_files_hardly()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         Sanctum::actingAs($user);

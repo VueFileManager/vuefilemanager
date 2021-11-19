@@ -40,7 +40,7 @@ class SettingsTest extends TestCase
     {
         resolve(SeedDefaultSettingsAction::class)('Extended');
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -74,7 +74,7 @@ class SettingsTest extends TestCase
     {
         resolve(SeedDefaultSettingsAction::class)('Extended');
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -102,7 +102,7 @@ class SettingsTest extends TestCase
         $logo = UploadedFile::fake()
             ->image('fake-image.jpg');
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -126,7 +126,7 @@ class SettingsTest extends TestCase
      */
     public function it_flush_cache()
     {
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -140,7 +140,7 @@ class SettingsTest extends TestCase
      */
     public function it_set_stripe()
     {
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -173,7 +173,7 @@ class SettingsTest extends TestCase
      */
     public function it_set_email()
     {
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this

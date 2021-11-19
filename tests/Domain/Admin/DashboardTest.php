@@ -14,10 +14,10 @@ class DashboardTest extends TestCase
      */
     public function it_get_dashboard_data()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'admin']);
 
-        File::factory(File::class)
+        File::factory()
             ->count(2)
             ->create(['filesize' => 1000000]);
 
@@ -43,11 +43,11 @@ class DashboardTest extends TestCase
      */
     public function it_get_new_users_for_dashboard()
     {
-        $users = User::factory(User::class)
+        $users = User::factory()
             ->count(5)
             ->create(['role' => 'user']);
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         Sanctum::actingAs($admin);

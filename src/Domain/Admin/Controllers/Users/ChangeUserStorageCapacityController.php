@@ -16,7 +16,7 @@ class ChangeUserStorageCapacityController extends Controller
         User $user,
     ): UserStorageResource {
         $user
-            ->settings()
+            ->limitations()
             ->update(
                 $request->input('attributes')
             );

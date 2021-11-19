@@ -15,7 +15,7 @@ class UserZippingTest extends TestCase
      */
     public function it_zip_multiple_files_and_download_it()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         Sanctum::actingAs($user);
@@ -67,7 +67,7 @@ class UserZippingTest extends TestCase
      */
     public function it_zip_folder_with_content_within_and_download()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         Sanctum::actingAs($user);

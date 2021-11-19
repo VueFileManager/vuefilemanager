@@ -20,7 +20,7 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $sharedFolder = Folder::factory(Folder::class)
@@ -41,7 +41,7 @@ class SharedZippingTest extends TestCase
 
                         Storage::putFileAs("files/$user->id", $file, $file->name);
 
-                        File::factory(File::class)
+                        File::factory()
                             ->create([
                                 'filesize'  => $file->getSize(),
                                 'parent_id' => $folder->id,
@@ -58,7 +58,7 @@ class SharedZippingTest extends TestCase
 
                         Storage::putFileAs("files/$user->id", $file, $file->name);
 
-                        File::factory(File::class)
+                        File::factory()
                             ->create([
                                 'filesize'  => $file->getSize(),
                                 'parent_id' => $sharedFolder->id,
@@ -112,7 +112,7 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)
@@ -120,13 +120,13 @@ class SharedZippingTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                File::factory(File::class)
+                File::factory()
                     ->create([
                         'parent_id' => $folder->id,
                         'user_id'   => $user->id,
                     ]);
 
-                File::factory(File::class)
+                File::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
@@ -175,7 +175,7 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $root = Folder::factory(Folder::class)
@@ -196,7 +196,7 @@ class SharedZippingTest extends TestCase
 
                         Storage::putFileAs("files/$user->id", $file, $file->name);
 
-                        File::factory(File::class)
+                        File::factory()
                             ->create([
                                 'filesize'  => $file->getSize(),
                                 'parent_id' => $children->id,
@@ -243,7 +243,7 @@ class SharedZippingTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)

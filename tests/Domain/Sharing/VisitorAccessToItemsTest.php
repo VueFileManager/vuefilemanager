@@ -18,7 +18,7 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $document = UploadedFile::fake()
@@ -26,7 +26,7 @@ class VisitorAccessToItemsTest extends TestCase
 
                 Storage::putFileAs("files/$user->id", $document, $document->name);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'filesize' => $document->getSize(),
                         'user_id'  => $user->id,
@@ -66,10 +66,10 @@ class VisitorAccessToItemsTest extends TestCase
      */
     public function it_try_to_get_protected_file_record()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
-        $file = File::factory(File::class)
+        $file = File::factory()
             ->create([
                 'user_id' => $user->id,
                 'name'    => 'fake-thumbnail.jpg',
@@ -95,7 +95,7 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $fileName = Str::random() . '-fake-image.jpg';
@@ -105,7 +105,7 @@ class VisitorAccessToItemsTest extends TestCase
 
                 Storage::putFileAs("files/$user->id", $thumbnail, $fileName);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'basename'  => $fileName,
@@ -149,7 +149,7 @@ class VisitorAccessToItemsTest extends TestCase
     {
         collect([true, false])
             ->each(function ($is_protected) {
-                $user = User::factory(User::class)
+                $user = User::factory()
                     ->create();
 
                 $fileName = Str::random() . '-fake-thumbnail.jpg';
@@ -159,7 +159,7 @@ class VisitorAccessToItemsTest extends TestCase
 
                 Storage::putFileAs("files/$user->id", $thumbnail, $fileName);
 
-                $file = File::factory(File::class)
+                $file = File::factory()
                     ->create([
                         'user_id'  => $user->id,
                         'name'     => $fileName,

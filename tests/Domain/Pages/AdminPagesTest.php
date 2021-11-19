@@ -15,7 +15,7 @@ class AdminPagesTest extends TestCase
     {
         resolve(SeedDefaultPagesAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         Sanctum::actingAs($admin);
@@ -37,7 +37,7 @@ class AdminPagesTest extends TestCase
     {
         resolve(SeedDefaultPagesAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
@@ -56,7 +56,7 @@ class AdminPagesTest extends TestCase
     {
         resolve(SeedDefaultPagesAction::class)();
 
-        $admin = User::factory(User::class)
+        $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this

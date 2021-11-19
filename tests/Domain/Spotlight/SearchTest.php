@@ -53,7 +53,7 @@ class SearchTest extends TestCase
      */
     public function it_get_searched_folder()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create();
 
         $folder = Folder::factory(Folder::class)

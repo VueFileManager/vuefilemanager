@@ -499,7 +499,7 @@ if (! function_exists('user_storage_percentage')) {
             $used = $user->usedCapacity + $additionals;
         }
 
-        return get_storage_fill_percentage($used, $user->settings->max_storage_amount);
+        return get_storage_fill_percentage($used, $user->limitations->max_storage_amount);
     }
 }
 

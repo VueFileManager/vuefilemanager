@@ -61,7 +61,7 @@ class StoreAppSettingsController extends Controller
                 'value' => $request->input('storageLimitation'),
             ],
             [
-                'name'  => 'storage_default',
+                'name'  => 'default_storage_amount',
                 'value' => $request->input('defaultStorage') ?? 5,
             ],
         ])->each(function ($col) {

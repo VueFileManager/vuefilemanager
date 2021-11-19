@@ -25,7 +25,7 @@ class CreateNewUserAction extends Controller
         RegisterUserRequest $request
     ): Application | ResponseFactory | Response {
         $settings = get_settings([
-            'storage_default', 'registration', 'user_verification',
+            'default_storage_amount', 'registration', 'user_verification',
         ]);
 
         // Check if account registration is enabled
@@ -44,16 +44,11 @@ class CreateNewUserAction extends Controller
             $user->markEmailAsVerified();
         }
 
-        UserSettings::unguard();
-
         $user
             ->settings()
             ->create([
                 'name'               => $request->input('name'),
-                'max_storage_amount' => $settings['storage_default'],
             ]);
-
-        UserSettings::reguard();
 
         event(new Registered($user));
 

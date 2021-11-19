@@ -16,13 +16,11 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        // TODO: zrefaktorovat
         return [
             'data' => [
                 'id'            => $this->id,
                 'type'          => 'user',
                 'attributes'    => [
-                    'max_storage_amount'        => $this->settings->max_storage_amount,
                     'email'                     => is_demo() ? obfuscate_email($this->email) : $this->email,
                     'role'                      => $this->role,
                     'two_factor_authentication' => $this->two_factor_secret ? true : false,
@@ -32,8 +30,15 @@ class UserResource extends JsonResource
                     'updated_at'                => format_date($this->updated_at, '%d. %B. %Y'),
                 ],
                 'relationships' => [
-                    'settings'   => new SettingsResource($this->settings),
-                    'favourites' => new FolderCollection($this->favouriteFolders),
+                    'settings'    => new SettingsResource($this->settings),
+                    'favourites'  => new FolderCollection($this->favouriteFolders),
+                    'limitations' => [
+                        'id'         => $this->id,
+                        'type'       => 'limitations',
+                        'data' => [
+                            'attributes' => $this->limitations,
+                        ],
+                    ],
                     $this->mergeWhen($this->hasSubscription(), fn() => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),

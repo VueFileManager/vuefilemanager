@@ -13,7 +13,7 @@ class AppUpgradeTest extends TestCase
      */
     public function it_upgrade_default_language_translations()
     {
-        $user = User::factory(User::class)
+        $user = User::factory()
             ->create(['role' => 'admin']);
 
         DB::table('settings')

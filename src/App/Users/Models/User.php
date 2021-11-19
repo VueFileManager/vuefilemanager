@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
@@ -74,7 +75,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'role',
         'created_at',
-        'max_storage_amount',
     ];
 
     public $incrementing = false;
@@ -93,7 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $is_storage_limit = get_settings('storage_limitation') ?? 1;
 
-        if (! $is_storage_limit) {
+        if (!$is_storage_limit) {
             return [
                 'used'           => $this->usedCapacity,
                 'used_formatted' => Metric::bytes($this->usedCapacity)->format(),
@@ -101,10 +101,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return [
-            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->settings->max_storage_amount),
-            'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->settings->max_storage_amount) . '%',
-            'capacity'           => $this->settings->max_storage_amount,
-            'capacity_formatted' => format_gigabytes($this->settings->max_storage_amount),
+            'used'               => (float)get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
+            'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount) . '%',
+            'capacity'           => $this->limitations->max_storage_amount,
+            'capacity_formatted' => format_gigabytes($this->limitations->max_storage_amount),
         ];
     }
 
@@ -114,7 +114,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getUsedCapacityAttribute(): int
     {
         return $this->filesWithTrashed
-            ->map(fn ($item) => $item->getRawOriginal())->sum('filesize');
+            ->map(fn($item) => $item->getRawOriginal())->sum('filesize');
     }
 
     /**
@@ -130,12 +130,14 @@ class User extends Authenticatable implements MustVerifyEmail
             ->get();
     }
 
-    /**
-     * Get user attributes
-     */
     public function settings(): HasOne
     {
         return $this->hasOne(UserSettings::class);
+    }
+
+    public function limitations(): HasOne
+    {
+        return $this->hasOne(UserLimitation::class);
     }
 
     /**
@@ -191,6 +193,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         static::creating(function ($user) {
             $user->id = Str::uuid();
+
+            // Create default limitations
+            $user->limitations()->create([
+                'max_storage_amount' => get_settings('default_storage_amount') ?? 1,
+                'max_team_members'   => 3,
+            ]);
 
             // Create user directory for his files
             Storage::makeDirectory("files/$user->id");
