@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
@@ -93,7 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $is_storage_limit = get_settings('storage_limitation') ?? 1;
 
-        if (!$is_storage_limit) {
+        if (! $is_storage_limit) {
             return [
                 'used'           => $this->usedCapacity,
                 'used_formatted' => Metric::bytes($this->usedCapacity)->format(),
@@ -101,7 +100,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return [
-            'used'               => (float)get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
+            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
             'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount) . '%',
             'capacity'           => $this->limitations->max_storage_amount,
             'capacity_formatted' => format_gigabytes($this->limitations->max_storage_amount),
@@ -114,7 +113,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getUsedCapacityAttribute(): int
     {
         return $this->filesWithTrashed
-            ->map(fn($item) => $item->getRawOriginal())->sum('filesize');
+            ->map(fn ($item) => $item->getRawOriginal())->sum('filesize');
     }
 
     /**

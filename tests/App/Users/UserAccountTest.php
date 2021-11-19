@@ -177,7 +177,7 @@ class UserAccountTest extends TestCase
                         'limitations' => [
                             'id'         => $user->id,
                             'type'       => 'limitations',
-                            'data' => [
+                            'data'       => [
                                 'attributes' => $user->limitations,
                             ],
                         ],

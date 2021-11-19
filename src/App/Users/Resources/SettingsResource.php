@@ -31,6 +31,4 @@ class SettingsResource extends JsonResource
             ],
         ];
     }
-
-
 }

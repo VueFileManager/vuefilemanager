@@ -3,7 +3,6 @@ namespace Domain\Admin\Controllers\Users;
 
 use App\Users\Models\User;
 use Illuminate\Http\Response;
-use App\Users\Models\UserSettings;
 use App\Http\Controllers\Controller;
 use App\Users\Resources\UserResource;
 use App\Users\Resources\UsersCollection;

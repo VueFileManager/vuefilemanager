@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Users\Resources;
 
 use Domain\Folders\Resources\FolderCollection;
@@ -35,17 +34,15 @@ class UserResource extends JsonResource
                     'limitations' => [
                         'id'         => $this->id,
                         'type'       => 'limitations',
-                        'data' => [
+                        'data'       => [
                             'attributes' => $this->limitations,
                         ],
                     ],
-                    $this->mergeWhen($this->hasSubscription(), fn() => [
+                    $this->mergeWhen($this->hasSubscription(), fn () => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
                 ],
             ],
         ];
     }
-
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Support\Listeners;
 
 use Illuminate\Events\Dispatcher;
@@ -9,26 +8,26 @@ use VueFileManager\Subscription\Support\Events\SubscriptionWasUpdated;
 
 class SubscriptionEventSubscriber
 {
-    public function handleSubscriptionWasCreated($subscription)
+    public function handleSubscriptionWasCreated($event)
     {
-        $subscription->user->limitations()->update([
-            'max_storage_amount' => $subscription->feature('max_storage_amount'),
-            'max_team_members'   => $subscription->feature('max_team_members'),
+        $event->subscription->user->limitations()->update([
+            'max_storage_amount' => $event->subscription->feature('max_storage_amount'),
+            'max_team_members'   => $event->subscription->feature('max_team_members'),
         ]);
     }
 
-    public function handleSubscriptionWasUpdated($subscription)
+    public function handleSubscriptionWasUpdated($event)
     {
-        $subscription->user->limitations()->update([
-            'max_storage_amount' => $subscription->feature('max_storage_amount'),
-            'max_team_members'   => $subscription->feature('max_team_members'),
+        $event->subscription->user->limitations()->update([
+            'max_storage_amount' => $event->subscription->feature('max_storage_amount'),
+            'max_team_members'   => $event->subscription->feature('max_team_members'),
         ]);
     }
 
-    public function handleSubscriptionWasExpired($subscription)
+    public function handleSubscriptionWasExpired($event)
     {
-        $subscription->user->limitations()->update([
-            'max_storage_amount' => get_settings('default_storage_amount'),
+        $event->subscription->user->limitations()->update([
+            'max_storage_amount' => get_settings('default_storage_amount') ?? 1,
             'max_team_members'   => 5,
         ]);
     }

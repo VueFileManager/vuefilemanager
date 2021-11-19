@@ -3,7 +3,6 @@ namespace App\Users\Actions;
 
 use App\Users\Models\User;
 use Illuminate\Http\Response;
-use App\Users\Models\UserSettings;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use App\Users\Requests\RegisterUserRequest;
