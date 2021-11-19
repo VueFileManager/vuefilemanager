@@ -32,6 +32,7 @@ class UserAccountTest extends TestCase
         Storage::disk('local')
             ->assertExists('files/' . User::first()->id);
     }
+
     /**
      * todo: finish test
      */
@@ -140,9 +141,6 @@ class UserAccountTest extends TestCase
                     'type'          => 'user',
                     'attributes'    => [
                         'storage_capacity'          => '5',
-                        'subscription'              => false,
-                        'incomplete_payment'        => null,
-                        'stripe_customer'           => false,
                         'email'                     => $user->email,
                         'role'                      => $user->role,
                         'two_factor_authentication' => false,

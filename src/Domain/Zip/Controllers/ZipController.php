@@ -6,6 +6,7 @@ use Domain\Zip\Actions\ZipAction;
 use App\Http\Controllers\Controller;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Zip\Actions\GetItemsListFromUrlParamAction;
+use ZipStream\ZipStream;
 
 class ZipController extends Controller
 {
@@ -18,7 +19,7 @@ class ZipController extends Controller
 
     public function __invoke(
         Request $request,
-    ): \ZipStream\ZipStream {
+    ): ZipStream {
         // Get list of folders and files from requested url parameter
         list($folders, $files) = ($this->getItemsListFromUrlParam)(auth()->id());
 

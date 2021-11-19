@@ -59,7 +59,7 @@ class AdminTest extends TestCase
     }
 
     /**
-     * @test
+     * todo: complete test
      */
     public function it_get_non_existed_user_subscription()
     {

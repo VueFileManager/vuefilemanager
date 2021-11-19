@@ -27,14 +27,6 @@ class DashboardTest extends TestCase
             'value' => 'Regular',
         ]);
 
-        DB::table('subscriptions')
-            ->insert([
-                'user_id'       => $user->id,
-                'name'          => 'main',
-                'stripe_id'     => 'sub_Hp4jgdIpPDDWXw',
-                'stripe_status' => 'active',
-            ]);
-
         $this
             ->actingAs($user)
             ->getJson('/api/admin/dashboard')
@@ -44,7 +36,6 @@ class DashboardTest extends TestCase
                 'app_version'         => config('vuefilemanager.version'),
                 'total_users'         => 1,
                 'total_used_space'    => '2.00MB',
-                'total_premium_users' => 1,
             ]);
     }
 

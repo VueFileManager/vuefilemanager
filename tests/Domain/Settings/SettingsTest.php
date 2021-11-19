@@ -136,7 +136,7 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * @test
+     * TODO: complete test
      */
     public function it_set_stripe()
     {

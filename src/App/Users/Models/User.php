@@ -13,7 +13,6 @@ use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use App\Users\Notifications\ResetPassword;
-use Domain\Subscriptions\Traits\Subscription;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -39,7 +38,6 @@ use VueFileManager\Subscription\App\User\Traits\Billable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use TwoFactorAuthenticatable;
-    use Subscription;
     use HasApiTokens;
     use Notifiable;
     use HasFactory;

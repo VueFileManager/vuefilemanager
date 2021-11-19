@@ -1,15 +1,9 @@
 <?php
 
 use Domain\Homepage\Controllers\IndexController;
-use Domain\Invoices\Controllers\AdminInvoiceController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
-use Domain\Subscriptions\Controllers\StripeWebhookController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
-
-// Subscription Services
-//Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
-Route::get('/invoice/{customer}/{token}', [AdminInvoiceController::class, 'show'])->middleware(['auth:sanctum']);
 
 // Translations
 Route::get('/translations/{lang}', CurrentLocalizationController::class);

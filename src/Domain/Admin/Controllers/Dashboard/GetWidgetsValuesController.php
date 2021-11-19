@@ -10,10 +10,6 @@ class GetWidgetsValuesController extends Controller
 {
     public function __invoke(): array
     {
-        // Get total premium users
-        $premium_users = Subscription::whereStripeStatus('active')
-            ->count();
-
         // Get total storage usage
         $storage_usage = Metric::bytes(
             \DB::table('files')->sum('filesize')
@@ -24,7 +20,6 @@ class GetWidgetsValuesController extends Controller
             'app_version'         => config('vuefilemanager.version'),
             'total_users'         => User::count(),
             'total_used_space'    => $storage_usage,
-            'total_premium_users' => $premium_users,
         ];
     }
 }
