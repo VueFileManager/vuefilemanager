@@ -45,41 +45,37 @@
             </ButtonBase>
         </div>
         <div class="card shadow-card">
-            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
+            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form">
                 <FormLabel>{{ $t('user_password.title') }}</FormLabel>
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
-										rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="New Password" rules="required" v-slot="{ errors }">
+                    <AppInputText :title="$t('page_create_password.label_new_pass')" :error="errors[0]">
                         <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
 							   type="password"
 							   class="focus-border-theme input-dark"
-							   :class="{'is-error': errors[0]}" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Your Password"
-										rules="required" v-slot="{ errors }">
+							   :class="{'is-error': errors[0]}"
+						/>
+                    </AppInputText>
+                </ValidationProvider>
+                <ValidationProvider tag="div" mode="passive" name="Confirm Your Password" rules="required" v-slot="{ errors }">
+                    <AppInputText :title="$t('page_create_password.label_confirm_pass')" :error="errors[0]">
                         <input v-model="newPasswordConfirmation"
-							   :placeholder="$t('page_create_password.label_confirm_pass')" type="password"
+							   :placeholder="$t('page_create_password.label_confirm_pass')"
+							   type="password"
 							   class="focus-border-theme input-dark"
-							   :class="{'is-error': errors[0]}" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-                <div class="block-wrapper">
-                    <ButtonBase type="submit" button-style="theme" class="confirm-form">
-                        {{ $t('profile.store_pass') }}
-                    </ButtonBase>
-                </div>
+							   :class="{'is-error': errors[0]}"
+						/>
+                    </AppInputText>
+                </ValidationProvider>
+                <ButtonBase type="submit" button-style="theme" class="confirm-form">
+                    {{ $t('profile.store_pass') }}
+                </ButtonBase>
             </ValidationObserver>
         </div>
     </PageTab>
 </template>
 
 <script>
+	import AppInputText from "../../components/Admin/AppInputText";
 	import AppInputSwitch from "../../components/Admin/AppInputSwitch";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -101,6 +97,7 @@
 	export default {
 		name: 'Password',
 		components: {
+			AppInputText,
 			AppInputSwitch,
 			PageTabGroup,
 			FormLabel,

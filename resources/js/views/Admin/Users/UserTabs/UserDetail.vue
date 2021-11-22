@@ -1,146 +1,106 @@
 <template>
     <PageTab>
-
         <!--Change role-->
-		<div class="card shadow-card">
+        <div class="card shadow-card">
             <FormLabel>
                 {{ $t('user_box_role.title') }}
             </FormLabel>
-
             <InfoBox>
                 <p>{{ $t('user_box_role.description') }}</p>
             </InfoBox>
-
-            <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form" class="form block-form">
-                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Role" rules="required">
-                    <label>{{ $t('admin_page_user.select_role') }}:</label>
-                    <div class="single-line-form">
-                        <SelectInput v-model="userRole" :options="$translateSelectOptions(roles)"
-                                     :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
-                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
-                                    button-style="theme" class="submit-button">
-                            {{ $t('admin_page_user.save_role') }}
-                        </ButtonBase>
-                    </div>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+            <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form">
+                <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Role" rules="required">
+					<AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]">
+						<div class="flex space-x-4">
+							<SelectInput v-model="userRole" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
+							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+								{{ $t('admin_page_user.save_role') }}
+							</ButtonBase>
+						</div>
+					</AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
-		</div>
-
-		<div class="card shadow-card">
-			<div class="form block-form">
-                <FormLabel>{{ $t('admin_page_user.label_person_info') }}</FormLabel>
-
-				<!--Email-->
-                <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_email') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.attributes.email"
-							   :placeholder="$t('page_registration.placeholder_email')"
-							   type="email"
-							   class="focus-border-theme input-dark"
-							   disabled
-						/>
-                    </div>
-                </div>
-
-				<!--Name-->
-                <div class="block-wrapper">
-                    <label>{{ $t('page_registration.label_name') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.relationships.settings.data.attributes.name"
-							   :placeholder="$t('page_registration.placeholder_name')"
-							   type="text"
-							   class="focus-border-theme input-dark"
-							   disabled
-						/>
-                    </div>
-                </div>
+        </div>
+        <div class="card shadow-card">
+            <FormLabel>{{ $t('admin_page_user.label_person_info') }}</FormLabel>
+			<!--Email-->
+            <AppInputText :title="$t('page_registration.label_email')">
+                <input :value="user.data.attributes.email"
+					   :placeholder="$t('page_registration.placeholder_email')"
+					   type="email"
+					   class="focus-border-theme input-dark"
+					   disabled
+				/>
+            </AppInputText>
+			<!--Name-->
+            <AppInputText :title="$t('page_registration.label_name')">
+                <input :value="user.data.relationships.settings.data.attributes.name"
+					   :placeholder="$t('page_registration.placeholder_name')"
+					   type="text"
+					   class="focus-border-theme input-dark"
+					   disabled
+				/>
+            </AppInputText>
+        </div>
+        <div class="card shadow-card">
+            <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
+            <AppInputText :title="$t('user_settings.name')">
+                <input :value="user.data.relationships.settings.data.attributes.name"
+					   type="text"
+					   class="focus-border-theme input-dark"
+					   disabled
+				/>
+            </AppInputText>
+            <AppInputText :title="$t('user_settings.address')">
+                <input :value="user.data.relationships.settings.data.attributes.address"
+					   type="text"
+					   disabled
+					   class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+            <AppInputText :title="$t('user_settings.country')">
+                <input :value="user.data.relationships.settings.data.attributes.country"
+					   type="text"
+					   disabled
+					   class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+            <div class="flex space-x-4">
+                <AppInputText :title="$t('user_settings.city')" class="w-full">
+                    <input :value="user.data.relationships.settings.data.attributes.city"
+						   type="text"
+						   disabled
+						   class="focus-border-theme input-dark"
+					/>
+                </AppInputText>
+                <AppInputText :title="$t('user_settings.postal_code')" class="w-full">
+                    <input :value="user.data.relationships.settings.data.attributes.postal_code"
+						   type="text"
+						   disabled
+						   class="focus-border-theme input-dark"
+					/>
+                </AppInputText>
             </div>
-		</div>
-
-		<div class="card shadow-card">
-            <div class="form block-form">
-                <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
-
-                <div class="block-wrapper">
-                    <label>{{ $t('user_settings.name') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.relationships.settings.data.attributes.name"
-							   type="text"
-							   class="focus-border-theme input-dark"
-							   disabled
-						/>
-                    </div>
-                </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('user_settings.address') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.relationships.settings.data.attributes.address"
-							   type="text"
-							   disabled
-							   class="focus-border-theme input-dark"
-						/>
-                    </div>
-                </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('user_settings.country') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.relationships.settings.data.attributes.country"
-							   type="text"
-							   disabled
-							   class="focus-border-theme input-dark"
-						/>
-                    </div>
-                </div>
-                <div class="wrapper-inline">
-                    <div class="block-wrapper">
-                        <label>{{ $t('user_settings.city') }}:</label>
-                        <div class="input-wrapper">
-                            <input :value="user.data.relationships.settings.data.attributes.city"
-								   type="text"
-								   disabled
-								   class="focus-border-theme input-dark"
-							/>
-                        </div>
-                    </div>
-                    <div class="block-wrapper">
-                        <label>{{ $t('user_settings.postal_code') }}:</label>
-                        <div class="input-wrapper">
-                            <input :value="user.data.relationships.settings.data.attributes.postal_code"
-								   type="text"
-								   disabled
-								   class="focus-border-theme input-dark"
-							/>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('user_settings.state') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.relationships.settings.data.attributes.state"
-							   type="text"
-							   disabled
-							   class="focus-border-theme input-dark"
-						/>
-                    </div>
-                </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('user_settings.phone_number') }}:</label>
-                    <div class="input-wrapper">
-                        <input :value="user.data.relationships.settings.data.attributes.phone_number"
-							   type="text"
-							   disabled
-							   class="focus-border-theme input-dark"
-						/>
-                    </div>
-                </div>
-            </div>
-		</div>
+            <AppInputText :title="$t('user_settings.state')">
+                <input :value="user.data.relationships.settings.data.attributes.state"
+					   type="text"
+					   disabled
+					   class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+            <AppInputText :title="$t('user_settings.phone_number')">
+                <input :value="user.data.relationships.settings.data.attributes.phone_number"
+					   type="text"
+					   disabled
+					   class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+        </div>
     </PageTab>
 </template>
 
 <script>
+	import AppInputText from "../../../../components/Admin/AppInputText";
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
     import PageTab from '/resources/js/components/Others/Layout/PageTab'
@@ -161,6 +121,7 @@
             'user'
         ],
         components: {
+			AppInputText,
             PageTabGroup,
             PageTab,
             InfoBox,
@@ -226,22 +187,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    .dark {
-
-    }
-
-</style>

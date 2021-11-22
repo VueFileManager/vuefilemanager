@@ -1,33 +1,34 @@
 <template>
-    <PageTab :is-loading="isLoading" class="form-fixed-width" v-if="storage">
-        <PageTabGroup v-if="config.storageLimit && ! user.data.attributes.subscription">
+    <PageTab :is-loading="isLoading" v-if="storage">
+
+        <div v-if="config.storageLimit && ! user.data.attributes.subscription" class="card shadow-card">
             <FormLabel>
                 {{ $t('user_box_storage.title') }}
             </FormLabel>
             <InfoBox>
                 <p>{{ $t('user_box_storage.description') }}</p>
             </InfoBox>
-            <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form" class="form block-form">
-
-                <ValidationProvider tag="div" class="block-wrapper" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-                    <label>{{ $t('admin_page_user.label_change_capacity') }}:</label>
-                    <div class="single-line-form">
-                        <input v-model="capacity"
-                               :placeholder="$t('admin_page_user.label_change_capacity')"
-                               type="number"
-                               min="1"
-                               max="999999999"
-                               class="focus-border-theme"
-                               :class="{'is-error': errors[0]}"
-                        />
-                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
-                            {{ $t('admin_page_user.change_capacity') }}
-                        </ButtonBase>
-                    </div>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+            <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form">
+                <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
+					<AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]">
+						<div class="flex space-x-4">
+							<input v-model="capacity"
+								   :placeholder="$t('admin_page_user.label_change_capacity')"
+								   type="number"
+								   min="1"
+								   max="999999999"
+								   class="focus-border-theme input-dark"
+								   :class="{'is-error': errors[0]}"
+							/>
+							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+								{{ $t('admin_page_user.change_capacity') }}
+							</ButtonBase>
+						</div>
+					</AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
-        </PageTabGroup>
+        </div>
+
         <PageTabGroup>
             <FormLabel>{{ $t('storage.sec_details') }}</FormLabel>
             <StorageItemDetail
@@ -46,6 +47,7 @@
 </template>
 
 <script>
+	import AppInputText from "../../../../components/Admin/AppInputText";
     import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -61,8 +63,11 @@
 
     export default {
         name: 'UserStorage',
-        props: ['user'],
+        props: [
+			'user'
+		],
         components: {
+			AppInputText,
             PageTabGroup,
             FormLabel,
             PageTab,
@@ -152,13 +157,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-</style>
