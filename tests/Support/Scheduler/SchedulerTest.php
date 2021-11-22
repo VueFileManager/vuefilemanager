@@ -25,9 +25,7 @@ class SchedulerTest extends TestCase
 
         resolve(DeleteExpiredShareLinksAction::class)();
 
-        $this->assertDatabaseMissing('shares', [
-            'id' => $share->id,
-        ]);
+        $this->assertModelMissing($share);
     }
 
     /**
@@ -79,16 +77,9 @@ class SchedulerTest extends TestCase
 
         resolve(DeleteUnverifiedUsersAction::class)();
 
-        $this->assertDatabaseMissing('users', [
-            'id' => $expiredUser->id,
-        ]);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $nonExpiredUser->id,
-        ]);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $verifiedUser->id,
-        ]);
+        $this
+            ->assertModelMissing($expiredUser)
+            ->assertModelExists($nonExpiredUser)
+            ->assertModelExists($verifiedUser);
     }
 }
