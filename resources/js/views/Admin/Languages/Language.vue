@@ -1,147 +1,148 @@
 <template>
-    <div id="single-page">
-        <div id="page-content">
-            <MobileHeader :title="$t('routes_title.language')" />
-            <PageHeader :title="$t('routes_title.language')" />
+    <div>
+		<div v-if="languages" class="flex space-x-6">
 
-            <div v-if="languages" class="content-page">
+			<!--Sidebar-->
+			<div class="side-content">
 
-                <!--Sidebar-->
-                <div class="side-content">
+				<div class="card shadow-card sticky top-0">
+					<div class="languages-wrapper page-tab">
+						<div class="language-label-wrapper">
+							<label class="language-label">{{ $t('languages') }}</label>
+						</div>
 
-                    <div class="sticky top-65">
-                        <div class="languages-wrapper page-tab from-fixed-width">
-                            <div class="language-label-wrapper">
-                                <label class="language-label">{{ $t('languages') }}</label>
-                            </div>
+						<!-- Languages -->
+						<div class="all-language-wrapper">
+							<div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" class="language group">
+								<label class="name" :class="{'active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}">
+									<span class="active-text-theme group-hover-text-theme">{{ language.data.attributes.name }}</span>
+								</label>
+								<x-icon
+									v-if="language.data.attributes.locale !== 'en'"
+									@click.stop="deleteLanguage(language)"
+									class="icon"
+									size="17"
+								/>
+							</div>
+						</div>
+					</div>
 
-                            <!-- Languages -->
-                            <div class="all-language-wrapper">
-                                <div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" class="language group">
-                                    <label class="name" :class="{'active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}">
-                                        <span class="active-text-theme group-hover-text-theme">{{ language.data.attributes.name }}</span>
-                                    </label>
-                                    <x-icon
-                                        v-if="language.data.attributes.locale !== 'en'"
-                                        @click.stop="deleteLanguage(language)"
-                                        class="icon"
-                                        size="17"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+					<MobileActionButton @click.native="createLanguage" icon="plus" class="button-add-language">
+						{{ $t('add_language') }}
+					</MobileActionButton>
+				</div>
+			</div>
 
-                        <MobileActionButton @click.native="createLanguage" icon="plus" class="button-add-language">
-                            {{ $t('add_language') }}
-                        </MobileActionButton>
-                    </div>
-                </div>
+			<!--Content-->
+			<div class="form block-form content">
 
-                <!--Content-->
-                <div class="form block-form content">
+				<!--Inline Search for mobile-->
+<!--				<div class="block-wrapper sticky search-bar-wrapper">
+					<SearchInput v-model="query" @reset-query="query = ''" />
+				</div>-->
 
-                    <!--Inline Search for mobile-->
-                    <div class="block-wrapper sticky search-bar-wrapper">
-                        <SearchInput v-model="query" @reset-query="query = ''" />
-                    </div>
+				<!--Mobile language navigation-->
+				<div class="menu-list-wrapper horizontal">
 
-                    <!--Mobile language navigation-->
-                    <div class="menu-list-wrapper horizontal">
+					<!--List of languages-->
+					<div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" :class="{'router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}" class="menu-list-item link border-bottom-theme">
+						<div class="label text-theme">
+							{{ language.data.attributes.name }}
+						</div>
+					</div>
 
-                        <!--List of languages-->
-                        <div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" :class="{'router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}" class="menu-list-item link border-bottom-theme">
-                            <div class="label text-theme">
-                                {{ language.data.attributes.name }}
-                            </div>
-                        </div>
+					<!--Add new language-->
+					<div @click="createLanguage" class="menu-list-item link border-bottom-theme">
+						<div class="icon text-theme">
+							<plus-icon size="17" />
+						</div>
+					</div>
+				</div>
 
-                        <!--Add new language-->
-                        <div @click="createLanguage" class="menu-list-item link border-bottom-theme">
-                            <div class="icon text-theme">
-                                <plus-icon size="17" />
-                            </div>
-                        </div>
-                    </div>
+				<div class="dynamic-content">
 
-                    <div class="dynamic-content">
+					<Spinner v-if="! selectedLanguage" class="spinner" />
 
-                        <Spinner v-if="! selectedLanguage" class="spinner" />
+					<div v-if="selectedLanguage">
 
-                        <div v-if="selectedLanguage">
+						<!--Disable content when user is searching translations-->
+						<div v-if="! isSearching">
 
-                            <!--Disable content when user is searching translations-->
-                            <div v-if="! isSearching">
-                                <FormLabel icon="settings">
-                                    {{ $t('language_settings') }}
-                                </FormLabel>
+							<div class="card shadow-card">
+								<FormLabel icon="settings">
+									{{ $t('language_settings') }}
+								</FormLabel>
 
-                                <!--Language name-->
-                                <div class="block-wrapper">
-                                    <label>{{ $t('language_name') }}:</label>
-                                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                                        <input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name"
-                                               :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                                    </ValidationProvider>
-                                </div>
+								<!--Language name-->
+								<div class="block-wrapper">
+									<label>{{ $t('language_name') }}:</label>
+									<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
+										<input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name"
+											   :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
 
-                                <!--Set default language-->
-                                <div class="block-wrapper">
-                                    <div class="input-wrapper">
-                                        <div class="inline-wrapper">
-                                            <div class="switch-label">
-                                                <label class="input-label">
-                                                    {{ $t('set_as_default_language') }}:
-                                                </label>
-                                                <small class="input-help">
-                                                    If this language is set as default, app will appear in this language for all users.
-                                                </small>
-                                            </div>
-                                            <SwitchInput
-                                                @input="setDefaultLanguage"
-                                                class="switch"
-                                                :class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
-                                                :state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+								<!--Set default language-->
+								<div class="block-wrapper">
+									<div class="input-wrapper">
+										<div class="inline-wrapper">
+											<div class="switch-label">
+												<label class="input-label">
+													{{ $t('set_as_default_language') }}:
+												</label>
+												<small class="input-help">
+													If this language is set as default, app will appear in this language for all users.
+												</small>
+											</div>
+											<SwitchInput
+												@input="setDefaultLanguage"
+												class="switch"
+												:class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
+												:state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
 
-                                <!--Translations-->
-                                <FormLabel class="mt-70">
-                                    {{ $t('edit_translations') }}
-                                </FormLabel>
+							<div class="card shadow-card">
+								<!--Translations-->
+								<FormLabel>
+									{{ $t('edit_translations') }}
+								</FormLabel>
 
-                                <InfoBox class="info-box">
-                                    <p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
-                                </InfoBox>
-                            </div>
+								<InfoBox>
+									<p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
+								</InfoBox>
 
-                            <!--Translation-->
-                            <div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
-                                <label> {{ referenceTranslations[key] }}:</label>
-                                <ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
+								<!--Translation-->
+								<div class="block-wrapper" v-for="(translation, key) in translationList" :key="key">
+									<label> {{ referenceTranslations[key] }}:</label>
+									<ValidationProvider tag="div" class="input-wrapper" name="Language string" rules="required" v-slot="{ errors }">
 
-                                    <!--Textarea-->
-                                    <textarea
-                                        v-model="selectedLanguage.data.attributes.translations[key]"
-                                        @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
-                                        :rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
-                                        class="focus-border-theme"
-                                        :class="{'is-error': errors[0]}"
-                                    ></textarea>
+										<!--Textarea-->
+										<textarea
+											v-model="selectedLanguage.data.attributes.translations[key]"
+											@input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+											:rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
+											class="focus-border-theme input-dark"
+											:class="{'is-error': errors[0]}"
+										></textarea>
 
-                                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                        </div>
+										<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+									</ValidationProvider>
+								</div>
+							</div>
 
-                    </div>
-                </div>
-            </div>
+						</div>
+					</div>
 
-            <Spinner v-if="! languages" />
-        </div>
+				</div>
+			</div>
+		</div>
+
+		<Spinner v-if="! languages" />
     </div>
 </template>
 
@@ -320,12 +321,7 @@
     }
 }
 
-.info-box {
-    margin-bottom: 32px;
-}
-
 .side-content {
-    flex: 0 0 225px;
 
     .button-add-language {
         margin-top: 30px;
