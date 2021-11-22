@@ -1,83 +1,51 @@
 <template>
     <PageTab>
-
-		<div class="card shadow-card">
-			<div class="form block-form">
-				<FormLabel icon="smartphone">
-					{{ $t('2fa.settings.title') }}
-				</FormLabel>
-				<div class="block-wrapper">
-					<div class="input-wrapper">
-						<div class="inline-wrapper">
-							<div class="switch-label">
-								<label class="input-label">
-									{{ $t('popup_2fa.switch_title') }}
-								</label>
-								<small class="input-help" v-html="$t('popup_2fa.switch_info')"></small>
-							</div>
-							<SwitchInput @click.native.prevent.stop="open2faPopup"
-										 class="switch"
-										 :state="user.data.attributes.two_factor_authentication"
-							/>
-						</div>
-					</div>
-				</div>
-			</div>
-
-            <div v-if="user && user.data.attributes.two_factor_authentication" class="block-wrapper">
-				<div class="input-wrapper">
-					<div class="inline-wrapper button-block">
-						<div class="switch-label">
-							<label class="input-label">
-								{{ $t('popup_2fa.codes_title') }}
-							</label>
-							<small class="input-help">
-								{{ $t('popup_2fa.codes_info') }}
-							</small>
-						</div>
-						<ButtonBase
-							class="popup-button"
-							button-style="secondary"
-							@click.native="showRecoveryCodes"
-						>
-							{{ $t('popup_2fa.codes_button') }}
-						</ButtonBase>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="card shadow-card">
-			<div class="form block-form">
-				<FormLabel icon="key">
-					{{ $t('personal_token.section_title') }}
-				</FormLabel>
-				<InfoBox v-if="tokens.length === 0">
-					<p>{{ $t("personal_token.section_description") }}</p>
-				</InfoBox>
-
-				<InfoBox v-if="tokens.length > 0">
-					<ul class="tokens-wrapper">
-						<li class="token-item" v-for="token in tokens" :key="token.id">
-							<div class="tokens-details">
-								<b class="name">{{ token.name}}</b>
-								<time class="last-used">{{ $t('last_used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}</time>
-							</div>
-							<div @click="confirmDeleteToken(token)" class="tokens-destroyer">
-								<x-icon size="16" class="close-icon hover-text-theme" />
-							</div>
-						</li>
-					</ul>
-				</InfoBox>
-
-				<ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="confirm-form">
-					{{ $t('personal_token.create_token') }}
-				</ButtonBase>
-			</div>
-		</div>
-
-		<div class="card shadow-card">
-			<ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
+        <div class="card shadow-card">
+            <FormLabel icon="smartphone">
+                {{ $t('2fa.settings.title') }}
+            </FormLabel>
+            <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')">
+                <SwitchInput @click.native.prevent.stop="open2faPopup"
+							 class="switch"
+							 :state="user.data.attributes.two_factor_authentication"
+				/>
+            </AppInputSwitch>
+            <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')">
+                <ButtonBase
+					class="popup-button"
+					button-style="secondary"
+					@click.native="showRecoveryCodes"
+				>
+                    {{ $t('popup_2fa.codes_button') }}
+                </ButtonBase>
+            </AppInputSwitch>
+        </div>
+        <div class="card shadow-card">
+            <FormLabel icon="key">
+                {{ $t('personal_token.section_title') }}
+            </FormLabel>
+            <InfoBox v-if="tokens.length === 0">
+                <p>{{ $t("personal_token.section_description") }}</p>
+            </InfoBox>
+            <InfoBox v-if="tokens.length > 0">
+                <ul class="tokens-wrapper">
+                    <li class="token-item" v-for="token in tokens" :key="token.id">
+                        <div class="tokens-details">
+                            <b class="name">{{ token.name}}</b>
+                            <time class="last-used">{{ $t('last_used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}</time>
+                        </div>
+                        <div @click="confirmDeleteToken(token)" class="tokens-destroyer">
+                            <x-icon size="16" class="close-icon hover-text-theme" />
+                        </div>
+                    </li>
+                </ul>
+            </InfoBox>
+            <ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="confirm-form">
+                {{ $t('personal_token.create_token') }}
+            </ButtonBase>
+        </div>
+        <div class="card shadow-card">
+            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
                 <FormLabel>{{ $t('user_password.title') }}</FormLabel>
                 <div class="block-wrapper">
                     <label>{{ $t('page_create_password.label_new_pass') }}:</label>
@@ -107,11 +75,12 @@
                     </ButtonBase>
                 </div>
             </ValidationObserver>
-		</div>
+        </div>
     </PageTab>
 </template>
 
 <script>
+	import AppInputSwitch from "../../components/Admin/AppInputSwitch";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
 	import UserImageInput from '/resources/js/components/Others/UserImageInput'
@@ -132,6 +101,7 @@
 	export default {
 		name: 'Password',
 		components: {
+			AppInputSwitch,
 			PageTabGroup,
 			FormLabel,
 			PageTab,
