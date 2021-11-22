@@ -1,67 +1,70 @@
 <template>
-    <PageTab :is-loading="isLoading" class="form-fixed-width">
+    <PageTab :is-loading="isLoading">
 
         <!--Personal Information-->
         <PageTabGroup>
             <ValidationObserver @submit.prevent="EmailSetupSubmit" ref="EmailSetup" v-slot="{ invalid }" tag="form" class="form block-form">
-                <FormLabel>{{ $t('admin_settings.email.section_email') }}</FormLabel>
 
-                <InfoBox>
-                    <p v-html="$t('admin_settings.email.email_disclaimer')"></p>
-                </InfoBox>
+				<div class="card shadow-card">
+					<FormLabel>{{ $t('admin_settings.email.section_email') }}</FormLabel>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.driver') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<InfoBox>
+						<p v-html="$t('admin_settings.email.email_disclaimer')"></p>
+					</InfoBox>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.host') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.email.driver') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
+							<input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.port') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.email.host') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
+							<input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.username') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.email.port') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
+							<input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.password') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.email.username') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
+							<input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.encryption') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Encryption" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="mail.encryption" :options="encryptionList" :placeholder="$t('admin_settings.email.encryption_plac')" :isError="errors[0]"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.email.password') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
+							<input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
-                            button-style="theme" class="submit-button">
-                    {{ $t('admin_settings.email.save_button') }}
-                </ButtonBase>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.email.encryption') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Encryption" rules="required" v-slot="{ errors }">
+							<SelectInput v-model="mail.encryption" :options="encryptionList" :placeholder="$t('admin_settings.email.encryption_plac')" :isError="errors[0]"/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
+
+					<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
+								button-style="theme" class="submit-button">
+						{{ $t('admin_settings.email.save_button') }}
+					</ButtonBase>
+				</div>
             </ValidationObserver>
         </PageTabGroup>
     </PageTab>

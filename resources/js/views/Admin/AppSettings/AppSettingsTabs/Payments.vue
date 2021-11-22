@@ -1,30 +1,34 @@
 <template>
-    <PageTab :is-loading="isLoading" class="form-fixed-width">
+    <PageTab :is-loading="isLoading">
 
         <!--Stripe Information-->
         <PageTabGroup v-if="config.stripe_public_key && payments">
             <div class="form block-form">
-                <FormLabel>{{ $t('admin_settings.payments.section_payments') }}</FormLabel>
-                <InfoBox>
-                    <p v-html="$t('admin_settings.payments.credentials_disclaimer')"></p>
-                </InfoBox>
-                <div class="block-wrapper">
-                    <div class="input-wrapper">
-                        <div class="inline-wrapper">
-                            <div class="switch-label">
-                                <label class="input-label">{{ $t('admin_settings.payments.allow_payments') }}:</label>
-                            </div>
-                            <SwitchInput @input="$updateText('/admin/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.payments.webhook_url') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook URL" rules="required" v-slot="{ errors }">
-                        <input :value="stripeWebhookEndpoint" type="text" disabled/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<div class="card shadow-card">
+					<FormLabel>
+						{{ $t('admin_settings.payments.section_payments') }}
+					</FormLabel>
+					<InfoBox>
+						<p v-html="$t('admin_settings.payments.credentials_disclaimer')"></p>
+					</InfoBox>
+					<div class="block-wrapper">
+						<div class="input-wrapper">
+							<div class="inline-wrapper">
+								<div class="switch-label">
+									<label class="input-label">{{ $t('admin_settings.payments.allow_payments') }}:</label>
+								</div>
+								<SwitchInput @input="$updateText('/admin/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status"/>
+							</div>
+						</div>
+					</div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.payments.webhook_url') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook URL" rules="required" v-slot="{ errors }">
+							<input :value="stripeWebhookEndpoint" type="text" class="focus-border-theme input-dark" disabled/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
+				</div>
             </div>
         </PageTabGroup>
 
@@ -32,63 +36,67 @@
         <PageTabGroup v-if="! config.stripe_public_key">
             <ValidationObserver @submit.prevent="stripeCredentialsSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="form block-form">
 
-                <FormLabel>{{ $t('admin_settings.payments.stripe_setup') }}</FormLabel>
+				<div class="card shadow-card">
+					<FormLabel>
+						{{ $t('admin_settings.payments.stripe_setup') }}
+					</FormLabel>
 
-                <InfoBox>
-                    <p v-html="$t('admin_settings.payments.stripe_create_acc')"></p>
-                </InfoBox>
+					<InfoBox>
+						<p v-html="$t('admin_settings.payments.stripe_create_acc')"></p>
+					</InfoBox>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.payments.stripe_currency') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Currency" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="stripeCredentials.currency" :options="currencyList" :placeholder="$t('admin_settings.payments.stripe_currency_plac')" :isError="errors[0]"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.payments.stripe_currency') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Currency" rules="required" v-slot="{ errors }">
+							<SelectInput v-model="stripeCredentials.currency" :options="currencyList" :placeholder="$t('admin_settings.payments.stripe_currency_plac')" :isError="errors[0]"/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.payments.stripe_pub_key') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Publishable Key" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.payments.stripe_pub_key') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Publishable Key" rules="required" v-slot="{ errors }">
+							<input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.payments.stripe_sec_key') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret Key" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>{{ $t('admin_settings.payments.stripe_sec_key') }}:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret Key" rules="required" v-slot="{ errors }">
+							<input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>Webhook URL:</label>
-                    <InfoBox>
-                        <p v-html="$t('admin_settings.payments.stripe_create_webhook')"></p>
-                    </InfoBox>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook URL" rules="required" v-slot="{ errors }">
-                        <input :value="stripeWebhookEndpoint" type="text" disabled/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>Webhook URL:</label>
+						<InfoBox>
+							<p v-html="$t('admin_settings.payments.stripe_create_webhook')"></p>
+						</InfoBox>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook URL" rules="required" v-slot="{ errors }">
+							<input :value="stripeWebhookEndpoint" type="text" class="focus-border-theme input-dark" disabled/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <div class="block-wrapper">
-                    <label>Webhook Secret:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook Secret" rules="required" v-slot="{ errors }">
-                        <input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<div class="block-wrapper">
+						<label>Webhook Secret:</label>
+						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Webhook Secret" rules="required" v-slot="{ errors }">
+							<input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
+							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
 
-                <InfoBox v-if="isError" type="error" >
-                    <p>{{ errorMessage }}</p>
-                </InfoBox>
+					<InfoBox v-if="isError" type="error" >
+						<p>{{ errorMessage }}</p>
+					</InfoBox>
 
-                <ButtonBase :loading="isLoading" :disabled="isLoading" type="submit"
-                            button-style="theme" class="submit-button">
-                    {{ submitButtonText }}
-                </ButtonBase>
+					<ButtonBase :loading="isLoading" :disabled="isLoading" type="submit"
+								button-style="theme" class="submit-button">
+						{{ submitButtonText }}
+					</ButtonBase>
+				</div>
 
             </ValidationObserver>
         </PageTabGroup>

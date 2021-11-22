@@ -134,6 +134,14 @@ export default {
 @import '/resources/sass/vuefilemanager/_variables';
 @import '/resources/sass/vuefilemanager/_mixins';
 
+.card {
+	@apply bg-white px-9 pt-8 pb-9 rounded-xl lg:mb-6 mb-4
+}
+
+.input-dark {
+	@apply w-full bg-light-background py-3.5 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
+}
+
 [v-cloak],
 [v-cloak] > * {
     display: none
