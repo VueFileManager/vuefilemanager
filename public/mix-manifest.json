@@ -50,7 +50,7 @@
     "/chunks/invoices.js": "/chunks/invoices.js?id=dde37879c074c8bf91b1",
     "/chunks/my-shared-items.js": "/chunks/my-shared-items.js?id=ea129760157c8e44f324",
     "/chunks/not-found.js": "/chunks/not-found.js?id=034287ee0ecb036320d3",
-    "/chunks/page-edit.js": "/chunks/page-edit.js?id=e43f457e73127ec3f7ae",
+    "/chunks/page-edit.js": "/chunks/page-edit.js?id=b17615724b6b9e36ea70",
     "/chunks/pages.js": "/chunks/pages.js?id=038b6c946b7eb16f85bf",
     "/chunks/plan.js": "/chunks/plan.js?id=052940a7395f559b7c60",
     "/chunks/plan-create.js": "/chunks/plan-create.js?id=72e4ef277bb881d5cadf",
@@ -627,5 +627,17 @@
     "/chunks/settings-password.87743b19122f780b950c.hot-update.js": "/chunks/settings-password.87743b19122f780b950c.hot-update.js",
     "/chunks/settings-password.378b875252bdd254d1ff.hot-update.js": "/chunks/settings-password.378b875252bdd254d1ff.hot-update.js",
     "/chunks/settings-password.7015c03dc9f51ad03680.hot-update.js": "/chunks/settings-password.7015c03dc9f51ad03680.hot-update.js",
-    "/chunks/settings-password.55be9251fdc82b46822e.hot-update.js": "/chunks/settings-password.55be9251fdc82b46822e.hot-update.js"
+    "/chunks/settings-password.55be9251fdc82b46822e.hot-update.js": "/chunks/settings-password.55be9251fdc82b46822e.hot-update.js",
+    "/chunks/page-edit.119d9de8e7f269043a53.hot-update.js": "/chunks/page-edit.119d9de8e7f269043a53.hot-update.js",
+    "/chunks/page-edit.6f57d1a40bb2af8ff0ca.hot-update.js": "/chunks/page-edit.6f57d1a40bb2af8ff0ca.hot-update.js",
+    "/chunks/page-edit.f80e592c92f1d41434a5.hot-update.js": "/chunks/page-edit.f80e592c92f1d41434a5.hot-update.js",
+    "/chunks/page-edit.41f2b316701aeff99feb.hot-update.js": "/chunks/page-edit.41f2b316701aeff99feb.hot-update.js",
+    "/chunks/page-edit.03aca67cde03bb4dd2a9.hot-update.js": "/chunks/page-edit.03aca67cde03bb4dd2a9.hot-update.js",
+    "/chunks/page-edit.2f0e28ecfca98b3010b7.hot-update.js": "/chunks/page-edit.2f0e28ecfca98b3010b7.hot-update.js",
+    "/chunks/page-edit.7fdfbe406f3677ee5b9b.hot-update.js": "/chunks/page-edit.7fdfbe406f3677ee5b9b.hot-update.js",
+    "/chunks/page-edit.2d749c39eeebb26015f9.hot-update.js": "/chunks/page-edit.2d749c39eeebb26015f9.hot-update.js",
+    "/chunks/page-edit.5553ce000c33d0e81b05.hot-update.js": "/chunks/page-edit.5553ce000c33d0e81b05.hot-update.js",
+    "/chunks/page-edit.946fa7062f4aef8814b8.hot-update.js": "/chunks/page-edit.946fa7062f4aef8814b8.hot-update.js",
+    "/chunks/page-edit.7e2c8d9e5f65db50e24b.hot-update.js": "/chunks/page-edit.7e2c8d9e5f65db50e24b.hot-update.js",
+    "/chunks/page-edit.4e9e9ac7163245ba466e.hot-update.js": "/chunks/page-edit.4e9e9ac7163245ba466e.hot-update.js"
 }

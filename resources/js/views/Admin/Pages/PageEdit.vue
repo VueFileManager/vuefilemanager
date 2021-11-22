@@ -1,60 +1,31 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && page">
-
             <div class="card shadow-card">
-                <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
-                    <FormLabel>
-                        {{ page.data.attributes.title }}
-                    </FormLabel>
-
-                    <!--Visible-->
-                    <div class="block-wrapper">
-                        <div class="input-wrapper">
-                            <div class="inline-wrapper">
-                                <div class="switch-label">
-                                    <label class="input-label">{{ $t('admin_pages.form.visibility') }}:</label>
-                                    <small class="input-help">{{ $t('admin_pages.form.visibility_help') }}</small>
-                                </div>
-                                <SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="block-wrapper">
-                        <label>{{ $t('admin_pages.form.title') }}:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                            <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
-                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-
-                    <div class="block-wrapper">
-                        <label>{{ $t('admin_pages.form.slug') }}:</label>
-                        <div class="input-wrapper">
-                            <input v-model="page.data.attributes.slug" type="text" class="focus-border-theme input-dark" disabled/>
-                        </div>
-                    </div>
-
-                    <div class="block-wrapper">
-                        <label>{{ $t('admin_pages.form.content') }}:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
-                            <textarea
-                                    @input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
-                                    v-model="page.data.attributes.content"
-                                    :placeholder="$t('admin_pages.form.content_plac')"
-                                    :class="{'is-error': errors[0]}"
-                                    class="focus-border-theme input-dark"
-                                    rows="18"
-                            ></textarea>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                </ValidationObserver>
+                <FormLabel>
+                    {{ page.data.attributes.title }}
+                </FormLabel>
+                <AppInputSwitch :title="$t('admin_pages.form.visibility')" :description="$t('admin_pages.form.visibility_help')">
+                    <SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility"/>
+                </AppInputSwitch>
+                <AppInputText :title="$t('admin_pages.form.title')">
+                    <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
+						   :placeholder="$t('admin_pages.form.title_plac')" type="text" class="focus-border-theme input-dark"/>
+                </AppInputText>
+                <AppInputText :title="$t('admin_pages.form.slug')">
+                    <input v-model="page.data.attributes.slug" type="text" class="focus-border-theme input-dark" disabled/>
+                </AppInputText>
+                <AppInputText :title="$t('admin_pages.form.content')">
+                    <textarea
+						@input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
+						v-model="page.data.attributes.content"
+						:placeholder="$t('admin_pages.form.content_plac')"
+						class="focus-border-theme input-dark"
+						rows="18"
+					></textarea>
+                </AppInputText>
             </div>
         </div>
-
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>
@@ -62,6 +33,8 @@
 </template>
 
 <script>
+	import AppInputSwitch from "../../../components/Admin/AppInputSwitch";
+	import AppInputText from "../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
     import {required} from 'vee-validate/dist/rules'
@@ -76,6 +49,8 @@
     export default {
         name: 'PageEdit',
         components: {
+			AppInputSwitch,
+			AppInputText,
             ValidationProvider,
             ValidationObserver,
             FormLabel,
