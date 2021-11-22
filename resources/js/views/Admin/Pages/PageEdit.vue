@@ -1,11 +1,9 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && page">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
-            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
 
-            <div class="content-page">
-                <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form form-fixed-width">
+            <div class="card shadow-card">
+                <ValidationObserver ref="personalInformation" v-slot="{ invalid }" tag="form" class="form block-form">
                     <FormLabel>
                         {{ page.data.attributes.title }}
                     </FormLabel>
@@ -27,7 +25,7 @@
                         <label>{{ $t('admin_pages.form.title') }}:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name" rules="required" v-slot="{ errors }">
                             <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
-                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme"/>
+                                   :placeholder="$t('admin_pages.form.title_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -35,7 +33,7 @@
                     <div class="block-wrapper">
                         <label>{{ $t('admin_pages.form.slug') }}:</label>
                         <div class="input-wrapper">
-                            <input v-model="page.data.attributes.slug" type="text" disabled/>
+                            <input v-model="page.data.attributes.slug" type="text" class="focus-border-theme input-dark" disabled/>
                         </div>
                     </div>
 
@@ -47,7 +45,7 @@
                                     v-model="page.data.attributes.content"
                                     :placeholder="$t('admin_pages.form.content_plac')"
                                     :class="{'is-error': errors[0]}"
-                                    class="focus-border-theme"
+                                    class="focus-border-theme input-dark"
                                     rows="18"
                             ></textarea>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>

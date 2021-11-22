@@ -1,7 +1,6 @@
 <template>
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && data">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
 
             <div class="dashboard-headline">
                 <div class="logo">

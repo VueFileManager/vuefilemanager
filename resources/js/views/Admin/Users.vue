@@ -71,20 +71,6 @@
                     </template>
                 </DatatableWrapper>
 		</div>
-
-<!--        <div id="page-content">
-
-            <div class="content-page">
-
-                &lt;!&ndash;Table tools&ndash;&gt;
-                <div class="table-tools">
-                    <div class="buttons">
-                    </div>
-                </div>
-
-
-            </div>
-        </div>-->
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>

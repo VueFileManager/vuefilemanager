@@ -1,39 +1,36 @@
 <template>
-    <div id="single-page">
+    <div>
         <div id="page-content" v-show="! isLoading">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
-            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
-
-            <div class="content-page">
-                <DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
-                    <template slot-scope="{ row }">
-                        <tr>
-                            <td class="name" style="min-width: 200px">
-                                <router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="cell-item" tag="div">
-                                    <span>{{ row.data.attributes.title }}</span>
-                                </router-link>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.slug }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    <SwitchInput @input="changeStatus($event, row.data.attributes.slug)" class="switch" :state="row.data.attributes.visibility"/>
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-icons">
-                                    <router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
-                                        <Edit2Icon size="15" class="icon icon-edit" />
-                                    </router-link>
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
-                </DatatableWrapper>
-            </div>
+			<div class="card shadow-card">
+				<DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
+					<template slot-scope="{ row }">
+						<tr>
+							<td class="py-3">
+								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="cell-item" tag="div">
+									<span>{{ row.data.attributes.title }}</span>
+								</router-link>
+							</td>
+							<td>
+								<span class="cell-item">
+									{{ row.data.attributes.slug }}
+								</span>
+							</td>
+							<td>
+								<span class="cell-item">
+									<SwitchInput @input="changeStatus($event, row.data.attributes.slug)" class="switch" :state="row.data.attributes.visibility"/>
+								</span>
+							</td>
+							<td>
+								<div class="action-icons">
+									<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
+										<Edit2Icon size="15" class="icon icon-edit" />
+									</router-link>
+								</div>
+							</td>
+						</tr>
+					</template>
+				</DatatableWrapper>
+			</div>
         </div>
 
         <div id="loader" v-if="isLoading">
