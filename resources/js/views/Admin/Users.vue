@@ -1,33 +1,18 @@
 <template>
-    <div id="single-page">
-        <div id="page-content">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
-            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
+    <div class="pr-6 w-full overflow-x-hidden relative" style="background: rgba(244, 245, 246, 0.6)">
 
-            <div class="content-page">
-
-                <!--Table tools-->
-                <div class="table-tools">
-                    <div class="buttons">
-                        <router-link :to="{name: 'UserCreate'}">
-                            <MobileActionButton icon="user-plus">
-                                {{ $t('admin_page_user.create_user.submit') }}
-                            </MobileActionButton>
-                        </router-link>
-                    </div>
-                </div>
-
-                <!--Datatable-->
-                <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
+		<div class="card shadow-card lg:mt-6 mt-4">
+			<!--Datatable-->
+			<DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
                             <td style="min-width: 320px">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <DatatableCellImage
-                                            :image="row.data.relationships.settings.data.attributes.avatar.sm"
-                                            :title="row.data.relationships.settings.data.attributes.name"
-                                            :description="row.data.attributes.email"
-                                    />
+										:image="row.data.relationships.settings.data.attributes.avatar.sm"
+										:title="row.data.relationships.settings.data.attributes.name"
+										:description="row.data.attributes.email"
+									/>
                                 </router-link>
                             </td>
                             <td>
@@ -77,8 +62,26 @@
                         </tr>
                     </template>
                 </DatatableWrapper>
+		</div>
+
+<!--        <div id="page-content">
+
+            <div class="content-page">
+
+                &lt;!&ndash;Table tools&ndash;&gt;
+                <div class="table-tools">
+                    <div class="buttons">
+                        <router-link :to="{name: 'UserCreate'}">
+                            <MobileActionButton icon="user-plus">
+                                {{ $t('admin_page_user.create_user.submit') }}
+                            </MobileActionButton>
+                        </router-link>
+                    </div>
+                </div>
+
+
             </div>
-        </div>
+        </div>-->
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>

@@ -1,88 +1,39 @@
 <template>
-    <div id="single-page">
-        <div id="page-content" v-if="! isLoading">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
-            <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)"/>
-            <div class="content-page">
+    <div class="pr-6 w-full overflow-x-hidden relative" style="background: rgba(244, 245, 246, 0.6)">
 
-                <!--User thumbnail-->
-                <div class="user-thumbnail">
-                    <div class="avatar">
-                        <img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">
-                        <!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
-                    </div>
-                    <div class="info">
-                        <b class="name">
-                            {{ user.data.relationships.settings.data.attributes.name }}
-                            <ColorLabel color="purple">
-                                {{ user.data.attributes.role }}
-                            </ColorLabel>
-                        </b>
-                        <span class="email">{{ user.data.attributes.email }}</span>
-                    </div>
-                </div>
+		<div id="page-content" v-if="! isLoading">
+			<!--Page Tab links-->
+			<div class="card shadow-card pt-4 pb-0 lg:mt-6 mt-4 sticky top-0 z-10">
+				<div class="user-thumbnail">
+					<div class="avatar">
+						<img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">
+						<!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
+					</div>
+					<div class="info">
+						<b class="name">
+							{{ user.data.relationships.settings.data.attributes.name }}
+							<ColorLabel color="purple">
+								{{ user.data.attributes.role }}
+							</ColorLabel>
+						</b>
+						<span class="email">{{ user.data.attributes.email }}</span>
+					</div>
+				</div>
 
-                <!--Page Tab links-->
-                <div class="menu-list-wrapper horizontal">
-                    <router-link replace :to="{name: 'UserDetail'}" class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <user-icon size="17"></user-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_page_user.tabs.detail') }}
-                        </div>
-                    </router-link>
+				<router-link
+					class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
+					:class="{'text-theme': $router.currentRoute.name === page.route, 'text-gray-600': $router.currentRoute.name !== page.route}"
+					v-for="(page, i) in pages"
+					:to="{name: page.route}"
+					:key="i"
+					replace
+				>
+					{{ page.title }}
+				</router-link>
+			</div>
 
-                    <router-link replace :to="{name: 'UserStorage'}" class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <hard-drive-icon size="17"></hard-drive-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_page_user.tabs.storage') }}
-                        </div>
-                    </router-link>
-
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserSubscription'}" class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <credit-card-icon size="17"></credit-card-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_page_user.tabs.subscription') }}
-                        </div>
-                    </router-link>
-
-                    <router-link v-if="config.isSaaS" replace :to="{name: 'UserInvoices'}" class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <file-text-icon size="17"></file-text-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_page_user.tabs.invoices') }}
-                        </div>
-                    </router-link>
-
-                    <router-link replace :to="{name: 'UserPassword'}" class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <lock-icon size="17"></lock-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_page_user.tabs.password') }}
-                        </div>
-                    </router-link>
-
-                    <router-link replace :to="{name: 'UserDelete'}" v-if="admin && user.data.relationships.settings.data.attributes.name !== admin.data.relationships.settings.data.attributes.name"
-                                 class="menu-list-item link border-bottom-theme">
-                        <div class="icon text-theme">
-                            <trash2-icon size="17"></trash2-icon>
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_page_user.tabs.delete') }}
-                        </div>
-                    </router-link>
-                </div>
-
-                <!--Router Content-->
-                <router-view :user="user" @reload-user="fetchUser"/>
-            </div>
+			<!--Router Content-->
+			<router-view :user="user" @reload-user="fetchUser"/>
         </div>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
@@ -127,6 +78,32 @@
             return {
                 isLoading: true,
                 user: undefined,
+				pages: [
+					{
+						title: this.$t('admin_page_user.tabs.detail'),
+						route: 'UserDetail',
+					},
+					{
+						title: this.$t('admin_page_user.tabs.storage'),
+						route: 'UserStorage',
+					},
+					{
+						title: this.$t('admin_page_user.tabs.subscription'),
+						route: 'UserSubscription',
+					},
+					{
+						title: this.$t('Transactions'),
+						route: 'UserInvoices',
+					},
+					{
+						title: this.$t('admin_page_user.tabs.password'),
+						route: 'UserPassword',
+					},
+					{
+						title: this.$t('Delete Account'),
+						route: 'UserDelete',
+					},
+				]
             }
         },
         methods: {

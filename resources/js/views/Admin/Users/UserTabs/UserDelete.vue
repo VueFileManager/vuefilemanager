@@ -1,7 +1,10 @@
 <template>
-    <PageTab v-if="user" class="form-fixed-width">
-        <PageTabGroup>
-            <FormLabel>{{ $t('user_box_delete.title') }}</FormLabel>
+    <PageTab v-if="user">
+
+		<div class="card shadow-card">
+            <FormLabel>
+				{{ $t('user_box_delete.title') }}
+			</FormLabel>
             <InfoBox>
                 <p>{{ $t('user_box_delete.description') }}</p>
             </InfoBox>
@@ -12,7 +15,7 @@
                         <input v-model="userName"
                                :placeholder="$t('admin_page_user.placeholder_delete_user')"
                                type="text"
-                               class="focus-border-theme"
+                               class="focus-border-theme input-dark"
                                :class="{'is-error': errors[0]}"
                         />
                         <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
@@ -23,6 +26,9 @@
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
+		</div>
+
+        <PageTabGroup>
         </PageTabGroup>
     </PageTab>
 </template>

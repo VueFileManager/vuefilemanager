@@ -1,8 +1,8 @@
 <template>
-    <PageTab class="form-fixed-width">
+    <PageTab>
 
         <!--Change role-->
-        <PageTabGroup>
+		<div class="card shadow-card">
             <FormLabel>
                 {{ $t('user_box_role.title') }}
             </FormLabel>
@@ -25,41 +25,41 @@
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
-        </PageTabGroup>
+		</div>
 
-        <!--Personal Information-->
-        <PageTabGroup>
-            <div class="form block-form">
+		<div class="card shadow-card">
+			<div class="form block-form">
                 <FormLabel>{{ $t('admin_page_user.label_person_info') }}</FormLabel>
 
-                <!--Email-->
+				<!--Email-->
                 <div class="block-wrapper">
                     <label>{{ $t('page_registration.label_email') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.attributes.email"
-                               :placeholder="$t('page_registration.placeholder_email')"
-                               type="email"
-                               disabled
-                        />
+							   :placeholder="$t('page_registration.placeholder_email')"
+							   type="email"
+							   class="focus-border-theme input-dark"
+							   disabled
+						/>
                     </div>
                 </div>
 
-                <!--Name-->
+				<!--Name-->
                 <div class="block-wrapper">
                     <label>{{ $t('page_registration.label_name') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.name"
-                               :placeholder="$t('page_registration.placeholder_name')"
-                               type="text"
-                               disabled
-                        />
+							   :placeholder="$t('page_registration.placeholder_name')"
+							   type="text"
+							   class="focus-border-theme input-dark"
+							   disabled
+						/>
                     </div>
                 </div>
             </div>
-        </PageTabGroup>
+		</div>
 
-        <!--Billing Information-->
-        <PageTabGroup v-if="config.isSaaS">
+		<div class="card shadow-card">
             <div class="form block-form">
                 <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
 
@@ -67,27 +67,30 @@
                     <label>{{ $t('user_settings.name') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.name"
-                               type="text"
-                               disabled
-                        />
+							   type="text"
+							   class="focus-border-theme input-dark"
+							   disabled
+						/>
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.address') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.address"
-                               type="text"
-                               disabled
-                        />
+							   type="text"
+							   disabled
+							   class="focus-border-theme input-dark"
+						/>
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.country') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.country"
-                               type="text"
-                               disabled
-                        />
+							   type="text"
+							   disabled
+							   class="focus-border-theme input-dark"
+						/>
                     </div>
                 </div>
                 <div class="wrapper-inline">
@@ -95,18 +98,20 @@
                         <label>{{ $t('user_settings.city') }}:</label>
                         <div class="input-wrapper">
                             <input :value="user.data.relationships.settings.data.attributes.city"
-                                   type="text"
-                                   disabled
-                            />
+								   type="text"
+								   disabled
+								   class="focus-border-theme input-dark"
+							/>
                         </div>
                     </div>
                     <div class="block-wrapper">
                         <label>{{ $t('user_settings.postal_code') }}:</label>
                         <div class="input-wrapper">
                             <input :value="user.data.relationships.settings.data.attributes.postal_code"
-                                   type="text"
-                                   disabled
-                            />
+								   type="text"
+								   disabled
+								   class="focus-border-theme input-dark"
+							/>
                         </div>
                     </div>
                 </div>
@@ -114,22 +119,24 @@
                     <label>{{ $t('user_settings.state') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.state"
-                               type="text"
-                               disabled
-                        />
+							   type="text"
+							   disabled
+							   class="focus-border-theme input-dark"
+						/>
                     </div>
                 </div>
                 <div class="block-wrapper">
                     <label>{{ $t('user_settings.phone_number') }}:</label>
                     <div class="input-wrapper">
                         <input :value="user.data.relationships.settings.data.attributes.phone_number"
-                               type="text"
-                               disabled
-                        />
+							   type="text"
+							   disabled
+							   class="focus-border-theme input-dark"
+						/>
                     </div>
                 </div>
             </div>
-        </PageTabGroup>
+		</div>
     </PageTab>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
-    <PageTab class="form-fixed-width">
-        <PageTabGroup>
+    <PageTab>
+		<div class="card shadow-card">
             <FormLabel>
                 {{ $t('user_box_password.title') }}
             </FormLabel>
@@ -11,7 +11,7 @@
                         :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
                 {{ $t('admin_page_user.send_password_link') }}
             </ButtonBase>
-        </PageTabGroup>
+		</div>
     </PageTab>
 </template>
 

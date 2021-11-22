@@ -4,6 +4,7 @@
             <thead class="table-header">
             <tr>
                 <th
+					class=""
                     v-for="(column, index) in columns"
                     @click="sort(column.field, column.sortable)"
                     :key="index"
@@ -390,7 +391,6 @@ export default {
 
 .paginator-wrapper {
     margin-top: 30px;
-    margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
