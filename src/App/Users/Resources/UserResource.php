@@ -20,6 +20,7 @@ class UserResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => 'user',
                 'attributes'    => [
+                    'avatar'       => $this->settings->avatar,
                     'email'                     => is_demo() ? obfuscate_email($this->email) : $this->email,
                     'role'                      => $this->role,
                     'two_factor_authentication' => $this->two_factor_secret ? true : false,

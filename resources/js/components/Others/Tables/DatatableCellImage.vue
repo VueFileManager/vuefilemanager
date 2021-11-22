@@ -1,20 +1,32 @@
  <template>
-     <div class="cell-image-thumbnail">
-         <div class="image" :class="imageSize" v-if="image">
-             <img :src="image" :alt="title">
-             <img :src="image" :alt="title" class="blurred">
-         </div>
-         <div class="info">
-             <b class="name" v-if="title">{{ title }}</b>
-             <span class="description" v-if="description">{{ description }}</span>
-         </div>
-     </div>
+	 <div class="flex items-center flex-shrink-0 flex-grow-0">
+		 <MemberAvatar
+			 class="mr-3 flex-shrink-0"
+			 :is-border="false"
+			 :size="52"
+			 :member="member"
+		 />
+		 <div class="info">
+			 <b class="name" v-if="title">{{ title }}</b>
+			 <span class="description" v-if="description">{{ description }}</span>
+		 </div>
+	 </div>
 </template>
 
 <script>
+	import MemberAvatar from "../../FilesView/MemberAvatar";
+
     export default {
         name:'DatatableCellImage',
-        props: ['image', 'title', 'description', 'image-size'],
+        props: [
+			'member',
+			'title',
+			'description',
+			'image-size'
+		],
+		components: {
+			MemberAvatar,
+		}
     }
 </script>
 
@@ -22,59 +34,27 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
-    .cell-image-thumbnail {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
+	.info {
 
-        .image {
-            margin-right: 20px;
-            line-height: 0;
-            position: relative;
+		.name, .description {
+			max-width: 150px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: block;
+		}
 
-            img {
-                line-height: 0;
-                width: 48px;
-                height: 48px;
-                border-radius: 8px;
-                z-index: 1;
-                position: relative;
+		.name {
+			@include font-size(15);
+			line-height: 1;
+			color: $text;
+		}
 
-                &.blurred {
-                    @include blurred-image;
-                }
-            }
-
-            &.small {
-                img {
-                    width: 32px;
-                    height: 32px;
-                }
-            }
-        }
-
-        .info {
-
-            .name, .description {
-                max-width: 150px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-            }
-
-            .name {
-                @include font-size(15);
-                line-height: 1;
-                color: $text;
-            }
-
-            .description {
-                color: $text-muted;
-                @include font-size(12);
-            }
-        }
-    }
+		.description {
+			color: $text-muted;
+			@include font-size(12);
+		}
+	}
 
     .dark {
 

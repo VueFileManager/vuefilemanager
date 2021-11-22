@@ -49,7 +49,7 @@
 				}
 			},
 			avatar() {
-				if (this.size > 62) {
+				if (this.size >= 52) {
 					return this.member.data.attributes.avatar.md
 				} else if (this.size > 32) {
 					return this.member.data.attributes.avatar.sm

@@ -14,10 +14,10 @@
 			<DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
                         <tr>
-                            <td style="min-width: 320px">
+                            <td class="py-3">
                                 <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <DatatableCellImage
-										:image="row.data.relationships.settings.data.attributes.avatar.sm"
+										:member="row"
 										:title="row.data.relationships.settings.data.attributes.name"
 										:description="row.data.attributes.email"
 									/>
@@ -98,10 +98,10 @@
     import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
     import SectionTitle from '/resources/js/components/Others/SectionTitle'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import PageHeader from '/resources/js/components/Others/PageHeader'
     import ColorLabel from '/resources/js/components/Others/ColorLabel'
     import Spinner from '/resources/js/components/FilesView/Spinner'
+    import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import {mapGetters} from "vuex"
     import axios from 'axios'
 
@@ -165,7 +165,7 @@
                     sortable: true
                 },
                 {
-                    label: this.$t('admin_page_user.table.max_storage_amount'),
+                    label: this.$t('Max Storage'),
                     field: 'settings.max_storage_amount',
                     sortable: true,
                     hidden: ! this.config.storageLimit,
