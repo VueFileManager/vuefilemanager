@@ -87,7 +87,7 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <router-view/>
+        <router-view class="pr-6 w-full overflow-x-hidden relative lg:pt-6 pt-4" style="background: rgba(244, 245, 246, 0.6)" />
     </div>
 </template>
 

@@ -1,9 +1,8 @@
 <template>
-    <div class="pr-6 w-full overflow-x-hidden relative" style="background: rgba(244, 245, 246, 0.6)">
-
+    <div>
 		<div id="page-content" v-if="! isLoading">
 			<!--Page Tab links-->
-			<div class="card shadow-card pt-4 pb-0 lg:mt-6 mt-4 sticky top-0 z-10">
+			<div class="card shadow-card pt-4 pb-0 sticky top-0 z-10">
 				<div class="user-thumbnail">
 					<div class="avatar">
 						<img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">

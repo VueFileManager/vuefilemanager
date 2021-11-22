@@ -1,7 +1,7 @@
 <template>
-    <div class="pr-6 w-full overflow-x-hidden relative" style="background: rgba(244, 245, 246, 0.6)">
+    <div>
 		<!--Page Tab links-->
-		<div class="card shadow-card py-0 lg:mt-6 mt-4 sticky top-0 z-10">
+		<div class="card shadow-card py-0 sticky top-0 z-10">
 			<router-link
 				class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
 				:class="{'text-theme': $router.currentRoute.name === page.route, 'text-gray-600': $router.currentRoute.name !== page.route}"

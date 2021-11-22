@@ -1,92 +1,83 @@
 <template>
-    <div id="single-page">
-        <div id="page-content" class="small-width">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
-            <PageHeader :can-back="true" :title="$t($router.currentRoute.meta.title)"/>
+	<ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form" class="form block-form">
 
-            <div class="content-page">
-                <ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form" class="form block-form">
+		<div class="card shadow-card">
+			<FormLabel>{{ $t('admin_page_user.create_user.group_details') }}</FormLabel>
 
-                    <div class="form-group">
-                        <FormLabel>{{ $t('admin_page_user.create_user.group_details') }}</FormLabel>
+			<!--Avatar-->
+			<div class="block-wrapper">
+				<label>{{ $t('admin_page_user.create_user.avatar') }}</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="avatar" v-slot="{ errors }">
+					<ImageInput v-model="user.avatar" :error="errors[0]" />
+				</ValidationProvider>
+			</div>
 
-                        <!--Avatar-->
-                        <div class="block-wrapper">
-                            <label>{{ $t('admin_page_user.create_user.avatar') }}</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="avatar" v-slot="{ errors }">
-                                <ImageInput v-model="user.avatar" :error="errors[0]" />
-                            </ValidationProvider>
-                        </div>
+			<!--Email-->
+			<div class="block-wrapper">
+				<label>{{ $t('page_registration.label_email') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" rules="required" v-slot="{ errors }">
+					<input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+				</ValidationProvider>
+			</div>
 
-                        <!--Email-->
-                        <div class="block-wrapper">
-                            <label>{{ $t('page_registration.label_email') }}:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" rules="required" v-slot="{ errors }">
-                                <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
+			<!--Name-->
+			<div class="block-wrapper">
+				<label>{{ $t('page_registration.label_name') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="user name" rules="required" v-slot="{ errors }">
+					<input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+				</ValidationProvider>
+			</div>
 
-                        <!--Name-->
-                        <div class="block-wrapper">
-                            <label>{{ $t('page_registration.label_name') }}:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="user name" rules="required" v-slot="{ errors }">
-                                <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
+			<!--Password-->
+			<div class="wrapper-inline">
+				<div class="block-wrapper">
+					<label>{{ $t('page_registration.label_pass') }}:</label>
+					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password" rules="required" v-slot="{ errors }">
+						<input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+					</ValidationProvider>
+				</div>
 
-                        <!--Password-->
-                        <div class="wrapper-inline">
-                            <div class="block-wrapper">
-                                <label>{{ $t('page_registration.label_pass') }}:</label>
-                                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password" rules="required" v-slot="{ errors }">
-                                    <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
-                                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
+				<div class="block-wrapper">
+					<label>{{ $t('page_registration.label_confirm_pass') }}:</label>
+					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password confirm" rules="required" v-slot="{ errors }">
+						<input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+					</ValidationProvider>
+				</div>
+			</div>
+		</div>
 
-                            <div class="block-wrapper">
-                                <label>{{ $t('page_registration.label_confirm_pass') }}:</label>
-                                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password confirm" rules="required" v-slot="{ errors }">
-                                    <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
-                                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                        </div>
-                    </div>
+		<div class="card shadow-card">
+			<FormLabel>{{ $t('admin_page_user.create_user.group_settings') }}</FormLabel>
 
-                    <div class="form-group">
-                        <FormLabel>{{ $t('admin_page_user.create_user.group_settings') }}</FormLabel>
+			<!--User Role-->
+			<div class="block-wrapper">
+				<label>{{ $t('admin_page_user.select_role') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="permission" rules="required" v-slot="{ errors }">
+					<SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+				</ValidationProvider>
+			</div>
 
-                        <!--User Role-->
-                        <div class="block-wrapper">
-                            <label>{{ $t('admin_page_user.select_role') }}:</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="permission" rules="required" v-slot="{ errors }">
-                                <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
+			<!--Storage Capacity-->
+			<div class="block-wrapper">
+				<label>{{ $t('admin_page_user.label_change_capacity') }}</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="storage capacity" rules="required" v-slot="{ errors }">
+					<input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+				</ValidationProvider>
+			</div>
+		</div>
 
-                        <!--Storage Capacity-->
-                        <div class="block-wrapper">
-                            <label>{{ $t('admin_page_user.label_change_capacity') }}</label>
-                            <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="storage capacity" rules="required" v-slot="{ errors }">
-                                <input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme" :class="{'is-error': errors[0]}"/>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            </ValidationProvider>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
-                            {{ $t('admin_page_user.create_user.submit') }}
-                        </ButtonBase>
-                    </div>
-                </ValidationObserver>
-            </div>
-        </div>
-    </div>
+		<div class="form-group">
+			<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
+				{{ $t('admin_page_user.create_user.submit') }}
+			</ButtonBase>
+		</div>
+	</ValidationObserver>
 </template>
 
 <script>

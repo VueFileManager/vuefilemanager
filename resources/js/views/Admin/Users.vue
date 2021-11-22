@@ -1,7 +1,15 @@
 <template>
-    <div class="pr-6 w-full overflow-x-hidden relative" style="background: rgba(244, 245, 246, 0.6)">
+    <div>
+		<div class="card shadow-card">
 
-		<div class="card shadow-card lg:mt-6 mt-4">
+			<div class="mb-6">
+				<router-link :to="{name: 'UserCreate'}">
+					<MobileActionButton icon="user-plus">
+						{{ $t('admin_page_user.create_user.submit') }}
+					</MobileActionButton>
+				</router-link>
+			</div>
+
 			<!--Datatable-->
 			<DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                     <template slot-scope="{ row }">
@@ -71,11 +79,6 @@
                 &lt;!&ndash;Table tools&ndash;&gt;
                 <div class="table-tools">
                     <div class="buttons">
-                        <router-link :to="{name: 'UserCreate'}">
-                            <MobileActionButton icon="user-plus">
-                                {{ $t('admin_page_user.create_user.submit') }}
-                            </MobileActionButton>
-                        </router-link>
                     </div>
                 </div>
 
