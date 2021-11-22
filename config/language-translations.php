@@ -306,7 +306,7 @@ return [
         'admin_settings.others.google_analytics'             => 'Google Analytics Code (optional)',
         'admin_settings.others.google_analytics_plac'        => 'Paste your Google Analytics Code',
         'admin_settings.others.mimetypes_blacklist'          => 'Mimetypes Blacklist',
-        'admin_settings.others.mimetypes_blacklist_help'     => "If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes.",
+        'admin_settings.others.mimetypes_blacklist_help'     => "If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg Use a comma between each mimetype. Don't use a dot before mimetypes.",
         'admin_settings.others.mimetypes_blacklist_plac'     => 'Add mimetypes to Blacklist',
         'admin_settings.others.section_cache'                => 'Application Cache',
         'admin_settings.others.section_others'               => 'Others Settings',

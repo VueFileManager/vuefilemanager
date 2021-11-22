@@ -1,0 +1,31 @@
+<template>
+	<div class="mb-7">
+
+		<!--Label for input-->
+		<label class="text-sm font-bold text-gray-700 mb-1.5 block">
+			{{ title }}:
+		</label>
+
+		<!--Form element-->
+		<slot></slot>
+
+		<!--Input Description-->
+		<small v-if="description" class="text-xs text-gray-500 leading-normal" v-html="description"></small>
+
+		<!--Input Description-->
+		<span v-if="error" class="error-message">
+			{{ error }}
+		</span>
+	</div>
+</template>
+
+<script>
+	export default {
+		name: 'AppInputText',
+		props: [
+			'description',
+			'title',
+			'error',
+		]
+	}
+</script>

@@ -1,107 +1,55 @@
 <template>
     <PageTab :is-loading="isLoading">
+		<div v-if="billingInformation" class="card shadow-card">
+			<FormLabel>
+				{{ $t('admin_settings.billings.section_company') }}
+			</FormLabel>
 
-        <!--Personal Information-->
-        <PageTabGroup v-if="billingInformation">
-            <div class="form block-form">
+			<AppInputText :title="$t('admin_settings.billings.company_name')">
+				<input @input="$updateText('/admin/settings', 'billing_name', billingInformation.billing_name)" v-model="billingInformation.billing_name" :placeholder="$t('admin_settings.billings.company_name_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
 
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('admin_settings.billings.section_company') }}
-					</FormLabel>
+			<AppInputText :title="$t('admin_settings.billings.vat')">
+				<input @input="$updateText('/admin/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" :placeholder="$t('admin_settings.billings.vat_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
+		</div>
 
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.billings.company_name') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Name"
-											rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'billing_name', billingInformation.billing_name)" v-model="billingInformation.billing_name" :placeholder="$t('admin_settings.billings.company_name_plac')"
-								   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
+		<div v-if="billingInformation" class="card shadow-card">
+			<FormLabel>
+				{{ $t('admin_settings.billings.section_billing') }}
+			</FormLabel>
 
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.billings.vat') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Vat Number"
-											rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" :placeholder="$t('admin_settings.billings.vat_plac')"
-								   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-				</div>
+			<AppInputText :title="$t('admin_settings.billings.country')">
+				<SelectInput @input="$updateText('/admin/settings', 'billing_country', billingInformation.billing_country)" v-model="billingInformation.billing_country" :default="billingInformation.billing_country" :options="countries" :placeholder="$t('admin_settings.billings.country_plac')"/>
+			</AppInputText>
 
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('admin_settings.billings.section_billing') }}
-					</FormLabel>
+			<AppInputText :title="$t('admin_settings.billings.address')">
+				<input @input="$updateText('/admin/settings', 'billing_address', billingInformation.billing_address)" v-model="billingInformation.billing_address" :placeholder="$t('admin_settings.billings.address_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
 
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.billings.country') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Country"
-											rules="required" v-slot="{ errors }">
-							<SelectInput @input="$updateText('/admin/settings', 'billing_country', billingInformation.billing_country)" v-model="billingInformation.billing_country" :default="billingInformation.billing_country" :options="countries" :placeholder="$t('admin_settings.billings.country_plac')" :isError="errors[0]"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
+			<div class="flex space-x-4">
+				<AppInputText :title="$t('admin_settings.billings.city')">
+					<input @input="$updateText('/admin/settings', 'billing_city', billingInformation.billing_city)" v-model="billingInformation.billing_city" :placeholder="$t('admin_settings.billings.city_plac')" type="text" class="focus-border-theme input-dark"/>
+				</AppInputText>
 
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.billings.address') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Address"
-											rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'billing_address', billingInformation.billing_address)" v-model="billingInformation.billing_address" :placeholder="$t('admin_settings.billings.address_plac')"
-								   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
+				<AppInputText :title="$t('admin_settings.billings.postal_code')">
+					<input @input="$updateText('/admin/settings', 'billing_postal_code', billingInformation.billing_postal_code)" v-model="billingInformation.billing_postal_code" :placeholder="$t('admin_settings.billings.postal_code_plac')" type="text" class="focus-border-theme input-dark"/>
+				</AppInputText>
+			</div>
 
-					<div class="wrapper-inline">
-						<div class="block-wrapper">
-							<label>{{ $t('admin_settings.billings.city') }}:</label>
-							<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing City"
-												rules="required" v-slot="{ errors }">
-								<input @input="$updateText('/admin/settings', 'billing_city', billingInformation.billing_city)" v-model="billingInformation.billing_city" :placeholder="$t('admin_settings.billings.city_plac')"
-									   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-								<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-							</ValidationProvider>
-						</div>
-						<div class="block-wrapper">
-							<label>{{ $t('admin_settings.billings.postal_code') }}:</label>
-							<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Postal Code"
-												rules="required" v-slot="{ errors }">
-								<input @input="$updateText('/admin/settings', 'billing_postal_code', billingInformation.billing_postal_code)" v-model="billingInformation.billing_postal_code"
-									   :placeholder="$t('admin_settings.billings.postal_code_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-								<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-							</ValidationProvider>
-						</div>
-					</div>
+			<AppInputText :title="$t('admin_settings.billings.state')">
+				<input @input="$updateText('/admin/settings', 'billing_state', billingInformation.billing_state)" v-model="billingInformation.billing_state" :placeholder="$t('admin_settings.billings.state_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
 
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.billings.state') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing State"
-											rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'billing_state', billingInformation.billing_state)" v-model="billingInformation.billing_state" :placeholder="$t('admin_settings.billings.state_plac')"
-								   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.billings.phone_number') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Billing Phone Number"
-											v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'billing_phone_number', billingInformation.billing_phone_number)" v-model="billingInformation.billing_phone_number" :placeholder="$t('admin_settings.billings.phone_number_plac')"
-								   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-				</div>
-            </div>
-        </PageTabGroup>
+			<AppInputText :title="$t('admin_settings.billings.phone_number')">
+				<input @input="$updateText('/admin/settings', 'billing_phone_number', billingInformation.billing_phone_number)" v-model="billingInformation.billing_phone_number" :placeholder="$t('admin_settings.billings.phone_number_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
+		</div>
     </PageTab>
 </template>
 
 <script>
+	import AppInputText from "../../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -122,6 +70,7 @@
             ValidationObserver,
             ValidationProvider,
             StorageItemDetail,
+			AppInputText,
             PageTabGroup,
             SelectInput,
             ImageInput,
@@ -133,7 +82,9 @@
             InfoBox,
         },
         computed: {
-            ...mapGetters(['countries']),
+            ...mapGetters([
+				'countries'
+			]),
         },
         data() {
             return {
@@ -160,27 +111,7 @@
                         billing_city: response.data.billing_city,
                         billing_name: response.data.billing_name,
                     }
-
                 })
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    .dark {
-
-    }
-
-</style>

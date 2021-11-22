@@ -9,36 +9,18 @@
 					<FormLabel>
 						{{ $t('admin_settings.appearance.section_general') }}
 					</FormLabel>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.appearance.title') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text"
-								   :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.appearance.description') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description"
-								   :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-							<div class="inline-wrapper">
-								<div class="switch-label">
-									<label class="input-label">{{ $t('color_theme') }}:</label>
-									<small class="input-help">{{ $t('color_theme_description') }}</small>
-									<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-								</div>
-								<input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"
-									   :class="{'is-error': errors[0]}" class="focus-border-theme"/>
-							</div>
-						</ValidationProvider>
-					</div>
 
+					<AppInputText :title="$t('admin_settings.appearance.title')">
+						<input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text" class="focus-border-theme input-dark"/>
+					</AppInputText>
+
+					<AppInputText :title="$t('admin_settings.appearance.description')">
+						<input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" class="focus-border-theme input-dark"/>
+					</AppInputText>
+
+					<AppInputSwitch :title="$t('color_theme')" :description="$t('color_theme_description')">
+						<input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"/>
+					</AppInputSwitch>
 				</div>
 
 				<div class="card shadow-card">
@@ -85,6 +67,8 @@
 </template>
 
 <script>
+	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch";
+	import AppInputText from "../../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -101,6 +85,8 @@
     export default {
         name: 'AppAppearance',
         components: {
+			AppInputSwitch,
+			AppInputText,
             ValidationObserver,
             ValidationProvider,
             StorageItemDetail,
@@ -144,22 +130,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    .dark {
-
-    }
-
-</style>

@@ -6,24 +6,12 @@
 
 				<div class="card shadow-card">
 					<FormLabel>
-						Home Page
+						{{ $t('Homepage') }}
 					</FormLabel>
 
-					<div class="block-wrapper">
-						<div class="input-wrapper">
-							<div class="inline-wrapper">
-								<div class="switch-label">
-									<label class="input-label">
-										Allow Homepage
-									</label>
-									<small class="input-help">
-										When this is turned on, your visitors can visit your default homepage.
-									</small>
-								</div>
-								<SwitchInput @input="$updateText('/admin/settings', 'allow_homepage', app.allow_homepage)" v-model="app.allow_homepage" class="switch" :state="app.allow_homepage"/>
-							</div>
-						</div>
-					</div>
+					<AppInputSwitch :title="$t('Allow Homepage')" :description="$t('When this is turned on, your visitors can visit your default homepage.')">
+						<SwitchInput @input="$updateText('/admin/settings', 'allow_homepage', app.allow_homepage)" v-model="app.allow_homepage" class="switch" :state="app.allow_homepage"/>
+					</AppInputSwitch>
 				</div>
 
                 <!--Header-->
@@ -255,6 +243,8 @@
 </template>
 
 <script>
+import AppInputSwitch from "../../../../components/Admin/AppInputSwitch";
+import AppInputText from "../../../../components/Admin/AppInputText";
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
 import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -273,6 +263,8 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'AppIndex',
     components: {
+		AppInputSwitch,
+		AppInputText,
         ValidationObserver,
         ValidationProvider,
         StorageItemDetail,

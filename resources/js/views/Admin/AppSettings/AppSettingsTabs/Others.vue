@@ -1,140 +1,88 @@
 <template>
     <PageTab :is-loading="isLoading">
+		<div class="card shadow-card">
+			<FormLabel>
+				{{ $t('admin_settings.others.section_user') }}
+			</FormLabel>
 
-        <!--Personal Information-->
-        <PageTabGroup v-if="app">
-            <div class="form block-form">
+			<AppInputSwitch :title="$t('admin_settings.others.storage_limit')" :description="$t('admin_settings.others.storage_limit_help')">
+				<SwitchInput
+					@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
+					v-model="app.storageLimitation"
+					:state="app.storageLimitation"
+					class="switch"
+				/>
+			</AppInputSwitch>
 
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('admin_settings.others.section_user') }}
-					</FormLabel>
-					<div class="block-wrapper">
-						<div class="input-wrapper">
-							<div class="inline-wrapper">
-								<div class="switch-label">
-									<label class="input-label">
-										{{ $t('admin_settings.others.storage_limit') }}:
-									</label>
-									<small class="input-help" v-html="$t('admin_settings.others.storage_limit_help')"></small>
-								</div>
-								<SwitchInput
-									@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
-									v-model="app.storageLimitation"
-									class="switch"
-									:state="app.storageLimitation"
-								/>
-							</div>
-						</div>
-					</div>
-					<div class="block-wrapper" v-if="app.storageLimitation">
-						<label>{{ $t('admin_settings.others.default_storage') }}:</label>
-						<ValidationProvider tag="div" mode="passive" name="Default Storage Space" rules="required" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'default_storage_amount', app.defaultStorage)"
-								   v-model="app.defaultStorage"
-								   min="1"
-								   max="999999999"
-								   :placeholder="$t('admin_settings.others.default_storage_plac')"
-								   type="number"
-								   :class="{'is-error': errors[0]}"
-								   class="focus-border-theme input-dark"
-							/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<div class="input-wrapper">
-							<div class="inline-wrapper">
-								<div class="switch-label">
-									<label class="input-label">
-										{{ $t('admin_settings.others.allow_registration') }}:
-									</label>
-									<small class="input-help" v-html="$t('admin_settings.others.allow_registration_help')"></small>
-								</div>
-								<SwitchInput @input="$updateText('/admin/settings', 'registration', app.userRegistration)"
-											 v-model="app.userRegistration"
-											 class="switch"
-											 :state="app.userRegistration"
-								/>
-							</div>
-						</div>
-					</div>
-					<div class="block-wrapper">
-						<div class="input-wrapper">
-							<div class="inline-wrapper">
-								<div class="switch-label">
-									<label class="input-label">
-										{{ $t('admin_settings.others.allow_user_verification') }}:
-									</label>
-									<small class="input-help" v-html="$t('admin_settings.others.allow_user_verification_help')"></small>
-								</div>
-								<SwitchInput @input="$updateText('/admin/settings', 'user_verification', app.userVerification)"
-											 v-model="app.userVerification"
-											 class="switch"
-											 :state="app.userVerification"
-								/>
-							</div>
-						</div>
-					</div>
-				</div>
+			<AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
+				<input @input="$updateText('/admin/settings', 'default_storage_amount', app.defaultStorage)"
+					   v-model="app.defaultStorage"
+					   min="1"
+					   max="999999999"
+					   :placeholder="$t('admin_settings.others.default_storage_plac')"
+					   type="number"
+					   class="focus-border-theme input-dark"
+				/>
+			</AppInputText>
 
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('admin_settings.others.section_others') }}
-					</FormLabel>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.others.contact_email') }}:</label>
-						<ValidationProvider tag="div" mode="passive" name="Contact Email"
-											rules="required" v-slot="{ errors }">
-							<input class="focus-border-theme input-dark" @input="$updateText('/admin/settings', 'contact_email', app.contactMail)" v-model="app.contactMail" :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" :class="{'is-error': errors[0]}" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.others.google_analytics') }}:</label>
-						<ValidationProvider tag="div" mode="passive" name="Google Analytics Code"
-											v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics, true)" v-model="app.googleAnalytics"
-								   :placeholder="$t('admin_settings.others.google_analytics_plac')"
-								   type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.others.mimetypes_blacklist') }}:</label>
-						<ValidationProvider tag="div" mode="passive" name="Mimetypes Blacklist" v-slot="{ errors }">
-							<textarea rows="2" @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist, true)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-						<small class="input-help" v-html="$t('admin_settings.others.mimetypes_blacklist_help')"></small>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.others.upload_limit') }}:</label>
-						<ValidationProvider tag="div" mode="passive" name="Upload Limit" v-slot="{ errors }">
-							<input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-						<small class="input-help" v-html="$t('admin_settings.others.upload_limit_help')"></small>
-					</div>
-				</div>
+			<AppInputSwitch :title="$t('admin_settings.others.allow_registration')" :description="$t('admin_settings.others.allow_registration_help')">
+				<SwitchInput
+					@input="$updateText('/admin/settings', 'registration', app.userRegistration)"
+					v-model="app.userRegistration"
+					class="switch"
+					:state="app.userRegistration"
+				/>
+			</AppInputSwitch>
 
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('admin_settings.others.section_cache') }}
-					</FormLabel>
-					<InfoBox>
-						{{ $t('admin_settings.others.cache_disclaimer') }}
-					</InfoBox>
-					<ButtonBase @click.native="flushCache" :loading="isFlushingCache" :disabled="isFlushingCache" type="submit" button-style="theme" class="submit-button">
-						{{ $t('admin_settings.others.cache_clear') }}
-					</ButtonBase>
-				</div>
-            </div>
-        </PageTabGroup>
+			<AppInputSwitch :title="$t('admin_settings.others.allow_user_verification')" :description="$t('admin_settings.others.allow_user_verification_help')">
+				<SwitchInput
+					@input="$updateText('/admin/settings', 'user_verification', app.userVerification)"
+					v-model="app.userVerification"
+					class="switch"
+					:state="app.userVerification"
+				/>
+			</AppInputSwitch>
+		</div>
+
+		<div class="card shadow-card">
+			<FormLabel>
+				{{ $t('admin_settings.others.section_others') }}
+			</FormLabel>
+
+			<AppInputText :title="$t('admin_settings.others.contact_email')">
+				<input class="focus-border-theme input-dark" @input="$updateText('/admin/settings', 'contact_email', app.contactMail)" v-model="app.contactMail" :placeholder="$t('admin_settings.others.contact_email_plac')" type="email" />
+			</AppInputText>
+
+			<AppInputText :title="$t('admin_settings.others.google_analytics')">
+				<input @input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics, true)" v-model="app.googleAnalytics" :placeholder="$t('admin_settings.others.google_analytics_plac')" type="text" class="focus-border-theme input-dark" />
+			</AppInputText>
+
+			<AppInputText :title="$t('admin_settings.others.mimetypes_blacklist')" :description="$t('admin_settings.others.mimetypes_blacklist_help')">
+				<textarea rows="2" @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist, true)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" class="focus-border-theme input-dark" />
+			</AppInputText>
+
+			<AppInputText :title="$t('admin_settings.others.upload_limit')" :description="$t('admin_settings.others.upload_limit_help')">
+				<input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" class="focus-border-theme input-dark" />
+			</AppInputText>
+		</div>
+
+		<div class="card shadow-card">
+			<FormLabel>
+				{{ $t('admin_settings.others.section_cache') }}
+			</FormLabel>
+			<InfoBox>
+				{{ $t('admin_settings.others.cache_disclaimer') }}
+			</InfoBox>
+			<ButtonBase @click.native="flushCache" :loading="isFlushingCache" :disabled="isFlushingCache" type="submit" button-style="theme" class="submit-button">
+				{{ $t('admin_settings.others.cache_clear') }}
+			</ButtonBase>
+		</div>
     </PageTab>
 </template>
 
 <script>
+	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch";
+	import AppInputText from "../../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
 	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -153,6 +101,8 @@
 	export default {
 		name: 'AppOthers',
 		components: {
+			AppInputSwitch,
+			AppInputText,
 			ValidationObserver,
 			ValidationProvider,
 			StorageItemDetail,
@@ -214,13 +164,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-	@import '/resources/sass/vuefilemanager/_mixins';
-	@import '/resources/sass/vuefilemanager/_forms';
-
-	.block-form {
-		max-width: 100%;
-	}
-</style>

@@ -14,36 +14,23 @@
 			</router-link>
 		</div>
 
-		<!--Router Content-->
-		<router-view class="" />
+		<!--Page Content-->
+		<router-view />
     </div>
 </template>
 
 <script>
-    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, HomeIcon} from 'vue-feather-icons'
-	import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
-	import SectionTitle from '/resources/js/components/Others/SectionTitle'
-	import PageHeader from '/resources/js/components/Others/PageHeader'
 	import {mapGetters} from 'vuex'
 
 	export default {
 		name: 'AppSettings',
 		components: {
-			HomeIcon,
-			CreditCardIcon,
-			CodeIcon,
-			MailIcon,
-			FileTextIcon,
-			EyeIcon,
-			UsersIcon,
-			Trash2Icon,
-			SettingsIcon,
-			SectionTitle,
-			MobileHeader,
-			PageHeader,
+
 		},
 		computed: {
-			...mapGetters(['config']),
+			...mapGetters([
+				'config'
+			]),
 		},
 		data() {
 			return {
@@ -65,7 +52,7 @@
 						route: 'AppPayments',
 					},
 					{
-						title: 'Homepage',
+						title: this.$t('Homepage'),
 						route: 'AppIndex',
 					},
 					{
@@ -77,8 +64,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-	@import '/resources/sass/vuefilemanager/_mixins';
-</style>
